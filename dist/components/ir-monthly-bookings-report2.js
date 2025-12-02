@@ -23,31 +23,25 @@ import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthlyBookingsReport extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.language = '';
-        this.ticket = '';
-        this.isPageLoading = true;
-        this.isLoading = null;
-        this.reports = [];
-        this.tokenService = new Token();
-        this.roomService = new RoomService();
-        this.propertyService = new PropertyService();
     }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isPageLoading = true;
+    isLoading = null;
+    reports = [];
+    filters;
+    property_id;
+    stats;
+    baseFilters;
+    tokenService = new Token();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
     componentWillLoad() {
         this.baseFilters = {
             date: {
@@ -122,7 +116,7 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
                     occupancy_percent: report.Occupancy,
                     adr: report.ADR,
                     rooms_revenue: report.Rooms_Revenue,
-                    total_guests: report === null || report === void 0 ? void 0 : report.Total_Guests,
+                    total_guests: report?.Total_Guests,
                 };
             };
             this.isLoading = isExportToExcel ? 'export' : 'filter';
@@ -145,14 +139,17 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
             const results = await Promise.all(requests);
             const currentReports = results[0];
             let enrichedReports = [];
-            const { DailyStats } = currentReports, rest = __rest(currentReports, ["DailyStats"]);
-            this.stats = Object.assign({}, rest);
+            const { DailyStats, ...rest } = currentReports;
+            this.stats = { ...rest };
             if (include_previous_year && results[isExportToExcel ? 0 : 1]) {
                 const previousYearReports = results[isExportToExcel ? 0 : 1];
                 let formattedReports = previousYearReports.DailyStats.map(getReportObj);
                 enrichedReports = DailyStats.map(getReportObj).map(current => {
                     const previous = formattedReports.find(prev => prev.day === hooks(current.day, 'YYYY-MM-DD').add(-1, 'years').format('YYYY-MM-DD'));
-                    return Object.assign(Object.assign({}, current), { last_year: previous !== null && previous !== void 0 ? previous : null });
+                    return {
+                        ...current,
+                        last_year: previous ?? null,
+                    };
                 });
             }
             else {
@@ -168,15 +165,14 @@ const IrMonthlyBookingsReport = /*@__PURE__*/ proxyCustomElement(class IrMonthly
         }
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Occupancy"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Occupancy"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries?.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, h("ir-stats-card", { icon: ((_b = this.stats) === null || _b === void 0 ? void 0 : _b.Occupancy_Difference_From_Previous_Month) < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? ((_c = this.stats) === null || _c === void 0 ? void 0 : _c.AverageOccupancy.toFixed(2)) + '%' : null, subtitle: `${((_d = this.stats) === null || _d === void 0 ? void 0 : _d.Occupancy_Difference_From_Previous_Month) < 0 ? '' : '+'}${(_e = this.stats) === null || _e === void 0 ? void 0 : _e.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), h("ir-stats-card", { icon: "hotel", cardTitle: "Total Units", value: ((_f = this.stats) === null || _f === void 0 ? void 0 : _f.TotalUnitsBooked) ? (_g = this.stats) === null || _g === void 0 ? void 0 : _g.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), h("ir-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: (_j = (_h = this.stats) === null || _h === void 0 ? void 0 : _h.Total_Guests) === null || _j === void 0 ? void 0 : _j.toString(), subtitle: "Stayed" }), h("ir-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: ((_k = this.stats) === null || _k === void 0 ? void 0 : _k.PeakDays.length) === 0 ? null : (_m = (_l = this.stats) === null || _l === void 0 ? void 0 : _l.PeakDays) === null || _m === void 0 ? void 0 : _m.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(((_o = this.stats.PeakDays) === null || _o === void 0 ? void 0 : _o.map(pd => pd.OccupancyPercent)) || []))}% occupancy` })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("section", null, h("div", { class: "d-flex flex-column flex-md-row w-100", style: { gap: '1rem', alignItems: 'stretch' } }, h("ir-stats-card", { icon: this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? 'arrow-trend-down' : 'arrow-trend-up', cardTitle: "Average Occupancy", value: this.stats.AverageOccupancy ? this.stats?.AverageOccupancy.toFixed(2) + '%' : null, subtitle: `${this.stats?.Occupancy_Difference_From_Previous_Month < 0 ? '' : '+'}${this.stats?.Occupancy_Difference_From_Previous_Month.toFixed(2)}% from last month` }), h("ir-stats-card", { icon: "hotel", cardTitle: "Total Units", value: this.stats?.TotalUnitsBooked ? this.stats?.TotalUnitsBooked.toString() : null, subtitle: "Booked" }), h("ir-stats-card", { icon: "user_group", cardTitle: "Total Guests", value: this.stats?.Total_Guests?.toString(), subtitle: "Stayed" }), h("ir-stats-card", { icon: "calendar", cardTitle: "Peak Days", value: this.stats?.PeakDays.length === 0 ? null : this.stats?.PeakDays?.map(pd => hooks(pd.Date, 'YYYY-MM-DD').format('D').concat('th')).join(' - '), subtitle: `${Math.max(...(this.stats.PeakDays?.map(pd => pd.OccupancyPercent) || []))}% occupancy` })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-monthly-bookings-report-filter", { isLoading: this.isLoading === 'filter', class: "filters-card", baseFilters: this.baseFilters }), h("ir-monthly-bookings-report-table", { reports: this.reports }))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

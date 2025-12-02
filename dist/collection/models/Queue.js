@@ -1,9 +1,7 @@
 class Queue {
-    constructor() {
-        this.elements = {};
-        this.head = 0;
-        this.tail = 0;
-    }
+    elements = {};
+    head = 0;
+    tail = 0;
     enqueue(element) {
         this.elements[this.tail] = element;
         this.tail++;

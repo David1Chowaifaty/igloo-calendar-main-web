@@ -1,29 +1,17 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import VariationService from "../../../services/variation.service";
 import booking_store from "../../../stores/booking.store";
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 export class IglBookPropertyService {
+    variationService;
     setBookingInfoFromAutoComplete(context, res) {
-        var _a, _b, _c;
         context.bookedByInfoData = {
             id: res.guest.id,
             email: res.guest.email,
             firstName: res.guest.first_name,
             lastName: res.guest.last_name,
             countryId: res.guest.country_id,
-            isdCode: (_b = (_a = res.guest) === null || _a === void 0 ? void 0 : _a.country_phone_prefix) !== null && _b !== void 0 ? _b : (_c = res.guest) === null || _c === void 0 ? void 0 : _c.country_id.toString(),
+            isdCode: res.guest?.country_phone_prefix ?? res.guest?.country_id.toString(),
             contactNumber: res.guest.mobile,
             selectedArrivalTime: res.arrival,
             emailGuest: res.guest.subscribe_to_news_letter,
@@ -90,7 +78,7 @@ export class IglBookPropertyService {
             selectedRatePlans.delete(ratePlanKey);
         }
         else {
-            selectedUnits.set(roomCategoryKey, selectedRatePlans.set(ratePlanKey, Object.assign(Object.assign({}, data), { selectedUnits: Array(data.totalRooms).fill(-1) })));
+            selectedUnits.set(roomCategoryKey, selectedRatePlans.set(ratePlanKey, { ...data, selectedUnits: Array(data.totalRooms).fill(-1) }));
         }
     }
     cleanupEmptyData(roomCategoryKey, selectedUnits) {
@@ -105,10 +93,10 @@ export class IglBookPropertyService {
         selectedUnits.clear();
         let res = {};
         if (isEdit) {
-            res = Object.assign(Object.assign({}, data), { guestName: name || '', roomId: '' });
+            res = { ...data, guestName: name || '', roomId: '' };
         }
         else {
-            res = Object.assign({}, data);
+            res = { ...data };
         }
         selectedUnits.set(roomCategoryKey, new Map().set(ratePlanKey, res));
     }
@@ -133,7 +121,7 @@ export class IglBookPropertyService {
         }
         return variation.nights.map(n => ({
             date: n.night,
-            amount: amount !== null && amount !== void 0 ? amount : n.discounted_amount,
+            amount: amount ?? n.discounted_amount,
             cost: null,
         }));
     }
@@ -142,7 +130,6 @@ export class IglBookPropertyService {
     //   return { first_name: names[0] || null, last_name: names[1] || null };
     // }
     getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
-        var _a, _b;
         const rooms = [];
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
@@ -159,7 +146,7 @@ export class IglBookPropertyService {
                             unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
                             occupancy: {
                                 adult_nbr: rateplan.selected_variation.adult_nbr,
-                                children_nbr: Number((_a = rateplan.selected_variation.child_nbr) !== null && _a !== void 0 ? _a : 0) - Math.max(Number((_b = rateplan.guest[i].infant_nbr) !== null && _b !== void 0 ? _b : 0), 0),
+                                children_nbr: Number(rateplan.selected_variation.child_nbr ?? 0) - Math.max(Number(rateplan.guest[i].infant_nbr ?? 0), 0),
                                 infant_nbr: rateplan.guest[i].infant_nbr,
                             },
                             bed_preference: rateplan.guest[i].bed_preference,
@@ -188,7 +175,6 @@ export class IglBookPropertyService {
         return rooms;
     }
     async prepareBookUserServiceParams({ context, sourceOption, check_in }) {
-        var _a, _b, _c;
         try {
             // Validate context structure
             if (!context || !context.dateRangeData) {
@@ -207,8 +193,7 @@ export class IglBookPropertyService {
                     auto_check_in: check_in,
                 });
             };
-            const modifyBookingDetails = (_a, rooms) => {
-                var { pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras } = _a, rest = __rest(_a, ["pickup_info", "extra_services", "is_direct", "is_in_loyalty_mode", "promo_key", "extras"]);
+            const modifyBookingDetails = ({ pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras, ...rest }, rooms) => {
                 return {
                     assign_units: true,
                     is_pms: true,
@@ -217,7 +202,10 @@ export class IglBookPropertyService {
                     is_in_loyalty_mode,
                     promo_key,
                     extras,
-                    booking: Object.assign(Object.assign({}, rest), { rooms }),
+                    booking: {
+                        ...rest,
+                        rooms,
+                    },
                     extra_services,
                     pickup_info,
                 };
@@ -229,7 +217,7 @@ export class IglBookPropertyService {
                     const { booking, currentRoomType } = context.defaultData;
                     const filteredRooms = booking.rooms.filter(r => r.identifier !== currentRoomType.identifier);
                     console.log('currentRoomType', currentRoomType);
-                    const newRooms = generateNewRooms(currentRoomType.identifier, ((_a = currentRoomType.in_out) === null || _a === void 0 ? void 0 : _a.code) === '001');
+                    const newRooms = generateNewRooms(currentRoomType.identifier, currentRoomType.in_out?.code === '001');
                     newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
                     break;
                 }
@@ -257,7 +245,7 @@ export class IglBookPropertyService {
                         is_backend: true,
                         is_in_loyalty_mode: false,
                         promo_key: null,
-                        extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: (_b = booking_store.selectedPaymentMethod) === null || _b === void 0 ? void 0 : _b.code }],
+                        extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.selectedPaymentMethod?.code }],
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
@@ -283,7 +271,7 @@ export class IglBookPropertyService {
                                 country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
                                 city: null,
                                 mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
-                                country_phone_prefix: (_c = bookedByInfoData === null || bookedByInfoData === void 0 ? void 0 : bookedByInfoData.isdCode) !== null && _c !== void 0 ? _c : null,
+                                country_phone_prefix: bookedByInfoData?.isdCode ?? null,
                                 address: '',
                                 dob: null,
                                 subscribe_to_news_letter: bookedByInfoData.emailGuest || false,
@@ -309,14 +297,13 @@ export class IglBookPropertyService {
         }
     }
     getRoomCategoryByRoomId(bookingData) {
-        var _a;
-        return (_a = bookingData.roomsInfo) === null || _a === void 0 ? void 0 : _a.find(roomCategory => {
+        return bookingData.roomsInfo?.find(roomCategory => {
             return roomCategory.id === bookingData.RATE_TYPE;
         });
     }
     setEditingRoomInfo(bookingData, selectedUnits) {
         const category = this.getRoomCategoryByRoomId(bookingData);
-        const room_id = !category ? '' : `c_${category === null || category === void 0 ? void 0 : category.id}`;
+        const room_id = !category ? '' : `c_${category?.id}`;
         const ratePlanId = `p_${bookingData.RATE_PLAN_ID}`;
         const data = {
             adultCount: bookingData.ADULTS_COUNT,

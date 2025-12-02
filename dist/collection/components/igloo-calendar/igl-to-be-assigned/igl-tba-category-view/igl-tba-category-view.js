@@ -1,9 +1,13 @@
 import { Host, h } from "@stencil/core";
 export class IglTbaCategoryView {
-    constructor() {
-        this.categoriesData = {};
-        this.renderAgain = false;
-    }
+    calendarData;
+    selectedDate;
+    categoriesData = {};
+    categoryId;
+    eventDatas;
+    categoryIndex;
+    renderAgain = false;
+    assignUnitEvent;
     handleAssignRoomEvent(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -30,8 +34,7 @@ export class IglTbaCategoryView {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        var _a;
-        return (h(Host, { key: '8b7465fd962c8b52b6556b19603eee2559ac76a0' }, h("div", { key: '75752b8b54cdf3882f28870a63062dcf8822f7c3', class: "sectionContainer" }, h("div", { key: '74b1ef2da3f4cc9f5fafd42aa8ea99a1b25e7b90', class: "font-weight-bold mt-1 font-small-3" }, (_a = this.categoriesData[this.categoryId]) === null || _a === void 0 ? void 0 : _a.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '5f4bd1dd33b6452de774f7012071106837b3876b' }, h("div", { key: '28ae5d6f71f30706514e1025a5962a3bcbaa3db6', class: "sectionContainer" }, h("div", { key: '65a55f5fefec761aff6491ad596cd09da8f01b8e', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get is() { return "igl-tba-category-view"; }
     static get encapsulation() { return "scoped"; }

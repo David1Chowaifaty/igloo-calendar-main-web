@@ -1,79 +1,95 @@
-import { proxyCustomElement, HTMLElement, h, Host, Fragment } from '@stencil/core/internal/client';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, o as onBookingListingChange, a as updateUserSelections } from './booking_listing.service.js';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service.js';
 import { R as RoomService } from './room.service.js';
-import { l as locales } from './locales.store.js';
-import { Q as isPrivilegedUser, E as getPrivateNote, f as formatAmount } from './utils.js';
-import { h as hooks } from './moment.js';
-import { a as _formatTime } from './functions.js';
+import { R as isPrivilegedUser } from './utils.js';
 import { T as Token } from './Token.js';
-import { i as isSingleUnit } from './calendar-data.js';
 import { B as BookingService } from './booking.service.js';
 import { P as PropertyService } from './property.service.js';
-import { d as defineCustomElement$12 } from './igl-application-info2.js';
-import { d as defineCustomElement$11 } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$10 } from './igl-book-property2.js';
-import { d as defineCustomElement$$ } from './igl-book-property-container2.js';
-import { d as defineCustomElement$_ } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$Z } from './igl-book-property-header2.js';
-import { d as defineCustomElement$Y } from './igl-booking-form2.js';
-import { d as defineCustomElement$X } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$W } from './igl-date-range2.js';
-import { d as defineCustomElement$V } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$U } from './igl-rate-plan2.js';
-import { d as defineCustomElement$T } from './igl-room-type2.js';
-import { d as defineCustomElement$S } from './ir-applicable-policies2.js';
-import { d as defineCustomElement$R } from './ir-autocomplete2.js';
-import { d as defineCustomElement$Q } from './ir-booking-details2.js';
-import { d as defineCustomElement$P } from './ir-booking-extra-note2.js';
-import { d as defineCustomElement$O } from './ir-booking-guarantee2.js';
-import { d as defineCustomElement$N } from './ir-booking-header2.js';
-import { d as defineCustomElement$M } from './ir-button2.js';
-import { d as defineCustomElement$L } from './ir-combobox2.js';
-import { d as defineCustomElement$K } from './ir-country-picker2.js';
-import { d as defineCustomElement$J } from './ir-date-picker2.js';
-import { d as defineCustomElement$I } from './ir-date-range2.js';
-import { d as defineCustomElement$H } from './ir-date-view2.js';
-import { d as defineCustomElement$G } from './ir-dialog2.js';
-import { d as defineCustomElement$F } from './ir-dropdown2.js';
-import { d as defineCustomElement$E } from './ir-dropdown-item2.js';
-import { d as defineCustomElement$D } from './ir-events-log2.js';
-import { d as defineCustomElement$C } from './ir-extra-service2.js';
-import { d as defineCustomElement$B } from './ir-extra-service-config2.js';
-import { d as defineCustomElement$A } from './ir-extra-services2.js';
-import { d as defineCustomElement$z } from './ir-guest-info2.js';
-import { d as defineCustomElement$y } from './ir-icon2.js';
-import { d as defineCustomElement$x } from './ir-icons2.js';
-import { d as defineCustomElement$w } from './ir-input-text2.js';
-import { d as defineCustomElement$v } from './ir-interceptor2.js';
-import { d as defineCustomElement$u } from './ir-label2.js';
-import { d as defineCustomElement$t } from './ir-listing-header2.js';
-import { d as defineCustomElement$s } from './ir-listing-modal2.js';
-import { d as defineCustomElement$r } from './ir-loading-screen2.js';
-import { d as defineCustomElement$q } from './ir-modal2.js';
-import { d as defineCustomElement$p } from './ir-otp2.js';
-import { d as defineCustomElement$o } from './ir-otp-modal2.js';
-import { d as defineCustomElement$n } from './ir-payment-details2.js';
-import { d as defineCustomElement$m } from './ir-payment-folio2.js';
-import { d as defineCustomElement$l } from './ir-payment-item2.js';
-import { d as defineCustomElement$k } from './ir-payment-summary2.js';
-import { d as defineCustomElement$j } from './ir-payments-folio2.js';
-import { d as defineCustomElement$i } from './ir-phone-input2.js';
-import { d as defineCustomElement$h } from './ir-pickup2.js';
-import { d as defineCustomElement$g } from './ir-pickup-view2.js';
-import { d as defineCustomElement$f } from './ir-pms-logs2.js';
-import { d as defineCustomElement$e } from './ir-popover2.js';
-import { d as defineCustomElement$d } from './ir-price-input2.js';
-import { d as defineCustomElement$c } from './ir-range-picker2.js';
-import { d as defineCustomElement$b } from './ir-reservation-information2.js';
-import { d as defineCustomElement$a } from './ir-room2.js';
-import { d as defineCustomElement$9 } from './ir-room-guests2.js';
-import { d as defineCustomElement$8 } from './ir-select2.js';
-import { d as defineCustomElement$7 } from './ir-sidebar2.js';
-import { d as defineCustomElement$6 } from './ir-spinner2.js';
-import { d as defineCustomElement$5 } from './ir-textarea2.js';
-import { d as defineCustomElement$4 } from './ir-title2.js';
-import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-tooltip2.js';
+import { d as defineCustomElement$1m } from './igl-application-info2.js';
+import { d as defineCustomElement$1l } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$1k } from './igl-book-property2.js';
+import { d as defineCustomElement$1j } from './igl-book-property-container2.js';
+import { d as defineCustomElement$1i } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$1h } from './igl-book-property-header2.js';
+import { d as defineCustomElement$1g } from './igl-booking-form2.js';
+import { d as defineCustomElement$1f } from './igl-booking-overview-page2.js';
+import { d as defineCustomElement$1e } from './igl-date-range2.js';
+import { d as defineCustomElement$1d } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$1c } from './igl-rate-plan2.js';
+import { d as defineCustomElement$1b } from './igl-room-type2.js';
+import { d as defineCustomElement$1a } from './ir-actions-cell2.js';
+import { d as defineCustomElement$19 } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$18 } from './ir-autocomplete2.js';
+import { d as defineCustomElement$17 } from './ir-balance-cell2.js';
+import { d as defineCustomElement$16 } from './ir-booked-by-source-cell2.js';
+import { d as defineCustomElement$15 } from './ir-booked-on-cell2.js';
+import { d as defineCustomElement$14 } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$13 } from './ir-booking-details2.js';
+import { d as defineCustomElement$12 } from './ir-booking-extra-note2.js';
+import { d as defineCustomElement$11 } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$10 } from './ir-booking-header2.js';
+import { d as defineCustomElement$$ } from './ir-booking-listing-table2.js';
+import { d as defineCustomElement$_ } from './ir-booking-number-cell2.js';
+import { d as defineCustomElement$Z } from './ir-booking-status-tag2.js';
+import { d as defineCustomElement$Y } from './ir-button2.js';
+import { d as defineCustomElement$X } from './ir-combobox2.js';
+import { d as defineCustomElement$W } from './ir-country-picker2.js';
+import { d as defineCustomElement$V } from './ir-custom-button2.js';
+import { d as defineCustomElement$U } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$T } from './ir-custom-input2.js';
+import { d as defineCustomElement$S } from './ir-date-picker2.js';
+import { d as defineCustomElement$R } from './ir-date-range2.js';
+import { d as defineCustomElement$Q } from './ir-date-view2.js';
+import { d as defineCustomElement$P } from './ir-dates-cell2.js';
+import { d as defineCustomElement$O } from './ir-dialog2.js';
+import { d as defineCustomElement$N } from './ir-drawer2.js';
+import { d as defineCustomElement$M } from './ir-events-log2.js';
+import { d as defineCustomElement$L } from './ir-extra-service2.js';
+import { d as defineCustomElement$K } from './ir-extra-service-config2.js';
+import { d as defineCustomElement$J } from './ir-extra-services2.js';
+import { d as defineCustomElement$I } from './ir-guest-info2.js';
+import { d as defineCustomElement$H } from './ir-guest-info-drawer2.js';
+import { d as defineCustomElement$G } from './ir-guest-info-form2.js';
+import { d as defineCustomElement$F } from './ir-icon2.js';
+import { d as defineCustomElement$E } from './ir-icons2.js';
+import { d as defineCustomElement$D } from './ir-input-text2.js';
+import { d as defineCustomElement$C } from './ir-interceptor2.js';
+import { d as defineCustomElement$B } from './ir-label2.js';
+import { d as defineCustomElement$A } from './ir-listing-header2.js';
+import { d as defineCustomElement$z } from './ir-loading-screen2.js';
+import { d as defineCustomElement$y } from './ir-mobile-input2.js';
+import { d as defineCustomElement$x } from './ir-modal2.js';
+import { d as defineCustomElement$w } from './ir-otp2.js';
+import { d as defineCustomElement$v } from './ir-otp-modal2.js';
+import { d as defineCustomElement$u } from './ir-pagination2.js';
+import { d as defineCustomElement$t } from './ir-payment-details2.js';
+import { d as defineCustomElement$s } from './ir-payment-folio2.js';
+import { d as defineCustomElement$r } from './ir-payment-item2.js';
+import { d as defineCustomElement$q } from './ir-payment-summary2.js';
+import { d as defineCustomElement$p } from './ir-payments-folio2.js';
+import { d as defineCustomElement$o } from './ir-phone-input2.js';
+import { d as defineCustomElement$n } from './ir-picker2.js';
+import { d as defineCustomElement$m } from './ir-picker-item2.js';
+import { d as defineCustomElement$l } from './ir-pickup2.js';
+import { d as defineCustomElement$k } from './ir-pickup-view2.js';
+import { d as defineCustomElement$j } from './ir-pms-logs2.js';
+import { d as defineCustomElement$i } from './ir-popover2.js';
+import { d as defineCustomElement$h } from './ir-price-input2.js';
+import { d as defineCustomElement$g } from './ir-range-picker2.js';
+import { d as defineCustomElement$f } from './ir-reservation-information2.js';
+import { d as defineCustomElement$e } from './ir-room2.js';
+import { d as defineCustomElement$d } from './ir-room-guests2.js';
+import { d as defineCustomElement$c } from './ir-select2.js';
+import { d as defineCustomElement$b } from './ir-sidebar2.js';
+import { d as defineCustomElement$a } from './ir-spinner2.js';
+import { d as defineCustomElement$9 } from './ir-status-activity-cell2.js';
+import { d as defineCustomElement$8 } from './ir-textarea2.js';
+import { d as defineCustomElement$7 } from './ir-title2.js';
+import { d as defineCustomElement$6 } from './ir-toast2.js';
+import { d as defineCustomElement$5 } from './ir-tooltip2.js';
+import { d as defineCustomElement$4 } from './ir-unit-cell2.js';
+import { d as defineCustomElement$3 } from './ir-unit-tag2.js';
+import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
 
 // src/utils/browserHistory.ts
@@ -89,50 +105,57 @@ function getAllParams() {
     return out;
 }
 
-const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}.logo.sc-ir-booking-listing{height:2rem;width:2rem}.card.sc-ir-booking-listing{overflow-x:auto}.secondary-p.sc-ir-booking-listing{font-size:12px !important}.room-service.sc-ir-booking-listing{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%;padding:0.25rem 0}.room-name-container.sc-ir-booking-listing{background:#acecff;padding:0.1rem 0.3rem;border-radius:5px}.h-screen.sc-ir-booking-listing{height:100%}.price-span.sc-ir-booking-listing{margin:0;margin-right:5px}.main-container.sc-ir-booking-listing{height:100%;overflow-y:auto}.badge.ct_ir_badge.sc-ir-booking-listing{padding:0.2rem 0.3rem}.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem;height:0.5rem;width:0.8rem;border-radius:50%;background:rgb(244, 213, 82);margin-left:0.5rem;display:inline-flex;padding:0;margin:0}.booking_name.sc-ir-booking-listing{display:flex;align-items:center;gap:0.4rem}.bg-ir-red.sc-ir-booking-listing{background:#ff4961;padding:0.2rem 0.3rem}.due-btn.sc-ir-booking-listing{border:1px solid #ff4961;color:#ff4961;cursor:pointer;padding:1px 0.25rem !important;font-size:12px !important}.due-btn.sc-ir-booking-listing:hover{background:#ff4961;color:white}.booking_number.sc-ir-booking-listing{all:unset;cursor:pointer}.booking_number.sc-ir-booking-listing:hover{color:#1e9ff2}.in-out.sc-ir-booking-listing{width:150px !important}.booking_guest_name.sc-ir-booking-listing{width:fit-content;padding:0 !important;margin:0}.booking_guest_name.sc-ir-booking-listing .button-text.sc-ir-booking-listing{padding:0 !important}.buttons-container.sc-ir-booking-listing{gap:10px}td.sc-ir-booking-listing ul.sc-ir-booking-listing{width:max-content !important}td.sc-ir-booking-listing{width:max-content !important}.date-p.sc-ir-booking-listing{width:max-content !important;min-width:100%;text-align:center !important}.booking-label-gap.sc-ir-booking-listing{gap:5px}@media (min-width: 1024px){.yellow_dot.sc-ir-booking-listing{height:0.5rem;width:0.5rem}}";
+const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;height:100%}";
 const IrBookingListingStyle0 = irBookingListingCss;
+
+const appCss = ".sc-ir-booking-listing:where(:root), .sc-ir-booking-listing-h {\n  \n\n  --wa-color-red-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-red-key), 1) * 100%));\n  --wa-color-orange-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-orange-key), 1) * 100%));\n  --wa-color-yellow-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-yellow-key), 1) * 100%));\n  --wa-color-green-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-green-key), 1) * 100%));\n  --wa-color-cyan-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-cyan-key), 1) * 100%));\n  --wa-color-blue-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-blue-key), 1) * 100%));\n  --wa-color-indigo-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-indigo-key), 1) * 100%));\n  --wa-color-purple-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-purple-key), 1) * 100%));\n  --wa-color-pink-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-pink-key), 1) * 100%));\n  --wa-color-gray-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-gray-key), 1) * 100%));\n\n  \n\n  --wa-color-red-on: color-mix(in oklab, var(--wa-color-red-10) var(--wa-color-red-gte-60), white);\n  --wa-color-orange-on: color-mix(in oklab, var(--wa-color-orange-10) var(--wa-color-orange-gte-60), white);\n  --wa-color-yellow-on: color-mix(in oklab, var(--wa-color-yellow-10) var(--wa-color-yellow-gte-60), white);\n  --wa-color-green-on: color-mix(in oklab, var(--wa-color-green-10) var(--wa-color-green-gte-60), white);\n  --wa-color-cyan-on: color-mix(in oklab, var(--wa-color-cyan-10) var(--wa-color-cyan-gte-60), white);\n  --wa-color-blue-on: color-mix(in oklab, var(--wa-color-blue-10) var(--wa-color-blue-gte-60), white);\n  --wa-color-indigo-on: color-mix(in oklab, var(--wa-color-indigo-10) var(--wa-color-indigo-gte-60), white);\n  --wa-color-purple-on: color-mix(in oklab, var(--wa-color-purple-10) var(--wa-color-purple-gte-60), white);\n  --wa-color-pink-on: color-mix(in oklab, var(--wa-color-pink-10) var(--wa-color-pink-gte-60), white);\n  --wa-color-gray-on: color-mix(in oklab, var(--wa-color-gray-10) var(--wa-color-gray-gte-60), white);\n}\n\n@layer wa-color-variant {\n  :where(:root), \n  .wa-brand-blue {\n    --wa-color-brand-95: var(--wa-color-blue-95);\n    --wa-color-brand-90: var(--wa-color-blue-90);\n    --wa-color-brand-80: var(--wa-color-blue-80);\n    --wa-color-brand-70: var(--wa-color-blue-70);\n    --wa-color-brand-60: var(--wa-color-blue-60);\n    --wa-color-brand-50: var(--wa-color-blue-50);\n    --wa-color-brand-40: var(--wa-color-blue-40);\n    --wa-color-brand-30: var(--wa-color-blue-30);\n    --wa-color-brand-20: var(--wa-color-blue-20);\n    --wa-color-brand-10: var(--wa-color-blue-10);\n    --wa-color-brand-05: var(--wa-color-blue-05);\n    --wa-color-brand: var(--wa-color-blue);\n    --wa-color-brand-on: var(--wa-color-blue-on);\n  }\n\n  .wa-brand-red {\n    --wa-color-brand-95: var(--wa-color-red-95);\n    --wa-color-brand-90: var(--wa-color-red-90);\n    --wa-color-brand-80: var(--wa-color-red-80);\n    --wa-color-brand-70: var(--wa-color-red-70);\n    --wa-color-brand-60: var(--wa-color-red-60);\n    --wa-color-brand-50: var(--wa-color-red-50);\n    --wa-color-brand-40: var(--wa-color-red-40);\n    --wa-color-brand-30: var(--wa-color-red-30);\n    --wa-color-brand-20: var(--wa-color-red-20);\n    --wa-color-brand-10: var(--wa-color-red-10);\n    --wa-color-brand-05: var(--wa-color-red-05);\n    --wa-color-brand: var(--wa-color-red);\n    --wa-color-brand-on: var(--wa-color-red-on);\n  }\n\n  .wa-brand-orange {\n    --wa-color-brand-95: var(--wa-color-orange-95);\n    --wa-color-brand-90: var(--wa-color-orange-90);\n    --wa-color-brand-80: var(--wa-color-orange-80);\n    --wa-color-brand-70: var(--wa-color-orange-70);\n    --wa-color-brand-60: var(--wa-color-orange-60);\n    --wa-color-brand-50: var(--wa-color-orange-50);\n    --wa-color-brand-40: var(--wa-color-orange-40);\n    --wa-color-brand-30: var(--wa-color-orange-30);\n    --wa-color-brand-20: var(--wa-color-orange-20);\n    --wa-color-brand-10: var(--wa-color-orange-10);\n    --wa-color-brand-05: var(--wa-color-orange-05);\n    --wa-color-brand: var(--wa-color-orange);\n    --wa-color-brand-on: var(--wa-color-orange-on);\n  }\n\n  .wa-brand-yellow {\n    --wa-color-brand-95: var(--wa-color-yellow-95);\n    --wa-color-brand-90: var(--wa-color-yellow-90);\n    --wa-color-brand-80: var(--wa-color-yellow-80);\n    --wa-color-brand-70: var(--wa-color-yellow-70);\n    --wa-color-brand-60: var(--wa-color-yellow-60);\n    --wa-color-brand-50: var(--wa-color-yellow-50);\n    --wa-color-brand-40: var(--wa-color-yellow-40);\n    --wa-color-brand-30: var(--wa-color-yellow-30);\n    --wa-color-brand-20: var(--wa-color-yellow-20);\n    --wa-color-brand-10: var(--wa-color-yellow-10);\n    --wa-color-brand-05: var(--wa-color-yellow-05);\n    --wa-color-brand: var(--wa-color-yellow);\n    --wa-color-brand-on: var(--wa-color-yellow-on);\n  }\n\n  .wa-brand-green {\n    --wa-color-brand-95: var(--wa-color-green-95);\n    --wa-color-brand-90: var(--wa-color-green-90);\n    --wa-color-brand-80: var(--wa-color-green-80);\n    --wa-color-brand-70: var(--wa-color-green-70);\n    --wa-color-brand-60: var(--wa-color-green-60);\n    --wa-color-brand-50: var(--wa-color-green-50);\n    --wa-color-brand-40: var(--wa-color-green-40);\n    --wa-color-brand-30: var(--wa-color-green-30);\n    --wa-color-brand-20: var(--wa-color-green-20);\n    --wa-color-brand-10: var(--wa-color-green-10);\n    --wa-color-brand-05: var(--wa-color-green-05);\n    --wa-color-brand: var(--wa-color-green);\n    --wa-color-brand-on: var(--wa-color-green-on);\n  }\n\n  .wa-brand-cyan {\n    --wa-color-brand-95: var(--wa-color-cyan-95);\n    --wa-color-brand-90: var(--wa-color-cyan-90);\n    --wa-color-brand-80: var(--wa-color-cyan-80);\n    --wa-color-brand-70: var(--wa-color-cyan-70);\n    --wa-color-brand-60: var(--wa-color-cyan-60);\n    --wa-color-brand-50: var(--wa-color-cyan-50);\n    --wa-color-brand-40: var(--wa-color-cyan-40);\n    --wa-color-brand-30: var(--wa-color-cyan-30);\n    --wa-color-brand-20: var(--wa-color-cyan-20);\n    --wa-color-brand-10: var(--wa-color-cyan-10);\n    --wa-color-brand-05: var(--wa-color-cyan-05);\n    --wa-color-brand: var(--wa-color-cyan);\n    --wa-color-brand-on: var(--wa-color-cyan-on);\n  }\n\n  .wa-brand-indigo {\n    --wa-color-brand-95: var(--wa-color-indigo-95);\n    --wa-color-brand-90: var(--wa-color-indigo-90);\n    --wa-color-brand-80: var(--wa-color-indigo-80);\n    --wa-color-brand-70: var(--wa-color-indigo-70);\n    --wa-color-brand-60: var(--wa-color-indigo-60);\n    --wa-color-brand-50: var(--wa-color-indigo-50);\n    --wa-color-brand-40: var(--wa-color-indigo-40);\n    --wa-color-brand-30: var(--wa-color-indigo-30);\n    --wa-color-brand-20: var(--wa-color-indigo-20);\n    --wa-color-brand-10: var(--wa-color-indigo-10);\n    --wa-color-brand-05: var(--wa-color-indigo-05);\n    --wa-color-brand: var(--wa-color-indigo);\n    --wa-color-brand-on: var(--wa-color-indigo-on);\n  }\n\n  .wa-brand-purple {\n    --wa-color-brand-95: var(--wa-color-purple-95);\n    --wa-color-brand-90: var(--wa-color-purple-90);\n    --wa-color-brand-80: var(--wa-color-purple-80);\n    --wa-color-brand-70: var(--wa-color-purple-70);\n    --wa-color-brand-60: var(--wa-color-purple-60);\n    --wa-color-brand-50: var(--wa-color-purple-50);\n    --wa-color-brand-40: var(--wa-color-purple-40);\n    --wa-color-brand-30: var(--wa-color-purple-30);\n    --wa-color-brand-20: var(--wa-color-purple-20);\n    --wa-color-brand-10: var(--wa-color-purple-10);\n    --wa-color-brand-05: var(--wa-color-purple-05);\n    --wa-color-brand: var(--wa-color-purple);\n    --wa-color-brand-on: var(--wa-color-purple-on);\n  }\n\n  .wa-brand-pink {\n    --wa-color-brand-95: var(--wa-color-pink-95);\n    --wa-color-brand-90: var(--wa-color-pink-90);\n    --wa-color-brand-80: var(--wa-color-pink-80);\n    --wa-color-brand-70: var(--wa-color-pink-70);\n    --wa-color-brand-60: var(--wa-color-pink-60);\n    --wa-color-brand-50: var(--wa-color-pink-50);\n    --wa-color-brand-40: var(--wa-color-pink-40);\n    --wa-color-brand-30: var(--wa-color-pink-30);\n    --wa-color-brand-20: var(--wa-color-pink-20);\n    --wa-color-brand-10: var(--wa-color-pink-10);\n    --wa-color-brand-05: var(--wa-color-pink-05);\n    --wa-color-brand: var(--wa-color-pink);\n    --wa-color-brand-on: var(--wa-color-pink-on);\n  }\n\n  .wa-brand-gray {\n    --wa-color-brand-95: var(--wa-color-gray-95);\n    --wa-color-brand-90: var(--wa-color-gray-90);\n    --wa-color-brand-80: var(--wa-color-gray-80);\n    --wa-color-brand-70: var(--wa-color-gray-70);\n    --wa-color-brand-60: var(--wa-color-gray-60);\n    --wa-color-brand-50: var(--wa-color-gray-50);\n    --wa-color-brand-40: var(--wa-color-gray-40);\n    --wa-color-brand-30: var(--wa-color-gray-30);\n    --wa-color-brand-20: var(--wa-color-gray-20);\n    --wa-color-brand-10: var(--wa-color-gray-10);\n    --wa-color-brand-05: var(--wa-color-gray-05);\n    --wa-color-brand: var(--wa-color-gray);\n    --wa-color-brand-on: var(--wa-color-gray-on);\n  }\n}\n\n@layer wa-color-variant {\n  :where(:root), \n  .wa-neutral-gray {\n    --wa-color-neutral-95: var(--wa-color-gray-95);\n    --wa-color-neutral-90: var(--wa-color-gray-90);\n    --wa-color-neutral-80: var(--wa-color-gray-80);\n    --wa-color-neutral-70: var(--wa-color-gray-70);\n    --wa-color-neutral-60: var(--wa-color-gray-60);\n    --wa-color-neutral-50: var(--wa-color-gray-50);\n    --wa-color-neutral-40: var(--wa-color-gray-40);\n    --wa-color-neutral-30: var(--wa-color-gray-30);\n    --wa-color-neutral-20: var(--wa-color-gray-20);\n    --wa-color-neutral-10: var(--wa-color-gray-10);\n    --wa-color-neutral-05: var(--wa-color-gray-05);\n    --wa-color-neutral: var(--wa-color-gray);\n    --wa-color-neutral-on: var(--wa-color-gray-on);\n  }\n\n  .wa-neutral-red {\n    --wa-color-neutral-95: var(--wa-color-red-95);\n    --wa-color-neutral-90: var(--wa-color-red-90);\n    --wa-color-neutral-80: var(--wa-color-red-80);\n    --wa-color-neutral-70: var(--wa-color-red-70);\n    --wa-color-neutral-60: var(--wa-color-red-60);\n    --wa-color-neutral-50: var(--wa-color-red-50);\n    --wa-color-neutral-40: var(--wa-color-red-40);\n    --wa-color-neutral-30: var(--wa-color-red-30);\n    --wa-color-neutral-20: var(--wa-color-red-20);\n    --wa-color-neutral-10: var(--wa-color-red-10);\n    --wa-color-neutral-05: var(--wa-color-red-05);\n    --wa-color-neutral: var(--wa-color-red);\n    --wa-color-neutral-on: var(--wa-color-red-on);\n  }\n\n  .wa-neutral-orange {\n    --wa-color-neutral-95: var(--wa-color-orange-95);\n    --wa-color-neutral-90: var(--wa-color-orange-90);\n    --wa-color-neutral-80: var(--wa-color-orange-80);\n    --wa-color-neutral-70: var(--wa-color-orange-70);\n    --wa-color-neutral-60: var(--wa-color-orange-60);\n    --wa-color-neutral-50: var(--wa-color-orange-50);\n    --wa-color-neutral-40: var(--wa-color-orange-40);\n    --wa-color-neutral-30: var(--wa-color-orange-30);\n    --wa-color-neutral-20: var(--wa-color-orange-20);\n    --wa-color-neutral-10: var(--wa-color-orange-10);\n    --wa-color-neutral-05: var(--wa-color-orange-05);\n    --wa-color-neutral: var(--wa-color-orange);\n    --wa-color-neutral-on: var(--wa-color-orange-on);\n  }\n\n  .wa-neutral-yellow {\n    --wa-color-neutral-95: var(--wa-color-yellow-95);\n    --wa-color-neutral-90: var(--wa-color-yellow-90);\n    --wa-color-neutral-80: var(--wa-color-yellow-80);\n    --wa-color-neutral-70: var(--wa-color-yellow-70);\n    --wa-color-neutral-60: var(--wa-color-yellow-60);\n    --wa-color-neutral-50: var(--wa-color-yellow-50);\n    --wa-color-neutral-40: var(--wa-color-yellow-40);\n    --wa-color-neutral-30: var(--wa-color-yellow-30);\n    --wa-color-neutral-20: var(--wa-color-yellow-20);\n    --wa-color-neutral-10: var(--wa-color-yellow-10);\n    --wa-color-neutral-05: var(--wa-color-yellow-05);\n    --wa-color-neutral: var(--wa-color-yellow);\n    --wa-color-neutral-on: var(--wa-color-yellow-on);\n  }\n\n  .wa-neutral-green {\n    --wa-color-neutral-95: var(--wa-color-green-95);\n    --wa-color-neutral-90: var(--wa-color-green-90);\n    --wa-color-neutral-80: var(--wa-color-green-80);\n    --wa-color-neutral-70: var(--wa-color-green-70);\n    --wa-color-neutral-60: var(--wa-color-green-60);\n    --wa-color-neutral-50: var(--wa-color-green-50);\n    --wa-color-neutral-40: var(--wa-color-green-40);\n    --wa-color-neutral-30: var(--wa-color-green-30);\n    --wa-color-neutral-20: var(--wa-color-green-20);\n    --wa-color-neutral-10: var(--wa-color-green-10);\n    --wa-color-neutral-05: var(--wa-color-green-05);\n    --wa-color-neutral: var(--wa-color-green);\n    --wa-color-neutral-on: var(--wa-color-green-on);\n  }\n\n  .wa-neutral-cyan {\n    --wa-color-neutral-95: var(--wa-color-cyan-95);\n    --wa-color-neutral-90: var(--wa-color-cyan-90);\n    --wa-color-neutral-80: var(--wa-color-cyan-80);\n    --wa-color-neutral-70: var(--wa-color-cyan-70);\n    --wa-color-neutral-60: var(--wa-color-cyan-60);\n    --wa-color-neutral-50: var(--wa-color-cyan-50);\n    --wa-color-neutral-40: var(--wa-color-cyan-40);\n    --wa-color-neutral-30: var(--wa-color-cyan-30);\n    --wa-color-neutral-20: var(--wa-color-cyan-20);\n    --wa-color-neutral-10: var(--wa-color-cyan-10);\n    --wa-color-neutral-05: var(--wa-color-cyan-05);\n    --wa-color-neutral: var(--wa-color-cyan);\n    --wa-color-neutral-on: var(--wa-color-cyan-on);\n  }\n\n  .wa-neutral-blue {\n    --wa-color-neutral-95: var(--wa-color-blue-95);\n    --wa-color-neutral-90: var(--wa-color-blue-90);\n    --wa-color-neutral-80: var(--wa-color-blue-80);\n    --wa-color-neutral-70: var(--wa-color-blue-70);\n    --wa-color-neutral-60: var(--wa-color-blue-60);\n    --wa-color-neutral-50: var(--wa-color-blue-50);\n    --wa-color-neutral-40: var(--wa-color-blue-40);\n    --wa-color-neutral-30: var(--wa-color-blue-30);\n    --wa-color-neutral-20: var(--wa-color-blue-20);\n    --wa-color-neutral-10: var(--wa-color-blue-10);\n    --wa-color-neutral-05: var(--wa-color-blue-05);\n    --wa-color-neutral: var(--wa-color-blue);\n    --wa-color-neutral-on: var(--wa-color-blue-on);\n  }\n\n  .wa-neutral-indigo {\n    --wa-color-neutral-95: var(--wa-color-indigo-95);\n    --wa-color-neutral-90: var(--wa-color-indigo-90);\n    --wa-color-neutral-80: var(--wa-color-indigo-80);\n    --wa-color-neutral-70: var(--wa-color-indigo-70);\n    --wa-color-neutral-60: var(--wa-color-indigo-60);\n    --wa-color-neutral-50: var(--wa-color-indigo-50);\n    --wa-color-neutral-40: var(--wa-color-indigo-40);\n    --wa-color-neutral-30: var(--wa-color-indigo-30);\n    --wa-color-neutral-20: var(--wa-color-indigo-20);\n    --wa-color-neutral-10: var(--wa-color-indigo-10);\n    --wa-color-neutral-05: var(--wa-color-indigo-05);\n    --wa-color-neutral: var(--wa-color-indigo);\n    --wa-color-neutral-on: var(--wa-color-indigo-on);\n  }\n\n  .wa-neutral-purple {\n    --wa-color-neutral-95: var(--wa-color-purple-95);\n    --wa-color-neutral-90: var(--wa-color-purple-90);\n    --wa-color-neutral-80: var(--wa-color-purple-80);\n    --wa-color-neutral-70: var(--wa-color-purple-70);\n    --wa-color-neutral-60: var(--wa-color-purple-60);\n    --wa-color-neutral-50: var(--wa-color-purple-50);\n    --wa-color-neutral-40: var(--wa-color-purple-40);\n    --wa-color-neutral-30: var(--wa-color-purple-30);\n    --wa-color-neutral-20: var(--wa-color-purple-20);\n    --wa-color-neutral-10: var(--wa-color-purple-10);\n    --wa-color-neutral-05: var(--wa-color-purple-05);\n    --wa-color-neutral: var(--wa-color-purple);\n    --wa-color-neutral-on: var(--wa-color-purple-on);\n  }\n\n  .wa-neutral-pink {\n    --wa-color-neutral-95: var(--wa-color-pink-95);\n    --wa-color-neutral-90: var(--wa-color-pink-90);\n    --wa-color-neutral-80: var(--wa-color-pink-80);\n    --wa-color-neutral-70: var(--wa-color-pink-70);\n    --wa-color-neutral-60: var(--wa-color-pink-60);\n    --wa-color-neutral-50: var(--wa-color-pink-50);\n    --wa-color-neutral-40: var(--wa-color-pink-40);\n    --wa-color-neutral-30: var(--wa-color-pink-30);\n    --wa-color-neutral-20: var(--wa-color-pink-20);\n    --wa-color-neutral-10: var(--wa-color-pink-10);\n    --wa-color-neutral-05: var(--wa-color-pink-05);\n    --wa-color-neutral: var(--wa-color-pink);\n    --wa-color-neutral-on: var(--wa-color-pink-on);\n  }\n}\n\n@layer wa-color-variant {\n  :where(:root), \n  .wa-success-green {\n    --wa-color-success-95: var(--wa-color-green-95);\n    --wa-color-success-90: var(--wa-color-green-90);\n    --wa-color-success-80: var(--wa-color-green-80);\n    --wa-color-success-70: var(--wa-color-green-70);\n    --wa-color-success-60: var(--wa-color-green-60);\n    --wa-color-success-50: var(--wa-color-green-50);\n    --wa-color-success-40: var(--wa-color-green-40);\n    --wa-color-success-30: var(--wa-color-green-30);\n    --wa-color-success-20: var(--wa-color-green-20);\n    --wa-color-success-10: var(--wa-color-green-10);\n    --wa-color-success-05: var(--wa-color-green-05);\n    --wa-color-success: var(--wa-color-green);\n    --wa-color-success-on: var(--wa-color-green-on);\n  }\n\n  .wa-success-red {\n    --wa-color-success-95: var(--wa-color-red-95);\n    --wa-color-success-90: var(--wa-color-red-90);\n    --wa-color-success-80: var(--wa-color-red-80);\n    --wa-color-success-70: var(--wa-color-red-70);\n    --wa-color-success-60: var(--wa-color-red-60);\n    --wa-color-success-50: var(--wa-color-red-50);\n    --wa-color-success-40: var(--wa-color-red-40);\n    --wa-color-success-30: var(--wa-color-red-30);\n    --wa-color-success-20: var(--wa-color-red-20);\n    --wa-color-success-10: var(--wa-color-red-10);\n    --wa-color-success-05: var(--wa-color-red-05);\n    --wa-color-success: var(--wa-color-red);\n    --wa-color-success-on: var(--wa-color-red-on);\n  }\n\n  .wa-success-orange {\n    --wa-color-success-95: var(--wa-color-orange-95);\n    --wa-color-success-90: var(--wa-color-orange-90);\n    --wa-color-success-80: var(--wa-color-orange-80);\n    --wa-color-success-70: var(--wa-color-orange-70);\n    --wa-color-success-60: var(--wa-color-orange-60);\n    --wa-color-success-50: var(--wa-color-orange-50);\n    --wa-color-success-40: var(--wa-color-orange-40);\n    --wa-color-success-30: var(--wa-color-orange-30);\n    --wa-color-success-20: var(--wa-color-orange-20);\n    --wa-color-success-10: var(--wa-color-orange-10);\n    --wa-color-success-05: var(--wa-color-orange-05);\n    --wa-color-success: var(--wa-color-orange);\n    --wa-color-success-on: var(--wa-color-orange-on);\n  }\n\n  .wa-success-yellow {\n    --wa-color-success-95: var(--wa-color-yellow-95);\n    --wa-color-success-90: var(--wa-color-yellow-90);\n    --wa-color-success-80: var(--wa-color-yellow-80);\n    --wa-color-success-70: var(--wa-color-yellow-70);\n    --wa-color-success-60: var(--wa-color-yellow-60);\n    --wa-color-success-50: var(--wa-color-yellow-50);\n    --wa-color-success-40: var(--wa-color-yellow-40);\n    --wa-color-success-30: var(--wa-color-yellow-30);\n    --wa-color-success-20: var(--wa-color-yellow-20);\n    --wa-color-success-10: var(--wa-color-yellow-10);\n    --wa-color-success-05: var(--wa-color-yellow-05);\n    --wa-color-success: var(--wa-color-yellow);\n    --wa-color-success-on: var(--wa-color-yellow-on);\n  }\n\n  .wa-success-cyan {\n    --wa-color-success-95: var(--wa-color-cyan-95);\n    --wa-color-success-90: var(--wa-color-cyan-90);\n    --wa-color-success-80: var(--wa-color-cyan-80);\n    --wa-color-success-70: var(--wa-color-cyan-70);\n    --wa-color-success-60: var(--wa-color-cyan-60);\n    --wa-color-success-50: var(--wa-color-cyan-50);\n    --wa-color-success-40: var(--wa-color-cyan-40);\n    --wa-color-success-30: var(--wa-color-cyan-30);\n    --wa-color-success-20: var(--wa-color-cyan-20);\n    --wa-color-success-10: var(--wa-color-cyan-10);\n    --wa-color-success-05: var(--wa-color-cyan-05);\n    --wa-color-success: var(--wa-color-cyan);\n    --wa-color-success-on: var(--wa-color-cyan-on);\n  }\n\n  .wa-success-blue {\n    --wa-color-success-95: var(--wa-color-blue-95);\n    --wa-color-success-90: var(--wa-color-blue-90);\n    --wa-color-success-80: var(--wa-color-blue-80);\n    --wa-color-success-70: var(--wa-color-blue-70);\n    --wa-color-success-60: var(--wa-color-blue-60);\n    --wa-color-success-50: var(--wa-color-blue-50);\n    --wa-color-success-40: var(--wa-color-blue-40);\n    --wa-color-success-30: var(--wa-color-blue-30);\n    --wa-color-success-20: var(--wa-color-blue-20);\n    --wa-color-success-10: var(--wa-color-blue-10);\n    --wa-color-success-05: var(--wa-color-blue-05);\n    --wa-color-success: var(--wa-color-blue);\n    --wa-color-success-on: var(--wa-color-blue-on);\n  }\n\n  .wa-success-indigo {\n    --wa-color-success-95: var(--wa-color-indigo-95);\n    --wa-color-success-90: var(--wa-color-indigo-90);\n    --wa-color-success-80: var(--wa-color-indigo-80);\n    --wa-color-success-70: var(--wa-color-indigo-70);\n    --wa-color-success-60: var(--wa-color-indigo-60);\n    --wa-color-success-50: var(--wa-color-indigo-50);\n    --wa-color-success-40: var(--wa-color-indigo-40);\n    --wa-color-success-30: var(--wa-color-indigo-30);\n    --wa-color-success-20: var(--wa-color-indigo-20);\n    --wa-color-success-10: var(--wa-color-indigo-10);\n    --wa-color-success-05: var(--wa-color-indigo-05);\n    --wa-color-success: var(--wa-color-indigo);\n    --wa-color-success-on: var(--wa-color-indigo-on);\n  }\n\n  .wa-success-purple {\n    --wa-color-success-95: var(--wa-color-purple-95);\n    --wa-color-success-90: var(--wa-color-purple-90);\n    --wa-color-success-80: var(--wa-color-purple-80);\n    --wa-color-success-70: var(--wa-color-purple-70);\n    --wa-color-success-60: var(--wa-color-purple-60);\n    --wa-color-success-50: var(--wa-color-purple-50);\n    --wa-color-success-40: var(--wa-color-purple-40);\n    --wa-color-success-30: var(--wa-color-purple-30);\n    --wa-color-success-20: var(--wa-color-purple-20);\n    --wa-color-success-10: var(--wa-color-purple-10);\n    --wa-color-success-05: var(--wa-color-purple-05);\n    --wa-color-success: var(--wa-color-purple);\n    --wa-color-success-on: var(--wa-color-purple-on);\n  }\n\n  .wa-success-pink {\n    --wa-color-success-95: var(--wa-color-pink-95);\n    --wa-color-success-90: var(--wa-color-pink-90);\n    --wa-color-success-80: var(--wa-color-pink-80);\n    --wa-color-success-70: var(--wa-color-pink-70);\n    --wa-color-success-60: var(--wa-color-pink-60);\n    --wa-color-success-50: var(--wa-color-pink-50);\n    --wa-color-success-40: var(--wa-color-pink-40);\n    --wa-color-success-30: var(--wa-color-pink-30);\n    --wa-color-success-20: var(--wa-color-pink-20);\n    --wa-color-success-10: var(--wa-color-pink-10);\n    --wa-color-success-05: var(--wa-color-pink-05);\n    --wa-color-success: var(--wa-color-pink);\n    --wa-color-success-on: var(--wa-color-pink-on);\n  }\n\n  .wa-success-gray {\n    --wa-color-success-95: var(--wa-color-gray-95);\n    --wa-color-success-90: var(--wa-color-gray-90);\n    --wa-color-success-80: var(--wa-color-gray-80);\n    --wa-color-success-70: var(--wa-color-gray-70);\n    --wa-color-success-60: var(--wa-color-gray-60);\n    --wa-color-success-50: var(--wa-color-gray-50);\n    --wa-color-success-40: var(--wa-color-gray-40);\n    --wa-color-success-30: var(--wa-color-gray-30);\n    --wa-color-success-20: var(--wa-color-gray-20);\n    --wa-color-success-10: var(--wa-color-gray-10);\n    --wa-color-success-05: var(--wa-color-gray-05);\n    --wa-color-success: var(--wa-color-gray);\n    --wa-color-success-on: var(--wa-color-gray-on);\n  }\n}\n\n@layer wa-color-variant {\n  :where(:root), \n  .wa-warning-yellow {\n    --wa-color-warning-95: var(--wa-color-yellow-95);\n    --wa-color-warning-90: var(--wa-color-yellow-90);\n    --wa-color-warning-80: var(--wa-color-yellow-80);\n    --wa-color-warning-70: var(--wa-color-yellow-70);\n    --wa-color-warning-60: var(--wa-color-yellow-60);\n    --wa-color-warning-50: var(--wa-color-yellow-50);\n    --wa-color-warning-40: var(--wa-color-yellow-40);\n    --wa-color-warning-30: var(--wa-color-yellow-30);\n    --wa-color-warning-20: var(--wa-color-yellow-20);\n    --wa-color-warning-10: var(--wa-color-yellow-10);\n    --wa-color-warning-05: var(--wa-color-yellow-05);\n    --wa-color-warning: var(--wa-color-yellow);\n    --wa-color-warning-on: var(--wa-color-yellow-on);\n  }\n\n  .wa-warning-red {\n    --wa-color-warning-95: var(--wa-color-red-95);\n    --wa-color-warning-90: var(--wa-color-red-90);\n    --wa-color-warning-80: var(--wa-color-red-80);\n    --wa-color-warning-70: var(--wa-color-red-70);\n    --wa-color-warning-60: var(--wa-color-red-60);\n    --wa-color-warning-50: var(--wa-color-red-50);\n    --wa-color-warning-40: var(--wa-color-red-40);\n    --wa-color-warning-30: var(--wa-color-red-30);\n    --wa-color-warning-20: var(--wa-color-red-20);\n    --wa-color-warning-10: var(--wa-color-red-10);\n    --wa-color-warning-05: var(--wa-color-red-05);\n    --wa-color-warning: var(--wa-color-red);\n    --wa-color-warning-on: var(--wa-color-red-on);\n  }\n\n  .wa-warning-orange {\n    --wa-color-warning-95: var(--wa-color-orange-95);\n    --wa-color-warning-90: var(--wa-color-orange-90);\n    --wa-color-warning-80: var(--wa-color-orange-80);\n    --wa-color-warning-70: var(--wa-color-orange-70);\n    --wa-color-warning-60: var(--wa-color-orange-60);\n    --wa-color-warning-50: var(--wa-color-orange-50);\n    --wa-color-warning-40: var(--wa-color-orange-40);\n    --wa-color-warning-30: var(--wa-color-orange-30);\n    --wa-color-warning-20: var(--wa-color-orange-20);\n    --wa-color-warning-10: var(--wa-color-orange-10);\n    --wa-color-warning-05: var(--wa-color-orange-05);\n    --wa-color-warning: var(--wa-color-orange);\n    --wa-color-warning-on: var(--wa-color-orange-on);\n  }\n\n  .wa-warning-green {\n    --wa-color-warning-95: var(--wa-color-green-95);\n    --wa-color-warning-90: var(--wa-color-green-90);\n    --wa-color-warning-80: var(--wa-color-green-80);\n    --wa-color-warning-70: var(--wa-color-green-70);\n    --wa-color-warning-60: var(--wa-color-green-60);\n    --wa-color-warning-50: var(--wa-color-green-50);\n    --wa-color-warning-40: var(--wa-color-green-40);\n    --wa-color-warning-30: var(--wa-color-green-30);\n    --wa-color-warning-20: var(--wa-color-green-20);\n    --wa-color-warning-10: var(--wa-color-green-10);\n    --wa-color-warning-05: var(--wa-color-green-05);\n    --wa-color-warning: var(--wa-color-green);\n    --wa-color-warning-on: var(--wa-color-green-on);\n  }\n\n  .wa-warning-cyan {\n    --wa-color-warning-95: var(--wa-color-cyan-95);\n    --wa-color-warning-90: var(--wa-color-cyan-90);\n    --wa-color-warning-80: var(--wa-color-cyan-80);\n    --wa-color-warning-70: var(--wa-color-cyan-70);\n    --wa-color-warning-60: var(--wa-color-cyan-60);\n    --wa-color-warning-50: var(--wa-color-cyan-50);\n    --wa-color-warning-40: var(--wa-color-cyan-40);\n    --wa-color-warning-30: var(--wa-color-cyan-30);\n    --wa-color-warning-20: var(--wa-color-cyan-20);\n    --wa-color-warning-10: var(--wa-color-cyan-10);\n    --wa-color-warning-05: var(--wa-color-cyan-05);\n    --wa-color-warning: var(--wa-color-cyan);\n    --wa-color-warning-on: var(--wa-color-cyan-on);\n  }\n\n  .wa-warning-blue {\n    --wa-color-warning-95: var(--wa-color-blue-95);\n    --wa-color-warning-90: var(--wa-color-blue-90);\n    --wa-color-warning-80: var(--wa-color-blue-80);\n    --wa-color-warning-70: var(--wa-color-blue-70);\n    --wa-color-warning-60: var(--wa-color-blue-60);\n    --wa-color-warning-50: var(--wa-color-blue-50);\n    --wa-color-warning-40: var(--wa-color-blue-40);\n    --wa-color-warning-30: var(--wa-color-blue-30);\n    --wa-color-warning-20: var(--wa-color-blue-20);\n    --wa-color-warning-10: var(--wa-color-blue-10);\n    --wa-color-warning-05: var(--wa-color-blue-05);\n    --wa-color-warning: var(--wa-color-blue);\n    --wa-color-warning-on: var(--wa-color-blue-on);\n  }\n\n  .wa-warning-indigo {\n    --wa-color-warning-95: var(--wa-color-indigo-95);\n    --wa-color-warning-90: var(--wa-color-indigo-90);\n    --wa-color-warning-80: var(--wa-color-indigo-80);\n    --wa-color-warning-70: var(--wa-color-indigo-70);\n    --wa-color-warning-60: var(--wa-color-indigo-60);\n    --wa-color-warning-50: var(--wa-color-indigo-50);\n    --wa-color-warning-40: var(--wa-color-indigo-40);\n    --wa-color-warning-30: var(--wa-color-indigo-30);\n    --wa-color-warning-20: var(--wa-color-indigo-20);\n    --wa-color-warning-10: var(--wa-color-indigo-10);\n    --wa-color-warning-05: var(--wa-color-indigo-05);\n    --wa-color-warning: var(--wa-color-indigo);\n    --wa-color-warning-on: var(--wa-color-indigo-on);\n  }\n\n  .wa-warning-purple {\n    --wa-color-warning-95: var(--wa-color-purple-95);\n    --wa-color-warning-90: var(--wa-color-purple-90);\n    --wa-color-warning-80: var(--wa-color-purple-80);\n    --wa-color-warning-70: var(--wa-color-purple-70);\n    --wa-color-warning-60: var(--wa-color-purple-60);\n    --wa-color-warning-50: var(--wa-color-purple-50);\n    --wa-color-warning-40: var(--wa-color-purple-40);\n    --wa-color-warning-30: var(--wa-color-purple-30);\n    --wa-color-warning-20: var(--wa-color-purple-20);\n    --wa-color-warning-10: var(--wa-color-purple-10);\n    --wa-color-warning-05: var(--wa-color-purple-05);\n    --wa-color-warning: var(--wa-color-purple);\n    --wa-color-warning-on: var(--wa-color-purple-on);\n  }\n\n  .wa-warning-pink {\n    --wa-color-warning-95: var(--wa-color-pink-95);\n    --wa-color-warning-90: var(--wa-color-pink-90);\n    --wa-color-warning-80: var(--wa-color-pink-80);\n    --wa-color-warning-70: var(--wa-color-pink-70);\n    --wa-color-warning-60: var(--wa-color-pink-60);\n    --wa-color-warning-50: var(--wa-color-pink-50);\n    --wa-color-warning-40: var(--wa-color-pink-40);\n    --wa-color-warning-30: var(--wa-color-pink-30);\n    --wa-color-warning-20: var(--wa-color-pink-20);\n    --wa-color-warning-10: var(--wa-color-pink-10);\n    --wa-color-warning-05: var(--wa-color-pink-05);\n    --wa-color-warning: var(--wa-color-pink);\n    --wa-color-warning-on: var(--wa-color-pink-on);\n  }\n\n  .wa-warning-gray {\n    --wa-color-warning-95: var(--wa-color-gray-95);\n    --wa-color-warning-90: var(--wa-color-gray-90);\n    --wa-color-warning-80: var(--wa-color-gray-80);\n    --wa-color-warning-70: var(--wa-color-gray-70);\n    --wa-color-warning-60: var(--wa-color-gray-60);\n    --wa-color-warning-50: var(--wa-color-gray-50);\n    --wa-color-warning-40: var(--wa-color-gray-40);\n    --wa-color-warning-30: var(--wa-color-gray-30);\n    --wa-color-warning-20: var(--wa-color-gray-20);\n    --wa-color-warning-10: var(--wa-color-gray-10);\n    --wa-color-warning-05: var(--wa-color-gray-05);\n    --wa-color-warning: var(--wa-color-gray);\n    --wa-color-warning-on: var(--wa-color-gray-on);\n  }\n}\n\n@layer wa-color-variant {\n  :where(:root), \n  .wa-danger-red {\n    --wa-color-danger-95: var(--wa-color-red-95);\n    --wa-color-danger-90: var(--wa-color-red-90);\n    --wa-color-danger-80: var(--wa-color-red-80);\n    --wa-color-danger-70: var(--wa-color-red-70);\n    --wa-color-danger-60: var(--wa-color-red-60);\n    --wa-color-danger-50: var(--wa-color-red-50);\n    --wa-color-danger-40: var(--wa-color-red-40);\n    --wa-color-danger-30: var(--wa-color-red-30);\n    --wa-color-danger-20: var(--wa-color-red-20);\n    --wa-color-danger-10: var(--wa-color-red-10);\n    --wa-color-danger-05: var(--wa-color-red-05);\n    --wa-color-danger: var(--wa-color-red);\n    --wa-color-danger-on: var(--wa-color-red-on);\n  }\n\n  .wa-danger-orange {\n    --wa-color-danger-95: var(--wa-color-orange-95);\n    --wa-color-danger-90: var(--wa-color-orange-90);\n    --wa-color-danger-80: var(--wa-color-orange-80);\n    --wa-color-danger-70: var(--wa-color-orange-70);\n    --wa-color-danger-60: var(--wa-color-orange-60);\n    --wa-color-danger-50: var(--wa-color-orange-50);\n    --wa-color-danger-40: var(--wa-color-orange-40);\n    --wa-color-danger-30: var(--wa-color-orange-30);\n    --wa-color-danger-20: var(--wa-color-orange-20);\n    --wa-color-danger-10: var(--wa-color-orange-10);\n    --wa-color-danger-05: var(--wa-color-orange-05);\n    --wa-color-danger: var(--wa-color-orange);\n    --wa-color-danger-on: var(--wa-color-orange-on);\n  }\n\n  .wa-danger-yellow {\n    --wa-color-danger-95: var(--wa-color-yellow-95);\n    --wa-color-danger-90: var(--wa-color-yellow-90);\n    --wa-color-danger-80: var(--wa-color-yellow-80);\n    --wa-color-danger-70: var(--wa-color-yellow-70);\n    --wa-color-danger-60: var(--wa-color-yellow-60);\n    --wa-color-danger-50: var(--wa-color-yellow-50);\n    --wa-color-danger-40: var(--wa-color-yellow-40);\n    --wa-color-danger-30: var(--wa-color-yellow-30);\n    --wa-color-danger-20: var(--wa-color-yellow-20);\n    --wa-color-danger-10: var(--wa-color-yellow-10);\n    --wa-color-danger-05: var(--wa-color-yellow-05);\n    --wa-color-danger: var(--wa-color-yellow);\n    --wa-color-danger-on: var(--wa-color-yellow-on);\n  }\n\n  .wa-danger-green {\n    --wa-color-danger-95: var(--wa-color-green-95);\n    --wa-color-danger-90: var(--wa-color-green-90);\n    --wa-color-danger-80: var(--wa-color-green-80);\n    --wa-color-danger-70: var(--wa-color-green-70);\n    --wa-color-danger-60: var(--wa-color-green-60);\n    --wa-color-danger-50: var(--wa-color-green-50);\n    --wa-color-danger-40: var(--wa-color-green-40);\n    --wa-color-danger-30: var(--wa-color-green-30);\n    --wa-color-danger-20: var(--wa-color-green-20);\n    --wa-color-danger-10: var(--wa-color-green-10);\n    --wa-color-danger-05: var(--wa-color-green-05);\n    --wa-color-danger: var(--wa-color-green);\n    --wa-color-danger-on: var(--wa-color-green-on);\n  }\n\n  .wa-danger-cyan {\n    --wa-color-danger-95: var(--wa-color-cyan-95);\n    --wa-color-danger-90: var(--wa-color-cyan-90);\n    --wa-color-danger-80: var(--wa-color-cyan-80);\n    --wa-color-danger-70: var(--wa-color-cyan-70);\n    --wa-color-danger-60: var(--wa-color-cyan-60);\n    --wa-color-danger-50: var(--wa-color-cyan-50);\n    --wa-color-danger-40: var(--wa-color-cyan-40);\n    --wa-color-danger-30: var(--wa-color-cyan-30);\n    --wa-color-danger-20: var(--wa-color-cyan-20);\n    --wa-color-danger-10: var(--wa-color-cyan-10);\n    --wa-color-danger-05: var(--wa-color-cyan-05);\n    --wa-color-danger: var(--wa-color-cyan);\n    --wa-color-danger-on: var(--wa-color-cyan-on);\n  }\n\n  .wa-danger-blue {\n    --wa-color-danger-95: var(--wa-color-blue-95);\n    --wa-color-danger-90: var(--wa-color-blue-90);\n    --wa-color-danger-80: var(--wa-color-blue-80);\n    --wa-color-danger-70: var(--wa-color-blue-70);\n    --wa-color-danger-60: var(--wa-color-blue-60);\n    --wa-color-danger-50: var(--wa-color-blue-50);\n    --wa-color-danger-40: var(--wa-color-blue-40);\n    --wa-color-danger-30: var(--wa-color-blue-30);\n    --wa-color-danger-20: var(--wa-color-blue-20);\n    --wa-color-danger-10: var(--wa-color-blue-10);\n    --wa-color-danger-05: var(--wa-color-blue-05);\n    --wa-color-danger: var(--wa-color-blue);\n    --wa-color-danger-on: var(--wa-color-blue-on);\n  }\n\n  .wa-danger-indigo {\n    --wa-color-danger-95: var(--wa-color-indigo-95);\n    --wa-color-danger-90: var(--wa-color-indigo-90);\n    --wa-color-danger-80: var(--wa-color-indigo-80);\n    --wa-color-danger-70: var(--wa-color-indigo-70);\n    --wa-color-danger-60: var(--wa-color-indigo-60);\n    --wa-color-danger-50: var(--wa-color-indigo-50);\n    --wa-color-danger-40: var(--wa-color-indigo-40);\n    --wa-color-danger-30: var(--wa-color-indigo-30);\n    --wa-color-danger-20: var(--wa-color-indigo-20);\n    --wa-color-danger-10: var(--wa-color-indigo-10);\n    --wa-color-danger-05: var(--wa-color-indigo-05);\n    --wa-color-danger: var(--wa-color-indigo);\n    --wa-color-danger-on: var(--wa-color-indigo-on);\n  }\n\n  .wa-danger-purple {\n    --wa-color-danger-95: var(--wa-color-purple-95);\n    --wa-color-danger-90: var(--wa-color-purple-90);\n    --wa-color-danger-80: var(--wa-color-purple-80);\n    --wa-color-danger-70: var(--wa-color-purple-70);\n    --wa-color-danger-60: var(--wa-color-purple-60);\n    --wa-color-danger-50: var(--wa-color-purple-50);\n    --wa-color-danger-40: var(--wa-color-purple-40);\n    --wa-color-danger-30: var(--wa-color-purple-30);\n    --wa-color-danger-20: var(--wa-color-purple-20);\n    --wa-color-danger-10: var(--wa-color-purple-10);\n    --wa-color-danger-05: var(--wa-color-purple-05);\n    --wa-color-danger: var(--wa-color-purple);\n    --wa-color-danger-on: var(--wa-color-purple-on);\n  }\n\n  .wa-danger-pink {\n    --wa-color-danger-95: var(--wa-color-pink-95);\n    --wa-color-danger-90: var(--wa-color-pink-90);\n    --wa-color-danger-80: var(--wa-color-pink-80);\n    --wa-color-danger-70: var(--wa-color-pink-70);\n    --wa-color-danger-60: var(--wa-color-pink-60);\n    --wa-color-danger-50: var(--wa-color-pink-50);\n    --wa-color-danger-40: var(--wa-color-pink-40);\n    --wa-color-danger-30: var(--wa-color-pink-30);\n    --wa-color-danger-20: var(--wa-color-pink-20);\n    --wa-color-danger-10: var(--wa-color-pink-10);\n    --wa-color-danger-05: var(--wa-color-pink-05);\n    --wa-color-danger: var(--wa-color-pink);\n    --wa-color-danger-on: var(--wa-color-pink-on);\n  }\n\n  .wa-danger-gray {\n    --wa-color-danger-95: var(--wa-color-gray-95);\n    --wa-color-danger-90: var(--wa-color-gray-90);\n    --wa-color-danger-80: var(--wa-color-gray-80);\n    --wa-color-danger-70: var(--wa-color-gray-70);\n    --wa-color-danger-60: var(--wa-color-gray-60);\n    --wa-color-danger-50: var(--wa-color-gray-50);\n    --wa-color-danger-40: var(--wa-color-gray-40);\n    --wa-color-danger-30: var(--wa-color-gray-30);\n    --wa-color-danger-20: var(--wa-color-gray-20);\n    --wa-color-danger-10: var(--wa-color-gray-10);\n    --wa-color-danger-05: var(--wa-color-gray-05);\n    --wa-color-danger: var(--wa-color-gray);\n    --wa-color-danger-on: var(--wa-color-gray-on);\n  }\n}\n\n\n\n@layer wa-color-palette {\n  :where(:root),\n  .wa-palette-default {\n    --wa-color-red-95: #fff0ef ;\n    --wa-color-red-90: #ffdedc ;\n    --wa-color-red-80: #ffb8b6 ;\n    --wa-color-red-70: #fd8f90 ;\n    --wa-color-red-60: #f3676c ;\n    --wa-color-red-50: #dc3146 ;\n    --wa-color-red-40: #b30532 ;\n    --wa-color-red-30: #8a132c ;\n    --wa-color-red-20: #631323 ;\n    --wa-color-red-10: #3e0913 ;\n    --wa-color-red-05: #2a040b ;\n    --wa-color-red: var(--wa-color-red-50);\n    --wa-color-red-key: 50;\n\n    --wa-color-orange-95: #fff0e6 ;\n    --wa-color-orange-90: #ffdfca ;\n    --wa-color-orange-80: #ffbb94 ;\n    --wa-color-orange-70: #ff9266 ;\n    --wa-color-orange-60: #f46a45 ;\n    --wa-color-orange-50: #cd491c ;\n    --wa-color-orange-40: #9f3501 ;\n    --wa-color-orange-30: #802700 ;\n    --wa-color-orange-20: #601b00 ;\n    --wa-color-orange-10: #3c0d00 ;\n    --wa-color-orange-05: #280600 ;\n    --wa-color-orange: var(--wa-color-orange-60);\n    --wa-color-orange-key: 60;\n\n    --wa-color-yellow-95: #fef3cd ;\n    --wa-color-yellow-90: #ffe495 ;\n    --wa-color-yellow-80: #fac22b ;\n    --wa-color-yellow-70: #ef9d00 ;\n    --wa-color-yellow-60: #da7e00 ;\n    --wa-color-yellow-50: #b45f04 ;\n    --wa-color-yellow-40: #8c4602 ;\n    --wa-color-yellow-30: #6f3601 ;\n    --wa-color-yellow-20: #532600 ;\n    --wa-color-yellow-10: #331600 ;\n    --wa-color-yellow-05: #220c00 ;\n    --wa-color-yellow: var(--wa-color-yellow-80);\n    --wa-color-yellow-key: 80;\n\n    --wa-color-green-95: #e3f9e3 ;\n    --wa-color-green-90: #c2f2c1 ;\n    --wa-color-green-80: #93da98 ;\n    --wa-color-green-70: #5dc36f ;\n    --wa-color-green-60: #00ac49 ;\n    --wa-color-green-50: #00883c ;\n    --wa-color-green-40: #036730 ;\n    --wa-color-green-30: #0a5027 ;\n    --wa-color-green-20: #0a3a1d ;\n    --wa-color-green-10: #052310 ;\n    --wa-color-green-05: #031608 ;\n    --wa-color-green: var(--wa-color-green-60);\n    --wa-color-green-key: 60;\n\n    --wa-color-cyan-95: #e3f6fb ;\n    --wa-color-cyan-90: #c5ecf7 ;\n    --wa-color-cyan-80: #7fd6ec ;\n    --wa-color-cyan-70: #2fbedc ;\n    --wa-color-cyan-60: #00a3c0 ;\n    --wa-color-cyan-50: #078098 ;\n    --wa-color-cyan-40: #026274 ;\n    --wa-color-cyan-30: #014c5b ;\n    --wa-color-cyan-20: #003844 ;\n    --wa-color-cyan-10: #002129 ;\n    --wa-color-cyan-05: #00151b ;\n    --wa-color-cyan: var(--wa-color-cyan-70);\n    --wa-color-cyan-key: 70;\n\n    --wa-color-blue-95: #e8f3ff ;\n    --wa-color-blue-90: #d1e8ff ;\n    --wa-color-blue-80: #9fceff ;\n    --wa-color-blue-70: #6eb3ff ;\n    --wa-color-blue-60: #3e96ff ;\n    --wa-color-blue-50: #0071ec ;\n    --wa-color-blue-40: #0053c0 ;\n    --wa-color-blue-30: #003f9c ;\n    --wa-color-blue-20: #002d77 ;\n    --wa-color-blue-10: #001a4e ;\n    --wa-color-blue-05: #000f35 ;\n    --wa-color-blue: var(--wa-color-blue-50);\n    --wa-color-blue-key: 50;\n\n    --wa-color-indigo-95: #f0f2ff ;\n    --wa-color-indigo-90: #dfe5ff ;\n    --wa-color-indigo-80: #bcc7ff ;\n    --wa-color-indigo-70: #9da9ff ;\n    --wa-color-indigo-60: #808aff ;\n    --wa-color-indigo-50: #6163f2 ;\n    --wa-color-indigo-40: #4945cb ;\n    --wa-color-indigo-30: #3933a7 ;\n    --wa-color-indigo-20: #292381 ;\n    --wa-color-indigo-10: #181255 ;\n    --wa-color-indigo-05: #0d0a3a ;\n    --wa-color-indigo: var(--wa-color-indigo-50);\n    --wa-color-indigo-key: 50;\n\n    --wa-color-purple-95: #f7f0ff ;\n    --wa-color-purple-90: #eedfff ;\n    --wa-color-purple-80: #ddbdff ;\n    --wa-color-purple-70: #ca99ff ;\n    --wa-color-purple-60: #b678f5 ;\n    --wa-color-purple-50: #9951db ;\n    --wa-color-purple-40: #7936b3 ;\n    --wa-color-purple-30: #612692 ;\n    --wa-color-purple-20: #491870 ;\n    --wa-color-purple-10: #2d0b48 ;\n    --wa-color-purple-05: #1e0532 ;\n    --wa-color-purple: var(--wa-color-purple-50);\n    --wa-color-purple-key: 50;\n\n    --wa-color-pink-95: #feeff9 ;\n    --wa-color-pink-90: #feddf0 ;\n    --wa-color-pink-80: #fcb5d8 ;\n    --wa-color-pink-70: #f78dbf ;\n    --wa-color-pink-60: #e66ba3 ;\n    --wa-color-pink-50: #c84382 ;\n    --wa-color-pink-40: #9e2a6c ;\n    --wa-color-pink-30: #7d1e58 ;\n    --wa-color-pink-20: #5e1342 ;\n    --wa-color-pink-10: #3c0828 ;\n    --wa-color-pink-05: #28041a ;\n    --wa-color-pink: var(--wa-color-pink-50);\n    --wa-color-pink-key: 50;\n\n    --wa-color-gray-95: #f1f2f3 ;\n    --wa-color-gray-90: #e4e5e9 ;\n    --wa-color-gray-80: #c7c9d0 ;\n    --wa-color-gray-70: #abaeb9 ;\n    --wa-color-gray-60: #9194a2 ;\n    --wa-color-gray-50: #717584 ;\n    --wa-color-gray-40: #545868 ;\n    --wa-color-gray-30: #424554 ;\n    --wa-color-gray-20: #2f323f ;\n    --wa-color-gray-10: #1b1d26 ;\n    --wa-color-gray-05: #101219 ;\n    --wa-color-gray: var(--wa-color-gray-40);\n    --wa-color-gray-key: 40;\n  }\n}\n\n\n@layer wa-theme {\n  :where(:root),\n  .wa-theme-default,\n  .wa-light,\n  .wa-dark .wa-invert,\n  .wa-light .wa-theme-default,\n  .wa-dark .wa-theme-default.wa-invert,\n  .wa-dark .wa-theme-default .wa-invert {\n    \n    color-scheme: light;\n    color: var(--wa-color-text-normal);\n\n    --wa-color-surface-raised: white;\n    --wa-color-surface-default: white;\n    --wa-color-surface-lowered: var(--wa-color-neutral-95);\n    --wa-color-surface-border: var(--wa-color-neutral-90);\n\n    --wa-color-text-normal: var(--wa-color-neutral-10);\n    --wa-color-text-quiet: var(--wa-color-neutral-40);\n    --wa-color-text-link: var(--wa-color-brand-40);\n\n    --wa-color-overlay-modal: color-mix(in oklab, var(--wa-color-neutral-05) 50%, transparent);\n    --wa-color-overlay-inline: color-mix(in oklab, var(--wa-color-neutral-80) 25%, transparent);\n\n    --wa-color-shadow: color-mix(\n      in oklab,\n      var(--wa-color-neutral-05) calc(var(--wa-shadow-blur-scale) * 4% + 8%),\n      transparent\n    );\n\n    --wa-color-focus: var(--wa-color-brand-60);\n\n    --wa-color-mix-hover: black 10%;\n    --wa-color-mix-active: black 20%;\n\n    --wa-color-brand-fill-quiet: var(--wa-color-brand-95);\n    --wa-color-brand-fill-normal: var(--wa-color-brand-90);\n    --wa-color-brand-fill-loud: var(--wa-color-brand-50);\n    --wa-color-brand-border-quiet: var(--wa-color-brand-90);\n    --wa-color-brand-border-normal: var(--wa-color-brand-80);\n    --wa-color-brand-border-loud: var(--wa-color-brand-60);\n    --wa-color-brand-on-quiet: var(--wa-color-brand-40);\n    --wa-color-brand-on-normal: var(--wa-color-brand-30);\n    --wa-color-brand-on-loud: white;\n\n    --wa-color-success-fill-quiet: var(--wa-color-success-95);\n    --wa-color-success-fill-normal: var(--wa-color-success-90);\n    --wa-color-success-fill-loud: var(--wa-color-success-50);\n    --wa-color-success-border-quiet: var(--wa-color-success-90);\n    --wa-color-success-border-normal: var(--wa-color-success-80);\n    --wa-color-success-border-loud: var(--wa-color-success-60);\n    --wa-color-success-on-quiet: var(--wa-color-success-40);\n    --wa-color-success-on-normal: var(--wa-color-success-30);\n    --wa-color-success-on-loud: white;\n\n    --wa-color-warning-fill-quiet: var(--wa-color-warning-95);\n    --wa-color-warning-fill-normal: var(--wa-color-warning-90);\n    --wa-color-warning-fill-loud: var(--wa-color-warning-50);\n    --wa-color-warning-border-quiet: var(--wa-color-warning-90);\n    --wa-color-warning-border-normal: var(--wa-color-warning-80);\n    --wa-color-warning-border-loud: var(--wa-color-warning-60);\n    --wa-color-warning-on-quiet: var(--wa-color-warning-40);\n    --wa-color-warning-on-normal: var(--wa-color-warning-30);\n    --wa-color-warning-on-loud: white;\n\n    --wa-color-danger-fill-quiet: var(--wa-color-danger-95);\n    --wa-color-danger-fill-normal: var(--wa-color-danger-90);\n    --wa-color-danger-fill-loud: var(--wa-color-danger-50);\n    --wa-color-danger-border-quiet: var(--wa-color-danger-90);\n    --wa-color-danger-border-normal: var(--wa-color-danger-80);\n    --wa-color-danger-border-loud: var(--wa-color-danger-60);\n    --wa-color-danger-on-quiet: var(--wa-color-danger-40);\n    --wa-color-danger-on-normal: var(--wa-color-danger-30);\n    --wa-color-danger-on-loud: white;\n\n    --wa-color-neutral-fill-quiet: var(--wa-color-neutral-95);\n    --wa-color-neutral-fill-normal: var(--wa-color-neutral-90);\n    --wa-color-neutral-fill-loud: var(--wa-color-neutral-20);\n    --wa-color-neutral-border-quiet: var(--wa-color-neutral-90);\n    --wa-color-neutral-border-normal: var(--wa-color-neutral-80);\n    --wa-color-neutral-border-loud: var(--wa-color-neutral-60);\n    --wa-color-neutral-on-quiet: var(--wa-color-neutral-40);\n    --wa-color-neutral-on-normal: var(--wa-color-neutral-30);\n    --wa-color-neutral-on-loud: white;\n    \n  }\n\n  .wa-dark,\n  .wa-invert,\n  .wa-dark .wa-theme-default,\n  .wa-light .wa-theme-default.wa-invert,\n  .wa-light .wa-theme-default .wa-invert {\n    \n    color-scheme: dark;\n    color: var(--wa-color-text-normal);\n\n    --wa-color-surface-raised: var(--wa-color-neutral-10);\n    --wa-color-surface-default: var(--wa-color-neutral-05);\n    --wa-color-surface-lowered: color-mix(in oklab, var(--wa-color-surface-default), black 20%);\n    --wa-color-surface-border: var(--wa-color-neutral-20);\n\n    --wa-color-text-normal: var(--wa-color-neutral-95);\n    --wa-color-text-quiet: var(--wa-color-neutral-60);\n    --wa-color-text-link: var(--wa-color-brand-70);\n\n    --wa-color-overlay-modal: color-mix(in oklab, black 60%, transparent);\n    --wa-color-overlay-inline: color-mix(in oklab, var(--wa-color-neutral-50) 10%, transparent);\n\n    --wa-color-shadow: color-mix(\n      in oklab,\n      var(--wa-color-surface-lowered) calc(var(--wa-shadow-blur-scale) * 32% + 40%),\n      transparent\n    );\n\n    --wa-color-focus: var(--wa-color-brand-60);\n\n    --wa-color-mix-hover: black 8%;\n    --wa-color-mix-active: black 16%;\n\n    --wa-color-brand-fill-quiet: var(--wa-color-brand-10);\n    --wa-color-brand-fill-normal: var(--wa-color-brand-20);\n    --wa-color-brand-fill-loud: var(--wa-color-brand-50);\n    --wa-color-brand-border-quiet: var(--wa-color-brand-20);\n    --wa-color-brand-border-normal: var(--wa-color-brand-30);\n    --wa-color-brand-border-loud: var(--wa-color-brand-40);\n    --wa-color-brand-on-quiet: var(--wa-color-brand-60);\n    --wa-color-brand-on-normal: var(--wa-color-brand-70);\n    --wa-color-brand-on-loud: white;\n\n    --wa-color-success-fill-quiet: var(--wa-color-success-10);\n    --wa-color-success-fill-normal: var(--wa-color-success-20);\n    --wa-color-success-fill-loud: var(--wa-color-success-50);\n    --wa-color-success-border-quiet: var(--wa-color-success-20);\n    --wa-color-success-border-normal: var(--wa-color-success-30);\n    --wa-color-success-border-loud: var(--wa-color-success-40);\n    --wa-color-success-on-quiet: var(--wa-color-success-60);\n    --wa-color-success-on-normal: var(--wa-color-success-70);\n    --wa-color-success-on-loud: white;\n\n    --wa-color-warning-fill-quiet: var(--wa-color-warning-10);\n    --wa-color-warning-fill-normal: var(--wa-color-warning-20);\n    --wa-color-warning-fill-loud: var(--wa-color-warning-50);\n    --wa-color-warning-border-quiet: var(--wa-color-warning-20);\n    --wa-color-warning-border-normal: var(--wa-color-warning-30);\n    --wa-color-warning-border-loud: var(--wa-color-warning-40);\n    --wa-color-warning-on-quiet: var(--wa-color-warning-60);\n    --wa-color-warning-on-normal: var(--wa-color-warning-70);\n    --wa-color-warning-on-loud: white;\n\n    --wa-color-danger-fill-quiet: var(--wa-color-danger-10);\n    --wa-color-danger-fill-normal: var(--wa-color-danger-20);\n    --wa-color-danger-fill-loud: var(--wa-color-danger-50);\n    --wa-color-danger-border-quiet: var(--wa-color-danger-20);\n    --wa-color-danger-border-normal: var(--wa-color-danger-30);\n    --wa-color-danger-border-loud: var(--wa-color-danger-40);\n    --wa-color-danger-on-quiet: var(--wa-color-danger-60);\n    --wa-color-danger-on-normal: var(--wa-color-danger-70);\n    --wa-color-danger-on-loud: white;\n\n    --wa-color-neutral-fill-quiet: var(--wa-color-neutral-10);\n    --wa-color-neutral-fill-normal: var(--wa-color-neutral-20);\n    --wa-color-neutral-fill-loud: var(--wa-color-neutral-90);\n    --wa-color-neutral-border-quiet: var(--wa-color-neutral-20);\n    --wa-color-neutral-border-normal: var(--wa-color-neutral-30);\n    --wa-color-neutral-border-loud: var(--wa-color-neutral-40);\n    --wa-color-neutral-on-quiet: var(--wa-color-neutral-60);\n    --wa-color-neutral-on-normal: var(--wa-color-neutral-70);\n    --wa-color-neutral-on-loud: var(--wa-color-neutral-05);\n    \n  }\n\n  :where(:root),\n  .wa-theme-default,\n  .wa-light,\n  .wa-dark,\n  .wa-invert {\n    font-family: var(--wa-font-family-body);\n\n    \n    --wa-font-family-body: ui-sans-serif, system-ui, sans-serif;\n    --wa-font-family-heading: var(--wa-font-family-body);\n    --wa-font-family-code: ui-monospace, monospace;\n    --wa-font-family-longform: ui-serif, serif;\n\n    \n    --wa-font-size-scale: 1;\n    --wa-font-size-2xs: round(calc(var(--wa-font-size-xs) / 1.125), 1px); \n    --wa-font-size-xs: round(calc(var(--wa-font-size-s) / 1.125), 1px); \n    --wa-font-size-s: round(calc(var(--wa-font-size-m) / 1.125), 1px); \n    --wa-font-size-m: calc(1rem * var(--wa-font-size-scale)); \n    --wa-font-size-l: round(calc(var(--wa-font-size-m) * 1.125 * 1.125), 1px); \n    --wa-font-size-xl: round(calc(var(--wa-font-size-l) * 1.125 * 1.125), 1px); \n    --wa-font-size-2xl: round(calc(var(--wa-font-size-xl) * 1.125 * 1.125), 1px); \n    --wa-font-size-3xl: round(calc(var(--wa-font-size-2xl) * 1.125 * 1.125), 1px); \n    --wa-font-size-4xl: round(calc(var(--wa-font-size-3xl) * 1.125 * 1.125), 1px); \n\n    --wa-font-size-smaller: round(calc(1em / 1.125), 1px);\n    --wa-font-size-larger: round(calc(1em * 1.125 * 1.125), 1px);\n\n    --wa-font-weight-light: 300;\n    --wa-font-weight-normal: 400;\n    --wa-font-weight-semibold: 500;\n    --wa-font-weight-bold: 600;\n\n    --wa-font-weight-body: var(--wa-font-weight-normal);\n    --wa-font-weight-heading: var(--wa-font-weight-bold);\n    --wa-font-weight-code: var(--wa-font-weight-normal);\n    --wa-font-weight-longform: var(--wa-font-weight-normal);\n    --wa-font-weight-action: var(--wa-font-weight-semibold);\n\n    --wa-line-height-condensed: 1.2;\n    --wa-line-height-normal: 1.6;\n    --wa-line-height-expanded: 2;\n\n    --wa-link-decoration-default: underline color-mix(in oklab, currentColor 70%, transparent) dotted;\n    --wa-link-decoration-hover: underline;\n    \n\n    \n    --wa-space-scale: 1;\n    --wa-space-3xs: calc(var(--wa-space-scale) * 0.125rem); \n    --wa-space-2xs: calc(var(--wa-space-scale) * 0.25rem); \n    --wa-space-xs: calc(var(--wa-space-scale) * 0.5rem); \n    --wa-space-s: calc(var(--wa-space-scale) * 0.75rem); \n    --wa-space-m: calc(var(--wa-space-scale) * 1rem); \n    --wa-space-l: calc(var(--wa-space-scale) * 1.5rem); \n    --wa-space-xl: calc(var(--wa-space-scale) * 2rem); \n    --wa-space-2xl: calc(var(--wa-space-scale) * 2.5rem); \n    --wa-space-3xl: calc(var(--wa-space-scale) * 3rem); \n    --wa-space-4xl: calc(var(--wa-space-scale) * 4rem); \n\n    --wa-content-spacing: var(--wa-space-l);\n    \n\n    \n    --wa-border-style: solid;\n\n    --wa-border-width-scale: 1;\n    --wa-border-width-s: calc(var(--wa-border-width-scale) * 0.0625rem);\n    --wa-border-width-m: calc(var(--wa-border-width-scale) * 0.125rem);\n    --wa-border-width-l: calc(var(--wa-border-width-scale) * 0.1875rem);\n    \n\n    \n    --wa-border-radius-scale: 1;\n    --wa-border-radius-s: calc(var(--wa-border-radius-scale) * 0.1875rem);\n    --wa-border-radius-m: calc(var(--wa-border-radius-scale) * 0.375rem);\n    --wa-border-radius-l: calc(var(--wa-border-radius-scale) * 0.75rem);\n\n    --wa-border-radius-pill: 9999px;\n    --wa-border-radius-circle: 50%;\n    --wa-border-radius-square: 0px;\n    \n\n    \n    --wa-focus-ring-style: solid;\n    --wa-focus-ring-width: 0.1875rem; \n    --wa-focus-ring: var(--wa-focus-ring-style) var(--wa-focus-ring-width) var(--wa-color-focus);\n    --wa-focus-ring-offset: 0.0625rem; \n    \n\n    \n    --wa-shadow-offset-x-scale: 0;\n    --wa-shadow-offset-x-s: calc(var(--wa-shadow-offset-x-scale) * 0.125rem);\n    --wa-shadow-offset-x-m: calc(var(--wa-shadow-offset-x-scale) * 0.25rem);\n    --wa-shadow-offset-x-l: calc(var(--wa-shadow-offset-x-scale) * 0.5rem);\n\n    --wa-shadow-offset-y-scale: 1;\n    --wa-shadow-offset-y-s: calc(var(--wa-shadow-offset-y-scale) * 0.125rem);\n    --wa-shadow-offset-y-m: calc(var(--wa-shadow-offset-y-scale) * 0.25rem);\n    --wa-shadow-offset-y-l: calc(var(--wa-shadow-offset-y-scale) * 0.5rem);\n\n    --wa-shadow-blur-scale: 1;\n    --wa-shadow-blur-s: calc(var(--wa-shadow-blur-scale) * 0.125rem);\n    --wa-shadow-blur-m: calc(var(--wa-shadow-blur-scale) * 0.25rem);\n    --wa-shadow-blur-l: calc(var(--wa-shadow-blur-scale) * 0.5rem);\n\n    --wa-shadow-spread-scale: -0.5;\n    --wa-shadow-spread-s: calc(var(--wa-shadow-spread-scale) * 0.125rem);\n    --wa-shadow-spread-m: calc(var(--wa-shadow-spread-scale) * 0.25rem);\n    --wa-shadow-spread-l: calc(var(--wa-shadow-spread-scale) * 0.5rem);\n\n    --wa-shadow-s: var(--wa-shadow-offset-x-s) var(--wa-shadow-offset-y-s) var(--wa-shadow-blur-s)\n      var(--wa-shadow-spread-s) var(--wa-color-shadow);\n    --wa-shadow-m: var(--wa-shadow-offset-x-m) var(--wa-shadow-offset-y-m) var(--wa-shadow-blur-m)\n      var(--wa-shadow-spread-m) var(--wa-color-shadow);\n    --wa-shadow-l: var(--wa-shadow-offset-x-l) var(--wa-shadow-offset-y-l) var(--wa-shadow-blur-l)\n      var(--wa-shadow-spread-l) var(--wa-color-shadow);\n    \n\n    \n    --wa-transition-easing: ease;\n    --wa-transition-slow: 300ms;\n    --wa-transition-normal: 150ms;\n    --wa-transition-fast: 75ms;\n    \n\n    \n    \n    --wa-form-control-background-color: var(--wa-color-surface-default);\n\n    --wa-form-control-border-color: var(--wa-color-neutral-border-loud);\n    --wa-form-control-border-style: var(--wa-border-style);\n    --wa-form-control-border-width: var(--wa-border-width-s);\n    --wa-form-control-border-radius: var(--wa-border-radius-m);\n\n    --wa-form-control-activated-color: var(--wa-color-brand-fill-loud);\n\n    --wa-form-control-label-color: var(--wa-color-text-normal);\n    --wa-form-control-label-font-weight: var(--wa-font-weight-semibold);\n    --wa-form-control-label-line-height: var(--wa-line-height-condensed);\n\n    --wa-form-control-value-color: var(--wa-color-text-normal);\n    --wa-form-control-value-font-weight: var(--wa-font-weight-body);\n    --wa-form-control-value-line-height: var(--wa-line-height-condensed);\n\n    --wa-form-control-hint-color: var(--wa-color-text-quiet);\n    --wa-form-control-hint-font-weight: var(--wa-font-weight-body);\n    --wa-form-control-hint-line-height: var(--wa-line-height-normal);\n\n    --wa-form-control-placeholder-color: var(--wa-color-gray-50);\n\n    --wa-form-control-required-content: '*';\n    --wa-form-control-required-content-color: inherit;\n    --wa-form-control-required-content-offset: 0.1em;\n\n    --wa-form-control-padding-block: 0.75em;\n    --wa-form-control-padding-inline: 1em;\n    --wa-form-control-height: round(\n      calc(2 * var(--wa-form-control-padding-block) + 1em * var(--wa-form-control-value-line-height)),\n      1px\n    );\n    --wa-form-control-toggle-size: round(1.25em, 1px);\n\n    \n    --wa-panel-border-style: var(--wa-border-style);\n    --wa-panel-border-width: var(--wa-border-width-s);\n    --wa-panel-border-radius: var(--wa-border-radius-l);\n\n    \n    --wa-tooltip-arrow-size: 0.375rem;\n\n    --wa-tooltip-background-color: var(--wa-color-text-normal);\n\n    --wa-tooltip-border-color: var(--wa-tooltip-background-color);\n    --wa-tooltip-border-style: var(--wa-border-style);\n    --wa-tooltip-border-width: var(--wa-border-width-s);\n    --wa-tooltip-border-radius: var(--wa-border-radius-s);\n\n    --wa-tooltip-content-color: var(--wa-color-surface-default);\n    --wa-tooltip-font-size: var(--wa-font-size-s);\n    --wa-tooltip-line-height: var(--wa-line-height-normal);\n    \n  }\n}\n\n\n.my-custom-style.sc-ir-booking-listing {\n  background: #000;\n  color: white;\n}\n.ir-price.sc-ir-booking-listing {\n  font-family: inherit;\n  font-size: 1rem;\n  font-weight: 800;\n  color: var(--ir-price-color, #1a1a1a);\n  text-align: right;\n  white-space: nowrap;\n}\n.page-title.sc-ir-booking-listing {\n  font-family: var(--wa-font-family-heading);\n  font-weight: var(--wa-font-weight-heading);\n  line-height: var(--wa-line-height-condensed);\n  text-wrap: balance;\n  font-size: var(--wa-font-size-xl);\n}\n\n.sc-ir-booking-listing-h {\n  --wa-form-control-required-content-color: var(--wa-color-danger-border-loud, #f3676c);\n  padding: var(--wa-space-l);\n}\n\n.label-on-left.sc-ir-booking-listing {\n  display: grid;\n  gap: var(--wa-space-m);\n}\nwa-card.sc-ir-booking-listing::part(base) {\n  box-sizing: border-box;\n}\nwa-input[aria-invalid='true'].sc-ir-booking-listing::part(base), wa-select[aria-invalid='true'].sc-ir-booking-listing::part(combobox) {\n  border-color: var(--wa-color-danger-border-loud);\n  outline-color: var(--wa-color-danger-border-loud);\n  border-width: 2px;\n}\n\n\n@media (min-width: 768px) {\n  \n  .label-on-left.sc-ir-booking-listing {\n    align-items: center;\n    grid-template-columns: auto 1fr;\n  }\n  .label-on-left.sc-ir-booking-listing wa-switch.sc-ir-booking-listing::part(base), .label-on-left.sc-ir-booking-listing wa-select.sc-ir-booking-listing::part(form-control), .label-on-left.sc-ir-booking-listing wa-select.sc-ir-booking-listing, .label-on-left.sc-ir-booking-listing wa-switch.sc-ir-booking-listing, .label-on-left.sc-ir-booking-listing wa-input.sc-ir-booking-listing, .label-on-left.sc-ir-booking-listing wa-textarea.sc-ir-booking-listing {\n    grid-column: 1 / -1;\n    grid-row-end: span 2;\n    display: grid;\n    grid-template-columns: subgrid;\n    gap: 0 var(--wa-space-l);\n    align-items: center;\n  }\n  .label-on-left.sc-ir-booking-listing wa-switch.sc-ir-booking-listing::part(base) {\n    direction: rtl;\n  }\n  .label-on-left.sc-ir-booking-listing wa-switch.sc-ir-booking-listing::part(base) > *.sc-ir-booking-listing {\n    justify-self: flex-start;\n    justify-content: flex-start;\n    direction: ltr; \n  }\n  \n  .label-on-left.sc-ir-booking-listing .sc-ir-booking-listing::part(label) {\n    justify-content: flex-end;\n  }\n\n  \n  .label-on-left.sc-ir-booking-listing .sc-ir-booking-listing::part(hint) {\n    grid-column: 2;\n  }\n}";
+const IrBookingListingStyle1 = appCss;
 
 const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.language = '';
-        this.ticket = '';
-        this.rowCount = 10;
-        this.isLoading = false;
-        this.currentPage = 1;
-        this.totalPages = 1;
-        this.oldStartValue = 0;
-        this.editBookingItem = null;
-        this.showCost = false;
-        this.bookingListingService = new BookingListingService();
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.propertyService = new PropertyService();
-        this.token = new Token();
-        this.statusColors = {
-            '001': 'badge-warning',
-            '002': 'badge-success',
-            '003': 'badge-danger',
-            '004': 'badge-danger',
-        };
     }
+    get el() { return this; }
+    language = '';
+    ticket = '';
+    propertyid;
+    rowCount = 10;
+    p;
+    baseUrl;
+    userType;
+    isLoading = false;
+    editBookingItem = null;
+    showCost = false;
+    paymentEntries;
+    payment;
+    booking;
+    bookingListingService = new BookingListingService();
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
+    token = new Token();
+    listingModal;
+    listingModalTimeout;
+    allowedProperties;
+    havePrivilege;
+    paymentFolioRef;
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
         }
         updateUserSelection('end_row', this.rowCount);
         booking_listing.rowCount = this.rowCount;
+        setPaginationPageSize(this.rowCount);
         if (this.ticket !== '') {
             booking_listing.token = this.ticket;
             this.token.setToken(this.ticket);
             this.initializeApp();
         }
-        onBookingListingChange('userSelection', async (newValue) => {
-            const newTotal = newValue.total_count;
-            this.totalPages = Math.ceil(newTotal / this.rowCount);
+        onBookingListingChange('userSelection', newValue => {
+            updatePaginationFromSelection(newValue);
         });
-        onBookingListingChange('bookings', async (newValue) => {
+        onBookingListingChange('bookings', newValue => {
             this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
         });
     }
@@ -144,8 +167,13 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
         booking_listing.token = this.ticket;
         this.initializeApp();
     }
+    async fetchBookings() {
+        await this.bookingListingService.getExposedBookings({
+            ...booking_listing.userSelection,
+            is_to_export: false,
+        });
+    }
     async initializeApp() {
-        var _a;
         try {
             this.isLoading = true;
             this.havePrivilege = isPrivilegedUser(this.userType);
@@ -191,13 +219,13 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
                 methods: pay_method,
                 types: pay_type,
             };
-            this.allowedProperties = allowedPropertiesIndex !== null ? (_a = results[allowedPropertiesIndex]) === null || _a === void 0 ? void 0 : _a.map(p => p.id) : null;
+            this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
             updateUserSelection('property_id', propertyId);
             updateUserSelections({
                 property_ids: this.allowedProperties,
                 userTypeCode: this.userType,
             });
-            await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
+            await this.fetchBookings();
         }
         catch (error) {
             console.error('Error initializing app:', error);
@@ -239,13 +267,6 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
         }
         console.log('params=>', params);
     }
-    getPaginationBounds() {
-        const totalCount = booking_listing.userSelection.total_count;
-        const startItem = (this.currentPage - 1) * this.rowCount;
-        let endItem = this.currentPage * this.rowCount;
-        endItem = endItem > totalCount ? totalCount : endItem;
-        return { startItem, endItem, totalCount };
-    }
     openModal() {
         this.listingModalTimeout = setTimeout(() => {
             this.listingModal = this.el.querySelector('ir-listing-modal');
@@ -256,15 +277,33 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
     disconnectedCallback() {
         clearTimeout(this.listingModalTimeout);
     }
+    async handlePaginationChange(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        if (!event.detail) {
+            return;
+        }
+        setPaginationPage(event.detail.currentPage);
+        await this.fetchBookings();
+    }
+    async handlePaginationPageSizeChange(event) {
+        if (!event.detail || !event.detail.pageSize) {
+            return;
+        }
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        setPaginationPageSize(event.detail.pageSize);
+        await this.fetchBookings();
+    }
     async handleResetData(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
+        await this.fetchBookings();
     }
     async handleResetStoreData(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false }));
+        await this.fetchBookings();
     }
     handleBookingChanged(e) {
         e.stopImmediatePropagation();
@@ -278,90 +317,59 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
             }),
         ];
     }
-    renderItemRange() {
-        const { endItem, startItem, totalCount } = this.getPaginationBounds();
-        return `${locales.entries.Lcz_View} ${startItem + 1} - ${endItem} ${locales.entries.Lcz_Of} ${totalCount}`;
+    handleBookingPayment(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { booking_nbr, payment } = e.detail;
+        this.booking = this.findBooking(booking_nbr);
+        this.payment = payment;
+        this.paymentFolioRef.openFolio();
     }
-    async updateData() {
-        const { endItem, startItem } = this.getPaginationBounds();
-        // setParams({
-        //   s: startItem,
-        //   e: endItem,
-        // });
-        await this.bookingListingService.getExposedBookings(Object.assign(Object.assign({}, booking_listing.userSelection), { is_to_export: false, start_row: startItem, end_row: endItem }));
-    }
-    calculateTotalPersons(booking) {
-        const sumOfOccupancy = ({ adult_nbr, children_nbr, infant_nbr }) => {
-            return (adult_nbr !== null && adult_nbr !== void 0 ? adult_nbr : 0) + (children_nbr !== null && children_nbr !== void 0 ? children_nbr : 0) + (infant_nbr !== null && infant_nbr !== void 0 ? infant_nbr : 0);
+    handleSelectGuestEvent(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const booking = this.findBooking(e.detail);
+        if (!booking) {
+            return;
+        }
+        this.editBookingItem = {
+            booking,
+            cause: 'guest',
         };
-        return booking.rooms.reduce((prev, cur) => {
-            return sumOfOccupancy(cur.occupancy) + prev;
-        }, 0);
+    }
+    handleOpen(e) {
+        e.stopImmediatePropagation();
+        const booking = this.findBooking(e.detail);
+        if (!booking) {
+            return;
+        }
+        this.editBookingItem = {
+            booking,
+            cause: 'edit',
+        };
+    }
+    findBooking(bookingNumber) {
+        return booking_listing.bookings.find(b => b.booking_nbr === bookingNumber);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
         if (this.isLoading || this.ticket === '') {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "p-1 main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", null, h("div", { class: "card p-1 flex-fill m-0 mt-2" }, h("table", { class: "table table-striped table-bordered no-footer dataTable" }, h("thead", null, h("tr", null, this.havePrivilege && h("th", { class: "text-left" }, "Property"), h("th", { scope: "col", class: "text-center" }, (_a = locales.entries) === null || _a === void 0 ? void 0 :
-            _a.Lcz_Booking, "#"), h("th", { scope: "col" }, (_b = locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_BookedOn), h("th", { scope: "col" }, (_c = locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_GuestSource), h("th", { scope: "col", class: "text-left services-cell" }, (_d = locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Services), h("th", { scope: "col", class: "in-out" }, (_e = locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_Dates), h("th", { scope: "col" }, h("span", { class: "price-span" }, (_f = locales.entries) === null || _f === void 0 ? void 0 : _f.Lcz_Amount), h("ir-tooltip", { customSlot: true, message: `<span style="width:100%;display:block;">${(_g = locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_BookingBalance}</span><span>${(_h = locales.entries) === null || _h === void 0 ? void 0 : _h.Lcz_ClickToSettle}</span>` }, h("span", { slot: "tooltip-trigger", class: 'm-0 btn due-btn' }, (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_Balance))), this.showCost && (h("th", { scope: "col", class: "services-cell" }, (_k = locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Cost)), h("th", { scope: "col" }, (_l = locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Status), h("th", { scope: "col" }, h("p", { class: "sr-only" }, "actions")))), h("tbody", { class: "" }, booking_listing.bookings.length === 0 && (h("tr", null, h("td", { colSpan: this.havePrivilege ? 9 : 8 }, (_m = locales.entries) === null || _m === void 0 ? void 0 : _m.Lcz_NoDataAvailable))), (_o = booking_listing.bookings) === null || _o === void 0 ? void 0 :
-            _o.map(booking => {
-                var _a, _b, _c, _d, _e;
-                let confirmationBG = this.statusColors[booking.is_requested_to_cancel ? '003' : booking.status.code];
-                const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
-                const totalPersons = this.calculateTotalPersons(booking);
-                return (h("tr", { key: booking.booking_nbr }, this.havePrivilege && h("td", { class: "text-left" }, booking.property.name), h("td", { class: "text-left" }, h("ir-button", { btn_color: "link", btnStyle: { padding: '0', margin: '0' }, onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }), text: booking.booking_nbr }), booking.channel_booking_nbr && h("p", { class: "p-0 m-0 text-center secondary-p" }, booking.channel_booking_nbr)), h("td", null, h("p", { class: "p-0 m-0 date-p" }, hooks(booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("p", { class: "p-0 m-0 secondary-p" }, _formatTime(booking.booked_on.hour.toString(), booking.booked_on.minute.toString()))), h("td", null, h("div", { class: "h-100 d-flex align-items-center ", style: { width: 'max-content' } }, h("img", { class: "mr-2 logo", src: booking.origin.Icon, alt: booking.origin.Label }), h("div", { class: "text-left" }, h("div", { class: "d-flex align-items-center" }, h("div", { class: "booking_name m-0 p-0" }, h("ir-button", { btn_color: "link", onClickHandler: () => (this.editBookingItem = { booking, cause: 'guest' }), text: `${booking.guest.first_name} ${(_a = booking.guest.last_name) !== null && _a !== void 0 ? _a : ''}`, btnStyle: {
-                        width: 'fit-content',
-                        padding: '0',
-                        margin: '0',
-                    }, labelStyle: {
-                        padding: '0',
-                    } }), booking.guest.nbr_confirmed_bookings > 1 && !booking.agent && (h("div", { class: "m-0 p-0" }, h("ir-tooltip", { message: `${locales.entries.Lcz_BookingsNbr}`.replace('%1', booking.guest.nbr_confirmed_bookings.toString()), customSlot: true }, h("div", { class: "d-flex align-items-center my-0 p-0", slot: "tooltip-trigger" }, h("ir-icons", { style: { '--icon-size': '0.875rem' }, color: "#FB0AAD", name: "heart-fill" }))))), h("span", { class: 'p-0 m-0' }, totalPersons, locales.entries.Lcz_P), getPrivateNote(booking.extras) && h("span", { class: "yellow_dot" }))), h("div", { class: 'd-flex align-items-center booking-label-gap' }, h("p", { class: "p-0 m-0 secondary-p" }, booking.origin.Label), booking.is_in_loyalty_mode && !booking.promo_key && (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("title", null, locales.entries.Lcz_LoyaltyDiscountApplied), h("path", { fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" }))), booking.promo_key && (h("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor", height: 18, width: 18 }, h("title", null, locales.entries.Lcz_Coupon + ':' + booking.promo_key), h("path", { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" }))))))), h("td", null, h("ul", null, booking.rooms.map(room => {
-                    var _a, _b, _c, _d, _e, _f, _g;
-                    return (h("li", null, h("div", { class: 'room-service' }, h("p", { class: 'm-0 p-0' }, room.roomtype.name), room.unit &&
-                        !isSingleUnit(room.roomtype.id) &&
-                        (((_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.length) > 4 ? (h("ir-tooltip", { customSlot: true, message: (_c = room.unit) === null || _c === void 0 ? void 0 : _c.name }, h("p", { class: 'room-name-container cursor-pointer m-0', slot: "tooltip-trigger" }, (_e = (_d = room.unit) === null || _d === void 0 ? void 0 : _d.name) === null || _e === void 0 ? void 0 : _e.substring(0, 4)))) : (h("p", { class: 'room-name-container  m-0' }, (_g = (_f = room.unit) === null || _f === void 0 ? void 0 : _f.name) === null || _g === void 0 ? void 0 : _g.substring(0, 4)))))));
-                }), booking.extra_services && h("li", null, locales.entries.Lcz_ExtraServices))), h("td", null, h("p", { class: "p-0 m-0 date-p" }, hooks(booking.from_date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("p", { class: "p-0 m-0 date-p" }, hooks(booking.to_date, 'YYYY-MM-DD').format('DD-MMM-YYYY'))), h("td", null, h("p", { class: "p-0 m-0", style: { whiteSpace: 'nowrap' } }, formatAmount(booking.currency.symbol, (_c = (_b = booking.financial) === null || _b === void 0 ? void 0 : _b.gross_total) !== null && _c !== void 0 ? _c : 0)), h(Fragment, null, ['003', '004'].includes(booking.status.code) && booking.is_direct
-                    ? booking.financial.cancelation_penality_as_if_today !== 0 &&
-                        booking.financial.due_amount !== 0 && (h("button", { onClick: () => {
-                            this.editBookingItem = { booking, cause: 'payment' };
-                            this.openModal();
-                        }, style: { whiteSpace: 'nowrap' }, class: "btn p-0 m-0 due-btn" }, h("span", null, booking.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(booking.currency.symbol, Math.abs(booking.financial.cancelation_penality_as_if_today))))
-                    : booking.financial.due_amount !== 0 && (h("button", { onClick: () => {
-                            this.editBookingItem = { booking, cause: 'payment' };
-                            this.openModal();
-                        }, style: { whiteSpace: 'nowrap' }, class: "btn p-0 m-0 due-btn" }, formatAmount(booking.currency.symbol, booking.financial.due_amount))))), this.showCost && (h("td", null, booking.financial.gross_cost !== null && booking.financial.gross_cost === 0
-                    ? '_'
-                    : formatAmount(booking.currency.symbol, booking.financial.gross_cost))), h("td", null, h("p", { class: `m-0 badge ${confirmationBG} ct_ir_badge` }, booking.is_requested_to_cancel ? (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_CancellationRequested : booking.status.description), !lastManipulation && ((_e = booking.events) === null || _e === void 0 ? void 0 : _e.length) > 0 && booking.events[0].type.toLowerCase() === 'modified' && (h("p", { class: "mx-0 p-0 small", style: { marginTop: '0.25rem', marginBottom: '0' } }, "Modified")), lastManipulation && (h("ir-popover", { trigger: "hover", content: `Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}` }, h("p", { class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", null, "Modified"))))), h("td", null, h("div", { class: "d-flex justify-content-center align-items-center", style: { gap: '8px' } }, h("ir-button", { title: "Edit booking", variant: "icon", icon_name: "edit", onClickHandler: () => (this.editBookingItem = { booking, cause: 'edit' }) }), h("ir-button", { title: "Delete booking", style: { '--icon-button-color': '#ff4961', '--icon-button-hover-color': '#FF1635' }, variant: "icon", icon_name: "trash", onClickHandler: () => {
-                        this.editBookingItem = { booking, cause: 'delete' };
-                        this.openModal();
-                    } })))));
-            }))), this.totalPages > 1 && (h("section", { class: 'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container' }, h("p", { class: "m-0 mb-1 mb-md-0" }, this.renderItemRange()), h("div", { class: 'd-flex align-items-center buttons-container' }, h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
-                this.currentPage = 1;
-                await this.updateData();
-            }, icon_name: "angles_left", style: { '--icon-size': '0.875rem' } }), h("ir-button", { size: "sm", btn_disabled: this.currentPage === 1, onClickHandler: async () => {
-                this.currentPage = this.currentPage - 1;
-                await this.updateData();
-            }, icon_name: "angle_left", style: { '--icon-size': '0.875rem' } }), h("ir-select", { selectedValue: this.currentPage.toString(), showFirstOption: false, onSelectChange: async (e) => {
-                this.currentPage = +e.detail;
-                await this.updateData();
-            }, data: Array.from(Array(this.totalPages), (_, i) => i + 1).map(i => ({
-                text: i.toString(),
-                value: i.toString(),
-            })) }), h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
-                this.currentPage = this.currentPage + 1;
-                await this.updateData();
-            }, icon_name: "angle_right", style: { '--icon-size': '0.875rem' } }), h("ir-button", { size: "sm", btn_disabled: this.currentPage === this.totalPages, onClickHandler: async () => {
-                this.currentPage = this.totalPages;
-                console.log(this.currentPage);
-                await this.updateData();
-            }, icon_name: "angles_right", style: { '--icon-size': '0.875rem' } }))))))), this.editBookingItem && h("ir-listing-modal", { paymentEntries: this.paymentEntries, onModalClosed: () => (this.editBookingItem = null) }), h("ir-sidebar", { onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.editBookingItem !== null && ['edit', 'guest'].includes(this.editBookingItem.cause), showCloseButton: false, sidebarStyles: ((_p = this.editBookingItem) === null || _p === void 0 ? void 0 : _p.cause) === 'guest' ? { background: 'white' } : { width: this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)', background: '#F2F3F8' } }, ((_q = this.editBookingItem) === null || _q === void 0 ? void 0 : _q.cause) === 'edit' && (h("ir-booking-details", { slot: "sidebar-body", p: this.p, hasPrint: true, hasReceipt: true, is_from_front_desk: true, propertyid: (_t = (_s = (_r = this.editBookingItem) === null || _r === void 0 ? void 0 : _r.booking) === null || _s === void 0 ? void 0 : _s.property) === null || _t === void 0 ? void 0 : _t.id, hasRoomEdit: true, hasRoomDelete: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), bookingNumber: this.editBookingItem.booking.booking_nbr, ticket: this.ticket, language: this.language, hasRoomAdd: true })), ((_u = this.editBookingItem) === null || _u === void 0 ? void 0 : _u.cause) === 'guest' && (h("ir-guest-info", { slot: "sidebar-body", isInSideBar: true, headerShown: true, booking_nbr: (_w = (_v = this.editBookingItem) === null || _v === void 0 ? void 0 : _v.booking) === null || _w === void 0 ? void 0 : _w.booking_nbr, email: (_y = (_x = this.editBookingItem) === null || _x === void 0 ? void 0 : _x.booking) === null || _y === void 0 ? void 0 : _y.guest.email, language: this.language, onCloseSideBar: () => (this.editBookingItem = null) })))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-drawer", { style: { '--ir-drawer-width': '80rem', '--ir-drawer-background-color': '#F2F3F8', '--ir-drawer-padding-left': '0', '--ir-drawer-padding-right': '0' }, onDrawerHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.editBookingItem = null;
+            }, withoutHeader: true, open: this.editBookingItem?.cause === 'edit' }, this.editBookingItem?.booking && (h("ir-booking-details", { hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+                this.editBookingItem = null;
+            }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+                this.booking = null;
+                this.payment = null;
+            } })));
     }
-    get el() { return this; }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }
-    static get style() { return IrBookingListingStyle0; }
+    static get style() { return IrBookingListingStyle0 + IrBookingListingStyle1; }
 }, [2, "ir-booking-listing", {
         "language": [1],
         "ticket": [1],
@@ -371,20 +379,19 @@ const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing
         "baseUrl": [1, "base-url"],
         "userType": [2, "user-type"],
         "isLoading": [32],
-        "currentPage": [32],
-        "totalPages": [32],
-        "oldStartValue": [32],
         "editBookingItem": [32],
         "showCost": [32],
-        "paymentEntries": [32]
-    }, [[0, "resetData", "handleResetData"], [0, "resetBookingData", "handleResetStoreData"], [0, "bookingChanged", "handleBookingChanged"]], {
+        "paymentEntries": [32],
+        "payment": [32],
+        "booking": [32]
+    }, [[0, "requestPageChange", "handlePaginationChange"], [0, "requestPageSizeChange", "handlePaginationPageSizeChange"], [0, "resetData", "handleResetData"], [0, "resetBookingData", "handleResetStoreData"], [0, "bookingChanged", "handleBookingChanged"], [0, "payBookingBalance", "handleBookingPayment"], [0, "guestSelected", "handleSelectGuestEvent"], [0, "openBookingDetails", "handleOpen"]], {
         "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-listing", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-applicable-policies", "ir-autocomplete", "ir-booking-details", "ir-booking-extra-note", "ir-booking-guarantee", "ir-booking-header", "ir-button", "ir-combobox", "ir-country-picker", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-dialog", "ir-dropdown", "ir-dropdown-item", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-services", "ir-guest-info", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-listing-header", "ir-listing-modal", "ir-loading-screen", "ir-modal", "ir-otp", "ir-otp-modal", "ir-payment-details", "ir-payment-folio", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-phone-input", "ir-pickup", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-price-input", "ir-range-picker", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-select", "ir-sidebar", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-tooltip", "ota-label"];
+    const components = ["ir-booking-listing", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-actions-cell", "ir-applicable-policies", "ir-autocomplete", "ir-balance-cell", "ir-booked-by-source-cell", "ir-booked-on-cell", "ir-booking-company-form", "ir-booking-details", "ir-booking-extra-note", "ir-booking-guarantee", "ir-booking-header", "ir-booking-listing-table", "ir-booking-number-cell", "ir-booking-status-tag", "ir-button", "ir-combobox", "ir-country-picker", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-dates-cell", "ir-dialog", "ir-drawer", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-services", "ir-guest-info", "ir-guest-info-drawer", "ir-guest-info-form", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-label", "ir-listing-header", "ir-loading-screen", "ir-mobile-input", "ir-modal", "ir-otp", "ir-otp-modal", "ir-pagination", "ir-payment-details", "ir-payment-folio", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-phone-input", "ir-picker", "ir-picker-item", "ir-pickup", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-price-input", "ir-range-picker", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-select", "ir-sidebar", "ir-spinner", "ir-status-activity-cell", "ir-textarea", "ir-title", "ir-toast", "ir-tooltip", "ir-unit-cell", "ir-unit-tag", "ir-validator", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-listing":
             if (!customElements.get(tagName)) {
@@ -393,325 +400,425 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$12();
+                defineCustomElement$1m();
             }
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$11();
+                defineCustomElement$1l();
             }
             break;
         case "igl-book-property":
             if (!customElements.get(tagName)) {
-                defineCustomElement$10();
+                defineCustomElement$1k();
             }
             break;
         case "igl-book-property-container":
             if (!customElements.get(tagName)) {
-                defineCustomElement$$();
+                defineCustomElement$1j();
             }
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$_();
+                defineCustomElement$1i();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Z();
+                defineCustomElement$1h();
             }
             break;
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Y();
+                defineCustomElement$1g();
             }
             break;
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$X();
+                defineCustomElement$1f();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$W();
+                defineCustomElement$1e();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$V();
+                defineCustomElement$1d();
             }
             break;
         case "igl-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$U();
+                defineCustomElement$1c();
             }
             break;
         case "igl-room-type":
             if (!customElements.get(tagName)) {
-                defineCustomElement$T();
+                defineCustomElement$1b();
+            }
+            break;
+        case "ir-actions-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$1a();
             }
             break;
         case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
-                defineCustomElement$S();
+                defineCustomElement$19();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$R();
+                defineCustomElement$18();
+            }
+            break;
+        case "ir-balance-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$17();
+            }
+            break;
+        case "ir-booked-by-source-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$16();
+            }
+            break;
+        case "ir-booked-on-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$15();
+            }
+            break;
+        case "ir-booking-company-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$14();
             }
             break;
         case "ir-booking-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Q();
+                defineCustomElement$13();
             }
             break;
         case "ir-booking-extra-note":
             if (!customElements.get(tagName)) {
-                defineCustomElement$P();
+                defineCustomElement$12();
             }
             break;
         case "ir-booking-guarantee":
             if (!customElements.get(tagName)) {
-                defineCustomElement$O();
+                defineCustomElement$11();
             }
             break;
         case "ir-booking-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$N();
+                defineCustomElement$10();
+            }
+            break;
+        case "ir-booking-listing-table":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$$();
+            }
+            break;
+        case "ir-booking-number-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$_();
+            }
+            break;
+        case "ir-booking-status-tag":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$Z();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$M();
+                defineCustomElement$Y();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$L();
+                defineCustomElement$X();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$K();
+                defineCustomElement$W();
+            }
+            break;
+        case "ir-custom-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$V();
+            }
+            break;
+        case "ir-custom-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$U();
+            }
+            break;
+        case "ir-custom-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$T();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$J();
+                defineCustomElement$S();
             }
             break;
         case "ir-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$R();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$Q();
+            }
+            break;
+        case "ir-dates-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$P();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$O();
             }
             break;
-        case "ir-dropdown":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
-            }
-            break;
-        case "ir-dropdown-item":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$N();
             }
             break;
         case "ir-events-log":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$M();
             }
             break;
         case "ir-extra-service":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$L();
             }
             break;
         case "ir-extra-service-config":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$K();
             }
             break;
         case "ir-extra-services":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$J();
             }
             break;
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$I();
+            }
+            break;
+        case "ir-guest-info-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$H();
+            }
+            break;
+        case "ir-guest-info-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$G();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$F();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$E();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$D();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$C();
             }
             break;
         case "ir-label":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$B();
             }
             break;
         case "ir-listing-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
-            }
-            break;
-        case "ir-listing-modal":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$A();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$z();
+            }
+            break;
+        case "ir-mobile-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$y();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$x();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$w();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$v();
+            }
+            break;
+        case "ir-pagination":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$u();
             }
             break;
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$t();
             }
             break;
         case "ir-payment-folio":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$s();
             }
             break;
         case "ir-payment-item":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$r();
             }
             break;
         case "ir-payment-summary":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$q();
             }
             break;
         case "ir-payments-folio":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$p();
             }
             break;
         case "ir-phone-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$o();
+            }
+            break;
+        case "ir-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$n();
+            }
+            break;
+        case "ir-picker-item":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$m();
             }
             break;
         case "ir-pickup":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$l();
             }
             break;
         case "ir-pickup-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$k();
             }
             break;
         case "ir-pms-logs":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$j();
             }
             break;
         case "ir-popover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$i();
             }
             break;
         case "ir-price-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$h();
             }
             break;
         case "ir-range-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$g();
             }
             break;
         case "ir-reservation-information":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$f();
             }
             break;
         case "ir-room":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$e();
             }
             break;
         case "ir-room-guests":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$d();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$c();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$b();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-status-activity-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
             }
             break;
         case "ir-textarea":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$8();
             }
             break;
         case "ir-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$7();
             }
             break;
         case "ir-toast":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$6();
             }
             break;
         case "ir-tooltip":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-unit-cell":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-unit-tag":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

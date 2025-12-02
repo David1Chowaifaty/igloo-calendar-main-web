@@ -4,17 +4,27 @@ import { convertDatePrice, formatDate, getDaysArray } from "../../../utils/utils
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 export class IrRoomNights {
-    constructor() {
-        this.rates = [];
-        this.isLoading = false;
-        this.initialLoading = false;
-        this.inventory = null;
-        this.isEndDateBeforeFromDate = false;
-        this.defaultTotalNights = 0;
-        this.isInputFocused = -1;
-        this.dates = { from_date: new Date(), to_date: new Date() };
-        this.bookingService = new BookingService();
-    }
+    bookingNumber;
+    propertyId;
+    language;
+    identifier;
+    toDate;
+    fromDate;
+    pool;
+    ticket;
+    defaultDates;
+    bookingEvent;
+    selectedRoom;
+    rates = [];
+    isLoading = false;
+    initialLoading = false;
+    inventory = null;
+    isEndDateBeforeFromDate = false;
+    defaultTotalNights = 0;
+    isInputFocused = -1;
+    dates = { from_date: new Date(), to_date: new Date() };
+    closeRoomNightsDialog;
+    bookingService = new BookingService();
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
@@ -23,7 +33,6 @@ export class IrRoomNights {
         return this.isLoading || this.rates.some(rate => rate.amount === -1) || this.inventory === 0 || this.inventory === null;
     }
     async init() {
-        var _a;
         try {
             const { from_date } = this.defaultDates;
             if (moment(from_date, 'YYYY-MM-DD').isBefore(moment(this.fromDate, 'YYYY-MM-DD'))) {
@@ -37,7 +46,7 @@ export class IrRoomNights {
             if (this.bookingEvent) {
                 const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
                 this.selectedRoom = filteredRooms[0];
-                const lastDay = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.days[this.selectedRoom.days.length - 1];
+                const lastDay = this.selectedRoom?.days[this.selectedRoom.days.length - 1];
                 //let first_rate = this.selectedRoom.days[0].amount;
                 if (moment(this.toDate).add(-1, 'days').isSame(moment(lastDay.date))) {
                     console.log('here1');
@@ -90,7 +99,6 @@ export class IrRoomNights {
         this.rates = days;
     }
     async fetchBookingAvailability(from_date, to_date, rate_plan_id) {
-        var _a;
         try {
             this.initialLoading = true;
             const bookingAvailability = await this.bookingService.getBookingAvailability({
@@ -113,7 +121,7 @@ export class IrRoomNights {
                 this.inventory = null;
                 return null;
             }
-            const selected_variation = (_a = rate_plan.variations) === null || _a === void 0 ? void 0 : _a.find(variation => variation.adult_nbr === this.selectedRoom.rateplan.selected_variation.adult_nbr && variation.child_nbr === this.selectedRoom.rateplan.selected_variation.child_nbr);
+            const selected_variation = rate_plan.variations?.find(variation => variation.adult_nbr === this.selectedRoom.rateplan.selected_variation.adult_nbr && variation.child_nbr === this.selectedRoom.rateplan.selected_variation.child_nbr);
             if (!selected_variation) {
                 return null;
             }
@@ -146,10 +154,9 @@ export class IrRoomNights {
         }
     }
     renderDates() {
-        var _a;
         const currency_symbol = this.bookingEvent.currency.symbol;
         // const currency_symbol = getCurrencySymbol(this.bookingEvent.currency.code);
-        return (h("div", { class: 'mt-2 m-0' }, (_a = this.rates) === null || _a === void 0 ? void 0 : _a.map((day, index) => (h("div", { class: 'row m-0 mt-1 align-items-center' }, h("p", { class: 'col-2 m-0 p-0' }, convertDatePrice(day.date)), this.renderRateFields(index, currency_symbol, day))))));
+        return (h("div", { class: 'mt-2 m-0' }, this.rates?.map((day, index) => (h("div", { class: 'row m-0 mt-1 align-items-center' }, h("p", { class: 'col-2 m-0 p-0' }, convertDatePrice(day.date)), this.renderRateFields(index, currency_symbol, day))))));
     }
     async handleRoomConfirmation() {
         try {
@@ -159,7 +166,12 @@ export class IrRoomNights {
             if (selectedRoomIndex === -1) {
                 throw new Error('Invalid Pool');
             }
-            oldRooms[selectedRoomIndex] = Object.assign(Object.assign({}, oldRooms[selectedRoomIndex]), { days: this.rates, to_date: moment(this.dates.to_date).format('YYYY-MM-DD'), from_date: moment(this.dates.from_date).format('YYYY-MM-DD') });
+            oldRooms[selectedRoomIndex] = {
+                ...oldRooms[selectedRoomIndex],
+                days: this.rates,
+                to_date: moment(this.dates.to_date).format('YYYY-MM-DD'),
+                from_date: moment(this.dates.from_date).format('YYYY-MM-DD'),
+            };
             const body = {
                 assign_units: true,
                 check_in: true,
@@ -190,11 +202,10 @@ export class IrRoomNights {
         }
     }
     render() {
-        var _a, _b, _c;
         if (!this.bookingEvent) {
             return (h("div", { class: "loading-container" }, h("ir-loading-screen", null)));
         }
-        return (h("div", { class: "sheet-container" }, h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales.entries.Lcz_AddingRoomNightsTo} ${(_b = (_a = this.selectedRoom) === null || _a === void 0 ? void 0 : _a.roomtype) === null || _b === void 0 ? void 0 : _b.name} ${((_c = this.selectedRoom) === null || _c === void 0 ? void 0 : _c.unit).name}`, displayContext: "sidebar" }), h("section", { class: 'text-left px-1 pt-0 sheet-body' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(moment(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${formatDate(moment(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), h("section", { class: 'sheet-footer' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales === null || locales === void 0 ? void 0 : locales.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (h("div", { class: "sheet-container" }, h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), h("section", { class: 'text-left px-1 pt-0 sheet-body' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(moment(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${formatDate(moment(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), this.renderDates()))), h("section", { class: 'sheet-footer' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
     static get is() { return "ir-room-nights"; }
     static get encapsulation() { return "scoped"; }

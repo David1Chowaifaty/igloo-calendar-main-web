@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking } from "../../../models/booking.dto";
 export declare class IrBookingExtraNote {
+    open: boolean;
     booking: Booking;
     isLoading: boolean;
     note: string;
@@ -10,5 +11,7 @@ export declare class IrBookingExtraNote {
     componentWillLoad(): void;
     private setNote;
     private savePrivateNote;
+    openDialog(): Promise<void>;
+    closeDialog(): Promise<void>;
     render(): any;
 }

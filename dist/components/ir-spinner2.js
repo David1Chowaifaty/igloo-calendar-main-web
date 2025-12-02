@@ -8,12 +8,28 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         super();
         this.__registerHost();
         this.__attachShadow();
-        /**
-         * CSS unit used for `size` and `borderWidth`.
-         * Can be `'px'` or `'rem'`.
-         */
-        this.unit = 'rem';
     }
+    get el() { return this; }
+    /**
+     * Size of the spinner (diameter).
+     * Example: `size={2}` with `unit="rem"` sets spinner to `2rem`.
+     */
+    size;
+    /**
+     * Thickness of the spinner's border.
+     * Example: `borderWidth={4}` renders a `4px` or `4rem` thick border.
+     */
+    borderWidth;
+    /**
+     * CSS unit used for `size` and `borderWidth`.
+     * Can be `'px'` or `'rem'`.
+     */
+    unit = 'rem';
+    /**
+     * Color of the spinner.
+     * Accepts any valid CSS color string.
+     */
+    color;
     componentWillLoad() {
         this.initStyles();
     }
@@ -53,9 +69,8 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: '6594f582d1687389165a6914ca20202d166f5ae5' });
+        return h(Host, { key: 'b8b7c1931149894a59f48fb9d752d53d8ce9e95e' });
     }
-    get el() { return this; }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],
         "borderWidth": ["handleSpinnerBorderWidthChange"],

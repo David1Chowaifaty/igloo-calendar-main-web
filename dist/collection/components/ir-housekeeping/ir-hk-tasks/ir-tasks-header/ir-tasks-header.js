@@ -2,25 +2,27 @@ import { updateSearchField, hkTasksStore } from "../../../../stores/hk-tasks.sto
 import locales from "../../../../stores/locales.store";
 import { h, Host } from "@stencil/core";
 export class IrTasksHeader {
+    btnRef;
+    headerButtonPress;
     handleCleanedButtonAnimation(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.btnRef.bounce();
     }
     render() {
-        return (h(Host, { key: '5c6fd000a60b3208422c636cd1e000b8a76d759e' }, h("div", { key: 'e4fdf47091b2ac60ba76920b3cc8e5b6bda448ec', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '6c2af68f8d90ff256a96a553c93effa3088b489a', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '76d0655bee8e2234cde143d93f8e733d2b5117aa', name: "search", slot: "icon" }))), h("div", { key: '150be6f6d5be09fa9c778ec2346d3d0307008915', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '677420067b69086542149616218d43ca638dee9d', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
+        return (h(Host, { key: 'b994e5ccb4c6b33c15f91d895da291152a91df40' }, h("div", { key: '213a798d31773bd4e8aedae0e69693fbc1fdfd68', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input-text", { key: '915f120dee1772fcfcc47be1eec101bd9cfb9a29', class: "search-filter-input", placeholder: "Search unit", variant: "icon", value: hkTasksStore.searchField, onTextChange: e => updateSearchField(e.detail) }, h("ir-icons", { key: '9cdc11c6785a10548025918d2899ad4a639db171', name: "search", slot: "icon" }))), h("div", { key: 'a0e89aad10857ce21daf309739e95a179046f472', class: "action-buttons", style: { gap: '1rem' } }, h("ir-button", { key: '4c05934d89b5c41f7f57462f4475e5b46b20629d', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Export, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'cbffcdde83de2f725684c8670ebcffb2ec813447', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } }), h("ir-button", { key: 'f2c0eb2470d6f9904d5f72cad1cc3cfb3d6c3d0c', size: "sm", btn_color: "outline", text: locales.entries.Lcz_Archives, btnStyle: { height: '100%' }, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }), h("ir-button", { key: '7596bdd7e9ffe1a2016d5f57a959914604f501a8', class: "clean-button", onClickHandler: e => {
+            } }), h("ir-button", { key: '67768bb4cae8ded43cd31221a9f6481ea301e3b2', class: "clean-button", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
-            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }), h("ir-button", { key: '20878622583e826bdebdba0dde6cc95cd85af168', class: "clean-button", onClickHandler: e => {
+            }, btnStyle: { height: '100%' }, size: "sm", btn_disabled: !(hkTasksStore.selectedTasks.length > 0), text: 'Cleaned', ref: el => (this.btnRef = el) }), h("ir-button", { key: 'a1bafc9ca09802c82d016e88fcfd294c96969f9a', class: "clean-button", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'clean-inspect' });
@@ -51,7 +53,7 @@ export class IrTasksHeader {
                 },
                 "complexType": {
                     "original": "{ name: 'cleaned' | 'export' | 'archive' | 'clean-inspect' }",
-                    "resolved": "{ name: \"cleaned\" | \"export\" | \"archive\" | \"clean-inspect\"; }",
+                    "resolved": "{ name: \"export\" | \"cleaned\" | \"clean-inspect\" | \"archive\"; }",
                     "references": {}
                 }
             }];

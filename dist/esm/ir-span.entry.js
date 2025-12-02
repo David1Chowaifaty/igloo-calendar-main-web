@@ -1,13 +1,14 @@
-import { r as registerInstance, h } from './index-60982d00.js';
+import { r as registerInstance, h } from './index-b3dce66a.js';
 
 const IrSpan = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
+    text;
     connectedCallback() { }
     disconnectedCallback() { }
     render() {
-        return (h("span", { key: 'f8b1af7c3028ed13523c1e8975b908149f5936de' }, this.text));
+        return (h("span", { key: '82d444c865a845d665b08b1abf58043eeb4604b9' }, this.text));
     }
 };
 

@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-60982d00.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-b3dce66a.js';
 
 const irWeekdaySelectorCss = ".sc-ir-weekday-selector-h{display:block}.days-checkbox.sc-ir-weekday-selector{gap:0.5rem}";
 const IrWeekdaySelectorStyle0 = irWeekdaySelectorCss;
@@ -7,24 +7,33 @@ const IrWeekdaySelector = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.weekdayChange = createEvent(this, "weekdayChange", 7);
-        /**
-         * Initial list of selected weekdays (numeric values).
-         */
-        this.weekdays = [];
-        /**
-         * Internal state tracking currently selected weekdays.
-         */
-        this.selectedWeekdays = new Set(this.weekdays);
-        this._weekdays = [
-            { value: 1, label: 'M' },
-            { value: 2, label: 'T' },
-            { value: 3, label: 'W' },
-            { value: 4, label: 'Th' },
-            { value: 5, label: 'Fr' },
-            { value: 6, label: 'Sa' },
-            { value: 0, label: 'Su' },
-        ];
     }
+    /**
+     * Initial list of selected weekdays (numeric values).
+     */
+    weekdays = [];
+    /**
+     * Internal state tracking currently selected weekdays.
+     */
+    selectedWeekdays = new Set(this.weekdays);
+    /**
+     * Emits an updated list of selected weekday values when the selection changes.
+     *
+     * Example:
+     * ```tsx
+     * <ir-weekday-selector onWeekdayChange={(e) => console.log(e.detail)} />
+     * ```
+     */
+    weekdayChange;
+    _weekdays = [
+        { value: 1, label: 'M' },
+        { value: 2, label: 'T' },
+        { value: 3, label: 'W' },
+        { value: 4, label: 'Th' },
+        { value: 5, label: 'Fr' },
+        { value: 6, label: 'Sa' },
+        { value: 0, label: 'Su' },
+    ];
     handleWeekdayChange(newDays, oldDays) {
         if (newDays.length !== oldDays.length && newDays.length !== this.selectedWeekdays.size) {
             this.selectedWeekdays = new Set(newDays);
@@ -52,7 +61,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '4ffa997b8aaf412bf25615f4b9704f569a553c28', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
+        return (h(Host, { key: '6fbb2ba89a9033d947c63171f6f03309e319c99c', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

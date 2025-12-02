@@ -47,14 +47,13 @@ class RoomService {
         return data;
     }
     async getExposedProperty(params) {
-        var _a, _b;
         try {
             const { data } = await axios.post(`/Get_Exposed_Property`, params);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
             const results = data.My_Result;
-            calendar_data.property = Object.assign(Object.assign({}, results), { calendar_extra: results.calendar_extra ? JSON.parse(results.calendar_extra) : null });
+            calendar_data.property = { ...results, calendar_extra: results.calendar_extra ? JSON.parse(results.calendar_extra) : null };
             calendar_data.adultChildConstraints = results.adult_child_constraints;
             calendar_data.cleaning_frequency = results.cleaning_frequency;
             calendar_data.allowedBookingSources = results.allowed_booking_sources;
@@ -72,7 +71,7 @@ class RoomService {
             calendar_data.tax_statement = results.tax_statement;
             calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
             calendar_data.is_pms_enabled = results.is_pms_enabled;
-            const spitTime = (_b = (_a = results === null || results === void 0 ? void 0 : results.time_constraints) === null || _a === void 0 ? void 0 : _a.check_out_till) === null || _b === void 0 ? void 0 : _b.split(':');
+            const spitTime = results?.time_constraints?.check_out_till?.split(':');
             calendar_data.checkin_checkout_hours = {
                 offset: results.city.gmt_offset,
                 hour: Number(spitTime[0] || 0),
@@ -88,35 +87,31 @@ class RoomService {
         }
     }
     generateColorForegrounds() {
-        var _a;
         const data = {};
-        if (!((_a = calendar_data.property) === null || _a === void 0 ? void 0 : _a.calendar_legends)) {
+        if (!calendar_data.property?.calendar_legends) {
             return;
         }
         calendar_data.property.calendar_legends.forEach(legend => {
-            var _a, _b;
             if (legend.design === 'skew') {
                 data[legend.color] = {
                     foreground: 'white',
-                    stripe: (_a = FRONT_DESK_STRIPE_COLORS[legend.color]) !== null && _a !== void 0 ? _a : '',
-                    checkout: (_b = FRONT_DESK_CHECKOUT_COLORS[legend.color]) !== null && _b !== void 0 ? _b : '',
+                    stripe: FRONT_DESK_STRIPE_COLORS[legend.color] ?? '',
+                    checkout: FRONT_DESK_CHECKOUT_COLORS[legend.color] ?? '',
                 };
             }
         });
         DEFAULT_BOOKING_COLORS.forEach(d => {
-            var _a, _b;
             data[d.color] = {
                 foreground: ['#C28D6B', '#9B84D6'].includes(d.color) ? 'white' : 'black',
-                stripe: (_a = FRONT_DESK_STRIPE_COLORS[d.color]) !== null && _a !== void 0 ? _a : '',
-                checkout: (_b = FRONT_DESK_CHECKOUT_COLORS[d.color]) !== null && _b !== void 0 ? _b : '',
+                stripe: FRONT_DESK_STRIPE_COLORS[d.color] ?? '',
+                checkout: FRONT_DESK_CHECKOUT_COLORS[d.color] ?? '',
             };
         });
-        calendar_data.colorsForegrounds = Object.assign({}, data);
+        calendar_data.colorsForegrounds = { ...data };
     }
     initializeBookingColors() {
-        var _a;
-        const calendarExtra = (_a = calendar_data.property.calendar_extra) !== null && _a !== void 0 ? _a : { booking_colors: [] };
-        const rawColors = Array.isArray(calendarExtra === null || calendarExtra === void 0 ? void 0 : calendarExtra.booking_colors) && calendarExtra.booking_colors.length ? calendarExtra.booking_colors : DEFAULT_BOOKING_COLORS;
+        const calendarExtra = calendar_data.property.calendar_extra ?? { booking_colors: [] };
+        const rawColors = Array.isArray(calendarExtra?.booking_colors) && calendarExtra.booking_colors.length ? calendarExtra.booking_colors : DEFAULT_BOOKING_COLORS;
         const normalized = rawColors.map(color => this.normalizeBookingColor(color));
         this.syncCalendarExtra(normalized);
     }
@@ -128,9 +123,11 @@ class RoomService {
         };
     }
     syncCalendarExtra(colors) {
-        var _a;
-        const calendarExtra = (_a = calendar_data.property.calendar_extra) !== null && _a !== void 0 ? _a : {};
-        calendar_data.property.calendar_extra = Object.assign(Object.assign({}, calendarExtra), { booking_colors: colors.map(color => (Object.assign({}, color))) });
+        const calendarExtra = calendar_data.property.calendar_extra ?? {};
+        calendar_data.property.calendar_extra = {
+            ...calendarExtra,
+            booking_colors: colors.map(color => ({ ...color })),
+        };
     }
     async fetchLanguage(code, sections = ['_PMS_FRONT']) {
         try {
@@ -139,7 +136,7 @@ class RoomService {
                 throw new Error(data.ExceptionMsg);
             }
             let entries = this.transformArrayToObject(data.My_Result.entries);
-            locales.entries = Object.assign(Object.assign({}, locales.entries), entries);
+            locales.entries = { ...locales.entries, ...entries };
             locales.direction = data.My_Result.direction;
             //copy entries
             // this.copyEntries(entries);

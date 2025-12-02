@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-60982d00.js';
+import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
 
 const irFinancialSummaryCss = ".sc-ir-financial-summary-h{display:block}";
 const IrFinancialSummaryStyle0 = irFinancialSummaryCss;
@@ -8,7 +8,7 @@ const IrFinancialSummary = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '1aafe03084c6f6fdea0673557efd3e43da2f752e' }, h("slot", { key: '9aed830e04fee26372e63ba6081da3f07121a8d9' })));
+        return (h(Host, { key: '9c7d44de5a79d23e4e967fab3bd5f5e661ae86a9' }, h("slot", { key: 'e6d0b319d1057afe90ba6a81affc642feef85ceb' })));
     }
 };
 IrFinancialSummary.style = IrFinancialSummaryStyle0;

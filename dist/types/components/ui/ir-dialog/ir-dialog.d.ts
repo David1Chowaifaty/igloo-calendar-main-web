@@ -1,41 +1,52 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrDialog {
-    private static dialogIds;
-    hostEl: HTMLElement;
     /**
-     * Controls whether the dialog is open. Reflects to the host attribute for CSS hooks.
+     * The dialog's label as displayed in the header.
+     * You should always include a relevant label, as it is required for proper accessibility.
+     * If you need to display HTML, use the label slot instead.
+     */
+    label: string;
+    /**
+     * Indicates whether or not the dialog is open.
+     * Toggle this attribute to show and hide the dialog.
      */
     open: boolean;
     /**
-     * Emits when the open state changes due to user interaction or programmatic control.
+     * Disables the header.
+     * This will also remove the default close button.
      */
-    openChange: EventEmitter<boolean>;
-    private hasTitleSlot;
-    private hasBodySlot;
-    private dialogEl?;
-    private previouslyFocused;
-    private readonly instanceId;
-    private get titleId();
-    private get descriptionId();
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
-    protected handleOpenChange(open: boolean): void;
+    withoutHeader: boolean;
     /**
-     * Opens the dialog programmatically using the native `showModal` API.
+     * When enabled, the dialog will be closed when the user clicks outside of it.
      */
+    lightDismiss: boolean;
+    /**
+     * Emitted when the dialog opens.
+     */
+    irDialogShow: EventEmitter<void>;
+    /**
+     * Emitted when the dialog is requested to close.
+     * Calling event.preventDefault() will prevent the dialog from closing.
+     * You can inspect event.detail.source to see which element caused the dialog to close.
+     * If the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.
+     * Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+     */
+    irDialogHide: EventEmitter<{
+        source: Element;
+    }>;
+    /**
+     * Emitted after the dialog opens and all animations are complete.
+     */
+    irDialogAfterShow: EventEmitter<void>;
+    /**
+     * Emitted after the dialog closes and all animations are complete.
+     */
+    irDialogAfterHide: EventEmitter<void>;
     openModal(): Promise<void>;
-    /**
-     * Closes the dialog programmatically and restores focus to the previously active element.
-     */
     closeModal(): Promise<void>;
-    private showDialog;
-    private hideDialog;
-    private handleCancel;
-    private handleNativeClose;
-    private restoreFocus;
-    private onTitleSlotChange;
-    private onBodySlotChange;
-    private onCloseButtonClick;
-    private syncSlotState;
+    private handleWaHide;
+    private handleWaShow;
+    private handleWaAfterHide;
+    private handleWaAfterShow;
     render(): any;
 }

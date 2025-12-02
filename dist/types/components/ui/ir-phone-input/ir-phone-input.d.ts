@@ -2,6 +2,7 @@ import { ICountry } from "../../../components";
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrPhoneInput {
     el: HTMLElement;
+    mode: 'modern' | 'default';
     /**
      * Label displayed next to the phone input.
      */

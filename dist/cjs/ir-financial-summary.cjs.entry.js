@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 
 const irFinancialSummaryCss = ".sc-ir-financial-summary-h{display:block}";
 const IrFinancialSummaryStyle0 = irFinancialSummaryCss;
@@ -12,7 +12,7 @@ const IrFinancialSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '1aafe03084c6f6fdea0673557efd3e43da2f752e' }, index.h("slot", { key: '9aed830e04fee26372e63ba6081da3f07121a8d9' })));
+        return (index.h(index.Host, { key: '9c7d44de5a79d23e4e967fab3bd5f5e661ae86a9' }, index.h("slot", { key: 'e6d0b319d1057afe90ba6a81affc642feef85ceb' })));
     }
 };
 IrFinancialSummary.style = IrFinancialSummaryStyle0;

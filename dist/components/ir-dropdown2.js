@@ -9,95 +9,24 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         super();
         this.__registerHost();
         this.optionChange = createEvent(this, "optionChange", 7);
-        this.disabled = false;
-        this.caret = true;
-        this.isOpen = false;
-        this.focusedIndex = -1;
-        this.itemChildren = [];
-        this.mo = null;
-        this.isComponentConnected = true;
-        this.updateQueued = false;
-        this.handleDocumentClick = (event) => {
-            if (!this.isComponentConnected || !this.el.contains(event.target)) {
-                this.closeDropdown();
-            }
-        };
-        this.handleKeyDown = (event) => {
-            if (!this.isComponentConnected || this.disabled)
-                return;
-            const maxIndex = this.itemChildren.length - 1;
-            switch (event.key) {
-                case 'ArrowDown':
-                    event.preventDefault();
-                    if (!this.isOpen) {
-                        this.openDropdown();
-                        // After opening, if we have a selection, start from next item
-                        if (this.focusedIndex >= 0 && this.focusedIndex < maxIndex) {
-                            this.focusedIndex++;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                        else if (this.focusedIndex === -1) {
-                            // No selection, start from first item
-                            this.focusedIndex = 0;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                        else if (this.focusedIndex === maxIndex) {
-                            // At last item, wrap to first
-                            this.focusedIndex = 0;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                    }
-                    else if (maxIndex >= 0) {
-                        this.focusedIndex = this.focusedIndex < maxIndex ? this.focusedIndex + 1 : 0;
-                        this.focusItemElement(this.focusedIndex);
-                    }
-                    break;
-                case 'ArrowUp':
-                    event.preventDefault();
-                    if (!this.isOpen) {
-                        this.openDropdown();
-                        // After opening, if we have a selection, start from previous item
-                        if (this.focusedIndex > 0) {
-                            this.focusedIndex--;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                        else if (this.focusedIndex === -1) {
-                            // No selection, start from last item
-                            this.focusedIndex = maxIndex;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                        else if (this.focusedIndex === 0) {
-                            // At first item, wrap to last
-                            this.focusedIndex = maxIndex;
-                            this.focusItemElement(this.focusedIndex);
-                        }
-                    }
-                    else if (maxIndex >= 0) {
-                        this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : maxIndex;
-                        this.focusItemElement(this.focusedIndex);
-                    }
-                    break;
-                case 'Enter':
-                    event.preventDefault();
-                    if (this.isOpen && this.focusedIndex >= 0) {
-                        this.selectItemElement(this.focusedIndex);
-                    }
-                    else if (!this.isOpen) {
-                        this.openDropdown();
-                    }
-                    break;
-                case 'Escape':
-                    event.preventDefault();
-                    this.closeDropdown();
-                    break;
-                case 'Tab':
-                    if (this.isOpen) {
-                        this.closeDropdown();
-                    }
-                    break;
-            }
-        };
     }
+    get el() { return this; }
+    value;
+    disabled = false;
+    caret = true;
+    isOpen = false;
+    selectedOption;
+    focusedIndex = -1;
+    itemChildren = [];
+    mo = null;
+    documentClickHandler;
+    isComponentConnected = true;
+    updateQueued = false;
+    /**
+     * Emitted when a user selects an option from the combobox.
+     * The event payload contains the selected `DropdownItem` object.
+     */
+    optionChange;
     componentWillLoad() {
         this.selectedOption = this.value;
         this.documentClickHandler = this.handleDocumentClick.bind(this);
@@ -129,10 +58,9 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         });
     }
     disconnectedCallback() {
-        var _a;
         this.isComponentConnected = false;
         document.removeEventListener('click', this.documentClickHandler);
-        (_a = this.mo) === null || _a === void 0 ? void 0 : _a.disconnect();
+        this.mo?.disconnect();
         this.mo = null;
     }
     handleDocumentKeyDown(event) {
@@ -201,6 +129,11 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.focusedIndex = -1;
         this.removeItemFocus();
     }
+    handleDocumentClick = (event) => {
+        if (!this.isComponentConnected || !this.el.contains(event.target)) {
+            this.closeDropdown();
+        }
+    };
     collectItemChildren() {
         if (!this.isComponentConnected)
             return;
@@ -251,6 +184,81 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
             }
         }
     }
+    handleKeyDown = (event) => {
+        if (!this.isComponentConnected || this.disabled)
+            return;
+        const maxIndex = this.itemChildren.length - 1;
+        switch (event.key) {
+            case 'ArrowDown':
+                event.preventDefault();
+                if (!this.isOpen) {
+                    this.openDropdown();
+                    // After opening, if we have a selection, start from next item
+                    if (this.focusedIndex >= 0 && this.focusedIndex < maxIndex) {
+                        this.focusedIndex++;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                    else if (this.focusedIndex === -1) {
+                        // No selection, start from first item
+                        this.focusedIndex = 0;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                    else if (this.focusedIndex === maxIndex) {
+                        // At last item, wrap to first
+                        this.focusedIndex = 0;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                }
+                else if (maxIndex >= 0) {
+                    this.focusedIndex = this.focusedIndex < maxIndex ? this.focusedIndex + 1 : 0;
+                    this.focusItemElement(this.focusedIndex);
+                }
+                break;
+            case 'ArrowUp':
+                event.preventDefault();
+                if (!this.isOpen) {
+                    this.openDropdown();
+                    // After opening, if we have a selection, start from previous item
+                    if (this.focusedIndex > 0) {
+                        this.focusedIndex--;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                    else if (this.focusedIndex === -1) {
+                        // No selection, start from last item
+                        this.focusedIndex = maxIndex;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                    else if (this.focusedIndex === 0) {
+                        // At first item, wrap to last
+                        this.focusedIndex = maxIndex;
+                        this.focusItemElement(this.focusedIndex);
+                    }
+                }
+                else if (maxIndex >= 0) {
+                    this.focusedIndex = this.focusedIndex > 0 ? this.focusedIndex - 1 : maxIndex;
+                    this.focusItemElement(this.focusedIndex);
+                }
+                break;
+            case 'Enter':
+                event.preventDefault();
+                if (this.isOpen && this.focusedIndex >= 0) {
+                    this.selectItemElement(this.focusedIndex);
+                }
+                else if (!this.isOpen) {
+                    this.openDropdown();
+                }
+                break;
+            case 'Escape':
+                event.preventDefault();
+                this.closeDropdown();
+                break;
+            case 'Tab':
+                if (this.isOpen) {
+                    this.closeDropdown();
+                }
+                break;
+        }
+    };
     selectOption(option) {
         this.selectedOption = option;
         this.value = option;
@@ -258,7 +266,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '03285e9e15d52a363a41e6efd7566b68dfeb4669', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '411b295e64da8bcce3ed3ee1fb8693bbaf91b353', onClick: () => {
+        return (h(Host, { key: '14602977184a3f18dd9f4904facd99ecf273667f', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '10828f2208c005ef2a2cae22483e6f59ed7d64b9', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -267,9 +275,8 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '1b38a5ebc724742ecc9d96bc02c4b4489b9ca013', name: "trigger" }), this.caret && (h("div", { key: '7cb10236d632742c013136f83ec2dd120626d7cb', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '26786fd483b561f37b48bf1eb7b1875605669228', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '579d921048bb242540690af17c55a03e404ac7f4', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '3d64b2c0ccc3fd9eb90a66882fdec8b256363e24' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '6b543955e0a6170eb9455eeace73e77b9ecfcd34', name: "trigger" }), this.caret && (h("div", { key: 'dd521a53a71cf0977285fb594d67b30d69b954be', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '9c93fc58a95e3c931b9f0c2708c71ad920d62191', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: '971cc6696fe1942876aec0eeb3653abadb9e20c2', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '425b696c4f33d88b3228938f259eabd7b8554038' }))));
     }
-    get el() { return this; }
     static get watchers() { return {
         "value": ["handleValueChange"]
     }; }

@@ -4,7 +4,7 @@ import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
-import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries } from './types';
+import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
 export declare class IrBookingDetails {
     element: HTMLElement;
@@ -59,6 +59,7 @@ export declare class IrBookingDetails {
     private token;
     private printingBaseUrl;
     private modalRef;
+    private paymentFolioRef;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
@@ -71,6 +72,7 @@ export declare class IrBookingDetails {
     }>): void;
     handleResetBooking(e: CustomEvent<Booking | null>): Promise<void>;
     handleEditExtraService(e: CustomEvent): void;
+    handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
     private setRoomsData;
     private initializeApp;
     private openPrintingScreen;

@@ -1,13 +1,13 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-60982d00.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-32f0c138.js';
-import { l as locales } from './locales.store-629477c2.js';
-import { N as canCheckIn } from './utils-b2bf980e.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-b3dce66a.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-5fbc9d5e.js';
+import { l as locales } from './locales.store-f4150353.js';
+import { S as canCheckIn } from './utils-bb2f2deb.js';
 import { v as v4 } from './v4-964634d6.js';
 import './axios-aa1335b8.js';
 import './moment-ab846cee.js';
-import './index-c4cf83be.js';
+import './index-a124d225.js';
 import './index-6ecc32cd.js';
-import './calendar-data-462ba979.js';
+import './calendar-data-8a36a1b2.js';
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}";
 const IglTbaBookingViewStyle0 = iglTbaBookingViewCss;
@@ -20,15 +20,25 @@ const IglTbaBookingView = class {
         this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
         this.scrollPageToRoom = createEvent(this, "scrollPageToRoom", 7);
         this.assignRoomEvent = createEvent(this, "assignRoomEvent", 7);
-        this.eventData = {};
-        this.categoriesData = {};
-        this.renderAgain = false;
-        this.selectedRoom = -1;
-        this.isLoading = null;
-        this.highlightSection = false;
-        this.allRoomsList = [];
-        this.toBeAssignedService = new ToBeAssignedService();
     }
+    calendarData;
+    selectedDate;
+    eventData = {};
+    categoriesData = {};
+    categoryId;
+    categoryIndex;
+    eventIndex;
+    renderAgain = false;
+    selectedRoom = -1;
+    isLoading = null;
+    highlightSection = false;
+    allRoomsList = [];
+    toBeAssignedService = new ToBeAssignedService();
+    highlightToBeAssignedBookingEvent;
+    openCalendarSidebar;
+    addToBeAssignedEvent;
+    scrollPageToRoom;
+    assignRoomEvent;
     componentShouldUpdate(newValue, oldValue, propName) {
         if (propName === 'selectedDate' && newValue !== oldValue) {
             this.highlightSection = false;
@@ -68,7 +78,6 @@ const IglTbaBookingView = class {
         this.selectedRoom = parseInt(evt.target.value);
     }
     async handleAssignUnit(event, check_in = false) {
-        var _a, _b;
         try {
             event.stopImmediatePropagation();
             event.stopPropagation();
@@ -92,7 +101,7 @@ const IglTbaBookingView = class {
                                 identifier: this.eventData.ID,
                                 bookingNumber: this.eventData.BOOKING_NUMBER,
                                 checkin: false,
-                                roomName: (_b = (_a = room.unit) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : '',
+                                roomName: room.unit?.name ?? '',
                                 sharing_persons: room.sharing_persons,
                                 totalGuests: adult_nbr + children_nbr + infant_nbr,
                             },
@@ -102,7 +111,7 @@ const IglTbaBookingView = class {
                     }));
                     console.log('event emitted directly to window 🔥');
                 }
-                let assignEvent = Object.assign(Object.assign({}, this.eventData), { PR_ID: this.selectedRoom });
+                let assignEvent = { ...this.eventData, PR_ID: this.selectedRoom };
                 this.addToBeAssignedEvent.emit({
                     key: 'tobeAssignedEvents',
                     data: [assignEvent],
@@ -133,7 +142,11 @@ const IglTbaBookingView = class {
                 id: room.PR_ID,
                 name: room.roomName,
             });
-            return Object.assign(Object.assign({}, room), { defaultDateRange: this.eventData.defaultDateRange, identifier: this.eventData.identifier });
+            return {
+                ...room,
+                defaultDateRange: this.eventData.defaultDateRange,
+                identifier: this.eventData.identifier,
+            };
         });
         this.allRoomsList = allRoomsList;
         this.addToBeAssignedEvent.emit({
@@ -182,7 +195,7 @@ const IglTbaBookingView = class {
         });
     }
     render() {
-        return (h(Host, { key: '2283ce0f38bcaa8ec4ad697f9ce9f60c2435bb4b' }, h("div", { key: '9e38f2432d4b6218c5727618839f146b75812918', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: 'b1aa37723ecf811907d395a05abc47a85499de85', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: 'e7d97d392ed06c72ce22c9d3cf05c3732b304ce6', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '2bba2442bb07427601717f249db0f918ab39ae3a', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '2eb18fdf2db3190cb4ef70a0884cf6213c1b3d05', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '1661be795f70a32d7ac6666ce8babb2b4dd4ce67', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: 'bfb22824a7e75191a5d094d5010a4e1cf37524d8', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: 'f2dc0f9c3a7632ef3f35af873a44859218b13f04', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '5ebef9911fd8e0afcfa41e42f25b0d517abcc365' }))));
+        return (h(Host, { key: 'fce37b055b65c70493806980a115b293a75ede96' }, h("div", { key: '0851638ffa7e88408e6bcba4b87e088b0b8ee693', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: 'a67866a3a167b203c4dca3bbc02fa40daea69498', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: '658322e3f1d031d46340708d3a81f62cbd9a1dfb', class: "row m-0 p-0 actionsContainer" }, h("select", { key: 'bdffa11e70fd23c1ae755e5323d6010dfa6e329e', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '12290b7c714fa0b6a8a6e208a78994ea61e9fd9c', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '6003c1d2479fef7a677635e3b146f606e0c9f20d', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: 'd31a992e44b70994364f609cf1c327c1c9652ada', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: '08f23c63f58ce2154daca1e5d3694e61001a1dd8', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '4d96bb35e2ff0f2a33c7d74705752ae2ea045c89' }))));
     }
 };
 IglTbaBookingView.style = IglTbaBookingViewStyle0;

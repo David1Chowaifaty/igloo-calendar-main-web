@@ -3,15 +3,21 @@ import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import moment from "moment";
 export class IglDateRange {
-    constructor() {
-        this.disabled = false;
-        this.withDateDifference = true;
-        this.variant = 'default';
-        this.renderAgain = false;
-        this.totalNights = 0;
-        this.fromDateStr = 'from';
-        this.toDateStr = 'to';
-    }
+    defaultData;
+    disabled = false;
+    minDate;
+    dateLabel;
+    maxDate;
+    withDateDifference = true;
+    variant = 'default';
+    renderAgain = false;
+    dateSelectEvent;
+    toast;
+    totalNights = 0;
+    fromDate;
+    toDate;
+    fromDateStr = 'from';
+    toDateStr = 'to';
     componentWillLoad() {
         this.initializeDates();
     }

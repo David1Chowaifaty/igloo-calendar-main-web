@@ -61,9 +61,9 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
     constructor() {
         super();
         this.__registerHost();
-        this.extraResources = '';
-        this.resources = onlineResources;
     }
+    extraResources = '';
+    resources = onlineResources;
     componentWillLoad() {
         this.parseRefs();
     }
@@ -108,7 +108,7 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
         });
     }
     render() {
-        return (h(Host, { key: '45debc9e17a6e118cc4e1785a14df1a51af4c9e0' }, h("slot", { key: '81a506b7013add9a13dad8132ac76566fe92371c' })));
+        return (h(Host, { key: '701a7bafb1e53f9852fc4bf21a7b2233049fa8b3' }, h("slot", { key: 'd939748beae4830f16fdfe24be2b6586de886113' })));
     }
     static get watchers() { return {
         "extraResources": ["hrefsChanged"]

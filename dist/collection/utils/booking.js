@@ -10,7 +10,6 @@ import calendar_data from "../stores/calendar-data";
  * @returns A {@link SplitIndex} with constant-time lookups, or `null` if no rooms are provided.
  */
 export function buildSplitIndex(rooms) {
-    var _a;
     if (!rooms) {
         return;
     }
@@ -18,10 +17,10 @@ export function buildSplitIndex(rooms) {
     const childrenOf = new Map();
     // 1) index parents/children
     for (const r of rooms) {
-        if (!(r === null || r === void 0 ? void 0 : r.identifier))
+        if (!r?.identifier)
             continue;
         const id = r.identifier;
-        const parent = (_a = r.parent_room_identifier) !== null && _a !== void 0 ? _a : null;
+        const parent = r.parent_room_identifier ?? null;
         parentOf.set(id, parent);
         if (parent) {
             if (!childrenOf.has(parent))
@@ -37,9 +36,8 @@ export function buildSplitIndex(rooms) {
     const byId = new Map(rooms.map(r => [r.identifier, r]));
     for (const [_, kids] of childrenOf) {
         kids.sort((a, b) => {
-            var _a, _b, _c, _d;
-            const ad = (_b = (_a = byId.get(a)) === null || _a === void 0 ? void 0 : _a.from_date) !== null && _b !== void 0 ? _b : '';
-            const bd = (_d = (_c = byId.get(b)) === null || _c === void 0 ? void 0 : _c.from_date) !== null && _d !== void 0 ? _d : '';
+            const ad = byId.get(a)?.from_date ?? '';
+            const bd = byId.get(b)?.from_date ?? '';
             if (ad < bd)
                 return -1;
             if (ad > bd)
@@ -58,14 +56,13 @@ export function buildSplitIndex(rooms) {
     const roleOf = new Map();
     const chainOf = new Map();
     const visitChain = (head) => {
-        var _a;
         const chain = [];
         const seen = new Set();
         let cur = head;
         while (cur && !seen.has(cur)) {
             seen.add(cur);
             chain.push(cur);
-            const kids = (_a = childrenOf.get(cur)) !== null && _a !== void 0 ? _a : [];
+            const kids = childrenOf.get(cur) ?? [];
             // if data branches, we follow the earliest child and treat the rest as separate heads
             cur = kids[0];
         }
@@ -103,8 +100,7 @@ export function buildSplitIndex(rooms) {
  * @returns The role of the identifier, or `null` if not present.
  */
 export function getSplitRole(index, identifier) {
-    var _a;
-    return (_a = index.roleOf.get(identifier)) !== null && _a !== void 0 ? _a : null;
+    return index.roleOf.get(identifier) ?? null;
 }
 /**
  * Returns the full ordered chain (head → … → tail) containing the identifier.
@@ -115,11 +111,10 @@ export function getSplitRole(index, identifier) {
  * @returns An array of identifiers representing the chain.
  */
 export function getSplitChain(index, identifier) {
-    var _a;
-    return (_a = index.chainOf.get(identifier)) !== null && _a !== void 0 ? _a : [identifier];
+    return index.chainOf.get(identifier) ?? [identifier];
 }
 export async function getMyBookings(months) {
-    if (!(months === null || months === void 0 ? void 0 : months.length)) {
+    if (!months?.length) {
         return [];
     }
     const stayStatus = await getStayStatus();
@@ -135,13 +130,13 @@ export async function getMyBookings(months) {
     return Array.from(bookingsByPool.values());
 }
 function assignBooking(physicalRoom, bookingsByPool, stayStatusLookup) {
-    if (!(physicalRoom === null || physicalRoom === void 0 ? void 0 : physicalRoom.length)) {
+    if (!physicalRoom?.length) {
         return;
     }
     for (const room of physicalRoom) {
-        const calendarCells = (room === null || room === void 0 ? void 0 : room.calendar_cell) ? Object.values(room.calendar_cell) : [];
+        const calendarCells = room?.calendar_cell ? Object.values(room.calendar_cell) : [];
         for (const cell of calendarCells) {
-            if ((cell === null || cell === void 0 ? void 0 : cell.Is_Available) === false) {
+            if (cell?.Is_Available === false) {
                 addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup);
             }
         }
@@ -162,7 +157,7 @@ export function formatName(firstName, lastName) {
     if ((firstName === null && lastName === null) || !firstName)
         return '';
     if (!!lastName) {
-        return `${firstName !== null && firstName !== void 0 ? firstName : ''} ${lastName !== null && lastName !== void 0 ? lastName : ''}`;
+        return `${firstName ?? ''} ${lastName ?? ''}`;
     }
     return firstName;
 }
@@ -188,7 +183,6 @@ function renderBlock003Date(date, hour, minute) {
     return `${locales.entries.Lcz_BlockedTill} ${moment(dt).format('MMM DD, HH:mm')}`;
 }
 function getDefaultData(cell, stayStatusLookup) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
     if (isBlockUnit(cell.STAY_STATUS_CODE)) {
         const blockedFromDate = moment(cell.My_Block_Info.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.from_date : cell.DATE;
         const blockedToDate = moment(cell.My_Block_Info.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.My_Block_Info.to_date : cell.DATE;
@@ -233,15 +227,15 @@ function getDefaultData(cell, stayStatusLookup) {
     try {
         const bookingFromDate = moment(cell.room.from_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.from_date : cell.DATE;
         const bookingToDate = moment(cell.room.to_date, 'YYYY-MM-DD').isAfter(cell.DATE) ? cell.room.to_date : cell.DATE;
-        const mainGuest = (_a = cell.room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
+        const mainGuest = cell.room.sharing_persons?.find(p => p.is_main);
         return {
             ID: cell.POOL,
             FROM_DATE: bookingFromDate,
             TO_DATE: bookingToDate,
             NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
-            STATUS: bookingStatus[(_b = cell.booking) === null || _b === void 0 ? void 0 : _b.status.code],
+            STATUS: bookingStatus[cell.booking?.status.code],
             // NAME: formatName(mainGuest?.first_name, mainGuest?.last_name),
-            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.last_name) || formatName((_c = cell === null || cell === void 0 ? void 0 : cell.booking.guest) === null || _c === void 0 ? void 0 : _c.first_name, (_e = (_d = cell === null || cell === void 0 ? void 0 : cell.booking) === null || _d === void 0 ? void 0 : _d.guest) === null || _e === void 0 ? void 0 : _e.last_name),
+            NAME: formatName(mainGuest?.first_name, mainGuest?.last_name) || formatName(cell?.booking.guest?.first_name, cell?.booking?.guest?.last_name),
             IDENTIFIER: cell.room.identifier,
             PR_ID: cell.pr_id,
             POOL: cell.POOL,
@@ -249,7 +243,7 @@ function getDefaultData(cell, stayStatusLookup) {
             NOTES: cell.booking.is_direct ? cell.booking.remark : null,
             PRIVATE_NOTE: getPrivateNote(cell.booking.extras),
             is_direct: cell.booking.is_direct,
-            BALANCE: (_f = cell.booking.financial) === null || _f === void 0 ? void 0 : _f.due_amount,
+            BALANCE: cell.booking.financial?.due_amount,
             channel_booking_nbr: cell.booking.channel_booking_nbr,
             ARRIVAL_TIME: cell.booking.arrival.description,
             defaultDates: {
@@ -262,12 +256,12 @@ function getDefaultData(cell, stayStatusLookup) {
             PHONE_PREFIX: cell.booking.guest.country_phone_prefix,
             IS_EDITABLE: cell.booking.is_editable,
             ARRIVAL: cell.booking.arrival,
-            PHONE: (_g = cell.booking.guest.mobile_without_prefix) !== null && _g !== void 0 ? _g : '',
+            PHONE: cell.booking.guest.mobile_without_prefix ?? '',
             RATE: cell.room.total,
             RATE_PLAN: cell.room.rateplan.name,
             SPLIT_BOOKING: false,
             RATE_PLAN_ID: cell.room.rateplan.id,
-            RATE_TYPE: (_j = (_h = cell.room) === null || _h === void 0 ? void 0 : _h.roomtype) === null || _j === void 0 ? void 0 : _j.id,
+            RATE_TYPE: cell.room?.roomtype?.id,
             ADULTS_COUNT: cell.room.occupancy.adult_nbr,
             CHILDREN_COUNT: cell.room.occupancy.children_nbr,
             origin: cell.booking.origin,
@@ -275,15 +269,15 @@ function getDefaultData(cell, stayStatusLookup) {
             ROOMS: cell.booking.rooms,
             cancelation: cell.room.rateplan.cancelation,
             guarantee: cell.room.rateplan.guarantee,
-            TOTAL_PRICE: (_k = cell.booking.financial) === null || _k === void 0 ? void 0 : _k.gross_total,
+            TOTAL_PRICE: cell.booking.financial?.gross_total,
             COUNTRY: cell.booking.guest.country_id,
             FROM_DATE_STR: cell.booking.format.from_date,
             TO_DATE_STR: cell.booking.format.to_date,
             adult_child_offering: cell.room.rateplan.selected_variation.adult_child_offering,
             SOURCE: { code: cell.booking.source.code, description: cell.booking.source.description, tag: cell.booking.source.tag },
             //TODO:Implement checkin-checkout
-            CHECKIN: ((_l = cell.room.in_out) === null || _l === void 0 ? void 0 : _l.code) === '001',
-            CHECKOUT: ((_m = cell.room.in_out) === null || _m === void 0 ? void 0 : _m.code) === '002',
+            CHECKIN: cell.room.in_out?.code === '001',
+            CHECKOUT: cell.room.in_out?.code === '002',
             ROOM_INFO: {
                 occupancy: cell.room.occupancy,
                 sharing_persons: cell.room.sharing_persons,
@@ -292,7 +286,7 @@ function getDefaultData(cell, stayStatusLookup) {
                 calendar_extra: cell.room.calendar_extra ? JSON.parse(cell.room.calendar_extra) : null,
                 parent_room_identifier: cell.room.parent_room_identifier,
             },
-            BASE_STATUS_CODE: (_o = cell.booking.status) === null || _o === void 0 ? void 0 : _o.code,
+            BASE_STATUS_CODE: cell.booking.status?.code,
         };
     }
     catch (error) {
@@ -316,18 +310,17 @@ function getDefaultData(cell, stayStatusLookup) {
 //   return data;
 // }
 export function getRoomStatus(params) {
-    var _a, _b;
     const { in_out, status_code, from_date, to_date } = params;
     if (calendar_data.checkin_enabled) {
-        if ((in_out === null || in_out === void 0 ? void 0 : in_out.code) === '001') {
+        if (in_out?.code === '001') {
             return bookingStatus['000'];
         }
-        else if ((in_out === null || in_out === void 0 ? void 0 : in_out.code) === '002') {
+        else if (in_out?.code === '002') {
             if (!calendar_data.is_automatic_check_in_out) {
                 const now = moment();
                 const toDate = moment(to_date, 'YYYY-MM-DD');
                 const fromDate = moment(from_date, 'YYYY-MM-DD');
-                const isNowAfterOrSameAsHotelHour = compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendar_data.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendar_data.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour));
+                const isNowAfterOrSameAsHotelHour = compareTime(now.toDate(), createDateWithOffsetAndHour(calendar_data.checkin_checkout_hours?.offset, calendar_data.checkin_checkout_hours?.hour));
                 if ((now.isSame(toDate, 'days') && now.isAfter(fromDate, 'days') && isNowAfterOrSameAsHotelHour) || now.isAfter(toDate, 'days')) {
                     return bookingStatus['003'];
                 }
@@ -379,7 +372,7 @@ export function getRoomStatus(params) {
     }
 }
 function addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup) {
-    if (!(cell === null || cell === void 0 ? void 0 : cell.POOL) || bookingsByPool.has(cell.POOL)) {
+    if (!cell?.POOL || bookingsByPool.has(cell.POOL)) {
         return;
     }
     const newData = getDefaultData(cell, stayStatusLookup);
@@ -388,23 +381,21 @@ function addOrUpdateBooking(cell, bookingsByPool, stayStatusLookup) {
     }
 }
 export function getPrivateNote(extras) {
-    var _a;
     if (!extras) {
         return null;
     }
-    return ((_a = extras.find(e => e.key === 'private_note')) === null || _a === void 0 ? void 0 : _a.value) || null;
+    return extras.find(e => e.key === 'private_note')?.value || null;
 }
 export function transformNewBooking(data) {
     let bookings = [];
     const rooms = data.rooms.filter(room => !!room['assigned_units_pool']);
     rooms.forEach(room => {
-        var _a, _b, _c, _d, _e, _f;
         const bookingFromDate = moment(room.from_date, 'YYYY-MM-DD').isAfter(moment(calendar_dates.fromDate, 'YYYY-MM-DD')) ? room.from_date : calendar_dates.fromDate;
         const bookingToDate = room.to_date;
         if (moment(room.to_date, 'YYYY-MM-DD').isBefore(moment(calendar_dates.fromDate, 'YYYY-MM-DD'))) {
             return;
         }
-        const mainGuest = (_a = room.sharing_persons) === null || _a === void 0 ? void 0 : _a.find(p => p.is_main);
+        const mainGuest = room.sharing_persons?.find(p => p.is_main);
         // console.log('bookingToDate:', bookingToDate, 'bookingFromDate:', bookingFromDate, 'room from date:', room.from_date, 'room to date', room.to_date);
         bookings.push({
             CHECKIN: false,
@@ -416,16 +407,16 @@ export function transformNewBooking(data) {
             NO_OF_DAYS: dateDifference(bookingFromDate, bookingToDate),
             ARRIVAL: data.arrival,
             IS_EDITABLE: true,
-            BALANCE: (_b = data.financial) === null || _b === void 0 ? void 0 : _b.due_amount,
+            BALANCE: data.financial?.due_amount,
             STATUS: getRoomStatus({
                 in_out: room.in_out,
                 from_date: room.from_date,
                 to_date: room.to_date,
-                status_code: (_c = data.status) === null || _c === void 0 ? void 0 : _c.code,
+                status_code: data.status?.code,
             }),
             // NAME: formatName(mainGuest?.first_name, mainGuest.last_name),
-            NAME: formatName(mainGuest === null || mainGuest === void 0 ? void 0 : mainGuest.first_name, mainGuest.last_name) || formatName(room.guest.first_name, room.guest.last_name),
-            PHONE: (_d = data.guest.mobile_without_prefix) !== null && _d !== void 0 ? _d : '',
+            NAME: formatName(mainGuest?.first_name, mainGuest.last_name) || formatName(room.guest.first_name, room.guest.last_name),
+            PHONE: data.guest.mobile_without_prefix ?? '',
             ENTRY_DATE: '12-12-2023',
             PHONE_PREFIX: data.guest.country_phone_prefix,
             RATE: room.total,
@@ -443,7 +434,7 @@ export function transformNewBooking(data) {
             BOOKING_NUMBER: data.booking_nbr,
             cancelation: room.rateplan.cancelation,
             guarantee: room.rateplan.guarantee,
-            TOTAL_PRICE: (_e = data.financial) === null || _e === void 0 ? void 0 : _e.gross_total,
+            TOTAL_PRICE: data.financial?.gross_total,
             COUNTRY: data.guest.country_id,
             FROM_DATE_STR: data.format.from_date,
             TO_DATE_STR: data.format.to_date,
@@ -468,7 +459,7 @@ export function transformNewBooking(data) {
                 parent_room_identifier: room.parent_room_identifier,
                 calendar_extra: room.calendar_extra ? JSON.parse(room.calendar_extra) : null,
             },
-            BASE_STATUS_CODE: (_f = data.status) === null || _f === void 0 ? void 0 : _f.code,
+            BASE_STATUS_CODE: data.status?.code,
         });
     });
     return bookings;

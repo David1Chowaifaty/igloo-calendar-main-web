@@ -7,30 +7,37 @@ import { z, ZodError } from "zod";
 // import calendar_dates from '@/stores/calendar-dates.store';
 import locales from "../../../../stores/locales.store";
 export class IglBulkBlock {
-    constructor() {
-        this.maxDatesLength = 8;
-        this.selectedRoomTypes = new Map();
-        this.selectedUnit = null;
-        this.blockState = 'block';
-        this.dates = [{ from: null, to: null }];
-        this.dateRefs = [];
-        this.minDate = moment().format('YYYY-MM-DD');
-        this.bookingService = new BookingService();
-        this.datesSchema = z.array(z.object({
-            from: z
-                .any()
-                .refine((val) => moment.isMoment(val), {
-                message: "Invalid 'from' date; expected a Moment object.",
-            })
-                .transform((val) => val.format('YYYY-MM-DD')),
-            to: z
-                .any()
-                .refine((val) => moment.isMoment(val), {
-                message: "Invalid 'to' date; expected a Moment object.",
-            })
-                .transform((val) => val.format('YYYY-MM-DD')),
-        }));
-    }
+    maxDatesLength = 8;
+    property_id;
+    selectedRoomTypes = new Map();
+    selectedUnit = null;
+    errors;
+    isLoading;
+    blockState = 'block';
+    dates = [{ from: null, to: null }];
+    closeModal;
+    toast;
+    sidebar;
+    dateRefs = [];
+    reloadInterceptor;
+    minDate = moment().format('YYYY-MM-DD');
+    bookingService = new BookingService();
+    datesSchema = z.array(z.object({
+        from: z
+            .any()
+            .refine((val) => moment.isMoment(val), {
+            message: "Invalid 'from' date; expected a Moment object.",
+        })
+            .transform((val) => val.format('YYYY-MM-DD')),
+        to: z
+            .any()
+            .refine((val) => moment.isMoment(val), {
+            message: "Invalid 'to' date; expected a Moment object.",
+        })
+            .transform((val) => val.format('YYYY-MM-DD')),
+    }));
+    unitSections;
+    datesSections;
     componentDidLoad() {
         this.reloadInterceptor = new ReloadInterceptor({ autoActivate: false });
         this.sidebar = document.querySelector('ir-sidebar');
@@ -39,7 +46,6 @@ export class IglBulkBlock {
         this.reloadInterceptor.deactivate();
     }
     async addBlockDates() {
-        var _a, _b;
         try {
             this.errors = null;
             this.isLoading = true;
@@ -51,7 +57,7 @@ export class IglBulkBlock {
             }
             if (this.blockState === 'block') {
                 await this.bookingService.blockAvailabilityForBrackets({
-                    unit_id: (_a = this.selectedUnit) === null || _a === void 0 ? void 0 : _a.unit_id,
+                    unit_id: this.selectedUnit?.unit_id,
                     description: '',
                     property_id: calendar_data.property.id,
                     block_status_code: '002',
@@ -63,7 +69,7 @@ export class IglBulkBlock {
             }
             else {
                 await this.bookingService.unBlockUnitByPeriod({
-                    unit_id: (_b = this.selectedUnit) === null || _b === void 0 ? void 0 : _b.unit_id,
+                    unit_id: this.selectedUnit?.unit_id,
                     from_date: periods[0].from,
                     to_date: periods[0].to,
                 });
@@ -100,17 +106,16 @@ export class IglBulkBlock {
             this.sidebar.preventClose = false;
     }
     handleDateChange({ index, date, key }) {
-        var _a, _b;
         // 1) clone and set the new date
         const dates = [...this.dates];
-        dates[index] = Object.assign(Object.assign({}, dates[index]), { [key]: date });
+        dates[index] = { ...dates[index], [key]: date };
         // 1a) if they just changed the "from", always clear that row's "to"
-        if (key === 'from' && ((_a = dates[index].to) === null || _a === void 0 ? void 0 : _a.isBefore(date, 'dates'))) {
+        if (key === 'from' && dates[index].to?.isBefore(date, 'dates')) {
             dates[index].to = null;
         }
         // 2) clear any subsequent rows whose "from" is on or before the changed date
         for (let i = index + 1; i < dates.length; i++) {
-            const rowFrom = (_b = dates[i]) === null || _b === void 0 ? void 0 : _b.from;
+            const rowFrom = dates[i]?.from;
             if (rowFrom && rowFrom.isSameOrBefore(date, 'day')) {
                 dates[i] = { from: null, to: null };
             }
@@ -119,14 +124,13 @@ export class IglBulkBlock {
         this.dates = dates;
         // 4) open the appropriate picker
         setTimeout(() => {
-            var _a, _b;
             if (key === 'from') {
-                (_a = this.dateRefs[index]) === null || _a === void 0 ? void 0 : _a.to.openDatePicker();
+                this.dateRefs[index]?.to.openDatePicker();
             }
             else {
                 const nextFrom = dates.findIndex(d => d.from === null);
                 if (nextFrom > -1) {
-                    (_b = this.dateRefs[nextFrom]) === null || _b === void 0 ? void 0 : _b.from.openDatePicker();
+                    this.dateRefs[nextFrom]?.from.openDatePicker();
                 }
             }
         }, 100);
@@ -140,74 +144,69 @@ export class IglBulkBlock {
         this.errors = null;
         this.dates = [...this.dates, { from: null, to: null }];
         setTimeout(() => {
-            var _a;
-            (_a = this.dateRefs[this.dates.length - 1].to) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            this.dateRefs[this.dates.length - 1].to?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
     }
     render() {
-        return (h("form", { key: '27cd32e6c6adada98d32be9bc39fef2e2c6375d9', class: 'bulk-sheet-container', onSubmit: e => {
+        return (h("form", { key: 'e0a668e4f8b083e3e15ca8916cad0301cff4abc5', class: 'bulk-sheet-container', onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("div", { key: '6c990b0d658779bbfe989cb0c2a96d3e76422157', class: "sheet-body px-1" }, h("div", { key: '352a215479c3c9eb9e8b14823619a5206297aa22', class: "text-muted text-left pt-0 my-0 d-flex align-items-center pb-1", style: { gap: '0.5rem' } }, h("p", { key: '2e582bb2e04be47a88413dcac2a8ee5b9404be8a', class: "m-0 p-0" }, "Select the unit to"), h("ir-select", { key: '311901fc65478d3575006794c0e2246f99e4996c', showFirstOption: false, selectedValue: this.blockState, data: [
+            } }, h("div", { key: 'c198f96e2309f7d6f2bf89806bbaefdc51662d71', class: "sheet-body px-1" }, h("div", { key: '84c6c000e4806d7c02a2c6b4a6ed1ec38cb81f48', class: "text-muted text-left pt-0 my-0 d-flex align-items-center pb-1", style: { gap: '0.5rem' } }, h("p", { key: '0f3bc84726fa8b74a156a61c63456d9d6b24dd18', class: "m-0 p-0" }, "Select the unit to"), h("ir-select", { key: '67f8554398fed7cddfece9dee6bcbcc205d04975', showFirstOption: false, selectedValue: this.blockState, data: [
                 { text: 'Block', value: 'block' },
                 { text: 'Unblock', value: 'unblock' },
             ], onSelectChange: e => {
                 this.blockState = e.detail;
-            } })), h("div", { key: '5fd2972486b52124b8bd8f8e4a0345b5b62bb9b4' }, this.errors === 'rooms' && (h("p", { key: 'ba75a20f18c507760ab99363b023ed1e38cebc8a', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("ul", { key: '8c99415d7b782dc2d6a2707528fe73c4f29fca17', class: "room-type-list", ref: el => (this.unitSections = el) }, calendar_data.roomsInfo.map(roomType => {
+            } })), h("div", { key: '8fc8ed4e307b8a1e8006ac979b9bc2709d3fb6e5' }, this.errors === 'rooms' && (h("p", { key: 'd2ec74baa1492c61200326846038ac42aadef7a6', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("ul", { key: 'be3bdcb5b9cb441a6feb5eeb00e9d9c4b1469b00', class: "room-type-list", ref: el => (this.unitSections = el) }, calendar_data.roomsInfo.map(roomType => {
             return (h(Fragment, null, h("li", { key: `roomTypeRow-${roomType.id}`, class: `room-type-row` }, h("div", { class: 'd-flex choice-row' }, h("span", { class: "pl-1 text-left room-type-name" }, roomType.name))), roomType.physicalrooms.map((room, j) => {
-                var _a;
                 const row_style = j === roomType.physicalrooms.length - 1 ? 'pb-1' : '';
-                return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row' }, h("ir-radio", { class: "pl-1 ", name: "unit", checked: ((_a = this.selectedUnit) === null || _a === void 0 ? void 0 : _a.unit_id) === room.id, onCheckChange: () => (this.selectedUnit = {
+                return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row' }, h("ir-radio", { class: "pl-1 ", name: "unit", checked: this.selectedUnit?.unit_id === room.id, onCheckChange: () => (this.selectedUnit = {
                         roomtype_id: roomType.id,
                         unit_id: room.id,
                     }), label: room.name }))));
             })));
-        }))), h("table", { key: '423bbfaca42c5c0ac5f6a505b0e484c76c7a97dd', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '54020490775ac4f0dc6626f6cfd878aa50bd77fc' }, h("tr", { key: '1889c8348bfcb466b6c434d5d27ed094216a9868' }, h("th", { key: '94d3072024151e5c8e75b67b934ccd113d5330ef', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: '6f563a13c5337e113a6e2866690c0210687b99a4', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: 'fcd504cbc1ae581ae8cecce783bbcc3c8ffa5afb' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-button", { key: '0a0b980b31b82d563096d3b59c9f081dabafb85d', variant: "icon", icon_name: "plus", onClickHandler: () => {
+        }))), h("table", { key: '5260a8c82fb3e5cd25b771a37dbcb7d82e3924e9', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: 'a1c2c4efffb8cd3ef950dc043d543bc19c1884bb' }, h("tr", { key: 'd16c52ea0b39216547b2122ae07ceae700647fea' }, h("th", { key: '01079ffbc5ef74a6eb77e4680fd1c01313089fb2', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: '8b1eb595f7274f640ef7fd95a64f09b8dbd6e331', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: '5c9e2d5b85fc443fc0c64539b8c1bd6354f14e3c' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-button", { key: '946bf33eb3085b1d3157a1288273d97f38c44b6e', variant: "icon", icon_name: "plus", onClickHandler: () => {
                 this.addDateRow();
-            } }))))), h("tbody", { key: 'bede3e9f48df9d46918aae90455351ac6966bcef' }, this.dates.map((d, i) => {
-            var _a, _b, _c, _d, _e, _f, _g;
+            } }))))), h("tbody", { key: '62a33fa6c9280ceacbea11c4d2d7a35cf37c3ad0' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
-            const fromDateMinDate = i > 0 ? (_c = (_b = (_a = this.dates[i - 1]) === null || _a === void 0 ? void 0 : _a.to.clone().add(1, 'days')) === null || _b === void 0 ? void 0 : _b.format('YYYY-MM-DD')) !== null && _c !== void 0 ? _c : this.minDate : this.minDate;
-            const toDateMinDate = this.dates[i].from ? (_e = (_d = this.dates[i]) === null || _d === void 0 ? void 0 : _d.from.clone().add(1, 'days')) === null || _e === void 0 ? void 0 : _e.format('YYYY-MM-DD') : this.minDate;
+            const fromDateMinDate = i > 0 ? this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate : this.minDate;
+            const toDateMinDate = this.dates[i].from ? this.dates[i]?.from.clone().add(1, 'days')?.format('YYYY-MM-DD') : this.minDate;
             return (h("tr", { key: `date_${i}` }, h("td", { class: "pr-1 pb-1" }, h("ir-date-picker", { ref: el => {
                     this.dateRefs[i].from = el;
-                }, forceDestroyOnUpdate: true, minDate: fromDateMinDate, "data-testid": "pickup_arrival_date", date: (_f = d.from) === null || _f === void 0 ? void 0 : _f.format('YYYY-MM-DD'), emitEmptyDate: true, "aria-invalid": String(this.errors === 'dates' && !d.from), onDateChanged: evt => {
+                }, forceDestroyOnUpdate: true, minDate: fromDateMinDate, "data-testid": "pickup_arrival_date", date: d.from?.format('YYYY-MM-DD'), emitEmptyDate: true, "aria-invalid": String(this.errors === 'dates' && !d.from), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
                     evt.stopPropagation();
                     this.handleDateChange({ index: i, date: evt.detail.start, key: 'from' });
                 }, onDatePickerFocus: e => {
-                    var _a, _b, _c;
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     if (i === 0) {
                         return;
                     }
                     const index = this.dates.findIndex(d => !d.from || !d.to);
-                    if (!((_a = this.dates[index]) === null || _a === void 0 ? void 0 : _a.from)) {
-                        (_b = this.dateRefs[index]) === null || _b === void 0 ? void 0 : _b.from.openDatePicker();
+                    if (!this.dates[index]?.from) {
+                        this.dateRefs[index]?.from.openDatePicker();
                         return;
                     }
-                    if (!((_c = this.dates[index]) === null || _c === void 0 ? void 0 : _c.to)) {
+                    if (!this.dates[index]?.to) {
                         this.dateRefs[index].to.openDatePicker();
                     }
                 } }, h("input", { type: "text", slot: "trigger", value: d.from ? d.from.format('MMM DD, YYYY') : null, class: `form-control input-sm ${this.errors === 'dates' && !d.to ? 'border-danger' : ''} text-center`, style: { width: '100%' } }))), h("td", { class: "pr-1 pb-1" }, h("ir-date-picker", { forceDestroyOnUpdate: true, ref: el => {
                     this.dateRefs[i].to = el;
-                }, "data-testid": "pickup_arrival_date", date: (_g = d.to) === null || _g === void 0 ? void 0 : _g.format('YYYY-MM-DD'), emitEmptyDate: true, minDate: toDateMinDate, "aria-invalid": String(this.errors === 'dates' && !d.to), onDateChanged: evt => {
+                }, "data-testid": "pickup_arrival_date", date: d.to?.format('YYYY-MM-DD'), emitEmptyDate: true, minDate: toDateMinDate, "aria-invalid": String(this.errors === 'dates' && !d.to), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
                     evt.stopPropagation();
                     this.handleDateChange({ index: i, date: evt.detail.start, key: 'to' });
                 }, maxDate: d.from ? moment(d.from).add(3, 'months').format('YYYY-MM-DD') : undefined, onDatePickerFocus: e => {
-                    var _a, _b, _c, _d;
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     const index = this.dates.findIndex(d => !d.from || !d.to);
-                    if (!((_a = this.dates[index]) === null || _a === void 0 ? void 0 : _a.from)) {
-                        (_c = (_b = this.dateRefs[index]) === null || _b === void 0 ? void 0 : _b.from) === null || _c === void 0 ? void 0 : _c.openDatePicker();
+                    if (!this.dates[index]?.from) {
+                        this.dateRefs[index]?.from?.openDatePicker();
                         return;
                     }
-                    if (!((_d = this.dates[index]) === null || _d === void 0 ? void 0 : _d.to)) {
+                    if (!this.dates[index]?.to) {
                         this.dateRefs[index].to.openDatePicker();
                     }
                 } }, h("input", { type: "text", slot: "trigger", value: d.to ? d.to.format('MMM DD, YYYY') : null, class: `form-control input-sm 
@@ -215,7 +214,7 @@ export class IglBulkBlock {
                           text-center`, style: { width: '100%' } }))), i > 0 && (h("td", { class: "pb-1" }, h("ir-button", { variant: "icon", icon_name: "minus", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);
                 } })))));
-        })))), h("div", { key: '86718a00c98da89a524f932e3bddcdddc74dba6c', class: 'sheet-footer' }, h("ir-button", { key: '045c5241b59ee9749078c7931cef148b90777cfc', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: 'a363a50a3480aa74cb1538eb37456852525fb292', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        })))), h("div", { key: '185aa06d1cd525a6dce7b584c0e1ff9e789c09b4', class: 'sheet-footer' }, h("ir-button", { key: '52e42211a81f26458c55bec2d016a90f63be64f8', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '8a6604a43b27a3b208abc25830507c4c79844157', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
     static get is() { return "igl-bulk-block"; }
     static get encapsulation() { return "scoped"; }

@@ -16,7 +16,6 @@ export declare class IrBookingHeader {
     closeSidebar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<any>>;
-    private confirmationBG;
     private dialogRef;
     private bookingService;
     private alertMessage;

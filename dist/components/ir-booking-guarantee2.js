@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
-import { J as toFloat } from './utils.js';
+import { K as toFloat } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';
@@ -13,10 +13,12 @@ const IrBookingGuarantee = /*@__PURE__*/ proxyCustomElement(class IrBookingGuara
     constructor() {
         super();
         this.__registerHost();
-        this.collapsed = false;
-        this.paymentDetailsUrl = '';
-        this.paymentExceptionMessage = '';
     }
+    booking;
+    bookingService;
+    collapsed = false;
+    paymentDetailsUrl = '';
+    paymentExceptionMessage = '';
     async componentWillLoad() {
     }
     formatCurrency(amount, currency, locale = 'en-US') {
@@ -31,15 +33,13 @@ const IrBookingGuarantee = /*@__PURE__*/ proxyCustomElement(class IrBookingGuara
         }).format(amount);
     }
     checkPaymentCode(value) {
-        var _a, _b, _c;
-        return (_c = (_b = (_a = calendar_data.allowed_payment_methods) === null || _a === void 0 ? void 0 : _a.find(pm => pm.code === value)) === null || _b === void 0 ? void 0 : _b.description) !== null && _c !== void 0 ? _c : null;
+        return calendar_data.allowed_payment_methods?.find(pm => pm.code === value)?.description ?? null;
     }
     getPaymentMethod() {
-        var _a, _b, _c, _d;
         let paymentMethod = null;
-        const payment_code = (_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.extras) === null || _b === void 0 ? void 0 : _b.find(e => e.key === 'payment_code');
+        const payment_code = this.booking?.extras?.find(e => e.key === 'payment_code');
         if (this.booking.agent) {
-            const code = (_d = (_c = this.booking) === null || _c === void 0 ? void 0 : _c.extras) === null || _d === void 0 ? void 0 : _d.find(e => e.key === 'agent_payment_mode');
+            const code = this.booking?.extras?.find(e => e.key === 'agent_payment_mode');
             if (code) {
                 paymentMethod = code.value === '001' ? locales.entries.Lcz_OnCredit : payment_code ? this.checkPaymentCode(payment_code.value) : null;
             }
@@ -81,11 +81,10 @@ const IrBookingGuarantee = /*@__PURE__*/ proxyCustomElement(class IrBookingGuara
         return h("div", { class: "text-center" }, this.paymentExceptionMessage);
     }
     renderOtaGuarantee() {
-        var _a, _b, _c;
         const { ota_guarante } = this.booking;
         if (!ota_guarante || this.booking.is_direct)
             return null;
-        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? ' (virtual)' : ''}`, labelText: `${locales.entries.Lcz_CardType}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${locales.entries.Lcz_CardHolderName}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${locales.entries.Lcz_CardNumber}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number((_a = ota_guarante.meta) === null || _a === void 0 ? void 0 : _a.virtual_card_current_balance), Number((_b = ota_guarante.meta) === null || _b === void 0 ? void 0 : _b.virtual_card_decimal_places)), (_c = ota_guarante.meta) === null || _c === void 0 ? void 0 : _c.virtual_card_currency_code), labelText: `${locales.entries.Lcz_CardBalance}:` })));
+        return (h("div", null, h("ir-label", { content: ota_guarante.card_type + `${ota_guarante.is_virtual ? ' (virtual)' : ''}`, labelText: `${locales.entries.Lcz_CardType}:` }), h("ir-label", { content: ota_guarante.cardholder_name, labelText: `${locales.entries.Lcz_CardHolderName}:` }), h("ir-label", { content: ota_guarante.card_number, labelText: `${locales.entries.Lcz_CardNumber}:` }), h("ir-label", { content: this.formatCurrency(toFloat(Number(ota_guarante.meta?.virtual_card_current_balance), Number(ota_guarante.meta?.virtual_card_decimal_places)), ota_guarante.meta?.virtual_card_currency_code), labelText: `${locales.entries.Lcz_CardBalance}:` })));
     }
     render() {
         if (!this.shouldShowGuarantee()) {

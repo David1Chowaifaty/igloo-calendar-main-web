@@ -7,12 +7,13 @@ const IrCopyButton$1 = /*@__PURE__*/ proxyCustomElement(class IrCopyButton exten
     constructor() {
         super();
         this.__registerHost();
-        this.state = null;
-        this.tooltipId = `ir-copy-tooltip-${Math.random().toString(36).slice(2)}`;
     }
+    text;
+    state = null;
+    tooltipId = `ir-copy-tooltip-${Math.random().toString(36).slice(2)}`;
+    stateResetTimeout;
     get currentState() {
-        var _a;
-        return (_a = this.state) !== null && _a !== void 0 ? _a : 'idle';
+        return this.state ?? 'idle';
     }
     get tooltipMessage() {
         switch (this.currentState) {
@@ -36,11 +37,10 @@ const IrCopyButton$1 = /*@__PURE__*/ proxyCustomElement(class IrCopyButton exten
         }, delay);
     }
     async copyToClipboard() {
-        var _a;
         if (this.state === 'loading')
             return;
         this.state = 'loading';
-        const value = (_a = this.text) !== null && _a !== void 0 ? _a : '';
+        const value = this.text ?? '';
         try {
             if (!value)
                 throw new Error('No text to copy');
@@ -66,7 +66,7 @@ const IrCopyButton$1 = /*@__PURE__*/ proxyCustomElement(class IrCopyButton exten
             this.state = 'success';
             this.queueStateReset(2000);
         }
-        catch (_b) {
+        catch {
             this.state = 'failed';
             this.queueStateReset(2200);
         }
@@ -77,7 +77,7 @@ const IrCopyButton$1 = /*@__PURE__*/ proxyCustomElement(class IrCopyButton exten
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '92428e0e103f4e4d698136bbe0e431488f64375e', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: '2b51c7956920a7894cc9f7cdc11d7afad44e4a90', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
     static get style() { return IrCopyButtonStyle0; }
 }, [2, "ir-copy-button", {

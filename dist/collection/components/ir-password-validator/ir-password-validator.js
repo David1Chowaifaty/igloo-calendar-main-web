@@ -1,11 +1,10 @@
 import { h } from "@stencil/core";
 export class IrPasswordValidator {
-    constructor() {
-        /**
-         * The password string to validate
-         */
-        this.password = '';
-    }
+    /**
+     * The password string to validate
+     */
+    password = '';
+    passwordValidationChange;
     handlePasswordChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.passwordValidationChange.emit(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/.test(newValue));
@@ -42,7 +41,7 @@ export class IrPasswordValidator {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (h("div", { key: '3f254350b4930942cb870257845bf76cabec8ad0', class: "m-0 p-0" }, h("requirement-check", { key: '1c45af0cb319d2fd16254af4b7f93b824a040a50', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: 'b2c7ac15348c1ebd3eb918818b1e36ceef568647', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'b1794bf647f2f973b49a2980407993afcbf93185', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '6c246d60473210670813e5cdc57d916ee5b0be8e', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: 'e80f01c8a5a0d3374226d4b1b64b98510cecb409', isValid: this.hasSpecialChar, text: "At least one special character" })));
+        return (h("div", { key: '1cbae080e3daf1230cdcf19fba6c69f50c3ce487', class: "m-0 p-0" }, h("requirement-check", { key: '2d862c27be3c59a7824e63021c2682a7fd44ce1f', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '7e86607bf248d33191dd335db3f2a01d8212a837', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'cf0ce239ff1f81f5364f6b6fc197b627a4192e17', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '22de863448842548679f435d8cf5320bc280f16a', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '57e00b4a43a3e78d68fa417d07890ec24ff83254', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get is() { return "ir-password-validator"; }
     static get encapsulation() { return "scoped"; }

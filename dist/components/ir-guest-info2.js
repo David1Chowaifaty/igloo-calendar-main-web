@@ -4,16 +4,18 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { d as defineCustomElement$e } from './ir-button2.js';
-import { d as defineCustomElement$d } from './ir-combobox2.js';
-import { d as defineCustomElement$c } from './ir-country-picker2.js';
-import { d as defineCustomElement$b } from './ir-icon2.js';
-import { d as defineCustomElement$a } from './ir-icons2.js';
-import { d as defineCustomElement$9 } from './ir-input-text2.js';
-import { d as defineCustomElement$8 } from './ir-interceptor2.js';
-import { d as defineCustomElement$7 } from './ir-otp2.js';
-import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$5 } from './ir-phone-input2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$f } from './ir-combobox2.js';
+import { d as defineCustomElement$e } from './ir-country-picker2.js';
+import { d as defineCustomElement$d } from './ir-icon2.js';
+import { d as defineCustomElement$c } from './ir-icons2.js';
+import { d as defineCustomElement$b } from './ir-input-text2.js';
+import { d as defineCustomElement$a } from './ir-interceptor2.js';
+import { d as defineCustomElement$9 } from './ir-otp2.js';
+import { d as defineCustomElement$8 } from './ir-otp-modal2.js';
+import { d as defineCustomElement$7 } from './ir-phone-input2.js';
+import { d as defineCustomElement$6 } from './ir-picker2.js';
+import { d as defineCustomElement$5 } from './ir-picker-item2.js';
 import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-textarea2.js';
 import { d as defineCustomElement$2 } from './ir-title2.js';
@@ -32,14 +34,24 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.toast = createEvent(this, "toast", 7);
-        // @State() submit: boolean = false;
-        this.guest = null;
-        this.isLoading = true;
-        this.autoValidate = false;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.token = new Token();
     }
+    language;
+    headerShown;
+    email;
+    booking_nbr;
+    ticket;
+    isInSideBar;
+    countries;
+    // @State() submit: boolean = false;
+    guest = null;
+    isLoading = true;
+    autoValidate = false;
+    closeSideBar;
+    resetBookingEvt;
+    toast;
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    token = new Token();
     async componentWillLoad() {
         if (this.ticket) {
             this.token.setToken(this.ticket);
@@ -70,7 +82,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
             }
             // Assign the fetched guest and countries
             this.countries = countries;
-            this.guest = Object.assign(Object.assign({}, guest), { mobile: guest.mobile_without_prefix });
+            this.guest = { ...guest, mobile: guest.mobile_without_prefix };
         }
         catch (error) {
             console.log(error);
@@ -80,13 +92,12 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         }
     }
     handleInputChange(params) {
-        this.guest = Object.assign(Object.assign({}, this.guest), params);
+        this.guest = { ...this.guest, ...params };
     }
     async editGuest() {
-        var _a;
         try {
             this.autoValidate = true;
-            await this.bookingService.editExposedGuest(this.guest, (_a = this.booking_nbr) !== null && _a !== void 0 ? _a : null);
+            await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
             this.toast.emit({
                 type: 'success',
                 description: '',
@@ -101,7 +112,6 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         }
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (this.isLoading && this.isInSideBar) {
             h("div", { class: 'loading-container' }, h("ir-spinner", null));
         }
@@ -111,15 +121,15 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         return (h("form", { class: 'p-0 sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 await this.editGuest();
-            } }, !this.isInSideBar && [h("ir-toast", null), h("ir-interceptor", null)], this.headerShown && h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: locales.entries.Lcz_GuestDetails }), h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_FirstName, name: "firstName",
+            } }, !this.isInSideBar && [h("ir-toast", null), h("ir-interceptor", null)], this.headerShown && h("ir-title", { class: "px-1 sheet-header", displayContext: "sidebar", label: locales.entries.Lcz_GuestDetails }), h("div", { class: this.isInSideBar ? 'sheet-body' : 'card-content collapse show ' }, h("div", { class: this.headerShown ? 'card-body px-1 pt-0' : 'pt-0' }, h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries?.Lcz_FirstName, name: "firstName",
             // submitted={this.submit}
-            value: (_b = this.guest) === null || _b === void 0 ? void 0 : _b.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: (_c = locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_LastName, name: "lastName",
+            value: this.guest?.first_name, required: true, onTextChange: e => this.handleInputChange({ first_name: e.detail }) }), h("ir-input-text", { autoValidate: this.autoValidate, label: locales.entries?.Lcz_LastName, name: "lastName",
             // submitted={this.submit}
-            value: (_d = this.guest) === null || _d === void 0 ? void 0 : _d.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: (_e = locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_Email, name: "email",
+            value: this.guest?.last_name, required: true, onTextChange: e => this.handleInputChange({ last_name: e.detail }) }), h("ir-input-text", { label: locales.entries?.Lcz_Email, name: "email",
             // submitted={this.submit}
-            value: (_f = this.guest) === null || _f === void 0 ? void 0 : _f.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: (_g = locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_AlternativeEmail, name: "altEmail", value: (_h = this.guest) === null || _h === void 0 ? void 0 : _h.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
+            value: this.guest?.email, required: true, onTextChange: e => this.handleInputChange({ email: e.detail }) }), h("ir-input-text", { label: locales.entries?.Lcz_AlternativeEmail, name: "altEmail", value: this.guest?.alternative_email, onTextChange: e => this.handleInputChange({ alternative_email: e.detail }) }), h("ir-country-picker", {
             // error={this.submit && !this.guest.country_id}
-            country: this.countries.find(c => c.id === this.guest.country_id), label: (_j = locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
+            country: this.countries.find(c => c.id === this.guest.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries
         }), h("ir-phone-input", { onTextChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -129,7 +139,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
                 }
                 if (phone_prefix !== this.guest.country_phone_prefix)
                     this.handleInputChange({ country_phone_prefix: phone_prefix });
-            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: (_k = locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_MobilePhone, countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: (_l = this.guest) === null || _l === void 0 ? void 0 : _l.notes, label: (_m = locales.entries) === null || _m === void 0 ? void 0 : _m.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter)), !this.isInSideBar && (h(Fragment, null, h("hr", null), h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), isLoading: isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (h("div", { class: 'sheet-footer' }, h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { "data-testid": "save", isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: locales.entries.Lcz_Save })))));
+            }, phone_prefix: this.guest.country_phone_prefix, value: this.guest.mobile, language: this.language, label: locales.entries?.Lcz_MobilePhone, countries: this.countries }), h("div", { class: "mb-2" }, h("ir-textarea", { variant: "prepend", onTextChange: e => this.handleInputChange({ notes: e.detail }), value: this.guest?.notes, label: locales.entries?.Lcz_PrivateNote })), h("div", { class: 'p-0 m-0' }, h("label", { class: `check-container m-0 p-0` }, h("input", { class: 'm-0 p-0', type: "checkbox", name: "newsletter", checked: this.guest.subscribe_to_news_letter, onInput: e => this.handleInputChange({ subscribe_to_news_letter: e.target.checked }) }), h("span", { class: "checkmark m-0 p-0" }), h("span", { class: 'm-0 p-0  check-label' }, locales.entries.Lcz_Newsletter)), !this.isInSideBar && (h(Fragment, null, h("hr", null), h("ir-button", { btn_styles: "d-flex align-items-center justify-content-center", text: locales.entries.Lcz_Save, onClickHandler: this.editGuest.bind(this), isLoading: isRequestPending('/Edit_Exposed_Guest'), color: "btn-primary" })))))), this.isInSideBar && (h("div", { class: 'sheet-footer' }, h("ir-button", { "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill m-0 p-0", btn_styles: "w-100 m-0  justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { "data-testid": "save", isLoading: isRequestPending('/Edit_Exposed_Guest'), btn_disabled: this.isLoading, class: "flex-fill m-0", btn_type: "submit", btn_styles: "w-100 m-0  justify-content-center align-items-center", text: locales.entries.Lcz_Save })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -153,7 +163,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-phone-input", "ir-spinner", "ir-textarea", "ir-title", "ir-toast"];
+    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-phone-input", "ir-picker", "ir-picker-item", "ir-spinner", "ir-textarea", "ir-title", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
@@ -162,50 +172,60 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-phone-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-picker-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

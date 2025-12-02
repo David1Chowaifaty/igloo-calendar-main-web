@@ -2,282 +2,286 @@ import { Host, h } from "@stencil/core";
 import { sleep } from "../../utils/utils";
 import { colorVariants } from "../ui/ir-icons/icons";
 export class IrTestCmp {
-    constructor() {
-        this.countryOptions = [];
-        this.customOptions = [];
-        this.isLoadingCountries = false;
-        this.isLoadingCustom = false;
-        this.staticOptions = [
-            { value: 'option1', label: 'Option 1' },
-            { value: 'option2', label: 'Option 2' },
-            { value: 'option3', label: 'Option 3 ajnajanjanjna janajnjanjan najnajnajn ajnaj' },
-            { value: 'option4', label: 'Option 4' },
-            { value: 'option5', label: 'Option 5' },
-        ];
-        this.handleStaticOptionChange = (event) => {
-            this.selectedStaticOption = event.detail;
-        };
-        this.handleCountryChange = (event) => {
-            this.selectedCountry = event.detail;
-        };
-        this.handleCustomOptionChange = (event) => {
-            this.selectedCustomOption = event.detail;
-        };
-        this.handleCountrySearch = async (event) => {
-            const query = event.detail;
-            if (!query || query.length < 2) {
+    dates;
+    selectedStaticOption;
+    selectedCountry;
+    selectedCustomOption;
+    countryOptions = [];
+    customOptions = [];
+    isLoadingCountries = false;
+    isLoadingCustom = false;
+    customComboboxRef;
+    staticOptions = [
+        { value: 'option1', label: 'Option 1' },
+        { value: 'option2', label: 'Option 2' },
+        { value: 'option3', label: 'Option 3 ajnajanjanjna janajnjanjan najnajnajn ajnaj' },
+        { value: 'option4', label: 'Option 4' },
+        { value: 'option5', label: 'Option 5' },
+    ];
+    handleStaticOptionChange = (event) => {
+        this.selectedStaticOption = event.detail;
+    };
+    handleCountryChange = (event) => {
+        this.selectedCountry = event.detail;
+    };
+    handleCustomOptionChange = (event) => {
+        this.selectedCustomOption = event.detail;
+    };
+    handleCountrySearch = async (event) => {
+        const query = event.detail;
+        if (!query || query.length < 2) {
+            this.countryOptions = [];
+            return;
+        }
+        this.isLoadingCountries = true;
+        try {
+            const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(query)}`);
+            if (response.ok) {
+                const countries = await response.json();
+                this.countryOptions = countries
+                    .map(country => ({
+                    value: country.cca2,
+                    label: country.name.common,
+                }))
+                    .slice(0, 10); // Limit to 10 results
+            }
+            else {
                 this.countryOptions = [];
-                return;
             }
-            this.isLoadingCountries = true;
-            try {
-                const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(query)}`);
-                if (response.ok) {
-                    const countries = await response.json();
-                    this.countryOptions = countries
-                        .map(country => ({
-                        value: country.cca2,
-                        label: country.name.common,
-                    }))
-                        .slice(0, 10); // Limit to 10 results
-                }
-                else {
-                    this.countryOptions = [];
-                }
-            }
-            catch (error) {
-                console.error('Error fetching countries:', error);
-                this.countryOptions = [];
-            }
-            finally {
-                this.isLoadingCountries = false;
-            }
-        };
-        this.handleCustomSearch = async (event) => {
-            const query = event.detail;
-            if (!query || query.length < 2) {
-                this.customOptions = [];
-                return;
-            }
-            this.isLoadingCustom = true;
-            // Simulate API call with timeout
-            setTimeout(() => {
-                this.customOptions = [
-                    { value: `custom-${query}-1`, label: `Custom Result 1 for "${query}"` },
-                    { value: `custom-${query}-2`, label: `Custom Result 2 for "${query}"` },
-                    { value: `custom-${query}-3`, label: `Custom Result 3 for "${query}"` },
-                ];
-                this.isLoadingCustom = false;
-            }, 500);
-        };
-        this.handleCustomOptionClick = (option) => {
-            if (this.customComboboxRef) {
-                this.customComboboxRef.selectOptionFromSlot(option);
-            }
-        };
-        this.notificationCount = 0;
-        this.isMobileMenuOpen = false;
-        this.toggleMobileMenu = () => {
-            this.isMobileMenuOpen = !this.isMobileMenuOpen;
-        };
-        this.pages = [
-            {
-                label: 'Dashboard',
-                href: 'acdashboard.aspx',
-                id: 'Li_AcDashboard',
-                icon: 'la la-dashboard',
-                isNew: true,
-            },
-            {
-                label: 'Frontdesk',
-                href: 'frontdesk.aspx',
-                id: 'Li_FrontDesk',
-                icon: 'la la-calendar',
-            },
-            {
-                label: 'Inventory',
-                href: 'acratesallotment.aspx',
-                id: 'Li_AcRatesAllotment',
-                icon: 'la la-list',
-            },
-            {
-                label: 'Marketing',
-                id: 'Li_AcPromotions',
-                icon: 'la la-rocket',
-                href: '#',
-                subMenus: [
-                    {
-                        label: 'Discounts',
-                        href: 'acpromodiscounts.aspx',
-                    },
-                    {
-                        label: 'Automated Emails',
-                        href: 'acautomatedemails.aspx',
-                        id: 'Li_AutomatedEmails',
-                    },
-                ],
-            },
-            {
-                label: 'Bookings',
-                href: 'acbookinglist.aspx',
-                icon: 'la la-suitcase',
-            },
-            {
-                href: '#',
-                label: 'Settings',
-                id: 'Li_AcSetup',
-                icon: 'la la-building',
-                isNew: true,
-                subMenus: [
-                    {
-                        label: 'General Info',
-                        href: 'acgeneral.aspx',
-                    },
-                    {
-                        label: 'Facilities & Services',
-                        href: 'acamenities.aspx',
-                    },
-                    {
-                        label: 'Descriptions',
-                        href: 'acdescriptions.aspx',
-                        id: 'Li_AcDesc',
-                    },
-                    {
-                        label: 'Policies',
-                        href: 'acconcan.aspx',
-                    },
-                    {
-                        label: 'Money Matters',
-                        href: 'accommtax.aspx',
-                    },
-                    {
-                        label: 'Rooms & Rate Plans',
-                        href: 'acroomcategories.aspx',
-                        className: 'Li_AcRooming anchor_AcRooming',
-                    },
-                    {
-                        label: 'Housekeeping & Check-in Setup',
-                        href: 'ACHousekeeping.aspx',
-                        id: 'Li_Housekeeping',
-                        isNew: true,
-                    },
-                    {
-                        label: 'Agents and Groups',
-                        href: 'actravelagents.aspx',
-                    },
-                    {
-                        label: 'Image Gallery',
-                        href: 'acimagegallery.aspx',
-                        className: 'Li_AcRooming',
-                    },
-                    {
-                        label: 'Pickup Services',
-                        href: 'acpickups.aspx',
-                    },
-                    {
-                        label: 'Integrations',
-                        href: 'acintegrations.aspx',
-                    },
-                    {
-                        label: 'iSPACE',
-                        href: 'acthemingwebsite.aspx',
-                    },
-                    {
-                        label: 'iCHANNEL',
-                        href: 'acigloochannel.aspx',
-                    },
-                    {
-                        label: 'iSWITCH',
-                        href: 'iSwitch.aspx',
-                        id: 'Li_iSwitch',
-                    },
-                ],
-            },
-            {
-                href: '#',
-                label: 'Reports',
-                id: 'Li_AcAnalytics',
-                icon: 'la la-bar-chart',
-                isNew: true,
-                subMenus: [
-                    {
-                        label: 'Housekeeping Tasks',
-                        href: 'ACHousekeepingTasks.aspx',
-                        id: 'Li_HousekeepingTasks',
-                    },
-                    {
-                        label: 'Guests',
-                        href: 'acmemberlist.aspx',
-                    },
-                    {
-                        label: 'Sales Statistics',
-                        href: 'acsalesstatistics.aspx',
-                    },
-                    {
-                        label: 'Sales by Channel',
-                        href: 'acsalesbychannel.aspx',
-                        isNew: true,
-                    },
-                    {
-                        label: 'Sales by Country',
-                        href: 'acsalesbycountry.aspx',
-                        isNew: true,
-                    },
-                    {
-                        label: 'Daily Occupancy',
-                        href: 'ACDailyOccupancy.aspx',
-                        id: 'Li_DailyOccupancy',
-                    },
-                    {
-                        label: 'Accounting Report',
-                        href: 'acaccountingreport.aspx',
-                    },
-                ],
-            },
-        ];
-        this.notifications = [
-            {
-                id: '1',
-                type: 'info',
-                title: 'Welcome!',
-                message: 'Your account has been created successfully.',
-                createdAt: Date.now(),
-                read: false,
-                dismissible: true,
-            },
-            {
-                id: '2',
-                type: 'warning',
-                title: 'Storage Almost Full',
-                message: 'You have used 90% of your storage. Please upgrade.',
-                createdAt: Date.now(),
-                read: false,
-                dismissible: true,
-                link: { href: '#', text: 'Upgrade now' },
-            },
-            {
-                id: '3',
-                type: 'success',
-                title: 'Payment Received',
-                message: 'Your invoice has been paid. Thank you!',
-                createdAt: Date.now(),
-                read: true,
-                dismissible: true,
-            },
-        ];
-    }
+        }
+        catch (error) {
+            console.error('Error fetching countries:', error);
+            this.countryOptions = [];
+        }
+        finally {
+            this.isLoadingCountries = false;
+        }
+    };
+    handleCustomSearch = async (event) => {
+        const query = event.detail;
+        if (!query || query.length < 2) {
+            this.customOptions = [];
+            return;
+        }
+        this.isLoadingCustom = true;
+        // Simulate API call with timeout
+        setTimeout(() => {
+            this.customOptions = [
+                { value: `custom-${query}-1`, label: `Custom Result 1 for "${query}"` },
+                { value: `custom-${query}-2`, label: `Custom Result 2 for "${query}"` },
+                { value: `custom-${query}-3`, label: `Custom Result 3 for "${query}"` },
+            ];
+            this.isLoadingCustom = false;
+        }, 500);
+    };
+    handleCustomOptionClick = (option) => {
+        if (this.customComboboxRef) {
+            this.customComboboxRef.selectOptionFromSlot(option);
+        }
+    };
+    notificationCount = 0;
+    isMobileMenuOpen = false;
+    toggleMobileMenu = () => {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    };
+    pages = [
+        {
+            label: 'Dashboard',
+            href: 'acdashboard.aspx',
+            id: 'Li_AcDashboard',
+            icon: 'la la-dashboard',
+            isNew: true,
+        },
+        {
+            label: 'Frontdesk',
+            href: 'frontdesk.aspx',
+            id: 'Li_FrontDesk',
+            icon: 'la la-calendar',
+        },
+        {
+            label: 'Inventory',
+            href: 'acratesallotment.aspx',
+            id: 'Li_AcRatesAllotment',
+            icon: 'la la-list',
+        },
+        {
+            label: 'Marketing',
+            id: 'Li_AcPromotions',
+            icon: 'la la-rocket',
+            href: '#',
+            subMenus: [
+                {
+                    label: 'Discounts',
+                    href: 'acpromodiscounts.aspx',
+                },
+                {
+                    label: 'Automated Emails',
+                    href: 'acautomatedemails.aspx',
+                    id: 'Li_AutomatedEmails',
+                },
+            ],
+        },
+        {
+            label: 'Bookings',
+            href: 'acbookinglist.aspx',
+            icon: 'la la-suitcase',
+        },
+        {
+            href: '#',
+            label: 'Settings',
+            id: 'Li_AcSetup',
+            icon: 'la la-building',
+            isNew: true,
+            subMenus: [
+                {
+                    label: 'General Info',
+                    href: 'acgeneral.aspx',
+                },
+                {
+                    label: 'Facilities & Services',
+                    href: 'acamenities.aspx',
+                },
+                {
+                    label: 'Descriptions',
+                    href: 'acdescriptions.aspx',
+                    id: 'Li_AcDesc',
+                },
+                {
+                    label: 'Policies',
+                    href: 'acconcan.aspx',
+                },
+                {
+                    label: 'Money Matters',
+                    href: 'accommtax.aspx',
+                },
+                {
+                    label: 'Rooms & Rate Plans',
+                    href: 'acroomcategories.aspx',
+                    className: 'Li_AcRooming anchor_AcRooming',
+                },
+                {
+                    label: 'Housekeeping & Check-in Setup',
+                    href: 'ACHousekeeping.aspx',
+                    id: 'Li_Housekeeping',
+                    isNew: true,
+                },
+                {
+                    label: 'Agents and Groups',
+                    href: 'actravelagents.aspx',
+                },
+                {
+                    label: 'Image Gallery',
+                    href: 'acimagegallery.aspx',
+                    className: 'Li_AcRooming',
+                },
+                {
+                    label: 'Pickup Services',
+                    href: 'acpickups.aspx',
+                },
+                {
+                    label: 'Integrations',
+                    href: 'acintegrations.aspx',
+                },
+                {
+                    label: 'iSPACE',
+                    href: 'acthemingwebsite.aspx',
+                },
+                {
+                    label: 'iCHANNEL',
+                    href: 'acigloochannel.aspx',
+                },
+                {
+                    label: 'iSWITCH',
+                    href: 'iSwitch.aspx',
+                    id: 'Li_iSwitch',
+                },
+            ],
+        },
+        {
+            href: '#',
+            label: 'Reports',
+            id: 'Li_AcAnalytics',
+            icon: 'la la-bar-chart',
+            isNew: true,
+            subMenus: [
+                {
+                    label: 'Housekeeping Tasks',
+                    href: 'ACHousekeepingTasks.aspx',
+                    id: 'Li_HousekeepingTasks',
+                },
+                {
+                    label: 'Guests',
+                    href: 'acmemberlist.aspx',
+                },
+                {
+                    label: 'Sales Statistics',
+                    href: 'acsalesstatistics.aspx',
+                },
+                {
+                    label: 'Sales by Channel',
+                    href: 'acsalesbychannel.aspx',
+                    isNew: true,
+                },
+                {
+                    label: 'Sales by Country',
+                    href: 'acsalesbycountry.aspx',
+                    isNew: true,
+                },
+                {
+                    label: 'Daily Occupancy',
+                    href: 'ACDailyOccupancy.aspx',
+                    id: 'Li_DailyOccupancy',
+                },
+                {
+                    label: 'Accounting Report',
+                    href: 'acaccountingreport.aspx',
+                },
+            ],
+        },
+    ];
+    notifications = [
+        {
+            id: '1',
+            type: 'info',
+            title: 'Welcome!',
+            message: 'Your account has been created successfully.',
+            createdAt: Date.now(),
+            read: false,
+            dismissible: true,
+        },
+        {
+            id: '2',
+            type: 'warning',
+            title: 'Storage Almost Full',
+            message: 'You have used 90% of your storage. Please upgrade.',
+            createdAt: Date.now(),
+            read: false,
+            dismissible: true,
+            link: { href: '#', text: 'Upgrade now' },
+        },
+        {
+            id: '3',
+            type: 'success',
+            title: 'Payment Received',
+            message: 'Your invoice has been paid. Thank you!',
+            createdAt: Date.now(),
+            read: true,
+            dismissible: true,
+        },
+    ];
+    showMegaMenu;
     render() {
-        return (h(Host, { key: 'c58cc58d1230e459569467016da452b3e879d5be' }, h("nav", { key: '1ab1247b38046c0786a2356166423c856d53542c', class: "modern-navbar" }, h("span", { key: '355108ec6df1b739b7045560bccfba60b86bf348', class: "overdue-banner" }, "Overdue $300"), h("div", { key: '15510a88d34726230aa5bd305d09fa3e6686b924', class: "navbar-container" }, h("div", { key: '7fa102af51a35b349c9b00837735ed8ecfdfd2cd', class: "navbar-left" }, h("button", { key: 'd72c30f571edc747ac8788d243106280e81ffd85', class: "mobile-menu-toggle d-md-none", onClick: () => this.toggleMobileMenu() }, h("span", { key: '08b617e0148664b3b656de4cc77131fa352dec63', class: "hamburger-icon" }, h("span", { key: 'df947d5427576098c1421aea8df87ef3c1ae7cae' }), h("span", { key: 'd65a3195e31ba5e96ab0dac289083a8fea87a6fe' }), h("span", { key: '9a4762c1a6d070434dccbd5f7a48c57af332f97a' }))), h("div", { key: 'b4754b3efee0ee2317469d1bd4f98ec1888c06d6', class: "navbar-brand" }, "Logo"), h("div", { key: '8ecdec3d163e93144a66a2d82c9f42dcc43ddfb9', class: "d-none d-md-flex " }, h("ir-m-combobox", { key: '2156c4331b5d850adcc24f98a8061d54838bcbf1', style: { '--ir-combobox-width': 'max-content' }, placeholder: "Find property", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("div", { key: 'dac9e940a64f66eee71517121119ff906928d4e7', class: "hotel-name d-none d-md-block" }, "Hotel Name"), h("div", { key: '983af49e3a8b1f16f888111a6cd5edf8c17eb2fa', class: "ml-auto d-md-none" }, h("ir-notifications", { key: '11f943e34cdc3e6df0d3a3a50c46097d9a56b601', notifications: this.notifications }))), h("div", { key: '8b84d3cec68da6339697984b4f4352740f29577c', class: "navbar-center d-none d-md-flex flex-fill mx-auto" }, h("ir-m-combobox", { key: 'acfe6b804514f3ba677cc1e2a2a1eb03edca3318', placeholder: "Search...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("div", { key: 'bc94489dd7b471a12658e9da7f9763e0845eed88', class: "navbar-right" }, h("ul", { key: '66fadcbbda2180432bee31e535f278a6562c2729', class: "nav-items d-none d-md-flex" }, h("li", { key: '1b59a36b4c25e9a6971723635849f109a5a0a1a3', class: "nav-item dropdown" }, h("a", { key: 'e0d0806fa0d6880fe508f4da740088b52b0bc606', "data-reference": "parent", href: "#", role: "button", class: "nav-link", "data-toggle": "dropdown", "aria-expanded": "false" }, "a"), h("ul", { key: 'e07e2d960a25b5fc946ae38abe86c747776e7157', class: `ir-mega-menu mx-auto dropdown-menu-right dropdown-menu    w-100 shadow-sm` }, h("li", { key: 'b9e9336b8906dd3e1517b874b0535f9f9b928cfa' }, h("ul", { key: 'a7db2c1b0db3e07e65d4fd7717510e42bf4ee145', class: "ir-mega-menu-column" }, h("li", { key: '5ce5d51324d78b3cdae40b63ae52fe670d020555', class: "ir-mega-menu-row title" }, "Parameters"), h("li", { key: '43eeed9e908fb24433d0825648fd193ca1a8a5c2', class: "ir-mega-menu-row" }, h("a", { key: '04900f9b5c02f31512d8fa68e78e8a372ac52e2e', href: "userinline.aspx" }, "Users List")), h("li", { key: '22cef88ca460b95a0ad44a8bf6d89113e8159d12', class: "ir-mega-menu-row" }, h("a", { key: 'b52964de800932e175731d43573ca07a029ba3f8', href: "languageinline.aspx" }, "System Languages")), h("li", { key: 'df0a9504f1963bd9cb760feae9a1569fe98c3642', class: "ir-mega-menu-row" }, h("a", { key: 'c503316285abc70695f56eaefb1c7b9e148ca3b5', href: "countryinline.aspx" }, "Countries")), h("li", { key: 'b3170adea708fe4b4ab1e49f0af7910c4b2a0908', class: "ir-mega-menu-row" }, h("a", { key: '2dfd4e1ec35ae5ae6babf8b70a6b4c5204090ead', href: "level2inline.aspx" }, "Country Level 2")), h("li", { key: '0a2cde4e75990e3e812b2bce88a96d9bd3c447fa', class: "ir-mega-menu-row" }, h("a", { key: 'cb1e17899c6336e0b4b4a149fd9c5a40df93a37b', href: "cardinline.aspx" }, "Credit Cards")), h("li", { key: '9c85481370c8fe9ef81c8380f4803b2cc6d99991', class: "ir-mega-menu-row" }, h("a", { key: '79d2fb340caf2f3b775b0b67839f5dddd7417142', href: "hotel_chaininline.aspx" }, "Hotel Chains")), h("li", { key: 'a45e8081272a43898f4fb30821c77de7d9ca2c59', class: "ir-mega-menu-row" }, h("a", { key: 'ed43795c4b8beffb5f60fc07e7612ee3fbfd58cb', href: "currencyinline.aspx" }, "Currencies")), h("li", { key: '144e0ff46b8d595b180e0612cd665caa71eccf29', class: "ir-mega-menu-row" }, h("a", { key: '50b2842769718c6537ffba2cb426629ef9ffdc91', href: "amenityinline.aspx" }, "Amenities")), h("li", { key: 'bb97aa5cdd0faa30e498a7bb5c4fbef3914bd014', class: "ir-mega-menu-row" }, h("a", { key: '9a868f4f9597c9b86736d487fbe6e617406ea707', href: "foodinline.aspx" }, "Food")), h("li", { key: '0f0abf12c0ef35ab1b0774988848ae3e7244aeed', class: "ir-mega-menu-row" }, h("a", { key: 'b0b9bf3157c47cbb6cf22c838da0141f17146f1d', href: "beddinginline.aspx" }, "Bedding")), h("li", { key: '88978f03a0c9a8c512cd7898796dcc92595229e2', class: "ir-mega-menu-row" }, h("a", { key: 'e7949cd9cdca4fbccb0203be3a31ca2634b98d58', href: "setupinline.aspx" }, "Setup Table")), h("li", { key: '3415ac1bfdeea76cb53aa9a0af39d72320fb8ea6', class: "ir-mega-menu-row" }, h("a", { key: '948cd3033ce53b837ced8efb964706ba94c1065e', href: "gwedit.aspx" }, "Payment Gateways")), h("li", { key: '694d04059ece7e4a2aa99b024537d77ca912b1fd', class: "ir-mega-menu-row" }, h("a", { key: 'c24a8694a0cbb7c0a91cc8d93dd33ce11e646317', href: "channelmanager.aspx" }, "Channel Manager")))), h("li", { key: '13b8a9858c863ced9535ee4a67905448e65b5f70' }, h("ul", { key: '12f72b81227737013763fc72a444e7280a50b75c', class: "ir-mega-menu-column" }, h("li", { key: '1edf661ed4537d41727d0193b2c1ee931a7a4ad3', class: "ir-mega-menu-row title" }, "Main"), h("li", { key: 'c6fa382cd0e6823c11367498abaf67d1892cd3fa', class: "ir-mega-menu-row" }, h("a", { key: 'f2be73ca5ae03c0154baae4f1b9073e94f9663a7', href: "mpolist.aspx" }, "MPOs")), h("li", { key: 'cf9c6074775df63c88e25f1d0ad8bb509d201c1f', class: "ir-mega-menu-row" }, h("a", { key: '5f317e07b15cb3a47d0f72c9378e053704a00287', href: "aclist.aspx" }, "Properties")), h("li", { key: 'c81fda5981fb2e23ddb50eb5cd988e17fcab9257', class: "ir-mega-menu-row" }, h("a", { key: 'b3fec0d0f8ee9702396e81ba4b62f4bfff694b40', href: "acbookinglist.aspx?MODE=MPO" }, "Bookings")), h("li", { key: '1d2966eb80c988fe81632e2a7463db3e5a3c4282', class: "ir-mega-menu-row" }, h("a", { key: '943d991b401c357c04dcea538fc354854100ef4c', href: "mpoaffiliateproperties.aspx" }, "MPO Affiliate Properties")), h("li", { key: 'ee9ef5ea073f182dabdab93882d77c3bbe644385', class: "ir-mega-menu-row" }, h("a", { key: '6488a7980ee852e05493bdbd5953ca208165c2e8', href: "acratesallotment.aspx?VIEW_MODE=CV" }, "MPO Combined Inventory")), h("li", { key: '6cd5a77e54416e9b09936aa3bfc6d7de856407a4', class: "ir-mega-menu-row" }, h("a", { key: 'a5b4b9431c5360e89000c5e2123c34ddc8bfbb95', href: "acbookinglist.aspx?VIEW_MODE=CV" }, "MPO Combined Bookings")), h("li", { key: '7e5b5346f2322b719eab2eed274840dccbc5edcf', class: "ir-mega-menu-row" }, h("a", { key: '8b4621ca48a76c6cac0aa6963460a2d9d176c479', href: "Acmemberlist.aspx?VIEW_MODE=CV" }, "MPO Combined Guests")), h("li", { key: '31fae55275e9ddb62ce0d2cc8ff70fbfe5aad979', class: "ir-mega-menu-row" }, h("a", { key: 'ea425b8a4cb4e2c1af3f22b48a25349e532b8464', href: "mpobillingreport.aspx" }, "MPO Billing Report")), h("li", { key: '065ec0ea16ac965573ab80203c4f5fe9d81ecc39', class: "ir-mega-menu-row" }, h("a", { key: '474e4a86b6814d1bce58b23e252db1eb768b9c59', href: "Acmemberlist.aspx" }, "Guests")), h("li", { key: 'c99ec34c4809ff5b90270a799807684e7cf89dee', class: "ir-mega-menu-row" }, h("a", { key: '9f760e8dfe0de74cfe74972c8daffc13b0523a91', href: "acbookinglist.aspx" }, "Bookings")), h("li", { key: '26ab956cd065dbff2fbab02ee69cc846a5b3e2e3', class: "ir-mega-menu-row" }, h("a", { key: '1aae09ef7990c8d381612827893920fa3dac6b8f', href: "billing.aspx" }, "Billing")))), h("li", { key: '4aedcf5198028b247215619d82e6ed5be5ebf849' }, h("ul", { key: 'acd842111658ffbc5e57c45d3908898d3ec6aa18', class: "ir-mega-menu-column" }, h("li", { key: '3879a22248fe93c8e79240f0523d0d046a5402a4', class: "ir-mega-menu-row title" }, "Locations"), h("li", { key: 'cdacbe94215b9b5310a6094134740a8124422baa', class: "ir-mega-menu-row" }, h("a", { key: '27bf9405672bfad899ccef7bf8d60f948941c047', href: "poicategoriesinline.aspx" }, "Types")), h("li", { key: '6fe7033056ecbe948b61bdf2cbfcab7cba5aa0fb', class: "ir-mega-menu-row" }, h("a", { key: '2ca369201f401b0b3ffe42d91f310c034598f766', href: "poilist.aspx" }, "List")))), h("li", { key: '53b55f618e0ede5d3b81cbb90a0131377778b5a9' }, h("ul", { key: '079836a99c286ed2c9af1f870733d4d11322c474', class: "ir-mega-menu-column" }, h("li", { key: '90981493ab5c7f495e211d37e52ff4c11fae5024', class: "ir-mega-menu-row title" }, "Referrers"), h("li", { key: '728279a4c0b08cc51bf625964650e17f3214e638', class: "ir-mega-menu-row" }, h("a", { key: 'c96e662a864df71efe5b0b7172b7bfd1c7c0c08e', href: "affiliatelist.aspx" }, "Affiliates")), h("li", { key: '0ca6c810ecd68ca24faa96bc7a7340eba4a000c6', class: "ir-mega-menu-row" }, h("a", { key: 'b5d17ad723df95332b60454d200f173a06f5424c', href: "travelagentslist.aspx" }, "Travel Agents ...NOT USED")))))), h("li", { key: '23ec2899b7dc2394c16e171e1598bbab56ad99be', class: "nav-item" }, h("a", { key: 'd6ae6433a699ba81c794c0f9de730d2e71ae9fc3', href: "#", class: "nav-link" }, "b")), h("li", { key: 'cb04b7aa5bf3109b98c7fe3eda91684c9a15fff3', class: "nav-item" }, h("a", { key: 'a010e3f1413bbb502d7016dc514f3e4aaad7cba6', href: "#", class: "nav-link" }, "c")), h("li", { key: '0c65958fcd5dd593b7bc5cbd72d2d2cc08ebf109', class: "nav-item" }, h("a", { key: 'd345025af01a5bac36d4f31a7435ac11874fef72', href: "#", class: "nav-link" }, "d")), h("li", { key: '84e8a4ca22ba7c0eb730bb49039ca4b08e1c70e1', class: "nav-item" }, h("div", { key: '43071c815ca4ac46b3ff7b78be5fbaa3d112e492', class: "d-flex align-items-center justify-content-center", style: { marginTop: '2px' } }, h("ir-notifications", { key: '736531017931b531bc76de6678eb6662b87978b8', notifications: this.notifications }))))), h("div", { key: '20a4c7493d1f6e51050ec7fa6012c10afe2c1e2b', class: `mobile-menu ${this.isMobileMenuOpen ? 'active' : ''}` }, h("div", { key: '4af3f6a7f5d153566361af16483bcf82e7a3a8b1', class: "mobile-menu-header" }, h("div", { key: '161b5ad5292940d1aaea05e412834c73e33e3561', class: "hotel-name" }, "Hotel Name"), h("button", { key: '0b84e890fa253ba6ac527d0baea2c2fd41b5848f', class: "close-menu", onClick: () => this.toggleMobileMenu() }, "\u00D7")), h("div", { key: '38f66a2599449dbe192a1040c4d081bc538d9d95', class: "mobile-search" }, h("ir-m-combobox", { key: '17421964f47903d1fe8b03ffbeadf8f774eb5958', placeholder: "Search...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("ac-pages-menu", { key: '5d123f4b66247a3519ff05fe45b023a737c2a077', location: "sheet", "onLink-clicked": async (e) => {
+        return (h(Host, { key: '5c510b4c42fb10a86bab37393871dd42b5abd01c' }, h("nav", { key: '915455c4b905a09b6c5421e78805c365e8e355d7', class: "modern-navbar" }, h("span", { key: 'ef338a6b50bedc1ef11ce3fa1096a48d5b7f04e9', class: "overdue-banner" }, "Overdue $300"), h("div", { key: '7f0d4301d5badcf88d1e4125f3a3654a7d55c66f', class: "navbar-container" }, h("div", { key: '62eaa82c698706104217650316a4f1b82c3c4051', class: "navbar-left" }, h("button", { key: '901c1aaffa0e82dfa87b12254464d5c2559c7fc4', class: "mobile-menu-toggle d-md-none", onClick: () => this.toggleMobileMenu() }, h("span", { key: '80e7355a602dedf0ad9414cdd917016332af7419', class: "hamburger-icon" }, h("span", { key: 'b90ce2dda5139ef3858553c6134227de85ac580b' }), h("span", { key: '6b0a802ab24ad0a20cc3028c800f30351c8f31d3' }), h("span", { key: 'aafb348455481d564751f890f1044243678db9c1' }))), h("div", { key: 'd8726fbaab5d9eb8eaac867866d85fc9b955b8fa', class: "navbar-brand" }, "Logo"), h("div", { key: '8b599ebcbbf6845531ebb0a0aa8e367875daea60', class: "d-none d-md-flex " }, h("ir-m-combobox", { key: 'b7757b251775e8eeaa6dafc357ef5f4863ac7545', style: { '--ir-combobox-width': 'max-content' }, placeholder: "Find property", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("div", { key: 'b9ef1b1ecc9d880fe19569a709582869c396efb0', class: "hotel-name d-none d-md-block" }, "Hotel Name"), h("div", { key: '2d48841e000352f8f0a56f0ac4e42bbc67ea5b14', class: "ml-auto d-md-none" }, h("ir-notifications", { key: '3fae5075d5ab1921c4bd5d594fa17f9d923ca281', notifications: this.notifications }))), h("div", { key: '0bec2b8c1a72551aaffdd47ca339535db3f639f6', class: "navbar-center d-none d-md-flex flex-fill mx-auto" }, h("ir-m-combobox", { key: 'ba1f77a3c089e91e83b351c3b837989a74a2e0fd', placeholder: "Search...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("div", { key: '00f6c1914ee732f3f97a934c019a2525acaf9feb', class: "navbar-right" }, h("ul", { key: 'b1c1209a984691985714c5e69776fbf8fac2dcf7', class: "nav-items d-none d-md-flex" }, h("li", { key: '3d093a506b03f38eb90ce15c874895d6273c7ab9', class: "nav-item dropdown" }, h("a", { key: 'ca94690f1ba2ea1ea78acd0c6e5eddffde53de55', "data-reference": "parent", href: "#", role: "button", class: "nav-link", "data-toggle": "dropdown", "aria-expanded": "false" }, "a"), h("ul", { key: '7d9f3369036aa45cd004650cafab69885728c64a', class: `ir-mega-menu mx-auto dropdown-menu-right dropdown-menu    w-100 shadow-sm` }, h("li", { key: 'c13fb6a5606dd71545fe549abd86bfeb5218f188' }, h("ul", { key: '1ee99902ccf9853e97bf59116604e861d3e4c3f1', class: "ir-mega-menu-column" }, h("li", { key: 'e328d3209be4af1687a015a149449b643472238f', class: "ir-mega-menu-row title" }, "Parameters"), h("li", { key: '6865f9e0eae512759a02ae835c07df034ea0c285', class: "ir-mega-menu-row" }, h("a", { key: 'db1e8e9c8359b9cd5838599d7363673c4e32bd89', href: "userinline.aspx" }, "Users List")), h("li", { key: 'ee65ec8050df9c3297b6b5604ca86de3aa97f0bd', class: "ir-mega-menu-row" }, h("a", { key: 'f2beb8cf6a3182a88089cb26a3f3cc1b96dffda0', href: "languageinline.aspx" }, "System Languages")), h("li", { key: '4e4ac6919bc5e3ddcb5a72cd3cc386981f801ad9', class: "ir-mega-menu-row" }, h("a", { key: '76ab1614d3fd294646f73e1ec8ed4dea77404f12', href: "countryinline.aspx" }, "Countries")), h("li", { key: 'f4a9cf46b200d6bd82ed023fdb1ea7ce99ab9328', class: "ir-mega-menu-row" }, h("a", { key: 'ae8dfa69c4f37358b687d9033e28abea8c033f83', href: "level2inline.aspx" }, "Country Level 2")), h("li", { key: 'e33f9680b5edfb9a1784a085e7853d3309412d56', class: "ir-mega-menu-row" }, h("a", { key: '1df0b21bbaea573774efe68e065ffa03404f7851', href: "cardinline.aspx" }, "Credit Cards")), h("li", { key: 'a47729bb518dfb7ec408b2537621dee19a6b5337', class: "ir-mega-menu-row" }, h("a", { key: 'e8b889c4f1f9e72f20ee85f04f6d569fcdabbfa1', href: "hotel_chaininline.aspx" }, "Hotel Chains")), h("li", { key: '40af666313b68fb1aea4a7f8f7e70847c9d17135', class: "ir-mega-menu-row" }, h("a", { key: '82b69275a84cddebe61bcda83d0ba510121f6c30', href: "currencyinline.aspx" }, "Currencies")), h("li", { key: '388ca14b1b3690f46e28ed38d4f72888f634a2af', class: "ir-mega-menu-row" }, h("a", { key: 'b0fae245b31ce907f7069fa62f3c507fa56b8cd2', href: "amenityinline.aspx" }, "Amenities")), h("li", { key: '7d66cff4ac1ade5c3f0907cd4692e8a3256249be', class: "ir-mega-menu-row" }, h("a", { key: '1103450d88bc78349d0015a314e1b2b3dcc9c315', href: "foodinline.aspx" }, "Food")), h("li", { key: '3ffdc96d9b448048291ca40657be4724ce5de03c', class: "ir-mega-menu-row" }, h("a", { key: '95594a59673b2efd7f11c449af351e5e2200afd8', href: "beddinginline.aspx" }, "Bedding")), h("li", { key: '5b3afe3969ef10ce862c099c551d29e94e5c3a32', class: "ir-mega-menu-row" }, h("a", { key: '93856c113eba81c411608b1fcfc86696c67ec133', href: "setupinline.aspx" }, "Setup Table")), h("li", { key: 'cc58c237a521028d1a8aa3d43dbe4b87ce409424', class: "ir-mega-menu-row" }, h("a", { key: '031644abc7c7d993f49420fd8d27867abd600515', href: "gwedit.aspx" }, "Payment Gateways")), h("li", { key: '7fce08ae98a6bdaa3b02491041d6c613e7ff0980', class: "ir-mega-menu-row" }, h("a", { key: '2c6f90b5a8855ed1c14e3f13598a2a0dd35bc108', href: "channelmanager.aspx" }, "Channel Manager")))), h("li", { key: '426ae22f7216721578fee32b769893f73d0dc206' }, h("ul", { key: 'aa02822f1bd4c97259d24e7fa21956d60e6b3d9e', class: "ir-mega-menu-column" }, h("li", { key: '4e0df4a531ea18e2185ee2ce9fd1cbae67a1016d', class: "ir-mega-menu-row title" }, "Main"), h("li", { key: 'bfe48de6b9af26ba37eaa94aaeac363b7ff431ef', class: "ir-mega-menu-row" }, h("a", { key: '0db01739be8bed1d4b0f322c3ea88e2cb973ec91', href: "mpolist.aspx" }, "MPOs")), h("li", { key: '08e241544c4568a60fd7e9c6b420460e7ad3600b', class: "ir-mega-menu-row" }, h("a", { key: 'a512f3ffcd4c1370fc30a80b625cb8d717601854', href: "aclist.aspx" }, "Properties")), h("li", { key: 'ecf81afe5f1ad9ef3f6ec37ab462bcb97bc3ff02', class: "ir-mega-menu-row" }, h("a", { key: 'dd3d0b12979cb56be0684ef3065c6ade6bb6c11d', href: "acbookinglist.aspx?MODE=MPO" }, "Bookings")), h("li", { key: 'e8df781b86abb6c4de7d9617200ae005c89423b0', class: "ir-mega-menu-row" }, h("a", { key: 'fc834f4a7c77ab81aca69a39a01a33ba4e48c148', href: "mpoaffiliateproperties.aspx" }, "MPO Affiliate Properties")), h("li", { key: '969e202b5c6aaa224bc91afebcba6dbe02c6d399', class: "ir-mega-menu-row" }, h("a", { key: 'b3fe642bfe3929591e6fcc3ca8b0ed46bc660807', href: "acratesallotment.aspx?VIEW_MODE=CV" }, "MPO Combined Inventory")), h("li", { key: '2a8599aa4c46d347a321affb1c67e8732c425b17', class: "ir-mega-menu-row" }, h("a", { key: '7677bb4bfac730cb5f545d7b6e18936bbc6358a4', href: "acbookinglist.aspx?VIEW_MODE=CV" }, "MPO Combined Bookings")), h("li", { key: '61c44ab5556a0203ae01a7f63f33e034667628a4', class: "ir-mega-menu-row" }, h("a", { key: 'bac43bf0e682dbea5e325bd5730e6016d102e454', href: "Acmemberlist.aspx?VIEW_MODE=CV" }, "MPO Combined Guests")), h("li", { key: 'b88429cefb53dfbfeb3f3b01e384fbcec01822a5', class: "ir-mega-menu-row" }, h("a", { key: '12abb672e5f89834179e4e3ea36a3b34fafe25d6', href: "mpobillingreport.aspx" }, "MPO Billing Report")), h("li", { key: 'a5270dc2abce022d7b2bf83260be2cc5c4c1e81b', class: "ir-mega-menu-row" }, h("a", { key: '86ab9fcab1abc7e8df82d4b695041e71327e3c95', href: "Acmemberlist.aspx" }, "Guests")), h("li", { key: 'cc7033ecc8a823a530ec564699f22ffecd333513', class: "ir-mega-menu-row" }, h("a", { key: '7042b7763541b8f634020674c34b6902973db1b4', href: "acbookinglist.aspx" }, "Bookings")), h("li", { key: 'b28ab64904fc69f1060849498cbbb091e86599ae', class: "ir-mega-menu-row" }, h("a", { key: 'bf1075537e65932288df461086320e5e968c5c39', href: "billing.aspx" }, "Billing")))), h("li", { key: '79caf45c763c0f729947c78c26ad843e4e3771ff' }, h("ul", { key: '897bd98e0a423ee22e65558062aa2e7ee337a5fe', class: "ir-mega-menu-column" }, h("li", { key: 'b43a1700aaf9e2090da34ad318cfe82260ce985a', class: "ir-mega-menu-row title" }, "Locations"), h("li", { key: '2c919bdd313771db4dcfb8e8d86fef8345de6d05', class: "ir-mega-menu-row" }, h("a", { key: 'f015e18f410424eb9b60f8bca853a5a5946cfe51', href: "poicategoriesinline.aspx" }, "Types")), h("li", { key: '35278e99804cfd0fbaf9152e33e2e0dd0c180b22', class: "ir-mega-menu-row" }, h("a", { key: 'ef64eda2ebc05840b39e7ea81d42e65ded2b7839', href: "poilist.aspx" }, "List")))), h("li", { key: 'a19aae3a4862886a4cecb5c0e873855ebfc17b1c' }, h("ul", { key: '005a9cf8e037336be1f6b89d376b88ca3d58af16', class: "ir-mega-menu-column" }, h("li", { key: 'cdfcd5c4362685c9ef0d3160768a6ec71abaeffc', class: "ir-mega-menu-row title" }, "Referrers"), h("li", { key: '9e6134e74a758e492274c1d91506197e22df230f', class: "ir-mega-menu-row" }, h("a", { key: '93ca2855f456f444dcab518fc13212d4cbb10a7b', href: "affiliatelist.aspx" }, "Affiliates")), h("li", { key: '1b8ab3e3ada8acf0c8e10d40176fb27b06669b41', class: "ir-mega-menu-row" }, h("a", { key: '06c28c1e60cad7046ef721a0379563274ea5d258', href: "travelagentslist.aspx" }, "Travel Agents ...NOT USED")))))), h("li", { key: '21103ab70c5844ee720246d307fde2ac64e61abd', class: "nav-item" }, h("a", { key: '3a0d77ecd4fd1644c0968dc0d23967686d183351', href: "#", class: "nav-link" }, "b")), h("li", { key: '70ad055060fcb609beb97e1fce1afd6b6ce40098', class: "nav-item" }, h("a", { key: '0cd9c77843ceb3dba9f2be6656742a5ffa5d916a', href: "#", class: "nav-link" }, "c")), h("li", { key: '2a714f68c19e1fb9585df2c11dcabc0ee2bd1a75', class: "nav-item" }, h("a", { key: '99cea92ac45d36053e215e0d45bdd220b3fe6b45', href: "#", class: "nav-link" }, "d")), h("li", { key: 'a87bdb24ff430e06a0345c90c87471700bea51b4', class: "nav-item" }, h("div", { key: '316233513ee356dd741a44fa11d307bc34733579', class: "d-flex align-items-center justify-content-center", style: { marginTop: '2px' } }, h("ir-notifications", { key: '075d5096986c3f5c2ffe6120eaab68d478e15b48', notifications: this.notifications }))))), h("div", { key: '9cb34aa3674affd0df171dd63c41ac19007519a6', class: `mobile-menu ${this.isMobileMenuOpen ? 'active' : ''}` }, h("div", { key: '4f88f91ea15393122de8bb162a596b9c481b495f', class: "mobile-menu-header" }, h("div", { key: '363af32f9f5934eb85d6ea35b1966fe920206539', class: "hotel-name" }, "Hotel Name"), h("button", { key: 'baafa0a128f07872a62ea04be14e047f5b7284e5', class: "close-menu", onClick: () => this.toggleMobileMenu() }, "\u00D7")), h("div", { key: 'b4ebe2af697c9e037c5d40e4141d31bf75d97bd6', class: "mobile-search" }, h("ir-m-combobox", { key: '5205c16772cca2a862ad23962b024c9117812a5f', placeholder: "Search...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange })), h("ac-pages-menu", { key: 'a409112d89c73a393e956e992af61e4e532f35a2', location: "sheet", "onLink-clicked": async (e) => {
                 await sleep(1000);
                 window.location.href = e.detail.target.href;
-            }, pages: this.pages }))), h("div", { key: '953e712aedcaab63fecbd52aa8a527635be42c8a', class: "submenus d-none d-md-block" }, h("ac-pages-menu", { key: '60347650d116cc9f3726c45ac288fbb11247dc10', pages: this.pages }))), h("section", { key: 'f666c4c84efbe1581cf423afb697c91de052e26c', class: "p-2" }, h("div", { key: 'c540c860cb41c0a96a161e13ec41213c32999e21', class: "row g-3" }, h("div", { key: '2514cb5b2ee101a78eade692878bd23d1679d00f', class: "col-md-3" }, h("h5", { key: '0903883668d5eeb746123771502eb0d32a70969b' }, "Static Options Example"), h("ir-m-combobox", { key: 'a41232c9eb57a566e3c2639be090d6f8bd7e297d', placeholder: "Select an option...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange }, h("svg", { key: 'a521ffb208a1462c0e9271ebd8368bae161af8b4', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", slot: "prefix" }, h("path", { key: '77f6df0aaaf1c93d15f180ffa578e9eaf1737770', d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" }))), this.selectedStaticOption && h("p", { key: '9253fa73194fd3703a8226aefe34257fdd365b5f', class: "mt-2 text-muted" }, "Selected: ", this.selectedStaticOption.label)), h("div", { key: '3726d4581a4ba8d5b2f07203c81bfcd0b9fe78d1', class: "col-md-3" }, h("h5", { key: '2b68e1102b8c0709a0deb9529dda9427eb4608d2' }, "External API - Countries"), h("ir-m-combobox", { key: '26a4c3146958c51c0d79bd12b57a14318f4a8fab', placeholder: "Search countries...", dataMode: "external", options: this.countryOptions, loading: this.isLoadingCountries, debounceDelay: 300, onSearchQuery: this.handleCountrySearch, onOptionChange: this.handleCountryChange }), this.selectedCountry && h("p", { key: 'a258f8f8fb520c19b1fd1a68a711c7fb5ce703a5', class: "mt-2 text-muted" }, "Selected: ", this.selectedCountry.label)), h("div", { key: 'e8c41957b95b62f4be7b9b974762ec3e76ef1611', class: "col-md-3" }, h("h5", { key: 'ee0b94341b7c980203acea341f28066ec10a2911' }, "Custom Dropdown Content"), h("ir-m-combobox", { key: 'f4c0de6bdf5c629c04cd1240a0ad3089b7df17b4', class: "custom-width", ref: el => (this.customComboboxRef = el), placeholder: "Search with custom dropdown...", dataMode: "external", options: this.customOptions, loading: this.isLoadingCustom, useSlot: true, debounceDelay: 500, onSearchQuery: this.handleCustomSearch, onOptionChange: this.handleCustomOptionChange }, h("div", { key: 'edab62af12fb2f5691763145e0a55c72e3165994', slot: "dropdown-content" }, this.isLoadingCustom && h("div", { key: 'dd3d978f447056b12e93a567463247a607e77efb', class: "dropdown-item" }, "\uD83D\uDD04 Loading custom results..."), !this.isLoadingCustom && this.customOptions.length === 0 && h("div", { key: 'b43b292c30ebe4c211aaa87ccdaa1edeed765ee1', class: "dropdown-item" }, "\uD83D\uDD0D Type to search..."), !this.isLoadingCustom &&
+            }, pages: this.pages }))), h("div", { key: '1d86885d289b6cb57a7c1917e112118ab492ced0', class: "submenus d-none d-md-block" }, h("ac-pages-menu", { key: 'eeda16a0355cdd6f897a4b955a5b1bcb7393e5c0', pages: this.pages }))), h("section", { key: '9e0a3fe66ebd6181579660127817acaec3e9ac2c', class: "p-2" }, h("div", { key: '6052ab6ba7304452d302b3be26b4895b0307c7f7', class: "row g-3" }, h("div", { key: '9d4538e344fe9b39c763012b9a56f5736d6b2b7c', class: "col-md-3" }, h("h5", { key: '8cc867196ffdf72ecd7e8b1f6453ceb33a97fc1e' }, "Static Options Example"), h("ir-m-combobox", { key: '1709c7ca51833474e7f636d9cca2665319653ed7', placeholder: "Select an option...", dataMode: "static", options: this.staticOptions, onOptionChange: this.handleStaticOptionChange }, h("svg", { key: '6ca04b351f3d9d950b042f8a2b589099504cbdb4', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", slot: "prefix" }, h("path", { key: 'a7b804126bd323473dab0c097b935ae782a67121', d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" }))), this.selectedStaticOption && h("p", { key: '2bc77cd15bba3c001bde895394848061f3f696d6', class: "mt-2 text-muted" }, "Selected: ", this.selectedStaticOption.label)), h("div", { key: '8b44d9e5edab0bd3bd957b29555b6efac4852ccb', class: "col-md-3" }, h("h5", { key: '96f38d49286eadc233e0da8a6a0cc4638bbf11eb' }, "External API - Countries"), h("ir-m-combobox", { key: '02fe314131c69bc3d99f0039dfbdd2756d61325c', placeholder: "Search countries...", dataMode: "external", options: this.countryOptions, loading: this.isLoadingCountries, debounceDelay: 300, onSearchQuery: this.handleCountrySearch, onOptionChange: this.handleCountryChange }), this.selectedCountry && h("p", { key: '95b8dee3c20611f07a5afc4747162291b6449f38', class: "mt-2 text-muted" }, "Selected: ", this.selectedCountry.label)), h("div", { key: '4cc887c2a7a50e4c26b17c1156f224d138d347d0', class: "col-md-3" }, h("h5", { key: 'eba2b26df4bcd9ec4f596a34da1e780299c7fd14' }, "Custom Dropdown Content"), h("ir-m-combobox", { key: '153b4da316b932abd0b24a3664d8a122aad6033e', class: "custom-width", ref: el => (this.customComboboxRef = el), placeholder: "Search with custom dropdown...", dataMode: "external", options: this.customOptions, loading: this.isLoadingCustom, useSlot: true, debounceDelay: 500, onSearchQuery: this.handleCustomSearch, onOptionChange: this.handleCustomOptionChange }, h("div", { key: 'a157bc5a2a15f166738ff1a2310de0834785011e', slot: "dropdown-content" }, this.isLoadingCustom && h("div", { key: 'f44dc6cf5143b787f5e8cec2c2e470be2ff4181e', class: "dropdown-item" }, "\uD83D\uDD04 Loading custom results..."), !this.isLoadingCustom && this.customOptions.length === 0 && h("div", { key: '6ebcfc588da066b968b265786a615ff3fc63f191', class: "dropdown-item" }, "\uD83D\uDD0D Type to search..."), !this.isLoadingCustom &&
             this.customOptions.map((option, index) => (h("div", { key: index, class: "dropdown-item d-flex align-items-center", "data-option": option.value, "data-label": option.label, onClick: () => this.handleCustomOptionClick(option), onMouseEnter: e => {
                     const element = e.target;
                     const slotIndex = element.getAttribute('data-slot-index');
                     if (slotIndex && this.customComboboxRef) {
                         this.customComboboxRef.focusedIndex = parseInt(slotIndex);
                     }
-                }, style: { cursor: 'pointer' } }, h("span", { class: "me-2" }, "\u2B50"), h("div", null, h("div", { class: "fw-bold" }, option.label), h("small", { class: "text-muted" }, "Custom option with ID: ", option.value))))))), this.selectedCustomOption && h("p", { key: '37b3822b07602fc32033b6ab053e3efede4c12fb', class: "mt-2 text-muted" }, "Selected: ", this.selectedCustomOption.label))), h("div", { key: 'f1d271c9fe7994feabe33ba0c15aa9318a06e82e', class: 'd-flex align-items-center my-1', style: { gap: '1rem' } }, h("button", { key: '0aaaa3b3bd2f7355bb43b4cdd74368aa1255b4a0', class: "btn btn-primary", onClick: () => (this.notificationCount += 1) }, "+"), h("button", { key: '087a7381bacf3b32de36f541c795e1fcdb5b5d1c', class: "btn btn-primary", onClick: () => (this.notificationCount -= 1) }, "-")), h("ir-input-text", { key: 'f0d664b2057b6be36c44c90fe5b43bf7f7b5a07e', variant: "floating-label", class: "my-text-input", label: "First name" }, h("svg", { key: '8bb2fed2a8fae53238aac399644f0843eea6bbef', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", slot: "prefix" }, h("path", { key: '49d4d7d9e87651ebf53e73976ddab1042e6be767', d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" })), h("svg", { key: '6811374d1ecab94d2378a531a5c7a5e975926ed3', slot: "suffix", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: '919caf945f62bb5b00d3403e18ff2198b7bc3586', d: "M264 112L376 112C380.4 112 384 115.6 384 120L384 160L256 160L256 120C256 115.6 259.6 112 264 112zM208 120L208 544L432 544L432 120C432 89.1 406.9 64 376 64L264 64C233.1 64 208 89.1 208 120zM480 160L480 544L512 544C547.3 544 576 515.3 576 480L576 224C576 188.7 547.3 160 512 160L480 160zM160 544L160 160L128 160C92.7 160 64 188.7 64 224L64 480C64 515.3 92.7 544 128 544L160 544z" }))), h("ir-select", { key: '5efff81e00f11ca226fd979a22daf3900f616af9', "floating-label": true, label: "Hello", data: [{ value: '1', text: '1' }] }), h("div", { key: 'f58a7496301857d6dbc8271a610e079d86a1e074', class: "my-2" }), h("ir-select", { key: 'eb6ac3e2ba993fe633f8de7ae193b823e956712e', label: "Hello", data: [{ value: '1', text: '1' }] }), h("div", { key: '01c1c6569f7be980068260dd54ac3b22b48a52c5', class: "my-2" }), h("ir-select", { key: 'ebbd24f177ec4cb51e7ddac0625665ab26a63e2f', data: [{ value: '1', text: '1' }] }), h("div", { key: 'ace4fd1cec674d3e9391c2b54ca9c5a433ba21f6', class: "card p-1" }, [
+                }, style: { cursor: 'pointer' } }, h("span", { class: "me-2" }, "\u2B50"), h("div", null, h("div", { class: "fw-bold" }, option.label), h("small", { class: "text-muted" }, "Custom option with ID: ", option.value))))))), this.selectedCustomOption && h("p", { key: 'fdd78a7a34951e68ced0093daaa7154af78d7a0f', class: "mt-2 text-muted" }, "Selected: ", this.selectedCustomOption.label))), h("div", { key: 'b5ce3d344cb233c776eb9707fa68195a9729b7d4', class: 'd-flex align-items-center my-1', style: { gap: '1rem' } }, h("button", { key: '97e5efc591d76edd7958130fe29f71a71b73342a', class: "btn btn-primary", onClick: () => (this.notificationCount += 1) }, "+"), h("button", { key: '199c37665e01f6dd8589b24b5e0b5fc9618b48c8', class: "btn btn-primary", onClick: () => (this.notificationCount -= 1) }, "-")), h("ir-input-text", { key: '2ca2edca672c09a0410ccf17044e96f8896740a4', variant: "floating-label", class: "my-text-input", label: "First name" }, h("svg", { key: 'fa5f728f0249d0b7c76f1b5b8c790bb7298532ef', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", slot: "prefix" }, h("path", { key: 'fd0fce7c1cb073368ef10e48f9bb93a369ac8561', d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" })), h("svg", { key: '14f51590d62213f1ae7b55adac2a58d7cf8a5a21', slot: "suffix", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: '3979984cc030c63efe0e11f936a8ed7bba4bbc1c', d: "M264 112L376 112C380.4 112 384 115.6 384 120L384 160L256 160L256 120C256 115.6 259.6 112 264 112zM208 120L208 544L432 544L432 120C432 89.1 406.9 64 376 64L264 64C233.1 64 208 89.1 208 120zM480 160L480 544L512 544C547.3 544 576 515.3 576 480L576 224C576 188.7 547.3 160 512 160L480 160zM160 544L160 160L128 160C92.7 160 64 188.7 64 224L64 480C64 515.3 92.7 544 128 544L160 544z" }))), h("ir-select", { key: '15ed5412698c2ae73f5c4d705100b9e9318c2987', "floating-label": true, label: "Hello", data: [{ value: '1', text: '1' }] }), h("div", { key: 'bc589256c685f170247e6533b1362a074317ff4b', class: "my-2" }), h("ir-select", { key: 'd1a81c58170eb4170e699b51bd5b06b73cba3da7', label: "Hello", data: [{ value: '1', text: '1' }] }), h("div", { key: '5a6c6bec8a71465179c15afb547b1e9537886c98', class: "my-2" }), h("ir-select", { key: '0fc6fc3b5758bd26063a687681648a641f1244d5', data: [{ value: '1', text: '1' }] }), h("div", { key: '626cc13a9c43e3ffd13d8bba586a6b9ea857b2d0', class: "card p-1" }, [
             { id: 'REQ1000', cause: 'Reservation deposit', amount: 363.02, type: 'Credit', date: '2025-08-12', reference: 'INV-2025-0812-001' },
             { id: 'REQ1001', cause: 'Housekeeping fee', amount: 355.45, type: 'Debit', date: '2025-08-16' },
             { id: 'REQ1002', cause: 'Mini-bar', amount: 360.49, type: 'Debit', date: '2025-08-08', reference: 'RM120-MB-8842' },
@@ -288,8 +292,7 @@ export class IrTestCmp {
             { id: 'REQ1007', cause: 'City tax', amount: 89.39, type: 'Credit', date: '2025-08-09' },
             { id: 'REQ1008', cause: 'Laundry', amount: 49.93, type: 'Credit', date: '2025-07-30', reference: 'LND-20541' },
             { id: 'REQ1009', cause: 'Spa treatment', amount: 469.32, type: 'Credit', date: '2025-08-13' },
-        ].map(row => (h("div", { key: row.id, class: 'payment-item' }, h("div", { class: "payment-body" }, h("div", { class: "payment-fields" }, h("p", null, h("b", null, row.cause)), h("p", { class: "text-muted" }, row.date)), row.reference && (h("p", { class: "payment-reference text-muted" }, h("b", null, "Ref: "), row === null || row === void 0 ? void 0 :
-            row.reference))), h("div", { class: "d-flex align-items-center justify-content-between", style: { gap: '0.5rem' } }, h("p", { class: `payment-amount ${row.type === 'Credit' ? 'is-credit' : 'is-debit'}` }, row.type === 'Credit' ? '+' : '-', "$US ", row.amount), h("div", { class: "payment-actions" }, h("ir-button", { variant: "icon", icon_name: "save", style: colorVariants.secondary }), h("ir-button", { variant: "icon", style: colorVariants.danger, icon_name: "trash" }))))))))));
+        ].map(row => (h("div", { key: row.id, class: 'payment-item' }, h("div", { class: "payment-body" }, h("div", { class: "payment-fields" }, h("p", null, h("b", null, row.cause)), h("p", { class: "text-muted" }, row.date)), row.reference && (h("p", { class: "payment-reference text-muted" }, h("b", null, "Ref: "), row?.reference))), h("div", { class: "d-flex align-items-center justify-content-between", style: { gap: '0.5rem' } }, h("p", { class: `payment-amount ${row.type === 'Credit' ? 'is-credit' : 'is-debit'}` }, row.type === 'Credit' ? '+' : '-', "$US ", row.amount), h("div", { class: "payment-actions" }, h("ir-button", { variant: "icon", icon_name: "save", style: colorVariants.secondary }), h("ir-button", { variant: "icon", style: colorVariants.danger, icon_name: "trash" }))))))))));
     }
     static get is() { return "ir-test-cmp"; }
     static get encapsulation() { return "scoped"; }

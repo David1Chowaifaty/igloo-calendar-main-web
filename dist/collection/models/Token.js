@@ -1,9 +1,12 @@
 import axios from "axios";
 import Auth from "./Auth";
 class Token extends Auth {
+    baseUrl = 'https://gateway.igloorooms.com/IR';
+    static token = '';
+    static modifiedBaseUrl = false;
+    static isInterceptorAdded = false;
     constructor() {
         super();
-        this.baseUrl = 'https://gateway.igloorooms.com/IR';
         if (Token.modifiedBaseUrl) {
             return;
         }
@@ -37,9 +40,6 @@ class Token extends Auth {
         this.initialize();
     }
 }
-Token.token = '';
-Token.modifiedBaseUrl = false;
-Token.isInterceptorAdded = false;
 export default Token;
 export class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {

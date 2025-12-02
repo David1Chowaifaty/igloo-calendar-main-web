@@ -1,26 +1,15 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import { h } from "@stencil/core";
 import housekeeping_store from "../../../stores/housekeeping.store";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import locales from "../../../stores/locales.store";
 export class IrDeleteModal {
-    constructor() {
-        this.isOpen = false;
-        this.selectedId = '';
-        this.loadingBtn = null;
-        this.housekeepingService = new HouseKeepingService();
-    }
+    user;
+    isOpen = false;
+    selectedId = '';
+    loadingBtn = null;
+    modalClosed;
+    resetData;
+    housekeepingService = new HouseKeepingService();
     async closeModal() {
         this.isOpen = false;
         this.modalClosed.emit(null);
@@ -40,7 +29,7 @@ export class IrDeleteModal {
                 else {
                     const newAssignedUnits = this.user.assigned_units.map(u => ({ hkm_id: +this.selectedId, is_to_assign: true, unit_id: u.id }));
                     await this.housekeepingService.manageExposedAssignedUnitToHKM(housekeeping_store.default_properties.property_id, newAssignedUnits);
-                    const _a = this.user, { assigned_units, is_soft_deleted, is_active } = _a, user = __rest(_a, ["assigned_units", "is_soft_deleted", "is_active"]);
+                    const { assigned_units, is_soft_deleted, is_active, ...user } = this.user;
                     await this.housekeepingService.editExposedHKM(user, true);
                 }
                 this.resetData.emit(null);

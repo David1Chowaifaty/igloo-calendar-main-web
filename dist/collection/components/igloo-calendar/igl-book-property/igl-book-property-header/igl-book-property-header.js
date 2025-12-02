@@ -5,19 +5,37 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import calendar_data from "../../../../stores/calendar-data";
 import { modifyBookingStore } from "../../../../stores/booking.store";
 export class IglBookPropertyHeader {
-    constructor() {
-        this.splitBookingId = '';
-        this.bookingData = '';
-        this.sourceOptions = [];
-        this.showSplitBookingOption = false;
-        this.sourceOption = {
-            code: '',
-            description: '',
-            tag: '',
-            id: '',
-            type: '',
-        };
-    }
+    splitBookingId = '';
+    bookingData = '';
+    minDate;
+    sourceOptions = [];
+    message;
+    bookingDataDefaultDateRange;
+    showSplitBookingOption = false;
+    adultChildConstraints;
+    splitBookings;
+    adultChildCount;
+    dateRangeData;
+    bookedByInfoData;
+    defaultDaterange;
+    propertyId;
+    wasBlockedUnit;
+    splitBookingDropDownChange;
+    sourceDropDownChange;
+    adultChild;
+    checkClicked;
+    buttonClicked;
+    toast;
+    spiltBookingSelected;
+    animateIrButton;
+    animateIrSelect;
+    sourceOption = {
+        code: '',
+        description: '',
+        tag: '',
+        id: '',
+        type: '',
+    };
     getSplitBookingList() {
         return (h("fieldset", { class: "d-flex flex-column text-left mb-1  flex-lg-row align-items-lg-center" }, h("label", { class: "mr-lg-1" }, locales.entries.Lcz_Tobooking, "# "), h("div", { class: "btn-group mt-1 mt-lg-0 sourceContainer" }, h("ir-autocomplete", { value: Object.keys(this.bookedByInfoData).length > 1 ? `${this.bookedByInfoData.bookingNumber} ${this.bookedByInfoData.firstName} ${this.bookedByInfoData.lastName}` : '', from_date: moment(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), to_date: moment(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'), propertyId: this.propertyId, placeholder: locales.entries.Lcz_BookingNumber, onComboboxValue: e => {
                 e.stopImmediatePropagation();
@@ -34,29 +52,33 @@ export class IglBookPropertyHeader {
         })))));
     }
     handleAdultChildChange(key, value) {
-        var _a, _b;
         //const value = (event.target as HTMLSelectElement).value;
         let obj = {};
         if (value === '') {
-            obj = Object.assign(Object.assign({}, this.adultChildCount), { [key]: 0 });
+            obj = {
+                ...this.adultChildCount,
+                [key]: 0,
+            };
         }
         else {
-            obj = Object.assign(Object.assign({}, this.adultChildCount), { [key]: value });
+            obj = {
+                ...this.adultChildCount,
+                [key]: value,
+            };
         }
         modifyBookingStore('bookingAvailabilityParams', {
             from_date: this.bookingDataDefaultDateRange.fromDate,
             to_date: this.bookingDataDefaultDateRange.toDate,
-            adult_nbr: (_a = obj === null || obj === void 0 ? void 0 : obj['adult']) !== null && _a !== void 0 ? _a : 0,
-            child_nbr: (_b = obj === null || obj === void 0 ? void 0 : obj['child']) !== null && _b !== void 0 ? _b : 0,
+            adult_nbr: obj?.['adult'] ?? 0,
+            child_nbr: obj?.['child'] ?? 0,
         });
         this.adultChild.emit(obj);
     }
     getAdultChildConstraints() {
-        var _a, _b, _c, _d;
-        return (h("div", { class: 'mt-1 mt-lg-0 d-flex flex-column text-left' }, h("div", { class: "form-group  my-lg-0 text-left d-flex align-items-center justify-content-between justify-content-sm-start" }, h("fieldset", null, h("div", { class: "btn-group ml-0" }, h("ir-select", { testId: "adult_number", class: 'm-0', selectedValue: (_b = (_a = this.adultChildCount) === null || _a === void 0 ? void 0 : _a.adult) === null || _b === void 0 ? void 0 : _b.toString(), onSelectChange: e => this.handleAdultChildChange('adult', e.detail), selectId: "adult_select", firstOption: locales.entries.Lcz_AdultsCaption, data: Array.from(Array(this.adultChildConstraints.adult_max_nbr), (_, i) => i + 1).map(option => ({
+        return (h("div", { class: 'mt-1 mt-lg-0 d-flex flex-column text-left' }, h("div", { class: "form-group  my-lg-0 text-left d-flex align-items-center justify-content-between justify-content-sm-start" }, h("fieldset", null, h("div", { class: "btn-group ml-0" }, h("ir-select", { testId: "adult_number", class: 'm-0', selectedValue: this.adultChildCount?.adult?.toString(), onSelectChange: e => this.handleAdultChildChange('adult', e.detail), selectId: "adult_select", firstOption: locales.entries.Lcz_AdultsCaption, data: Array.from(Array(this.adultChildConstraints.adult_max_nbr), (_, i) => i + 1).map(option => ({
                 text: option.toString(),
                 value: option.toString(),
-            })) }))), this.adultChildConstraints.child_max_nbr > 0 && (h("fieldset", null, h("div", { class: "btn-group ml-1 p-0" }, h("ir-select", { selectedValue: (_d = (_c = this.adultChildCount) === null || _c === void 0 ? void 0 : _c.child) === null || _d === void 0 ? void 0 : _d.toString(), testId: "child_number", onSelectChange: e => this.handleAdultChildChange('child', e.detail), selectId: "child_select", firstOption: this.renderChildCaption(), data: Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => ({
+            })) }))), this.adultChildConstraints.child_max_nbr > 0 && (h("fieldset", null, h("div", { class: "btn-group ml-1 p-0" }, h("ir-select", { selectedValue: this.adultChildCount?.child?.toString(), testId: "child_number", onSelectChange: e => this.handleAdultChildChange('child', e.detail), selectId: "child_select", firstOption: this.renderChildCaption(), data: Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => ({
                 text: option.toString(),
                 value: option.toString(),
             })) })))), h("ir-button", { btn_id: "check_availability", isLoading: isRequestPending('/Check_Availability'), size: "sm", class: "ml-2", text: locales.entries.Lcz_Check, onClickHandler: () => this.handleButtonClicked() }))));
@@ -120,25 +142,23 @@ export class IglBookPropertyHeader {
         return this.bookingData.event_type === key;
     }
     getMinDate() {
-        var _a;
         if (this.isEventType('PLUS_BOOKING')) {
             return moment().add(-1, 'months').startOf('month').format('YYYY-MM-DD');
         }
         if (this.wasBlockedUnit) {
-            return (_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.block_exposed_unit_props.from_date;
+            return this.bookingData?.block_exposed_unit_props.from_date;
         }
         return this.minDate;
     }
     getMaxDate() {
-        var _a, _b;
-        if (!((_a = this.bookingData) === null || _a === void 0 ? void 0 : _a.block_exposed_unit_props)) {
+        if (!this.bookingData?.block_exposed_unit_props) {
             return undefined;
         }
-        return (_b = this.bookingData) === null || _b === void 0 ? void 0 : _b.block_exposed_unit_props.to_date;
+        return this.bookingData?.block_exposed_unit_props.to_date;
     }
     render() {
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'cdf7d392f00e73d5b8d2f61c8bb90128d282944a' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'e7c87655d34b39f7a7184741c2bc71ef049886ba', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: 'b17bac8bf63d62a7e1f331fcbc88cc32905efc73', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: 'cecdf93e5a5f2ce936b1fc7f4bed3891495d5f3c', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '60e589c43a4807731bf2c12130601dd981d2b21d', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '59150d80c772565070b63831bcf3021f18f87231' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), showSourceNode && this.getSourceNode(), h("div", { key: 'a4a725848e20181f71b66e79a691a80ac49cc516', class: `d-flex flex-column flex-lg-row align-items-lg-center ${showSourceNode ? 'mt-1' : ''}` }, h("fieldset", { key: '454b3a59306d0fe936d1df21f77c509cc2f1f234', class: "mt-lg-0 mr-1 " }, h("igl-date-range", { key: '871c9647640b6dd07ca68ef1d23dc0a820562aeb', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange })), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '2547fe12b06b797461cbbc803f84657a5728c84d', class: "text-right mt-1 message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }

@@ -2,14 +2,16 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { b as booking_store } from './booking.store.js';
-import { d as defineCustomElement$a } from './igl-application-info2.js';
-import { d as defineCustomElement$9 } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$8 } from './ir-autocomplete2.js';
-import { d as defineCustomElement$7 } from './ir-combobox2.js';
-import { d as defineCustomElement$6 } from './ir-country-picker2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
-import { d as defineCustomElement$4 } from './ir-input-text2.js';
-import { d as defineCustomElement$3 } from './ir-phone-input2.js';
+import { d as defineCustomElement$c } from './igl-application-info2.js';
+import { d as defineCustomElement$b } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$a } from './ir-autocomplete2.js';
+import { d as defineCustomElement$9 } from './ir-combobox2.js';
+import { d as defineCustomElement$8 } from './ir-country-picker2.js';
+import { d as defineCustomElement$7 } from './ir-date-view2.js';
+import { d as defineCustomElement$6 } from './ir-input-text2.js';
+import { d as defineCustomElement$5 } from './ir-phone-input2.js';
+import { d as defineCustomElement$4 } from './ir-picker2.js';
+import { d as defineCustomElement$3 } from './ir-picker-item2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
@@ -22,15 +24,34 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.selectedUnits = {};
     }
+    showPaymentDetails;
+    currency;
+    isEditOrAddRoomEvent;
+    dateRangeData;
+    bookingData;
+    showSplitBookingOption;
+    language;
+    bookedByInfoData;
+    propertyId;
+    bedPreferenceType;
+    selectedRooms;
+    isLoading;
+    countries;
+    selectedGuestData;
+    defaultGuestData;
+    selectedBookedByData;
+    guestData;
+    selectedUnits = {};
+    dataUpdateEvent;
+    buttonClicked;
     componentWillLoad() {
         this.initializeGuestData();
         this.selectedBookedByData = this.bookedByInfoData;
     }
     initializeGuestData() {
         let total = 0;
-        const newSelectedUnits = Object.assign({}, this.selectedUnits);
+        const newSelectedUnits = { ...this.selectedUnits };
         const getRate = (rate, totalNights, isRateModified, preference) => {
             if (isRateModified && preference === 2) {
                 return rate * totalNights;
@@ -44,7 +65,12 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
                 newSelectedUnits[key] = rate_plan.selectedUnits;
                 total += rate_plan.totalRooms * getRate(rate_plan.rate, this.dateRangeData.dateDifference, rate_plan.isRateModified, rate_plan.rateType);
                 for (let i = 1; i <= rate_plan.totalRooms; i++) {
-                    this.guestData.push(Object.assign({ guestName: '', roomId: '', preference: '' }, rate_plan));
+                    this.guestData.push({
+                        guestName: '',
+                        roomId: '',
+                        preference: '',
+                        ...rate_plan,
+                    });
                 }
             });
         });
@@ -55,7 +81,10 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
         const categoryIdKey = `c_${opt.data.roomCategoryId}`;
         const updatedUnits = [...(this.selectedUnits[categoryIdKey] || [])];
         updatedUnits[index] = opt.data.roomId;
-        this.selectedUnits = Object.assign(Object.assign({}, this.selectedUnits), { [categoryIdKey]: updatedUnits });
+        this.selectedUnits = {
+            ...this.selectedUnits,
+            [categoryIdKey]: updatedUnits,
+        };
         this.dataUpdateEvent.emit({
             key: 'applicationInfoUpdateEvent',
             value: event.detail,
@@ -113,7 +142,7 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("div", { key: 'faa5c62adb02164a255992ec498748321cd766d2', class: "d-flex flex-column h-100" }, h("div", { key: '6007b9d921af66a7a6f8983d276af2d6e9ed8553', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'e85b346855b561e4971ab2b9f27a59363b2ff48f', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '7cd33af9946e889a01c8d9f3519aa58b1b74ff7d', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '630867b9f5e32096f57230dd82ad40dca6f8a2e3', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        return (h("div", { key: '20c9e58e7e78537c2dac961b55672f1c8a8b712a', class: "d-flex flex-column h-100" }, h("div", { key: '2aba855f7dcfcc064e1a32205d093353c8c29cc0', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'f71811eaba5b15d0aebcb3e6744cc28ec263cd7c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '1f6d81522af0a79b1905cbe23ecb0ca57fb7b528', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '0db2fbd2d69859dc6ea94a5e77f225da55b43a23', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;
@@ -153,7 +182,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-combobox", "ir-country-picker", "ir-date-view", "ir-input-text", "ir-phone-input", "ir-select", "ir-tooltip"];
+    const components = ["igl-booking-form", "igl-application-info", "igl-property-booked-by", "ir-autocomplete", "ir-combobox", "ir-country-picker", "ir-date-view", "ir-input-text", "ir-phone-input", "ir-picker", "ir-picker-item", "ir-select", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
@@ -162,40 +191,50 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-phone-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-picker-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

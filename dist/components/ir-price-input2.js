@@ -12,47 +12,75 @@ const IrPriceInput = /*@__PURE__*/ proxyCustomElement(class IrPriceInput extends
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** The AutoValidate for the input, optional */
-        this.autoValidate = true;
-        /** Placeholder text for the input */
-        this.placeholder = '';
-        /** Initial value for the input */
-        this.value = '';
-        /** Whether the input is required */
-        this.required = false;
-        this.opts = {
-            mask: Number,
-            scale: 2,
-            radix: '.',
-            mapToRadix: [','],
-            normalizeZeros: true,
-            padFractionalZeros: true,
-            thousandsSeparator: ',',
-        };
-        this.handleInputChange = () => {
-            // The value is already being updated by the mask's 'accept' event
-            // Just validate here if needed
-            this.validateInput(this.value);
-        };
-        this.handleBlur = () => {
-            this.validateInput(this.value);
-            // Format to 2 decimal places on blur
-            if (this.value) {
-                const numValue = parseFloat(this.value);
-                this.value = numValue.toFixed(2);
-                // Update the mask value to show the formatted value
-                if (this.mask) {
-                    this.mask.value = this.value;
-                }
-            }
-            // Emit the blur event
-            this.inputBlur.emit(this.value);
-        };
-        this.handleFocus = () => {
-            // Emit the focus event
-            this.inputFocus.emit();
-        };
     }
+    get el() { return this; }
+    /** The label for the input, optional */
+    label;
+    /** The readonly for the input, optional */
+    readOnly;
+    /** Extra classnames for the input, optional */
+    inputStyle;
+    /** Extra classnames for the label, optional */
+    labelStyle;
+    /** The disabled for the input, optional */
+    disabled;
+    /** The Currency for the input, optional */
+    currency;
+    /** The AutoValidate for the input, optional */
+    autoValidate = true;
+    /** Indicates the key to wrap the value (e.g., 'price' or 'cost') */
+    wrapKey;
+    /**
+     * A Zod schema for validating the input
+     * Example: z.coerce.number()
+     */
+    zod;
+    /** Placeholder text for the input */
+    placeholder = '';
+    /** Initial value for the input */
+    value = '';
+    /** Whether the input is required */
+    required = false;
+    /** Minimum value for the price */
+    minValue;
+    /** Maximum value for the price */
+    maxValue;
+    /** Unique id for testing */
+    testId;
+    /** Error*/
+    error;
+    /**
+     * Extra class names applied to the outer <fieldset> wrapper.
+     * Useful for spacing (e.g., margins/padding), width/layout utilities,
+     * or theming the whole input group from the outside.
+     * Example: "w-100 mb-2 d-flex align-items-center"
+     */
+    containerClassname;
+    /**
+     * Extra class names applied to the label container (<div class="input-group-prepend">)
+     * that wraps the <label>. Use this to control label width, alignment,
+     * spacing, or visibility at different breakpoints.
+     * Example: "min-w-120 text-nowrap pe-2"
+     */
+    labelContainerClassname;
+    /** Emits the current value on change */
+    textChange;
+    /** Emits the current value on blur */
+    inputBlur;
+    /** Emits the current value on focus */
+    inputFocus;
+    id;
+    opts = {
+        mask: Number,
+        scale: 2,
+        radix: '.',
+        mapToRadix: [','],
+        normalizeZeros: true,
+        padFractionalZeros: true,
+        thousandsSeparator: ',',
+    };
+    mask;
+    inputRef;
     componentWillLoad() {
         if (this.el.id) {
             this.id = this.el.id;
@@ -68,7 +96,9 @@ const IrPriceInput = /*@__PURE__*/ proxyCustomElement(class IrPriceInput extends
     }
     initializeMask() {
         // Create options object with min/max if provided
-        const maskOpts = Object.assign({}, this.opts);
+        const maskOpts = {
+            ...this.opts,
+        };
         if (this.minValue !== undefined) {
             maskOpts['min'] = this.minValue;
         }
@@ -110,21 +140,42 @@ const IrPriceInput = /*@__PURE__*/ proxyCustomElement(class IrPriceInput extends
             }
         }
     }
+    handleInputChange = () => {
+        // The value is already being updated by the mask's 'accept' event
+        // Just validate here if needed
+        this.validateInput(this.value);
+    };
+    handleBlur = () => {
+        this.validateInput(this.value);
+        // Format to 2 decimal places on blur
+        if (this.value) {
+            const numValue = parseFloat(this.value);
+            this.value = numValue.toFixed(2);
+            // Update the mask value to show the formatted value
+            if (this.mask) {
+                this.mask.value = this.value;
+            }
+        }
+        // Emit the blur event
+        this.inputBlur.emit(this.value);
+    };
+    handleFocus = () => {
+        // Emit the focus event
+        this.inputFocus.emit();
+    };
     render() {
-        var _a, _b;
-        return (h("fieldset", { key: '3609c4b097bfd787701da87d12544c729045febb', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '0b748318da179918707dcc61c716635a62da4ccb', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '3fefa18ea2aa9182d17292bed396e03d8e58cad6', class: `input-group-text 
+        return (h("fieldset", { key: 'd5be953f6c067d0b4fe66e4ffd18d49bf6ac4693', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '0bf143298c7e57f832d607d07f810ab1ff909169', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: 'f2e84c8d6307cce37958a2b94f51efc2764ac7e1', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '76c06da08a935c44146272c98190098804fad06d', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'af445e0f422d601d224a14694190a8fa04a11059', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '69c3b3d2b6a378fb293780ce31cc1c6828dd78e6' }, h("span", { key: 'f9122227ecc37828cda60e8f559d1ba0e8bd97b3', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'e6849f85ee236bfc8f77a1b28605af651e4837e7', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '7b7d4d596e54310decb38dc1fcc821ae23f0a358', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '82506c481822117cc88910c8777a0abeb8c23019', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '8eb6c57bae9d348ef7a511545bb971a4131ed15d' }, h("span", { key: 'ad7a8d6ac4ee0cf5d4284bec7374c4b22a588ac0', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'b71a61efe04cd338c496cb930056105a687b2637', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
-              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, readOnly: this.readOnly, "aria-label": (_a = this.el.ariaLabel) !== null && _a !== void 0 ? _a : 'price-input', "aria-describedby": (_b = this.el.ariaDescription) !== null && _b !== void 0 ? _b : 'price-input' }))));
+              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, readOnly: this.readOnly, "aria-label": this.el.ariaLabel ?? 'price-input', "aria-describedby": this.el.ariaDescription ?? 'price-input' }))));
     }
-    get el() { return this; }
     static get style() { return IrPriceInputStyle0; }
 }, [2, "ir-price-input", {
         "label": [1],

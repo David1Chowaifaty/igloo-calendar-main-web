@@ -11,21 +11,28 @@ const IglBlockDatesView = /*@__PURE__*/ proxyCustomElement(class IglBlockDatesVi
         super();
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.isEventHover = false;
-        this.renderAgain = false;
-        this.blockDatesData = {
-            RELEASE_AFTER_HOURS: 0,
-            OPTIONAL_REASON: '',
-            OUT_OF_SERVICE: false,
-        }; // Change of property name might require updates in booking-event-hover
-        this.releaseList = [];
-        this.bookingService = new BookingService();
     }
+    defaultData;
+    fromDate;
+    toDate;
+    entryDate;
+    entryHour;
+    isEventHover = false;
+    entryMinute;
+    renderAgain = false;
+    dataUpdateEvent;
+    blockDatesData = {
+        RELEASE_AFTER_HOURS: 0,
+        OPTIONAL_REASON: '',
+        OUT_OF_SERVICE: false,
+    }; // Change of property name might require updates in booking-event-hover
+    releaseList = [];
+    bookingService = new BookingService();
     async componentWillLoad() {
         try {
             this.releaseList = await this.bookingService.getBlockedInfo();
             if (this.defaultData) {
-                this.blockDatesData = Object.assign({}, this.defaultData);
+                this.blockDatesData = { ...this.defaultData };
             }
             else {
                 this.blockDatesData.RELEASE_AFTER_HOURS = parseInt(this.releaseList[0].CODE_NAME);
@@ -50,7 +57,7 @@ const IglBlockDatesView = /*@__PURE__*/ proxyCustomElement(class IglBlockDatesVi
     emitData() {
         this.dataUpdateEvent.emit({
             key: 'blockDatesData',
-            data: Object.assign({}, this.blockDatesData),
+            data: { ...this.blockDatesData },
         });
     }
     getReleaseHoursString() {
@@ -82,7 +89,7 @@ const IglBlockDatesView = /*@__PURE__*/ proxyCustomElement(class IglBlockDatesVi
     }
     render() {
         console.log({ fromDate: this.fromDate, toDate: this.toDate });
-        return (h(Host, { key: '59ae671ea0856097dec179875f6851943e888a8d' }, h("div", { key: 'c4a3f6e77aed713c4959bb423733d268a1f365d0', class: `m-0 p-0 mb-1` }, h("div", { key: '1bd55885ffacb4ac18e6981ad7bd3560f2f1384e', class: "text-left p-0" }, h("ir-date-view", { key: '13e44492d1e582612b16771165f6d8c66f65264d', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: 'aa71a79d84a93e1856c586fd003a596b8a013946', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '5b243f2edf28981bf3c47f1aa64a2fa66a306c4e', class: "mb-1 " }, h("label", { key: '479d473f7170fed1afc8af75e1b40adae1df883a', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '53a3c9c681b6b58766f66967f0c87cccade5e15e', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: 'be525e51003b7e2fb2e66c6e957421aa5799becd', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: 'f2dd82fa3389a039571eb253db86c08d12994218', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
+        return (h(Host, { key: 'abe1dea2ada46fe591bc7d43c9598bde7a306185' }, h("div", { key: '713604136c82fe536de59ef6771f636500954f1f', class: `m-0 p-0 mb-1` }, h("div", { key: '99bbd86331f69481e03c092f2aa31a721e491e40', class: "text-left p-0" }, h("ir-date-view", { key: '36f52052ef7b9a57fa4e4888350f04258e461fe9', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: 'ea1063b1dbbd887e2913866ad330b8851ce5d49c', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: 'cca3d01e62af3e61752a9ed15388d07952aceaef', class: "mb-1 " }, h("label", { key: 'eee9ff75bafaa1857adce4e9dca02df2fbf5f221', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '5aeb1771559e7ae39132e98d220966fc58dc08ad', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: '81816af7872b5fdd48763e1595b7617a60ed76b8', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '77d40ea3247071596c2bfe96a43948b49bca0f33', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
     static get style() { return IglBlockDatesViewStyle0; }
 }, [2, "igl-block-dates-view", {

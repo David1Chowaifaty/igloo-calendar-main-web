@@ -1,13 +1,13 @@
-import { r as registerInstance, h, H as Host } from './index-60982d00.js';
-import { T as Token } from './Token-6c389e24.js';
-import { l as locales } from './locales.store-629477c2.js';
-import { R as RoomService } from './room.service-7036d847.js';
-import { B as BookingService } from './booking.service-a4ae8041.js';
+import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
+import { T as Token } from './Token-030c78a9.js';
+import { l as locales } from './locales.store-f4150353.js';
+import { R as RoomService } from './room.service-cbe9248d.js';
+import { B as BookingService } from './booking.service-10f0a1cf.js';
 import './axios-aa1335b8.js';
-import './index-c4cf83be.js';
-import './calendar-data-462ba979.js';
+import './index-a124d225.js';
+import './calendar-data-8a36a1b2.js';
 import './index-6ecc32cd.js';
-import './utils-b2bf980e.js';
+import './utils-bb2f2deb.js';
 import './moment-ab846cee.js';
 
 const irFinancialActionsCss = ".sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}";
@@ -16,18 +16,19 @@ const IrFinancialActionsStyle0 = irFinancialActionsCss;
 const IrFinancialActions = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.language = '';
-        this.ticket = '';
-        this.isPageLoading = true;
-        this.tokenService = new Token();
-        this.roomService = new RoomService();
-        this.bookingService = new BookingService();
-        this.handleSidebarClose = (e) => {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.sideBarEvent = null;
-        };
     }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isLoading;
+    isPageLoading = true;
+    property_id;
+    sideBarEvent;
+    tokenService = new Token();
+    roomService = new RoomService();
+    bookingService = new BookingService();
+    paymentEntries;
     componentWillLoad() {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
@@ -41,8 +42,12 @@ const IrFinancialActions = class {
         this.tokenService.setToken(this.ticket);
         this.initializeApp();
     }
+    handleSidebarClose = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.sideBarEvent = null;
+    };
     renderSidebarBody() {
-        var _a, _b;
         if (!this.sideBarEvent) {
             return;
         }
@@ -50,7 +55,7 @@ const IrFinancialActions = class {
             case 'booking':
                 return (h("ir-booking-details", { slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleSidebarClose, is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.sideBarEvent.payload.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }));
             case 'payment':
-                return (h("ir-payment-folio", { bookingNumber: (_b = (_a = this.sideBarEvent.payload) === null || _a === void 0 ? void 0 : _a.bookingNumber) === null || _b === void 0 ? void 0 : _b.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
+                return (h("ir-payment-folio", { bookingNumber: this.sideBarEvent.payload?.bookingNumber?.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
             default:
                 return null;
         }
@@ -110,17 +115,16 @@ const IrFinancialActions = class {
         }
     }
     render() {
-        var _a, _b, _c;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries?.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getFinancialAction(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "financial-actions__meta" }, h("ir-financial-filters", { isLoading: this.isLoading === 'filter' }), h("ir-financial-table", { class: 'financial-actions__table card  w-100' }))), h("ir-sidebar", { sidebarStyles: {
-                width: ((_b = this.sideBarEvent) === null || _b === void 0 ? void 0 : _b.type) === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: ((_c = this.sideBarEvent) === null || _c === void 0 ? void 0 : _c.type) === 'booking' ? '#F2F3F8' : 'white',
+                width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
+                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get watchers() { return {

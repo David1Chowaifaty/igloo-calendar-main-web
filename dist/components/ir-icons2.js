@@ -257,6 +257,26 @@ const IrIcons = /*@__PURE__*/ proxyCustomElement(class IrIcons extends HTMLEleme
         super();
         this.__registerHost();
     }
+    /**
+     * The name of the icon to render.
+     * Must match a key from the imported `icons` map.
+     *
+     * Example:
+     * ```tsx
+     * <ir-icons name="check" />
+     * ```
+     */
+    name;
+    /**
+     * Additional CSS class applied to the `<svg>` element.
+     * Can be used for sizing, positioning, etc.
+     */
+    svgClassName;
+    /**
+     * Sets the `color` attribute on the `<svg>` element.
+     * Accepts any valid CSS color string.
+     */
+    color;
     render() {
         const svgPath = icons[this.name] || null;
         if (!svgPath) {

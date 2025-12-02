@@ -9,6 +9,10 @@ const IrStatsCard = /*@__PURE__*/ proxyCustomElement(class IrStatsCard extends H
         super();
         this.__registerHost();
     }
+    icon;
+    cardTitle;
+    subtitle;
+    value;
     render() {
         if (!this.value) {
             return null;

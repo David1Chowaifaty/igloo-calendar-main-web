@@ -1,147 +1,122 @@
-import { Host, h } from "@stencil/core";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { OverflowAdd, OverflowRelease } from "../../../decorators/OverflowLock";
+import { h } from "@stencil/core";
 export class IrDialog {
-    constructor() {
-        /**
-         * Controls whether the dialog is open. Reflects to the host attribute for CSS hooks.
-         */
-        this.open = false;
-        this.hasTitleSlot = false;
-        this.hasBodySlot = false;
-        this.previouslyFocused = null;
-        this.instanceId = ++IrDialog.dialogIds;
-        this.handleCancel = (event) => {
-            event.preventDefault();
-            this.closeModal();
-        };
-        this.handleNativeClose = () => {
-            if (this.open) {
-                // Ensure the public prop stays in sync when the native dialog closes (e.g. via form submission).
-                this.open = false;
-                return;
-            }
-            this.hideDialog(false);
-        };
-        this.onTitleSlotChange = (event) => {
-            const slot = event.target;
-            this.hasTitleSlot = slot.assignedNodes({ flatten: true }).length > 0;
-        };
-        this.onBodySlotChange = (event) => {
-            const slot = event.target;
-            this.hasBodySlot = slot.assignedNodes({ flatten: true }).length > 0;
-        };
-        this.onCloseButtonClick = () => {
-            this.closeModal();
-        };
-    }
-    get titleId() {
-        return `ir-dialog-title-${this.instanceId}`;
-    }
-    get descriptionId() {
-        return `ir-dialog-description-${this.instanceId}`;
-    }
-    componentDidLoad() {
-        if (!this.dialogEl) {
-            return;
-        }
-        this.dialogEl.addEventListener('cancel', this.handleCancel);
-        this.dialogEl.addEventListener('close', this.handleNativeClose);
-        this.syncSlotState();
-        if (this.open) {
-            this.showDialog(false);
-        }
-    }
-    disconnectedCallback() {
-        if (this.dialogEl) {
-            this.dialogEl.removeEventListener('cancel', this.handleCancel);
-            this.dialogEl.removeEventListener('close', this.handleNativeClose);
-        }
-        this.restoreFocus();
-    }
-    handleOpenChange(open) {
-        if (open) {
-            this.showDialog();
-        }
-        else {
-            this.hideDialog();
-        }
-    }
     /**
-     * Opens the dialog programmatically using the native `showModal` API.
+     * The dialog's label as displayed in the header.
+     * You should always include a relevant label, as it is required for proper accessibility.
+     * If you need to display HTML, use the label slot instead.
      */
+    label;
+    /**
+     * Indicates whether or not the dialog is open.
+     * Toggle this attribute to show and hide the dialog.
+     */
+    open;
+    /**
+     * Disables the header.
+     * This will also remove the default close button.
+     */
+    withoutHeader;
+    /**
+     * When enabled, the dialog will be closed when the user clicks outside of it.
+     */
+    lightDismiss = true;
+    /**
+     * Emitted when the dialog opens.
+     */
+    irDialogShow;
+    /**
+     * Emitted when the dialog is requested to close.
+     * Calling event.preventDefault() will prevent the dialog from closing.
+     * You can inspect event.detail.source to see which element caused the dialog to close.
+     * If the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.
+     * Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+     */
+    irDialogHide;
+    /**
+     * Emitted after the dialog opens and all animations are complete.
+     */
+    irDialogAfterShow;
+    /**
+     * Emitted after the dialog closes and all animations are complete.
+     */
+    irDialogAfterHide;
     async openModal() {
         this.open = true;
     }
-    /**
-     * Closes the dialog programmatically and restores focus to the previously active element.
-     */
     async closeModal() {
         this.open = false;
     }
-    showDialog(emit = true) {
-        if (!this.dialogEl || this.dialogEl.open) {
+    handleWaHide(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (!e.detail) {
             return;
         }
-        this.previouslyFocused = document.activeElement;
-        if (typeof this.dialogEl.showModal === 'function') {
-            this.dialogEl.showModal();
-        }
-        else {
-            this.dialogEl.setAttribute('open', '');
-        }
-        if (emit) {
-            this.openChange.emit(true);
-        }
+        this.open = false;
+        this.irDialogHide.emit(e.detail);
     }
-    hideDialog(emit = true) {
-        if (!this.dialogEl) {
-            return;
-        }
-        if (this.dialogEl.open) {
-            this.dialogEl.close();
-        }
-        this.restoreFocus();
-        if (emit) {
-            this.openChange.emit(false);
-        }
+    handleWaShow(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.open = true;
+        this.irDialogShow.emit();
     }
-    restoreFocus() {
-        if (this.previouslyFocused && typeof this.previouslyFocused.focus === 'function') {
-            this.previouslyFocused.focus({ preventScroll: true });
-        }
-        this.previouslyFocused = null;
+    handleWaAfterHide(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.irDialogAfterHide.emit();
     }
-    syncSlotState() {
-        if (!this.dialogEl) {
-            return;
-        }
-        const titleSlot = this.dialogEl.querySelector('slot[name="modal-title"]');
-        const bodySlot = this.dialogEl.querySelector('slot[name="modal-body"]');
-        if (titleSlot) {
-            this.hasTitleSlot = titleSlot.assignedNodes({ flatten: true }).length > 0;
-        }
-        if (bodySlot) {
-            this.hasBodySlot = bodySlot.assignedNodes({ flatten: true }).length > 0;
-        }
+    handleWaAfterShow(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.irDialogAfterShow.emit();
     }
     render() {
-        const labelledBy = this.hasTitleSlot ? this.titleId : undefined;
-        const describedBy = this.hasBodySlot ? this.descriptionId : undefined;
-        return (h(Host, { key: '8c9e890a165bd82bd200fa418df400db7ab57924' }, h("dialog", { key: 'f2cd6446cfc09c2934f627161ef3285913b58fac', ref: el => (this.dialogEl = el), class: "dialog", role: "dialog", "aria-modal": "true", "aria-labelledby": labelledBy, "aria-describedby": describedBy }, h("div", { key: '36499ec862c53ad7cb4290c73664d22260146ddf', class: "dialog__content", role: "document" }, h("header", { key: 'ded3f793ec54679ec0c26ec97290b923003b6487', class: "dialog__header", id: labelledBy }, h("slot", { key: '3bdcbbd1c4ebf66de0fe72b6d08062ab9c37bf85', name: "modal-title", onSlotchange: this.onTitleSlotChange }), h("button", { key: 'eedef8bb46caf8d1aea0d06530504957db0a4ffd', type: "button", class: "dialog__close-button", onClick: this.onCloseButtonClick, "aria-label": "Close dialog" }, h("slot", { key: 'c5f4e53e6e8975fce0b452d4f678b633d1c7a65e', name: "close-icon" }, h("svg", { key: '8a3ebab9d2c3d59100de911a75b08f67a5bafa74', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 18, width: 18, "aria-hidden": "true", focusable: "false" }, h("path", { key: 'b1e4b54641c7ba476fce9189a6336b36183d48a4', fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))), h("section", { key: '3e24aff29a96ad0cb07f7ba769edb65aa7256e2e', class: "dialog__body", id: describedBy }, h("slot", { key: '36965856da300bfd457c063cae8b65054a9abbf4', name: "modal-body", onSlotchange: this.onBodySlotChange })), h("footer", { key: 'c5ffe8fe50d1fe55bd23e195ea485a0420d5df51', class: "dialog__footer" }, h("slot", { key: 'a1efabe10a4c08e23fd027877cb9fdb0c9453b3f', name: "modal-footer" }))))));
+        return (h("wa-dialog", { key: '33de360a1ebbb4072b65efcaeb0d094fc0767489', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '4bee8fb50003b238b21b12fc7116092f99b6846a', name: "header-actions", slot: "header-actions" }), h("slot", { key: '9d487559fe3f1aedd4e4772b14cd01511181914e', name: "label", slot: "label" }), h("slot", { key: 'c1d2b0a76dee1583ff498a6d33980af5e44253f0' }), h("slot", { key: 'd1c74f0c4972f7b5751f3d5191590e61002d3112', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-dialog"; }
-    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-dialog.css"]
+            "$": ["ir-dialog.css", "../../../global/app.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-dialog.css"]
+            "$": ["ir-dialog.css", "../../../global/app.css"]
         };
     }
     static get properties() {
         return {
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The dialog's label as displayed in the header.\nYou should always include a relevant label, as it is required for proper accessibility.\nIf you need to display HTML, use the label slot instead."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
+                "reflect": true
+            },
             "open": {
                 "type": "boolean",
                 "mutable": true,
@@ -154,36 +129,118 @@ export class IrDialog {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls whether the dialog is open. Reflects to the host attribute for CSS hooks."
+                    "text": "Indicates whether or not the dialog is open.\nToggle this attribute to show and hide the dialog."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "open",
-                "reflect": true,
-                "defaultValue": "false"
+                "reflect": true
+            },
+            "withoutHeader": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Disables the header.\nThis will also remove the default close button."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "without-header",
+                "reflect": true
+            },
+            "lightDismiss": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When enabled, the dialog will be closed when the user clicks outside of it."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "light-dismiss",
+                "reflect": false,
+                "defaultValue": "true"
             }
-        };
-    }
-    static get states() {
-        return {
-            "hasTitleSlot": {},
-            "hasBodySlot": {}
         };
     }
     static get events() {
         return [{
-                "method": "openChange",
-                "name": "openChange",
+                "method": "irDialogShow",
+                "name": "irDialogShow",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emits when the open state changes due to user interaction or programmatic control."
+                    "text": "Emitted when the dialog opens."
                 },
                 "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }, {
+                "method": "irDialogHide",
+                "name": "irDialogHide",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted when the dialog is requested to close.\nCalling event.preventDefault() will prevent the dialog from closing.\nYou can inspect event.detail.source to see which element caused the dialog to close.\nIf the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.\nAvoid using this unless closing the dialog will result in destructive behavior such as data loss."
+                },
+                "complexType": {
+                    "original": "{ source: Element }",
+                    "resolved": "{ source: Element; }",
+                    "references": {
+                        "Element": {
+                            "location": "global",
+                            "id": "global::Element"
+                        }
+                    }
+                }
+            }, {
+                "method": "irDialogAfterShow",
+                "name": "irDialogAfterShow",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted after the dialog opens and all animations are complete."
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }, {
+                "method": "irDialogAfterHide",
+                "name": "irDialogAfterHide",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted after the dialog closes and all animations are complete."
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
                     "references": {}
                 }
             }];
@@ -203,7 +260,7 @@ export class IrDialog {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Opens the dialog programmatically using the native `showModal` API.",
+                    "text": "",
                     "tags": []
                 }
             },
@@ -220,19 +277,17 @@ export class IrDialog {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "Closes the dialog programmatically and restores focus to the previously active element.",
+                    "text": "",
                     "tags": []
                 }
             }
         };
     }
-    static get elementRef() { return "hostEl"; }
-    static get watchers() {
-        return [{
-                "propName": "open",
-                "methodName": "handleOpenChange"
-            }];
-    }
 }
-IrDialog.dialogIds = 0;
+__decorate([
+    OverflowRelease()
+], IrDialog.prototype, "handleWaHide", null);
+__decorate([
+    OverflowAdd()
+], IrDialog.prototype, "handleWaShow", null);
 //# sourceMappingURL=ir-dialog.js.map

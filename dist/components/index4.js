@@ -3596,6 +3596,6 @@ try {
   globalThis.IMask = IMask;
 } catch {}
 
-export { IMask as I, MaskedRange as M };
+export { IMask as I, MaskedNumber as M, MaskedRange as a };
 
 //# sourceMappingURL=index4.js.map

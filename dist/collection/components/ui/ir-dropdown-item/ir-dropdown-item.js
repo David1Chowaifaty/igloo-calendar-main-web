@@ -1,19 +1,37 @@
 import { Host, h } from "@stencil/core";
 export class IrDropdownItem {
-    constructor() {
-        this.isComponentConnected = true;
-        this.hasRegistered = false;
-        /**
-         * When true, visually hide the item (used for filtering).
-         */
-        this.hidden = false;
-        this.handleClick = (event) => {
-            event.stopPropagation();
-            if (!this.isComponentConnected)
-                return;
-            this.dropdownItemSelect.emit(this.value);
-        };
-    }
+    el;
+    isComponentConnected = true;
+    hasRegistered = false;
+    /**
+     * Required value for the option
+     */
+    value;
+    /**
+     * Optional label (falls back to textContent)
+     */
+    label;
+    /**
+     * Optional html_content (when you want rich content);
+     * If omitted, the component will render its own slot content.
+     */
+    html_content;
+    /**
+     * When true, visually hide the item (used for filtering).
+     */
+    hidden = false;
+    /**
+     * Emit when this item is chosen. Parent listens and closes dropdown.
+     */
+    dropdownItemSelect;
+    /**
+     * Inform the parent this item exists (parent will index and manage focus)
+     */
+    dropdownItemRegister;
+    /**
+     * Inform the parent this item is gone
+     */
+    dropdownItemUnregister;
     componentDidLoad() {
         if (this.isComponentConnected && !this.hasRegistered) {
             this.hasRegistered = true;
@@ -38,11 +56,10 @@ export class IrDropdownItem {
         this.hasRegistered = false;
     }
     async matchesQuery(query) {
-        var _a, _b;
         if (!this.isComponentConnected)
             return false;
         const q = query.toLowerCase();
-        const hay = ((_b = (_a = this.label) !== null && _a !== void 0 ? _a : this.el.textContent) !== null && _b !== void 0 ? _b : '').toLowerCase();
+        const hay = (this.label ?? this.el.textContent ?? '').toLowerCase();
         return hay.includes(q);
     }
     async setHidden(next) {
@@ -50,8 +67,14 @@ export class IrDropdownItem {
             this.hidden = next;
         }
     }
+    handleClick = (event) => {
+        event.stopPropagation();
+        if (!this.isComponentConnected)
+            return;
+        this.dropdownItemSelect.emit(this.value);
+    };
     render() {
-        return (h(Host, { key: 'a64681de1caa9ed02048b91f234a66b6e5f01cb3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '72810e0e014df086918dbb229b811f18c717b7d3', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get is() { return "ir-dropdown-item"; }
     static get encapsulation() { return "scoped"; }

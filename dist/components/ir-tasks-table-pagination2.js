@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { h as hkTasksStore, k as shouldLoadMore, l as loadMoreTasks, m as updateCurrentPage, n as updatePageSize } from './hk-tasks.store.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
+import { d as defineCustomElement$5 } from './ir-button2.js';
+import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-pagination2.js';
 import { d as defineCustomElement$1 } from './ir-select2.js';
@@ -14,13 +15,12 @@ const IrTasksTablePagination = /*@__PURE__*/ proxyCustomElement(class IrTasksTab
         this.__registerHost();
     }
     render() {
-        var _a, _b;
         const { currentPage, pageSize, totalPages, mobileCurrentPage } = hkTasksStore.pagination;
-        const totalTasks = (_b = (_a = hkTasksStore.tasks) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
+        const totalTasks = hkTasksStore.tasks?.length ?? 0;
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
         const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
-        return (h(Host, { key: '09ca174335995d2400b4d258456de915b5b1bd12' }, shouldLoadMore() && h("ir-button", { key: 'b4d96b489debec1ffc6f4e4f5560d97071f85b86', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: 'e68d54a1311368ca9f4558d5bf16b94af111dd43', showing: {
+        return (h(Host, { key: 'fb80a2dc6288700addbbea38ad02b1f6ade792a1' }, shouldLoadMore() && h("ir-button", { key: '9445b01e2f5daf8a77d70af66fdb82b90a03a504', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '6ffc0db193e812684c9eaa7a35f03c3eb39adc41', showing: {
                 from: start,
                 to: end,
             }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: pageSizes, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));
@@ -31,7 +31,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-tasks-table-pagination", "ir-button", "ir-icons", "ir-pagination", "ir-select"];
+    const components = ["ir-tasks-table-pagination", "ir-button", "ir-custom-button", "ir-icons", "ir-pagination", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-tasks-table-pagination":
             if (!customElements.get(tagName)) {
@@ -39,6 +39,11 @@ function defineCustomElement() {
             }
             break;
         case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

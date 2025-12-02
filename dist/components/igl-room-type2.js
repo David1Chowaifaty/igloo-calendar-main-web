@@ -12,37 +12,42 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
         super();
         this.__registerHost();
         this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.bookingType = 'PLUS_BOOKING';
-        this.ratePricingMode = [];
-        this.roomInfoId = null;
-        this.selectedRooms = [];
-        this.roomsDistributions = [];
-        this.validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     }
+    roomType;
+    bookingType = 'PLUS_BOOKING';
+    dateDifference;
+    ratePricingMode = [];
+    roomInfoId = null;
+    currency;
+    initialRoomIds;
+    isBookDisabled;
+    selectedRooms = [];
+    totalRooms;
+    roomsDistributions = [];
+    dataUpdateEvent;
+    validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
-        var _a, _b;
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '4a38bfe8ff3647405325f8f610f70d3c871ad93a' }, isValidBookingType && ((_a = this.roomType.rateplans) === null || _a === void 0 ? void 0 : _a.length) > 0 && h("div", { key: '7346c07f5f6db619489ea01a7e223c3b6666d0dc', class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomType.name), (_b = this.roomType.rateplans) === null || _b === void 0 ? void 0 :
-            _b.map(ratePlan => {
-                if (!!ratePlan.variations) {
-                    let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
-                    // let roomId = -1;
-                    // if (shouldBeDisabled && this.initialRoomIds) {
-                    //   roomId = this.initialRoomIds.roomId;
-                    // }
-                    const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                    return (h("igl-rate-plan", {
-                        // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
-                        // index={index}
-                        isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency,
-                        // dateDifference={this.dateDifference}
-                        ratePlan: ratePlan, roomTypeId: this.roomType.id,
-                        // totalAvailableRooms={this.roomsDistributions[index]}
-                        bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled
-                    }));
-                }
-                return null;
-            })));
+        return (h(Host, { key: 'a4feed1422373487263a9ed0189ce1a56ba74967' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("div", { key: '6183a2ed0d323c6e3f4b73259b1854e8cbcebcdd', class: "font-weight-bold font-medium-1 margin-bottom-8 " }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+            if (!!ratePlan.variations) {
+                let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
+                // let roomId = -1;
+                // if (shouldBeDisabled && this.initialRoomIds) {
+                //   roomId = this.initialRoomIds.roomId;
+                // }
+                const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
+                return (h("igl-rate-plan", {
+                    // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
+                    // index={index}
+                    isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency,
+                    // dateDifference={this.dateDifference}
+                    ratePlan: ratePlan, roomTypeId: this.roomType.id,
+                    // totalAvailableRooms={this.roomsDistributions[index]}
+                    bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled
+                }));
+            }
+            return null;
+        })));
     }
     static get style() { return IglRoomTypeStyle0; }
 }, [2, "igl-room-type", {

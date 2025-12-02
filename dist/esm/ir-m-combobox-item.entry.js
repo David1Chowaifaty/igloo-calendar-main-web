@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-60982d00.js';
+import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-b3dce66a.js';
 
 const irMComboboxItemCss = ".sc-ir-m-combobox-item-h{display:block;cursor:pointer}[hidden].sc-ir-m-combobox-item-h{display:none !important}.active.sc-ir-m-combobox-item-h,.focused.sc-ir-m-combobox-item-h,.sc-ir-m-combobox-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-m-combobox-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
 const IrMComboboxItemStyle0 = irMComboboxItemCss;
@@ -9,14 +9,37 @@ const IrMComboboxItem = class {
         this.comboboxItemSelect = createEvent(this, "comboboxItemSelect", 7);
         this.comboboxItemRegister = createEvent(this, "comboboxItemRegister", 7);
         this.comboboxItemUnregister = createEvent(this, "comboboxItemUnregister", 7);
-        /**
-         * When true, visually hide the item (used for filtering).
-         */
-        this.hidden = false;
-        this.handleClick = () => {
-            this.comboboxItemSelect.emit(this.toOption());
-        };
     }
+    get el() { return getElement(this); }
+    /**
+     * Required value for the option
+     */
+    value;
+    /**
+     * Optional label (falls back to textContent)
+     */
+    label;
+    /**
+     * Optional html_content (when you want rich content);
+     * If omitted, the component will render its own slot content.
+     */
+    html_content;
+    /**
+     * When true, visually hide the item (used for filtering).
+     */
+    hidden = false;
+    /**
+     * Emit when this item is chosen. Parent listens and closes dropdown.
+     */
+    comboboxItemSelect;
+    /**
+     * Inform the parent this item exists (parent will index and manage focus)
+     */
+    comboboxItemRegister;
+    /**
+     * Inform the parent this item is gone
+     */
+    comboboxItemUnregister;
     componentDidLoad() {
         this.comboboxItemRegister.emit();
     }
@@ -24,8 +47,7 @@ const IrMComboboxItem = class {
         this.comboboxItemUnregister.emit();
     }
     toOption() {
-        var _a, _b;
-        const label = ((_b = (_a = this.label) !== null && _a !== void 0 ? _a : this.el.textContent) !== null && _b !== void 0 ? _b : '').trim();
+        const label = (this.label ?? this.el.textContent ?? '').trim();
         return {
             value: this.value,
             label,
@@ -33,19 +55,20 @@ const IrMComboboxItem = class {
         };
     }
     async matchesQuery(query) {
-        var _a, _b;
         const q = query.toLowerCase();
-        const hay = ((_b = (_a = this.label) !== null && _a !== void 0 ? _a : this.el.textContent) !== null && _b !== void 0 ? _b : '').toLowerCase();
+        const hay = (this.label ?? this.el.textContent ?? '').toLowerCase();
         return hay.includes(q);
     }
     async setHidden(next) {
         this.hidden = next;
     }
+    handleClick = () => {
+        this.comboboxItemSelect.emit(this.toOption());
+    };
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: '2a1dd239814cfe77f77adf3237e678f9c147be13', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '7467ce98c7d523f0c1a9ae00678043ef8fb83823', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
-    get el() { return getElement(this); }
 };
 IrMComboboxItem.style = IrMComboboxItemStyle0;
 

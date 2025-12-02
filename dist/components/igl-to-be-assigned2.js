@@ -21,18 +21,30 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
         this.showBookingPopup = createEvent(this, "showBookingPopup", 7);
         this.addToBeAssignedEvent = createEvent(this, "addToBeAssignedEvent", 7);
         this.highlightToBeAssignedBookingEvent = createEvent(this, "highlightToBeAssignedBookingEvent", 7);
-        this.showDatesList = false;
-        this.renderAgain = false;
-        this.orderedDatesList = [];
-        this.noScroll = false;
-        this.isGotoToBeAssignedDate = false;
-        this.isLoading = true;
-        this.selectedDate = null;
-        this.data = {};
-        this.today = new Date();
-        this.categoriesData = {};
-        this.toBeAssignedService = new ToBeAssignedService();
     }
+    unassignedDatesProp;
+    propertyid;
+    from_date;
+    to_date;
+    calendarData;
+    loadingMessage;
+    showDatesList = false;
+    renderAgain = false;
+    orderedDatesList = [];
+    noScroll = false;
+    optionEvent;
+    reduceAvailableUnitEvent;
+    showBookingPopup;
+    addToBeAssignedEvent;
+    highlightToBeAssignedBookingEvent;
+    isGotoToBeAssignedDate = false;
+    isLoading = true;
+    selectedDate = null;
+    data = {};
+    today = new Date();
+    categoriesData = {};
+    toBeAssignedService = new ToBeAssignedService();
+    unassignedDates;
     componentWillLoad() {
         this.reArrangeData();
         this.loadingMessage = locales.entries.Lcz_FetchingUnAssignedUnits;
@@ -53,7 +65,7 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
             }
             endDate = hooks(endDate).add(1, 'days').toDate().getTime();
         }
-        this.data = Object.assign({}, this.unassignedDates);
+        this.data = { ...this.unassignedDates };
         this.orderedDatesList = Object.keys(this.data).sort((a, b) => parseInt(a) - parseInt(b));
         if (this.orderedDatesList.length) {
             if (!this.data.hasOwnProperty(this.selectedDate)) {
@@ -67,29 +79,28 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
         }
     }
     handleAssignUnit(event) {
-        var _a, _b, _c, _d, _e;
         const opt = event.detail;
         const data = opt.data;
         event.stopImmediatePropagation();
         event.stopPropagation();
-        if ((opt === null || opt === void 0 ? void 0 : opt.key) === 'assignUnit' && this.data) {
+        if (opt?.key === 'assignUnit' && this.data) {
             // Verify data.selectedDate exists in this.data
-            if ((data === null || data === void 0 ? void 0 : data.selectedDate) && this.data[data.selectedDate]) {
+            if (data?.selectedDate && this.data[data.selectedDate]) {
                 // Check if categories exist and there's only one category
-                if (((_a = this.data[data.selectedDate]) === null || _a === void 0 ? void 0 : _a.categories) && ((_c = Object.keys(((_b = this.data[data.selectedDate]) === null || _b === void 0 ? void 0 : _b.categories) || {})) === null || _c === void 0 ? void 0 : _c.length) === 1) {
+                if (this.data[data.selectedDate]?.categories && Object.keys(this.data[data.selectedDate]?.categories || {})?.length === 1) {
                     this.isLoading = true;
                     this.noScroll = true;
                 }
                 // Make sure all required properties exist before filtering
-                if ((data === null || data === void 0 ? void 0 : data.RT_ID) &&
-                    ((_d = this.data[data.selectedDate]) === null || _d === void 0 ? void 0 : _d.categories) &&
+                if (data?.RT_ID &&
+                    this.data[data.selectedDate]?.categories &&
                     this.data[data.selectedDate].categories[data.RT_ID] &&
                     Array.isArray(this.data[data.selectedDate].categories[data.RT_ID]) &&
-                    ((_e = data === null || data === void 0 ? void 0 : data.assignEvent) === null || _e === void 0 ? void 0 : _e.ID)) {
+                    data?.assignEvent?.ID) {
                     this.data[data.selectedDate].categories[data.RT_ID] = this.data[data.selectedDate].categories[data.RT_ID].filter(eventData => eventData && eventData.ID !== data.assignEvent.ID);
                 }
                 // Only update calendarData if it exists in the data
-                if (data === null || data === void 0 ? void 0 : data.calendarData) {
+                if (data?.calendarData) {
                     this.calendarData = data.calendarData;
                 }
                 this.renderView();
@@ -227,8 +238,7 @@ const IglToBeAssigned = /*@__PURE__*/ proxyCustomElement(class IglToBeAssigned e
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        var _a;
-        return (h(Host, { key: '563b349b4d9dc3bef97150cfc943329414585a8a', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: '5e42c8fa85e5ad51e39e31910cddfe5c00b31e11' }, h("div", { key: '73ddc5f23bbd3d27b52dd3642bd69e2964376d50' }, h("div", { key: 'af5e79e90744f79a721dcb1e1801f0c4bc4264ac', class: "stickyHeader pt-1" }, h("div", { key: '42380339c5375f82e9dd0a0ad1e07d3badef91e6', class: 'assignment_header' }, h("p", { key: 'b03d909c563a64de42c88c2d9384bc0fa7959d16', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: '455eb11633365a94c2b8e308348a0b715e2d17f2', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: '6f0910f78a1bfea31e20cd17ff27b87b4a3182d9' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, (_a = this.orderedDatesList) === null || _a === void 0 ? void 0 : _a.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: '3ad154ccdf5a676e4372fe8d54bd0e2d8d198e20', class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
+        return (h(Host, { key: '95d5c1e843cf992d653eb304f3824a88a76e3d5f', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: '51cc3de7dbdfc3e0f805b9817629c358e34d2fd8' }, h("div", { key: 'c599b2d37ecbf0b687093e78713ed7c277ea5d90' }, h("div", { key: 'b8407a4884abbee99d3baa0e0fa6de74b31592c2', class: "stickyHeader pt-1" }, h("div", { key: '8b7eb462e843270a7426d06e883542af96a8f9c5', class: 'assignment_header' }, h("p", { key: 'ca3e7fac2e5849551b6b129ee00ca231ca6e7323', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: '111cbd9a4f405c487be470b75908a63c49605f88', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: '998351d34fe23f4af1278ed24025630129470402' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, this.data[this.selectedDate].dateStr), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, this.orderedDatesList?.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: '460945fbbf5c6a0660c71beb593b3bb28b3321d2', class: "scrollabledArea" }, this.orderedDatesList.length ? (Object.keys(this.data[this.selectedDate].categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
     }
     static get watchers() { return {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]

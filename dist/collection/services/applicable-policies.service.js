@@ -4,9 +4,10 @@ import moment from "moment";
  * {@link BookingService} while providing light data preparation utilities.
  */
 export class ApplicablePoliciesService {
+    bookingService;
+    _booking = null;
     constructor(bookingService) {
         this.bookingService = bookingService;
-        this._booking = null;
     }
     /**
      * Returns the booking reference used to scope applicable policy requests.
@@ -37,7 +38,7 @@ export class ApplicablePoliciesService {
             return;
         }
         const { rooms, booking_nbr, currency, property } = this._booking;
-        const groupedRooms = this.groupRoomsForRequest(rooms !== null && rooms !== void 0 ? rooms : []);
+        const groupedRooms = this.groupRoomsForRequest(rooms ?? []);
         try {
             const requests = [];
             groupedRooms.forEach(grouping => {
@@ -53,8 +54,8 @@ export class ApplicablePoliciesService {
                 if (grouping.identifiers.length > 1) {
                     grouping.identifiers.forEach(roomIdentifier => {
                         requests.push(this.bookingService
-                            .getExposedApplicablePolicies(Object.assign(Object.assign({}, basePayload), { room_identifier: roomIdentifier }))
-                            .then(policies => ({ grouping: Object.assign(Object.assign({}, grouping), { rooms: rooms.filter(r => r.identifier === roomIdentifier) }), policies })));
+                            .getExposedApplicablePolicies({ ...basePayload, room_identifier: roomIdentifier })
+                            .then(policies => ({ grouping: { ...grouping, rooms: rooms.filter(r => r.identifier === roomIdentifier) }, policies })));
                     });
                 }
                 else {
@@ -84,8 +85,7 @@ export class ApplicablePoliciesService {
         }
         const groupMap = new Map();
         rooms.forEach(room => {
-            var _a, _b;
-            if (!((_a = room.rateplan) === null || _a === void 0 ? void 0 : _a.id) || !((_b = room.roomtype) === null || _b === void 0 ? void 0 : _b.id)) {
+            if (!room.rateplan?.id || !room.roomtype?.id) {
                 throw new Error('Room is missing rate plan or room type information.');
             }
             const key = `${room.roomtype.id}-${room.rateplan.id}`;
@@ -108,7 +108,7 @@ export class ApplicablePoliciesService {
         return [...groupMap.values()];
     }
     buildPoliciesByType(groupedPolicies) {
-        const flattened = groupedPolicies.flatMap(group => { var _a; return (_a = group.policies) !== null && _a !== void 0 ? _a : []; });
+        const flattened = groupedPolicies.flatMap(group => group.policies ?? []);
         return this.groupPoliciesByType(flattened);
     }
     /**
@@ -131,7 +131,7 @@ export class ApplicablePoliciesService {
         }
         const statements = [];
         groupedPolicies.forEach(({ grouping, policies }) => {
-            if (!(policies === null || policies === void 0 ? void 0 : policies.length)) {
+            if (!policies?.length) {
                 return;
             }
             const cancellationPolicy = policies.find(policy => policy.type === 'cancelation');
@@ -162,7 +162,7 @@ export class ApplicablePoliciesService {
                             return bracket;
                         }
                         const nextBracket = oldBrackets[index + 1];
-                        if ((nextBracket === null || nextBracket === void 0 ? void 0 : nextBracket.amount) && nextBracket.amount > 0) {
+                        if (nextBracket?.amount && nextBracket.amount > 0) {
                             return bracket;
                         }
                         return undefined;
@@ -195,7 +195,14 @@ export class ApplicablePoliciesService {
                         return aDate.valueOf() - bDate.valueOf();
                     });
                 }
-                statements.push(Object.assign(Object.assign({}, cancellationPolicy), { brackets: filteredBrackets, roomType: room.roomtype, ratePlan: room.rateplan, checkInDate: room.from_date, grossTotal: room.gross_total }));
+                statements.push({
+                    ...cancellationPolicy,
+                    brackets: filteredBrackets,
+                    roomType: room.roomtype,
+                    ratePlan: room.rateplan,
+                    checkInDate: room.from_date,
+                    grossTotal: room.gross_total,
+                });
             });
         });
         return statements;
@@ -206,8 +213,7 @@ export class ApplicablePoliciesService {
      */
     calculateGuaranteeAmount(groupedPolicies) {
         return groupedPolicies.reduce((total, { grouping, policies }) => {
-            var _a;
-            if (!(policies === null || policies === void 0 ? void 0 : policies.length)) {
+            if (!policies?.length) {
                 return total;
             }
             const guaranteePolicy = policies.find(policy => policy.type === 'guarantee');
@@ -218,7 +224,7 @@ export class ApplicablePoliciesService {
             if (!currentBracket) {
                 return total;
             }
-            const roomsTotal = grouping.rooms.length * ((_a = currentBracket.gross_amount) !== null && _a !== void 0 ? _a : 0);
+            const roomsTotal = grouping.rooms.length * (currentBracket.gross_amount ?? 0);
             return total + roomsTotal;
         }, 0);
     }

@@ -5,12 +5,12 @@ import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import locales from "../../../stores/locales.store";
 import { h } from "@stencil/core";
 export class IrHkUnassignedUnits {
-    constructor() {
-        this.user = null;
-        this.renderAgain = false;
-        this.assignedUnits = new Map();
-        this.housekeepingService = new HouseKeepingService();
-    }
+    user = null;
+    renderAgain = false;
+    closeSideBar;
+    resetData;
+    assignedUnits = new Map();
+    housekeepingService = new HouseKeepingService();
     assignUnit(unit_id, hk_id, checked) {
         if (this.user) {
             const userUnit = this.user.assigned_units.find(unit => unit.id === unit_id);
@@ -57,9 +57,8 @@ export class IrHkUnassignedUnits {
         }
     }
     renderRooms() {
-        var _a;
         if (!this.user) {
-            return (_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "pl-1" }, h("ir-select", { onSelectChange: e => {
+            return housekeeping_store.hk_criteria.units_assignments.unassigned_units?.map(unit => (h("tr", { key: unit.id }, h("td", { class: "" }, unit.name), h("td", { class: "sr-only" }), h("td", { class: "pl-1" }, h("ir-select", { onSelectChange: e => {
                     let hk_id = e.detail;
                     if (hk_id === '') {
                         hk_id = null;
@@ -71,17 +70,15 @@ export class IrHkUnassignedUnits {
                 }, data: housekeeping_store.hk_criteria.housekeepers.map(hk => ({ text: hk.name, value: hk.id.toString() })) })))));
         }
         return calendar_data.roomsInfo.map(roomType => {
-            var _a;
             console.log(roomType);
             if (!roomType.is_active) {
                 return null;
             }
-            return (_a = roomType.physicalrooms) === null || _a === void 0 ? void 0 : _a.map(physical_room => {
-                var _a, _b, _c;
+            return roomType.physicalrooms?.map(physical_room => {
                 if (!physical_room['is_active']) {
                     return null;
                 }
-                let taken = !((_a = housekeeping_store.hk_criteria.units_assignments.unassigned_units) === null || _a === void 0 ? void 0 : _a.find(unit => unit.id.toString() === physical_room.id.toString()));
+                let taken = !housekeeping_store.hk_criteria.units_assignments.unassigned_units?.find(unit => unit.id.toString() === physical_room.id.toString());
                 let housekeeper = [];
                 const assignedRoom = this.assignedUnits.get(physical_room.id);
                 if (assignedRoom && assignedRoom.is_to_assign) {
@@ -93,15 +90,15 @@ export class IrHkUnassignedUnits {
                         housekeeper = housekeeping_store.hk_criteria.housekeepers.filter(hk => hk.assigned_units.find(unit => unit.id === physical_room.id));
                     }
                 }
-                return (h("tr", { key: physical_room.id }, h("td", null, physical_room.name), h("td", null, taken ? (_b = housekeeper[0]) === null || _b === void 0 ? void 0 : _b.name : ''), h("td", null, h("ir-switch", { onCheckChange: e => {
+                return (h("tr", { key: physical_room.id }, h("td", null, physical_room.name), h("td", null, taken ? housekeeper[0]?.name : ''), h("td", null, h("ir-switch", { onCheckChange: e => {
                         const checked = e.detail;
                         this.assignUnit(physical_room.id, this.user.id, checked);
-                    }, checked: taken && ((_c = housekeeper[0]) === null || _c === void 0 ? void 0 : _c.id) === this.user.id }))));
+                    }, checked: taken && housekeeper[0]?.id === this.user.id }))));
             });
         });
     }
     render() {
-        return (h("div", { key: '2d5605899d9be911df87bd3337fca7eac7998d3b', class: "sheet-container" }, h("ir-title", { key: '7d7f2b36769e7e49789c792d7c8c8ded338323cb', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: 'fe074dd83da81d9da5cd8747cd2b92139c5b33b7', class: "px-1 sheet-body" }, h("table", { key: 'cb7102abb4e0a2924ae5f5859c417a22a8e4f901' }, h("thead", { key: 'b6d88a067b2ba3287646a309d04afc737631efbe' }, h("th", { key: '51a4afa680123adc6b6950fb2e2247f4b3365cb3', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '9a7eee40152a085dbb9399a72f2c0ef0c91165af', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '505963121488867d3197a8b5bb746e59b9ac6959', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '6b2cea64d607f27d57742ef3372f85683c2f72a9' }, this.renderRooms()))), h("div", { key: '300311b004854f09248195a064424b414698b61b', class: "sheet-footer" }, h("ir-button", { key: '91c373e3397fac76398b39c1d8c9271259a775c6', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '82fd89adeef661a5c2eeee410fe645bed3664bc4', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Confirm }))));
+        return (h("div", { key: 'ee113120cd9b8bb2f16aaf3802bb52439fd705f8', class: "sheet-container" }, h("ir-title", { key: '9729c2a90888e48d518d79d2cfa4facf511540af', class: "title sheet-header px-1", displayContext: "sidebar", label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}` }), h("section", { key: '0edfab1aa96a5604d87cea2d5967e4a14d2aec0f', class: "px-1 sheet-body" }, h("table", { key: '75ae4d7e1819d38a239513395f4101237ea1fe96' }, h("thead", { key: '35501e0dfc1ec4a853228382123c11b2e43e0826' }, h("th", { key: '11605fb514a63876e827b2dbed47b1f3196171c1', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '9eaa3888226d256cb86ff212ce06321f0b5b1233', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '6f99475a0f1e55f92fc0545250835e829703a20d', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '645dc164a3b6571772fb66dabe73c417a2fe8cba' }, this.renderRooms()))), h("div", { key: '0af67cb78188577d818492401d502cc00d72eebe', class: "sheet-footer" }, h("ir-button", { key: '802c58fdadd21b0d96f58f327e191c796a383160', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '4a3df3be4959860ae9d6f2555053b2d8eda12af5', isLoading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), onClickHandler: this.assignUnits.bind(this), class: "flex-fill", btn_styles: "w-100  justify-content-center align-items-center", text: locales.entries.Lcz_Confirm }))));
     }
     static get is() { return "ir-hk-unassigned-units"; }
     static get encapsulation() { return "scoped"; }

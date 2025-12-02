@@ -1,31 +1,39 @@
 import { Host, h } from "@stencil/core";
 export class IrPopover {
-    constructor() {
-        /**
-         * Horizontal offset (left) of the popover from its trigger.
-         * Used in inline style as `--ir-popover-left`.
-         */
-        this.irPopoverLeft = '10px';
-        /**
-         * Position of the popover relative to the trigger.
-         * Options: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`.
-         */
-        this.placement = 'auto';
-        /**
-         * Event that triggers the popover.
-         * Options: `'focus'`, `'click'`, `'hover'`.
-         */
-        this.trigger = 'focus';
-        /**
-         * Whether to treat `content` as raw HTML.
-         * When true, `content` will be injected with `html: true` in jQuery popover.
-         */
-        this.renderContentAsHtml = false;
-        /**
-         * Internal flag to ensure popover is only initialized once.
-         */
-        this.initialized = false;
-    }
+    el;
+    /**
+     * Content to display inside the popover.
+     * Can be plain text or HTML depending on `renderContentAsHtml`.
+     */
+    content;
+    /**
+     * Horizontal offset (left) of the popover from its trigger.
+     * Used in inline style as `--ir-popover-left`.
+     */
+    irPopoverLeft = '10px';
+    /**
+     * Position of the popover relative to the trigger.
+     * Options: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`.
+     */
+    placement = 'auto';
+    /**
+     * Event that triggers the popover.
+     * Options: `'focus'`, `'click'`, `'hover'`.
+     */
+    trigger = 'focus';
+    /**
+     * Whether to treat `content` as raw HTML.
+     * When true, `content` will be injected with `html: true` in jQuery popover.
+     */
+    renderContentAsHtml = false;
+    /**
+     * Internal flag to ensure popover is only initialized once.
+     */
+    initialized = false;
+    /**
+     * Reference to the HTML element that triggers the popover.
+     */
+    popoverTrigger;
     componentDidLoad() {
         if (this.initialized) {
             return;
@@ -48,7 +56,7 @@ export class IrPopover {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'd4f51032d3327b760dc78d5606cc48175f3ed4cf', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: '3ea5d6f8a00cfde57379e57e8562be4973175b8d', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

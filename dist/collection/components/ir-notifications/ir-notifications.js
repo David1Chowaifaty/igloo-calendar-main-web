@@ -1,27 +1,11 @@
 import { Host, h } from "@stencil/core";
 export class IrNotifications {
-    constructor() {
-        // Make notifications reactive;
-        this.notifications = [];
-        this.isOpen = false;
-        this.onDocumentClick = (ev) => {
-            if (!this.isOpen)
-                return;
-            const target = ev.target;
-            if (target && !this.el.contains(target)) {
-                this.isOpen = false;
-            }
-        };
-        this.onDocumentKeydown = (ev) => {
-            var _a, _b;
-            if (!this.isOpen)
-                return;
-            if (ev.key === 'Escape' || ev.key === 'Esc') {
-                this.isOpen = false;
-                (_b = (_a = this.buttonRef) === null || _a === void 0 ? void 0 : _a.focus) === null || _b === void 0 ? void 0 : _b.call(_a);
-            }
-        };
-    }
+    el;
+    // Make notifications reactive;
+    notifications = [];
+    isOpen = false;
+    notificationCleared;
+    buttonRef;
     componentDidLoad() {
         this.updateNotificationBadge();
         document.addEventListener('click', this.onDocumentClick, true);
@@ -56,8 +40,24 @@ export class IrNotifications {
         this.notificationCleared.emit(notification);
         this.notifications = this.notifications.filter(n => n.id !== notification.id);
     }
+    onDocumentClick = (ev) => {
+        if (!this.isOpen)
+            return;
+        const target = ev.target;
+        if (target && !this.el.contains(target)) {
+            this.isOpen = false;
+        }
+    };
+    onDocumentKeydown = (ev) => {
+        if (!this.isOpen)
+            return;
+        if (ev.key === 'Escape' || ev.key === 'Esc') {
+            this.isOpen = false;
+            this.buttonRef?.focus?.();
+        }
+    };
     render() {
-        return (h(Host, { key: '0488682c5371070da281f51f527e4a6be2eb901b' }, h("div", { key: '7483d977056b0b97cb72e7568fde0931a5cc9ef0', class: `dropdown notifications-dropdown ${this.isOpen ? 'show' : ''}` }, h("ir-button", { key: 'f334d73efe0f4b811931fd2ba0bf71f2c83ce782', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notifications.length.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "aria-expanded": String(this.isOpen), onClickHandler: () => (this.isOpen = !this.isOpen) }), h("div", { key: '7143fbcc2fee0d7eebffe3d6c791c19304c00e6b', class: `dropdown-menu dropdown-menu-right ` }, this.notifications.length === 0 ? (h("p", { class: "m-0 dropdown-header" }, "All caught up.")) : (this.notifications.map(notification => (h("div", { class: `notification-item dropdown-item ${notification.type}`, key: notification.id }, h("div", { class: "notification-content" }, h("strong", null, notification.title), h("p", null, notification.message), notification.link && (h("a", { href: notification.link.href, target: notification.link.target || '_self' }, notification.link.text || 'View more'))), notification.dismissible && (h("ir-button", { onClickHandler: () => this.dismissNotification(notification), variant: "icon", btn_color: "light", icon_name: "xmark" }))))))))));
+        return (h(Host, { key: '432339aa6e1a190e4fed5e7979399631e3adea28' }, h("div", { key: 'da271c6771e852bd644b0e900619ce265e99d594', class: `dropdown notifications-dropdown ${this.isOpen ? 'show' : ''}` }, h("ir-button", { key: 'a70f6e5dd3feb1b8ce6652ea0b7a53f59dc3637c', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notifications.length.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "aria-expanded": String(this.isOpen), onClickHandler: () => (this.isOpen = !this.isOpen) }), h("div", { key: '7a78a3ebc19e95231e9280ec9d74fe756879c5b7', class: `dropdown-menu dropdown-menu-right ` }, this.notifications.length === 0 ? (h("p", { class: "m-0 dropdown-header" }, "All caught up.")) : (this.notifications.map(notification => (h("div", { class: `notification-item dropdown-item ${notification.type}`, key: notification.id }, h("div", { class: "notification-content" }, h("strong", null, notification.title), h("p", null, notification.message), notification.link && (h("a", { href: notification.link.href, target: notification.link.target || '_self' }, notification.link.text || 'View more'))), notification.dismissible && (h("ir-button", { onClickHandler: () => this.dismissNotification(notification), variant: "icon", btn_color: "light", icon_name: "xmark" }))))))))));
     }
     static get is() { return "ir-notifications"; }
     static get encapsulation() { return "scoped"; }
@@ -117,7 +117,7 @@ export class IrNotifications {
                 },
                 "complexType": {
                     "original": "Notification",
-                    "resolved": "Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"alert\" | \"warning\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"info\" | \"success\"; ariaRole?: \"status\"; }",
+                    "resolved": "Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"warning\" | \"alert\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"success\" | \"info\"; ariaRole?: \"status\"; }",
                     "references": {
                         "Notification": {
                             "location": "import",

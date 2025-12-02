@@ -2,23 +2,15 @@ import Token from "../../models/Token";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrSecureTasks {
-    constructor() {
-        this.isAuthenticated = false;
-        this.token = new Token();
-        this.dates = {};
-        this.routes = [
-            { name: 'Housekeepers', value: 'hk' },
-            { name: 'Tasks', value: 'tasks' },
-            { name: 'Front', value: 'front' },
-            { name: 'Users', value: 'users' },
-            { name: 'Sales By Country', value: 'country-sales' },
-            { name: 'Daily Occupancy', value: 'daily-occupancy' },
-            { name: 'Daily Revenue', value: 'daily-revenue' },
-            { name: 'Email logs', value: 'email-logs' },
-            { name: 'Booking Listing', value: 'booking-listing' },
-            { name: 'Sales by Channel', value: 'channel-sales' },
-        ];
-    }
+    propertyid;
+    p;
+    bookingNumber;
+    ticket;
+    isAuthenticated = false;
+    currentPage;
+    inputValue;
+    token = new Token();
+    dates = {};
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         this.generateDates();
@@ -54,6 +46,18 @@ export class IrSecureTasks {
             to_date: _TO_DATE,
         };
     }
+    routes = [
+        { name: 'Housekeepers', value: 'hk' },
+        { name: 'Tasks', value: 'tasks' },
+        { name: 'Front', value: 'front' },
+        { name: 'Users', value: 'users' },
+        { name: 'Sales By Country', value: 'country-sales' },
+        { name: 'Daily Occupancy', value: 'daily-occupancy' },
+        { name: 'Daily Revenue', value: 'daily-revenue' },
+        { name: 'Email logs', value: 'email-logs' },
+        { name: 'Booking Listing', value: 'booking-listing' },
+        { name: 'Sales by Channel', value: 'channel-sales' },
+    ];
     handleAuthFinish(e) {
         const token = e.detail.token;
         this.token.setToken(token);

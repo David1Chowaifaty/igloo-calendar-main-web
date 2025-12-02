@@ -7,16 +7,17 @@ const IrToast = /*@__PURE__*/ proxyCustomElement(class IrToast extends HTMLEleme
     constructor() {
         super();
         this.__registerHost();
-        /**
-         * Position where toasts will appear.
-         * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
-         */
-        this.position = 'bottom-left';
-        /**
-         * Array of active toast messages.
-         */
-        this.toasts = [];
     }
+    get element() { return this; }
+    /**
+     * Position where toasts will appear.
+     * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+     */
+    position = 'bottom-left';
+    /**
+     * Array of active toast messages.
+     */
+    toasts = [];
     onToast(event) {
         const toast = event.detail;
         this.showToast(toast);
@@ -39,7 +40,6 @@ const IrToast = /*@__PURE__*/ proxyCustomElement(class IrToast extends HTMLEleme
     render() {
         return h(Host, { key: '848e16f2b5dca881a69c014d494ed60ba162dbc9' });
     }
-    get element() { return this; }
     static get style() { return IrToastStyle0; }
 }, [2, "ir-toast", {
         "position": [1537],

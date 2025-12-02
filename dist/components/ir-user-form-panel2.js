@@ -47,67 +47,75 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         this.__registerHost();
         this.resetData = createEvent(this, "resetData", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
-        var _a, _b;
-        this.userTypes = (Map);
-        this.isEdit = false;
-        this.language = 'en';
-        this.superAdminId = '5';
-        this.allowedUsersTypes = [];
-        this.isLoading = false;
-        this.autoValidate = false;
-        this.showFullHistory = false;
-        this.userInfo = {
-            type: '',
-            id: -1,
-            is_active: true,
-            sign_ins: null,
-            created_on: null,
-            mobile: '',
-            name: '',
-            note: '',
-            password: '',
-            email: '',
-            property_id: null,
-            username: null,
-            phone_prefix: null,
-        };
-        this.errors = null;
-        this.showPasswordValidation = false;
-        this.housekeepingService = new HouseKeepingService();
-        this.userService = new UserService();
-        this.disableFields = false;
-        this.isPropertyAdmin = false;
-        this.token = new Token();
-        this.mobileMask = {};
-        this.userSchema = z.object({
-            mobile: z.string().optional(),
-            email: z.string().email(),
-            password: z
-                .string()
-                .nullable()
-                // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/)
-                .refine(password => {
-                var _a;
-                if (this.user && !((_a = this.userInfo) === null || _a === void 0 ? void 0 : _a.password)) {
-                    return true;
-                }
-                return CONSTANTS.PASSWORD.test(password);
-            }, { message: 'Password must be at least 8 characters long.' }),
-            type: z.union([z.literal(1), z.literal(Number((_b = (_a = this.superAdminId) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : '5')), z.coerce.string().nonempty().min(2)]),
-            username: z
-                .string()
-                .min(3)
-                .refine(async (name) => {
-                if (this.user && this.user.username) {
-                    return true;
-                }
-                if (name.length >= 3) {
-                    return !(await new UserService().checkUserExistence({ UserName: name }));
-                }
-                return true;
-            }, { message: 'Username already exists.' }),
-        });
     }
+    user;
+    userTypes = (Map);
+    isEdit = false;
+    language = 'en';
+    property_id;
+    haveAdminPrivileges;
+    superAdminId = '5';
+    userTypeCode;
+    allowedUsersTypes = [];
+    baseUserTypeCode;
+    isLoading = false;
+    autoValidate = false;
+    showFullHistory = false;
+    userInfo = {
+        type: '',
+        id: -1,
+        is_active: true,
+        sign_ins: null,
+        created_on: null,
+        mobile: '',
+        name: '',
+        note: '',
+        password: '',
+        email: '',
+        property_id: null,
+        username: null,
+        phone_prefix: null,
+    };
+    errors = null;
+    showPasswordValidation = false;
+    isUsernameTaken;
+    isOpen;
+    emailErrorMessage;
+    resetData;
+    closeSideBar;
+    housekeepingService = new HouseKeepingService();
+    userService = new UserService();
+    disableFields = false;
+    isPropertyAdmin = false;
+    token = new Token();
+    mobileMask = {};
+    userSchema = z.object({
+        mobile: z.string().optional(),
+        email: z.string().email(),
+        password: z
+            .string()
+            .nullable()
+            // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+]).{8,16}$/)
+            .refine(password => {
+            if (this.user && !this.userInfo?.password) {
+                return true;
+            }
+            return CONSTANTS.PASSWORD.test(password);
+        }, { message: 'Password must be at least 8 characters long.' }),
+        type: z.union([z.literal(1), z.literal(Number(this.superAdminId?.toString() ?? '5')), z.coerce.string().nonempty().min(2)]),
+        username: z
+            .string()
+            .min(3)
+            .refine(async (name) => {
+            if (this.user && this.user.username) {
+                return true;
+            }
+            if (name.length >= 3) {
+                return !(await new UserService().checkUserExistence({ UserName: name }));
+            }
+            return true;
+        }, { message: 'Username already exists.' }),
+    });
     //make user active by default
     async componentWillLoad() {
         if (!this.user) {
@@ -116,7 +124,7 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         }
         if (this.user) {
             this.autoValidate = true;
-            this.userInfo = Object.assign(Object.assign({}, this.user), { password: '' });
+            this.userInfo = { ...this.user, password: '' };
             // this.disableFields = true;
         }
         this.isPropertyAdmin = this.userTypeCode.toString() === '17';
@@ -131,10 +139,9 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         };
     }
     updateUserField(key, value) {
-        this.userInfo = Object.assign(Object.assign({}, this.userInfo), { [key]: value });
+        this.userInfo = { ...this.userInfo, [key]: value };
     }
     async createOrUpdateUser() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
         try {
             console.log('hello world');
             this.isLoading = true;
@@ -142,9 +149,15 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
             if (!this.autoValidate) {
                 this.autoValidate = true;
             }
-            const toValidateUserInfo = Object.assign(Object.assign({}, this.userInfo), { base_user_type_code: this.baseUserTypeCode, property_id: this.property_id, password: this.user && this.userInfo.password === '' ? this.user.password : this.userInfo.password, type: Number(this.userInfo.type) });
-            console.log('toValidateUserInfo', Object.assign(Object.assign({}, toValidateUserInfo), { mobile: (_d = (_c = (_b = (_a = toValidateUserInfo.mobile) === null || _a === void 0 ? void 0 : _a.split(' ')) === null || _b === void 0 ? void 0 : _b.join('')) === null || _c === void 0 ? void 0 : _c.replace(calendar_data.country.phone_prefix, '')) !== null && _d !== void 0 ? _d : '' }));
-            await this.userSchema.parseAsync(Object.assign(Object.assign({}, toValidateUserInfo), { mobile: (_h = (_g = (_f = (_e = toValidateUserInfo.mobile) === null || _e === void 0 ? void 0 : _e.split(' ')) === null || _f === void 0 ? void 0 : _f.join('')) === null || _g === void 0 ? void 0 : _g.replace(calendar_data.country.phone_prefix, '')) !== null && _h !== void 0 ? _h : '' }));
+            const toValidateUserInfo = {
+                ...this.userInfo,
+                base_user_type_code: this.baseUserTypeCode,
+                property_id: this.property_id,
+                password: this.user && this.userInfo.password === '' ? this.user.password : this.userInfo.password,
+                type: Number(this.userInfo.type),
+            };
+            console.log('toValidateUserInfo', { ...toValidateUserInfo, mobile: toValidateUserInfo.mobile?.split(' ')?.join('')?.replace(calendar_data.country.phone_prefix, '') ?? '' });
+            await this.userSchema.parseAsync({ ...toValidateUserInfo, mobile: toValidateUserInfo.mobile?.split(' ')?.join('')?.replace(calendar_data.country.phone_prefix, '') ?? '' });
             if (this.errors) {
                 this.errors = null;
             }
@@ -181,16 +194,15 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         this.updateUserField('username', usermame);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
-        return (h("form", { key: '62177cd33e7f70716d7f891fdf69bb3d1487b418', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: 'd7fafa0111eb0e992f9fc6931010b7e16301cf4c', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: 'f5d2a5bdd07d3ca995952d84b9a7d0c703c4d3f2', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '27238ff2681211755d6e417783f546e080095119', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'e09fd74ee4433dcad942224514768512f29cd03b', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: (_a = this.errors) === null || _a === void 0 ? void 0 : _a.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: '7d14bb6789959fc169092b08620bb7ed86f21dcc', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: (_b = this.errors) === null || _b === void 0 ? void 0 : _b.mobile, asyncParse: true, autoValidate: this.user ? (((_c = this.userInfo) === null || _c === void 0 ? void 0 : _c.mobile) !== this.user.mobile ? true : false) : this.autoValidate, label: locales.entries.Lcz_Mobile, mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && ((_e = (_d = this.user) === null || _d === void 0 ? void 0 : _d.type) === null || _e === void 0 ? void 0 : _e.toString()) === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.type) && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
+            } }, h("ir-title", { key: 'dcdbdb9aaca55f53c10b9ca3150d522caed27b4f', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '7b9d2cd9433ad9ae09d896b9e47eb67c8de04095', class: "px-1 sheet-body" }, h("ir-input-text", { key: 'bb4b8c58f5f9fd019e27778a089a23e71c207a98', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: this.errors?.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: '9ed47c018c065f083d31d651c187f01af6a6316c', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: this.errors?.mobile, asyncParse: true, autoValidate: this.user ? (this.userInfo?.mobile !== this.user.mobile ? true : false) : this.autoValidate, label: locales.entries.Lcz_Mobile, mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: this.errors?.type && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
                 text: t.value,
                 value: t.code,
-            })), firstOption: locales.entries.Lcz_Select, selectedValue: (_g = this.userInfo.type) === null || _g === void 0 ? void 0 : _g.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), ((_j = (_h = this.user) === null || _h === void 0 ? void 0 : _h.type) === null || _j === void 0 ? void 0 : _j.toString()) !== '5' && (h(Fragment, { key: '79db785c50da0dd2841cd8ab485abd771e048b40' }, h("input", { key: '0da26ab263dca4260f3af89fc0a2bbca465b8a1f', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { key: '939cb09a8580759a41747f5f9157767393f7e98a', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: (_k = this.errors) === null || _k === void 0 ? void 0 : _k.username, label: locales.entries.Lcz_Username, disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username,
+            })), firstOption: locales.entries.Lcz_Select, selectedValue: this.userInfo.type?.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '5ce98b25ae32842efa61ef1718a61aa9db289d0e' }, h("input", { key: 'dde47c5e223bd3d96af969713eb4ed7d9d9fd2bd', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { key: '0bdd436a4f84c4cc2160d75e7d22e151995ce7a0', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: this.errors?.username, label: locales.entries.Lcz_Username, disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username,
             // onInputBlur={this.handleBlur.bind(this)}
-            maxLength: 40, autoComplete: "off" }))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { testId: "password", autoValidate: this.user ? (!((_l = this.userInfo) === null || _l === void 0 ? void 0 : _l.password) ? false : true) : this.autoValidate, label: locales.entries.Lcz_Password, value: this.userInfo.password, autoComplete: "off", type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: (_m = this.errors) === null || _m === void 0 ? void 0 : _m.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            maxLength: 40, autoComplete: "off" }))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales.entries.Lcz_Password, value: this.userInfo.password, autoComplete: "off", type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
@@ -198,21 +210,20 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, locales.entries.Lcz_Password), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: locales.entries.Lcz_ChangePassword, btn_color: "link" }))
         // ))
-        ), ((_p = (_o = this.user) === null || _o === void 0 ? void 0 : _o.sign_ins) === null || _p === void 0 ? void 0 : _p.length) > 0 && (h("section", { key: 'dc51c337828067f8c51941e9b544044b5a092eeb', class: "logins-history-section mt-2" }, h("div", { key: 'a57ff1eff4ba2f06cf9f239324836c6b8404fae2', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '9757a059fce05a9153263532d28feb9b9e0e0dcf', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '01ca8f879b97674c3500c4fc156d49cb985cf146', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'faaf002fe776fe7e19f38525e6628a55ae1acdf7', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
-            var _a, _b, _c;
+        ), this.user?.sign_ins?.length > 0 && (h("section", { key: '86e9c7d8021878b45e8f862d137295dd4a8f97d0', class: "logins-history-section mt-2" }, h("div", { key: 'ca7385f0178c7e6b8a5f51c182d467181b285c4c', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '71bbaa9a3ffdb9158cd1e0547531c62f0d7e86a3', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '76c28b8c3d51d4aad096b738adbdfb15b51ca398', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '61742b736915821ff861b790c4e8c6f79f4d4a26', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
-            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime((_a = s.hour) === null || _a === void 0 ? void 0 : _a.toString(), (_b = s.minute) === null || _b === void 0 ? void 0 : _b.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", (_c = ua.os.name) !== null && _c !== void 0 ? _c : 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: 'afd330b469442438af7226ca8fa533010e30f60c', open: this.isOpen, showCloseButton: false, style: {
+            return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
+        })))), h("ir-sidebar", { key: '5721cc3e1612b261638a6353013738766c38e884', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: 'e8d874cc1d2e0fcbb0316eb617ce159f0b01fed2', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'c8382471f479dd2d6eee8c919222f5bbf5609961', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: 'f2245600ce93d2d50d545bdf361ea1bec47b25a0', class: "sheet-footer" }, h("ir-button", { key: '1ae24fd9286d02214d0c9bd88b42ad92ef4e6cee', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'ecfde8e8df4eeac1c7cbe799c3430d4a1974328c', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: '42f3617b182e139a122e7ab512dbb28e6f9b5cf8', class: "sheet-footer" }, h("ir-button", { key: '6f7bf68c9552e4584b07e528cc9f1ed265194f6a', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'fe263fc0e28d6e92b9646c4d4865e117fcf818a0', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get style() { return IrUserFormPanelStyle0 + IrUserFormPanelStyle1; }
 }, [2, "ir-user-form-panel", {

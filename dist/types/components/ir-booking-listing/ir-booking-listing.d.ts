@@ -1,5 +1,6 @@
 import { Booking } from "../../models/booking.dto";
-import { PaymentEntries } from '../ir-booking-details/types';
+import { Payment, PaymentEntries } from '../ir-booking-details/types';
+import type { PaginationChangeEvent } from "../ir-pagination/ir-pagination";
 export declare class IrBookingListing {
     el: HTMLElement;
     language: string;
@@ -10,15 +11,14 @@ export declare class IrBookingListing {
     baseUrl: string;
     userType: number;
     isLoading: boolean;
-    currentPage: number;
-    totalPages: number;
-    oldStartValue: number;
     editBookingItem: {
         booking: Booking;
         cause: 'edit' | 'payment' | 'delete' | 'guest';
     } | null;
     showCost: boolean;
     paymentEntries: PaymentEntries;
+    payment: Payment;
+    booking: Booking;
     private bookingListingService;
     private bookingService;
     private roomService;
@@ -26,26 +26,25 @@ export declare class IrBookingListing {
     private token;
     private listingModal;
     private listingModalTimeout;
-    private statusColors;
     private allowedProperties;
     private havePrivilege;
+    private paymentFolioRef;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;
+    private fetchBookings;
     private initializeApp;
     handleSideBarToggle(e: CustomEvent<boolean>): void;
     geSearchFiltersFromParams(): void;
-    getPaginationBounds(): {
-        startItem: number;
-        endItem: number;
-        totalCount: number;
-    };
     openModal(): void;
     disconnectedCallback(): void;
+    handlePaginationChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
+    handlePaginationPageSizeChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
     handleResetData(e: CustomEvent): Promise<void>;
     handleResetStoreData(e: CustomEvent): Promise<void>;
     handleBookingChanged(e: CustomEvent<Booking>): void;
-    renderItemRange(): string;
-    updateData(): Promise<void>;
-    private calculateTotalPersons;
+    handleBookingPayment(e: CustomEvent): void;
+    handleSelectGuestEvent(e: CustomEvent): void;
+    handleOpen(e: CustomEvent): void;
+    private findBooking;
     render(): any;
 }

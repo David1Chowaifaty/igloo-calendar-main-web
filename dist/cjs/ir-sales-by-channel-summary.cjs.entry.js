@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 
 const irSalesByChannelSummaryCss = ".sc-ir-sales-by-channel-summary-h{display:block}";
 const IrSalesByChannelSummaryStyle0 = irSalesByChannelSummaryCss;
@@ -12,7 +12,7 @@ const IrSalesByChannelSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: 'a7bd63368afe50666cb85891fff46f022af9f802' }, index.h("slot", { key: '28ad7dbc00d087ae50bacb0ddb57fc62c41c2410' })));
+        return (index.h(index.Host, { key: '10f4d6700c947b1ee175fcf5c537506497832317' }, index.h("slot", { key: 'c9411df43528dbbe9a0f5581b4c6d7cfa1700c92' })));
     }
 };
 IrSalesByChannelSummary.style = IrSalesByChannelSummaryStyle0;

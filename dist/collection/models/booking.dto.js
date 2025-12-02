@@ -104,7 +104,6 @@ export const ZSharedPerson = z.object({
 //   }
 // });
 export function validateSharedPerson(data) {
-    var _a;
     ZSharedPerson.parse(data);
     const hasValue = (field) => {
         return field !== null && field !== undefined && field.trim() !== '';
@@ -131,7 +130,7 @@ export function validateSharedPerson(data) {
         hasValue(data.last_name) ||
         hasValue(data.dob) ||
         (data.country_id !== null && data.country_id !== undefined && data.country_id > 0) ||
-        hasValue((_a = data.id_info) === null || _a === void 0 ? void 0 : _a.number);
+        hasValue(data.id_info?.number);
     // If any field has data, then first_name and last_name become required
     if (hasAnyFieldData) {
         if (!hasValue(data.first_name)) {

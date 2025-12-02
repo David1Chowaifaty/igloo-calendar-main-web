@@ -5,7 +5,7 @@ const initialState = {
 };
 let { state: unassigned_dates, onChange: handleUnAssignedDatesChange } = createStore(initialState);
 function addUnassignedDates(data) {
-    unassigned_dates.unassigned_dates = Object.assign(Object.assign({}, unassigned_dates.unassigned_dates), data);
+    unassigned_dates.unassigned_dates = { ...unassigned_dates.unassigned_dates, ...data };
     /*
      try {
         //console.log("called")

@@ -1,16 +1,15 @@
 import { Host, h } from "@stencil/core";
 export class IrToast {
-    constructor() {
-        /**
-         * Position where toasts will appear.
-         * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
-         */
-        this.position = 'bottom-left';
-        /**
-         * Array of active toast messages.
-         */
-        this.toasts = [];
-    }
+    element;
+    /**
+     * Position where toasts will appear.
+     * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+     */
+    position = 'bottom-left';
+    /**
+     * Array of active toast messages.
+     */
+    toasts = [];
     onToast(event) {
         const toast = event.detail;
         this.showToast(toast);

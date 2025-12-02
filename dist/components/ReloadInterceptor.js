@@ -1,4 +1,6 @@
 class ReloadInterceptor {
+    isActive = false;
+    onIntercept;
     /**
      * @param onIntercept
      *   Called whenever a reload is intercepted (F5/Ctrl+R or beforeunload).
@@ -6,15 +8,7 @@ class ReloadInterceptor {
      *   If true, will immediately attach listeners.
      */
     constructor(options) {
-        var _a;
-        this.isActive = false;
-        /** Native “Are you sure you want to leave?” dialog */
-        this.handleBeforeUnload = (e) => {
-            this.onIntercept();
-            e.preventDefault();
-            e.returnValue = '';
-        };
-        this.onIntercept = (_a = options.onIntercept) !== null && _a !== void 0 ? _a : (() => { });
+        this.onIntercept = options.onIntercept ?? (() => { });
         if (options.autoActivate) {
             this.activate();
         }
@@ -33,6 +27,12 @@ class ReloadInterceptor {
         window.removeEventListener('beforeunload', this.handleBeforeUnload, { capture: true });
         this.isActive = false;
     }
+    /** Native “Are you sure you want to leave?” dialog */
+    handleBeforeUnload = (e) => {
+        this.onIntercept();
+        e.preventDefault();
+        e.returnValue = '';
+    };
 }
 
 export { ReloadInterceptor as R };

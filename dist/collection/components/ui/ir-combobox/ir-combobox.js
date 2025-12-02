@@ -2,56 +2,82 @@ import locales from "../../../stores/locales.store";
 import { h, Fragment } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrCombobox {
-    constructor() {
-        /**
-         * The list of items displayed in the combobox.
-         */
-        this.data = [];
-        /**
-         * Debounce duration in milliseconds for search input.
-         */
-        this.duration = 300;
-        /**
-         * Disables the combobox input when set to true.
-         */
-        this.disabled = false;
-        /**
-         * Autofocuses the input field when true.
-         */
-        this.autoFocus = false;
-        /**
-         * Unique identifier for the input element.
-         */
-        this.input_id = v4();
-        /**
-         * The index of the currently selected item.
-         */
-        this.selectedIndex = -1;
-        /**
-         * Tracks the actual focused index during keyboard navigation.
-         */
-        this.actualIndex = -1;
-        /**
-         * Whether the dropdown is visible.
-         */
-        this.isComboBoxVisible = false;
-        /**
-         * Indicates if the component is in loading state.
-         */
-        this.isLoading = true;
-        /**
-         * The current input value typed by the user.
-         */
-        this.inputValue = '';
-        /**
-         * Filtered list based on user input.
-         */
-        this.filteredData = [];
-        /**
-         * Determines if the input should automatically receive focus.
-         */
-        this.componentShouldAutoFocus = false;
-    }
+    el;
+    /**
+     * The list of items displayed in the combobox.
+     */
+    data = [];
+    /**
+     * Debounce duration in milliseconds for search input.
+     */
+    duration = 300;
+    /**
+     * Placeholder text for the input field.
+     */
+    placeholder;
+    /**
+     * The current value of the input field.
+     */
+    value;
+    /**
+     * Disables the combobox input when set to true.
+     */
+    disabled = false;
+    /**
+     * Autofocuses the input field when true.
+     */
+    autoFocus = false;
+    /**
+     * Unique identifier for the input element.
+     */
+    input_id = v4();
+    /**
+     * The index of the currently selected item.
+     */
+    selectedIndex = -1;
+    /**
+     * Tracks the actual focused index during keyboard navigation.
+     */
+    actualIndex = -1;
+    /**
+     * Whether the dropdown is visible.
+     */
+    isComboBoxVisible = false;
+    /**
+     * Indicates if the component is in loading state.
+     */
+    isLoading = true;
+    /**
+     * Whether a selection was made before blur.
+     */
+    isItemSelected;
+    /**
+     * The current input value typed by the user.
+     */
+    inputValue = '';
+    /**
+     * Filtered list based on user input.
+     */
+    filteredData = [];
+    /**
+     * Determines if the input should automatically receive focus.
+     */
+    componentShouldAutoFocus = false;
+    /**
+     * Emitted when a selection is made from the combobox.
+     */
+    comboboxValueChange;
+    /**
+     * Emitted when the input is cleared by the user.
+     */
+    inputCleared;
+    /**
+     * Emits a toast notification.
+     */
+    toast;
+    inputRef;
+    debounceTimer;
+    blurTimeout;
     componentWillLoad() {
         this.filteredData = this.data;
     }
@@ -72,19 +98,17 @@ export class IrCombobox {
         }
     }
     disconnectedCallback() {
-        var _a, _b, _c, _d;
         clearTimeout(this.debounceTimer);
         clearTimeout(this.blurTimeout);
-        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('blur', this.handleBlur);
-        (_b = this.inputRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('click', this.selectItem);
-        (_c = this.inputRef) === null || _c === void 0 ? void 0 : _c.removeEventListener('keydown', this.handleKeyDown);
-        (_d = this.inputRef) === null || _d === void 0 ? void 0 : _d.removeEventListener('focus', this.handleFocus);
+        this.inputRef?.removeEventListener('blur', this.handleBlur);
+        this.inputRef?.removeEventListener('click', this.selectItem);
+        this.inputRef?.removeEventListener('keydown', this.handleKeyDown);
+        this.inputRef?.removeEventListener('focus', this.handleFocus);
     }
     /**
      * Handles keyboard navigation and selection inside the combobox.
      */
     handleKeyDown(event) {
-        var _a;
         const dataSize = this.filteredData.length;
         if (dataSize > 0) {
             switch (event.key) {
@@ -107,7 +131,7 @@ export class IrCombobox {
                 case 'Escape':
                     event.stopImmediatePropagation();
                     event.stopPropagation();
-                    (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+                    this.inputRef?.blur();
                     this.isComboBoxVisible = false;
                     break;
             }
@@ -118,16 +142,14 @@ export class IrCombobox {
      */
     focusInput() {
         requestAnimationFrame(() => {
-            var _a;
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
+            this.inputRef?.focus();
         });
     }
     /**
      * Scrolls the selected item into view when navigating.
      */
     adjustScrollPosition() {
-        var _a;
-        const selectedItem = (_a = this.el) === null || _a === void 0 ? void 0 : _a.querySelector(`[data-selected]`);
+        const selectedItem = this.el?.querySelector(`[data-selected]`);
         if (!selectedItem)
             return;
         selectedItem.scrollIntoView({
@@ -167,9 +189,8 @@ export class IrCombobox {
      * Resets the combobox state and optionally blurs the input.
      */
     resetCombobox(withBlur = true) {
-        var _a;
         if (withBlur) {
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+            this.inputRef?.blur();
         }
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
@@ -220,14 +241,13 @@ export class IrCombobox {
      * Handles key navigation on individual items.
      */
     handleItemKeyDown(event, index) {
-        var _a;
         if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowRight') {
             this.selectItem(index);
             event.preventDefault();
         }
         else if (event.key === 'Escape') {
             this.isComboBoxVisible = false;
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+            this.inputRef?.blur();
             event.preventDefault();
         }
     }
@@ -235,12 +255,10 @@ export class IrCombobox {
      * Renders the dropdown list.
      */
     renderDropdown() {
-        var _a;
         if (!this.isComboBoxVisible) {
             return null;
         }
-        return (h("ul", { "data-position": this.filteredData.length > 0 && this.filteredData[0].occupancy ? 'bottom-right' : 'bottom-left' }, (_a = this.filteredData) === null || _a === void 0 ? void 0 :
-            _a.map((d, index) => (h("li", { onMouseEnter: () => (this.selectedIndex = index), role: "button", key: d.id, onKeyDown: e => this.handleItemKeyDown(e, index), "data-selected": this.selectedIndex === index, tabIndex: 0, onClick: () => this.selectItem(index) }, d.image && h("img", { src: d.image, class: 'list-item-image' }), h("p", null, d.name), d.occupancy && (h(Fragment, null, h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { fill: 'currentColor', d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" })), h("p", null, d.occupancy)))))), this.filteredData.length === 0 && !this.isLoading && h("span", { class: 'text-center' }, locales.entries.Lcz_NoResultsFound)));
+        return (h("ul", { "data-position": this.filteredData.length > 0 && this.filteredData[0].occupancy ? 'bottom-right' : 'bottom-left' }, this.filteredData?.map((d, index) => (h("li", { onMouseEnter: () => (this.selectedIndex = index), role: "button", key: d.id, onKeyDown: e => this.handleItemKeyDown(e, index), "data-selected": this.selectedIndex === index, tabIndex: 0, onClick: () => this.selectItem(index) }, d.image && h("img", { src: d.image, class: 'list-item-image' }), h("p", null, d.name), d.occupancy && (h(Fragment, null, h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, h("path", { fill: 'currentColor', d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" })), h("p", null, d.occupancy)))))), this.filteredData.length === 0 && !this.isLoading && h("span", { class: 'text-center' }, locales.entries.Lcz_NoResultsFound)));
     }
     /**
      * Handles form submission by selecting the highlighted item.
@@ -255,7 +273,7 @@ export class IrCombobox {
         this.selectItem(this.selectedIndex === -1 ? 0 : this.selectedIndex);
     }
     render() {
-        return (h("form", { key: '92bd213ddc171558ecc1553744c714c3f6399f18', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '8bf925077672a67a2460e86fc666f82ba321998e', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
+        return (h("form", { key: 'e05046147ed43a36d333706bdeb453d2a9b33952', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '5f037f2da35a937793e731a4af96981aae0f9659', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     static get is() { return "ir-combobox"; }
     static get encapsulation() { return "scoped"; }
@@ -280,7 +298,7 @@ export class IrCombobox {
                     "references": {
                         "ComboboxItem": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-combobox/ir-combobox.tsx",
                             "id": "src/components/ui/ir-combobox/ir-combobox.tsx::ComboboxItem"
                         }
                     }

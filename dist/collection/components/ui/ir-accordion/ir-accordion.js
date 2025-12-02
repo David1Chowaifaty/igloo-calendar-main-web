@@ -1,37 +1,26 @@
 import { Host, h } from "@stencil/core";
 let accId = 0;
 export class IrAccordion {
-    constructor() {
-        /** Start expanded */
-        this.defaultExpanded = false;
-        /** Show caret icon */
-        this.caret = true;
-        /** Caret icon name */
-        this.caretIcon = 'angle-down';
-        this._expanded = false;
-        // private triggerBtn?: HTMLButtonElement;
-        this.contentId = `ir-accordion-content-${++accId}`;
-        this.isAnimating = false;
-        this.onTriggerClick = () => {
-            // Don't allow clicks during animation
-            if (this.isAnimating) {
-                return;
-            }
-            const nextExpanded = !this._expanded;
-            this.irToggle.emit({ expanded: nextExpanded });
-            this.updateExpansion(nextExpanded, true);
-        };
-        this.onTriggerKeyDown = (ev) => {
-            // Allow keyboard toggle with Enter/Space
-            if ((ev.key === 'Enter' || ev.key === ' ') && !this.isAnimating) {
-                ev.preventDefault();
-                this.onTriggerClick();
-            }
-        };
-    }
+    host;
+    /** Start expanded */
+    defaultExpanded = false;
+    /** Optional controlled prop: when provided, component follows this value */
+    expanded;
+    /** Show caret icon */
+    caret = true;
+    /** Caret icon name */
+    caretIcon = 'angle-down';
+    /** Fired after expansion state changes */
+    irToggle;
+    _expanded = false;
+    detailsEl;
+    contentEl;
+    // private triggerBtn?: HTMLButtonElement;
+    contentId = `ir-accordion-content-${++accId}`;
+    isAnimating = false;
+    cleanupAnimation;
     componentWillLoad() {
-        var _a;
-        this._expanded = (_a = this.expanded) !== null && _a !== void 0 ? _a : this.defaultExpanded;
+        this._expanded = this.expanded ?? this.defaultExpanded;
     }
     disconnectedCallback() {
         // Clean up any ongoing animation
@@ -170,9 +159,25 @@ export class IrAccordion {
         // Always reset isAnimating when cleaning up
         this.isAnimating = false;
     }
+    onTriggerClick = () => {
+        // Don't allow clicks during animation
+        if (this.isAnimating) {
+            return;
+        }
+        const nextExpanded = !this._expanded;
+        this.irToggle.emit({ expanded: nextExpanded });
+        this.updateExpansion(nextExpanded, true);
+    };
+    onTriggerKeyDown = (ev) => {
+        // Allow keyboard toggle with Enter/Space
+        if ((ev.key === 'Enter' || ev.key === ' ') && !this.isAnimating) {
+            ev.preventDefault();
+            this.onTriggerClick();
+        }
+    };
     render() {
         const isOpen = this._expanded;
-        return (h(Host, { key: 'c9335b3dfa6e095dba67b6664b1091700fdb32ad' }, h("div", { key: '9080072e4aa762ab1486db8380f8d5e0ce4940e2', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: '78980baedadde39a3790c026757f2752629ce993', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: 'a5a0290d76eb9fe3205cd3ad954351a48e836edb', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: '610f198b9f073d75f6cb1b09c16ec7d88474b8b4', class: "ir-accordion__trigger-content" }, h("slot", { key: 'e81bd2a059702b4e08b23e790bc8684a6b979578', name: "trigger" }))), h("div", { key: 'f645b09da1b162853f86c151b22f636ec64ed7cd', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: 'bdd89123babc9b946b2a913f30c097139128b103', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: 'bd4533d4722af99f190293c3c5969f205d7d8983' }))))));
+        return (h(Host, { key: '1ca1eaf7cb31984257525a27d9b086050d111a7c' }, h("div", { key: 'dac6050188e1b02b73039f0aca88136d14824e9a', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, h("button", { key: 'caf91e117e980696abfe4184de5b9d9b8ed0ff31', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && h("ir-icons", { key: 'd1a2148603d0c49d06ca77c96c237a903493d47a', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), h("div", { key: 'b9746d614d1f6c9ed8870434eef05166d8724ae6', class: "ir-accordion__trigger-content" }, h("slot", { key: '2f8e217d8aa360758d00ebb44f75687c525c2f27', name: "trigger" }))), h("div", { key: '3dd443a55a9085a7e6904930f33fd1bd9f139c69', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, h("div", { key: '809fe87c291fd8f51c735614b8cf3d2870725f5e', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, h("slot", { key: '91952cf387964ecad041d69efce9db4ae274aed8' }))))));
     }
     static get is() { return "ir-accordion"; }
     static get encapsulation() { return "shadow"; }

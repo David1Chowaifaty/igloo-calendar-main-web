@@ -21,8 +21,7 @@ export default class VariationService {
      * @returns {number} The discounted amount for the selected variation, or 0 if no discounted amount is available.
      */
     calculateVariationAmount(params) {
-        var _a;
-        return ((_a = this.getVariationBasedOnInfants(params)) === null || _a === void 0 ? void 0 : _a.discounted_amount) || 0;
+        return this.getVariationBasedOnInfants(params)?.discounted_amount || 0;
     }
     /**
      * Finds the appropriate variation from a list of variations based on the number of infants.
@@ -44,12 +43,11 @@ export default class VariationService {
      * @private
      */
     formatVariation({ child_nbr, adult_nbr }, infant_nbr) {
-        var _a, _b, _c, _d;
         const adultNumber = Number(adult_nbr) || 0;
         const infantNumber = Math.max(Number(infant_nbr) || 0, 0);
         const adultLabel = adultNumber > 1 ? locales.entries.Lcz_Adults.toLowerCase() : locales.entries.Lcz_Adult.toLowerCase();
         const childLabel = child_nbr > 1 ? locales.entries.Lcz_Children.toLowerCase() : locales.entries.Lcz_Child.toLowerCase();
-        const infantLabel = infantNumber > 1 ? (_b = ((_a = locales.entries['Lcz_Infants']) !== null && _a !== void 0 ? _a : 'infants')) === null || _b === void 0 ? void 0 : _b.toLowerCase() : (_d = ((_c = locales === null || locales === void 0 ? void 0 : locales.entries['Lcz_Infant']) !== null && _c !== void 0 ? _c : 'infant')) === null || _d === void 0 ? void 0 : _d.toLowerCase();
+        const infantLabel = infantNumber > 1 ? (locales.entries['Lcz_Infants'] ?? 'infants')?.toLowerCase() : (locales?.entries['Lcz_Infant'] ?? 'infant')?.toLowerCase();
         const parts = [`${adultNumber} ${adultLabel}`, child_nbr ? `${child_nbr} ${childLabel}` : '', infantNumber ? `${infantNumber} ${infantLabel}` : ''];
         return parts.filter(Boolean).join('&nbsp&nbsp&nbsp&nbsp');
     }

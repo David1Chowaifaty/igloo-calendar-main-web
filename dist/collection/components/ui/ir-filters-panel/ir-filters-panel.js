@@ -2,45 +2,55 @@ import { h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 let panelId = 0;
 export class IrFiltersPanel {
-    constructor() {
-        /** Panel headline text */
-        this.filterTitle = locales.entries.Lcz_Filters;
-        /** Show collapse toggle button */
-        this.showCollapseButton = true;
-        /** Collapse by default */
-        this.defaultCollapsed = false;
-        /** Keep content expanded on desktop and hide the collapse toggle */
-        this.persistentOnDesktop = true;
-        /** Optional extra class for the card wrapper */
-        this.cardClass = 'sales-filters-card';
-        /** Space between content items */
-        this.contentGap = '0.5rem';
-        /** Align footer actions */
-        this.actionsAlign = 'end';
-        /** Hide the default footer actions */
-        this.hideDefaultActions = false;
-        /** Collapse icon when expanded */
-        this.collapseIconOpen = 'open_eye';
-        /** Collapse icon when collapsed */
-        this.collapseIconClosed = 'closed_eye';
-        /** Apply button copy */
-        this.applyLabel = locales.entries.Lcz_Apply;
-        /** Reset button copy */
-        this.resetLabel = locales.entries.Lcz_Reset;
-        /** Disable apply action */
-        this.disableApply = false;
-        /** Disable reset action */
-        this.disableReset = false;
-        /** Show loader inside apply button */
-        this.isApplyLoading = false;
-        /** Optional data test id suffix for default buttons */
-        this.actionTestId = 'filter';
-        this.internalCollapsed = false;
-        this.generatedCollapseId = `ir-filters-panel-${++panelId}`;
-    }
+    /** Panel headline text */
+    filterTitle = locales.entries.Lcz_Filters;
+    /** Optional custom collapse target id (useful for legacy CSS hooks) */
+    collapseId;
+    /** Show collapse toggle button */
+    showCollapseButton = true;
+    /** Collapse by default */
+    defaultCollapsed = false;
+    /** Controlled collapse state */
+    collapsed;
+    /** Keep content expanded on desktop and hide the collapse toggle */
+    persistentOnDesktop = true;
+    /** Optional extra class for the outer wrapper */
+    panelClass;
+    /** Optional extra class for the card wrapper */
+    cardClass = 'sales-filters-card';
+    /** Optional extra class for the header row */
+    headerClass;
+    /** Optional extra class for the filters content wrapper */
+    contentClass;
+    /** Space between content items */
+    contentGap = '0.5rem';
+    /** Align footer actions */
+    actionsAlign = 'end';
+    /** Hide the default footer actions */
+    hideDefaultActions = false;
+    /** Collapse icon when expanded */
+    collapseIconOpen = 'open_eye';
+    /** Collapse icon when collapsed */
+    collapseIconClosed = 'closed_eye';
+    /** Apply button copy */
+    applyLabel = locales.entries.Lcz_Apply;
+    /** Reset button copy */
+    resetLabel = locales.entries.Lcz_Reset;
+    /** Disable apply action */
+    disableApply = false;
+    /** Disable reset action */
+    disableReset = false;
+    /** Show loader inside apply button */
+    isApplyLoading = false;
+    /** Optional data test id suffix for default buttons */
+    actionTestId = 'filter';
+    filterToggle;
+    filterApply;
+    filterReset;
+    internalCollapsed = false;
+    generatedCollapseId = `ir-filters-panel-${++panelId}`;
     componentWillLoad() {
-        var _a;
-        this.internalCollapsed = (_a = this.collapsed) !== null && _a !== void 0 ? _a : this.defaultCollapsed;
+        this.internalCollapsed = this.collapsed ?? this.defaultCollapsed;
     }
     handleCollapsedChange(newValue) {
         if (typeof newValue === 'boolean' && newValue !== this.internalCollapsed) {
@@ -51,7 +61,7 @@ export class IrFiltersPanel {
         return this.collapseId || this.generatedCollapseId;
     }
     toggleCollapse(event) {
-        event === null || event === void 0 ? void 0 : event.stopPropagation();
+        event?.stopPropagation();
         const next = !this.internalCollapsed;
         this.internalCollapsed = next;
         this.collapsed = next;
@@ -103,11 +113,11 @@ export class IrFiltersPanel {
             [`filters-panel__footer--${this.actionsAlign}`]: true,
         };
         const cardClass = `card mb-0 p-1 d-flex flex-column ${this.cardClass || ''}`.trim();
-        return (h("div", { key: 'ad84c95c8d04f14fb0507dba6255cf487ae7e876', class: panelClasses }, h("div", { key: '88b48c601e1da89ce4844043ca1eebae221a5f64', class: cardClass }, h("div", { key: '2fb30e2a48f086d461a4bea33228db9f9be00097', class: headerClasses }, h("div", { key: '68114b2466bcdc2a05439c0754cc52011898731e', class: "filters-panel__title-group" }, h("slot", { key: 'c5d8c2f835c5c48deaf0e10ded93f3c55d2ee2e2', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: 'eb1ac939ae7e2b01684536a194dc66fabcfa642b', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: '95094a75cc2e2675265e92222d4bebd0c31b9b53', name: "header-title-extra" })), h("div", { key: 'b0c823bee84c9c821bd1613da563bddd3392e812', class: "filters-panel__header-actions" }, h("slot", { key: '90483e97ab87c9dd166b3543ddca4ecdeb25c32d', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '362795732d675b6b2740d9a1a9477fc0e2d800b5', id: this.targetId, class: {
+        return (h("div", { key: '5f8cfe3aa8a82d9fad444323a98004b601ec21c1', class: panelClasses }, h("div", { key: 'e028393be422c2fc8a53bad8f0868f2a74c88b5e', class: cardClass }, h("div", { key: '38859bc7fce6dc3d01c5e53e0307eeb68d8e7a32', class: headerClasses }, h("div", { key: 'f96c4cad41a19e844938467592f6611ed69ccbfd', class: "filters-panel__title-group" }, h("slot", { key: 'aa951af7a9bcead8351f0718d232d3aa137b0ef8', name: "header-icon" }, this.renderDefaultIcon()), this.filterTitle && h("h4", { key: 'db496fd8a843c45d8095c5bf979b9bb8f51822d1', class: "filters-panel__title m-0 p-0 flex-grow-1" }, this.filterTitle), h("slot", { key: '51d92680230d87bb9a6bb423149e9108d78b3032', name: "header-title-extra" })), h("div", { key: '72f1f1f35027814232182420215464ea937ab9d3', class: "filters-panel__header-actions" }, h("slot", { key: 'f2701110cf437d14623cc924716ea85e882a0179', name: "header-actions" }), this.renderCollapseButton(collapsed))), h("div", { key: '08ec8cb1cc3f8183e6113aedab4f070335c171bd', id: this.targetId, class: {
                 'filters-panel__content': true,
                 'collapse': true,
                 'show': !collapsed,
-            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: '2d34ce372a1380fcd79de53336c64cbbc799f38e', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: 'd7e32b9e834d0d1740ec1b5732d39afebe0d055b' }), !this.hideDefaultActions && (h("div", { key: '2268bd05bdea98e1f48f5d540f72f6b0d7b47f52', class: footerClasses }, h("slot", { key: 'addfe1bab5cd45c7174b532817ff2deeedc91f00', name: "actions" }, h("ir-button", { key: 'd9e9d1c09529a640e2732ccd265723f78404f0d1', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: '9e754b162c4fee56abbc7472c5f8e403a07e0a1e', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
+            }, "aria-hidden": collapsed ? 'true' : 'false' }, h("div", { key: 'd8a1b52de6e69d004ae1995c780dcad960e889a9', class: contentWrapperClasses, style: { gap: this.contentGap } }, h("slot", { key: '71f71649ec77bcf502ba06c33c7664d900231627' }), !this.hideDefaultActions && (h("div", { key: '1d91ddd3445325e2c63398b72c3995ea7cff02ab', class: footerClasses }, h("slot", { key: '548e2138c0b4c3c9f6cb35f04039e573d1758d63', name: "actions" }, h("ir-button", { key: '99be183f94e91d87ef76228151c54884f5e39ecd', btn_type: "button", "data-testid": `${this.actionTestId}-reset`, text: this.resetLabel, size: "sm", btn_color: "secondary", btn_disabled: this.disableReset, onClickHandler: this.handleReset.bind(this) }), h("ir-button", { key: '22fcd41d7f4bc9d6c6d02feb1831979d78283b10', btn_type: "button", "data-testid": `${this.actionTestId}-apply`, isLoading: this.isApplyLoading, text: this.applyLabel, size: "sm", btn_disabled: this.disableApply, onClickHandler: this.handleApply.bind(this) })))))))));
     }
     static get is() { return "ir-filters-panel"; }
     static get encapsulation() { return "scoped"; }
@@ -383,7 +393,7 @@ export class IrFiltersPanel {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
@@ -409,7 +419,7 @@ export class IrFiltersPanel {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"print\" | \"key\" | \"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
                     "references": {
                         "TIcons": {
                             "location": "import",

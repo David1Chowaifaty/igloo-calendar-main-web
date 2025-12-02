@@ -1,22 +1,10 @@
 export class UrlParamSync {
+    component;
+    configs;
+    originalDisconnected;
+    originalRender;
+    restoreFns = {};
     constructor(component, configs) {
-        this.restoreFns = {};
-        // --- State <-> URL ---
-        this.applyUrlToState = () => {
-            this.configs.forEach(({ key, param, defaultValue }) => {
-                const raw = this.getParam(param);
-                let val = defaultValue;
-                if (raw !== null) {
-                    try {
-                        val = JSON.parse(decodeURIComponent(raw));
-                    }
-                    catch (_a) {
-                        val = raw; // fallback: plain string
-                    }
-                }
-                this.component[key] = val;
-            });
-        };
         this.component = component;
         this.configs = configs;
         // Initialize state from URL
@@ -30,6 +18,22 @@ export class UrlParamSync {
         // Ensure cleanup
         this.patchDisconnected();
     }
+    // --- State <-> URL ---
+    applyUrlToState = () => {
+        this.configs.forEach(({ key, param, defaultValue }) => {
+            const raw = this.getParam(param);
+            let val = defaultValue;
+            if (raw !== null) {
+                try {
+                    val = JSON.parse(decodeURIComponent(raw));
+                }
+                catch {
+                    val = raw; // fallback: plain string
+                }
+            }
+            this.component[key] = val;
+        });
+    };
     getParam(param) {
         const params = new URLSearchParams(window.location.search);
         return params.get(param);
@@ -53,7 +57,7 @@ export class UrlParamSync {
     updateAll() {
         this.configs.forEach(({ key, param, replace }) => {
             const value = this.component[key];
-            this.setParam(param, value, replace !== null && replace !== void 0 ? replace : true);
+            this.setParam(param, value, replace ?? true);
         });
     }
     // --- Lifecycle Patching ---
@@ -61,19 +65,17 @@ export class UrlParamSync {
         const self = this;
         this.originalRender = this.component.render;
         this.component.render = function () {
-            var _a;
             self.updateAll();
-            return (_a = self.originalRender) === null || _a === void 0 ? void 0 : _a.apply(this, arguments);
+            return self.originalRender?.apply(this, arguments);
         };
     }
     patchDisconnected() {
         const self = this;
         this.originalDisconnected = this.component.disconnectedCallback;
         this.component.disconnectedCallback = function () {
-            var _a;
             window.removeEventListener('popstate', self.applyUrlToState);
             self.restoreHistory();
-            (_a = self.originalDisconnected) === null || _a === void 0 ? void 0 : _a.apply(this, arguments);
+            self.originalDisconnected?.apply(this, arguments);
         };
     }
     // --- History Patching ---

@@ -1,194 +1,239 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { OverflowAdd, OverflowRelease } from "../../decorators/OverflowLock";
 import { h } from "@stencil/core";
 export class IrDrawer {
-    constructor() {
-        this.showDrawer = false;
-        /**
-         * The placement of the drawer
-         */
-        this.placement = 'right';
-        /**
-         * Is the drawer open?
-         */
-        this.open = false;
-        this.toggleDrawer = () => {
-            this.open = !this.open;
-            this.showDrawer = this.open;
-            this.drawerChange.emit(this.open);
-        };
+    /** Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer. */
+    open;
+    /**
+     * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for
+     * proper accessibility. If you need to display HTML, use the `label` slot instead.
+     */
+    label;
+    /** The direction from which the drawer will open. */
+    placement;
+    /** Disables the header. This will also remove the default close button. */
+    withoutHeader;
+    /** When enabled, the drawer will be closed when the user clicks outside of it. */
+    lightDismiss = true;
+    /** Emitted when the drawer opens. */
+    drawerShow;
+    /**Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss. */
+    drawerHide;
+    onDrawerShow = (event) => {
+        this.emitDrawerShow(event);
+    };
+    onDrawerHide = (event) => {
+        this.emitDrawerHide(event);
+    };
+    emitDrawerShow(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.drawerShow.emit();
     }
-    componentDidLoad() {
-        if (this.open) {
-            this.showDrawer = true;
+    emitDrawerHide(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (!e.detail) {
+            return;
         }
-    }
-    handleKeyDown(ev) {
-        if (this.open) {
-            if (ev.key === 'Escape' || ev.key === 'Esc') {
-                this.closeDrawer();
-                this.drawerCloseRequested.emit();
-            }
-        }
-    }
-    openHandler(newValue) {
-        this.showDrawer = newValue;
-    }
-    async closeDrawer() {
-        this.open = false;
-        this.showDrawer = false;
-        this.drawerChange.emit(this.open);
+        this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("div", { key: '9e93b6e2dd75d89d74d579f114c25a2606e3ef62', class: { 'app-drawer': true, 'app-drawer--open': this.showDrawer }, "aria-hidden": !this.showDrawer }, h("div", { key: 'b6751c4fc967ec71f76a3d38cfc12ee6a14577a0', class: "app-drawer-overlay", onClick: () => this.closeDrawer(), "aria-hidden": !this.showDrawer, tabindex: this.showDrawer ? '0' : '-1' }), h("div", { key: 'e7b4dbce6df8b3cdf32454e3cdaf8c27173e91ab', class: `app-drawer-content app-drawer-content--${this.placement}`, role: "dialog", "aria-modal": "true", "aria-labelledby": "drawer-title" }, h("div", { key: '1553d8e99cab5a8bf0a31021a7b0bba705ac5699', class: "app-drawer-header" }, h("slot", { key: 'deb5ef5f1f9fb60c43ce212d63400e0554251bd2', name: "header" }, h("h2", { key: '82c47ff928e8c6dff29167b44393d1324cb4d09f', id: "drawer-title" }, this.drawerTitle))), h("div", { key: '3f76db443111d6dae39a8af44edc9e15b5de28bc', class: "app-drawer-body" }, h("slot", { key: '50c6aa7099ee0b4cd4e11a413f8cf088c90395b3' })), h("div", { key: '49a58c984ce13bfe5c99711180303dd92ea587d4', class: "app-drawer-footer" }, h("slot", { key: '75cdbe4eb3ddc35bd0b174a7da6ff440c7d7bf40', name: "footer" })))));
+        return (h("wa-drawer", { key: 'e2b252e938f5701ae1df98bf9a0e0e27039d0043', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: 'eafd70a7a3ace4ee309af97fc827447ac90b673d', slot: "label", name: "label" }), h("slot", { key: '3e0a2013153a802b7cb4b1fa72cd618761aaf59e', slot: "header-actions", name: "header-actions" }), h("slot", { key: 'e12174cd4af208caa211f9fc35bf4d4a355bd638' }), h("slot", { key: '8087ddcd314b1725cf8e541dd7261d5a5552e86b', slot: "footer", name: "footer" })));
     }
     static get is() { return "ir-drawer"; }
-    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-drawer.css"]
+            "$": ["ir-drawer.css", "../../global/app.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-drawer.css"]
+            "$": ["ir-drawer.css", "../../global/app.css"]
         };
     }
     static get properties() {
         return {
-            "drawerTitle": {
-                "type": "string",
+            "open": {
+                "type": "boolean",
                 "mutable": false,
                 "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
+                    "original": "NativeDrawer['open']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeDrawer": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The title of the drawer"
+                    "text": "Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer."
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "drawer-title",
-                "reflect": false
+                "attribute": "open",
+                "reflect": true
+            },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeDrawer['label']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeDrawer": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The drawer's label as displayed in the header. You should always include a relevant label, as it is required for\nproper accessibility. If you need to display HTML, use the `label` slot instead."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
+                "reflect": true
             },
             "placement": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'left' | 'right'",
-                    "resolved": "\"left\" | \"right\"",
-                    "references": {}
+                    "original": "NativeDrawer['placement']",
+                    "resolved": "\"bottom\" | \"end\" | \"start\" | \"top\"",
+                    "references": {
+                        "NativeDrawer": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The placement of the drawer"
+                    "text": "The direction from which the drawer will open."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "placement",
-                "reflect": false,
-                "defaultValue": "'right'"
+                "reflect": true
             },
-            "open": {
+            "withoutHeader": {
                 "type": "boolean",
-                "mutable": true,
+                "mutable": false,
                 "complexType": {
-                    "original": "boolean",
+                    "original": "NativeDrawer['withoutHeader']",
                     "resolved": "boolean",
-                    "references": {}
+                    "references": {
+                        "NativeDrawer": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Is the drawer open?"
+                    "text": "Disables the header. This will also remove the default close button."
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
+                "attribute": "without-header",
+                "reflect": true
+            },
+            "lightDismiss": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeDrawer['lightDismiss']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeDrawer": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-drawer/ir-drawer.tsx",
+                            "id": "src/components/ir-drawer/ir-drawer.tsx::NativeDrawer"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "When enabled, the drawer will be closed when the user clicks outside of it."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "light-dismiss",
                 "reflect": true,
-                "defaultValue": "false"
+                "defaultValue": "true"
             }
-        };
-    }
-    static get states() {
-        return {
-            "showDrawer": {}
         };
     }
     static get events() {
         return [{
-                "method": "drawerChange",
-                "name": "drawerChange",
+                "method": "drawerShow",
+                "name": "drawerShow",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the drawer visibility changes."
-                },
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                }
-            }, {
-                "method": "drawerCloseRequested",
-                "name": "drawerCloseRequested",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Emitted when the drawer is requested to be closed via keyboard"
+                    "text": "Emitted when the drawer opens."
                 },
                 "complexType": {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
                 }
-            }];
-    }
-    static get methods() {
-        return {
-            "closeDrawer": {
-                "complexType": {
-                    "signature": "() => Promise<void>",
-                    "parameters": [],
-                    "references": {
-                        "Promise": {
-                            "location": "global",
-                            "id": "global::Promise"
-                        }
-                    },
-                    "return": "Promise<void>"
-                },
+            }, {
+                "method": "drawerHide",
+                "name": "drawerHide",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
                 "docs": {
-                    "text": "",
-                    "tags": []
+                    "tags": [],
+                    "text": "Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss."
+                },
+                "complexType": {
+                    "original": "{ source: Element }",
+                    "resolved": "{ source: Element; }",
+                    "references": {
+                        "Element": {
+                            "location": "global",
+                            "id": "global::Element"
+                        }
+                    }
                 }
-            }
-        };
-    }
-    static get elementRef() { return "el"; }
-    static get watchers() {
-        return [{
-                "propName": "open",
-                "methodName": "openHandler"
-            }];
-    }
-    static get listeners() {
-        return [{
-                "name": "keydown",
-                "method": "handleKeyDown",
-                "target": "document",
-                "capture": false,
-                "passive": true
             }];
     }
 }
+__decorate([
+    OverflowAdd()
+], IrDrawer.prototype, "emitDrawerShow", null);
+__decorate([
+    OverflowRelease()
+], IrDrawer.prototype, "emitDrawerHide", null);
 //# sourceMappingURL=ir-drawer.js.map

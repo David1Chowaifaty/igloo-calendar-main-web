@@ -13,30 +13,40 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         this.comboboxValue = createEvent(this, "comboboxValue", 7);
         this.inputCleared = createEvent(this, "inputCleared", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.duration = 300;
-        this.placeholder = '';
-        this.isSplitBooking = false;
-        this.type = 'text';
-        this.name = '';
-        this.inputId = v4();
-        this.required = false;
-        this.disabled = false;
-        this.from_date = '';
-        this.to_date = '';
-        this.inputValue = '';
-        this.data = [];
-        this.selectedIndex = -1;
-        this.isComboBoxVisible = false;
-        this.isLoading = true;
-        this.inputFocused = false;
-        this.bookingService = new BookingService();
-        this.no_result_found = '';
     }
+    duration = 300;
+    placeholder = '';
+    propertyId;
+    isSplitBooking = false;
+    type = 'text';
+    name = '';
+    inputId = v4();
+    required = false;
+    disabled = false;
+    value;
+    from_date = '';
+    to_date = '';
+    danger_border;
+    testId;
+    inputValue = '';
+    data = [];
+    selectedIndex = -1;
+    isComboBoxVisible = false;
+    isLoading = true;
+    isItemSelected;
+    inputFocused = false;
+    comboboxValue;
+    inputCleared;
+    toast;
+    get el() { return this; }
+    inputRef;
+    debounceTimer;
+    bookingService = new BookingService();
+    no_result_found = '';
     componentWillLoad() {
         this.no_result_found = locales.entries.Lcz_NoResultsFound;
     }
     handleKeyDown(event) {
-        var _a;
         const dataSize = this.data.length;
         const itemHeight = this.getHeightOfPElement();
         if (dataSize > 0) {
@@ -58,7 +68,7 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
                     this.selectItem(this.selectedIndex);
                     break;
                 case 'Escape':
-                    (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+                    this.inputRef?.blur();
                     this.isComboBoxVisible = false;
                     break;
             }
@@ -185,22 +195,20 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         return element && element.closest('.combobox');
     }
     disconnectedCallback() {
-        var _a, _b, _c, _d;
         clearTimeout(this.debounceTimer);
-        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('blur', this.handleBlur);
-        (_b = this.inputRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('click', this.selectItem);
-        (_c = this.inputRef) === null || _c === void 0 ? void 0 : _c.removeEventListener('keydown', this.handleKeyDown);
-        (_d = this.inputRef) === null || _d === void 0 ? void 0 : _d.removeEventListener('focus', this.handleFocus);
+        this.inputRef?.removeEventListener('blur', this.handleBlur);
+        this.inputRef?.removeEventListener('click', this.selectItem);
+        this.inputRef?.removeEventListener('keydown', this.handleKeyDown);
+        this.inputRef?.removeEventListener('focus', this.handleFocus);
     }
     handleItemKeyDown(event, index) {
-        var _a;
         if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowRight') {
             this.selectItem(index);
             event.preventDefault();
         }
         else if (event.key === 'Escape') {
             this.isComboBoxVisible = false;
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+            this.inputRef?.blur();
             event.preventDefault();
         }
         else {
@@ -208,10 +216,8 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         }
     }
     renderDropdown() {
-        var _a;
         if (this.inputValue !== '') {
-            return (h("div", { class: `position-absolute dropdown-menu  rounded combobox` }, (_a = this.data) === null || _a === void 0 ? void 0 :
-                _a.map((d, index) => (h("p", { role: "button", class: "dropdown-item", onKeyDown: e => this.handleItemKeyDown(e, index), "data-selected": this.selectedIndex === index, tabIndex: 0, onClick: () => this.selectItem(index) }, this.isSplitBooking ? (h(Fragment, null, `${d.booking_nbr} ${d.guest.first_name} ${d.guest.last_name}`)) : (h("div", { class: 'd-flex align-items-center flex-fill' }, h("p", { class: 'p-0 m-0' }, `${d.email}`, " ", h("span", { class: 'p-0 m-0' }, ` - ${d.first_name} ${d.last_name}`))))))), this.isLoading && (h("div", { class: "loader-container d-flex align-items-center justify-content-center" }, h("div", { class: "loader" }))), this.data.length === 0 && !this.isLoading && h("span", { class: 'text-center' }, this.no_result_found)));
+            return (h("div", { class: `position-absolute dropdown-menu  rounded combobox` }, this.data?.map((d, index) => (h("p", { role: "button", class: "dropdown-item", onKeyDown: e => this.handleItemKeyDown(e, index), "data-selected": this.selectedIndex === index, tabIndex: 0, onClick: () => this.selectItem(index) }, this.isSplitBooking ? (h(Fragment, null, `${d.booking_nbr} ${d.guest.first_name} ${d.guest.last_name}`)) : (h("div", { class: 'd-flex align-items-center flex-fill' }, h("p", { class: 'p-0 m-0' }, `${d.email}`, " ", h("span", { class: 'p-0 m-0' }, ` - ${d.first_name} ${d.last_name}`))))))), this.isLoading && (h("div", { class: "loader-container d-flex align-items-center justify-content-center" }, h("div", { class: "loader" }))), this.data.length === 0 && !this.isLoading && h("span", { class: 'text-center' }, this.no_result_found)));
         }
     }
     handleFocus() {
@@ -224,18 +230,16 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         this.inputCleared.emit(null);
     }
     resetCombobox(withblur = true) {
-        var _a;
         if (withblur) {
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.blur();
+            this.inputRef?.blur();
         }
         this.data = [];
         this.selectedIndex = -1;
         this.isComboBoxVisible = false;
     }
     render() {
-        return (h(Host, { key: 'da945306f09dc7736ba6b1bf175e03baf029a6a3' }, h("div", { key: '0c51d1f59d48188515deeaced51c6e499e1060ba', class: 'd-flex align-items-center ' }, h("label", { key: '3afe7cd1b6fd3aed5f0da50b48e5f26fed63aadd', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: '77fd7c99cd438b09ee22da9cea4591d325e45b1d', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: '6111c8aae55fe381101724c35ac063cb06993691', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: '80e9093ebdc2288729977fe63547f3bbee019a21', "data-testid": this.testId, required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: '6ebe11e8c11dbe6756bd505f3f6a8d9d3c3aeb8c', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: '85d87b58f340840c66374782674eb1762f658627', class: 'sr-only' }, "clear input"), h("svg", { key: '18ae6e9b9ca032b0607934f9cb589af7c2744596', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'a45fc410160ad3635ffdebbcc374a4d57e12e300', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
+        return (h(Host, { key: 'cf13d0444d01bb2b7720caaee39e6aa9d1839353' }, h("div", { key: '32e803f5280b8004386dafe60c1b469968d13a3f', class: 'd-flex align-items-center ' }, h("label", { key: 'e0e9a4ce2fbabb7c20bcf73c04f3b6f7ff9113fb', "data-state": this.inputFocused ? 'focused' : 'blured', htmlFor: this.inputId, class: `form-control input-sm ${this.danger_border && 'border-danger'}` }, h("svg", { key: '970a83bb0672c32c8c65b327cbdf74b871b87905', xmlns: "http://www.w3.org/2000/svg", height: "12", width: "12", viewBox: "0 0 512 512" }, h("path", { key: '4556b05656741f9ceb9b13dde02374eed6d7a1f6', fill: "currentColor", d: "M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" }))), h("input", { key: '9f250baa1ea9e4d948f6e2734a89d663c325fd4f', "data-testid": this.testId, required: this.required, disabled: this.disabled, id: this.inputId, onKeyDown: this.handleKeyDown.bind(this), class: `form-control input-sm flex-full ${this.danger_border && 'border-danger'}`, type: this.type, name: this.name, value: this.value || this.inputValue, placeholder: this.placeholder, onBlur: this.handleBlur.bind(this), autoComplete: "none", onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), ref: el => (this.inputRef = el) }), this.inputValue && (h("button", { key: '00ed96b7429b9e642819e45bd827c26472843f61', type: "button", class: 'position-absolute d-flex align-items-center justify-content-center ', onClick: this.clearInput.bind(this) }, h("p", { key: 'eb3845d690930156f1e5f09b2ee6ad768bcde396', class: 'sr-only' }, "clear input"), h("svg", { key: '75aaa59523a7898010f2e1ef6c8d540e0b53ea4c', width: "15", height: "15", viewBox: "0 0 15 15", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { key: 'ab69565bf068db925647d2c40c04bcb2ee8adadf', d: "M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z", fill: "currentColor", "fill-rule": "evenodd", "clip-rule": "evenodd" }))))), this.isComboBoxVisible && this.renderDropdown()));
     }
-    get el() { return this; }
     static get style() { return IrAutocompleteStyle0; }
 }, [2, "ir-autocomplete", {
         "duration": [2],

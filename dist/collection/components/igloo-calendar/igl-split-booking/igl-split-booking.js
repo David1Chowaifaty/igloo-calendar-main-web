@@ -9,16 +9,22 @@ import moment from "moment";
 import { ZodError } from "zod";
 import { SelectedUnitSchema } from "./types";
 export class IglSplitBooking {
-    constructor() {
-        this.roomTypes = [];
-        this.selectedUnit = {};
-        this.mealPlanOptions = null;
-        this.bookingService = new BookingService();
-    }
+    booking;
+    identifier;
+    selectedDates;
+    room;
+    roomTypes = [];
+    selectedUnit = {};
+    isLoading;
+    errors;
+    mealPlanOptions = null;
+    closeModal;
+    defaultDates;
+    bookingService = new BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
-        this.defaultDates = Object.assign({}, this.generateDates(this.room));
-        this.selectedDates = Object.assign({}, this.defaultDates);
+        this.defaultDates = { ...this.generateDates(this.room) };
+        this.selectedDates = { ...this.defaultDates };
         console.log(this.booking);
     }
     getRoom() {
@@ -77,27 +83,45 @@ export class IglSplitBooking {
         }
     }
     async doReservation() {
-        var _a;
         try {
             this.isLoading = true;
             this.errors = null;
             const selectedUnit = SelectedUnitSchema.parse(this.selectedUnit);
             const oldRooms = this.booking.rooms.filter(r => r.identifier !== this.identifier);
-            const canCheckIn = ((_a = this.room.in_out) === null || _a === void 0 ? void 0 : _a.code) === '001' ? (moment().isBefore(this.selectedDates.from_date) ? false : true) : false;
+            const canCheckIn = this.room.in_out?.code === '001' ? (moment().isBefore(this.selectedDates.from_date) ? false : true) : false;
             let rooms = [
                 ...oldRooms,
-                Object.assign(Object.assign({}, this.room), { from_date: this.room.from_date, to_date: this.selectedDates.from_date.format('YYYY-MM-DD'), days: this.room.days.filter(r => moment(r.date, 'YYYY-MM-DD').isBefore(this.selectedDates.from_date, 'dates')), departure_time: null }),
-                Object.assign(Object.assign({}, this.room), { identifier: null, in_out: canCheckIn
+                {
+                    ...this.room,
+                    from_date: this.room.from_date,
+                    to_date: this.selectedDates.from_date.format('YYYY-MM-DD'),
+                    days: this.room.days.filter(r => moment(r.date, 'YYYY-MM-DD').isBefore(this.selectedDates.from_date, 'dates')),
+                    departure_time: null,
+                },
+                {
+                    ...this.room,
+                    identifier: null,
+                    in_out: canCheckIn
                         ? this.room.in_out
                         : {
                             code: '000',
-                        }, check_in: canCheckIn, assigned_units_pool: null, parent_room_identifier: this.room.identifier, is_split: true, roomtype: {
+                        },
+                    check_in: canCheckIn,
+                    assigned_units_pool: null,
+                    parent_room_identifier: this.room.identifier,
+                    is_split: true,
+                    roomtype: {
                         id: selectedUnit.roomtype_id,
-                    }, rateplan: {
+                    },
+                    rateplan: {
                         id: selectedUnit.rateplan_id || this.room.rateplan.id,
-                    }, departure_time: this.room.departure_time, unit: { id: selectedUnit.unit_id }, from_date: this.selectedDates.from_date.format('YYYY-MM-DD'),
+                    },
+                    departure_time: this.room.departure_time,
+                    unit: { id: selectedUnit.unit_id },
+                    from_date: this.selectedDates.from_date.format('YYYY-MM-DD'),
                     // to_date: this.selectedDates.to_date.format('YYYY-MM-DD'),
-                    days: this.room.days.filter(r => moment(r.date, 'YYYY-MM-DD').isSameOrAfter(this.selectedDates.from_date, 'dates')) }),
+                    days: this.room.days.filter(r => moment(r.date, 'YYYY-MM-DD').isSameOrAfter(this.selectedDates.from_date, 'dates')),
+                },
             ];
             const booking = {
                 assign_units: true,
@@ -134,7 +158,7 @@ export class IglSplitBooking {
                 error.issues.forEach(i => {
                     err[i.path[0]] = true;
                 });
-                this.errors = Object.assign({}, err);
+                this.errors = { ...err };
             }
         }
         finally {
@@ -142,12 +166,11 @@ export class IglSplitBooking {
         }
     }
     updateSelectedUnit(params) {
-        var _a;
-        const merged = Object.assign(Object.assign({}, this.selectedUnit), params);
-        const roomTypesSource = (_a = calendar_data === null || calendar_data === void 0 ? void 0 : calendar_data.property) === null || _a === void 0 ? void 0 : _a.roomtypes;
+        const merged = { ...this.selectedUnit, ...params };
+        const roomTypesSource = calendar_data?.property?.roomtypes;
         const mealPlanResult = checkMealPlan({
             rateplan_id: this.room.rateplan.id.toString(),
-            roomTypeId: merged === null || merged === void 0 ? void 0 : merged.roomtype_id,
+            roomTypeId: merged?.roomtype_id,
             roomTypes: roomTypesSource,
         });
         const hasExplicitRateplanUpdate = Object.prototype.hasOwnProperty.call(params, 'rateplan_id');
@@ -171,23 +194,24 @@ export class IglSplitBooking {
         this.selectedUnit = merged;
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
-        return (h("form", { key: 'f45050c5f64d620824a4f1a2aa611d2c32311ba6', onSubmit: e => {
+        return (h("form", { key: '3d0764167c5528d294688d41b49584819c0ca561', onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, h("ir-title", { key: '90a325be9133768d466c85970b3d63715a56b55c', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${(_a = this.room) === null || _a === void 0 ? void 0 : _a.unit['name']}` }), h("section", { key: '60ff24e004ea46eaad9d96c95a53ce3899978298', class: "px-1 sheet-body" }, h("div", { key: '692cc8b172aa891107a834f18ccf8a3ba2370e5b', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '7d7b4a6fce5cf702ea6b319d4cc8511c21d096b2' }, h("ir-date-view", { key: '65b4760aa4402344e544979323d2e47b3db1975c', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: '2719c5b481df08e0839cac7f737be6416fda3c65', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: 'b0bb038c2767eb66558d2709e34b016b032b0e57', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: '2bacdd4010d47e88699da0685c8e6d3fdb242465' }, "From:"), h("ir-date-picker", { key: '81e2277a551b8fb0623959d98664b77270a4a625', "data-testid": "pickup_arrival_date", date: (_c = (_b = this.selectedDates) === null || _b === void 0 ? void 0 : _b.from_date) === null || _c === void 0 ? void 0 : _c.format('YYYY-MM-DD'), maxDate: (_d = this.defaultDates) === null || _d === void 0 ? void 0 : _d.to_date.format('YYYY-MM-DD'), minDate: (_e = this.defaultDates) === null || _e === void 0 ? void 0 : _e.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
+            }, class: "sheet-container" }, h("ir-title", { key: '16fe03a2023507e796d4b867eeb4f75429a8feaf', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: '9f2b5dc203e41da6be3f0c77e2133f4dc046bf36', class: "px-1 sheet-body" }, h("div", { key: 'd9a8f88277b1a74e0d123a426fa621b3e58b290e', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'c5ca959f2d08164332ad5426066564ee807d2188' }, h("ir-date-view", { key: 'c1e98bc2bab64b9e23d6f12e0c8b6c576b84c847', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: 'b2bce7f6f0f7d8b31e7ae3d44ad4840d00aaad3d', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '855e3e685031e874c81fcac395fa431edf70584f', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: 'c317a796e38be9dcfb09677d647937c2bc0a1dd3' }, "From:"), h("ir-date-picker", { key: '576834eeda439547c2b874540a9c7023a5768580', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
             // aria-invalid={this.errors?.arrival_date && !this.pickupData.arrival_date ? 'true' : 'false'}
             onDateChanged: evt => {
-                this.selectedDates = Object.assign(Object.assign({}, this.selectedDates), { from_date: evt.detail.start });
-            } }, h("input", { key: '1c9e96bd5245b290a29f66039db4569e81930a5d', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: '1225019498e9ded4e06ff7fb4f54cadd98be5a1e', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), ((_f = this.errors) === null || _f === void 0 ? void 0 : _f.roomtype_id) && h("p", { key: 'c1fcd3cc0a77ee6ea065717501d40466c5a50e86', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'a862628364b09ca344048a484f051d0824855eff', class: "room-type-list mt-2" }, (_g = this.roomTypes) === null || _g === void 0 ? void 0 : _g.map(roomType => {
+                this.selectedDates = {
+                    ...this.selectedDates,
+                    from_date: evt.detail.start,
+                };
+            } }, h("input", { key: 'becc5dc6d131b5e228617467f5895b3daad8ffeb', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'd4b184e53ee16995dd2c811b0134640f1e46258e', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: 'b990b1869297147b11f9adf3b482e3a1d02c7da2', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'aaad299d0ea26b2bd9acfb9037ab8e09e12f853e', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
             if (!roomType.is_available_to_book) {
                 return null;
             }
             const units = (() => {
-                var _a, _b;
                 const unitMap = new Map();
-                for (const rateplan of (_a = roomType.rateplans) !== null && _a !== void 0 ? _a : []) {
-                    for (const unit of (_b = rateplan.assignable_units) !== null && _b !== void 0 ? _b : []) {
+                for (const rateplan of roomType.rateplans ?? []) {
+                    for (const unit of rateplan.assignable_units ?? []) {
                         if (unit.Is_Fully_Available) {
                             unitMap.set(unit.pr_id, unit.name);
                         }
@@ -196,18 +220,17 @@ export class IglSplitBooking {
                 return Array.from(unitMap, ([id, name]) => ({ id, name }));
             })();
             return (h(Fragment, null, h("li", { key: `roomTypeRow-${roomType.id}`, class: `room-type-row` }, h("div", { class: 'd-flex choice-row' }, h("span", { class: "text-left room-type-name" }, roomType.name))), units.map((room, j) => {
-                var _a, _b, _c, _d;
                 const row_style = j === roomType.physicalrooms.length - 1 ? 'pb-1' : '';
-                const showMealPlanSelect = ((_a = this.selectedUnit) === null || _a === void 0 ? void 0 : _a.unit_id) === room.id && Array.isArray(this.mealPlanOptions) && this.mealPlanOptions.length > 0;
-                return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row align-items-center', style: { gap: '0.5rem' } }, h("ir-radio", { class: "pl-1", name: "unit", checked: ((_b = this.selectedUnit) === null || _b === void 0 ? void 0 : _b.unit_id) === room.id, onCheckChange: () => this.updateSelectedUnit({
+                const showMealPlanSelect = this.selectedUnit?.unit_id === room.id && Array.isArray(this.mealPlanOptions) && this.mealPlanOptions.length > 0;
+                return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row align-items-center', style: { gap: '0.5rem' } }, h("ir-radio", { class: "pl-1", name: "unit", checked: this.selectedUnit?.unit_id === room.id, onCheckChange: () => this.updateSelectedUnit({
                         roomtype_id: roomType.id,
                         unit_id: room.id,
-                    }), label: room.name }), showMealPlanSelect && (h("ir-select", { firstOption: "Select a new rateplan...", error: ((_c = this.errors) === null || _c === void 0 ? void 0 : _c.rateplan_id) && !((_d = this.selectedUnit) === null || _d === void 0 ? void 0 : _d.rateplan_id), onSelectChange: e => {
+                    }), label: room.name }), showMealPlanSelect && (h("ir-select", { firstOption: "Select a new rateplan...", error: this.errors?.rateplan_id && !this.selectedUnit?.rateplan_id, onSelectChange: e => {
                         const value = e.detail === null || e.detail === undefined || e.detail === '' ? undefined : Number(e.detail);
                         this.updateSelectedUnit({
                             rateplan_id: value,
                         });
-                    }, data: this.mealPlanOptions.map(e => (Object.assign(Object.assign({}, e), { text: e.text + `${e.custom_text ? ' | ' : ''}${e.custom_text}` }))) })
+                    }, data: this.mealPlanOptions.map(e => ({ ...e, text: e.text + `${e.custom_text ? ' | ' : ''}${e.custom_text}` })) })
                 // <ir-dropdown
                 //   onOptionChange={e => {
                 //     this.updateSelectedUnit({
@@ -229,7 +252,7 @@ export class IglSplitBooking {
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: '3a071fbce24b10aef82d6441dbfaae3b9602a34b', class: 'sheet-footer' }, h("ir-button", { key: 'efc1c337ec5b3e9080898425111ae6fa8617edf6', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '253ab09087a852005bead2e3a71451e051065bb2', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: 'b4f1d283de1c9a461b35a5e26ebc51423068f7d7', class: 'sheet-footer' }, h("ir-button", { key: '90325a5a94f52eee00d048d49367491874bdad1b', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '05b064c7b09747a88068ddbfeef80ceac283ac6f', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
     static get is() { return "igl-split-booking"; }
     static get encapsulation() { return "scoped"; }

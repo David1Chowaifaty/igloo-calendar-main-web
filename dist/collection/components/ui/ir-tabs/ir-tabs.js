@@ -1,36 +1,45 @@
 import { Host, h } from "@stencil/core";
 export class IrTabs {
-    constructor() {
-        /**
-         * Array of tab objects containing id and label
-         * @type {Tab[]}
-         * @default []
-         */
-        this.tabs = [];
-        /**
-         * Whether the tabs are disabled
-         * @type {boolean}
-         * @default false
-         */
-        this.disabled = false;
-        /**
-         * Aria label for the tab list
-         * @type {string}
-         * @default 'Tabs'
-         */
-        this.ariaLabel = 'Tabs';
-        this.remSize = (() => {
-            const fontSize = getComputedStyle(document.documentElement).fontSize;
-            return parseFloat(fontSize);
-        })();
-    }
+    el;
+    /**
+     * Array of tab objects containing id and label
+     * @type {Tab[]}
+     * @default []
+     */
+    tabs = [];
+    /**
+     * ID of the tab that should be selected initially
+     * @type {string}
+     * @default undefined
+     */
+    initialTab;
+    /**
+     * Whether the tabs are disabled
+     * @type {boolean}
+     * @default false
+     */
+    disabled = false;
+    /**
+     * Aria label for the tab list
+     * @type {string}
+     * @default 'Tabs'
+     */
+    ariaLabel = 'Tabs';
+    _selectedTab;
+    /**
+     * Emitted when a tab is selected
+     * @event tabChanged
+     * @type {CustomEvent<Tab>}
+     */
+    tabChanged;
+    activeIndicator;
+    animationFrameId;
     componentWillLoad() {
-        var _a, _b;
-        const tab = (_a = this.tabs) === null || _a === void 0 ? void 0 : _a.find(t => t.id === this.initialTab);
+        const tab = this.tabs?.find(t => t.id === this.initialTab);
         if (tab) {
             this.selectTab(tab);
         }
-        else if (((_b = this.tabs) === null || _b === void 0 ? void 0 : _b.length) > 0) {
+        else if (this.tabs?.length > 0) {
             // Select first tab if no initial tab is specified
             this.selectTab(this.tabs[0]);
         }
@@ -71,6 +80,10 @@ export class IrTabs {
             }
         });
     }
+    remSize = (() => {
+        const fontSize = getComputedStyle(document.documentElement).fontSize;
+        return parseFloat(fontSize);
+    })();
     selectTab(tab) {
         if (this.disabled)
             return;
@@ -120,10 +133,7 @@ export class IrTabs {
         }
     }
     render() {
-        return (h(Host, { key: '55878aae70d318b44526da6b192a252a3ea94a81', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => {
-            var _a, _b, _c;
-            return (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: ((_a = this._selectedTab) === null || _a === void 0 ? void 0 : _a.id) === tab.id ? 0 : -1, "aria-selected": ((_b = this._selectedTab) === null || _b === void 0 ? void 0 : _b.id) === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": ((_c = this._selectedTab) === null || _c === void 0 ? void 0 : _c.id) === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label));
-        }), h("span", { key: '0107bde305b385610dc935d0d817a0504fc69a1f', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: '09784a13b8b6aaa1ee4d7a355f449ad16d8b256f', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'f4c03ea64cc80ff6fe6df3b2674954217ea2d045', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-tabs"; }
     static get encapsulation() { return "scoped"; }
@@ -148,7 +158,7 @@ export class IrTabs {
                     "references": {
                         "Tab": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
                             "id": "src/components/ui/ir-tabs/ir-tabs.tsx::Tab"
                         }
                     }
@@ -276,7 +286,7 @@ export class IrTabs {
                     "references": {
                         "Tab": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-tabs/ir-tabs.tsx",
                             "id": "src/components/ui/ir-tabs/ir-tabs.tsx::Tab"
                         }
                     }

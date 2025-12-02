@@ -2,11 +2,11 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
-const channel_store = require('./channel.store-6c960f32.js');
-const locales_store = require('./locales.store-a1ac5174.js');
-const calendarData = require('./calendar-data-d2bec4fe.js');
-require('./index-7564ffa1.js');
+const index = require('./index-3978a3f8.js');
+const channel_store = require('./channel.store-8864149a.js');
+const locales_store = require('./locales.store-4eb57996.js');
+const calendarData = require('./calendar-data-e7cdcfec.js');
+require('./index-6299b0f7.js');
 
 const irChannelGeneralCss = ".sc-ir-channel-general-h{display:block}.label-style.sc-ir-channel-general{width:6.25rem;text-align:end;padding-right:0.625rem !important}.connection-status.sc-ir-channel-general{display:flex;align-items:center;justify-content:space-between;margin-top:0.625rem !important}.connection-title.sc-ir-channel-general{border-bottom:1px solid #e4e5ec}.ml-18.sc-ir-channel-general{margin-left:18% !important}.status-message.sc-ir-channel-general{display:flex;align-items:center;gap:0.3125rem;font-size:0.81rem;margin:0;padding:0}";
 const IrChannelGeneralStyle0 = irChannelGeneralCss;
@@ -15,47 +15,45 @@ const IrChannelGeneral = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.connectionStatus = index.createEvent(this, "connectionStatus", 7);
-        this.channel_status = null;
-        this.buttonClicked = false;
-        this.connection_status_message = '';
-        this.status = false;
     }
+    channel_status = null;
+    buttonClicked = false;
+    connection_status_message = '';
+    status = false;
+    connectionStatus;
     componentWillLoad() {
-        var _a;
         if (this.channel_status === 'create' || !channel_store.channels_data.isConnectedToChannel) {
             return;
         }
         this.connection_status_message = channel_store.channels_data.isConnectedToChannel
-            ? (_a = channel_store.channels_data.selectedChannel.properties.find(property => property.id === channel_store.channels_data.channel_settings.hotel_id)) === null || _a === void 0 ? void 0 : _a.name
+            ? channel_store.channels_data.selectedChannel.properties.find(property => property.id === channel_store.channels_data.channel_settings.hotel_id)?.name
             : '';
         this.status = true;
     }
     handleTestConnectionClicked(e) {
-        var _a, _b, _c;
         e.preventDefault();
         this.buttonClicked = true;
-        if (!((_a = channel_store.channels_data.channel_settings) === null || _a === void 0 ? void 0 : _a.hotel_id)) {
+        if (!channel_store.channels_data.channel_settings?.hotel_id) {
             return;
         }
         const status = channel_store.testConnection();
         this.status = status;
         this.connection_status_message = status
-            ? (_b = channel_store.channels_data.selectedChannel.properties.find(property => property.id === channel_store.channels_data.channel_settings.hotel_id)) === null || _b === void 0 ? void 0 : _b.name
-            : (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_IncorrectConnection;
+            ? channel_store.channels_data.selectedChannel.properties.find(property => property.id === channel_store.channels_data.channel_settings.hotel_id)?.name
+            : locales_store.locales.entries?.Lcz_IncorrectConnection;
         this.buttonClicked = false;
         this.connectionStatus.emit(this.status);
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-        return (index.h(index.Host, { key: 'af8f1d4746cc076aa1f85ad7a93febd40d96d254', class: "px-1" }, index.h("section", { key: 'a50864657ee9e278b0748a80a9d04c79371f7fc8', class: "ml-18" }, index.h("fieldset", { key: 'a20fe87d4c1b410c6d7987378698dce915a4ea8d', class: "d-flex align-items-center" }, index.h("label", { key: '0b9964c45b39149e3476dd5424c4458dfee09e45', htmlFor: "hotel_channels", class: "m-0 p-0 label-style" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Channel), index.h("ir-combobox", { key: '0b25dd30a5ed7806c4f8587a2bd38c7e8d9a3d20', input_id: "hotel_channels", disabled: channel_store.channels_data.isConnectedToChannel, class: "flex-fill", value: (_b = channel_store.channels_data.selectedChannel) === null || _b === void 0 ? void 0 : _b.name, onComboboxValueChange: (e) => {
+        return (index.h(index.Host, { key: '5491a8dbaa43d3a06a3a1379a307a68ebc776204', class: "px-1" }, index.h("section", { key: '546bef66c428d9078213c0b98b2c7cdbdf60b981', class: "ml-18" }, index.h("fieldset", { key: '78cd1a8b34a881535b7edbc2e634a275af19ea59', class: "d-flex align-items-center" }, index.h("label", { key: '77fb802254a5cbaebda865a2b48b3b8191e65de9', htmlFor: "hotel_channels", class: "m-0 p-0 label-style" }, locales_store.locales.entries?.Lcz_Channel), index.h("ir-combobox", { key: 'f3aec87d40b3f192591848557a3f313b49d764ba', input_id: "hotel_channels", disabled: channel_store.channels_data.isConnectedToChannel, class: "flex-fill", value: channel_store.channels_data.selectedChannel?.name, onComboboxValueChange: (e) => {
                 channel_store.selectChannel(e.detail.data.toString());
             }, data: channel_store.channels_data.channels.map(channel => ({
                 id: channel.id,
                 name: channel.name,
-            })) })), index.h("fieldset", { key: '61f12101a1d6ca2af8ff50bfb7d7db8bc33d3654', class: "d-flex align-items-center mt-1" }, index.h("label", { key: '741b163edf59ff621db0d970f7809c1df565e3b2', htmlFor: "hotel_title", class: "m-0 p-0 label-style" }, (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Title), index.h("div", { key: '5357b4eb88a612be5e7e7c50f2f4779e2e6edab6', class: "flex-fill" }, index.h("input", { key: 'a7101c6607cc5f2c0f66a5bd54a3b06a203d6d48', id: "hotel_title", value: (_d = channel_store.channels_data.channel_settings) === null || _d === void 0 ? void 0 : _d.hotel_title, onInput: e => channel_store.updateChannelSettings('hotel_title', e.target.value), class: "form-control  flex-fill" })))), channel_store.channels_data.selectedChannel && (index.h("form", { key: '2259a03a24a4959469a52f3b00fe7b16c05b4a70', onSubmit: this.handleTestConnectionClicked.bind(this), class: "mt-3 connection-container" }, index.h("h3", { key: '48c3f21d980f0ada97838a86e6d124b6a62640b8', class: "text-left font-medium-2  py-0 my-0 connection-title py-1 mb-2" }, (_e = locales_store.locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_ConnectionSettings), index.h("div", { key: '197edd3cc9d1aba3dc20997d2cf209d9df8fdd40', class: "ml-18" }, index.h("fieldset", { key: 'b7d3bfdd23a96f1ab757c080573c8d21596e1a33', class: "d-flex align-items-center my-1" }, index.h("label", { key: '212bf504a1284923513ba38b1604105e000ae80c', htmlFor: "hotel_id", class: "m-0 p-0 label-style" }, (_f = locales_store.locales.entries) === null || _f === void 0 ? void 0 : _f.Lcz_HotelID), index.h("div", { key: '970ca87a38a9124760bc716bf9350b6d53759842', class: "flex-fill" }, index.h("input", { key: 'bfd14be4671448e51f7874040578b1a38f394aab', id: "hotel_id",
+            })) })), index.h("fieldset", { key: 'da881aee044cf27e749eb2fb489cbed751b3f663', class: "d-flex align-items-center mt-1" }, index.h("label", { key: '9601d3f02ffd5af4892185ebcc6b2d6f775311f2', htmlFor: "hotel_title", class: "m-0 p-0 label-style" }, locales_store.locales.entries?.Lcz_Title), index.h("div", { key: 'd4af9a81ae36e52309930a790734f3902b4385fa', class: "flex-fill" }, index.h("input", { key: 'f04f46567287bf7d2ac5ea54dfb690dc84ebf088', id: "hotel_title", value: channel_store.channels_data.channel_settings?.hotel_title, onInput: e => channel_store.updateChannelSettings('hotel_title', e.target.value), class: "form-control  flex-fill" })))), channel_store.channels_data.selectedChannel && (index.h("form", { key: 'a336d4cf74b1c5f18de23b56b9d3e1971dd53b9d', onSubmit: this.handleTestConnectionClicked.bind(this), class: "mt-3 connection-container" }, index.h("h3", { key: '4bab28cdc6beb325dd9eac19e2ab549de7525c75', class: "text-left font-medium-2  py-0 my-0 connection-title py-1 mb-2" }, locales_store.locales.entries?.Lcz_ConnectionSettings), index.h("div", { key: '22334671f934882e98aecc6b599c83eba37bccd7', class: "ml-18" }, index.h("fieldset", { key: '19aff1178333269b90deb3daf5ef14aea5771a87', class: "d-flex align-items-center my-1" }, index.h("label", { key: '7f58be68f5eb5624f07e0c572507bbb36e0416bf', htmlFor: "hotel_id", class: "m-0 p-0 label-style" }, locales_store.locales.entries?.Lcz_HotelID), index.h("div", { key: '76b940d069dd14e0291c6d5762b35c54d95f8f8e', class: "flex-fill" }, index.h("input", { key: 'd3b1bb83edd2b9252d781bc06de96b04132e8506', id: "hotel_id",
             // disabled={channels_data.isConnectedToChannel}
-            class: `form-control  flex-fill bg-white ${this.buttonClicked && !((_g = channel_store.channels_data.channel_settings) === null || _g === void 0 ? void 0 : _g.hotel_id) && 'border-danger'}`, value: (_h = channel_store.channels_data.channel_settings) === null || _h === void 0 ? void 0 : _h.hotel_id, onInput: e => channel_store.updateChannelSettings('hotel_id', e.target.value) }))), index.h("div", { key: '3aeb16b03f216431d7c6d636a7f6abceaa929008', class: "connection-status" }, index.h("div", { key: 'afefdc4bbc5c61db0430478526cc04390075d5b2', class: "status-message" }, this.connection_status_message &&
-            (this.status ? index.h("ir-icons", { name: "circle_check", style: { color: 'green' } }) : index.h("ir-icons", { name: "danger", style: { color: 'yellow' } })), index.h("span", { key: 'ff959abf18836dfe1f149ef08899e358cf0c9449' }, this.connection_status_message)), index.h("button", { key: '9a6117f267b7532ddaeb13fb6b80164ae59c3c1d', class: "btn btn-outline-secondary btn-sm", type: "submit" }, (_j = locales_store.locales.entries) === null || _j === void 0 ? void 0 : _j.Lcz_TestConnection)))))));
+            class: `form-control  flex-fill bg-white ${this.buttonClicked && !channel_store.channels_data.channel_settings?.hotel_id && 'border-danger'}`, value: channel_store.channels_data.channel_settings?.hotel_id, onInput: e => channel_store.updateChannelSettings('hotel_id', e.target.value) }))), index.h("div", { key: '97a8e36675c35bc0abba4c43f491df9129842671', class: "connection-status" }, index.h("div", { key: '674e744e88e9f951cab42d612cf1474d1fb13eae', class: "status-message" }, this.connection_status_message &&
+            (this.status ? index.h("ir-icons", { name: "circle_check", style: { color: 'green' } }) : index.h("ir-icons", { name: "danger", style: { color: 'yellow' } })), index.h("span", { key: '8d868b4c23c468657dcf08c626f81ee7eb40bba4' }, this.connection_status_message)), index.h("button", { key: '1134803cab67dfd3fd190a97aa011981fec4c340', class: "btn btn-outline-secondary btn-sm", type: "submit" }, locales_store.locales.entries?.Lcz_TestConnection)))))));
     }
 };
 IrChannelGeneral.style = IrChannelGeneralStyle0;
@@ -67,9 +65,13 @@ const IrChannelHeader = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.tabChanged = index.createEvent(this, "tabChanged", 7);
-        this.headerTitles = [];
-        this.selectedIndex = 0;
     }
+    get el() { return index.getElement(this); }
+    headerTitles = [];
+    selectedIndex = 0;
+    tabChanged;
+    activeIndicator;
+    animationFrameId;
     componentDidLoad() {
         this.updateActiveIndicator();
     }
@@ -99,12 +101,11 @@ const IrChannelHeader = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '3172555f0ef4d50b0b34e6855d16d3687e63597d' }, index.h("ul", { key: '6528bc29396adcef604d573b3fd3dd17c329b748', class: "px-1" }, this.headerTitles.map((title, index$1) => (index.h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
+        return (index.h(index.Host, { key: '693fafb98c8a4445ea44cdbb4b4830df85f38a5d' }, index.h("ul", { key: 'ceaddeb3ea6581fb125a6ba4a8e1efad09f71201', class: "px-1" }, this.headerTitles.map((title, index$1) => (index.h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
                 if (!title.disabled)
                     this.handleTabSelection(index$1);
-            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index$1 ? 'selected' : '' }, title.name)))), index.h("span", { key: '9fc2e7c30d3c2b90ab799445799658e709ab79fc', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index$1 ? 'selected' : '' }, title.name)))), index.h("span", { key: '7d5a5bd86f53edbb992d0b6e803bd03f37a426d8', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
-    get el() { return index.getElement(this); }
 };
 IrChannelHeader.style = IrChannelHeaderStyle0;
 
@@ -119,7 +120,7 @@ class IrMappingService {
     }
     checkMappingExists(id, isRoomType, roomTypeId) {
         const channelId = id.toString();
-        const parentChannelId = roomTypeId === null || roomTypeId === void 0 ? void 0 : roomTypeId.toString();
+        const parentChannelId = roomTypeId?.toString();
         if (isRoomType) {
             const mappedRoomType = channel_store.channels_data.mappedChannels.find(mapping => mapping.type === 'room_type' && mapping.channel_id.toString() === channelId);
             if (!mappedRoomType) {
@@ -166,7 +167,6 @@ class IrMappingService {
         };
     }
     resolveRatePlanContext(ratePlanMapping) {
-        var _a;
         if (ratePlanMapping.type !== 'rate_plan') {
             return undefined;
         }
@@ -182,7 +182,7 @@ class IrMappingService {
         return {
             room,
             ratePlan,
-            parentChannelId: (_a = parentMapping === null || parentMapping === void 0 ? void 0 : parentMapping.channel_id) === null || _a === void 0 ? void 0 : _a.toString(),
+            parentChannelId: parentMapping?.channel_id?.toString(),
         };
     }
     // public checkMappingExists(id: string, isRoomType: boolean, roomTypeId?: string) {
@@ -239,12 +239,12 @@ const IrChannelMappingStyle0 = irChannelMappingCss;
 const IrChannelMapping = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.activeMapField = '';
-        this.availableRooms = [];
-        this.mappingService = new IrMappingService();
     }
+    activeMapField = '';
+    availableRooms = [];
+    mappingService = new IrMappingService();
     setActiveField(id, isRoomType, roomTypeId) {
-        const parentChannelId = roomTypeId === null || roomTypeId === void 0 ? void 0 : roomTypeId.toString();
+        const parentChannelId = roomTypeId?.toString();
         const availableRooms = this.mappingService.getAppropriateRooms(isRoomType, parentChannelId);
         if (availableRooms) {
             this.availableRooms = availableRooms;
@@ -252,23 +252,21 @@ const IrChannelMapping = class {
         this.activeMapField = id.toString();
     }
     renderMappingStatus(mappedField, id, isRoomType, roomTypeId) {
-        var _a;
         if (mappedField.hide) {
             return index.h("div", null);
         }
         if (mappedField.result) {
             return (index.h(index.Fragment, null, index.h("div", { class: "pl-2 flex-fill d-sm-none mapped_item text-blue d-flex align-items-center" }, index.h("span", { class: "m-0 p-0 d-flex align-items-center selected-map" }, index.h("span", { class: "selected-map-title" }, isRoomType ? mappedField.result.name : mappedField.result['short_name']), index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { fill: 'var(--blue)', d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" })), mappedField.occupancy), index.h("ir-icon", { class: "ml-1 p-0", onIconClickHandler: () => this.mappingService.removedMapping(mappedField.result.id.toString(), isRoomType) }, index.h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { fill: 'var(--blue)', d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" })))), index.h("div", { class: "pl-2 flex-fill d-none mapped_item text-blue d-sm-flex align-items-center" }, index.h("span", { class: "mapped_name" }, isRoomType ? mappedField.result.name : mappedField.result['short_name']), index.h("div", { class: "d-flex align-items-center gap-3 flex-fill" }, index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { fill: 'var(--blue)', d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" })), index.h("span", null, mappedField.occupancy)), index.h("ir-button", { variant: "icon", onClickHandler: () => this.mappingService.removedMapping(mappedField.result.id.toString(), isRoomType), icon_name: "trash", style: { '--icon-size': '1rem', '--icon-button-color': '#1e9ff2', '--icon-button-hover-color': '#104064 ' } }))));
         }
-        return (index.h("div", { class: "pl-2  flex-fill mapped_item" }, this.activeMapField === id ? (index.h("ir-combobox", { autoFocus: true, placeholder: (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_NotMapped, data: this.availableRooms, onComboboxValueChange: e => {
+        return (index.h("div", { class: "pl-2  flex-fill mapped_item" }, this.activeMapField === id ? (index.h("ir-combobox", { autoFocus: true, placeholder: locales_store.locales.entries?.Lcz_NotMapped, data: this.availableRooms, onComboboxValueChange: e => {
                 channel_store.addMapping(e.detail.data, this.activeMapField, isRoomType);
                 this.activeMapField = '';
             } })) : (index.h("span", { class: "cursor-pointer  not_mapped_btn", onClick: () => this.setActiveField(id, isRoomType, roomTypeId) }, locales_store.locales.entries.Lcz_NotMapped))));
     }
     render() {
-        var _a, _b, _c, _d, _e;
-        return (index.h(index.Host, { key: 'a73100d1ce1f06c0d00e20532298739a26f808b0', class: "py-md-2 px-md-2" }, index.h("div", { key: '0a6c711fc59e87fb3d5dedce0ce811561e7de521', class: "d-flex p-0 m-0 w-100 justify-content-end" }, index.h("button", { key: '095c8d10b437ce4c3118da7e5a707d451c492662', onClick: () => {
+        return (index.h(index.Host, { key: '9078a564ac31ba4326257308e78ac7a4893b7bc6', class: "py-md-2 px-md-2" }, index.h("div", { key: '0730f25b41aa5d96c771993611d7531cf465c2fe', class: "d-flex p-0 m-0 w-100 justify-content-end" }, index.h("button", { key: '7f568ccab5bf47e5f2bd3902c36efb3250b56dfd', onClick: () => {
                 channel_store.setMappedChannel();
-            }, class: "btn refresh-btn" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Refresh)), index.h("section", { key: 'b05acaf59474fd62250c87ce75faa88c51fb5eb6', class: "w-100" }, index.h("div", { key: '0d5b3e8c8ba8ad013028b34d36a8aa2bf02285e7', class: "pt-1 mapped_row" }, index.h("p", { key: 'ea26c8a3d483e97a66b800ec43b7e2890ab5b99f', class: "mapped_item channel_name" }, (_b = channel_store.channels_data.selectedChannel) === null || _b === void 0 ? void 0 : _b.name), index.h("svg", { key: 'aba9bd552f977d6003daaa7ce607163bb869d176', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'b681335f4c61102bbed80d0f79adbb593c18200b', d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), index.h("p", { key: '742c0a1d42e8404a6b65489c3de7702de681b0a7', class: "pl-2 mapped_item channel_name" }, "igloorooms")), index.h("div", { key: 'ac3d5e4e8f8a5e2800f5eca614aaa0334304d9fd' }, (_e = (_d = (_c = channel_store.channels_data.selectedChannel) === null || _c === void 0 ? void 0 : _c.property) === null || _d === void 0 ? void 0 : _d.room_types) === null || _e === void 0 ? void 0 : _e.map(room_type => {
+            }, class: "btn refresh-btn" }, locales_store.locales.entries?.Lcz_Refresh)), index.h("section", { key: '130afaa5d253472959e529fd4ab263f1ed425f64', class: "w-100" }, index.h("div", { key: '88bae62564381b22faf3a4fa4e38637100f8b6d1', class: "pt-1 mapped_row" }, index.h("p", { key: '6a06a619e15688c963a3d03ad67622021c09819d', class: "mapped_item channel_name" }, channel_store.channels_data.selectedChannel?.name), index.h("svg", { key: 'dc0c0e0c8479e4548370ff0e08e28fe5c4d9d9da', xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { key: 'c1f8c8fa09ad572c50d43e186f17de9286becb64', d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), index.h("p", { key: '89d9cba14addb03b80eed08d72a95b2486abd78f', class: "pl-2 mapped_item channel_name" }, "igloorooms")), index.h("div", { key: 'b44f5c6d2f71e39f313a0e0cd06fb5ca786c37f3' }, channel_store.channels_data.selectedChannel?.property?.room_types?.map(room_type => {
             const mappedRoomType = this.mappingService.checkMappingExists(room_type.id.toString(), true);
             return (index.h(index.Fragment, null, index.h("div", { key: room_type.id, class: "mapped_row room_type pt-1" }, index.h("p", { class: "mapped_item" }, room_type.name), index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" }, index.h("path", { d: "M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" })), this.renderMappingStatus(mappedRoomType, room_type.id, true)), room_type.rate_plans.map(rate_plan => {
                 const mappedRatePlan = this.mappingService.checkMappingExists(rate_plan.id.toString(), false, room_type.id.toString());

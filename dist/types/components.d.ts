@@ -17,29 +17,38 @@ import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar
 import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { Currency, RatePlan, RoomType } from "./models/property";
-import { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
+import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Room, SharedPerson } from "./models/booking.dto";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
+import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { IPaymentAction } from "./services/payment.service";
 import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+import { Payment, PaymentEntries } from "./components/ir-booking-details/types";
 import { BookingService } from "./services/booking.service";
-import { FolioEntryMode, OpenSidebarEvent, Payment, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
+import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload } from "./components/ir-booking-details/types";
+import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 import { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
+import { MaskProp, NativeWaInput } from "./components/ui/ir-custom-input/ir-custom-input";
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 import { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
+import { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+import { Element } from "./stencil-public-runtime";
+import { MaskProp as MaskProp1 } from "./components/ui/ir-input/ir-input";
 import { FactoryArg } from "imask";
-import { ZodType } from "zod";
-import { PaymentEntries } from "./components/ir-booking-details/types";
+import { ZodType, ZodTypeAny } from "zod";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
+import { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 import { Notification } from "./components/ir-notifications/types";
 import { PaymentOption } from "./models/payment-options";
-import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
+import { NativeWaInput as NativeWaInput1 } from "./components/ui/ir-custom-input/ir-custom-input";
+import { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 import { Moment } from "moment";
 import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
@@ -63,29 +72,38 @@ export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar
 export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { Currency, RatePlan, RoomType } from "./models/property";
-export { Booking, ExtraService, IBookingPickupInfo, IOtaNotes, IPayment, OtaService, Room, SharedPerson } from "./models/booking.dto";
+export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Room, SharedPerson } from "./models/booking.dto";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
+export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { IPaymentAction } from "./services/payment.service";
 export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+export { Payment, PaymentEntries } from "./components/ir-booking-details/types";
 export { BookingService } from "./services/booking.service";
-export { FolioEntryMode, OpenSidebarEvent, Payment, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, RoomGuestsPayload } from "./components/ir-booking-details/types";
+export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload } from "./components/ir-booking-details/types";
+export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 export { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
+export { MaskProp, NativeWaInput } from "./components/ui/ir-custom-input/ir-custom-input";
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 export { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
+export { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+export { Element } from "./stencil-public-runtime";
+export { MaskProp as MaskProp1 } from "./components/ui/ir-input/ir-input";
 export { FactoryArg } from "imask";
-export { ZodType } from "zod";
-export { PaymentEntries } from "./components/ir-booking-details/types";
+export { ZodType, ZodTypeAny } from "zod";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
+export { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 export { Notification } from "./components/ir-notifications/types";
 export { PaymentOption } from "./models/payment-options";
-export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
+export { NativeWaInput as NativeWaInput1 } from "./components/ui/ir-custom-input/ir-custom-input";
+export { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 export { Moment } from "moment";
 export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
@@ -352,10 +370,23 @@ export namespace Components {
         "hide": () => Promise<void>;
         "show": () => Promise<void>;
     }
+    interface IrActionsCell {
+        "buttons": IrActionButton[];
+    }
     interface IrApplicablePolicies {
         "booking": Booking;
         "language": string;
         "propertyId": number;
+    }
+    interface IrArrivals {
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrArrivalsFilters {
+    }
+    interface IrArrivalsTable {
     }
     interface IrAutocomplete {
         "danger_border": boolean;
@@ -373,10 +404,77 @@ export namespace Components {
         "type": 'email' | 'text' | 'password' | 'number' | 'search';
         "value": string;
     }
+    interface IrBalanceCell {
+        "bookingNumber": string;
+        "currencySymbol": string;
+        "financial": Booking['financial'];
+        "isDirect": boolean;
+        "statusCode": string;
+    }
+    interface IrBookedBySourceCell {
+        /**
+          * Makes the guest name clickable. Emits `openGuestDetails` when clicked.
+         */
+        "clickableGuest": boolean;
+        /**
+          * Guest associated with this booking.
+         */
+        "guest": Booking['guest'];
+        /**
+          * Unique identifier for this cell. Used for tooltip scoping.
+         */
+        "identifier": string;
+        /**
+          * Origin metadata containing label + icon used as logo.
+         */
+        "origin": Booking['origin'];
+        /**
+          * Promo key if a promo/coupon was applied.
+         */
+        "promoKey": string;
+        /**
+          * Show loyalty discount icon (pink heart-outline).
+         */
+        "showLoyaltyIcon": boolean;
+        /**
+          * Show total persons count (e.g. "3P").
+         */
+        "showPersons": boolean;
+        /**
+          * Show yellow dot indicating the booking has a private note.
+         */
+        "showPrivateNoteDot": boolean;
+        /**
+          * Show promo/coupon icon.
+         */
+        "showPromoIcon": boolean;
+        /**
+          * Show pink heart icon if guest has repeated bookings.
+         */
+        "showRepeatGuestBadge": boolean;
+        /**
+          * Source of the booking (e.g. website, channel).
+         */
+        "source": Booking['source'];
+        /**
+          * Total number of persons staying (adults + children).
+         */
+        "totalPersons": string;
+    }
+    interface IrBookedOnCell {
+        "bookedOn": Booking['booked_on'];
+    }
     interface IrBooking {
         "bookingNumber": string;
         "p": string;
         "propertyid": number;
+    }
+    interface IrBookingBillingRecipient {
+        "booking": Booking;
+    }
+    interface IrBookingCompanyForm {
+        "booking": Booking;
+        "openCompanyForm": () => Promise<void>;
     }
     interface IrBookingDetails {
         "bookingNumber": string;
@@ -401,6 +499,9 @@ export namespace Components {
     }
     interface IrBookingExtraNote {
         "booking": Booking;
+        "closeDialog": () => Promise<void>;
+        "open": boolean;
+        "openDialog": () => Promise<void>;
     }
     interface IrBookingGuarantee {
         "booking": Booking;
@@ -424,6 +525,12 @@ export namespace Components {
         "ticket": string;
         "userType": number;
     }
+    interface IrBookingListingTable {
+    }
+    interface IrBookingNumberCell {
+        "bookingNumber": Booking['booking_nbr'];
+        "channelBookingNumber": Booking['channel_booking_nbr'];
+    }
     interface IrBookingPrinting {
         "bookingNumber": string;
         "countries": any;
@@ -431,6 +538,10 @@ export namespace Components {
         "mode": 'invoice' | 'default';
         "propertyid": number;
         "token": string;
+    }
+    interface IrBookingStatusTag {
+        "isRequestToCancel": Booking['is_requested_to_cancel'];
+        "status": Booking['status'];
     }
     interface IrButton {
         /**
@@ -631,6 +742,294 @@ export namespace Components {
           * Test ID for automated testing.
          */
         "testId": string;
+        "variant": 'modern' | 'default';
+    }
+    interface IrCustomButton {
+        /**
+          * The button's visual appearance.
+         */
+        "appearance": NativeButton['appearance'];
+        /**
+          * Disables the button. Does not apply to link buttons.
+         */
+        "disabled": NativeButton['disabled'];
+        /**
+          * Tells the browser to download the linked file as this filename. Only used when `href` is present.
+         */
+        "download": NativeButton['download'];
+        /**
+          * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
+         */
+        "form": NativeButton['form'];
+        /**
+          * Used to override the form owner's `action` attribute.
+         */
+        "formAction": NativeButton['formAction'];
+        /**
+          * Used to override the form owner's `enctype` attribute.
+         */
+        "formEnctype": NativeButton['formEnctype'];
+        /**
+          * Used to override the form owner's `method` attribute.
+         */
+        "formMethod": NativeButton['formMethod'];
+        /**
+          * Used to override the form owner's `novalidate` attribute.
+         */
+        "formNoValidate": NativeButton['formNoValidate'];
+        /**
+          * Used to override the form owner's `target` attribute.
+         */
+        "formTarget": NativeButton['formTarget'];
+        /**
+          * When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
+         */
+        "href": NativeButton['href'];
+        "iconBtn": boolean;
+        "link": boolean;
+        /**
+          * Draws the button in a loading state.
+         */
+        "loading": NativeButton['loading'];
+        /**
+          * The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+         */
+        "name": NativeButton['name'];
+        /**
+          * Draws a pill-style button with rounded edges.
+         */
+        "pill": NativeButton['pill'];
+        /**
+          * When using `href`, this attribute will map to the underlying link's `rel` attribute.
+         */
+        "rel": NativeButton['rel'];
+        /**
+          * The button's size.
+         */
+        "size": NativeButton['size'];
+        /**
+          * Tells the browser where to open the link. Only used when `href` is present.
+         */
+        "target": NativeButton['target'];
+        /**
+          * The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
+         */
+        "type": NativeButton['type'];
+        /**
+          * The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+         */
+        "value": NativeButton['value'];
+        /**
+          * The button's theme variant. Defaults to `neutral` if not within another element with a variant.
+         */
+        "variant": NativeButton['variant'];
+        /**
+          * Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
+         */
+        "withCaret": NativeButton['withCaret'];
+    }
+    interface IrCustomDatePicker {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose": boolean;
+        "clearDatePicker": () => Promise<void>;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker": boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date": string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat": string;
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled": boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate": boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate": boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline": boolean;
+        "label": string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates": boolean | number;
+        "openDatePicker": () => Promise<void>;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range": boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths": boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths": boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker": boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle": string;
+    }
+    interface IrCustomInput {
+        /**
+          * The input's visual appearance.
+         */
+        "appearance": NativeWaInput['appearance'];
+        /**
+          * Controls whether and how text input is automatically capitalized as it is entered by the user.
+         */
+        "autocapitalize": NativeWaInput['autocapitalize'];
+        /**
+          * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+         */
+        "autocomplete": NativeWaInput['autocomplete'];
+        /**
+          * Indicates whether the browser's autocorrect feature is on or off.
+         */
+        "autocorrect": NativeWaInput['autocorrect'];
+        /**
+          * Indicates that the input should receive focus on page load.
+         */
+        "autofocus": NativeWaInput['autofocus'];
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue": NativeWaInput['defaultValue'];
+        /**
+          * Used to customize the label or icon of the Enter key on virtual keyboards.
+         */
+        "enterkeyhint": NativeWaInput['enterkeyhint'];
+        /**
+          * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+         */
+        "form": NativeWaInput['form'];
+        /**
+          * The input's hint. If you need to display HTML, use the `hint` slot instead.
+         */
+        "hint": NativeWaInput['hint'];
+        /**
+          * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+         */
+        "inputmode": NativeWaInput['inputmode'];
+        /**
+          * The input's label. If you need to display HTML, use the `label` slot instead.
+         */
+        "label": NativeWaInput['label'];
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask": MaskProp;
+        /**
+          * The input's maximum value. Only applies to date and number input types.
+         */
+        "max": NativeWaInput['max'];
+        /**
+          * The maximum length of input that will be considered valid.
+         */
+        "maxlength": NativeWaInput['maxlength'];
+        /**
+          * The input's minimum value. Only applies to date and number input types.
+         */
+        "min": NativeWaInput['min'];
+        /**
+          * The minimum length of input that will be considered valid.
+         */
+        "minlength": NativeWaInput['minlength'];
+        /**
+          * Adds a button to toggle the password's visibility. Only applies to password types.
+         */
+        "passwordToggle": NativeWaInput['passwordToggle'];
+        /**
+          * Determines whether or not the password is currently visible. Only applies to password input types.
+         */
+        "passwordVisible": NativeWaInput['passwordVisible'];
+        /**
+          * A regular expression pattern to validate input against.
+         */
+        "pattern": NativeWaInput['pattern'];
+        /**
+          * Draws a pill-style input with rounded edges.
+         */
+        "pill": NativeWaInput['pill'];
+        /**
+          * Placeholder text to show as a hint when the input is empty.
+         */
+        "placeholder": NativeWaInput['placeholder'];
+        /**
+          * Makes the input readonly.
+         */
+        "readonly": NativeWaInput['readonly'];
+        /**
+          * Makes the input a required field.
+         */
+        "required": NativeWaInput['required'];
+        /**
+          * The input's size.
+         */
+        "size": NativeWaInput['size'];
+        /**
+          * Enables spell checking on the input.
+         */
+        "spellcheck": NativeWaInput['spellcheck'];
+        /**
+          * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+         */
+        "step": NativeWaInput['step'];
+        /**
+          * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+         */
+        "type": NativeWaInput['type'];
+        /**
+          * The value of the input.
+         */
+        "value": string;
+        /**
+          * Adds a clear button when the input is not empty.
+         */
+        "withClear": NativeWaInput['withClear'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+         */
+        "withHint": NativeWaInput['withHint'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+         */
+        "withLabel": NativeWaInput['withLabel'];
+        /**
+          * Hides the browser's built-in increment/decrement spin buttons for number inputs.
+         */
+        "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
     }
     interface IrDailyRevenue {
         "language": string;
@@ -810,39 +1209,68 @@ export namespace Components {
         "showDateDifference": boolean;
         "to_date": string | Date | moment.Moment;
     }
+    interface IrDatesCell {
+        "checkIn": string;
+        "checkOut": string;
+        "overdueCheckin": boolean;
+        "overdueCheckout": boolean;
+    }
     interface IrDeleteModal {
         "closeModal": () => Promise<void>;
         "openModal": () => Promise<void>;
         "user": IHouseKeepers;
     }
+    interface IrDepartures {
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrDeparturesFilter {
+    }
+    interface IrDeparturesTable {
+    }
     interface IrDialog {
-        /**
-          * Closes the dialog programmatically and restores focus to the previously active element.
-         */
         "closeModal": () => Promise<void>;
         /**
-          * Controls whether the dialog is open. Reflects to the host attribute for CSS hooks.
+          * The dialog's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the label slot instead.
+         */
+        "label": string;
+        /**
+          * When enabled, the dialog will be closed when the user clicks outside of it.
+         */
+        "lightDismiss": boolean;
+        /**
+          * Indicates whether or not the dialog is open. Toggle this attribute to show and hide the dialog.
          */
         "open": boolean;
-        /**
-          * Opens the dialog programmatically using the native `showModal` API.
-         */
         "openModal": () => Promise<void>;
+        /**
+          * Disables the header. This will also remove the default close button.
+         */
+        "withoutHeader": boolean;
     }
     interface IrDrawer {
-        "closeDrawer": () => Promise<void>;
         /**
-          * The title of the drawer
+          * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead.
          */
-        "drawerTitle": string;
+        "label": NativeDrawer['label'];
         /**
-          * Is the drawer open?
+          * When enabled, the drawer will be closed when the user clicks outside of it.
          */
-        "open": boolean;
+        "lightDismiss": NativeDrawer['lightDismiss'];
         /**
-          * The placement of the drawer
+          * Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer.
          */
-        "placement": 'left' | 'right';
+        "open": NativeDrawer['open'];
+        /**
+          * The direction from which the drawer will open.
+         */
+        "placement": NativeDrawer['placement'];
+        /**
+          * Disables the header. This will also remove the default close button.
+         */
+        "withoutHeader": NativeDrawer['withoutHeader'];
     }
     interface IrDropdown {
         "caret": boolean;
@@ -992,6 +1420,21 @@ export namespace Components {
         "language": string;
         "ticket": string;
     }
+    interface IrGuestInfoDrawer {
+        "booking_nbr": string;
+        "email": string;
+        "language": string;
+        "open": boolean;
+        "ticket": string;
+    }
+    interface IrGuestInfoForm {
+        "countries": ICountry[];
+        "guest": Guest;
+        "language": string;
+    }
+    interface IrGuestNameCell {
+        "name": Guest;
+    }
     interface IrHkArchive {
         "language": string;
         "propertyId": string | number;
@@ -1037,6 +1480,59 @@ export namespace Components {
           * Additional CSS class applied to the `<svg>` element. Can be used for sizing, positioning, etc.
          */
         "svgClassName": string;
+    }
+    interface IrInput {
+        /**
+          * If true, displays a clear (X) button when the input has a value.
+         */
+        "clearable": boolean;
+        "disabled": boolean;
+        /**
+          * The label text displayed alongside or above the input.
+         */
+        "label": string;
+        /**
+          * Controls where the label is positioned: 'default', 'side', or 'floating'.
+         */
+        "labelPosition": 'default' | 'side' | 'floating';
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask": MaskProp1;
+        /**
+          * Maximum allowed value (for number or masked inputs).
+         */
+        "max": number;
+        /**
+          * Maximum input length
+         */
+        "maxLength": number;
+        /**
+          * Minimum allowed value (for number or masked inputs).
+         */
+        "min": number;
+        /**
+          * Placeholder text displayed inside the input when empty.
+         */
+        "placeholder": string;
+        /**
+          * Hides the prefix slot content from assistive technologies when true.
+         */
+        "prefixHidden": boolean;
+        "readonly": boolean;
+        "required": boolean;
+        /**
+          * Hides the suffix slot content from assistive technologies when true.
+         */
+        "suffixHidden": boolean;
+        /**
+          * Type of input element — can be 'text', 'password', 'email', or 'number'.
+         */
+        "type": 'text' | 'password' | 'email' | 'number';
+        /**
+          * The value of the input.
+         */
+        "value": string;
     }
     interface IrInputText {
         /**
@@ -1222,6 +1718,42 @@ export namespace Components {
          */
         "suppressToastEndpoints": string[];
     }
+    interface IrInvoice {
+        /**
+          * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+         */
+        "autoPrint": boolean;
+        /**
+          * The booking object for which the invoice is being generated. Should contain room, guest, and pricing information.
+         */
+        "booking": Booking;
+        /**
+          * Closes the invoice drawer.  This method sets the `open` property to `false`, hiding the drawer. Parent components can call this to close the drawer programmatically, and it is also used internally when the drawer emits `onDrawerHide`.  Also emits the `invoiceClose` event.
+          * @returns Resolves once the drawer state is updated.
+         */
+        "closeDrawer": () => Promise<void>;
+        /**
+          * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+         */
+        "for": 'room' | 'booking';
+        /**
+          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
+         */
+        "mode": 'create' | 'check_in-create';
+        /**
+          * Whether the invoice drawer is open.  This prop is mutable and reflected to the host element, allowing parent components to control visibility via markup or via the public `openDrawer()` / `closeDrawer()` methods.
+         */
+        "open": boolean;
+        /**
+          * Opens the invoice drawer.  This method sets the `open` property to `true`, making the drawer visible. It can be called programmatically by parent components.  Also emits the `invoiceOpen` event.
+          * @returns Resolves once the drawer state is updated.
+         */
+        "openDrawer": () => Promise<void>;
+        /**
+          * The identifier of the room for which the invoice is being generated. Used when invoicing at room level instead of booking level.
+         */
+        "roomIdentifier": string;
+    }
     interface IrLabel {
         /**
           * inline styles for the component container
@@ -1339,32 +1871,47 @@ export namespace Components {
          */
         "value": string;
     }
-    interface IrMenuBar {
-        "focusFirstMenu": () => Promise<void>;
-    }
-    interface IrMenuBarItem {
+    interface IrMobileInput {
         /**
-          * The URL that the menu item should link to. When provided, the component renders as an `<a>` element.
+          * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
          */
-        "href"?: string;
+        "countries": ICountry[];
         /**
-          * Displays an `ir-new-badge` next to the trigger when set.
+          * Selected country ISO code. Component updates this prop when a new country is chosen
          */
-        "newBadge": boolean;
+        "countryCode"?: string;
         /**
-          * Specifies where to open the linked document. Mirrors the native HTML `target` attribute.  Possible values: - `_self` — Opens the link in the same browsing context (default) - `_blank` — Opens the link in a new tab or window - `_parent` — Opens the link in the parent frame - `_top` — Opens the link in the full body of the window
+          * Help text rendered under the label
          */
-        "target"?: '_self' | '_blank' | '_parent' | '_top';
-    }
-    interface IrMenuBarMenu {
+        "description"?: string;
         /**
-          * Displays an `ir-new-badge` next to the trigger when set.
+          * Whether the control is disabled
          */
-        "newBadge": boolean;
+        "disabled": boolean;
         /**
-          * Controls the open state of the dropdown menu. Can be toggled programmatically or via user interaction.
+          * Error message announced to screen readers
          */
-        "open": boolean;
+        "error"?: string;
+        /**
+          * Visible label for the phone input
+         */
+        "label": string;
+        /**
+          * Name attribute passed to the native input
+         */
+        "name": string;
+        /**
+          * Placeholder shown when the input is empty
+         */
+        "placeholder": string;
+        /**
+          * Native required attribute
+         */
+        "required": boolean;
+        /**
+          * Input value without formatting. Component keeps this prop in sync
+         */
+        "value": string;
     }
     interface IrModal {
         /**
@@ -1617,8 +2164,10 @@ export namespace Components {
     }
     interface IrPaymentFolio {
         "bookingNumber": string;
+        "closeFolio": () => Promise<void>;
         "mode": FolioEntryMode;
-        "payment": Payment;
+        "openFolio": () => Promise<void>;
+        "payment": Payment1;
         "paymentEntries": PaymentEntries1;
     }
     interface IrPaymentItem {
@@ -1671,6 +2220,7 @@ export namespace Components {
           * Two-letter language code used for country fetching.
          */
         "language": string;
+        "mode": 'modern' | 'default';
         /**
           * If provided, sets the phone prefix and updates selected country.
          */
@@ -1690,6 +2240,44 @@ export namespace Components {
         /**
           * Initial phone number value.
          */
+        "value": string;
+    }
+    interface IrPicker {
+        /**
+          * The input's visual appearance.
+         */
+        "appearance": NativeWaInput1['appearance'];
+        "close": () => Promise<void>;
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue": NativeWaInput1['defaultValue'];
+        /**
+          * Optional label applied to the text field.
+         */
+        "label"?: string;
+        "loading": boolean;
+        "mode": 'select' | 'default';
+        "open": () => Promise<void>;
+        "pill": boolean;
+        /**
+          * Placeholder shown inside the input when there is no query.
+         */
+        "placeholder": string;
+        /**
+          * The input's size.
+         */
+        "size": NativeWaInput1['size'];
+        /**
+          * Selected value (also shown in the input when `mode="select"`).
+         */
+        "value": string;
+    }
+    interface IrPickerItem {
+        "active": boolean;
+        "disabled": boolean;
+        "label": string;
+        "selected": boolean;
         "value": string;
     }
     interface IrPickup {
@@ -2096,6 +2684,14 @@ export namespace Components {
         "subtitle": string;
         "value": string;
     }
+    interface IrStatusActivityCell {
+        "bookingNumber": string;
+        "isRequestToCancel": boolean;
+        "lastManipulation": OTAManipulations;
+        "showManipulationBadge": boolean;
+        "showModifiedBadge": boolean;
+        "status": Booking['status'];
+    }
     interface IrSuccessLoader {
         /**
           * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
@@ -2170,6 +2766,8 @@ export namespace Components {
     interface IrTasksTablePagination {
     }
     interface IrTestCmp {
+    }
+    interface IrTest2Cmp {
     }
     interface IrTextEditor {
         "error": boolean;
@@ -2296,7 +2894,13 @@ export namespace Components {
          */
         "withHtml": boolean;
     }
+    interface IrUnitCell {
+        "room": Room;
+    }
     interface IrUnitStatus {
+    }
+    interface IrUnitTag {
+        "unit": string;
     }
     interface IrUserFormPanel {
         "allowedUsersTypes": AllowedUser[];
@@ -2331,6 +2935,33 @@ export namespace Components {
         "userTypeCode": string | number;
         "userTypes": Map<string | number, string>;
         "users": User[];
+    }
+    interface IrValidator {
+        /**
+          * Enables automatic validation on every value change.
+         */
+        "autovalidate"?: boolean;
+        /**
+          * Event names (space/comma separated) dispatched when the child loses focus.
+         */
+        "blurEvent": string;
+        /**
+          * Optional form id. Falls back to the closest ancestor form when omitted.
+         */
+        "form"?: string;
+        /**
+          * Zod schema used to validate the child control's value.
+         */
+        "schema": ZodTypeAny;
+        /**
+          * Debounce delay (ms) before running validation for autovalidated changes.
+         */
+        "validationDebounce": number;
+        "value": any;
+        /**
+          * Event names (space/comma separated) dispatched when the child value changes.
+         */
+        "valueEvent": string;
     }
     interface IrWeekdaySelector {
         /**
@@ -2475,6 +3106,10 @@ export interface IrAccordionCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAccordionElement;
 }
+export interface IrActionsCellCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrActionsCellElement;
+}
 export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrApplicablePoliciesElement;
@@ -2482,6 +3117,22 @@ export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
 export interface IrAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAutocompleteElement;
+}
+export interface IrBalanceCellCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBalanceCellElement;
+}
+export interface IrBookedBySourceCellCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookedBySourceCellElement;
+}
+export interface IrBookingBillingRecipientCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingBillingRecipientElement;
+}
+export interface IrBookingCompanyFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingCompanyFormElement;
 }
 export interface IrBookingDetailsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2494,6 +3145,14 @@ export interface IrBookingExtraNoteCustomEvent<T> extends CustomEvent<T> {
 export interface IrBookingHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingHeaderElement;
+}
+export interface IrBookingListingTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingListingTableElement;
+}
+export interface IrBookingNumberCellCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingNumberCellElement;
 }
 export interface IrButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2526,6 +3185,18 @@ export interface IrComboboxCustomEvent<T> extends CustomEvent<T> {
 export interface IrCountryPickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCountryPickerElement;
+}
+export interface IrCustomButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCustomButtonElement;
+}
+export interface IrCustomDatePickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCustomDatePickerElement;
+}
+export interface IrCustomInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCustomInputElement;
 }
 export interface IrDailyRevenueCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2587,6 +3258,14 @@ export interface IrGuestInfoCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoElement;
 }
+export interface IrGuestInfoDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrGuestInfoDrawerElement;
+}
+export interface IrGuestInfoFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrGuestInfoFormElement;
+}
 export interface IrHkTasksCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkTasksElement;
@@ -2607,6 +3286,10 @@ export interface IrIconCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrIconElement;
 }
+export interface IrInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrInputElement;
+}
 export interface IrInputTextCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrInputTextElement;
@@ -2614,6 +3297,10 @@ export interface IrInputTextCustomEvent<T> extends CustomEvent<T> {
 export interface IrInterceptorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrInterceptorElement;
+}
+export interface IrInvoiceCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrInvoiceElement;
 }
 export interface IrListingHeaderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2635,13 +3322,9 @@ export interface IrMComboboxItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMComboboxItemElement;
 }
-export interface IrMenuBarItemCustomEvent<T> extends CustomEvent<T> {
+export interface IrMobileInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLIrMenuBarItemElement;
-}
-export interface IrMenuBarMenuCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrMenuBarMenuElement;
+    target: HTMLIrMobileInputElement;
 }
 export interface IrModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2702,6 +3385,10 @@ export interface IrPaymentsFolioCustomEvent<T> extends CustomEvent<T> {
 export interface IrPhoneInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPhoneInputElement;
+}
+export interface IrPickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPickerElement;
 }
 export interface IrPickupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2810,6 +3497,10 @@ export interface IrUserFormPanelCustomEvent<T> extends CustomEvent<T> {
 export interface IrUserManagementTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrUserManagementTableElement;
+}
+export interface IrValidatorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrValidatorElement;
 }
 export interface IrWeekdaySelectorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -3355,6 +4046,23 @@ declare global {
         prototype: HTMLIrAccordionElement;
         new (): HTMLIrAccordionElement;
     };
+    interface HTMLIrActionsCellElementEventMap {
+        "irAction": { action: IrActionButton };
+    }
+    interface HTMLIrActionsCellElement extends Components.IrActionsCell, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrActionsCellElementEventMap>(type: K, listener: (this: HTMLIrActionsCellElement, ev: IrActionsCellCustomEvent<HTMLIrActionsCellElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrActionsCellElementEventMap>(type: K, listener: (this: HTMLIrActionsCellElement, ev: IrActionsCellCustomEvent<HTMLIrActionsCellElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrActionsCellElement: {
+        prototype: HTMLIrActionsCellElement;
+        new (): HTMLIrActionsCellElement;
+    };
     interface HTMLIrApplicablePoliciesElementEventMap {
         "generatePayment": IPaymentAction;
     }
@@ -3371,6 +4079,24 @@ declare global {
     var HTMLIrApplicablePoliciesElement: {
         prototype: HTMLIrApplicablePoliciesElement;
         new (): HTMLIrApplicablePoliciesElement;
+    };
+    interface HTMLIrArrivalsElement extends Components.IrArrivals, HTMLStencilElement {
+    }
+    var HTMLIrArrivalsElement: {
+        prototype: HTMLIrArrivalsElement;
+        new (): HTMLIrArrivalsElement;
+    };
+    interface HTMLIrArrivalsFiltersElement extends Components.IrArrivalsFilters, HTMLStencilElement {
+    }
+    var HTMLIrArrivalsFiltersElement: {
+        prototype: HTMLIrArrivalsFiltersElement;
+        new (): HTMLIrArrivalsFiltersElement;
+    };
+    interface HTMLIrArrivalsTableElement extends Components.IrArrivalsTable, HTMLStencilElement {
+    }
+    var HTMLIrArrivalsTableElement: {
+        prototype: HTMLIrArrivalsTableElement;
+        new (): HTMLIrArrivalsTableElement;
     };
     interface HTMLIrAutocompleteElementEventMap {
         "comboboxValue": { key: string; data: unknown };
@@ -3391,11 +4117,86 @@ declare global {
         prototype: HTMLIrAutocompleteElement;
         new (): HTMLIrAutocompleteElement;
     };
+    interface HTMLIrBalanceCellElementEventMap {
+        "payBookingBalance": { booking_nbr: string; payment: Payment };
+    }
+    interface HTMLIrBalanceCellElement extends Components.IrBalanceCell, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBalanceCellElementEventMap>(type: K, listener: (this: HTMLIrBalanceCellElement, ev: IrBalanceCellCustomEvent<HTMLIrBalanceCellElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBalanceCellElementEventMap>(type: K, listener: (this: HTMLIrBalanceCellElement, ev: IrBalanceCellCustomEvent<HTMLIrBalanceCellElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBalanceCellElement: {
+        prototype: HTMLIrBalanceCellElement;
+        new (): HTMLIrBalanceCellElement;
+    };
+    interface HTMLIrBookedBySourceCellElementEventMap {
+        "guestSelected": string;
+    }
+    interface HTMLIrBookedBySourceCellElement extends Components.IrBookedBySourceCell, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookedBySourceCellElementEventMap>(type: K, listener: (this: HTMLIrBookedBySourceCellElement, ev: IrBookedBySourceCellCustomEvent<HTMLIrBookedBySourceCellElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookedBySourceCellElementEventMap>(type: K, listener: (this: HTMLIrBookedBySourceCellElement, ev: IrBookedBySourceCellCustomEvent<HTMLIrBookedBySourceCellElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookedBySourceCellElement: {
+        prototype: HTMLIrBookedBySourceCellElement;
+        new (): HTMLIrBookedBySourceCellElement;
+    };
+    interface HTMLIrBookedOnCellElement extends Components.IrBookedOnCell, HTMLStencilElement {
+    }
+    var HTMLIrBookedOnCellElement: {
+        prototype: HTMLIrBookedOnCellElement;
+        new (): HTMLIrBookedOnCellElement;
+    };
     interface HTMLIrBookingElement extends Components.IrBooking, HTMLStencilElement {
     }
     var HTMLIrBookingElement: {
         prototype: HTMLIrBookingElement;
         new (): HTMLIrBookingElement;
+    };
+    interface HTMLIrBookingBillingRecipientElementEventMap {
+        "recipientChange": string;
+    }
+    interface HTMLIrBookingBillingRecipientElement extends Components.IrBookingBillingRecipient, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingBillingRecipientElementEventMap>(type: K, listener: (this: HTMLIrBookingBillingRecipientElement, ev: IrBookingBillingRecipientCustomEvent<HTMLIrBookingBillingRecipientElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingBillingRecipientElementEventMap>(type: K, listener: (this: HTMLIrBookingBillingRecipientElement, ev: IrBookingBillingRecipientCustomEvent<HTMLIrBookingBillingRecipientElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingBillingRecipientElement: {
+        prototype: HTMLIrBookingBillingRecipientElement;
+        new (): HTMLIrBookingBillingRecipientElement;
+    };
+    interface HTMLIrBookingCompanyFormElementEventMap {
+        "resetBookingEvt": Booking;
+        "companyFormClosed": void;
+    }
+    interface HTMLIrBookingCompanyFormElement extends Components.IrBookingCompanyForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingCompanyFormElementEventMap>(type: K, listener: (this: HTMLIrBookingCompanyFormElement, ev: IrBookingCompanyFormCustomEvent<HTMLIrBookingCompanyFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingCompanyFormElementEventMap>(type: K, listener: (this: HTMLIrBookingCompanyFormElement, ev: IrBookingCompanyFormCustomEvent<HTMLIrBookingCompanyFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingCompanyFormElement: {
+        prototype: HTMLIrBookingCompanyFormElement;
+        new (): HTMLIrBookingCompanyFormElement;
     };
     interface HTMLIrBookingDetailsElementEventMap {
         "toast": IToast;
@@ -3472,11 +4273,53 @@ declare global {
         prototype: HTMLIrBookingListingElement;
         new (): HTMLIrBookingListingElement;
     };
+    interface HTMLIrBookingListingTableElementEventMap {
+        "openBookingDetails": string;
+        "requestPageChange": PaginationChangeEvent;
+        "requestPageSizeChange": PaginationChangeEvent;
+    }
+    interface HTMLIrBookingListingTableElement extends Components.IrBookingListingTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingListingTableElementEventMap>(type: K, listener: (this: HTMLIrBookingListingTableElement, ev: IrBookingListingTableCustomEvent<HTMLIrBookingListingTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingListingTableElementEventMap>(type: K, listener: (this: HTMLIrBookingListingTableElement, ev: IrBookingListingTableCustomEvent<HTMLIrBookingListingTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingListingTableElement: {
+        prototype: HTMLIrBookingListingTableElement;
+        new (): HTMLIrBookingListingTableElement;
+    };
+    interface HTMLIrBookingNumberCellElementEventMap {
+        "openBookingDetails": Booking['booking_nbr'];
+    }
+    interface HTMLIrBookingNumberCellElement extends Components.IrBookingNumberCell, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingNumberCellElementEventMap>(type: K, listener: (this: HTMLIrBookingNumberCellElement, ev: IrBookingNumberCellCustomEvent<HTMLIrBookingNumberCellElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingNumberCellElementEventMap>(type: K, listener: (this: HTMLIrBookingNumberCellElement, ev: IrBookingNumberCellCustomEvent<HTMLIrBookingNumberCellElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingNumberCellElement: {
+        prototype: HTMLIrBookingNumberCellElement;
+        new (): HTMLIrBookingNumberCellElement;
+    };
     interface HTMLIrBookingPrintingElement extends Components.IrBookingPrinting, HTMLStencilElement {
     }
     var HTMLIrBookingPrintingElement: {
         prototype: HTMLIrBookingPrintingElement;
         new (): HTMLIrBookingPrintingElement;
+    };
+    interface HTMLIrBookingStatusTagElement extends Components.IrBookingStatusTag, HTMLStencilElement {
+    }
+    var HTMLIrBookingStatusTagElement: {
+        prototype: HTMLIrBookingStatusTagElement;
+        new (): HTMLIrBookingStatusTagElement;
     };
     interface HTMLIrButtonElementEventMap {
         "clickHandler": any;
@@ -3642,6 +4485,64 @@ declare global {
         prototype: HTMLIrCountryPickerElement;
         new (): HTMLIrCountryPickerElement;
     };
+    interface HTMLIrCustomButtonElementEventMap {
+        "clickHandler": MouseEvent;
+    }
+    interface HTMLIrCustomButtonElement extends Components.IrCustomButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCustomButtonElementEventMap>(type: K, listener: (this: HTMLIrCustomButtonElement, ev: IrCustomButtonCustomEvent<HTMLIrCustomButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCustomButtonElementEventMap>(type: K, listener: (this: HTMLIrCustomButtonElement, ev: IrCustomButtonCustomEvent<HTMLIrCustomButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCustomButtonElement: {
+        prototype: HTMLIrCustomButtonElement;
+        new (): HTMLIrCustomButtonElement;
+    };
+    interface HTMLIrCustomDatePickerElementEventMap {
+        "dateChanged": {
+    start: moment.Moment;
+    end: moment.Moment;
+  };
+        "datePickerFocus": void;
+        "datePickerBlur": void;
+    }
+    interface HTMLIrCustomDatePickerElement extends Components.IrCustomDatePicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCustomDatePickerElementEventMap>(type: K, listener: (this: HTMLIrCustomDatePickerElement, ev: IrCustomDatePickerCustomEvent<HTMLIrCustomDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCustomDatePickerElementEventMap>(type: K, listener: (this: HTMLIrCustomDatePickerElement, ev: IrCustomDatePickerCustomEvent<HTMLIrCustomDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCustomDatePickerElement: {
+        prototype: HTMLIrCustomDatePickerElement;
+        new (): HTMLIrCustomDatePickerElement;
+    };
+    interface HTMLIrCustomInputElementEventMap {
+        "text-change": string;
+        "input-blur": void;
+        "inputFocus": void;
+    }
+    interface HTMLIrCustomInputElement extends Components.IrCustomInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCustomInputElementEventMap>(type: K, listener: (this: HTMLIrCustomInputElement, ev: IrCustomInputCustomEvent<HTMLIrCustomInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCustomInputElementEventMap>(type: K, listener: (this: HTMLIrCustomInputElement, ev: IrCustomInputCustomEvent<HTMLIrCustomInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCustomInputElement: {
+        prototype: HTMLIrCustomInputElement;
+        new (): HTMLIrCustomInputElement;
+    };
     interface HTMLIrDailyRevenueElementEventMap {
         "preventPageLoad": null;
     }
@@ -3724,6 +4625,12 @@ declare global {
         prototype: HTMLIrDateViewElement;
         new (): HTMLIrDateViewElement;
     };
+    interface HTMLIrDatesCellElement extends Components.IrDatesCell, HTMLStencilElement {
+    }
+    var HTMLIrDatesCellElement: {
+        prototype: HTMLIrDatesCellElement;
+        new (): HTMLIrDatesCellElement;
+    };
     interface HTMLIrDeleteModalElementEventMap {
         "modalClosed": null;
         "resetData": string;
@@ -3742,8 +4649,29 @@ declare global {
         prototype: HTMLIrDeleteModalElement;
         new (): HTMLIrDeleteModalElement;
     };
+    interface HTMLIrDeparturesElement extends Components.IrDepartures, HTMLStencilElement {
+    }
+    var HTMLIrDeparturesElement: {
+        prototype: HTMLIrDeparturesElement;
+        new (): HTMLIrDeparturesElement;
+    };
+    interface HTMLIrDeparturesFilterElement extends Components.IrDeparturesFilter, HTMLStencilElement {
+    }
+    var HTMLIrDeparturesFilterElement: {
+        prototype: HTMLIrDeparturesFilterElement;
+        new (): HTMLIrDeparturesFilterElement;
+    };
+    interface HTMLIrDeparturesTableElement extends Components.IrDeparturesTable, HTMLStencilElement {
+    }
+    var HTMLIrDeparturesTableElement: {
+        prototype: HTMLIrDeparturesTableElement;
+        new (): HTMLIrDeparturesTableElement;
+    };
     interface HTMLIrDialogElementEventMap {
-        "openChange": boolean;
+        "irDialogShow": void;
+        "irDialogHide": { source: Element };
+        "irDialogAfterShow": void;
+        "irDialogAfterHide": void;
     }
     interface HTMLIrDialogElement extends Components.IrDialog, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrDialogElementEventMap>(type: K, listener: (this: HTMLIrDialogElement, ev: IrDialogCustomEvent<HTMLIrDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3760,8 +4688,8 @@ declare global {
         new (): HTMLIrDialogElement;
     };
     interface HTMLIrDrawerElementEventMap {
-        "drawerChange": boolean;
-        "drawerCloseRequested": void;
+        "drawerShow": void;
+        "drawerHide": { source: Element };
     }
     interface HTMLIrDrawerElement extends Components.IrDrawer, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrDrawerElementEventMap>(type: K, listener: (this: HTMLIrDrawerElement, ev: IrDrawerCustomEvent<HTMLIrDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3945,6 +4873,48 @@ declare global {
         prototype: HTMLIrGuestInfoElement;
         new (): HTMLIrGuestInfoElement;
     };
+    interface HTMLIrGuestInfoDrawerElementEventMap {
+        "guestInfoDrawerClosed": { source: Element };
+        "resetBookingEvt": null;
+        "toast": IToast;
+    }
+    interface HTMLIrGuestInfoDrawerElement extends Components.IrGuestInfoDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrGuestInfoDrawerElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoDrawerElement, ev: IrGuestInfoDrawerCustomEvent<HTMLIrGuestInfoDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrGuestInfoDrawerElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoDrawerElement, ev: IrGuestInfoDrawerCustomEvent<HTMLIrGuestInfoDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrGuestInfoDrawerElement: {
+        prototype: HTMLIrGuestInfoDrawerElement;
+        new (): HTMLIrGuestInfoDrawerElement;
+    };
+    interface HTMLIrGuestInfoFormElementEventMap {
+        "guestChanged": Guest;
+    }
+    interface HTMLIrGuestInfoFormElement extends Components.IrGuestInfoForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrGuestInfoFormElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoFormElement, ev: IrGuestInfoFormCustomEvent<HTMLIrGuestInfoFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrGuestInfoFormElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoFormElement, ev: IrGuestInfoFormCustomEvent<HTMLIrGuestInfoFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrGuestInfoFormElement: {
+        prototype: HTMLIrGuestInfoFormElement;
+        new (): HTMLIrGuestInfoFormElement;
+    };
+    interface HTMLIrGuestNameCellElement extends Components.IrGuestNameCell, HTMLStencilElement {
+    }
+    var HTMLIrGuestNameCellElement: {
+        prototype: HTMLIrGuestNameCellElement;
+        new (): HTMLIrGuestNameCellElement;
+    };
     interface HTMLIrHkArchiveElement extends Components.IrHkArchive, HTMLStencilElement {
     }
     var HTMLIrHkArchiveElement: {
@@ -4050,6 +5020,26 @@ declare global {
         prototype: HTMLIrIconsElement;
         new (): HTMLIrIconsElement;
     };
+    interface HTMLIrInputElementEventMap {
+        "input-change": string;
+        "cleared": void;
+        "input-focus": FocusEvent;
+        "input-blur": FocusEvent;
+    }
+    interface HTMLIrInputElement extends Components.IrInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrInputElementEventMap>(type: K, listener: (this: HTMLIrInputElement, ev: IrInputCustomEvent<HTMLIrInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrInputElementEventMap>(type: K, listener: (this: HTMLIrInputElement, ev: IrInputCustomEvent<HTMLIrInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrInputElement: {
+        prototype: HTMLIrInputElement;
+        new (): HTMLIrInputElement;
+    };
     interface HTMLIrInputTextElementEventMap {
         "textChange": any;
         "inputBlur": FocusEvent;
@@ -4091,6 +5081,31 @@ declare global {
     var HTMLIrInterceptorElement: {
         prototype: HTMLIrInterceptorElement;
         new (): HTMLIrInterceptorElement;
+    };
+    interface HTMLIrInvoiceElementEventMap {
+        "invoiceOpen": void;
+        "invoiceClose": void;
+        "invoiceCreated": {
+    booking: Booking;
+    recipientId: string;
+    for: 'room' | 'booking';
+    roomIdentifier?: string;
+    mode: 'create' | 'check_in-create';
+  };
+    }
+    interface HTMLIrInvoiceElement extends Components.IrInvoice, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrInvoiceElementEventMap>(type: K, listener: (this: HTMLIrInvoiceElement, ev: IrInvoiceCustomEvent<HTMLIrInvoiceElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrInvoiceElementEventMap>(type: K, listener: (this: HTMLIrInvoiceElement, ev: IrInvoiceCustomEvent<HTMLIrInvoiceElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrInvoiceElement: {
+        prototype: HTMLIrInvoiceElement;
+        new (): HTMLIrInvoiceElement;
     };
     interface HTMLIrLabelElement extends Components.IrLabel, HTMLStencilElement {
     }
@@ -4202,45 +5217,23 @@ declare global {
         prototype: HTMLIrMComboboxItemElement;
         new (): HTMLIrMComboboxItemElement;
     };
-    interface HTMLIrMenuBarElement extends Components.IrMenuBar, HTMLStencilElement {
+    interface HTMLIrMobileInputElementEventMap {
+        "mobile-input-change": IrMobileInputChangeDetail;
+        "mobile-input-country-change": ICountry;
     }
-    var HTMLIrMenuBarElement: {
-        prototype: HTMLIrMenuBarElement;
-        new (): HTMLIrMenuBarElement;
-    };
-    interface HTMLIrMenuBarItemElementEventMap {
-        "menu-bar-item-click": MouseEvent;
-    }
-    interface HTMLIrMenuBarItemElement extends Components.IrMenuBarItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrMenuBarItemElementEventMap>(type: K, listener: (this: HTMLIrMenuBarItemElement, ev: IrMenuBarItemCustomEvent<HTMLIrMenuBarItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLIrMobileInputElement extends Components.IrMobileInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMobileInputElementEventMap>(type: K, listener: (this: HTMLIrMobileInputElement, ev: IrMobileInputCustomEvent<HTMLIrMobileInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrMenuBarItemElementEventMap>(type: K, listener: (this: HTMLIrMenuBarItemElement, ev: IrMenuBarItemCustomEvent<HTMLIrMenuBarItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMobileInputElementEventMap>(type: K, listener: (this: HTMLIrMobileInputElement, ev: IrMobileInputCustomEvent<HTMLIrMobileInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLIrMenuBarItemElement: {
-        prototype: HTMLIrMenuBarItemElement;
-        new (): HTMLIrMenuBarItemElement;
-    };
-    interface HTMLIrMenuBarMenuElementEventMap {
-        "menuBarOpenChange": boolean;
-    }
-    interface HTMLIrMenuBarMenuElement extends Components.IrMenuBarMenu, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrMenuBarMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuBarMenuElement, ev: IrMenuBarMenuCustomEvent<HTMLIrMenuBarMenuElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrMenuBarMenuElementEventMap>(type: K, listener: (this: HTMLIrMenuBarMenuElement, ev: IrMenuBarMenuCustomEvent<HTMLIrMenuBarMenuElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrMenuBarMenuElement: {
-        prototype: HTMLIrMenuBarMenuElement;
-        new (): HTMLIrMenuBarMenuElement;
+    var HTMLIrMobileInputElement: {
+        prototype: HTMLIrMobileInputElement;
+        new (): HTMLIrMobileInputElement;
     };
     interface HTMLIrModalElementEventMap {
         "confirmModal": any;
@@ -4448,6 +5441,7 @@ declare global {
         "resetExposedCancellationDueAmount": null;
         "toast": IToast;
         "openSidebar": PaymentSidebarEvent;
+        "openPrintScreen": PrintScreenOptions;
     }
     interface HTMLIrPaymentDetailsElement extends Components.IrPaymentDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPaymentDetailsElementEventMap>(type: K, listener: (this: HTMLIrPaymentDetailsElement, ev: IrPaymentDetailsCustomEvent<HTMLIrPaymentDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4485,6 +5479,7 @@ declare global {
     interface HTMLIrPaymentItemElementEventMap {
         "editPayment": IPayment;
         "deletePayment": IPayment;
+        "issueReceipt": IPayment;
     }
     interface HTMLIrPaymentItemElement extends Components.IrPaymentItem, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPaymentItemElementEventMap>(type: K, listener: (this: HTMLIrPaymentItemElement, ev: IrPaymentItemCustomEvent<HTMLIrPaymentItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4527,6 +5522,7 @@ declare global {
         "addPayment": void;
         "editPayment": IPayment;
         "deletePayment": IPayment;
+        "issueReceipt": IPayment;
     }
     interface HTMLIrPaymentsFolioElement extends Components.IrPaymentsFolio, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPaymentsFolioElementEventMap>(type: K, listener: (this: HTMLIrPaymentsFolioElement, ev: IrPaymentsFolioCustomEvent<HTMLIrPaymentsFolioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4558,6 +5554,29 @@ declare global {
     var HTMLIrPhoneInputElement: {
         prototype: HTMLIrPhoneInputElement;
         new (): HTMLIrPhoneInputElement;
+    };
+    interface HTMLIrPickerElementEventMap {
+        "combobox-select": IrComboboxSelectEventDetail;
+    }
+    interface HTMLIrPickerElement extends Components.IrPicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPickerElementEventMap>(type: K, listener: (this: HTMLIrPickerElement, ev: IrPickerCustomEvent<HTMLIrPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPickerElementEventMap>(type: K, listener: (this: HTMLIrPickerElement, ev: IrPickerCustomEvent<HTMLIrPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrPickerElement: {
+        prototype: HTMLIrPickerElement;
+        new (): HTMLIrPickerElement;
+    };
+    interface HTMLIrPickerItemElement extends Components.IrPickerItem, HTMLStencilElement {
+    }
+    var HTMLIrPickerItemElement: {
+        prototype: HTMLIrPickerItemElement;
+        new (): HTMLIrPickerItemElement;
     };
     interface HTMLIrPickupElementEventMap {
         "closeModal": null;
@@ -4911,6 +5930,12 @@ declare global {
         prototype: HTMLIrStatsCardElement;
         new (): HTMLIrStatsCardElement;
     };
+    interface HTMLIrStatusActivityCellElement extends Components.IrStatusActivityCell, HTMLStencilElement {
+    }
+    var HTMLIrStatusActivityCellElement: {
+        prototype: HTMLIrStatusActivityCellElement;
+        new (): HTMLIrStatusActivityCellElement;
+    };
     interface HTMLIrSuccessLoaderElementEventMap {
         "loaderComplete": void;
     }
@@ -5046,6 +6071,12 @@ declare global {
         prototype: HTMLIrTestCmpElement;
         new (): HTMLIrTestCmpElement;
     };
+    interface HTMLIrTest2CmpElement extends Components.IrTest2Cmp, HTMLStencilElement {
+    }
+    var HTMLIrTest2CmpElement: {
+        prototype: HTMLIrTest2CmpElement;
+        new (): HTMLIrTest2CmpElement;
+    };
     interface HTMLIrTextEditorElementEventMap {
         "textChange": string;
     }
@@ -5109,6 +6140,12 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrUnitCellElement extends Components.IrUnitCell, HTMLStencilElement {
+    }
+    var HTMLIrUnitCellElement: {
+        prototype: HTMLIrUnitCellElement;
+        new (): HTMLIrUnitCellElement;
+    };
     interface HTMLIrUnitStatusElementEventMap {
         "resetData": null;
     }
@@ -5125,6 +6162,12 @@ declare global {
     var HTMLIrUnitStatusElement: {
         prototype: HTMLIrUnitStatusElement;
         new (): HTMLIrUnitStatusElement;
+    };
+    interface HTMLIrUnitTagElement extends Components.IrUnitTag, HTMLStencilElement {
+    }
+    var HTMLIrUnitTagElement: {
+        prototype: HTMLIrUnitTagElement;
+        new (): HTMLIrUnitTagElement;
     };
     interface HTMLIrUserFormPanelElementEventMap {
         "resetData": null;
@@ -5167,6 +6210,24 @@ declare global {
     var HTMLIrUserManagementTableElement: {
         prototype: HTMLIrUserManagementTableElement;
         new (): HTMLIrUserManagementTableElement;
+    };
+    interface HTMLIrValidatorElementEventMap {
+        "irValidationChange": { valid: boolean; value: unknown };
+        "irValueChange": { value: unknown };
+    }
+    interface HTMLIrValidatorElement extends Components.IrValidator, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrValidatorElementEventMap>(type: K, listener: (this: HTMLIrValidatorElement, ev: IrValidatorCustomEvent<HTMLIrValidatorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrValidatorElementEventMap>(type: K, listener: (this: HTMLIrValidatorElement, ev: IrValidatorCustomEvent<HTMLIrValidatorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrValidatorElement: {
+        prototype: HTMLIrValidatorElement;
+        new (): HTMLIrValidatorElement;
     };
     interface HTMLIrWeekdaySelectorElementEventMap {
         "weekdayChange": number[];
@@ -5227,16 +6288,28 @@ declare global {
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-accordion": HTMLIrAccordionElement;
+        "ir-actions-cell": HTMLIrActionsCellElement;
         "ir-applicable-policies": HTMLIrApplicablePoliciesElement;
+        "ir-arrivals": HTMLIrArrivalsElement;
+        "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
+        "ir-arrivals-table": HTMLIrArrivalsTableElement;
         "ir-autocomplete": HTMLIrAutocompleteElement;
+        "ir-balance-cell": HTMLIrBalanceCellElement;
+        "ir-booked-by-source-cell": HTMLIrBookedBySourceCellElement;
+        "ir-booked-on-cell": HTMLIrBookedOnCellElement;
         "ir-booking": HTMLIrBookingElement;
+        "ir-booking-billing-recipient": HTMLIrBookingBillingRecipientElement;
+        "ir-booking-company-form": HTMLIrBookingCompanyFormElement;
         "ir-booking-details": HTMLIrBookingDetailsElement;
         "ir-booking-email-logs": HTMLIrBookingEmailLogsElement;
         "ir-booking-extra-note": HTMLIrBookingExtraNoteElement;
         "ir-booking-guarantee": HTMLIrBookingGuaranteeElement;
         "ir-booking-header": HTMLIrBookingHeaderElement;
         "ir-booking-listing": HTMLIrBookingListingElement;
+        "ir-booking-listing-table": HTMLIrBookingListingTableElement;
+        "ir-booking-number-cell": HTMLIrBookingNumberCellElement;
         "ir-booking-printing": HTMLIrBookingPrintingElement;
+        "ir-booking-status-tag": HTMLIrBookingStatusTagElement;
         "ir-button": HTMLIrButtonElement;
         "ir-channel": HTMLIrChannelElement;
         "ir-channel-editor": HTMLIrChannelEditorElement;
@@ -5249,12 +6322,19 @@ declare global {
         "ir-common": HTMLIrCommonElement;
         "ir-copy-button": HTMLIrCopyButtonElement;
         "ir-country-picker": HTMLIrCountryPickerElement;
+        "ir-custom-button": HTMLIrCustomButtonElement;
+        "ir-custom-date-picker": HTMLIrCustomDatePickerElement;
+        "ir-custom-input": HTMLIrCustomInputElement;
         "ir-daily-revenue": HTMLIrDailyRevenueElement;
         "ir-daily-revenue-filters": HTMLIrDailyRevenueFiltersElement;
         "ir-date-picker": HTMLIrDatePickerElement;
         "ir-date-range": HTMLIrDateRangeElement;
         "ir-date-view": HTMLIrDateViewElement;
+        "ir-dates-cell": HTMLIrDatesCellElement;
         "ir-delete-modal": HTMLIrDeleteModalElement;
+        "ir-departures": HTMLIrDeparturesElement;
+        "ir-departures-filter": HTMLIrDeparturesFilterElement;
+        "ir-departures-table": HTMLIrDeparturesTableElement;
         "ir-dialog": HTMLIrDialogElement;
         "ir-drawer": HTMLIrDrawerElement;
         "ir-dropdown": HTMLIrDropdownElement;
@@ -5269,6 +6349,9 @@ declare global {
         "ir-financial-summary": HTMLIrFinancialSummaryElement;
         "ir-financial-table": HTMLIrFinancialTableElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
+        "ir-guest-info-drawer": HTMLIrGuestInfoDrawerElement;
+        "ir-guest-info-form": HTMLIrGuestInfoFormElement;
+        "ir-guest-name-cell": HTMLIrGuestNameCellElement;
         "ir-hk-archive": HTMLIrHkArchiveElement;
         "ir-hk-tasks": HTMLIrHkTasksElement;
         "ir-hk-team": HTMLIrHkTeamElement;
@@ -5277,9 +6360,11 @@ declare global {
         "ir-housekeeping": HTMLIrHousekeepingElement;
         "ir-icon": HTMLIrIconElement;
         "ir-icons": HTMLIrIconsElement;
+        "ir-input": HTMLIrInputElement;
         "ir-input-text": HTMLIrInputTextElement;
         "ir-interactive-title": HTMLIrInteractiveTitleElement;
         "ir-interceptor": HTMLIrInterceptorElement;
+        "ir-invoice": HTMLIrInvoiceElement;
         "ir-label": HTMLIrLabelElement;
         "ir-listing-header": HTMLIrListingHeaderElement;
         "ir-listing-modal": HTMLIrListingModalElement;
@@ -5288,9 +6373,7 @@ declare global {
         "ir-m-combobox": HTMLIrMComboboxElement;
         "ir-m-combobox-booking-item": HTMLIrMComboboxBookingItemElement;
         "ir-m-combobox-item": HTMLIrMComboboxItemElement;
-        "ir-menu-bar": HTMLIrMenuBarElement;
-        "ir-menu-bar-item": HTMLIrMenuBarItemElement;
-        "ir-menu-bar-menu": HTMLIrMenuBarMenuElement;
+        "ir-mobile-input": HTMLIrMobileInputElement;
         "ir-modal": HTMLIrModalElement;
         "ir-monthly-bookings-report": HTMLIrMonthlyBookingsReportElement;
         "ir-monthly-bookings-report-filter": HTMLIrMonthlyBookingsReportFilterElement;
@@ -5313,6 +6396,8 @@ declare global {
         "ir-payment-summary": HTMLIrPaymentSummaryElement;
         "ir-payments-folio": HTMLIrPaymentsFolioElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
+        "ir-picker": HTMLIrPickerElement;
+        "ir-picker-item": HTMLIrPickerItemElement;
         "ir-pickup": HTMLIrPickupElement;
         "ir-pickup-view": HTMLIrPickupViewElement;
         "ir-pms-logs": HTMLIrPmsLogsElement;
@@ -5344,6 +6429,7 @@ declare global {
         "ir-span": HTMLIrSpanElement;
         "ir-spinner": HTMLIrSpinnerElement;
         "ir-stats-card": HTMLIrStatsCardElement;
+        "ir-status-activity-cell": HTMLIrStatusActivityCellElement;
         "ir-success-loader": HTMLIrSuccessLoaderElement;
         "ir-switch": HTMLIrSwitchElement;
         "ir-tabs": HTMLIrTabsElement;
@@ -5353,15 +6439,19 @@ declare global {
         "ir-tasks-table": HTMLIrTasksTableElement;
         "ir-tasks-table-pagination": HTMLIrTasksTablePaginationElement;
         "ir-test-cmp": HTMLIrTestCmpElement;
+        "ir-test2-cmp": HTMLIrTest2CmpElement;
         "ir-text-editor": HTMLIrTextEditorElement;
         "ir-textarea": HTMLIrTextareaElement;
         "ir-title": HTMLIrTitleElement;
         "ir-toast": HTMLIrToastElement;
         "ir-tooltip": HTMLIrTooltipElement;
+        "ir-unit-cell": HTMLIrUnitCellElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
+        "ir-unit-tag": HTMLIrUnitTagElement;
         "ir-user-form-panel": HTMLIrUserFormPanelElement;
         "ir-user-management": HTMLIrUserManagementElement;
         "ir-user-management-table": HTMLIrUserManagementTableElement;
+        "ir-validator": HTMLIrValidatorElement;
         "ir-weekday-selector": HTMLIrWeekdaySelectorElement;
         "ota-label": HTMLOtaLabelElement;
         "requirement-check": HTMLRequirementCheckElement;
@@ -5708,11 +6798,25 @@ declare namespace LocalJSX {
          */
         "onIr-toggle"?: (event: IrAccordionCustomEvent<{ expanded: boolean }>) => void;
     }
+    interface IrActionsCell {
+        "buttons"?: IrActionButton[];
+        "onIrAction"?: (event: IrActionsCellCustomEvent<{ action: IrActionButton }>) => void;
+    }
     interface IrApplicablePolicies {
         "booking"?: Booking;
         "language"?: string;
         "onGeneratePayment"?: (event: IrApplicablePoliciesCustomEvent<IPaymentAction>) => void;
         "propertyId"?: number;
+    }
+    interface IrArrivals {
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrArrivalsFilters {
+    }
+    interface IrArrivalsTable {
     }
     interface IrAutocomplete {
         "danger_border"?: boolean;
@@ -5733,10 +6837,84 @@ declare namespace LocalJSX {
         "type"?: 'email' | 'text' | 'password' | 'number' | 'search';
         "value"?: string;
     }
+    interface IrBalanceCell {
+        "bookingNumber": string;
+        "currencySymbol": string;
+        "financial": Booking['financial'];
+        "isDirect": boolean;
+        "onPayBookingBalance"?: (event: IrBalanceCellCustomEvent<{ booking_nbr: string; payment: Payment }>) => void;
+        "statusCode": string;
+    }
+    interface IrBookedBySourceCell {
+        /**
+          * Makes the guest name clickable. Emits `openGuestDetails` when clicked.
+         */
+        "clickableGuest"?: boolean;
+        /**
+          * Guest associated with this booking.
+         */
+        "guest"?: Booking['guest'];
+        /**
+          * Unique identifier for this cell. Used for tooltip scoping.
+         */
+        "identifier"?: string;
+        /**
+          * Emitted when the guest name is clicked. Sends the `identifier` for parent lookup.
+         */
+        "onGuestSelected"?: (event: IrBookedBySourceCellCustomEvent<string>) => void;
+        /**
+          * Origin metadata containing label + icon used as logo.
+         */
+        "origin"?: Booking['origin'];
+        /**
+          * Promo key if a promo/coupon was applied.
+         */
+        "promoKey"?: string;
+        /**
+          * Show loyalty discount icon (pink heart-outline).
+         */
+        "showLoyaltyIcon"?: boolean;
+        /**
+          * Show total persons count (e.g. "3P").
+         */
+        "showPersons"?: boolean;
+        /**
+          * Show yellow dot indicating the booking has a private note.
+         */
+        "showPrivateNoteDot"?: boolean;
+        /**
+          * Show promo/coupon icon.
+         */
+        "showPromoIcon"?: boolean;
+        /**
+          * Show pink heart icon if guest has repeated bookings.
+         */
+        "showRepeatGuestBadge"?: boolean;
+        /**
+          * Source of the booking (e.g. website, channel).
+         */
+        "source"?: Booking['source'];
+        /**
+          * Total number of persons staying (adults + children).
+         */
+        "totalPersons"?: string;
+    }
+    interface IrBookedOnCell {
+        "bookedOn"?: Booking['booked_on'];
+    }
     interface IrBooking {
         "bookingNumber"?: string;
         "p"?: string;
         "propertyid"?: number;
+    }
+    interface IrBookingBillingRecipient {
+        "booking"?: Booking;
+        "onRecipientChange"?: (event: IrBookingBillingRecipientCustomEvent<string>) => void;
+    }
+    interface IrBookingCompanyForm {
+        "booking"?: Booking;
+        "onCompanyFormClosed"?: (event: IrBookingCompanyFormCustomEvent<void>) => void;
+        "onResetBookingEvt"?: (event: IrBookingCompanyFormCustomEvent<Booking>) => void;
     }
     interface IrBookingDetails {
         "bookingNumber"?: string;
@@ -5766,6 +6944,7 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "onCloseModal"?: (event: IrBookingExtraNoteCustomEvent<null>) => void;
         "onResetBookingEvt"?: (event: IrBookingExtraNoteCustomEvent<Booking | null>) => void;
+        "open"?: boolean;
     }
     interface IrBookingGuarantee {
         "booking"?: Booking;
@@ -5793,6 +6972,16 @@ declare namespace LocalJSX {
         "ticket"?: string;
         "userType"?: number;
     }
+    interface IrBookingListingTable {
+        "onOpenBookingDetails"?: (event: IrBookingListingTableCustomEvent<string>) => void;
+        "onRequestPageChange"?: (event: IrBookingListingTableCustomEvent<PaginationChangeEvent>) => void;
+        "onRequestPageSizeChange"?: (event: IrBookingListingTableCustomEvent<PaginationChangeEvent>) => void;
+    }
+    interface IrBookingNumberCell {
+        "bookingNumber"?: Booking['booking_nbr'];
+        "channelBookingNumber"?: Booking['channel_booking_nbr'];
+        "onOpenBookingDetails"?: (event: IrBookingNumberCellCustomEvent<Booking['booking_nbr']>) => void;
+    }
     interface IrBookingPrinting {
         "bookingNumber"?: string;
         "countries"?: any;
@@ -5800,6 +6989,10 @@ declare namespace LocalJSX {
         "mode"?: 'invoice' | 'default';
         "propertyid"?: number;
         "token"?: string;
+    }
+    interface IrBookingStatusTag {
+        "isRequestToCancel"?: Booking['is_requested_to_cancel'];
+        "status"?: Booking['status'];
     }
     interface IrButton {
         /**
@@ -6026,6 +7219,302 @@ declare namespace LocalJSX {
           * Test ID for automated testing.
          */
         "testId"?: string;
+        "variant"?: 'modern' | 'default';
+    }
+    interface IrCustomButton {
+        /**
+          * The button's visual appearance.
+         */
+        "appearance"?: NativeButton['appearance'];
+        /**
+          * Disables the button. Does not apply to link buttons.
+         */
+        "disabled"?: NativeButton['disabled'];
+        /**
+          * Tells the browser to download the linked file as this filename. Only used when `href` is present.
+         */
+        "download"?: NativeButton['download'];
+        /**
+          * The "form owner" to associate the button with. If omitted, the closest containing form will be used instead. The value of this attribute must be an id of a form in the same document or shadow root as the button.
+         */
+        "form"?: NativeButton['form'];
+        /**
+          * Used to override the form owner's `action` attribute.
+         */
+        "formAction"?: NativeButton['formAction'];
+        /**
+          * Used to override the form owner's `enctype` attribute.
+         */
+        "formEnctype"?: NativeButton['formEnctype'];
+        /**
+          * Used to override the form owner's `method` attribute.
+         */
+        "formMethod"?: NativeButton['formMethod'];
+        /**
+          * Used to override the form owner's `novalidate` attribute.
+         */
+        "formNoValidate"?: NativeButton['formNoValidate'];
+        /**
+          * Used to override the form owner's `target` attribute.
+         */
+        "formTarget"?: NativeButton['formTarget'];
+        /**
+          * When set, the underlying button will be rendered as an `<a>` with this `href` instead of a `<button>`.
+         */
+        "href"?: NativeButton['href'];
+        "iconBtn"?: boolean;
+        "link"?: boolean;
+        /**
+          * Draws the button in a loading state.
+         */
+        "loading"?: NativeButton['loading'];
+        /**
+          * The name of the button, submitted as a name/value pair with form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+         */
+        "name"?: NativeButton['name'];
+        "onClickHandler"?: (event: IrCustomButtonCustomEvent<MouseEvent>) => void;
+        /**
+          * Draws a pill-style button with rounded edges.
+         */
+        "pill"?: NativeButton['pill'];
+        /**
+          * When using `href`, this attribute will map to the underlying link's `rel` attribute.
+         */
+        "rel"?: NativeButton['rel'];
+        /**
+          * The button's size.
+         */
+        "size"?: NativeButton['size'];
+        /**
+          * Tells the browser where to open the link. Only used when `href` is present.
+         */
+        "target"?: NativeButton['target'];
+        /**
+          * The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
+         */
+        "type"?: NativeButton['type'];
+        /**
+          * The value of the button, submitted as a pair with the button's name as part of the form data, but only when this button is the submitter. This attribute is ignored when `href` is present.
+         */
+        "value"?: NativeButton['value'];
+        /**
+          * The button's theme variant. Defaults to `neutral` if not within another element with a variant.
+         */
+        "variant"?: NativeButton['variant'];
+        /**
+          * Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
+         */
+        "withCaret"?: NativeButton['withCaret'];
+    }
+    interface IrCustomDatePicker {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose"?: boolean;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker"?: boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date"?: string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat"?: string;
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate"?: boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate"?: boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline"?: boolean;
+        "label"?: string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates"?: boolean | number;
+        "onDateChanged"?: (event: IrCustomDatePickerCustomEvent<{
+    start: moment.Moment;
+    end: moment.Moment;
+  }>) => void;
+        "onDatePickerBlur"?: (event: IrCustomDatePickerCustomEvent<void>) => void;
+        "onDatePickerFocus"?: (event: IrCustomDatePickerCustomEvent<void>) => void;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range"?: boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths"?: boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths"?: boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker"?: boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle"?: string;
+    }
+    interface IrCustomInput {
+        /**
+          * The input's visual appearance.
+         */
+        "appearance"?: NativeWaInput['appearance'];
+        /**
+          * Controls whether and how text input is automatically capitalized as it is entered by the user.
+         */
+        "autocapitalize"?: NativeWaInput['autocapitalize'];
+        /**
+          * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+         */
+        "autocomplete"?: NativeWaInput['autocomplete'];
+        /**
+          * Indicates whether the browser's autocorrect feature is on or off.
+         */
+        "autocorrect"?: NativeWaInput['autocorrect'];
+        /**
+          * Indicates that the input should receive focus on page load.
+         */
+        "autofocus"?: NativeWaInput['autofocus'];
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue"?: NativeWaInput['defaultValue'];
+        /**
+          * Used to customize the label or icon of the Enter key on virtual keyboards.
+         */
+        "enterkeyhint"?: NativeWaInput['enterkeyhint'];
+        /**
+          * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+         */
+        "form"?: NativeWaInput['form'];
+        /**
+          * The input's hint. If you need to display HTML, use the `hint` slot instead.
+         */
+        "hint"?: NativeWaInput['hint'];
+        /**
+          * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+         */
+        "inputmode"?: NativeWaInput['inputmode'];
+        /**
+          * The input's label. If you need to display HTML, use the `label` slot instead.
+         */
+        "label"?: NativeWaInput['label'];
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask"?: MaskProp;
+        /**
+          * The input's maximum value. Only applies to date and number input types.
+         */
+        "max"?: NativeWaInput['max'];
+        /**
+          * The maximum length of input that will be considered valid.
+         */
+        "maxlength"?: NativeWaInput['maxlength'];
+        /**
+          * The input's minimum value. Only applies to date and number input types.
+         */
+        "min"?: NativeWaInput['min'];
+        /**
+          * The minimum length of input that will be considered valid.
+         */
+        "minlength"?: NativeWaInput['minlength'];
+        "onInput-blur"?: (event: IrCustomInputCustomEvent<void>) => void;
+        "onInputFocus"?: (event: IrCustomInputCustomEvent<void>) => void;
+        "onText-change"?: (event: IrCustomInputCustomEvent<string>) => void;
+        /**
+          * Adds a button to toggle the password's visibility. Only applies to password types.
+         */
+        "passwordToggle"?: NativeWaInput['passwordToggle'];
+        /**
+          * Determines whether or not the password is currently visible. Only applies to password input types.
+         */
+        "passwordVisible"?: NativeWaInput['passwordVisible'];
+        /**
+          * A regular expression pattern to validate input against.
+         */
+        "pattern"?: NativeWaInput['pattern'];
+        /**
+          * Draws a pill-style input with rounded edges.
+         */
+        "pill"?: NativeWaInput['pill'];
+        /**
+          * Placeholder text to show as a hint when the input is empty.
+         */
+        "placeholder"?: NativeWaInput['placeholder'];
+        /**
+          * Makes the input readonly.
+         */
+        "readonly"?: NativeWaInput['readonly'];
+        /**
+          * Makes the input a required field.
+         */
+        "required"?: NativeWaInput['required'];
+        /**
+          * The input's size.
+         */
+        "size"?: NativeWaInput['size'];
+        /**
+          * Enables spell checking on the input.
+         */
+        "spellcheck"?: NativeWaInput['spellcheck'];
+        /**
+          * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+         */
+        "step"?: NativeWaInput['step'];
+        /**
+          * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+         */
+        "type"?: NativeWaInput['type'];
+        /**
+          * The value of the input.
+         */
+        "value"?: string;
+        /**
+          * Adds a clear button when the input is not empty.
+         */
+        "withClear"?: NativeWaInput['withClear'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+         */
+        "withHint"?: NativeWaInput['withHint'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+         */
+        "withLabel"?: NativeWaInput['withLabel'];
+        /**
+          * Hides the browser's built-in increment/decrement spin buttons for number inputs.
+         */
+        "withoutSpinButtons"?: NativeWaInput['withoutSpinButtons'];
     }
     interface IrDailyRevenue {
         "language"?: string;
@@ -6214,42 +7703,90 @@ declare namespace LocalJSX {
         "showDateDifference"?: boolean;
         "to_date"?: string | Date | moment.Moment;
     }
+    interface IrDatesCell {
+        "checkIn"?: string;
+        "checkOut"?: string;
+        "overdueCheckin"?: boolean;
+        "overdueCheckout"?: boolean;
+    }
     interface IrDeleteModal {
         "onModalClosed"?: (event: IrDeleteModalCustomEvent<null>) => void;
         "onResetData"?: (event: IrDeleteModalCustomEvent<string>) => void;
         "user"?: IHouseKeepers;
     }
+    interface IrDepartures {
+        "language"?: string;
+        "p"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrDeparturesFilter {
+    }
+    interface IrDeparturesTable {
+    }
     interface IrDialog {
         /**
-          * Emits when the open state changes due to user interaction or programmatic control.
+          * The dialog's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the label slot instead.
          */
-        "onOpenChange"?: (event: IrDialogCustomEvent<boolean>) => void;
+        "label"?: string;
         /**
-          * Controls whether the dialog is open. Reflects to the host attribute for CSS hooks.
+          * When enabled, the dialog will be closed when the user clicks outside of it.
+         */
+        "lightDismiss"?: boolean;
+        /**
+          * Emitted after the dialog closes and all animations are complete.
+         */
+        "onIrDialogAfterHide"?: (event: IrDialogCustomEvent<void>) => void;
+        /**
+          * Emitted after the dialog opens and all animations are complete.
+         */
+        "onIrDialogAfterShow"?: (event: IrDialogCustomEvent<void>) => void;
+        /**
+          * Emitted when the dialog is requested to close. Calling event.preventDefault() will prevent the dialog from closing. You can inspect event.detail.source to see which element caused the dialog to close. If the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically. Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+         */
+        "onIrDialogHide"?: (event: IrDialogCustomEvent<{ source: Element }>) => void;
+        /**
+          * Emitted when the dialog opens.
+         */
+        "onIrDialogShow"?: (event: IrDialogCustomEvent<void>) => void;
+        /**
+          * Indicates whether or not the dialog is open. Toggle this attribute to show and hide the dialog.
          */
         "open"?: boolean;
+        /**
+          * Disables the header. This will also remove the default close button.
+         */
+        "withoutHeader"?: boolean;
     }
     interface IrDrawer {
         /**
-          * The title of the drawer
+          * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for proper accessibility. If you need to display HTML, use the `label` slot instead.
          */
-        "drawerTitle"?: string;
+        "label"?: NativeDrawer['label'];
         /**
-          * Emitted when the drawer visibility changes.
+          * When enabled, the drawer will be closed when the user clicks outside of it.
          */
-        "onDrawerChange"?: (event: IrDrawerCustomEvent<boolean>) => void;
+        "lightDismiss"?: NativeDrawer['lightDismiss'];
         /**
-          * Emitted when the drawer is requested to be closed via keyboard
+          * Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss.
          */
-        "onDrawerCloseRequested"?: (event: IrDrawerCustomEvent<void>) => void;
+        "onDrawerHide"?: (event: IrDrawerCustomEvent<{ source: Element }>) => void;
         /**
-          * Is the drawer open?
+          * Emitted when the drawer opens.
          */
-        "open"?: boolean;
+        "onDrawerShow"?: (event: IrDrawerCustomEvent<void>) => void;
         /**
-          * The placement of the drawer
+          * Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer.
          */
-        "placement"?: 'left' | 'right';
+        "open"?: NativeDrawer['open'];
+        /**
+          * The direction from which the drawer will open.
+         */
+        "placement"?: NativeDrawer['placement'];
+        /**
+          * Disables the header. This will also remove the default close button.
+         */
+        "withoutHeader"?: NativeDrawer['withoutHeader'];
     }
     interface IrDropdown {
         "caret"?: boolean;
@@ -6425,6 +7962,25 @@ declare namespace LocalJSX {
         "onToast"?: (event: IrGuestInfoCustomEvent<IToast>) => void;
         "ticket"?: string;
     }
+    interface IrGuestInfoDrawer {
+        "booking_nbr"?: string;
+        "email"?: string;
+        "language"?: string;
+        "onGuestInfoDrawerClosed"?: (event: IrGuestInfoDrawerCustomEvent<{ source: Element }>) => void;
+        "onResetBookingEvt"?: (event: IrGuestInfoDrawerCustomEvent<null>) => void;
+        "onToast"?: (event: IrGuestInfoDrawerCustomEvent<IToast>) => void;
+        "open"?: boolean;
+        "ticket"?: string;
+    }
+    interface IrGuestInfoForm {
+        "countries"?: ICountry[];
+        "guest"?: Guest;
+        "language"?: string;
+        "onGuestChanged"?: (event: IrGuestInfoFormCustomEvent<Guest>) => void;
+    }
+    interface IrGuestNameCell {
+        "name"?: Guest;
+    }
     interface IrHkArchive {
         "language"?: string;
         "propertyId"?: string | number;
@@ -6477,6 +8033,75 @@ declare namespace LocalJSX {
           * Additional CSS class applied to the `<svg>` element. Can be used for sizing, positioning, etc.
          */
         "svgClassName"?: string;
+    }
+    interface IrInput {
+        /**
+          * If true, displays a clear (X) button when the input has a value.
+         */
+        "clearable"?: boolean;
+        "disabled"?: boolean;
+        /**
+          * The label text displayed alongside or above the input.
+         */
+        "label"?: string;
+        /**
+          * Controls where the label is positioned: 'default', 'side', or 'floating'.
+         */
+        "labelPosition"?: 'default' | 'side' | 'floating';
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask"?: MaskProp1;
+        /**
+          * Maximum allowed value (for number or masked inputs).
+         */
+        "max"?: number;
+        /**
+          * Maximum input length
+         */
+        "maxLength"?: number;
+        /**
+          * Minimum allowed value (for number or masked inputs).
+         */
+        "min"?: number;
+        /**
+          * Fired only when the clear button is pressed.
+         */
+        "onCleared"?: (event: IrInputCustomEvent<void>) => void;
+        /**
+          * Fired only when the input is blurred.
+         */
+        "onInput-blur"?: (event: IrInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Fired on any value change (typing, programmatic set, or clear).
+         */
+        "onInput-change"?: (event: IrInputCustomEvent<string>) => void;
+        /**
+          * Fired only when the input is focused.
+         */
+        "onInput-focus"?: (event: IrInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Placeholder text displayed inside the input when empty.
+         */
+        "placeholder"?: string;
+        /**
+          * Hides the prefix slot content from assistive technologies when true.
+         */
+        "prefixHidden"?: boolean;
+        "readonly"?: boolean;
+        "required"?: boolean;
+        /**
+          * Hides the suffix slot content from assistive technologies when true.
+         */
+        "suffixHidden"?: boolean;
+        /**
+          * Type of input element — can be 'text', 'password', 'email', or 'number'.
+         */
+        "type"?: 'text' | 'password' | 'email' | 'number';
+        /**
+          * The value of the input.
+         */
+        "value"?: string;
     }
     interface IrInputText {
         /**
@@ -6669,6 +8294,50 @@ declare namespace LocalJSX {
          */
         "suppressToastEndpoints"?: string[];
     }
+    interface IrInvoice {
+        /**
+          * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+         */
+        "autoPrint"?: boolean;
+        /**
+          * The booking object for which the invoice is being generated. Should contain room, guest, and pricing information.
+         */
+        "booking"?: Booking;
+        /**
+          * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+         */
+        "for"?: 'room' | 'booking';
+        /**
+          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
+         */
+        "mode"?: 'create' | 'check_in-create';
+        /**
+          * Emitted when the invoice drawer is closed.  Fired when `closeDrawer()` is called, including when the underlying drawer emits `onDrawerHide`.
+         */
+        "onInvoiceClose"?: (event: IrInvoiceCustomEvent<void>) => void;
+        /**
+          * Emitted when an invoice is created/confirmed.  The event `detail` contains: - `booking`: the booking associated with the invoice - `recipientId`: the selected billing recipient - `for`: whether the invoice is for `"room"` or `"booking"` - `roomIdentifier`: the room identifier when invoicing a specific room - `mode`: the current invoice mode
+         */
+        "onInvoiceCreated"?: (event: IrInvoiceCustomEvent<{
+    booking: Booking;
+    recipientId: string;
+    for: 'room' | 'booking';
+    roomIdentifier?: string;
+    mode: 'create' | 'check_in-create';
+  }>) => void;
+        /**
+          * Emitted when the invoice drawer is opened.  Fired when `openDrawer()` is called and the component transitions into the open state.
+         */
+        "onInvoiceOpen"?: (event: IrInvoiceCustomEvent<void>) => void;
+        /**
+          * Whether the invoice drawer is open.  This prop is mutable and reflected to the host element, allowing parent components to control visibility via markup or via the public `openDrawer()` / `closeDrawer()` methods.
+         */
+        "open"?: boolean;
+        /**
+          * The identifier of the room for which the invoice is being generated. Used when invoicing at room level instead of booking level.
+         */
+        "roomIdentifier"?: string;
+    }
     interface IrLabel {
         /**
           * inline styles for the component container
@@ -6805,39 +8474,49 @@ declare namespace LocalJSX {
          */
         "value": string;
     }
-    interface IrMenuBar {
-    }
-    interface IrMenuBarItem {
+    interface IrMobileInput {
         /**
-          * The URL that the menu item should link to. When provided, the component renders as an `<a>` element.
+          * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
          */
-        "href"?: string;
+        "countries"?: ICountry[];
         /**
-          * Displays an `ir-new-badge` next to the trigger when set.
+          * Selected country ISO code. Component updates this prop when a new country is chosen
          */
-        "newBadge"?: boolean;
+        "countryCode"?: string;
         /**
-          * Emitted when the menu bar item is clicked.  This event bubbles up from both linked (`<a>`) and non-linked (`<button>`-like) items. You can call `event.preventDefault()` on the listener to stop the default navigation when the item has an `href`.  Example: ```js document.querySelector('ir-menu-bar-item').addEventListener('menu-bar-item-click', e => {   e.preventDefault(); // prevents navigation if the item has an href   console.log('Menu item clicked:', e); }); ```
+          * Help text rendered under the label
          */
-        "onMenu-bar-item-click"?: (event: IrMenuBarItemCustomEvent<MouseEvent>) => void;
+        "description"?: string;
         /**
-          * Specifies where to open the linked document. Mirrors the native HTML `target` attribute.  Possible values: - `_self` — Opens the link in the same browsing context (default) - `_blank` — Opens the link in a new tab or window - `_parent` — Opens the link in the parent frame - `_top` — Opens the link in the full body of the window
+          * Whether the control is disabled
          */
-        "target"?: '_self' | '_blank' | '_parent' | '_top';
-    }
-    interface IrMenuBarMenu {
+        "disabled"?: boolean;
         /**
-          * Displays an `ir-new-badge` next to the trigger when set.
+          * Error message announced to screen readers
          */
-        "newBadge"?: boolean;
+        "error"?: string;
         /**
-          * Fires whenever the menu's `open` state changes.
+          * Visible label for the phone input
          */
-        "onMenuBarOpenChange"?: (event: IrMenuBarMenuCustomEvent<boolean>) => void;
+        "label"?: string;
         /**
-          * Controls the open state of the dropdown menu. Can be toggled programmatically or via user interaction.
+          * Name attribute passed to the native input
          */
-        "open"?: boolean;
+        "name"?: string;
+        "onMobile-input-change"?: (event: IrMobileInputCustomEvent<IrMobileInputChangeDetail>) => void;
+        "onMobile-input-country-change"?: (event: IrMobileInputCustomEvent<ICountry>) => void;
+        /**
+          * Placeholder shown when the input is empty
+         */
+        "placeholder"?: string;
+        /**
+          * Native required attribute
+         */
+        "required"?: boolean;
+        /**
+          * Input value without formatting. Component keeps this prop in sync
+         */
+        "value"?: string;
     }
     interface IrModal {
         /**
@@ -7125,6 +8804,7 @@ declare namespace LocalJSX {
     }
     interface IrPaymentDetails {
         "booking"?: Booking;
+        "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
         "onResetBookingEvt"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentDetailsCustomEvent<null>) => void;
@@ -7139,12 +8819,13 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrPaymentFolioCustomEvent<null>) => void;
         "onResetBookingEvt"?: (event: IrPaymentFolioCustomEvent<null>) => void;
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentFolioCustomEvent<null>) => void;
-        "payment"?: Payment;
+        "payment"?: Payment1;
         "paymentEntries"?: PaymentEntries1;
     }
     interface IrPaymentItem {
         "onDeletePayment"?: (event: IrPaymentItemCustomEvent<IPayment>) => void;
         "onEditPayment"?: (event: IrPaymentItemCustomEvent<IPayment>) => void;
+        "onIssueReceipt"?: (event: IrPaymentItemCustomEvent<IPayment>) => void;
         "payment"?: IPayment;
     }
     interface IrPaymentOption {
@@ -7167,6 +8848,7 @@ declare namespace LocalJSX {
         "onAddPayment"?: (event: IrPaymentsFolioCustomEvent<void>) => void;
         "onDeletePayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onEditPayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
+        "onIssueReceipt"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "payments"?: IPayment[];
     }
     interface IrPhoneInput {
@@ -7198,6 +8880,7 @@ declare namespace LocalJSX {
           * Two-letter language code used for country fetching.
          */
         "language"?: string;
+        "mode"?: 'modern' | 'default';
         /**
           * Emits when the user changes the phone number. Emits `{ phone_prefix, mobile }` object.  Example: ```tsx <ir-phone-input onTextChange={(e) => console.log(e.detail)} /> ```
          */
@@ -7221,6 +8904,43 @@ declare namespace LocalJSX {
         /**
           * Initial phone number value.
          */
+        "value"?: string;
+    }
+    interface IrPicker {
+        /**
+          * The input's visual appearance.
+         */
+        "appearance"?: NativeWaInput1['appearance'];
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue"?: NativeWaInput1['defaultValue'];
+        /**
+          * Optional label applied to the text field.
+         */
+        "label"?: string;
+        "loading"?: boolean;
+        "mode"?: 'select' | 'default';
+        "onCombobox-select"?: (event: IrPickerCustomEvent<IrComboboxSelectEventDetail>) => void;
+        "pill"?: boolean;
+        /**
+          * Placeholder shown inside the input when there is no query.
+         */
+        "placeholder"?: string;
+        /**
+          * The input's size.
+         */
+        "size"?: NativeWaInput1['size'];
+        /**
+          * Selected value (also shown in the input when `mode="select"`).
+         */
+        "value"?: string;
+    }
+    interface IrPickerItem {
+        "active"?: boolean;
+        "disabled"?: boolean;
+        "label"?: string;
+        "selected"?: boolean;
         "value"?: string;
     }
     interface IrPickup {
@@ -7667,6 +9387,14 @@ declare namespace LocalJSX {
         "subtitle"?: string;
         "value"?: string;
     }
+    interface IrStatusActivityCell {
+        "bookingNumber"?: string;
+        "isRequestToCancel"?: boolean;
+        "lastManipulation"?: OTAManipulations;
+        "showManipulationBadge"?: boolean;
+        "showModifiedBadge"?: boolean;
+        "status"?: Booking['status'];
+    }
     interface IrSuccessLoader {
         /**
           * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
@@ -7763,6 +9491,8 @@ declare namespace LocalJSX {
     interface IrTasksTablePagination {
     }
     interface IrTestCmp {
+    }
+    interface IrTest2Cmp {
     }
     interface IrTextEditor {
         "error"?: boolean;
@@ -7898,8 +9628,14 @@ declare namespace LocalJSX {
          */
         "withHtml"?: boolean;
     }
+    interface IrUnitCell {
+        "room"?: Room;
+    }
     interface IrUnitStatus {
         "onResetData"?: (event: IrUnitStatusCustomEvent<null>) => void;
+    }
+    interface IrUnitTag {
+        "unit"?: string;
     }
     interface IrUserFormPanel {
         "allowedUsersTypes"?: AllowedUser[];
@@ -7938,6 +9674,41 @@ declare namespace LocalJSX {
         "userTypeCode"?: string | number;
         "userTypes"?: Map<string | number, string>;
         "users"?: User[];
+    }
+    interface IrValidator {
+        /**
+          * Enables automatic validation on every value change.
+         */
+        "autovalidate"?: boolean;
+        /**
+          * Event names (space/comma separated) dispatched when the child loses focus.
+         */
+        "blurEvent"?: string;
+        /**
+          * Optional form id. Falls back to the closest ancestor form when omitted.
+         */
+        "form"?: string;
+        /**
+          * Emits whenever the validation state toggles.
+         */
+        "onIrValidationChange"?: (event: IrValidatorCustomEvent<{ valid: boolean; value: unknown }>) => void;
+        /**
+          * Emits whenever the tracked value changes.
+         */
+        "onIrValueChange"?: (event: IrValidatorCustomEvent<{ value: unknown }>) => void;
+        /**
+          * Zod schema used to validate the child control's value.
+         */
+        "schema": ZodTypeAny;
+        /**
+          * Debounce delay (ms) before running validation for autovalidated changes.
+         */
+        "validationDebounce"?: number;
+        "value"?: any;
+        /**
+          * Event names (space/comma separated) dispatched when the child value changes.
+         */
+        "valueEvent"?: string;
     }
     interface IrWeekdaySelector {
         /**
@@ -8003,16 +9774,28 @@ declare namespace LocalJSX {
         "igl-to-be-assigned": IglToBeAssigned;
         "igloo-calendar": IglooCalendar;
         "ir-accordion": IrAccordion;
+        "ir-actions-cell": IrActionsCell;
         "ir-applicable-policies": IrApplicablePolicies;
+        "ir-arrivals": IrArrivals;
+        "ir-arrivals-filters": IrArrivalsFilters;
+        "ir-arrivals-table": IrArrivalsTable;
         "ir-autocomplete": IrAutocomplete;
+        "ir-balance-cell": IrBalanceCell;
+        "ir-booked-by-source-cell": IrBookedBySourceCell;
+        "ir-booked-on-cell": IrBookedOnCell;
         "ir-booking": IrBooking;
+        "ir-booking-billing-recipient": IrBookingBillingRecipient;
+        "ir-booking-company-form": IrBookingCompanyForm;
         "ir-booking-details": IrBookingDetails;
         "ir-booking-email-logs": IrBookingEmailLogs;
         "ir-booking-extra-note": IrBookingExtraNote;
         "ir-booking-guarantee": IrBookingGuarantee;
         "ir-booking-header": IrBookingHeader;
         "ir-booking-listing": IrBookingListing;
+        "ir-booking-listing-table": IrBookingListingTable;
+        "ir-booking-number-cell": IrBookingNumberCell;
         "ir-booking-printing": IrBookingPrinting;
+        "ir-booking-status-tag": IrBookingStatusTag;
         "ir-button": IrButton;
         "ir-channel": IrChannel;
         "ir-channel-editor": IrChannelEditor;
@@ -8025,12 +9808,19 @@ declare namespace LocalJSX {
         "ir-common": IrCommon;
         "ir-copy-button": IrCopyButton;
         "ir-country-picker": IrCountryPicker;
+        "ir-custom-button": IrCustomButton;
+        "ir-custom-date-picker": IrCustomDatePicker;
+        "ir-custom-input": IrCustomInput;
         "ir-daily-revenue": IrDailyRevenue;
         "ir-daily-revenue-filters": IrDailyRevenueFilters;
         "ir-date-picker": IrDatePicker;
         "ir-date-range": IrDateRange;
         "ir-date-view": IrDateView;
+        "ir-dates-cell": IrDatesCell;
         "ir-delete-modal": IrDeleteModal;
+        "ir-departures": IrDepartures;
+        "ir-departures-filter": IrDeparturesFilter;
+        "ir-departures-table": IrDeparturesTable;
         "ir-dialog": IrDialog;
         "ir-drawer": IrDrawer;
         "ir-dropdown": IrDropdown;
@@ -8045,6 +9835,9 @@ declare namespace LocalJSX {
         "ir-financial-summary": IrFinancialSummary;
         "ir-financial-table": IrFinancialTable;
         "ir-guest-info": IrGuestInfo;
+        "ir-guest-info-drawer": IrGuestInfoDrawer;
+        "ir-guest-info-form": IrGuestInfoForm;
+        "ir-guest-name-cell": IrGuestNameCell;
         "ir-hk-archive": IrHkArchive;
         "ir-hk-tasks": IrHkTasks;
         "ir-hk-team": IrHkTeam;
@@ -8053,9 +9846,11 @@ declare namespace LocalJSX {
         "ir-housekeeping": IrHousekeeping;
         "ir-icon": IrIcon;
         "ir-icons": IrIcons;
+        "ir-input": IrInput;
         "ir-input-text": IrInputText;
         "ir-interactive-title": IrInteractiveTitle;
         "ir-interceptor": IrInterceptor;
+        "ir-invoice": IrInvoice;
         "ir-label": IrLabel;
         "ir-listing-header": IrListingHeader;
         "ir-listing-modal": IrListingModal;
@@ -8064,9 +9859,7 @@ declare namespace LocalJSX {
         "ir-m-combobox": IrMCombobox;
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
         "ir-m-combobox-item": IrMComboboxItem;
-        "ir-menu-bar": IrMenuBar;
-        "ir-menu-bar-item": IrMenuBarItem;
-        "ir-menu-bar-menu": IrMenuBarMenu;
+        "ir-mobile-input": IrMobileInput;
         "ir-modal": IrModal;
         "ir-monthly-bookings-report": IrMonthlyBookingsReport;
         "ir-monthly-bookings-report-filter": IrMonthlyBookingsReportFilter;
@@ -8089,6 +9882,8 @@ declare namespace LocalJSX {
         "ir-payment-summary": IrPaymentSummary;
         "ir-payments-folio": IrPaymentsFolio;
         "ir-phone-input": IrPhoneInput;
+        "ir-picker": IrPicker;
+        "ir-picker-item": IrPickerItem;
         "ir-pickup": IrPickup;
         "ir-pickup-view": IrPickupView;
         "ir-pms-logs": IrPmsLogs;
@@ -8120,6 +9915,7 @@ declare namespace LocalJSX {
         "ir-span": IrSpan;
         "ir-spinner": IrSpinner;
         "ir-stats-card": IrStatsCard;
+        "ir-status-activity-cell": IrStatusActivityCell;
         "ir-success-loader": IrSuccessLoader;
         "ir-switch": IrSwitch;
         "ir-tabs": IrTabs;
@@ -8129,15 +9925,19 @@ declare namespace LocalJSX {
         "ir-tasks-table": IrTasksTable;
         "ir-tasks-table-pagination": IrTasksTablePagination;
         "ir-test-cmp": IrTestCmp;
+        "ir-test2-cmp": IrTest2Cmp;
         "ir-text-editor": IrTextEditor;
         "ir-textarea": IrTextarea;
         "ir-title": IrTitle;
         "ir-toast": IrToast;
         "ir-tooltip": IrTooltip;
+        "ir-unit-cell": IrUnitCell;
         "ir-unit-status": IrUnitStatus;
+        "ir-unit-tag": IrUnitTag;
         "ir-user-form-panel": IrUserFormPanel;
         "ir-user-management": IrUserManagement;
         "ir-user-management-table": IrUserManagementTable;
+        "ir-validator": IrValidator;
         "ir-weekday-selector": IrWeekdaySelector;
         "ota-label": OtaLabel;
         "requirement-check": RequirementCheck;
@@ -8176,16 +9976,28 @@ declare module "@stencil/core" {
             "igl-to-be-assigned": LocalJSX.IglToBeAssigned & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
             "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-accordion": LocalJSX.IrAccordion & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
+            "ir-actions-cell": LocalJSX.IrActionsCell & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
             "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
+            "ir-arrivals": LocalJSX.IrArrivals & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
+            "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
+            "ir-arrivals-table": LocalJSX.IrArrivalsTable & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;
             "ir-autocomplete": LocalJSX.IrAutocomplete & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
+            "ir-balance-cell": LocalJSX.IrBalanceCell & JSXBase.HTMLAttributes<HTMLIrBalanceCellElement>;
+            "ir-booked-by-source-cell": LocalJSX.IrBookedBySourceCell & JSXBase.HTMLAttributes<HTMLIrBookedBySourceCellElement>;
+            "ir-booked-on-cell": LocalJSX.IrBookedOnCell & JSXBase.HTMLAttributes<HTMLIrBookedOnCellElement>;
             "ir-booking": LocalJSX.IrBooking & JSXBase.HTMLAttributes<HTMLIrBookingElement>;
+            "ir-booking-billing-recipient": LocalJSX.IrBookingBillingRecipient & JSXBase.HTMLAttributes<HTMLIrBookingBillingRecipientElement>;
+            "ir-booking-company-form": LocalJSX.IrBookingCompanyForm & JSXBase.HTMLAttributes<HTMLIrBookingCompanyFormElement>;
             "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
             "ir-booking-email-logs": LocalJSX.IrBookingEmailLogs & JSXBase.HTMLAttributes<HTMLIrBookingEmailLogsElement>;
             "ir-booking-extra-note": LocalJSX.IrBookingExtraNote & JSXBase.HTMLAttributes<HTMLIrBookingExtraNoteElement>;
             "ir-booking-guarantee": LocalJSX.IrBookingGuarantee & JSXBase.HTMLAttributes<HTMLIrBookingGuaranteeElement>;
             "ir-booking-header": LocalJSX.IrBookingHeader & JSXBase.HTMLAttributes<HTMLIrBookingHeaderElement>;
             "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
+            "ir-booking-listing-table": LocalJSX.IrBookingListingTable & JSXBase.HTMLAttributes<HTMLIrBookingListingTableElement>;
+            "ir-booking-number-cell": LocalJSX.IrBookingNumberCell & JSXBase.HTMLAttributes<HTMLIrBookingNumberCellElement>;
             "ir-booking-printing": LocalJSX.IrBookingPrinting & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
+            "ir-booking-status-tag": LocalJSX.IrBookingStatusTag & JSXBase.HTMLAttributes<HTMLIrBookingStatusTagElement>;
             "ir-button": LocalJSX.IrButton & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
             "ir-channel": LocalJSX.IrChannel & JSXBase.HTMLAttributes<HTMLIrChannelElement>;
             "ir-channel-editor": LocalJSX.IrChannelEditor & JSXBase.HTMLAttributes<HTMLIrChannelEditorElement>;
@@ -8198,12 +10010,19 @@ declare module "@stencil/core" {
             "ir-common": LocalJSX.IrCommon & JSXBase.HTMLAttributes<HTMLIrCommonElement>;
             "ir-copy-button": LocalJSX.IrCopyButton & JSXBase.HTMLAttributes<HTMLIrCopyButtonElement>;
             "ir-country-picker": LocalJSX.IrCountryPicker & JSXBase.HTMLAttributes<HTMLIrCountryPickerElement>;
+            "ir-custom-button": LocalJSX.IrCustomButton & JSXBase.HTMLAttributes<HTMLIrCustomButtonElement>;
+            "ir-custom-date-picker": LocalJSX.IrCustomDatePicker & JSXBase.HTMLAttributes<HTMLIrCustomDatePickerElement>;
+            "ir-custom-input": LocalJSX.IrCustomInput & JSXBase.HTMLAttributes<HTMLIrCustomInputElement>;
             "ir-daily-revenue": LocalJSX.IrDailyRevenue & JSXBase.HTMLAttributes<HTMLIrDailyRevenueElement>;
             "ir-daily-revenue-filters": LocalJSX.IrDailyRevenueFilters & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
             "ir-date-picker": LocalJSX.IrDatePicker & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;
             "ir-date-range": LocalJSX.IrDateRange & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
             "ir-date-view": LocalJSX.IrDateView & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
+            "ir-dates-cell": LocalJSX.IrDatesCell & JSXBase.HTMLAttributes<HTMLIrDatesCellElement>;
             "ir-delete-modal": LocalJSX.IrDeleteModal & JSXBase.HTMLAttributes<HTMLIrDeleteModalElement>;
+            "ir-departures": LocalJSX.IrDepartures & JSXBase.HTMLAttributes<HTMLIrDeparturesElement>;
+            "ir-departures-filter": LocalJSX.IrDeparturesFilter & JSXBase.HTMLAttributes<HTMLIrDeparturesFilterElement>;
+            "ir-departures-table": LocalJSX.IrDeparturesTable & JSXBase.HTMLAttributes<HTMLIrDeparturesTableElement>;
             "ir-dialog": LocalJSX.IrDialog & JSXBase.HTMLAttributes<HTMLIrDialogElement>;
             "ir-drawer": LocalJSX.IrDrawer & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
             "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
@@ -8218,6 +10037,9 @@ declare module "@stencil/core" {
             "ir-financial-summary": LocalJSX.IrFinancialSummary & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
             "ir-financial-table": LocalJSX.IrFinancialTable & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
             "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
+            "ir-guest-info-drawer": LocalJSX.IrGuestInfoDrawer & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
+            "ir-guest-info-form": LocalJSX.IrGuestInfoForm & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
+            "ir-guest-name-cell": LocalJSX.IrGuestNameCell & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
             "ir-hk-archive": LocalJSX.IrHkArchive & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
             "ir-hk-tasks": LocalJSX.IrHkTasks & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;
             "ir-hk-team": LocalJSX.IrHkTeam & JSXBase.HTMLAttributes<HTMLIrHkTeamElement>;
@@ -8226,9 +10048,11 @@ declare module "@stencil/core" {
             "ir-housekeeping": LocalJSX.IrHousekeeping & JSXBase.HTMLAttributes<HTMLIrHousekeepingElement>;
             "ir-icon": LocalJSX.IrIcon & JSXBase.HTMLAttributes<HTMLIrIconElement>;
             "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
+            "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
             "ir-input-text": LocalJSX.IrInputText & JSXBase.HTMLAttributes<HTMLIrInputTextElement>;
             "ir-interactive-title": LocalJSX.IrInteractiveTitle & JSXBase.HTMLAttributes<HTMLIrInteractiveTitleElement>;
             "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
+            "ir-invoice": LocalJSX.IrInvoice & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;
             "ir-label": LocalJSX.IrLabel & JSXBase.HTMLAttributes<HTMLIrLabelElement>;
             "ir-listing-header": LocalJSX.IrListingHeader & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
             "ir-listing-modal": LocalJSX.IrListingModal & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
@@ -8237,9 +10061,7 @@ declare module "@stencil/core" {
             "ir-m-combobox": LocalJSX.IrMCombobox & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
             "ir-m-combobox-booking-item": LocalJSX.IrMComboboxBookingItem & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;
             "ir-m-combobox-item": LocalJSX.IrMComboboxItem & JSXBase.HTMLAttributes<HTMLIrMComboboxItemElement>;
-            "ir-menu-bar": LocalJSX.IrMenuBar & JSXBase.HTMLAttributes<HTMLIrMenuBarElement>;
-            "ir-menu-bar-item": LocalJSX.IrMenuBarItem & JSXBase.HTMLAttributes<HTMLIrMenuBarItemElement>;
-            "ir-menu-bar-menu": LocalJSX.IrMenuBarMenu & JSXBase.HTMLAttributes<HTMLIrMenuBarMenuElement>;
+            "ir-mobile-input": LocalJSX.IrMobileInput & JSXBase.HTMLAttributes<HTMLIrMobileInputElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-monthly-bookings-report": LocalJSX.IrMonthlyBookingsReport & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportElement>;
             "ir-monthly-bookings-report-filter": LocalJSX.IrMonthlyBookingsReportFilter & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportFilterElement>;
@@ -8262,6 +10084,8 @@ declare module "@stencil/core" {
             "ir-payment-summary": LocalJSX.IrPaymentSummary & JSXBase.HTMLAttributes<HTMLIrPaymentSummaryElement>;
             "ir-payments-folio": LocalJSX.IrPaymentsFolio & JSXBase.HTMLAttributes<HTMLIrPaymentsFolioElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
+            "ir-picker": LocalJSX.IrPicker & JSXBase.HTMLAttributes<HTMLIrPickerElement>;
+            "ir-picker-item": LocalJSX.IrPickerItem & JSXBase.HTMLAttributes<HTMLIrPickerItemElement>;
             "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
             "ir-pickup-view": LocalJSX.IrPickupView & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
             "ir-pms-logs": LocalJSX.IrPmsLogs & JSXBase.HTMLAttributes<HTMLIrPmsLogsElement>;
@@ -8293,6 +10117,7 @@ declare module "@stencil/core" {
             "ir-span": LocalJSX.IrSpan & JSXBase.HTMLAttributes<HTMLIrSpanElement>;
             "ir-spinner": LocalJSX.IrSpinner & JSXBase.HTMLAttributes<HTMLIrSpinnerElement>;
             "ir-stats-card": LocalJSX.IrStatsCard & JSXBase.HTMLAttributes<HTMLIrStatsCardElement>;
+            "ir-status-activity-cell": LocalJSX.IrStatusActivityCell & JSXBase.HTMLAttributes<HTMLIrStatusActivityCellElement>;
             "ir-success-loader": LocalJSX.IrSuccessLoader & JSXBase.HTMLAttributes<HTMLIrSuccessLoaderElement>;
             "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
             "ir-tabs": LocalJSX.IrTabs & JSXBase.HTMLAttributes<HTMLIrTabsElement>;
@@ -8302,15 +10127,19 @@ declare module "@stencil/core" {
             "ir-tasks-table": LocalJSX.IrTasksTable & JSXBase.HTMLAttributes<HTMLIrTasksTableElement>;
             "ir-tasks-table-pagination": LocalJSX.IrTasksTablePagination & JSXBase.HTMLAttributes<HTMLIrTasksTablePaginationElement>;
             "ir-test-cmp": LocalJSX.IrTestCmp & JSXBase.HTMLAttributes<HTMLIrTestCmpElement>;
+            "ir-test2-cmp": LocalJSX.IrTest2Cmp & JSXBase.HTMLAttributes<HTMLIrTest2CmpElement>;
             "ir-text-editor": LocalJSX.IrTextEditor & JSXBase.HTMLAttributes<HTMLIrTextEditorElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
+            "ir-unit-cell": LocalJSX.IrUnitCell & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;
             "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
+            "ir-unit-tag": LocalJSX.IrUnitTag & JSXBase.HTMLAttributes<HTMLIrUnitTagElement>;
             "ir-user-form-panel": LocalJSX.IrUserFormPanel & JSXBase.HTMLAttributes<HTMLIrUserFormPanelElement>;
             "ir-user-management": LocalJSX.IrUserManagement & JSXBase.HTMLAttributes<HTMLIrUserManagementElement>;
             "ir-user-management-table": LocalJSX.IrUserManagementTable & JSXBase.HTMLAttributes<HTMLIrUserManagementTableElement>;
+            "ir-validator": LocalJSX.IrValidator & JSXBase.HTMLAttributes<HTMLIrValidatorElement>;
             "ir-weekday-selector": LocalJSX.IrWeekdaySelector & JSXBase.HTMLAttributes<HTMLIrWeekdaySelectorElement>;
             "ota-label": LocalJSX.OtaLabel & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
             "requirement-check": LocalJSX.RequirementCheck & JSXBase.HTMLAttributes<HTMLRequirementCheckElement>;

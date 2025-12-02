@@ -1,162 +1,73 @@
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrMCombobox {
-    constructor() {
-        /**
-         * Determines how the options are loaded into the component.
-         * - 'static': Uses the options passed through the `options` prop or the default internal list.
-         * - 'external': Emits search events for external handling, options updated via `options` prop.
-         *
-         * @default 'static'
-         */
-        this.dataMode = 'static';
-        /**
-         * List of available options for the combobox when using static data mode.
-         * If empty, falls back to a default internal option list.
-         */
-        this.options = [];
-        /**
-         * Debounce delay in milliseconds for search events when using external data mode.
-         * @default 300
-         */
-        this.debounceDelay = 300;
-        /**
-         * Whether to show loading state
-         */
-        this.loading = false;
-        /**
-         * Whether to use slot content for custom dropdown rendering
-         */
-        this.useSlot = false;
-        this.isOpen = false;
-        this.focusedIndex = -1;
-        this.filteredOptions = [];
-        this.slotElements = [];
-        this.hasPrefix = false;
-        this.hasSuffix = false;
-        this.itemChildren = [];
-        this.id = v4();
-        this.dropdownId = `dropdown-${this.id}`;
-        this.mo = null;
-        this.handleDocumentClick = (event) => {
-            if (!this.el.contains(event.target)) {
-                this.closeDropdown();
-            }
-        };
-        this.updateAffixPresence = () => {
-            try {
-                const prefixAssigned = this.prefixSlotRef && this.prefixSlotRef.assignedElements
-                    ? this.prefixSlotRef.assignedElements()
-                    : Array.from(this.el.querySelectorAll('[slot="prefix"]'));
-                const suffixAssigned = this.suffixSlotRef && this.suffixSlotRef.assignedElements
-                    ? this.suffixSlotRef.assignedElements()
-                    : Array.from(this.el.querySelectorAll('[slot="suffix"]'));
-                this.hasPrefix = Array.isArray(prefixAssigned) ? prefixAssigned.length > 0 : false;
-                this.hasSuffix = Array.isArray(suffixAssigned) ? suffixAssigned.length > 0 : false;
-            }
-            catch (e) {
-                const prefixFallback = this.el.querySelector('[slot="prefix"]');
-                const suffixFallback = this.el.querySelector('[slot="suffix"]');
-                this.hasPrefix = !!prefixFallback;
-                this.hasSuffix = !!suffixFallback;
-            }
-        };
-        this.handleKeyDown = (event) => {
-            const maxIndex = this.useSlot ? this.slotElements.length - 1 : this.filteredOptions.length - 1;
-            switch (event.key) {
-                case 'ArrowDown':
-                    event.preventDefault();
-                    if (!this.isOpen) {
-                        this.openDropdown();
-                    }
-                    else {
-                        this.focusedIndex = Math.min(this.focusedIndex + 1, maxIndex);
-                        if (this.useSlot) {
-                            this.focusSlotElement(this.focusedIndex);
-                        }
-                        else {
-                            this.scrollToFocusedOption();
-                        }
-                    }
-                    break;
-                case 'ArrowUp':
-                    event.preventDefault();
-                    if (this.isOpen) {
-                        this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
-                        if (this.useSlot) {
-                            this.focusSlotElement(this.focusedIndex);
-                        }
-                        else {
-                            this.scrollToFocusedOption();
-                        }
-                    }
-                    break;
-                case 'Enter':
-                    event.preventDefault();
-                    if (this.isOpen && this.focusedIndex >= 0) {
-                        if (this.useSlot) {
-                            this.selectSlotElement(this.focusedIndex);
-                        }
-                        else {
-                            this.selectOption(this.filteredOptions[this.focusedIndex]);
-                        }
-                    }
-                    else if (!this.isOpen) {
-                        this.openDropdown();
-                    }
-                    break;
-                case 'Escape':
-                    event.preventDefault();
-                    this.closeDropdown();
-                    break;
-                case 'Tab':
-                    if (this.isOpen) {
-                        this.closeDropdown();
-                    }
-                    break;
-            }
-        };
-        // private handleInput = (event: Event) => {
-        //   const target = event.target as HTMLInputElement;
-        //   const value = target.value;
-        //   if (this.dataMode === 'external') {
-        //     this.emitSearchQuery(value);
-        //   } else {
-        //     const allOptions = this.options.length > 0 ? this.options : [];
-        //     this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
-        //   }
-        //   this.focusedIndex = -1;
-        //   if (!this.isOpen) {
-        //     this.openDropdown();
-        //   }
-        // };
-        this.handleInput = (event) => {
-            const target = event.target;
-            const value = target.value;
-            if (this.dataMode === 'external' && !this.isCompositionMode) {
-                this.emitSearchQuery(value);
-            }
-            else if (this.isCompositionMode) {
-                // composition mode: filter child items
-                this.filterComposition(value);
-            }
-            else {
-                // static options mode (existing behavior)
-                const allOptions = this.options.length > 0 ? this.options : [];
-                this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
-            }
-            this.focusedIndex = -1;
-            if (!this.isOpen) {
-                this.openDropdown();
-            }
-        };
-    }
+    el;
+    /**
+     * Placeholder text displayed in the input when no option is selected.
+     */
+    placeholder;
+    /**
+     * default selected option for the combobox.
+     */
+    defaultOption;
+    /**
+     * Determines how the options are loaded into the component.
+     * - 'static': Uses the options passed through the `options` prop or the default internal list.
+     * - 'external': Emits search events for external handling, options updated via `options` prop.
+     *
+     * @default 'static'
+     */
+    dataMode = 'static';
+    /**
+     * List of available options for the combobox when using static data mode.
+     * If empty, falls back to a default internal option list.
+     */
+    options = [];
+    /**
+     * Debounce delay in milliseconds for search events when using external data mode.
+     * @default 300
+     */
+    debounceDelay = 300;
+    /**
+     * Whether to show loading state
+     */
+    loading = false;
+    /**
+     * Whether to use slot content for custom dropdown rendering
+     */
+    useSlot = false;
+    isOpen = false;
+    selectedOption;
+    focusedIndex = -1;
+    filteredOptions = [];
+    slotElements = [];
+    hasPrefix = false;
+    hasSuffix = false;
+    itemChildren = [];
+    /**
+     * Emitted when a user selects an option from the combobox.
+     * The event payload contains the selected `ComboboxOption` object.
+     */
+    optionChange;
+    /**
+     * Emitted when the user types in the input field (debounced).
+     * Used for external data fetching in 'external' data mode.
+     */
+    searchQuery;
     /**
      * Public method to select an option from external slot content
      */
     async selectOptionFromSlot(option) {
         this.selectOption(option);
     }
+    inputRef;
+    dropdownRef;
+    id = v4();
+    dropdownId = `dropdown-${this.id}`;
+    debounceTimeout;
+    prefixSlotRef;
+    suffixSlotRef;
+    mo = null;
     get isCompositionMode() {
         return this.itemChildren.length > 0;
     }
@@ -185,7 +96,6 @@ export class IrMCombobox {
         this.mo.observe(this.el, { childList: true, subtree: true });
     }
     componentDidLoad() {
-        var _a, _b;
         document.addEventListener('click', this.handleDocumentClick.bind(this));
         // existing stuff
         if (this.useSlot) {
@@ -195,25 +105,23 @@ export class IrMCombobox {
         setTimeout(() => {
             this.applyDefaultOption();
         }, 0);
-        (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.addEventListener('slotchange', this.updateAffixPresence);
-        (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.addEventListener('slotchange', this.updateAffixPresence);
+        this.prefixSlotRef?.addEventListener('slotchange', this.updateAffixPresence);
+        this.suffixSlotRef?.addEventListener('slotchange', this.updateAffixPresence);
     }
     disconnectedCallback() {
-        var _a, _b, _c;
         document.removeEventListener('click', this.handleDocumentClick.bind(this));
         if (this.debounceTimeout)
             clearTimeout(this.debounceTimeout);
-        (_a = this.prefixSlotRef) === null || _a === void 0 ? void 0 : _a.removeEventListener('slotchange', this.updateAffixPresence);
-        (_b = this.suffixSlotRef) === null || _b === void 0 ? void 0 : _b.removeEventListener('slotchange', this.updateAffixPresence);
-        (_c = this.mo) === null || _c === void 0 ? void 0 : _c.disconnect();
+        this.prefixSlotRef?.removeEventListener('slotchange', this.updateAffixPresence);
+        this.suffixSlotRef?.removeEventListener('slotchange', this.updateAffixPresence);
+        this.mo?.disconnect();
     }
     handleDocumentKeyDown(event) {
-        var _a;
         if (!this.isOpen)
             return;
         if (event.key === 'Escape') {
             this.closeDropdown();
-            (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
+            this.inputRef?.focus();
         }
     }
     handleComboboxItemSelect(ev) {
@@ -232,11 +140,16 @@ export class IrMCombobox {
             return;
         const opt = this.options.find(o => o.value === this.defaultOption);
         if (opt)
-            this.selectedOption = Object.assign({}, opt);
+            this.selectedOption = { ...opt };
     }
     initializeOptions() {
         this.filteredOptions = this.options.length > 0 ? this.options : [];
     }
+    handleDocumentClick = (event) => {
+        if (!this.el.contains(event.target)) {
+            this.closeDropdown();
+        }
+    };
     // private openDropdown() {
     //   this.isOpen = true;
     //   if (this.useSlot) {
@@ -285,6 +198,24 @@ export class IrMCombobox {
             });
         }
     }
+    updateAffixPresence = () => {
+        try {
+            const prefixAssigned = this.prefixSlotRef && this.prefixSlotRef.assignedElements
+                ? this.prefixSlotRef.assignedElements()
+                : Array.from(this.el.querySelectorAll('[slot="prefix"]'));
+            const suffixAssigned = this.suffixSlotRef && this.suffixSlotRef.assignedElements
+                ? this.suffixSlotRef.assignedElements()
+                : Array.from(this.el.querySelectorAll('[slot="suffix"]'));
+            this.hasPrefix = Array.isArray(prefixAssigned) ? prefixAssigned.length > 0 : false;
+            this.hasSuffix = Array.isArray(suffixAssigned) ? suffixAssigned.length > 0 : false;
+        }
+        catch (e) {
+            const prefixFallback = this.el.querySelector('[slot="prefix"]');
+            const suffixFallback = this.el.querySelector('[slot="suffix"]');
+            this.hasPrefix = !!prefixFallback;
+            this.hasSuffix = !!suffixFallback;
+        }
+    };
     removeSlotFocus() {
         this.slotElements.forEach(element => {
             element.classList.remove('focused', 'active');
@@ -306,12 +237,66 @@ export class IrMCombobox {
             element.click();
         }
     }
+    handleKeyDown = (event) => {
+        const maxIndex = this.useSlot ? this.slotElements.length - 1 : this.filteredOptions.length - 1;
+        switch (event.key) {
+            case 'ArrowDown':
+                event.preventDefault();
+                if (!this.isOpen) {
+                    this.openDropdown();
+                }
+                else {
+                    this.focusedIndex = Math.min(this.focusedIndex + 1, maxIndex);
+                    if (this.useSlot) {
+                        this.focusSlotElement(this.focusedIndex);
+                    }
+                    else {
+                        this.scrollToFocusedOption();
+                    }
+                }
+                break;
+            case 'ArrowUp':
+                event.preventDefault();
+                if (this.isOpen) {
+                    this.focusedIndex = Math.max(this.focusedIndex - 1, 0);
+                    if (this.useSlot) {
+                        this.focusSlotElement(this.focusedIndex);
+                    }
+                    else {
+                        this.scrollToFocusedOption();
+                    }
+                }
+                break;
+            case 'Enter':
+                event.preventDefault();
+                if (this.isOpen && this.focusedIndex >= 0) {
+                    if (this.useSlot) {
+                        this.selectSlotElement(this.focusedIndex);
+                    }
+                    else {
+                        this.selectOption(this.filteredOptions[this.focusedIndex]);
+                    }
+                }
+                else if (!this.isOpen) {
+                    this.openDropdown();
+                }
+                break;
+            case 'Escape':
+                event.preventDefault();
+                this.closeDropdown();
+                break;
+            case 'Tab':
+                if (this.isOpen) {
+                    this.closeDropdown();
+                }
+                break;
+        }
+    };
     selectOption(option) {
-        var _a;
         this.selectedOption = option;
         this.optionChange.emit(option);
         this.closeDropdown();
-        (_a = this.inputRef) === null || _a === void 0 ? void 0 : _a.focus();
+        this.inputRef?.focus();
     }
     scrollToFocusedOption() {
         if (this.focusedIndex < 0 || !this.dropdownRef || this.useSlot)
@@ -321,6 +306,40 @@ export class IrMCombobox {
             focusedElement.scrollIntoView({ block: 'nearest' });
         }
     }
+    // private handleInput = (event: Event) => {
+    //   const target = event.target as HTMLInputElement;
+    //   const value = target.value;
+    //   if (this.dataMode === 'external') {
+    //     this.emitSearchQuery(value);
+    //   } else {
+    //     const allOptions = this.options.length > 0 ? this.options : [];
+    //     this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
+    //   }
+    //   this.focusedIndex = -1;
+    //   if (!this.isOpen) {
+    //     this.openDropdown();
+    //   }
+    // };
+    handleInput = (event) => {
+        const target = event.target;
+        const value = target.value;
+        if (this.dataMode === 'external' && !this.isCompositionMode) {
+            this.emitSearchQuery(value);
+        }
+        else if (this.isCompositionMode) {
+            // composition mode: filter child items
+            this.filterComposition(value);
+        }
+        else {
+            // static options mode (existing behavior)
+            const allOptions = this.options.length > 0 ? this.options : [];
+            this.filteredOptions = value ? allOptions.filter(option => option.label.toLowerCase().includes(value.toLowerCase())) : allOptions;
+        }
+        this.focusedIndex = -1;
+        if (!this.isOpen) {
+            this.openDropdown();
+        }
+    };
     collectItemChildren() {
         // find *direct or nested* items inside the dropdown container
         const items = Array.from(this.el.querySelectorAll('ir-m-combobox-item'));
@@ -350,15 +369,11 @@ export class IrMCombobox {
         this.updateSlotElementsForItems();
     }
     render() {
-        var _a;
-        return (h(Host, { key: 'c668b0a8423dd199a8f06fa7495cb287687a9f80', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: 'ff1121be80a630a082d1f583afd0dc0104d19c74', class: "input-wrapper" }, h("span", { key: '4308bdcb13e97aed5c341e6ba364ef3a55c7f859', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: 'aead33845038d8a83c9255677a5b86ab71e72653', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: '91f03da2be54ea619b7ace6d1a4e645896917843', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.label) || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '27c497b56238394e6a5901aea511cca64e23babb', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: 'bfd339da99e7143828bbcec45511ce92e2f26dad', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '0e64680a6615835a63268c64755142bf74f3e24d', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '418d66debf0cc29462b8f0a680cf1b026e4da736', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
+        return (h(Host, { key: '6fdaad792ae168491a01ddadf4ea21270bb09c63', class: { 'has-prefix': this.hasPrefix, 'has-suffix': this.hasSuffix } }, h("div", { key: 'bf35ae874662f49971be82378af2935b0391c02a', class: "input-wrapper" }, h("span", { key: '6d9964f866f6c682b6ec9c82d968a1cde9a96f19', class: "prefix-container", "aria-hidden": !this.hasPrefix }, h("slot", { key: '10505df7782fe169f9bc203c5511e2dbbc5bb710', name: "prefix", ref: el => (this.prefixSlotRef = el) })), h("input", { key: 'ddbb0c367c2156101349dd9f735f7016dbcc0a90', ref: el => (this.inputRef = el), type: "text", class: "form-control", role: "combobox", id: this.id, value: this.selectedOption?.label || '', placeholder: this.placeholder, "aria-expanded": String(this.isOpen), "aria-autocomplete": "list", "aria-controls": this.dropdownId, "data-reference": "parent", "aria-haspopup": "listbox", "aria-activedescendant": this.focusedIndex >= 0 ? `${this.dropdownId}-option-${this.focusedIndex}` : null, "aria-label": "Combobox", "aria-required": true, onKeyDown: this.handleKeyDown, onInput: this.handleInput }), h("span", { key: '6cadde2eb44f1d96d4cad47c16468bada744cc43', class: "suffix-container", "aria-hidden": !this.hasSuffix }, h("slot", { key: '0b5f99a55bc35cb46801789b8927ded734c6e8ea', name: "suffix", ref: el => (this.suffixSlotRef = el) }))), h("div", { key: '3618b56a7942f963a46e55a23344c45f394a00a9', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: 'bd8069715ff2f7e27403c855259210b1c958d0e4', ref: el => (this.dropdownRef = el), class: `dropdown-menu ${this.isOpen ? 'show' : ''}`, id: this.dropdownId, role: "listbox", "aria-expanded": String(this.isOpen) }, this.isCompositionMode ? (h("slot", null)) : this.useSlot ? (h("slot", { name: "dropdown-content" })) : ([
             this.loading && h("div", { class: "dropdown-item loading" }, "Loading..."),
             !this.loading && this.filteredOptions.length === 0 && h("div", { class: "dropdown-item no-results" }, "No results found"),
             !this.loading &&
-                this.filteredOptions.map((option, index) => {
-                    var _a;
-                    return (h("button", { id: `${this.dropdownId}-option-${index}`, class: `dropdown-item ${this.focusedIndex === index ? 'active' : ''}`, role: "option", "aria-selected": ((_a = this.selectedOption) === null || _a === void 0 ? void 0 : _a.value) === option.value ? 'true' : 'false', onClick: () => this.selectOption(option), onMouseEnter: () => (this.focusedIndex = index), innerHTML: option.html_content }, option.html_content ? null : option.label));
-                }),
+                this.filteredOptions.map((option, index) => (h("button", { id: `${this.dropdownId}-option-${index}`, class: `dropdown-item ${this.focusedIndex === index ? 'active' : ''}`, role: "option", "aria-selected": this.selectedOption?.value === option.value ? 'true' : 'false', onClick: () => this.selectOption(option), onMouseEnter: () => (this.focusedIndex = index), innerHTML: option.html_content }, option.html_content ? null : option.label))),
         ])))));
     }
     static get is() { return "ir-m-combobox"; }

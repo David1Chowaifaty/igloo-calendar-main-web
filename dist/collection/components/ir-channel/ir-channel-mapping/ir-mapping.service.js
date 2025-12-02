@@ -11,7 +11,7 @@ export class IrMappingService {
     }
     checkMappingExists(id, isRoomType, roomTypeId) {
         const channelId = id.toString();
-        const parentChannelId = roomTypeId === null || roomTypeId === void 0 ? void 0 : roomTypeId.toString();
+        const parentChannelId = roomTypeId?.toString();
         if (isRoomType) {
             const mappedRoomType = channels_data.mappedChannels.find(mapping => mapping.type === 'room_type' && mapping.channel_id.toString() === channelId);
             if (!mappedRoomType) {
@@ -58,7 +58,6 @@ export class IrMappingService {
         };
     }
     resolveRatePlanContext(ratePlanMapping) {
-        var _a;
         if (ratePlanMapping.type !== 'rate_plan') {
             return undefined;
         }
@@ -74,7 +73,7 @@ export class IrMappingService {
         return {
             room,
             ratePlan,
-            parentChannelId: (_a = parentMapping === null || parentMapping === void 0 ? void 0 : parentMapping.channel_id) === null || _a === void 0 ? void 0 : _a.toString(),
+            parentChannelId: parentMapping?.channel_id?.toString(),
         };
     }
     // public checkMappingExists(id: string, isRoomType: boolean, roomTypeId?: string) {

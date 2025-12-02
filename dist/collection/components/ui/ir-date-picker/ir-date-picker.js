@@ -4,85 +4,105 @@ import AirDatepicker from "air-datepicker";
 import localeEn from "air-datepicker/locale/en";
 import moment from "moment";
 export class IrDatePicker {
-    constructor() {
-        /**
-         * Determines whether the date picker is rendered inline or in a pop-up.
-         * If `true`, the picker is always visible inline.
-         */
-        this.inline = false;
-        /**
-         * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
-         */
-        this.date = null;
-        /**
-         * Enables multiple dates.
-         * If `true`, multiple selection is allowed.
-         * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-         */
-        this.multipleDates = false;
-        /**
-         * Whether the picker should allow range selection (start and end date).
-         */
-        this.range = false;
-        /**
-         * Format for the date as it appears in the input field.
-         * Follows the `AirDatepicker` format rules.
-         */
-        this.dateFormat = 'yyyy-MM-dd';
-        /**
-         * Enables the timepicker functionality (select hours and minutes).
-         */
-        this.timepicker = false;
-        /**
-         * Disables the input and prevents interaction.
-         */
-        this.disabled = false;
-        /**
-         * Closes the picker automatically after a date is selected.
-         */
-        this.autoClose = true;
-        /**
-         * Shows days from previous/next month in the current month's calendar.
-         */
-        this.showOtherMonths = true;
-        /**
-         * Allows selecting days from previous/next month shown in the current view.
-         */
-        this.selectOtherMonths = true;
-        /**
-         * Controls how the date picker is triggered.
-         * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
-         * - **`false`**: A default button input is used to open the picker.
-         *
-         * Defaults to `true`.
-         */
-        this.customPicker = true;
-        /**
-         * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
-         * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
-         * but note that it may affect performance if triggered frequently.
-         * Defaults to `false`.
-         */
-        this.forceDestroyOnUpdate = false;
-        /**
-         * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
-         * Otherwise, empty-date changes will be ignored (no event emitted).
-         *
-         * Defaults to `false`.
-         */
-        this.emitEmptyDate = false;
-        /**
-         * Styles for the trigger container
-         */
-        this.triggerContainerStyle = '';
-        this.currentDate = null;
-        this.triggerSlot = null;
-    }
+    el;
+    /**
+     * Determines whether the date picker is rendered inline or in a pop-up.
+     * If `true`, the picker is always visible inline.
+     */
+    inline = false;
+    /**
+     * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+     */
+    date = null;
+    /**
+     * Enables multiple dates.
+     * If `true`, multiple selection is allowed.
+     * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+     */
+    multipleDates = false;
+    /**
+     * Whether the picker should allow range selection (start and end date).
+     */
+    range = false;
+    /**
+     * Format for the date as it appears in the input field.
+     * Follows the `AirDatepicker` format rules.
+     */
+    dateFormat = 'yyyy-MM-dd';
+    /**
+     * Enables the timepicker functionality (select hours and minutes).
+     */
+    timepicker = false;
+    /**
+     * The earliest date that can be selected.
+     */
+    minDate;
+    /**
+     * The latest date that can be selected.
+     */
+    maxDate;
+    /**
+     * Disables the input and prevents interaction.
+     */
+    disabled = false;
+    /**
+     * Closes the picker automatically after a date is selected.
+     */
+    autoClose = true;
+    /**
+     * Shows days from previous/next month in the current month's calendar.
+     */
+    showOtherMonths = true;
+    /**
+     * Allows selecting days from previous/next month shown in the current view.
+     */
+    selectOtherMonths = true;
+    /**
+     * Controls how the date picker is triggered.
+     * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
+     * - **`false`**: A default button input is used to open the picker.
+     *
+     * Defaults to `true`.
+     */
+    customPicker = true;
+    /**
+     * Pass a container element if you need the date picker to be appended to a specific element
+     * for styling or positioning (particularly for arrow rendering).
+     * If not provided, it defaults to `this.el`.
+     */
+    container;
+    /**
+     * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
+     * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
+     * but note that it may affect performance if triggered frequently.
+     * Defaults to `false`.
+     */
+    forceDestroyOnUpdate = false;
+    /**
+     * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
+     * Otherwise, empty-date changes will be ignored (no event emitted).
+     *
+     * Defaults to `false`.
+     */
+    emitEmptyDate = false;
+    /**
+     * Styles for the trigger container
+     */
+    triggerContainerStyle = '';
+    currentDate = null;
+    dateChanged;
+    datePickerFocus;
+    datePickerBlur;
+    pickerRef;
+    datePicker;
+    openDatePickerTimeout;
+    triggerSlot = null;
     componentWillLoad() {
         // Sync initial @Prop to internal state
         if (this.date) {
             this.currentDate = this.toValidDate(this.date);
         }
+        // this.setPickerStyle();
     }
     componentDidLoad() {
         this.initializeDatepicker();
@@ -123,18 +143,16 @@ export class IrDatePicker {
         this.updatePickerDate(newDate);
     }
     minDatePropChanged(newVal, oldVal) {
-        var _a;
         if (!this.datePicker) {
             return;
         }
         if (!this.isSameDates(newVal, oldVal)) {
-            (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.update({ minDate: this.toValidDate(newVal) });
+            this.datePicker?.update({ minDate: this.toValidDate(newVal) });
         }
     }
     maxDatePropChanged(newVal, oldVal) {
-        var _a;
         if (!this.isSameDates(newVal, oldVal)) {
-            (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.update({ maxDate: this.toValidDate(newVal) });
+            this.datePicker?.update({ maxDate: this.toValidDate(newVal) });
         }
     }
     async openDatePicker() {
@@ -144,8 +162,7 @@ export class IrDatePicker {
         }, 20);
     }
     async clearDatePicker() {
-        var _a;
-        (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.clear();
+        this.datePicker?.clear();
     }
     isSameDates(d1, d2) {
         if (!d1 && !d2)
@@ -161,11 +178,10 @@ export class IrDatePicker {
         return isNaN(d.getTime()) ? null : d;
     }
     updatePickerDate(newDate) {
-        var _a, _b;
         const valid = this.toValidDate(newDate);
         if (!valid) {
             // If invalid or null, just clear
-            (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.clear();
+            this.datePicker?.clear();
             this.currentDate = null;
             return;
         }
@@ -178,7 +194,7 @@ export class IrDatePicker {
                 this.initializeDatepicker();
             }
             else {
-                (_b = this.datePicker) === null || _b === void 0 ? void 0 : _b.selectDate(valid);
+                this.datePicker?.selectDate(valid);
             }
         }
     }
@@ -246,9 +262,9 @@ export class IrDatePicker {
                 };
             },
         });
+        this.datePicker.$datepicker.style.height = '280px';
     }
     disconnectedCallback() {
-        var _a, _b;
         if (this.openDatePickerTimeout) {
             clearTimeout(this.openDatePickerTimeout);
         }
@@ -257,10 +273,10 @@ export class IrDatePicker {
             this.triggerSlot.removeEventListener('focus', this.handleTriggerFocus);
             this.triggerSlot.removeEventListener('click', this.handleTriggerClick);
         }
-        (_b = (_a = this.datePicker) === null || _a === void 0 ? void 0 : _a.destroy) === null || _b === void 0 ? void 0 : _b.call(_a);
+        this.datePicker?.destroy?.();
     }
     render() {
-        return (h("div", { key: '6bf16b7c1c91b1ddebdaa864d261d82454438407', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '9464caa7ff8f6e2b76c4358fe31f8223047db05d', name: "trigger" }), h("input", { key: '4175b11b94a02039dfe03b154b8d04447353ef5b', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: 'c3edf2cda18d48ee4a066a1e53b3274d850c1bfe', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'f41db4d197bec34d626ce9a20584dec83e8d5cec', name: "trigger" }), h("input", { key: '29324a6ee595ee03c286a9ea7113297b7347dbda', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {

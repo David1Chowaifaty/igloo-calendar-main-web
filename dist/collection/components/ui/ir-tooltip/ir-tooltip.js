@@ -1,28 +1,43 @@
 import { Host, h } from "@stencil/core";
 export class IrTooltip {
-    constructor() {
-        /**
-         * Whether the tooltip content should be rendered using `innerHTML`.
-         * If false, treats message as plain text.
-         */
-        this.withHtml = true;
-        /**
-         * When true, allows a custom element to trigger the tooltip using a named slot.
-         * If false, a default info icon is used.
-         */
-        this.customSlot = false;
-        /**
-         * Defines the horizontal alignment of the tooltip trigger content.
-         *
-         * - `'start'`: Aligns the trigger to the left within its container.
-         * - `'center'`: Centers the trigger horizontally (default).
-         * - `'end'`: Aligns the trigger to the right within its container.
-         *
-         * This alignment affects how the trigger (e.g., icon or slotted element)
-         * is positioned inside the outer tooltip container.
-         */
-        this.alignment = 'center';
-    }
+    /**
+     * Text or HTML content to be displayed in the tooltip.
+     */
+    message;
+    /**
+     * Whether the tooltip content should be rendered using `innerHTML`.
+     * If false, treats message as plain text.
+     */
+    withHtml = true;
+    /**
+     * When true, allows a custom element to trigger the tooltip using a named slot.
+     * If false, a default info icon is used.
+     */
+    customSlot = false;
+    /**
+     * Inline styles applied to the outer tooltip container.
+     */
+    containerStyle;
+    /**
+     * CSS classes applied to the outer tooltip container.
+     */
+    containerClass;
+    /**
+     * Defines the horizontal alignment of the tooltip trigger content.
+     *
+     * - `'start'`: Aligns the trigger to the left within its container.
+     * - `'center'`: Centers the trigger horizontally (default).
+     * - `'end'`: Aligns the trigger to the right within its container.
+     *
+     * This alignment affects how the trigger (e.g., icon or slotted element)
+     * is positioned inside the outer tooltip container.
+     */
+    alignment = 'center';
+    /**
+     * Internal state tracking whether the tooltip is currently visible.
+     */
+    open;
+    tooltipTimeout;
     /**
      * Handles showing or hiding the tooltip.
      *

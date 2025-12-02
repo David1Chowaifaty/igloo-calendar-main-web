@@ -7,28 +7,36 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
     constructor() {
         super();
         this.__registerHost();
-        /**
-         * The full title string that may be cropped in the UI.
-         */
-        this.popoverTitle = '';
-        /**
-         * CSS offset for the left position of the popover.
-         * Used as a CSS variable `--ir-popover-left`.
-         */
-        this.irPopoverLeft = '10px';
-        /**
-         * Whether to show the housekeeping (HK) status dot.
-         */
-        this.hkStatus = false;
-        /**
-         * The number of characters to display before cropping the title with ellipsis.
-         */
-        this.cropSize = 20;
-        /**
-         * Reference to track if we've initialized popover for current render
-         */
-        this.lastRenderedTitle = '';
     }
+    get el() { return this; }
+    /**
+     * The full title string that may be cropped in the UI.
+     */
+    popoverTitle = '';
+    /**
+     * CSS offset for the left position of the popover.
+     * Used as a CSS variable `--ir-popover-left`.
+     */
+    irPopoverLeft = '10px';
+    /**
+     * Whether to show the housekeeping (HK) status dot.
+     */
+    hkStatus = false;
+    /**
+     * The number of characters to display before cropping the title with ellipsis.
+     */
+    cropSize = 20;
+    /**
+     * The message shown when hovering over the broom svg if provided.
+     * @requires hkStatus to be true
+     */
+    broomTooltip;
+    /**
+     * Reference to track if we've initialized popover for current render
+     */
+    lastRenderedTitle = '';
+    titleContainerRef;
+    popoverInstance;
     /**
      * Initialize popover with overflow detection
      */
@@ -84,7 +92,7 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: 'c14d0304c30a2283060e6f4ef4b7161cc549c1c9', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'a3d01452eada41b53a49659f43dc98d1d95b6530', ref: el => {
+        return (h(Host, { key: '2673711f85d58e50db64e8c837c8c526fd10df2b', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ca83f3ace8a1389a3b62a3559676dc1771a64e4c', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -96,14 +104,13 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '2a3f351ee09b1c9383a04c5a7b11bc39f9e35570', class: "cropped-title", style: {
+            } }, h("span", { key: 'b68e74d31af9f168841c80ed75c74fb6c7b4042e', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'f8933e7529ad2d1216c424a7e94f2e7dccd83b47', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: 'e1a83767ebf94ab0dcda4063b8b0b05efde027a6', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: '2b4ecbddd1630c3dc7da4b9bef583cd03de59c95', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '1ba9eb91ece8d43141b103128566b96e64cd7e15', name: "end" }))))));
     }
-    get el() { return this; }
     static get style() { return IrInteractiveTitleStyle0; }
 }, [6, "ir-interactive-title", {
         "popoverTitle": [1, "popover-title"],

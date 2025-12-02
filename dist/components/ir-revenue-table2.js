@@ -15,14 +15,18 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
     constructor() {
         super();
         this.__registerHost();
-        this.payments = new Map();
-        this.groupType = 'method';
     }
+    payments = new Map();
+    paymentEntries;
+    filters;
+    payTypesObj;
+    payMethodObj;
+    groupType = 'method';
     componentWillLoad() {
         const buildPaymentLookup = (key) => {
             let pt = {};
             this.paymentEntries[key].forEach(p => {
-                pt = Object.assign(Object.assign({}, pt), { [p.CODE_NAME]: p.CODE_VALUE_EN });
+                pt = { ...pt, [p.CODE_NAME]: p.CODE_VALUE_EN };
             });
             return pt;
         };
@@ -35,7 +39,6 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
      * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
      */
     regroupPaymentsByMethod() {
-        var _a, _b;
         const result = new Map();
         // Early return on empty/invalid source
         const src = this.payments;
@@ -66,8 +69,8 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
                 }
                 continue;
             }
-            const typeMap = (_a = result.get(paymentMethod)) !== null && _a !== void 0 ? _a : new Map();
-            const existing = (_b = typeMap.get(paymentType)) !== null && _b !== void 0 ? _b : [];
+            const typeMap = result.get(paymentMethod) ?? new Map();
+            const existing = typeMap.get(paymentType) ?? [];
             typeMap.set(paymentType, existing.concat(list));
             result.set(paymentMethod, typeMap);
         }
@@ -75,21 +78,18 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'ddb26e4bf6f664bed11a83ca5d2e231a3eac2880', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: '2f51b54a706b477077a77ebfc7a5623bae2db72a', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
-                var _a, _b, _c;
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
-                    ? `${(_a = this.payTypesObj[paymentType]) !== null && _a !== void 0 ? _a : paymentType}: ${(_b = this.payMethodObj[paymentMethod]) !== null && _b !== void 0 ? _b : paymentMethod}`
-                    : (_c = this.payTypesObj[paymentType]) !== null && _c !== void 0 ? _c : paymentType;
+                    ? `${this.payTypesObj[paymentType] ?? paymentType}: ${this.payMethodObj[paymentMethod] ?? paymentMethod}`
+                    : this.payTypesObj[paymentType] ?? paymentType;
                 return h("ir-revenue-row", { key: key, payments: list, groupName: groupName });
             }), this.groupType === 'method' &&
             Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
-                var _a;
                 const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
-                return (h("div", { key: `method_${methodKey}` }, h("div", { class: "revenue-table__method_header" }, h("p", null, (_a = this.payMethodObj[methodKey]) !== null && _a !== void 0 ? _a : methodKey), h("p", null, formatAmount(calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
-                    var _a, _b;
-                    const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${(_a = this.payTypesObj[typeKey]) !== null && _a !== void 0 ? _a : typeKey}` : (_b = this.payTypesObj[typeKey]) !== null && _b !== void 0 ? _b : typeKey;
+                return (h("div", { key: `method_${methodKey}` }, h("div", { class: "revenue-table__method_header" }, h("p", null, this.payMethodObj[methodKey] ?? methodKey), h("p", null, formatAmount(calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
+                    const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : this.payTypesObj[typeKey] ?? typeKey;
                     return (h("div", { key: `type_${typeKey}`, class: "px-1" }, h("ir-revenue-row", { payments: list, groupName: groupName })));
                 })));
             }))) : (h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));

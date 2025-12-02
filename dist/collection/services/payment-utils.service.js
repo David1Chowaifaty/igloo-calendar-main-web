@@ -31,9 +31,8 @@ export class PaymentUtilsService {
      * Validates payment data
      */
     static validatePayment(payment) {
-        var _a;
         const errors = [];
-        if (!((_a = payment.designation) === null || _a === void 0 ? void 0 : _a.trim())) {
+        if (!payment.designation?.trim()) {
             errors.push('Designation is required');
         }
         if (!payment.amount || payment.amount <= 0) {

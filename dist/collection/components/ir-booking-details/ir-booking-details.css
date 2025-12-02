@@ -1,6 +1,7 @@
 :host {
   overflow-x: hidden;
   --ir-dialog-max-width: 20rem;
+  text-align: start;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 :host * {
@@ -15,6 +16,33 @@
 :host th {
   font-weight: 600;
 }
+.booking-details__date-view-header {
+  font-size: 1.1rem !important;
+}
+
+.booking-details__booking-info {
+  display: grid;
+  padding: var(--wa-space-m);
+  gap: var(--wa-space-l);
+}
+.booking-details__info-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-l);
+}
+
+@media (min-width: 890px) {
+  .booking-details__booking-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .booking-details__booking-info {
+    gap: var(--wa-space-xl);
+  }
+}
+
 .card.room-group {
   margin-bottom: 1rem !important;
 }

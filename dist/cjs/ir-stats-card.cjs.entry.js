@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 
 const irStatsCardCss = ".sc-ir-stats-card-h{display:block}";
 const IrStatsCardStyle0 = irStatsCardCss;
@@ -11,6 +11,10 @@ const IrStatsCard = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
     }
+    icon;
+    cardTitle;
+    subtitle;
+    value;
     render() {
         if (!this.value) {
             return null;

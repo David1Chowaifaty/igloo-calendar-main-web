@@ -1,31 +1,29 @@
+import WaDrawer from '@awesome.me/webawesome/dist/components/drawer/drawer';
 import { EventEmitter } from '../../stencil-public-runtime';
+export type NativeDrawer = WaDrawer;
 export declare class IrDrawer {
-    showDrawer: boolean;
-    el: HTMLElement;
+    /** Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer. */
+    open: NativeDrawer['open'];
     /**
-     * The title of the drawer
+     * The drawer's label as displayed in the header. You should always include a relevant label, as it is required for
+     * proper accessibility. If you need to display HTML, use the `label` slot instead.
      */
-    drawerTitle: string;
-    /**
-     * The placement of the drawer
-     */
-    placement: 'left' | 'right';
-    /**
-     * Is the drawer open?
-     */
-    open: boolean;
-    /**
-     * Emitted when the drawer visibility changes.
-     */
-    drawerChange: EventEmitter<boolean>;
-    /**
-     * Emitted when the drawer is requested to be closed via keyboard
-     */
-    drawerCloseRequested: EventEmitter<void>;
-    componentDidLoad(): void;
-    handleKeyDown(ev: KeyboardEvent): void;
-    openHandler(newValue: boolean): void;
-    toggleDrawer: () => void;
-    closeDrawer(): Promise<void>;
+    label: NativeDrawer['label'];
+    /** The direction from which the drawer will open. */
+    placement: NativeDrawer['placement'];
+    /** Disables the header. This will also remove the default close button. */
+    withoutHeader: NativeDrawer['withoutHeader'];
+    /** When enabled, the drawer will be closed when the user clicks outside of it. */
+    lightDismiss: NativeDrawer['lightDismiss'];
+    /** Emitted when the drawer opens. */
+    drawerShow: EventEmitter<void>;
+    /**Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss. */
+    drawerHide: EventEmitter<{
+        source: Element;
+    }>;
+    private readonly onDrawerShow;
+    private readonly onDrawerHide;
+    private emitDrawerShow;
+    private emitDrawerHide;
     render(): any;
 }

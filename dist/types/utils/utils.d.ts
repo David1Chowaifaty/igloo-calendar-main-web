@@ -1,3 +1,4 @@
+import { MomentFormatSpecification } from 'moment';
 import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string, format?: string): string;
 export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
@@ -48,6 +49,25 @@ export declare function dateDifference(FROM_DATE: string, TO_DATE: string): numb
 export declare const getBrowserLanguage: () => string;
 export declare const transformBooking: (physicalRoom: PhysicalRoomType[]) => IBooking[];
 export declare function dateToFormattedString(date: Date): string;
+/**
+ * Converts a status like "IN-HOUSE" to "IN_HOUSE".
+ *
+ * @param status - Status string to normalize.
+ * @returns The status with hyphens replaced by underscores.
+ */
+export declare function normalizeStatus(status: string): string;
+/**
+ * Converts a phrase like "Pending confirmation" into "PENDING-CONFIRMATION".
+ *
+ * Rules:
+ *  - Trim extra spaces
+ *  - Replace spaces with hyphens
+ *  - Uppercase the entire string
+ *
+ * @param text - Input status text.
+ * @returns Normalized status in UPPERCASE with hyphens.
+ */
+export declare function toStatusCode(text: string): string;
 export declare function formatLegendColors(legendData: any): any;
 export declare function isBlockUnit(status_code: any): boolean;
 export declare function getCurrencySymbol(currencyCode: any): string;
@@ -137,4 +157,12 @@ export declare function generatePassword(length?: number): string;
  * @returns An array of time strings in "HH:mm" format representing each step between the start and end times.
  */
 export declare function generateTimeSlotsMilitary(from: string, to: string, stepMinutes?: number): string[];
+/**
+ * Checks whether a given date falls on a weekend (Saturday or Sunday).
+ *
+ * @param date   - The date to check, as a string (parsed using the given `format`).
+ * @param format - Moment.js format used to parse `date`. Defaults to `'YYYY-MM-DD'`.
+ * @returns `true` if the parsed date is a Saturday or Sunday, otherwise `false`.
+ */
+export declare function isWeekend(date: string, format?: MomentFormatSpecification): boolean;
 export {};

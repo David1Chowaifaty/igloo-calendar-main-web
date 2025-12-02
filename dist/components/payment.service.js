@@ -3,7 +3,7 @@ import { a as axios } from './axios.js';
 class PaymentService {
     async AddPayment(payment, book_nbr) {
         try {
-            const { data } = await axios.post(`/Do_Payment`, { payment: Object.assign(Object.assign({}, payment), { book_nbr }) });
+            const { data } = await axios.post(`/Do_Payment`, { payment: { ...payment, book_nbr } });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

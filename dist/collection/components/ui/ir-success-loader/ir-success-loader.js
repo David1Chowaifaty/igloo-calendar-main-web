@@ -1,26 +1,30 @@
 import { Host, h } from "@stencil/core";
 export class IrSuccessLoader {
-    constructor() {
-        /**
-         * How long the spinner should be shown before transitioning to the success icon.
-         * Value is expressed in milliseconds.
-         */
-        this.spinnerDuration = 1500;
-        /**
-         * How long the success icon should be shown before the loader dispatches the completion event.
-         * Value is expressed in milliseconds.
-         */
-        this.successDuration = 1000;
-        /**
-         * Whether the loader should automatically start its cycle when it becomes active.
-         */
-        this.autoStart = true;
-        /**
-         * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
-         */
-        this.active = true;
-        this.phase = 'spinner';
-    }
+    /**
+     * How long the spinner should be shown before transitioning to the success icon.
+     * Value is expressed in milliseconds.
+     */
+    spinnerDuration = 1500;
+    /**
+     * How long the success icon should be shown before the loader dispatches the completion event.
+     * Value is expressed in milliseconds.
+     */
+    successDuration = 1000;
+    /**
+     * Whether the loader should automatically start its cycle when it becomes active.
+     */
+    autoStart = true;
+    /**
+     * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
+     */
+    active = true;
+    /**
+     * Emit when the loader finishes the success state and should be hidden by the parent.
+     */
+    loaderComplete;
+    phase = 'spinner';
+    spinnerTimer;
+    successTimer;
     componentWillLoad() {
         if (this.autoStart && this.active) {
             this.startCycle();
@@ -82,7 +86,7 @@ export class IrSuccessLoader {
         }
     }
     render() {
-        return (h(Host, { key: '310a1f0e3898ed4d79208630e49bea5b2aa1dd7b' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (h(Host, { key: 'd049b5b82d2e38284cb5e3c5cbe49308c3081ea9' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get is() { return "ir-success-loader"; }
     static get encapsulation() { return "shadow"; }

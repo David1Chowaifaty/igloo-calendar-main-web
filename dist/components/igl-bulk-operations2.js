@@ -24,25 +24,29 @@ const IglBulkOperations = /*@__PURE__*/ proxyCustomElement(class IglBulkOperatio
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.toast = createEvent(this, "toast", 7);
-        this.maxDatesLength = 8;
-        this.tabs = [
-            {
-                id: 'stop-sale',
-                label: 'Stop/Open Sale',
-            },
-            {
-                id: 'block',
-                label: 'Block Unit',
-            },
-        ];
     }
+    maxDatesLength = 8;
+    property_id;
+    closeModal;
+    toast;
+    selectedTab;
+    tabs = [
+        {
+            id: 'stop-sale',
+            label: 'Stop/Open Sale',
+        },
+        {
+            id: 'block',
+            label: 'Block Unit',
+        },
+    ];
+    tabsEl;
+    titleEl;
     componentDidLoad() {
-        var _a, _b, _c;
-        this.tabsEl.style.setProperty('--ir-tabs-top', ((_c = (_b = (_a = this.titleEl) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect()) === null || _b === void 0 ? void 0 : _b.height) === null || _c === void 0 ? void 0 : _c.toString()) + 'px');
+        this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        var _a;
-        return (h("div", { key: '3526742660fd026be06e9d87cc178aae76a2d318', class: 'bulk-operations-sheet-container' }, h("div", { key: 'b59377a6ad208bb5f844f61118166e7e1e058c2c', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: 'e7389c74c676a6a165bb4d4c2810e7bf1ef6575a', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (h("div", { key: 'cc79c18b11670fa7889c2f3f1c7683bdff6f881c', class: 'bulk-operations-sheet-container' }, h("div", { key: '76f71dff058546a7b1dde6c2d9fe05f5d651bc61', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: 'dfb10873b7b5853200ee73093bb13ceba1f5c43e', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -51,7 +55,7 @@ const IglBulkOperations = /*@__PURE__*/ proxyCustomElement(class IglBulkOperatio
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: '23f31233f5a12cd04d4a69011f719197b2343644', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), ((_a = this.selectedTab) === null || _a === void 0 ? void 0 : _a.id) === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: 'c161c6789a5ce373b1bd74bcc639787cb328c6f6', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
     static get style() { return IglBulkOperationsStyle0 + IglBulkOperationsStyle1; }
 }, [2, "igl-bulk-operations", {

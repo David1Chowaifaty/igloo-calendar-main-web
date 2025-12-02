@@ -10,55 +10,88 @@ const IrButton = /*@__PURE__*/ proxyCustomElement(class IrButton extends HTMLEle
         super();
         this.__registerHost();
         this.clickHandler = createEvent(this, "clickHandler", 7);
-        /**
-         * The color theme of the button.
-         */
-        this.btn_color = 'primary';
-        /**
-         * The size of the button.
-         */
-        this.size = 'md';
-        /**
-         * The size of the text inside the button.
-         */
-        this.textSize = 'md';
-        /**
-         * Whether the button should expand to the full width of its container.
-         */
-        this.btn_block = true;
-        /**
-         * Disables the button when set to true.
-         */
-        this.btn_disabled = false;
-        /**
-         * The button type attribute (`button`, `submit`, or `reset`).
-         */
-        this.btn_type = 'button';
-        /**
-         * Displays a loading indicator when true and disables the button.
-         */
-        this.isLoading = false;
-        /**
-         * A unique identifier for the button instance.
-         */
-        this.btn_id = v4();
-        /**
-         * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
-         */
-        this.variant = 'default';
-        /**
-         * If true, applies a visible background when hovered.
-         */
-        this.visibleBackgroundOnHover = false;
-        /**
-         * Position of the icon relative to the button text.
-         */
-        this.iconPosition = 'left';
-        /**
-         * If true, renders the text property as raw HTML inside the button.
-         */
-        this.renderContentAsHtml = false;
     }
+    /**
+     * The name of the button, used for identification purposes.
+     */
+    name;
+    /**
+     * The text content displayed inside the button.
+     */
+    text;
+    /**
+     * The color theme of the button.
+     */
+    btn_color = 'primary';
+    /**
+     * The size of the button.
+     */
+    size = 'md';
+    /**
+     * The size of the text inside the button.
+     */
+    textSize = 'md';
+    /**
+     * Whether the button should expand to the full width of its container.
+     */
+    btn_block = true;
+    /**
+     * Disables the button when set to true.
+     */
+    btn_disabled = false;
+    /**
+     * The button type attribute (`button`, `submit`, or `reset`).
+     */
+    btn_type = 'button';
+    /**
+     * Displays a loading indicator when true and disables the button.
+     */
+    isLoading = false;
+    /**
+     * Additional custom class names for the button.
+     */
+    btn_styles;
+    /**
+     * A unique identifier for the button instance.
+     */
+    btn_id = v4();
+    /**
+     * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+     */
+    variant = 'default';
+    /**
+     * The name of the icon to display.
+     */
+    icon_name;
+    /**
+     * If true, applies a visible background when hovered.
+     */
+    visibleBackgroundOnHover = false;
+    /**
+     * Position of the icon relative to the button text.
+     */
+    iconPosition = 'left';
+    /**
+     * Custom style object for the icon.
+     */
+    icon_style;
+    /**
+     * Custom inline styles for the button element.
+     */
+    btnStyle;
+    /**
+     * Custom inline styles for the label/text inside the button.
+     */
+    labelStyle;
+    /**
+     * If true, renders the text property as raw HTML inside the button.
+     */
+    renderContentAsHtml = false;
+    /**
+     * Emits a custom click event when the button is clicked.
+     */
+    clickHandler;
+    buttonEl;
     handleButtonAnimation(e) {
         if (!this.buttonEl || e.detail !== this.btn_id) {
             return;

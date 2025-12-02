@@ -1,19 +1,27 @@
 import { Host, h } from "@stencil/core";
 import { ToBeAssignedService } from "../../../services/toBeAssigned.service";
-import { dateToFormattedString } from "../../../utils/utils";
+import { dateToFormattedString, isWeekend } from "../../../utils/utils";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 import { handleUnAssignedDatesChange } from "../../../stores/unassigned_dates.store";
 import { colorVariants } from "../../ui/ir-icons/icons";
 export class IglCalHeader {
-    constructor() {
-        this.renderAgain = false;
-        this.unassignedRoomsNumber = {};
-        // private searchValue: string = '';
-        // private searchList: { [key: string]: any }[] = [];
-        this.roomsList = [];
-        this.toBeAssignedService = new ToBeAssignedService();
-    }
+    optionEvent;
+    gotoRoomEvent;
+    gotoToBeAssignedDate;
+    calendarData;
+    today;
+    propertyid;
+    unassignedDates;
+    to_date;
+    highlightedDate;
+    renderAgain = false;
+    unassignedRoomsNumber = {};
+    // private searchValue: string = '';
+    // private searchList: { [key: string]: any }[] = [];
+    roomsList = [];
+    toBeAssignedService = new ToBeAssignedService();
+    dateRef;
     componentWillLoad() {
         try {
             this.initializeRoomsList();
@@ -160,7 +168,7 @@ export class IglCalHeader {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: 'ab93dfde25d2cf86030784bf7f10b35df94a1b07' }, h("div", { key: '2546ad163936469d2b5dd8067d5689c8d7313d05', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: '1b9cf5d0ff62df7961b50e54984a4c46b1810051', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (h("ir-button", { key: '7691883daa9d59a7a20b734a8d0fd02be07a3aa5', variant: "icon", icon_name: "server", style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), h("ir-date-picker", { key: '061e4ee15acdc20b61cdd2645a544a15ce0bfe93', minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
+        return (h(Host, { key: 'e5d0f6c5150b1e417c5221f5a0ffda0955fe829c' }, h("div", { key: 'd1ef4379cbaa9f5e05b243d369e16b25040dad10', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: '294607c08a302b0ae27a50c832de737e04af21fd', class: "row justify-content-around no-gutters" }, !this.calendarData.is_vacation_rental && (h("ir-button", { key: '94cecde412261bbc9aa0dcbbf7f6861b3ec58d3e', variant: "icon", icon_name: "server", style: { ...colorVariants.secondary, '--icon-size': '1.5rem' }, "data-toggle": "tooltip", "data-placement": "bottom", title: locales.entries.Lcz_UnassignedUnitsTooltip, onClickHandler: () => this.handleOptionEvent('showAssigned'), btn_styles: "caledarBtns", visibleBackgroundOnHover: true })), h("ir-date-picker", { key: 'b93894014bb176af7f194bbc83a52bf9763e5a6c', minDate: moment().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
             // autoApply
             // singleDatePicker
             onDateChanged: evt => {
@@ -168,12 +176,14 @@ export class IglCalHeader {
                 this.handleDateSelect(evt);
             },
             // class="datePickerHidden"
-            class: 'date_btn', title: locales.entries.Lcz_Navigate, "data-toggle": "tooltip", "data-placement": "bottom" }, h("ir-button", { key: 'c1dace90e6878cc02e177587947fc8e883d63939', slot: "trigger", btn_styles: "caledarBtns", variant: "icon", icon_name: "calendar", style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }), onClickHandler: () => this.handleOptionEvent('calendar'), visibleBackgroundOnHover: true, ref: el => (this.dateRef = el) })), h("ir-button", { key: '5f86392b4839c0db6214f7becec4b551c47d5d02', variant: "icon", btn_styles: "caledarBtns", class: 'pointer', icon_name: "clock", visibleBackgroundOnHover: true, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }), "data-toggle": "tooltip", "data-placement": "bottom", title: locales.entries.Lcz_Today, onClickHandler: () => this.handleOptionEvent('gotoToday') }), h("ir-button", { key: 'b97722f1fb4d82ec22461059f58ffddbcb75206b', variant: "icon", btn_styles: "caledarBtns", icon_name: "plus", "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "new_booking_btn", title: locales.entries.Lcz_CreateNewBooking, visibleBackgroundOnHover: true, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }), onClickHandler: () => this.handleOptionEvent('add', this.getNewBookingModel()) }), h("ir-button", { key: 'c681f11f0dc66441517ea3fb446ffb104640d43e', variant: "icon", btn_styles: "caledarBtns", icon_name: "calendar-xmark", "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "new_bulk_btn", title: locales.entries.Lcz_StopOpenSale, visibleBackgroundOnHover: true, style: Object.assign(Object.assign({}, colorVariants.secondary), { '--icon-size': '1.5rem' }), onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) })), h("div", { key: '2d18fe135cdc7f72f1ebb0ebed619bd15fb56e4c', class: "row justify-content-around no-gutters searchContiner" }, h("ir-m-combobox", { key: 'd765ce6d755539a037cde469b9ae153072c7755f', placeholder: locales.entries.Lcz_FindUnit, options: this.roomsList.map(r => ({
+            class: 'date_btn', title: locales.entries.Lcz_Navigate, "data-toggle": "tooltip", "data-placement": "bottom" }, h("ir-button", { key: '0ab3054b71ca27f154f27b56480720f1dd2a6376', slot: "trigger", btn_styles: "caledarBtns", variant: "icon", icon_name: "calendar", style: { ...colorVariants.secondary, '--icon-size': '1.5rem' }, onClickHandler: () => this.handleOptionEvent('calendar'), visibleBackgroundOnHover: true, ref: el => (this.dateRef = el) })), h("ir-button", { key: '44e3826ec9a8504f78fdcb28a09dab7e58572fdd', variant: "icon", btn_styles: "caledarBtns", class: 'pointer', icon_name: "clock", visibleBackgroundOnHover: true, style: { ...colorVariants.secondary, '--icon-size': '1.5rem' }, "data-toggle": "tooltip", "data-placement": "bottom", title: locales.entries.Lcz_Today, onClickHandler: () => this.handleOptionEvent('gotoToday') }), h("ir-button", { key: '39d1a4ecd5476ad8e137778a2af7727cab501035', variant: "icon", btn_styles: "caledarBtns", icon_name: "plus", "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "new_booking_btn", title: locales.entries.Lcz_CreateNewBooking, visibleBackgroundOnHover: true, style: { ...colorVariants.secondary, '--icon-size': '1.5rem' }, onClickHandler: () => this.handleOptionEvent('add', this.getNewBookingModel()) }), h("ir-button", { key: '3d74979ad7f48bbae2de45a15077b3fc1398cab3', variant: "icon", btn_styles: "caledarBtns", icon_name: "calendar-xmark", "data-toggle": "tooltip", "data-placement": "bottom", "data-testid": "new_bulk_btn", title: locales.entries.Lcz_StopOpenSale, visibleBackgroundOnHover: true, style: { ...colorVariants.secondary, '--icon-size': '1.5rem' }, onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) })), h("div", { key: 'c874fb9713f5864e67e8960a85cd6afbad822fc5', class: "row justify-content-around no-gutters searchContiner" }, h("ir-m-combobox", { key: 'bc855116511d1528aef81b450c8238a34116310f', placeholder: locales.entries.Lcz_FindUnit, options: this.roomsList.map(r => ({
                 label: r.name,
                 value: r.id,
             })), onOptionChange: e => {
                 this.handleScrollToRoom(e.detail.value);
-            } }))), h("div", { key: 'f48e8d5ebe0bc46a2ebeaf80ed7ea31e4fcd9563', class: "stickyCell headersContainer" }, h("div", { key: '6097b9b8cc6a3be684dd2ad740b8cbb885874950', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (h("div", { class: "preventPageScroll" }, h("span", { class: `badge badge-${this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? 'info pointer' : 'light'} badge-pill`, onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))), h("div", { class: "dayTitle" }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")))))));
+            } }))), h("div", { key: '9b8708ccca5b6184d60b780433f54e976af7f638', class: "stickyCell headersContainer" }, h("div", { key: 'a04e67abe51498c16c07de85bad4ae629be2ba59', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => {
+            return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (h("div", { class: "preventPageScroll" }, h("span", { class: `badge badge-${this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? 'info pointer' : 'light'} badge-pill`, onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
+        }))));
     }
     static get is() { return "igl-cal-header"; }
     static get encapsulation() { return "scoped"; }

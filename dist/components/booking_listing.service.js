@@ -1,7 +1,7 @@
 import { c as createStore } from './index2.js';
 import { h as hooks } from './moment.js';
 import { z } from './index3.js';
-import { e as extras, Q as isPrivilegedUser } from './utils.js';
+import { e as extras, R as isPrivilegedUser } from './utils.js';
 import { a as axios } from './axios.js';
 
 const ymdDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected date in YYYY-MM-DD format');
@@ -38,6 +38,16 @@ const initialState = {
     rowCount: 10,
     bookings: [],
     balance_filter: [],
+    pagination: {
+        currentPage: 1,
+        totalPages: 0,
+        totalRecords: 0,
+        pageSize: 10,
+        showing: {
+            from: 0,
+            to: 0,
+        },
+    },
     userSelection: {
         from: hooks().add(-7, 'days').format('YYYY-MM-DD'),
         to: hooks().format('YYYY-MM-DD'),
@@ -63,26 +73,110 @@ const initialState = {
 const { state: booking_listing, onChange: onBookingListingChange } = createStore(initialState);
 function initializeUserSelection() {
     //booking_listing.channels[0].name
-    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { channel: '', booking_status: booking_listing.statuses[0].code, filter_type: booking_listing.types[0].id, book_nbr: '', name: '', from: hooks().add(-7, 'days').format('YYYY-MM-DD'), to: hooks().format('YYYY-MM-DD'), start_row: 0, end_row: booking_listing.rowCount, balance_filter: booking_listing.balance_filter[0].value });
+    booking_listing.userSelection = {
+        ...booking_listing.userSelection,
+        channel: '',
+        booking_status: booking_listing.statuses[0].code,
+        filter_type: booking_listing.types[0].id,
+        book_nbr: '',
+        name: '',
+        from: hooks().add(-7, 'days').format('YYYY-MM-DD'),
+        to: hooks().format('YYYY-MM-DD'),
+        start_row: 0,
+        end_row: booking_listing.rowCount,
+        balance_filter: booking_listing.balance_filter[0].value,
+    };
 }
 function updateUserSelections(params) {
-    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), params);
+    booking_listing.userSelection = {
+        ...booking_listing.userSelection,
+        ...params,
+    };
 }
 function updateUserSelection(key, value) {
-    booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { [key]: value });
+    booking_listing.userSelection = {
+        ...booking_listing.userSelection,
+        [key]: value,
+    };
+}
+const clamp = (value, min, max) => {
+    return Math.min(Math.max(value, min), max);
+};
+const calculateShowing = (page, pageSize, totalRecords) => {
+    if (totalRecords === 0) {
+        return { from: 0, to: 0 };
+    }
+    const startRow = (page - 1) * pageSize;
+    return {
+        from: startRow + 1,
+        to: Math.min(startRow + pageSize, totalRecords),
+    };
+};
+const calculateTotalPages = (totalRecords, pageSize) => {
+    if (totalRecords === 0) {
+        return 0;
+    }
+    return Math.ceil(totalRecords / pageSize);
+};
+const getRowBounds = (page, pageSize) => {
+    const startRow = (page - 1) * pageSize;
+    return {
+        startRow,
+        endRow: startRow + pageSize,
+    };
+};
+function updatePaginationFromSelection(selection) {
+    const nextPageSize = selection.end_row - selection.start_row || booking_listing.pagination.pageSize || booking_listing.rowCount;
+    const totalRecords = selection.total_count;
+    const totalPages = calculateTotalPages(totalRecords, nextPageSize);
+    const currentPage = totalPages === 0 ? 1 : Math.floor(selection.start_row / nextPageSize) + 1;
+    booking_listing.rowCount = nextPageSize;
+    booking_listing.pagination = {
+        ...booking_listing.pagination,
+        pageSize: nextPageSize,
+        currentPage,
+        totalPages,
+        totalRecords,
+        showing: calculateShowing(currentPage, nextPageSize, totalRecords),
+    };
+}
+function setPaginationPage(page) {
+    const pageSize = booking_listing.pagination.pageSize || booking_listing.rowCount;
+    const totalPages = booking_listing.pagination.totalPages || Math.max(calculateTotalPages(booking_listing.pagination.totalRecords, pageSize), 1);
+    const nextPage = clamp(page, 1, Math.max(totalPages, 1));
+    const { startRow, endRow } = getRowBounds(nextPage, pageSize);
+    updateUserSelections({
+        start_row: startRow,
+        end_row: endRow,
+    });
+    booking_listing.pagination = {
+        ...booking_listing.pagination,
+        currentPage: nextPage,
+        showing: calculateShowing(nextPage, pageSize, booking_listing.pagination.totalRecords),
+    };
+    return { startRow, endRow };
+}
+function setPaginationPageSize(pageSize) {
+    const normalizedPageSize = Math.max(pageSize, 1);
+    booking_listing.rowCount = normalizedPageSize;
+    const totalRecords = booking_listing.pagination.totalRecords;
+    const totalPages = calculateTotalPages(totalRecords, normalizedPageSize);
+    const nextPage = totalPages === 0 ? 1 : clamp(booking_listing.pagination.currentPage, 1, Math.max(totalPages, 1));
+    const { startRow, endRow } = getRowBounds(nextPage, normalizedPageSize);
+    booking_listing.pagination = {
+        ...booking_listing.pagination,
+        pageSize: normalizedPageSize,
+        currentPage: nextPage,
+        totalPages,
+        showing: calculateShowing(nextPage, normalizedPageSize, totalRecords),
+    };
+    updateUserSelections({
+        start_row: startRow,
+        end_row: endRow,
+    });
+    return { startRow, endRow };
 }
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 class BookingListingService {
     async getExposedBookingsCriteria(property_id) {
         const { data } = await axios.post(`/Get_Exposed_Bookings_Criteria`, {
@@ -97,13 +191,22 @@ class BookingListingService {
         initializeUserSelection();
     }
     async getExposedBookings(params) {
-        const { property_id, userTypeCode, channel, property_ids } = params, rest = __rest(params, ["property_id", "userTypeCode", "channel", "property_ids"]);
+        const { property_id, userTypeCode, channel, property_ids, ...rest } = params;
         const havePrivilege = isPrivilegedUser(userTypeCode);
-        const { data } = await axios.post(`/Get_Exposed_Bookings`, Object.assign(Object.assign({}, rest), { extras, property_id: havePrivilege ? undefined : property_id, property_ids: havePrivilege ? property_ids : null, channel: havePrivilege ? '' : channel }));
+        const { data } = await axios.post(`/Get_Exposed_Bookings`, {
+            ...rest,
+            extras,
+            property_id: havePrivilege ? undefined : property_id,
+            property_ids: havePrivilege ? property_ids : null,
+            channel: havePrivilege ? '' : channel,
+        });
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];
-        booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { total_count: header.total_count });
+        booking_listing.userSelection = {
+            ...booking_listing.userSelection,
+            total_count: header.total_count,
+        };
         booking_listing.download_url = header.exported_data_url;
     }
     async removeExposedBooking(booking_nbr, is_to_revover) {
@@ -114,6 +217,6 @@ class BookingListingService {
     }
 }
 
-export { BookingListingService as B, updateUserSelections as a, booking_listing as b, initializeUserSelection as i, onBookingListingChange as o, updateUserSelection as u };
+export { BookingListingService as B, updatePaginationFromSelection as a, booking_listing as b, updateUserSelections as c, setPaginationPage as d, initializeUserSelection as i, onBookingListingChange as o, setPaginationPageSize as s, updateUserSelection as u };
 
 //# sourceMappingURL=booking_listing.service.js.map

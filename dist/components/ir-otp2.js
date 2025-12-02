@@ -9,145 +9,55 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
         this.__registerHost();
         this.otpChange = createEvent(this, "otpChange", 7);
         this.otpComplete = createEvent(this, "otpComplete", 7);
-        /**
-         * The length of the OTP code
-         */
-        this.length = 6;
-        /**
-         * Whether the input is disabled
-         */
-        this.disabled = false;
-        /**
-         * Placeholder character to display
-         */
-        this.placeholder = '';
-        /**
-         * Input type - can be 'text', 'password', 'number', or 'tel'
-         */
-        this.type = 'number';
-        /**
-         * Auto focus on the first input when component loads
-         */
-        this.autoFocus = true;
-        /**
-         * Whether to mask the input (show dots instead of text)
-         */
-        this.secure = false;
-        /**
-         * Allow only numbers (0-9) as input
-         */
-        this.numbersOnly = false;
-        /**
-         * Current OTP value as an array of characters
-         */
-        this.otpValues = [];
-        /**
-         * Reference to input elements
-         */
-        this.inputRefs = [];
-        /**
-         * Update the current OTP value at the specified index
-         */
-        this.handleInput = (event, index) => {
-            const input = event.target;
-            let value = input.value;
-            // For number input type, restrict to digits only
-            if (this.numbersOnly) {
-                value = value.replace(/[^0-9]/g, '');
-            }
-            // Take only the last character if someone enters multiple
-            if (value.length > 1) {
-                value = value.slice(-1);
-                input.value = value;
-            }
-            this.otpValues[index] = value;
-            this.emitChanges();
-            // Move to next input if this one is filled
-            if (value && index < this.length - 1) {
-                this.inputRefs[index + 1].focus();
-            }
-        };
-        /**
-         * Handle keyboard navigation
-         */
-        this.handleKeyDown = (event, index) => {
-            switch (event.key) {
-                case 'Backspace':
-                    if (!this.otpValues[index] && index > 0) {
-                        // If current field is empty and backspace is pressed, go to previous field
-                        this.inputRefs[index - 1].focus();
-                        // Prevent default to avoid browser navigation
-                        event.preventDefault();
-                    }
-                    break;
-                case 'Delete':
-                    // Clear current input on delete
-                    this.otpValues[index] = '';
-                    this.emitChanges();
-                    break;
-                case 'ArrowLeft':
-                    // Move to previous input on left arrow
-                    if (index > 0) {
-                        this.inputRefs[index - 1].focus();
-                        event.preventDefault();
-                    }
-                    break;
-                case 'ArrowRight':
-                    // Move to next input on right arrow
-                    if (index < this.length - 1) {
-                        this.inputRefs[index + 1].focus();
-                        event.preventDefault();
-                    }
-                    break;
-                case 'Home':
-                    // Move to first input
-                    this.inputRefs[0].focus();
-                    event.preventDefault();
-                    break;
-                case 'End':
-                    // Move to last input
-                    this.inputRefs[this.length - 1].focus();
-                    event.preventDefault();
-                    break;
-            }
-        };
-        /**
-         * Handle paste event to populate the OTP fields
-         */
-        this.handlePaste = (event, index) => {
-            var _a;
-            event.preventDefault();
-            const pastedData = ((_a = event.clipboardData) === null || _a === void 0 ? void 0 : _a.getData('text')) || '';
-            // If numbersOnly is enabled, filter non-number characters
-            const filteredData = this.numbersOnly ? pastedData.replace(/[^0-9]/g, '') : pastedData;
-            // Fill OTP values with pasted data
-            for (let i = 0; i < Math.min(filteredData.length, this.length - index); i++) {
-                this.otpValues[index + i] = filteredData[i];
-            }
-            // Update inputs with new values
-            this.inputRefs.forEach((input, idx) => {
-                input.value = this.otpValues[idx] || '';
-            });
-            // Focus on the next empty input or the last one
-            const nextEmptyIndex = this.otpValues.findIndex(val => !val);
-            if (nextEmptyIndex !== -1 && nextEmptyIndex < this.length) {
-                this.inputRefs[nextEmptyIndex].focus();
-            }
-            else {
-                this.inputRefs[this.length - 1].focus();
-            }
-            this.emitChanges();
-        };
-        /**
-         * Focus handler to select all text when focused
-         */
-        this.handleFocus = (event) => {
-            const input = event.target;
-            if (input.value) {
-                setTimeout(() => input.select(), 0);
-            }
-        };
     }
+    /**
+     * The length of the OTP code
+     */
+    length = 6;
+    /**
+     * The default OTP code
+     */
+    defaultValue;
+    /**
+     * Whether the input is disabled
+     */
+    disabled = false;
+    /**
+     * Placeholder character to display
+     */
+    placeholder = '';
+    /**
+     * Input type - can be 'text', 'password', 'number', or 'tel'
+     */
+    type = 'number';
+    /**
+     * Auto focus on the first input when component loads
+     */
+    autoFocus = true;
+    /**
+     * Whether to mask the input (show dots instead of text)
+     */
+    secure = false;
+    /**
+     * Allow only numbers (0-9) as input
+     */
+    numbersOnly = false;
+    /**
+     * Event emitted when the OTP value changes
+     */
+    otpChange;
+    /**
+     * Event emitted when the OTP is complete
+     */
+    otpComplete;
+    /**
+     * Current OTP value as an array of characters
+     */
+    otpValues = [];
+    /**
+     * Reference to input elements
+     */
+    inputRefs = [];
     /**
      * Initialize the component
      */
@@ -184,6 +94,107 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
         }
         this.emitChanges();
     }
+    /**
+     * Update the current OTP value at the specified index
+     */
+    handleInput = (event, index) => {
+        const input = event.target;
+        let value = input.value;
+        // For number input type, restrict to digits only
+        if (this.numbersOnly) {
+            value = value.replace(/[^0-9]/g, '');
+        }
+        // Take only the last character if someone enters multiple
+        if (value.length > 1) {
+            value = value.slice(-1);
+            input.value = value;
+        }
+        this.otpValues[index] = value;
+        this.emitChanges();
+        // Move to next input if this one is filled
+        if (value && index < this.length - 1) {
+            this.inputRefs[index + 1].focus();
+        }
+    };
+    /**
+     * Handle keyboard navigation
+     */
+    handleKeyDown = (event, index) => {
+        switch (event.key) {
+            case 'Backspace':
+                if (!this.otpValues[index] && index > 0) {
+                    // If current field is empty and backspace is pressed, go to previous field
+                    this.inputRefs[index - 1].focus();
+                    // Prevent default to avoid browser navigation
+                    event.preventDefault();
+                }
+                break;
+            case 'Delete':
+                // Clear current input on delete
+                this.otpValues[index] = '';
+                this.emitChanges();
+                break;
+            case 'ArrowLeft':
+                // Move to previous input on left arrow
+                if (index > 0) {
+                    this.inputRefs[index - 1].focus();
+                    event.preventDefault();
+                }
+                break;
+            case 'ArrowRight':
+                // Move to next input on right arrow
+                if (index < this.length - 1) {
+                    this.inputRefs[index + 1].focus();
+                    event.preventDefault();
+                }
+                break;
+            case 'Home':
+                // Move to first input
+                this.inputRefs[0].focus();
+                event.preventDefault();
+                break;
+            case 'End':
+                // Move to last input
+                this.inputRefs[this.length - 1].focus();
+                event.preventDefault();
+                break;
+        }
+    };
+    /**
+     * Handle paste event to populate the OTP fields
+     */
+    handlePaste = (event, index) => {
+        event.preventDefault();
+        const pastedData = event.clipboardData?.getData('text') || '';
+        // If numbersOnly is enabled, filter non-number characters
+        const filteredData = this.numbersOnly ? pastedData.replace(/[^0-9]/g, '') : pastedData;
+        // Fill OTP values with pasted data
+        for (let i = 0; i < Math.min(filteredData.length, this.length - index); i++) {
+            this.otpValues[index + i] = filteredData[i];
+        }
+        // Update inputs with new values
+        this.inputRefs.forEach((input, idx) => {
+            input.value = this.otpValues[idx] || '';
+        });
+        // Focus on the next empty input or the last one
+        const nextEmptyIndex = this.otpValues.findIndex(val => !val);
+        if (nextEmptyIndex !== -1 && nextEmptyIndex < this.length) {
+            this.inputRefs[nextEmptyIndex].focus();
+        }
+        else {
+            this.inputRefs[this.length - 1].focus();
+        }
+        this.emitChanges();
+    };
+    /**
+     * Focus handler to select all text when focused
+     */
+    handleFocus = (event) => {
+        const input = event.target;
+        if (input.value) {
+            setTimeout(() => input.select(), 0);
+        }
+    };
     /**
      * Helper method to emit change events
      */
@@ -224,7 +235,7 @@ const IrOtp = /*@__PURE__*/ proxyCustomElement(class IrOtp extends HTMLElement {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '4693a0e65661f005faab8a05d6ad1191cbbb3e53', class: "otp-input-container" }, h("div", { key: '23c1564d6ed9305d8fcdc95e54f22dd7ccb31f0a', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: 'b5cd811e97061fc4929f45316758478660a0921b', class: "otp-input-container" }, h("div", { key: '9e543fcb26189678f8d23d3dec2b81ecbcc34985', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }

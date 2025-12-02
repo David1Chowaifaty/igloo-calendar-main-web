@@ -1,15 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import booking_listing, { initializeUserSelection } from "../stores/booking_listing.store";
 import { extras, isPrivilegedUser } from "../utils/utils";
 import axios from "axios";
@@ -27,13 +15,22 @@ export class BookingListingService {
         initializeUserSelection();
     }
     async getExposedBookings(params) {
-        const { property_id, userTypeCode, channel, property_ids } = params, rest = __rest(params, ["property_id", "userTypeCode", "channel", "property_ids"]);
+        const { property_id, userTypeCode, channel, property_ids, ...rest } = params;
         const havePrivilege = isPrivilegedUser(userTypeCode);
-        const { data } = await axios.post(`/Get_Exposed_Bookings`, Object.assign(Object.assign({}, rest), { extras, property_id: havePrivilege ? undefined : property_id, property_ids: havePrivilege ? property_ids : null, channel: havePrivilege ? '' : channel }));
+        const { data } = await axios.post(`/Get_Exposed_Bookings`, {
+            ...rest,
+            extras,
+            property_id: havePrivilege ? undefined : property_id,
+            property_ids: havePrivilege ? property_ids : null,
+            channel: havePrivilege ? '' : channel,
+        });
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
         booking_listing.bookings = [...result];
-        booking_listing.userSelection = Object.assign(Object.assign({}, booking_listing.userSelection), { total_count: header.total_count });
+        booking_listing.userSelection = {
+            ...booking_listing.userSelection,
+            total_count: header.total_count,
+        };
         booking_listing.download_url = header.exported_data_url;
     }
     async removeExposedBooking(booking_nbr, is_to_revover) {

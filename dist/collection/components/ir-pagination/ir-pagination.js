@@ -1,39 +1,76 @@
-import { Host, h, Fragment } from "@stencil/core";
+import { h, Fragment } from "@stencil/core";
 export class IrPagination {
-    constructor() {
-        /**
-         * Total number of pages available
-         */
-        this.pages = 0;
-        /**
-         * Total number of records/items
-         */
-        this.total = 0;
-        /**
-         * Current active page number (1-based)
-         */
-        this.currentPage = 1;
-        /**
-         * Range of items currently being displayed
-         */
-        this.showing = { from: 0, to: 0 };
-        /**
-         * Whether to show total records count
-         */
-        this.showTotalRecords = true;
-        /**
-         * Label for the record type (e.g., 'items', 'tasks', 'records')
-         */
-        this.recordLabel = '';
-        /**
-         * Whether the pagination is disabled
-         */
-        this.disabled = false;
-        /**
-         * Page size for calculations
-         */
-        this.pageSize = 10;
-    }
+    /**
+     * Total number of pages available
+     */
+    pages = 0;
+    /**
+     * List of all page size
+     */
+    pageSizes;
+    /**
+     * Enables a dropdown for changing the number of items displayed per page.
+     *
+     * When set to `true`, users can select a page size from the `pageSizes` array.
+     *
+     * **Note:** This prop requires the `pageSizes` prop to be defined with one or more numeric values.
+     * If `pageSizes` is empty or undefined, the page size selector will not be displayed.
+     *
+     * @default false
+     */
+    allowPageSizeChange;
+    /**
+     * Total number of records/items
+     */
+    total = 0;
+    /**
+     * Current active page number (1-based)
+     */
+    currentPage = 1;
+    /**
+     * Range of items currently being displayed
+     */
+    showing = { from: 0, to: 0 };
+    /**
+     * Whether to show total records count
+     */
+    showTotalRecords = true;
+    /**
+     * Label for the record type (e.g., 'items', 'tasks', 'records')
+     */
+    recordLabel = '';
+    /**
+     * Whether the pagination is disabled
+     */
+    disabled = false;
+    /**
+     * Page size for calculations
+     */
+    pageSize = 10;
+    /**
+     * Emitted when the current page changes
+     */
+    pageChange;
+    /**
+     * Emitted when the page size changes
+     */
+    pageSizeChange;
+    /**
+     * Emitted when the first page is requested
+     */
+    firstPage;
+    /**
+     * Emitted when the last page is requested
+     */
+    lastPage;
+    /**
+     * Emitted when the previous page is requested
+     */
+    previousPage;
+    /**
+     * Emitted when the next page is requested
+     */
+    nextPage;
     /**
      * Watch for changes to currentPage prop
      */
@@ -124,27 +161,24 @@ export class IrPagination {
         }
         const isFirstPage = this.currentPage === 1;
         const isLastPage = this.currentPage === this.pages;
-        return (h(Host, { class: {
-                'd-flex flex-column flex-md-row align-items-center justify-content-between pagination-container': true,
-                'disabled': this.disabled,
-            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "m-0 mb-1 mb-md-0 pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: 'd-flex align-items-center buttons-container' }, this.allowPageSizeChange && this.pageSizes && (h("ir-select", { selectedValue: String(this.pageSize), data: this.pageSizes.map(size => ({
+        return (h("div", { class: {
+                'pagination-container': true,
+                'pagination-container--disabled': this.disabled,
+            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: "buttons-container" }, this.allowPageSizeChange && this.pageSizes && (h("ir-select", { class: "page-size-select", selectedValue: String(this.pageSize), data: this.pageSizes.map(size => ({
                 text: `${size} ${this.recordLabel}`,
                 value: String(size),
-            })), showFirstOption: false, style: { margin: '0 0.5rem' }, onSelectChange: e => this.handlePageSizeChange(Number(e.detail)) })), this.pages > 1 && (h(Fragment, null, h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(1, 'first'), icon_name: "angles_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to first page" }), h("ir-button", { size: "sm", btn_disabled: isFirstPage || this.disabled, onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), icon_name: "angle_left", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to previous page" }), h("ir-select", { selectedValue: this.currentPage.toString(), showFirstOption: false, onSelectChange: e => this.handlePageChange(+e.detail, 'direct'), data: Array.from(Array(this.pages), (_, i) => i + 1).map(i => ({
-                text: i.toString(),
-                value: i.toString(),
-            })), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled }), h("ir-button", { size: "sm", btn_disabled: isLastPage || this.disabled, onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), icon_name: "angle_right", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to next page" }), h("ir-button", { size: "sm", btn_disabled: isLastPage || this.disabled, onClickHandler: () => this.handlePageChange(this.pages, 'last'), icon_name: "angles_right", style: { '--icon-size': '0.875rem' }, "aria-label": "Go to last page" }))))));
+            })), showFirstOption: false, onSelectChange: e => this.handlePageSizeChange(Number(e.detail)) })), this.pages > 1 && (h(Fragment, null, h("ir-custom-button", { "aria-label": "Go to first page", onClickHandler: () => this.handlePageChange(1, 'first'), disabled: isFirstPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angles-left", label: "Go to first page" })), h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), variant: "neutral", appearance: "plain", disabled: isFirstPage || this.disabled, "aria-label": "Go to previous page" }, h("wa-icon", { name: "angle-left", label: "Go to previous page" })), h("wa-select", { value: this.currentPage?.toString(), class: "pagination__current-page-select", onchange: e => this.handlePageChange(+e.target.value, 'direct'), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: '1' }, Array.from(Array(this.pages), (_, i) => i + 1).map(i => (h("wa-option", { value: i.toString(), key: `${this.recordLabel}-${i}` }, i)))), h("ir-custom-button", { "aria-label": "Go to next page", onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), disabled: isLastPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angle-right", label: "Go to next page" })), h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.pages, 'last'), variant: "neutral", appearance: "plain", disabled: isLastPage || this.disabled, "aria-label": "Go to last page" }, h("wa-icon", { name: "angles-right", label: "Go to last page" })))))));
     }
     static get is() { return "ir-pagination"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-pagination.css"]
+            "$": ["ir-pagination.css", "../../global/app.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-pagination.css"]
+            "$": ["ir-pagination.css", "../../global/app.css"]
         };
     }
     static get properties() {
@@ -257,7 +291,7 @@ export class IrPagination {
                     "references": {
                         "PaginationRange": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationRange"
                         }
                     }
@@ -371,7 +405,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -392,7 +426,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -413,7 +447,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -434,7 +468,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -455,7 +489,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }
@@ -476,7 +510,7 @@ export class IrPagination {
                     "references": {
                         "PaginationChangeEvent": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ir-pagination/ir-pagination.tsx",
                             "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
                         }
                     }

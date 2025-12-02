@@ -2,7 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IPayment } from "../../../models/booking.dto";
 import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
-import { PaymentEntries, PaymentSidebarEvent } from '../types';
+import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../types';
 export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
@@ -15,12 +15,14 @@ export declare class IrPaymentDetails {
     resetExposedCancellationDueAmount: EventEmitter<null>;
     toast: EventEmitter<IToast>;
     openSidebar: EventEmitter<PaymentSidebarEvent>;
+    openPrintScreen: EventEmitter<PrintScreenOptions>;
     private paymentService;
     private bookingService;
     handlePaymentGeneration(e: CustomEvent): void;
     private handleAddPayment;
     private handleEditPayment;
     private handleDeletePayment;
+    private handleIssueReceipt;
     private cancelPayment;
     private handleConfirmModal;
     private handleCancelModal;

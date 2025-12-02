@@ -1,23 +1,55 @@
 import { Fragment, h } from "@stencil/core";
 export class IrCountryPicker {
-    constructor() {
-        /**
-         * List of countries to display in the dropdown.
-         */
-        this.countries = [];
-        /**
-         * Whether to automatically validate the input.
-         */
-        this.autoValidate = false;
-        /**
-         * Filtered list of countries based on the user's input.
-         */
-        this.filteredCountries = [];
-        /**
-         * Whether the input is currently being used for searching.
-         */
-        this.searching = false;
-    }
+    variant = 'default';
+    /**
+     * List of countries to display in the dropdown.
+     */
+    countries = [];
+    /**
+     * Currently selected country.
+     */
+    country;
+    /**
+     * Whether to show an error state on the input.
+     */
+    error;
+    /**
+     * The property-associated country, shown separately if relevant.
+     */
+    propertyCountry;
+    /**
+     * The label to display for the input.
+     */
+    label;
+    /**
+     * Test ID for automated testing.
+     */
+    testId;
+    /**
+     * Whether to automatically validate the input.
+     */
+    autoValidate = false;
+    /**
+     * The current input value typed by the user.
+     */
+    inputValue;
+    /**
+     * The currently selected country object.
+     */
+    selectedCountry;
+    /**
+     * Filtered list of countries based on the user's input.
+     */
+    filteredCountries = [];
+    /**
+     * Whether the input is currently being used for searching.
+     */
+    searching = false;
+    /**
+     * Event emitted when a country is selected.
+     */
+    countryChange;
+    debounceTimeout;
     componentWillLoad() {
         this.filteredCountries = [...this.countries];
         if (this.country) {
@@ -26,9 +58,8 @@ export class IrCountryPicker {
         }
     }
     handleCountryChange(newCountry, oldCountry) {
-        var _a;
-        if ((newCountry === null || newCountry === void 0 ? void 0 : newCountry.id) !== (oldCountry === null || oldCountry === void 0 ? void 0 : oldCountry.id)) {
-            this.inputValue = (_a = this.country) === null || _a === void 0 ? void 0 : _a.name;
+        if (newCountry?.id !== oldCountry?.id) {
+            this.inputValue = this.country?.name;
             this.selectedCountry = newCountry;
         }
     }
@@ -54,7 +85,7 @@ export class IrCountryPicker {
      */
     selectCountry(c) {
         this.selectedCountry = c;
-        this.inputValue = c === null || c === void 0 ? void 0 : c.name;
+        this.inputValue = c?.name;
         this.filteredCountries = [...this.countries];
         this.countryChange.emit(c);
     }
@@ -70,9 +101,18 @@ export class IrCountryPicker {
         }, 100);
     }
     render() {
-        var _a, _b, _c;
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
-        return (h("form", { key: 'e59506b5abb9c0a4e373dcae8d9049aa115c86f1', class: "dropdown m-0 p-0" }, h("ir-input-text", { key: 'cb9c63f2803c39e36b3fbb15f2d5cd2617bf3002', onTextChange: e => {
+        if (this.variant === 'modern') {
+            return (h("ir-picker", { label: this.label, mode: "select", value: this.selectedCountry?.id?.toString(), "onCombobox-select": e => {
+                    const country = this.filteredCountries.find(c => c.id.toString() === e.detail.item.value);
+                    if (!country) {
+                        console.warn(`country not found`, e.detail.item);
+                        return;
+                    }
+                    this.selectCountry(country);
+                } }, this.filteredCountries.map(country => (h("ir-picker-item", { value: country.id?.toString(), label: country.name, key: country.id }, h("img", { src: country.flag, alt: country.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, country.name))))));
+        }
+        return (h("form", { class: "dropdown m-0 p-0" }, h("ir-input-text", { onTextChange: e => {
                 if (!this.searching) {
                     this.searching = true;
                 }
@@ -83,15 +123,11 @@ export class IrCountryPicker {
                 if (this.filteredCountries.length > 0 && this.inputValue && this.inputValue.trim() !== '') {
                     this.selectCountry(this.filteredCountries[0]);
                 }
-            } }), h("div", { key: 'd5514dd73d71ba08023f1194cdb62ba9dcf3e15d', class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, { key: 'aed44b8dbbb23c8814ddff86edb8d1a64d0b124d' }, h("button", { key: 'c0f5c60b0042e31f50218b4ed15f872b52034de4', type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
+            } }), h("div", { class: "dropdown-menu combobox-menu", "aria-labelledby": "dropdownMenuCombobox" }, shouldShowPropertyCountry && (h(Fragment, null, h("button", { type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === this.propertyCountry.id ? 'active' : ''}`, onClick: () => {
                 this.selectCountry(this.propertyCountry);
-            } }, h("img", { key: 'f91fc0cffbb7c5d1002f99768de6cc024db1567a', src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { key: '11bca34ce88c445e092f4cc656c6d58469b59e55', class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { key: '97f89c831f49daa283b70fbc70452a901026cfac', class: "dropdown-divider" }))), (_b = this.filteredCountries) === null || _b === void 0 ? void 0 :
-            _b.map(c => {
-                var _a;
-                return (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${((_a = this.selectedCountry) === null || _a === void 0 ? void 0 : _a.id) === c.id ? 'active' : ''}`, onClick: () => {
-                        this.selectCountry(c);
-                    } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)));
-            }), ((_c = this.filteredCountries) === null || _c === void 0 ? void 0 : _c.length) === 0 && h("p", { key: 'c95db95316aad76f065894a61499f0112f64e055', class: "dropdown-item-text" }, "Invalid Country"))));
+            } }, h("img", { src: this.propertyCountry.flag, alt: this.propertyCountry.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, this.propertyCountry.name)), h("div", { class: "dropdown-divider" }))), this.filteredCountries?.map(c => (h("button", { key: c.id, type: "button", class: `dropdown-item d-flex align-items-center ${this.selectedCountry?.id === c.id ? 'active' : ''}`, onClick: () => {
+                this.selectCountry(c);
+            } }, h("img", { src: c.flag, alt: c.name, style: { aspectRatio: '1', height: '15px', borderRadius: '4px' } }), h("p", { class: "pl-1 m-0" }, c.name)))), this.filteredCountries?.length === 0 && h("p", { class: "dropdown-item-text" }, "Invalid Country"))));
     }
     static get is() { return "ir-country-picker"; }
     static get encapsulation() { return "scoped"; }
@@ -107,6 +143,26 @@ export class IrCountryPicker {
     }
     static get properties() {
         return {
+            "variant": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'modern' | 'default'",
+                    "resolved": "\"default\" | \"modern\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "variant",
+                "reflect": false,
+                "defaultValue": "'default'"
+            },
             "countries": {
                 "type": "unknown",
                 "mutable": false,

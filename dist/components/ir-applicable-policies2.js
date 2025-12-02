@@ -5,7 +5,7 @@ import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
 import { H as HelpDocButton } from './HelpButton.js';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$2 } from './ir-button2.js';
+import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-icons2.js';
 
 /**
@@ -13,9 +13,10 @@ import { d as defineCustomElement$1 } from './ir-icons2.js';
  * {@link BookingService} while providing light data preparation utilities.
  */
 class ApplicablePoliciesService {
+    bookingService;
+    _booking = null;
     constructor(bookingService) {
         this.bookingService = bookingService;
-        this._booking = null;
     }
     /**
      * Returns the booking reference used to scope applicable policy requests.
@@ -46,7 +47,7 @@ class ApplicablePoliciesService {
             return;
         }
         const { rooms, booking_nbr, currency, property } = this._booking;
-        const groupedRooms = this.groupRoomsForRequest(rooms !== null && rooms !== void 0 ? rooms : []);
+        const groupedRooms = this.groupRoomsForRequest(rooms ?? []);
         try {
             const requests = [];
             groupedRooms.forEach(grouping => {
@@ -62,8 +63,8 @@ class ApplicablePoliciesService {
                 if (grouping.identifiers.length > 1) {
                     grouping.identifiers.forEach(roomIdentifier => {
                         requests.push(this.bookingService
-                            .getExposedApplicablePolicies(Object.assign(Object.assign({}, basePayload), { room_identifier: roomIdentifier }))
-                            .then(policies => ({ grouping: Object.assign(Object.assign({}, grouping), { rooms: rooms.filter(r => r.identifier === roomIdentifier) }), policies })));
+                            .getExposedApplicablePolicies({ ...basePayload, room_identifier: roomIdentifier })
+                            .then(policies => ({ grouping: { ...grouping, rooms: rooms.filter(r => r.identifier === roomIdentifier) }, policies })));
                     });
                 }
                 else {
@@ -93,8 +94,7 @@ class ApplicablePoliciesService {
         }
         const groupMap = new Map();
         rooms.forEach(room => {
-            var _a, _b;
-            if (!((_a = room.rateplan) === null || _a === void 0 ? void 0 : _a.id) || !((_b = room.roomtype) === null || _b === void 0 ? void 0 : _b.id)) {
+            if (!room.rateplan?.id || !room.roomtype?.id) {
                 throw new Error('Room is missing rate plan or room type information.');
             }
             const key = `${room.roomtype.id}-${room.rateplan.id}`;
@@ -117,7 +117,7 @@ class ApplicablePoliciesService {
         return [...groupMap.values()];
     }
     buildPoliciesByType(groupedPolicies) {
-        const flattened = groupedPolicies.flatMap(group => { var _a; return (_a = group.policies) !== null && _a !== void 0 ? _a : []; });
+        const flattened = groupedPolicies.flatMap(group => group.policies ?? []);
         return this.groupPoliciesByType(flattened);
     }
     /**
@@ -140,7 +140,7 @@ class ApplicablePoliciesService {
         }
         const statements = [];
         groupedPolicies.forEach(({ grouping, policies }) => {
-            if (!(policies === null || policies === void 0 ? void 0 : policies.length)) {
+            if (!policies?.length) {
                 return;
             }
             const cancellationPolicy = policies.find(policy => policy.type === 'cancelation');
@@ -171,7 +171,7 @@ class ApplicablePoliciesService {
                             return bracket;
                         }
                         const nextBracket = oldBrackets[index + 1];
-                        if ((nextBracket === null || nextBracket === void 0 ? void 0 : nextBracket.amount) && nextBracket.amount > 0) {
+                        if (nextBracket?.amount && nextBracket.amount > 0) {
                             return bracket;
                         }
                         return undefined;
@@ -204,7 +204,14 @@ class ApplicablePoliciesService {
                         return aDate.valueOf() - bDate.valueOf();
                     });
                 }
-                statements.push(Object.assign(Object.assign({}, cancellationPolicy), { brackets: filteredBrackets, roomType: room.roomtype, ratePlan: room.rateplan, checkInDate: room.from_date, grossTotal: room.gross_total }));
+                statements.push({
+                    ...cancellationPolicy,
+                    brackets: filteredBrackets,
+                    roomType: room.roomtype,
+                    ratePlan: room.rateplan,
+                    checkInDate: room.from_date,
+                    grossTotal: room.gross_total,
+                });
             });
         });
         return statements;
@@ -215,8 +222,7 @@ class ApplicablePoliciesService {
      */
     calculateGuaranteeAmount(groupedPolicies) {
         return groupedPolicies.reduce((total, { grouping, policies }) => {
-            var _a;
-            if (!(policies === null || policies === void 0 ? void 0 : policies.length)) {
+            if (!policies?.length) {
                 return total;
             }
             const guaranteePolicy = policies.find(policy => policy.type === 'guarantee');
@@ -227,7 +233,7 @@ class ApplicablePoliciesService {
             if (!currentBracket) {
                 return total;
             }
-            const roomsTotal = grouping.rooms.length * ((_a = currentBracket.gross_amount) !== null && _a !== void 0 ? _a : 0);
+            const roomsTotal = grouping.rooms.length * (currentBracket.gross_amount ?? 0);
             return total + roomsTotal;
         }, 0);
     }
@@ -262,7 +268,7 @@ class ApplicablePoliciesService {
     }
 }
 
-const irApplicablePoliciesCss = ".sc-ir-applicable-policies-h{display:flex;flex-direction:column;gap:1rem}.applicable-policies__container.sc-ir-applicable-policies{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.applicable-policies__title.sc-ir-applicable-policies{font-size:1rem;font-weight:700;padding:0;margin:0}.applicable-policies__no-penalty.sc-ir-applicable-policies{padding:0;margin:0;font-size:0.875rem}.applicable-policies__statements.sc-ir-applicable-policies{display:flex;flex-direction:column;gap:0.5rem;background:rgb(30, 159, 242, 5%);padding:0.5rem 1rem;border:1px solid rgba(30, 159, 242, 40%);border-radius:0.25rem;max-height:200px;overflow-y:auto}.applicable-policies__highlighted-bracket.sc-ir-applicable-policies{color:rgba(30, 159, 242, 100%)}.applicable-policies__statement.sc-ir-applicable-policies{display:flex;flex-direction:column;border-bottom:1px solid #e5e7eb;padding-bottom:0.5rem}.applicable-policies__statement.sc-ir-applicable-policies:last-child{border-bottom:0;padding-bottom:0}.applicable-policies__room.sc-ir-applicable-policies{padding:0;margin:0;padding-bottom:0.5rem}.applicable-policies__bracket.sc-ir-applicable-policies{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.25rem;font-size:0.875rem;padding-bottom:0.5rem}.applicable-policies__bracket-dates.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem;padding:0;margin:0}.applicable-policies__amount.sc-ir-applicable-policies{text-align:right;padding:0;margin:0;font-weight:600}.applicable-policies__statement-text.sc-ir-applicable-policies{padding:0;margin:0}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:none}.applicable-policies__guarantee.sc-ir-applicable-policies{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border:1px solid rgba(255, 73, 97, 40%);border-radius:6px;background-color:rgba(255, 73, 97, 10%);margin-bottom:0.5rem;font-size:0.875rem}.applicable-policies__guarantee-info.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem}.applicable-policies__guarantee-date.sc-ir-applicable-policies{color:var(--text-muted, #666);padding:0;margin:0}.applicable-policies__guarantee-amount.sc-ir-applicable-policies{font-weight:600;color:var(--text-strong, #222);padding:0;margin:0}.applicable-policies__guarantee-label.sc-ir-applicable-policies{color:red;font-weight:700;padding:0;margin:0}.applicable-policies__guarantee-action.sc-ir-applicable-policies{width:fit-content}@media (min-width: 768px){.applicable-policies__brackets.sc-ir-applicable-policies{display:none}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:block;width:100%;font-size:0.875rem}.applicable-policies__brackets-table.sc-ir-applicable-policies table.sc-ir-applicable-policies{width:100%}.applicable-policies__amount.sc-ir-applicable-policies,.applicable-policies__bracket-dates.sc-ir-applicable-policies{white-space:nowrap}.applicable-policies__statement-text.sc-ir-applicable-policies{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}";
+const irApplicablePoliciesCss = ".sc-ir-applicable-policies-h{display:flex;flex-direction:column;gap:1rem}.applicable-policies__container.sc-ir-applicable-policies{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.applicable-policies__title.sc-ir-applicable-policies{font-size:1rem;font-weight:700;padding:0;margin:0}.applicable-policies__no-penalty.sc-ir-applicable-policies{padding:0;margin:0;font-size:0.875rem}.applicable-policies__statements.sc-ir-applicable-policies{display:flex;flex-direction:column;gap:0.5rem;background:rgb(30, 159, 242, 5%);padding:0.5rem 1rem;border:1px solid rgba(30, 159, 242, 40%);border-radius:0.25rem;max-height:245px;overflow-y:auto}.applicable-policies__highlighted-bracket.sc-ir-applicable-policies{color:rgba(30, 159, 242, 100%)}.applicable-policies__statement.sc-ir-applicable-policies{display:flex;flex-direction:column;border-bottom:1px solid #e5e7eb;padding-bottom:0.5rem}.applicable-policies__statement.sc-ir-applicable-policies:last-child{border-bottom:0;padding-bottom:0}.applicable-policies__room.sc-ir-applicable-policies{padding:0;margin:0;padding-bottom:0.5rem}.applicable-policies__bracket.sc-ir-applicable-policies{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.25rem;font-size:0.875rem;padding-bottom:0.5rem}.applicable-policies__bracket-dates.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem;padding:0;margin:0}.applicable-policies__amount.sc-ir-applicable-policies{text-align:right;padding:0;margin:0;font-weight:600}.applicable-policies__statement-text.sc-ir-applicable-policies{padding:0;margin:0}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:none}.applicable-policies__guarantee.sc-ir-applicable-policies{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border:1px solid rgba(255, 73, 97, 40%);border-radius:6px;background-color:rgba(255, 73, 97, 10%);margin-bottom:0.5rem;font-size:0.875rem}.applicable-policies__guarantee-info.sc-ir-applicable-policies{display:flex;align-items:center;gap:0.5rem}.applicable-policies__guarantee-date.sc-ir-applicable-policies{color:var(--text-muted, #666);padding:0;margin:0}.applicable-policies__guarantee-amount.sc-ir-applicable-policies{font-weight:600;color:var(--text-strong, #222);padding:0;margin:0}.applicable-policies__guarantee-label.sc-ir-applicable-policies{color:red;font-weight:700;padding:0;margin:0}.applicable-policies__guarantee-action.sc-ir-applicable-policies{width:fit-content}@media (min-width: 768px){.applicable-policies__brackets.sc-ir-applicable-policies{display:none}.applicable-policies__brackets-table.sc-ir-applicable-policies{display:block;width:100%;font-size:0.875rem}.applicable-policies__brackets-table.sc-ir-applicable-policies table.sc-ir-applicable-policies{width:100%}.applicable-policies__amount.sc-ir-applicable-policies,.applicable-policies__bracket-dates.sc-ir-applicable-policies{white-space:nowrap}.applicable-policies__statement-text.sc-ir-applicable-policies{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}";
 const IrApplicablePoliciesStyle0 = irApplicablePoliciesCss;
 
 const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicablePolicies extends HTMLElement {
@@ -270,12 +276,16 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
         super();
         this.__registerHost();
         this.generatePayment = createEvent(this, "generatePayment", 7);
-        this.language = 'en';
-        this.cancellationStatements = [];
-        this.isLoading = false;
-        this.shouldShowCancellationBrackets = true;
-        this.applicablePoliciesService = new ApplicablePoliciesService(new BookingService());
     }
+    booking;
+    propertyId;
+    language = 'en';
+    cancellationStatements = [];
+    isLoading = false;
+    guaranteeAmount;
+    generatePayment;
+    shouldShowCancellationBrackets = true;
+    applicablePoliciesService = new ApplicablePoliciesService(new BookingService());
     componentWillLoad() {
         this.loadApplicablePolicies();
     }
@@ -435,12 +445,11 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
         return parsed[parsed.length - 1].date;
     }
     render() {
-        var _a, _b;
         if (this.isLoading) {
             return null;
         }
         const remainingGuaranteeAmount = this.booking.financial.collected - this.guaranteeAmount;
-        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-button", { btn_color: "dark", text: "Pay", size: "sm", onClickHandler: () => {
+        return (h(Host, null, this.guaranteeAmount !== 0 && (h("section", null, h("div", { class: "applicable-policies__guarantee" }, h("div", { class: "applicable-policies__guarantee-info" }, h("p", { class: "applicable-policies__guarantee-date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { class: "applicable-policies__guarantee-amount" }, h("span", { class: "px-1" }, formatAmount(calendar_data.currency.symbol, remainingGuaranteeAmount < 0 ? Math.abs(remainingGuaranteeAmount) : this.guaranteeAmount))), h("p", { class: "applicable-policies__guarantee-label" }, "Guarantee ", remainingGuaranteeAmount < 0 ? 'balance' : '')), remainingGuaranteeAmount < 0 && (h("div", { class: "applicable-policies__guarantee-action" }, h("ir-custom-button", { onClickHandler: () => {
                 this.generatePayment.emit({
                     amount: Math.abs(remainingGuaranteeAmount),
                     currency: calendar_data.currency,
@@ -449,7 +458,7 @@ const IrApplicablePolicies = /*@__PURE__*/ proxyCustomElement(class IrApplicable
                     reason: '',
                     type: 'OVERDUE',
                 });
-            } })))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), ((_a = this.cancellationStatements) === null || _a === void 0 ? void 0 : _a.length) > 0 && this.cancellationStatements.every(e => e.brackets.length > 0) && this.shouldShowCancellationBrackets && (h("div", { class: "applicable-policies__statements" }, (_b = this.cancellationStatements) === null || _b === void 0 ? void 0 : _b.map(statement => {
+            }, size: "small" }, "Pay")))))), h("section", null, h("div", { class: "applicable-policies__container" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { class: "applicable-policies__title font-size-large p-0 m-0" }, "Cancellation Schedule"), h(HelpDocButton, { message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guarantee-and-cancellation" })), h("p", { class: "applicable-policies__no-penalty" }, this.generateCancellationStatement())), this.cancellationStatements?.length > 0 && this.cancellationStatements.every(e => e.brackets.length > 0) && this.shouldShowCancellationBrackets && (h("div", { class: "applicable-policies__statements" }, this.cancellationStatements?.map(statement => {
             const currentBracket = this._getCurrentBracket(statement.brackets);
             // const isTodaySameOrAfterCheckInDate = moment().isSameOrAfter(moment(statement.checkInDate, 'YYYY-MM-DD').add(1, 'days'));
             return (h("div", { class: "applicable-policies__statement" }, this.cancellationStatements.length > 1 && (h("p", { class: "applicable-policies__room" }, h("b", null, statement.roomType.name), " ", statement.ratePlan['short_name'], " ", statement.ratePlan.is_non_refundable ? ` - ${locales.entries.Lcz_NonRefundable}` : '')), h("div", { class: "applicable-policies__brackets" }, statement.brackets.map((bracket, idx) => {
@@ -491,14 +500,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-applicable-policies", "ir-button", "ir-icons"];
+    const components = ["ir-applicable-policies", "ir-custom-button", "ir-icons"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrApplicablePolicies);
             }
             break;
-        case "ir-button":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

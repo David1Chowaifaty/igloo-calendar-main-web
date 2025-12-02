@@ -2,10 +2,11 @@ import Token from "../../models/Token";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrBooking {
-    constructor() {
-        this.isAuthenticated = false;
-        this.token = new Token();
-    }
+    propertyid;
+    p;
+    bookingNumber;
+    isAuthenticated = false;
+    token = new Token();
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         if (isAuthenticated) {

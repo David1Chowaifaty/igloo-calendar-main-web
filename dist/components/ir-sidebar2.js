@@ -12,21 +12,50 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
         this.__attachShadow();
         this.irSidebarToggle = createEvent(this, "irSidebarToggle", 7);
         this.beforeSidebarClose = createEvent(this, "beforeSidebarClose", 7);
-        /**
-         * Which side of the screen the sidebar appears on.
-         * Options: `'left'` or `'right'`.
-         */
-        this.side = 'right';
-        /**
-         * Whether to show the close (X) button in the sidebar header.
-         */
-        this.showCloseButton = true;
-        /**
-         * Whether the sidebar is open.
-         * Can be used with two-way binding.
-         */
-        this.open = false;
     }
+    get el() { return this; }
+    /**
+     * Identifier for the sidebar instance.
+     */
+    name;
+    /**
+     * Which side of the screen the sidebar appears on.
+     * Options: `'left'` or `'right'`.
+     */
+    side = 'right';
+    /**
+     * Whether to show the close (X) button in the sidebar header.
+     */
+    showCloseButton = true;
+    /**
+     * Whether the sidebar is open.
+     * Can be used with two-way binding.
+     */
+    open = false;
+    /**
+     * Inline styles applied to the sidebar container.
+     */
+    sidebarStyles;
+    /**
+     * Label text displayed in the sidebar header.
+     */
+    label;
+    /**
+     * Prevents the sidebar from closing when `toggleSidebar()` is called.
+     * When true, emits `beforeSidebarClose` instead of toggling.
+     */
+    preventClose;
+    /**
+     * Event emitted when the sidebar is toggled open/closed.
+     * Emits the current `open` state.
+     */
+    irSidebarToggle;
+    /**
+     * Event emitted *before* the sidebar attempts to close,
+     * but only if `preventClose` is set to true.
+     */
+    beforeSidebarClose;
+    sidebarRef;
     componentDidLoad() {
         this.applyStyles();
     }
@@ -86,15 +115,14 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: 'dd69ee5008755bc973689ae99809c8a6ffdcb229', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '61e071b5a5d01f0cf0b36e9ae0187a2b66b5cdda', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'bc3ced52ec23684596b0c03214618ed5909955d3', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'f552220f4a5b69118544323e9bbd91d28e7649a3', class: 'sidebar-title' }, h("p", { key: 'feba24dbc225cb844ae2aa5ff8a66a8359617d8f', class: 'p-0 m-0' }, this.label), h("div", { key: '6a875909ff4b53bba5ea8cee2369a22af3e88098', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '08abfa905dd26706127ad8e4fa38925df07e80b5', class: "", onIconClickHandler: () => {
+            h("div", { key: '070b2c47b5cc53834fe79a284a0ee60e444343ed', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '5d8f776a16f451f1493caf5d3b253e43722fb2b9', class: 'sidebar-title' }, h("p", { key: 'ca34f9a5f83194c069b512fec9100f4ca7bd61d9', class: 'p-0 m-0' }, this.label), h("div", { key: '301c5b40bf33f10f53bf33c2ef8e4f1749303094', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: 'dee75cf9e9c5d68c4412e169c77d27f161c57b50', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'c2de2b536927432565cb83ea4065d30ebf55abdf', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '10b23c4349c7d1d2853ea427e97c7ecaeac43cbd', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '9af596776fbef94db33e84dd83d15406db2b2536', name: "sidebar-body" })),
+                } }, h("svg", { key: 'c132a0a365ec5448969e40cd49c7753a58df568f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '6f3e0a6dca4e84d0ff4767b14e18150f72d7a48e', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '1dedbd398385de745585b9973d4042f5113c15db', name: "sidebar-body" })),
         ];
     }
-    get el() { return this; }
     static get watchers() { return {
         "sidebarStyles": ["handleSidebarStylesChange"],
         "open": ["handleOpenChange"]

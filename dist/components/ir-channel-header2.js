@@ -8,9 +8,13 @@ const IrChannelHeader = /*@__PURE__*/ proxyCustomElement(class IrChannelHeader e
         super();
         this.__registerHost();
         this.tabChanged = createEvent(this, "tabChanged", 7);
-        this.headerTitles = [];
-        this.selectedIndex = 0;
     }
+    get el() { return this; }
+    headerTitles = [];
+    selectedIndex = 0;
+    tabChanged;
+    activeIndicator;
+    animationFrameId;
     componentDidLoad() {
         this.updateActiveIndicator();
     }
@@ -40,12 +44,11 @@ const IrChannelHeader = /*@__PURE__*/ proxyCustomElement(class IrChannelHeader e
         });
     }
     render() {
-        return (h(Host, { key: '3172555f0ef4d50b0b34e6855d16d3687e63597d' }, h("ul", { key: '6528bc29396adcef604d573b3fd3dd17c329b748', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
+        return (h(Host, { key: '693fafb98c8a4445ea44cdbb4b4830df85f38a5d' }, h("ul", { key: 'ceaddeb3ea6581fb125a6ba4a8e1efad09f71201', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
                 if (!title.disabled)
                     this.handleTabSelection(index);
-            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '9fc2e7c30d3c2b90ab799445799658e709ab79fc', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '7d5a5bd86f53edbb992d0b6e803bd03f37a426d8', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
-    get el() { return this; }
     static get style() { return IrChannelHeaderStyle0; }
 }, [2, "ir-channel-header", {
         "headerTitles": [16],

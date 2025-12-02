@@ -25,15 +25,37 @@ function buildToolbar(config) {
     return toolbar;
 }
 export class IrTextEditor {
-    constructor() {
-        /** Initial HTML content */
-        this.value = '';
-        /** If true, makes the editor read-only */
-        this.readOnly = false;
-        /** Determines if the current user can edit the content */
-        this.userCanEdit = true;
-        this.editorValue = '';
-    }
+    el;
+    error;
+    maxLength;
+    /** Initial HTML content */
+    value = '';
+    /** If true, makes the editor read-only */
+    readOnly = false;
+    /** Determines if the current user can edit the content */
+    userCanEdit = true;
+    /** Placeholder text */
+    placeholder;
+    /**
+     * Type-safe toolbar configuration.
+     * For example, you can pass:
+     *
+     * {
+     *   bold: true,
+     *   italic: true,
+     *   underline: true,
+     *   strike: false,
+     *   link: true,
+     *   clean: true
+     * }
+     */
+    toolbarConfig;
+    /** Emits current HTML content whenever it changes */
+    textChange;
+    editorValue = '';
+    /** Private, non-reactive Quill editor instance */
+    editor;
+    editorContainer;
     componentDidLoad() {
         const options = {
             modules: {
@@ -152,7 +174,7 @@ export class IrTextEditor {
         }
     }
     render() {
-        return (h("div", { key: 'f89af880b96ac13dec77225f7d2b0ed48008de4d', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: 'c234f6aaa7020c87228bc3baf12095e5a242e146', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: 'ecce8c4572212174beb538a40dcfc457bdfd4988', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: 'd8c2cfd561aaceafadd2254a9bdfa34fc1b76784', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get is() { return "ir-text-editor"; }
     static get originalStyleUrls() {
@@ -293,7 +315,7 @@ export class IrTextEditor {
                     "references": {
                         "ToolbarConfig": {
                             "location": "local",
-                            "path": "/home/runner/work/modified-ir-webcmp/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-text-editor/ir-text-editor.tsx",
                             "id": "src/components/ui/ir-text-editor/ir-text-editor.tsx::ToolbarConfig"
                         }
                     }

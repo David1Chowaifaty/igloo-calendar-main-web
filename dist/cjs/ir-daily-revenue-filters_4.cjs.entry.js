@@ -2,13 +2,13 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 const moment = require('./moment-1780b03a.js');
-const locales_store = require('./locales.store-a1ac5174.js');
-const utils = require('./utils-fd6a49ca.js');
-const calendarData = require('./calendar-data-d2bec4fe.js');
+const locales_store = require('./locales.store-4eb57996.js');
+const utils = require('./utils-3b96f8e3.js');
+const calendarData = require('./calendar-data-e7cdcfec.js');
 const global_variables = require('./global.variables-108c9c1e.js');
-require('./index-7564ffa1.js');
+require('./index-6299b0f7.js');
 require('./index-63734c32.js');
 require('./axios-6e678d52.js');
 
@@ -19,15 +19,19 @@ const IrDailyRevenueFilters = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.fetchNewReports = index.createEvent(this, "fetchNewReports", 7);
-        this.collapsed = false;
-        this.users = new Set();
-        this.baseFilters = {
-            date: moment.hooks().format('YYYY-MM-DD'),
-            users: null,
-        };
     }
+    payments;
+    isLoading;
+    collapsed = false;
+    users = new Set();
+    filters;
+    baseFilters = {
+        date: moment.hooks().format('YYYY-MM-DD'),
+        users: null,
+    };
+    fetchNewReports;
     componentWillLoad() {
-        this.filters = Object.assign({}, this.baseFilters);
+        this.filters = { ...this.baseFilters };
         this.updateGuests();
     }
     handlePaymentChange() {
@@ -50,26 +54,24 @@ const IrDailyRevenueFilters = class {
     resetFilters(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.filters = Object.assign({}, this.baseFilters);
+        this.filters = { ...this.baseFilters };
         this.fetchNewReports.emit(this.filters);
     }
     updateFilter(params) {
-        this.filters = Object.assign(Object.assign({}, this.filters), params);
+        this.filters = { ...this.filters, ...params };
     }
     render() {
-        var _a, _b;
-        return (index.h("div", { key: 'ef9b2dac3a0b639df6cadc4493ad7786fb57e0bd', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, index.h("div", { key: '66ce9702385789020f9c89b33d07fe3a6641df30', class: "d-flex align-items-center justify-content-between sales-filters-header" }, index.h("div", { key: '8612b9765ef312000a368656c32a7f4a3493f0ce', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("svg", { key: 'fb48cf87f1bba869927537ffd212da4989fe4ba1', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: 'b514165492965f84024f13b1b81ed4fac3015681', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), index.h("h4", { key: 'd3e4245c2745cbce253fa207b889fad417836e43', class: "m-0 p-0 flex-grow-1" }, locales_store.locales.entries.Lcz_Filters)), index.h("ir-button", { key: '49ce062a03af6df704d847db6a3473f3a7ecc78b', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#dailyRevenueFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "dailyRevenueFiltersCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (index.h("div", { key: 'a988439604d042c0fb2fe071999bba13093199ce', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, index.h("div", { key: '9f20bafb20678e0d9685c5151b9363d8c6a59936', class: "d-flex align-items-center justify-content-between sales-filters-header" }, index.h("div", { key: 'dc7d9d10310c5d67879a56e19ad4c50ce64db230', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, index.h("svg", { key: '0ba04d2b722050a4c7f475b2a6b348c6fb2c8faf', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, index.h("path", { key: '11bcc1996cb5dfb449980e574e2fa92a7c72b29d', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), index.h("h4", { key: 'e4f589c8e9eebe53058ce1fd918adb1a7e8394ec', class: "m-0 p-0 flex-grow-1" }, locales_store.locales.entries.Lcz_Filters)), index.h("ir-button", { key: '90060a14df3b76a9bdf46cb361cb206f048c6ad7', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#dailyRevenueFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "dailyRevenueFiltersCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), index.h("div", { key: 'f3fc18461cd9b7c55cc54a0323c7effbb6ba9276', class: "m-0 p-0 collapse filters-section", id: "dailyRevenueFiltersCollapse" }, index.h("div", { key: 'c26110d4528ee8a99a3b249696682fa52ace5147', class: "d-flex flex-column", style: { gap: '0.5rem' } }, index.h("fieldset", { key: 'a03de0080871e4e6354735972c6c1ae9fc249e67', class: "pt-1 filter-group" }, index.h("label", { key: '62af1a95e9e7b1e7fea41c606f3bda8b6e7bf81a', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Select a date"), index.h("div", { key: '92b929b920f455e65ffd0338b2e1bff652feaa47', class: "w-100 d-flex" }, index.h("style", { key: '68b3aa2747fdaface08ad2b5619b1a0138c2108e' }, `
+            }, style: { '--icon-size': '1.6rem' } })), index.h("div", { key: '3bf5de4512d4cfead88cda8a13a31bd898ec1bf9', class: "m-0 p-0 collapse filters-section", id: "dailyRevenueFiltersCollapse" }, index.h("div", { key: '49630f91761b8a12f5c5076373952599f404bd7a', class: "d-flex flex-column", style: { gap: '0.5rem' } }, index.h("fieldset", { key: '27e562d52ef7e0ed9650df19104becf6b8ea25e8', class: "pt-1 filter-group" }, index.h("label", { key: '616ebb40c5a7dca78096792d5a201698f84a155e', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Select a date"), index.h("div", { key: 'b950679fd3a306ee482eb47050b1da1d9ee0a121', class: "w-100 d-flex" }, index.h("style", { key: '72db34dbb69f68a1b079815c23c91aaa5a10a780' }, `
                   .ir-date-picker-trigger{
                     width:100%;
                   }
-                  `), index.h("ir-date-picker", { key: 'c4693664ac25c4009a30ea5b2c46f305ce4b6573', "data-testid": "pickup_date", date: (_a = this.filters) === null || _a === void 0 ? void 0 : _a.date, class: "w-100", emitEmptyDate: true, maxDate: moment.hooks().format('YYYY-MM-DD'), onDateChanged: evt => {
-                var _a;
+                  `), index.h("ir-date-picker", { key: '38226756d2cb504adc1a28f2e22ae8e82d1912fc', "data-testid": "pickup_date", date: this.filters?.date, class: "w-100", emitEmptyDate: true, maxDate: moment.hooks().format('YYYY-MM-DD'), onDateChanged: evt => {
                 evt.stopImmediatePropagation();
                 evt.stopPropagation();
-                this.updateFilter({ date: (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
-            } }, index.h("input", { key: '0d8f12631112252523cdb80e74b03d79101cf26a', slot: "trigger", type: "text", value: (_b = this === null || this === void 0 ? void 0 : this.filters) === null || _b === void 0 ? void 0 : _b.date, class: `revenue-table__date-picker-input form-control w-100 input-sm  text-left`, style: { width: '100%' } })))), index.h("div", { key: '866e79d09da96abfb5a4e5e5ad5925a1084ce929', class: "d-flex mt-1 align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, index.h("ir-button", { key: 'cdf5ca86978014cbfee0bb3ed2db4cc38071e487', btn_type: "button", "data-testid": "reset", text: locales_store.locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), index.h("ir-button", { key: 'bebd87c06b13a8e47c9af618d1366c62e2cef001', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+                this.updateFilter({ date: evt.detail.start?.format('YYYY-MM-DD') });
+            } }, index.h("input", { key: '4b78ad593bc6f5424119efc64348f51f753df0da', slot: "trigger", type: "text", value: this?.filters?.date, class: `revenue-table__date-picker-input form-control w-100 input-sm  text-left`, style: { width: '100%' } })))), index.h("div", { key: '192c05bfdfc6c5d143034e00722aa20e3264fdbf', class: "d-flex mt-1 align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, index.h("ir-button", { key: '9a730742a1c492816362da53c140b8873fad0889', btn_type: "button", "data-testid": "reset", text: locales_store.locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), index.h("ir-button", { key: '151bcc9d5f73cc624d7affc7a38dd9f3325a475e', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales_store.locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
     static get watchers() { return {
         "payments": ["handlePaymentChange"]
@@ -84,15 +86,17 @@ let accId = 0;
 const IrRevenueRow = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        /** Array of payments for this method group */
-        this.payments = [];
-        this.contentId = `ir-rr-content-${++accId}`;
-    }
-    render() {
-        const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (index.h(index.Host, { key: '714d05344101958569b3a71f752328678f03decd' }, index.h("ir-accordion", { key: 'f99f2ab2f928bcb9623ade562b7d6ba57fba9e55', class: "ir-revenue-row__accordion" }, index.h("div", { key: '07b4c5a18f632408fd4fbf987e7cc69b3c2900f6', slot: "trigger", class: "ir-revenue-row__title" }, index.h("div", { key: 'd159ee773e1fc207e6a106b974ded9988d60a98c', class: "ir-revenue-row__header-left" }, index.h("p", { key: '97d634524148501e52b0a51db0419c97694d7aa7', class: "ir-revenue-row__group" }, this.groupName, ' ', index.h("span", { key: '5a9d07d5a581530259c6e58cda0328af1f83f842', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), index.h("p", { key: 'dd6078d79456c210d66dce20eed1a68876350b69', class: "ir-revenue-row__total" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, total))), index.h("div", { key: 'efa0af6f3433993c22111ab552e1312d723b3378', class: "ir-revenue-row__details", id: this.contentId }, index.h("div", { key: '8c67fa531ad3129e86b0917f67dea0af9d7a4cf5', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (index.h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
     get host() { return index.getElement(this); }
+    /** Array of payments for this method group */
+    payments = [];
+    /** Group display name (e.g., "Credit Card") */
+    groupName;
+    contentId = `ir-rr-content-${++accId}`;
+    render() {
+        const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
+        return (index.h(index.Host, { key: '4d17008b4749e4dc208c54a57fb0afa78742f17c' }, index.h("ir-accordion", { key: '3d0ae783a7b1b0353e962c14130832c3c5d8d259', class: "ir-revenue-row__accordion" }, index.h("div", { key: '7b0f090a8e71ada6c274808741b230b2362542d4', slot: "trigger", class: "ir-revenue-row__title" }, index.h("div", { key: 'c8ef0cd5cc7e4e2b450d64c3818b2d571eebd20f', class: "ir-revenue-row__header-left" }, index.h("p", { key: '7fd3907da23ff62933993dd72f70fb07d24b2cd2', class: "ir-revenue-row__group" }, this.groupName, ' ', index.h("span", { key: 'd336a4f0ff811be83f3691a015b7ca5888b44b51', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), index.h("p", { key: '0c01c1dc973efbe835d01c086813862073bc740e', class: "ir-revenue-row__total" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, total))), index.h("div", { key: '2dcda588c4d4848cc1453235936b23f09806a387', class: "ir-revenue-row__details", id: this.contentId }, index.h("div", { key: '6043554a4ff849cc0f69a24e1d48cc039fa93d2a', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (index.h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+    }
 };
 IrRevenueRow.style = IrRevenueRowStyle0;
 
@@ -102,9 +106,10 @@ const IrRevenueSummaryStyle0 = irRevenueSummaryCss;
 const IrRevenueSummary = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.groupedPayments = new Map();
-        this.previousDateGroupedPayments = new Map();
     }
+    groupedPayments = new Map();
+    previousDateGroupedPayments = new Map();
+    paymentEntries;
     calculateTotalPayments(groupedPayments) {
         let total = 0;
         groupedPayments.forEach((value, key) => {
@@ -143,7 +148,7 @@ const IrRevenueSummary = class {
         const previousDatePaymentsTotal = this.calculateTotalPayments(this.previousDateGroupedPayments);
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
-        return (index.h(index.Host, { key: '6ef421b0c4ea2e43f17deabcd6d2177d08577b0c' }, index.h("div", { key: '59cf847b0a6125bb05b68710b8e64c5c137b76b2', class: "ir-revenue-summary__mobile" }, index.h("ir-stats-card", { key: 'c5e0f194d3ae3062e6761bb13e4e2801281c89cd', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, index.h("p", { key: '292fc3c182726a75d2bcb0fad6b0f3d8dc3481c8', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: 'a15cb3b3dd26503b355de31cd73f5ada7597dd72', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, index.h("p", { key: '461331a866620c8186ec8ee4adbabec96ef2ff4e', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount)))), index.h("div", { key: 'f8858f2e69823daf9159676a8dbc1a2468fe5e1e', class: "ir-revenue-summary__tablet" }, index.h("ir-stats-card", { key: '8ef724bea9ac90632116bd4a240ff0cb02a6a2dc', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, index.h("p", { key: '3ae0bd9b31a5b5b0132dc1ea0efcec5953faa684', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: '3098d34de60dc9200c2e558a1d7f0771aa031493', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateRefundAmount)}` }, index.h("p", { key: 'c2d7fcd90e90e63475797db54776a1b1902cf291', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount))), index.h("ir-stats-card", { key: 'cd9b029e0a1725d01469f98e99cf403b4e70a845', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: utils.formatAmount(calendarData.calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
+        return (index.h(index.Host, { key: '2ddc73019fbaa534f7357c130712d7203ce88a2c' }, index.h("div", { key: '729710763145d6d151c00cab61bd331ff975ccd4', class: "ir-revenue-summary__mobile" }, index.h("ir-stats-card", { key: '59ac38de56f84913531323e83358cb58f3054ff6', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, index.h("p", { key: '497df56511bf1bc41f9e899358bf6e9a054f4fe8', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: '1b8719b456ed5a0caba0e77abde7990f65ba623c', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, index.h("p", { key: 'b68be14d50174cd90f39f5d636d2512ccaeb94d7', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount)))), index.h("div", { key: '4bebec5b080e38492dc6ec9e4c95d0aad447bc5c', class: "ir-revenue-summary__tablet" }, index.h("ir-stats-card", { key: 'dfef3967174e01febebb411a7def061dd2357417', icon: 'arrow-trend-up', value: utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, index.h("p", { key: 'f2a80a42e314865019b137e173f6f0e20bd9970d', class: "stats-card__payments-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, paymentsTotal))), index.h("ir-stats-card", { key: 'fd61174effa8c64d7f41bf644232578333e38942', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateRefundAmount)}` }, index.h("p", { key: '159a05a67351bc5903cc7012df37d767f12c8bca', class: "stats-card__refund-value", slot: "value" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, refundAmount))), index.h("ir-stats-card", { key: '184b71365006974cd18701f15bfd576988ba5420', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: utils.formatAmount(calendarData.calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${utils.formatAmount(calendarData.calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
     }
 };
 IrRevenueSummary.style = IrRevenueSummaryStyle0;
@@ -154,14 +159,18 @@ const IrRevenueTableStyle0 = irRevenueTableCss;
 const IrRevenueTable = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.payments = new Map();
-        this.groupType = 'method';
     }
+    payments = new Map();
+    paymentEntries;
+    filters;
+    payTypesObj;
+    payMethodObj;
+    groupType = 'method';
     componentWillLoad() {
         const buildPaymentLookup = (key) => {
             let pt = {};
             this.paymentEntries[key].forEach(p => {
-                pt = Object.assign(Object.assign({}, pt), { [p.CODE_NAME]: p.CODE_VALUE_EN });
+                pt = { ...pt, [p.CODE_NAME]: p.CODE_VALUE_EN };
             });
             return pt;
         };
@@ -174,7 +183,6 @@ const IrRevenueTable = class {
      * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
      */
     regroupPaymentsByMethod() {
-        var _a, _b;
         const result = new Map();
         // Early return on empty/invalid source
         const src = this.payments;
@@ -205,8 +213,8 @@ const IrRevenueTable = class {
                 }
                 continue;
             }
-            const typeMap = (_a = result.get(paymentMethod)) !== null && _a !== void 0 ? _a : new Map();
-            const existing = (_b = typeMap.get(paymentType)) !== null && _b !== void 0 ? _b : [];
+            const typeMap = result.get(paymentMethod) ?? new Map();
+            const existing = typeMap.get(paymentType) ?? [];
             typeMap.set(paymentType, existing.concat(list));
             result.set(paymentMethod, typeMap);
         }
@@ -214,21 +222,18 @@ const IrRevenueTable = class {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (index.h("div", { key: 'ddb26e4bf6f664bed11a83ca5d2e231a3eac2880', class: "card p-1 revenue-table__table" }, hasPayments ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, "Method"), index.h("p", null, "Amount")), this.groupType === 'type' &&
+        return (index.h("div", { key: '2f51b54a706b477077a77ebfc7a5623bae2db72a', class: "card p-1 revenue-table__table" }, hasPayments ? (index.h(index.Fragment, null, index.h("div", { class: "revenue-table__header" }, index.h("p", null, "Method"), index.h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
-                var _a, _b, _c;
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
-                    ? `${(_a = this.payTypesObj[paymentType]) !== null && _a !== void 0 ? _a : paymentType}: ${(_b = this.payMethodObj[paymentMethod]) !== null && _b !== void 0 ? _b : paymentMethod}`
-                    : (_c = this.payTypesObj[paymentType]) !== null && _c !== void 0 ? _c : paymentType;
+                    ? `${this.payTypesObj[paymentType] ?? paymentType}: ${this.payMethodObj[paymentMethod] ?? paymentMethod}`
+                    : this.payTypesObj[paymentType] ?? paymentType;
                 return index.h("ir-revenue-row", { key: key, payments: list, groupName: groupName });
             }), this.groupType === 'method' &&
             Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
-                var _a;
                 const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
-                return (index.h("div", { key: `method_${methodKey}` }, index.h("div", { class: "revenue-table__method_header" }, index.h("p", null, (_a = this.payMethodObj[methodKey]) !== null && _a !== void 0 ? _a : methodKey), index.h("p", null, utils.formatAmount(calendarData.calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
-                    var _a, _b;
-                    const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${(_a = this.payTypesObj[typeKey]) !== null && _a !== void 0 ? _a : typeKey}` : (_b = this.payTypesObj[typeKey]) !== null && _b !== void 0 ? _b : typeKey;
+                return (index.h("div", { key: `method_${methodKey}` }, index.h("div", { class: "revenue-table__method_header" }, index.h("p", null, this.payMethodObj[methodKey] ?? methodKey), index.h("p", null, utils.formatAmount(calendarData.calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
+                    const groupName = global_variables.PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : this.payTypesObj[typeKey] ?? typeKey;
                     return (index.h("div", { key: `type_${typeKey}`, class: "px-1" }, index.h("ir-revenue-row", { payments: list, groupName: groupName })));
                 })));
             }))) : (index.h("p", { class: "text-center my-auto mx-auto" }, "There are no payment transactions recorded for the selected date."))));

@@ -2,39 +2,85 @@ import { h } from "@stencil/core";
 import { v4 } from "uuid";
 import IMask from "imask";
 export class IrInputText {
-    constructor() {
-        /** Additional inline styles for the input */
-        this.inputStyles = '';
-        /** Whether the input field is read-only */
-        this.readonly = false;
-        /** Input type (e.g., text, password, email) */
-        this.type = 'text';
-        /** Whether the form has been submitted */
-        this.submitted = false;
-        /** Whether to apply default input styling */
-        this.inputStyle = true;
-        /** Text size inside the input field */
-        this.textSize = 'md';
-        /** Position of the label: left, right, or center */
-        this.labelPosition = 'left';
-        /** Background color of the label */
-        this.labelBackground = null;
-        /** Text color of the label */
-        this.labelColor = 'dark';
-        /** Border color/style of the label */
-        this.labelBorder = 'theme';
-        /** Label width as a fraction of 12 columns (1-11) */
-        this.labelWidth = 3;
-        /** Variant of the input: default or icon or floating-label */
-        this.variant = 'default';
-        /** Whether the input is disabled */
-        this.disabled = false;
-        /** Whether the input has an error */
-        this.error = false;
-        /** Whether the input should auto-validate */
-        this.autoValidate = true;
-        this.inputFocused = false;
-    }
+    el;
+    /** Name attribute for the input field */
+    name;
+    /** Value of the input field */
+    value;
+    /** Label text for the input */
+    label;
+    /** Placeholder text for the input */
+    placeholder;
+    /** Additional inline styles for the input */
+    inputStyles = '';
+    /** Whether the input field is required */
+    required;
+    /** Whether the input field is read-only */
+    readonly = false;
+    /** Input type (e.g., text, password, email) */
+    type = 'text';
+    /** Whether the form has been submitted */
+    submitted = false;
+    /** Whether to apply default input styling */
+    inputStyle = true;
+    /** Text size inside the input field */
+    textSize = 'md';
+    /** Position of the label: left, right, or center */
+    labelPosition = 'left';
+    /** Background color of the label */
+    labelBackground = null;
+    /** Text color of the label */
+    labelColor = 'dark';
+    /** Border color/style of the label */
+    labelBorder = 'theme';
+    /** Label width as a fraction of 12 columns (1-11) */
+    labelWidth = 3;
+    /** Variant of the input: default or icon or floating-label */
+    variant = 'default';
+    /** Whether the input is disabled */
+    disabled = false;
+    /** Whether the input has an error */
+    error = false;
+    /** Mask for the input field (optional) */
+    mask;
+    /** Whether the input should auto-validate */
+    autoValidate = true;
+    /** A Zod schema for validating the input */
+    zod;
+    /** A Zod parse type for validating the input */
+    asyncParse;
+    /** Key to wrap the value (e.g., 'price' or 'cost') */
+    wrapKey;
+    /** Forcing css style to the input */
+    inputForcedStyle;
+    /** Input id for testing purposes*/
+    testId;
+    /** Input max character length*/
+    maxLength;
+    /** To clear all the Input base styling*/
+    clearBaseStyles;
+    /** To clear all the Input base styling*/
+    errorMessage;
+    /** Autocomplete behavior for the input (e.g., 'on', 'off', 'email', etc.) */
+    autoComplete;
+    /** Forcing css style to the input container */
+    inputContainerStyle;
+    /**
+     * Extra class names applied to the label container (<div class="input-group-prepend">)
+     * that wraps the <label>. Use this to control label width, alignment,
+     * spacing, or visibility at different breakpoints.
+     * Example: "min-w-120 text-nowrap pe-2"
+     */
+    labelContainerClassname;
+    inputFocused = false;
+    textChange;
+    inputBlur;
+    inputFocus;
+    inputRef;
+    maskInstance;
+    id;
+    hasPrefixSlot;
+    hasSuffixSlot;
     componentWillLoad() {
         if (this.el.id) {
             this.id = this.el.id;
@@ -312,7 +358,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
-                    "resolved": "\"number\" | \"color\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"search\" | \"file\" | \"email\" | \"date\" | \"url\" | \"week\" | \"month\" | \"reset\" | \"password\" | \"submit\" | \"range\" | \"tel\" | \"datetime-local\" | \"checkbox\" | \"radio\"",
+                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"month\" | \"week\" | \"text\" | \"button\" | \"time\" | \"reset\" | \"color\" | \"url\" | \"image\" | \"submit\" | \"hidden\" | \"datetime-local\" | \"tel\" | \"checkbox\" | \"radio\" | \"range\"",
                     "references": {}
                 },
                 "required": false,
@@ -552,7 +598,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "FactoryArg",
-                    "resolved": "string | RegExp | NumberConstructor | DateConstructor | FactoryOpts | Masked<any> | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
+                    "resolved": "string | RegExp | DateConstructor | NumberConstructor | Masked<any> | FactoryOpts | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
                     "references": {
                         "FactoryArg": {
                             "location": "import",

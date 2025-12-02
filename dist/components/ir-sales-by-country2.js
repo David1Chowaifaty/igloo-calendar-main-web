@@ -27,39 +27,32 @@ import { v as v4 } from './v4.js';
 const irSalesByCountryCss = ".sc-ir-sales-by-country-h{display:block}";
 const IrSalesByCountryStyle0 = irSalesByCountryCss;
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = null;
-        this.isPageLoading = true;
-        this.countries = new Map();
-        this.token = new Token();
-        this.roomService = new RoomService();
-        this.propertyService = new PropertyService();
-        this.bookingService = new BookingService();
-        this.baseFilters = {
-            FROM_DATE: hooks().add(-7, 'days').format('YYYY-MM-DD'),
-            TO_DATE: hooks().format('YYYY-MM-DD'),
-            BOOK_CASE: '001',
-            WINDOW: 7,
-            include_previous_year: false,
-        };
     }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isLoading = null;
+    isPageLoading = true;
+    property_id;
+    salesData;
+    salesFilters;
+    countries = new Map();
+    token = new Token();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
+    bookingService = new BookingService();
+    baseFilters = {
+        FROM_DATE: hooks().add(-7, 'days').format('YYYY-MM-DD'),
+        TO_DATE: hooks().format('YYYY-MM-DD'),
+        BOOK_CASE: '001',
+        WINDOW: 7,
+        include_previous_year: false,
+    };
     componentWillLoad() {
         this.salesFilters = this.baseFilters;
         if (this.ticket) {
@@ -132,20 +125,38 @@ const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry
             };
         };
         try {
-            const _a = this.salesFilters, { include_previous_year } = _a, filterParams = __rest(_a, ["include_previous_year"]);
+            const { include_previous_year, ...filterParams } = this.salesFilters;
             this.isLoading = isExportToExcel ? 'export' : 'filter';
-            const currentSales = await this.propertyService.getCountrySales(Object.assign({ AC_ID: this.property_id, is_export_to_excel: isExportToExcel }, filterParams));
+            const currentSales = await this.propertyService.getCountrySales({
+                AC_ID: this.property_id,
+                is_export_to_excel: isExportToExcel,
+                ...filterParams,
+            });
             const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getCountrySales(Object.assign(Object.assign({ AC_ID: this.property_id, is_export_to_excel: false }, filterParams), { FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                const previousYearSales = await this.propertyService.getCountrySales({
+                    AC_ID: this.property_id,
+                    is_export_to_excel: false,
+                    ...filterParams,
+                    FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                    TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                });
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
-                    return Object.assign(Object.assign({ id: v4() }, formatSalesData(current)), { last_year: previous ? formatSalesData(previous) : null });
+                    return {
+                        id: v4(),
+                        ...formatSalesData(current),
+                        last_year: previous ? formatSalesData(previous) : null,
+                    };
                 });
             }
             else {
-                enrichedSales = currentSales.map(record => (Object.assign(Object.assign({ id: v4() }, formatSalesData(record)), { last_year: null })));
+                enrichedSales = currentSales.map(record => ({
+                    id: v4(),
+                    ...formatSalesData(record),
+                    last_year: null,
+                }));
             }
             // this.salesData = enrichedSales.sort((a, b) => {
             //   if (a.country_id === 0) return -1;

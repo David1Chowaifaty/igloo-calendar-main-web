@@ -1,64 +1,103 @@
 import { h, Host } from "@stencil/core";
 import moment from "moment";
 export class IrDateRange {
-    constructor() {
-        /**
-         * First day of the week (0 = Sunday, 1 = Monday, ...).
-         */
-        this.firstDay = 1;
-        /**
-         * Month names shown in the calendar header.
-         */
-        this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        /**
-         * Abbreviated names of the days of the week.
-         */
-        this.daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-        /**
-         * Date format used in the input and picker.
-         */
-        this.format = 'MMM DD, YYYY';
-        /**
-         * Separator string used between start and end dates.
-         */
-        this.separator = ' - ';
-        /**
-         * Text shown on the Apply button.
-         */
-        this.applyLabel = 'Apply';
-        /**
-         * Text shown on the Cancel button.
-         */
-        this.cancelLabel = 'Cancel';
-        /**
-         * Label for the "From" date input.
-         */
-        this.fromLabel = 'Form';
-        /**
-         * Label for the "To" date input.
-         */
-        this.toLabel = 'To';
-        /**
-         * Label used for the custom date range option.
-         */
-        this.customRangeLabel = 'Custom';
-        /**
-         * Label for the week column in the calendar.
-         */
-        this.weekLabel = 'W';
-        /**
-         * Disables the date range input when true.
-         */
-        this.disabled = false;
-        /**
-         * Enables single date selection mode.
-         */
-        this.singleDatePicker = false;
-        /**
-         * Maximum range span (e.g., `{ days: 240 }`).
-         */
-        this.maxSpan = { days: 240 };
-    }
+    element;
+    /**
+     * Start date for the date range.
+     */
+    fromDate;
+    /**
+     * End date for the date range.
+     */
+    toDate;
+    /**
+     * Single date selection value (used in single date picker mode).
+     */
+    date;
+    /**
+     * Defines which side the calendar opens to.
+     * Options: `'left'`, `'right'`, `'center'`.
+     */
+    opens;
+    /**
+     * Whether to apply the selected range automatically without clicking 'Apply'.
+     */
+    autoApply;
+    /**
+     * First day of the week (0 = Sunday, 1 = Monday, ...).
+     */
+    firstDay = 1;
+    /**
+     * Month names shown in the calendar header.
+     */
+    monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    /**
+     * Abbreviated names of the days of the week.
+     */
+    daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    /**
+     * Date format used in the input and picker.
+     */
+    format = 'MMM DD, YYYY';
+    /**
+     * Separator string used between start and end dates.
+     */
+    separator = ' - ';
+    /**
+     * Text shown on the Apply button.
+     */
+    applyLabel = 'Apply';
+    /**
+     * Text shown on the Cancel button.
+     */
+    cancelLabel = 'Cancel';
+    /**
+     * Label for the "From" date input.
+     */
+    fromLabel = 'Form';
+    /**
+     * Label for the "To" date input.
+     */
+    toLabel = 'To';
+    /**
+     * Label used for the custom date range option.
+     */
+    customRangeLabel = 'Custom';
+    /**
+     * Label for the week column in the calendar.
+     */
+    weekLabel = 'W';
+    /**
+     * Disables the date range input when true.
+     */
+    disabled = false;
+    /**
+     * Enables single date selection mode.
+     */
+    singleDatePicker = false;
+    /**
+     * Minimum selectable date.
+     */
+    minDate;
+    /**
+     * Maximum selectable date.
+     */
+    maxDate;
+    /**
+     * Maximum range span (e.g., `{ days: 240 }`).
+     */
+    maxSpan = { days: 240 };
+    /**
+     * Emits when a new date range is selected.
+     *
+     * Example:
+     * ```tsx
+     * <ir-date-range onDateChanged={(e) => console.log(e.detail)} />
+     * ```
+     */
+    dateChanged;
+    openDatePickerTimeout;
+    dateRangeInput;
     componentWillLoad() {
         if (!document.getElementById('ir-daterangepicker-style')) {
             const style = document.createElement('style');
@@ -157,7 +196,7 @@ export class IrDateRange {
         });
     }
     render() {
-        return (h(Host, { key: '2c3a627cc8f0cd0585ae0978a3874f61334e40a2' }, h("input", { key: 'fef221cf1f6fea3ca635948422925e319cf26598', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: 'cec43e3c30b2f846c5a7dbb7cbfd0abfd09151d7' }, h("input", { key: '07f7b9298bcad5deac59f4a42e3681cb9b8a1a45', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get is() { return "ir-date-range"; }
     static get encapsulation() { return "scoped"; }

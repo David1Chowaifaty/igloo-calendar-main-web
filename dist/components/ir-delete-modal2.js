@@ -9,29 +9,20 @@ import { d as defineCustomElement$1 } from './ir-select2.js';
 const irDeleteModalCss = ".backdropModal{background-color:rgba(0, 0, 0, 0.5);z-index:1000;position:fixed;top:0;left:0;height:100vh;width:100%;opacity:0;transition:opacity 0.3s ease-in-out;pointer-events:none}.backdropModal.active{cursor:pointer;opacity:1 !important;pointer-events:all}.ir-modal[data-state='opened']{opacity:1;visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}.ir-alert-content{padding:10px;background:white;border-radius:5px}.modal{z-index:1001 !important}.modal-dialog{height:100vh;display:flex;align-items:center}.ir-alert-footer{gap:10px}.ir-modal{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);z-index:1050;width:90%;max-width:32rem;overflow:hidden;outline:0;opacity:0;transition:transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;visibility:hidden;pointer-events:none}.ir-modal.active{opacity:1;transform:translate(-50%, 0);visibility:visible;pointer-events:all;transition:all 0.3s ease-in-out}";
 const IrDeleteModalStyle0 = irDeleteModalCss;
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
         this.modalClosed = createEvent(this, "modalClosed", 7);
         this.resetData = createEvent(this, "resetData", 7);
-        this.isOpen = false;
-        this.selectedId = '';
-        this.loadingBtn = null;
-        this.housekeepingService = new HouseKeepingService();
     }
+    user;
+    isOpen = false;
+    selectedId = '';
+    loadingBtn = null;
+    modalClosed;
+    resetData;
+    housekeepingService = new HouseKeepingService();
     async closeModal() {
         this.isOpen = false;
         this.modalClosed.emit(null);
@@ -51,7 +42,7 @@ const IrDeleteModal = /*@__PURE__*/ proxyCustomElement(class IrDeleteModal exten
                 else {
                     const newAssignedUnits = this.user.assigned_units.map(u => ({ hkm_id: +this.selectedId, is_to_assign: true, unit_id: u.id }));
                     await this.housekeepingService.manageExposedAssignedUnitToHKM(housekeeping_store.default_properties.property_id, newAssignedUnits);
-                    const _a = this.user, user = __rest(_a, ["assigned_units", "is_soft_deleted", "is_active"]);
+                    const { assigned_units, is_soft_deleted, is_active, ...user } = this.user;
                     await this.housekeepingService.editExposedHKM(user, true);
                 }
                 this.resetData.emit(null);

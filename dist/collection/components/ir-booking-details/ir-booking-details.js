@@ -10,45 +10,62 @@ import moment from "moment";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { buildSplitIndex } from "../../utils/booking";
 export class IrBookingDetails {
-    constructor() {
-        // Setup Data
-        this.language = 'en';
-        this.ticket = '';
-        this.bookingNumber = '';
-        this.is_from_front_desk = false;
-        // Booleans Conditions
-        this.hasPrint = false;
-        this.hasReceipt = false;
-        this.hasDelete = false;
-        this.hasMenu = false;
-        // Room Booleans
-        this.hasRoomEdit = false;
-        this.hasRoomDelete = false;
-        this.hasRoomAdd = false;
-        this.hasCheckIn = false;
-        this.hasCheckOut = false;
-        this.hasCloseButton = false;
-        this.bookingItem = null;
-        this.statusData = [];
-        this.calendarData = {};
-        // Guest Data
-        this.guestData = null;
-        // Rerender Flag
-        this.rerenderFlag = false;
-        this.sidebarState = null;
-        this.isUpdateClicked = false;
-        this.isPMSLogLoading = false;
-        this.modalState = null;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
-        this.paymentService = new PaymentService();
-        this.token = new Token();
-        this.printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
-        this.handleDeleteFinish = (e) => {
-            this.booking = Object.assign(Object.assign({}, this.booking), { rooms: this.booking.rooms.filter(room => room.identifier !== e.detail) });
-            this.splitIndex = buildSplitIndex(this.booking.rooms);
-        };
-    }
+    element;
+    // Setup Data
+    language = 'en';
+    ticket = '';
+    bookingNumber = '';
+    propertyid;
+    is_from_front_desk = false;
+    p;
+    // Booleans Conditions
+    hasPrint = false;
+    hasReceipt = false;
+    hasDelete = false;
+    hasMenu = false;
+    // Room Booleans
+    hasRoomEdit = false;
+    hasRoomDelete = false;
+    hasRoomAdd = false;
+    hasCheckIn = false;
+    hasCheckOut = false;
+    hasCloseButton = false;
+    bookingItem = null;
+    statusData = [];
+    showPaymentDetails;
+    booking;
+    countries;
+    calendarData = {};
+    // Guest Data
+    guestData = null;
+    // Rerender Flag
+    rerenderFlag = false;
+    sidebarState = null;
+    sidebarPayload;
+    isUpdateClicked = false;
+    pms_status;
+    isPMSLogLoading = false;
+    paymentActions;
+    property_id;
+    selectedService;
+    bedPreference;
+    roomGuest;
+    modalState = null;
+    departureTime;
+    paymentEntries;
+    splitIndex;
+    // Payment Event
+    toast;
+    bookingChanged;
+    closeSidebar;
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    paymentService = new PaymentService();
+    token = new Token();
+    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+    // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
+    modalRef;
+    paymentFolioRef;
     componentWillLoad() {
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
@@ -65,6 +82,9 @@ export class IrBookingDetails {
     handleSideBarEvents(e) {
         this.sidebarState = e.detail.type;
         this.sidebarPayload = e.detail.payload;
+        if (this.sidebarState === 'payment-folio') {
+            this.paymentFolioRef.openFolio();
+        }
     }
     handleIconClick(e) {
         const target = e.target;
@@ -84,10 +104,10 @@ export class IrBookingDetails {
                 this.modalRef.openModal();
                 return;
             case 'print':
-                this.openPrintingScreen();
+                this.openPrintingScreen({ mode: 'printing' });
                 return;
-            case 'receipt':
-                this.openPrintingScreen('invoice');
+            case 'invoice':
+                this.openPrintingScreen({ mode: 'invoice' });
                 return;
             case 'book-delete':
                 return;
@@ -148,9 +168,9 @@ export class IrBookingDetails {
             return;
         }
         const currentRoom = rooms[currentRoomIndex];
-        const updatedRoom = Object.assign(Object.assign({}, currentRoom), { sharing_persons: guests });
+        const updatedRoom = { ...currentRoom, sharing_persons: guests };
         rooms[currentRoomIndex] = updatedRoom;
-        this.booking = Object.assign(Object.assign({}, this.booking), { rooms: [...rooms] });
+        this.booking = { ...this.booking, rooms: [...rooms] };
         this.splitIndex = buildSplitIndex(this.booking.rooms);
     }
     async handleResetBooking(e) {
@@ -167,10 +187,12 @@ export class IrBookingDetails {
         this.selectedService = e.detail;
         this.sidebarState = 'extra_service';
     }
+    handleOpenPrintScreen(e) {
+        this.openPrintingScreen(e.detail);
+    }
     setRoomsData(roomServiceResp) {
-        var _a, _b;
         let roomsData = new Array();
-        if ((_b = (_a = roomServiceResp.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) === null || _b === void 0 ? void 0 : _b.length) {
+        if (roomServiceResp.My_Result?.roomtypes?.length) {
             roomsData = roomServiceResp.My_Result.roomtypes;
             roomServiceResp.My_Result.roomtypes.forEach(roomCategory => {
                 roomCategory.expanded = true;
@@ -182,7 +204,6 @@ export class IrBookingDetails {
     //   return this.booking.is_requested_to_cancel || this.booking.status.code === '003';
     // }
     async initializeApp() {
-        var _a;
         try {
             const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
@@ -191,7 +212,7 @@ export class IrBookingDetails {
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
                 this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
             ]);
-            this.property_id = (_a = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result) === null || _a === void 0 ? void 0 : _a.id;
+            this.property_id = roomResponse?.My_Result?.id;
             const { bed_preference_type, departure_time, pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.departureTime = departure_time;
@@ -206,12 +227,12 @@ export class IrBookingDetails {
             //       this.paymentActions = res;
             //     });
             // }
-            if (!(locales === null || locales === void 0 ? void 0 : locales.entries)) {
+            if (!locales?.entries) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
             }
             this.countries = countriesList;
-            const myResult = roomResponse === null || roomResponse === void 0 ? void 0 : roomResponse.My_Result;
+            const myResult = roomResponse?.My_Result;
             if (myResult) {
                 const { allowed_payment_methods: paymentMethods, currency, allowed_booking_sources, adult_child_constraints, calendar_legends, aname } = myResult;
                 this.printingBaseUrl = this.printingBaseUrl.replace('%1', aname).replace('%2', this.bookingNumber);
@@ -223,7 +244,7 @@ export class IrBookingDetails {
                 };
                 this.setRoomsData(roomResponse);
                 const paymentCodesToShow = ['001', '004'];
-                this.showPaymentDetails = paymentMethods === null || paymentMethods === void 0 ? void 0 : paymentMethods.some(method => paymentCodesToShow.includes(method.code));
+                this.showPaymentDetails = paymentMethods?.some(method => paymentCodesToShow.includes(method.code));
             }
             else {
                 console.warn("Room response is missing 'My_Result'.");
@@ -237,30 +258,49 @@ export class IrBookingDetails {
             console.error('Error initializing app:', error);
         }
     }
-    async openPrintingScreen(mode = 'print', version = 'new') {
+    async openPrintingScreen(options, version = 'new') {
+        const { mode } = options;
         if (version === 'old') {
             if (mode === 'invoice') {
-                return window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.booking.system_id}&&PM=I&TK=${this.ticket}`);
+                return window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${encodeURIComponent(this.booking.system_id)}&&PM=I&TK=${encodeURIComponent(this.ticket)}`);
             }
-            return window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${this.booking.system_id}&&PM=B&TK=${this.ticket}`);
+            return window.open(`https://x.igloorooms.com/manage/AcBookingEdit.aspx?IRID=${encodeURIComponent(this.booking.system_id)}&&PM=B&TK=${encodeURIComponent(this.ticket)}`);
         }
+        // Start with base URL
         let url = this.printingBaseUrl;
-        if (mode === 'invoice') {
-            url = url + '&mode=invoice';
+        // Add mode safely
+        url += `&mode=${encodeURIComponent(mode)}`;
+        // Add ANY payload safely
+        if ('payload' in options && options.payload) {
+            const payload = options.payload;
+            const safeParams = Object.entries(payload)
+                .map(([key, value]) => {
+                const safeKey = encodeURIComponent(key);
+                const safeValue = encodeURIComponent(String(value));
+                return `${safeKey}=${safeValue}`;
+            })
+                .join('&');
+            url += `&${safeParams}`;
         }
+        // Add token safely
         const { data } = await axios.post(`Get_ShortLiving_Token`);
         if (!data.ExceptionMsg) {
-            url = url + `&token=${data.My_Result}`;
+            url += `&token=${encodeURIComponent(data.My_Result)}`;
         }
+        // Final: fully safe URL
         window.open(url);
     }
     handleCloseBookingWindow() {
         this.bookingItem = null;
     }
+    handleDeleteFinish = (e) => {
+        this.booking = { ...this.booking, rooms: this.booking.rooms.filter(room => room.identifier !== e.detail) };
+        this.splitIndex = buildSplitIndex(this.booking.rooms);
+    };
     async resetBooking() {
         try {
             const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
-            this.booking = Object.assign({}, booking);
+            this.booking = { ...booking };
             this.splitIndex = buildSplitIndex(this.booking.rooms);
             this.bookingChanged.emit(this.booking);
         }
@@ -280,17 +320,16 @@ export class IrBookingDetails {
         this.modalRef.closeModal();
     }
     renderSidebarContent() {
-        var _a, _b, _c, _d, _e, _f;
         const handleClose = () => {
             this.sidebarState = null;
         };
         switch (this.sidebarState) {
             case 'guest':
-                return (h("ir-guest-info", { isInSideBar: true, headerShown: true, slot: "sidebar-body", booking_nbr: this.bookingNumber, email: (_a = this.booking) === null || _a === void 0 ? void 0 : _a.guest.email, language: this.language, onCloseSideBar: handleClose }));
+                return (h("ir-guest-info", { isInSideBar: true, headerShown: true, slot: "sidebar-body", booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, onCloseSideBar: handleClose }));
             case 'pickup':
                 return (h("ir-pickup", { bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, slot: "sidebar-body", defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: handleClose }));
-            case 'extra_note':
-                return h("ir-booking-extra-note", { slot: "sidebar-body", booking: this.booking, onCloseModal: () => (this.sidebarState = null) });
+            // case 'extra_note':
+            //   return <ir-booking-extra-note slot="sidebar-body" booking={this.booking} onCloseModal={() => (this.sidebarState = null)}></ir-booking-extra-note>;
             case 'extra_service':
                 return (h("ir-extra-service-config", { service: this.selectedService, booking: { from_date: this.booking.from_date, to_date: this.booking.to_date, booking_nbr: this.booking.booking_nbr, currency: this.booking.currency }, slot: "sidebar-body", onCloseModal: () => {
                         handleClose();
@@ -299,40 +338,35 @@ export class IrBookingDetails {
                         }
                     } }));
             case 'room-guest':
-                return (h("ir-room-guests", { countries: this.countries, language: this.language, identifier: (_b = this.sidebarPayload) === null || _b === void 0 ? void 0 : _b.identifier, bookingNumber: this.booking.booking_nbr, roomName: (_c = this.sidebarPayload) === null || _c === void 0 ? void 0 : _c.roomName, totalGuests: (_d = this.sidebarPayload) === null || _d === void 0 ? void 0 : _d.totalGuests, sharedPersons: (_e = this.sidebarPayload) === null || _e === void 0 ? void 0 : _e.sharing_persons, slot: "sidebar-body", checkIn: (_f = this.sidebarPayload) === null || _f === void 0 ? void 0 : _f.checkin, onCloseModal: handleClose }));
-            case 'payment-folio':
-                return (h("ir-payment-folio", { bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sidebarPayload.payment, mode: this.sidebarPayload.mode, onCloseModal: handleClose }));
+                return (h("ir-room-guests", { countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: handleClose }));
             default:
                 return null;
         }
     }
     computeRoomGroups(rooms) {
-        var _a, _b, _c;
         const indexById = new Map();
         rooms.forEach((room, idx) => indexById.set(room.identifier, idx));
         if (!rooms.length) {
             return { groups: [], indexById, hasSplitGroups: false };
         }
         const groupSortKey = (groupRooms) => {
-            var _a;
             let min = Number.MAX_SAFE_INTEGER;
             for (const r of groupRooms) {
-                const ts = Date.parse((_a = r === null || r === void 0 ? void 0 : r.from_date) !== null && _a !== void 0 ? _a : '');
+                const ts = Date.parse(r?.from_date ?? '');
                 if (!Number.isNaN(ts)) {
                     min = Math.min(min, ts);
                 }
             }
             return min;
         };
-        const splitIndex = (_a = this.splitIndex) !== null && _a !== void 0 ? _a : buildSplitIndex(rooms);
+        const splitIndex = this.splitIndex ?? buildSplitIndex(rooms);
         if (!splitIndex) {
             const sortedRooms = [...rooms].sort((a, b) => {
-                var _a, _b, _c, _d;
-                const diff = Date.parse((_a = a === null || a === void 0 ? void 0 : a.from_date) !== null && _a !== void 0 ? _a : '') - Date.parse((_b = b === null || b === void 0 ? void 0 : b.from_date) !== null && _b !== void 0 ? _b : '');
+                const diff = Date.parse(a?.from_date ?? '') - Date.parse(b?.from_date ?? '');
                 if (!Number.isNaN(diff) && diff !== 0) {
                     return diff;
                 }
-                return ((_c = indexById.get(a.identifier)) !== null && _c !== void 0 ? _c : 0) - ((_d = indexById.get(b.identifier)) !== null && _d !== void 0 ? _d : 0);
+                return (indexById.get(a.identifier) ?? 0) - (indexById.get(b.identifier) ?? 0);
             });
             return { groups: [{ rooms: sortedRooms, order: 0, isSplit: false, sortKey: groupSortKey(sortedRooms) }], indexById, hasSplitGroups: false };
         }
@@ -340,25 +374,24 @@ export class IrBookingDetails {
         const grouped = [];
         const visited = new Set();
         for (const head of splitIndex.heads) {
-            const chain = (_b = splitIndex.chainOf.get(head)) !== null && _b !== void 0 ? _b : [head];
+            const chain = splitIndex.chainOf.get(head) ?? [head];
             const chainRooms = chain.map(id => roomsById.get(id)).filter((room) => Boolean(room));
             if (!chainRooms.length)
                 continue;
             const chainHasSplitLink = chain.some(id => {
-                var _a;
                 const parent = splitIndex.parentOf.get(id);
-                const children = (_a = splitIndex.childrenOf.get(id)) !== null && _a !== void 0 ? _a : [];
+                const children = splitIndex.childrenOf.get(id) ?? [];
                 return Boolean(parent) || children.length > 0;
-            }) || chainRooms.some(room => Boolean(room === null || room === void 0 ? void 0 : room.is_split));
+            }) || chainRooms.some(room => Boolean(room?.is_split));
             if (chainHasSplitLink) {
                 chainRooms.forEach(room => visited.add(room.identifier));
-                const order = Math.min(...chainRooms.map(room => { var _a; return (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : Number.MAX_SAFE_INTEGER; }));
+                const order = Math.min(...chainRooms.map(room => indexById.get(room.identifier) ?? Number.MAX_SAFE_INTEGER));
                 grouped.push({ rooms: chainRooms, order, sortKey: groupSortKey(chainRooms), isSplit: true });
             }
         }
         for (const room of rooms) {
             if (!visited.has(room.identifier)) {
-                const order = (_c = indexById.get(room.identifier)) !== null && _c !== void 0 ? _c : Number.MAX_SAFE_INTEGER;
+                const order = indexById.get(room.identifier) ?? Number.MAX_SAFE_INTEGER;
                 const singleGroup = [room];
                 grouped.push({ rooms: singleGroup, order, sortKey: groupSortKey(singleGroup), isSplit: false });
             }
@@ -375,12 +408,11 @@ export class IrBookingDetails {
                 .map(group => group.rooms)
                 .reduce((acc, curr) => acc.concat(curr), [])
                 .sort((a, b) => {
-                var _a, _b, _c, _d;
-                const diff = Date.parse((_a = a === null || a === void 0 ? void 0 : a.from_date) !== null && _a !== void 0 ? _a : '') - Date.parse((_b = b === null || b === void 0 ? void 0 : b.from_date) !== null && _b !== void 0 ? _b : '');
+                const diff = Date.parse(a?.from_date ?? '') - Date.parse(b?.from_date ?? '');
                 if (!Number.isNaN(diff) && diff !== 0) {
                     return diff;
                 }
-                return ((_c = indexById.get(a.identifier)) !== null && _c !== void 0 ? _c : 0) - ((_d = indexById.get(b.identifier)) !== null && _d !== void 0 ? _d : 0);
+                return (indexById.get(a.identifier) ?? 0) - (indexById.get(b.identifier) ?? 0);
             });
             return { groups: [{ rooms: merged, order: 0, sortKey: groupSortKey(merged), isSplit: false }], indexById, hasSplitGroups: false };
         }
@@ -392,40 +424,30 @@ export class IrBookingDetails {
         return (h("ir-room", { key: room.identifier, room: room, property_id: this.property_id, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: bookingIndex, onDeleteFinished: this.handleDeleteFinish }));
     }
     renderRooms() {
-        var _a, _b;
-        const rooms = (_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.rooms) !== null && _b !== void 0 ? _b : [];
+        const rooms = this.booking?.rooms ?? [];
         if (!rooms.length) {
             return null;
         }
         const { groups, indexById, hasSplitGroups } = this.computeRoomGroups(rooms);
         if (!hasSplitGroups) {
             const groupRooms = groups[0].rooms;
-            return (h("div", { class: "card p-0 mx-0" }, groupRooms.map((room, idx) => {
-                var _a;
-                return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : idx), idx < groupRooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
-            })));
+            return groupRooms.map((room, idx) => (h(Fragment, null, this.renderRoomItem(room, indexById.get(room.identifier) ?? idx), idx < groupRooms.length - 1 ? h("wa-divider", null) : null)));
         }
-        return (h(Fragment, null, groups.map((group, groupIdx) => {
+        return (h(Fragment, null, h("div", { class: "d-flex flex-column", style: { gap: '1rem' } }, groups.map((group, groupIdx) => {
             const isLastGroup = groupIdx === groups.length - 1;
-            return (h("div", { class: `card p-0 mx-0 ${isLastGroup ? '' : 'room-group'}`, key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => {
-                var _a;
-                return (h(Fragment, null, this.renderRoomItem(room, (_a = indexById.get(room.identifier)) !== null && _a !== void 0 ? _a : roomIdx, roomIdx === group.rooms.length - 1), roomIdx < group.rooms.length - 1 ? h("hr", { class: "mr-2 ml-2 my-0 p-0" }) : null));
-            })));
-        })));
+            return (h("div", { class: `${isLastGroup ? '' : 'room-group'}`, key: `room-group-${group.order}-${groupIdx}` }, group.rooms.map((room, roomIdx) => (h(Fragment, null, this.renderRoomItem(room, indexById.get(room.identifier) ?? roomIdx, roomIdx === group.rooms.length - 1), roomIdx < group.rooms.length - 1 ? h("wa-divider", null) : null))), !isLastGroup && h("wa-divider", { style: { '--width': '3px' } })));
+        }))));
     }
     render() {
-        var _a, _b, _c;
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const roomsSection = this.renderRooms();
         return [
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", null), h("ir-interceptor", null)))),
-            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes((_b = (_a = this.booking) === null || _a === void 0 ? void 0 : _a.status) === null || _b === void 0 ? void 0 : _b.code) }),
-            h("div", { class: "fluid-container p-1 text-left mx-0" }, h("div", { class: "row m-0" }, h("div", { class: "col-12 p-0 mx-0 pr-lg-1 col-lg-6" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("ir-date-view", { from_date: this.booking.from_date, to_date: this.booking.to_date }), 
-            // this.hasRoomAdd && this.booking.is_direct && this.booking.is_editable && (
-            this.hasRoomAdd && this.booking.is_editable && h("ir-button", { id: "room-add", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), roomsSection, h("ir-pickup-view", { booking: this.booking }), h("section", null, h("div", { class: "font-size-large d-flex justify-content-between align-items-center mb-1" }, h("p", { class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("ir-button", { id: "extra_service_btn", icon_name: "square_plus", variant: "icon", style: { '--icon-size': '1.5rem' } })), h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("div", { class: "col-12 p-0 m-0 pl-lg-1 col-lg-6" }, h("ir-payment-details", { propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })))),
-            h("ir-modal", { modalBody: (_c = this.modalState) === null || _c === void 0 ? void 0 : _c.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
+            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }),
+            h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), roomsSection), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })),
+            h("ir-modal", { modalBody: this.modalState?.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
                     this.handleModalConfirm(e);
                 }, onCancelModal: () => {
                     this.modalRef.closeModal();
@@ -435,11 +457,20 @@ export class IrBookingDetails {
                     e.stopPropagation();
                     this.sidebarState = null;
                 }, showCloseButton: false }, this.renderSidebarContent()),
-            h("ir-sidebar", { open: this.sidebarState === 'payment-folio', side: 'left', id: "folioSidebar", onIrSidebarToggle: e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    this.sidebarState = null;
-                }, showCloseButton: false }, this.renderSidebarContent()),
+            // <ir-sidebar
+            //   open={this.sidebarState === 'payment-folio'}
+            //   side={'left'}
+            //   id="folioSidebar"
+            //   onIrSidebarToggle={e => {
+            //     e.stopImmediatePropagation();
+            //     e.stopPropagation();
+            //     this.sidebarState = null;
+            //   }}
+            //   showCloseButton={false}
+            // >
+            //   {this.renderSidebarContent()}
+            // </ir-sidebar>,
+            h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }),
             h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
         ];
     }
@@ -468,12 +499,12 @@ export class IrBookingDetails {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-booking-details.css"]
+            "$": ["../../global/app.css", "ir-booking-details.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-booking-details.css"]
+            "$": ["../../global/app.css", "ir-booking-details.css"]
         };
     }
     static get properties() {
@@ -931,6 +962,12 @@ export class IrBookingDetails {
             }, {
                 "name": "editExtraService",
                 "method": "handleEditExtraService",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "openPrintScreen",
+                "method": "handleOpenPrintScreen",
                 "target": undefined,
                 "capture": false,
                 "passive": false

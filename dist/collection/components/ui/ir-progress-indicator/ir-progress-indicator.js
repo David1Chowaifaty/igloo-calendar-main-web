@@ -1,16 +1,19 @@
 import { Host, h } from "@stencil/core";
 export class IrProgressIndicator {
-    constructor() {
-        /**
-         * The color variant of the progress bar.
-         * Options:
-         * - 'primary' (default)
-         * - 'secondary'
-         */
-        this.color = 'primary';
-    }
+    /**
+     * The percentage value to display and fill the progress bar.
+     * Example: "75%"
+     */
+    percentage;
+    /**
+     * The color variant of the progress bar.
+     * Options:
+     * - 'primary' (default)
+     * - 'secondary'
+     */
+    color = 'primary';
     render() {
-        return (h(Host, { key: '3e7e5932d6c236eadffb257e320002ca864c83dc', class: "progress-main" }, h("span", { key: 'a3e6f5a14803799b58f55c874807bc4649d036c9', class: "progress-totle" }, this.percentage), h("div", { key: '7b6fcac98422dcfffef339015b697ecf069a780a', class: "progress-line" }, h("div", { key: 'd3c90cba33f1302ae79a37e7eb81268f2541c417', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (h(Host, { key: '16e111b545fa65cc940b8b4c15fe498e4018a8ea', class: "progress-main" }, h("span", { key: 'e118d439ed75cc4fc3c072e55120909aa4446fda', class: "progress-totle" }, this.percentage), h("div", { key: 'de872e0236132a0b13c754af53c650e0543bbfff', class: "progress-line" }, h("div", { key: '686d37bcd5b65277f3c5092b5988dd9377206fbe', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
     static get is() { return "ir-progress-indicator"; }
     static get encapsulation() { return "scoped"; }

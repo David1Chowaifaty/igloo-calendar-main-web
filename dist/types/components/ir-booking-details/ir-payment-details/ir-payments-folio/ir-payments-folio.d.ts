@@ -5,9 +5,11 @@ export declare class IrPaymentsFolio {
     addPayment: EventEmitter<void>;
     editPayment: EventEmitter<IPayment>;
     deletePayment: EventEmitter<IPayment>;
+    issueReceipt: EventEmitter<IPayment>;
     private handleAddPayment;
     private handleEditPayment;
     private handleDeletePayment;
+    private handleIssueReceipt;
     private hasPayments;
     private renderPaymentItem;
     private renderEmptyState;

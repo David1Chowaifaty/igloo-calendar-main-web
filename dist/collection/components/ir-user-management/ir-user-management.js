@@ -6,19 +6,26 @@ import { Host, h } from "@stencil/core";
 import { io } from "socket.io-client";
 import locales from "../../stores/locales.store";
 export class IrUserManagement {
-    constructor() {
-        this.language = '';
-        this.isSuperAdmin = true;
-        this.isLoading = true;
-        this.users = [];
-        this.allowedUsersTypes = [];
-        this.token = new Token();
-        this.roomService = new RoomService();
-        this.userService = new UserService();
-        this.bookingService = new BookingService();
-        this.userTypes = new Map();
-        this.superAdminId = '5';
-    }
+    language = '';
+    baseUrl;
+    ticket;
+    propertyid;
+    p;
+    isSuperAdmin = true;
+    userTypeCode;
+    baseUserTypeCode;
+    userId;
+    isLoading = true;
+    users = [];
+    property_id;
+    allowedUsersTypes = [];
+    token = new Token();
+    roomService = new RoomService();
+    userService = new UserService();
+    bookingService = new BookingService();
+    userTypes = new Map();
+    socket;
+    superAdminId = '5';
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
@@ -118,7 +125,10 @@ export class IrUserManagement {
             console.warn(`User ${result.id} not found`);
             return;
         }
-        users[idx] = Object.assign(Object.assign({}, users[idx]), { is_email_verified: true });
+        users[idx] = {
+            ...users[idx],
+            is_email_verified: true,
+        };
         this.users = users;
     }
     async fetchUsers() {
@@ -150,11 +160,10 @@ export class IrUserManagement {
         });
     }
     async fetchUserTypes() {
-        var _a, _b, _c, _d;
         const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
-        const allowedUsers = (_b = (_a = res[1]) === null || _a === void 0 ? void 0 : _a.My_Result) === null || _b === void 0 ? void 0 : _b.allowed_user_types;
+        const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
-            const value = e[`CODE_VALUE_${(_d = (_c = this.language) === null || _c === void 0 ? void 0 : _c.toUpperCase()) !== null && _d !== void 0 ? _d : 'EN'}`];
+            const value = e[`CODE_VALUE_${this.language?.toUpperCase() ?? 'EN'}`];
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
                 this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }
@@ -165,11 +174,10 @@ export class IrUserManagement {
         this.socket.disconnect();
     }
     render() {
-        var _a, _b;
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, locales.entries.Lcz_ExtranetUsers)), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes((_a = this.userTypeCode) === null || _a === void 0 ? void 0 : _a.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: ((_b = this.userTypeCode) === null || _b === void 0 ? void 0 : _b.toString()) === this.superAdminId, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, locales.entries.Lcz_ExtranetUsers)), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
     }
     static get is() { return "ir-user-management"; }
     static get encapsulation() { return "scoped"; }

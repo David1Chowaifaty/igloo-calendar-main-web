@@ -1,6 +1,17 @@
 import { IExposedBookingsCriteria } from "../models/IrBookingListing";
 import { Booking } from "../models/booking.dto";
 import { z } from 'zod';
+interface PaginationRange {
+    from: number;
+    to: number;
+}
+export interface BookingListingPagination {
+    currentPage: number;
+    totalPages: number;
+    totalRecords: number;
+    pageSize: number;
+    showing: PaginationRange;
+}
 export interface IBookingListingStore extends IExposedBookingsCriteria {
     token: string;
     userSelection: ExposedBookingsParams;
@@ -11,6 +22,7 @@ export interface IBookingListingStore extends IExposedBookingsCriteria {
         name: string;
         value: string;
     }[];
+    pagination: BookingListingPagination;
 }
 export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     channel: z.ZodString;
@@ -35,10 +47,10 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     property_ids: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
-    from?: string;
-    to?: string;
     book_nbr?: string;
     property_id?: number;
+    from?: string;
+    to?: string;
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;
@@ -56,10 +68,10 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     property_ids?: number[];
 }, {
     name?: string;
-    from?: string;
-    to?: string;
     book_nbr?: string;
     property_id?: number;
+    from?: string;
+    to?: string;
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;
@@ -81,4 +93,13 @@ export declare const booking_listing: IBookingListingStore, onBookingListingChan
 export declare function initializeUserSelection(): void;
 export declare function updateUserSelections(params: Partial<ExposedBookingsParams>): void;
 export declare function updateUserSelection(key: keyof ExposedBookingsParams, value: any): void;
+export declare function updatePaginationFromSelection(selection: ExposedBookingsParams): void;
+export declare function setPaginationPage(page: number): {
+    startRow: number;
+    endRow: number;
+};
+export declare function setPaginationPageSize(pageSize: number): {
+    startRow: number;
+    endRow: number;
+};
 export default booking_listing;

@@ -2,9 +2,7 @@ import axios from "axios";
 import { BookingService } from "./booking.service";
 import { extras, getReleaseHoursString } from "../utils/utils";
 export class EventsService {
-    constructor() {
-        this.bookingService = new BookingService();
-    }
+    bookingService = new BookingService();
     async reallocateEvent(pool, destination_pr_id, from_date, to_date, rateplan_id) {
         try {
             console.log(pool, destination_pr_id, from_date, to_date);
@@ -39,7 +37,15 @@ export class EventsService {
         try {
             const releaseData = getReleaseHoursString(+bookingEvent.RELEASE_AFTER_HOURS);
             await this.deleteEvent(bookingEvent.POOL);
-            const result = await this.bookingService.blockUnit(Object.assign({ from_date: this.formatDate(bookingEvent.FROM_DATE), to_date: this.formatDate(bookingEvent.TO_DATE), pr_id: bookingEvent.PR_ID, STAY_STATUS_CODE: bookingEvent.OUT_OF_SERVICE ? '004' : bookingEvent.RELEASE_AFTER_HOURS === 0 ? '002' : '003', DESCRIPTION: bookingEvent.RELEASE_AFTER_HOURS || '', NOTES: bookingEvent.OPTIONAL_REASON || '' }, releaseData));
+            const result = await this.bookingService.blockUnit({
+                from_date: this.formatDate(bookingEvent.FROM_DATE),
+                to_date: this.formatDate(bookingEvent.TO_DATE),
+                pr_id: bookingEvent.PR_ID,
+                STAY_STATUS_CODE: bookingEvent.OUT_OF_SERVICE ? '004' : bookingEvent.RELEASE_AFTER_HOURS === 0 ? '002' : '003',
+                DESCRIPTION: bookingEvent.RELEASE_AFTER_HOURS || '',
+                NOTES: bookingEvent.OPTIONAL_REASON || '',
+                ...releaseData,
+            });
             return result;
         }
         catch (error) {

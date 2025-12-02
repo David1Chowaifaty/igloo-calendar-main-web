@@ -9,26 +9,34 @@ const OtaLabel = /*@__PURE__*/ proxyCustomElement(class OtaLabel extends HTMLEle
     constructor() {
         super();
         this.__registerHost();
-        /**
-         * Maximum number of remarks to display before showing the "Show More" button.
-         */
-        this.maxVisibleItems = 3;
-        /**
-         * Internal state that determines whether all remarks are shown or only the limited number.
-         */
-        this.showAll = false;
-        /**
-         * Toggles between showing all remarks or only a limited number.
-         *
-         * Example:
-         * ```ts
-         * this.toggleShowAll(); // flips showAll state
-         * ```
-         */
-        this.toggleShowAll = () => {
-            this.showAll = !this.showAll;
-        };
     }
+    /**
+     * Label displayed as the section title.
+     */
+    label;
+    /**
+     * Array of OTA notes to display in the list.
+     */
+    remarks;
+    /**
+     * Maximum number of remarks to display before showing the "Show More" button.
+     */
+    maxVisibleItems = 3;
+    /**
+     * Internal state that determines whether all remarks are shown or only the limited number.
+     */
+    showAll = false;
+    /**
+     * Toggles between showing all remarks or only a limited number.
+     *
+     * Example:
+     * ```ts
+     * this.toggleShowAll(); // flips showAll state
+     * ```
+     */
+    toggleShowAll = () => {
+        this.showAll = !this.showAll;
+    };
     render() {
         if (!this.remarks) {
             return null;

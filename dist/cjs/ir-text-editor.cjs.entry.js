@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 const _commonjsHelpers = require('./_commonjsHelpers-b3309d7b.js');
 
 /** Detect free variable `global` from Node.js. */
@@ -16396,14 +16396,38 @@ const IrTextEditor = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.textChange = index.createEvent(this, "textChange", 7);
-        /** Initial HTML content */
-        this.value = '';
-        /** If true, makes the editor read-only */
-        this.readOnly = false;
-        /** Determines if the current user can edit the content */
-        this.userCanEdit = true;
-        this.editorValue = '';
     }
+    get el() { return index.getElement(this); }
+    error;
+    maxLength;
+    /** Initial HTML content */
+    value = '';
+    /** If true, makes the editor read-only */
+    readOnly = false;
+    /** Determines if the current user can edit the content */
+    userCanEdit = true;
+    /** Placeholder text */
+    placeholder;
+    /**
+     * Type-safe toolbar configuration.
+     * For example, you can pass:
+     *
+     * {
+     *   bold: true,
+     *   italic: true,
+     *   underline: true,
+     *   strike: false,
+     *   link: true,
+     *   clean: true
+     * }
+     */
+    toolbarConfig;
+    /** Emits current HTML content whenever it changes */
+    textChange;
+    editorValue = '';
+    /** Private, non-reactive Quill editor instance */
+    editor;
+    editorContainer;
     componentDidLoad() {
         const options = {
             modules: {
@@ -16522,9 +16546,8 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h("div", { key: 'f89af880b96ac13dec77225f7d2b0ed48008de4d', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: 'c234f6aaa7020c87228bc3baf12095e5a242e146', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (index.h("div", { key: 'ecce8c4572212174beb538a40dcfc457bdfd4988', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: 'd8c2cfd561aaceafadd2254a9bdfa34fc1b76784', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
-    get el() { return index.getElement(this); }
     static get watchers() { return {
         "value": ["handleValueChange"],
         "readOnly": ["onReadOnlyChange"],

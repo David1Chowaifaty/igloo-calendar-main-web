@@ -1,9 +1,8 @@
 import { h } from "@stencil/core";
 export class IrCheckBoxes {
-    constructor() {
-        this.checkboxes = [];
-        this.checkedCheckboxes = [];
-    }
+    checkboxes = [];
+    checkedCheckboxes = [];
+    checkboxesChange;
     handleCheckboxChange(event) {
         if (event.detail.checked) {
             this.checkedCheckboxes.push(this.checkboxes[parseInt(event.detail.name)]);
@@ -20,7 +19,7 @@ export class IrCheckBoxes {
         }
     }
     render() {
-        return (h("div", { key: 'a719ae67eb194e4c984880f1e49d1a632ae5c6f9' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (h("div", { key: '1c1836a2c0d56f26e9ea0484a6872d2811ab8bab' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
     static get is() { return "ir-checkboxes"; }
     static get properties() {

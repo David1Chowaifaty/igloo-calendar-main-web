@@ -32,11 +32,11 @@ export declare const SetPropertyCalendarExtraParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     value: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    value?: string;
     property_id?: number;
+    value?: string;
 }, {
-    value?: string;
     property_id?: number;
+    value?: string;
 }>;
 export type SetPropertyCalendarExtraParams = z.infer<typeof SetPropertyCalendarExtraParamsSchema>;
 export interface PeakDay {
@@ -67,12 +67,12 @@ export declare const SetRoomCalendarExtraParamsSchema: z.ZodObject<{
     room_identifier: z.ZodString;
     value: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    value?: string;
     property_id?: number;
+    value?: string;
     room_identifier?: string;
 }, {
-    value?: string;
     property_id?: number;
+    value?: string;
     room_identifier?: string;
 }>;
 export type SetRoomCalendarExtraParams = z.infer<typeof SetRoomCalendarExtraParamsSchema>;

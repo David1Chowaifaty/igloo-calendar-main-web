@@ -56,6 +56,9 @@ export declare class BookingService {
         from_date: string;
         to_date: string;
     }): Promise<any>;
+    getNextValue(props: {
+        starter: string;
+    }): Promise<any>;
     getExposedApplicablePolicies(props: {
         booking_nbr: string;
         currency_id: number;

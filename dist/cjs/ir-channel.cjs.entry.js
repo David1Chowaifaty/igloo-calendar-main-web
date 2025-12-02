@@ -2,14 +2,14 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
-const room_service = require('./room.service-313fffec.js');
-const channel_store = require('./channel.store-6c960f32.js');
-const locales_store = require('./locales.store-a1ac5174.js');
-const channel_service = require('./channel.service-b7cb478f.js');
-const Token = require('./Token-3d0cc874.js');
-require('./calendar-data-d2bec4fe.js');
-require('./index-7564ffa1.js');
+const index = require('./index-3978a3f8.js');
+const room_service = require('./room.service-edd3d27c.js');
+const channel_store = require('./channel.store-8864149a.js');
+const locales_store = require('./locales.store-4eb57996.js');
+const channel_service = require('./channel.service-be8a5aa1.js');
+const Token = require('./Token-8fd11984.js');
+require('./calendar-data-e7cdcfec.js');
+require('./index-6299b0f7.js');
 require('./axios-6e678d52.js');
 
 const actions = (entries) => [
@@ -85,7 +85,7 @@ const actions = (entries) => [
     // },
     {
         id: 'remove',
-        name: entries === null || entries === void 0 ? void 0 : entries.Lcz_Delete,
+        name: entries?.Lcz_Delete,
         icon: () => (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "14", width: "12.25", viewBox: "0 0 448 512" },
             index.h("path", { d: "M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" }))),
         action: (params) => {
@@ -96,7 +96,7 @@ const actions = (entries) => [
                     await channel_service$1.saveConnectedChannel(params.id, true);
                 },
                 title: '',
-                message: entries === null || entries === void 0 ? void 0 : entries.Lcz_ThisActionWillDelete,
+                message: entries?.Lcz_ThisActionWillDelete,
                 main_color: 'danger',
             };
         },
@@ -109,14 +109,20 @@ const IrChannelStyle0 = irChannelCss;
 const IrChannel = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.ticket = '';
-        this.channel_status = null;
-        this.modal_cause = null;
-        this.isLoading = false;
-        this.roomService = new room_service.RoomService();
-        this.channelService = new channel_service.ChannelService();
-        this.token = new Token.Token();
     }
+    get el() { return index.getElement(this); }
+    ticket = '';
+    propertyid;
+    language;
+    baseurl;
+    p;
+    channel_status = null;
+    modal_cause = null;
+    isLoading = false;
+    roomService = new room_service.RoomService();
+    channelService = new channel_service.ChannelService();
+    token = new Token.Token();
+    irModalRef;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
@@ -198,7 +204,6 @@ const IrChannel = class {
         this.modal_cause = null;
     }
     handleSidebarClose(e) {
-        var _a;
         e.stopImmediatePropagation();
         e.stopPropagation();
         if (channel_store.channels_data.selectedChannel) {
@@ -211,7 +216,7 @@ const IrChannel = class {
                 },
                 cause: 'channel',
                 main_color: 'primary',
-                message: (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_UnSavedChangesWillBeLost,
+                message: locales_store.locales.entries?.Lcz_UnSavedChangesWillBeLost,
                 title: '',
             };
             this.openModal();
@@ -242,34 +247,28 @@ const IrChannel = class {
         this.refreshChannels();
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (this.isLoading) {
             return (index.h("div", { class: "h-screen bg-white d-flex flex-column align-items-center justify-content-center" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h(index.Host, { class: "h-100 " }, index.h("ir-toast", null), index.h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, index.h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, index.h("h3", { class: "font-weight-bold m-0 p-0" }, (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_iSWITCH), index.h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: (_b = locales_store.locales.entries) === null || _b === void 0 ? void 0 : _b.Lcz_CreateChannel, size: "sm", onClickHandler: () => (this.channel_status = 'create') })), index.h("div", { class: "card p-1 flex-fill m-0" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, (_c = locales_store.locales.entries) === null || _c === void 0 ? void 0 : _c.Lcz_Channel), index.h("th", { scope: "col" }, (_d = locales_store.locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_Status), index.h("th", { scope: "col", class: "actions-theader" }, (_e = locales_store.locales.entries) === null || _e === void 0 ? void 0 : _e.Lcz_Actions))), index.h("tbody", { class: "" }, (_f = channel_store.channels_data.connected_channels) === null || _f === void 0 ? void 0 : _f.map(channel => {
-            var _a;
-            return (index.h("tr", { key: channel.channel.id }, index.h("td", { class: "text-left" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), index.h("td", null, index.h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), index.h("th", null, index.h("div", { class: "d-flex justify-content-end" }, index.h("div", { class: "btn-group" }, index.h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("span", { class: "mr-1" }, " ", (_a = locales_store.locales.entries) === null || _a === void 0 ? void 0 :
-                _a.Lcz_Actions), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right" }, actions(locales_store.locales.entries).map((a, index$1) => (index.h(index.Fragment, null, index.h("button", { onClick: () => {
-                    if (a.id === 'pull_future_reservation' || a.id === 'view_logs') {
-                        return;
-                    }
-                    a.action(channel);
-                    if (a.id === 'edit') {
-                        setTimeout(() => {
-                            this.channel_status = 'edit';
-                        }, 300);
-                    }
-                    else {
-                        this.modal_cause = a.action(channel);
-                        this.openModal();
-                    }
-                }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index$1 < actions(locales_store.locales.entries).length - 1 && index.h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))));
-        }))), channel_store.channels_data.connected_channels.length === 0 && index.h("p", { class: "text-center" }, (_g = locales_store.locales.entries) === null || _g === void 0 ? void 0 : _g.Lcz_NoChannelsAreConnected))), index.h("ir-sidebar", { sidebarStyles: {
+        return (index.h(index.Host, { class: "h-100 " }, index.h("ir-toast", null), index.h("section", { class: "p-2 px-lg-5 py-0 h-100 d-flex flex-column" }, index.h("div", { class: "d-flex w-100 justify-content-between mb-2 align-items-center" }, index.h("h3", { class: "font-weight-bold m-0 p-0" }, locales_store.locales.entries?.Lcz_iSWITCH), index.h("ir-button", { iconPosition: "left", icon_name: "circle_plus", text: locales_store.locales.entries?.Lcz_CreateChannel, size: "sm", onClickHandler: () => (this.channel_status = 'create') })), index.h("div", { class: "card p-1 flex-fill m-0" }, index.h("table", { class: "table table-striped table-bordered no-footer dataTable" }, index.h("thead", null, index.h("tr", null, index.h("th", { scope: "col", class: "text-left" }, locales_store.locales.entries?.Lcz_Channel), index.h("th", { scope: "col" }, locales_store.locales.entries?.Lcz_Status), index.h("th", { scope: "col", class: "actions-theader" }, locales_store.locales.entries?.Lcz_Actions))), index.h("tbody", { class: "" }, channel_store.channels_data.connected_channels?.map(channel => (index.h("tr", { key: channel.channel.id }, index.h("td", { class: "text-left" }, channel.channel.name, " ", channel.title ? `(${channel.title})` : ''), index.h("td", null, index.h("ir-switch", { checked: channel.is_active, onCheckChange: e => this.handleCheckChange(e.detail, channel) })), index.h("th", null, index.h("div", { class: "d-flex justify-content-end" }, index.h("div", { class: "btn-group" }, index.h("button", { type: "button", class: "btn  dropdown-toggle px-0", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, index.h("span", { class: "mr-1" }, " ", locales_store.locales.entries?.Lcz_Actions), index.h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, index.h("path", { fill: "var(--blue)", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), index.h("div", { class: "dropdown-menu dropdown-menu-right" }, actions(locales_store.locales.entries).map((a, index$1) => (index.h(index.Fragment, null, index.h("button", { onClick: () => {
+                if (a.id === 'pull_future_reservation' || a.id === 'view_logs') {
+                    return;
+                }
+                a.action(channel);
+                if (a.id === 'edit') {
+                    setTimeout(() => {
+                        this.channel_status = 'edit';
+                    }, 300);
+                }
+                else {
+                    this.modal_cause = a.action(channel);
+                    this.openModal();
+                }
+            }, key: a.id + '_item', class: `dropdown-item my-0 ${a.id === 'remove' ? 'danger' : ''}`, type: "button" }, a.icon(), a.name), index$1 < actions(locales_store.locales.entries).length - 1 && index.h("div", { key: a.id + '_divider', class: "dropdown-divider my-0" }))))))))))))), channel_store.channels_data.connected_channels.length === 0 && index.h("p", { class: "text-center" }, locales_store.locales.entries?.Lcz_NoChannelsAreConnected))), index.h("ir-sidebar", { sidebarStyles: {
                 // width: '60rem',
                 padding: '0',
-            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (index.h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), index.h("ir-modal", { modalTitle: (_h = this.modal_cause) === null || _h === void 0 ? void 0 : _h.title, modalBody: (_j = this.modal_cause) === null || _j === void 0 ? void 0 : _j.message, ref: el => (this.irModalRef = el), rightBtnText: (_k = locales_store.locales.entries) === null || _k === void 0 ? void 0 : _k.Lcz_Confirm, leftBtnText: (_l = locales_store.locales.entries) === null || _l === void 0 ? void 0 : _l.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: (_o = (_m = this.modal_cause) === null || _m === void 0 ? void 0 : _m.main_color) !== null && _o !== void 0 ? _o : 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
+            }, showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose.bind(this), open: this.channel_status !== null }, this.channel_status && (index.h("ir-channel-editor", { slot: "sidebar-body", ticket: this.ticket, channel_status: this.channel_status, onCloseSideBar: this.handleSidebarClose.bind(this) }))), index.h("ir-modal", { modalTitle: this.modal_cause?.title, modalBody: this.modal_cause?.message, ref: el => (this.irModalRef = el), rightBtnText: locales_store.locales.entries?.Lcz_Confirm, leftBtnText: locales_store.locales.entries?.Lcz_Cancel, onCancelModal: this.handleCancelModal.bind(this), rightBtnColor: this.modal_cause?.main_color ?? 'primary', onConfirmModal: this.handleConfirmClicked.bind(this) })));
     }
-    get el() { return index.getElement(this); }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
     }; }

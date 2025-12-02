@@ -2,7 +2,7 @@
 // Common parsers/serializers
 export const ParamTypes = {
     string: {
-        parse: (v) => v !== null && v !== void 0 ? v : '',
+        parse: (v) => v ?? '',
         serialize: (v) => v,
     },
     number: {
@@ -31,7 +31,7 @@ export function getParam(key, { parse }, defaultValue) {
             return defaultValue;
         return parse(raw);
     }
-    catch (_a) {
+    catch {
         return defaultValue;
     }
 }

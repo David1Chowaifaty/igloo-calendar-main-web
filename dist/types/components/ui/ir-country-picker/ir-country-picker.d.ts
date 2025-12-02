@@ -1,6 +1,7 @@
 import { ICountry } from "../../../models/IBooking";
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrCountryPicker {
+    variant: 'modern' | 'default';
     /**
      * List of countries to display in the dropdown.
      */

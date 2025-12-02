@@ -14,57 +14,66 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
         super();
         this.__registerHost();
         this.applyFilters = createEvent(this, "applyFilters", 7);
-        this.filters = {
-            cleaning_periods: {
-                code: '',
-            },
-            housekeepers: '000',
-            cleaning_frequencies: { code: '' },
-            dusty_units: { code: '' },
-            highlight_check_ins: { code: '' },
-        };
-        this.collapsed = false;
     }
+    isLoading;
+    filters = {
+        cleaning_periods: {
+            code: '',
+        },
+        housekeepers: '000',
+        cleaning_frequencies: { code: '' },
+        dusty_units: { code: '' },
+        highlight_check_ins: { code: '' },
+    };
+    collapsed = false;
+    applyFilters;
+    baseFilters;
     componentWillLoad() {
-        var _a, _b, _c, _d, _e;
         this.baseFilters = {
-            cleaning_periods: (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_periods[0],
+            cleaning_periods: housekeeping_store?.hk_criteria?.cleaning_periods[0],
             housekeepers: [],
-            cleaning_frequencies: (_b = calendar_data.cleaning_frequency) !== null && _b !== void 0 ? _b : (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_frequencies[0],
-            dusty_units: (_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.dusty_periods[0],
-            highlight_check_ins: (_e = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _e === void 0 ? void 0 : _e.highlight_checkin_options[0],
+            cleaning_frequencies: calendar_data.cleaning_frequency ?? housekeeping_store?.hk_criteria?.cleaning_frequencies[0],
+            dusty_units: housekeeping_store?.hk_criteria?.dusty_periods[0],
+            highlight_check_ins: housekeeping_store?.hk_criteria?.highlight_checkin_options[0],
         };
-        this.filters = Object.assign(Object.assign({}, this.baseFilters), { housekeepers: '000' });
+        this.filters = { ...this.baseFilters, housekeepers: '000' };
     }
     updateFilter(params) {
-        this.filters = Object.assign(Object.assign({}, this.filters), params);
+        this.filters = { ...this.filters, ...params };
     }
     applyFiltersEvt(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.applyFilters.emit(Object.assign(Object.assign({}, this.filters), { housekeepers: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers : [{ id: Number(this.filters.housekeepers) }] }));
+        this.applyFilters.emit({
+            ...this.filters,
+            housekeepers: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers : [{ id: Number(this.filters.housekeepers) }],
+        });
     }
     resetFilters(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.filters = Object.assign(Object.assign({}, this.baseFilters), { housekeepers: '000' });
-        this.applyFilters.emit(Object.assign(Object.assign({}, this.filters), { housekeepers: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers : [{ id: Number(this.filters.housekeepers) }] }));
+        this.filters = { ...this.baseFilters, housekeepers: '000' };
+        this.applyFilters.emit({
+            ...this.filters,
+            housekeepers: this.filters.housekeepers === '000' ? this.baseFilters.housekeepers : [{ id: Number(this.filters.housekeepers) }],
+        });
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
-        return (h("div", { key: '242aa478aba871906946a653ea3e76526f80430d', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: '32ebea66ba61b8ff82c3c37df574ea698a5a8036', class: "d-flex align-items-center justify-content-between" }, h("div", { key: '12b96ea8a5faf6b46bfb1cb9a86549fcc3bed240', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: 'ef247fc78ded36fccfd95f24569b3fc2a9492337', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'e20ddc6281e310f547ef522509058574e5067b74', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '5ede5b4b255fa16880f97249d51df4cfd251594b', class: "m-0 p-0 flex-grow-1" }, locales.entries.Lcz_Filters)), h("ir-button", { key: '76db3cc4c780e0ab80dda1bd6d9d47a96cece5a0', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (h("div", { key: '22c76d4fc43f159eaff4662e2b3cf4031ac75351', class: "card mb-0 p-1 d-flex flex-column" }, h("div", { key: 'ad90f958cb3f0c358283515750d7a2f824a46495', class: "d-flex align-items-center justify-content-between" }, h("div", { key: '234b35fcf6f01b4c49d4a27c13bf8e6bd0049452', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: 'abc3f523f49ca5d6957c398d1ae6050f151f8047', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '45c6fea029d4b491a40e983b364b1094471f45d6', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '119f31c9a51f3555e351baa577d9418bc39f8a73', class: "m-0 p-0 flex-grow-1" }, locales.entries.Lcz_Filters)), h("ir-button", { key: '107284379b1b89841c60d4b1bf942e6ac36c350f', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#hkTasksFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "hkTasksFiltersCollapse", class: "mr-1 collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '18e7536307c1fa8b0217952769f5b753379ccdfa', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, h("div", { key: '1dae4b927bd6a468b9a3f1f462cb85af23f122b8', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '04b7c57dc7c661fe71b1daa7bdb7992c2f49d7ba', class: "pt-1" }, h("p", { key: 'e60673763af5bab3c42c250c6cc395b18cf064db', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries.Lcz_Period), h("ir-select", { key: 'cc1e09bd17a14b2410976fe254b611f850e3e2a7', testId: "period", selectedValue: (_b = (_a = this.filters) === null || _a === void 0 ? void 0 : _a.cleaning_periods) === null || _b === void 0 ? void 0 : _b.code, showFirstOption: false, data: (_c = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _c === void 0 ? void 0 : _c.cleaning_periods.map(v => ({
+            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '3c771ea943a7db42f04e46dd1ae8fe0656d3df0b', class: "m-0 p-0 collapse", id: "hkTasksFiltersCollapse" }, h("div", { key: '12f3f5014aa1f914a06c9254b8e87413bedb045d', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '4882151867b4d92c1a363ff7d8d5a7927f8e2256', class: "pt-1" }, h("p", { key: 'd18686fa34c703ee538b48d9cdb70ba6619cadb3', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries.Lcz_Period), h("ir-select", { key: 'c18bfce80c5106146d5887a7ae9b38bd1686c45a', testId: "period", selectedValue: this.filters?.cleaning_periods?.code, showFirstOption: false, data: housekeeping_store?.hk_criteria?.cleaning_periods.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 this.updateFilter({ cleaning_periods: { code: e.detail } });
-            } })), ((_d = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _d === void 0 ? void 0 : _d.housekeepers.length) > 1 && (h("fieldset", { key: 'c10eda5f75a830a41c131b812571a870276f0e98' }, h("p", { key: 'decc01a28b3787186dcc7b0121544362edd58984', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries.Lcz_Housekeepers), h("ir-select", { key: '1ab77fc06f878642ad009a356f25f93523407ee4', testId: "housekeepers", selectedValue: (_e = this.filters) === null || _e === void 0 ? void 0 : _e.housekeepers, showFirstOption: false, data: [
+            } })), housekeeping_store?.hk_criteria?.housekeepers.length > 1 && (h("fieldset", { key: '23575912387a696804d6da21b319ee3d15e51b61' }, h("p", { key: '984b5f3ebaef8e21df1f28c8c0a54be07ff8b496', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries.Lcz_Housekeepers), h("ir-select", { key: '7fde7cccd377a175580566c1589dba299ab992de', testId: "housekeepers", selectedValue: this.filters?.housekeepers, showFirstOption: false, data: [
                 { text: locales.entries.Lcz_Allhousekeepers, value: '000' },
-                ...(_f = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _f === void 0 ? void 0 : _f.housekeepers.map(v => ({
+                ...housekeeping_store?.hk_criteria?.housekeepers
+                    .map(v => ({
                     text: v.name,
                     value: v.id.toString(),
-                })).sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())),
+                }))
+                    .sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase())),
             ], onSelectChange: e => {
                 // if (e.detail === '000') {
                 //   this.updateFilter({ housekeepers: { ids: this.baseFilters?.housekeepers?.ids } });
@@ -72,19 +81,19 @@ const IrTasksFilters = /*@__PURE__*/ proxyCustomElement(class IrTasksFilters ext
                 //   this.updateFilter({ housekeepers: { ids: [e.detail] } });
                 // }
                 this.updateFilter({ housekeepers: e.detail });
-            } }))), h("fieldset", { key: '6d63bad21771e508afdd1f2f7180cbd81d92e8f2' }, h("p", { key: '8ec61cf921d8786d78fa15d82316398d10af27c2', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, "Include dusty units"), h("ir-select", { key: '122acf92348c6dba99027eacf8c33c6847336328', testId: "dusty_units", showFirstOption: false, selectedValue: (_h = (_g = this.filters) === null || _g === void 0 ? void 0 : _g.dusty_units) === null || _h === void 0 ? void 0 : _h.code, data: (_k = (_j = housekeeping_store.hk_criteria) === null || _j === void 0 ? void 0 : _j.dusty_periods) === null || _k === void 0 ? void 0 : _k.map(v => ({
+            } }))), h("fieldset", { key: 'd6a4ec84b92a7177ff895809c47bc8c9c6642dcb' }, h("p", { key: '26e3eb85a213bef95a97fa5878a115696b9314e9', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, "Include dusty units"), h("ir-select", { key: 'e6cfda37b2139cd54b85fe059a369da1306a4e01', testId: "dusty_units", showFirstOption: false, selectedValue: this.filters?.dusty_units?.code, data: housekeeping_store.hk_criteria?.dusty_periods?.map(v => ({
                 text: v.description,
                 value: v.code,
             })), onSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ dusty_units: { code: e.detail } });
-            } })), h("fieldset", { key: '78d015f61c803866e233d45c8e07ea1c12f373fa', class: "mb-1" }, h("p", { key: '9045dd78275e504e6dd5421403dd9df9988aa551', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries['Lcz_HighlightCheck-insFrom']), h("ir-select", { key: '81ee5c4e1a2504e5b13e5df7cf589132d1e9328b', testId: "highlight_check_ins", selectedValue: (_m = (_l = this.filters) === null || _l === void 0 ? void 0 : _l.highlight_check_ins) === null || _m === void 0 ? void 0 : _m.code, showFirstOption: false, onSelectChange: e => {
+            } })), h("fieldset", { key: '4aadbe384c0d5789d1c2707f8c9631431d876983', class: "mb-1" }, h("p", { key: '782b1763014927f5aa7450f39961346e255a0db7', class: "m-0 pt-0 px-0", style: { paddingBottom: '0.25rem' } }, locales.entries['Lcz_HighlightCheck-insFrom']), h("ir-select", { key: '4b6a438b73dcc6dacad806dc3761f777dfd49f32', testId: "highlight_check_ins", selectedValue: this.filters?.highlight_check_ins?.code, showFirstOption: false, onSelectChange: e => {
                 this.updateFilter({ highlight_check_ins: { code: e.detail } });
-            }, data: (_p = (_o = housekeeping_store.hk_criteria) === null || _o === void 0 ? void 0 : _o.highlight_checkin_options) === null || _p === void 0 ? void 0 : _p.map(v => ({
+            }, data: housekeeping_store.hk_criteria?.highlight_checkin_options?.map(v => ({
                 text: v.description,
                 value: v.code,
-            })) })), h("div", { key: 'b8b40fe0471053eb8f9ea59bdd7e9f64be0f7652', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'e29e1c42106b54bf95841f5bdcff6ba3ce9ed11f', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '589a6148fd203b9d7c30369ead3403c3f30a7e54', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+            })) })), h("div", { key: '96862c14ee7534fdd10c7542f6a472cf0aa5bcc9', class: "d-flex align-items-center justify-content-end", style: { gap: '1rem' } }, h("ir-button", { key: 'bc743a2d002d361b54148d927ef4537c9ed82289', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: 'dfcb3087cb79ea9f68457a59e2bc508c2390a514', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
     static get style() { return IrTasksFiltersStyle0; }
 }, [2, "ir-tasks-filters", {

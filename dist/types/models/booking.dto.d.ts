@@ -193,6 +193,8 @@ export interface Booking {
         verification_mode: null;
     } | null;
     events: ExposedBookingEvent[];
+    company_name: string | null;
+    company_tax_nbr: string | null;
     ota_manipulations: OTAManipulations[];
     bypassed_ota_revisions: BypassedOtaRevisions[];
     ota_services: OtaService[];
@@ -239,8 +241,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     start_date: z.ZodNullable<z.ZodString>;
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
-    description?: string;
     cost?: number;
+    description?: string;
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
@@ -248,8 +250,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     start_date?: string;
     system_id?: number;
 }, {
-    description?: string;
     cost?: number;
+    description?: string;
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
@@ -303,6 +305,8 @@ export interface IPayment {
     payment_gateway_code?: number;
     payment_type?: PaymentType;
     payment_method?: PaymentType;
+    receipt_nbr?: string;
+    is_receipt_issued?: boolean;
     time_stamp: {
         date: string;
         hour: number;
@@ -342,6 +346,8 @@ export interface Currency {
     symbol: string;
 }
 export interface Guest {
+    company_name: string | null;
+    company_tax_nbr: string | null;
     address: string | null;
     city: string | null;
     country_id: number | null;

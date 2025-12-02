@@ -49,11 +49,10 @@ export function convertDateToTime(dayWithWeekday, monthWithYear) {
  * @returns `null` if no choices are needed; otherwise a list of choices.
  */
 export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
-    var _a, _b, _c, _d, _e, _f;
     if (!roomTypeId || !Array.isArray(roomTypes) || roomTypes.length === 0) {
         return null;
     }
-    const roomtype = roomTypes.find(rt => (rt === null || rt === void 0 ? void 0 : rt.id) === roomTypeId);
+    const roomtype = roomTypes.find(rt => rt?.id === roomTypeId);
     if (!roomtype || !Array.isArray(roomtype.rateplans) || roomtype.rateplans.length === 0) {
         return null;
     }
@@ -67,32 +66,26 @@ export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
         return null;
     })();
     const current = {
-        mealPlanCode: (_b = (_a = rateplan === null || rateplan === void 0 ? void 0 : rateplan.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null,
-        customText: (_c = rateplan === null || rateplan === void 0 ? void 0 : rateplan.custom_text) !== null && _c !== void 0 ? _c : null,
-        isNonRefundable: Boolean(rateplan === null || rateplan === void 0 ? void 0 : rateplan.is_non_refundable),
+        mealPlanCode: rateplan?.meal_plan?.code ?? null,
+        customText: rateplan?.custom_text ?? null,
+        isNonRefundable: Boolean(rateplan?.is_non_refundable),
     };
-    const hasCompatibleActiveRateplan = roomtype.rateplans.some(rp => {
-        var _a, _b, _c;
-        return Boolean(rp === null || rp === void 0 ? void 0 : rp.is_active) &&
-            ((_b = (_a = rp === null || rp === void 0 ? void 0 : rp.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null) === current.mealPlanCode &&
-            ((_c = rp === null || rp === void 0 ? void 0 : rp.custom_text) !== null && _c !== void 0 ? _c : null) === current.customText &&
-            Boolean(rp === null || rp === void 0 ? void 0 : rp.is_non_refundable) === current.isNonRefundable;
-    });
+    const hasCompatibleActiveRateplan = roomtype.rateplans.some(rp => Boolean(rp?.is_active) &&
+        (rp?.meal_plan?.code ?? null) === current.mealPlanCode &&
+        (rp?.custom_text ?? null) === current.customText &&
+        Boolean(rp?.is_non_refundable) === current.isNonRefundable);
     if (hasCompatibleActiveRateplan) {
-        const rp = roomtype.rateplans.find(rp => {
-            var _a, _b, _c;
-            return Boolean(rp === null || rp === void 0 ? void 0 : rp.is_active) &&
-                ((_b = (_a = rp === null || rp === void 0 ? void 0 : rp.meal_plan) === null || _a === void 0 ? void 0 : _a.code) !== null && _b !== void 0 ? _b : null) === current.mealPlanCode &&
-                ((_c = rp === null || rp === void 0 ? void 0 : rp.custom_text) !== null && _c !== void 0 ? _c : null) === current.customText &&
-                Boolean(rp === null || rp === void 0 ? void 0 : rp.is_non_refundable) === current.isNonRefundable;
-        });
+        const rp = roomtype.rateplans.find(rp => Boolean(rp?.is_active) &&
+            (rp?.meal_plan?.code ?? null) === current.mealPlanCode &&
+            (rp?.custom_text ?? null) === current.customText &&
+            Boolean(rp?.is_non_refundable) === current.isNonRefundable);
         return {
             custom_text: rp.custom_text,
             text: rp.short_name,
             value: rp.id.toString(),
         };
     }
-    const nonRefundableLabel = (_e = (_d = locales === null || locales === void 0 ? void 0 : locales.entries) === null || _d === void 0 ? void 0 : _d.Lcz_NonRefundable) !== null && _e !== void 0 ? _e : 'Non-Refundable';
+    const nonRefundableLabel = locales?.entries?.Lcz_NonRefundable ?? 'Non-Refundable';
     const seen = new Set();
     const options = [];
     for (const rp of roomtype.rateplans) {
@@ -100,7 +93,7 @@ export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
             continue;
         seen.add(rp.id);
         const suffix = rp.is_non_refundable ? ` ${nonRefundableLabel}` : '';
-        const text = `${(_f = rp.short_name) !== null && _f !== void 0 ? _f : ''}${suffix}`.trim();
+        const text = `${rp.short_name ?? ''}${suffix}`.trim();
         if (!text)
             continue;
         options.push({
@@ -142,6 +135,29 @@ export function dateToFormattedString(date) {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+/**
+ * Converts a status like "IN-HOUSE" to "IN_HOUSE".
+ *
+ * @param status - Status string to normalize.
+ * @returns The status with hyphens replaced by underscores.
+ */
+export function normalizeStatus(status) {
+    return status.replace(/-/g, '_');
+}
+/**
+ * Converts a phrase like "Pending confirmation" into "PENDING-CONFIRMATION".
+ *
+ * Rules:
+ *  - Trim extra spaces
+ *  - Replace spaces with hyphens
+ *  - Uppercase the entire string
+ *
+ * @param text - Input status text.
+ * @returns Normalized status in UPPERCASE with hyphens.
+ */
+export function toStatusCode(text) {
+    return text.trim().replace(/\s+/g, '-').toUpperCase();
+}
 export function formatLegendColors(legendData) {
     let formattedLegendData = {};
     const statusId = {
@@ -154,9 +170,16 @@ export function formatLegendColors(legendData) {
         'BLOCKED': { id: 6, clsName: 'BLOCKED' },
         'BLOCKED-WITH-DATES': { id: 7, clsName: 'BLOCKED_WITH_DATES' },
         'NOTES': { id: 8, clsName: 'NOTES' },
-        'OUTSTANDING-BALANCE': { id: 9, clsName: 'OUTSTANDING_BALANCE' },
-        'TEMP-EVENT': { id: 10, clsName: 'PENDING_CONFIRMATION' },
+        'OUTSTANDING-BALANCE': { id: 10, clsName: 'OUTSTANDING_BALANCE' },
+        'TEMP-EVENT': { id: 11, clsName: 'PENDING_CONFIRMATION' },
     };
+    // const statusId = (() => {
+    //   let d = {};
+    //   legendData.forEach(element => {
+    //     d[toStatusCode(element.name)] = { id: Number(element?.id), clsName: normalizeStatus(element.name) };
+    //   });
+    //   return d;
+    // })();
     legendData.forEach(legend => {
         formattedLegendData[legend.id] = legend;
         formattedLegendData.statusId = statusId; // NOTE: This will overwrite the 'statusId' property with every iteration.
@@ -279,7 +302,7 @@ export function manageAnchorSession(data, mode = 'add') {
     const anchor = JSON.parse(sessionStorage.getItem('backend_anchor'));
     if (anchor) {
         if (mode === 'add') {
-            return sessionStorage.setItem('backend_anchor', JSON.stringify(Object.assign(Object.assign({}, anchor), data)));
+            return sessionStorage.setItem('backend_anchor', JSON.stringify({ ...anchor, ...data }));
         }
         else if (mode === 'remove') {
             const keys = Object.keys(data);
@@ -293,7 +316,7 @@ export function manageAnchorSession(data, mode = 'add') {
     }
     else {
         if (mode === 'add') {
-            return sessionStorage.setItem('backend_anchor', JSON.stringify(Object.assign({}, data)));
+            return sessionStorage.setItem('backend_anchor', JSON.stringify({ ...data }));
         }
     }
 }
@@ -311,7 +334,6 @@ export function checkUserAuthState() {
  * @returns True if check-in is allowed; otherwise, false.
  */
 export function canCheckIn({ from_date, to_date, isCheckedIn }) {
-    var _a, _b;
     if (!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) {
         return false;
     }
@@ -321,7 +343,7 @@ export function canCheckIn({ from_date, to_date, isCheckedIn }) {
     const now = moment();
     if ((moment().isSameOrAfter(new Date(from_date), 'days') && moment().isBefore(new Date(to_date), 'days')) ||
         (moment().isSame(new Date(to_date), 'days') &&
-            !compareTime(now.toDate(), createDateWithOffsetAndHour((_a = calendarData.checkin_checkout_hours) === null || _a === void 0 ? void 0 : _a.offset, (_b = calendarData.checkin_checkout_hours) === null || _b === void 0 ? void 0 : _b.hour)))) {
+            !compareTime(now.toDate(), createDateWithOffsetAndHour(calendarData.checkin_checkout_hours?.offset, calendarData.checkin_checkout_hours?.hour)))) {
         return true;
     }
     return false;
@@ -434,5 +456,16 @@ export function generateTimeSlotsMilitary(from, to, stepMinutes = 60) {
         currentTime.add(stepMinutes, 'minutes');
     }
     return timeSlots;
+}
+/**
+ * Checks whether a given date falls on a weekend (Saturday or Sunday).
+ *
+ * @param date   - The date to check, as a string (parsed using the given `format`).
+ * @param format - Moment.js format used to parse `date`. Defaults to `'YYYY-MM-DD'`.
+ * @returns `true` if the parsed date is a Saturday or Sunday, otherwise `false`.
+ */
+export function isWeekend(date, format = 'YYYY-MM-DD') {
+    const d = moment(date, format);
+    return d.day() === 0 || d.day() === 6;
 }
 //# sourceMappingURL=utils.js.map

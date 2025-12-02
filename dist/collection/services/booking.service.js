@@ -1,15 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import axios from "axios";
 import { ZIEntrySchema } from "../models/IBooking";
 import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../utils/utils";
@@ -76,13 +64,19 @@ export class BookingService {
         }
         return data;
     }
+    async getNextValue(props) {
+        const { data } = await axios.post(`/Get_Next_Value`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async getExposedApplicablePolicies(props) {
-        var _a;
         const { data } = await axios.post(`/Get_Exposed_Applicable_Policies`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        return (_a = data.My_Result) !== null && _a !== void 0 ? _a : [];
+        return data.My_Result ?? [];
     }
     async handleExposedRoomInOut(props) {
         const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
@@ -99,8 +93,10 @@ export class BookingService {
         return data.My_Result;
     }
     async setExposedRestrictionPerRoomType(params) {
-        var _a;
-        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, Object.assign({ operation_type: (_a = params.operation_type) !== null && _a !== void 0 ? _a : 'close_open' }, params));
+        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, {
+            operation_type: params.operation_type ?? 'close_open',
+            ...params,
+        });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -238,7 +234,7 @@ export class BookingService {
     }
     async editExposedGuest(guest, book_nbr) {
         try {
-            const { data } = await axios.post(`/Edit_Exposed_Guest`, Object.assign(Object.assign({}, guest), { book_nbr }));
+            const { data } = await axios.post(`/Edit_Exposed_Guest`, { ...guest, book_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -251,8 +247,15 @@ export class BookingService {
     }
     async getBookingAvailability(props) {
         try {
-            const { adultChildCount, currency } = props, rest = __rest(props, ["adultChildCount", "currency"]);
-            const { data } = await axios.post(`/Check_Availability`, Object.assign(Object.assign({}, rest), { adult_nbr: adultChildCount.adult, child_nbr: adultChildCount.child, currency_ref: currency.code, skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled, is_backend: true }));
+            const { adultChildCount, currency, ...rest } = props;
+            const { data } = await axios.post(`/Check_Availability`, {
+                ...rest,
+                adult_nbr: adultChildCount.adult,
+                child_nbr: adultChildCount.child,
+                currency_ref: currency.code,
+                skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled,
+                is_backend: true,
+            });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -268,30 +271,29 @@ export class BookingService {
     }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
-            var _a, _b, _c, _d;
             // Priority to available rooms
             if (a.is_available_to_book && !b.is_available_to_book)
                 return -1;
             if (!a.is_available_to_book && b.is_available_to_book)
                 return 1;
             // Check for variations where is_calculated is true and amount is 0 or null
-            const zeroCalculatedA = (_a = a.rateplans) === null || _a === void 0 ? void 0 : _a.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
-            const zeroCalculatedB = (_b = b.rateplans) === null || _b === void 0 ? void 0 : _b.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null); });
+            const zeroCalculatedA = a.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
+            const zeroCalculatedB = b.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
             // Prioritize these types to be before inventory 0 but after all available ones
             if (zeroCalculatedA && !zeroCalculatedB)
                 return 1;
             if (!zeroCalculatedA && zeroCalculatedB)
                 return -1;
             // Check for exact matching variations based on user criteria
-            const matchA = (_c = a.rateplans) === null || _c === void 0 ? void 0 : _c.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
-            const matchB = (_d = b.rateplans) === null || _d === void 0 ? void 0 : _d.some(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr); });
+            const matchA = a.rateplans?.some(plan => plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            const matchB = b.rateplans?.some(plan => plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
             if (matchA && !matchB)
                 return -1;
             if (!matchA && matchB)
                 return 1;
             // Sort by the highest variation amount
-            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
-            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => { var _a; return (_a = plan.variations) === null || _a === void 0 ? void 0 : _a.map(variation => { var _a; return (_a = variation.discounted_amount) !== null && _a !== void 0 ? _a : 0; }); }));
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
             if (maxVariationA < maxVariationB)
                 return -1;
             if (maxVariationA > maxVariationB)
@@ -300,7 +302,7 @@ export class BookingService {
         });
     }
     modifyRateplans(roomTypes) {
-        return roomTypes === null || roomTypes === void 0 ? void 0 : roomTypes.map(rt => { var _a; return (Object.assign(Object.assign({}, rt), { rateplans: (_a = rt.rateplans) === null || _a === void 0 ? void 0 : _a.map(rp => { var _a; return (Object.assign(Object.assign({}, rp), { variations: this.sortVariations((_a = rp === null || rp === void 0 ? void 0 : rp.variations) !== null && _a !== void 0 ? _a : []) })); }) })); });
+        return roomTypes?.map(rt => ({ ...rt, rateplans: rt.rateplans?.map(rp => ({ ...rp, variations: this.sortVariations(rp?.variations ?? []) })) }));
     }
     sortVariations(variations) {
         return variations.sort((a, b) => {
@@ -326,14 +328,13 @@ export class BookingService {
         }
     }
     async getSetupEntriesByTableName(TBL_NAME) {
-        var _a;
         const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
             TBL_NAME,
         });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        const res = (_a = data.My_Result) !== null && _a !== void 0 ? _a : [];
+        const res = data.My_Result ?? [];
         return res;
     }
     async fetchSetupEntries() {
@@ -352,7 +353,7 @@ export class BookingService {
         }
     }
     async doBookingExtraService({ booking_nbr, service, is_remove }) {
-        const { data } = await axios.post(`/Do_Booking_Extra_Service`, Object.assign(Object.assign({}, service), { booking_nbr, is_remove }));
+        const { data } = await axios.post(`/Do_Booking_Extra_Service`, { ...service, booking_nbr, is_remove });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -529,7 +530,7 @@ export class BookingService {
         }
     }
     async doReservation(body) {
-        const { data } = await axios.post(`/DoReservation`, Object.assign(Object.assign({}, body), { extras: body.extras ? body.extras : extras }));
+        const { data } = await axios.post(`/DoReservation`, { ...body, extras: body.extras ? body.extras : extras });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -561,10 +562,10 @@ export class BookingService {
                     : null,
             };
             if (defaultGuest) {
-                guest = Object.assign(Object.assign({}, defaultGuest), { email: defaultGuest.email === '' ? null : defaultGuest.email });
+                guest = { ...defaultGuest, email: defaultGuest.email === '' ? null : defaultGuest.email };
             }
             if (bookedByInfoData.id) {
-                guest = Object.assign(Object.assign({}, guest), { id: bookedByInfoData.id });
+                guest = { ...guest, id: bookedByInfoData.id };
             }
             const body = {
                 assign_units: true,

@@ -3,6 +3,10 @@
  * @template T The type of the value stored in the node.
  */
 class ListNode {
+    /** The value contained in this node. */
+    value;
+    /** Reference to the next node in the list (or null if this is the last node). */
+    next;
     /**
      * Creates a new ListNode.
      * @param value The value to store in the node.
@@ -17,10 +21,8 @@ class ListNode {
  * @template T The type of the values stored in the list.
  */
 export class LinkedList {
-    constructor() {
-        /** The head (first node) of the linked list. */
-        this.head = null;
-    }
+    /** The head (first node) of the linked list. */
+    head = null;
     /**
      * Appends a new value at the end of the list.
      * @param value The value to append.

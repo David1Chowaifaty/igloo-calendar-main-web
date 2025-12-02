@@ -10,9 +10,12 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
     constructor() {
         super();
         this.__registerHost();
-        this.showDateDifference = true;
-        this.dateOption = 'YYYY-MM-DD';
     }
+    from_date;
+    to_date;
+    showDateDifference = true;
+    dateOption = 'YYYY-MM-DD';
+    dates;
     componentWillLoad() {
         this.initializeDates();
     }
@@ -56,7 +59,7 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         }
     }
     render() {
-        return (h(Host, { key: '89e1a9cd6633e9a1660104a4a5844c4ac70218c6', class: "d-flex align-items-center" }, h("span", { key: '364db895110bee959f2e374ea7ea03e467564793' }, this.dates.from_date), ' ', h("svg", { key: '4143685fb06ed857bd1a08d927a9f84dbd04531d', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '86334c31c9b4b23b2d337fe8aa5c1e4f88f2ba4f', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '3d066631e8c36ca007710e816c99f716e978ca22' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '787e31afc38ae77ac50058bb617870729e2a0f00', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: '462664ea535bb5495de47525ef1ef9e56c156cd6', class: "d-flex align-items-center" }, h("span", { key: '3afcb94038f895dfd4d4f84931e4a6f876a980a6' }, this.dates.from_date), ' ', h("svg", { key: 'e9dc6e076a43d15ff172121f884ad30a26119b60', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '1309432777b1f03889366acf8453197c63a0daa7', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '5aecf61ce88a3249fc55114acaf081017b3bb7c0' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: 'ba5d1404867f8d85bf40f078597744cf893e2a31', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],

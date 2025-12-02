@@ -3,16 +3,33 @@ import { formatAmount } from "../../../../utils/utils";
 import locales from "../../../../stores/locales.store";
 import booking_store from "../../../../stores/booking.store";
 export class IglBookingForm {
-    constructor() {
-        this.selectedUnits = {};
-    }
+    showPaymentDetails;
+    currency;
+    isEditOrAddRoomEvent;
+    dateRangeData;
+    bookingData;
+    showSplitBookingOption;
+    language;
+    bookedByInfoData;
+    propertyId;
+    bedPreferenceType;
+    selectedRooms;
+    isLoading;
+    countries;
+    selectedGuestData;
+    defaultGuestData;
+    selectedBookedByData;
+    guestData;
+    selectedUnits = {};
+    dataUpdateEvent;
+    buttonClicked;
     componentWillLoad() {
         this.initializeGuestData();
         this.selectedBookedByData = this.bookedByInfoData;
     }
     initializeGuestData() {
         let total = 0;
-        const newSelectedUnits = Object.assign({}, this.selectedUnits);
+        const newSelectedUnits = { ...this.selectedUnits };
         const getRate = (rate, totalNights, isRateModified, preference) => {
             if (isRateModified && preference === 2) {
                 return rate * totalNights;
@@ -26,7 +43,12 @@ export class IglBookingForm {
                 newSelectedUnits[key] = rate_plan.selectedUnits;
                 total += rate_plan.totalRooms * getRate(rate_plan.rate, this.dateRangeData.dateDifference, rate_plan.isRateModified, rate_plan.rateType);
                 for (let i = 1; i <= rate_plan.totalRooms; i++) {
-                    this.guestData.push(Object.assign({ guestName: '', roomId: '', preference: '' }, rate_plan));
+                    this.guestData.push({
+                        guestName: '',
+                        roomId: '',
+                        preference: '',
+                        ...rate_plan,
+                    });
                 }
             });
         });
@@ -37,7 +59,10 @@ export class IglBookingForm {
         const categoryIdKey = `c_${opt.data.roomCategoryId}`;
         const updatedUnits = [...(this.selectedUnits[categoryIdKey] || [])];
         updatedUnits[index] = opt.data.roomId;
-        this.selectedUnits = Object.assign(Object.assign({}, this.selectedUnits), { [categoryIdKey]: updatedUnits });
+        this.selectedUnits = {
+            ...this.selectedUnits,
+            [categoryIdKey]: updatedUnits,
+        };
         this.dataUpdateEvent.emit({
             key: 'applicationInfoUpdateEvent',
             value: event.detail,
@@ -95,7 +120,7 @@ export class IglBookingForm {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("div", { key: 'faa5c62adb02164a255992ec498748321cd766d2', class: "d-flex flex-column h-100" }, h("div", { key: '6007b9d921af66a7a6f8983d276af2d6e9ed8553', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'e85b346855b561e4971ab2b9f27a59363b2ff48f', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '7cd33af9946e889a01c8d9f3519aa58b1b74ff7d', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '630867b9f5e32096f57230dd82ad40dca6f8a2e3', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        return (h("div", { key: '20c9e58e7e78537c2dac961b55672f1c8a8b712a', class: "d-flex flex-column h-100" }, h("div", { key: '2aba855f7dcfcc064e1a32205d093353c8c29cc0', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'f71811eaba5b15d0aebcb3e6744cc28ec263cd7c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '1f6d81522af0a79b1905cbe23ecb0ca57fb7b528', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '0db2fbd2d69859dc6ea94a5e77f225da55b43a23', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

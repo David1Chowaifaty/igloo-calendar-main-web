@@ -2,11 +2,16 @@ import locales from "../../../../stores/locales.store";
 import { formatAmount } from "../../../../utils/utils";
 import { h } from "@stencil/core";
 export class IrPaymentSummary {
+    totalCost;
+    balance;
+    collected;
+    currency;
+    isBookingCancelled;
     shouldShowTotalCost() {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     render() {
-        return (h("div", { key: 'f7c68209a510c67eb97f28200b9bea21102444aa', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: '8e7415851f986eb87953a1a5b0cb1d2ea783aadd', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: '94f97fca594bdd42c5971e01fbd52a2bb8ef70c5' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: 'ff43179a881bea8258cbe145160eaa8b90c41f44', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: '261ca114009459578ef1e88139c6b89176e00700' }, locales.entries.Lcz_Balance, ": "), h("span", { key: '66e9b5e9db82b05caa437f8040a0526102e4591e', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { key: 'dc093eb9b946b99745409402a282a797a6d1a5b1', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: '136c5fbacaac4b20a82b1352f8bac91ee056b7c3' }, locales.entries.Lcz_Collected, ": "), h("span", { key: '3899e9b67403142fa2a371d1ede647bd4ad5ee1c' }, formatAmount(this.currency.symbol, this.collected))))));
+        return (h("div", { key: '59b02ae4ec078eb9d26b568d51b5454f96d494ec', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: '34ad9c38352fd6ceecd4c87b4ada72d440880454', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: '3c21c620705c6df0e2bdf00c5ccfb6fc81695f01' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: 'e4a7c0887707b3103b9a0f5a0457cba340ca5ed9', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: '0077d29adf53193867d5a6cfe17fe33412c80199' }, locales.entries.Lcz_Balance, ": "), h("span", { key: 'dfabb74e332287439850061411067087f9b8c28d', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { key: 'ac5bfd56153f28f6a2e37ab80d05549313b1145a', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: '0d971500c21f25261afd10792527290638bd33d9' }, locales.entries.Lcz_Collected, ": "), h("span", { key: 'fe87584f4c8ca4dd8a7746ce8db27c254b09cbb9' }, formatAmount(this.currency.symbol, this.collected))))));
     }
     static get is() { return "ir-payment-summary"; }
     static get encapsulation() { return "scoped"; }

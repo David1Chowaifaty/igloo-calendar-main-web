@@ -64,7 +64,6 @@ export function addMapping(ir_id, fr_id, isRoomType) {
     });
 }
 export function testConnection() {
-    var _a;
     // const hotelConnection = channels_data.selectedChannel.properties.find(property => property.id === 'd09e6374-1ebf-45e0-a130-64c8c9930987');
     const hotelConnection = channels_data.selectedChannel.properties.find(property => property.id === channels_data.channel_settings.hotel_id);
     if (!hotelConnection) {
@@ -75,7 +74,7 @@ export function testConnection() {
     }
     channels_data.selectedChannel.property = hotelConnection;
     if (channels_data.mappedChannels.length === 0) {
-        channels_data.mappedChannels.push({ ir_id: ((_a = channels_data.property_id) !== null && _a !== void 0 ? _a : -1).toString(), channel_id: channels_data.channel_settings.hotel_id, type: 'property' });
+        channels_data.mappedChannels.push({ ir_id: (channels_data.property_id ?? -1).toString(), channel_id: channels_data.channel_settings.hotel_id, type: 'property' });
     }
     channels_data.isConnectedToChannel = true;
     return true;

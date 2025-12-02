@@ -2,15 +2,18 @@ import { h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 import moment from "moment";
 export class IrSalesFilters {
-    constructor() {
-        this.collapsed = false;
-    }
+    isLoading;
+    baseFilters;
+    filters;
+    collapsed = false;
+    window;
+    applyFilters;
     componentWillLoad() {
         this.filters = this.baseFilters;
         this.window = this.baseFilters.WINDOW.toString();
     }
     updateFilter(params) {
-        this.filters = Object.assign(Object.assign({}, this.filters), params);
+        this.filters = { ...this.filters, ...params };
     }
     applyFiltersEvt(e) {
         e.stopImmediatePropagation();
@@ -24,15 +27,14 @@ export class IrSalesFilters {
         this.applyFilters.emit(this.filters);
     }
     render() {
-        var _a, _b;
-        return (h("div", { key: 'c3a9c0ea03623610ed4a8f72d3bc4651f0437719', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: '4d1b3c797743f3e67213acd86b41a64851c7a766', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '728ae3ac8067d22c9cb8715e754030cb3448a013', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: 'ae3655d491577ff29659e5ad6d66363efa22cde2', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'a1adcb337dac219ab373fdc8165dd70896d5fb01', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '6261fa9b724a9caa44e1d54591cb1aaf9ea01400', class: "m-0 p-0 flex-grow-1" }, locales.entries.Lcz_Filters)), h("ir-button", { key: '93b055abae35c134dc6253ae0e3f2f13a105f1bb', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#salesFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "salesFiltersCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (h("div", { key: 'fb581b21002b8da5f91029a873f18f6b3cf72461', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: 'cdfd7d899299cd3d8955108fd3a1b63384802d67', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: 'c6787aceb8d9200eee60a205be58e01a077250be', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '7cc812b252ff3b8c62afebbb2645cb42a41b0758', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '5b42ba42184275098a37b7ae29f473188ac858c5', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '8281a1a38427dd5ce530e62d5e726a54576253a7', class: "m-0 p-0 flex-grow-1" }, locales.entries.Lcz_Filters)), h("ir-button", { key: '6f5677ff798e0d2b4f17470b657f6ba70acee583', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#salesFiltersCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "salesFiltersCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: 'b9b54d11b4b5b5da51c0046e8deb9c7db1ee48a8', class: "m-0 p-0 collapse filters-section", id: "salesFiltersCollapse" }, h("div", { key: '9b088bb42e0b5171fefcb38d557f1bbb69f0fa2b', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '9ecefce64a279c6107c6adfb13799f8a2846eb65', class: "pt-1 filter-group" }, h("label", { key: 'a70da2da85a0e634e794d1300f9834e519ff8b6a', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: 'af6cc8c7499c31513fa61a39793ea7b1eba7894c', selectedValue: (_a = this.filters) === null || _a === void 0 ? void 0 : _a.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
+            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '363adf5d7ef86cfbc9597f04e0f1b71ee7187c81', class: "m-0 p-0 collapse filters-section", id: "salesFiltersCollapse" }, h("div", { key: '9faa4f2aa98a58badd871c8798119d5dbcd0bf33', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '8ae31e22144c73887731b3e8dd425ada6df3579c', class: "pt-1 filter-group" }, h("label", { key: 'b36b968c3e5ee8bb91b0e82005373e10a93c4f78', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: '1e7b806b30b278b2c033c805a08a75b224e27c49', selectedValue: this.filters?.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
                 BOOK_CASE: e.detail,
             }), data: [
                 { text: 'Booked', value: '001' },
                 { text: 'Stayed', value: '002' },
-            ] })), h("fieldset", { key: '4438161aa71ad12247817c3bb5f5154941ec72c5', class: "pt-1 filter-group" }, h("label", { key: '4fc6e16a9150b2e24d3b0ed8097bb1a40e081c0a', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: '45611d5c1b2bb825098cd8e94a2cb1929f0be959', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'a5c3c08c780c57ae41a97dada034ef454888fac1', selectedValue: this.window, onSelectChange: e => {
+            ] })), h("fieldset", { key: '3953c81d33439b9b62ae9fcb8ec30013f103c46d', class: "pt-1 filter-group" }, h("label", { key: 'cf3273f55fe383c874a4a8dd69bca871c03afe81', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: 'd5c6eb34170e5557a8433e12fef7f4b36ba6f28d', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'e40ac885bded36c935f261d44e5e5edd37dcf010', selectedValue: this.window, onSelectChange: e => {
                 const dateDiff = Number(e.detail);
                 const today = moment();
                 this.updateFilter({
@@ -50,7 +52,7 @@ export class IrSalesFilters {
                 { text: 'For the past 60 days', value: '60' },
                 { text: 'For the past 90 days', value: '90' },
                 { text: 'For the past 365 days', value: '365' },
-            ] }), h("p", { key: 'a2ed8ad19c0dd9a47499796390754b4d6e10138f', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: '5bfe8bdba2383161e419059bf3496caa34282cca', onDateRangeChanged: e => {
+            ] }), h("p", { key: '27eaa6b9e58221d9fd84e55832d83b357b35a135', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: 'ac10bc2fdc318606925b75f2dc7d1f1c47689c05', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate, wasFocused } = e.detail;
@@ -61,11 +63,11 @@ export class IrSalesFilters {
                 if (wasFocused)
                     this.window = '';
                 // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: moment(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: moment(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: moment().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '901c6909e43a3aadf4b6773ff7cbf6cfb4929952', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '74cc3c0cd51003d77a7bc9851a2f6a0839431625', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '4a033c62429c4236452758d750f2a193e45529be', checked: (_b = this.filters) === null || _b === void 0 ? void 0 : _b.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            }, fromDate: moment(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: moment(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: moment().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '5d6402f8f1f9da5775aca2231b07a105503799d7', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: 'e9240b6bfca9c43f0eb451b58769348cb321cf20', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: 'ffec6850a444020db3bf3fdbca0b4b6d8644e944', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });
-            } })), h("div", { key: 'a6a7208e261eb09eaa65743c2dc37d336196759a', class: "d-flex align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: 'a50ae7bd0a11167ef952018138ff37c5961e0e30', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: 'dae228f40e3fe1deb467ba10c152ecba8c654bea', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+            } })), h("div", { key: '4e5a16b570447cfe851c4c364efe7e3c463bd217', class: "d-flex align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: '485143bdbeeb7a5655ce41cc5e526a9450e5fe7a', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '61a2d8e5a9588f23e696a92eb6ebe026172c5d3e', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
     static get is() { return "ir-sales-filters"; }
     static get encapsulation() { return "scoped"; }

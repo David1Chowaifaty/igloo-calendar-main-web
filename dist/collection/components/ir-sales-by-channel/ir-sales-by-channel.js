@@ -1,15 +1,3 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 import { Host, h } from "@stencil/core";
 import Token from "../../models/Token";
 import { PropertyService } from "../../services/property.service";
@@ -17,24 +5,28 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import moment from "moment";
 export class IrSalesByChannel {
-    constructor() {
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = null;
-        this.isPageLoading = true;
-        this.allowedProperties = [];
-        this.token = new Token();
-        this.roomService = new RoomService();
-        this.propertyService = new PropertyService();
-        this.baseFilters = {
-            FROM_DATE: moment().add(-7, 'days').format('YYYY-MM-DD'),
-            TO_DATE: moment().format('YYYY-MM-DD'),
-            BOOK_CASE: '001',
-            WINDOW: 7,
-            include_previous_year: false,
-            is_export_to_excel: false,
-        };
-    }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    mode;
+    isLoading = null;
+    isPageLoading = true;
+    salesData;
+    channelSalesFilters;
+    allowedProperties = [];
+    propertyID;
+    token = new Token();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
+    baseFilters = {
+        FROM_DATE: moment().add(-7, 'days').format('YYYY-MM-DD'),
+        TO_DATE: moment().format('YYYY-MM-DD'),
+        BOOK_CASE: '001',
+        WINDOW: 7,
+        include_previous_year: false,
+        is_export_to_excel: false,
+    };
     componentWillLoad() {
         this.channelSalesFilters = this.baseFilters;
         if (this.ticket) {
@@ -50,7 +42,6 @@ export class IrSalesByChannel {
         this.initializeApp();
     }
     async initializeApp() {
-        var _a, _b;
         try {
             if (!this.mode) {
                 throw new Error("Missing required 'mode'. Please set it to either 'property' or 'mpo'.");
@@ -60,7 +51,7 @@ export class IrSalesByChannel {
             }
             if (this.mode === 'property') {
                 const property = await this.propertyService.getExposedProperty({
-                    id: Number((_a = this.propertyid) !== null && _a !== void 0 ? _a : 0),
+                    id: Number(this.propertyid ?? 0),
                     aname: this.p,
                     language: this.language,
                     is_backend: true,
@@ -73,8 +64,8 @@ export class IrSalesByChannel {
                 const [properties] = await Promise.all(requests);
                 this.allowedProperties = [...properties];
             }
-            this.baseFilters = Object.assign(Object.assign({}, this.baseFilters), { LIST_AC_ID: (_b = this.allowedProperties) === null || _b === void 0 ? void 0 : _b.map(p => p.id) });
-            this.channelSalesFilters = Object.assign({}, this.baseFilters);
+            this.baseFilters = { ...this.baseFilters, LIST_AC_ID: this.allowedProperties?.map(p => p.id) };
+            this.channelSalesFilters = { ...this.baseFilters };
             await this.getChannelSales();
         }
         catch (error) {
@@ -86,20 +77,38 @@ export class IrSalesByChannel {
     }
     async getChannelSales(isExportToExcel = false) {
         try {
-            const _a = this.channelSalesFilters, { include_previous_year, LIST_AC_ID } = _a, filterParams = __rest(_a, ["include_previous_year", "LIST_AC_ID"]);
+            const { include_previous_year, LIST_AC_ID, ...filterParams } = this.channelSalesFilters;
             this.isLoading = isExportToExcel ? 'export' : 'filter';
-            const currentSales = await this.propertyService.getChannelSales(Object.assign(Object.assign(Object.assign(Object.assign({ is_export_to_excel: isExportToExcel }, filterParams), { AC_ID: this.propertyID ? this.propertyID.toString() : undefined }), filterParams), { LIST_AC_ID: this.propertyID ? null : LIST_AC_ID }));
+            const currentSales = await this.propertyService.getChannelSales({
+                is_export_to_excel: isExportToExcel,
+                ...filterParams,
+                AC_ID: this.propertyID ? this.propertyID.toString() : undefined,
+                ...filterParams,
+                LIST_AC_ID: this.propertyID ? null : LIST_AC_ID,
+            });
             const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
             let enrichedSales = [];
             if (shouldFetchPreviousYear) {
-                const previousYearSales = await this.propertyService.getChannelSales(Object.assign(Object.assign({ AC_ID: this.propertyID ? this.propertyID.toString() : undefined }, filterParams), { LIST_AC_ID: this.propertyID ? null : LIST_AC_ID, FROM_DATE: moment(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'), TO_DATE: moment(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD') }));
+                const previousYearSales = await this.propertyService.getChannelSales({
+                    AC_ID: this.propertyID ? this.propertyID.toString() : undefined,
+                    ...filterParams,
+                    LIST_AC_ID: this.propertyID ? null : LIST_AC_ID,
+                    FROM_DATE: moment(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                    TO_DATE: moment(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                });
                 enrichedSales = currentSales.map(current => {
                     const previous = previousYearSales.find(prev => prev.SOURCE.toLowerCase() === current.SOURCE.toLowerCase());
-                    return Object.assign(Object.assign({}, current), { last_year: previous ? previous : null });
+                    return {
+                        ...current,
+                        last_year: previous ? previous : null,
+                    };
                 });
             }
             else {
-                enrichedSales = currentSales.map(record => (Object.assign(Object.assign({}, record), { last_year: null })));
+                enrichedSales = currentSales.map(record => ({
+                    ...record,
+                    last_year: null,
+                }));
             }
             /**
              * Groups sales records by SOURCE and currency.id, summing numeric fields
@@ -110,25 +119,24 @@ export class IrSalesByChannel {
                     return records;
                 // Helper to extract currency ID from various possible formats
                 const getCurrencyId = (r) => {
-                    var _a;
-                    return (_a = r === null || r === void 0 ? void 0 : r.currency) !== null && _a !== void 0 ? _a : null;
+                    return r?.currency ?? null;
                 };
                 // Create unique key for grouping
                 const createKey = (r) => {
                     const source = r.SOURCE.toString().toLowerCase().trim();
                     const currencyId = getCurrencyId(r);
-                    return `${source}__${currencyId !== null && currencyId !== void 0 ? currencyId : 'null'}`;
+                    return `${source}__${currencyId ?? 'null'}`;
                 };
                 // Sum two values safely
                 const sumValues = (a, b) => {
-                    return (a !== null && a !== void 0 ? a : 0) + (b !== null && b !== void 0 ? b : 0);
+                    return (a ?? 0) + (b ?? 0);
                 };
                 // Merge numeric fields from last_year objects
                 const mergeLastYear = (base, incoming) => {
                     if (!incoming)
                         return base;
                     if (!base)
-                        return Object.assign({}, incoming);
+                        return { ...incoming };
                     return {
                         NIGHTS: sumValues(base.NIGHTS, incoming.NIGHTS),
                         PCT: sumValues(base.PCT, incoming.PCT), // Will recalculate later
@@ -146,24 +154,30 @@ export class IrSalesByChannel {
                     const existing = grouped.get(key);
                     if (!existing) {
                         // First record for this key - clone it
-                        grouped.set(key, Object.assign({}, record));
+                        grouped.set(key, { ...record });
                     }
                     else {
                         // Merge with existing record
-                        const merged = Object.assign(Object.assign({}, existing), { NIGHTS: sumValues(existing.NIGHTS, record.NIGHTS), PCT: 0, REVENUE: sumValues(existing.REVENUE, record.REVENUE), last_year: mergeLastYear(existing.last_year, record.last_year) });
+                        const merged = {
+                            ...existing,
+                            NIGHTS: sumValues(existing.NIGHTS, record.NIGHTS),
+                            PCT: 0, // Will recalculate after summing all REVENUE
+                            REVENUE: sumValues(existing.REVENUE, record.REVENUE),
+                            last_year: mergeLastYear(existing.last_year, record.last_year),
+                        };
                         grouped.set(key, merged);
                     }
                 }
                 // Convert to array
                 const result = Array.from(grouped.values());
                 // Recalculate PCT based on total REVENUE
-                const totalRevenue = result.reduce((sum, r) => { var _a; return sum + ((_a = r.REVENUE) !== null && _a !== void 0 ? _a : 0); }, 0);
+                const totalRevenue = result.reduce((sum, r) => sum + (r.REVENUE ?? 0), 0);
                 if (totalRevenue > 0) {
                     for (const record of result) {
                         record.PCT = (record.REVENUE / totalRevenue) * 100;
                         // Also recalculate last_year PCT if it exists
                         if (record.last_year) {
-                            const lastYearTotal = result.reduce((sum, r) => { var _a, _b; return sum + ((_b = (_a = r.last_year) === null || _a === void 0 ? void 0 : _a.REVENUE) !== null && _b !== void 0 ? _b : 0); }, 0);
+                            const lastYearTotal = result.reduce((sum, r) => sum + (r.last_year?.REVENUE ?? 0), 0);
                             if (lastYearTotal > 0) {
                                 record.last_year.PCT = (record.last_year.REVENUE / lastYearTotal) * 100;
                             }
@@ -192,7 +206,7 @@ export class IrSalesByChannel {
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-by-channel-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.channelSalesFilters = Object.assign({}, e.detail);
+                this.channelSalesFilters = { ...e.detail };
                 this.getChannelSales();
             }, allowedProperties: this.allowedProperties, baseFilters: this.baseFilters }), h("ir-sales-by-channel-table", { mode: this.mode, allowedProperties: this.allowedProperties, class: "card mb-0", records: this.salesData })))));
     }

@@ -85,3 +85,61 @@
   margin-right: var(--m) !important;
   margin-left: var(--m) !important;
 }
+:host(*) {
+  box-sizing: border-box;
+}
+/* .booking-room__details-container {
+  padding-inline-start: calc(1.25rem + var(--spacing));
+} */
+.booking-room__collapse-btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  height: fit-content;
+  border-radius: calc(var(--wa-panel-border-radius) - var(--wa-panel-border-width));
+  aspect-ratio: 1;
+  cursor: pointer;
+  transition: rotate var(--wa-transition-normal) var(--wa-transition-easing);
+}
+.booking-room__collapse-btn[data-state='opened'] {
+  rotate: 90deg;
+}
+.booking-room__collapse-btn[data-state='opened']:dir(rtl) {
+  rotate: -90deg;
+}
+
+.booking-room__collapse-btn:focus-visible {
+  outline: var(--wa-focus-ring);
+  outline-offset: calc(var(--wa-panel-border-width) + var(--wa-focus-ring-offset));
+}
+.booking-room__price-row {
+  display: flex;
+  align-items: center;
+  gap: var(--wa-space-xs);
+}
+.booking-room_summary {
+  display: grid;
+  gap: 0.5rem;
+}
+.booking-room__actions {
+  display: flex;
+  align-items: center;
+}
+.booking-room__details,
+.booking-room__details::part(base),
+.booking-room__details::part(header),
+.booking-room__details::part(content) {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+.booking-room__details::part(header) {
+  align-items: flex-start;
+}
+.booking-room__price {
+  font-weight: 700;
+  color: var(--wa-color-neutral-900);
+  white-space: nowrap;
+  text-align: right;
+}

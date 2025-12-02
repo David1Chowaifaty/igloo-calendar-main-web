@@ -1,5 +1,8 @@
 // import axios from 'axios';
 class Auth {
+    static isAuthUsed = false;
+    static _isAuthenticated = false;
+    static subscribers = [];
     constructor() {
         if (!Auth.isAuthUsed) {
             this.init();
@@ -28,8 +31,5 @@ class Auth {
         return Auth._isAuthenticated;
     }
 }
-Auth.isAuthUsed = false;
-Auth._isAuthenticated = false;
-Auth.subscribers = [];
 export default Auth;
 //# sourceMappingURL=Auth.js.map

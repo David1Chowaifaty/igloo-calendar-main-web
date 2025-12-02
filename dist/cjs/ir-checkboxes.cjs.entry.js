@@ -2,15 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.checkboxesChange = index.createEvent(this, "checkboxesChange", 7);
-        this.checkboxes = [];
-        this.checkedCheckboxes = [];
     }
+    checkboxes = [];
+    checkedCheckboxes = [];
+    checkboxesChange;
     handleCheckboxChange(event) {
         if (event.detail.checked) {
             this.checkedCheckboxes.push(this.checkboxes[parseInt(event.detail.name)]);
@@ -27,7 +28,7 @@ const IrCheckBoxes = class {
         }
     }
     render() {
-        return (index.h("div", { key: 'a719ae67eb194e4c984880f1e49d1a632ae5c6f9' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (index.h("div", { key: '1c1836a2c0d56f26e9ea0484a6872d2811ab8bab' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 };
 

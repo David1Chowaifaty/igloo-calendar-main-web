@@ -7,28 +7,56 @@ import { dateMask, defaultGuest } from "./data";
 import { BookingService } from "../../../services/booking.service";
 import { ZodError } from "zod";
 export class IrRoomGuests {
-    constructor() {
-        /**
-         * An array of people sharing the room.
-         * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
-         */
-        this.sharedPersons = [];
-        /**
-         * The total number of guests for the room.
-         * Determines how many guest input forms to display in the UI.
-         */
-        this.totalGuests = 0;
-        /**
-         * The language used for displaying text content in the component.
-         * Defaults to English ('en'), but can be set to other supported languages.
-         */
-        this.language = 'en';
-        this.guests = [];
-        this.idTypes = [];
-        this.error = {};
-        this.autoValidate = false;
-        this.bookingService = new BookingService();
-    }
+    /**
+     * The name of the room currently being displayed.
+     * Used to label the room in the user interface for clarity.
+     */
+    roomName;
+    /**
+     * A unique identifier for the room.
+     * This is used to distinguish between rooms, especially when performing operations like saving or checking in guests.
+     */
+    identifier;
+    /**
+     * An array of people sharing the room.
+     * Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+     */
+    sharedPersons = [];
+    /**
+     * The total number of guests for the room.
+     * Determines how many guest input forms to display in the UI.
+     */
+    totalGuests = 0;
+    /**
+     * A list of available countries.
+     * Used to populate dropdowns for selecting the {locales.entries.Lcz_Nationality} of guests.
+     */
+    countries;
+    /**
+     * A boolean indicating whether the room is in the process of being checked in.
+     * If true, additional actions like saving the room state as "checked in" are performed.
+     */
+    checkIn;
+    /**
+     * The language used for displaying text content in the component.
+     * Defaults to English ('en'), but can be set to other supported languages.
+     */
+    language = 'en';
+    /**
+     * A unique booking number associated with the room.
+     * This is used for backend operations like saving guest information or checking in the room.
+     */
+    bookingNumber;
+    guests = [];
+    idTypes = [];
+    error = {};
+    isLoading;
+    propertyCountry;
+    autoValidate = false;
+    closeModal;
+    resetBookingEvt;
+    updateRoomGuests;
+    bookingService = new BookingService();
     componentWillLoad() {
         this.init();
         this.initializeGuests();
@@ -50,28 +78,34 @@ export class IrRoomGuests {
         }
     }
     initializeGuests() {
-        var _a, _b;
         let guests = [];
         if (this.totalGuests > this.sharedPersons.length) {
             const defaultGuestsCount = this.totalGuests - this.sharedPersons.length;
             guests = [
                 ...this.sharedPersons,
-                ...Array(defaultGuestsCount).fill(Object.assign(Object.assign({}, defaultGuest), { id_info: Object.assign(Object.assign({}, defaultGuest.id_info), { type: {
-                            code: ((_a = this.idTypes[0]) === null || _a === void 0 ? void 0 : _a.CODE_NAME) || '001',
-                            description: ((_b = this.idTypes[0]) === null || _b === void 0 ? void 0 : _b.CODE_VALUE_EN) || '',
-                        }, number: '' }) })),
+                ...Array(defaultGuestsCount).fill({
+                    ...defaultGuest,
+                    id_info: {
+                        ...defaultGuest.id_info,
+                        type: {
+                            code: this.idTypes[0]?.CODE_NAME || '001',
+                            description: this.idTypes[0]?.CODE_VALUE_EN || '',
+                        },
+                        number: '',
+                    },
+                }),
             ];
         }
         else {
             guests = [...this.sharedPersons];
         }
-        guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: new Date(g.dob).getFullYear() === 1900 ? null : g.dob })));
-        this.guests = guests.map(g => (Object.assign(Object.assign({}, g), { dob: g.dob ? moment(new Date(g.dob)).format('DD/MM/YYYY') : '', country_id: g.country ? g.country.id : null })));
+        guests = guests.map(g => ({ ...g, dob: new Date(g.dob).getFullYear() === 1900 ? null : g.dob }));
+        this.guests = guests.map(g => ({ ...g, dob: g.dob ? moment(new Date(g.dob)).format('DD/MM/YYYY') : '', country_id: g.country ? g.country.id : null }));
     }
     updateGuestInfo(index, params) {
         const tempGuests = [...this.guests];
         let tempGuest = tempGuests[index];
-        tempGuest = Object.assign(Object.assign({}, tempGuest), params);
+        tempGuest = { ...tempGuest, ...params };
         tempGuests[index] = tempGuest;
         this.guests = [...tempGuests];
     }
@@ -95,7 +129,7 @@ export class IrRoomGuests {
                     if (!g.first_name && g.id === -1) {
                         return null;
                     }
-                    return Object.assign(Object.assign({}, g), { dob: g.dob ? moment(g.dob, 'DD/MM/YYYY').format('YYYY-MM-DD') : null });
+                    return { ...g, dob: g.dob ? moment(g.dob, 'DD/MM/YYYY').format('YYYY-MM-DD') : null };
                 })
                     .filter(Boolean),
             });
@@ -117,7 +151,7 @@ export class IrRoomGuests {
                 error.issues.forEach(e => {
                     errors[e.path[e.path.length - 1]] = true;
                 });
-                this.error = Object.assign({}, errors);
+                this.error = { ...errors };
             }
         }
     }
@@ -129,7 +163,6 @@ export class IrRoomGuests {
                 e.preventDefault();
                 this.saveGuests();
             } }, h("ir-title", { class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: `Room ${this.roomName}`, displayContext: "sidebar" }), h("section", { class: 'sheet-body px-1' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
-            var _a, _b, _c, _d, _e;
             let isRowValid = true;
             try {
                 validateSharedPerson(guest);
@@ -140,19 +173,25 @@ export class IrRoomGuests {
             // console.log(`row ${idx}=>${isRowValid}`);
             return (h(Fragment, null, idx === 1 && (h("div", { class: "d-flex mx-0 px-0" }, h("h5", { class: "mx-0 px-0 sharing_persons_heading" }, locales.entries.Lcz_PersonsSharingRoom), h("p", { class: "mx-0 px-0 sharing_persons_label" }, locales.entries.Lcz_PersonsSharingRoom))), h("div", { key: idx, class: "guest-grid" }, h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "First name"), h("ir-input-text", { class: "flex-grow-1 h-100", id: `first_name_${idx}`, zod: ZSharedPerson.pick({ first_name: true }), error: !!this.error['first_name'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "first_name", placeholder: "First name", onTextChange: e => this.updateGuestInfo(idx, { first_name: e.detail }), value: guest.first_name, maxLength: 40 })), h("div", { class: 'm-0 p-0 d-flex align-items-center h-100' }, h("p", { class: "guest_label" }, "Last name"), h("ir-input-text", { maxLength: 40, class: "flex-grow-1 h-100", id: `last_name_${idx}`, zod: ZSharedPerson.pick({ last_name: true }), error: !!this.error['last_name'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "last_name", placeholder: "Last name", onTextChange: e => this.updateGuestInfo(idx, { last_name: e.detail }), value: guest.last_name })), h("div", { class: "flex-grow-0 m-0 p-0 h-100 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_DOB), h("ir-input-text", { class: "flex-grow-1 h-100", id: `dob_${idx}`, zod: ZSharedPerson.pick({ dob: true }), error: !!this.error['dob'] && !isRowValid, autoValidate: this.autoValidate, wrapKey: "dob", mask: dateMask, placeholder: "", onTextChange: e => {
                     this.updateGuestInfo(idx, { dob: e.detail });
-                }, value: guest.dob })), h("div", { class: " m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "mx-0 flex-grow-1  h-100" }, h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: (_a = this.countries) === null || _a === void 0 ? void 0 : _a.find(c => { var _a, _b, _c; return ((_a = c.id) === null || _a === void 0 ? void 0 : _a.toString()) === ((_c = (_b = guest.country) === null || _b === void 0 ? void 0 : _b.id) === null || _c === void 0 ? void 0 : _c.toString()); }), onCountryChange: e => { var _a, _b, _c; return this.updateGuestInfo(idx, { country_id: (_c = (_b = (_a = e.detail) === null || _a === void 0 ? void 0 : _a.id) === null || _b === void 0 ? void 0 : _b.toString()) !== null && _c !== void 0 ? _c : null, country: e.detail }); }, countries: this.countries }))), h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, h("ir-select", { selectForcedStyles: {
+                }, value: guest.dob })), h("div", { class: " m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Nationality), h("div", { class: "mx-0 flex-grow-1  h-100" }, h("ir-country-picker", { class: "h-100", propertyCountry: this.propertyCountry, id: `{locales.entries.Lcz_Nationality}_${idx}`, error: !!this.error['country_id'] && !guest.country_id, country: this.countries?.find(c => c.id?.toString() === guest.country?.id?.toString()), onCountryChange: e => this.updateGuestInfo(idx, { country_id: e.detail?.id?.toString() ?? null, country: e.detail }), countries: this.countries }))), h("div", { class: "flex-grow-1 m-0 p-0 d-flex align-items-center" }, h("p", { class: "guest_label" }, locales.entries.Lcz_Documents), h("div", { class: ' d-flex m-0 flex-grow-1 h-100' }, h("ir-select", { selectForcedStyles: {
                     borderTopRightRadius: '0px',
                     borderBottomRightRadius: '0px',
                     borderRight: '0',
                 }, selectStyles: 'rounded-top-0 rounded-bottom-0', onSelectChange: e => {
                     this.updateGuestInfo(idx, {
-                        id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { type: {
+                        id_info: {
+                            ...this.guests[idx].id_info,
+                            type: {
                                 code: e.detail,
                                 description: '',
-                            } }),
+                            },
+                        },
                     });
-                }, selectedValue: (_c = (_b = guest.id_info) === null || _b === void 0 ? void 0 : _b.type) === null || _c === void 0 ? void 0 : _c.code, showFirstOption: false, data: (_d = this.idTypes) === null || _d === void 0 ? void 0 : _d.map(t => { var _a; return ({ text: (_a = t[`CODE_VALUE_${this.language.toUpperCase()}`]) !== null && _a !== void 0 ? _a : t[`CODE_VALUE_EN`], value: t.CODE_NAME }); }) }), h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: (_e = guest === null || guest === void 0 ? void 0 : guest.id_info) === null || _e === void 0 ? void 0 : _e.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'] && !isRowValid, wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
-                    id_info: Object.assign(Object.assign({}, this.guests[idx].id_info), { number: e.detail }),
+                }, selectedValue: guest.id_info?.type?.code, showFirstOption: false, data: this.idTypes?.map(t => ({ text: t[`CODE_VALUE_${this.language.toUpperCase()}`] ?? t[`CODE_VALUE_EN`], value: t.CODE_NAME })) }), h("ir-input-text", { autoValidate: this.autoValidate, maxLength: 18, placeholder: "12345", class: "flex-grow-1 guest_document", type: "text", inputForcedStyle: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }, value: guest?.id_info?.number, zod: ZIdInfo.pick({ number: true }), error: !!this.error['number'] && !isRowValid, wrapKey: "number", inputStyles: "form-control", onTextChange: e => this.updateGuestInfo(idx, {
+                    id_info: {
+                        ...this.guests[idx].id_info,
+                        number: e.detail,
+                    },
                 }) }))))));
         }))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { btn_type: "submit", class: 'flex-fill', isLoading: isRequestPending('/Handle_Exposed_Room_Guests'), text: this.checkIn ? locales.entries.Lcz_CheckIn : locales.entries.Lcz_Save, btn_color: "primary" }))));
     }

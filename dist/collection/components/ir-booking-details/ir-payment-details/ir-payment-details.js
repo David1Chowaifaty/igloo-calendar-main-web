@@ -6,92 +6,118 @@ import moment from "moment";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 export class IrPaymentDetails {
-    constructor() {
-        this.confirmModal = false;
-        this.toBeDeletedItem = null;
-        this.modalMode = null;
-        this.paymentService = new PaymentService();
-        this.bookingService = new BookingService();
-        this.handleAddPayment = (props) => {
-            let payment = {
-                id: -1,
-                date: moment().format('YYYY-MM-DD'),
-                amount: null,
-                currency: calendar_data.currency,
-                designation: null,
-                reference: null,
-            };
-            if (props) {
-                const { amount, type } = props;
-                const cashMethod = this.paymentEntries.methods.find(pt => pt.CODE_NAME === '001');
-                const payment_method = {
-                    code: cashMethod.CODE_NAME,
-                    description: cashMethod.CODE_VALUE_EN,
-                    operation: cashMethod.NOTES,
-                };
-                const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (type === 'cancellation-penalty' ? '001' : '010'));
-                payment = Object.assign(Object.assign({}, payment), { amount: amount, designation: paymentType.CODE_VALUE_EN, payment_type: {
-                        code: paymentType.CODE_NAME,
-                        description: paymentType.CODE_VALUE_EN,
-                        operation: paymentType.NOTES,
-                    }, payment_method: type === 'refund' ? undefined : payment_method });
-                this.openSidebar.emit({
-                    type: 'payment-folio',
-                    payload: {
-                        payment,
-                        mode: 'payment-action',
-                    },
-                });
-                return;
-            }
-            this.openSidebar.emit({
-                type: 'payment-folio',
-                payload: {
-                    payment,
-                    mode: 'new',
-                },
-            });
-        };
-        this.handleEditPayment = (payment) => {
-            this.openSidebar.emit({
-                type: 'payment-folio',
-                payload: { payment, mode: 'edit' },
-            });
-        };
-        this.handleDeletePayment = (payment) => {
-            this.modalMode = 'delete';
-            this.toBeDeletedItem = payment;
-            this.openModal();
-        };
-        this.handleConfirmModal = async (e) => {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            if (this.modalMode === 'delete') {
-                await this.cancelPayment();
-            }
-        };
-        this.handleCancelModal = (e) => {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.modalMode = null;
-            this.toBeDeletedItem = null;
-        };
-    }
+    booking;
+    paymentActions;
+    propertyId;
+    paymentEntries;
+    confirmModal = false;
+    toBeDeletedItem = null;
+    modalMode = null;
+    resetBookingEvt;
+    resetExposedCancellationDueAmount;
+    toast;
+    openSidebar;
+    openPrintScreen;
+    paymentService = new PaymentService();
+    bookingService = new BookingService();
     handlePaymentGeneration(e) {
-        var _a, _b, _c;
         const value = e.detail;
-        const paymentType = (_b = (_a = this.paymentEntries) === null || _a === void 0 ? void 0 : _a.types) === null || _b === void 0 ? void 0 : _b.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
+        const paymentType = this.paymentEntries?.types?.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: {
-                payment: Object.assign(Object.assign({}, value), { date: moment().format('YYYY-MM-DD'), id: -1, amount: value.amount, payment_type: paymentType
+                payment: {
+                    ...value,
+                    date: moment().format('YYYY-MM-DD'),
+                    id: -1,
+                    amount: value.amount,
+                    payment_type: paymentType
                         ? {
                             code: paymentType.CODE_NAME,
                             description: paymentType.CODE_VALUE_EN,
                             operation: paymentType.NOTES,
                         }
-                        : null, designation: (_c = paymentType === null || paymentType === void 0 ? void 0 : paymentType.CODE_VALUE_EN) !== null && _c !== void 0 ? _c : null }),
+                        : null,
+                    designation: paymentType?.CODE_VALUE_EN ?? null,
+                },
                 mode: 'payment-action',
+            },
+        });
+    }
+    handleAddPayment = (props) => {
+        let payment = {
+            id: -1,
+            date: moment().format('YYYY-MM-DD'),
+            amount: null,
+            currency: calendar_data.currency,
+            designation: null,
+            reference: null,
+        };
+        if (props) {
+            const { amount, type } = props;
+            const cashMethod = this.paymentEntries.methods.find(pt => pt.CODE_NAME === '001');
+            const payment_method = {
+                code: cashMethod.CODE_NAME,
+                description: cashMethod.CODE_VALUE_EN,
+                operation: cashMethod.NOTES,
+            };
+            const paymentType = this.paymentEntries.types.find(pt => pt.CODE_NAME === (type === 'cancellation-penalty' ? '001' : '010'));
+            payment = {
+                ...payment,
+                amount: amount,
+                designation: paymentType.CODE_VALUE_EN,
+                payment_type: {
+                    code: paymentType.CODE_NAME,
+                    description: paymentType.CODE_VALUE_EN,
+                    operation: paymentType.NOTES,
+                },
+                payment_method: type === 'refund' ? undefined : payment_method,
+            };
+            this.openSidebar.emit({
+                type: 'payment-folio',
+                payload: {
+                    payment,
+                    mode: 'payment-action',
+                },
+            });
+            return;
+        }
+        this.openSidebar.emit({
+            type: 'payment-folio',
+            payload: {
+                payment,
+                mode: 'new',
+            },
+        });
+    };
+    handleEditPayment = (payment) => {
+        this.openSidebar.emit({
+            type: 'payment-folio',
+            payload: { payment, mode: 'edit' },
+        });
+    };
+    handleDeletePayment = (payment) => {
+        this.modalMode = 'delete';
+        this.toBeDeletedItem = payment;
+        this.openModal();
+    };
+    async handleIssueReceipt(detail) {
+        if (detail.receipt_nbr) {
+            this.openPrintScreen.emit({
+                mode: 'receipt',
+                payload: {
+                    pid: detail.id.toString(),
+                    rnb: detail.receipt_nbr,
+                },
+            });
+            return;
+        }
+        const _number = await this.bookingService.getNextValue({ starter: 'RC' });
+        this.openPrintScreen.emit({
+            mode: 'receipt',
+            payload: {
+                pid: detail.id.toString(),
+                rnb: `RC-${_number.My_Result}`,
             },
         });
     }
@@ -99,7 +125,10 @@ export class IrPaymentDetails {
         try {
             await this.paymentService.CancelPayment(this.toBeDeletedItem.id);
             const newPaymentArray = this.booking.financial.payments.filter((item) => item.id !== this.toBeDeletedItem.id);
-            this.booking = Object.assign(Object.assign({}, this.booking), { financial: Object.assign(Object.assign({}, this.booking.financial), { payments: newPaymentArray }) });
+            this.booking = {
+                ...this.booking,
+                financial: { ...this.booking.financial, payments: newPaymentArray },
+            };
             this.confirmModal = false;
             this.resetBookingEvt.emit(null);
             this.resetExposedCancellationDueAmount.emit(null);
@@ -116,13 +145,25 @@ export class IrPaymentDetails {
             });
         }
     }
+    handleConfirmModal = async (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (this.modalMode === 'delete') {
+            await this.cancelPayment();
+        }
+    };
+    handleCancelModal = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.modalMode = null;
+        this.toBeDeletedItem = null;
+    };
     openModal() {
         const modal = document.querySelector('.delete-record-modal');
-        modal === null || modal === void 0 ? void 0 : modal.openModal();
+        modal?.openModal();
     }
     hasValidFinancialData() {
-        var _a;
-        return Boolean((_a = this.booking) === null || _a === void 0 ? void 0 : _a.financial);
+        return Boolean(this.booking?.financial);
     }
     // private shouldShowPaymentActions(): boolean {
     //   return Boolean(this.paymentActions?.filter(pa => pa.amount !== 0).length > 0 && this.booking.is_direct);
@@ -163,12 +204,12 @@ export class IrPaymentDetails {
         }
         const { financial, currency } = this.booking;
         return [
-            h("div", { class: "card p-1" }, h("ir-payment-summary", { isBookingCancelled: ['003', '004'].includes(this.booking.status.code), totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected + this.booking.financial.refunds, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && this.booking.is_direct && (h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking })), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
+            h("wa-card", null, h("ir-payment-summary", { isBookingCancelled: ['003', '004'].includes(this.booking.status.code), totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected + this.booking.financial.refunds, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && this.booking.is_direct && (h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking })), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-button", { btn_color: "outline", text: `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`, size: "sm", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } })))),
-            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail) }),
+            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
             h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
         ];
     }
@@ -353,6 +394,27 @@ export class IrPaymentDetails {
                             "location": "import",
                             "path": "../types",
                             "id": "src/components/ir-booking-details/types.ts::PaymentSidebarEvent"
+                        }
+                    }
+                }
+            }, {
+                "method": "openPrintScreen",
+                "name": "openPrintScreen",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "PrintScreenOptions",
+                    "resolved": "{ mode: \"printing\" | \"invoice\" | \"proforma\" | \"creditnote\"; } | { mode: \"receipt\"; payload: { pid: string; rnb: string; }; }",
+                    "references": {
+                        "PrintScreenOptions": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-booking-details/types.ts::PrintScreenOptions"
                         }
                     }
                 }

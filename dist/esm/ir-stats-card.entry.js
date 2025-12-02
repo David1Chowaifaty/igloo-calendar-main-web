@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-60982d00.js';
+import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
 
 const irStatsCardCss = ".sc-ir-stats-card-h{display:block}";
 const IrStatsCardStyle0 = irStatsCardCss;
@@ -7,6 +7,10 @@ const IrStatsCard = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
+    icon;
+    cardTitle;
+    subtitle;
+    value;
     render() {
         if (!this.value) {
             return null;

@@ -4,19 +4,18 @@ import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
 import { BookingService } from "../../services/booking.service";
 export class IrFinancialActions {
-    constructor() {
-        this.language = '';
-        this.ticket = '';
-        this.isPageLoading = true;
-        this.tokenService = new Token();
-        this.roomService = new RoomService();
-        this.bookingService = new BookingService();
-        this.handleSidebarClose = (e) => {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.sideBarEvent = null;
-        };
-    }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isLoading;
+    isPageLoading = true;
+    property_id;
+    sideBarEvent;
+    tokenService = new Token();
+    roomService = new RoomService();
+    bookingService = new BookingService();
+    paymentEntries;
     componentWillLoad() {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
@@ -30,8 +29,12 @@ export class IrFinancialActions {
         this.tokenService.setToken(this.ticket);
         this.initializeApp();
     }
+    handleSidebarClose = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.sideBarEvent = null;
+    };
     renderSidebarBody() {
-        var _a, _b;
         if (!this.sideBarEvent) {
             return;
         }
@@ -39,7 +42,7 @@ export class IrFinancialActions {
             case 'booking':
                 return (h("ir-booking-details", { slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleSidebarClose, is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.sideBarEvent.payload.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }));
             case 'payment':
-                return (h("ir-payment-folio", { bookingNumber: (_b = (_a = this.sideBarEvent.payload) === null || _a === void 0 ? void 0 : _a.bookingNumber) === null || _b === void 0 ? void 0 : _b.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
+                return (h("ir-payment-folio", { bookingNumber: this.sideBarEvent.payload?.bookingNumber?.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
             default:
                 return null;
         }
@@ -99,17 +102,16 @@ export class IrFinancialActions {
         }
     }
     render() {
-        var _a, _b, _c;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Payment Actions"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries?.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getFinancialAction(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "financial-actions__meta" }, h("ir-financial-filters", { isLoading: this.isLoading === 'filter' }), h("ir-financial-table", { class: 'financial-actions__table card  w-100' }))), h("ir-sidebar", { sidebarStyles: {
-                width: ((_b = this.sideBarEvent) === null || _b === void 0 ? void 0 : _b.type) === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: ((_c = this.sideBarEvent) === null || _c === void 0 ? void 0 : _c.type) === 'booking' ? '#F2F3F8' : 'white',
+                width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
+                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get is() { return "ir-financial-actions"; }

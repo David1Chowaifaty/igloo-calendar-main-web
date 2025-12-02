@@ -1,29 +1,17 @@
-import { h, r as registerInstance, F as Fragment } from './index-60982d00.js';
+import { h, r as registerInstance, F as Fragment } from './index-b3dce66a.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-14871918.js';
-import { a as calculateDaysBetweenDates, f as formatAmount } from './utils-b2bf980e.js';
-import { B as BookingService } from './booking.service-a4ae8041.js';
-import { R as RoomService } from './room.service-7036d847.js';
-import { l as locales } from './locales.store-629477c2.js';
+import { c as calculateDaysBetweenDates, f as formatAmount } from './utils-bb2f2deb.js';
+import { B as BookingService } from './booking.service-10f0a1cf.js';
+import { R as RoomService } from './room.service-cbe9248d.js';
+import { l as locales } from './locales.store-f4150353.js';
 import './index-6ecc32cd.js';
-import './calendar-data-462ba979.js';
-import './index-c4cf83be.js';
+import './calendar-data-8a36a1b2.js';
+import './index-a124d225.js';
 import './axios-aa1335b8.js';
 
-var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-const BeLogoFooter = (_a) => {
-    var { width, height } = _a, props = __rest(_a, ["width", "height"]);
-    return (h("svg", Object.assign({ xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70 }, props),
+const BeLogoFooter = ({ width, height, ...props }) => {
+    return (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },
         h("path", { fill: "#99C6D5", d: "M13.826 4.14703C15.5665 3.74774 17.5649 4.2011 19.2061 4.83638C21.865 5.86563 23.8223 8.09319 24.9458 10.6672Q25.2406 11.3282 25.4684 12.0152Q25.6962 12.7022 25.8548 13.4083Q26.0134 14.1145 26.1012 14.8329Q26.1889 15.5513 26.2051 16.2749Q26.2212 16.9985 26.1655 17.7201Q26.1098 18.4417 25.9828 19.1542Q25.8558 19.8667 25.6589 20.5632Q25.4619 21.2596 25.1968 21.9331C23.702 25.7053 21.3456 27.402 17.7058 28.9729C16.0158 28.8817 14.2942 28.7758 12.6841 28.2106Q12.1697 28.0282 11.6758 27.7959Q11.182 27.5637 10.7134 27.2839Q10.2448 27.0042 9.80608 26.6796Q9.36735 26.355 8.96276 25.9888Q8.55817 25.6225 8.19166 25.2182Q7.82514 24.8139 7.50026 24.3754Q7.17539 23.937 6.89532 23.4686Q6.61525 23.0003 6.38271 22.5066C4.83287 19.2235 4.92288 15.2273 6.15013 11.8558C7.60255 7.86566 10.0975 5.89332 13.826 4.14703Z" }),
         h("path", { fill: "#99C6D5", d: "M211.108 96.47L215.387 96.3868L215.63 97.0364C215.326 98.4208 214.519 99.6605 213.75 100.831C208.224 109.241 199.998 115.657 190.01 117.712C178.243 120.134 169.343 117.055 159.623 110.662C159.612 110.581 159.597 110.488 159.565 110.413C158.817 108.653 154.619 105.077 152.91 104.249C159.213 103.557 165.351 102.06 171.708 101.515C176.048 102.665 179.076 105.982 183.687 106.992C192.815 108.99 193.2 102.557 199.713 99.1293C203.163 97.3138 207.299 96.974 211.108 96.47Z" }),
         h("path", { fill: "#99C6D5", d: "M287.367 90.2577Q294.351 89.7717 301.325 90.3908C301.374 90.5708 301.397 90.7439 301.424 90.9275C301.434 90.9939 301.447 91.0599 301.454 91.1266C301.792 94.0194 296.383 101.8 294.473 104.181C288.274 111.909 279.88 117.204 269.925 118.267C257.991 119.543 250.486 116.301 241.428 108.974C241.295 107.617 235.45 101.826 234.288 100.014C233.073 98.1197 232.521 96.521 233.013 94.2951C235.374 92.6346 246.911 92.8109 250.004 93.2879C253.232 95.2459 255.731 102.006 260.534 104.883C263.749 106.808 269.349 107.729 272.967 106.82C280.236 104.993 281.987 96.6217 285.41 91.2324C285.922 90.4268 286.514 90.4366 287.367 90.2577Z" }),
@@ -47,14 +35,23 @@ const IrBookingPrintingStyle0 = irBookingPrintingCss;
 const IrBookingPrinting = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.token = '';
-        this.bookingNumber = '';
-        this.language = 'en';
-        this.mode = 'default';
-        // @State() token: string;
-        this.bookingService = new BookingService();
-        this.roomService = new RoomService();
     }
+    token = '';
+    bookingNumber = '';
+    language = 'en';
+    propertyid;
+    mode = 'default';
+    countries;
+    booking;
+    property;
+    guestCountryName;
+    isLoading;
+    // @State() token: string;
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    currency;
+    totalNights;
+    totalPersons;
     componentWillLoad() {
         document.body.style.background = 'white';
         if (this.token) {
@@ -70,7 +67,6 @@ const IrBookingPrinting = class {
         this.initializeRequests();
     }
     async initializeRequests() {
-        var _a, _b;
         try {
             this.isLoading = true;
             // if (!this.bookingNumber) {
@@ -93,7 +89,7 @@ const IrBookingPrinting = class {
             this.booking = booking;
             this.setUserCountry(countries, this.booking.guest.country_id);
             this.currency = this.booking.currency.symbol;
-            this.totalPersons = ((_a = this.booking) === null || _a === void 0 ? void 0 : _a.occupancy.adult_nbr) + ((_b = this.booking) === null || _b === void 0 ? void 0 : _b.occupancy.children_nbr);
+            this.totalPersons = this.booking?.occupancy.adult_nbr + this.booking?.occupancy.children_nbr;
             this.totalNights = calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
         }
         catch (error) {
@@ -123,7 +119,7 @@ const IrBookingPrinting = class {
     }
     setUserCountry(countries, country_id) {
         const country = countries.find(country => country.id === country_id);
-        this.guestCountryName = country === null || country === void 0 ? void 0 : country.name;
+        this.guestCountryName = country?.name;
     }
     formatDate(date) {
         const dayMonth = date.format('DD/MM');
@@ -140,38 +136,30 @@ const IrBookingPrinting = class {
         return (h(Fragment, null, h("p", { class: "booking-number" }, "Booking#", this.booking.booking_nbr), h("div", { class: 'reservation-details' }, h("p", { class: "booked_on_date" }, hooks(this.booking.booked_on.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), ' ', _formatTime(this.booking.booked_on.hour.toString(), this.booking.booked_on.minute.toString()), " |"), h("img", { src: this.booking.origin.Icon, alt: this.booking.origin.Label, class: "origin-icon" }))));
     }
     renderPrintingHeader() {
-        var _a, _b, _c, _d;
         if (this.mode === 'invoice') {
-            return (h(Fragment, null, h("div", null, h("p", null, "Address:", h("span", null, " ", (_a = this.property) === null || _a === void 0 ? void 0 :
-                _a.address)), h("p", null, "Phone:", h("span", null, ' ', "+", ((_c = (_b = this.property) === null || _b === void 0 ? void 0 : _b.country) === null || _c === void 0 ? void 0 : _c.phone_prefix.replace('+', '')) + '-' || '', (_d = this.property) === null || _d === void 0 ? void 0 :
-                _d.phone)), h("p", null, "Tax ID:", h("span", null, this.property.tax_nbr)), h("p", { class: "property_name" }, this.property.name)), h("div", null, this.renderBookingDetails(), h("p", { class: 'invoice_reference' }, "Invoice Reference:", this.booking.financial.invoice_nbr))));
+            return (h(Fragment, null, h("div", null, h("p", null, "Address:", h("span", null, " ", this.property?.address)), h("p", null, "Phone:", h("span", null, ' ', "+", this.property?.country?.phone_prefix.replace('+', '') + '-' || '', this.property?.phone)), h("p", null, "Tax ID:", h("span", null, this.property.tax_nbr)), h("p", { class: "property_name" }, this.property.name)), h("div", null, this.renderBookingDetails(), h("p", { class: 'invoice_reference' }, "Invoice Reference:", this.booking.financial.invoice_nbr))));
         }
         return (h(Fragment, null, h("div", null, h(BeLogoFooter, { width: 120, height: 30 }), h("p", { class: "property_name" }, this.property.name)), h("div", null, this.renderBookingDetails())));
     }
     getTaxAmount(room) {
-        var _a, _b;
         if (!this.booking.is_direct) {
             const filtered_data = room.ota_taxes.filter(tx => tx.amount > 0);
             return filtered_data.map((d, index) => {
                 return (h(Fragment, null, h("p", { class: "label-title" }, d.is_exlusive ? 'Excluding' : 'Including', " ", d.name), h("p", null, d.currency.symbol, d.amount), index < filtered_data.length - 1 && h("span", null, "-")));
             });
         }
-        const filtered_data = (_b = (_a = this.property) === null || _a === void 0 ? void 0 : _a.taxes) === null || _b === void 0 ? void 0 : _b.filter(tx => tx.pct > 0);
-        return filtered_data === null || filtered_data === void 0 ? void 0 : filtered_data.map((d, index) => {
+        const filtered_data = this.property?.taxes?.filter(tx => tx.pct > 0);
+        return filtered_data?.map((d, index) => {
             const amount = (room.total * d.pct) / 100;
             return (h(Fragment, null, h("p", { class: "label-title" }, d.is_exlusive ? 'Excluding' : 'Including', " ", d.name), h("p", null, d.pct, "%: ", formatAmount(this.currency, amount)), index < filtered_data.length - 1 && h("span", null, "-")));
         });
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
         if (this.isLoading || (!this.isLoading && (!this.booking || !this.property))) {
             return null;
         }
         console.log(this.booking.pickup_info);
-        return (h("div", { class: "main-container" }, h("section", { class: "header" }, this.renderPrintingHeader()), h("section", null, h("section", { class: "booking-details" }, h("p", { class: "label-title" }, "Booked by:", h("span", { class: "label-value" }, this.formatGuestName((_a = this.booking) === null || _a === void 0 ? void 0 : _a.guest), " - ", this.totalPersons, " ", this.totalPersons > 1 ? 'persons' : 'person')), h("p", { class: "label-title" }, "Phone:", h("span", { class: "label-value" }, this.formatPhoneNumber((_b = this.booking) === null || _b === void 0 ? void 0 : _b.guest, (_c = this.booking) === null || _c === void 0 ? void 0 : _c.is_direct))), h("p", { class: "label-title" }, "Email:", h("span", { class: "label-value" }, (_e = (_d = this.booking) === null || _d === void 0 ? void 0 : _d.guest) === null || _e === void 0 ? void 0 : _e.email)), this.guestCountryName && (h("p", { class: "label-title" }, "Country:", h("span", { class: "label-value" }, this.guestCountryName))), this.booking.guest.city && (h("p", { class: "label-title" }, "City:", h("span", { class: "label-value" }, (_g = (_f = this.booking) === null || _f === void 0 ? void 0 : _f.guest) === null || _g === void 0 ? void 0 : _g.city))), h("p", { class: "label-title" }, "Arrival Time:", h("span", { class: "label-value" }, (_j = (_h = this.booking) === null || _h === void 0 ? void 0 : _h.arrival) === null || _j === void 0 ? void 0 : _j.description))), h("section", null, h("div", { class: "accommodation-summary" }, h("p", { class: "accommodation-title" }, "ACCOMMODATION"), h("p", { class: "booking-dates" }, this.formatBookingDates((_k = this.booking) === null || _k === void 0 ? void 0 : _k.from_date)), h("p", { class: "booking-dates" }, this.formatBookingDates((_l = this.booking) === null || _l === void 0 ? void 0 : _l.to_date)), h("p", { class: "number-of-nights" }, this.totalNights, " ", this.totalNights === 1 ? 'night' : 'nights'), h("p", { class: "vat-exclusion" }, h("i", null, this.property.tax_statement))), h("div", null, (_o = (_m = this.booking) === null || _m === void 0 ? void 0 : _m.rooms) === null || _o === void 0 ? void 0 : _o.map(room => {
-            var _a;
-            return (h(Fragment, null, h("table", null, h("tr", { class: 'roomtype-title' }, h("td", null, room.roomtype.name), h("td", null, room.rateplan.name)), h("tr", null, h("td", { colSpan: 12 }, h("p", { class: "label-title" }, "Guest name:", h("span", { class: "label-value" }, this.formatGuestName(room === null || room === void 0 ? void 0 : room.guest)))))), h("div", { class: "policies-container" }, h("p", { class: "policies", innerHTML: room.rateplan.cancelation }), h("p", { class: "policies", innerHTML: room.rateplan.guarantee })), h("div", { class: "pricing-summary" }, h("div", { class: 'pricing-breakdown' }, h("p", { class: "label-title" }, "Total:", h("span", { class: "label-value" }, formatAmount(this.currency, room.total))), h("span", null, "-"), this.getTaxAmount(room)), h("p", { class: "label-title" }, "Grand total:", h("span", { class: "label-value" }, formatAmount(this.currency, room.gross_total))), h("p", { class: "label-title" }, "Due upon booking:", h("span", { class: "label-value" }, formatAmount(this.currency, room.gross_guarantee)))), h("div", { class: 'room_amount_main_container' }, (_a = room.days) === null || _a === void 0 ? void 0 : _a.map(d => (h("div", { class: 'room_amount_container' }, h("p", { class: "room_amount date" }, this.formatDate(hooks(d.date, 'YYYY-MM-DD'))), h("p", { class: "room_amount amount" }, formatAmount(this.currency, d.amount))))))));
-        })))), this.booking.pickup_info && (h("section", { class: "pickup-container" }, h("p", { class: "pickup_title" }, "PICKUP Yes,from ", this.booking.pickup_info.selected_option.location.description), h("div", { class: 'pickup-details' }, h("p", { class: "label-title" }, "Arrival date:", h("span", { class: "label-value" }, hooks((_p = this.booking) === null || _p === void 0 ? void 0 : _p.pickup_info.date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY'))), h("p", { class: "label-title" }, "Time:", h("span", { class: "label-value" }, _formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString()))), h("p", { class: "label-title" }, "Fight details:", h("span", { class: "label-value" }, (_q = this.booking) === null || _q === void 0 ? void 0 : _q.pickup_info.details)), h("p", { class: "car_name" }, this.booking.pickup_info.selected_option.vehicle.description, h("span", null, " - "), formatAmount(this.booking.pickup_info.selected_option.currency.code, this.booking.pickup_info.selected_option.amount)), h("p", { class: "label-title" }, "No. of Vehicles:", h("span", { class: "label-value" }, (_r = this.booking) === null || _r === void 0 ? void 0 : _r.pickup_info.nbr_of_units)), h("p", { class: "label-title" }, "Due upon booking:", h("span", { class: "label-value" }, formatAmount(this.booking.pickup_info.currency.code, (_s = this.booking) === null || _s === void 0 ? void 0 : _s.pickup_info.total)))))), ((_t = this.booking.financial) === null || _t === void 0 ? void 0 : _t.payments) && (h("section", null, h("table", { class: "billing_table" }, h("caption", null, "Billing"), h("thead", null, h("th", { class: "billing_header" }, "Date"), h("th", { class: "billing_header" }, "Amount"), h("th", { class: "billing_header" }, "Designation")), h("tbody", null, (_v = (_u = this.booking.financial) === null || _u === void 0 ? void 0 : _u.payments) === null || _v === void 0 ? void 0 : _v.map(p => (h(Fragment, null, h("tr", { key: p.id }, h("td", { class: "billing_cell" }, hooks(p.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("td", { class: "billing_cell" }, formatAmount(p.currency.code, p.amount)), h("td", { class: "billing_cell" }, p.designation || '_')), p.reference && (h("tr", null, h("td", { colSpan: 3 }, "Ref:", p.reference))))))))))));
+        return (h("div", { class: "main-container" }, h("section", { class: "header" }, this.renderPrintingHeader()), h("section", null, h("section", { class: "booking-details" }, h("p", { class: "label-title" }, "Booked by:", h("span", { class: "label-value" }, this.formatGuestName(this.booking?.guest), " - ", this.totalPersons, " ", this.totalPersons > 1 ? 'persons' : 'person')), h("p", { class: "label-title" }, "Phone:", h("span", { class: "label-value" }, this.formatPhoneNumber(this.booking?.guest, this.booking?.is_direct))), h("p", { class: "label-title" }, "Email:", h("span", { class: "label-value" }, this.booking?.guest?.email)), this.guestCountryName && (h("p", { class: "label-title" }, "Country:", h("span", { class: "label-value" }, this.guestCountryName))), this.booking.guest.city && (h("p", { class: "label-title" }, "City:", h("span", { class: "label-value" }, this.booking?.guest?.city))), h("p", { class: "label-title" }, "Arrival Time:", h("span", { class: "label-value" }, this.booking?.arrival?.description))), h("section", null, h("div", { class: "accommodation-summary" }, h("p", { class: "accommodation-title" }, "ACCOMMODATION"), h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.from_date)), h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.to_date)), h("p", { class: "number-of-nights" }, this.totalNights, " ", this.totalNights === 1 ? 'night' : 'nights'), h("p", { class: "vat-exclusion" }, h("i", null, this.property.tax_statement))), h("div", null, this.booking?.rooms?.map(room => (h(Fragment, null, h("table", null, h("tr", { class: 'roomtype-title' }, h("td", null, room.roomtype.name), h("td", null, room.rateplan.name)), h("tr", null, h("td", { colSpan: 12 }, h("p", { class: "label-title" }, "Guest name:", h("span", { class: "label-value" }, this.formatGuestName(room?.guest)))))), h("div", { class: "policies-container" }, h("p", { class: "policies", innerHTML: room.rateplan.cancelation }), h("p", { class: "policies", innerHTML: room.rateplan.guarantee })), h("div", { class: "pricing-summary" }, h("div", { class: 'pricing-breakdown' }, h("p", { class: "label-title" }, "Total:", h("span", { class: "label-value" }, formatAmount(this.currency, room.total))), h("span", null, "-"), this.getTaxAmount(room)), h("p", { class: "label-title" }, "Grand total:", h("span", { class: "label-value" }, formatAmount(this.currency, room.gross_total))), h("p", { class: "label-title" }, "Due upon booking:", h("span", { class: "label-value" }, formatAmount(this.currency, room.gross_guarantee)))), h("div", { class: 'room_amount_main_container' }, room.days?.map(d => (h("div", { class: 'room_amount_container' }, h("p", { class: "room_amount date" }, this.formatDate(hooks(d.date, 'YYYY-MM-DD'))), h("p", { class: "room_amount amount" }, formatAmount(this.currency, d.amount)))))))))))), this.booking.pickup_info && (h("section", { class: "pickup-container" }, h("p", { class: "pickup_title" }, "PICKUP Yes,from ", this.booking.pickup_info.selected_option.location.description), h("div", { class: 'pickup-details' }, h("p", { class: "label-title" }, "Arrival date:", h("span", { class: "label-value" }, hooks(this.booking?.pickup_info.date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY'))), h("p", { class: "label-title" }, "Time:", h("span", { class: "label-value" }, _formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString()))), h("p", { class: "label-title" }, "Fight details:", h("span", { class: "label-value" }, this.booking?.pickup_info.details)), h("p", { class: "car_name" }, this.booking.pickup_info.selected_option.vehicle.description, h("span", null, " - "), formatAmount(this.booking.pickup_info.selected_option.currency.code, this.booking.pickup_info.selected_option.amount)), h("p", { class: "label-title" }, "No. of Vehicles:", h("span", { class: "label-value" }, this.booking?.pickup_info.nbr_of_units)), h("p", { class: "label-title" }, "Due upon booking:", h("span", { class: "label-value" }, formatAmount(this.booking.pickup_info.currency.code, this.booking?.pickup_info.total)))))), this.booking.financial?.payments && (h("section", null, h("table", { class: "billing_table" }, h("caption", null, "Billing"), h("thead", null, h("th", { class: "billing_header" }, "Date"), h("th", { class: "billing_header" }, "Amount"), h("th", { class: "billing_header" }, "Designation")), h("tbody", null, this.booking.financial?.payments?.map(p => (h(Fragment, null, h("tr", { key: p.id }, h("td", { class: "billing_cell" }, hooks(p.date, 'YYYY-MM-DD').format('DD-MMM-YYYY')), h("td", { class: "billing_cell" }, formatAmount(p.currency.code, p.amount)), h("td", { class: "billing_cell" }, p.designation || '_')), p.reference && (h("tr", null, h("td", { colSpan: 3 }, "Ref:", p.reference))))))))))));
     }
     static get watchers() { return {
         "token": ["ticketChanged"]

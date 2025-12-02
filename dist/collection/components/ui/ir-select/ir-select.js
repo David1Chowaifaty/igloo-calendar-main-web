@@ -1,39 +1,72 @@
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrSelect {
-    constructor() {
-        // Selected value of the select
-        this.selectedValue = null;
-        // Placeholder text for the first option
-        this.firstOption = 'Select';
-        // Whether to show the first placeholder option
-        this.showFirstOption = true;
-        // Size of the select: 'sm' | 'md' | 'lg'
-        this.size = 'md';
-        // Size of the text: 'sm' | 'md' | 'lg'
-        this.textSize = 'md';
-        // Position of the label
-        this.labelPosition = 'left';
-        // Background color of the label
-        this.labelBackground = null;
-        // Text color of the label
-        this.labelColor = 'dark';
-        // Border color of the label
-        this.labelBorder = 'theme';
-        // Width of the label (Bootstrap cols)
-        this.labelWidth = 3;
-        // Unique ID for the select element
-        this.selectId = v4();
-        // Whether the select has an error state
-        this.error = false;
-        // Tracks if the field has been touched
-        this.initial = true;
-        // Tracks if the field is valid
-        this.valid = false;
-        /** Internal: id used by aria-labelledby for the floating label. */
-        this.labelId = `ir-select-label-${v4()}`;
-        this.count = 0;
-    }
+    // Name of the select input
+    name;
+    // Options to populate the select
+    data;
+    // Text shown in the label
+    label;
+    // Custom class for select
+    selectStyles;
+    // Inline styles for the select
+    selectForcedStyles;
+    // Custom class for the outer container
+    selectContainerStyle;
+    // Selected value of the select
+    selectedValue = null;
+    // Marks the select as required
+    required;
+    // Placeholder text for the first option
+    firstOption = 'Select';
+    // Whether to show the first placeholder option
+    showFirstOption = true;
+    // Size of the select: 'sm' | 'md' | 'lg'
+    size = 'md';
+    // Size of the text: 'sm' | 'md' | 'lg'
+    textSize = 'md';
+    // Position of the label
+    labelPosition = 'left';
+    // Background color of the label
+    labelBackground = null;
+    // Text color of the label
+    labelColor = 'dark';
+    // Border color of the label
+    labelBorder = 'theme';
+    // Width of the label (Bootstrap cols)
+    labelWidth = 3;
+    // Unique ID for the select element
+    selectId = v4();
+    // Data-testid for testing
+    testId;
+    // Whether the select is disabled
+    disabled;
+    // Whether the select has an error state
+    error = false;
+    /**
+     * Floating label text that appears inside the input and “floats” above
+     * when the field is focused or has a value.
+     *
+     * - If provided, a floating label will be rendered inside the input container.
+     * - If you omit this prop but set `label`, the old left-side static label is used.
+     * - If you provide both `label` and `floatingLabel`, only the floating label is shown.
+     *
+     *
+     * Examples:
+     * ```tsx
+     * <ir-select floating-label label="Phone" />
+     * ```
+     */
+    floatingLabel;
+    // Tracks if the field has been touched
+    initial = true;
+    // Tracks if the field is valid
+    valid = false;
+    // Emits selected value changes
+    selectChange;
+    selectEl;
+    /** Internal: id used by aria-labelledby for the floating label. */
+    labelId = `ir-select-label-${v4()}`;
     watchHandler(newValue) {
         if (newValue !== null && this.required) {
             this.valid = true;
@@ -62,6 +95,7 @@ export class IrSelect {
             this.selectChange.emit(this.selectedValue);
         }
     }
+    count = 0;
     render() {
         let className = ['form-control'];
         if (this.floatingLabel) {
@@ -74,7 +108,7 @@ export class IrSelect {
             className.push('border-danger');
         }
         let label = this.label ? (this.floatingLabel ? (h("label", { id: this.labelId, class: `floating-label active`, htmlFor: this.selectId }, this.label, this.required ? '*' : '')) : (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.selectId, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')))) : null;
-        return (h("div", { key: '5725e12a9930f86ae788ab624ff41b98b1e4a746', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '0190599fe22f8546a4ea5f39ec0a928343ffc752', class: "input-group row m-0" }, label, h("select", { key: '5f8e8f2a29025c23393f92fd367b615db7b20da4', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '935abd97b2f67ec327f718a6e68bfe4b5fbc989a', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: 'e7e9ac8fc1b78d60a3cd995c68f9a8fbb8c44e50', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'efaccf5f37daf733a79274fe9eb7d0ae0af4e2db', class: "input-group row m-0" }, label, h("select", { key: '5492411c4956f557825d699234a154ed0e1e75c8', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '7ffee1bfeb47284503fa98defb4518889cbf24d9', value: '' }, this.firstOption), this.data.map(item => {
             return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
         })))));
     }

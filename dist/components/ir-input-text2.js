@@ -12,38 +12,86 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
         this.textChange = createEvent(this, "textChange", 7);
         this.inputBlur = createEvent(this, "inputBlur", 7);
         this.inputFocus = createEvent(this, "inputFocus", 7);
-        /** Additional inline styles for the input */
-        this.inputStyles = '';
-        /** Whether the input field is read-only */
-        this.readonly = false;
-        /** Input type (e.g., text, password, email) */
-        this.type = 'text';
-        /** Whether the form has been submitted */
-        this.submitted = false;
-        /** Whether to apply default input styling */
-        this.inputStyle = true;
-        /** Text size inside the input field */
-        this.textSize = 'md';
-        /** Position of the label: left, right, or center */
-        this.labelPosition = 'left';
-        /** Background color of the label */
-        this.labelBackground = null;
-        /** Text color of the label */
-        this.labelColor = 'dark';
-        /** Border color/style of the label */
-        this.labelBorder = 'theme';
-        /** Label width as a fraction of 12 columns (1-11) */
-        this.labelWidth = 3;
-        /** Variant of the input: default or icon or floating-label */
-        this.variant = 'default';
-        /** Whether the input is disabled */
-        this.disabled = false;
-        /** Whether the input has an error */
-        this.error = false;
-        /** Whether the input should auto-validate */
-        this.autoValidate = true;
-        this.inputFocused = false;
     }
+    get el() { return this; }
+    /** Name attribute for the input field */
+    name;
+    /** Value of the input field */
+    value;
+    /** Label text for the input */
+    label;
+    /** Placeholder text for the input */
+    placeholder;
+    /** Additional inline styles for the input */
+    inputStyles = '';
+    /** Whether the input field is required */
+    required;
+    /** Whether the input field is read-only */
+    readonly = false;
+    /** Input type (e.g., text, password, email) */
+    type = 'text';
+    /** Whether the form has been submitted */
+    submitted = false;
+    /** Whether to apply default input styling */
+    inputStyle = true;
+    /** Text size inside the input field */
+    textSize = 'md';
+    /** Position of the label: left, right, or center */
+    labelPosition = 'left';
+    /** Background color of the label */
+    labelBackground = null;
+    /** Text color of the label */
+    labelColor = 'dark';
+    /** Border color/style of the label */
+    labelBorder = 'theme';
+    /** Label width as a fraction of 12 columns (1-11) */
+    labelWidth = 3;
+    /** Variant of the input: default or icon or floating-label */
+    variant = 'default';
+    /** Whether the input is disabled */
+    disabled = false;
+    /** Whether the input has an error */
+    error = false;
+    /** Mask for the input field (optional) */
+    mask;
+    /** Whether the input should auto-validate */
+    autoValidate = true;
+    /** A Zod schema for validating the input */
+    zod;
+    /** A Zod parse type for validating the input */
+    asyncParse;
+    /** Key to wrap the value (e.g., 'price' or 'cost') */
+    wrapKey;
+    /** Forcing css style to the input */
+    inputForcedStyle;
+    /** Input id for testing purposes*/
+    testId;
+    /** Input max character length*/
+    maxLength;
+    /** To clear all the Input base styling*/
+    clearBaseStyles;
+    /** To clear all the Input base styling*/
+    errorMessage;
+    /** Autocomplete behavior for the input (e.g., 'on', 'off', 'email', etc.) */
+    autoComplete;
+    /** Forcing css style to the input container */
+    inputContainerStyle;
+    /**
+     * Extra class names applied to the label container (<div class="input-group-prepend">)
+     * that wraps the <label>. Use this to control label width, alignment,
+     * spacing, or visibility at different breakpoints.
+     * Example: "min-w-120 text-nowrap pe-2"
+     */
+    labelContainerClassname;
+    inputFocused = false;
+    textChange;
+    inputBlur;
+    inputFocus;
+    inputRef;
+    maskInstance;
+    id;
+    hasPrefixSlot;
+    hasSuffixSlot;
     componentWillLoad() {
         if (this.el.id) {
             this.id = this.el.id;
@@ -167,7 +215,6 @@ const IrInputText = /*@__PURE__*/ proxyCustomElement(class IrInputText extends H
                 this.inputFocus.emit(e);
             }, placeholder: this.placeholder, autoComplete: this.autoComplete, autocomplete: this.autoComplete, value: this.value, onInput: this.handleInputChange.bind(this), required: this.required, disabled: this.disabled })), this.errorMessage && this.error && h("p", { class: "error-message" }, this.errorMessage)));
     }
-    get el() { return this; }
     static get watchers() { return {
         "mask": ["handleMaskChange"],
         "value": ["handleValueChange"]

@@ -1,11 +1,10 @@
 import { h } from "@stencil/core";
 export class IrIcon {
-    constructor() {
-        this.icon = 'ft-check';
-        this.type = 'button';
-    }
+    icon = 'ft-check';
+    type = 'button';
+    iconClickHandler;
     render() {
-        return (h("button", { key: '579d2660e62c1d7fff243a774514d2453b9a4cac', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '0db27f67f9f5583c1c9beef042e6b2e90e2819ad', name: "icon" })));
+        return (h("button", { key: '0e34f90fbfa3b795e15a6f308f76f16e66d8e778', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '13fdb916ad8b2113ce629f02bdbee86bd406effe', name: "icon" })));
     }
     static get is() { return "ir-icon"; }
     static get encapsulation() { return "scoped"; }

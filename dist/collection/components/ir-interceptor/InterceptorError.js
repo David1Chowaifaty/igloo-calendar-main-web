@@ -1,4 +1,5 @@
 export class InterceptorError extends Error {
+    code;
     constructor(message, code) {
         super(message);
         this.name = 'InterceptorError';

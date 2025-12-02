@@ -18,9 +18,8 @@ export class HouseKeepingService {
         return data;
     }
     async getArchivedHKTasks(params) {
-        var _a;
         const { data } = await axios.post(`/Get_Archived_HK_Tasks`, params);
-        return { url: data.My_Params_Get_Archived_HK_Tasks.Link_excel, tasks: (_a = data['My_Result']) !== null && _a !== void 0 ? _a : [] };
+        return { url: data.My_Params_Get_Archived_HK_Tasks.Link_excel, tasks: data['My_Result'] ?? [] };
     }
     async setExposedInspectionMode(property_id, mode) {
         const { data } = await axios.post(`/Set_Exposed_Inspection_Mode`, {
@@ -37,28 +36,27 @@ export class HouseKeepingService {
         return data['My_Result'];
     }
     async editExposedHKM(params, is_to_remove = false) {
-        const { data } = await axios.post(`/Edit_Exposed_HKM`, Object.assign(Object.assign({}, params), { is_to_remove }));
+        const { data } = await axios.post(`/Edit_Exposed_HKM`, { ...params, is_to_remove });
         return data['My_Result'];
     }
     async getHKPendingActions(params) {
-        const { data } = await axios.post(`/Get_HK_Pending_Actions`, Object.assign({}, params));
+        const { data } = await axios.post(`/Get_HK_Pending_Actions`, { ...params });
         updateHKStore('pending_housekeepers', [...data['My_Result']].map(d => ({ original: d, selected: false })));
         return data['My_Result'];
     }
     async setExposedUnitHKStatus(params) {
-        const { data } = await axios.post(`/Set_Exposed_Unit_HK_Status`, Object.assign({}, params));
+        const { data } = await axios.post(`/Set_Exposed_Unit_HK_Status`, { ...params });
         return data['My_Result'];
     }
     async getHkTasks(params) {
-        var _a;
         const { data } = await axios.post('/Get_HK_Tasks', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
-        return { url: (_a = data.My_Params_Get_HK_Tasks) === null || _a === void 0 ? void 0 : _a.Link_excel, tasks: data.My_Result };
+        return { url: data.My_Params_Get_HK_Tasks?.Link_excel, tasks: data.My_Result };
     }
     async executeHKAction(params) {
-        await axios.post(`/Execute_HK_Action`, Object.assign({}, params));
+        await axios.post(`/Execute_HK_Action`, { ...params });
     }
     async generateUserName(name) {
         const { data } = await axios.post(`/Generate_UserName`, { name });

@@ -5,12 +5,12 @@ export declare const CurrencySchema: z.ZodObject<{
     symbol: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     symbol?: string;
-    code?: string;
     id?: number;
+    code?: string;
 }, {
     symbol?: string;
-    code?: string;
     id?: number;
+    code?: string;
 }>;
 export type SalesByChannelMode = 'property' | 'mpo';
 /**

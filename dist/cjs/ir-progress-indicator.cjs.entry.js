@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 
 const irProgressIndicatorCss = ".sc-ir-progress-indicator-h{display:block}.secondary-progress.sc-ir-progress-indicator{background:#6692b3}";
 const IrProgressIndicatorStyle0 = irProgressIndicatorCss;
@@ -10,16 +10,21 @@ const IrProgressIndicatorStyle0 = irProgressIndicatorCss;
 const IrProgressIndicator = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        /**
-         * The color variant of the progress bar.
-         * Options:
-         * - 'primary' (default)
-         * - 'secondary'
-         */
-        this.color = 'primary';
     }
+    /**
+     * The percentage value to display and fill the progress bar.
+     * Example: "75%"
+     */
+    percentage;
+    /**
+     * The color variant of the progress bar.
+     * Options:
+     * - 'primary' (default)
+     * - 'secondary'
+     */
+    color = 'primary';
     render() {
-        return (index.h(index.Host, { key: '3e7e5932d6c236eadffb257e320002ca864c83dc', class: "progress-main" }, index.h("span", { key: 'a3e6f5a14803799b58f55c874807bc4649d036c9', class: "progress-totle" }, this.percentage), index.h("div", { key: '7b6fcac98422dcfffef339015b697ecf069a780a', class: "progress-line" }, index.h("div", { key: 'd3c90cba33f1302ae79a37e7eb81268f2541c417', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (index.h(index.Host, { key: '16e111b545fa65cc940b8b4c15fe498e4018a8ea', class: "progress-main" }, index.h("span", { key: 'e118d439ed75cc4fc3c072e55120909aa4446fda', class: "progress-totle" }, this.percentage), index.h("div", { key: 'de872e0236132a0b13c754af53c650e0543bbfff', class: "progress-line" }, index.h("div", { key: '686d37bcd5b65277f3c5092b5988dd9377206fbe', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
 };
 IrProgressIndicator.style = IrProgressIndicatorStyle0;

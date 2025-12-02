@@ -50,6 +50,7 @@ export interface ICountry {
     name: string;
     phone_prefix: string;
     flag: string;
+    code?: string;
 }
 export declare const ZIEntrySchema: z.ZodObject<{
     CODE_NAME: z.ZodString;

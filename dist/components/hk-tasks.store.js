@@ -58,7 +58,10 @@ function updateTasks(tasks) {
     filterTasks();
 }
 function updatePaginationFields(params) {
-    hkTasksStore.pagination = Object.assign(Object.assign({}, hkTasksStore.pagination), params);
+    hkTasksStore.pagination = {
+        ...hkTasksStore.pagination,
+        ...params,
+    };
 }
 function updatePageSize(pageSize) {
     updatePaginationFields({
@@ -91,13 +94,12 @@ function getTaskList() {
 //   return newTaskCount > currentMax * 1.5 || newTaskCount < currentMax * 0.5;
 // }
 function filterTasks() {
-    var _a, _b;
-    const searchText = (_b = (_a = hkTasksStore === null || hkTasksStore === void 0 ? void 0 : hkTasksStore.searchField) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : '';
+    const searchText = hkTasksStore?.searchField?.toLowerCase() ?? '';
     if (!searchText) {
         hkTasksStore.filteredTasks = [...hkTasksStore.tasks];
     }
     else {
-        hkTasksStore.filteredTasks = hkTasksStore.tasks.filter(task => { var _a, _b, _c, _d, _e; return ((_b = (_a = task.unit) === null || _a === void 0 ? void 0 : _a.name) === null || _b === void 0 ? void 0 : _b.toLowerCase().includes(searchText)) || ((_d = (_c = task.status) === null || _c === void 0 ? void 0 : _c.description) === null || _d === void 0 ? void 0 : _d.toLowerCase().includes(searchText)) || ((_e = task.housekeeper) === null || _e === void 0 ? void 0 : _e.toLowerCase().includes(searchText)); });
+        hkTasksStore.filteredTasks = hkTasksStore.tasks.filter(task => task.unit?.name?.toLowerCase().includes(searchText) || task.status?.description?.toLowerCase().includes(searchText) || task.housekeeper?.toLowerCase().includes(searchText));
     }
     updatePagination();
 }
@@ -166,16 +168,15 @@ function updateSorting(field, direction) {
 function getSortedTasks(tasksToSort = hkTasksStore.filteredTasks) {
     const { field, direction } = hkTasksStore.sorting;
     return [...tasksToSort].sort((a, b) => {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
         let aValue = a[field];
         let bValue = b[field];
         if (field === 'status') {
-            aValue = (_a = a.status) === null || _a === void 0 ? void 0 : _a.description;
-            bValue = (_b = b.status) === null || _b === void 0 ? void 0 : _b.description;
+            aValue = a.status?.description;
+            bValue = b.status?.description;
         }
         else if (field === 'unit') {
-            aValue = (_c = a.unit) === null || _c === void 0 ? void 0 : _c.name;
-            bValue = (_d = b.unit) === null || _d === void 0 ? void 0 : _d.name;
+            aValue = a.unit?.name;
+            bValue = b.unit?.name;
         }
         if (aValue < bValue)
             return direction === 'ASC' ? -1 : 1;
@@ -186,9 +187,9 @@ function getSortedTasks(tasksToSort = hkTasksStore.filteredTasks) {
             return -1;
         if (a.date > b.date)
             return 1;
-        if (((_e = a.unit) === null || _e === void 0 ? void 0 : _e.name) < ((_f = b.unit) === null || _f === void 0 ? void 0 : _f.name))
+        if (a.unit?.name < b.unit?.name)
             return -1;
-        if (((_g = a.unit) === null || _g === void 0 ? void 0 : _g.name) > ((_h = b.unit) === null || _h === void 0 ? void 0 : _h.name))
+        if (a.unit?.name > b.unit?.name)
             return 1;
         return 0;
     });

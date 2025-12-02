@@ -15,14 +15,13 @@ export const SetRoomCalendarExtraParamsSchema = z.object({
 });
 export class PropertyService {
     async getExposedProperty(params) {
-        var _a, _b;
         try {
             const { data } = await axios.post(`/Get_Exposed_Property`, params);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
             const results = data.My_Result;
-            calendar_data.property = Object.assign({}, results);
+            calendar_data.property = { ...results };
             calendar_data.adultChildConstraints = results.adult_child_constraints;
             calendar_data.allowedBookingSources = results.allowed_booking_sources;
             calendar_data.allowed_payment_methods = results.allowed_payment_methods;
@@ -39,7 +38,7 @@ export class PropertyService {
             calendar_data.tax_statement = results.tax_statement;
             calendar_data.is_frontdesk_enabled = results.is_frontdesk_enabled;
             calendar_data.is_pms_enabled = results.is_pms_enabled;
-            const spitTime = (_b = (_a = results === null || results === void 0 ? void 0 : results.time_constraints) === null || _a === void 0 ? void 0 : _a.check_out_till) === null || _b === void 0 ? void 0 : _b.split(':');
+            const spitTime = results?.time_constraints?.check_out_till?.split(':');
             calendar_data.checkin_checkout_hours = {
                 offset: results.city.gmt_offset,
                 hour: Number(spitTime[0] || 0),

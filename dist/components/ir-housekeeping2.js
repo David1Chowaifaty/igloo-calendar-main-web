@@ -41,14 +41,20 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
-        this.language = '';
-        this.ticket = '';
-        this.isLoading = false;
-        this.roomService = new RoomService();
-        this.houseKeepingService = new HouseKeepingService();
-        this.propertyService = new PropertyService();
-        this.token = new Token();
     }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    baseUrl;
+    isLoading = false;
+    toast;
+    roomService = new RoomService();
+    houseKeepingService = new HouseKeepingService();
+    propertyService = new PropertyService();
+    token = new Token();
+    modal;
+    selectedCleaningFrequency;
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
@@ -71,7 +77,6 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         this.initializeApp();
     }
     async initializeApp() {
-        var _a;
         try {
             this.isLoading = true;
             let propertyId = this.propertyid;
@@ -100,7 +105,7 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
                 }));
             }
             await Promise.all(requests);
-            this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
+            this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
         }
         catch (error) {
             console.error(error);
@@ -150,7 +155,6 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         }
     }
     render() {
-        var _a;
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
@@ -163,12 +167,11 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
                 e.stopPropagation();
                 this.selectedCleaningFrequency = e.detail;
                 this.modal.openModal();
-            }, data: (_a = housekeeping_store === null || housekeeping_store === void 0 ? void 0 : housekeeping_store.hk_criteria) === null || _a === void 0 ? void 0 : _a.cleaning_frequencies.map(v => ({
+            }, data: housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => ({
                 text: v.description,
                 value: v.code,
             })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onConfirmModal: this.saveCleaningFrequency.bind(this), iconAvailable: true, onCancelModal: () => {
-                var _a;
-                this.selectedCleaningFrequency = (_a = calendar_data.cleaning_frequency) === null || _a === void 0 ? void 0 : _a.code;
+                this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
             }, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'This action will reschedule all cleaning tasks. Do you want to continue?' }))));
     }
     static get watchers() { return {

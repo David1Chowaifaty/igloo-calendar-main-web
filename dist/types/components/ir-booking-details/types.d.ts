@@ -38,3 +38,12 @@ export type CancellationStatement = {
     grossTotal: number;
 } & ExposedApplicablePolicy;
 export type Payment = Omit<IPayment, 'time_stamp'>;
+export type PrintScreenOptions = {
+    mode: 'printing' | 'invoice' | 'proforma' | 'creditnote';
+} | {
+    mode: 'receipt';
+    payload: {
+        pid: string;
+        rnb: string;
+    };
+};

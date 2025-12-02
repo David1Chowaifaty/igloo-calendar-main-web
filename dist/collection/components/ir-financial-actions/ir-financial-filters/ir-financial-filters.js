@@ -2,15 +2,16 @@ import { h } from "@stencil/core";
 import moment from "moment";
 import locales from "../../../stores/locales.store";
 export class IrFinancialFilters {
-    constructor() {
-        this.collapsed = false;
-        this.baseFilters = {
-            date: moment().format('YYYY-MM-DD'),
-            sourceCode: '001',
-        };
-    }
+    isLoading;
+    collapsed = false;
+    filters;
+    baseFilters = {
+        date: moment().format('YYYY-MM-DD'),
+        sourceCode: '001',
+    };
+    fetchNewReports;
     componentWillLoad() {
-        this.filters = Object.assign({}, this.baseFilters);
+        this.filters = { ...this.baseFilters };
     }
     applyFiltersEvt(e) {
         e.stopImmediatePropagation();
@@ -20,31 +21,29 @@ export class IrFinancialFilters {
     resetFilters(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.filters = Object.assign({}, this.baseFilters);
+        this.filters = { ...this.baseFilters };
         this.fetchNewReports.emit(this.filters);
     }
     updateFilter(params) {
-        this.filters = Object.assign(Object.assign({}, this.filters), params);
+        this.filters = { ...this.filters, ...params };
     }
     render() {
-        var _a, _b, _c, _d;
-        return (h("div", { key: '1c0a0ab8fee9b574b593458128177e06c80a1f4a', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: 'dffb0cf10510acdf45f2a5b4ae99c00fcc050ee8', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '9c6189e04fd88529f5fe39e609dbf89f29bdfb2c', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '22b8b66e12ffa686309912d3e59597e43e3ba4dc', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '6078049a0181b5ad20ba429759b80ae066609d82', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '287e8a6a39526cd0c412ab82fcd675e7e8d861ba', class: "m-0 p-0 flex-grow-1" }, (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Filters)), h("ir-button", { key: '3b0c75a918bd03978e54a804606a30322dd2c0f8', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#financialFilterCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "financialFilterCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
+        return (h("div", { key: '499669476e8d179ed7fed671168b72fcbc531432', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: 'b81a8ed0b9ee5879c34558b253f46c61de23ac3c', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '2bbdc0b5d89367cab00b443668b649f9402cb6b6', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '068796c2ed6d68fe35106fc43d344b6015511c7b', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '5ecf9695f27ea30195ba299017965fa511c1f922', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: 'df0ccd1513a8bc34feb023e120af84b514492511', class: "m-0 p-0 flex-grow-1" }, locales.entries?.Lcz_Filters)), h("ir-button", { key: 'cd8599098aa6529e6e894318141d7795e218cbe6', variant: "icon", id: "drawer-icon", "data-toggle": "collapse", "data-target": "#financialFilterCollapse", "aria-expanded": this.collapsed ? 'true' : 'false', "aria-controls": "financialFilterCollapse", class: "mr-1 collapse-btn toggle-collapse-btn", icon_name: this.collapsed ? 'closed_eye' : 'open_eye', onClickHandler: () => {
                 this.collapsed = !this.collapsed;
-            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '6b5f06f227d324327c3b99ae60c23735771a8d47', class: "m-0 p-0 collapse filters-section", id: "financialFilterCollapse" }, h("div", { key: '0e38bd232a1e1c97ae286b62eaf87980d7219885', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '6bbe08f3dae48fb9c8f99ef4ae9a85f9e1c609cb', class: "pt-1 filter-group" }, h("label", { key: '2fad088f7ccd156048d10166a4f83618ea8e861f', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Select a date"), h("div", { key: '92e88e7725f510d7c6610fdd88d4e9ac2ba0b743', class: "w-100 d-flex" }, h("style", { key: 'fa2235b3613f3ec38af2cd0178d4bdbd7fd5379d' }, `
+            }, style: { '--icon-size': '1.6rem' } })), h("div", { key: '83e1f4dc406a339e1cd528c6e1e97e294ae48fc8', class: "m-0 p-0 collapse filters-section", id: "financialFilterCollapse" }, h("div", { key: '5c2448ee8db2420d3d3b608079d036e8543f369c', class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("fieldset", { key: '5bc63d4613a490439d8d2a28ca842221f3f5f4e0', class: "pt-1 filter-group" }, h("label", { key: 'a611441db9ea4605e20e80c7931749224f568f02', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Select a date"), h("div", { key: '950578012c89b21517b21d914f42d9726d6fae2e', class: "w-100 d-flex" }, h("style", { key: '7c7d1a612572cd1e4210c1a789372205a73061b7' }, `
                   .ir-date-picker-trigger{
                     width:100%;
                   }
-                  `), h("ir-date-picker", { key: '742035afcbff4421a90be127323da0502de31ad1', "data-testid": "pickup_date", date: (_b = this.filters) === null || _b === void 0 ? void 0 : _b.date, class: "w-100", emitEmptyDate: true, maxDate: moment().format('YYYY-MM-DD'), onDateChanged: evt => {
-                var _a;
+                  `), h("ir-date-picker", { key: 'f8b85d10effae02fc7c19a49f76ae20f2446f543', "data-testid": "pickup_date", date: this.filters?.date, class: "w-100", emitEmptyDate: true, maxDate: moment().format('YYYY-MM-DD'), onDateChanged: evt => {
                 evt.stopImmediatePropagation();
                 evt.stopPropagation();
-                this.updateFilter({ date: (_a = evt.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
-            } }, h("input", { key: 'c9da0cff28e565b50ca668ecd531d69bcfde1fa4', slot: "trigger", type: "text", value: (_c = this === null || this === void 0 ? void 0 : this.filters) === null || _c === void 0 ? void 0 : _c.date, class: `financial-filters__date-picker-input form-control w-100 input-sm  text-left`, style: { width: '100%' } })))), h("fieldset", { key: '35051739ec968265f990ff0dab9bb6e4d488d0fd', class: " filter-group" }, h("label", { key: '0ae44e0ad42464d4ac78ae8dc5c382666388a4c1', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Users"), h("ir-select", { key: '4cdbcf2d9bba489e947b36b509eb9da03af4b38f', selectedValue: (_d = this.filters) === null || _d === void 0 ? void 0 : _d.sourceCode, selectId: "rooms", firstOption: "All", onSelectChange: e => this.updateFilter({
+                this.updateFilter({ date: evt.detail.start?.format('YYYY-MM-DD') });
+            } }, h("input", { key: '2ca780c164576807250fdbcf522d55c913f08f77', slot: "trigger", type: "text", value: this?.filters?.date, class: `financial-filters__date-picker-input form-control w-100 input-sm  text-left`, style: { width: '100%' } })))), h("fieldset", { key: '4fa3023b1e7330958c2efb6383a8b8e3dfef1193', class: " filter-group" }, h("label", { key: '709525b8f1253df98a508b3b7043df23b276fb8a', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Users"), h("ir-select", { key: '4f005de4f4c68f1b7dad000625925685f78a4e0e', selectedValue: this.filters?.sourceCode, selectId: "rooms", firstOption: "All", onSelectChange: e => this.updateFilter({
                 sourceCode: e.detail,
             }), data: Array.from([]).map(u => ({
                 text: u,
                 value: u,
-            })) })), h("div", { key: '06e5f3a3ff6b8add3b01844ab44bace2bbf54b51', class: "d-flex mt-1 align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: 'f4738000a02f1a97a9d534cd33e9a532473cc846', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '345935abdba4166a9b5ffdb8f25772c55a45a7ad', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
+            })) })), h("div", { key: '12a09713e6fe343e47d1cafebd0f6d0fac670809', class: "d-flex mt-1 align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: '146e5ca980c490b96386962aa38b6627b1c468f6', btn_type: "button", "data-testid": "reset", text: locales.entries.Lcz_Reset, size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '3c0b73ab47bae3d1a159eb771262afe447bd918b', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries.Lcz_Apply, size: "sm", onClickHandler: e => this.applyFiltersEvt(e) }))))));
     }
     static get is() { return "ir-financial-filters"; }
     static get encapsulation() { return "scoped"; }

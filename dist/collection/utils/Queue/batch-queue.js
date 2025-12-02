@@ -1,11 +1,18 @@
 import { v4 } from "uuid";
 export class BatchingQueue {
+    queue = [];
+    isProcessing = false;
+    flushTimer = null;
+    options;
+    processor;
     constructor(processor, options) {
-        this.queue = [];
-        this.isProcessing = false;
-        this.flushTimer = null;
         this.processor = processor;
-        this.options = Object.assign({ maxQueueSize: 10000, onError: error => console.error('Queue processing error:', error), onBatchProcessed: () => { } }, options);
+        this.options = {
+            maxQueueSize: 10000,
+            onError: error => console.error('Queue processing error:', error),
+            onBatchProcessed: () => { },
+            ...options,
+        };
     }
     /**
      * Add a single item to the queue

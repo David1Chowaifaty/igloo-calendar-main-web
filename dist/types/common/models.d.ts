@@ -1,4 +1,3 @@
-import { Guest, ICCI } from '../models/booking.dto';
 export interface IrOnlineResource {
     isJS?: boolean;
     isCSS?: boolean;
@@ -27,30 +26,4 @@ export declare class guestInfo {
     newsletter: boolean;
     currency: string;
     language: string;
-}
-export declare class guestInfoValidation implements Guest {
-    mobile_without_prefix: string;
-    nbr_confirmed_bookings: number;
-    notes: string;
-    country_phone_prefix: string;
-    cci?: ICCI;
-    alternative_email?: string;
-    address: string;
-    city: string;
-    country_id: number;
-    dob: string;
-    email: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-    mobile: string;
-    subscribe_to_news_letter: boolean;
-    firstNameValid: boolean;
-    lastNameValid: boolean;
-    emailValid: boolean;
-    countryValid: boolean;
-    passwordValid: boolean;
-    mobileValid: boolean;
-    prefixValid: boolean;
-    setupData: boolean;
 }

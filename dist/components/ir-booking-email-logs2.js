@@ -17,8 +17,11 @@ const IrBookingEmailLogs = /*@__PURE__*/ proxyCustomElement(class IrBookingEmail
     constructor() {
         super();
         this.__registerHost();
-        this.token = new Token();
     }
+    ticket;
+    data;
+    bookingNumber;
+    token = new Token();
     componentWillLoad() {
         if (this.ticket) {
             this.token.setToken(this.ticket);
@@ -30,7 +33,7 @@ const IrBookingEmailLogs = /*@__PURE__*/ proxyCustomElement(class IrBookingEmail
         }
     }
     render() {
-        return (h(Host, { key: '3ba44a0006a9dd52a9f0bfb7bb946cf7c94db5b0', class: "p-1" }, h("ir-interceptor", { key: 'cbd4a3657feaf30115406bb6269ee6af6f796b8a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'de3f3d4df28f6823dc32fa821c8fce5c04cce44a' }), h("div", { key: '67a6fa938144d42b307b57562d8f3bcd30ab2f1d', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '252a7472b2501f7e36c08d7cb1e3dcd0e2c71d98', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '5b606026280d8744a0a03eb5c3c96436f37ac882', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'ad098c16ead05179e7984f404bf9d047c5e4d5f0', class: "p-1" }, h("ir-interceptor", { key: 'b104822866bba7fb06785f478d221437ce86c97a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '81f253d152134ed2670991d58a8808c6535a6440' }), h("div", { key: '5a0362869e8438ec5ddf4ff71a59d292e5602eda', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '316943e2e8f1cb55ee43f507babd637e5b6f1a9e', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '00b7e27b0d4f584925d9ae9d8f5f5c73373cba36', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -38,7 +41,7 @@ const IrBookingEmailLogs = /*@__PURE__*/ proxyCustomElement(class IrBookingEmail
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: 'f37edc47ff33d45f963c677d2627065ab1c98216' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '169d319a133dcb4dc80f4935a3d98f82ea9ecfd8' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

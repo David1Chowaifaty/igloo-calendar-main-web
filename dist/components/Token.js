@@ -2,8 +2,11 @@ import { a as axios } from './axios.js';
 
 // import axios from 'axios';
 class Auth {
+    static isAuthUsed = false;
+    static _isAuthenticated = false;
+    static subscribers = [];
     constructor() {
-        if (!Auth.isAuthUsed) {
+        {
             this.init();
         }
     }
@@ -30,14 +33,14 @@ class Auth {
         return Auth._isAuthenticated;
     }
 }
-Auth.isAuthUsed = false;
-Auth._isAuthenticated = false;
-Auth.subscribers = [];
 
 class Token extends Auth {
+    baseUrl = 'https://gateway.igloorooms.com/IR';
+    static token = '';
+    static modifiedBaseUrl = false;
+    static isInterceptorAdded = false;
     constructor() {
         super();
-        this.baseUrl = 'https://gateway.igloorooms.com/IR';
         if (Token.modifiedBaseUrl) {
             return;
         }
@@ -71,9 +74,6 @@ class Token extends Auth {
         this.initialize();
     }
 }
-Token.token = '';
-Token.modifiedBaseUrl = false;
-Token.isInterceptorAdded = false;
 class MissingTokenError extends Error {
     constructor(message = 'Missing token!!') {
         super(message);

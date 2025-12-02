@@ -7,20 +7,23 @@ import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
 import moment from "moment";
 export class IrDailyRevenue {
-    constructor() {
-        this.language = '';
-        this.ticket = '';
-        this.filters = { date: moment().format('YYYY-MM-DD'), users: null };
-        this.tokenService = new Token();
-        this.roomService = new RoomService();
-        this.propertyService = new PropertyService();
-        this.bookingService = new BookingService();
-        this.handleSidebarClose = (e) => {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.sideBarEvent = null;
-        };
-    }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isPageLoading;
+    property_id;
+    groupedPayment;
+    previousDateGroupedPayments;
+    isLoading;
+    filters = { date: moment().format('YYYY-MM-DD'), users: null };
+    sideBarEvent;
+    tokenService = new Token();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
+    bookingService = new BookingService();
+    paymentEntries;
+    preventPageLoad;
     componentWillLoad() {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
@@ -42,7 +45,7 @@ export class IrDailyRevenue {
     handleFetchNewReports(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.filters = Object.assign({}, e.detail);
+        this.filters = { ...e.detail };
         this.getPaymentReports();
     }
     async handleResetBooking(e) {
@@ -50,6 +53,11 @@ export class IrDailyRevenue {
         e.stopImmediatePropagation();
         this.getPaymentReports(false, true);
     }
+    handleSidebarClose = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.sideBarEvent = null;
+    };
     renderSidebarBody() {
         if (!this.sideBarEvent) {
             return;
@@ -108,11 +116,10 @@ export class IrDailyRevenue {
         }
     }
     groupPaymentsByName(payments) {
-        var _a;
         const groupedPayment = new Map();
         for (const payment of payments) {
             const key = `${payment.payTypeCode}_${payment.payMethodCode}`;
-            const p = (_a = groupedPayment.get(key)) !== null && _a !== void 0 ? _a : [];
+            const p = groupedPayment.get(key) ?? [];
             groupedPayment.set(key, [...p, payment]);
         }
         return new Map([...groupedPayment.entries()].sort(([a], [b]) => {
@@ -125,7 +132,6 @@ export class IrDailyRevenue {
         }));
     }
     async getPaymentReports(isExportToExcel = false, excludeYesterday = false) {
-        var _a, _b, _c, _d;
         try {
             const getReportObj = (report) => {
                 return {
@@ -146,27 +152,27 @@ export class IrDailyRevenue {
             const requests = [
                 this.propertyService.getDailyRevenueReport({
                     date: this.filters.date,
-                    property_id: (_a = this.property_id) === null || _a === void 0 ? void 0 : _a.toString(),
+                    property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
             if (!isExportToExcel && !excludeYesterday) {
                 requests.push(this.propertyService.getDailyRevenueReport({
                     date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
-                    property_id: (_b = this.property_id) === null || _b === void 0 ? void 0 : _b.toString(),
+                    property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }));
             }
             const results = await Promise.all(requests);
             if (!isExportToExcel) {
                 if (results[0]) {
-                    this.groupedPayment = this.groupPaymentsByName((_c = results[0]) === null || _c === void 0 ? void 0 : _c.map(getReportObj));
+                    this.groupedPayment = this.groupPaymentsByName(results[0]?.map(getReportObj));
                 }
                 else {
                     this.groupedPayment = new Map();
                 }
                 if (results[1])
-                    this.previousDateGroupedPayments = this.groupPaymentsByName((_d = results[1]) === null || _d === void 0 ? void 0 : _d.map(getReportObj));
+                    this.previousDateGroupedPayments = this.groupPaymentsByName(results[1]?.map(getReportObj));
             }
         }
         catch (e) {
@@ -177,17 +183,16 @@ export class IrDailyRevenue {
         }
     }
     render() {
-        var _a, _b, _c;
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Revenue"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: (_a = locales.entries) === null || _a === void 0 ? void 0 : _a.Lcz_Export, onClickHandler: async (e) => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Daily Revenue"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries?.Lcz_Export, onClickHandler: async (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
-                width: ((_b = this.sideBarEvent) === null || _b === void 0 ? void 0 : _b.type) === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: ((_c = this.sideBarEvent) === null || _c === void 0 ? void 0 : _c.type) === 'booking' ? '#F2F3F8' : 'white',
+                width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
+                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get is() { return "ir-daily-revenue"; }

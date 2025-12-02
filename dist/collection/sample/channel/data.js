@@ -150,23 +150,34 @@ export const Map = [
     },
 ];
 export class ChannelManager {
-    constructor() {
-        this.id = '';
-        //group: string = '';
-        this.title = '';
-        this.channel = '';
-        this.property = '';
-        this.hotelId = null;
-        this.status = 'Disabled';
-        this.minimumStay = '';
-        this.RoomsMapping = [];
-    }
+    id = '';
+    //group: string = '';
+    title = '';
+    channel = '';
+    property = '';
+    hotelId = null;
+    status = 'Disabled';
+    minimumStay = '';
+    RoomsMapping = [];
 }
 export class RoomType {
-    constructor() {
-        this.selectedPlans = [];
-    }
+    id;
+    name;
+    value;
+    roomCapacity;
+    mapped;
+    mappedId;
+    mappedName;
+    ratePlans;
+    selectedPlans = [];
 }
 export class RatePlan {
+    id;
+    name;
+    value;
+    price;
+    mapped;
+    mappedId;
+    mappedName;
 }
 //# sourceMappingURL=data.js.map

@@ -24,15 +24,23 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.bookingService = new BookingService();
     }
+    booking;
+    service;
+    s_service;
+    error;
+    fromDateClicked;
+    toDateClicked;
+    closeModal;
+    resetBookingEvt;
+    bookingService = new BookingService();
     // private d1: HTMLDivElement;
     // private d1_0: HTMLDivElement;
     // private d2_0: HTMLDivElement;
     // private d2: HTMLInputElement;
     componentWillLoad() {
         if (this.service) {
-            this.s_service = Object.assign({}, this.service);
+            this.s_service = { ...this.service };
         }
     }
     async saveAmenity() {
@@ -65,25 +73,23 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
                 currency_id: this.booking.currency.id,
             };
         }
-        this.s_service = Object.assign(Object.assign({}, prevService), params);
+        this.s_service = { ...prevService, ...params };
     }
     validatePrice() {
-        var _a, _b, _c, _d;
-        if (((_a = this.s_service) === null || _a === void 0 ? void 0 : _a.price) === undefined || ((_c = (_b = this.s_service) === null || _b === void 0 ? void 0 : _b.price) === null || _c === void 0 ? void 0 : _c.toString()) === '') {
+        if (this.s_service?.price === undefined || this.s_service?.price?.toString() === '') {
             return false;
         }
         const priceSchema = ExtraServiceSchema.pick({ price: true });
-        const result = priceSchema.safeParse({ price: (_d = this.s_service) === null || _d === void 0 ? void 0 : _d.price });
+        const result = priceSchema.safeParse({ price: this.s_service?.price });
         return result.success;
     }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
-        return (h("form", { key: '3362c4d8befe14e37e67a1c238e6398f42a7b25b', class: 'sheet-container', onSubmit: async (e) => {
+        return (h("form", { key: 'a9f2457343028b4534f128ff1c1849987bc76d67', class: 'sheet-container', onSubmit: async (e) => {
                 e.preventDefault();
                 await this.saveAmenity();
-            } }, h("ir-title", { key: 'bb266a88b9d335cc4820c2e82f7b5262164cacc1', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_ExtraServices, displayContext: "sidebar" }), h("section", { key: '5a635083487888f10ce3ca9a5f014d64c2b9ab0a', class: 'px-1 sheet-body' }, h("fieldset", { key: 'cafa71dc4f2c4c35bd789d483880efa98cbb5e40', class: "input-group mb-1 service-description" }, h("div", { key: '548e77df0ee8320754a49ac31d9cd912f57a0ff6', class: "input-group-prepend" }, h("span", { key: '1e7d269e7c464c782b7a3a65c8ebc2d9a96aa805', class: "input-group-text" }, locales.entries.Lcz_Description)), h("textarea", { key: '36a807fe405f7668e1ac0415803ac9af624c207e', value: (_a = this.s_service) === null || _a === void 0 ? void 0 : _a.description, class: `form-control service-description-input ${this.error && !((_b = this.s_service) === null || _b === void 0 ? void 0 : _b.description) ? 'is-invalid' : ''}`, style: { height: '7rem' }, maxLength: 250, onChange: e => this.updateService({ description: e.target.value }), "aria-label": "Amenity description" })), h("div", { key: '7d4318f65fd4c3c3e7d8c91bee5cea6c55ef90f3', class: 'row-group mb-1' }, h("div", { key: '1ba4c0855563408bfc70ac97a3dba171da4f8ee6', class: "input-group" }, h("div", { key: '3f9c9ca1806f8fafb70146fd4ed9cc7c0268ef3d', class: "input-group-prepend" }, h("span", { key: '3e1a8f2a4d15bb6dfc834df16e48e81b034f6702', class: "input-group-text", id: "basic-addon1" }, locales.entries.Lcz_DatesOn)), h("div", { key: '079e2fea681660ecfef782a55344f9891184951f',
+            } }, h("ir-title", { key: '4f9c72da0800f7f5a301c09c0a5fa6d63f49e3a4', class: "px-1 sheet-header", onCloseSideBar: () => this.closeModal.emit(null), label: locales.entries.Lcz_ExtraServices, displayContext: "sidebar" }), h("section", { key: 'd47447f62b909a15476cabcab9549549be3eb652', class: 'px-1 sheet-body' }, h("fieldset", { key: '01f3a9bbdef7e869e24da6214dcc0de17a9c8de1', class: "input-group mb-1 service-description" }, h("div", { key: 'c765c79af200a38b0733a7ca35872e6146e20859', class: "input-group-prepend" }, h("span", { key: '2891ed710b3e10b911419c14447550bacf7b0ddb', class: "input-group-text" }, locales.entries.Lcz_Description)), h("textarea", { key: '8b23ac5ac06a363be1b4f0b790b9799812df5e23', value: this.s_service?.description, class: `form-control service-description-input ${this.error && !this.s_service?.description ? 'is-invalid' : ''}`, style: { height: '7rem' }, maxLength: 250, onChange: e => this.updateService({ description: e.target.value }), "aria-label": "Amenity description" })), h("div", { key: 'c0c777cb8d7fc3b2e376037c8e2a5d050223b3a7', class: 'row-group mb-1' }, h("div", { key: '0ee671e7cca2b679ad7a2f2cdc084242e27c7374', class: "input-group" }, h("div", { key: '51ffad1365f75ff41373f993c05300017eb32d5c', class: "input-group-prepend" }, h("span", { key: '951a2d81689665c8533a5766fca3cd84af208bc3', class: "input-group-text", id: "basic-addon1" }, locales.entries.Lcz_DatesOn)), h("div", { key: '341ff98c8fe05b127797d8473ede15e3f7bd23b2',
             // ref={el => (this.d1_0 = el)}
-            class: "form-control p-0 m-0 d-flex align-items-center justify-content-center date-from" }, h("div", { key: '7770c74b0ed91717b9e9aae182d500a4df509e48', class: "service-date-container" }, h("ir-date-picker", { key: 'af4afc84e3345a852df3b6ad8a2f2350af235139',
+            class: "form-control p-0 m-0 d-flex align-items-center justify-content-center date-from" }, h("div", { key: 'a962664dbc4d9f25486e618ee83f8b25b6e4a46b', class: "service-date-container" }, h("ir-date-picker", { key: 'f58a9ef303d53fb490fd37455f10d0c93854608e',
             // onDatePickerFocus={() => {
             //   this.d1?.classList.add('date-focused');
             //   this.d1_0?.classList.add('date-focused');
@@ -93,15 +99,15 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
             //   this.d1_0?.classList.remove('date-focused');
             // }}
             // customPicker
-            emitEmptyDate: true, date: (_c = this.s_service) === null || _c === void 0 ? void 0 : _c.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => { var _a; return this.updateService({ start_date: (_a = e.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') }); } }, h("input", { key: 'e7da66a9266f67a9bd8a28554bf7c670f8d9cb4f',
+            emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') }) }, h("input", { key: '96bd63835abf41f306ad2e34a4af129f02e6d646',
             // ref={el => (this.d1 = el)}
-            type: "text", slot: "trigger", value: ((_d = this.s_service) === null || _d === void 0 ? void 0 : _d.start_date) ? _formatDate(this.s_service.start_date) : null, style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%', borderRadius: '0' }, class: "text-center w-100 form-control input-sm" })), ((_e = this.s_service) === null || _e === void 0 ? void 0 : _e.start_date) && (h("div", { key: 'd8832261ad8fe8c53057c2f28e2444d5822e5f26', class: "btn-container" }, h("ir-button", { key: 'f2af93b6b53e1b5ed5665b39c314d762424dac53', title: "clear", id: "close", variant: "icon", style: { '--icon-size': '0.875rem' }, icon_name: "xmark-fill", class: "ml-2", onClickHandler: e => {
+            type: "text", slot: "trigger", value: this.s_service?.start_date ? _formatDate(this.s_service.start_date) : null, style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%', borderRadius: '0' }, class: "text-center w-100 form-control input-sm" })), this.s_service?.start_date && (h("div", { key: '069f562aac2bb480a5c6411f79d45f980625c7cf', class: "btn-container" }, h("ir-button", { key: '2ac0dcd1b21f387d70931ab2d9bb898d8f88db61', title: "clear", id: "close", variant: "icon", style: { '--icon-size': '0.875rem' }, icon_name: "xmark-fill", class: "ml-2", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateService({ start_date: null });
-            } })))))), h("div", { key: '01dffa85f109d63c48be011d8d65aa305e2f23dd', class: "input-group" }, h("div", { key: '7cc37ab4912eb724f790c5c1fac49f0020f76fe1', class: "input-group-prepend " }, h("span", { key: '27aa18290701271cbad9e7c3293e55f23fc7c86c', class: "input-group-text until-prepend", id: "basic-addon1" }, locales.entries.Lcz_TillAndIncluding)), h("div", { key: 'a2b198c28f279a0e83c0b6cf48e0db2564546f84',
+            } })))))), h("div", { key: '2e0e43ad2e3ea0cb792ab45ef82c79cc72fbd4ed', class: "input-group" }, h("div", { key: '1369d25f46d08c1c06b4eb322dd9d7f6f0738e19', class: "input-group-prepend " }, h("span", { key: 'fd13bba687811de0f4022754c7ec78a4ae527dd1', class: "input-group-text until-prepend", id: "basic-addon1" }, locales.entries.Lcz_TillAndIncluding)), h("div", { key: '6e28f1a1bc6bd7fb02d447ca1ffb7c15a1e58add',
             // ref={el => (this.d2_0 = el)}
-            class: "form-control p-0 m-0 d-flex align-items-center justify-content-center" }, h("div", { key: '17f99c159e7a71b4d2d7db8ff84ebc444c8922dd', class: "service-date-container" }, h("ir-date-picker", { key: 'f9a44c5aa0003f8fd8bd45d863d5ea2c51a1c873',
+            class: "form-control p-0 m-0 d-flex align-items-center justify-content-center" }, h("div", { key: '44571c2d41f2e22026ba09324f8b88ed334a7a53', class: "service-date-container" }, h("ir-date-picker", { key: '9be8282c826a0517bf739be8297743812ed7c7cc',
             // onDatePickerFocus={() => {
             //   this.d2?.classList.add('date-focused');
             //   this.d2_0?.classList.add('date-focused');
@@ -110,20 +116,19 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
             //   this.d2?.classList.remove('date-focused');
             //   this.d2_0?.classList.remove('date-focused');
             // }}
-            emitEmptyDate: true, date: (_f = this.s_service) === null || _f === void 0 ? void 0 : _f.end_date, minDate: (_h = (_g = this.s_service) === null || _g === void 0 ? void 0 : _g.start_date) !== null && _h !== void 0 ? _h : this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
-                var _a;
+            emitEmptyDate: true, date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.updateService({ end_date: (_a = e.detail.start) === null || _a === void 0 ? void 0 : _a.format('YYYY-MM-DD') });
-            } }, h("input", { key: '7adc89ba6f50863027e9d0b4827105edebd1bc29',
+                this.updateService({ end_date: e.detail.start?.format('YYYY-MM-DD') });
+            } }, h("input", { key: '5a3f0a59cd5bbaed443ffbc40c9f677338aaf50c',
             // ref={el => (this.d2 = el)}
-            slot: "trigger", value: ((_j = this.s_service) === null || _j === void 0 ? void 0 : _j.end_date) ? _formatDate(this.s_service.end_date) : null, style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%' }, class: "text-center form-control input-sm" })), ((_k = this.s_service) === null || _k === void 0 ? void 0 : _k.end_date) && (h("div", { key: '7d90be3c86239cdb553dcfede7e72e51de3c9cba', class: "btn-container" }, h("ir-button", { key: 'efaceb653039ed320004799e1f684dd2c6a9ff53', title: "clear", id: "close", variant: "icon", style: { '--icon-size': '0.875rem' }, icon_name: "xmark-fill", class: "ml-2", onClickHandler: e => {
+            slot: "trigger", value: this.s_service?.end_date ? _formatDate(this.s_service.end_date) : null, style: { borderLeftWidth: '0', borderRightWidth: '0', width: '100%' }, class: "text-center form-control input-sm" })), this.s_service?.end_date && (h("div", { key: '8986b4f88423b3bd0379b1c9175119a73e909e60', class: "btn-container" }, h("ir-button", { key: '7fa2f61b8a6d227b5385f3ec82e7fdbc8afd0829', title: "clear", id: "close", variant: "icon", style: { '--icon-size': '0.875rem' }, icon_name: "xmark-fill", class: "ml-2", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateService({ end_date: null });
-            } }))))))), h("div", { key: '7cce23be70134a24833f9af2aa507b44d8f26f4a', class: 'row-group' }, h("ir-price-input", { key: 'f13e1974f932a0f35df6060722feb0be105a5df6', label: "Price", currency: this.booking.currency.symbol, class: "ir-br-input-none", value: (_m = (_l = this.s_service) === null || _l === void 0 ? void 0 : _l.price) === null || _m === void 0 ? void 0 : _m.toString(), zod: ExtraServiceSchema.pick({ price: true }), "aria-label": locales.entries.Lcz_Price, wrapKey: "price", "aria-describedby": "service price", autoValidate: false, "data-state": this.error && !this.validatePrice() ? 'error' : '', onTextChange: e => this.updateService({ price: parseFloat(e.detail) }) }), h("ir-price-input", { key: 'a85ed39eef337d99a04c15bd2314bc7c0591d44f', autoValidate: false, label: locales.entries.Lcz_Cost, labelStyle: "rounded-0 border-left-0", currency: this.booking.currency.symbol,
+            } }))))))), h("div", { key: '67282a6183adf56e0d414df1c2d7ac407eb6e2a1', class: 'row-group' }, h("ir-price-input", { key: '46979233cb7a8da159d7777f364d653a2321e1ca', label: "Price", currency: this.booking.currency.symbol, class: "ir-br-input-none", value: this.s_service?.price?.toString(), zod: ExtraServiceSchema.pick({ price: true }), "aria-label": locales.entries.Lcz_Price, wrapKey: "price", "aria-describedby": "service price", autoValidate: false, "data-state": this.error && !this.validatePrice() ? 'error' : '', onTextChange: e => this.updateService({ price: parseFloat(e.detail) }) }), h("ir-price-input", { key: '4aff7f5fb47b6fa2bc900a0f711c4b276f87b809', autoValidate: false, label: locales.entries.Lcz_Cost, labelStyle: "rounded-0 border-left-0", currency: this.booking.currency.symbol,
             // class="ir-bl-lbl-none ir-bl-none"
-            value: (_p = (_o = this.s_service) === null || _o === void 0 ? void 0 : _o.cost) === null || _p === void 0 ? void 0 : _p.toString(), zod: ExtraServiceSchema.pick({ cost: true }), onTextChange: e => this.updateService({ cost: parseFloat(e.detail) }), wrapKey: "cost", "aria-label": "Cost", "aria-describedby": "service cost" }))), h("div", { key: 'b2532397fc50f1155d4978154f502c99df7309ed', class: 'sheet-footer' }, h("ir-button", { key: 'e93f2d06038e7868a2980797f6636685491d2fd0', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: 'ddcdfb3b75c75cfcd3c3f355c054d374b1fcbcd2', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', btn_type: "submit", isLoading: isRequestPending('/Do_Booking_Extra_Service'), text: locales.entries.Lcz_Save, btn_color: "primary" }))));
+            value: this.s_service?.cost?.toString(), zod: ExtraServiceSchema.pick({ cost: true }), onTextChange: e => this.updateService({ cost: parseFloat(e.detail) }), wrapKey: "cost", "aria-label": "Cost", "aria-describedby": "service cost" }))), h("div", { key: '4a5e6cf1e967941b94b89e68b78d66f1ed562524', class: 'sheet-footer' }, h("ir-button", { key: 'd9fc3bad508998a4d3654c173c808188e0612191', onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary" }), h("ir-button", { key: 'bab500b8a51abf93e4fe828b4f565bac534ffa0f', btn_styles: "justify-content-center align-items-center", class: 'flex-fill', btn_type: "submit", isLoading: isRequestPending('/Do_Booking_Extra_Service'), text: locales.entries.Lcz_Save, btn_color: "primary" }))));
     }
     static get style() { return IrExtraServiceConfigStyle0 + IrExtraServiceConfigStyle1; }
 }, [2, "ir-extra-service-config", {

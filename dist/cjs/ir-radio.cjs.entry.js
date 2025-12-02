@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-7a66eda1.js');
+const index = require('./index-3978a3f8.js');
 const v4 = require('./v4-9b297151.js');
 
 const irRadioCss = ".sc-ir-radio-h{display:block}.checkmark.sc-ir-radio{top:50% !important;transform:translateY(-50%) !important}";
@@ -12,19 +12,45 @@ const IrRadio = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
         this.checkChange = index.createEvent(this, "checkChange", 7);
-        /**
-         * Whether the checkbox is checked.
-         */
-        this.checked = false;
-        /**
-         * The unique ID of the checkbox element.
-         */
-        this.radioBoxId = v4.v4();
-        /**
-         * Internal state tracking whether the checkbox is currently checked.
-         */
-        this.currentChecked = false;
     }
+    get el() { return index.getElement(this); }
+    /**
+     * Whether the checkbox is checked.
+     */
+    checked = false;
+    /**
+     * The label text associated with the checkbox.
+     */
+    label;
+    /**
+     * The unique ID of the checkbox element.
+     */
+    radioBoxId = v4.v4();
+    /**
+     * The name attribute of the checkbox, used for form submission.
+     */
+    name;
+    /**
+     * Whether the checkbox is in an indeterminate state.
+     */
+    indeterminate;
+    /**
+     * Disables the checkbox when true.
+     */
+    disabled;
+    /**
+     * CSS class applied to the label element.
+     */
+    labelClass;
+    /**
+     * Internal state tracking whether the checkbox is currently checked.
+     */
+    currentChecked = false;
+    /**
+     * Emitted when the checkbox's checked state changes.
+     */
+    checkChange;
+    radioRef;
     componentWillLoad() {
         this.currentChecked = this.checked;
     }
@@ -53,11 +79,10 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h("div", { key: '2152e29b3cb9af8be408294f1cbe0325ff327c34', class: "input-group" }, index.h("label", { key: 'a616964ba280daaf700a90538bd69226e4c15a51', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '12748b5b1b1241bd9729004cd51c7eced29dd252' }, this.label), index.h("input", { key: '64c101d5d52194e54b0d287475ed87ad8e87cc42', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (index.h("div", { key: 'ec082355f215695d001b8a0c7d171c6f63c3586b', class: "input-group" }, index.h("label", { key: '171ab6414ffef1fa5376f7dd6e981d7b86ae2460', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: 'b59ec1032b973320f3ef992d1200acb6cc5caed6' }, this.label), index.h("input", { key: 'f7e1fe7c84b7ecb84f9d002e130201e49b01ca34', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: 'f7f914c199597c6dbe134c54800dc328ebdfc117', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '1502763aa8a8261e08a18cf68b62f5dfcb1d8185', class: "checkmark" }))));
     }
-    get el() { return index.getElement(this); }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
     }; }

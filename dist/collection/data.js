@@ -150,19 +150,32 @@ export const Map = [
     },
 ];
 export class ChannelManager {
-    constructor() {
-        this.id = null;
-        this.group = null;
-        this.title = null;
-        this.property = null;
-        this.hotelId = null;
-        this.minimumStay = null;
-        this.RoomsMapping = null;
-    }
+    id = null;
+    group = null;
+    title = null;
+    property = null;
+    hotelId = null;
+    minimumStay = null;
+    RoomsMapping = null;
 }
 export class RoomType {
+    id;
+    name;
+    value;
+    roomCapacity;
+    mapped;
+    mappedId;
+    mappedName;
+    ratePlans;
 }
 export class RatePlan {
+    id;
+    name;
+    value;
+    price;
+    mapped;
+    mappedId;
+    mappedName;
 }
 // OLD
 // {/* <div class="col-12 mb-1">

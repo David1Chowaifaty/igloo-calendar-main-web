@@ -8,6 +8,7 @@ import { d as defineCustomElement$2 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
 class InterceptorError extends Error {
+    code;
     constructor(message, code) {
         super(message);
         this.name = 'InterceptorError';
@@ -25,35 +26,60 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         super();
         this.__registerHost();
         this.toast = createEvent(this, "toast", 7);
-        /**
-         * List of endpoint paths that should trigger loader logic and OTP handling.
-         */
-        this.handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
-        /**
-         * List of endpoints for which to suppress toast messages.
-         */
-        this.suppressToastEndpoints = [];
-        /**
-         * Indicates whether the loader is visible.
-         */
-        this.isShown = false;
-        /**
-         * Global loading indicator toggle.
-         */
-        this.isLoading = false;
-        /**
-         * Indicates if the intercepted request involves unassigned units.
-         */
-        this.isUnassignedUnit = false;
-        /**
-         * Count of `/Get_Exposed_Calendar` calls in progress.
-         */
-        this.endpointsCount = 0;
-        /**
-         * Identifier of the endpoint that manually disabled page loader.
-         */
-        this.isPageLoadingStopped = null;
     }
+    /**
+     * List of endpoint paths that should trigger loader logic and OTP handling.
+     */
+    handledEndpoints = ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit'];
+    /**
+     * List of endpoints for which to suppress toast messages.
+     */
+    suppressToastEndpoints = [];
+    /**
+     * Indicates whether the loader is visible.
+     */
+    isShown = false;
+    /**
+     * Global loading indicator toggle.
+     */
+    isLoading = false;
+    /**
+     * Indicates if the intercepted request involves unassigned units.
+     */
+    isUnassignedUnit = false;
+    /**
+     * Count of `/Get_Exposed_Calendar` calls in progress.
+     */
+    endpointsCount = 0;
+    /**
+     * Identifier of the endpoint that manually disabled page loader.
+     */
+    isPageLoadingStopped = null;
+    /**
+     * Controls visibility of the OTP modal.
+     */
+    showModal;
+    /**
+     * Request path (used in OTP handling).
+     */
+    requestUrl;
+    /**
+     * The OTP endpoint path.
+     */
+    baseOTPUrl;
+    /**
+     * Email for OTP prompt.
+     */
+    email;
+    /**
+     * Emits a toast notification (`type`, `title`, `description`, `position`).
+     */
+    toast;
+    otpModal;
+    pendingConfig;
+    pendingResolve;
+    pendingReject;
+    response;
     handleStopPageLoading(e) {
         this.isLoading = false;
         this.isPageLoadingStopped = e.detail;
@@ -113,7 +139,6 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
      * - Handles OTP flows and exception messages
      */
     async handleResponse(response) {
-        var _a;
         const extractedUrl = this.extractEndpoint(response.config.url);
         if (this.isHandledEndpoint(extractedUrl)) {
             this.isLoading = false;
@@ -126,7 +151,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         if (response.data.ExceptionCode === 'OTP') {
             return this.handleOtpResponse({ response, extractedUrl });
         }
-        if ((_a = response.data.ExceptionMsg) === null || _a === void 0 ? void 0 : _a.trim()) {
+        if (response.data.ExceptionMsg?.trim()) {
             this.handleResponseExceptions({ response, extractedUrl });
         }
         return response;
@@ -170,8 +195,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
             this.pendingResolve = resolve;
             this.pendingReject = reject;
             setTimeout(() => {
-                var _a;
-                (_a = this.otpModal) === null || _a === void 0 ? void 0 : _a.openModal();
+                this.otpModal?.openModal();
             }, 10);
         });
     }
@@ -220,7 +244,10 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
             }
             else {
                 try {
-                    const retryConfig = Object.assign(Object.assign({}, this.pendingConfig), { data: typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {} });
+                    const retryConfig = {
+                        ...this.pendingConfig,
+                        data: typeof this.pendingConfig.data === 'string' ? JSON.parse(this.pendingConfig.data) : this.pendingConfig.data || {},
+                    };
                     const resp = await axios.request(retryConfig);
                     this.pendingResolve(resp);
                 }
@@ -237,7 +264,7 @@ const IrInterceptor = /*@__PURE__*/ proxyCustomElement(class IrInterceptor exten
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '678f4db6e30faa3d46032cb5812a97e069f59931' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'd9095a8231cb2ef40e4ec7ca69628097ada99602', class: "loadingScreenContainer" }, h("div", { key: '5df01ce51fd0b94eef224e43083010507d573482', class: "loaderContainer" }, h("span", { key: '56bd853ae009dcfb9b2837c068f08b657e9023f8', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: '0cd4c5b14ef47f88b1b0e3ad5cd73aac528991a0', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '8ec017c4185e1c33de847dce815cb64a57df1d3f' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '50d4a7269816c99f974e3e06c0b57dab4ca70c93', class: "loadingScreenContainer" }, h("div", { key: 'fd5185c6821c6147bedd561434f5e1874d1af39b', class: "loaderContainer" }, h("span", { key: '1b12f1244f6cda6bdacf9bd73c2d6a1b2e043dec', class: "page-loader" })))), this.showModal && (h("ir-otp-modal", { key: 'd9139a16df5f37648061460b21e0618885dfaa89', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
     static get style() { return IrInterceptorStyle0; }
 }, [2, "ir-interceptor", {
