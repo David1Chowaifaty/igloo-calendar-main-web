@@ -1,8 +1,8 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 export class IrLoadingScreen {
     message = '';
     render() {
-        return (h(Host, { key: 'e32d443dd0e1a5f31aeb5084b79f8408cad60129' }, h("span", { key: 'ec7f9c358a0d4151ffbb2ec2b1b87c77c8776d71', class: "loader" })));
+        return (h("div", { key: '4acb4828a3d96dfd08ea808402d3f472147cb332', class: "loader__container" }, h("wa-spinner", { key: '2c9f2b3540e00acac6b987d8c32378a41ef7e1f3', style: { fontSize: '2.5rem' } })));
     }
     static get is() { return "ir-loading-screen"; }
     static get encapsulation() { return "scoped"; }

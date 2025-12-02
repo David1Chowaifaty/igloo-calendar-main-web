@@ -70,7 +70,7 @@ export class IrUnitTag {
         }
     }
     render() {
-        return (h(Fragment, { key: '8fda668a98385918d11be4496caa4722eff650f5' }, this.showTooltip && h("wa-tooltip", { key: '818850e9a86e4449c251404e359174c0b875e401', for: this._id }, this.unit), h("wa-tag", { key: '8c0f06955a1e89e360b680e64e456b0cccef852e', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: '45fa0e5ebd2940c660d4ac6ff1c5a3c8ebeb46ed', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (h(Fragment, { key: '54616022bbc3280cd9acd75129b007e212d08cf9' }, this.showTooltip && h("wa-tooltip", { key: 'cb7b2eecb2f67a9523f66d8848a32634f55ce9e8', for: this._id }, this.unit), h("wa-tag", { key: 'f4fc2de73695f59361a669757b0ab6f131af7861', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: '3c1f89d50e2e2afee81c5bbeeb97ac250172b4e0', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get is() { return "ir-unit-tag"; }
     static get encapsulation() { return "scoped"; }

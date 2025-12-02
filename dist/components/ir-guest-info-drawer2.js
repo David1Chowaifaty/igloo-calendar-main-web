@@ -4,18 +4,18 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
+import { g as guestInfoFormSchema, d as defineCustomElement$6 } from './ir-guest-info-form2.js';
 import { d as defineCustomElement$a } from './ir-country-picker2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
 import { d as defineCustomElement$8 } from './ir-custom-input2.js';
 import { d as defineCustomElement$7 } from './ir-drawer2.js';
-import { d as defineCustomElement$6 } from './ir-guest-info-form2.js';
 import { d as defineCustomElement$5 } from './ir-input-text2.js';
 import { d as defineCustomElement$4 } from './ir-mobile-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
-import { d as defineCustomElement$1 } from './ir-spinner2.js';
+import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irGuestInfoDrawerCss = ":host{display:block}.drawer-form{margin:0}.drawer-loading{display:flex;align-items:center;justify-content:center;padding:2rem 1rem}.drawer-footer{display:flex;gap:0.5rem}";
+const irGuestInfoDrawerCss = ":host{display:block}.drawer-form{margin:0}.drawer-loading{display:flex;align-items:center;justify-content:center;padding:2rem 1rem}.drawer-footer{display:flex;gap:0.5rem}.loading-container{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
 const IrGuestInfoDrawerStyle0 = irGuestInfoDrawerCss;
 
 const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDrawer extends HTMLElement {
@@ -95,6 +95,8 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
         this.guest = event.detail;
     };
     handleDrawerHide = (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
         this.guestInfoDrawerClosed.emit({ source: event.detail?.source ?? this.hostElement });
     };
     handleCancel = () => {
@@ -103,6 +105,7 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     async editGuest() {
         try {
             this.autoValidate = true;
+            guestInfoFormSchema.parse(this.guest);
             await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
             this.toast.emit({
                 type: 'success',
@@ -119,7 +122,14 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: 'caeae6da163a71515eb1955f02b0202c9d07833c', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide }, this.isLoading ? (h("div", { class: "drawer-loading" }, h("ir-spinner", null))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, onGuestChanged: this.handleGuestChanged })), h("div", { key: 'a4e700a5896ca9f865855549cb8db0294ed21787', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '8081d7576c9119e5a3e86f7e18fdf73a869bcaa4', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '6fd76cd766cac8ab1a38bb0412afadaf54a78f89', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+        return (h("ir-drawer", { key: 'b4334369657981b73abffd318fd9c5171ed2a8b6', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+                '--ir-drawer-width': '40rem',
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '2f4f7f675b291a1d606baf8a8dc248d172788a85', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fc198fe1c191ead362b3dbb5a1b727524677f14e', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e20fa9320cea714353918c235a4cb43d648877d2', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"],
@@ -144,7 +154,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-custom-input", "ir-drawer", "ir-guest-info-form", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-spinner"];
+    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-custom-input", "ir-drawer", "ir-guest-info-form", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info-drawer":
             if (!customElements.get(tagName)) {
@@ -196,7 +206,7 @@ function defineCustomElement() {
                 defineCustomElement$2();
             }
             break;
-        case "ir-spinner":
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

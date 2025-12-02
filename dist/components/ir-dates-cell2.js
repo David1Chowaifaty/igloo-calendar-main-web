@@ -17,7 +17,7 @@ const IrDatesCell = /*@__PURE__*/ proxyCustomElement(class IrDatesCell extends H
         return hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY');
     }
     render() {
-        return (h(Host, { key: '23bfcd385e9540f66c5a70c946209ba2b72c94d9' }, h("p", { key: '60c3bf8cb202b5ff35351cc09e9c6dc48645a82c', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn)), h("p", { key: '60e7d0d6c7413e44d4ab073b5eeda9d0914f7891', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut))));
+        return (h(Host, { key: 'b854ca07b71c67e629d02209a9acb7e050609b35' }, h("p", { key: '250b4b7f9ae2694565e86b09ef219364205fc7d0', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn)), h("p", { key: '2167dffbafc6244041ea3bcd3e059deefee26332', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut))));
     }
     static get style() { return IrDatesCellStyle0; }
 }, [2, "ir-dates-cell", {

@@ -3117,7 +3117,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (index.h(index.Host, { key: '2673711f85d58e50db64e8c837c8c526fd10df2b', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'ca83f3ace8a1389a3b62a3559676dc1771a64e4c', ref: el => {
+        return (index.h(index.Host, { key: 'd7414809ad3078507e68d327186604e9a8e745b3', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '37d1123897ac5a22e6324ed3189fbe9c898cc273', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -3129,12 +3129,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, index.h("span", { key: 'b68e74d31af9f168841c80ed75c74fb6c7b4042e', class: "cropped-title", style: {
+            } }, index.h("span", { key: '91aa0c9fc5153646bb6d4c4e83273181ff35c380', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (index.h("div", { key: '2b4ecbddd1630c3dc7da4b9bef583cd03de59c95', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '1ba9eb91ece8d43141b103128566b96e64cd7e15', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'b1e816d7d165452dba921b2f589108815caa0b82', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '115394677f528d2d9b565648eb1d7618cbc1d164', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -3449,7 +3449,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'd049b5b82d2e38284cb5e3c5cbe49308c3081ea9' }, this.phase === 'spinner' ? (index.h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (index.h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (index.h(index.Host, { key: '1f7fd3fb050f0b9eaad2eabfdcb576662f43ab25' }, this.phase === 'spinner' ? (index.h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (index.h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

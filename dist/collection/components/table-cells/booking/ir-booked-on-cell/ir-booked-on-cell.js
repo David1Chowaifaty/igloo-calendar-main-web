@@ -5,7 +5,7 @@ export class IrBookedOnCell {
     bookedOn;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: '86e48cd6c99e7d99ad439d3b036596da14d54d89' }, h("p", { key: '5e9d8ed7bd95744e956cd2befa02678710c6fe8a', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '107e67c1d31fbdc4ff37628e6ef376bc4860ce96', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: '1945ab030d0baaffc51b19980246b513aabb4df4' }, h("p", { key: '6530cb13bab5377c83df4191ac2af7853f757b99', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '949184390e752ccd549209b5fa661c8eb77d7999', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
     static get is() { return "ir-booked-on-cell"; }
     static get encapsulation() { return "scoped"; }

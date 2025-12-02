@@ -20,7 +20,7 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
     currencySymbol;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '67cc3fbb19cfc3ecfa7d3e65a51ec57f4fe4173a' }, h("p", { key: '303b0acdabb699c28af05553d9a9e45567b623a4', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: 'd2df60c29934d8aec3c43c4259952a8f6ff46099', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '2ea63693ffb865d939f3ab026a72892a5bbc7607' }, h("p", { key: 'ffd7ec34c15e89655f05e16510ef56b51ae93db7', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: '6c1faf957740334caa120268e298ab1713c78c05', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -36,7 +36,7 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': '0.5rem' }, size: "small", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                }, style: { '--ir-c-btn-height': '1.3125rem' }, size: "small", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
             : this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,

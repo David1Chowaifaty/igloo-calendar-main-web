@@ -4,6 +4,7 @@ import { RoomService } from "../../../services/room.service";
 import locales from "../../../stores/locales.store";
 import Token from "../../../models/Token";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
+import { guestInfoFormSchema } from "../ir-guest-info-form/types";
 export class IrGuestInfoDrawer {
     open;
     language = 'en';
@@ -73,6 +74,8 @@ export class IrGuestInfoDrawer {
         this.guest = event.detail;
     };
     handleDrawerHide = (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
         this.guestInfoDrawerClosed.emit({ source: event.detail?.source ?? this.hostElement });
     };
     handleCancel = () => {
@@ -81,6 +84,7 @@ export class IrGuestInfoDrawer {
     async editGuest() {
         try {
             this.autoValidate = true;
+            guestInfoFormSchema.parse(this.guest);
             await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
             this.toast.emit({
                 type: 'success',
@@ -97,7 +101,14 @@ export class IrGuestInfoDrawer {
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: 'caeae6da163a71515eb1955f02b0202c9d07833c', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide }, this.isLoading ? (h("div", { class: "drawer-loading" }, h("ir-spinner", null))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, onGuestChanged: this.handleGuestChanged })), h("div", { key: 'a4e700a5896ca9f865855549cb8db0294ed21787', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '8081d7576c9119e5a3e86f7e18fdf73a869bcaa4', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '6fd76cd766cac8ab1a38bb0412afadaf54a78f89', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+        return (h("ir-drawer", { key: 'b4334369657981b73abffd318fd9c5171ed2a8b6', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+                '--ir-drawer-width': '40rem',
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '2f4f7f675b291a1d606baf8a8dc248d172788a85', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fc198fe1c191ead362b3dbb5a1b727524677f14e', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e20fa9320cea714353918c235a4cb43d648877d2', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get is() { return "ir-guest-info-drawer"; }
     static get encapsulation() { return "shadow"; }

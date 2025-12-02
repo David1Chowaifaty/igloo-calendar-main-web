@@ -90,7 +90,14 @@ const IrDepartures = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;
-            }, withoutHeader: true, open: !!this.bookingNumber, style: { '--ir-drawer-width': '80rem', '--ir-drawer-background-color': '#F2F3F8', '--ir-drawer-padding-left': '0', '--ir-drawer-padding-right': '0' } }, this.bookingNumber && (index.h("ir-booking-details", { hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.bookingNumber = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))), index.h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+            }, withoutHeader: true, open: !!this.bookingNumber, style: {
+                '--ir-drawer-width': '80rem',
+                '--ir-drawer-background-color': '#F2F3F8',
+                '--ir-drawer-padding-left': '0',
+                '--ir-drawer-padding-right': '0',
+                '--ir-drawer-padding-top': '0',
+                '--ir-drawer-padding-bottom': '0',
+            } }, this.bookingNumber && (index.h("ir-booking-details", { hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.bookingNumber = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))), index.h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
                 this.payment = null;
             } })));

@@ -248,7 +248,14 @@ export class IrBookingListing {
         if (this.isLoading || this.ticket === '') {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-drawer", { style: { '--ir-drawer-width': '80rem', '--ir-drawer-background-color': '#F2F3F8', '--ir-drawer-padding-left': '0', '--ir-drawer-padding-right': '0' }, onDrawerHide: e => {
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-drawer", { style: {
+                '--ir-drawer-width': '80rem',
+                '--ir-drawer-background-color': '#F2F3F8',
+                '--ir-drawer-padding-left': '0',
+                '--ir-drawer-padding-top': '0',
+                '--ir-drawer-padding-bottom': '0',
+                '--ir-drawer-padding-right': '0',
+            }, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.editBookingItem = null;
