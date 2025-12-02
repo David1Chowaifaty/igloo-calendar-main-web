@@ -1,0 +1,197 @@
+import Token from "../../models/Token";
+import { BookingService } from "../../services/booking.service";
+import { RoomService } from "../../services/room.service";
+import { Host, h } from "@stencil/core";
+import { arrivalsStore } from "../../stores/arrivals.store";
+export class IrArrivals {
+    ticket;
+    propertyid;
+    language = 'en';
+    p;
+    bookingNumber;
+    booking;
+    paymentEntries;
+    isPageLoading;
+    payment;
+    tokenService = new Token();
+    roomService = new RoomService();
+    bookingService = new BookingService();
+    paymentFolioRef;
+    componentWillLoad() {
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue && newValue) {
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleBookingPayment(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { booking_nbr, payment } = e.detail;
+        this.booking = arrivalsStore.bookings.find(b => b.booking_nbr === booking_nbr);
+        this.payment = payment;
+        this.paymentFolioRef.openFolio();
+    }
+    handleOpen(e) {
+        this.bookingNumber = e.detail;
+    }
+    async init() {
+        try {
+            this.isPageLoading = true;
+            const [_, __, setupEntries] = await Promise.all([
+                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+            ]);
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+        }
+        catch (error) {
+        }
+        finally {
+            this.isPageLoading = false;
+        }
+    }
+    render() {
+        if (this.isPageLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, null, h("ir-toast", { style: { display: 'none' } }), h("ir-interceptor", { style: { display: 'none' } }), h("h3", { class: "page-title" }, "Arrivals"), h("ir-arrivals-filters", null), h("ir-arrivals-table", null), h("ir-drawer", { onDrawerHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.bookingNumber = null;
+            }, withoutHeader: true, open: !!this.bookingNumber, style: { '--ir-drawer-width': '80rem', '--ir-drawer-background-color': '#F2F3F8', '--ir-drawer-padding-left': '0', '--ir-drawer-padding-right': '0' } }, this.bookingNumber && (h("ir-booking-details", { hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.bookingNumber = null), is_from_front_desk: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))), h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+                this.booking = null;
+                this.payment = null;
+            } })));
+    }
+    static get is() { return "ir-arrivals"; }
+    static get encapsulation() { return "scoped"; }
+    static get originalStyleUrls() {
+        return {
+            "$": ["../../assets/webawesome/component/host.css", "../../global/app.css", "ir-arrivals.css"]
+        };
+    }
+    static get styleUrls() {
+        return {
+            "$": ["../../assets/webawesome/component/host.css", "../../global/app.css", "ir-arrivals.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
+            },
+            "propertyid": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "propertyid",
+                "reflect": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "p",
+                "reflect": false
+            }
+        };
+    }
+    static get states() {
+        return {
+            "bookingNumber": {},
+            "booking": {},
+            "paymentEntries": {},
+            "isPageLoading": {},
+            "payment": {}
+        };
+    }
+    static get watchers() {
+        return [{
+                "propName": "ticket",
+                "methodName": "handleTicketChange"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "payBookingBalance",
+                "method": "handleBookingPayment",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "openBookingDetails",
+                "method": "handleOpen",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }];
+    }
+}
+//# sourceMappingURL=ir-arrivals.js.map

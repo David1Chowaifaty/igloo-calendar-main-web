@@ -1,0 +1,26 @@
+:host {
+  box-sizing: border-box !important;
+}
+
+:host *,
+:host *::before,
+:host *::after {
+  box-sizing: inherit !important;
+  padding: 0;
+  margin: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:host {
+  display: block;
+}
+.status-activity__manipulation {
+  color: var(--wa-color-danger);
+}
+.status-activity__modified,
+.status-activity__manipulation {
+  font-size: 0.875rem;
+}
