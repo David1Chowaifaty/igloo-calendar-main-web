@@ -152,7 +152,7 @@
     "components/ir-user-management/ir-user-form-panel/ir-user-form-panel.js",
     "components/ir-user-management/ir-user-management-table/ir-user-management-table.js",
     "components/table-cells/booking/ir-balance-cell/ir-balance-cell.js",
-    "components/table-cells/booking/ir-booked-by-source-cell/ir-booked-by-source-cell.js",
+    "components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell.js",
     "components/table-cells/booking/ir-booked-on-cell/ir-booked-on-cell.js",
     "components/table-cells/booking/ir-booking-number-cell/ir-booking-number-cell.js",
     "components/table-cells/booking/ir-dates-cell/ir-dates-cell.js",

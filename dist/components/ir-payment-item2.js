@@ -1,11 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { c as colorVariants, d as defineCustomElement$2 } from './ir-icons2.js';
 import { f as formatAmount } from './utils.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$4 } from './ir-button2.js';
-import { d as defineCustomElement$3 } from './ir-custom-button2.js';
-import { d as defineCustomElement$1 } from './ir-popover2.js';
+import { d as defineCustomElement$1 } from './ir-custom-button2.js';
+import { v as v4 } from './v4.js';
 
 const irPaymentItemCss = ".payment-item__payment-item.sc-ir-payment-item{display:flex;flex-direction:column;min-height:2.5rem}.payment-item__payment-item.sc-ir-payment-item p.sc-ir-payment-item{padding:0;margin:0;box-sizing:border-box}.payment-item__payment-body.sc-ir-payment-item{display:flex;flex-direction:column}.payment-item__payment-fields.sc-ir-payment-item{display:flex;align-items:center;justify-content:space-between}.payment-item__payment-body.sc-ir-payment-item .payment-item__payment-reference.sc-ir-payment-item,.payment-item__payment-body.sc-ir-payment-item .payment-item__payment-description.sc-ir-payment-item{display:none}.payment-item__payment-toolbar.sc-ir-payment-item{display:flex;align-items:center;justify-content:space-between}.payment-item__payment-toolbar.sc-ir-payment-item .payment-item__payment-amount.sc-ir-payment-item{display:none}.payment-item__action-button.sc-ir-payment-item{cursor:pointer}.payment-item__payment-amount.sc-ir-payment-item{font-weight:700;white-space:nowrap}.payment-item__payment-amount.is-credit.sc-ir-payment-item{color:#629a4c}.payment-item__payment-amount.is-debit.sc-ir-payment-item{color:#ff4961}.payment-item__payment-reference.sc-ir-payment-item{font-size:12px}@media (min-width: 640px){.payment-item__payment-item.sc-ir-payment-item{flex-direction:row;align-items:center;gap:1rem}.payment-item__payment-item.sc-ir-payment-item:hover{background:#f4f5fa}.payment-item__payment-item.sc-ir-payment-item .payment-item__payment-actions.sc-ir-payment-item{display:inline-flex}.payment-item__payment-body.sc-ir-payment-item .payment-item__payment-reference.sc-ir-payment-item,.payment-item__payment-body.sc-ir-payment-item .payment-item__payment-description.sc-ir-payment-item,.payment-item__payment-item.sc-ir-payment-item .payment-item__payment-amount.sc-ir-payment-item{display:inline-flex}.payment-item__payment-fields.sc-ir-payment-item .payment-item__payment-amount.sc-ir-payment-item,.payment-item__payment-toolbar.sc-ir-payment-item .payment-item__payment-description.sc-ir-payment-item,.payment-item__payment-item.sc-ir-payment-item .payment-item__payment-reference.sc-ir-payment-item,.payment-item__payment-actions.sc-ir-payment-item{display:none}.payment-item__payment-description.sc-ir-payment-item{padding:0 0.5rem !important}.payment-item__payment-body.sc-ir-payment-item .payment-item__payment-reference.sc-ir-payment-item{display:inline-flex;align-items:center}.payment-item__payment-body.sc-ir-payment-item{flex:1 1 0%;justify-content:flex-start}.payment-item__payment-fields.sc-ir-payment-item{justify-content:flex-start;gap:0.5rem}.payment-item__payment-toolbar.sc-ir-payment-item{gap:0.5rem;align-items:center}}";
 const IrPaymentItemStyle0 = irPaymentItemCss;
@@ -22,12 +20,13 @@ const IrPaymentItem = /*@__PURE__*/ proxyCustomElement(class IrPaymentItem exten
     editPayment;
     deletePayment;
     issueReceipt;
+    _id = v4();
     render() {
         const isCredit = this.payment.payment_type.operation === 'CR';
         const paymentDescription = (PAYMENT_TYPES_WITH_METHOD.includes(this.payment.payment_type?.code)
             ? `${this.payment.payment_type?.description}: ${this.payment.payment_method.description}`
             : this.payment.payment_type.description) ?? this.payment.designation;
-        return (h("div", { key: 'f5f1fb17e44f3e64a7c3ec9cbb51b5c1b3b3de80', class: "payment-item__payment-item" }, h("div", { key: '20cccac9f1d4b443d2452adbd1725d595f4b32f7', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: '16f57e01807c509c834aab8bb6f1b0a34584f2a1', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '233065642c8ad2a1dbe8c2118a1da873303e2751', class: "payment-item__payment-date" }, hooks(this.payment.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { key: 'a9be945b645e4557f566348b682564a4ceae4ab1', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: 'ffa2757364c11bdfa7a823075e6cae7981876885', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '539d74c9b5b9b98af9b83b1333aa86b47c0c7c55', class: "payment-item__payment-reference" }, this.payment?.reference)), h("div", { key: 'd3732954ac08555ce96e8e0ffd9340e3e790f3b6', class: "payment-item__payment-toolbar" }, h("p", { key: '751b4bb0e6a5a7759cdadc1f75c3b869e9c6faeb', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '09ef75c96a04446ffae9a5d0ebba54249774d4dd', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: 'becccaa0d347f18be45f2d0204ddf05e04b8b320', class: "payment-item__payment-actions" }, h("div", { key: '7195f03a7e2e5e2478de7d1025026d0f70d7db58', class: "d-flex align-items-center" }, h("ir-popover", { key: '3b214c2eb98af32206191f606f30950f255d1795', trigger: "hover", content: `User: ${this.payment.time_stamp.user}` }, h("ir-button", { key: '0fc6ff8d7619cc28e3b1388dc4080fb31131d269', variant: "icon", style: { 'color': colorVariants.secondary['--icon-button-color'], '--icon-size': '1.1rem' }, icon_name: "user" })), h("wa-dropdown", { key: '710213a3f48824eef553b94e77f685bbdf7eaea6', "onwa-hide": e => {
+        return (h("div", { key: '620f4a5d396b479c5c0a47bf9ce33a804dd007c2', class: "payment-item__payment-item" }, h("div", { key: 'e91fae0c7e30f9a4c9499f65c1e7b247bebc6a8b', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: '1a8ea5ff120dd779d0aea79a97ff29f06ddf00dc', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '33b5bdb4a214cad388f1474dc78a4b47532db20d', class: "payment-item__payment-date" }, hooks(this.payment.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { key: '317ef2245d9c06d10592fe003a1f204260b96af0', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: 'c47452c9805a9e819024ad882e1b71c0ccdd0338', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '3ac4aa0f94351da9b35b13533237d46dd95f1433', class: "payment-item__payment-reference" }, this.payment?.reference)), h("div", { key: '7eef822ede4225332ffaaf6a20052c1a88944a2c', class: "payment-item__payment-toolbar" }, h("p", { key: '9e128f4360c1243a5eec8c3f62216466d209ffb5', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '97569ad399f3c63de9ca1862d27ddbcfcb8ce970', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: 'f2a8bc0146a95f18e485e1fcae9476d77c21b531', class: "payment-item__payment-actions" }, h("div", { key: 'c51198da41b3b70a1a79831aedbadcf0aa72b417', class: "d-flex align-items-center" }, h("wa-tooltip", { key: 'd4384660601232c06ed5f3f3527afb6ef0a4baae', for: this._id }, "User: ", this.payment.time_stamp.user), h("wa-icon", { key: '8d4ba07c4afbb7b279a7048fe752f0a07f1988ef', name: "user", id: this._id }), h("wa-dropdown", { key: 'f85f3043d5a8f5f095ab3e909d264184826129d4', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -42,7 +41,7 @@ const IrPaymentItem = /*@__PURE__*/ proxyCustomElement(class IrPaymentItem exten
                         this.issueReceipt.emit(this.payment);
                         break;
                 }
-            } }, h("ir-custom-button", { key: '9a27feef3b8a43150bff9124e37225cd50a78093', slot: "trigger", appearance: "plain" }, h("wa-icon", { key: '2a2e0f9e8a7e76e51cce841d9d7128e4ea58602c', name: "ellipsis-vertical" })), this.payment.payment_type.code === '001' && (h("wa-dropdown-item", { key: 'e6be092fbf2916b469089ba2bd33a1c9f477980b', value: "receipt" }, h("wa-icon", { key: '9febec2a7a47bf89edc54069c7e2722e4858b71a', name: "receipt", slot: "icon" }), "Print Receipt")), h("wa-dropdown-item", { key: 'bb84b462a1992a0785bb195b345e32ce3319f2da', value: "edit" }, h("wa-icon", { key: '3d511836bc2a5ded3925fd5e9e2897d4febc8b49', slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { key: '7c9632f0e74386fcc087c121ca6173d5dca12efc', value: "delete", variant: "danger" }, h("wa-icon", { key: '7af9b2c7a5f1fe6ac6d291f61901cf40b88af542', slot: "icon", name: "trash" }), "Delete"))))), this.payment.reference && h("p", { key: '099678715b5862cf9b2bba4d4ccdf33fa21bb408', class: "payment-item__payment-reference" }, this.payment?.reference)));
+            } }, h("ir-custom-button", { key: 'b52cc30bb72426de5f3fae1c0d9f86f4f6611f79', slot: "trigger", appearance: "plain" }, h("wa-icon", { key: '41a3c56ca0923b15ef912665130b534c1a1a4580', name: "ellipsis-vertical" })), this.payment.payment_type.code === '001' && (h("wa-dropdown-item", { key: 'b3137c5f2db0cc170a7964bb9d1d8fcfa704a2aa', value: "receipt" }, h("wa-icon", { key: '7408a1afacff91afdbd4990af42dfa257cb153df', name: "receipt", slot: "icon" }), "Print Receipt")), h("wa-dropdown-item", { key: 'cf1d3f7e4058563e9c0fc74b02f7fb9ad469b9ad', value: "edit" }, h("wa-icon", { key: '80e3ee5a461dd910a6aac4618c1203d7a5466ebe', slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { key: '909e1c60fcf330439fa8b6367b92fb506233748c', value: "delete", variant: "danger" }, h("wa-icon", { key: '02f280783a79d876cce19b3a46484f34a4f470ef', slot: "icon", name: "trash" }), "Delete"))))), this.payment.reference && h("p", { key: '5d201e721dd6db32171a3f73b7dda30571d85ed1', class: "payment-item__payment-reference" }, this.payment?.reference)));
     }
     static get style() { return IrPaymentItemStyle0; }
 }, [2, "ir-payment-item", {
@@ -52,29 +51,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-item", "ir-button", "ir-custom-button", "ir-icons", "ir-popover"];
+    const components = ["ir-payment-item", "ir-custom-button"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-item":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrPaymentItem);
             }
             break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
         case "ir-custom-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$3();
-            }
-            break;
-        case "ir-icons":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$2();
-            }
-            break;
-        case "ir-popover":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

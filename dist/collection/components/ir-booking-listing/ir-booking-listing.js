@@ -12,7 +12,7 @@ export class IrBookingListing {
     language = '';
     ticket = '';
     propertyid;
-    rowCount = 10;
+    rowCount = 20;
     p;
     baseUrl;
     userType;
@@ -214,7 +214,15 @@ export class IrBookingListing {
         e.stopPropagation();
         const { booking_nbr, payment } = e.detail;
         this.booking = this.findBooking(booking_nbr);
-        this.payment = payment;
+        const paymentType = this.paymentEntries.types.find(p => p.CODE_NAME === payment.payment_type.code);
+        this.payment = {
+            ...payment,
+            payment_type: {
+                code: paymentType.CODE_NAME,
+                description: paymentType.CODE_VALUE_EN,
+                operation: paymentType.NOTES,
+            },
+        };
         this.paymentFolioRef.openFolio();
     }
     handleSelectGuestEvent(e) {
@@ -270,12 +278,12 @@ export class IrBookingListing {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-booking-listing.css", "../../global/app.css"]
+            "$": ["ir-booking-listing.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-booking-listing.css", "../../global/app.css"]
+            "$": ["ir-booking-listing.css"]
         };
     }
     static get properties() {
@@ -357,7 +365,7 @@ export class IrBookingListing {
                 "setter": false,
                 "attribute": "row-count",
                 "reflect": false,
-                "defaultValue": "10"
+                "defaultValue": "20"
             },
             "p": {
                 "type": "string",

@@ -512,12 +512,12 @@ export class IrBookingDetails {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["../../global/app.css", "ir-booking-details.css"]
+            "$": ["ir-booking-details.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["../../global/app.css", "ir-booking-details.css"]
+            "$": ["ir-booking-details.css"]
         };
     }
     static get properties() {

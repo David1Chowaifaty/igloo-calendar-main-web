@@ -250,15 +250,15 @@ export class IrInvoice {
         }))))));
     }
     render() {
-        return (h(Host, { key: 'bfdda1b0cead5a24acf5dbff986ed7c78e460ba8' }, h("ir-drawer", { key: 'a562fa87130dd4de4a62d488531846cec93667a7', label: "Invoice", open: this.open, onDrawerHide: e => {
+        return (h(Host, { key: '678e009501fec6747c01ee0a4a7f6d6c9d7ceed7' }, h("ir-drawer", { key: '45c42ff8a45326486783321b53bb848ac5d43026', label: "Invoice", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, h("form", { key: '9ce8cc0504f2e3a8ef973bd96e101202dcc240ab', ref: el => (this.invoiceFormRef = el), class: "ir-invoice__container" }, h("ir-custom-date-picker", { key: '408724ded9a66f5de23c281feb7f6b89c939df3f', label: "Date", date: moment().format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { key: '1ee8cc3972ca35e03f1d562313017dd3eaf1090e', onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { key: 'bba7ec928ab73f62c7e52b312689acb6dce18521', class: 'ir-invoice__services' }, h("p", { key: '7e5cb064f067d897af23bfb1a52b2f4e9f7834e1', class: "ir-invoice__form-control-label" }, "Choose what to invoice"), h("div", { key: '148f19c502514ae5673e9bd7620e91356fa09cac', class: "ir-invoice__services-container" }, this.renderRooms(), this.booking.pickup_info && (h("div", { key: '03baee51441ca5fc1e3487aa7bf6e8bac44852a4', class: "ir-invoice__service" }, h("wa-checkbox", { key: '593c2dfd8b2d23327c7bf25789d2af05daef1b10', class: "ir-invoice__checkbox" }, h("div", { key: '4c9d71020b3b9491bfc872c0fdf632bc7ea3fe0e' }, "Pickup")))), this.booking.extra_services?.map(extra_service => (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { class: "ir-invoice__checkbox" }, h("div", null)))))))), h("div", { key: '7d6c779a9d9badedbf2ab28cd50dc1ae196c6dd5', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '83d19863efc3560dbb7b866c3a17a3b91a388463', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, h("form", { key: '5c9b94860c8121a23db8aaadadaa098f454331b2', ref: el => (this.invoiceFormRef = el), class: "ir-invoice__container" }, h("ir-custom-date-picker", { key: '2ed42905cf4d0cccf82d34d888420921c216cd78', label: "Date", date: moment().format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { key: '65ae41ec0d5d0298cf254eff0f6b3361cff270a3', onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { key: '21d3928333189bb78b5d56e56e20e9ba6f2da35e', class: 'ir-invoice__services' }, h("p", { key: '9f68ebd963e49723ee462c6468a3d0aa477a90a0', class: "ir-invoice__form-control-label" }, "Choose what to invoice"), h("div", { key: '0d397f83776854c40bef9ce22fd8f2e51a260c1d', class: "ir-invoice__services-container" }, this.renderRooms(), this.booking.pickup_info && (h("div", { key: '006b4077bd25aa5fd1a5f58513bb1a1fdf589a9d', class: "ir-invoice__service" }, h("wa-checkbox", { key: '26faf09ac4dcf3109763d8ca4246fb47deab709c', class: "ir-invoice__checkbox" }, h("div", { key: '214ef837404fbe85fbd61c2e5c875f5f82bdbf0d' }, "Pickup")))), this.booking.extra_services?.map(extra_service => (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { class: "ir-invoice__checkbox" }, h("div", null)))))))), h("div", { key: '9e2cb975151aa015d069cc712873bfa475761133', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '538ffa5bed5a4de71488df3ea8f85effa9d0c2e8', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: 'e23b76e8a21db2810e6034f3a76b4059d8bc0329', onClickHandler: () => {
+            } }, "Cancel"), h("ir-custom-button", { key: 'ba769d5e22f91cacf6633fd63cc9317c572561fa', onClickHandler: () => {
                 this.handleConfirmInvoice(true);
-            }, size: "medium", class: "w-100 flex-fill", appearance: "outlined", variant: "brand" }, "Pro-forma invoice"), h("ir-custom-button", { key: '8e62f75a554ec14d0722daa77cfd64dd4be7ead0', onClickHandler: () => {
+            }, size: "medium", class: "w-100 flex-fill", appearance: "outlined", variant: "brand" }, "Pro-forma invoice"), h("ir-custom-button", { key: 'c512c70b0d2e638093fd0285f0aade54191381f0', onClickHandler: () => {
                 this.handleConfirmInvoice();
             }, class: "w-100 flex-fill", size: "medium", variant: "brand" }, "Confirm invoice")))));
     }
@@ -266,12 +266,12 @@ export class IrInvoice {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-invoice.css", "../../global/app.css"]
+            "$": ["ir-invoice.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-invoice.css", "../../global/app.css"]
+            "$": ["ir-invoice.css"]
         };
     }
     static get properties() {

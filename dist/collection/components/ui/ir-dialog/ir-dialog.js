@@ -83,17 +83,17 @@ export class IrDialog {
         this.irDialogAfterShow.emit();
     }
     render() {
-        return (h("wa-dialog", { key: '4c82a219f3b05384b064c8842bd4b5ae5d7670c6', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: 'ae01070cd3cbf16c6bf2ace4272601383ac29058', name: "header-actions", slot: "header-actions" }), h("slot", { key: 'e2e7b08a8d4df8c6a70362731d5654e70f4a2b82', name: "label", slot: "label" }), h("slot", { key: '6456ae316aca4171e4b977b15bd27f3ab5c25768' }), h("slot", { key: '418cf5493b84c020dcf337bf04546af3e30f0605', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '370723fd8176b4d8a5437387953aea85e5d6b362', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '1c2f536d82ae0dbabf4aad52d0d67cdc7f6b0b7c', name: "header-actions", slot: "header-actions" }), h("slot", { key: '2d48c67fe7d6595439773a4d56efa029ca536704', name: "label", slot: "label" }), h("slot", { key: '3ff9c3cec08c155690d7066370d4fb54c05a7a4b' }), h("slot", { key: 'a37b51e18da13dfd72aa97e1d61d3a43a776b226', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-dialog"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-dialog.css", "../../../global/app.css"]
+            "$": ["ir-dialog.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-dialog.css", "../../../global/app.css"]
+            "$": ["ir-dialog.css"]
         };
     }
     static get properties() {

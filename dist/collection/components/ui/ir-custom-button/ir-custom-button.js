@@ -66,23 +66,23 @@ export class IrCustomButton {
         this.clickHandler.emit(e);
     };
     render() {
-        return (h(Host, { key: 'f9295fed3a2ec3e355e2cb29129d2df409f0c75d' }, h("wa-button", { key: '6f28afbac15b7975fc2075540f8890717ed56895', ref: el => (this.buttonEl = el),
+        return (h(Host, { key: '7520d3b79fd1dbd826524c340968dd2247f0bdc7' }, h("wa-button", { key: '4b0937b060a995bd8428a15c21670d5e1168ce97', ref: el => (this.buttonEl = el),
             /* core button props */
             type: this.type, size: this.size, class: `ir__custom-button ${this.iconBtn ? '--icon' : ''} ${this.link ? '--link' : ''}`, disabled: this.disabled, appearance: this.link ? 'plain' : this.appearance, loading: this.loading, "with-caret": this.withCaret, variant: this.link ? 'brand' : this.variant, pill: this.pill,
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '1b26ae7cdc01573f753e2f8830e2ef4437d9dcb3', slot: "start", name: "start" }), h("slot", { key: 'd1187eec60396fff3cc6d6246c950959cc316bcf' }), h("slot", { key: '51691196a2f0c7eb1def9a67a6040e1c6f8903ac', slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '49df20964428d3d558156409ca23457dd6ed5250', slot: "start", name: "start" }), h("slot", { key: '43822ecbb30f76b96ab8acea6b7d828b72e34d97' }), h("slot", { key: 'c96bfb3cc1792ce5ea3f6248298757bfec19c28a', slot: "end", name: "end" }))));
     }
     static get is() { return "ir-custom-button"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-custom-button.css", "../../../global/app.css"]
+            "$": ["ir-custom-button.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-custom-button.css", "../../../global/app.css"]
+            "$": ["ir-custom-button.css"]
         };
     }
     static get properties() {

@@ -173,12 +173,12 @@ export class IrPagination {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-pagination.css", "../../global/app.css"]
+            "$": ["ir-pagination.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-pagination.css", "../../global/app.css"]
+            "$": ["ir-pagination.css"]
         };
     }
     static get properties() {

@@ -263,6 +263,11 @@ export class IrDatePicker {
             },
         });
         this.datePicker.$datepicker.style.height = '280px';
+        this.datePicker.$datepicker?.classList.add('ir-custom-date-picker__calendar');
+        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected', 'var(--wa-color-brand-50)');
+        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected-hover', 'var(--wa-color-brand-50)');
+        this.datePicker.$datepicker.style.setProperty('--adp-accent-color', 'var(--wa-color-brand-50)');
+        this.datePicker.$datepicker.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
     }
     disconnectedCallback() {
         if (this.openDatePickerTimeout) {
@@ -276,7 +281,7 @@ export class IrDatePicker {
         this.datePicker?.destroy?.();
     }
     render() {
-        return (h("div", { key: 'c2ffae0ab2b14783ce52858d6737ce04368dabb1', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'a0717654bee3ea79d489dca51b936f0e31dc5a17', name: "trigger" }), h("input", { key: 'fe8c10299f6c567c3ccdfdfccf1becd3dd830fdb', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: 'e3c38f871c8088af41ceae66e9847ac5d4a5f7ca', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: 'bbbadcfe64cbe7bd42ab00cc355b5a4076b3a53d', name: "trigger" }), h("input", { key: '33215f0e9095d10c44c324f8c10c65e80a5b8d8d', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get is() { return "ir-date-picker"; }
     static get originalStyleUrls() {

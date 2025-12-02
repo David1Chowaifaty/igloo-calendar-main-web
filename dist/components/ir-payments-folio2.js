@@ -1,10 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { H as HelpDocButton } from './HelpButton.js';
-import { d as defineCustomElement$5 } from './ir-button2.js';
-import { d as defineCustomElement$4 } from './ir-custom-button2.js';
-import { d as defineCustomElement$3 } from './ir-icons2.js';
-import { d as defineCustomElement$2 } from './ir-payment-item2.js';
-import { d as defineCustomElement$1 } from './ir-popover2.js';
+import { d as defineCustomElement$2 } from './ir-custom-button2.js';
+import { d as defineCustomElement$1 } from './ir-payment-item2.js';
 
 const irPaymentsFolioCss = ".sc-ir-payments-folio-h{display:block}.payment-divider.sc-ir-payments-folio{margin:0;padding:0}";
 const IrPaymentsFolioStyle0 = irPaymentsFolioCss;
@@ -70,34 +67,19 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payments-folio", "ir-button", "ir-custom-button", "ir-icons", "ir-payment-item", "ir-popover"];
+    const components = ["ir-payments-folio", "ir-custom-button", "ir-payment-item"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payments-folio":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrPaymentsFolio);
             }
             break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$5();
-            }
-            break;
         case "ir-custom-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-icons":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$3();
-            }
-            break;
-        case "ir-payment-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }
             break;
-        case "ir-popover":
+        case "ir-payment-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

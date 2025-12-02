@@ -51,7 +51,7 @@ export class IrBookingBillingRecipient {
         this.rooms = [..._rooms];
     }
     render() {
-        return (h(Host, { key: '84cf679ea6ff8fcc71c4ab2f60d4325b6614a1df' }, h("wa-radio-group", { key: '8f212a4d087e7e3087f4b86dc8fd5a924c4aae51', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient }, h("wa-radio", { key: 'beb22ca58a8880a4a2b39cd29e651c6ba7202ed0', appearance: "button", value: this.booking?.guest?.id?.toString() }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: r.guest.id?.toString() ?? `guest_${idx}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '8e92b38a18cc5c77fb3723877be356984287319c', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-form", { key: 'a2d98ddc5384f3534e01fc9f52b2ba80818f3069', onCompanyFormClosed: () => {
+        return (h(Host, { key: 'dfce56c7f5a2676aa1f97908810891ef054de423' }, h("wa-radio-group", { key: 'd678353b1c6f06673d525692133d825d3a3ff0f3', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient }, h("wa-radio", { key: '19ef45f05658ba546ad2b19d19c95fe96030b72a', appearance: "button", value: this.booking?.guest?.id?.toString() }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: r.guest.id?.toString() ?? `guest_${idx}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: 'a2bf64ca71e7aa3f465dc28ce2001e02c0598418', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-form", { key: '9afe76b3cc4b6f54b9f57962a65637b31a9256bb', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }
@@ -66,12 +66,12 @@ export class IrBookingBillingRecipient {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-booking-billing-recipient.css", "../../global/app.css"]
+            "$": ["ir-booking-billing-recipient.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-booking-billing-recipient.css", "../../global/app.css"]
+            "$": ["ir-booking-billing-recipient.css"]
         };
     }
     static get properties() {

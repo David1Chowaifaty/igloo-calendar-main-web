@@ -9,7 +9,7 @@ export class IrDatesCell {
         return moment(date, 'YYYY-MM-DD').format('DD MMM YYYY');
     }
     render() {
-        return (h(Host, { key: 'b854ca07b71c67e629d02209a9acb7e050609b35' }, h("p", { key: '250b4b7f9ae2694565e86b09ef219364205fc7d0', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn)), h("p", { key: '2167dffbafc6244041ea3bcd3e059deefee26332', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut))));
+        return (h(Host, { key: '4a39e3f143e96094c1447347f6a1a127c03321dd' }, h("p", { key: '30cfe3795ac2866b7046cb48cae7ef8dc4c93aa9', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn)), h("p", { key: '9afc69ee424744e3a62ed06d98ad4533bb5504fa', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut))));
     }
     static get is() { return "ir-dates-cell"; }
     static get encapsulation() { return "scoped"; }

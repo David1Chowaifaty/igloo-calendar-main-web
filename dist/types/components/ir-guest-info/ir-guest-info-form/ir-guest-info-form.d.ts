@@ -6,7 +6,7 @@ export declare class IrGuestInfoForm {
     language: string;
     countries: ICountry[];
     autoValidate: boolean;
-    guestChanged: EventEmitter<Guest>;
+    guestChanged: EventEmitter<Partial<Guest>>;
     private handleInputChange;
     render(): any;
 }

@@ -71,7 +71,7 @@ export class IrGuestInfoDrawer {
         }
     }
     handleGuestChanged = (event) => {
-        this.guest = event.detail;
+        this.guest = { ...this.guest, ...event.detail };
     };
     handleDrawerHide = (event) => {
         event.stopImmediatePropagation();
@@ -101,14 +101,14 @@ export class IrGuestInfoDrawer {
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: 'b4334369657981b73abffd318fd9c5171ed2a8b6', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: '5434ca1dac6b24e1012f46546349ab44d8815183', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '2f4f7f675b291a1d606baf8a8dc248d172788a85', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fc198fe1c191ead362b3dbb5a1b727524677f14e', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e20fa9320cea714353918c235a4cb43d648877d2', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: 'da5ec081628c9c51e1bd9867196fd6fffb765fa3', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '0b60e7331e2084e02f32037f3b53288b4e893b4f', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '4737bd0a91bd4c26a02090a7919ce0cbf67992c4', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get is() { return "ir-guest-info-drawer"; }
     static get encapsulation() { return "shadow"; }

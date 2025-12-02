@@ -9,7 +9,7 @@ export class RequirementCheck {
      */
     text = '';
     render() {
-        return (h("div", { key: 'fe4150cbe9ab67071d0367716ae461737d2d7f0b', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '5158c454eed000823522cf4e3f1c5b41332f1fcc', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '48be927ae8592c789b632b447b347276a8121838' }, this.text)));
+        return (h("div", { key: '8f3135bf92973691c85e0f4f9db86c0c563b189c', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '0faef90e86e65916d216b7d811d4840a3406692e', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: 'af9181c0aeb51487a2112a889d940689d828cbff' }, this.text)));
     }
     static get is() { return "requirement-check"; }
     static get encapsulation() { return "scoped"; }

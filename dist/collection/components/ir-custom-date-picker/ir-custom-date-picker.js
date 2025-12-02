@@ -307,17 +307,17 @@ export class IrCustomDatePicker {
     }
     render() {
         const triggerClasses = `custom-date-picker__trigger ${this.triggerContainerStyle} ${this.disabled ? 'custom-date-picker__trigger--disabled' : ''}`;
-        return (h(Host, { key: '1e3e80219c9c0754186dbc3b1dfad0141fe8986a', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: '38e286471d2666d17c15d68db959b3e713f21cd2', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-custom-input", { key: '64531936d47a73c8a956f97032f1c6c80f24e318', tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '2540de536c0c0db8e5c2f680822c59ff0295b469', name: "start", slot: "start" }), h("slot", { key: 'ed695615cea9e6159f9520d733587cfc3ebcbfa8', name: "end", slot: "end" })), h("div", { key: '5cff80b86bfa50bda51d19b090830e90d92fb63d', class: "picker-surface" }, h("div", { key: '08ab297d1efd3c2a54e1945529d538b799dd8b89', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: '3c46ed29f3c374463ebd135acdb63eeec88d3935', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
+        return (h(Host, { key: '2e702374a6d8a343e61eb43628b7029139b4a523', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: '603599a7eeb94fdf90939f554cda45843fc107af', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-custom-input", { key: 'dd859e1450cf9c827b4000ec8b53c9a6aef7561f', tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '022a5e3c940b42b878385a7eb1bc8b02149e73e6', name: "start", slot: "start" }), h("slot", { key: '04035f1c67bd9cecfc557331816ca4a5e07f4bf7', name: "end", slot: "end" })), h("div", { key: '66a065c6ecf1a5ac2a38b9c0254557bdb331d7dd', class: "picker-surface" }, h("div", { key: 'e768f0cce96f02e10701a764c67c6d820029b0b4', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: 'b4743c3567ed37b2a79713f5a1e2b8f041c10fa2', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
     }
     static get is() { return "ir-custom-date-picker"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-custom-date-picker.css", "../../global/app.css"]
+            "$": ["ir-custom-date-picker.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-custom-date-picker.css", "../../global/app.css"]
+            "$": ["ir-custom-date-picker.css"]
         };
     }
     static get properties() {

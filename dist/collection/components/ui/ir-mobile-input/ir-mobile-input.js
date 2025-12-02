@@ -71,18 +71,21 @@ export class IrMobileInput {
         }
     }
     handleValueChange(newValue, oldValue) {
-        if (newValue === oldValue)
-            return;
-        if (this.mask) {
-            if (this.mask.unmaskedValue !== (newValue ?? '')) {
-                this.mask.unmaskedValue = newValue ?? '';
-            }
-            this.displayValue = this.mask.value;
-        }
-        else {
-            this.displayValue = newValue ?? '';
-            if (this.inputRef && this.inputRef.value !== this.displayValue) {
-                this.inputRef.value = this.displayValue;
+        // if (newValue === oldValue) return;
+        // if (this.mask) {
+        //   if (this.mask.unmaskedValue !== (newValue ?? '')) {
+        //     this.mask.unmaskedValue = newValue ?? '';
+        //   }
+        //   this.displayValue = this.mask.value;
+        // } else {
+        //   this.displayValue = newValue ?? '';
+        //   if (this.inputRef && this.inputRef.value !== this.displayValue) {
+        //     this.inputRef.value = this.displayValue;
+        //   }
+        // }
+        if (newValue !== oldValue) {
+            if (this.mask) {
+                this.mask.value = newValue;
             }
         }
     }
@@ -184,13 +187,13 @@ export class IrMobileInput {
     };
     render() {
         const describedByIds = [this.description ? this.descriptionId : null, this.error ? this.errorId : null].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: '52ce54386fc7f5f131fa2b053aaff8dd27b62b4d', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: '03356a5f79ac94a8d190e12ada74f78fdeef5b0a', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: '4ffc7719228ae99da27c5dcbda4b416b4d4e5c50', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '672d7807d6aa03870d46e88b64a37c88ba0f9256', "onwa-show": e => {
+        return (h(Host, { key: 'fa8a35fa12841c3db883c7ceba4c9b197253436d', size: "small", role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: 'f4a474194e2ef38367e524990d9eff1073027678', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: 'd405c2baa25dd00a73a2d5629e699beb3beb2bc5', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '37f98c367cde1ea9ebdbfa408d6cd3933f2c2a0d', "onwa-show": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
             }, "onwa-hide": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '72d3b8c69a0166cf5b299a7e7984f482d3bc15b0', slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: '2609977ee3d7b7a3179518b412c0ae41e858fe08', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: 'f1c5ab86014d4e562a867b7dc38c9c01df094bd4', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: '71cbbb40ebcb28b8c676b74987c066ef1db1aebe', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("input", { key: 'c087926fee0570658081465f5299b889f61848f2', ref: el => (this.inputRef = el), id: this.inputId, class: {
+            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: 'c95b389e9b1242213d6e68619e59c727870b53fc', slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: '24210a9b07c72f4d1ffaff4ab4dc0a952108b7e9', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: '76ebd50d6ff06153ae0beca62594d7024ecc4576', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: '03fa67502719fb8173824cf6a212a51b21fbf310', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("input", { key: '1afc1b1e5d12b7310bdba2f40e898cb70502930b', ref: el => (this.inputRef = el), id: this.inputId, class: {
                 'mobile-input__phone': true,
                 'mobile-input__phone--invalid': Boolean(this.error),
             }, name: this.name, type: "tel", inputmode: "tel", autocomplete: "tel", "aria-required": this.required ? 'true' : undefined, "aria-invalid": this.error ? 'true' : 'false', "aria-describedby": describedByIds, disabled: this.disabled, placeholder: this.placeholder, value: this.displayValue, onInput: this.handlePlainInput })), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));

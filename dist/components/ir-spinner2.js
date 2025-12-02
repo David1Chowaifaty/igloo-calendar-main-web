@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
-const irSpinnerCss = ":host{width:var(--ir-spinner-size, 1.25rem);height:var(--ir-spinner-size, 1.25rem);border:var(--ir-spinner-border-width, 2.5px) solid var(--ir-spinner-color, #3f3f3f);border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
+const irSpinnerCss = "";
 const IrSpinnerStyle0 = irSpinnerCss;
 
 const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLElement {
@@ -69,7 +69,7 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         this.el.style.setProperty(key, value);
     }
     render() {
-        return h(Host, { key: '2ebbf80fe208a28efa3ef4e72460cfe1199f9721' });
+        return (h(Host, { key: 'ba28f3b2470ec743b4061f868612a33932919cd1' }, h("wa-spinner", { key: '44ba2f23fd55668c2f9a1c498aa8276396c0306e', style: { fontSize: '2rem' } })));
     }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],

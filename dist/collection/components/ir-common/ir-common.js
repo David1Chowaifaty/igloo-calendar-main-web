@@ -1,4 +1,3 @@
-import { Host, h } from "@stencil/core";
 import { onlineResources } from "../../common/ir.common.resources";
 export class IrCommon {
     extraResources = '';
@@ -47,9 +46,19 @@ export class IrCommon {
         });
     }
     render() {
-        return (h(Host, { key: '4ed28e2238410a59490d4dd4aabe2a5d6eb79389' }, h("slot", { key: '7f45001c29cfdd639a069a477a16b6e71f0884dc' })));
+        return null;
     }
     static get is() { return "ir-common"; }
+    static get originalStyleUrls() {
+        return {
+            "$": ["../../global/app.css"]
+        };
+    }
+    static get styleUrls() {
+        return {
+            "$": ["../../global/app.css"]
+        };
+    }
     static get properties() {
         return {
             "extraResources": {

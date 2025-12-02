@@ -274,7 +274,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: 'c48ca3ac5b9060c8fbf4e8a3a71884e67caa52b8' }, h("slot", { key: 'd2a24ff825482836667c979c6aa177233d2c2677' })));
+        return (h(Host, { key: 'a8d356b72428c78ec82d6d9b70e160968799694b' }, h("slot", { key: '9ee4923fbe09e7a745fd812aad4f0ae8868d2eb8' })));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }
