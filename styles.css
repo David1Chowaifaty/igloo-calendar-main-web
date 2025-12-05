@@ -1,0 +1,74 @@
+/* Import Inter font for a clean look */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+
+:root {
+  --wa-font-sans: "Inter", sans-serif;
+  --sidebar-width: 280px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--wa-font-sans);
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* Main Content Container */
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Adjust main content so it doesn't hide behind the button */
+main {
+  padding-top: 5rem;
+}
+
+.igloo-header {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Navigation Styling inside Drawer */
+.nav-container {
+  padding-bottom: 2rem;
+  text-align: start !important;
+}
+.nav-container wa-button::part(base) {
+  text-align: start;
+  justify-content: flex-start;
+}
+/* Styling for Nested Details */
+wa-details {
+  --border-width: 0; /* Remove border for cleaner nested look */
+  margin-bottom: 0.25rem;
+}
+
+wa-details::part(summary) {
+  font-weight: 600;
+  color: #374151;
+}
+
+wa-details::part(content) {
+  padding-top: 0;
+  padding-bottom: 0.5rem;
+}
+
+/* Menu Items */
+wa-menu-item {
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Highlight the current active page */
+wa-menu-item[checked] {
+  --bg-color: #e5e7eb; /* Light gray background for active */
+  font-weight: 600;
+}
