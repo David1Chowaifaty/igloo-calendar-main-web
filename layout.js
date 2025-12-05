@@ -122,47 +122,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.insertAdjacentHTML('beforeend', drawerHTML);
     }
 
-    const drawer = document.getElementById('site-sidebar');
-    const toggleButton = document.getElementById('menu-toggle');
-
-    const openDrawer = () => {
-        if (!drawer) return;
-        if (typeof drawer.show === 'function') {
-            drawer.show();
-        } else {
-            drawer.setAttribute('open', '');
-        }
-    };
-
-    const closeDrawer = () => {
-        if (!drawer) return;
-        if (typeof drawer.hide === 'function') {
-            drawer.hide();
-        } else {
-            drawer.removeAttribute('open');
-        }
-    };
-
-    if (toggleButton) {
-        toggleButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            openDrawer();
-        });
-    }
-
-    if (drawer) {
-        drawer.addEventListener('wa-after-hide', () => {
-            toggleButton?.focus();
-        });
-        drawer.addEventListener('sl-after-hide', () => {
-            toggleButton?.focus();
-        });
-
-        drawer.addEventListener('click', (event) => {
-            const target = event.target;
-            if (target instanceof Element && target.closest('wa-button')) {
-                closeDrawer();
-            }
-        });
-    }
 });
