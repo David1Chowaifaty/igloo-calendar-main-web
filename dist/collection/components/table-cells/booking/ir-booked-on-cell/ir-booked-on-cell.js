@@ -2,10 +2,12 @@ import { _formatTime } from "../../../ir-booking-details/functions";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrBookedOnCell {
+    display = 'block';
     bookedOn;
+    label;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: '8b67fc67627ee46df9354b67519f1b110430d3ee' }, h("p", { key: 'fb098e284df2ee75e7f0d5109d57aba548869628', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '0c397b4d6a2797b141848c84227a290d1ba3341e', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: 'a67217791e05dc60e12773bd5a5553a6a1e69688' }, this.label && h("p", { key: '69850cad67f431d290a8a9d4770ad99391d8dd24', class: "cell-label" }, this.label, ":"), h("p", { key: 'cfb935052b7c5f77167b1cea8cd959809bca0cd1', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '71f194367e5ab49526ebf27f310cc01e9ca71232', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
     static get is() { return "ir-booked-on-cell"; }
     static get encapsulation() { return "scoped"; }
@@ -21,6 +23,26 @@ export class IrBookedOnCell {
     }
     static get properties() {
         return {
+            "display": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'inline' | 'block'",
+                    "resolved": "\"block\" | \"inline\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "display",
+                "reflect": true,
+                "defaultValue": "'block'"
+            },
             "bookedOn": {
                 "type": "unknown",
                 "mutable": false,
@@ -43,6 +65,25 @@ export class IrBookedOnCell {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
+                "reflect": false
             }
         };
     }

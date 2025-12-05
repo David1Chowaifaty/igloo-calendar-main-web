@@ -6,15 +6,15 @@ const index = require('./index-3978a3f8.js');
 const Token = require('./Token-8fd11984.js');
 const departures_store = require('./departures.store-121ab8af.js');
 const room_service = require('./room.service-edd3d27c.js');
-const booking_service = require('./booking.service-288df1bc.js');
+const booking_service = require('./booking.service-f92f5d5a.js');
 require('./axios-6e678d52.js');
 require('./index-6299b0f7.js');
 require('./_data-c8673ac9.js');
 require('./moment-1780b03a.js');
 require('./calendar-data-e7cdcfec.js');
 require('./locales.store-4eb57996.js');
-require('./index-63734c32.js');
-require('./utils-3b96f8e3.js');
+require('./index-7c11b77b.js');
+require('./utils-c46c34dc.js');
 
 const hostCss = ".sc-ir-departures-h{box-sizing:border-box !important}.sc-ir-departures-h *.sc-ir-departures,.sc-ir-departures-h *.sc-ir-departures::before,.sc-ir-departures-h *.sc-ir-departures::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-departures{display:none !important}";
 const IrDeparturesStyle0 = hostCss;

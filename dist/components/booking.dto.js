@@ -1,4 +1,4 @@
-import { z, Z as ZodError, a as ZodIssueCode } from './index3.js';
+import { z, Z as ZodError, f as ZodIssueCode } from './index3.js';
 import { h as hooks } from './moment.js';
 
 // export const ZIdInfo = z.object({
@@ -158,12 +158,12 @@ const ExtraServiceSchema = z.object({
     cost: z.coerce.number().nullable(),
     currency_id: z.number().min(1),
     description: z.string().min(1),
-    end_date: z.string().nullable(),
-    price: z.coerce.number(),
-    start_date: z.string().nullable(),
+    end_date: z.string().nullable().optional().default(null),
+    start_date: z.string().nullable().optional().default(null),
+    price: z.coerce.number().min(0.01),
     system_id: z.number().optional(),
 });
 
-export { ExtraServiceSchema as E, ZSharedPerson as Z, ZIdInfo as a, validateSharedPerson as v };
+export { ExtraServiceSchema as E, ZSharedPerson as Z, validateSharedPerson as v };
 
 //# sourceMappingURL=booking.dto.js.map

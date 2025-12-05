@@ -22,6 +22,7 @@ export declare class IrCustomInput {
     appearance: NativeWaInput['appearance'];
     /** Draws a pill-style input with rounded edges. */
     pill: NativeWaInput['pill'];
+    returnMaskedValue: boolean;
     /** The input's label. If you need to display HTML, use the `label` slot instead. */
     label: NativeWaInput['label'];
     /** The input's hint. If you need to display HTML, use the `hint` slot instead. */
@@ -98,10 +99,10 @@ export declare class IrCustomInput {
     private _mask?;
     private inputRef;
     private animationFrame;
+    componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     protected handleMaskPropsChange(): void;
-    protected handleValueChange(newValue: string, oldValue: string): void;
     handleAriaInvalidChange(e: any): void;
     private handleInput;
     private initializeMask;

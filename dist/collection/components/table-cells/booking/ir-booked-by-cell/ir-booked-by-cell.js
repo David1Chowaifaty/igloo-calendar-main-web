@@ -1,6 +1,9 @@
 import locales from "../../../../stores/locales.store";
 import { Fragment, Host, h } from "@stencil/core";
 export class IrBookedByCell {
+    label;
+    cellId;
+    display = 'block';
     /**
      * Guest associated with this booking.
      */
@@ -53,11 +56,11 @@ export class IrBookedByCell {
         this.guestSelected.emit(this.identifier);
     }
     render() {
-        const repeatGuestBadgeId = `repeat-guest-badge-${this.guest.id}_${this.identifier}`;
-        const loyaltyBadgeId = `loyalty-badge-${this.guest.id}_${this.identifier}`;
-        const couponBadgeId = `coupon-badge-${this.guest.id}_${this.identifier}`;
+        const repeatGuestBadgeId = `repeat-guest-badge-${this.guest.id}_${this.cellId ?? this.identifier}`;
+        const loyaltyBadgeId = `loyalty-badge-${this.guest.id}_${this.cellId ?? this.identifier}`;
+        const couponBadgeId = `coupon-badge-${this.guest.id}_${this.cellId ?? this.identifier}`;
         const guest = `${this.guest.first_name} ${this.guest.last_name}`;
-        return (h(Host, { key: '5a37cf2644aca6d654b7d86d2859563c477ec494' }, h("div", { key: '068a9cc3253268e91377aa863c628c36e25d0c9f' }, h("div", { key: '78f8d7765e0abb407a572044661cf4def08d3e41', class: "booked-by-source__container" }, this.clickableGuest ? (h("ir-custom-button", { size: "medium", onClickHandler: this.handleGuestClick.bind(this), variant: "brand", appearance: "plain", link: true }, guest)) : (h("p", null, guest)), this.showRepeatGuestBadge && (h(Fragment, { key: '9fa11532b3a785480ce3ffd2eb5a80eac723a5a5' }, h("wa-tooltip", { key: '000dfc1732e215c7680cee8a26f5dbbb7c5bd71c', for: repeatGuestBadgeId }, `${locales.entries.Lcz_BookingsNbr}`.replace('%1', this.guest.nbr_confirmed_bookings.toString())), h("wa-icon", { key: 'd9616cbc378f4cd9f880920184c4338a54d4d322', name: "heart", style: { color: '#FB0AAD' }, id: repeatGuestBadgeId }))), this.showPersons && (h("p", { key: 'b9ebbb08f05f3ae42a7fdf36c87e8b65c5075676' }, this.totalPersons, locales.entries.Lcz_P)), this.showPrivateNoteDot && h("span", { key: 'eb3650732c0085c32f885a52f600f6d187e02394', class: "booked-by-source__private-note" })), h("div", { key: 'af448c0ac264f62968159ecfdbeb1c07051e2be2', class: "booked-by-source__container" }, this.showLoyaltyIcon && (h(Fragment, { key: '267e5c8cb36a5be007e1909e7b2d1d998a801248' }, h("wa-tooltip", { key: 'c6445a7359a92fc49e5177bb8ff9e1fa86ea2daf', for: loyaltyBadgeId }, locales.entries.Lcz_LoyaltyDiscountApplied), h("wa-icon", { key: '52f90a8965d3304171f6b6167095f07f0fb52dc4', name: "heart", variant: "regular", style: { color: '#fc6c85' }, id: loyaltyBadgeId }))), this.showPromoIcon && (h(Fragment, { key: '128735dbc9c73800329a6ed5e65c4120cbeaa1f2' }, h("wa-tooltip", { key: '9037b7b45038d001601023847a30bd59b4a8ccdd', for: couponBadgeId }, locales.entries.Lcz_Coupon, ": ", this.promoKey), h("wa-icon", { key: '7ca4d2bd218f9bcaa9ba89b5ba9c963e86b147f1', id: couponBadgeId, name: "ticket" })))))));
+        return (h(Host, { key: 'df79927b62ecd6b40d483f130091814bed6727cc' }, this.label && h("p", { key: '50823e9503406140fc53ccdb08f0733e96e6b25d', class: "cell-label" }, this.label, ":"), h("div", { key: 'f7ff59970cf5a045e9b9b146dc830ab9af56f28e', class: "booked-by-source__container" }, this.clickableGuest ? (h("ir-custom-button", { size: "medium", onClickHandler: this.handleGuestClick.bind(this), variant: "brand", appearance: "plain", link: true }, guest)) : (h("p", null, guest)), this.showRepeatGuestBadge && (h(Fragment, { key: '313305d04003504833ffe3afa6390ef78ae0b959' }, h("wa-tooltip", { key: 'ab788343b080b3018d1aab1ece9f4af2a8e64d4f', for: repeatGuestBadgeId }, `${locales.entries.Lcz_BookingsNbr}`.replace('%1', this.guest.nbr_confirmed_bookings.toString())), h("wa-icon", { key: 'a91163d6b709b7473d72cb5e9cea25eb2dbc5c56', name: "heart", style: { color: '#FB0AAD' }, id: repeatGuestBadgeId }))), this.showPersons && (h("p", { key: 'ddde1833960dd13ffbbb5bd8e753a8dcbb55b224' }, this.totalPersons, locales.entries.Lcz_P)), this.showPrivateNoteDot && h("span", { key: 'aa1c070edb47d7aba160c84be3251ffb3297e4c2', class: "booked-by-source__private-note" })), h("div", { key: 'efbbc889b4dcbf69004120dd902b05603db7f01a', class: "booked-by-source__container" }, this.showLoyaltyIcon && (h(Fragment, { key: 'a35943722b23e58dd5fe802f688cb0c2e636cbca' }, h("wa-tooltip", { key: '315920ddd3056f7517bbb83ea7733717eff225d4', for: loyaltyBadgeId }, locales.entries.Lcz_LoyaltyDiscountApplied), h("wa-icon", { key: '57aaeedebc499e450bd3983581e62f22de1df282', name: "heart", variant: "regular", style: { color: '#fc6c85' }, id: loyaltyBadgeId }))), this.showPromoIcon && (h(Fragment, { key: 'a04251d8f49e5c9183563100cd08237ceb334b27' }, h("wa-tooltip", { key: '0653289f36eb430eb3661d2fdd0d88bb29aa959b', for: couponBadgeId }, locales.entries.Lcz_Coupon, ": ", this.promoKey), h("wa-icon", { key: 'd77ebef909a675658f4f46fee1e50466c36a132f', id: couponBadgeId, name: "ticket" }))))));
     }
     static get is() { return "ir-booked-by-cell"; }
     static get encapsulation() { return "scoped"; }
@@ -73,6 +76,64 @@ export class IrBookedByCell {
     }
     static get properties() {
         return {
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
+                "reflect": false
+            },
+            "cellId": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "cell-id",
+                "reflect": false
+            },
+            "display": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'inline' | 'block'",
+                    "resolved": "\"block\" | \"inline\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "display",
+                "reflect": true,
+                "defaultValue": "'block'"
+            },
             "guest": {
                 "type": "unknown",
                 "mutable": false,

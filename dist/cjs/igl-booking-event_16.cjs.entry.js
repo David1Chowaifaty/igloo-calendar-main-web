@@ -3,19 +3,18 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
-const booking_service = require('./booking.service-288df1bc.js');
-const utils = require('./utils-3b96f8e3.js');
+const booking_service = require('./booking.service-f92f5d5a.js');
+const utils = require('./utils-c46c34dc.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-2206ac2e.js');
+const property_service = require('./property.service-06e1e06c.js');
 const locales_store = require('./locales.store-4eb57996.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
 const ClickOutside = require('./ClickOutside-7c8c1577.js');
-const index$1 = require('./index-63734c32.js');
+const index$1 = require('./index-7c11b77b.js');
 const housekeeping_service = require('./housekeeping.service-ef854ce9.js');
-const toBeAssigned_service = require('./toBeAssigned.service-226190ef.js');
+const toBeAssigned_service = require('./toBeAssigned.service-d53ecc6d.js');
 const unassigned_dates_store = require('./unassigned_dates.store-01ed5240.js');
 const icons = require('./icons-b526f0f2.js');
-const property_service = require('./property.service-d2913db9.js');
 const irInterceptor_store = require('./ir-interceptor.store-c6d5162b.js');
 require('./axios-6e678d52.js');
 require('./index-6299b0f7.js');
@@ -71,7 +70,7 @@ const IglBookingEvent = class {
     bubbleInfoTopSide = false;
     isStretch = false;
     /*Services */
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     bookingService = new booking_service.BookingService();
     /* Resize props */
     resizeSide = '';
@@ -2036,7 +2035,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (index.h(index.Host, { key: '8f528be220fa847826126f366a83a31b8086545e', class: "footerContainer" }, index.h("div", { key: '8dc8ab4ec437c9caf567527d16a834f985b64040', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingLeft: '10px' } }, index.h("button", { key: '1344409c787c1417db2d6a8887c0fb778f37e2e1', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), index.h("span", { key: 'f2cc51a53eb7d76df53bcd8f6b1e26a56ba25990' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: '1f9617efe9a97754328f34f26a3c1c1cc11f29da' }, "v1.04"), index.h("ir-new-badge", { key: 'f6a3cf46a2bcf09b3ad1c4e0550e26833d264b05', style: { marginLeft: '0.25rem' } }))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: {
+        return (index.h(index.Host, { key: '8f528be220fa847826126f366a83a31b8086545e', class: "footerContainer" }, index.h("div", { key: '8dc8ab4ec437c9caf567527d16a834f985b64040', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingLeft: '10px' } }, index.h("button", { key: '1344409c787c1417db2d6a8887c0fb778f37e2e1', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, index.h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), index.h("span", { key: 'f2cc51a53eb7d76df53bcd8f6b1e26a56ba25990' }, locales_store.locales.entries.Lcz_Legend), index.h("span", { key: '1f9617efe9a97754328f34f26a3c1c1cc11f29da' }, "v1.05"), index.h("ir-new-badge", { key: 'f6a3cf46a2bcf09b3ad1c4e0550e26833d264b05', style: { marginLeft: '0.25rem' } }))), this.calendarData.days.map(dayInfo => (index.h("div", { class: "footerCell align-items-center" }, index.h("div", { class: {
                 'dayTitle full-height align-items-center': true,
                 'weekend': utils.isWeekend(dayInfo.value),
                 'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.day,
@@ -2367,7 +2366,7 @@ const IglReallocationDialog = class {
     resetModalState;
     dialogEl;
     rateplanSelectEl;
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     handleDataChange(newData) {
         this.resetState(newData);
         if (newData) {
@@ -2464,13 +2463,13 @@ const IglReallocationDialog = class {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        index.h("wa-select", { key: '4c4a8cab6ddd23a0d19ec7bb691047bac352936d', "onwa-hide": e => {
+        index.h("wa-select", { key: 'b76b2b7e03c8a1b4f509cbdfce51522ddd8b2dce', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, index.h("wa-option", { key: 'd845fd1739f3f028d1cd85c8762d374d7a8cee97', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (index.h("wa-option", { key: option.value, value: option.value }, option.text)))))), index.h("div", { key: '576e5c31d1330eb26e93c38d7b2bbc873353af74', class: "dialog-footer", slot: "footer" }, index.h("ir-custom-button", { key: '93f80daf0090de6810b8aec43a26a4c044df5770', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), index.h("ir-custom-button", { key: '14078736a63b9ac14e3d4e55e445d92c186da3c9', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: irInterceptor_store.isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, index.h("wa-option", { key: '17f1c6432d6a0c588923e0af91124cf126de6e65', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (index.h("wa-option", { key: option.value, value: option.value }, option.text)))))), index.h("div", { key: '44422c7a80a1f0787701acca9dc77953474fa82a', class: "dialog-footer", slot: "footer" }, index.h("ir-custom-button", { key: '1973f6e0f93f223a1e2f6c525e7b4ffe468b13db', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), index.h("ir-custom-button", { key: 'e7ebd5cd1b21ed5f9f1bf75401ee62830fc5d065', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: irInterceptor_store.isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
     }
     static get watchers() { return {
         "data": ["handleDataChange"]

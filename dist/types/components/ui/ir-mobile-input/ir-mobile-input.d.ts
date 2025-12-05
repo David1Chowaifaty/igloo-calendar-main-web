@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ICountry } from "../../../models/IBooking";
+import { NativeWaInput } from '../ir-custom-input/ir-custom-input';
 export interface IrMobileInputChangeDetail {
     country: ICountry;
     value: string;
@@ -15,6 +16,8 @@ export declare class IrMobileInput {
     private readonly countryStatusId;
     private inputRef?;
     private mask?;
+    /** The input's size. */
+    size: NativeWaInput['size'];
     /** Visible label for the phone input */
     label: string;
     /** Name attribute passed to the native input */

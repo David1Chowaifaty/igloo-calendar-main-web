@@ -9,9 +9,9 @@ import { d as defineCustomElement$a } from './ir-applicable-policies2.js';
 import { d as defineCustomElement$9 } from './ir-booking-guarantee2.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-icons2.js';
-import { d as defineCustomElement$5 } from './ir-label2.js';
-import { d as defineCustomElement$4 } from './ir-modal2.js';
+import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$5 } from './ir-icons2.js';
+import { d as defineCustomElement$4 } from './ir-label2.js';
 import { d as defineCustomElement$3 } from './ir-payment-item2.js';
 import { d as defineCustomElement$2 } from './ir-payment-summary2.js';
 import { d as defineCustomElement$1 } from './ir-payments-folio2.js';
@@ -43,6 +43,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     openPrintScreen;
     paymentService = new PaymentService();
     bookingService = new BookingService();
+    dialogRef;
     handlePaymentGeneration(e) {
         const value = e.detail;
         const paymentType = this.paymentEntries?.types?.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
@@ -122,7 +123,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     handleDeletePayment = (payment) => {
         this.modalMode = 'delete';
         this.toBeDeletedItem = payment;
-        this.openModal();
+        this.dialogRef.openModal();
     };
     async handleIssueReceipt(detail) {
         if (detail.receipt_nbr) {
@@ -181,10 +182,6 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.modalMode = null;
         this.toBeDeletedItem = null;
     };
-    openModal() {
-        const modal = document.querySelector('.delete-record-modal');
-        modal?.openModal();
-    }
     hasValidFinancialData() {
         return Boolean(this.booking?.financial);
     }
@@ -233,7 +230,12 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
-            h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
+            h("ir-dialog", { onIrDialogHide: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                }, onIrDialogAfterHide: e => {
+                    this.handleCancelModal(e);
+                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", "data-dialog": "close", variant: "neutral", appearance: "filled" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "medium", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))),
         ];
     }
     static get style() { return IrPaymentDetailsStyle0; }
@@ -250,7 +252,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-guarantee", "ir-button", "ir-custom-button", "ir-icons", "ir-label", "ir-modal", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
+    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-guarantee", "ir-button", "ir-custom-button", "ir-dialog", "ir-icons", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
@@ -277,17 +279,17 @@ function defineCustomElement() {
                 defineCustomElement$7();
             }
             break;
-        case "ir-icons":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-label":
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-modal":
+        case "ir-label":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

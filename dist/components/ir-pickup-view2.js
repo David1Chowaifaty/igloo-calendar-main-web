@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
-import { a as _formatTime } from './functions.js';
+import { _ as _formatTime } from './functions.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-label2.js';

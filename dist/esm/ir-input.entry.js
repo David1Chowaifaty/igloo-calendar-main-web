@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-b3dce66a.js';
-import { M as MaskedNumber, a as MaskedRange, I as IMask } from './index-4bdf2dc7.js';
+import { a as MaskedNumber, M as MaskedRange, I as IMask } from './index-85fe8369.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { v as v4 } from './v4-964634d6.js';
 

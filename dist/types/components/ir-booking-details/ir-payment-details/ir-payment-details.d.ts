@@ -18,6 +18,7 @@ export declare class IrPaymentDetails {
     openPrintScreen: EventEmitter<PrintScreenOptions>;
     private paymentService;
     private bookingService;
+    private dialogRef;
     handlePaymentGeneration(e: CustomEvent): void;
     private handleAddPayment;
     private handleEditPayment;
@@ -26,7 +27,6 @@ export declare class IrPaymentDetails {
     private cancelPayment;
     private handleConfirmModal;
     private handleCancelModal;
-    private openModal;
     private hasValidFinancialData;
     private shouldShowRefundButton;
     private shouldCancellationButton;

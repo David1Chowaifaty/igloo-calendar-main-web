@@ -14,6 +14,6 @@ const _formatTime = (hour, minute) => {
     // return moment(`${hour}:${minute}`, 'HH:mm').format('HH:mm');
 };
 
-export { _formatDate as _, _formatTime as a, _getDay as b };
+export { _formatTime as _, _formatDate as a, _getDay as b };
 
 //# sourceMappingURL=functions.js.map

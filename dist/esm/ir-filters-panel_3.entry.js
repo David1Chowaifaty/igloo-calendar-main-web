@@ -1,9 +1,9 @@
 import { r as registerInstance, c as createEvent, h } from './index-b3dce66a.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { f as formatAmount } from './utils-bb2f2deb.js';
+import { f as formatAmount } from './utils-5036fcd3.js';
 import './index-a124d225.js';
-import './index-6ecc32cd.js';
+import './index-d55e923c.js';
 import './calendar-data-8a36a1b2.js';
 import './axios-aa1335b8.js';
 
@@ -164,17 +164,17 @@ const IrSalesByChannelFilters = class {
     }
     render() {
         console.log(this.filters);
-        return (h("ir-filters-panel", { key: '3323ac7ac602326aade7405e7c1f49b6c7fa7233', isApplyLoading: this.isLoading, onIrFilterApply: () => {
+        return (h("ir-filters-panel", { key: '06e633324e9f2901d5cecbdf809393f610754c43', isApplyLoading: this.isLoading, onIrFilterApply: () => {
                 this.applyFilters.emit(this.filters);
             }, onIrFilterReset: () => {
                 this.filters = { ...this.baseFilters };
                 this.applyFilters.emit(this.filters);
-            } }, h("fieldset", { key: 'cd84fbdfc98863371eb5e6b59613d9386e20a4d6', class: "pt-1 filter-group" }, h("label", { key: 'aec967b378993de13bfe48ca8a5edf901a1baaa2', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: 'a634554e196cbd6524039d2beb5b15c1c66e517b', selectedValue: this.filters?.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
+            } }, h("fieldset", { key: 'fa7b60d4b1520ee6c0390e1f555d848b19b252cd', class: "pt-1 filter-group" }, h("label", { key: '84fe225cdf50ec1f604ff2048eba9cd3e43d3197', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: '415e9fb2eab2dc3b88ab08d4f7a31a2f6aa811a4', selectedValue: this.filters?.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
                 BOOK_CASE: e.detail,
             }), data: [
                 { text: 'Booked', value: '001' },
                 { text: 'Stayed', value: '002' },
-            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '41baa62cced42543e73a0b7013453271f20db78f', class: "filter-group" }, h("label", { key: '39f04da0b9619fbbe8c7c17db5143d2f7a3b6fbd', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-m-combobox", { key: 'c575289e5e050fbfac4b63e85964bc443bd99206', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
+            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '23bd75b464b89260fea4dc0445ca22ad9c03f06d', class: "filter-group" }, h("label", { key: 'd982b5fa21226999af2079e86546c2fd600a0e72', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-m-combobox", { key: '12494db9348642d3153ab6fedad5a30c7abcae94', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
                 const value = e.detail.value;
                 if (value === 'all') {
                     this.updateFilter({
@@ -191,7 +191,7 @@ const IrSalesByChannelFilters = class {
                     label: p.name,
                     value: p.id.toString(),
                 })),
-            ] }))), h("fieldset", { key: '7a02b46a16b3dd19f2b5a65fd877bf248874eb3c', class: "filter-group" }, h("label", { key: '589f8fb9ab2f957fe0b3ead150ea3df0650b20fd', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: '32cf181c20a05ad2bbcb4bd42cd3ea3ef1728c94', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: '533ef8d25b6dc5b7a73e85a3028ad65af2d5ca67', selectedValue: this.window?.toString(), onSelectChange: e => {
+            ] }))), h("fieldset", { key: '2186f21430c04725e189899f8b945fbd849eada7', class: "filter-group" }, h("label", { key: '598664586ab297c395ba383df9c4e4cc82b114a0', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: '67e12c1cb2e1d80fe867b768f231e96223e17b1b', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'da8101d89e28f2eee5f2a534a461cd236d7691e6', selectedValue: this.window?.toString(), onSelectChange: e => {
                 const dateDiff = Number(e.detail);
                 const today = hooks();
                 this.updateFilter({
@@ -209,7 +209,7 @@ const IrSalesByChannelFilters = class {
                 { text: 'For the past 60 days', value: '60' },
                 { text: 'For the past 90 days', value: '90' },
                 { text: 'For the past 365 days', value: '365' },
-            ] }), h("p", { key: '97c1ea8dcaa7241ed534f2671f32bd5f44ea8a8d', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: '8b23d4251f84ca2e194678bd6b86cd1069244b39', onDateRangeChanged: e => {
+            ] }), h("p", { key: 'a38ca7911d58b6a3bc42d7a723356eb7e6a08284', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: '98dbc042f6c36126be23c9a342c219bf6b35c9dc', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate, wasFocused } = e.detail;
@@ -220,7 +220,7 @@ const IrSalesByChannelFilters = class {
                 if (wasFocused)
                     this.window = null;
                 // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: 'ae9012fa51504124905f9ff8258b7ee9a28999e5', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: 'b16ddac397dd708b6bfa2a326dda681b55109a2c', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '1888f667375c639c45631098ecae869f6b063503', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '32cde4832141273dedff10658aff875e76ebd271', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: 'c1168064aa2257016d8ff17b89c5ce6641786fd9', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '5a104dd8f83d8f714229f253ef2de9f31c1aa67a', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });
@@ -263,11 +263,11 @@ const IrSalesByChannelTable = class {
     render() {
         const visibleRecords = this.records.slice(0, this.visibleCount);
         const isSingleProperty = this.mode === 'property';
-        return (h("div", { key: '87baea717eaee56eadc604e3716da32f36b42663', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: 'a556d5ae21e62d991f8f47d3532b5f4550cf04b9', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: 'a35a5e4a1ef33928acab1922aef6f80efb9d4eb0', class: "table-header" }, h("tr", { key: '67a8ed42b5ea6dfb8cc4a51bea9a7059f40b412e' }, h("th", { key: 'dd71897c2f66e9392f95b7ff974bac094cbe900b', class: "text-left" }, "Channel"), h("th", { key: '232fc52ce85d5f5b7dfd6819585667c5412f0c26', class: "text-center" }, "Room nights"), h("th", { key: 'baa1895f64e97ee4b1c3affe254498b048613a3b', class: "text-right" }, "Room Revenue"), h("th", { key: '88964327de76c026c712cd3326c9e635225c0e38', class: `sales-by-channel-table__progress-col ${!isSingleProperty ? 'single' : ''}` }))), h("tbody", { key: 'db3586c36b603467aa6bd89d983047247f385e39' }, this.records.length === 0 && (h("tr", { key: '623e6c1d651ae24f8b139d84bad8a0af97d1cd1e' }, h("td", { key: 'dbc3c7265fc267152848125577cd807173de7b07', colSpan: 5, style: { height: '300px' } }, "No data found."))), visibleRecords.map(record => {
+        return (h("div", { key: '76861a655774a6fd619111fb17dee253c6b1a969', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: '1409eeb85bc196fc6abb42556b544ab3f894616a', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: 'e019ca48377dc72bd8eee8148f311c4db6b3306a', class: "table-header" }, h("tr", { key: 'abea546131fa88047e4c2da74ef9682bb63938d1' }, h("th", { key: 'b4e540551ef8ecb72d4afc2b930805eb83375b7b', class: "text-left" }, "Channel"), h("th", { key: '63f03b7f0995dc9120c0ac8a7a9fc854d3cb0d0e', class: "text-center" }, "Room nights"), h("th", { key: 'fa045d7f5b136688de5952daf258f944468089fa', class: "text-right" }, "Room Revenue"), h("th", { key: '060ac6414a00f506f34f6627a949701f558da9d0', class: `sales-by-channel-table__progress-col ${!isSingleProperty ? 'single' : ''}` }))), h("tbody", { key: 'd0b7ec17469f126f0653d68c8297fa61517c524f' }, this.records.length === 0 && (h("tr", { key: 'c5daa17137188d49c7a143f948cc0a65e6197a83' }, h("td", { key: '820343678dc270b6e1f451e41fcd53e60f6f4b96', colSpan: 5, style: { height: '300px' } }, "No data found."))), visibleRecords.map(record => {
             const mainPercentage = `${parseFloat(record.PCT.toString()).toFixed(2)}%`;
             const secondaryPercentage = record.last_year ? `${parseFloat(record.last_year.PCT.toString()).toFixed(2)}%` : null;
             return (h("tr", { "data-testid": `record_row`, class: { 'task-table-row ir-table-row': true } }, h("td", { class: "text-left" }, h("div", { class: "d-flex flex-column", style: { gap: '0.25rem' } }, h("p", { class: `p-0 m-0 ${record.last_year?.SOURCE ? 'font-weight-bold' : ''}` }, record.SOURCE), record.last_year?.SOURCE && (h("p", { class: "p-0 mx-0", style: { marginTop: '0.25rem', marginBottom: '0' } }, record.last_year.SOURCE)))), h("td", { class: "text-center" }, h("div", { class: "d-flex flex-column", style: { gap: '0.25rem' } }, h("p", { class: `p-0 m-0 ${record.last_year?.NIGHTS ? 'font-weight-bold' : ''}` }, record.NIGHTS), record.last_year?.NIGHTS && (h("p", { class: "p-0 mx-0", style: { marginTop: '0.25rem', marginBottom: '0' } }, record.last_year.NIGHTS)))), h("td", { class: "text-right " }, h("div", { class: "d-flex flex-column", style: { gap: '0.25rem' } }, h("p", { class: `p-0 m-0 ${record.last_year?.REVENUE ? 'font-weight-bold' : ''}` }, formatAmount(record.currency, record.REVENUE)), record.last_year?.REVENUE && (h("p", { class: "p-0 mx-0", style: { marginTop: '0.25rem', marginBottom: '0' } }, formatAmount(record.currency, record.last_year.REVENUE))))), h("td", { class: `sales-by-channel-table__progress-col ${!isSingleProperty ? 'single' : ''}` }, isSingleProperty && (h("div", { class: "d-flex flex-column", style: { gap: '0.5rem' } }, h("ir-progress-indicator", { percentage: mainPercentage }), record.last_year?.PCT && h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" }))))));
-        })), isSingleProperty && (h("tfoot", { key: 'd41a99b657734918d83709126212ba45216e05ce' }, h("tr", { key: '8ce9ac4f22b074e6cd243aaec6edffd3fb54f75c', style: { fontSize: '12px' } }, h("td", { key: '53ef66cb5738cb88b5b74a84ca965466a5ee5548', colSpan: 4 }, h("div", { key: '09b6730d43ab2616e4526b8bf311f10214772f40', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: '011786e79dedc3570d45e8cdc30676a2a0f21133', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'af7e70d688851aa7a9678702175f99f287fcdb7f', class: "legend bg-primary" }), h("p", { key: 'd85f5dc317a7e0ca60482f3431eeb0e02d3bbb23', class: "p-0 m-0" }, "Selected period ")), h("div", { key: 'ece647ad2466672e19dd17659eda47967bf5026d', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '52e95948aa245eb46a3f0a6606d130dc5e2851dc', class: "legend secondary" }), h("p", { key: 'aa61eb8a7f0eb53bb25ec726c61a9123c19b55af', class: "p-0 m-0" }, "Previous year")))))))), this.visibleCount < this.records.length && (h("div", { key: '6c458dc3e7c456f58153acd713de68d159e44c77', class: 'd-flex mx-auto' }, h("ir-button", { key: '28b4c66bb384cc114e7aca7d342a0e3fa8ded78e', class: "mx-auto", size: "sm", text: "Load More", onClickHandler: this.handleLoadMore })))));
+        })), isSingleProperty && (h("tfoot", { key: 'a67ec20f0a2cfd97cd04d70836dfcb5a4651c5bb' }, h("tr", { key: 'f6ebc1219955091e4e8880f818d0278f9af2da80', style: { fontSize: '12px' } }, h("td", { key: 'c056537d4f34cbfa965d8b78246db4fe4c7a21b4', colSpan: 4 }, h("div", { key: 'b6a09e69bc0d105af27031eff0798fa929ed1519', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: '14d997baa08e380fed0f3f34be47c5a339f88878', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'bac366792d24b9593d6338b9605d4c4c69b9108f', class: "legend bg-primary" }), h("p", { key: '3d81ea402ff196b42f2c2b6fe8e0e5bb28292a9b', class: "p-0 m-0" }, "Selected period ")), h("div", { key: 'b38e7372290f7a0b5abdf03a6baf62ea52fc1a69', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '88aa8f8f1181c0b5318f8b2e36004c2922c2949b', class: "legend secondary" }), h("p", { key: '28f7e19f12afc8cff01a73372b0bc63ff279d3c1', class: "p-0 m-0" }, "Previous year")))))))), this.visibleCount < this.records.length && (h("div", { key: '906c1e3cf7264f7ecf275a653600318467d85f33', class: 'd-flex mx-auto' }, h("ir-button", { key: '95684afd03e37ef206a8519efee20a1df7a44295', class: "mx-auto", size: "sm", text: "Load More", onClickHandler: this.handleLoadMore })))));
     }
     static get watchers() { return {
         "allowedProperties": ["handlePropertiesChange"]

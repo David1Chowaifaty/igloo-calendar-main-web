@@ -83,7 +83,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         this.rebindChildListeners();
     }
     syncAutovalidateFlag(next) {
-        this.autoValidateActive = Boolean(next);
+        this.autoValidateActive = JSON.parse(String(next ?? false));
     }
     parseEvents(spec) {
         if (!spec)
@@ -285,7 +285,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         }
     }
     render() {
-        return (h(Host, { key: 'a8d356b72428c78ec82d6d9b70e160968799694b' }, h("slot", { key: '9ee4923fbe09e7a745fd812aad4f0ae8868d2eb8' })));
+        return (h(Host, { key: 'b855d83ceb3f4cbe2a8081354fb35dd373c16685' }, h("slot", { key: 'bfb5c77aae607a098fa51dcc5cfdfaebd6ed76df' })));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],

@@ -5,6 +5,7 @@ import { getMyBookings } from "../utils/booking";
 import booking_store from "../stores/booking.store";
 import calendar_data from "../stores/calendar-data";
 import { z } from "zod";
+import { BookingInvoiceInfoSchema } from "../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
  *
@@ -244,6 +245,10 @@ export class BookingService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async getBookingInvoiceInfo(props) {
+        const { data } = await axios.post('/Get_Booking_Invoice_Info', props);
+        return BookingInvoiceInfoSchema.parse(data.My_Result);
     }
     async getBookingAvailability(props) {
         try {

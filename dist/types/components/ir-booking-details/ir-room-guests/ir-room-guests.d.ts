@@ -1,7 +1,8 @@
 import { SharedPerson } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { ICountry, IEntries } from "../../../models/IBooking";
+import { ICountry } from "../../../models/IBooking";
 export declare class IrRoomGuests {
+    open: boolean;
     /**
      * The name of the room currently being displayed.
      * Used to label the room in the user interface for clarity.
@@ -42,23 +43,6 @@ export declare class IrRoomGuests {
      * This is used for backend operations like saving guest information or checking in the room.
      */
     bookingNumber: string;
-    guests: SharedPerson[];
-    idTypes: IEntries[];
-    error: Record<string, boolean>;
-    isLoading: boolean;
-    propertyCountry: ICountry;
-    autoValidate: boolean;
     closeModal: EventEmitter<null>;
-    resetBookingEvt: EventEmitter<null>;
-    updateRoomGuests: EventEmitter<{
-        identifier: string;
-        guests: SharedPerson[];
-    }>;
-    private bookingService;
-    componentWillLoad(): void;
-    private init;
-    private initializeGuests;
-    private updateGuestInfo;
-    private saveGuests;
     render(): any;
 }

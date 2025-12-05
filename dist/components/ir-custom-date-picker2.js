@@ -26,6 +26,8 @@ const IrCustomDatePicker = /*@__PURE__*/ proxyCustomElement(class IrCustomDatePi
         this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
     }
     get el() { return this; }
+    withClear;
+    placeholder;
     label;
     /**
      * Determines whether the date picker is rendered inline or in a pop-up.
@@ -312,13 +314,13 @@ const IrCustomDatePicker = /*@__PURE__*/ proxyCustomElement(class IrCustomDatePi
     }
     getTriggerLabel() {
         if (!this.currentDate) {
-            return 'Select date';
+            return null;
         }
         return this.timepicker ? hooks(this.currentDate).format('MMM DD, YYYY, HH:mm') : hooks(this.currentDate).format('MMM DD, YYYY');
     }
     render() {
         const triggerClasses = `custom-date-picker__trigger ${this.triggerContainerStyle} ${this.disabled ? 'custom-date-picker__trigger--disabled' : ''}`;
-        return (h(Host, { key: '2e702374a6d8a343e61eb43628b7029139b4a523', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: '603599a7eeb94fdf90939f554cda45843fc107af', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-custom-input", { key: 'dd859e1450cf9c827b4000ec8b53c9a6aef7561f', tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '022a5e3c940b42b878385a7eb1bc8b02149e73e6', name: "start", slot: "start" }), h("slot", { key: '04035f1c67bd9cecfc557331816ca4a5e07f4bf7', name: "end", slot: "end" })), h("div", { key: '66a065c6ecf1a5ac2a38b9c0254557bdb331d7dd', class: "picker-surface" }, h("div", { key: 'e768f0cce96f02e10701a764c67c6d820029b0b4', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: 'b4743c3567ed37b2a79713f5a1e2b8f041c10fa2', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
+        return (h(Host, { key: '2fd022d7c9876b759a8de6d5d20a35c42e3f9ff8', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: 'b350c772f8d522819066db1d1763d4ae05e25dd7', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-custom-input", { key: 'b3d3fe05e336c7a8bc78f03d72c38cb44bac54f3', placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '2696289a21512da7638450e0dc034c7397e51f67', name: "start", slot: "start" }), h("slot", { key: '5a7b94790685d451b69d2ab97e498b3389c1576f', name: "end", slot: "end" })), h("div", { key: '119e931642e1dd343db0c22274c9b63a8cc7f7bf', class: "picker-surface" }, h("div", { key: 'a010756208ac523f06a86051f43b17f214ca8d59', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: 'f4da92421519de2fb5e417a77d15962a9cd44839', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
     }
     static get watchers() { return {
         "date": ["datePropChanged"],
@@ -329,6 +331,8 @@ const IrCustomDatePicker = /*@__PURE__*/ proxyCustomElement(class IrCustomDatePi
     }; }
     static get style() { return IrCustomDatePickerStyle0; }
 }, [4, "ir-custom-date-picker", {
+        "withClear": [4, "with-clear"],
+        "placeholder": [1],
         "label": [1],
         "inline": [4],
         "date": [1537],

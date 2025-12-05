@@ -107,7 +107,8 @@ export class IrBookingDetails {
                 this.openPrintingScreen({ mode: 'printing' });
                 return;
             case 'invoice':
-                this.openPrintingScreen({ mode: 'invoice' });
+                // this.openPrintingScreen({ mode: 'invoice' });
+                this.sidebarState = 'invoice';
                 return;
             case 'book-delete':
                 return;
@@ -185,6 +186,7 @@ export class IrBookingDetails {
     }
     handleEditExtraService(e) {
         this.selectedService = e.detail;
+        console.log(this.selectedService);
         this.sidebarState = 'extra_service';
     }
     handleOpenPrintScreen(e) {
@@ -308,9 +310,7 @@ export class IrBookingDetails {
             console.log(error);
         }
     }
-    async handleModalConfirm(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
+    async handleModalConfirm() {
         switch (this.modalState.type) {
             case 'email':
                 await this.bookingService.sendBookingConfirmationEmail(this.booking.booking_nbr, this.language);
@@ -318,40 +318,6 @@ export class IrBookingDetails {
         }
         this.modalState = null;
         this.modalRef.closeModal();
-    }
-    renderSidebarContent() {
-        const handleClose = () => {
-            this.sidebarState = null;
-        };
-        switch (this.sidebarState) {
-            // case 'guest':
-            //   return (
-            //     <ir-guest-info
-            //       isInSideBar
-            //       headerShown
-            //       slot="sidebar-body"
-            //       booking_nbr={this.bookingNumber}
-            //       email={this.booking?.guest.email}
-            //       language={this.language}
-            //       onCloseSideBar={handleClose}
-            //     ></ir-guest-info>
-            //   );
-            case 'pickup':
-                return (h("ir-pickup", { bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, slot: "sidebar-body", defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: handleClose }));
-            // case 'extra_note':
-            //   return <ir-booking-extra-note slot="sidebar-body" booking={this.booking} onCloseModal={() => (this.sidebarState = null)}></ir-booking-extra-note>;
-            case 'extra_service':
-                return (h("ir-extra-service-config", { service: this.selectedService, booking: { from_date: this.booking.from_date, to_date: this.booking.to_date, booking_nbr: this.booking.booking_nbr, currency: this.booking.currency }, slot: "sidebar-body", onCloseModal: () => {
-                        handleClose();
-                        if (this.selectedService) {
-                            this.selectedService = null;
-                        }
-                    } }));
-            case 'room-guest':
-                return (h("ir-room-guests", { countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: handleClose }));
-            default:
-                return null;
-        }
     }
     computeRoomGroups(rooms) {
         const indexById = new Map();
@@ -457,20 +423,21 @@ export class IrBookingDetails {
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } })))),
             h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: this.hasReceipt, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }),
             h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), roomsSection), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })),
-            h("ir-modal", { modalBody: this.modalState?.message, leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, autoClose: false, isLoading: isRequestPending('/Send_Booking_Confirmation_Email'), ref: el => (this.modalRef = el), onConfirmModal: e => {
-                    this.handleModalConfirm(e);
-                }, onCancelModal: () => {
-                    this.modalRef.closeModal();
-                } }),
-            h("ir-sidebar", { open: this.sidebarState !== null && this.sidebarState !== 'payment-folio', side: 'right', id: "editGuestInfo", style: { '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }, onIrSidebarToggle: e => {
+            h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
-                    this.sidebarState = null;
-                }, showCloseButton: false }, this.renderSidebarContent()),
+                    this.modalRef.closeModal();
+                    this.modalState = null;
+                }, ref: el => (this.modalRef = el) }, h("p", null, this.modalState?.message), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: isRequestPending('/Send_Booking_Confirmation_Email'), onClickHandler: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.handleModalConfirm();
+                }, size: "medium", variant: "brand" }, locales.entries.Lcz_Confirm))),
             // <ir-sidebar
-            //   open={this.sidebarState === 'payment-folio'}
-            //   side={'left'}
-            //   id="folioSidebar"
+            //   open={this.sidebarState === 'room-guest'}
+            //   side={'right'}
+            //   id="editGuestInfo"
+            //   style={{ '--sidebar-width': this.sidebarState === 'room-guest' ? '60rem' : undefined }}
             //   onIrSidebarToggle={e => {
             //     e.stopImmediatePropagation();
             //     e.stopPropagation();
@@ -480,6 +447,23 @@ export class IrBookingDetails {
             // >
             //   {this.renderSidebarContent()}
             // </ir-sidebar>,
+            h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }),
+            h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, booking: { from_date: this.booking.from_date, to_date: this.booking.to_date, booking_nbr: this.booking.booking_nbr, currency: this.booking.currency }, slot: "sidebar-body", onCloseModal: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.sidebarState = null;
+                    if (this.selectedService) {
+                        this.selectedService = null;
+                    }
+                } }),
+            h("ir-pickup", { open: this.sidebarState === 'pickup', bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: () => {
+                    this.sidebarState = null;
+                } }),
+            h("ir-invoice", { open: this.sidebarState === 'invoice', onInvoiceClose: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.sidebarState = null;
+                }, booking: this.booking }),
             h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                     this.sidebarState = null;
                 }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }),

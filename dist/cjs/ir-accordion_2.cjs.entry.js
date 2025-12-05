@@ -3,11 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
-const utils = require('./utils-3b96f8e3.js');
+const utils = require('./utils-c46c34dc.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
 const functions = require('./functions-1d46da3c.js');
 require('./moment-1780b03a.js');
-require('./index-63734c32.js');
+require('./index-7c11b77b.js');
 require('./locales.store-4eb57996.js');
 require('./index-6299b0f7.js');
 require('./axios-6e678d52.js');
@@ -216,7 +216,7 @@ const IrRevenueRowDetails = class {
     payment;
     revenueOpenSidebar;
     render() {
-        return (index.h(index.Host, { key: 'd851b7537e1025a6809a01c1ac44d82036e84cc2' }, index.h("div", { key: '96165ae93686a51ff36686b53476a5ec160079f9', class: "ir-revenue-row-detail" }, index.h("div", { key: 'c1f531eb62041c1cc4aaccb831ada8542391e7e0', class: "ir-revenue-row-detail__info" }, index.h("div", { key: 'b7d95333a7ede48a48293ea80588a464c5f61524', class: "ir-revenue-row-detail__time" }, index.h("span", { key: '1bc241b3b82682599441cfa5039c1f97bb955572', class: "ir-revenue-row-detail__label" }, this.payment.date), index.h("span", { key: 'a2a08ec7d94758d157792906f5062bb77d763029', class: "ir-revenue-row-detail__value" }, functions._formatTime(this.payment.hour.toString(), this.payment.minute.toString())), index.h("div", { key: '66beff05e6f0deb416b8e87c2bb5aa13e331d968', class: "ir-revenue-row-detail__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, this.payment.amount))), index.h("div", { key: '3225dbefe8c8ea0289b3b93de41e7d831093aa99', class: "ir-revenue-row-detail__meta" }, index.h("div", { key: '56bcf56e2d5164c17590ba1e75cb17026559799f', class: "ir-revenue-row-detail__user" }, index.h("span", { key: '64eea6ea186342eca0c339ced4bea73907291d78', class: "ir-revenue-row-detail__label" }, "User:"), index.h("span", { key: '294146b80ea656c886fe45c1977d9650fbbc25d3', class: "ir-revenue-row-detail__value" }, this.payment.user)), index.h("div", { key: '981aeffa953064c965a554e854a2e332af7f9e4a', class: "ir-revenue-row-detail__booking" }, index.h("ir-button", { key: 'bfc1c52acc0c99b1689582a7ac03b119fa4af36e', variant: "default", btn_color: "link", text: this.payment.bookingNbr, class: "ir-revenue-row-detail__booking-btn", size: "sm", onClickHandler: e => {
+        return (index.h(index.Host, { key: 'e4bb246e707f71c002cbb978de78780aea32970d' }, index.h("div", { key: 'c3c23d70b8496ff7c04b5786c10ef922ac8557d7', class: "ir-revenue-row-detail" }, index.h("div", { key: '42e3b985f23e833ff21d08a2377457d3e6fd0a5e', class: "ir-revenue-row-detail__info" }, index.h("div", { key: '0c23a0fd8f6540030e09608619228a65e503a6c4', class: "ir-revenue-row-detail__time" }, index.h("span", { key: '2abf4f7137358d2e815f9e0f559c98b7eecb7332', class: "ir-revenue-row-detail__label" }, this.payment.date), index.h("span", { key: 'a540e0be23bae2ab5ed5fb40099db0ddf8c486fd', class: "ir-revenue-row-detail__value" }, functions._formatTime(this.payment.hour.toString(), this.payment.minute.toString())), index.h("div", { key: 'afcc1d5bdd3435439138760b5622cc7091750147', class: "ir-revenue-row-detail__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, this.payment.amount))), index.h("div", { key: 'b1494a50a93dff4521df36ce64cd635a786c8fd9', class: "ir-revenue-row-detail__meta" }, index.h("div", { key: '2381de35499139c11a0df1ae1ebd7a32c963ecae', class: "ir-revenue-row-detail__user" }, index.h("span", { key: '537a9934c0d4a89d8ba3d1360bb76fd3b49a7752', class: "ir-revenue-row-detail__label" }, "User:"), index.h("span", { key: '732e3b09fa90121430d356f545980f078f1e4e0f', class: "ir-revenue-row-detail__value" }, this.payment.user)), index.h("div", { key: '0cf2bd818fbb083c85d42f0283b2887eed5b15dd', class: "ir-revenue-row-detail__booking" }, index.h("ir-button", { key: 'e2a4a648d7d337f8792246dbae4a15e28400b2eb', variant: "default", btn_color: "link", text: this.payment.bookingNbr, class: "ir-revenue-row-detail__booking-btn", size: "sm", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.revenueOpenSidebar.emit({
@@ -225,7 +225,7 @@ const IrRevenueRowDetails = class {
                     },
                     type: 'booking',
                 });
-            }, btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit', textAlign: 'center', lineHeight: '1.2' } })))), index.h("div", { key: '67cc425525c9ced6805dc719177df2dd31eede77', class: "ir-revenue-row-detail__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, this.payment.amount)))));
+            }, btnStyle: { width: 'fit-content', margin: '0', padding: '0', fontSize: 'inherit', textAlign: 'center', lineHeight: '1.2' } })))), index.h("div", { key: '34e6de4dc935104f3d350f37e7b98465b502580b', class: "ir-revenue-row-detail__amount" }, utils.formatAmount(calendarData.calendar_data.currency.symbol, this.payment.amount)))));
     }
 };
 IrRevenueRowDetails.style = IrRevenueRowDetailsStyle0;

@@ -15,14 +15,13 @@ import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irGuestInfoDrawerCss = ":host{display:block}.drawer-form{margin:0}.drawer-loading{display:flex;align-items:center;justify-content:center;padding:2rem 1rem}.drawer-footer{display:flex;gap:0.5rem}.loading-container{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
+const irGuestInfoDrawerCss = ".sc-ir-guest-info-drawer-h{display:block}.drawer-form.sc-ir-guest-info-drawer{margin:0}.drawer-loading.sc-ir-guest-info-drawer{display:flex;align-items:center;justify-content:center;padding:2rem 1rem}.drawer-footer.sc-ir-guest-info-drawer{display:flex;gap:0.5rem}.loading-container.sc-ir-guest-info-drawer{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
 const IrGuestInfoDrawerStyle0 = irGuestInfoDrawerCss;
 
 const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDrawer extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.__attachShadow();
         this.guestInfoDrawerClosed = createEvent(this, "guestInfoDrawerClosed", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.toast = createEvent(this, "toast", 7);
@@ -122,21 +121,21 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '5434ca1dac6b24e1012f46546349ab44d8815183', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: 'da26fe2b8c6c65e047bee08710464898b59547fe', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: 'da5ec081628c9c51e1bd9867196fd6fffb765fa3', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '0b60e7331e2084e02f32037f3b53288b4e893b4f', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '4737bd0a91bd4c26a02090a7919ce0cbf67992c4', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '7db7a97672ac4262ec81b5e90855854d9f6f50d1', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '261b427e0e0cb9cbe9fdb3c7f8c6feb2cad838cb', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '5cb9d166fa0222cc2a446e500117a897f31138b5', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"],
         "open": ["openChanged"]
     }; }
     static get style() { return IrGuestInfoDrawerStyle0; }
-}, [1, "ir-guest-info-drawer", {
+}, [2, "ir-guest-info-drawer", {
         "open": [4],
         "language": [1],
         "email": [1],

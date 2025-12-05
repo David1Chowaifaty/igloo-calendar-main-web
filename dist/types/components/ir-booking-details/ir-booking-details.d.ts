@@ -80,7 +80,6 @@ export declare class IrBookingDetails {
     private handleDeleteFinish;
     private resetBooking;
     private handleModalConfirm;
-    private renderSidebarContent;
     private computeRoomGroups;
     private renderRoomItem;
     private renderRooms;

@@ -1,6 +1,9 @@
 import { ICountry } from "../../../models/IBooking";
 import { EventEmitter } from '../../../stencil-public-runtime';
+import { NativeWaInput } from '../ir-custom-input/ir-custom-input';
 export declare class IrCountryPicker {
+    /** The input's size. */
+    size: NativeWaInput['size'];
     variant: 'modern' | 'default';
     /**
      * List of countries to display in the dropdown.

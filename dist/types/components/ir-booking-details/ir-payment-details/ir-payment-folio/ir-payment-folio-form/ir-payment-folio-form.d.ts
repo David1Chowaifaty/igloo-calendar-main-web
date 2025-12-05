@@ -1,0 +1,36 @@
+import { EventEmitter } from '../../../../../stencil-public-runtime';
+import { IEntries } from "../../../../../models/IBooking";
+import { FolioEntryMode, Payment, PaymentEntries } from '../../../types';
+export declare class IrPaymentFolioForm {
+    paymentEntries: PaymentEntries;
+    bookingNumber: string;
+    formId: string;
+    payment: Payment;
+    mode: FolioEntryMode;
+    isLoading: 'save' | 'save-print';
+    errors: Record<string, boolean>;
+    autoValidate: boolean;
+    folioData: Payment;
+    _paymentTypes: Record<string, IEntries[]>;
+    closeModal: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
+    resetExposedCancellationDueAmount: EventEmitter<null>;
+    loadingChanged: EventEmitter<'save' | 'save-print' | null>;
+    private readonly today;
+    private paymentService;
+    private readonly componentId;
+    private readonly controlIds;
+    componentWillLoad(): void;
+    handlePaymentChange(newValue: Payment, oldValue: Payment): void;
+    handlePaymentEntriesChange(newValue: PaymentEntries, oldValue: PaymentEntries): void;
+    private updateFolioData;
+    private requiresPaymentMethod;
+    private getDefaultPaymentMethod;
+    private stopEventPropagation;
+    private syncPaymentTypes;
+    private savePayment;
+    private handleDropdownChange;
+    private handlePaymentMethodDropdownChange;
+    private renderDropdownItems;
+    render(): any;
+}

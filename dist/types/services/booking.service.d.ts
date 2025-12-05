@@ -2,6 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../models/booking.dto';
 import { PaymentEntries } from "../components/ir-booking-details/types";
+import { BookingInvoiceInfo } from "../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
     check_in: boolean;
@@ -101,6 +102,9 @@ export declare class BookingService {
     fetchPMSLogs(booking_nbr: string | number): Promise<IPmsLog>;
     getExposedBookingEvents(booking_nbr: string | number): Promise<ExposedBookingEvent[] | null>;
     editExposedGuest(guest: Guest, book_nbr: string): Promise<any>;
+    getBookingInvoiceInfo(props: {
+        booking_nbr: string;
+    }): Promise<BookingInvoiceInfo>;
     getBookingAvailability(props: {
         from_date: string;
         to_date: string;

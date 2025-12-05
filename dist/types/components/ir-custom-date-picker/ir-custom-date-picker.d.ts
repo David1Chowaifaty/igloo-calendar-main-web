@@ -2,6 +2,8 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import moment from 'moment';
 export declare class IrCustomDatePicker {
     el: HTMLElement;
+    withClear: boolean;
+    placeholder: string;
     label: string;
     /**
      * Determines whether the date picker is rendered inline or in a pop-up.

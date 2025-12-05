@@ -1,5 +1,7 @@
 import { Fragment, h } from "@stencil/core";
 export class IrCountryPicker {
+    /** The input's size. */
+    size;
     variant = 'default';
     /**
      * List of countries to display in the dropdown.
@@ -103,7 +105,7 @@ export class IrCountryPicker {
     render() {
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
         if (this.variant === 'modern') {
-            return (h("ir-picker", { label: this.label, mode: "select", value: this.selectedCountry?.id?.toString(), "onCombobox-select": e => {
+            return (h("ir-picker", { size: this.size, label: this.label, mode: "select", value: this.selectedCountry?.id?.toString(), "onCombobox-select": e => {
                     const country = this.filteredCountries.find(c => c.id.toString() === e.detail.item.value);
                     if (!country) {
                         console.warn(`country not found`, e.detail.item);
@@ -143,6 +145,31 @@ export class IrCountryPicker {
     }
     static get properties() {
         return {
+            "size": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['size']",
+                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "import",
+                            "path": "../ir-custom-input/ir-custom-input",
+                            "id": "src/components/ui/ir-custom-input/ir-custom-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's size."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "size",
+                "reflect": true
+            },
             "variant": {
                 "type": "string",
                 "mutable": false,

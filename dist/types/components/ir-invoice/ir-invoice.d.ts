@@ -36,7 +36,6 @@ export declare class IrInvoice {
      * Useful for setups where the invoice should immediately be sent to a printer.
      */
     autoPrint: boolean;
-    selectedRecipient: string;
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -51,27 +50,6 @@ export declare class IrInvoice {
      * underlying drawer emits `onDrawerHide`.
      */
     invoiceClose: EventEmitter<void>;
-    /**
-     * Emitted when an invoice is created/confirmed.
-     *
-     * The event `detail` contains:
-     * - `booking`: the booking associated with the invoice
-     * - `recipientId`: the selected billing recipient
-     * - `for`: whether the invoice is for `"room"` or `"booking"`
-     * - `roomIdentifier`: the room identifier when invoicing a specific room
-     * - `mode`: the current invoice mode
-     */
-    invoiceCreated: EventEmitter<{
-        booking: Booking;
-        recipientId: string;
-        for: 'room' | 'booking';
-        roomIdentifier?: string;
-        mode: 'create' | 'check_in-create';
-    }>;
-    private invoiceFormRef;
-    private room;
-    componentWillLoad(): void;
-    handleBookingChange(): void;
     /**
      * Opens the invoice drawer.
      *
@@ -95,16 +73,6 @@ export declare class IrInvoice {
      * @returns {Promise<void>} Resolves once the drawer state is updated.
      */
     closeDrawer(): Promise<void>;
-    /**
-     * Handles confirming/creating the invoice.
-     *
-     * Emits the `invoiceCreated` event with invoice context, and if
-     * `autoPrint` is `true`, triggers `window.print()` afterwards.
-     */
-    private handleConfirmInvoice;
-    private getMinDate;
-    private getMaxDate;
-    private computeRoomGroups;
-    private renderRooms;
+    private _id;
     render(): any;
 }

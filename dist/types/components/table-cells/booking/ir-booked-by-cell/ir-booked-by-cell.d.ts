@@ -1,6 +1,9 @@
 import { Booking } from "../../../../models/booking.dto";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrBookedByCell {
+    label: string;
+    cellId: string;
+    display: 'inline' | 'block';
     /**
      * Guest associated with this booking.
      */

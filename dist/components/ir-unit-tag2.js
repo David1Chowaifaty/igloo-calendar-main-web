@@ -78,7 +78,7 @@ const IrUnitTag = /*@__PURE__*/ proxyCustomElement(class IrUnitTag extends HTMLE
         }
     }
     render() {
-        return (h(Fragment, { key: 'd9be752ee4807ade8ec5c901d41a728ff8ebb739' }, this.showTooltip && h("wa-tooltip", { key: '97c4ac8bbc2f300fe05a52d6b2bf5de21544cdbf', for: this._id }, this.unit), h("wa-tag", { key: '967cba40d98f7d4f96bf057a24e591306bb2c262', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: '31eb6e5e0647e8e29b64c2a2acf6ee5026aa8185', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (h(Fragment, { key: '93e689a4c0bebc7af29486863f7ce1eb84fcd33c' }, this.showTooltip && h("wa-tooltip", { key: '23644b036b3075275df1fdca6ec37b37d0e058cc', for: this._id }, this.unit), h("wa-tag", { key: 'e278e011bb5fbfbe8dcdc27514bc0859f1ee5c84', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: '00bc9e5da9bb2f5c3066dc815bc47ac4a653d5f9', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get watchers() { return {
         "unit": ["onUnitChange"]

@@ -4,7 +4,7 @@ import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
-const irBalanceCellCss = ".sc-ir-balance-cell-h{box-sizing:border-box !important}.sc-ir-balance-cell-h *.sc-ir-balance-cell,.sc-ir-balance-cell-h *.sc-ir-balance-cell::before,.sc-ir-balance-cell-h *.sc-ir-balance-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-balance-cell{display:none !important}.sc-ir-balance-cell-h{display:flex;flex-direction:column;align-items:center;font-size:0.93rem}.balance_button-container.sc-ir-balance-cell{display:flex;align-items:center;justify-content:flex-end}";
+const irBalanceCellCss = ".sc-ir-balance-cell-h{box-sizing:border-box !important}.sc-ir-balance-cell-h *.sc-ir-balance-cell,.sc-ir-balance-cell-h *.sc-ir-balance-cell::before,.sc-ir-balance-cell-h *.sc-ir-balance-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-balance-cell{display:none !important}.sc-ir-balance-cell-h{display:flex;flex-direction:column;align-items:center;font-size:0.93rem}[display='inline'].sc-ir-balance-cell-h{display:flex;flex-direction:row;gap:0.5rem}.cell-label.sc-ir-balance-cell{font-weight:700}.balance_button-container.sc-ir-balance-cell{display:flex;align-items:center;justify-content:flex-end}";
 const IrBalanceCellStyle0 = irBalanceCellCss;
 
 const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell extends HTMLElement {
@@ -13,6 +13,8 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
         this.__registerHost();
         this.payBookingBalance = createEvent(this, "payBookingBalance", 7);
     }
+    label;
+    display = 'block';
     financial;
     statusCode;
     isDirect;
@@ -20,7 +22,7 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
     currencySymbol;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '5e80c6817df2fec551d36feef96dbf0d42a8b0c3' }, h("p", { key: 'a00e2306e0d5fc133867b6919b838202b7f7cb06', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: '0938469ec16adebd22323843ab3ab49e47039632', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '9d53f1c48625f0482dd1e9d58bd4feca0a76eff0' }, this.label && h("p", { key: 'cf92166beecb5a750799d1f2783ac2fc7909e008', class: "cell-label" }, this.label, ":"), h("p", { key: '06c4243daf093a7a178b3ba8e5ceba5beef467f5', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: '202a4f3bdd5f131af918d6bcd1b2e2e38320ac08', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -55,6 +57,8 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
     }
     static get style() { return IrBalanceCellStyle0; }
 }, [2, "ir-balance-cell", {
+        "label": [1],
+        "display": [513],
         "financial": [16],
         "statusCode": [1, "status-code"],
         "isDirect": [4, "is-direct"],

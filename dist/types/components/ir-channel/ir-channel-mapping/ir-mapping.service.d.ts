@@ -13,7 +13,7 @@ export declare class IrMappingService {
     private resolveRatePlanContext;
     getAppropriateRooms(isRoomType: boolean, roomTypeId?: string): {
         id: string;
-        name: any;
+        name: string;
         occupancy: number;
     }[];
 }

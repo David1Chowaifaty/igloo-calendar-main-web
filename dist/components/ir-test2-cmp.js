@@ -1,12 +1,14 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$9 } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$8 } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$5 } from './ir-custom-input2.js';
-import { d as defineCustomElement$4 } from './ir-dialog2.js';
-import { d as defineCustomElement$3 } from './ir-drawer2.js';
-import { d as defineCustomElement$2 } from './ir-invoice2.js';
+import { d as defineCustomElement$b } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$a } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$9 } from './ir-custom-button2.js';
+import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$7 } from './ir-custom-input2.js';
+import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$5 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-invoice2.js';
+import { d as defineCustomElement$3 } from './ir-invoice-form2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
 
 const booking = {
     "agent": null,
@@ -1439,7 +1441,7 @@ const IrTest2Cmp$1 = /*@__PURE__*/ proxyCustomElement(class IrTest2Cmp extends H
     }
     invoiceRef;
     render() {
-        return (h(Host, { key: '8a2de4ae3fb116b41885c517d4896919ed734664', style: { background: 'white' } }, h("ir-custom-button", { key: '09dbd15329d6ce168dd41465427e61ee988f7b84', onClickHandler: () => this.invoiceRef.openDrawer() }, "open"), h("ir-invoice", { key: 'c8791b84fafe93a87825e0d4ea39563149df668e', ref: el => (this.invoiceRef = el), booking: booking }), h("div", { key: '46846a38be8ca1d3476ffd0e38436c53c8c6bf96', style: { background: 'white' } }, h("table", { key: 'c55381b7891c1739c05f3fb42e0a48bc26e179ca', class: "table ir-table ir-zebra-rows ir-hover-rows" }, h("caption", { key: 'cc71531197283493b048be5564bd2fd504bcc399' }, "This", h("code", { key: '529580f03d1b323d884b6746616da006ed406b65' }, "<caption>"), "describes the table"), h("thead", { key: 'd8e83ac7fa1c85fd5d55485a4acc8500c05b6259' }, h("tr", { key: '9cb11b53ea2c8ccc6de9719c81e0b61f8c68ee13' }, h("th", { key: 'ee68256caf2c945f5c00085f75263e55e786344e' }, "First column"), h("th", { key: '57d70a17039370e8dc3f76c0e01aaeff92ceff3d' }, "Second column"), h("th", { key: 'bf6b48da8871dff18664b01aa67250f5521a0209' }, "Third column"), h("th", { key: '5f6124d19c3fae33fce922b7830eb3da3f396fcb' }, "Final column"))), h("tbody", { key: '390a716160dda3f4f38e733efdc8cb8c70399fe1' }, h("tr", { key: '50bb1bdb944514df28b3195eee2cd492180ad660' }, h("td", { key: 'f19c5e1bdef1ba0af5846aa6c0a8f566d18d5268' }, "Data"), h("td", { key: '5c494dc2d21727309184e94892e068773d42553f' }, "Data"), h("td", { key: '7881e6fca591f044aebee5624ba46fd7bc7c365d' }, "Data"), h("td", { key: '7eef267d302f63ad905e10c361fd929dae1afe9e' }, "Data")), h("tr", { key: 'de534c99056e8cdf1dc2eb820abf5b8adb2ba416' }, h("td", { key: 'e8f4fc34cdd98f9ef53d08ee3efc27c885e901d8' }, "Data"), h("td", { key: 'd208312aff88955b7458824bd5206873bb734fa6' }, "Data"), h("td", { key: 'b7b3847254d77daf59a0adbfe5da3ddcd08a17a5' }, "Data"), h("td", { key: '46eeeb22b3880b26d82d901a19e52653d2004273' }, "Data")), h("tr", { key: '8e2d4ad23a6379d5798360627893ca40423a9f4b' }, h("td", { key: 'b867134447473aaa303bb87a36d37fab94190949' }, "Data"), h("td", { key: 'bd62f5b285c7b1432a61b2cf908f6d8a8e5d176d' }, "Data"), h("td", { key: 'fc3c41239526487cf518f281c14ed4adeefda714' }, "Data"), h("td", { key: '944707a289d6614c93f5fed28ed37fdf5c75e42e' }, "Data")), h("tr", { key: '2437814c6d9ef9b9646a39f0461e781ce2fdfc5d' }, h("td", { key: 'b6e121d34886e4d69d3d183de9c8889ff98f6f4e' }, "Data"), h("td", { key: 'bdd6984d35df89b2560633549e7ec0a918d23d64' }, "Data"), h("td", { key: '0cca733e44c0b66b45a6de0a29490a9e38ca65ed' }, "Data"), h("td", { key: '7c707fbd678f146cd2208090d53f35c852ae6ce3' }, "Data")))))));
+        return (h(Host, { key: '55491b3431fd1c30f716849370a2d760ee4df561', style: { background: 'white' } }, h("ir-custom-button", { key: 'b170e59a35d1ba2071b03f95255c12d887458c7b', onClickHandler: () => this.invoiceRef.openDrawer() }, "open"), h("ir-invoice", { key: 'a468ed49e7407d71a6579de17e6b6754c9d27659', ref: el => (this.invoiceRef = el), booking: booking }), h("div", { key: '952d6404693abfed99c4b0c40bc8f1ac81af7372', style: { background: 'white' } }, h("table", { key: '013789b9c5fe02e10cbce16dba031aeb2ff6823f', class: "table ir-table ir-zebra-rows ir-hover-rows" }, h("caption", { key: '3150ce6ff4d1efd67beea7a6ddbcfaf733af9f18' }, "This", h("code", { key: 'ca36a6883a45f7da61c6d1bc2c9faf8b0b151bba' }, "<caption>"), "describes the table"), h("thead", { key: '021dfe42c5eb61868d83a3bcd050586f8e504521' }, h("tr", { key: '5a03dab809e93858b625d2d5686a11a968826879' }, h("th", { key: '65060b9941558159482c9616331f67242279e119' }, "First column"), h("th", { key: '89183d5ae6a381fd9350bb4f8c1f7d788348f9c9' }, "Second column"), h("th", { key: '50c27504b6d02e1eeba69f1fe44b6c0428bbe1d1' }, "Third column"), h("th", { key: '1955e8b942e815724e0dc6a7897d51e64ad7a1b1' }, "Final column"))), h("tbody", { key: '7609466f2195aae43864ad2af4fefcec50852eb8' }, h("tr", { key: '06a59147651756700a6761dd41f4c504b50b123b' }, h("td", { key: 'f5b47e6858c620c8dca795b7c424329c42a08956' }, "Data"), h("td", { key: 'ba6cdbb36af4d702a21b0dc741d6da5e5a6eeb87' }, "Data"), h("td", { key: '62798c993665f71fa9ffef6e64f6b66ead23245b' }, "Data"), h("td", { key: '9142c4be88358679417fcc5281147c05bcabf584' }, "Data")), h("tr", { key: 'aea052fd0dd3d2ed9cddabeaa945aaf16db6fa2f' }, h("td", { key: '80df196c88e1982b90ae5aec87dc9e3b005ab2d5' }, "Data"), h("td", { key: '29f0bef2c9311dc2f5d89ccb920e753968ae7616' }, "Data"), h("td", { key: 'e1e429cfaa0de4ffa129bd5f9092aae7d10ac387' }, "Data"), h("td", { key: '3308743d17bb6233e1930483af30ac9fd413c573' }, "Data")), h("tr", { key: 'a5cec8f607ae04955c30d28b280d6cd444931149' }, h("td", { key: 'ff84e6a489e2eefbedc2214bcc24a61736d59902' }, "Data"), h("td", { key: 'eb0147af347a5413b3cbc687b544ea465c1a5f3a' }, "Data"), h("td", { key: 'c419b2e7686022dd1a2a54b8ddc4bcac72856d6e' }, "Data"), h("td", { key: '303ec81f6df44264df998d40ecf3cbbd2a682f8a' }, "Data")), h("tr", { key: '800fb17913d33433b7c633efc661f0f253d5ceb6' }, h("td", { key: 'd2b47a96112d0cb3537f4c6691a3005e0af0d0ac' }, "Data"), h("td", { key: 'c22569b1ac759eafa5f7760160dff1ceca3e2ce5' }, "Data"), h("td", { key: '045fb6fc63dde8fbcd367a3057982be1c6e86c58' }, "Data"), h("td", { key: 'da3c86887029a8c1af2f235861a1db70e7461667' }, "Data")))))));
     }
     static get style() { return IrTest2CmpStyle0 + IrTest2CmpStyle1; }
 }, [2, "ir-test2-cmp"]);
@@ -1447,7 +1449,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-test2-cmp", "ir-booking-billing-recipient", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-dialog", "ir-drawer", "ir-invoice"];
+    const components = ["ir-test2-cmp", "ir-booking-billing-recipient", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-dialog", "ir-drawer", "ir-invoice", "ir-invoice-form", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-test2-cmp":
             if (!customElements.get(tagName)) {
@@ -1456,40 +1458,50 @@ function defineCustomElement$1() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-custom-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-invoice":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-invoice-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

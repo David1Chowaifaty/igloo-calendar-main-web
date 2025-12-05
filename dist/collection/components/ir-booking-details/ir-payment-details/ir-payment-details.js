@@ -20,6 +20,7 @@ export class IrPaymentDetails {
     openPrintScreen;
     paymentService = new PaymentService();
     bookingService = new BookingService();
+    dialogRef;
     handlePaymentGeneration(e) {
         const value = e.detail;
         const paymentType = this.paymentEntries?.types?.find(p => p.CODE_NAME === (this.booking.status.code === '003' ? value.pay_type_code : '001'));
@@ -99,7 +100,7 @@ export class IrPaymentDetails {
     handleDeletePayment = (payment) => {
         this.modalMode = 'delete';
         this.toBeDeletedItem = payment;
-        this.openModal();
+        this.dialogRef.openModal();
     };
     async handleIssueReceipt(detail) {
         if (detail.receipt_nbr) {
@@ -158,10 +159,6 @@ export class IrPaymentDetails {
         this.modalMode = null;
         this.toBeDeletedItem = null;
     };
-    openModal() {
-        const modal = document.querySelector('.delete-record-modal');
-        modal?.openModal();
-    }
     hasValidFinancialData() {
         return Boolean(this.booking?.financial);
     }
@@ -210,7 +207,12 @@ export class IrPaymentDetails {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
-            h("ir-modal", { item: this.toBeDeletedItem, class: "delete-record-modal", modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: this.modalMode === 'delete' ? 'danger' : 'primary', onConfirmModal: this.handleConfirmModal, onCancelModal: this.handleCancelModal }),
+            h("ir-dialog", { onIrDialogHide: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                }, onIrDialogAfterHide: e => {
+                    this.handleCancelModal(e);
+                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", "data-dialog": "close", variant: "neutral", appearance: "filled" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "medium", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))),
         ];
     }
     static get is() { return "ir-payment-details"; }
@@ -409,7 +411,7 @@ export class IrPaymentDetails {
                 },
                 "complexType": {
                     "original": "PrintScreenOptions",
-                    "resolved": "{ mode: \"printing\" | \"invoice\" | \"proforma\" | \"creditnote\"; } | { mode: \"receipt\"; payload: { pid: string; rnb: string; }; }",
+                    "resolved": "{ mode: \"invoice\" | \"printing\" | \"proforma\" | \"creditnote\"; } | { mode: \"receipt\"; payload: { pid: string; rnb: string; }; }",
                     "references": {
                         "PrintScreenOptions": {
                             "location": "import",

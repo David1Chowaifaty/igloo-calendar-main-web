@@ -40,6 +40,7 @@ export declare class IrRoom {
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     private modal;
     private bookingService;
+    dialogRef: HTMLIrDialogElement;
     componentWillLoad(): void;
     handleClick(e: any): void;
     handleRoomDataChange(): void;

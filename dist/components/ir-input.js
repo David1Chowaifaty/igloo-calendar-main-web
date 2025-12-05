@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { M as MaskedNumber, a as MaskedRange, I as IMask } from './index4.js';
+import { a as MaskedNumber, M as MaskedRange, I as IMask } from './index4.js';
 import { h as hooks } from './moment.js';
 import { v as v4 } from './v4.js';
 

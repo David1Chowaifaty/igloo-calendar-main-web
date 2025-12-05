@@ -236,9 +236,9 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     cost: z.ZodNullable<z.ZodNumber>;
     currency_id: z.ZodNumber;
     description: z.ZodString;
-    end_date: z.ZodNullable<z.ZodString>;
+    end_date: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+    start_date: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     price: z.ZodNumber;
-    start_date: z.ZodNullable<z.ZodString>;
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     cost?: number;
@@ -246,8 +246,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
-    price?: number;
     start_date?: string;
+    price?: number;
     system_id?: number;
 }, {
     cost?: number;
@@ -255,8 +255,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
-    price?: number;
     start_date?: string;
+    price?: number;
     system_id?: number;
 }>;
 export type ExtraService = z.infer<typeof ExtraServiceSchema>;

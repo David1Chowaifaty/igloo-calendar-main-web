@@ -3,6 +3,8 @@ import { formatAmount } from "../../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrBalanceCell {
+    label;
+    display = 'block';
     financial;
     statusCode;
     isDirect;
@@ -10,7 +12,7 @@ export class IrBalanceCell {
     currencySymbol;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '5e80c6817df2fec551d36feef96dbf0d42a8b0c3' }, h("p", { key: 'a00e2306e0d5fc133867b6919b838202b7f7cb06', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: '0938469ec16adebd22323843ab3ab49e47039632', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '9d53f1c48625f0482dd1e9d58bd4feca0a76eff0' }, this.label && h("p", { key: 'cf92166beecb5a750799d1f2783ac2fc7909e008', class: "cell-label" }, this.label, ":"), h("p", { key: '06c4243daf093a7a178b3ba8e5ceba5beef467f5', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: '202a4f3bdd5f131af918d6bcd1b2e2e38320ac08', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -57,6 +59,45 @@ export class IrBalanceCell {
     }
     static get properties() {
         return {
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
+                "reflect": false
+            },
+            "display": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'inline' | 'block'",
+                    "resolved": "\"block\" | \"inline\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "display",
+                "reflect": true,
+                "defaultValue": "'block'"
+            },
             "financial": {
                 "type": "unknown",
                 "mutable": false,

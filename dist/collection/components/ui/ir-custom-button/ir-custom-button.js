@@ -66,13 +66,13 @@ export class IrCustomButton {
         this.clickHandler.emit(e);
     };
     render() {
-        return (h(Host, { key: '7520d3b79fd1dbd826524c340968dd2247f0bdc7' }, h("wa-button", { key: '4b0937b060a995bd8428a15c21670d5e1168ce97', ref: el => (this.buttonEl = el),
+        return (h(Host, { key: '726ea6a2dd1c85ee1c436b4da83c2f91e69fe253' }, h("wa-button", { key: '353e07102eba0653250f8bb93d31502ed58f3c3e', ref: el => (this.buttonEl = el),
             /* core button props */
             type: this.type, size: this.size, class: `ir__custom-button ${this.iconBtn ? '--icon' : ''} ${this.link ? '--link' : ''}`, disabled: this.disabled, appearance: this.link ? 'plain' : this.appearance, loading: this.loading, "with-caret": this.withCaret, variant: this.link ? 'brand' : this.variant, pill: this.pill,
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '49df20964428d3d558156409ca23457dd6ed5250', slot: "start", name: "start" }), h("slot", { key: '43822ecbb30f76b96ab8acea6b7d828b72e34d97' }), h("slot", { key: 'c96bfb3cc1792ce5ea3f6248298757bfec19c28a', slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: 'ab4e9976bfea6f165f616dd1fcb24feed4ed7633', slot: "start", name: "start" }), h("slot", { key: '44fd50c1d92f2072fc9d9773ff173b8a71848414' }), h("slot", { key: '6a74d828e7f1d5c1189c1c63f8289b05dfcd5957', slot: "end", name: "end" }))));
     }
     static get is() { return "ir-custom-button"; }
     static get originalStyleUrls() {

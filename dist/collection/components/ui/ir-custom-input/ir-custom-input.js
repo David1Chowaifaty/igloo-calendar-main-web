@@ -12,11 +12,12 @@ export class IrCustomInput {
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue;
     /** The input's size. */
-    size;
+    size = 'small';
     /** The input's visual appearance. */
     appearance;
     /** Draws a pill-style input with rounded edges. */
     pill;
+    returnMaskedValue = false;
     /** The input's label. If you need to display HTML, use the `label` slot instead. */
     label;
     /** The input's hint. If you need to display HTML, use the `hint` slot instead. */
@@ -93,6 +94,11 @@ export class IrCustomInput {
     _mask;
     inputRef;
     animationFrame;
+    componentWillLoad() {
+        if (this.mask === 'price' && typeof this.mask === 'string') {
+            this.returnMaskedValue = true;
+        }
+    }
     componentDidLoad() {
         // Find the closest form element (if any)
         // track slotted prefix to compute width
@@ -111,36 +117,13 @@ export class IrCustomInput {
         }
         this.rebuildMask();
     }
-    handleValueChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            if (this._mask) {
-                this._mask.value = newValue;
-            }
-        }
-    }
     handleAriaInvalidChange(e) {
-        this.isValid = !Boolean(e);
+        this.isValid = !JSON.parse(e);
     }
     handleInput = (nextValue) => {
         this.value = nextValue ?? '';
         this.textChange.emit(this.value);
     };
-    // private initializeMask() {
-    //   if (!this.inputRef) return;
-    //   const maskOpts = this.buildMaskOptions();
-    //   if (!maskOpts) return;
-    //   this.animationFrame = requestAnimationFrame(() => {
-    //     this._mask = IMask(this.inputRef.input, maskOpts);
-    //     if (this.value) {
-    //       this._mask.unmaskedValue = this.value;
-    //     }
-    //     this._mask.on('accept', () => {
-    //       if (!this._mask) return;
-    //       const isEmpty = this.inputRef.value.trim() === '' || this._mask.unmaskedValue === '';
-    //       this.handleInput(isEmpty ? '' : this._mask.unmaskedValue);
-    //     });
-    //   });
-    // }
     async initializeMask() {
         if (!this.inputRef)
             return;
@@ -154,14 +137,17 @@ export class IrCustomInput {
             return;
         this._mask = IMask(nativeInput, maskOpts);
         if (this.value) {
-            this._mask.unmaskedValue = this.value;
+            if (this.returnMaskedValue) {
+                this._mask.unmaskedValue = this.value;
+            }
+            else {
+                this._mask.value = this.value;
+            }
         }
         this._mask.on('accept', () => {
-            if (!this._mask)
-                return;
             const isEmpty = this.inputRef.value.trim() === '' || this._mask.unmaskedValue === '';
-            console.log(this._mask.unmaskedValue);
-            this.handleInput(isEmpty ? '' : this._mask.unmaskedValue);
+            const value = isEmpty ? '' : this.returnMaskedValue ? this._mask.unmaskedValue : this._mask.value;
+            this.handleInput(value);
         });
     }
     rebuildMask() {
@@ -195,8 +181,9 @@ export class IrCustomInput {
     resolveMask() {
         if (!this.mask)
             return;
-        if (typeof this.mask === 'string')
+        if (typeof this.mask === 'string') {
             return masks[this.mask];
+        }
         return this.mask;
     }
     handleChange = (e) => {
@@ -224,7 +211,14 @@ export class IrCustomInput {
         this.inputFocus.emit();
     };
     render() {
-        return (h(Host, { key: '08e48369bb8e057fe78e4bc22e068cebdf7c285f' }, h("wa-input", { key: 'e63b205bb59b60c8f2c14f85debca816ede7dfb4', type: this.type, value: this.value, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, onchange: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus }, h("slot", { key: '834a4ac07af92637e4474c8365949fa6b1d5a071', name: "label", slot: "label" }), h("slot", { key: '5f8428070ab2097938b40fbd4cd439e034a1d55c', name: "start", slot: "start" }), h("slot", { key: 'a54a6b642c701c06a737118b329410b1095a7b8f', name: "end", slot: "end" }), h("slot", { key: '64b0913d09edbc2fb766bba21ec85b7d968fdad5', name: "clear-icon", slot: "clear-icon" }), h("slot", { key: '816bcb3097dc8aad3c53fbacf86f0c16ac95fd2e', name: "hide-password-icon", slot: "hide-password-icon" }), h("slot", { key: '7599b4a3e1e4b398cb5d1ef79014348e20b18e46', name: "show-password-icon", slot: "show-password-icon" }), h("slot", { key: 'a70c057cdaad599c6175806295385e0094a44fae', name: "hint", slot: "hint" }))));
+        let displayValue = this.value;
+        if (this._mask && this.returnMaskedValue) {
+            // IMask holds the formatted string (e.g., "1,000.00")
+            // this.value holds the raw number (e.g., "1000")
+            // We must pass "1,000.00" to wa-input to avoid the overwrite warning
+            displayValue = this._mask.value;
+        }
+        return (h(Host, { key: 'cc64b4dc35373f15e2a76991746d59b40ce623c9' }, h("wa-input", { key: 'bd8532aefa3bb44e4e058521cb54bf63eaee6242', type: this.type, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, onchange: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus }, h("slot", { key: '4b978fb6f19a96394e72fde934f78461309d2566', name: "label", slot: "label" }), h("slot", { key: 'bd41dfd11c762f91441cda17b62558136d2a4736', name: "start", slot: "start" }), h("slot", { key: '285d492c25ed7bcd41b756c27091b3d647e99fbb', name: "end", slot: "end" }), h("slot", { key: 'cb2d756787b547ea2603f587d9aa2233eff647c3', name: "clear-icon", slot: "clear-icon" }), h("slot", { key: 'a6090b7bc97f18af322f72f4790fe37ba5db2c9d', name: "hide-password-icon", slot: "hide-password-icon" }), h("slot", { key: 'd92d006f8dfb594c337401f206fdd47c2867a55d', name: "show-password-icon", slot: "show-password-icon" }), h("slot", { key: '38832507783b1f25b97af86869a029acc7d53c95', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-custom-input"; }
     static get originalStyleUrls() {
@@ -333,7 +327,8 @@ export class IrCustomInput {
                 "getter": false,
                 "setter": false,
                 "attribute": "size",
-                "reflect": true
+                "reflect": true,
+                "defaultValue": "'small'"
             },
             "appearance": {
                 "type": "string",
@@ -384,6 +379,26 @@ export class IrCustomInput {
                 "setter": false,
                 "attribute": "pill",
                 "reflect": true
+            },
+            "returnMaskedValue": {
+                "type": "boolean",
+                "mutable": true,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "return-masked-value",
+                "reflect": false,
+                "defaultValue": "false"
             },
             "label": {
                 "type": "string",
@@ -1098,9 +1113,6 @@ export class IrCustomInput {
             }, {
                 "propName": "max",
                 "methodName": "handleMaskPropsChange"
-            }, {
-                "propName": "value",
-                "methodName": "handleValueChange"
             }, {
                 "propName": "aria-invalid",
                 "methodName": "handleAriaInvalidChange"

@@ -1,5 +1,5 @@
 import { a as axios } from './axios.js';
-import { z } from './index3.js';
+import { z, o as objectType, s as stringType, n as numberType, a as nullType, b as booleanType, e as enumType, c as arrayType, d as anyType } from './index3.js';
 import { e as extras, g as getMyBookings, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
@@ -44,6 +44,27 @@ var Code;
     Code["The001"] = "001";
     Code["The002"] = "002";
 })(Code || (Code = {}));
+
+const CurrencySchema = objectType({
+    code: stringType(),
+    id: numberType(),
+    symbol: stringType(),
+});
+const InvoicableItemSchema = objectType({
+    amount: numberType(),
+    booking_nbr: stringType(),
+    currency: CurrencySchema,
+    invoice_nbr: nullType(),
+    is_invoiceable: booleanType(),
+    key: nullType(),
+    status: nullType(),
+    system_id: nullType(),
+    type: enumType(['BSA', 'BSP', 'BSE']),
+});
+const BookingInvoiceInfoSchema = objectType({
+    invoicable_items: arrayType(InvoicableItemSchema),
+    invoices: arrayType(anyType()),
+});
 
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -284,6 +305,10 @@ class BookingService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async getBookingInvoiceInfo(props) {
+        const { data } = await axios.post('/Get_Booking_Invoice_Info', props);
+        return BookingInvoiceInfoSchema.parse(data.My_Result);
     }
     async getBookingAvailability(props) {
         try {

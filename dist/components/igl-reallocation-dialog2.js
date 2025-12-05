@@ -121,13 +121,13 @@ const IglReallocationDialog = /*@__PURE__*/ proxyCustomElement(class IglRealloca
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: '4c4a8cab6ddd23a0d19ec7bb691047bac352936d', "onwa-hide": e => {
+        h("wa-select", { key: 'b76b2b7e03c8a1b4f509cbdfce51522ddd8b2dce', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'd845fd1739f3f028d1cd85c8762d374d7a8cee97', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '576e5c31d1330eb26e93c38d7b2bbc873353af74', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '93f80daf0090de6810b8aec43a26a4c044df5770', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: '14078736a63b9ac14e3d4e55e445d92c186da3c9', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '17f1c6432d6a0c588923e0af91124cf126de6e65', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '44422c7a80a1f0787701acca9dc77953474fa82a', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '1973f6e0f93f223a1e2f6c525e7b4ffe468b13db', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: 'e7ebd5cd1b21ed5f9f1bf75401ee62830fc5d065', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
     }
     static get watchers() { return {
         "data": ["handleDataChange"]
