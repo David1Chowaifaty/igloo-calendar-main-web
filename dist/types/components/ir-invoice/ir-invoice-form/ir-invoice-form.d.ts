@@ -1,6 +1,7 @@
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { BookingInvoiceInfo } from '../types';
+import { Moment } from 'moment';
+import { BookingInvoiceInfo, InvoicableItem } from '../types';
 export declare class IrInvoiceForm {
     formId: string;
     /**
@@ -38,8 +39,13 @@ export declare class IrInvoiceForm {
      * Useful for setups where the invoice should immediately be sent to a printer.
      */
     autoPrint: boolean;
+    invoiceInfo: BookingInvoiceInfo;
     selectedRecipient: string;
     isLoading: boolean;
+    selectedItemKeys: Set<number>;
+    invoicableKey: Map<InvoicableItem['key'], InvoicableItem>;
+    toBeInvoicedItems: InvoicableItem[];
+    invoiceDate: Moment;
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -73,10 +79,16 @@ export declare class IrInvoiceForm {
     }>;
     private room;
     private bookingService;
-    invoiceInfo: BookingInvoiceInfo;
+    private invoiceTarget;
     componentWillLoad(): void;
     handleBookingChange(): void;
+    handleInvoiceInfoChange(): void;
+    private syncSelectedItems;
+    private canInvoiceRoom;
+    private hasInvoiceableRooms;
+    private getInvoiceableRoomIds;
     private init;
+    private setupInvoicables;
     /**
      * Handles confirming/creating the invoice.
      *
@@ -88,5 +100,8 @@ export declare class IrInvoiceForm {
     private getMaxDate;
     private computeRoomGroups;
     private renderRooms;
+    private handleCheckChange;
+    private isSelected;
+    private renderPickup;
     render(): any;
 }

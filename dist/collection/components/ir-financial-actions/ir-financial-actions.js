@@ -2,7 +2,7 @@ import Token from "../../models/Token";
 import { Host, h } from "@stencil/core";
 import locales from "../../stores/locales.store";
 import { RoomService } from "../../services/room.service";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../services/booking-service/booking.service";
 export class IrFinancialActions {
     language = '';
     ticket = '';

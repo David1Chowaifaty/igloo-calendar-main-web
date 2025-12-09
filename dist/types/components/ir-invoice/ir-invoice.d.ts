@@ -1,5 +1,6 @@
 import { Booking } from "../../models/booking.dto";
 import { EventEmitter } from '../../stencil-public-runtime';
+import { BookingInvoiceInfo } from './types';
 export declare class IrInvoice {
     /**
      * Whether the invoice drawer is open.
@@ -36,6 +37,16 @@ export declare class IrInvoice {
      * Useful for setups where the invoice should immediately be sent to a printer.
      */
     autoPrint: boolean;
+    /**
+     * Additional invoice-related metadata used when creating
+     * or rendering the invoice.
+     *
+     * This object can include payment details, discounts,
+     * tax information, or any context needed by the invoice form.
+     *
+     * @type {BookingInvoiceInfo}
+     */
+    invoiceInfo: BookingInvoiceInfo;
     /**
      * Emitted when the invoice drawer is opened.
      *

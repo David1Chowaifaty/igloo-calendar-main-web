@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 export class IrBookingCompanyForm {
     booking;
     open;
@@ -56,12 +56,12 @@ export class IrBookingCompanyForm {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'a0b531f9090f1741f6da322e959b253b9ccc4b0b', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '60b493a2cef1bcb64512f6fd30a25f3ce35b12fb', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.open = false;
                 this.companyFormClosed.emit();
-            }, label: "Company", id: "dialog-overview" }, h("div", { key: '32133da79cd9d5ce4c4b2efed30cf15945af34fe', class: "d-flex  flex-column", style: { gap: '1rem' } }, h("ir-custom-input", { key: 'e79684349433ac5567ed3e370b559f7485d56882', "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-custom-input", { key: '64b89c3ce970d5a68e65366e5b867ec84a98ceca', "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })), h("div", { key: 'b166262ca6348279981f22c5e4f95911767a7cfb', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '684a3417929954ba949c901dda4a631bbb2ec59e', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'fc3f43b7032997f5d8364b349820f970a7065bab', loading: this.isLoading, size: "medium", variant: "brand", onClickHandler: () => this.saveCompany() }, "Save"))));
+            }, label: "Company", id: "dialog-overview" }, h("div", { key: 'ca43e7bcadcc4c7a85faaaaf87bf4ffae368ca37', class: "d-flex  flex-column", style: { gap: '1rem' } }, h("ir-custom-input", { key: 'f97253a7795d6d52a97667b36e290267e230fdda', "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-custom-input", { key: '29f02c1e4e2433f01eb2700f3b6b5bc1f13b84bd', "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })), h("div", { key: '198659b086a64198e2247e98b18dca9706ab0468', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6e34dbd9920ebe5c4e26ce8f92a775f2c6c9ab9e', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'de4129fde25d668d70c55510229e94139a310434', loading: this.isLoading, size: "medium", variant: "brand", onClickHandler: () => this.saveCompany() }, "Save"))));
     }
     static get is() { return "ir-booking-company-form"; }
     static get encapsulation() { return "scoped"; }

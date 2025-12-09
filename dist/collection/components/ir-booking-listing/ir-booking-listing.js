@@ -5,7 +5,7 @@ import { isPrivilegedUser } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 import Token from "../../models/Token";
 import { getAllParams } from "../../utils/browserHistory";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 export class IrBookingListing {
     el;

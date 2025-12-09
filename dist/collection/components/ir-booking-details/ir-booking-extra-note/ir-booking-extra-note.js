@@ -1,6 +1,6 @@
 import locales from "../../../stores/locales.store";
 import { h } from "@stencil/core";
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 import { getPrivateNote } from "../../../utils/booking";
 export class IrBookingExtraNote {
     open;
@@ -62,9 +62,9 @@ export class IrBookingExtraNote {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '170fa1fbffec3c7414abab3a7ab2d8c8c8180859', label: "Private note", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '0ff94e30034daa7a6917c02a9e7938806faa028f', label: "Private note", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: '536fc1c46a5ba17cdeb2ba694b32e486b8dcb8fe', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'cdbf70c72997b05b3f66fa80b8ef58f8b1149e41', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'b461a2fac8eb31d100c1979c7df999ced57f1ca0', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'a057bdd0434244e8f92fd537cfe796047bd1518a', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-textarea", { key: '21a259c85f18956310be1c308962e46f6efa3c68', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: '79736b4c3a2d17cd2a27580268d855db7dd6b7b5', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'f094dc3683738f090953daa62fe470126b6c895e', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '96c7bf098ee387fb6f0d9b4849a63f84d403a359', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
     static get is() { return "ir-booking-extra-note"; }
     static get encapsulation() { return "scoped"; }

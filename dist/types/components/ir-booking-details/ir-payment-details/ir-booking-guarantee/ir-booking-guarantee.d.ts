@@ -1,5 +1,5 @@
 import { Booking } from "../../../../models/booking.dto";
-import { BookingService } from "../../../../services/booking.service";
+import { BookingService } from "../../../../services/booking-service/booking.service";
 export declare class IrBookingGuarantee {
     booking: Booking;
     bookingService: BookingService;

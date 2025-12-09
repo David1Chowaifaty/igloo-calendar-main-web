@@ -10,11 +10,11 @@ export declare const SelectedUnitSchema: z.ZodObject<{
     rateplan_id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     rateplan_id?: number;
-    roomtype_id?: number;
     unit_id?: number;
+    roomtype_id?: number;
 }, {
     rateplan_id?: number;
-    roomtype_id?: number;
     unit_id?: number;
+    roomtype_id?: number;
 }>;
 export type SelectedUnit = z.infer<typeof SelectedUnitSchema>;

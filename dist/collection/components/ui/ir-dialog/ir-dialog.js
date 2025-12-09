@@ -83,7 +83,7 @@ export class IrDialog {
         this.irDialogAfterShow.emit();
     }
     render() {
-        return (h("wa-dialog", { key: '370723fd8176b4d8a5437387953aea85e5d6b362', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '1c2f536d82ae0dbabf4aad52d0d67cdc7f6b0b7c', name: "header-actions", slot: "header-actions" }), h("slot", { key: '2d48c67fe7d6595439773a4d56efa029ca536704', name: "label", slot: "label" }), h("slot", { key: '3ff9c3cec08c155690d7066370d4fb54c05a7a4b' }), h("slot", { key: 'a37b51e18da13dfd72aa97e1d61d3a43a776b226', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: 'bbf8f8cf8aa4eaab64d21da230c6b7c04dab9f8f', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '8f829884d0730ea360214db24103ebfdfcd02fc5', name: "header-actions", slot: "header-actions" }), h("slot", { key: '270b95bd94dc8358ecbb636bfa9180753a046e55', name: "label", slot: "label" }), h("slot", { key: 'bdb80a5c64f6f22611796b234240100b452ec434' }), h("slot", { key: '850fa759cfb5e5d647d18618a7eb54885f5301c9', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-dialog"; }
     static get originalStyleUrls() {

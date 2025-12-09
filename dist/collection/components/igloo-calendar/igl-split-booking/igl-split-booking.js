@@ -1,4 +1,4 @@
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 import { resetBookingStore } from "../../../stores/booking.store";
 import calendar_data from "../../../stores/calendar-data";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
@@ -194,17 +194,17 @@ export class IglSplitBooking {
         this.selectedUnit = merged;
     }
     render() {
-        return (h("form", { key: '3d0764167c5528d294688d41b49584819c0ca561', onSubmit: e => {
+        return (h("form", { key: '582a98b37864e21366b2fec3571ad9fd58c05a78', onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, h("ir-title", { key: '16fe03a2023507e796d4b867eeb4f75429a8feaf', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: '9f2b5dc203e41da6be3f0c77e2133f4dc046bf36', class: "px-1 sheet-body" }, h("div", { key: 'd9a8f88277b1a74e0d123a426fa621b3e58b290e', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'c5ca959f2d08164332ad5426066564ee807d2188' }, h("ir-date-view", { key: 'c1e98bc2bab64b9e23d6f12e0c8b6c576b84c847', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: 'b2bce7f6f0f7d8b31e7ae3d44ad4840d00aaad3d', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '855e3e685031e874c81fcac395fa431edf70584f', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: 'c317a796e38be9dcfb09677d647937c2bc0a1dd3' }, "From:"), h("ir-date-picker", { key: '576834eeda439547c2b874540a9c7023a5768580', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
+            }, class: "sheet-container" }, h("ir-title", { key: 'db985fdd7377b21c3423bbfe1e9e8ac2e159694f', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: 'd5c0a27a819b0e12662b10aae717de2d021b6572', class: "px-1 sheet-body" }, h("div", { key: '89c6d0a341b1137a6837c2d582e82180bad05bf0', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'ea00a6c4f64df5ca0d2ab5a5780f699dc6939d90' }, h("ir-date-view", { key: '37de31429db8a6a540fd9805c1a500e2e8b77c22', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: '4b5b8b52791bae1a4623152229b95645ca0124a9', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '312c32219319feb7ed40a79377abd42dca60ea1b', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: '07a8a9d49e2fb224f2f0e5d8046acddc215f04ed' }, "From:"), h("ir-date-picker", { key: '12e20f92fc17f3624230b7247a2d7264311d434a', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
             // aria-invalid={this.errors?.arrival_date && !this.pickupData.arrival_date ? 'true' : 'false'}
             onDateChanged: evt => {
                 this.selectedDates = {
                     ...this.selectedDates,
                     from_date: evt.detail.start,
                 };
-            } }, h("input", { key: 'becc5dc6d131b5e228617467f5895b3daad8ffeb', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'd4b184e53ee16995dd2c811b0134640f1e46258e', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: 'b990b1869297147b11f9adf3b482e3a1d02c7da2', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'aaad299d0ea26b2bd9acfb9037ab8e09e12f853e', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
+            } }, h("input", { key: '012ee938d1e4925b70c9288f99a6528a605fccc1', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'd89eb2392c687f1d5c36d2a7ee19d52e505201f5', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '08725ec9372e69e84f298d105202fcfe4a5db9a7', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'c949088dac9b3092d3a9bc7e14c155e2772a65db', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
             if (!roomType.is_available_to_book) {
                 return null;
             }
@@ -252,7 +252,7 @@ export class IglSplitBooking {
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: 'b4f1d283de1c9a461b35a5e26ebc51423068f7d7', class: 'sheet-footer' }, h("ir-button", { key: '90325a5a94f52eee00d048d49367491874bdad1b', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '05b064c7b09747a88068ddbfeef80ceac283ac6f', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: 'fe096f5adc6120c6841b9c2c5ab7d79feb2ef52b', class: 'sheet-footer' }, h("ir-button", { key: '9cb8a0e0ac64d6336aa1ed445fa993ce0fd42283', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '5d83a93ab9578046b52dbed006c96f2ae5ed18ff', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
     static get is() { return "igl-split-booking"; }
     static get encapsulation() { return "scoped"; }

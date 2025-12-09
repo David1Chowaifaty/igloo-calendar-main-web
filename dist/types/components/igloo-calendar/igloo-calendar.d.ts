@@ -197,5 +197,6 @@ export declare class IglooCalendar {
     private handleRoomNightsDialogClose;
     private handleSideBarToggle;
     private handleCloseBookingWindow;
+    private get isSidebarOpen();
     render(): any;
 }

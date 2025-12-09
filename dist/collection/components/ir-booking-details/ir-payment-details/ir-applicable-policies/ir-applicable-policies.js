@@ -5,7 +5,7 @@ import calendar_data from "../../../../stores/calendar-data";
 import locales from "../../../../stores/locales.store";
 import { HelpDocButton } from "../../../HelpButton";
 import { ApplicablePoliciesService } from "../../../../services/applicable-policies.service";
-import { BookingService } from "../../../../services/booking.service";
+import { BookingService } from "../../../../services/booking-service/booking.service";
 export class IrApplicablePolicies {
     booking;
     propertyId;

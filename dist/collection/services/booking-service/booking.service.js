@@ -1,0 +1,680 @@
+// import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
+// import { DayData } from '../../models/DayType';
+// import axios from 'axios';
+// import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries, MonthType } from '../../models/IBooking';
+// import { convertDateToCustomFormat, convertDateToTime, extras } from '../../utils/utils';
+// import { getMyBookings } from '../../utils/booking';
+// import { Booking, Guest, IPmsLog } from '../../models/booking.dto';
+// import booking_store from '@/stores/booking.store';
+// import calendar_data from '@/stores/calendar-data';
+import axios from "axios";
+import { ZIEntrySchema } from "../../models/IBooking";
+import { convertDateToCustomFormat, convertDateToTime, dateToFormattedString, extras } from "../../utils/utils";
+import { getMyBookings } from "../../utils/booking";
+import booking_store from "../../stores/booking.store";
+import calendar_data from "../../stores/calendar-data";
+import { z } from "zod";
+import { GetBookingInvoiceInfoPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
+import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
+/**
+ * Builds a grouped payment types record from raw entries and groups.
+ *
+ * @param paymentEntries - The flat list of all available payment  entries.
+ * @returns A record where each key is a group CODE_NAME and the value is the
+ *          ordered array of payment type entries belonging to that group.
+ *
+ * @example
+ * const result = buildPaymentTypes(paymentEntries);
+ * // {
+ * //   PAYMENTS: [ { CODE_NAME: "001", CODE_VALUE_EN: "Cash", ... }, ... ],
+ * //   ADJUSTMENTS: [ ... ],
+ * //   ...
+ * // }
+ */
+export function buildPaymentTypes(paymentEntries) {
+    try {
+        const { groups, types } = z
+            .object({
+            types: ZIEntrySchema.array().min(1),
+            groups: ZIEntrySchema.array().min(1),
+            methods: ZIEntrySchema.array().min(1),
+        })
+            .parse(paymentEntries);
+        const items = [...types];
+        const byCodes = (codes) => codes.map(code => items.find(i => i.CODE_NAME === code)).filter((x) => Boolean(x));
+        const extractGroupCodes = (code) => {
+            const paymentGroup = groups.find(pt => pt.CODE_NAME === code);
+            return paymentGroup ? paymentGroup.CODE_VALUE_EN.split(',') : [];
+        };
+        let rec = {};
+        groups.forEach(group => {
+            // if (group.CODE_NAME === 'PAYMENTS') {
+            //   rec[group.CODE_NAME] = methods.map(entry => ({
+            //     ...entry,
+            //     CODE_VALUE_EN: `Payment: ${entry.CODE_VALUE_EN}`,
+            //   })) as IEntries[];
+            // } else if (group.CODE_NAME === 'REFUND') {
+            //   rec[group.CODE_NAME] = methods.map(entry => ({
+            //     ...entry,
+            //     CODE_VALUE_EN: `Refund: ${entry.CODE_VALUE_EN}`,
+            //   })) as IEntries[];
+            rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
+        });
+        return rec;
+    }
+    catch (error) {
+        console.log(error);
+        return {};
+    }
+}
+export class BookingService {
+    async unBlockUnitByPeriod(props) {
+        const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async getNextValue(props) {
+        const { data } = await axios.post(`/Get_Next_Value`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async getExposedApplicablePolicies(props) {
+        const { data } = await axios.post(`/Get_Exposed_Applicable_Policies`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result ?? [];
+    }
+    async handleExposedRoomInOut(props) {
+        const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async GetPenaltyStatement(params) {
+        const { data } = await axios.post('/Get_Penalty_Statement', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async setExposedRestrictionPerRoomType(params) {
+        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, {
+            operation_type: params.operation_type ?? 'close_open',
+            ...params,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async getLov() {
+        const { data } = await axios.post(`/Get_LOV`, {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async sendBookingConfirmationEmail(booking_nbr, language) {
+        const { data } = await axios.post(`/Send_Booking_Confirmation_Email`, {
+            booking_nbr,
+            language,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async getCalendarData(propertyid, from_date, to_date) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Calendar`, {
+                propertyid,
+                from_date,
+                to_date,
+                extras,
+                include_sales_rate_plans: true,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            const months = data.My_Result.months;
+            const customMonths = [];
+            const myBooking = await getMyBookings(months);
+            const days = months
+                .map(month => {
+                customMonths.push({
+                    daysCount: month.days.length,
+                    monthName: month.description,
+                });
+                return month.days.map(day => {
+                    if (day['value'] === '2025-05-30') {
+                        console.log(day);
+                    }
+                    return {
+                        day: convertDateToCustomFormat(day.description, month.description),
+                        value: day.value,
+                        currentDate: convertDateToTime(day.description, month.description),
+                        dayDisplayName: day.description,
+                        rate: day.room_types,
+                        unassigned_units_nbr: day.unassigned_units_nbr,
+                        occupancy: day.occupancy,
+                    };
+                });
+            })
+                .flat();
+            return Promise.resolve({
+                ExceptionCode: null,
+                ExceptionMsg: '',
+                My_Params_Get_Rooming_Data: {
+                    AC_ID: propertyid,
+                    FROM: data.My_Params_Get_Exposed_Calendar.from_date,
+                    TO: data.My_Params_Get_Exposed_Calendar.to_date,
+                },
+                days,
+                months: customMonths,
+                myBookings: myBooking,
+                defaultMonths: months,
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    async handleExposedRoomGuests(props) {
+        const { data } = await axios.post('/Handle_Exposed_Room_Guests', props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async fetchGuest(email) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Guest`, { email });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async changeExposedBookingStatus(props) {
+        try {
+            const { data } = await axios.post(`/Change_Exposed_Booking_Status`, props);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    }
+    async fetchPMSLogs(booking_nbr) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async getExposedBookingEvents(booking_nbr) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async editExposedGuest(guest, book_nbr) {
+        try {
+            const { data } = await axios.post(`/Edit_Exposed_Guest`, { ...guest, book_nbr });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+    }
+    async getBookingAvailability(props) {
+        try {
+            const { adultChildCount, currency, ...rest } = props;
+            const { data } = await axios.post(`/Check_Availability`, {
+                ...rest,
+                adult_nbr: adultChildCount.adult,
+                child_nbr: adultChildCount.child,
+                currency_ref: currency.code,
+                skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled,
+                is_backend: true,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            const results = this.modifyRateplans(this.sortRoomTypes(data['My_Result'], { adult_nbr: Number(adultChildCount.adult), child_nbr: Number(adultChildCount.child) }));
+            booking_store.roomTypes = [...results];
+            booking_store.tax_statement = { message: data.My_Result.tax_statement };
+            return results;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    sortRoomTypes(roomTypes, userCriteria) {
+        return roomTypes.sort((a, b) => {
+            // Priority to available rooms
+            if (a.is_available_to_book && !b.is_available_to_book)
+                return -1;
+            if (!a.is_available_to_book && b.is_available_to_book)
+                return 1;
+            // Check for variations where is_calculated is true and amount is 0 or null
+            const zeroCalculatedA = a.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
+            const zeroCalculatedB = b.rateplans?.some(plan => plan.variations?.some(variation => variation.discounted_amount === 0 || variation.discounted_amount === null));
+            // Prioritize these types to be before inventory 0 but after all available ones
+            if (zeroCalculatedA && !zeroCalculatedB)
+                return 1;
+            if (!zeroCalculatedA && zeroCalculatedB)
+                return -1;
+            // Check for exact matching variations based on user criteria
+            const matchA = a.rateplans?.some(plan => plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            const matchB = b.rateplans?.some(plan => plan.variations?.some(variation => variation.adult_nbr === userCriteria.adult_nbr && variation.child_nbr === userCriteria.child_nbr));
+            if (matchA && !matchB)
+                return -1;
+            if (!matchA && matchB)
+                return 1;
+            // Sort by the highest variation amount
+            const maxVariationA = Math.max(...a.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
+            const maxVariationB = Math.max(...b.rateplans.flatMap(plan => plan.variations?.map(variation => variation.discounted_amount ?? 0)));
+            if (maxVariationA < maxVariationB)
+                return -1;
+            if (maxVariationA > maxVariationB)
+                return 1;
+            return 0;
+        });
+    }
+    modifyRateplans(roomTypes) {
+        return roomTypes?.map(rt => ({ ...rt, rateplans: rt.rateplans?.map(rp => ({ ...rp, variations: this.sortVariations(rp?.variations ?? []) })) }));
+    }
+    sortVariations(variations) {
+        return variations.sort((a, b) => {
+            if (a.adult_nbr !== b.adult_nbr) {
+                return b.adult_nbr - a.adult_nbr;
+            }
+            return b.child_nbr - a.child_nbr;
+        });
+    }
+    async getCountries(language) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Countries`, {
+                language,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async getSetupEntriesByTableName(TBL_NAME) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
+            TBL_NAME,
+        });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        const res = data.My_Result ?? [];
+        return res;
+    }
+    async fetchSetupEntries() {
+        try {
+            const data = await this.getSetupEntriesByTableNameMulti(['_ARRIVAL_TIME', '_RATE_PRICING_MODE', '_BED_PREFERENCE_TYPE']);
+            const { arrival_time, rate_pricing_mode, bed_preference_type } = this.groupEntryTablesResult(data);
+            return {
+                arrivalTime: arrival_time,
+                ratePricingMode: rate_pricing_mode,
+                bedPreferenceType: bed_preference_type,
+            };
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async doBookingExtraService({ booking_nbr, service, is_remove }) {
+        const { data } = await axios.post(`/Do_Booking_Extra_Service`, { ...service, booking_nbr, is_remove });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    groupEntryTablesResult(entries) {
+        let result = {};
+        for (const entry of entries) {
+            const key = entry.TBL_NAME.substring(1, entry.TBL_NAME.length).toLowerCase();
+            if (!result[key]) {
+                result[key] = [];
+            }
+            result[key] = [...result[key], entry];
+        }
+        return result;
+    }
+    async getSetupEntriesByTableNameMulti(entries) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async getBlockedInfo() {
+        return await this.getSetupEntriesByTableNameMulti(['_CALENDAR_BLOCKED_TILL']);
+    }
+    async getUserDefaultCountry() {
+        try {
+            const { data } = await axios.post(`/Get_Country_By_IP`, {
+                IP: '',
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async blockUnit(params) {
+        try {
+            const { data } = await axios.post(`/Block_Exposed_Unit`, params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            console.log(data);
+            return data['My_Params_Block_Exposed_Unit'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async blockAvailabilityForBrackets(params) {
+        try {
+            const { data } = await axios.post(`/Block_Availability_For_Brackets`, params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async setDepartureTime(params) {
+        const { data } = await axios.post('/Set_Departure_Time', params);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async getUserInfo(email) {
+        try {
+            const { data } = await axios.post(`/GET_EXPOSED_GUEST`, {
+                email,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async getExposedBooking(booking_nbr, language, withExtras = true) {
+        try {
+            const { data } = await axios.post(`/Get_Exposed_Booking`, {
+                booking_nbr,
+                language,
+                extras: withExtras ? extras : null,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data.My_Result;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    generateDays(from_date, to_date, amount) {
+        const startDate = new Date(from_date);
+        const endDate = new Date(to_date);
+        const days = [];
+        while (startDate < endDate) {
+            days.push({
+                date: startDate.toISOString().split('T')[0],
+                amount: amount,
+                cost: null,
+            });
+            startDate.setDate(startDate.getDate() + 1);
+        }
+        return days;
+    }
+    calculateTotalRate(rate, totalNights, isRateModified, preference) {
+        if (isRateModified && preference === 2) {
+            return +rate;
+        }
+        return +rate / +totalNights;
+    }
+    async fetchExposedGuest(email, property_id) {
+        try {
+            const { data } = await axios.post(`/Fetch_Exposed_Guests`, {
+                email,
+                property_id,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async fetchExposedBookings(booking_nbr, property_id, from_date, to_date) {
+        try {
+            const { data } = await axios.post(`/Fetch_Exposed_Bookings`, {
+                booking_nbr,
+                property_id,
+                from_date,
+                to_date,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async getPCICardInfoURL(BOOK_NBR) {
+        try {
+            const { data } = await axios.post(`/Get_PCI_Card_Info_URL`, {
+                BOOK_NBR,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'];
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    async doReservation(body) {
+        const { data } = await axios.post(`/DoReservation`, { ...body, extras: body.extras ? body.extras : extras });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        console.log(data['My_Result']);
+        return data['My_Result'];
+    }
+    async bookUser({ bookedByInfoData, check_in, currency, extras = null, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }) {
+        try {
+            const fromDateStr = dateToFormattedString(fromDate);
+            const toDateStr = dateToFormattedString(toDate);
+            let guest = {
+                email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
+                first_name: bookedByInfoData.firstName,
+                last_name: bookedByInfoData.lastName,
+                country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
+                city: null,
+                mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
+                phone_prefix: null,
+                address: '',
+                dob: null,
+                subscribe_to_news_letter: bookedByInfoData.emailGuest || false,
+                cci: bookedByInfoData.cardNumber
+                    ? {
+                        nbr: bookedByInfoData.cardNumber,
+                        holder_name: bookedByInfoData.cardHolderName,
+                        expiry_month: bookedByInfoData.expiryMonth,
+                        expiry_year: bookedByInfoData.expiryYear,
+                    }
+                    : null,
+            };
+            if (defaultGuest) {
+                guest = { ...defaultGuest, email: defaultGuest.email === '' ? null : defaultGuest.email };
+            }
+            if (bookedByInfoData.id) {
+                guest = { ...guest, id: bookedByInfoData.id };
+            }
+            const body = {
+                assign_units: true,
+                check_in,
+                is_pms: true,
+                is_direct: true,
+                is_in_loyalty_mode: false,
+                promo_key: null,
+                extras,
+                booking: {
+                    booking_nbr: bookingNumber || '',
+                    from_date: fromDateStr,
+                    to_date: toDateStr,
+                    remark: bookedByInfoData.message || null,
+                    property: {
+                        id: propertyid,
+                    },
+                    source,
+                    currency,
+                    arrival: { code: arrivalTime ? arrivalTime : bookedByInfoData.selectedArrivalTime },
+                    guest,
+                    rooms: [
+                        ...guestData.map(data => ({
+                            identifier: identifier || null,
+                            roomtype: {
+                                id: data.roomCategoryId,
+                                name: data.roomCategoryName,
+                                physicalrooms: null,
+                                rateplans: null,
+                                availabilities: null,
+                                inventory: data.inventory,
+                                rate: data.rate / totalNights,
+                            },
+                            rateplan: {
+                                id: data.ratePlanId,
+                                name: data.ratePlanName,
+                                rate_restrictions: null,
+                                variations: null,
+                                cancelation: data.cancelation,
+                                guarantee: data.guarantee,
+                            },
+                            unit: typeof pr_id === 'undefined' && data.roomId === '' ? null : { id: +pr_id || +data.roomId },
+                            occupancy: {
+                                adult_nbr: data.adultCount,
+                                children_nbr: data.childrenCount,
+                                infant_nbr: null,
+                            },
+                            bed_preference: data.preference,
+                            from_date: fromDateStr,
+                            to_date: toDateStr,
+                            notes: null,
+                            days: this.generateDays(fromDateStr, toDateStr, this.calculateTotalRate(data.rate, totalNights, data.isRateModified, data.rateType)),
+                            guest: {
+                                email: null,
+                                first_name: data.guestName,
+                                last_name: null,
+                                country_id: null,
+                                city: null,
+                                mobile: null,
+                                address: null,
+                                dob: null,
+                                subscribe_to_news_letter: null,
+                            },
+                        })),
+                        ...rooms,
+                    ],
+                },
+                pickup_info,
+            };
+            console.log('book user payload', body);
+            // const result = await this.doReservation(body);
+            // return result;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    }
+    /* INVOICE */
+    async getBookingInvoiceInfo(props) {
+        const payload = GetBookingInvoiceInfoPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Booking_Invoice_Info', payload);
+        return BookingInvoiceInfoSchema.parse(data.My_Result);
+    }
+    async issueInvoice(props) {
+        const p = IssueInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Issue_Invoice', p);
+        return data;
+    }
+    async voidInvoice(props) {
+        const payload = VoidInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Void_Invoice', payload);
+        return data;
+    }
+    async printInvoice(props) {
+        const payload = PrintInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Print_Invoice', payload);
+        return data;
+    }
+}
+//# sourceMappingURL=booking.service.js.map

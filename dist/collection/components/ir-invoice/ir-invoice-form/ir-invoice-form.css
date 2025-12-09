@@ -1,3 +1,20 @@
+@layer wa-utilities {
+  :host([size='small']),
+  .wa-size-s {
+    font-size: var(--wa-font-size-s);
+  }
+
+  :host([size='medium']),
+  .wa-size-m {
+    font-size: var(--wa-font-size-m);
+  }
+
+  :host([size='large']),
+  .wa-size-l {
+    font-size: var(--wa-font-size-l);
+  }
+}
+
 :host {
   display: block;
   height: 100%;
@@ -46,13 +63,19 @@
   width: 100%;
 }
 .ir-invoice__checkbox.group::part(base) {
-  padding-block: 1rem;
+  padding-block: var(--wa-form-control-padding-inline);
   align-items: flex-start;
+}
+.ir-invoice__checkbox::part(label) {
+  display: flex;
+  width: 100%;
 }
 .ir-invoice__room-checkbox-container {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+  text-align: start;
 }
 .ir-invoice__room-checkbox-container.group {
   flex-direction: column;

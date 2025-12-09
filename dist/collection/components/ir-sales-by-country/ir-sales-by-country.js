@@ -5,7 +5,7 @@ import locales from "../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import { v4 } from "uuid";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../services/booking-service/booking.service";
 export class IrSalesByCountry {
     language = '';
     ticket = '';

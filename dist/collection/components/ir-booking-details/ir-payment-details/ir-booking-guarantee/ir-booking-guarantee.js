@@ -139,8 +139,8 @@ export class IrBookingGuarantee {
                     "references": {
                         "BookingService": {
                             "location": "import",
-                            "path": "@/services/booking.service",
-                            "id": "src/services/booking.service.ts::BookingService"
+                            "path": "@/services/booking-service/booking.service",
+                            "id": "src/services/booking-service/booking.service.ts::BookingService"
                         }
                     }
                 },

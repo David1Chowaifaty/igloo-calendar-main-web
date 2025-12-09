@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { v4 } from "uuid";
+import { isRequestPending } from "../../stores/ir-interceptor.store";
 export class IrInvoice {
     /**
      * Whether the invoice drawer is open.
@@ -36,6 +37,16 @@ export class IrInvoice {
      * Useful for setups where the invoice should immediately be sent to a printer.
      */
     autoPrint = false;
+    /**
+     * Additional invoice-related metadata used when creating
+     * or rendering the invoice.
+     *
+     * This object can include payment details, discounts,
+     * tax information, or any context needed by the invoice form.
+     *
+     * @type {BookingInvoiceInfo}
+     */
+    invoiceInfo;
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -81,13 +92,20 @@ export class IrInvoice {
     }
     _id = `invoice-form__${v4()}`;
     render() {
-        return (h(Host, { key: '0b91bbc5742c74dd3dc506cb5d15776cf0207d1e' }, h("ir-drawer", { key: '7aa6721d22adb65a98f7f8167a099aff9c993682', label: "Invoice", open: this.open, onDrawerHide: e => {
+        return (h(Host, { key: '778dee5a744933a44c8e927428c85e50b4ed0d4b' }, h("ir-drawer", { key: '8bc320bcee0197d5c0d4f5c8b70552ed6c3986ae', style: {
+                '--ir-drawer-width': '40rem',
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            }, label: "Invoice", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, this.open && (h("ir-invoice-form", { key: '1005498efd2a9628df66a94c8d14dee77419ac22', for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, mode: this.mode, formId: this._id })), h("div", { key: '24e33c3cfdda2aba5d0737acd745fd83d9d6125b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'cff8c7f45aeb9b9d33bdb9cc7d02934a8e493f63', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, this.open && (h("ir-invoice-form", { key: 'bc3d12d09eac9a58e64642f3242be915d0df48c8', for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, mode: this.mode, formId: this._id, invoiceInfo: this.invoiceInfo })), h("div", { key: 'c0f5238e5120e79743810d080464bf34b3c4727e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'b1ceb88c6bef53096ee37d3a7ef0d1b71134fb84', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: '80815cb68f7dfa232706f59f72770188726c95c6', value: "pro-forma", type: "submit", size: "medium", class: "w-100 flex-fill", appearance: "outlined", variant: "brand", form: this._id }, "Pro-forma invoice"), h("ir-custom-button", { key: 'dfa954fde2ddc920d82aae5bb293ba3280d785e3', type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand" }, "Confirm invoice")))));
+            } }, "Cancel"), h("ir-custom-button", { key: '7b6ed72795d060d7581989d1cca5a2c3ae40fc12', value: "pro-forma", type: "submit", size: "medium", class: "w-100 flex-fill", appearance: "outlined", variant: "brand", form: this._id }, "Pro-forma invoice"), h("ir-custom-button", { key: '3522b45faf40e09a2a2c7ba0d24d1b0c31b10fa1', loading: isRequestPending('/Issue_Invoice'), value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand" }, "Confirm invoice")))));
     }
     static get is() { return "ir-invoice"; }
     static get encapsulation() { return "scoped"; }
@@ -223,6 +241,32 @@ export class IrInvoice {
                 "attribute": "auto-print",
                 "reflect": false,
                 "defaultValue": "false"
+            },
+            "invoiceInfo": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "BookingInvoiceInfo",
+                    "resolved": "{ invoicable_items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: any; type?: InvoicableItemType; status?: any; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; invoices?: { date?: string; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; status?: { code?: string; description?: any; }; booking_nbr?: string; target?: any; nbr?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; remnark?: string; total_amount?: any; }[]; }",
+                    "references": {
+                        "BookingInvoiceInfo": {
+                            "location": "import",
+                            "path": "./types",
+                            "id": "src/components/ir-invoice/types.ts::BookingInvoiceInfo"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [{
+                            "name": "type",
+                            "text": "{BookingInvoiceInfo}"
+                        }],
+                    "text": "Additional invoice-related metadata used when creating\nor rendering the invoice.\n\nThis object can include payment details, discounts,\ntax information, or any context needed by the invoice form."
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }

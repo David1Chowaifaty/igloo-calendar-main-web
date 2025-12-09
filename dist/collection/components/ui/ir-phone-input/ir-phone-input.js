@@ -1,4 +1,4 @@
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 import locales from "../../../stores/locales.store";
 import { Host, h } from "@stencil/core";
 export class IrPhoneInput {

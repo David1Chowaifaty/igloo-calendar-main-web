@@ -1,122 +1,193 @@
 import { a as axios } from './axios.js';
-import { z, o as objectType, s as stringType, n as numberType, a as nullType, b as booleanType, e as enumType, c as arrayType, d as anyType } from './index3.js';
+import './IBooking.js';
 import { e as extras, g as getMyBookings, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, a as arrayType, e as enumType, c as custom, d as anyType } from './index3.js';
 
-const ZIEntrySchema = z.object({
-    CODE_NAME: z.string(),
-    CODE_VALUE_AR: z.string().nullable(),
-    CODE_VALUE_DE: z.string().nullable(),
-    CODE_VALUE_EL: z.string().nullable(),
-    CODE_VALUE_EN: z.string().nullable(),
-    CODE_VALUE_FR: z.string().nullable(),
-    CODE_VALUE_HE: z.string().nullable(),
-    CODE_VALUE_PL: z.string().nullable(),
-    CODE_VALUE_RU: z.string().nullable(),
-    CODE_VALUE_UA: z.string().nullable(),
-    DISPLAY_ORDER: z.number().nullable(),
-    ENTRY_DATE: z.string().nullable(),
-    ENTRY_USER_ID: z.number().nullable(),
-    INVARIANT_VALUE: z.string().nullable(),
-    ISDELETEABLE: z.boolean(),
-    ISDELETED: z.boolean(),
-    ISSYSTEM: z.boolean(),
-    ISUPDATEABLE: z.boolean(),
-    ISVISIBLE: z.boolean(),
-    NOTES: z.string().nullable(),
-    OWNER_ID: z.number().nullable(),
-    TBL_NAME: z.string(),
+const NumberOrStringSchema = unionType([numberType(), stringType().optional()]);
+const CurrencySchema$1 = objectType({
+    id: numberType(),
 });
-var AmenityType;
-(function (AmenityType) {
-    AmenityType["Room"] = "room";
-})(AmenityType || (AmenityType = {}));
-var Name;
-(function (Name) {
-    Name["Penthouse"] = "Penthouse";
-    Name["PremiumSuites"] = "Premium Suites";
-    Name["StandardRooms"] = "Standard Rooms";
-})(Name || (Name = {}));
-var Code;
-(function (Code) {
-    Code["Empty"] = "";
-    Code["The001"] = "001";
-    Code["The002"] = "002";
-})(Code || (Code = {}));
+const CurrencyWithCodeSchema = CurrencySchema$1.extend({
+    code: stringType().optional(),
+});
+const ItemSchema$1 = objectType({
+    amount: numberType(),
+    type: stringType().optional(),
+    key: unionType([numberType(), stringType().optional()]),
+    description: stringType().optional().optional().default(''),
+});
+const TargetSchema = objectType({
+    code: stringType().optional(),
+    description: stringType().optional(),
+});
+objectType({
+    unit_id: numberType(),
+    from_date: stringType().optional(),
+    to_date: stringType().optional(),
+});
+objectType({
+    starter: stringType().optional(),
+});
+objectType({
+    booking_nbr: stringType().optional(),
+    currency_id: numberType(),
+    language: stringType().optional().optional(),
+    rate_plan_id: numberType(),
+    room_type_id: numberType(),
+    property_id: numberType(),
+    is_preserve_history: booleanType().optional(),
+    room_identifier: stringType().optional().optional(),
+});
+objectType({
+    booking_nbr: stringType().optional(),
+    room_identifier: stringType().optional(),
+    status: stringType().optional(),
+});
+objectType({
+    booking_nbr: stringType().optional(),
+    currency_id: numberType(),
+    language: stringType().optional(),
+});
+const RestrictionSchema = objectType({
+    room_type_id: NumberOrStringSchema,
+    night: stringType().optional(),
+});
+objectType({
+    is_closed: booleanType(),
+    restrictions: arrayType(RestrictionSchema),
+    operation_type: stringType().optional().optional(),
+});
+objectType({
+    book_nbr: stringType().optional(),
+    status: stringType().optional(),
+});
+const AdultChildCountSchema = objectType({
+    adult: numberType(),
+    child: numberType(),
+});
+objectType({
+    from_date: stringType().optional(),
+    to_date: stringType().optional(),
+    propertyid: numberType(),
+    adultChildCount: AdultChildCountSchema,
+    language: stringType().optional(),
+    room_type_ids: arrayType(numberType()),
+    room_type_ids_to_update: arrayType(numberType()).optional(),
+    rate_plan_ids: arrayType(numberType()).optional(),
+    currency: CurrencyWithCodeSchema,
+    is_in_agent_mode: booleanType().optional(),
+    agent_id: NumberOrStringSchema.optional(),
+});
+const AvailabilityBracketSchema = objectType({
+    from_date: stringType().optional(),
+    to_date: stringType().optional(),
+});
+objectType({
+    unit_id: numberType(),
+    block_status_code: enumType(['003', '004', '002']).optional(),
+    description: stringType().optional().optional(),
+    property_id: numberType(),
+    brackets: arrayType(AvailabilityBracketSchema),
+});
+objectType({
+    property_id: numberType(),
+    room_identifier: stringType().optional(),
+    code: stringType().optional(),
+});
+objectType({
+    service: custom(),
+    booking_nbr: NumberOrStringSchema,
+    is_remove: booleanType(),
+});
+/* INVOICE TYPES */
+const GetBookingInvoiceInfoPropsSchema = objectType({
+    booking_nbr: stringType().optional(),
+});
+const VoidInvoicePropsSchema = objectType({
+    invoice_nbr: stringType().optional(),
+    reason: stringType().optional(),
+});
+const InvoiceSchema$1 = objectType({
+    booking_nbr: stringType().optional(),
+    currency: CurrencySchema$1,
+    target: TargetSchema,
+    Date: stringType().optional(),
+    nbr: stringType().optional(),
+    remark: stringType().optional(),
+    billed_to_name: stringType().optional(),
+    billed_to_tax: stringType().optional(),
+    items: arrayType(ItemSchema$1),
+});
+const IssueInvoicePropsSchema = objectType({
+    is_proforma: booleanType().optional().default(false),
+    invoice: InvoiceSchema$1,
+});
+const PrintInvoicePropsSchema = objectType({
+    invoice_nbr: stringType().optional(),
+});
 
 const CurrencySchema = objectType({
     code: stringType(),
     id: numberType(),
     symbol: stringType(),
 });
+const StatusSchema = objectType({
+    code: stringType(),
+    description: anyType(),
+});
+const ItemSchema = objectType({
+    amount: numberType(),
+    booking_nbr: stringType(),
+    currency: CurrencySchema,
+    description: anyType(),
+    invoice_nbr: stringType(),
+    is_invoiceable: booleanType(),
+    key: numberType(),
+    status: StatusSchema,
+    system_id: numberType(),
+    type: stringType(),
+});
+const CreditNoteSchema = objectType({
+    date: stringType(),
+    nbr: stringType(),
+    reason: stringType(),
+    system_id: stringType().nullable(),
+});
+const InvoiceSchema = objectType({
+    billed_to_name: anyType(),
+    billed_to_tax: anyType(),
+    booking_nbr: stringType(),
+    credit_note: CreditNoteSchema.nullable(),
+    currency: CurrencySchema,
+    date: stringType(),
+    items: arrayType(ItemSchema),
+    nbr: stringType(),
+    pdf_url: anyType(),
+    remnark: stringType(),
+    status: StatusSchema,
+    system_id: numberType(),
+    target: anyType(),
+    total_amount: anyType(),
+});
 const InvoicableItemSchema = objectType({
     amount: numberType(),
     booking_nbr: stringType(),
     currency: CurrencySchema,
-    invoice_nbr: nullType(),
+    invoice_nbr: stringType().nullable(),
     is_invoiceable: booleanType(),
-    key: nullType(),
-    status: nullType(),
-    system_id: nullType(),
-    type: enumType(['BSA', 'BSP', 'BSE']),
+    key: numberType(),
+    status: anyType(),
+    system_id: anyType(),
+    type: enumType(['BSA', 'BSP', 'BSE', 'PAYMENT']),
 });
 const BookingInvoiceInfoSchema = objectType({
     invoicable_items: arrayType(InvoicableItemSchema),
-    invoices: arrayType(anyType()),
+    invoices: arrayType(InvoiceSchema).nullable(),
 });
 
-/**
- * Builds a grouped payment types record from raw entries and groups.
- *
- * @param paymentEntries - The flat list of all available payment  entries.
- * @returns A record where each key is a group CODE_NAME and the value is the
- *          ordered array of payment type entries belonging to that group.
- *
- * @example
- * const result = buildPaymentTypes(paymentEntries);
- * // {
- * //   PAYMENTS: [ { CODE_NAME: "001", CODE_VALUE_EN: "Cash", ... }, ... ],
- * //   ADJUSTMENTS: [ ... ],
- * //   ...
- * // }
- */
-function buildPaymentTypes(paymentEntries) {
-    try {
-        const { groups, types } = z
-            .object({
-            types: ZIEntrySchema.array().min(1),
-            groups: ZIEntrySchema.array().min(1),
-            methods: ZIEntrySchema.array().min(1),
-        })
-            .parse(paymentEntries);
-        const items = [...types];
-        const byCodes = (codes) => codes.map(code => items.find(i => i.CODE_NAME === code)).filter((x) => Boolean(x));
-        const extractGroupCodes = (code) => {
-            const paymentGroup = groups.find(pt => pt.CODE_NAME === code);
-            return paymentGroup ? paymentGroup.CODE_VALUE_EN.split(',') : [];
-        };
-        let rec = {};
-        groups.forEach(group => {
-            // if (group.CODE_NAME === 'PAYMENTS') {
-            //   rec[group.CODE_NAME] = methods.map(entry => ({
-            //     ...entry,
-            //     CODE_VALUE_EN: `Payment: ${entry.CODE_VALUE_EN}`,
-            //   })) as IEntries[];
-            // } else if (group.CODE_NAME === 'REFUND') {
-            //   rec[group.CODE_NAME] = methods.map(entry => ({
-            //     ...entry,
-            //     CODE_VALUE_EN: `Refund: ${entry.CODE_VALUE_EN}`,
-            //   })) as IEntries[];
-            rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
-        });
-        return rec;
-    }
-    catch (error) {
-        console.log(error);
-        return {};
-    }
-}
+// import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 class BookingService {
     async unBlockUnitByPeriod(props) {
         const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
@@ -305,10 +376,6 @@ class BookingService {
             console.log(error);
             throw new Error(error);
         }
-    }
-    async getBookingInvoiceInfo(props) {
-        const { data } = await axios.post('/Get_Booking_Invoice_Info', props);
-        return BookingInvoiceInfoSchema.parse(data.My_Result);
     }
     async getBookingAvailability(props) {
         try {
@@ -709,8 +776,29 @@ class BookingService {
             throw new Error(error);
         }
     }
+    /* INVOICE */
+    async getBookingInvoiceInfo(props) {
+        const payload = GetBookingInvoiceInfoPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Booking_Invoice_Info', payload);
+        return BookingInvoiceInfoSchema.parse(data.My_Result);
+    }
+    async issueInvoice(props) {
+        const p = IssueInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Issue_Invoice', p);
+        return data;
+    }
+    async voidInvoice(props) {
+        const payload = VoidInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Void_Invoice', payload);
+        return data;
+    }
+    async printInvoice(props) {
+        const payload = PrintInvoicePropsSchema.parse(props);
+        const { data } = await axios.post('/Print_Invoice', payload);
+        return data;
+    }
 }
 
-export { BookingService as B, buildPaymentTypes as b };
+export { BookingService as B };
 
 //# sourceMappingURL=booking.service.js.map

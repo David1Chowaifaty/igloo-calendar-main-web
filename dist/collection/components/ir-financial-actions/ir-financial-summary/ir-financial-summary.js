@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 export class IrFinancialSummary {
     render() {
-        return (h(Host, { key: 'b905287cb558e54c8e9adc45ce1b76426d197cd5' }, h("slot", { key: '06d20d7e3d6eb9ef5f9f55c547dba10c58d45974' })));
+        return (h(Host, { key: 'fabc18de22d8fcc41ac43b9db7ddd75874f128de' }, h("slot", { key: '5d840f15f07a87372ff62773898f23c6d7ec4ea7' })));
     }
     static get is() { return "ir-financial-summary"; }
     static get encapsulation() { return "scoped"; }

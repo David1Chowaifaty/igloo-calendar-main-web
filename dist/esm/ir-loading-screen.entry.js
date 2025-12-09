@@ -9,7 +9,7 @@ const IrLoadingScreen = class {
     }
     message = '';
     render() {
-        return (h("div", { key: 'a3c1c52cc3e9cbd8edc3c9927d75db6fa0da6a75', class: "loader__container" }, h("wa-spinner", { key: '6d3685fc6341a3851ae0f1391701804afef352fa', style: { fontSize: '2.5rem' } })));
+        return (h("div", { key: '34510849fef93effe33296473c222d3753761507', class: "loader__container" }, h("wa-spinner", { key: '02785ec3fd9c6364ed7892aaeed6b04a7b4cf441', style: { fontSize: '2.5rem' } })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;

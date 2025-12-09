@@ -3,7 +3,7 @@ import locales from "../../../../stores/locales.store";
 import { Fragment, h } from "@stencil/core";
 import moment from "moment";
 import { dateMask, defaultGuest } from "../data";
-import { BookingService } from "../../../../services/booking.service";
+import { BookingService } from "../../../../services/booking-service/booking.service";
 import { ZodError } from "zod";
 export class IrRoomGuestsForm {
     /**

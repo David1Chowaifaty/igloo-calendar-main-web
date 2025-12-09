@@ -1,5 +1,5 @@
 import { Booking, ExposedApplicablePolicy, Room } from "../models/booking.dto";
-import { BookingService } from "./booking.service";
+import { BookingService } from "./booking-service/booking.service";
 export type ApplicablePoliciesByType = Partial<Record<ExposedApplicablePolicy['type'], ExposedApplicablePolicy[]>>;
 export interface ApplicablePolicyStatement extends ExposedApplicablePolicy {
     roomType: Room['roomtype'];

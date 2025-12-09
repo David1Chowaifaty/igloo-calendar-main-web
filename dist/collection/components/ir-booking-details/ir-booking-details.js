@@ -1,6 +1,6 @@
 import { h, Fragment } from "@stencil/core";
 import axios from "axios";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
@@ -459,7 +459,7 @@ export class IrBookingDetails {
             h("ir-pickup", { open: this.sidebarState === 'pickup', bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: () => {
                     this.sidebarState = null;
                 } }),
-            h("ir-invoice", { open: this.sidebarState === 'invoice', onInvoiceClose: e => {
+            h("ir-billing-drawer", { open: this.sidebarState === 'invoice', onBillingClose: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.sidebarState = null;

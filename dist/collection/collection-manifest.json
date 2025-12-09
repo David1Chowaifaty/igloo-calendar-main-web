@@ -45,6 +45,8 @@
     "components/ir-arrivals/ir-arrivals.js",
     "components/ir-arrivals/ir-arrivals-filters/ir-arrivals-filters.js",
     "components/ir-arrivals/ir-arrivals-table/ir-arrivals-table.js",
+    "components/ir-billing/ir-billing.js",
+    "components/ir-billing/ir-billing-drawer/ir-billing-drawer.js",
     "components/ir-booking/ir-booking.js",
     "components/ir-booking-billing-recipient/ir-booking-billing-recipient.js",
     "components/ir-booking-details/ir-booking-details.js",

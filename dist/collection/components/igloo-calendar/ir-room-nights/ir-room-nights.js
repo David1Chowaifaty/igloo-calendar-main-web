@@ -1,5 +1,5 @@
 import { h, Fragment } from "@stencil/core";
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 import { convertDatePrice, formatDate, getDaysArray } from "../../../utils/utils";
 import moment from "moment";
 import locales from "../../../stores/locales.store";

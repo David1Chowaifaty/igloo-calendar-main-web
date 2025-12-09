@@ -242,22 +242,22 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     cost?: number;
+    system_id?: number;
     description?: string;
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
     start_date?: string;
     price?: number;
-    system_id?: number;
 }, {
     cost?: number;
+    system_id?: number;
     description?: string;
     booking_system_id?: number;
     currency_id?: number;
     end_date?: string;
     start_date?: string;
     price?: number;
-    system_id?: number;
 }>;
 export type ExtraService = z.infer<typeof ExtraServiceSchema>;
 export interface Extras {
@@ -488,6 +488,21 @@ export interface Property {
     taxation_strategy: Paymentmode;
     taxes: Tax[];
     time_constraints: Timeconstraints;
+    company: Company | null;
+}
+export interface Company {
+    address: string;
+    city: string;
+    country: Country;
+    credit_note_prefix: string;
+    credit_note_start_nbr: number;
+    invoice_footer_notes: string;
+    invoice_prefix: string;
+    invoice_start_nbr: number;
+    name: string;
+    phone: string;
+    postal: string;
+    tax_nbr: string;
 }
 interface Timeconstraints {
     booking_cutoff: string;
@@ -759,6 +774,7 @@ export interface Room {
     gross_total: number;
     guarantee: number;
     gross_guarantee: number;
+    system_id: number;
 }
 interface OtaMeta {
     bed_preferences: string | null;

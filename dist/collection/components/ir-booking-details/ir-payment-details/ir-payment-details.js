@@ -1,5 +1,5 @@
 import { h } from "@stencil/core";
-import { BookingService } from "../../../services/booking.service";
+import { BookingService } from "../../../services/booking-service/booking.service";
 import { PaymentService } from "../../../services/payment.service";
 import locales from "../../../stores/locales.store";
 import moment from "moment";

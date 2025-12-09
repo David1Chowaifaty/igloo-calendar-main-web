@@ -1,5 +1,5 @@
 import Token from "../../models/Token";
-import { BookingService } from "../../services/booking.service";
+import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
 import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";

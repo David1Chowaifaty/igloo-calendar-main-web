@@ -1,10 +1,10 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-b3dce66a.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
-import { B as BookingService } from './booking.service-a752ab0c.js';
-import { p as formatLegendColors, q as calendar_dates, u as addCleaningTasks, i as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, a as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, o as isPrivilegedUser, H as downloadFile } from './utils-5036fcd3.js';
-import { E as EventsService, P as PropertyService } from './property.service-bd27e660.js';
+import { B as BookingService } from './booking.service-5e053853.js';
+import { p as formatLegendColors, q as calendar_dates, u as addCleaningTasks, i as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, a as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, o as isPrivilegedUser, H as downloadFile } from './utils-27f20f34.js';
+import { E as EventsService, P as PropertyService } from './property.service-25d026fb.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-dec9a7b5.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-e7fa7c93.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { c as calendar_data } from './calendar-data-8a36a1b2.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-268b1dda.js';
@@ -12,11 +12,11 @@ import { T as Token } from './Token-030c78a9.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-da0dbbe6.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-97de4217.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-4784b755.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-2d27ad14.js';
 import { i as isRequestPending } from './ir-interceptor.store-ebb6c559.js';
-import { U as UserService } from './user.service-eeb0beed.js';
-import './index-d55e923c.js';
+import { U as UserService } from './user.service-037b73c1.js';
+import './index-ffb2925f.js';
 import './index-a124d225.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
@@ -5354,24 +5354,33 @@ const IglooCalendar = class {
     handleCloseBookingWindow() {
         this.bookingItem = null;
     }
+    get isSidebarOpen() {
+        // 1) Always open when editing a booking
+        if (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING') {
+            return true;
+        }
+        // 2) Open when room nights dialog is showing in the sidebar
+        if (this.roomNightsData) {
+            return true;
+        }
+        // 3) Open for sidebar-based flows (but not room-guests, which uses <ir-room-guests>)
+        if (this.calendarSidebarState) {
+            const type = this.calendarSidebarState.type;
+            return type === 'split' || type === 'bulk-blocks';
+        }
+        // 4) Default: closed
+        return false;
+    }
     render() {
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: '40ae9860f83eb1c4f6e57a1ebae0a402dd660324' }, h("ir-toast", { key: 'c9177ac67ad3c764fd6bc5610dd4035a6a0c72e9' }), h("ir-interceptor", { key: '3c3e0b5948132de5a7a6c75ccf865aabc2da1e1a' }), h("div", { key: '24c61e364ee29ab02ce123cd7e21c9fab220b560', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '27f4c7fb64d2d51dcd727573111aa99ff9773f1b', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: 'd9bced38a1f94114448d14cf11c2764e0cfd21d8', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: (() => {
-                if (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING') {
-                    return true;
-                }
-                if (!this.calendarSidebarState || this.calendarSidebarState?.type === 'room-guests' || this.roomNightsData === null) {
-                    return false;
-                }
-                return true;
-            })(), showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: 'eeacca9bceed71d1ade7ddc4e280a88a33ff4dfa' }, h("ir-toast", { key: 'c3b34a4525c673fb2757067c45386bf06d5dac10' }), h("ir-interceptor", { key: '6d86e886d7009d91393f5eb0b458b20c0a0812e4' }), h("div", { key: 'c6a2f775659ff23cef4559d25b38ee66bcdbf3b9', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '17af79ed38df0d64f9064f80bce587c73c242dd5', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '0dc41d8a3bdf0332d9a041cf215f5bd35a2de4a4', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
                 width: this.calendarSidebarState?.type === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? '#F2F3F8' : 'white',
-            } }, this.roomNightsData && (h("ir-room-nights", { key: '3b0c35b3cee884df2a4f2eb8e4cde24d78196741', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: '5eda06a03e39ecbd635974485be8dd3cf57a5cb0', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '8c1891348c2d27dfa87ea6c1a31a1780caae7b80', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), this.calendarSidebarState?.type === 'bulk-blocks' && (h("igl-bulk-operations", { key: '8640865a982d8faed97827f218afdde5cace6d7f', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
+            } }, this.roomNightsData && (h("ir-room-nights", { key: 'e4feef25890dc62fbf6c67be37129710edb83da2', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: '54aede22c4ab512029275e83995187dfe06e6a41', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) })), this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING' && (h("ir-booking-details", { key: '03a4bfe0aa516040da98fe92dbc0b988979d5c33', slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: () => (this.editBookingItem = null), is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.editBookingItem.BOOKING_NUMBER, ticket: this.ticket, language: this.language, hasRoomAdd: true })), this.calendarSidebarState?.type === 'bulk-blocks' && (h("igl-bulk-operations", { key: 'c099a504e75145f83d47156c8be7dc5c95c0d2a7', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
         // <igl-bulk-stop-sale slot="sidebar-body" property_id={this.property_id} onCloseModal={() => (this.calendarSidebarState = null)}></igl-bulk-stop-sale>
-        )), h("ir-room-guests", { key: 'b22093fdea8335168c75a9b4b57bf2810f476710', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: this.calendarSidebarState?.payload?.checkin, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: '02f228809ec207feb0603c8f93bc5a3a1d292840', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: '5b7e37dcb03e74c6f29aa27032dd90271e920e20', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
+        )), h("ir-room-guests", { key: 'bcb7521dc9b6e8be8b2f2ba8a0a779ea8d5f3c7d', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: this.calendarSidebarState?.payload?.checkin, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: '55ba2fad584203dcaa84c9b55c7178835e7a05ee', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: '4503c7d483f2690e2e2284364d3ebf9056f1eee9', ref: el => (this.calendarModalEl = el), modalTitle: '', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) })));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -5401,7 +5410,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: 'b58c71dbdebf75590dc47ef4f6fdd0c80f865917', class: "p-1" }, h("ir-interceptor", { key: '788a223eb787aa200e9041488d535e1b01e418f6', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'e2de2cf528448eb96a9962ff8a88c6ce576bf1c4' }), h("div", { key: 'fe988c6d6be5eb284ead29a2711ea7816b35e6ec', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'f42d9f82909dc000826da378b556e6b85e57e978', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'f2b2278191fa975fce0b29401b0b4b49ab70a997', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'ad098c16ead05179e7984f404bf9d047c5e4d5f0', class: "p-1" }, h("ir-interceptor", { key: 'b104822866bba7fb06785f478d221437ce86c97a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '81f253d152134ed2670991d58a8808c6535a6440' }), h("div", { key: '5a0362869e8438ec5ddf4ff71a59d292e5602eda', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '316943e2e8f1cb55ee43f507babd637e5b6f1a9e', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '00b7e27b0d4f584925d9ae9d8f5f5c73373cba36', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -5409,7 +5418,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '39c10f25fbdd7e719599b42c6fde5a52bb8f7170' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '169d319a133dcb4dc80f4935a3d98f82ea9ecfd8' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
