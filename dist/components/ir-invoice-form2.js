@@ -10,7 +10,7 @@ import { d as defineCustomElement$3 } from './ir-custom-input2.js';
 import { d as defineCustomElement$2 } from './ir-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
+const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
 const IrInvoiceFormStyle0 = irInvoiceFormCss;
 
 const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm extends HTMLElement {
@@ -20,7 +20,15 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         this.invoiceOpen = createEvent(this, "invoiceOpen", 7);
         this.invoiceClose = createEvent(this, "invoiceClose", 7);
         this.invoiceCreated = createEvent(this, "invoiceCreated", 7);
+        this.loadingChange = createEvent(this, "loadingChange", 7);
     }
+    /**
+     * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+     */
+    viewMode = 'invoice';
+    /**
+     * Unique ID applied to the underlying <form> element.
+     */
     formId;
     /**
      * Whether the invoice drawer is open.
@@ -35,12 +43,6 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      * Should contain room, guest, and pricing information.
      */
     booking;
-    /**
-     * Determines what should happen after creating the invoice.
-     * - `"create"`: create an invoice normally
-     * - `"check_in-create"`: create an invoice as part of the check-in flow
-     */
-    mode = 'create';
     /**
      * Specifies what the invoice is for.
      * - `"room"`: invoice for a specific room
@@ -64,6 +66,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
     invoicableKey;
     toBeInvoicedItems;
     invoiceDate = hooks();
+    notInvoiceableItemKeys = new Set();
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -89,11 +92,15 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      * - `mode`: the current invoice mode
      */
     invoiceCreated;
+    loadingChange;
     room;
     bookingService = new BookingService();
     invoiceTarget;
     componentWillLoad() {
         this.init();
+    }
+    handleViewModeChange() {
+        this.enforceNonInvoiceableSelections();
     }
     handleBookingChange() {
         if (this.booking) {
@@ -102,9 +109,76 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 this.room = this.booking.rooms.find(r => r.identifier === this.roomIdentifier);
             }
         }
+        this.setUpDisabledItems();
     }
     handleInvoiceInfoChange() {
         this.setupInvoicables(this.invoiceInfo);
+    }
+    setUpDisabledItems() {
+        if (!this.booking || !this.invoicableKey?.size) {
+            this.notInvoiceableItemKeys = new Set();
+            return;
+        }
+        const invoiceDate = (this.invoiceDate ?? hooks()).clone().startOf('day');
+        const disabledKeys = new Set();
+        const markIfBefore = (key, dateStr) => {
+            if (typeof key !== 'number' || !this.invoicableKey.has(key) || !dateStr) {
+                return;
+            }
+            const parsed = hooks(dateStr, 'YYYY-MM-DD', true);
+            if (parsed.isValid() && invoiceDate.isBefore(parsed.clone().startOf('day'))) {
+                disabledKeys.add(key);
+            }
+        };
+        const rooms = this.booking.rooms ?? [];
+        rooms.forEach(room => {
+            markIfBefore(room.system_id, room.to_date);
+        });
+        const pickupInfo = this.booking.pickup_info;
+        if (pickupInfo) {
+            markIfBefore(pickupInfo?.system_id, pickupInfo?.from_date ?? pickupInfo?.date);
+        }
+        (this.booking.extra_services ?? []).forEach(extra => {
+            markIfBefore(extra.system_id, extra?.from_date ?? extra.start_date ?? extra.end_date ?? this.booking.from_date);
+        });
+        const splitIndex = buildSplitIndex(rooms);
+        if (splitIndex) {
+            const roomsByIdentifier = new Map(rooms.map(room => [room.identifier, room]));
+            splitIndex.heads.forEach(head => {
+                const chain = splitIndex.chainOf.get(head) ?? [];
+                if (chain.length <= 1) {
+                    return;
+                }
+                const chainSystemIds = chain.map(id => roomsByIdentifier.get(id)?.system_id).filter((id) => typeof id === 'number');
+                const chainHasDisabledRoom = chainSystemIds.some(id => disabledKeys.has(id));
+                if (chainHasDisabledRoom) {
+                    chainSystemIds.forEach(id => disabledKeys.add(id));
+                }
+            });
+        }
+        this.notInvoiceableItemKeys = disabledKeys;
+        this.enforceNonInvoiceableSelections(disabledKeys);
+    }
+    enforceNonInvoiceableSelections(disabledKeys = this.notInvoiceableItemKeys ?? new Set()) {
+        if (!disabledKeys.size) {
+            return;
+        }
+        const nextKeys = new Set(this.selectedItemKeys);
+        let changed = false;
+        disabledKeys.forEach(key => {
+            if (this.viewMode === 'proforma') {
+                if (!nextKeys.has(key)) {
+                    nextKeys.add(key);
+                    changed = true;
+                }
+            }
+            else if (nextKeys.delete(key)) {
+                changed = true;
+            }
+        });
+        if (changed) {
+            this.syncSelectedItems(nextKeys);
+        }
     }
     syncSelectedItems(selectedKeys) {
         this.selectedItemKeys = selectedKeys;
@@ -156,9 +230,10 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         }
     }
     setupInvoicables(invoiceInfo) {
-        const invoiceableItems = (invoiceInfo.invoicable_items ?? []).filter(item => item.is_invoiceable);
+        const invoiceableItems = (invoiceInfo.invoiceable_items ?? []).filter(item => item.is_invoiceable);
         this.invoicableKey = new Map(invoiceableItems.map(item => [item.key, item]));
         this.syncSelectedItems(new Set(invoiceableItems.map(item => item.key)));
+        this.setUpDisabledItems();
     }
     /**
      * Handles confirming/creating the invoice.
@@ -168,6 +243,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      */
     async handleConfirmInvoice(isProforma = false) {
         try {
+            this.loadingChange.emit(true);
             const billed_to_name = this.selectedRecipient?.startsWith('room__') ? this.selectedRecipient.replace('room__', '').trim() : '';
             let target;
             const setTarget = (code) => {
@@ -186,29 +262,25 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             else {
                 target = setTarget('001');
             }
+            const invoice = {
+                booking_nbr: this.booking.booking_nbr,
+                currency: { id: this.booking.currency.id },
+                Date: this.invoiceDate.format('YYYY-MM-DD'),
+                items: this.toBeInvoicedItems,
+                target,
+                billed_to_name,
+            };
             await this.bookingService.issueInvoice({
                 is_proforma: isProforma,
-                invoice: {
-                    booking_nbr: this.booking.booking_nbr,
-                    currency: { id: this.booking.currency.id },
-                    Date: this.invoiceDate.format('YYYY-MM-DD'),
-                    items: this.toBeInvoicedItems,
-                    target,
-                    billed_to_name,
-                },
+                invoice,
             });
-            if (!isProforma)
-                this.invoiceCreated.emit({
-                    booking: this.booking,
-                    recipientId: this.selectedRecipient,
-                    for: this.for,
-                    roomIdentifier: this.roomIdentifier,
-                    mode: this.mode,
-                });
             this.invoiceClose.emit();
         }
         catch (error) {
             console.error(error);
+        }
+        finally {
+            this.loadingChange.emit(false);
         }
     }
     getMinDate() {
@@ -319,7 +391,8 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             }
             return invoiceableRooms.map(room => {
                 const isSelected = this.isSelected([room.system_id]);
-                return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { size: "small", onchange: e => {
+                const isDisabled = this.isDisabled([room.system_id]);
+                return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                         const value = e.target.checked;
                         this.handleCheckChange({ checked: value, system_id: room.system_id });
                     }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container' }, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
@@ -334,7 +407,8 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             }
             const roomIds = this.getInvoiceableRoomIds(group.rooms);
             const isSelected = this.isSelected(roomIds);
-            return (h("div", { class: "ir-invoice__service", key: group.order }, h("wa-checkbox", { size: "small", onchange: e => {
+            const isDisabled = this.isDisabled(roomIds);
+            return (h("div", { class: "ir-invoice__service", key: group.order }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_ids: roomIds });
                 }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox group" }, h("div", { class: 'ir-invoice__room-checkbox-container group' }, group.rooms.map(room => {
@@ -351,6 +425,9 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         }
         const ids = [...(Array.isArray(system_ids) ? system_ids : []), ...(typeof system_id === 'number' ? [system_id] : [])].filter((id) => typeof id === 'number');
         if (!ids.length) {
+            return;
+        }
+        if (this.viewMode === 'invoice' && ids.some(id => this.notInvoiceableItemKeys.has(id))) {
             return;
         }
         const nextKeys = new Set(this.selectedItemKeys);
@@ -384,13 +461,20 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         }
         return false;
     }
+    isDisabled(systemIds = []) {
+        if (this.viewMode === 'proforma' || !systemIds?.length) {
+            return false;
+        }
+        return systemIds.some(id => typeof id === 'number' && this.notInvoiceableItemKeys.has(id));
+    }
     renderPickup() {
         const sysId = this.booking.pickup_info?.['system_id'];
         if (!this.invoicableKey?.has(sysId)) {
             return null;
         }
         const isSelected = this.isSelected([sysId]);
-        return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { size: "small", onchange: e => {
+        const isDisabled = this.isDisabled([sysId]);
+        return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
             }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
@@ -402,33 +486,35 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         return (h(Host, { size: "small" }, h("form", { id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
-                if (submitter?.value === 'pro-forma') {
-                    this.handleConfirmInvoice(true);
-                }
-                else if (submitter?.value === 'invoice') {
-                    this.handleConfirmInvoice();
-                }
-            }, class: "ir-invoice__container" }, h("ir-custom-date-picker", { onDateChanged: e => (this.invoiceDate = e.detail.start), label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice"), h("div", { class: "ir-invoice__services-container" }, this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
-            if (!this.invoicableKey?.has(extra_service.system_id)) {
+                const shouldCreateProforma = this.viewMode === 'proforma' || submitter?.value === 'pro-forma';
+                this.handleConfirmInvoice(shouldCreateProforma);
+            }, class: "ir-invoice__container" }, h("ir-custom-date-picker", { onDateChanged: e => {
+                this.invoiceDate = e.detail.start;
+                this.setUpDisabledItems();
+            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
+            const sysId = extra_service.system_id;
+            if (!this.invoicableKey?.has(sysId)) {
                 return null;
             }
-            const isSelected = this.isSelected([extra_service.system_id]);
-            return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { size: "small", onchange: e => {
+            const isSelected = this.isSelected([sysId]);
+            const isDisabled = this.isDisabled([sysId]);
+            return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
-                    this.handleCheckChange({ checked: value, system_id: extra_service.system_id });
+                    this.handleCheckChange({ checked: value, system_id: sysId });
                 }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, extra_service.description), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
         }))))));
     }
     static get watchers() { return {
+        "viewMode": ["handleViewModeChange"],
         "booking": ["handleBookingChange"],
         "invoiceInfo": ["handleInvoiceInfoChange"]
     }; }
     static get style() { return IrInvoiceFormStyle0; }
 }, [2, "ir-invoice-form", {
+        "viewMode": [1, "view-mode"],
         "formId": [1, "form-id"],
         "open": [1540],
         "booking": [16],
-        "mode": [1],
         "for": [1],
         "roomIdentifier": [1, "room-identifier"],
         "autoPrint": [4, "auto-print"],
@@ -438,8 +524,10 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         "selectedItemKeys": [32],
         "invoicableKey": [32],
         "toBeInvoicedItems": [32],
-        "invoiceDate": [32]
+        "invoiceDate": [32],
+        "notInvoiceableItemKeys": [32]
     }, undefined, {
+        "viewMode": ["handleViewModeChange"],
         "booking": ["handleBookingChange"],
         "invoiceInfo": ["handleInvoiceInfoChange"]
     }]);

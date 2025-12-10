@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-b3dce66a.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
-import { B as BookingService } from './booking.service-5e053853.js';
+import { B as BookingService } from './booking.service-d5a4e046.js';
 import { p as formatLegendColors, q as calendar_dates, u as addCleaningTasks, i as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBooking, A as transformNewBLockedRooms, d as dateToFormattedString, B as bookingStatus, a as getPrivateNote, C as isBlockUnit, c as calculateDaysBetweenDates, D as getNextDay, E as addTwoMonthToDate, F as convertDMYToISO, G as computeEndDate, o as isPrivilegedUser, H as downloadFile } from './utils-27f20f34.js';
-import { E as EventsService, P as PropertyService } from './property.service-25d026fb.js';
+import { E as EventsService, P as PropertyService } from './property.service-82122f06.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { T as ToBeAssignedService } from './toBeAssigned.service-e7fa7c93.js';
 import { l as locales } from './locales.store-f4150353.js';
@@ -5410,7 +5410,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: 'ad098c16ead05179e7984f404bf9d047c5e4d5f0', class: "p-1" }, h("ir-interceptor", { key: 'b104822866bba7fb06785f478d221437ce86c97a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '81f253d152134ed2670991d58a8808c6535a6440' }), h("div", { key: '5a0362869e8438ec5ddf4ff71a59d292e5602eda', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '316943e2e8f1cb55ee43f507babd637e5b6f1a9e', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '00b7e27b0d4f584925d9ae9d8f5f5c73373cba36', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'a73ab087563b34dd4fd118772eb4c3e5d6494378', class: "p-1" }, h("ir-interceptor", { key: 'c8299487f8d7b9cedf832d4aded17a746b300891', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'eb1a75d9740e4b56af1af4b92d12cbed63dc0aff' }), h("div", { key: '06f100ffc1fd1b51db21f6907b97300c042a11b2', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '77a418db103b15556fe2d4830093855e25fb379a', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '6aad88ec4ebfc3b1d9ad5ab6183d54339d836274', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -5418,7 +5418,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '169d319a133dcb4dc80f4935a3d98f82ea9ecfd8' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '4d743d4fce923a524b0e9b1775c0480be6e8ffd4' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -5439,7 +5439,7 @@ function getAllParams() {
     return out;
 }
 
-const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l)}";
+const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative}";
 const IrBookingListingStyle0 = irBookingListingCss;
 
 const IrBookingListing = class {

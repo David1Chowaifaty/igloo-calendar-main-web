@@ -13,5 +13,6 @@ export declare class IrBilling {
     handleInvoiceCreation(e: CustomEvent): Promise<void>;
     private init;
     private voidInvoice;
+    private get invoices();
     render(): any;
 }

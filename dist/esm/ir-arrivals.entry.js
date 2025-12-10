@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
-import { B as BookingService } from './booking.service-5e053853.js';
+import { B as BookingService } from './booking.service-d5a4e046.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
 import { a as arrivalsStore } from './arrivals.store-a9ac6020.js';
 import './axios-aa1335b8.js';

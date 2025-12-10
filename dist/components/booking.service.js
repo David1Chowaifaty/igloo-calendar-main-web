@@ -165,13 +165,17 @@ const InvoiceSchema = objectType({
     items: arrayType(ItemSchema),
     nbr: stringType(),
     pdf_url: anyType(),
-    remnark: stringType(),
+    remark: stringType(),
     status: StatusSchema,
     system_id: numberType(),
     target: anyType(),
     total_amount: anyType(),
 });
-const InvoicableItemSchema = objectType({
+const InvoiceableItemReasonSchema = objectType({
+    code: enumType(['001', '002', '003']),
+    description: stringType().nullable(),
+});
+const InvoiceableItemSchema = objectType({
     amount: numberType(),
     booking_nbr: stringType(),
     currency: CurrencySchema,
@@ -180,10 +184,11 @@ const InvoicableItemSchema = objectType({
     key: numberType(),
     status: anyType(),
     system_id: anyType(),
+    reason: InvoiceableItemReasonSchema.nullable(),
     type: enumType(['BSA', 'BSP', 'BSE', 'PAYMENT']),
 });
 const BookingInvoiceInfoSchema = objectType({
-    invoicable_items: arrayType(InvoicableItemSchema),
+    invoiceable_items: arrayType(InvoiceableItemSchema),
     invoices: arrayType(InvoiceSchema).nullable(),
 });
 

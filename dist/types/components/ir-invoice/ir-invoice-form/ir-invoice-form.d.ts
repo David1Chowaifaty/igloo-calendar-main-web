@@ -1,8 +1,15 @@
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Moment } from 'moment';
-import { BookingInvoiceInfo, InvoicableItem } from '../types';
+import { BookingInvoiceInfo, InvoiceableItem, ViewMode } from '../types';
 export declare class IrInvoiceForm {
+    /**
+     * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+     */
+    viewMode: ViewMode;
+    /**
+     * Unique ID applied to the underlying <form> element.
+     */
     formId: string;
     /**
      * Whether the invoice drawer is open.
@@ -17,12 +24,6 @@ export declare class IrInvoiceForm {
      * Should contain room, guest, and pricing information.
      */
     booking: Booking;
-    /**
-     * Determines what should happen after creating the invoice.
-     * - `"create"`: create an invoice normally
-     * - `"check_in-create"`: create an invoice as part of the check-in flow
-     */
-    mode: 'create' | 'check_in-create';
     /**
      * Specifies what the invoice is for.
      * - `"room"`: invoice for a specific room
@@ -43,9 +44,10 @@ export declare class IrInvoiceForm {
     selectedRecipient: string;
     isLoading: boolean;
     selectedItemKeys: Set<number>;
-    invoicableKey: Map<InvoicableItem['key'], InvoicableItem>;
-    toBeInvoicedItems: InvoicableItem[];
+    invoicableKey: Map<InvoiceableItem['key'], InvoiceableItem>;
+    toBeInvoicedItems: InvoiceableItem[];
     invoiceDate: Moment;
+    notInvoiceableItemKeys: Set<number>;
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -75,14 +77,18 @@ export declare class IrInvoiceForm {
         recipientId: string;
         for: 'room' | 'booking';
         roomIdentifier?: string;
-        mode: 'create' | 'check_in-create';
+        mode: 'create' | 'check_out-create';
     }>;
+    loadingChange: EventEmitter<boolean>;
     private room;
     private bookingService;
     private invoiceTarget;
     componentWillLoad(): void;
+    handleViewModeChange(): void;
     handleBookingChange(): void;
     handleInvoiceInfoChange(): void;
+    private setUpDisabledItems;
+    private enforceNonInvoiceableSelections;
     private syncSelectedItems;
     private canInvoiceRoom;
     private hasInvoiceableRooms;
@@ -102,6 +108,7 @@ export declare class IrInvoiceForm {
     private renderRooms;
     private handleCheckChange;
     private isSelected;
+    private isDisabled;
     private renderPickup;
     render(): any;
 }

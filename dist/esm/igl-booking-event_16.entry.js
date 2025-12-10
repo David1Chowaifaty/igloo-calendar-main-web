@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-b3dce66a.js';
-import { B as BookingService, a as resetBookingStore } from './booking.service-5e053853.js';
+import { B as BookingService, a as resetBookingStore } from './booking.service-d5a4e046.js';
 import { C as isBlockUnit, q as calendar_dates, c as calculateDaysBetweenDates, z as transformNewBooking, J as checkMealPlan, b as buildSplitIndex, K as getSplitRole, f as formatAmount, L as compareTime, M as createDateWithOffsetAndHour, N as isWeekend, d as dateToFormattedString, O as getDaysArray, P as convertDatePrice, Q as formatDate } from './utils-27f20f34.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService, P as PropertyService } from './property.service-25d026fb.js';
+import { E as EventsService, P as PropertyService } from './property.service-82122f06.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { c as calendar_data } from './calendar-data-8a36a1b2.js';
 import { C as ClickOutside } from './ClickOutside-b5666903.js';
@@ -3109,7 +3109,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: 'e1128545e46dc3c278b821bb3762c0bf8eff5e1a', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '9cc80ab357b4f0ef2ec35657035ece462880e7d5', ref: el => {
+        return (h(Host, { key: '2818ee5b6eed80a60dbc36137dcf7b1f9c18b00c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'e5f7c7bb62b54aa59dcd05aaf3b3faadaa6868e6', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -3121,12 +3121,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '55ceaf3dc50f435e903e7a2170e760fda291ebd8', class: "cropped-title", style: {
+            } }, h("span", { key: '1a27286499b250c423384ef23202814676608e3b', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'a34359fd63ca566e327c1d6010f30dee3dc6f462', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '56b162afe958b0723df12d201ac477a8ed5af520', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: 'fcdbbde1949b42b1cedf4715d6a48fa34e4395e9', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '1802f587e49c323f68f9ff75f1c7218aedeadf6d', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -3441,7 +3441,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (h(Host, { key: '2d4db243b8efb438f8ece6288aec470a720ee00d' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (h(Host, { key: 'bd0d84ac8139ce4aacd00c54c83f1ee204019f2c' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

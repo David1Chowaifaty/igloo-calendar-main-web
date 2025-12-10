@@ -31,6 +31,7 @@ export declare class IrRoom {
     modalReason: RoomModalReason;
     mainGuest: SharedPerson;
     isModelOpen: boolean;
+    isOpen: boolean;
     deleteFinished: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     pressCheckIn: EventEmitter;

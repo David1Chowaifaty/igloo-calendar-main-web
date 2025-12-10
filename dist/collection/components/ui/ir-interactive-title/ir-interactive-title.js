@@ -84,7 +84,7 @@ export class IrInteractiveTitle {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: 'e1128545e46dc3c278b821bb3762c0bf8eff5e1a', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '9cc80ab357b4f0ef2ec35657035ece462880e7d5', ref: el => {
+        return (h(Host, { key: '2818ee5b6eed80a60dbc36137dcf7b1f9c18b00c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'e5f7c7bb62b54aa59dcd05aaf3b3faadaa6868e6', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -96,12 +96,12 @@ export class IrInteractiveTitle {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '55ceaf3dc50f435e903e7a2170e760fda291ebd8', class: "cropped-title", style: {
+            } }, h("span", { key: '1a27286499b250c423384ef23202814676608e3b', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'a34359fd63ca566e327c1d6010f30dee3dc6f462', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '56b162afe958b0723df12d201ac477a8ed5af520', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: 'fcdbbde1949b42b1cedf4715d6a48fa34e4395e9', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '1802f587e49c323f68f9ff75f1c7218aedeadf6d', name: "end" }))))));
     }
     static get is() { return "ir-interactive-title"; }
     static get encapsulation() { return "scoped"; }

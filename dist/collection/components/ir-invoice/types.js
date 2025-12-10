@@ -36,13 +36,17 @@ export const InvoiceSchema = z.object({
     items: z.array(ItemSchema),
     nbr: z.string(),
     pdf_url: z.any(),
-    remnark: z.string(),
+    remark: z.string(),
     status: StatusSchema,
     system_id: z.number(),
     target: z.any(),
     total_amount: z.any(),
 });
-export const InvoicableItemSchema = z.object({
+export const InvoiceableItemReasonSchema = z.object({
+    code: z.enum(['001', '002', '003']),
+    description: z.string().nullable(),
+});
+export const InvoiceableItemSchema = z.object({
     amount: z.number(),
     booking_nbr: z.string(),
     currency: CurrencySchema,
@@ -51,10 +55,11 @@ export const InvoicableItemSchema = z.object({
     key: z.number(),
     status: z.any(),
     system_id: z.any(),
+    reason: InvoiceableItemReasonSchema.nullable(),
     type: z.enum(['BSA', 'BSP', 'BSE', 'PAYMENT']),
 });
 export const BookingInvoiceInfoSchema = z.object({
-    invoicable_items: z.array(InvoicableItemSchema),
+    invoiceable_items: z.array(InvoiceableItemSchema),
     invoices: z.array(InvoiceSchema).nullable(),
 });
 //# sourceMappingURL=types.js.map

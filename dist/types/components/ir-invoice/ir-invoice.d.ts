@@ -1,6 +1,6 @@
 import { Booking } from "../../models/booking.dto";
 import { EventEmitter } from '../../stencil-public-runtime';
-import { BookingInvoiceInfo } from './types';
+import { BookingInvoiceInfo, ViewMode } from './types';
 export declare class IrInvoice {
     /**
      * Whether the invoice drawer is open.
@@ -15,12 +15,6 @@ export declare class IrInvoice {
      * Should contain room, guest, and pricing information.
      */
     booking: Booking;
-    /**
-     * Determines what should happen after creating the invoice.
-     * - `"create"`: create an invoice normally
-     * - `"check_in-create"`: create an invoice as part of the check-in flow
-     */
-    mode: 'create' | 'check_in-create';
     /**
      * Specifies what the invoice is for.
      * - `"room"`: invoice for a specific room
@@ -84,6 +78,8 @@ export declare class IrInvoice {
      * @returns {Promise<void>} Resolves once the drawer state is updated.
      */
     closeDrawer(): Promise<void>;
+    viewMode: ViewMode;
+    isLoading: boolean;
     private _id;
     render(): any;
 }

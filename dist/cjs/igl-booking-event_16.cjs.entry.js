@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
-const booking_service = require('./booking.service-b4c18626.js');
+const booking_service = require('./booking.service-233704b3.js');
 const utils = require('./utils-bca29761.js');
 const moment = require('./moment-1780b03a.js');
-const property_service = require('./property.service-a4ebf426.js');
+const property_service = require('./property.service-a0cceab1.js');
 const locales_store = require('./locales.store-4eb57996.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
 const ClickOutside = require('./ClickOutside-7c8c1577.js');
@@ -3113,7 +3113,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (index.h(index.Host, { key: 'e1128545e46dc3c278b821bb3762c0bf8eff5e1a', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '9cc80ab357b4f0ef2ec35657035ece462880e7d5', ref: el => {
+        return (index.h(index.Host, { key: '2818ee5b6eed80a60dbc36137dcf7b1f9c18b00c', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'e5f7c7bb62b54aa59dcd05aaf3b3faadaa6868e6', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -3125,12 +3125,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, index.h("span", { key: '55ceaf3dc50f435e903e7a2170e760fda291ebd8', class: "cropped-title", style: {
+            } }, index.h("span", { key: '1a27286499b250c423384ef23202814676608e3b', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'a34359fd63ca566e327c1d6010f30dee3dc6f462', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '56b162afe958b0723df12d201ac477a8ed5af520', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'fcdbbde1949b42b1cedf4715d6a48fa34e4395e9', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '1802f587e49c323f68f9ff75f1c7218aedeadf6d', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -3445,7 +3445,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '2d4db243b8efb438f8ece6288aec470a720ee00d' }, this.phase === 'spinner' ? (index.h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (index.h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (index.h(index.Host, { key: 'bd0d84ac8139ce4aacd00c54c83f1ee204019f2c' }, this.phase === 'spinner' ? (index.h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, index.h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (index.h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

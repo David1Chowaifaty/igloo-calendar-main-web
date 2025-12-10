@@ -10,7 +10,7 @@ const IrLoadingScreen = /*@__PURE__*/ proxyCustomElement(class IrLoadingScreen e
     }
     message = '';
     render() {
-        return (h("div", { key: '34510849fef93effe33296473c222d3753761507', class: "loader__container" }, h("wa-spinner", { key: '02785ec3fd9c6364ed7892aaeed6b04a7b4cf441', style: { fontSize: '2.5rem' } })));
+        return (h("div", { key: 'd3b04c8d0bbf60806b34242d790a01df38cf2430', class: "loader__container" }, h("wa-spinner", { key: '933a78960958ea91cfe92cbc4161bf4bea8731e6', style: { fontSize: '2.5rem' } })));
     }
     static get style() { return IrLoadingScreenStyle0; }
 }, [2, "ir-loading-screen", {

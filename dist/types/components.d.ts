@@ -43,7 +43,7 @@ import { Element } from "./stencil-public-runtime";
 import { MaskProp as MaskProp1 } from "./components/ui/ir-input/ir-input";
 import { FactoryArg } from "imask";
 import { ZodType, ZodTypeAny } from "zod";
-import { BookingInvoiceInfo } from "./components/ir-invoice/types";
+import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
@@ -99,7 +99,7 @@ export { Element } from "./stencil-public-runtime";
 export { MaskProp as MaskProp1 } from "./components/ui/ir-input/ir-input";
 export { FactoryArg } from "imask";
 export { ZodType, ZodTypeAny } from "zod";
-export { BookingInvoiceInfo } from "./components/ir-invoice/types";
+export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
@@ -706,6 +706,17 @@ export namespace Components {
     }
     interface IrCheckboxes {
         "checkboxes": checkboxes[];
+    }
+    interface IrCheckoutDialog {
+        /**
+          * Booking data for the current room checkout action.
+         */
+        "booking": Booking;
+        /**
+          * Unique identifier of the room being checked out.
+         */
+        "identifier": string;
+        "open": boolean;
     }
     interface IrCombobox {
         /**
@@ -1788,10 +1799,6 @@ export namespace Components {
          */
         "invoiceInfo": BookingInvoiceInfo;
         /**
-          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
-         */
-        "mode": 'create' | 'check_in-create';
-        /**
           * Whether the invoice drawer is open.  This prop is mutable and reflected to the host element, allowing parent components to control visibility via markup or via the public `openDrawer()` / `closeDrawer()` methods.
          */
         "open": boolean;
@@ -1818,12 +1825,11 @@ export namespace Components {
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
          */
         "for": 'room' | 'booking';
+        /**
+          * Unique ID applied to the underlying <form> element.
+         */
         "formId": string;
         "invoiceInfo": BookingInvoiceInfo;
-        /**
-          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
-         */
-        "mode": 'create' | 'check_in-create';
         /**
           * Whether the invoice drawer is open.  This prop is mutable and reflected to the host element, allowing parent components to control visibility via markup or via the public `openDrawer()` / `closeDrawer()` methods.
          */
@@ -1832,6 +1838,10 @@ export namespace Components {
           * The identifier of the room for which the invoice is being generated. Used when invoicing at room level instead of booking level.
          */
         "roomIdentifier": string;
+        /**
+          * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+         */
+        "viewMode": ViewMode;
     }
     interface IrLabel {
         /**
@@ -3356,6 +3366,10 @@ export interface IrCheckboxesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCheckboxesElement;
 }
+export interface IrCheckoutDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCheckoutDialogElement;
+}
 export interface IrComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrComboboxElement;
@@ -4686,6 +4700,23 @@ declare global {
         prototype: HTMLIrCheckboxesElement;
         new (): HTMLIrCheckboxesElement;
     };
+    interface HTMLIrCheckoutDialogElementEventMap {
+        "checkoutDialogClosed": { reason: 'dialog' | 'openInvoice' };
+    }
+    interface HTMLIrCheckoutDialogElement extends Components.IrCheckoutDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCheckoutDialogElementEventMap>(type: K, listener: (this: HTMLIrCheckoutDialogElement, ev: IrCheckoutDialogCustomEvent<HTMLIrCheckoutDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCheckoutDialogElementEventMap>(type: K, listener: (this: HTMLIrCheckoutDialogElement, ev: IrCheckoutDialogCustomEvent<HTMLIrCheckoutDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCheckoutDialogElement: {
+        prototype: HTMLIrCheckoutDialogElement;
+        new (): HTMLIrCheckoutDialogElement;
+    };
     interface HTMLIrComboboxElementEventMap {
         "comboboxValueChange": { key: string; data: unknown };
         "inputCleared": null;
@@ -5374,8 +5405,9 @@ declare global {
     recipientId: string;
     for: 'room' | 'booking';
     roomIdentifier?: string;
-    mode: 'create' | 'check_in-create';
+    mode: 'create' | 'check_out-create';
   };
+        "loadingChange": boolean;
     }
     interface HTMLIrInvoiceFormElement extends Components.IrInvoiceForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrInvoiceFormElementEventMap>(type: K, listener: (this: HTMLIrInvoiceFormElement, ev: IrInvoiceFormCustomEvent<HTMLIrInvoiceFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6659,6 +6691,7 @@ declare global {
         "ir-channel-mapping": HTMLIrChannelMappingElement;
         "ir-checkbox": HTMLIrCheckboxElement;
         "ir-checkboxes": HTMLIrCheckboxesElement;
+        "ir-checkout-dialog": HTMLIrCheckoutDialogElement;
         "ir-combobox": HTMLIrComboboxElement;
         "ir-common": HTMLIrCommonElement;
         "ir-copy-button": HTMLIrCopyButtonElement;
@@ -7518,6 +7551,18 @@ declare namespace LocalJSX {
     interface IrCheckboxes {
         "checkboxes"?: checkboxes[];
         "onCheckboxesChange"?: (event: IrCheckboxesCustomEvent<checkboxes[]>) => void;
+    }
+    interface IrCheckoutDialog {
+        /**
+          * Booking data for the current room checkout action.
+         */
+        "booking"?: Booking;
+        /**
+          * Unique identifier of the room being checked out.
+         */
+        "identifier"?: string;
+        "onCheckoutDialogClosed"?: (event: IrCheckoutDialogCustomEvent<{ reason: 'dialog' | 'openInvoice' }>) => void;
+        "open"?: boolean;
     }
     interface IrCombobox {
         /**
@@ -8711,10 +8756,6 @@ declare namespace LocalJSX {
          */
         "invoiceInfo"?: BookingInvoiceInfo;
         /**
-          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
-         */
-        "mode"?: 'create' | 'check_in-create';
-        /**
           * Emitted when the invoice drawer is closed.  Fired when `closeDrawer()` is called, including when the underlying drawer emits `onDrawerHide`.
          */
         "onInvoiceClose"?: (event: IrInvoiceCustomEvent<void>) => void;
@@ -8744,12 +8785,11 @@ declare namespace LocalJSX {
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
          */
         "for"?: 'room' | 'booking';
+        /**
+          * Unique ID applied to the underlying <form> element.
+         */
         "formId"?: string;
         "invoiceInfo"?: BookingInvoiceInfo;
-        /**
-          * Determines what should happen after creating the invoice. - `"create"`: create an invoice normally - `"check_in-create"`: create an invoice as part of the check-in flow
-         */
-        "mode"?: 'create' | 'check_in-create';
         /**
           * Emitted when the invoice drawer is closed.  Fired when `closeDrawer()` is called, including when the underlying drawer emits `onDrawerHide`.
          */
@@ -8762,12 +8802,13 @@ declare namespace LocalJSX {
     recipientId: string;
     for: 'room' | 'booking';
     roomIdentifier?: string;
-    mode: 'create' | 'check_in-create';
+    mode: 'create' | 'check_out-create';
   }>) => void;
         /**
           * Emitted when the invoice drawer is opened.  Fired when `openDrawer()` is called and the component transitions into the open state.
          */
         "onInvoiceOpen"?: (event: IrInvoiceFormCustomEvent<void>) => void;
+        "onLoadingChange"?: (event: IrInvoiceFormCustomEvent<boolean>) => void;
         /**
           * Whether the invoice drawer is open.  This prop is mutable and reflected to the host element, allowing parent components to control visibility via markup or via the public `openDrawer()` / `closeDrawer()` methods.
          */
@@ -8776,6 +8817,10 @@ declare namespace LocalJSX {
           * The identifier of the room for which the invoice is being generated. Used when invoicing at room level instead of booking level.
          */
         "roomIdentifier"?: string;
+        /**
+          * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+         */
+        "viewMode"?: ViewMode;
     }
     interface IrLabel {
         /**
@@ -10339,6 +10384,7 @@ declare namespace LocalJSX {
         "ir-channel-mapping": IrChannelMapping;
         "ir-checkbox": IrCheckbox;
         "ir-checkboxes": IrCheckboxes;
+        "ir-checkout-dialog": IrCheckoutDialog;
         "ir-combobox": IrCombobox;
         "ir-common": IrCommon;
         "ir-copy-button": IrCopyButton;
@@ -10549,6 +10595,7 @@ declare module "@stencil/core" {
             "ir-channel-mapping": LocalJSX.IrChannelMapping & JSXBase.HTMLAttributes<HTMLIrChannelMappingElement>;
             "ir-checkbox": LocalJSX.IrCheckbox & JSXBase.HTMLAttributes<HTMLIrCheckboxElement>;
             "ir-checkboxes": LocalJSX.IrCheckboxes & JSXBase.HTMLAttributes<HTMLIrCheckboxesElement>;
+            "ir-checkout-dialog": LocalJSX.IrCheckoutDialog & JSXBase.HTMLAttributes<HTMLIrCheckoutDialogElement>;
             "ir-combobox": LocalJSX.IrCombobox & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;
             "ir-common": LocalJSX.IrCommon & JSXBase.HTMLAttributes<HTMLIrCommonElement>;
             "ir-copy-button": LocalJSX.IrCopyButton & JSXBase.HTMLAttributes<HTMLIrCopyButtonElement>;
