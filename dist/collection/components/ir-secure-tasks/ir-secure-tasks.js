@@ -77,7 +77,7 @@ export class IrSecureTasks {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, h("label", { class: "secure-header__label", htmlFor: "aname-input" }, "AName"), h("div", { class: "secure-header__aname-input" }, h("ir-custom-input", { id: "aname-input", type: "text", value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), placeholder: "AName", "aria-label": "AName" }), h("ir-custom-button", { variant: "brand", type: "submit", id: "button-save" }, "Save"))), h("ir-custom-button", { variant: "danger", onClick: () => {
+            } }, h("label", { class: "secure-header__label", htmlFor: "aname-input" }, "AName"), h("div", { class: "secure-header__aname-input" }, h("ir-input", { id: "aname-input", type: "text", value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), placeholder: "AName", "aria-label": "AName" }), h("ir-custom-button", { variant: "brand", type: "submit", id: "button-save" }, "Save"))), h("ir-custom-button", { variant: "danger", onClick: () => {
                 this.logout();
             } }, "Logout")), h("nav", { class: "secure-header__tabs", "aria-label": "Secure screens navigation" }, h("ul", { class: "secure-tabs" }, this.routes.map(route => (h("li", { key: route.name, class: "secure-tabs__item" }, h("button", { type: "button", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-current": this.currentPage === route.value ? 'page' : undefined, onClick: () => {
                 this.currentPage = route.value;

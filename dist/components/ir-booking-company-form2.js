@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$1 } from './ir-custom-input2.js';
+import { d as defineCustomElement$1 } from './ir-input2.js';
 
 const irBookingCompanyFormCss = ".sc-ir-booking-company-form-h{display:block}.booking-company__form.sc-ir-booking-company-form{display:flex;flex-direction:column;gap:1rem}";
 const IrBookingCompanyFormStyle0 = irBookingCompanyFormCss;
@@ -58,10 +58,10 @@ const IrBookingCompanyForm = /*@__PURE__*/ proxyCustomElement(class IrBookingCom
         catch (error) { }
     }
     render() {
-        return (h("form", { key: '142ffb0198b805299a8200073a0118be4f8b300e', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '9628ec0b5b262ba05f0ee36752d1848ba3785885', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-custom-input", { key: '5da547c1478fc848e23336edb7585a9c9f56d0de', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-custom-input", { key: 'ab6ab47b6151051ef291b52918a3870a11404651', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: 'f93b8979fa1b2bc8d9b35f6d9c9be91b667f6941', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '809d17d44a9013a163c608ce9129bb4acbc319a7', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
     static get style() { return IrBookingCompanyFormStyle0; }
 }, [2, "ir-booking-company-form", {
@@ -75,14 +75,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-company-form", "ir-custom-input"];
+    const components = ["ir-booking-company-form", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrBookingCompanyForm);
             }
             break;
-        case "ir-custom-input":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

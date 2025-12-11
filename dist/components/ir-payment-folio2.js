@@ -2,8 +2,8 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$4 } from './ir-custom-input2.js';
-import { d as defineCustomElement$3 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-drawer2.js';
+import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-payment-folio-form2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
@@ -78,7 +78,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: 'f31698f3a1f91d25541cb068950a9216e8d3be23', placement: "start", style: {
+        return (h("ir-drawer", { key: 'b640f10a8c4342ce61597c9dac01ee2c409efb79', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -89,11 +89,11 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: '8108780a16283ff2d831a6ea9ffee540aaad4b68', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: '3b0d42cd3f8108b38e770b84b9c0013c5230ae6a', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '64109e89e195398072e8164980caaa596363e94c', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'a6c3401c4adc5fc7d4b25ff3900c48d18d3252ba', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: '2d8b7dfe6630a310558e2002950eb2c2a4c6263c', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '9fae079f251078832528ed720588bff1a8891635', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'f4d2fcab80a7b27902e1742af7a160786228a830', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'aa48176aba9afef57efaa1dfe38aceb1a42bdd01', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }
@@ -112,7 +112,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-drawer", "ir-payment-folio-form", "ir-validator"];
+    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-folio":
             if (!customElements.get(tagName)) {
@@ -129,12 +129,12 @@ function defineCustomElement() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-custom-input":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-drawer":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

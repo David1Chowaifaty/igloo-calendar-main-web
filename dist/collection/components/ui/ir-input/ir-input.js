@@ -1,90 +1,134 @@
 import { Host, h } from "@stencil/core";
-import { v4 } from "uuid";
 import { masks } from "./masks";
 import IMask from "imask";
 export class IrInput {
     el;
-    /** Placeholder text displayed inside the input when empty. */
-    placeholder;
-    /** The label text displayed alongside or above the input. */
-    label;
     /** The value of the input. */
     value = '';
-    disabled;
-    readonly;
-    required;
-    /** Type of input element — can be 'text', 'password', 'email', or 'number'. */
+    /**
+     * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults
+     * to `text`.
+     */
     type = 'text';
-    /** Controls where the label is positioned: 'default', 'side', or 'floating'. */
-    labelPosition = 'default';
-    /** If true, displays a clear (X) button when the input has a value. */
-    clearable;
-    /** Maximum input length */
-    maxLength;
-    /** Hides the prefix slot content from assistive technologies when true. */
-    prefixHidden = true;
-    /** Hides the suffix slot content from assistive technologies when true. */
-    suffixHidden = true;
-    /** Maximum allowed value (for number or masked inputs). */
-    max;
-    /** Minimum allowed value (for number or masked inputs). */
+    /** The default value of the form control. Primarily used for resetting the form control. */
+    defaultValue;
+    /** The input's size. */
+    size = 'small';
+    /** The input's visual appearance. */
+    appearance;
+    /** Draws a pill-style input with rounded edges. */
+    pill;
+    returnMaskedValue = false;
+    /** The input's label. If you need to display HTML, use the `label` slot instead. */
+    label;
+    /** The input's hint. If you need to display HTML, use the `hint` slot instead. */
+    hint;
+    /** Adds a clear button when the input is not empty. */
+    withClear;
+    /** Placeholder text to show as a hint when the input is empty. */
+    placeholder;
+    /** Makes the input readonly. */
+    readonly;
+    /** Adds a button to toggle the password's visibility. Only applies to password types. */
+    passwordToggle;
+    /** Determines whether or not the password is currently visible. Only applies to password input types. */
+    passwordVisible;
+    /** Hides the browser's built-in increment/decrement spin buttons for number inputs. */
+    withoutSpinButtons;
+    /**
+     * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
+     * to place the form control outside of a form and associate it with the form that has this `id`. The form must be in
+     * the same document or shadow root for this to work.
+     */
+    form;
+    /** Makes the input a required field. */
+    required;
+    /** A regular expression pattern to validate input against. */
+    pattern;
+    /** The minimum length of input that will be considered valid. */
+    minlength;
+    /** The maximum length of input that will be considered valid. */
+    maxlength;
+    /** The input's minimum value. Only applies to date and number input types. */
     min;
+    /** The input's maximum value. Only applies to date and number input types. */
+    max;
+    /**
+     * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is
+     * implied, allowing any numeric value. Only applies to date and number input types.
+     */
+    step;
+    /** Controls whether and how text input is automatically capitalized as it is entered by the user. */
+    autocapitalize;
+    /** Indicates whether the browser's autocorrect feature is on or off. */
+    autocorrect;
+    /**
+     * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to
+     * [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+     */
+    autocomplete;
+    /** Indicates that the input should receive focus on page load. */
+    autofocus;
+    /** Used to customize the label or icon of the Enter key on virtual keyboards. */
+    enterkeyhint;
+    /** Enables spell checking on the input. */
+    spellcheck;
+    /**
+     * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual
+     * keyboard on supportive devices.
+     */
+    inputmode;
+    /**
+     * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+     */
+    withLabel;
+    /**
+     * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+     */
+    withHint;
     /** Mask for the input field (optional) */
     mask;
-    _type;
-    inputFocused;
-    /** Fired on any value change (typing, programmatic set, or clear). */
-    inputChange;
-    /** Fired only when the clear button is pressed. */
-    cleared;
-    /** Fired only when the input is focused. */
-    inputFocus;
-    /** Fired only when the input is blurred. */
+    /** Disables the input. */
+    disabled;
+    /**
+     * Custom CSS classes applied to the inner `<wa-input>` element.
+     *
+     * You can also target the exposed parts `::part(input)` and `::part(base)`
+     * for deeper styling of the native input and container.
+     */
+    inputClass;
+    textChange;
     inputBlur;
-    id;
-    prefixSlotEl;
-    resizeObs;
+    inputFocus;
+    isValid = true;
+    slotState = new Map();
     _mask;
     inputRef;
-    // ─────────────────────────────────────────────────────────────
-    // Lifecycle
-    // ─────────────────────────────────────────────────────────────
+    animationFrame;
+    slotObserver;
+    SLOT_NAMES = ['label', 'start', 'end', 'clear-icon', 'hide-password-icon', 'show-password-icon', 'hint'];
     componentWillLoad() {
-        this.id = this.el.id || `input-${v4()}`;
-        this._type = this.type;
-        const form = this.el.closest('form');
-        if (form) {
-            form.addEventListener('reset', this.handleFormReset);
+        if (this.mask === 'price' && typeof this.mask === 'string') {
+            this.returnMaskedValue = true;
         }
+        this.updateSlotState();
     }
     componentDidLoad() {
+        if (this.disabled) {
+            this.inputRef.disabled = this.disabled;
+        }
         // Find the closest form element (if any)
         // track slotted prefix to compute width
         this.initializeMask();
-        if (this.el.hasAttribute('data-testid')) {
-            this.inputRef.setAttribute('data-testid', this.el.getAttribute('data-testid'));
-            this.el.removeAttribute('data-testid');
-        }
-        this.prefixSlotEl = this.el.shadowRoot.querySelector('slot[name="prefix"]');
-        if (this.prefixSlotEl) {
-            this.prefixSlotEl.addEventListener('slotchange', this.handlePrefixSlotChange);
-            this.measureAndSetPrefixWidth();
-            // watch size changes (icons/text may load later or change)
-            const assigned = this.prefixSlotEl.assignedElements({ flatten: true });
-            const target = assigned[0];
-            if (target && 'ResizeObserver' in window) {
-                this.resizeObs = new ResizeObserver(() => this.measureAndSetPrefixWidth());
-                this.resizeObs.observe(target);
-            }
-        }
+        this.setupSlotListeners();
     }
     disconnectedCallback() {
-        this.prefixSlotEl?.removeEventListener('slotchange', this.handlePrefixSlotChange);
-        this.resizeObs?.disconnect();
         this.destroyMask();
-        const form = this.el.closest('form');
-        if (form) {
-            form.removeEventListener('reset', this.handleFormReset);
+        this.removeSlotListeners();
+    }
+    handleDisabledChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.inputRef.disabled = newValue;
         }
     }
     handleMaskPropsChange() {
@@ -97,47 +141,64 @@ export class IrInput {
         }
         this.rebuildMask();
     }
-    handleValueChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            if (this._mask) {
-                this._mask.value = newValue;
-            }
-            else {
-                this.handleInput(newValue);
-            }
-        }
+    handleAriaInvalidChange(e) {
+        this.isValid = !JSON.parse(e);
     }
-    // ─────────────────────────────────────────────────────────────
-    // Methods (extracted handlers)
-    // ─────────────────────────────────────────────────────────────
     handleInput = (nextValue) => {
         this.value = nextValue ?? '';
-        this.inputChange.emit(this.value);
+        this.textChange.emit(this.value);
     };
-    handleFormReset = () => {
-        this.clearValue();
-    };
-    onInput = (e) => {
-        const next = e.target.value;
-        if (!this._mask)
-            this.handleInput(next);
-    };
-    initializeMask() {
+    async initializeMask() {
         if (!this.inputRef)
             return;
         const maskOpts = this.buildMaskOptions();
         if (!maskOpts)
             return;
-        this._mask = IMask(this.inputRef, maskOpts);
+        await customElements.whenDefined('wa-input'); // optional, but explicit
+        await this.inputRef.updateComplete;
+        const nativeInput = this.inputRef.input;
+        if (!nativeInput)
+            return;
+        this._mask = IMask(nativeInput, maskOpts);
         if (this.value) {
-            this._mask.unmaskedValue = this.value;
+            if (this.returnMaskedValue) {
+                this._mask.unmaskedValue = this.value;
+            }
+            else {
+                this._mask.value = this.value;
+            }
         }
         this._mask.on('accept', () => {
-            if (!this._mask)
-                return;
             const isEmpty = this.inputRef.value.trim() === '' || this._mask.unmaskedValue === '';
-            this.handleInput(isEmpty ? '' : this._mask.unmaskedValue);
+            const value = isEmpty ? '' : this.returnMaskedValue ? this._mask.unmaskedValue : this._mask.value;
+            this.handleInput(value);
         });
+    }
+    setupSlotListeners() {
+        // Listen to slotchange events on the host element
+        this.el.addEventListener('slotchange', this.handleSlotChange);
+        // Also use MutationObserver as a fallback for browsers that don't fire slotchange reliably
+        this.slotObserver = new MutationObserver(this.handleSlotChange);
+        this.slotObserver.observe(this.el, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['slot'],
+        });
+    }
+    removeSlotListeners() {
+        this.el.removeEventListener('slotchange', this.handleSlotChange);
+        this.slotObserver?.disconnect();
+    }
+    handleSlotChange = () => {
+        this.updateSlotState();
+    };
+    updateSlotState() {
+        const newState = new Map();
+        this.SLOT_NAMES.forEach(name => {
+            newState.set(name, this.hasSlot(name));
+        });
+        this.slotState = newState;
     }
     rebuildMask() {
         this.destroyMask();
@@ -146,6 +207,13 @@ export class IrInput {
     destroyMask() {
         this._mask?.destroy();
         this._mask = undefined;
+        this.clearAnimationFrame();
+    }
+    clearAnimationFrame() {
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+            this.animationFrame = undefined;
+        }
     }
     buildMaskOptions() {
         const resolvedMask = this.resolveMask();
@@ -163,126 +231,62 @@ export class IrInput {
     resolveMask() {
         if (!this.mask)
             return;
-        if (typeof this.mask === 'string')
+        if (typeof this.mask === 'string') {
             return masks[this.mask];
+        }
         return this.mask;
     }
-    clearValue = () => {
-        // Per requirement: clear calls the same input-change method…
+    handleChange = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (!this.mask)
+            this.handleInput(e.target.value);
+    };
+    handleClear = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
         if (this._mask) {
             this._mask.value = '';
         }
-        else {
-            this.handleInput('');
-        }
-        // …and also emits its own event only when the clear button is pressed
-        this.cleared.emit();
+        this.handleInput('');
     };
-    toggleVisibility = () => {
-        this._type = this._type === 'text' ? 'password' : 'text';
+    handleBlur = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.inputBlur.emit();
     };
-    handlePrefixSlotChange = () => {
-        this.measureAndSetPrefixWidth();
+    handleFocus = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.inputFocus.emit();
     };
-    /** Measures prefix width and writes CSS var --ir-prefix-width on the host. */
-    measureAndSetPrefixWidth() {
-        const slot = this.prefixSlotEl;
-        if (!slot)
-            return;
-        const assigned = slot.assignedElements({ flatten: true });
-        const hasPrefix = assigned.length > 0;
-        // reflect presence as an attribute for CSS if needed
-        this.el.toggleAttribute('has-prefix', hasPrefix);
-        if (!hasPrefix) {
-            // fall back to 0px when no prefix
-            this.el.style.setProperty('--ir-prefix-width', '0px');
-            return;
-        }
-        const node = assigned[0];
-        // Compute width (content width + horizontal margin)
-        const rect = node.getBoundingClientRect();
-        const style = getComputedStyle(node);
-        const mLeft = parseFloat(style.marginLeft || '0') || 0;
-        const mRight = parseFloat(style.marginRight || '0') || 0;
-        const width = Math.max(0, rect.width + mLeft + mRight);
-        // Optional: include design gap between prefix and input if you use one
-        const hostStyle = getComputedStyle(this.el);
-        const gapStr = hostStyle.getPropertyValue('--ir-gap').trim();
-        const gap = gapStr.endsWith('rem') || gapStr.endsWith('px') ? parseFloat(gapStr) : 0;
-        const total = width + (isNaN(gap) ? 0 : gap);
-        // Set internal CSS var used by padding calculation
-        this.el.style.setProperty('--ir-prefix-width', `${total + 8}px`);
+    hasSlot(name) {
+        return !!this.el.querySelector(`[slot="${name}"]`);
     }
-    handleInputBlur(e) {
-        this.inputFocused = false;
-        this.inputBlur.emit(e);
-    }
-    handleInputFocus(e) {
-        this.inputFocused = true;
-        this.inputFocus.emit(e);
-    }
-    // ─────────────────────────────────────────────────────────────
-    // Render
-    // ─────────────────────────────────────────────────────────────
     render() {
-        return (h(Host, { key: '39468054f80f4b1278815201e05c2fb9cbad0592' }, this.label && (h("label", { key: '387274e8e5240c15d520a5ce377ac2d8656b21bd', class: "input-label", htmlFor: this.id, part: "label", "data-active": String(Boolean(this.value) || this.inputFocused) }, h("slot", { key: '95951ddcbdedb0d3b89610a13f8d27218ef734b7', name: "label" }, this.label, " ", this.required && h("span", { key: 'ae854f24d208d4044e9cd52d1636dbb8a4e1b625', style: { color: 'red' } }, "*")))), h("div", { key: 'eed0545d3e3a32c5a44724910b2432cf2ea9e115', class: "input-wrapper", part: "wrapper" }, h("div", { key: 'a0573caf40029906c261bd91cb509fe8de6b8aef', role: "group", class: "input-prefix", part: "prefix", "aria-hidden": String(this.prefixHidden) }, h("slot", { key: 'e3766a979278906ff7af1277f170533cab8f5a3a', name: "prefix" })), h("input", { key: '089007e3abe67d3a7da6b542c8c8cc45612fc3d5', disabled: this.disabled, readonly: this.readonly, class: "input-field", maxLength: this.maxLength, type: this._type, ref: el => (this.inputRef = el), id: this.id, placeholder: this.placeholder, required: this.required, value: this._mask ? this._mask.value : this.value, onFocus: this.handleInputFocus.bind(this), onBlur: this.handleInputBlur.bind(this), onInput: this.onInput, "aria-label": this.label || this.placeholder || 'Input field' }), h("div", { key: 'b43d2c0f08a2b5a166fa2a6137e8a0a332a6b4a6', class: "input-suffix", role: "group", part: "suffix", "aria-hidden": String(this.suffixHidden) }, h("slot", { key: '929ac7a1c158e19ab5d170da9228f8520355b3a9', name: "suffix" }), this.clearable && this.value && (h("button", { key: '9b6bd2bd7b4690d0cad5c4f3e3ed97cef38948cf', type: "button", class: "clear-button", "aria-label": "Clear input", title: "Clear input", part: "clear-button", onClick: this.clearValue }, h("svg", { key: '80424935492b44abf1053c3f5e817cfd25b04c9e', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { key: 'fa5dda2a893b9482b48ab254b343e83c18e7e706', d: "M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z" })))), this.type === 'password' && !this.disabled && (h("button", { key: 'e63026533e3220f44d133dbf060b7975912def59', type: "button", class: "visibility-button", "aria-label": "Toggle password visibility", title: "Toggle password visibility", part: "visibility-button", "aria-pressed": String(this._type === 'text'), onClick: this.toggleVisibility }, this._type === 'text' ? (
-        /* eye-closed (password visible → click to hide) */
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 24, width: 24 }, h("path", { fill: "currentColor", d: "M73 39.1C63.6 29.7 48.4 29.7 39.1 39.1C29.8 48.5 29.7 63.7 39 73.1L567 601.1C576.4 610.5 591.6 610.5 600.9 601.1C610.2 591.7 610.3 576.5 600.9 567.2L504.5 470.8C507.2 468.4 509.9 466 512.5 463.6C559.3 420.1 590.6 368.2 605.5 332.5C608.8 324.6 608.8 315.8 605.5 307.9C590.6 272.2 559.3 220.2 512.5 176.8C465.4 133.1 400.7 96.2 319.9 96.2C263.1 96.2 214.3 114.4 173.9 140.4L73 39.1zM236.5 202.7C260 185.9 288.9 176 320 176C399.5 176 464 240.5 464 320C464 351.1 454.1 379.9 437.3 403.5L402.6 368.8C415.3 347.4 419.6 321.1 412.7 295.1C399 243.9 346.3 213.5 295.1 227.2C286.5 229.5 278.4 232.9 271.1 237.2L236.4 202.5zM357.3 459.1C345.4 462.3 332.9 464 320 464C240.5 464 176 399.5 176 320C176 307.1 177.7 294.6 180.9 282.7L101.4 203.2C68.8 240 46.4 279 34.5 307.7C31.2 315.6 31.2 324.4 34.5 332.3C49.4 368 80.7 420 127.5 463.4C174.6 507.1 239.3 544 320.1 544C357.4 544 391.3 536.1 421.6 523.4L357.4 459.2z" }))) : (
-        /* eye-open (password hidden → click to show) */
-        h("svg", { xmlns: "http://www.w3.org/2000/svg", height: 24, width: 24, viewBox: "0 0 640 640" }, h("path", { fill: "currentColor", d: "M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z" })))))))));
+        let displayValue = this.value;
+        if (this._mask && this.returnMaskedValue) {
+            // IMask holds the formatted string (e.g., "1,000.00")
+            // this.value holds the raw number (e.g., "1000")
+            // We must pass "1,000.00" to wa-input to avoid the overwrite warning
+            displayValue = this._mask.value;
+        }
+        return (h(Host, { key: 'cef743a49762f6e9f69f720543b108fed1b1e321' }, h("wa-input", { key: '26e2e3c7809c2c1460e92ce467b4cac712f30256', type: this.type, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, onchange: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: 'eb24e5bc2cec61603a388fceaa6cbab651913ba8', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'c5ed6dd09ee81abf661c2e986e8acf1c23fe4e31', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '8a49f2aa672d5a2435df229293b5d9c83155ddb0', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'e72f26b94cb14c9f33760d2fc3a5fb61e4aadb2e', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'ef3705278a366e37cad7c2e32b505e8809abb8c5', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'b0e56f3d128a06ff04bd859e47886ffe47bd5b1e', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '3b1f0518600aefed484d86f4504ea49e19a6282c', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-input.css", "../../../common/global.css"]
+            "$": ["ir-input.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-input.css", "../../../common/global.css"]
+            "$": ["ir-input.css"]
         };
     }
     static get properties() {
         return {
-            "placeholder": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Placeholder text displayed inside the input when empty."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
-            },
-            "label": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "The label text displayed alongside or above the input."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "label",
-                "reflect": false
-            },
             "value": {
                 "type": "string",
                 "mutable": true,
@@ -303,76 +307,25 @@ export class IrInput {
                 "reflect": true,
                 "defaultValue": "''"
             },
-            "disabled": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "disabled",
-                "reflect": true
-            },
-            "readonly": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "readonly",
-                "reflect": true
-            },
-            "required": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "required",
-                "reflect": true
-            },
             "type": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'text' | 'password' | 'email' | 'number'",
-                    "resolved": "\"email\" | \"number\" | \"password\" | \"text\"",
-                    "references": {}
+                    "original": "NativeWaInput['type']",
+                    "resolved": "\"date\" | \"datetime-local\" | \"email\" | \"number\" | \"password\" | \"search\" | \"tel\" | \"text\" | \"time\" | \"url\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Type of input element \u2014 can be 'text', 'password', 'email', or 'number'."
+                    "text": "The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults\nto `text`."
                 },
                 "getter": false,
                 "setter": false,
@@ -380,29 +333,110 @@ export class IrInput {
                 "reflect": true,
                 "defaultValue": "'text'"
             },
-            "labelPosition": {
+            "defaultValue": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'default' | 'side' | 'floating'",
-                    "resolved": "\"default\" | \"floating\" | \"side\"",
-                    "references": {}
+                    "original": "NativeWaInput['defaultValue']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls where the label is positioned: 'default', 'side', or 'floating'."
+                    "text": "The default value of the form control. Primarily used for resetting the form control."
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-position",
+                "attribute": "default-value",
+                "reflect": true
+            },
+            "size": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['size']",
+                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's size."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "size",
                 "reflect": true,
-                "defaultValue": "'default'"
+                "defaultValue": "'small'"
             },
-            "clearable": {
+            "appearance": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['appearance']",
+                    "resolved": "\"filled\" | \"filled-outlined\" | \"outlined\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's visual appearance."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "appearance",
+                "reflect": true
+            },
+            "pill": {
                 "type": "boolean",
                 "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['pill']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Draws a pill-style input with rounded edges."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "pill",
+                "reflect": true
+            },
+            "returnMaskedValue": {
+                "type": "boolean",
+                "mutable": true,
                 "complexType": {
                     "original": "boolean",
                     "resolved": "boolean",
@@ -412,116 +446,643 @@ export class IrInput {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If true, displays a clear (X) button when the input has a value."
+                    "text": ""
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "clearable",
+                "attribute": "return-masked-value",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['label']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's label. If you need to display HTML, use the `label` slot instead."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
                 "reflect": true
             },
-            "maxLength": {
+            "hint": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['hint']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's hint. If you need to display HTML, use the `hint` slot instead."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "hint",
+                "reflect": true
+            },
+            "withClear": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['withClear']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Adds a clear button when the input is not empty."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "with-clear",
+                "reflect": true
+            },
+            "placeholder": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['placeholder']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Placeholder text to show as a hint when the input is empty."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "placeholder",
+                "reflect": true
+            },
+            "readonly": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['readonly']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Makes the input readonly."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "readonly",
+                "reflect": true
+            },
+            "passwordToggle": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['passwordToggle']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Adds a button to toggle the password's visibility. Only applies to password types."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "password-toggle",
+                "reflect": true
+            },
+            "passwordVisible": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['passwordVisible']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Determines whether or not the password is currently visible. Only applies to password input types."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "password-visible",
+                "reflect": true
+            },
+            "withoutSpinButtons": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['withoutSpinButtons']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Hides the browser's built-in increment/decrement spin buttons for number inputs."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "without-spin-buttons",
+                "reflect": true
+            },
+            "form": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['form']",
+                    "resolved": "null",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you\nto place the form control outside of a form and associate it with the form that has this `id`. The form must be in\nthe same document or shadow root for this to work."
+                },
+                "getter": false,
+                "setter": false
+            },
+            "required": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['required']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Makes the input a required field."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "required",
+                "reflect": true
+            },
+            "pattern": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['pattern']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "A regular expression pattern to validate input against."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "pattern",
+                "reflect": false
+            },
+            "minlength": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
-                    "original": "number",
+                    "original": "NativeWaInput['minlength']",
                     "resolved": "number",
-                    "references": {}
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Maximum input length"
+                    "text": "The minimum length of input that will be considered valid."
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-length",
-                "reflect": true
+                "attribute": "minlength",
+                "reflect": false
             },
-            "prefixHidden": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Hides the prefix slot content from assistive technologies when true."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "prefix-hidden",
-                "reflect": false,
-                "defaultValue": "true"
-            },
-            "suffixHidden": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Hides the suffix slot content from assistive technologies when true."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "suffix-hidden",
-                "reflect": false,
-                "defaultValue": "true"
-            },
-            "max": {
+            "maxlength": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
-                    "original": "number",
+                    "original": "NativeWaInput['maxlength']",
                     "resolved": "number",
-                    "references": {}
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Maximum allowed value (for number or masked inputs)."
+                    "text": "The maximum length of input that will be considered valid."
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max",
-                "reflect": true
+                "attribute": "maxlength",
+                "reflect": false
             },
             "min": {
-                "type": "number",
+                "type": "any",
                 "mutable": false,
                 "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
+                    "original": "NativeWaInput['min']",
+                    "resolved": "number | string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Minimum allowed value (for number or masked inputs)."
+                    "text": "The input's minimum value. Only applies to date and number input types."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "min",
-                "reflect": true
+                "reflect": false
+            },
+            "max": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['max']",
+                    "resolved": "number | string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The input's maximum value. Only applies to date and number input types."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "max",
+                "reflect": false
+            },
+            "step": {
+                "type": "any",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['step']",
+                    "resolved": "\"any\" | number",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is\nimplied, allowing any numeric value. Only applies to date and number input types."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "step",
+                "reflect": false
+            },
+            "autocapitalize": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['autocapitalize']",
+                    "resolved": "\"characters\" | \"none\" | \"off\" | \"on\" | \"sentences\" | \"words\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Controls whether and how text input is automatically capitalized as it is entered by the user."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "autocapitalize",
+                "reflect": false
+            },
+            "autocorrect": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['autocorrect']",
+                    "resolved": "\"off\" | \"on\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Indicates whether the browser's autocorrect feature is on or off."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "autocorrect",
+                "reflect": false
+            },
+            "autocomplete": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['autocomplete']",
+                    "resolved": "string",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Specifies what permission the browser has to provide assistance in filling out form field values. Refer to\n[this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "autocomplete",
+                "reflect": false
+            },
+            "autofocus": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['autofocus']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Indicates that the input should receive focus on page load."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "autofocus",
+                "reflect": false
+            },
+            "enterkeyhint": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['enterkeyhint']",
+                    "resolved": "\"done\" | \"enter\" | \"go\" | \"next\" | \"previous\" | \"search\" | \"send\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Used to customize the label or icon of the Enter key on virtual keyboards."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "enterkeyhint",
+                "reflect": false
+            },
+            "spellcheck": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['spellcheck']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Enables spell checking on the input."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "spellcheck",
+                "reflect": false
+            },
+            "inputmode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['inputmode']",
+                    "resolved": "\"decimal\" | \"email\" | \"none\" | \"numeric\" | \"search\" | \"tel\" | \"text\" | \"url\"",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual\nkeyboard on supportive devices."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "inputmode",
+                "reflect": false
+            },
+            "withLabel": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['withLabel']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "with-label",
+                "reflect": false
+            },
+            "withHint": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "NativeWaInput['withHint']",
+                    "resolved": "boolean",
+                    "references": {
+                        "NativeWaInput": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/ir-input/ir-input.tsx",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "with-hint",
+                "reflect": false
             },
             "mask": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
                     "original": "MaskProp",
-                    "resolved": "FactoryArg | MaskConfig<\"date\" | \"time\" | \"price\" | \"url\">",
+                    "resolved": "MaskConfig<\"date\" | \"time\" | \"price\" | \"url\"> | FactoryArg",
                     "references": {
                         "MaskProp": {
                             "location": "local",
@@ -540,65 +1101,68 @@ export class IrInput {
                 "setter": false,
                 "attribute": "mask",
                 "reflect": false
+            },
+            "disabled": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Disables the input."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "disabled",
+                "reflect": true
+            },
+            "inputClass": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Custom CSS classes applied to the inner `<wa-input>` element.\n\nYou can also target the exposed parts `::part(input)` and `::part(base)`\nfor deeper styling of the native input and container."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "input-class",
+                "reflect": false
             }
         };
     }
     static get states() {
         return {
-            "_type": {},
-            "inputFocused": {}
+            "isValid": {},
+            "slotState": {}
         };
     }
     static get events() {
         return [{
-                "method": "inputChange",
-                "name": "input-change",
+                "method": "textChange",
+                "name": "text-change",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Fired on any value change (typing, programmatic set, or clear)."
+                    "text": ""
                 },
                 "complexType": {
                     "original": "string",
                     "resolved": "string",
                     "references": {}
-                }
-            }, {
-                "method": "cleared",
-                "name": "cleared",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Fired only when the clear button is pressed."
-                },
-                "complexType": {
-                    "original": "void",
-                    "resolved": "void",
-                    "references": {}
-                }
-            }, {
-                "method": "inputFocus",
-                "name": "input-focus",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Fired only when the input is focused."
-                },
-                "complexType": {
-                    "original": "FocusEvent",
-                    "resolved": "FocusEvent",
-                    "references": {
-                        "FocusEvent": {
-                            "location": "global",
-                            "id": "global::FocusEvent"
-                        }
-                    }
                 }
             }, {
                 "method": "inputBlur",
@@ -608,23 +1172,36 @@ export class IrInput {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Fired only when the input is blurred."
+                    "text": ""
                 },
                 "complexType": {
-                    "original": "FocusEvent",
-                    "resolved": "FocusEvent",
-                    "references": {
-                        "FocusEvent": {
-                            "location": "global",
-                            "id": "global::FocusEvent"
-                        }
-                    }
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }, {
+                "method": "inputFocus",
+                "name": "inputFocus",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
                 }
             }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
+                "propName": "disabled",
+                "methodName": "handleDisabledChange"
+            }, {
                 "propName": "mask",
                 "methodName": "handleMaskPropsChange"
             }, {
@@ -634,8 +1211,8 @@ export class IrInput {
                 "propName": "max",
                 "methodName": "handleMaskPropsChange"
             }, {
-                "propName": "value",
-                "methodName": "handleValueChange"
+                "propName": "aria-invalid",
+                "methodName": "handleAriaInvalidChange"
             }];
     }
 }

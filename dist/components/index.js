@@ -68,20 +68,20 @@ var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$3=globalThis,e$8=t$3.ShadowRoot&&(void 0===t$3.ShadyCSS||t$3.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s$2=Symbol(),o$8=new WeakMap;class n$5{constructor(t,e,o){if(this._$cssResult$=!0,o!==s$2)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e;}get styleSheet(){let t=this.o;const s=this.t;if(e$8&&void 0===t){const e=void 0!==s&&1===s.length;e&&(t=o$8.get(s)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&o$8.set(s,t));}return t}toString(){return this.cssText}}const r$4=t=>new n$5("string"==typeof t?t:t+"",void 0,s$2),S$1=(s,o)=>{if(e$8)s.adoptedStyleSheets=o.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet));else for(const e of o){const o=document.createElement("style"),n=t$3.litNonce;void 0!==n&&o.setAttribute("nonce",n),o.textContent=e.cssText,s.appendChild(o);}},c$2=e$8?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$4(e)})(t):t;
+const t$3=globalThis,e$8=t$3.ShadowRoot&&(void 0===t$3.ShadyCSS||t$3.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s$2=Symbol(),o$8=new WeakMap;class n$5{constructor(t,e,o){if(this._$cssResult$=!0,o!==s$2)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e;}get styleSheet(){let t=this.o;const s=this.t;if(e$8&&void 0===t){const e=void 0!==s&&1===s.length;e&&(t=o$8.get(s)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),e&&o$8.set(s,t));}return t}toString(){return this.cssText}}const r$5=t=>new n$5("string"==typeof t?t:t+"",void 0,s$2),S$1=(s,o)=>{if(e$8)s.adoptedStyleSheets=o.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet));else for(const e of o){const o=document.createElement("style"),n=t$3.litNonce;void 0!==n&&o.setAttribute("nonce",n),o.textContent=e.cssText,s.appendChild(o);}},c$2=e$8?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$5(e)})(t):t;
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const{is:i$4,defineProperty:e$7,getOwnPropertyDescriptor:h$1,getOwnPropertyNames:r$3,getOwnPropertySymbols:o$7,getPrototypeOf:n$4}=Object,a$2=globalThis,c$1=a$2.trustedTypes,l$3=c$1?c$1.emptyScript:"",p$1=a$2.reactiveElementPolyfillSupport,d$1=(t,s)=>t,u$3={toAttribute(t,s){switch(s){case Boolean:t=t?l$3:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,s){let i=t;switch(s){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t);}catch(t){i=null;}}return i}},f$2=(t,s)=>!i$4(t,s),b={attribute:!0,type:String,converter:u$3,reflect:!1,useDefault:!1,hasChanged:f$2};Symbol.metadata??=Symbol("metadata"),a$2.litPropertyMetadata??=new WeakMap;class y$1 extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t);}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,s=b){if(s.state&&(s.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((s=Object.create(s)).wrapped=!0),this.elementProperties.set(t,s),!s.noAccessor){const i=Symbol(),h=this.getPropertyDescriptor(t,i,s);void 0!==h&&e$7(this.prototype,t,h);}}static getPropertyDescriptor(t,s,i){const{get:e,set:r}=h$1(this.prototype,t)??{get(){return this[s]},set(t){this[s]=t;}};return {get:e,set(s){const h=e?.call(this);r?.call(this,s),this.requestUpdate(t,h,i);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(d$1("elementProperties")))return;const t=n$4(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties);}static finalize(){if(this.hasOwnProperty(d$1("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(d$1("properties"))){const t=this.properties,s=[...r$3(t),...o$7(t)];for(const i of s)this.createProperty(i,t[i]);}const t=this[Symbol.metadata];if(null!==t){const s=litPropertyMetadata.get(t);if(void 0!==s)for(const[t,i]of s)this.elementProperties.set(t,i);}this._$Eh=new Map;for(const[t,s]of this.elementProperties){const i=this._$Eu(t,s);void 0!==i&&this._$Eh.set(i,t);}this.elementStyles=this.finalizeStyles(this.styles);}static finalizeStyles(s){const i=[];if(Array.isArray(s)){const e=new Set(s.flat(1/0).reverse());for(const s of e)i.unshift(c$2(s));}else void 0!==s&&i.push(c$2(s));return i}static _$Eu(t,s){const i=s.attribute;return !1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev();}_$Ev(){this._$ES=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach((t=>t(this)));}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.();}removeController(t){this._$EO?.delete(t);}_$E_(){const t=new Map,s=this.constructor.elementProperties;for(const i of s.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t);}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return S$1(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach((t=>t.hostConnected?.()));}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach((t=>t.hostDisconnected?.()));}attributeChangedCallback(t,s,i){this._$AK(t,i);}_$ET(t,s){const i=this.constructor.elementProperties.get(t),e=this.constructor._$Eu(t,i);if(void 0!==e&&!0===i.reflect){const h=(void 0!==i.converter?.toAttribute?i.converter:u$3).toAttribute(s,i.type);this._$Em=t,null==h?this.removeAttribute(e):this.setAttribute(e,h),this._$Em=null;}}_$AK(t,s){const i=this.constructor,e=i._$Eh.get(t);if(void 0!==e&&this._$Em!==e){const t=i.getPropertyOptions(e),h="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:u$3;this._$Em=e;const r=h.fromAttribute(s,t.type);this[e]=r??this._$Ej?.get(e)??r,this._$Em=null;}}requestUpdate(t,s,i){if(void 0!==t){const e=this.constructor,h=this[t];if(i??=e.getPropertyOptions(t),!((i.hasChanged??f$2)(h,s)||i.useDefault&&i.reflect&&h===this._$Ej?.get(t)&&!this.hasAttribute(e._$Eu(t,i))))return;this.C(t,s,i);}!1===this.isUpdatePending&&(this._$ES=this._$EP());}C(t,s,{useDefault:i,reflect:e,wrapped:h},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??s??this[t]),!0!==h||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(s=void 0),this._$AL.set(t,s)),!0===e&&this._$Em!==t&&(this._$Eq??=new Set).add(t));}async _$EP(){this.isUpdatePending=!0;try{await this._$ES;}catch(t){Promise.reject(t);}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,s]of this._$Ep)this[t]=s;this._$Ep=void 0;}const t=this.constructor.elementProperties;if(t.size>0)for(const[s,i]of t){const{wrapped:t}=i,e=this[s];!0!==t||this._$AL.has(s)||void 0===e||this.C(s,void 0,i,e);}}let t=!1;const s=this._$AL;try{t=this.shouldUpdate(s),t?(this.willUpdate(s),this._$EO?.forEach((t=>t.hostUpdate?.())),this.update(s)):this._$EM();}catch(s){throw t=!1,this._$EM(),s}t&&this._$AE(s);}willUpdate(t){}_$AE(t){this._$EO?.forEach((t=>t.hostUpdated?.())),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}_$EM(){this._$AL=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return !0}update(t){this._$Eq&&=this._$Eq.forEach((t=>this._$ET(t,this[t]))),this._$EM();}updated(t){}firstUpdated(t){}}y$1.elementStyles=[],y$1.shadowRootOptions={mode:"open"},y$1[d$1("elementProperties")]=new Map,y$1[d$1("finalized")]=new Map,p$1?.({ReactiveElement:y$1}),(a$2.reactiveElementVersions??=[]).push("2.1.1");
+ */const{is:i$4,defineProperty:e$7,getOwnPropertyDescriptor:h$1,getOwnPropertyNames:r$4,getOwnPropertySymbols:o$7,getPrototypeOf:n$4}=Object,a$2=globalThis,c$1=a$2.trustedTypes,l$3=c$1?c$1.emptyScript:"",p$1=a$2.reactiveElementPolyfillSupport,d$1=(t,s)=>t,u$3={toAttribute(t,s){switch(s){case Boolean:t=t?l$3:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t);}return t},fromAttribute(t,s){let i=t;switch(s){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t);}catch(t){i=null;}}return i}},f$2=(t,s)=>!i$4(t,s),b={attribute:!0,type:String,converter:u$3,reflect:!1,useDefault:!1,hasChanged:f$2};Symbol.metadata??=Symbol("metadata"),a$2.litPropertyMetadata??=new WeakMap;class y$1 extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t);}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,s=b){if(s.state&&(s.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((s=Object.create(s)).wrapped=!0),this.elementProperties.set(t,s),!s.noAccessor){const i=Symbol(),h=this.getPropertyDescriptor(t,i,s);void 0!==h&&e$7(this.prototype,t,h);}}static getPropertyDescriptor(t,s,i){const{get:e,set:r}=h$1(this.prototype,t)??{get(){return this[s]},set(t){this[s]=t;}};return {get:e,set(s){const h=e?.call(this);r?.call(this,s),this.requestUpdate(t,h,i);},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??b}static _$Ei(){if(this.hasOwnProperty(d$1("elementProperties")))return;const t=n$4(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties);}static finalize(){if(this.hasOwnProperty(d$1("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(d$1("properties"))){const t=this.properties,s=[...r$4(t),...o$7(t)];for(const i of s)this.createProperty(i,t[i]);}const t=this[Symbol.metadata];if(null!==t){const s=litPropertyMetadata.get(t);if(void 0!==s)for(const[t,i]of s)this.elementProperties.set(t,i);}this._$Eh=new Map;for(const[t,s]of this.elementProperties){const i=this._$Eu(t,s);void 0!==i&&this._$Eh.set(i,t);}this.elementStyles=this.finalizeStyles(this.styles);}static finalizeStyles(s){const i=[];if(Array.isArray(s)){const e=new Set(s.flat(1/0).reverse());for(const s of e)i.unshift(c$2(s));}else void 0!==s&&i.push(c$2(s));return i}static _$Eu(t,s){const i=s.attribute;return !1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev();}_$Ev(){this._$ES=new Promise((t=>this.enableUpdating=t)),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach((t=>t(this)));}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.();}removeController(t){this._$EO?.delete(t);}_$E_(){const t=new Map,s=this.constructor.elementProperties;for(const i of s.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t);}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return S$1(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach((t=>t.hostConnected?.()));}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach((t=>t.hostDisconnected?.()));}attributeChangedCallback(t,s,i){this._$AK(t,i);}_$ET(t,s){const i=this.constructor.elementProperties.get(t),e=this.constructor._$Eu(t,i);if(void 0!==e&&!0===i.reflect){const h=(void 0!==i.converter?.toAttribute?i.converter:u$3).toAttribute(s,i.type);this._$Em=t,null==h?this.removeAttribute(e):this.setAttribute(e,h),this._$Em=null;}}_$AK(t,s){const i=this.constructor,e=i._$Eh.get(t);if(void 0!==e&&this._$Em!==e){const t=i.getPropertyOptions(e),h="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:u$3;this._$Em=e;const r=h.fromAttribute(s,t.type);this[e]=r??this._$Ej?.get(e)??r,this._$Em=null;}}requestUpdate(t,s,i){if(void 0!==t){const e=this.constructor,h=this[t];if(i??=e.getPropertyOptions(t),!((i.hasChanged??f$2)(h,s)||i.useDefault&&i.reflect&&h===this._$Ej?.get(t)&&!this.hasAttribute(e._$Eu(t,i))))return;this.C(t,s,i);}!1===this.isUpdatePending&&(this._$ES=this._$EP());}C(t,s,{useDefault:i,reflect:e,wrapped:h},r){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,r??s??this[t]),!0!==h||void 0!==r)||(this._$AL.has(t)||(this.hasUpdated||i||(s=void 0),this._$AL.set(t,s)),!0===e&&this._$Em!==t&&(this._$Eq??=new Set).add(t));}async _$EP(){this.isUpdatePending=!0;try{await this._$ES;}catch(t){Promise.reject(t);}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,s]of this._$Ep)this[t]=s;this._$Ep=void 0;}const t=this.constructor.elementProperties;if(t.size>0)for(const[s,i]of t){const{wrapped:t}=i,e=this[s];!0!==t||this._$AL.has(s)||void 0===e||this.C(s,void 0,i,e);}}let t=!1;const s=this._$AL;try{t=this.shouldUpdate(s),t?(this.willUpdate(s),this._$EO?.forEach((t=>t.hostUpdate?.())),this.update(s)):this._$EM();}catch(s){throw t=!1,this._$EM(),s}t&&this._$AE(s);}willUpdate(t){}_$AE(t){this._$EO?.forEach((t=>t.hostUpdated?.())),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t);}_$EM(){this._$AL=new Map,this.isUpdatePending=!1;}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return !0}update(t){this._$Eq&&=this._$Eq.forEach((t=>this._$ET(t,this[t]))),this._$EM();}updated(t){}firstUpdated(t){}}y$1.elementStyles=[],y$1.shadowRootOptions={mode:"open"},y$1[d$1("elementProperties")]=new Map,y$1[d$1("finalized")]=new Map,p$1?.({ReactiveElement:y$1}),(a$2.reactiveElementVersions??=[]).push("2.1.1");
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$2=globalThis,i$3=t$2.trustedTypes,s$1=i$3?i$3.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$6="$lit$",h=`lit$${Math.random().toFixed(9).slice(2)}$`,o$6="?"+h,n$3=`<${o$6}>`,r$2=document,l$2=()=>r$2.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a$1=Array.isArray,u$2=t=>a$1(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f$1=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m$1=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r$2.createTreeWalker(r$2,129);function P(t,i){if(!a$1(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f$1;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f$1?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f$1,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p):c===g||c===p?c=m$1:c===v||c===_?c=f$1:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f$1?s+n$3:d>=0?(o.push(a),s.slice(0,d)+e$6+s.slice(d)+h+x):s+h+(-2===d?i:x);}return [P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$6)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t);}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i$3?i$3.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o$6)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1;}c++;}}static createElement(t,i){const s=r$2.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$2).importNode(i,!0);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=C.nextNode(),o++);}return C.currentNode=r$2,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u$2(t)?this.k(t):this._(t);}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t));}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r$2.createTextNode(t)),this._$AH=t;}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t;}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a$1(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l$2()),this.O(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.j(t);}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}}class H extends k{constructor(){super(...arguments),this.type=3;}j(t){this.element[this.name]=t===E?void 0:t;}}class I extends k{constructor(){super(...arguments),this.type=4;}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E);}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t);}}const j=t$2.litHtmlPolyfillSupport;j?.(N,R),(t$2.litHtmlVersions??=[]).push("3.3.1");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};
+const t$2=globalThis,i$3=t$2.trustedTypes,s$1=i$3?i$3.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$6="$lit$",h=`lit$${Math.random().toFixed(9).slice(2)}$`,o$6="?"+h,n$3=`<${o$6}>`,r$3=document,l$2=()=>r$3.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a$1=Array.isArray,u$2=t=>a$1(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f$1=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m$1=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),T=Symbol.for("lit-noChange"),E=Symbol.for("lit-nothing"),A=new WeakMap,C=r$3.createTreeWalker(r$3,129);function P(t,i){if(!a$1(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const V=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":3===i?"<math>":"",c=f$1;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f$1?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f$1,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p):c===g||c===p?c=m$1:c===v||c===_?c=f$1:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f$1?s+n$3:d>=0?(o.push(a),s.slice(0,d)+e$6+s.slice(d)+h+x):s+h+(-2===d?i:x);}return [P(t,l+(t[s]||"<?>")+(2===i?"</svg>":3===i?"</math>":"")),o]};class N{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=V(t,s);if(this.el=N.createElement(f,n),C.currentNode=this.el.content,2===s||3===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=C.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$6)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?H:"?"===e[1]?I:"@"===e[1]?L:k}),r.removeAttribute(t);}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i$3?i$3.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),C.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o$6)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1;}c++;}}static createElement(t,i){const s=r$3.createElement("template");return s.innerHTML=t,s}}function S(t,i,s=t,e){if(i===T)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=S(t,h._$AS(t,i.values),h,e)),i}class M{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$3).importNode(i,!0);C.currentNode=e;let h=C.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new R(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new z(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=C.nextNode(),o++);}return C.currentNode=r$3,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}}class R{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=E,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=S(this,t,i),c(t)?t===E||null==t||""===t?(this._$AH!==E&&this._$AR(),this._$AH=E):t!==this._$AH&&t!==T&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):u$2(t)?this.k(t):this._(t);}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t));}_(t){this._$AH!==E&&c(this._$AH)?this._$AA.nextSibling.data=t:this.T(r$3.createTextNode(t)),this._$AH=t;}$(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=N.createElement(P(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new M(e,this),s=t.u(this.options);t.p(i),this.T(s),this._$AH=t;}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new N(t)),i}k(t){a$1(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new R(this.O(l$2()),this.O(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}}class k{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=E,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=E;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=S(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==T,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=S(this,e[s+n],i,n),r===T&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===E?t=E:t!==E&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.j(t);}j(t){t===E?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}}class H extends k{constructor(){super(...arguments),this.type=3;}j(t){this.element[this.name]=t===E?void 0:t;}}class I extends k{constructor(){super(...arguments),this.type=4;}j(t){this.element.toggleAttribute(this.name,!!t&&t!==E);}}class L extends k{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=S(this,t,i,0)??E)===T)return;const s=this._$AH,e=t===E&&s!==E||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==E&&(s===E||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}}class z{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){S(this,t);}}const j=t$2.litHtmlPolyfillSupport;j?.(N,R),(t$2.litHtmlVersions??=[]).push("3.3.1");const B=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new R(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};
 
 /**
  * @license
@@ -107,13 +107,13 @@ const t$1=t=>(e,o)=>{void 0!==o?o.addInitializer((()=>{customElements.define(t,e
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const o$3={attribute:!0,type:String,converter:u$3,reflect:!1,hasChanged:f$2},r$1=(t=o$3,e,r)=>{const{kind:n,metadata:i}=r;let s=globalThis.litPropertyMetadata.get(i);if(void 0===s&&globalThis.litPropertyMetadata.set(i,s=new Map),"setter"===n&&((t=Object.create(t)).wrapped=!0),s.set(r.name,t),"accessor"===n){const{name:o}=r;return {set(r){const n=e.get.call(this);e.set.call(this,r),this.requestUpdate(o,n,t);},init(e){return void 0!==e&&this.C(o,void 0,t,e),e}}}if("setter"===n){const{name:o}=r;return function(r){const n=this[o];e.call(this,r),this.requestUpdate(o,n,t);}}throw Error("Unsupported decorator location: "+n)};function n$2(t){return (e,o)=>"object"==typeof o?r$1(t,e,o):((t,e,o)=>{const r=e.hasOwnProperty(o);return e.constructor.createProperty(o,t),r?Object.getOwnPropertyDescriptor(e,o):void 0})(t,e,o)}
+ */const o$3={attribute:!0,type:String,converter:u$3,reflect:!1,hasChanged:f$2},r$2=(t=o$3,e,r)=>{const{kind:n,metadata:i}=r;let s=globalThis.litPropertyMetadata.get(i);if(void 0===s&&globalThis.litPropertyMetadata.set(i,s=new Map),"setter"===n&&((t=Object.create(t)).wrapped=!0),s.set(r.name,t),"accessor"===n){const{name:o}=r;return {set(r){const n=e.get.call(this);e.set.call(this,r),this.requestUpdate(o,n,t);},init(e){return void 0!==e&&this.C(o,void 0,t,e),e}}}if("setter"===n){const{name:o}=r;return function(r){const n=this[o];e.call(this,r),this.requestUpdate(o,n,t);}}throw Error("Unsupported decorator location: "+n)};function n$2(t){return (e,o)=>"object"==typeof o?r$2(t,e,o):((t,e,o)=>{const r=e.hasOwnProperty(o);return e.constructor.createProperty(o,t),r?Object.getOwnPropertyDescriptor(e,o):void 0})(t,e,o)}
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */function r(r){return n$2({...r,state:!0,attribute:!1})}
+ */function r$1(r){return n$2({...r,state:!0,attribute:!1})}
 
 /**
  * @license
@@ -127,6 +127,13 @@ const e$5=(e,t,c)=>(c.configurable=!0,c.enumerable=!0,Reflect.decorate&&"object"
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */function e$4(e,r){return (n,s,i)=>{const o=t=>t.renderRoot?.querySelector(e)??null;if(r){const{get:e,set:r}="object"==typeof s?n:i??(()=>{const t=Symbol();return {get(){return this[t]},set(e){this[t]=e;}}})();return e$5(n,s,{get(){let t=e.call(this);return void 0===t&&(t=o(this),(null!==t||this.hasUpdated)&&r.call(this,t)),t}})}return e$5(n,s,{get(){return o(this)}})}}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function r(r){return (n,e)=>e$5(n,e,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(r)??null}})}
 
 /*! Copyright 2025 Fonticons, Inc. - https://webawesome.com/license */
 
@@ -191,7 +198,7 @@ var WebAwesomeElement = class extends i$2 {
    */
   static get styles() {
     const styles = Array.isArray(this.css) ? this.css : this.css ? [this.css] : [];
-    return [host_default, ...styles].map((style) => typeof style === "string" ? r$4(style) : style);
+    return [host_default, ...styles].map((style) => typeof style === "string" ? r$5(style) : style);
   }
   attributeChangedCallback(name, oldValue, newValue) {
     if (!__privateGet(this, _hasRecordedInitialProperties)) {
@@ -973,10 +980,10 @@ __decorateClass([
   e$4("slot:not([name])")
 ], WaButton.prototype, "labelSlot", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaButton.prototype, "invalid", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaButton.prototype, "isIconButton", 2);
 __decorateClass([
   n$2()
@@ -1431,7 +1438,7 @@ var WaIcon = class extends WebAwesomeElement {
 };
 WaIcon.css = icon_default;
 __decorateClass([
-  r()
+  r$1()
 ], WaIcon.prototype, "svg", 2);
 __decorateClass([
   n$2({ reflect: true })
@@ -1861,7 +1868,7 @@ __decorateClass([
   e$4(".nav")
 ], WaTabGroup.prototype, "nav", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTabGroup.prototype, "hasScrollControls", 2);
 __decorateClass([
   n$2({ reflect: true })
@@ -2644,7 +2651,7 @@ const autoPlacement = function (options) {
  * clipping boundary. Alternative to `autoPlacement`.
  * @see https://floating-ui.com/docs/flip
  */
-const flip$1 = function (options) {
+const flip$2 = function (options) {
   if (options === void 0) {
     options = {};
   }
@@ -4148,7 +4155,7 @@ const shift = shift$1;
  * clipping boundary. Alternative to `autoPlacement`.
  * @see https://floating-ui.com/docs/flip
  */
-const flip = flip$1;
+const flip$1 = flip$2;
 
 /**
  * Provides data that allows you to change the size of the floating element —
@@ -4641,7 +4648,7 @@ var WaDropdown = class extends WebAwesomeElement {
           mainAxis: 0,
           crossAxis: -5
         }),
-        flip({
+        flip$1({
           fallbackStrategy: "bestFit"
         }),
         shift({
@@ -5006,7 +5013,7 @@ __decorateClass([
   n$2({ type: Boolean, reflect: true })
 ], WaDropdownItem.prototype, "submenuOpen", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaDropdownItem.prototype, "hasSubmenu", 2);
 WaDropdownItem = __decorateClass([
   t$1("wa-dropdown-item")
@@ -5254,7 +5261,7 @@ var WaPopup = class extends WebAwesomeElement {
     }
     if (this.flip) {
       middleware.push(
-        flip({
+        flip$1({
           boundary: this.flipBoundary || defaultBoundary,
           // @ts-expect-error - We're converting a string attribute to an array here
           fallbackPlacements: this.flipFallbackPlacements,
@@ -5841,7 +5848,7 @@ __decorateClass([
   n$2({ reflect: true })
 ], WaInput.prototype, "type", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaInput.prototype, "value", 1);
 __decorateClass([
   n$2({ attribute: "value", reflect: true })
@@ -6816,16 +6823,16 @@ __decorateClass([
   e$4(".listbox")
 ], WaSelect.prototype, "listbox", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaSelect.prototype, "displayLabel", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaSelect.prototype, "currentOption", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaSelect.prototype, "selectedOptions", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaSelect.prototype, "optionValues", 2);
 __decorateClass([
   n$2()
@@ -7061,7 +7068,7 @@ __decorateClass([
   e$4(".label")
 ], WaOption.prototype, "defaultSlot", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaOption.prototype, "current", 2);
 __decorateClass([
   n$2({ reflect: true })
@@ -7079,7 +7086,7 @@ __decorateClass([
   n$2()
 ], WaOption.prototype, "label", 1);
 __decorateClass([
-  r()
+  r$1()
 ], WaOption.prototype, "defaultLabel", 2);
 WaOption = __decorateClass([
   t$1("wa-option")
@@ -7518,7 +7525,7 @@ __decorateClass([
   e$4(".expand-icon-slot")
 ], WaDetails.prototype, "expandIconSlot", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaDetails.prototype, "isAnimating", 2);
 __decorateClass([
   n$2({ type: Boolean, reflect: true })
@@ -7821,7 +7828,7 @@ __decorateClass([
   n$2()
 ], WaTooltip.prototype, "for", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTooltip.prototype, "anchor", 2);
 __decorateClass([
   watch("open", { waitUntilFirstUpdate: true })
@@ -8308,7 +8315,7 @@ var WaAvatar = class extends WebAwesomeElement {
 };
 WaAvatar.css = avatar_default;
 __decorateClass([
-  r()
+  r$1()
 ], WaAvatar.prototype, "hasError", 2);
 __decorateClass([
   n$2()
@@ -8416,10 +8423,10 @@ __decorateClass([
   e$4("slot")
 ], WaButtonGroup.prototype, "defaultSlot", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaButtonGroup.prototype, "disableRole", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaButtonGroup.prototype, "hasOutlined", 2);
 __decorateClass([
   n$2()
@@ -8688,16 +8695,16 @@ var WaTreeItem = class extends WebAwesomeElement {
 };
 WaTreeItem.css = tree_item_default;
 __decorateClass([
-  r()
+  r$1()
 ], WaTreeItem.prototype, "indeterminate", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTreeItem.prototype, "isLeaf", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTreeItem.prototype, "loading", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTreeItem.prototype, "selectable", 2);
 __decorateClass([
   n$2({ type: Boolean, reflect: true })
@@ -9493,7 +9500,7 @@ __decorateClass([
   e$4("wa-popup")
 ], WaPopover.prototype, "popup", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaPopover.prototype, "anchor", 2);
 __decorateClass([
   n$2()
@@ -9759,7 +9766,7 @@ __decorateClass([
   n$2({ reflect: true })
 ], WaTextarea.prototype, "name", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaTextarea.prototype, "value", 1);
 __decorateClass([
   n$2({ attribute: "value", reflect: true })
@@ -10113,7 +10120,7 @@ __decorateClass([
   n$2({ reflect: true })
 ], WaRadioGroup.prototype, "orientation", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaRadioGroup.prototype, "value", 1);
 __decorateClass([
   n$2({ attribute: "value", reflect: true })
@@ -10208,10 +10215,10 @@ var WaRadio = class extends WebAwesomeFormAssociatedElement {
 };
 WaRadio.css = [form_control_default, size_default, radio_default];
 __decorateClass([
-  r()
+  r$1()
 ], WaRadio.prototype, "checked", 2);
 __decorateClass([
-  r()
+  r$1()
 ], WaRadio.prototype, "forceDisabled", 2);
 __decorateClass([
   n$2({ reflect: true })
@@ -10269,5 +10276,1081 @@ __decorateClass([
 WaCallout = __decorateClass([
   t$1("wa-callout")
 ], WaCallout);
+
+const bounce = [
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)', transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.2, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)', transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.4, easing: 'cubic-bezier(0.755, 0.05, 0.855, 0.06)', transform: 'translate3d(0, -30px, 0) scaleY(1.1)' },
+  { offset: 0.43, easing: 'cubic-bezier(0.755, 0.05, 0.855, 0.06)', transform: 'translate3d(0, -30px, 0) scaleY(1.1)' },
+  { offset: 0.53, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)', transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.7, easing: 'cubic-bezier(0.755, 0.05, 0.855, 0.06)', transform: 'translate3d(0, -15px, 0) scaleY(1.05)' },
+  {
+    offset: 0.8,
+    'transition-timing-function': 'cubic-bezier(0.215, 0.61, 0.355, 1)',
+    transform: 'translate3d(0, 0, 0) scaleY(0.95)'
+  },
+  { offset: 0.9, transform: 'translate3d(0, -4px, 0) scaleY(1.02)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)', transform: 'translate3d(0, 0, 0)' }
+];
+
+const flash = [
+  { offset: 0, opacity: '1' },
+  { offset: 0.25, opacity: '0' },
+  { offset: 0.5, opacity: '1' },
+  { offset: 0.75, opacity: '0' },
+  { offset: 1, opacity: '1' }
+];
+
+const headShake = [
+  { offset: 0, transform: 'translateX(0)' },
+  { offset: 0.065, transform: 'translateX(-6px) rotateY(-9deg)' },
+  { offset: 0.185, transform: 'translateX(5px) rotateY(7deg)' },
+  { offset: 0.315, transform: 'translateX(-3px) rotateY(-5deg)' },
+  { offset: 0.435, transform: 'translateX(2px) rotateY(3deg)' },
+  { offset: 0.5, transform: 'translateX(0)' }
+];
+
+const heartBeat = [
+  { offset: 0, transform: 'scale(1)' },
+  { offset: 0.14, transform: 'scale(1.3)' },
+  { offset: 0.28, transform: 'scale(1)' },
+  { offset: 0.42, transform: 'scale(1.3)' },
+  { offset: 0.7, transform: 'scale(1)' }
+];
+
+const jello = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.111, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.222, transform: 'skewX(-12.5deg) skewY(-12.5deg)' },
+  { offset: 0.33299999999999996, transform: 'skewX(6.25deg) skewY(6.25deg)' },
+  { offset: 0.444, transform: 'skewX(-3.125deg) skewY(-3.125deg)' },
+  { offset: 0.555, transform: 'skewX(1.5625deg) skewY(1.5625deg)' },
+  { offset: 0.6659999999999999, transform: 'skewX(-0.78125deg) skewY(-0.78125deg)' },
+  { offset: 0.777, transform: 'skewX(0.390625deg) skewY(0.390625deg)' },
+  { offset: 0.888, transform: 'skewX(-0.1953125deg) skewY(-0.1953125deg)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const pulse = [
+  { offset: 0, transform: 'scale3d(1, 1, 1)' },
+  { offset: 0.5, transform: 'scale3d(1.05, 1.05, 1.05)' },
+  { offset: 1, transform: 'scale3d(1, 1, 1)' }
+];
+
+const rubberBand = [
+  { offset: 0, transform: 'scale3d(1, 1, 1)' },
+  { offset: 0.3, transform: 'scale3d(1.25, 0.75, 1)' },
+  { offset: 0.4, transform: 'scale3d(0.75, 1.25, 1)' },
+  { offset: 0.5, transform: 'scale3d(1.15, 0.85, 1)' },
+  { offset: 0.65, transform: 'scale3d(0.95, 1.05, 1)' },
+  { offset: 0.75, transform: 'scale3d(1.05, 0.95, 1)' },
+  { offset: 1, transform: 'scale3d(1, 1, 1)' }
+];
+
+const shake = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.1, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.2, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.3, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.4, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.5, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.6, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.7, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.8, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.9, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const shakeX = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.1, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.2, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.3, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.4, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.5, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.6, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.7, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 0.8, transform: 'translate3d(10px, 0, 0)' },
+  { offset: 0.9, transform: 'translate3d(-10px, 0, 0)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const shakeY = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.1, transform: 'translate3d(0, -10px, 0)' },
+  { offset: 0.2, transform: 'translate3d(0, 10px, 0)' },
+  { offset: 0.3, transform: 'translate3d(0, -10px, 0)' },
+  { offset: 0.4, transform: 'translate3d(0, 10px, 0)' },
+  { offset: 0.5, transform: 'translate3d(0, -10px, 0)' },
+  { offset: 0.6, transform: 'translate3d(0, 10px, 0)' },
+  { offset: 0.7, transform: 'translate3d(0, -10px, 0)' },
+  { offset: 0.8, transform: 'translate3d(0, 10px, 0)' },
+  { offset: 0.9, transform: 'translate3d(0, -10px, 0)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const swing = [
+  { offset: 0.2, transform: 'rotate3d(0, 0, 1, 15deg)' },
+  { offset: 0.4, transform: 'rotate3d(0, 0, 1, -10deg)' },
+  { offset: 0.6, transform: 'rotate3d(0, 0, 1, 5deg)' },
+  { offset: 0.8, transform: 'rotate3d(0, 0, 1, -5deg)' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, 0deg)' }
+];
+
+const tada = [
+  { offset: 0, transform: 'scale3d(1, 1, 1)' },
+  { offset: 0.1, transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.2, transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.3, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+  { offset: 0.4, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.5, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+  { offset: 0.6, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.7, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+  { offset: 0.8, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.9, transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)' },
+  { offset: 1, transform: 'scale3d(1, 1, 1)' }
+];
+
+const wobble = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 0.15, transform: 'translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg)' },
+  { offset: 0.3, transform: 'translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)' },
+  { offset: 0.45, transform: 'translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)' },
+  { offset: 0.6, transform: 'translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)' },
+  { offset: 0.75, transform: 'translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const backInDown = [
+  { offset: 0, transform: 'translateY(-1200px) scale(0.7)', opacity: '0.7' },
+  { offset: 0.8, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'scale(1)', opacity: '1' }
+];
+
+const backInLeft = [
+  { offset: 0, transform: 'translateX(-2000px) scale(0.7)', opacity: '0.7' },
+  { offset: 0.8, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'scale(1)', opacity: '1' }
+];
+
+const backInRight = [
+  { offset: 0, transform: 'translateX(2000px) scale(0.7)', opacity: '0.7' },
+  { offset: 0.8, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'scale(1)', opacity: '1' }
+];
+
+const backInUp = [
+  { offset: 0, transform: 'translateY(1200px) scale(0.7)', opacity: '0.7' },
+  { offset: 0.8, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'scale(1)', opacity: '1' }
+];
+
+const backOutDown = [
+  { offset: 0, transform: 'scale(1)', opacity: '1' },
+  { offset: 0.2, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'translateY(700px) scale(0.7)', opacity: '0.7' }
+];
+
+const backOutLeft = [
+  { offset: 0, transform: 'scale(1)', opacity: '1' },
+  { offset: 0.2, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'translateX(-2000px) scale(0.7)', opacity: '0.7' }
+];
+
+const backOutRight = [
+  { offset: 0, transform: 'scale(1)', opacity: '1' },
+  { offset: 0.2, transform: 'translateX(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'translateX(2000px) scale(0.7)', opacity: '0.7' }
+];
+
+const backOutUp = [
+  { offset: 0, transform: 'scale(1)', opacity: '1' },
+  { offset: 0.2, transform: 'translateY(0px) scale(0.7)', opacity: '0.7' },
+  { offset: 1, transform: 'translateY(-700px) scale(0.7)', opacity: '0.7' }
+];
+
+const bounceIn = [
+  { offset: 0, opacity: '0', transform: 'scale3d(0.3, 0.3, 0.3)' },
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.2, transform: 'scale3d(1.1, 1.1, 1.1)' },
+  { offset: 0.2, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.4, transform: 'scale3d(0.9, 0.9, 0.9)' },
+  { offset: 0.4, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.6, opacity: '1', transform: 'scale3d(1.03, 1.03, 1.03)' },
+  { offset: 0.6, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.8, transform: 'scale3d(0.97, 0.97, 0.97)' },
+  { offset: 0.8, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 1, opacity: '1', transform: 'scale3d(1, 1, 1)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' }
+];
+
+const bounceInDown = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, -3000px, 0) scaleY(3)' },
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.6, opacity: '1', transform: 'translate3d(0, 25px, 0) scaleY(0.9)' },
+  { offset: 0.6, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.75, transform: 'translate3d(0, -10px, 0) scaleY(0.95)' },
+  { offset: 0.75, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.9, transform: 'translate3d(0, 5px, 0) scaleY(0.985)' },
+  { offset: 0.9, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' }
+];
+
+const bounceInLeft = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-3000px, 0, 0) scaleX(3)' },
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.6, opacity: '1', transform: 'translate3d(25px, 0, 0) scaleX(1)' },
+  { offset: 0.6, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.75, transform: 'translate3d(-10px, 0, 0) scaleX(0.98)' },
+  { offset: 0.75, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.9, transform: 'translate3d(5px, 0, 0) scaleX(0.995)' },
+  { offset: 0.9, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' }
+];
+
+const bounceInRight = [
+  { offset: 0, opacity: '0', transform: 'translate3d(3000px, 0, 0) scaleX(3)' },
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.6, opacity: '1', transform: 'translate3d(-25px, 0, 0) scaleX(1)' },
+  { offset: 0.6, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.75, transform: 'translate3d(10px, 0, 0) scaleX(0.98)' },
+  { offset: 0.75, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.9, transform: 'translate3d(-5px, 0, 0) scaleX(0.995)' },
+  { offset: 0.9, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' }
+];
+
+const bounceInUp = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, 3000px, 0) scaleY(5)' },
+  { offset: 0, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.6, opacity: '1', transform: 'translate3d(0, -20px, 0) scaleY(0.9)' },
+  { offset: 0.6, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.75, transform: 'translate3d(0, 10px, 0) scaleY(0.95)' },
+  { offset: 0.75, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 0.9, transform: 'translate3d(0, -5px, 0) scaleY(0.985)' },
+  { offset: 0.9, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)' }
+];
+
+const bounceOut = [
+  { offset: 0.2, transform: 'scale3d(0.9, 0.9, 0.9)' },
+  { offset: 0.5, opacity: '1', transform: 'scale3d(1.1, 1.1, 1.1)' },
+  { offset: 0.55, opacity: '1', transform: 'scale3d(1.1, 1.1, 1.1)' },
+  { offset: 1, opacity: '0', transform: 'scale3d(0.3, 0.3, 0.3)' }
+];
+
+const bounceOutDown = [
+  { offset: 0.2, transform: 'translate3d(0, 10px, 0) scaleY(0.985)' },
+  { offset: 0.4, opacity: '1', transform: 'translate3d(0, -20px, 0) scaleY(0.9)' },
+  { offset: 0.45, opacity: '1', transform: 'translate3d(0, -20px, 0) scaleY(0.9)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, 2000px, 0) scaleY(3)' }
+];
+
+const bounceOutLeft = [
+  { offset: 0.2, opacity: '1', transform: 'translate3d(20px, 0, 0) scaleX(0.9)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(-2000px, 0, 0) scaleX(2)' }
+];
+
+const bounceOutRight = [
+  { offset: 0.2, opacity: '1', transform: 'translate3d(-20px, 0, 0) scaleX(0.9)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(2000px, 0, 0) scaleX(2)' }
+];
+
+const bounceOutUp = [
+  { offset: 0.2, transform: 'translate3d(0, -10px, 0) scaleY(0.985)' },
+  { offset: 0.4, opacity: '1', transform: 'translate3d(0, 20px, 0) scaleY(0.9)' },
+  { offset: 0.45, opacity: '1', transform: 'translate3d(0, 20px, 0) scaleY(0.9)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, -2000px, 0) scaleY(3)' }
+];
+
+const fadeIn = [
+  { offset: 0, opacity: '0' },
+  { offset: 1, opacity: '1' }
+];
+
+const fadeInBottomLeft = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-100%, 100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInBottomRight = [
+  { offset: 0, opacity: '0', transform: 'translate3d(100%, 100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInDown = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, -100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInDownBig = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, -2000px, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInLeft = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-100%, 0, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInLeftBig = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-2000px, 0, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInRight = [
+  { offset: 0, opacity: '0', transform: 'translate3d(100%, 0, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInRightBig = [
+  { offset: 0, opacity: '0', transform: 'translate3d(2000px, 0, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInTopLeft = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-100%, -100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInTopRight = [
+  { offset: 0, opacity: '0', transform: 'translate3d(100%, -100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInUp = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, 100%, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeInUpBig = [
+  { offset: 0, opacity: '0', transform: 'translate3d(0, 2000px, 0)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const fadeOut = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0' }
+];
+
+const fadeOutBottomLeft = [
+  { offset: 0, opacity: '1', transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(-100%, 100%, 0)' }
+];
+
+const fadeOutBottomRight = [
+  { offset: 0, opacity: '1', transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(100%, 100%, 0)' }
+];
+
+const fadeOutDown = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, 100%, 0)' }
+];
+
+const fadeOutDownBig = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, 2000px, 0)' }
+];
+
+const fadeOutLeft = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(-100%, 0, 0)' }
+];
+
+const fadeOutLeftBig = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(-2000px, 0, 0)' }
+];
+
+const fadeOutRight = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(100%, 0, 0)' }
+];
+
+const fadeOutRightBig = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(2000px, 0, 0)' }
+];
+
+const fadeOutTopLeft = [
+  { offset: 0, opacity: '1', transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(-100%, -100%, 0)' }
+];
+
+const fadeOutTopRight = [
+  { offset: 0, opacity: '1', transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'translate3d(100%, -100%, 0)' }
+];
+
+const fadeOutUp = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, -100%, 0)' }
+];
+
+const fadeOutUpBig = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(0, -2000px, 0)' }
+];
+
+const flip = [
+  {
+    offset: 0,
+    transform: 'perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg)',
+    easing: 'ease-out'
+  },
+  {
+    offset: 0.4,
+    transform: 'perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)\n      rotate3d(0, 1, 0, -190deg)',
+    easing: 'ease-out'
+  },
+  {
+    offset: 0.5,
+    transform: 'perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)\n      rotate3d(0, 1, 0, -170deg)',
+    easing: 'ease-in'
+  },
+  {
+    offset: 0.8,
+    transform: 'perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)\n      rotate3d(0, 1, 0, 0deg)',
+    easing: 'ease-in'
+  },
+  {
+    offset: 1,
+    transform: 'perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg)',
+    easing: 'ease-in'
+  }
+];
+
+const flipInX = [
+  { offset: 0, transform: 'perspective(400px) rotate3d(1, 0, 0, 90deg)', easing: 'ease-in', opacity: '0' },
+  { offset: 0.4, transform: 'perspective(400px) rotate3d(1, 0, 0, -20deg)', easing: 'ease-in' },
+  { offset: 0.6, transform: 'perspective(400px) rotate3d(1, 0, 0, 10deg)', opacity: '1' },
+  { offset: 0.8, transform: 'perspective(400px) rotate3d(1, 0, 0, -5deg)' },
+  { offset: 1, transform: 'perspective(400px)' }
+];
+
+const flipInY = [
+  { offset: 0, transform: 'perspective(400px) rotate3d(0, 1, 0, 90deg)', easing: 'ease-in', opacity: '0' },
+  { offset: 0.4, transform: 'perspective(400px) rotate3d(0, 1, 0, -20deg)', easing: 'ease-in' },
+  { offset: 0.6, transform: 'perspective(400px) rotate3d(0, 1, 0, 10deg)', opacity: '1' },
+  { offset: 0.8, transform: 'perspective(400px) rotate3d(0, 1, 0, -5deg)' },
+  { offset: 1, transform: 'perspective(400px)' }
+];
+
+const flipOutX = [
+  { offset: 0, transform: 'perspective(400px)' },
+  { offset: 0.3, transform: 'perspective(400px) rotate3d(1, 0, 0, -20deg)', opacity: '1' },
+  { offset: 1, transform: 'perspective(400px) rotate3d(1, 0, 0, 90deg)', opacity: '0' }
+];
+
+const flipOutY = [
+  { offset: 0, transform: 'perspective(400px)' },
+  { offset: 0.3, transform: 'perspective(400px) rotate3d(0, 1, 0, -15deg)', opacity: '1' },
+  { offset: 1, transform: 'perspective(400px) rotate3d(0, 1, 0, 90deg)', opacity: '0' }
+];
+
+const lightSpeedInLeft = [
+  { offset: 0, transform: 'translate3d(-100%, 0, 0) skewX(30deg)', opacity: '0' },
+  { offset: 0.6, transform: 'skewX(-20deg)', opacity: '1' },
+  { offset: 0.8, transform: 'skewX(5deg)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const lightSpeedInRight = [
+  { offset: 0, transform: 'translate3d(100%, 0, 0) skewX(-30deg)', opacity: '0' },
+  { offset: 0.6, transform: 'skewX(20deg)', opacity: '1' },
+  { offset: 0.8, transform: 'skewX(-5deg)' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const lightSpeedOutLeft = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'translate3d(-100%, 0, 0) skewX(-30deg)', opacity: '0' }
+];
+
+const lightSpeedOutRight = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'translate3d(100%, 0, 0) skewX(30deg)', opacity: '0' }
+];
+
+const rotateIn = [
+  { offset: 0, transform: 'rotate3d(0, 0, 1, -200deg)', opacity: '0' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)', opacity: '1' }
+];
+
+const rotateInDownLeft = [
+  { offset: 0, transform: 'rotate3d(0, 0, 1, -45deg)', opacity: '0' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)', opacity: '1' }
+];
+
+const rotateInDownRight = [
+  { offset: 0, transform: 'rotate3d(0, 0, 1, 45deg)', opacity: '0' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)', opacity: '1' }
+];
+
+const rotateInUpLeft = [
+  { offset: 0, transform: 'rotate3d(0, 0, 1, 45deg)', opacity: '0' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)', opacity: '1' }
+];
+
+const rotateInUpRight = [
+  { offset: 0, transform: 'rotate3d(0, 0, 1, -90deg)', opacity: '0' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)', opacity: '1' }
+];
+
+const rotateOut = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, 200deg)', opacity: '0' }
+];
+
+const rotateOutDownLeft = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, 45deg)', opacity: '0' }
+];
+
+const rotateOutDownRight = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, -45deg)', opacity: '0' }
+];
+
+const rotateOutUpLeft = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, -45deg)', opacity: '0' }
+];
+
+const rotateOutUpRight = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, transform: 'rotate3d(0, 0, 1, 90deg)', opacity: '0' }
+];
+
+const slideInDown = [
+  { offset: 0, transform: 'translate3d(0, -100%, 0)', visibility: 'visible' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const slideInLeft = [
+  { offset: 0, transform: 'translate3d(-100%, 0, 0)', visibility: 'visible' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const slideInRight = [
+  { offset: 0, transform: 'translate3d(100%, 0, 0)', visibility: 'visible' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const slideInUp = [
+  { offset: 0, transform: 'translate3d(0, 100%, 0)', visibility: 'visible' },
+  { offset: 1, transform: 'translate3d(0, 0, 0)' }
+];
+
+const slideOutDown = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, visibility: 'hidden', transform: 'translate3d(0, 100%, 0)' }
+];
+
+const slideOutLeft = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, visibility: 'hidden', transform: 'translate3d(-100%, 0, 0)' }
+];
+
+const slideOutRight = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, visibility: 'hidden', transform: 'translate3d(100%, 0, 0)' }
+];
+
+const slideOutUp = [
+  { offset: 0, transform: 'translate3d(0, 0, 0)' },
+  { offset: 1, visibility: 'hidden', transform: 'translate3d(0, -100%, 0)' }
+];
+
+const hinge = [
+  { offset: 0, easing: 'ease-in-out' },
+  { offset: 0.2, transform: 'rotate3d(0, 0, 1, 80deg)', easing: 'ease-in-out' },
+  { offset: 0.4, transform: 'rotate3d(0, 0, 1, 60deg)', easing: 'ease-in-out', opacity: '1' },
+  { offset: 0.6, transform: 'rotate3d(0, 0, 1, 80deg)', easing: 'ease-in-out' },
+  { offset: 0.8, transform: 'rotate3d(0, 0, 1, 60deg)', easing: 'ease-in-out', opacity: '1' },
+  { offset: 1, transform: 'translate3d(0, 700px, 0)', opacity: '0' }
+];
+
+const jackInTheBox = [
+  { offset: 0, opacity: '0', transform: 'scale(0.1) rotate(30deg)', 'transform-origin': 'center bottom' },
+  { offset: 0.5, transform: 'rotate(-10deg)' },
+  { offset: 0.7, transform: 'rotate(3deg)' },
+  { offset: 1, opacity: '1', transform: 'scale(1)' }
+];
+
+const rollIn = [
+  { offset: 0, opacity: '0', transform: 'translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg)' },
+  { offset: 1, opacity: '1', transform: 'translate3d(0, 0, 0)' }
+];
+
+const rollOut = [
+  { offset: 0, opacity: '1' },
+  { offset: 1, opacity: '0', transform: 'translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg)' }
+];
+
+const zoomIn = [
+  { offset: 0, opacity: '0', transform: 'scale3d(0.3, 0.3, 0.3)' },
+  { offset: 0.5, opacity: '1' }
+];
+
+const zoomInDown = [
+  {
+    offset: 0,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(0, -1000px, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 0.6,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const zoomInLeft = [
+  {
+    offset: 0,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(-1000px, 0, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 0.6,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(10px, 0, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const zoomInRight = [
+  {
+    offset: 0,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 0.6,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const zoomInUp = [
+  {
+    offset: 0,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 0.6,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const zoomOut = [
+  { offset: 0, opacity: '1' },
+  { offset: 0.5, opacity: '0', transform: 'scale3d(0.3, 0.3, 0.3)' },
+  { offset: 1, opacity: '0' }
+];
+
+const zoomOutDown = [
+  {
+    offset: 0.4,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 1,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(0, 2000px, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const zoomOutLeft = [
+  { offset: 0.4, opacity: '1', transform: 'scale3d(0.475, 0.475, 0.475) translate3d(42px, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'scale(0.1) translate3d(-2000px, 0, 0)' }
+];
+
+const zoomOutRight = [
+  { offset: 0.4, opacity: '1', transform: 'scale3d(0.475, 0.475, 0.475) translate3d(-42px, 0, 0)' },
+  { offset: 1, opacity: '0', transform: 'scale(0.1) translate3d(2000px, 0, 0)' }
+];
+
+const zoomOutUp = [
+  {
+    offset: 0.4,
+    opacity: '1',
+    transform: 'scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0)',
+    easing: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)'
+  },
+  {
+    offset: 1,
+    opacity: '0',
+    transform: 'scale3d(0.1, 0.1, 0.1) translate3d(0, -2000px, 0)',
+    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1)'
+  }
+];
+
+const easings = {
+  linear: 'linear',
+  ease: 'ease',
+  easeIn: 'ease-in',
+  easeOut: 'ease-out',
+  easeInOut: 'ease-in-out',
+  easeInSine: 'cubic-bezier(0.47, 0, 0.745, 0.715)',
+  easeOutSine: 'cubic-bezier(0.39, 0.575, 0.565, 1)',
+  easeInOutSine: 'cubic-bezier(0.445, 0.05, 0.55, 0.95)',
+  easeInQuad: 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
+  easeOutQuad: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  easeInOutQuad: 'cubic-bezier(0.455, 0.03, 0.515, 0.955)',
+  easeInCubic: 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',
+  easeOutCubic: 'cubic-bezier(0.215, 0.61, 0.355, 1)',
+  easeInOutCubic: 'cubic-bezier(0.645, 0.045, 0.355, 1)',
+  easeInQuart: 'cubic-bezier(0.895, 0.03, 0.685, 0.22)',
+  easeOutQuart: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+  easeInOutQuart: 'cubic-bezier(0.77, 0, 0.175, 1)',
+  easeInQuint: 'cubic-bezier(0.755, 0.05, 0.855, 0.06)',
+  easeOutQuint: 'cubic-bezier(0.23, 1, 0.32, 1)',
+  easeInOutQuint: 'cubic-bezier(0.86, 0, 0.07, 1)',
+  easeInExpo: 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+  easeOutExpo: 'cubic-bezier(0.19, 1, 0.22, 1)',
+  easeInOutExpo: 'cubic-bezier(1, 0, 0, 1)',
+  easeInCirc: 'cubic-bezier(0.6, 0.04, 0.98, 0.335)',
+  easeOutCirc: 'cubic-bezier(0.075, 0.82, 0.165, 1)',
+  easeInOutCirc: 'cubic-bezier(0.785, 0.135, 0.15, 0.86)',
+  easeInBack: 'cubic-bezier(0.6, -0.28, 0.735, 0.045)',
+  easeOutBack: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+  easeInOutBack: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+};
+
+const animations = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  easings: easings,
+  bounce: bounce,
+  flash: flash,
+  headShake: headShake,
+  heartBeat: heartBeat,
+  jello: jello,
+  pulse: pulse,
+  rubberBand: rubberBand,
+  shake: shake,
+  shakeX: shakeX,
+  shakeY: shakeY,
+  swing: swing,
+  tada: tada,
+  wobble: wobble,
+  backInDown: backInDown,
+  backInLeft: backInLeft,
+  backInRight: backInRight,
+  backInUp: backInUp,
+  backOutDown: backOutDown,
+  backOutLeft: backOutLeft,
+  backOutRight: backOutRight,
+  backOutUp: backOutUp,
+  bounceIn: bounceIn,
+  bounceInDown: bounceInDown,
+  bounceInLeft: bounceInLeft,
+  bounceInRight: bounceInRight,
+  bounceInUp: bounceInUp,
+  bounceOut: bounceOut,
+  bounceOutDown: bounceOutDown,
+  bounceOutLeft: bounceOutLeft,
+  bounceOutRight: bounceOutRight,
+  bounceOutUp: bounceOutUp,
+  fadeIn: fadeIn,
+  fadeInBottomLeft: fadeInBottomLeft,
+  fadeInBottomRight: fadeInBottomRight,
+  fadeInDown: fadeInDown,
+  fadeInDownBig: fadeInDownBig,
+  fadeInLeft: fadeInLeft,
+  fadeInLeftBig: fadeInLeftBig,
+  fadeInRight: fadeInRight,
+  fadeInRightBig: fadeInRightBig,
+  fadeInTopLeft: fadeInTopLeft,
+  fadeInTopRight: fadeInTopRight,
+  fadeInUp: fadeInUp,
+  fadeInUpBig: fadeInUpBig,
+  fadeOut: fadeOut,
+  fadeOutBottomLeft: fadeOutBottomLeft,
+  fadeOutBottomRight: fadeOutBottomRight,
+  fadeOutDown: fadeOutDown,
+  fadeOutDownBig: fadeOutDownBig,
+  fadeOutLeft: fadeOutLeft,
+  fadeOutLeftBig: fadeOutLeftBig,
+  fadeOutRight: fadeOutRight,
+  fadeOutRightBig: fadeOutRightBig,
+  fadeOutTopLeft: fadeOutTopLeft,
+  fadeOutTopRight: fadeOutTopRight,
+  fadeOutUp: fadeOutUp,
+  fadeOutUpBig: fadeOutUpBig,
+  flip: flip,
+  flipInX: flipInX,
+  flipInY: flipInY,
+  flipOutX: flipOutX,
+  flipOutY: flipOutY,
+  lightSpeedInLeft: lightSpeedInLeft,
+  lightSpeedInRight: lightSpeedInRight,
+  lightSpeedOutLeft: lightSpeedOutLeft,
+  lightSpeedOutRight: lightSpeedOutRight,
+  rotateIn: rotateIn,
+  rotateInDownLeft: rotateInDownLeft,
+  rotateInDownRight: rotateInDownRight,
+  rotateInUpLeft: rotateInUpLeft,
+  rotateInUpRight: rotateInUpRight,
+  rotateOut: rotateOut,
+  rotateOutDownLeft: rotateOutDownLeft,
+  rotateOutDownRight: rotateOutDownRight,
+  rotateOutUpLeft: rotateOutUpLeft,
+  rotateOutUpRight: rotateOutUpRight,
+  slideInDown: slideInDown,
+  slideInLeft: slideInLeft,
+  slideInRight: slideInRight,
+  slideInUp: slideInUp,
+  slideOutDown: slideOutDown,
+  slideOutLeft: slideOutLeft,
+  slideOutRight: slideOutRight,
+  slideOutUp: slideOutUp,
+  hinge: hinge,
+  jackInTheBox: jackInTheBox,
+  rollIn: rollIn,
+  rollOut: rollOut,
+  zoomIn: zoomIn,
+  zoomInDown: zoomInDown,
+  zoomInLeft: zoomInLeft,
+  zoomInRight: zoomInRight,
+  zoomInUp: zoomInUp,
+  zoomOut: zoomOut,
+  zoomOutDown: zoomOutDown,
+  zoomOutLeft: zoomOutLeft,
+  zoomOutRight: zoomOutRight,
+  zoomOutUp: zoomOutUp
+});
+
+/*! Copyright 2025 Fonticons, Inc. - https://webawesome.com/license */
+
+// src/events/cancel.ts
+var WaCancelEvent = class extends Event {
+  constructor() {
+    super("wa-cancel", { bubbles: true, cancelable: false, composed: true });
+  }
+};
+
+// src/events/finish.ts
+var WaFinishEvent = class extends Event {
+  constructor() {
+    super("wa-finish", { bubbles: true, cancelable: false, composed: true });
+  }
+};
+
+// src/events/start.ts
+var WaStartEvent = class extends Event {
+  constructor() {
+    super("wa-start", { bubbles: true, cancelable: false, composed: true });
+  }
+};
+
+// src/components/animation/animation.css
+var animation_default = ":host {\n  display: contents;\n}\n";
+
+// src/components/animation/animation.ts
+var WaAnimation = class extends WebAwesomeElement {
+  constructor() {
+    super(...arguments);
+    this.hasStarted = false;
+    this.name = "none";
+    this.play = false;
+    this.delay = 0;
+    this.direction = "normal";
+    this.duration = 1e3;
+    this.easing = "linear";
+    this.endDelay = 0;
+    this.fill = "auto";
+    this.iterations = Infinity;
+    this.iterationStart = 0;
+    this.playbackRate = 1;
+    this.handleAnimationFinish = () => {
+      this.play = false;
+      this.hasStarted = false;
+      this.dispatchEvent(new WaFinishEvent());
+    };
+    this.handleAnimationCancel = () => {
+      this.play = false;
+      this.hasStarted = false;
+      this.dispatchEvent(new WaCancelEvent());
+    };
+  }
+  /** Gets and sets the current animation time. */
+  get currentTime() {
+    return this.animation?.currentTime ?? 0;
+  }
+  set currentTime(time) {
+    if (this.animation) {
+      this.animation.currentTime = time;
+    }
+  }
+  connectedCallback() {
+    super.connectedCallback();
+    this.createAnimation();
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.destroyAnimation();
+  }
+  handleSlotChange() {
+    this.destroyAnimation();
+    this.createAnimation();
+  }
+  async createAnimation() {
+    const easing = easings[this.easing] ?? this.easing;
+    const keyframes = this.keyframes ?? animations[this.name];
+    const slot = await this.defaultSlot;
+    const element = slot.assignedElements()[0];
+    if (!element || !keyframes) {
+      return false;
+    }
+    this.destroyAnimation();
+    this.animation = element.animate(keyframes, {
+      delay: this.delay,
+      direction: this.direction,
+      duration: this.duration,
+      easing,
+      endDelay: this.endDelay,
+      fill: this.fill,
+      iterationStart: this.iterationStart,
+      iterations: this.iterations
+    });
+    this.animation.playbackRate = this.playbackRate;
+    this.animation.addEventListener("cancel", this.handleAnimationCancel);
+    this.animation.addEventListener("finish", this.handleAnimationFinish);
+    if (this.play) {
+      this.hasStarted = true;
+      this.dispatchEvent(new WaStartEvent());
+    } else {
+      this.animation.pause();
+    }
+    return true;
+  }
+  destroyAnimation() {
+    if (this.animation) {
+      this.animation.cancel();
+      this.animation.removeEventListener("cancel", this.handleAnimationCancel);
+      this.animation.removeEventListener("finish", this.handleAnimationFinish);
+      this.hasStarted = false;
+    }
+  }
+  handleAnimationChange() {
+    if (!this.hasUpdated) {
+      return;
+    }
+    this.createAnimation();
+  }
+  handlePlayChange() {
+    if (this.animation) {
+      if (this.play && !this.hasStarted) {
+        this.hasStarted = true;
+        this.dispatchEvent(new WaStartEvent());
+      }
+      if (this.play) {
+        this.animation.play();
+      } else {
+        this.animation.pause();
+      }
+      return true;
+    }
+    return false;
+  }
+  handlePlaybackRateChange() {
+    if (this.animation) {
+      this.animation.playbackRate = this.playbackRate;
+    }
+  }
+  /** Clears all keyframe effects caused by this animation and aborts its playback. */
+  cancel() {
+    this.animation?.cancel();
+  }
+  /** Sets the playback time to the end of the animation corresponding to the current playback direction. */
+  finish() {
+    this.animation?.finish();
+  }
+  render() {
+    return x` <slot @slotchange=${this.handleSlotChange}></slot> `;
+  }
+};
+WaAnimation.css = animation_default;
+__decorateClass([
+  r("slot")
+], WaAnimation.prototype, "defaultSlot", 2);
+__decorateClass([
+  n$2()
+], WaAnimation.prototype, "name", 2);
+__decorateClass([
+  n$2({ type: Boolean, reflect: true })
+], WaAnimation.prototype, "play", 2);
+__decorateClass([
+  n$2({ type: Number })
+], WaAnimation.prototype, "delay", 2);
+__decorateClass([
+  n$2()
+], WaAnimation.prototype, "direction", 2);
+__decorateClass([
+  n$2({ type: Number })
+], WaAnimation.prototype, "duration", 2);
+__decorateClass([
+  n$2()
+], WaAnimation.prototype, "easing", 2);
+__decorateClass([
+  n$2({ attribute: "end-delay", type: Number })
+], WaAnimation.prototype, "endDelay", 2);
+__decorateClass([
+  n$2()
+], WaAnimation.prototype, "fill", 2);
+__decorateClass([
+  n$2({ type: Number })
+], WaAnimation.prototype, "iterations", 2);
+__decorateClass([
+  n$2({ attribute: "iteration-start", type: Number })
+], WaAnimation.prototype, "iterationStart", 2);
+__decorateClass([
+  n$2({ attribute: false })
+], WaAnimation.prototype, "keyframes", 2);
+__decorateClass([
+  n$2({ attribute: "playback-rate", type: Number })
+], WaAnimation.prototype, "playbackRate", 2);
+__decorateClass([
+  watch([
+    "name",
+    "delay",
+    "direction",
+    "duration",
+    "easing",
+    "endDelay",
+    "fill",
+    "iterations",
+    "iterationsStart",
+    "keyframes"
+  ])
+], WaAnimation.prototype, "handleAnimationChange", 1);
+__decorateClass([
+  watch("play")
+], WaAnimation.prototype, "handlePlayChange", 1);
+__decorateClass([
+  watch("playbackRate")
+], WaAnimation.prototype, "handlePlaybackRateChange", 1);
+WaAnimation = __decorateClass([
+  t$1("wa-animation")
+], WaAnimation);
 
 //# sourceMappingURL=index.js.map

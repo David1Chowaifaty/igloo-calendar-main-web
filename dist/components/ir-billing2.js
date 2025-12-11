@@ -8,10 +8,10 @@ import { d as defineCustomElement$b } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$a } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
 import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$7 } from './ir-custom-input2.js';
-import { d as defineCustomElement$6 } from './ir-dialog2.js';
-import { d as defineCustomElement$5 } from './ir-drawer2.js';
-import { d as defineCustomElement$4 } from './ir-empty-state2.js';
+import { d as defineCustomElement$7 } from './ir-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-drawer2.js';
+import { d as defineCustomElement$5 } from './ir-empty-state2.js';
+import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-invoice2.js';
 import { d as defineCustomElement$2 } from './ir-invoice-form2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
@@ -126,7 +126,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
             return (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isValid ? 'Invoice' : 'Credit note', ":", isValid ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, isValid ? '' : invoice.nbr)), h("wa-tooltip", { for: `mobile-pdf-${invoice.system_id}` }, "Download pdf"), h("ir-custom-button", { onClickHandler: () => this.printInvoice(invoice), loading: isRequestPending('/Print_Invoice'), id: `mobile-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } }))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', isValid ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY') : hooks(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), isValid && !invoice.credit_note && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
                     this.selectedInvoice = invoice.nbr;
                 }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
-        })), this.invoiceInfo.invoices?.length === 0 && h("ir-empty-state", null))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
+        })), this.invoiceInfo.invoices?.length === 0 && h("ir-empty-state", { style: { width: '100%', height: '40vh' } }))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = null;
@@ -151,7 +151,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-invoice", "ir-invoice-form", "ir-spinner"];
+    const components = ["ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-billing":
             if (!customElements.get(tagName)) {
@@ -183,22 +183,22 @@ function defineCustomElement() {
                 defineCustomElement$8();
             }
             break;
-        case "ir-custom-input":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-dialog":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-drawer":
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-empty-state":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

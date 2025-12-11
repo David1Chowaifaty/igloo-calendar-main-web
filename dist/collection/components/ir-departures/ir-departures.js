@@ -147,7 +147,7 @@ export class IrDepartures {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, "Departures"), h("ir-departures-filter", null), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-drawer", { onDrawerHide: e => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), h("div", { class: 'ir-page__container' }, h("h3", { class: "page-title" }, "Departures"), h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), h("ir-drawer", { onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;

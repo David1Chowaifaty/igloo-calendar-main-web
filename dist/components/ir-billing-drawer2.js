@@ -5,10 +5,10 @@ import { d as defineCustomElement$b } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$a } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
 import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$7 } from './ir-custom-input2.js';
-import { d as defineCustomElement$6 } from './ir-dialog2.js';
-import { d as defineCustomElement$5 } from './ir-drawer2.js';
-import { d as defineCustomElement$4 } from './ir-empty-state2.js';
+import { d as defineCustomElement$7 } from './ir-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-drawer2.js';
+import { d as defineCustomElement$5 } from './ir-empty-state2.js';
+import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-invoice2.js';
 import { d as defineCustomElement$2 } from './ir-invoice-form2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
@@ -49,7 +49,7 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '65aaa2d676e387aa72639c23b041a9233e1f137e', style: {
+        return (h("ir-drawer", { key: 'f867751de919acae4cecf81938ead81bdfadbf88', style: {
                 '--ir-drawer-width': '50rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -60,7 +60,7 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: 'dd437f7195c0638422cfadd4affc913db22f26c0', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: 'c043b19a43c633ae14c1f8004d464f1a412593c6', booking: this.booking })));
     }
     static get style() { return IrBillingDrawerStyle0; }
 }, [2, "ir-billing-drawer", {
@@ -71,7 +71,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-billing-drawer", "ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-invoice", "ir-invoice-form", "ir-spinner"];
+    const components = ["ir-billing-drawer", "ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-billing-drawer":
             if (!customElements.get(tagName)) {
@@ -108,22 +108,22 @@ function defineCustomElement() {
                 defineCustomElement$8();
             }
             break;
-        case "ir-custom-input":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-dialog":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-drawer":
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-empty-state":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

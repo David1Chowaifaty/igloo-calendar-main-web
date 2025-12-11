@@ -358,7 +358,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
-                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"month\" | \"week\" | \"text\" | \"button\" | \"time\" | \"reset\" | \"color\" | \"url\" | \"image\" | \"submit\" | \"hidden\" | \"datetime-local\" | \"tel\" | \"checkbox\" | \"radio\" | \"range\"",
+                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"month\" | \"week\" | \"text\" | \"button\" | \"time\" | \"reset\" | \"color\" | \"url\" | \"image\" | \"submit\" | \"hidden\" | \"datetime-local\" | \"tel\" | \"checkbox\" | \"range\" | \"radio\"",
                     "references": {}
                 },
                 "required": false,

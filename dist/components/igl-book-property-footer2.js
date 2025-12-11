@@ -3,8 +3,7 @@ import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$2 } from './ir-button2.js';
-import { d as defineCustomElement$1 } from './ir-icons2.js';
+import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{width:100% !important;background:#000}";
 const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;
@@ -36,10 +35,12 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         }
         return 'flex-fill';
     }
-    renderButton({ label, type, disabled, icon_name, isLoading, icon_position = 'right', }) {
-        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-button", { isLoading: isLoading, btn_color: type === 'cancel' || type === 'back' ? 'secondary' : 'primary', text: label, btn_disabled: disabled, onClickHandler: () => {
+    renderButton({ label, type, disabled, 
+    // icon_name,
+    isLoading, }) {
+        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { size: 'medium', loading: isLoading, appearance: type === 'cancel' || type === 'back' ? 'filled' : 'accent', variant: type === 'cancel' || type === 'back' ? 'neutral' : 'brand', disabled: disabled, onClickHandler: () => {
                 this.buttonClicked.emit({ key: type });
-            }, class: "full-width", btn_styles: "justify-content-center", icon_name: icon_name, iconPosition: icon_position, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })));
+            }, class: "full-width" }, label)));
     }
     shouldRenderTwoButtons() {
         return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');
@@ -70,19 +71,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-footer", "ir-button", "ir-icons"];
+    const components = ["igl-book-property-footer", "ir-custom-button"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglBookPropertyFooter);
             }
             break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$2();
-            }
-            break;
-        case "ir-icons":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

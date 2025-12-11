@@ -154,8 +154,8 @@ export class IrCountryPicker {
                     "references": {
                         "NativeWaInput": {
                             "location": "import",
-                            "path": "../ir-custom-input/ir-custom-input",
-                            "id": "src/components/ui/ir-custom-input/ir-custom-input.tsx::NativeWaInput"
+                            "path": "../ir-input/ir-input",
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
                         }
                     }
                 },

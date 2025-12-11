@@ -1,7 +1,7 @@
-import { MaskedRange, MaskedNumber } from 'imask';
+import { MaskedRange } from 'imask';
 export declare const masks: {
     readonly price: {
-        readonly mask: typeof MaskedNumber;
+        readonly mask: NumberConstructor;
         readonly scale: 2;
         readonly radix: ".";
         readonly mapToRadix: readonly [","];

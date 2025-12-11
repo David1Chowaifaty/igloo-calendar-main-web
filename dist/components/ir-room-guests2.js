@@ -3,8 +3,8 @@ import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$a } from './ir-country-picker2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
-import { d as defineCustomElement$8 } from './ir-custom-input2.js';
-import { d as defineCustomElement$7 } from './ir-drawer2.js';
+import { d as defineCustomElement$8 } from './ir-drawer2.js';
+import { d as defineCustomElement$7 } from './ir-input2.js';
 import { d as defineCustomElement$6 } from './ir-input-text2.js';
 import { d as defineCustomElement$5 } from './ir-picker2.js';
 import { d as defineCustomElement$4 } from './ir-picker-item2.js';
@@ -64,7 +64,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
     bookingNumber;
     closeModal;
     render() {
-        return (h("ir-drawer", { key: '84ffca3909d356dc1c46a3440700cde40d32a7e9', style: {
+        return (h("ir-drawer", { key: '15de60f1f2834cec6c2839fa52f011c14feb1d19', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -75,7 +75,7 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: 'fb20ff5070abd19c10cbc8cc9d62fc733b9ab73f', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '5e230932dc9be07e88bc96e3448ccc2cfe6d7172', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a5847887f60d92e70abe8e588e742a84b874cdaa', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '924cd3c731ea394fe82637674b8e3e8e0e06cea7', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
+            } }, this.open && (h("ir-room-guests-form", { key: 'cfc4881bfb3d68b9f510dd647b2352bf0958b831', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '38ab00e4381fc19eb02f6a16e3d474d263f53259', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '030a84b0dcc86896cf314126f2b70c880ff7b081', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'a518e0a23e1893a07c024f06398f396f40ef9981', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
     }
     static get style() { return IrRoomGuestsStyle0; }
 }, [2, "ir-room-guests", {
@@ -93,7 +93,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-room-guests", "ir-country-picker", "ir-custom-button", "ir-custom-input", "ir-drawer", "ir-input-text", "ir-picker", "ir-picker-item", "ir-room-guests-form", "ir-spinner", "ir-validator"];
+    const components = ["ir-room-guests", "ir-country-picker", "ir-custom-button", "ir-drawer", "ir-input", "ir-input-text", "ir-picker", "ir-picker-item", "ir-room-guests-form", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-room-guests":
             if (!customElements.get(tagName)) {
@@ -110,12 +110,12 @@ function defineCustomElement() {
                 defineCustomElement$9();
             }
             break;
-        case "ir-custom-input":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-drawer":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

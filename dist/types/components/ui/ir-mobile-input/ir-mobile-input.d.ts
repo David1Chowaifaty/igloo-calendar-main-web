@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ICountry } from "../../../models/IBooking";
-import { NativeWaInput } from '../ir-custom-input/ir-custom-input';
+import { NativeWaInput } from '../ir-input/ir-input';
 export interface IrMobileInputChangeDetail {
     country: ICountry;
     value: string;

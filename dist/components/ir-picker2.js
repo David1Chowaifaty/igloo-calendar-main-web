@@ -9,6 +9,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         this.__registerHost();
         this.__attachShadow();
         this.comboboxSelect = createEvent(this, "combobox-select", 7);
+        this.textChange = createEvent(this, "text-change", 7);
     }
     /** Selected value (also shown in the input when `mode="select"`). */
     value = '';
@@ -22,9 +23,11 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue;
     /** The input's size. */
-    size;
+    size = 'small';
     /** The input's visual appearance. */
     appearance;
+    /** Delay (in milliseconds) before filtering results after user input. */
+    debounce = 0;
     static idCounter = 0;
     componentId = ++IrPicker.idCounter;
     listboxId = `ir-combobox-listbox-${this.componentId}`;
@@ -33,6 +36,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     inputRef;
     nativeInput;
     slotRef;
+    debounceTimer;
     get hostEl() { return this; }
     isOpen = false;
     query = '';
@@ -40,7 +44,10 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     filteredItems = [];
     liveRegionMessage = '';
     slottedPickerItems = [];
+    /** Emitted when a value is selected from the combobox list. */
     comboboxSelect;
+    /** Emitted when the text input value changes. */
+    textChange;
     componentWillLoad() {
         const hostItems = Array.from(this.hostEl?.querySelectorAll('ir-picker-item') ?? []);
         if (hostItems.length) {
@@ -110,7 +117,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         this.updateSelectedFromValue(newValue);
         this.syncQueryWithValue(newValue);
         if (this.mode === 'select') {
-            this.applyFilter('', { updateQuery: false });
+            this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
     }
     closeCombobox(options = {}) {
@@ -170,30 +177,48 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
                 break;
         }
     };
+    /** Applies the filter after the debounce delay and emits text-change when requested. */
     applyFilter(value, options = {}) {
-        const { updateQuery = true } = options;
-        if (updateQuery) {
-            this.query = value;
+        // Clear any pending debounce run
+        if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
         }
-        const normalizedQuery = value.trim().toLowerCase();
-        const items = this.slottedPickerItems;
-        const filtered = normalizedQuery ? items.filter(item => this.matchesQuery(item, normalizedQuery)) : [...items];
-        const previousActiveItem = this.activeIndex >= 0 ? this.filteredItems[this.activeIndex] : undefined;
-        this.filteredItems = filtered;
-        this.updateItemVisibility(filtered);
-        let nextIndex = previousActiveItem ? filtered.indexOf(previousActiveItem) : -1;
-        if (filtered.length === 0) {
-            this.activeIndex = -1;
-        }
-        else {
-            if (nextIndex === -1) {
-                nextIndex = this.findNearestEnabledIndex(0, 1);
+        const runFilter = () => {
+            const { updateQuery = true, emitEvent = true } = options;
+            // Emit AFTER debounce only when caller requested it.
+            if (emitEvent) {
+                this.textChange.emit(value);
             }
-            this.activeIndex = nextIndex;
+            if (updateQuery) {
+                this.query = value;
+            }
+            const normalizedQuery = value.trim().toLowerCase();
+            const items = this.slottedPickerItems;
+            const filtered = normalizedQuery ? items.filter(item => this.matchesQuery(item, normalizedQuery)) : [...items];
+            const previousActiveItem = this.activeIndex >= 0 ? this.filteredItems[this.activeIndex] : undefined;
+            this.filteredItems = filtered;
+            this.updateItemVisibility(filtered);
+            let nextIndex = previousActiveItem ? filtered.indexOf(previousActiveItem) : -1;
+            if (filtered.length === 0) {
+                this.activeIndex = -1;
+            }
+            else {
+                if (nextIndex === -1) {
+                    nextIndex = this.findNearestEnabledIndex(0, 1);
+                }
+                this.activeIndex = nextIndex;
+            }
+            this.updateActiveItemIndicators();
+            const context = normalizedQuery ? `"${value.trim()}"` : undefined;
+            this.updateLiveRegion(filtered.length, context);
+        };
+        // No debounce → run immediately
+        if (!this.debounce) {
+            runFilter();
+            return;
         }
-        this.updateActiveItemIndicators();
-        const context = normalizedQuery ? `"${value.trim()}"` : undefined;
-        this.updateLiveRegion(filtered.length, context);
+        // Debounced execution
+        this.debounceTimer = window.setTimeout(runFilter, this.debounce);
     }
     syncQueryWithValue(value) {
         if (this.mode !== 'select') {
@@ -228,10 +253,10 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         this.closeCombobox({ restoreFocus: true });
         if (this.mode === 'select') {
             this.query = this.getItemDisplayLabel(item);
-            this.applyFilter('', { updateQuery: false });
+            this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
         else {
-            this.applyFilter('');
+            this.applyFilter('', { emitEvent: false });
         }
         this.activeIndex = -1;
     }
@@ -289,11 +314,11 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     processPickerItems(pickerItems) {
         this.slottedPickerItems = [...pickerItems];
         this.ensureItemIds();
-        this.applyFilter(this.query);
+        this.applyFilter(this.query, { emitEvent: false });
         this.updateSelectedFromValue(this.value);
         this.syncQueryWithValue(this.value);
         if (this.mode === 'select' && this.value) {
-            this.applyFilter('', { updateQuery: false });
+            this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
     }
     ensureItemIds() {
@@ -413,12 +438,12 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     render() {
         const hasResults = this.filteredItems.length > 0;
         const emptyDescriptionId = hasResults ? undefined : this.emptyStateId;
-        return (h(Host, { key: '9053fbe8e7fc13e7a8c309caf706cf225e9ef0c1' }, h("wa-popup", { key: '5a2aaef12589265593744f78e16b8bba857cfe8e', flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '277aa2b64d676bae6e331e8eda2eb469fec600bb', slot: "anchor", class: "search-bar",
+        return (h(Host, { key: '83932c96c7d9785ab4989496f56528fedcab518f' }, h("wa-popup", { key: 'e621b514078bdc57e5ca35af2db89b903f95ec9c', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: 'e5895759e0285d7857eca5f88ef887ffdbf1be3d', slot: "anchor", class: "search-bar",
             // withClear
-            size: this.size, value: this.query, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+            size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
-            } }, this.loading && h("wa-spinner", { key: 'b872b831af31210909afbd8b267381b6ded77d7b', slot: "end" }), h("wa-icon", { key: '1d0088b32db6e72e5b3a95bfccb1b2a3072dec57', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), !this.loading && (h("div", { key: '550f9ee5dd32b0bda004877fba48bef03e305b4c', class: "menu", role: "presentation" }, h("p", { key: 'dd9be93053853fee7e28927c5782e2caf8693c00', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '1f20e4da089f4e3849bdd888b5d9283d3e6ecf43', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, h("slot", { key: 'b027f492fcc7198e88b47d41bea566424428a051', onSlotchange: this.handleSlotChange }), !hasResults && (h("li", { key: '5c7b8034cf9db480b26a05980ac17b662f8a1947', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'd20437dd5c5fba96214a347c1efd39ab0f5d01c7', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '58409fb65e7de8551e5b5487c3861c73d8568341' }, "No results found"))))))), h("span", { key: '3f1cd7d7db661626b58dabec6103ea7669abe3e6', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '1522667cab31112af694e771d9c9fb759c36d7ed', slot: "end" }), h("wa-icon", { key: 'a618fb6625bc82f658a2932e38c72a7a1d316718', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), !this.loading && (h("div", { key: 'd6f74493e38e8d43a2ff786aabf94b78aa92d32b', class: "menu", role: "presentation" }, h("p", { key: '0ada644ae3bcb693f5efbcabe057c5c3b68cafc9', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '710d236621ff77d55c7a053e634d79b41f3857bc', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, h("slot", { key: '72954267a3bd13cbc5c017e0140bdcfcce44d438', onSlotchange: this.handleSlotChange }), !hasResults && (h("li", { key: '55d25a58e62165e4726ce55b5bb6e260e9d73e74', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'f4a679fa9da255ef8d02274f7015eff0fbc413fd', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '64f7faf409457e6c514b216a6f8a9da1342ef499' }, "No results found"))))))), h("span", { key: '403a3afcc74f7acf3e3d9485aaf490c4b72ed105', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -450,6 +475,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         "defaultValue": [513, "default-value"],
         "size": [513],
         "appearance": [513],
+        "debounce": [2],
         "isOpen": [32],
         "query": [32],
         "activeIndex": [32],

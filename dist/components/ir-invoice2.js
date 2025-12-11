@@ -4,9 +4,9 @@ import { d as defineCustomElement$9 } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$8 } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
 import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$5 } from './ir-custom-input2.js';
-import { d as defineCustomElement$4 } from './ir-dialog2.js';
-import { d as defineCustomElement$3 } from './ir-drawer2.js';
+import { d as defineCustomElement$5 } from './ir-dialog2.js';
+import { d as defineCustomElement$4 } from './ir-drawer2.js';
+import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-invoice-form2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 import { v as v4 } from './v4.js';
@@ -107,27 +107,27 @@ const IrInvoice = /*@__PURE__*/ proxyCustomElement(class IrInvoice extends HTMLE
     isLoading;
     _id = `invoice-form__${v4()}`;
     render() {
-        return (h(Host, { key: '97d05c76facccc5268e7888166fbc75fcf14c67c' }, h("ir-drawer", { key: 'e75dafa1786345c58b91ebc337f8acec49d714a4', style: {
+        return (h(Host, { key: 'a7d1a5398eb56bb940d0756cca86050140068e06' }, h("ir-drawer", { key: '1ce8313ed62978bcf8b8ea4121380aa1eb87b840', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: "Invoice", open: this.open, onDrawerHide: e => {
+            }, label: "Issue Invoice", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, h("div", { key: '2b655461fd3a5b4738a0964ce8638d718bed2bf7', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: 'dea6cba32571f6b11953fe0fa2b4d29188a2bf26', onchange: e => {
+            } }, h("div", { key: '269b678fbb252c2f48a1c142ee712c45e82e1c2e', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: '798c7fee10813c96347c0057fffb5bfa15308ce0', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: '7d3bde2889e7d6709aa3f7cb440d54a98a51f8a3', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'ee0ac917957a5f4525fae267aa65c934d7c181d1', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a34e940777ac03d67a854ad511b4054a9884d6a7', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: 'd4582315be4b0a912a3d39ca93914d962cf6b93c', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'dffbf93dbf8b5a2e693b20e4801e128d69007fb2', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fa62c025f8f62b2208215a3621396ee15e5931c5', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: '8c85f3885e63a9c7305e1baa726a09bc87f6b76e', loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand" }, "Confirm")))));
+            } }, "Cancel"), h("ir-custom-button", { key: '0ae8585981705a5c2b49532184983f7897a7e6fd', loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand" }, "Confirm")))));
     }
     static get style() { return IrInvoiceStyle0; }
 }, [2, "ir-invoice", {
@@ -146,7 +146,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-invoice", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-custom-input", "ir-dialog", "ir-drawer", "ir-invoice-form", "ir-spinner"];
+    const components = ["ir-invoice", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-input", "ir-invoice-form", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-invoice":
             if (!customElements.get(tagName)) {
@@ -178,17 +178,17 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-input":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-dialog":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-drawer":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

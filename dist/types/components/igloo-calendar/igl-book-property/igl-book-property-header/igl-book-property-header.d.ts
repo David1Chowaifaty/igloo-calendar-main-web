@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TAdultChildConstraints, TPropertyButtonsTypes, TSourceOptions } from '../../../../models/igl-book-property';
 import { IToast } from "../../../ui/ir-toast/toast";
+import { Booking } from "../../../../models/booking.dto";
 export declare class IglBookPropertyHeader {
     splitBookingId: any;
     bookingData: any;
@@ -25,6 +26,8 @@ export declare class IglBookPropertyHeader {
     };
     propertyId: number;
     wasBlockedUnit: boolean;
+    isLoading: boolean;
+    bookings: Booking[];
     splitBookingDropDownChange: EventEmitter<any>;
     sourceDropDownChange: EventEmitter<string>;
     adultChild: EventEmitter<any>;
@@ -37,16 +40,18 @@ export declare class IglBookPropertyHeader {
         key: string;
         data: unknown;
     }>;
-    animateIrButton: EventEmitter<string>;
     animateIrSelect: EventEmitter<string>;
+    private bookingService;
     private sourceOption;
-    getSplitBookingList(): any;
-    getSourceNode(): any;
-    handleAdultChildChange(key: string, value: string): void;
-    getAdultChildConstraints(): any;
-    renderChildCaption(): string;
-    handleButtonClicked(): void;
-    isEventType(key: string): boolean;
+    adultAnimationContainer: any;
+    private fetchExposedBookings;
+    private getSplitBookingList;
+    private getSourceNode;
+    private handleAdultChildChange;
+    private getAdultChildConstraints;
+    private renderChildCaption;
+    private handleButtonClicked;
+    private isEventType;
     private getMinDate;
     private getMaxDate;
     render(): any;

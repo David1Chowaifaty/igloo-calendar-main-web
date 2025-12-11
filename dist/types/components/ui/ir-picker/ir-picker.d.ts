@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { NativeWaInput } from '../ir-custom-input/ir-custom-input';
+import { NativeWaInput } from '../ir-input/ir-input';
 export interface IrComboboxOption {
     value: string;
     label: string;
@@ -28,6 +28,8 @@ export declare class IrPicker {
     size: NativeWaInput['size'];
     /** The input's visual appearance. */
     appearance: NativeWaInput['appearance'];
+    /** Delay (in milliseconds) before filtering results after user input. */
+    debounce: number;
     private static idCounter;
     private readonly componentId;
     private readonly listboxId;
@@ -36,6 +38,7 @@ export declare class IrPicker {
     private inputRef?;
     private nativeInput?;
     private slotRef?;
+    private debounceTimer?;
     hostEl: HTMLElement;
     isOpen: boolean;
     query: string;
@@ -43,7 +46,10 @@ export declare class IrPicker {
     filteredItems: PickerItemElement[];
     liveRegionMessage: string;
     slottedPickerItems: PickerItemElement[];
+    /** Emitted when a value is selected from the combobox list. */
     comboboxSelect: EventEmitter<IrComboboxSelectEventDetail>;
+    /** Emitted when the text input value changes. */
+    textChange: EventEmitter<string>;
     componentWillLoad(): void;
     componentDidRender(): void;
     open(): Promise<void>;
@@ -57,6 +63,7 @@ export declare class IrPicker {
     private handleInput;
     private handleInputFocus;
     private handleInputKeydown;
+    /** Applies the filter after the debounce delay and emits text-change when requested. */
     private applyFilter;
     private syncQueryWithValue;
     private selectActiveItem;

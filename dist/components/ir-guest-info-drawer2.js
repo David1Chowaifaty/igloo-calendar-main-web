@@ -4,11 +4,11 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { g as guestInfoFormSchema, d as defineCustomElement$6 } from './ir-guest-info-form2.js';
+import { g as guestInfoFormSchema, d as defineCustomElement$7 } from './ir-guest-info-form2.js';
 import { d as defineCustomElement$a } from './ir-country-picker2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
-import { d as defineCustomElement$8 } from './ir-custom-input2.js';
-import { d as defineCustomElement$7 } from './ir-drawer2.js';
+import { d as defineCustomElement$8 } from './ir-drawer2.js';
+import { d as defineCustomElement$6 } from './ir-input2.js';
 import { d as defineCustomElement$5 } from './ir-input-text2.js';
 import { d as defineCustomElement$4 } from './ir-mobile-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
@@ -121,14 +121,14 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '946b2521f67486a8bc82574480fed92ce447ba87', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: '8a567c01a6b2660cbdce8b48b567e9a754861110', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '3dd48cc0b41bf77a34362b97d7881b9ee8e9e056', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f9502e50689a51ed4fa4c088a072a3d1ff834925', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e3f9223e4c0ca8c39c8df43f43e45e6760300c63', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: 'd10677a4155d01e7ecae90e826d2556538bad69b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'd8eb577917f5bb5346270d716bb2cc8d79859ba9', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '1878ba224028d042751b42a5bac803cdbad997aa', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"],
@@ -153,7 +153,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-custom-input", "ir-drawer", "ir-guest-info-form", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-drawer", "ir-guest-info-form", "ir-input", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info-drawer":
             if (!customElements.get(tagName)) {
@@ -170,17 +170,17 @@ function defineCustomElement() {
                 defineCustomElement$9();
             }
             break;
-        case "ir-custom-input":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-drawer":
+        case "ir-guest-info-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-guest-info-form":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

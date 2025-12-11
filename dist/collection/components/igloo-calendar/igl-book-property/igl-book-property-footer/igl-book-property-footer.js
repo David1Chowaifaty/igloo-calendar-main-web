@@ -25,10 +25,12 @@ export class IglBookPropertyFooter {
         }
         return 'flex-fill';
     }
-    renderButton({ label, type, disabled, icon_name, isLoading, icon_position = 'right', }) {
-        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-button", { isLoading: isLoading, btn_color: type === 'cancel' || type === 'back' ? 'secondary' : 'primary', text: label, btn_disabled: disabled, onClickHandler: () => {
+    renderButton({ label, type, disabled, 
+    // icon_name,
+    isLoading, }) {
+        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { size: 'medium', loading: isLoading, appearance: type === 'cancel' || type === 'back' ? 'filled' : 'accent', variant: type === 'cancel' || type === 'back' ? 'neutral' : 'brand', disabled: disabled, onClickHandler: () => {
                 this.buttonClicked.emit({ key: type });
-            }, class: "full-width", btn_styles: "justify-content-center", icon_name: icon_name, iconPosition: icon_position, style: { '--icon-size': '1rem' }, icon_style: { paddingBottom: '1.9px' } })));
+            }, class: "full-width" }, label)));
     }
     shouldRenderTwoButtons() {
         return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');

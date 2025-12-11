@@ -2,8 +2,8 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$4 } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$3 } from './ir-custom-button2.js';
-import { d as defineCustomElement$2 } from './ir-custom-input2.js';
-import { d as defineCustomElement$1 } from './ir-dialog2.js';
+import { d as defineCustomElement$2 } from './ir-dialog2.js';
+import { d as defineCustomElement$1 } from './ir-input2.js';
 import { v as v4 } from './v4.js';
 
 const irBookingCompanyDialogCss = ".sc-ir-booking-company-dialog-h{display:block}";
@@ -25,16 +25,16 @@ const IrBookingCompanyDialog = /*@__PURE__*/ proxyCustomElement(class IrBookingC
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '47d18b8a195033f152c68726aec92cca5bd194ef', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '5e47f2e5fccaef7d7b9def6c8994f2220f102a3f', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.open = false;
                 this.companyFormClosed.emit();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'fb7f36e99acd538beb349d8596ea297e796ddfc8', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '2c70e96610e6b9d772a2519f14d2235e55ae0e2b', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
-            }, formId: formId, booking: this.booking })), h("div", { key: 'c4e936c81f21159727cc2b39a6c12418eb2e77fa', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'c216683b25b9f7c4c6ed8cf4127773aad5babdcf', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '7140bdb608f004f41e9523f7f14d995d4e8e4978', type: "submit", form: formId, loading: isRequestPending('/Do_Reservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: 'e452e75c6a6dc906e6c0d381f886cdbf36fa939b', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '99b6a7db5b59047b1a272a7c2bb666599645671c', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '3b4f6e5d270d16f42cd57518d17334809c9820fe', type: "submit", form: formId, loading: isRequestPending('/Do_Reservation'), size: "medium", variant: "brand" }, "Save"))));
     }
     static get style() { return IrBookingCompanyDialogStyle0; }
 }, [2, "ir-booking-company-dialog", {
@@ -46,7 +46,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-input", "ir-dialog"];
+    const components = ["ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-dialog", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
@@ -63,12 +63,12 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-custom-input":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }
             break;
-        case "ir-dialog":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }
