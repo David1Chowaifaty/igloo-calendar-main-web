@@ -1,8 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement, F as Fragment } from './index-b3dce66a.js';
-import { c as channels_data, t as testConnection, u as updateChannelSettings, a as selectChannel, b as addMapping, d as setMappedChannel } from './channel.store-4cfbc52f.js';
-import { l as locales } from './locales.store-f4150353.js';
-import { c as calendar_data } from './calendar-data-8a36a1b2.js';
-import './index-a124d225.js';
+import { c as channels_data, t as testConnection, u as updateChannelSettings, a as selectChannel, b as addMapping, d as setMappedChannel } from './channel.store-7e71687e.js';
+import { l as locales } from './locales.store-9cde6711.js';
+import { c as calendar_data } from './calendar-data-756b1a52.js';
 
 const irChannelGeneralCss = ".sc-ir-channel-general-h{display:block}.label-style.sc-ir-channel-general{width:6.25rem;text-align:end;padding-right:0.625rem !important}.connection-status.sc-ir-channel-general{display:flex;align-items:center;justify-content:space-between;margin-top:0.625rem !important}.connection-title.sc-ir-channel-general{border-bottom:1px solid #e4e5ec}.ml-18.sc-ir-channel-general{margin-left:18% !important}.status-message.sc-ir-channel-general{display:flex;align-items:center;gap:0.3125rem;font-size:0.81rem;margin:0;padding:0}";
 const IrChannelGeneralStyle0 = irChannelGeneralCss;

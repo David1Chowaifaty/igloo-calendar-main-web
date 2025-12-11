@@ -69,7 +69,7 @@ export class IrSecureTasks {
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h("div", { class: 'ir-page__container' }, h("section", { class: "secure-header" }, h("div", { class: "secure-header__top" }, h("form", { class: "secure-header__aname", onSubmit: e => {
+        return (h("div", { class: 'ir-page__container p-0' }, h("section", { class: "secure-header" }, h("div", { class: "secure-header__top" }, h("form", { class: "secure-header__aname", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);

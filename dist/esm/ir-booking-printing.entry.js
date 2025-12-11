@@ -1,13 +1,11 @@
 import { h, r as registerInstance, F as Fragment } from './index-b3dce66a.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-14871918.js';
-import { c as calculateDaysBetweenDates, f as formatAmount } from './utils-1825b25c.js';
-import { B as BookingService } from './booking.service-cd705f45.js';
-import { R as RoomService } from './room.service-cbe9248d.js';
-import { l as locales } from './locales.store-f4150353.js';
-import './index-ffb2925f.js';
-import './calendar-data-8a36a1b2.js';
-import './index-a124d225.js';
+import { a as calculateDaysBetweenDates, f as formatAmount } from './utils-8acc5b84.js';
+import { B as BookingService } from './booking.service-7816cda1.js';
+import { R as RoomService } from './room.service-36ed474f.js';
+import { l as locales } from './locales.store-9cde6711.js';
+import './calendar-data-756b1a52.js';
 import './axios-aa1335b8.js';
 
 const BeLogoFooter = ({ width, height, ...props }) => {

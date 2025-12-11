@@ -1,1 +1,0 @@
-{"version":3,"names":["PAYMENT_TYPES_WITH_METHOD"],"sources":["src/components/ir-booking-details/ir-payment-details/global.variables.ts"],"sourcesContent":["export const PAYMENT_TYPES_WITH_METHOD = ['001', '010'];\n"],"mappings":"MAAaA,EAA4B,CAAC,MAAO,c","ignoreList":[]}
