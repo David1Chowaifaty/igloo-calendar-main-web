@@ -175,7 +175,7 @@ import { d as defineCustomElement$4 } from './ir-weekday-selector2.js';
 import { d as defineCustomElement$3 } from './ota-label2.js';
 import { d as defineCustomElement$2 } from './requirement-check2.js';
 
-const irSecureTasksCss = ".nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}.ir-page__container{background:#f4f5fa}.secure-header{background:#fff;border-bottom:1px solid rgba(0, 0, 0, 0.08);padding:0.75rem 1rem;position:sticky;top:0;z-index:10}.secure-header__top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.secure-header__aname{display:flex;flex-direction:column;gap:0.25rem;margin:0}.secure-header__label{font-size:0.85rem;font-weight:600;color:#5a5a5a;margin:0}.secure-header__aname-input{display:flex;align-items:center;gap:0.5rem}.secure-header__aname-input .form-control{max-width:7rem;padding:0.25rem 0.5rem}.secure-header__tabs{margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid rgba(0, 0, 0, 0.05);overflow-x:auto}.secure-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;padding:0;margin:0}.secure-tabs__item{flex:0 1 auto}.secure-tabs__btn{border:1px solid transparent;border-radius:999px;padding:0.35rem 0.85rem;background:transparent;color:inherit;font-size:0.9rem;transition:all 0.2s ease}.secure-tabs__btn:hover{border-color:rgba(0, 0, 0, 0.1)}.secure-tabs__btn.active{border-color:rgba(0, 0, 0, 0.15);color:var(--blue)}";
+const irSecureTasksCss = ".nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}.ir-page__container{background:#f4f5fa;height:100%;gap:0 !important}.secure-header{background:#fff;border-bottom:1px solid rgba(0, 0, 0, 0.08);padding:0.75rem 1rem;position:sticky;top:0;z-index:10}.secure-header__top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.secure-header__aname{display:flex;flex-direction:column;gap:0.25rem;margin:0}.secure-header__label{font-size:0.85rem;font-weight:600;color:#5a5a5a;margin:0}.secure-header__aname-input{display:flex;align-items:center;gap:0.5rem}.secure-header__aname-input .form-control{max-width:7rem;padding:0.25rem 0.5rem}.secure-header__tabs{margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid rgba(0, 0, 0, 0.05);overflow-x:auto}.secure-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;padding:0;margin:0}.secure-tabs__item{flex:0 1 auto}.secure-tabs__btn{border:1px solid transparent;border-radius:999px;padding:0.35rem 0.85rem;background:transparent;color:inherit;font-size:0.9rem;transition:all 0.2s ease}.secure-tabs__btn:hover{border-color:rgba(0, 0, 0, 0.1)}.secure-tabs__btn.active{border-color:rgba(0, 0, 0, 0.15);color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks extends HTMLElement {
@@ -188,7 +188,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     bookingNumber;
     ticket;
     isAuthenticated = false;
-    currentPage;
+    currentPage = 'front';
     inputValue;
     token = new Token();
     dates = {};
@@ -273,7 +273,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
             case 'tasks':
                 return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'front':
-                return (h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" }));
+                return (h("div", { style: { flex: '1 1 0%', display: 'block', background: 'red' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
             case 'hk':
                 return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'users':
@@ -304,7 +304,7 @@ const IrSecureTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrSecureTasks ext
     }; }
     static get style() { return IrSecureTasksStyle0; }
 }, [0, "ir-secure-tasks", {
-        "propertyid": [2],
+        "propertyid": [1026],
         "p": [1],
         "bookingNumber": [1, "booking-number"],
         "ticket": [1],

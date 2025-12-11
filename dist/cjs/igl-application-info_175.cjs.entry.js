@@ -15364,11 +15364,11 @@ const IrCheckoutDialog = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to Check Out this unit?")), index.h("div", { key: 'd1065e5fd34268508b69206b7c5d8657991d7516', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: '59673636189c97109ade2cc2e9426ed6e4e5fbed' }, index.h("ir-custom-button", { key: 'a18661b052addba32075dd04ffd48fe6a32d4e28', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales.entries.Lcz_Cancel), this.buttons.has('checkout') && (index.h("ir-custom-button", { key: '0b29613051a997d87c50b20740b59ce617954f55', size: "medium",
+            } }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to Check Out this unit?")), index.h("div", { key: 'd1065e5fd34268508b69206b7c5d8657991d7516', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: '59673636189c97109ade2cc2e9426ed6e4e5fbed' }, index.h("ir-custom-button", { key: 'a18661b052addba32075dd04ffd48fe6a32d4e28', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (index.h("ir-custom-button", { key: 'ae608eb94d7769de7c94043395db807eef9b05b7', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (index.h("ir-custom-button", { key: '5221900006e15c1e789a75f89b934ed8dfa917e5', loading: this.isLoading === 'skipCheckout', size: "medium",
+            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (index.h("ir-custom-button", { key: '9560d59364796f43a74f7a50b73ac4adcb165b9b', loading: this.isLoading === 'skipCheckout', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (index.h("ir-custom-button", { key: '537b06020e156e70d91918b7f90fa72ccd286ecb', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (index.h("ir-custom-button", { key: '890ab2ad30ecc350e16c8effe1c4e70c4f462097', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
             }, variant: 'brand', appearance: 'accent' }, "Checkout & invoice"))))));
     }
@@ -29005,7 +29005,7 @@ const IrRoomGuests = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (index.h("ir-room-guests-form", { key: 'fb20ff5070abd19c10cbc8cc9d62fc733b9ab73f', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), index.h("div", { key: '5e230932dc9be07e88bc96e3448ccc2cfe6d7172', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'a5847887f60d92e70abe8e588e742a84b874cdaa', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel), index.h("ir-custom-button", { key: 'ed897c3b2d67fca4d0c9d56b045ab19edf38289c', loading: irInterceptor_store.isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales_store.locales.entries.Lcz_CheckIn : locales_store.locales.entries.Lcz_Save))));
+            } }, this.open && (index.h("ir-room-guests-form", { key: 'fb20ff5070abd19c10cbc8cc9d62fc733b9ab73f', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), index.h("div", { key: '5e230932dc9be07e88bc96e3448ccc2cfe6d7172', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'a5847887f60d92e70abe8e588e742a84b874cdaa', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Save'), index.h("ir-custom-button", { key: '924cd3c731ea394fe82637674b8e3e8e0e06cea7', loading: irInterceptor_store.isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales_store.locales.entries?.Lcz_CheckIn ?? 'Check in' : locales_store.locales?.entries?.Lcz_Save ?? 'Save'))));
     }
 };
 IrRoomGuests.style = IrRoomGuestsStyle0;
@@ -30144,7 +30144,7 @@ const IrSalesTable = class {
 };
 IrSalesTable.style = IrSalesTableStyle0 + IrSalesTableStyle1;
 
-const irSecureTasksCss = ".nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}.ir-page__container{background:#f4f5fa}.secure-header{background:#fff;border-bottom:1px solid rgba(0, 0, 0, 0.08);padding:0.75rem 1rem;position:sticky;top:0;z-index:10}.secure-header__top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.secure-header__aname{display:flex;flex-direction:column;gap:0.25rem;margin:0}.secure-header__label{font-size:0.85rem;font-weight:600;color:#5a5a5a;margin:0}.secure-header__aname-input{display:flex;align-items:center;gap:0.5rem}.secure-header__aname-input .form-control{max-width:7rem;padding:0.25rem 0.5rem}.secure-header__tabs{margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid rgba(0, 0, 0, 0.05);overflow-x:auto}.secure-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;padding:0;margin:0}.secure-tabs__item{flex:0 1 auto}.secure-tabs__btn{border:1px solid transparent;border-radius:999px;padding:0.35rem 0.85rem;background:transparent;color:inherit;font-size:0.9rem;transition:all 0.2s ease}.secure-tabs__btn:hover{border-color:rgba(0, 0, 0, 0.1)}.secure-tabs__btn.active{border-color:rgba(0, 0, 0, 0.15);color:var(--blue)}";
+const irSecureTasksCss = ".nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}.ir-page__container{background:#f4f5fa;height:100%;gap:0 !important}.secure-header{background:#fff;border-bottom:1px solid rgba(0, 0, 0, 0.08);padding:0.75rem 1rem;position:sticky;top:0;z-index:10}.secure-header__top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.secure-header__aname{display:flex;flex-direction:column;gap:0.25rem;margin:0}.secure-header__label{font-size:0.85rem;font-weight:600;color:#5a5a5a;margin:0}.secure-header__aname-input{display:flex;align-items:center;gap:0.5rem}.secure-header__aname-input .form-control{max-width:7rem;padding:0.25rem 0.5rem}.secure-header__tabs{margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid rgba(0, 0, 0, 0.05);overflow-x:auto}.secure-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;padding:0;margin:0}.secure-tabs__item{flex:0 1 auto}.secure-tabs__btn{border:1px solid transparent;border-radius:999px;padding:0.35rem 0.85rem;background:transparent;color:inherit;font-size:0.9rem;transition:all 0.2s ease}.secure-tabs__btn:hover{border-color:rgba(0, 0, 0, 0.1)}.secure-tabs__btn.active{border-color:rgba(0, 0, 0, 0.15);color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks = class {
@@ -30156,7 +30156,7 @@ const IrSecureTasks = class {
     bookingNumber;
     ticket;
     isAuthenticated = false;
-    currentPage;
+    currentPage = 'front';
     inputValue;
     token = new Token.Token();
     dates = {};
@@ -30241,7 +30241,7 @@ const IrSecureTasks = class {
             case 'tasks':
                 return index.h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'front':
-                return (index.h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" }));
+                return (index.h("div", { style: { flex: '1 1 0%', display: 'block', background: 'red' } }, index.h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
             case 'hk':
                 return index.h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'users':

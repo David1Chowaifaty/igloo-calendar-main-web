@@ -7,7 +7,7 @@ export class IrSecureTasks {
     bookingNumber;
     ticket;
     isAuthenticated = false;
-    currentPage;
+    currentPage = 'front';
     inputValue;
     token = new Token();
     dates = {};
@@ -92,7 +92,7 @@ export class IrSecureTasks {
             case 'tasks':
                 return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'front':
-                return (h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" }));
+                return (h("div", { style: { flex: '1 1 0%', display: 'block', background: 'red' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
             case 'hk':
                 return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'users':
@@ -132,7 +132,7 @@ export class IrSecureTasks {
         return {
             "propertyid": {
                 "type": "number",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
                     "original": "number",
                     "resolved": "number",
