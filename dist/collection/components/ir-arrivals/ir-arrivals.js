@@ -97,7 +97,7 @@ export class IrArrivals {
                 });
             }
             const [_, __, countries, setupEntries] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),

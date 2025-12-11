@@ -3,6 +3,7 @@ import { departuresStore, initializeDeparturesStore, onDeparturesStoreChange, se
 import { Host, h } from "@stencil/core";
 import { RoomService } from "../../services/room.service";
 import { BookingService } from "../../services/booking-service/booking.service";
+import calendar_data from "../../stores/calendar-data";
 export class IrDepartures {
     ticket;
     propertyid;
@@ -56,8 +57,20 @@ export class IrDepartures {
     async init() {
         try {
             this.isPageLoading = true;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Missing credentials');
+            }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [_, __, setupEntries] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.getBookings(),
@@ -73,7 +86,7 @@ export class IrDepartures {
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckout({
-            property_id: this.propertyid?.toString(),
+            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
             check_out_date: departuresStore.today,
             page_index: departuresStore.pagination.currentPage,
             page_size: departuresStore.pagination.pageSize,

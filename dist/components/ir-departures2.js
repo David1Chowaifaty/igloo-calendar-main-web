@@ -3,6 +3,7 @@ import { T as Token } from './Token.js';
 import { o as onDeparturesStoreChange, d as departuresStore, s as setDepartureTotal, i as initializeDeparturesStore, a as setDeparturesPage, b as setDeparturesPageSize } from './departures.store.js';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
+import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$1p } from './igl-application-info2.js';
 import { d as defineCustomElement$1o } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$1n } from './igl-book-property2.js';
@@ -153,8 +154,20 @@ const IrDepartures = /*@__PURE__*/ proxyCustomElement(class IrDepartures extends
     async init() {
         try {
             this.isPageLoading = true;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Missing credentials');
+            }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [_, __, setupEntries] = await Promise.all([
-                this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
+                calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.getBookings(),
@@ -170,7 +183,7 @@ const IrDepartures = /*@__PURE__*/ proxyCustomElement(class IrDepartures extends
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckout({
-            property_id: this.propertyid?.toString(),
+            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
             check_out_date: departuresStore.today,
             page_index: departuresStore.pagination.currentPage,
             page_size: departuresStore.pagination.pageSize,
