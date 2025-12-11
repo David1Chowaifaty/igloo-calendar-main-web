@@ -12,7 +12,7 @@ require('./calendar-data-e7cdcfec.js');
 require('./index-6299b0f7.js');
 require('./locales.store-4eb57996.js');
 
-const irSecureTasksCss = ":host{display:block;height:100%}.nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}";
+const irSecureTasksCss = ":host{display:flex;flex-direction:column;height:100%}.nav{background:white;padding:0.25rem 0}.nav-tabs{border-bottom:0}.nav-link{color:inherit}.active{color:var(--blue)}.secure-header{background:#fff;border-bottom:1px solid rgba(0, 0, 0, 0.08);padding:0.75rem 1rem}.secure-header__top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.secure-header__aname{display:flex;flex-direction:column;gap:0.25rem;margin:0}.secure-header__label{font-size:0.85rem;font-weight:600;color:#5a5a5a;margin:0}.secure-header__aname-input{display:flex;align-items:center;gap:0.5rem}.secure-header__aname-input .form-control{max-width:7rem;padding:0.25rem 0.5rem}.secure-header__tabs{margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid rgba(0, 0, 0, 0.05);overflow-x:auto}.secure-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;list-style:none;padding:0;margin:0}.secure-tabs__item{flex:0 1 auto}.secure-tabs__btn{border:1px solid transparent;border-radius:999px;padding:0.35rem 0.85rem;background:transparent;color:inherit;font-size:0.9rem;transition:all 0.2s ease}.secure-tabs__btn:hover{border-color:rgba(0, 0, 0, 0.1)}.secure-tabs__btn.active{border-color:rgba(0, 0, 0, 0.15);color:var(--blue)}";
 const IrSecureTasksStyle0 = irSecureTasksCss;
 
 const IrSecureTasks = class {
@@ -86,7 +86,7 @@ const IrSecureTasks = class {
     render() {
         if (!this.isAuthenticated)
             return (index.h(index.Host, null, index.h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (index.h(index.Host, null, index.h("div", { class: "px-1 nav flex-column flex-sm-row d-flex align-items-center justify-content-between" }, index.h("div", { class: "d-flex  align-items-center" }, index.h("div", { class: "d-flex align-items-center p-0 m-0", style: { gap: '0.5rem' } }, index.h("h4", { class: "m-0 p-0" }, "AName: "), index.h("form", { class: "input-group", onSubmit: e => {
+        return (index.h(index.Host, null, index.h("section", { class: "secure-header" }, index.h("div", { class: "secure-header__top" }, index.h("form", { class: "secure-header__aname", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);
@@ -94,11 +94,11 @@ const IrSecureTasks = class {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, index.h("input", { type: "text", value: this.inputValue, onInput: e => (this.inputValue = e.target.value), style: { maxWidth: '60px' }, class: "form-control", placeholder: "AName", "aria-label": "AName", "aria-describedby": "button-save" }), index.h("div", { class: "input-group-append" }, index.h("button", { class: "btn btn-sm btn-outline-secondary", type: "submit", id: "button-save" }, "save")))), index.h("ul", { class: "nav  m-0 p-0" }, this.routes.map(route => (index.h("li", { key: route.name, class: " nav-item" }, index.h("a", { class: { 'nav-link': true, 'active': this.currentPage === route.value }, href: "#", onClick: () => {
-                this.currentPage = route.value;
-            } }, route.name)))))), index.h("button", { class: "btn btn-sm btn-primary", onClick: () => {
+            } }, index.h("label", { class: "secure-header__label", htmlFor: "aname-input" }, "AName"), index.h("div", { class: "secure-header__aname-input" }, index.h("ir-custom-input", { id: "aname-input", type: "text", value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), placeholder: "AName", "aria-label": "AName" }), index.h("ir-custom-button", { variant: "brand", type: "submit", id: "button-save" }, "Save"))), index.h("ir-custom-button", { variant: "danger", onClick: () => {
                 this.logout();
-            } }, "Logout")), this.renderPage()));
+            } }, "Logout")), index.h("nav", { class: "secure-header__tabs", "aria-label": "Secure screens navigation" }, index.h("ul", { class: "secure-tabs" }, this.routes.map(route => (index.h("li", { key: route.name, class: "secure-tabs__item" }, index.h("button", { type: "button", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-current": this.currentPage === route.value ? 'page' : undefined, onClick: () => {
+                this.currentPage = route.value;
+            } }, route.name))))))), this.renderPage()));
     }
     logout() {
         sessionStorage.removeItem('backend_anchor');
