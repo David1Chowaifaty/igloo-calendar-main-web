@@ -12866,6 +12866,15 @@ const IrArrivals = class {
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [_, __, countries, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
@@ -12885,7 +12894,7 @@ const IrArrivals = class {
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckIn({
-            property_id: this.propertyid?.toString(),
+            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
             check_in_date: arrivalsStore.today,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,
@@ -30234,9 +30243,9 @@ const IrSecureTasks = class {
             case 'channel-sales':
                 return h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
             case 'arrivals':
-                return h("ir-arrivals", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'departures':
-                return h("ir-departures", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             default:
                 return null;
         }

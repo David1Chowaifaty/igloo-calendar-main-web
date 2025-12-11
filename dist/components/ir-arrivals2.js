@@ -3,6 +3,7 @@ import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { s as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, b as setArrivalsTotal, i as initializeArrivalsStore, c as setArrivalsPage } from './arrivals.store.js';
+import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$1p } from './igl-application-info2.js';
 import { d as defineCustomElement$1o } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$1n } from './igl-book-property2.js';
@@ -183,6 +184,15 @@ const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTM
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [_, __, countries, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
@@ -202,7 +212,7 @@ const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTM
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckIn({
-            property_id: this.propertyid?.toString(),
+            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
             check_in_date: arrivalsStore.today,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,

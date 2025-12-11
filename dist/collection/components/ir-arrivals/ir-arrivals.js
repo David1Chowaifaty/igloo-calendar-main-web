@@ -3,6 +3,7 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
 import { Host, h } from "@stencil/core";
 import { arrivalsStore, initializeArrivalsStore, onArrivalsStoreChange, setArrivalsPage, setArrivalsPageSize, setArrivalsTotal } from "../../stores/arrivals.store";
+import calendar_data from "../../stores/calendar-data";
 export class IrArrivals {
     /**
      * Authentication token issued by the PMS backend.
@@ -86,6 +87,15 @@ export class IrArrivals {
             if (!this.propertyid && !this.p) {
                 throw new Error('Missing credentials');
             }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [_, __, countries, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
@@ -105,7 +115,7 @@ export class IrArrivals {
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckIn({
-            property_id: this.propertyid?.toString(),
+            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
             check_in_date: arrivalsStore.today,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,

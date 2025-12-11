@@ -110,9 +110,9 @@ export class IrSecureTasks {
             case 'channel-sales':
                 return h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
             case 'arrivals':
-                return h("ir-arrivals", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'departures':
-                return h("ir-departures", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+                return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             default:
                 return null;
         }
