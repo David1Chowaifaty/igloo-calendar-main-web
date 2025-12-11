@@ -12,7 +12,7 @@ const IrSalesByChannelSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '235ebc4835619747350914c373861409ab2f263f' }, index.h("slot", { key: 'b7e82a35eaa81b9ffe52c0ad2b0c0616c98621bb' })));
+        return (index.h(index.Host, { key: 'e53e906c3fcb3c94afa93de35aa9d7acd18bf4fa' }, index.h("slot", { key: '8067276a4b487a60c87ef0c5d8f85b86a315aa1a' })));
     }
 };
 IrSalesByChannelSummary.style = IrSalesByChannelSummaryStyle0;

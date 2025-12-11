@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { d as defineCustomElement$5 } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$4 } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$3 } from './ir-custom-button2.js';
 import { d as defineCustomElement$2 } from './ir-custom-input2.js';
@@ -62,7 +63,7 @@ const IrBookingBillingRecipient = /*@__PURE__*/ proxyCustomElement(class IrBooki
         this.rooms = [..._rooms];
     }
     render() {
-        return (h(Host, { key: '06f02ac68cf67cceb9367d4c9f3db5d0f268dcde' }, h("wa-radio-group", { key: '9d2b02ecc6364d84ed4345808dea3b7dac560c40', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '5a57050726f511036463ed11389cf0a4ffc16f3e', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '20f0c85d4bb133dd864dddd061815df74651760f', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-form", { key: '153a63d5a4499e45e89f9e09caff028192d262e3', onCompanyFormClosed: () => {
+        return (h(Host, { key: '713d9a671f2021013ea5af607dabf3b26bc48bcd' }, h("wa-radio-group", { key: '1809c2f56d20c721544a9004da28e64d390056f6', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '1f8c6f434d3a0316b0742573f70161c6f138bd1f', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '24cbe0d8ca14911044f4d3ebe1c423c8fedb97da', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-dialog", { key: '93041cc8d18bde25da17a6d0cc99c86c3da17547', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }
@@ -88,11 +89,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-billing-recipient", "ir-booking-company-form", "ir-custom-button", "ir-custom-input", "ir-dialog"];
+    const components = ["ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-input", "ir-dialog"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrBookingBillingRecipient);
+            }
+            break;
+        case "ir-booking-company-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
             }
             break;
         case "ir-booking-company-form":

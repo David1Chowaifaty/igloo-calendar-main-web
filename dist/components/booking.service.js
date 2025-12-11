@@ -101,6 +101,20 @@ objectType({
     booking_nbr: NumberOrStringSchema,
     is_remove: booleanType(),
 });
+/*Arrivals */
+const GetRoomsToCheckInPropsSchema = objectType({
+    property_id: stringType(),
+    check_in_date: stringType(),
+    page_index: numberType().default(1),
+    page_size: numberType().default(10),
+});
+/*Departures */
+const GetRoomsToCheckOutPropsSchema = objectType({
+    property_id: stringType(),
+    check_out_date: stringType(),
+    page_index: numberType().default(1),
+    page_size: numberType().default(10),
+});
 /* INVOICE TYPES */
 const GetBookingInvoiceInfoPropsSchema = objectType({
     booking_nbr: stringType().optional(),
@@ -126,6 +140,8 @@ const IssueInvoicePropsSchema = objectType({
 });
 const PrintInvoicePropsSchema = objectType({
     invoice_nbr: stringType().optional(),
+    mode: enumType(['invoice', 'creditnote', 'proforma']),
+    invoice: InvoiceSchema$1.optional(),
 });
 
 const CurrencySchema = objectType({
@@ -154,6 +170,7 @@ const CreditNoteSchema = objectType({
     nbr: stringType(),
     reason: stringType(),
     system_id: stringType().nullable(),
+    user: stringType().nullable(),
 });
 const InvoiceSchema = objectType({
     billed_to_name: anyType(),
@@ -169,6 +186,7 @@ const InvoiceSchema = objectType({
     status: StatusSchema,
     system_id: numberType(),
     target: anyType(),
+    user: stringType().nullable(),
     total_amount: anyType(),
 });
 const InvoiceableItemReasonSchema = objectType({
@@ -781,6 +799,18 @@ class BookingService {
             throw new Error(error);
         }
     }
+    /*Arrivals*/
+    async getRoomsToCheckIn(props) {
+        const payload = GetRoomsToCheckInPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Rooms_To_Check_In', payload);
+        return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
+    }
+    async getRoomsToCheckout(props) {
+        const payload = GetRoomsToCheckOutPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Rooms_To_Check_Out', payload);
+        return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
+    }
+    /*Departures */
     /* INVOICE */
     async getBookingInvoiceInfo(props) {
         const payload = GetBookingInvoiceInfoPropsSchema.parse(props);

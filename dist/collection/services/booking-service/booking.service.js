@@ -14,7 +14,7 @@ import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { GetBookingInvoiceInfoPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
+import { GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -655,6 +655,18 @@ export class BookingService {
             throw new Error(error);
         }
     }
+    /*Arrivals*/
+    async getRoomsToCheckIn(props) {
+        const payload = GetRoomsToCheckInPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Rooms_To_Check_In', payload);
+        return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
+    }
+    async getRoomsToCheckout(props) {
+        const payload = GetRoomsToCheckOutPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Rooms_To_Check_Out', payload);
+        return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
+    }
+    /*Departures */
     /* INVOICE */
     async getBookingInvoiceInfo(props) {
         const payload = GetBookingInvoiceInfoPropsSchema.parse(props);

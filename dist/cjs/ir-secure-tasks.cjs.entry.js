@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
 const Token = require('./Token-8fd11984.js');
-const utils = require('./utils-bca29761.js');
+const utils = require('./utils-7f803d6f.js');
 require('./axios-6e678d52.js');
 require('./moment-1780b03a.js');
 require('./index-ffd50e35.js');
@@ -74,6 +74,8 @@ const IrSecureTasks = class {
         { name: 'Email logs', value: 'email-logs' },
         { name: 'Booking Listing', value: 'booking-listing' },
         { name: 'Sales by Channel', value: 'channel-sales' },
+        { name: 'Arrivals', value: 'arrivals' },
+        { name: 'Departures', value: 'departures' },
     ];
     handleAuthFinish(e) {
         const token = e.detail.token;
@@ -124,6 +126,10 @@ const IrSecureTasks = class {
                 return index.h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'channel-sales':
                 return index.h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
+            case 'arrivals':
+                return index.h("ir-arrivals", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'departures':
+                return index.h("ir-departures", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             default:
                 return null;
         }

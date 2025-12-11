@@ -1,11 +1,12 @@
+import { canCheckout } from "../utils/utils";
 import { createStore } from "@stencil/store";
-import { data as arrivalsMockData } from "../components/ir-arrivals/_data";
 import moment from "moment";
 const initialState = {
     bookings: [],
     filteredBookings: [],
     paginatedBookings: [],
     needsCheckOutBookings: [],
+    futureRooms: [],
     outBookings: [],
     searchTerm: '',
     pagination: {
@@ -13,28 +14,75 @@ const initialState = {
         pageSize: 20,
         total: 0,
         totalPages: 1,
+        currentPage: 1,
+        showing: { from: 0, to: 0 },
     },
     today: getTodayString(),
 };
 export const { state: departuresStore, onChange: onDeparturesStoreChange } = createStore(initialState);
-export function initializeDeparturesStore(bookings = arrivalsMockData) {
+export function initializeDeparturesStore(bookings = []) {
     departuresStore.bookings = Array.isArray(bookings) ? [...bookings] : [];
     runDeparturesPipeline();
+}
+export function setDepartureTotal(total) {
+    const normalizedTotal = Number.isFinite(total) && total > 0 ? Math.floor(total) : 0;
+    const totalPages = calculateTotalPages(normalizedTotal, departuresStore.pagination.pageSize);
+    const safePage = clampPage(departuresStore.pagination.currentPage, Math.max(totalPages, 1));
+    departuresStore.pagination = {
+        ...departuresStore.pagination,
+        total: normalizedTotal,
+        totalPages: Math.max(totalPages, 1),
+        currentPage: safePage,
+        showing: calculateShowing(safePage, departuresStore.pagination.pageSize, normalizedTotal),
+    };
+}
+function calculateTotalPages(total, pageSize) {
+    if (!total || !pageSize) {
+        return 0;
+    }
+    return Math.ceil(total / pageSize);
+}
+function clampPage(page, totalPages) {
+    if (!Number.isFinite(page) || page <= 0) {
+        return 1;
+    }
+    const normalizedPage = Math.floor(page);
+    return Math.min(Math.max(normalizedPage, 1), Math.max(totalPages, 1));
+}
+function calculateShowing(page, pageSize, total) {
+    if (!total || !pageSize) {
+        return { from: 0, to: 0 };
+    }
+    const start = (page - 1) * pageSize + 1;
+    return {
+        from: Math.max(start, 1),
+        to: Math.min(start + pageSize - 1, total),
+    };
 }
 export function setDeparturesSearchTerm(term) {
     departuresStore.searchTerm = term ?? '';
     runDeparturesPipeline();
 }
 export function setDeparturesPage(page) {
-    const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
-    departuresStore.pagination = { ...departuresStore.pagination, page: safePage };
+    const safePage = clampPage(page, Math.max(departuresStore.pagination.totalPages, 1));
+    departuresStore.pagination = {
+        ...departuresStore.pagination,
+        currentPage: safePage,
+        showing: calculateShowing(safePage, departuresStore.pagination.pageSize, departuresStore.pagination.total),
+    };
     runDeparturesPipeline();
 }
 export function setDeparturesPageSize(pageSize) {
     if (!Number.isFinite(pageSize) || pageSize <= 0) {
         return;
     }
-    departuresStore.pagination = { ...departuresStore.pagination, pageSize: Math.floor(pageSize), page: 1 };
+    const normalizedPageSize = Math.floor(pageSize);
+    departuresStore.pagination = {
+        ...departuresStore.pagination,
+        pageSize: normalizedPageSize,
+        currentPage: 1,
+        showing: calculateShowing(1, normalizedPageSize, departuresStore.pagination.total),
+    };
     runDeparturesPipeline();
 }
 export function setDeparturesReferenceDate(date) {
@@ -42,36 +90,16 @@ export function setDeparturesReferenceDate(date) {
     runDeparturesPipeline();
 }
 function runDeparturesPipeline() {
-    const bookingsForToday = getBookingsForDate(departuresStore.bookings, departuresStore.today);
-    const searchedBookings = filterBookingsBySearch(bookingsForToday, departuresStore.searchTerm);
-    const total = searchedBookings.length;
-    const { pageSize } = departuresStore.pagination;
-    const totalPages = total === 0 ? 1 : Math.ceil(total / pageSize);
-    const safePage = clamp(departuresStore.pagination.page, 1, totalPages);
-    const start = (safePage - 1) * pageSize;
-    const paginated = searchedBookings.slice(start, start + pageSize);
+    const searchedBookings = filterBookingsBySearch(departuresStore.searchTerm);
     departuresStore.filteredBookings = searchedBookings;
-    departuresStore.pagination = { ...departuresStore.pagination, total, totalPages, page: safePage };
-    departuresStore.paginatedBookings = paginated;
-    const split = splitBookingsByStatus(paginated);
+    departuresStore.paginatedBookings = searchedBookings;
+    const split = splitBookingsByStatus(searchedBookings);
     departuresStore.needsCheckOutBookings = split.needsCheckOut;
     departuresStore.outBookings = split.out;
+    departuresStore.futureRooms = split.futureRooms;
 }
-function getBookingsForDate(bookings, date) {
-    if (!date) {
-        return [];
-    }
-    return bookings
-        .map(booking => {
-        const roomsForToday = (booking.rooms ?? []).filter(room => normalizeDate(room.to_date) === date);
-        if (!roomsForToday.length) {
-            return null;
-        }
-        return { ...booking, rooms: roomsForToday };
-    })
-        .filter((booking) => Boolean(booking));
-}
-function filterBookingsBySearch(bookings, term) {
+function filterBookingsBySearch(term) {
+    const bookings = departuresStore.bookings;
     const normalizedTerm = term?.trim().toLowerCase();
     if (!normalizedTerm) {
         return bookings;
@@ -102,15 +130,21 @@ function splitBookingsByStatus(bookings) {
         if (isOutRooms.length) {
             acc.out.push({ ...booking, rooms: isOutRooms });
         }
+        const futureRooms = rooms.filter(room => isFuture(room));
+        if (futureRooms.length) {
+            acc.out.push({ ...booking, rooms: futureRooms });
+        }
         return acc;
-    }, { needsCheckOut: [], out: [] });
+    }, { needsCheckOut: [], out: [], futureRooms: [] });
 }
 function isNeedsCheckOut(room) {
-    const code = room.in_out?.code ?? '';
-    return code === '001';
+    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out.code });
 }
 function isOut(room) {
     return room.in_out?.code === '002';
+}
+function isFuture(room) {
+    return moment().isBefore(moment(room.to_date, 'YYYY-MM-DD'), 'date');
 }
 function buildName(person) {
     const full = `${person?.first_name ?? ''} ${person?.last_name ?? ''}`.trim();
@@ -118,15 +152,6 @@ function buildName(person) {
 }
 function getTodayString() {
     return moment().format('YYYY-MM-DD');
-}
-function normalizeDate(value) {
-    if (!value) {
-        return '';
-    }
-    return value.slice(0, 10);
-}
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
 }
 initializeDeparturesStore();
 //# sourceMappingURL=departures.store.js.map

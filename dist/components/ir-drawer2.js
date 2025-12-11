@@ -58,7 +58,7 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
         this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("wa-drawer", { key: '58af1410e0ababfe234f7b1baa9273004c799b11', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '5db3a97f47e5e138fca7bb814783b9946c025816', slot: "label", name: "label" }), h("slot", { key: 'a963e70a33f9537b5280d69efdea81a89a3afb28', slot: "header-actions", name: "header-actions" }), h("slot", { key: '966c5cd74d7069cdc387c08714d6485a72c0e613' }), h("slot", { key: '56ea23f578f4361b08504b412cd946996911e31a', slot: "footer", name: "footer" })));
+        return (h("wa-drawer", { key: '371f260a3c17c4db84115a8f585e5dc63a664126', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '3c900614ef2eb914edde28fb12e69d77c0459f22', slot: "label", name: "label" }), h("slot", { key: '16e1703b7fa102148ec84f0296ff508dbc329144', slot: "header-actions", name: "header-actions" }), h("slot", { key: '78117aab2cb0c367beb49d73d6442796a36e5bda' }), h("slot", { key: '72f2cee6ba4f5a7380543d9fda6b7c2f2d640867', slot: "footer", name: "footer" })));
     }
     static get style() { return IrDrawerStyle0; }
 }, [4, "ir-drawer", {

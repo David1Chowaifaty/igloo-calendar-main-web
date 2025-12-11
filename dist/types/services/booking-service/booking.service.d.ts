@@ -2,7 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { GetBookingInvoiceInfoProps, IssueInvoiceProps, PrintInvoiceProps, VoidInvoiceProps } from './types';
+import { GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -162,6 +162,8 @@ export declare class BookingService {
     getPCICardInfoURL(BOOK_NBR: string): Promise<any>;
     doReservation(body: any): Promise<any>;
     bookUser({ bookedByInfoData, check_in, currency, extras, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }: IBookingParams): Promise<void>;
+    getRoomsToCheckIn(props: GetRoomsToCheckInProps): Promise<RoomsToProcessResult>;
+    getRoomsToCheckout(props: GetRoomsToCheckOutProps): Promise<RoomsToProcessResult>;
     getBookingInvoiceInfo(props: GetBookingInvoiceInfoProps): Promise<BookingInvoiceInfo>;
     issueInvoice(props: IssueInvoiceProps): Promise<any>;
     voidInvoice(props: VoidInvoiceProps): Promise<any>;

@@ -49,6 +49,7 @@ export class IrInvoiceForm {
     toBeInvoicedItems;
     invoiceDate = moment();
     notInvoiceableItemKeys = new Set();
+    splitDisabledKeys = new Set();
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -99,11 +100,16 @@ export class IrInvoiceForm {
     setUpDisabledItems() {
         if (!this.booking || !this.invoicableKey?.size) {
             this.notInvoiceableItemKeys = new Set();
+            this.splitDisabledKeys = new Set();
             return;
         }
         const invoiceDate = (this.invoiceDate ?? moment()).clone().startOf('day');
         const disabledKeys = new Set();
-        const markIfBefore = (key, dateStr) => {
+        this.splitDisabledKeys = new Set();
+        const markIfBefore = (key, dateStr, options) => {
+            if (options?.checkedOut) {
+                return;
+            }
             if (typeof key !== 'number' || !this.invoicableKey.has(key) || !dateStr) {
                 return;
             }
@@ -114,7 +120,7 @@ export class IrInvoiceForm {
         };
         const rooms = this.booking.rooms ?? [];
         rooms.forEach(room => {
-            markIfBefore(room.system_id, room.to_date);
+            markIfBefore(room.system_id, room.to_date, { checkedOut: room?.in_out?.code === '002' });
         });
         const pickupInfo = this.booking.pickup_info;
         if (pickupInfo) {
@@ -131,11 +137,24 @@ export class IrInvoiceForm {
                 if (chain.length <= 1) {
                     return;
                 }
-                const chainSystemIds = chain.map(id => roomsByIdentifier.get(id)?.system_id).filter((id) => typeof id === 'number');
-                const chainHasDisabledRoom = chainSystemIds.some(id => disabledKeys.has(id));
-                if (chainHasDisabledRoom) {
-                    chainSystemIds.forEach(id => disabledKeys.add(id));
+                const tailIdentifier = chain[chain.length - 1];
+                const tailRoom = roomsByIdentifier.get(tailIdentifier);
+                if (!tailRoom) {
+                    return;
                 }
+                const tailCheckedOut = tailRoom.in_out?.code === '002';
+                chain.forEach(identifier => {
+                    const room = roomsByIdentifier.get(identifier);
+                    if (!room || typeof room.system_id !== 'number' || !this.invoicableKey.has(room.system_id)) {
+                        return;
+                    }
+                    if (tailCheckedOut) {
+                        disabledKeys.delete(room.system_id);
+                        return;
+                    }
+                    disabledKeys.add(room.system_id);
+                    this.splitDisabledKeys.add(room.system_id);
+                });
             });
         }
         this.notInvoiceableItemKeys = disabledKeys;
@@ -148,13 +167,15 @@ export class IrInvoiceForm {
         const nextKeys = new Set(this.selectedItemKeys);
         let changed = false;
         disabledKeys.forEach(key => {
-            if (this.viewMode === 'proforma') {
+            const isSplitDisabled = this.splitDisabledKeys.has(key);
+            if (this.viewMode === 'proforma' && !isSplitDisabled) {
                 if (!nextKeys.has(key)) {
                     nextKeys.add(key);
                     changed = true;
                 }
+                return;
             }
-            else if (nextKeys.delete(key)) {
+            if (nextKeys.delete(key)) {
                 changed = true;
             }
         });
@@ -397,8 +418,8 @@ export class IrInvoiceForm {
                 return null;
             }
             const roomIds = this.getInvoiceableRoomIds(group.rooms);
-            const isSelected = this.isSelected(roomIds);
             const isDisabled = this.isDisabled(roomIds);
+            const isSelected = this.isSelected(roomIds);
             return (h("div", { class: "ir-invoice__service", key: group.order }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_ids: roomIds });
@@ -660,7 +681,7 @@ export class IrInvoiceForm {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingInvoiceInfo",
-                    "resolved": "{ invoiceable_items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: any; type?: InvoiceableItemType; status?: any; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { date?: string; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; status?: { code?: string; description?: any; }; booking_nbr?: string; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; total_amount?: any; }[]; }",
+                    "resolved": "{ invoiceable_items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: any; type?: InvoiceableItemType; status?: any; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; date?: string; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; status?: { code?: string; description?: any; }; booking_nbr?: string; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; total_amount?: any; }[]; }",
                     "references": {
                         "BookingInvoiceInfo": {
                             "location": "import",

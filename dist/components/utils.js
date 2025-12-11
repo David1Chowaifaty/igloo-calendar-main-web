@@ -846,6 +846,15 @@ function canCheckIn({ from_date, to_date, isCheckedIn }) {
     }
     return false;
 }
+function canCheckout({ to_date, inOutCode }) {
+    if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        return false;
+    }
+    if (inOutCode === '002') {
+        return false;
+    }
+    return hooks().startOf('day').isSameOrAfter(hooks(to_date, 'YYYY-MM-DD').startOf('date'), 'dates');
+}
 /**
  * Downloads a file from a given URL.
  *
@@ -929,6 +938,6 @@ function isWeekend(date, format = 'YYYY-MM-DD') {
     return d.day() === 0 || d.day() === 6;
 }
 
-export { getRoomStatus as A, cleanRoom as B, addRoomForCleaning as C, transformNewBLockedRooms as D, bookingStatus as E, getPrivateNote as F, getNextDay as G, addTwoMonthToDate as H, convertDMYToISO as I, computeEndDate as J, toFloat as K, renderTime as L, getDaysArray as M, convertDatePrice as N, formatDate as O, checkUserAuthState as P, manageAnchorSession as Q, isPrivilegedUser as R, sleep as S, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, checkMealPlan as l, buildSplitIndex as m, getSplitRole as n, findCountry as o, canCheckIn as p, compareTime as q, createDateWithOffsetAndHour as r, downloadFile as s, transformNewBooking as t, isWeekend as u, validateEmail as v, dateDifference as w, formatLegendColors as x, addCleaningTasks as y, formatName as z };
+export { getRoomStatus as A, cleanRoom as B, addRoomForCleaning as C, transformNewBLockedRooms as D, bookingStatus as E, getPrivateNote as F, getNextDay as G, addTwoMonthToDate as H, convertDMYToISO as I, computeEndDate as J, toFloat as K, renderTime as L, getDaysArray as M, convertDatePrice as N, formatDate as O, checkUserAuthState as P, manageAnchorSession as Q, isPrivilegedUser as R, canCheckout as S, sleep as T, convertDateToTime as a, calculateDaysBetweenDates as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getMyBookings as g, handleBodyOverflow as h, getReleaseHoursString as i, isBlockUnit as j, calendar_dates as k, checkMealPlan as l, buildSplitIndex as m, getSplitRole as n, findCountry as o, canCheckIn as p, compareTime as q, createDateWithOffsetAndHour as r, downloadFile as s, transformNewBooking as t, isWeekend as u, validateEmail as v, dateDifference as w, formatLegendColors as x, addCleaningTasks as y, formatName as z };
 
 //# sourceMappingURL=utils.js.map

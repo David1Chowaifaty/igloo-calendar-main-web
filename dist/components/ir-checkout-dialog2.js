@@ -40,7 +40,7 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
                 status: '002',
             });
             this.isLoading = null;
-            this.checkoutDialogClosed.emit({ reason: source === 'checkout&invoice' ? 'openInvoice' : 'dialog' });
+            this.checkoutDialogClosed.emit({ reason: source === 'checkout&invoice' ? 'openInvoice' : 'checkout' });
         }
         catch (error) {
             console.error(error);
@@ -82,15 +82,15 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'a9d3702f001eb7db6eccdc7fcb7dcc115c9c2f97', open: this.open, label: "Alert", style: { '--ir-dialog-width': 'fit-content' }, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'de39dc8dcc6ea0c4eb375ebf49b5b48d3caa293f', open: this.open, label: "Alert", style: { '--ir-dialog-width': 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-                this.checkoutDialogClosed.emit();
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h("p", null, "Are you sure you want to Check Out this unit?")), h("div", { key: 'f898f3d8da17946c3b8cc5854053a9a04af4c961', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'fcc7a1c9d41bcf11bdebe2990102aca19ad0a321' }, h("ir-custom-button", { key: '8881385fc2d6f961ebe5a29c5387c5b3811b62eb', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), this.buttons.has('checkout') && (h("ir-custom-button", { key: '532179338b98d2165eba052a7073694b417bc9b5', size: "medium",
+                this.checkoutDialogClosed.emit({ reason: 'cancel' });
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to Check Out this unit?")), h("div", { key: 'd1065e5fd34268508b69206b7c5d8657991d7516', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '59673636189c97109ade2cc2e9426ed6e4e5fbed' }, h("ir-custom-button", { key: 'a18661b052addba32075dd04ffd48fe6a32d4e28', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), this.buttons.has('checkout') && (h("ir-custom-button", { key: '0b29613051a997d87c50b20740b59ce617954f55', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '0ee3759a7862e38b92294fbda27cdf725ee24f81', loading: this.isLoading === 'skipCheckout', size: "medium",
+            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '5221900006e15c1e789a75f89b934ed8dfa917e5', loading: this.isLoading === 'skipCheckout', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: 'c721cbbd7fbd56cbe67f1c502f0238b8936a22c4', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '537b06020e156e70d91918b7f90fa72ccd286ecb', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
             }, variant: 'brand', appearance: 'accent' }, "Checkout & invoice"))))));
     }

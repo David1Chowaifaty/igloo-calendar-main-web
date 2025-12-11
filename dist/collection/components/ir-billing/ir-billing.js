@@ -2,6 +2,7 @@ import { Fragment, h } from "@stencil/core";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { formatAmount } from "../../utils/utils";
 import moment from "moment";
+import { isRequestPending } from "../../stores/ir-interceptor.store";
 export class IrBilling {
     booking;
     isOpen = null;
@@ -59,6 +60,18 @@ export class IrBilling {
             return aDate.diff(bDate); // ASC order
         });
     }
+    async printInvoice(invoice) {
+        try {
+            const { My_Result } = await this.bookingService.printInvoice({
+                invoice_nbr: invoice.nbr,
+                mode: invoice.credit_note ? 'creditnote' : 'invoice',
+            });
+            window.open(My_Result.url);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
     render() {
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
@@ -74,20 +87,22 @@ export class IrBilling {
                 : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("td", null, h("p", { class: "billing__invoice-nbr" }, h("b", null, isValid ? 'Invoice' : 'Credit note', ":"), " ", isValid ? invoice.nbr : invoice.credit_note.nbr), !isValid && h("p", { class: "billing__invoice-nbr --secondary" }, invoice.nbr)), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(invoice.currency.symbol, invoice.total_amount))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
-                }, "onwa-select": e => {
+                }, "onwa-select": async (e) => {
                     switch (e.detail.item.value) {
                         case 'print':
+                            this.printInvoice(invoice);
                             break;
                         case 'void':
                             this.selectedInvoice = invoice.nbr;
                             break;
                     }
-                } }, h("h3", null, "Issued by:"), h("wa-divider", null), h("h3", null, "Actions"), h("wa-dropdown-item", { value: "print" }, "Print to pdf"), invoice.status.code === 'VALID' && !invoice.credit_note && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
-        })))), h("div", { class: "billing__cards" }, this.invoices?.map(invoice => (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, invoice.status.code === 'VALID' ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, invoice.status.code === 'VALID' ? 'Invoice' : 'Credit note')), h("wa-tooltip", { for: `mobile-pdf-${invoice.system_id}` }, "Download pdf"), h("ir-custom-button", { id: `mobile-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } }))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', invoice.status.code === 'VALID'
-            ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
-            : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), invoice.status.code === 'VALID' && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
-                this.selectedInvoice = invoice.nbr;
-            }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note"))))))), this.invoiceInfo.invoices?.length === 0 && (h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', flexDirection: 'column', color: 'var(--wa-color-neutral-60)' } }, h("wa-icon", { name: "ban", style: { transform: 'rotate(90deg)', fontSize: '2rem' } }), h("p", null, "No records found"))))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
+                } }, h("h3", null, "Issued by: ", invoice.credit_note ? invoice.credit_note.user : invoice.user), h("wa-divider", null), h("h3", null, "Actions"), h("wa-dropdown-item", { value: "print" }, "Print to pdf", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isValid && !invoice.credit_note && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
+        })))), h("div", { class: "billing__cards" }, this.invoices?.map(invoice => {
+            const isValid = invoice.status.code === 'VALID';
+            return (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isValid ? 'Invoice' : 'Credit note', ":", isValid ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, isValid ? '' : invoice.nbr)), h("wa-tooltip", { for: `mobile-pdf-${invoice.system_id}` }, "Download pdf"), h("ir-custom-button", { onClickHandler: () => this.printInvoice(invoice), loading: isRequestPending('/Print_Invoice'), id: `mobile-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } }))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', isValid ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY') : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), isValid && !invoice.credit_note && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
+                    this.selectedInvoice = invoice.nbr;
+                }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
+        })), this.invoiceInfo.invoices?.length === 0 && h("ir-empty-state", null))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = null;

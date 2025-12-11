@@ -121,14 +121,14 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     }
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '41b23624a25b5e6839f41313a18f160298f71c22', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: '946b2521f67486a8bc82574480fed92ce447ba87', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '6e9e90a68494cba0d56b20de5502cd9803e62b15', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '6a5a07a336849d5a078be41dc18d22834de82520', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '30e048e00a3ab40198fb5537cdbbb65bea59210d', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '3dd48cc0b41bf77a34362b97d7881b9ee8e9e056', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f9502e50689a51ed4fa4c088a072a3d1ff834925', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'e3f9223e4c0ca8c39c8df43f43e45e6760300c63', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"],

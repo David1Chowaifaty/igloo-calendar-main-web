@@ -1,6 +1,9 @@
 import { Booking } from "../../models/booking.dto";
 import { EventEmitter } from '../../stencil-public-runtime';
 import { BookingInvoiceInfo } from '../ir-invoice/types';
+export type CheckoutDialogCloseEvent = {
+    reason: 'cancel' | 'checkout' | 'openInvoice';
+};
 export declare class IrCheckoutDialog {
     open: boolean;
     /**
@@ -14,9 +17,7 @@ export declare class IrCheckoutDialog {
     isLoading: 'checkout' | 'skipCheckout' | 'checkout&invoice' | 'page';
     buttons: Set<'checkout' | 'checkout_without_invoice' | 'invoice_checkout'>;
     invoiceInfo: BookingInvoiceInfo;
-    checkoutDialogClosed: EventEmitter<{
-        reason: 'dialog' | 'openInvoice';
-    }>;
+    checkoutDialogClosed: EventEmitter<CheckoutDialogCloseEvent>;
     private bookingService;
     private checkoutRoom;
     handleOpenChange(newValue: boolean, oldValue: boolean): void;

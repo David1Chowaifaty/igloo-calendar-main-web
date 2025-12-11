@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { IBookingPickupInfo, RoomInOut } from "../../models/booking.dto";
+import { Booking, IBookingPickupInfo, RoomInOut } from "../../models/booking.dto";
 import { IEntries } from "../../models/IBooking";
 export declare const CurrencySchema: z.ZodObject<{
     id: z.ZodNumber;
@@ -370,6 +370,44 @@ export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRI
 export type GroupedTableEntries = {
     [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
 };
+export declare const GetRoomsToCheckInPropsSchema: z.ZodObject<{
+    property_id: z.ZodString;
+    check_in_date: z.ZodString;
+    page_index: z.ZodDefault<z.ZodNumber>;
+    page_size: z.ZodDefault<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: string;
+    check_in_date?: string;
+    page_index?: number;
+    page_size?: number;
+}, {
+    property_id?: string;
+    check_in_date?: string;
+    page_index?: number;
+    page_size?: number;
+}>;
+export type GetRoomsToCheckInProps = z.infer<typeof GetRoomsToCheckInPropsSchema>;
+export declare const GetRoomsToCheckOutPropsSchema: z.ZodObject<{
+    property_id: z.ZodString;
+    check_out_date: z.ZodString;
+    page_index: z.ZodDefault<z.ZodNumber>;
+    page_size: z.ZodDefault<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: string;
+    page_index?: number;
+    page_size?: number;
+    check_out_date?: string;
+}, {
+    property_id?: string;
+    page_index?: number;
+    page_size?: number;
+    check_out_date?: string;
+}>;
+export type GetRoomsToCheckOutProps = z.infer<typeof GetRoomsToCheckOutPropsSchema>;
+export interface RoomsToProcessResult {
+    bookings: Booking[];
+    total_count: number;
+}
 export declare const GetBookingInvoiceInfoPropsSchema: z.ZodObject<{
     booking_nbr: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
@@ -604,9 +642,135 @@ export type IssueInvoiceProps = z.infer<typeof IssueInvoicePropsSchema>;
 export type VoidInvoiceProps = z.infer<typeof VoidInvoicePropsSchema>;
 export declare const PrintInvoicePropsSchema: z.ZodObject<{
     invoice_nbr: z.ZodOptional<z.ZodString>;
+    mode: z.ZodEnum<["invoice", "creditnote", "proforma"]>;
+    invoice: z.ZodOptional<z.ZodObject<{
+        booking_nbr: z.ZodOptional<z.ZodString>;
+        currency: z.ZodObject<{
+            id: z.ZodNumber;
+        }, "strip", z.ZodTypeAny, {
+            id?: number;
+        }, {
+            id?: number;
+        }>;
+        target: z.ZodObject<{
+            code: z.ZodOptional<z.ZodString>;
+            description: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        Date: z.ZodOptional<z.ZodString>;
+        nbr: z.ZodOptional<z.ZodString>;
+        remark: z.ZodOptional<z.ZodString>;
+        billed_to_name: z.ZodOptional<z.ZodString>;
+        billed_to_tax: z.ZodOptional<z.ZodString>;
+        items: z.ZodArray<z.ZodObject<{
+            amount: z.ZodNumber;
+            type: z.ZodOptional<z.ZodString>;
+            key: z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>;
+            description: z.ZodDefault<z.ZodOptional<z.ZodOptional<z.ZodString>>>;
+        }, "strip", z.ZodTypeAny, {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }, {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }>, "many">;
+    }, "strip", z.ZodTypeAny, {
+        currency?: {
+            id?: number;
+        };
+        booking_nbr?: string;
+        target?: {
+            code?: string;
+            description?: string;
+        };
+        Date?: string;
+        nbr?: string;
+        remark?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }[];
+    }, {
+        currency?: {
+            id?: number;
+        };
+        booking_nbr?: string;
+        target?: {
+            code?: string;
+            description?: string;
+        };
+        Date?: string;
+        nbr?: string;
+        remark?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }[];
+    }>>;
 }, "strip", z.ZodTypeAny, {
+    invoice?: {
+        currency?: {
+            id?: number;
+        };
+        booking_nbr?: string;
+        target?: {
+            code?: string;
+            description?: string;
+        };
+        Date?: string;
+        nbr?: string;
+        remark?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }[];
+    };
     invoice_nbr?: string;
+    mode?: "invoice" | "proforma" | "creditnote";
 }, {
+    invoice?: {
+        currency?: {
+            id?: number;
+        };
+        booking_nbr?: string;
+        target?: {
+            code?: string;
+            description?: string;
+        };
+        Date?: string;
+        nbr?: string;
+        remark?: string;
+        billed_to_name?: string;
+        billed_to_tax?: string;
+        items?: {
+            key?: string | number;
+            amount?: number;
+            type?: string;
+            description?: string;
+        }[];
+    };
     invoice_nbr?: string;
+    mode?: "invoice" | "proforma" | "creditnote";
 }>;
 export type PrintInvoiceProps = z.infer<typeof PrintInvoicePropsSchema>;

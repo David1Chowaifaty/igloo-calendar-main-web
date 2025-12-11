@@ -1,5 +1,6 @@
 import { Booking } from "../../models/booking.dto";
 import { Payment, PaymentEntries } from '../ir-booking-details/types';
+import { CheckoutRoomEvent } from "../../components";
 export declare class IrDepartures {
     ticket: string;
     propertyid: number;
@@ -10,6 +11,8 @@ export declare class IrDepartures {
     paymentEntries: PaymentEntries;
     isPageLoading: boolean;
     payment: Payment;
+    checkoutState: CheckoutRoomEvent;
+    invoiceState: CheckoutRoomEvent;
     private tokenService;
     private roomService;
     private bookingService;
@@ -19,5 +22,11 @@ export declare class IrDepartures {
     handleOpen(e: CustomEvent): void;
     handleBookingPayment(e: CustomEvent): void;
     private init;
+    private getBookings;
+    private handleCheckoutRoom;
+    private handlePaginationChange;
+    private handleCheckoutDialogClosed;
+    private handlePaginationPageSizeChange;
+    private handleInvoiceClose;
     render(): any;
 }

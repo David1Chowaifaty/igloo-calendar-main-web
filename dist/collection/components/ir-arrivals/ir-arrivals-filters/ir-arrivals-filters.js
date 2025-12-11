@@ -1,11 +1,12 @@
-import { arrivalsStore, setArrivalsSearchTerm } from "../../../stores/arrivals.store";
+import { arrivalsStore, setArrivalsReferenceDate, setArrivalsSearchTerm } from "../../../stores/arrivals.store";
+import { isRequestPending } from "../../../stores/ir-interceptor.store";
 import { h } from "@stencil/core";
 export class IrArrivalsFilters {
     handleSearchChange = (event) => {
         setArrivalsSearchTerm(event.detail ?? '');
     };
     render() {
-        return (h("div", { key: '0171c9ef7b65be7b832084bb6addbb6fdc747eaf', class: "arrivals-filters__container" }, h("ir-custom-date-picker", { key: '36e24a0e09f2cbf06a4c3387439b4f361ad4fe9e', class: "arrivals-filters__date-picker" }, h("wa-icon", { key: '2bf96818cbbd5d6e65ab4c34603ad91a94c324f0', name: "calendar", slot: "start" })), h("ir-custom-input", { key: '2980e2b2a5676b6f97fa76b6c6d61987beea07fd', withClear: true, class: "arrivals-filters__search-bar", placeholder: "Search guests or bookings", value: arrivalsStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: '3cf891fde339c55ffa3b9538f63480e9b4ec19f7', name: "magnifying-glass", slot: "start" }))));
+        return (h("div", { key: '34549f8402830be91a2dae1dd0c974442a3a24ed', class: "arrivals-filters__container" }, h("ir-custom-date-picker", { key: 'a0c5410096bfa0a10350cd966d35247c75824a11', onDateChanged: e => setArrivalsReferenceDate(e.detail.start.format('YYYY-MM-DD')), date: arrivalsStore.today, class: "arrivals-filters__date-picker" }, h("wa-icon", { key: 'ba68dc7f503379a534ede9d02b976ca9ff861d61', name: "calendar", slot: "start" }), isRequestPending('/Get_Rooms_To_Check_in') && h("wa-spinner", { key: 'ec7719dec58d0f29a6975d35a2c7d5d93f022125', slot: "end" })), h("ir-custom-input", { key: 'af2fe2f1689f517fa31950d32bdcabccced25341', withClear: true, class: "arrivals-filters__search-bar", placeholder: "Search guests or bookings", value: arrivalsStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'cba3428d6d2478176411d1e17cf902b983c6020b', name: "magnifying-glass", slot: "start" }))));
     }
     static get is() { return "ir-arrivals-filters"; }
     static get encapsulation() { return "scoped"; }

@@ -49,6 +49,7 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     name?: string;
     book_nbr?: string;
     property_id?: number;
+    total_count?: number;
     from?: string;
     to?: string;
     channel?: string;
@@ -63,13 +64,13 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_combined_view?: boolean;
     start_row?: number;
     end_row?: number;
-    total_count?: number;
     is_to_export?: boolean;
     property_ids?: number[];
 }, {
     name?: string;
     book_nbr?: string;
     property_id?: number;
+    total_count?: number;
     from?: string;
     to?: string;
     channel?: string;
@@ -84,7 +85,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_combined_view?: boolean;
     start_row?: number;
     end_row?: number;
-    total_count?: number;
     is_to_export?: boolean;
     property_ids?: number[];
 }>;

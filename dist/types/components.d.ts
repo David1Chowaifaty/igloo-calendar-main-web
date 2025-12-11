@@ -21,13 +21,14 @@ import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, 
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { IPaymentAction } from "./services/payment.service";
-import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
-import { Payment, PaymentEntries } from "./components/ir-booking-details/types";
-import { BookingService } from "./services/booking-service/booking.service";
-import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
+import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
+import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+import { BookingService } from "./services/booking-service/booking.service";
+import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
+import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 import { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
 import { NativeWaInput } from "./components/ui/ir-custom-input/ir-custom-input";
@@ -35,6 +36,7 @@ import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button"
 import { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-custom-input/ir-custom-input";
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 import { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
+import { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 import { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
@@ -77,13 +79,14 @@ export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, 
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { IPaymentAction } from "./services/payment.service";
-export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
-export { Payment, PaymentEntries } from "./components/ir-booking-details/types";
-export { BookingService } from "./services/booking-service/booking.service";
-export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
+export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
+export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+export { BookingService } from "./services/booking-service/booking.service";
+export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
+export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 export { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
 export { NativeWaInput } from "./components/ui/ir-custom-input/ir-custom-input";
@@ -91,6 +94,7 @@ export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button"
 export { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-custom-input/ir-custom-input";
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 export { CleanTaskEvent, IHouseKeepers, Task, THKUser } from "./models/housekeeping";
+export { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 export { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
@@ -381,9 +385,25 @@ export namespace Components {
         "propertyId": number;
     }
     interface IrArrivals {
+        /**
+          * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+         */
         "language": string;
+        /**
+          * Property alias or short identifier used by backend endpoints (aname). Passed to `getExposedProperty` when initializing the component.
+         */
         "p": string;
+        /**
+          * Number of arrivals to load per page in the arrivals table. Used to configure pagination via Arrivals Store. Defaults to `20`.
+         */
+        "pageSize": number;
+        /**
+          * ID of the property (hotel) for which arrivals should be displayed. Used in API calls related to rooms, bookings, and check-ins.
+         */
         "propertyid": number;
+        /**
+          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+         */
         "ticket": string;
     }
     interface IrArrivalsFilters {
@@ -488,9 +508,13 @@ export namespace Components {
     interface IrBookingBillingRecipient {
         "booking": Booking;
     }
-    interface IrBookingCompanyForm {
+    interface IrBookingCompanyDialog {
         "booking": Booking;
         "openCompanyForm": () => Promise<void>;
+    }
+    interface IrBookingCompanyForm {
+        "booking": Booking;
+        "formId": string;
     }
     interface IrBookingDetails {
         "bookingNumber": string;
@@ -1347,6 +1371,9 @@ export namespace Components {
           * Required value for the option
          */
         "value": string;
+    }
+    interface IrEmptyState {
+        "message": string;
     }
     interface IrEventsLog {
         "booking": Booking;
@@ -3290,6 +3317,10 @@ export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrApplicablePoliciesElement;
 }
+export interface IrArrivalsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrArrivalsTableElement;
+}
 export interface IrAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAutocompleteElement;
@@ -3313,6 +3344,10 @@ export interface IrBookedByCellCustomEvent<T> extends CustomEvent<T> {
 export interface IrBookingBillingRecipientCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingBillingRecipientElement;
+}
+export interface IrBookingCompanyDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingCompanyDialogElement;
 }
 export interface IrBookingCompanyFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -3409,6 +3444,10 @@ export interface IrDateRangeCustomEvent<T> extends CustomEvent<T> {
 export interface IrDeleteModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDeleteModalElement;
+}
+export interface IrDeparturesTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrDeparturesTableElement;
 }
 export interface IrDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4304,7 +4343,20 @@ declare global {
         prototype: HTMLIrArrivalsFiltersElement;
         new (): HTMLIrArrivalsFiltersElement;
     };
+    interface HTMLIrArrivalsTableElementEventMap {
+        "requestPageChange": PaginationChangeEvent;
+        "requestPageSizeChange": PaginationChangeEvent;
+        "checkInRoom": RoomGuestsPayload;
+    }
     interface HTMLIrArrivalsTableElement extends Components.IrArrivalsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrArrivalsTableElementEventMap>(type: K, listener: (this: HTMLIrArrivalsTableElement, ev: IrArrivalsTableCustomEvent<HTMLIrArrivalsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrArrivalsTableElementEventMap>(type: K, listener: (this: HTMLIrArrivalsTableElement, ev: IrArrivalsTableCustomEvent<HTMLIrArrivalsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrArrivalsTableElement: {
         prototype: HTMLIrArrivalsTableElement;
@@ -4426,9 +4478,26 @@ declare global {
         prototype: HTMLIrBookingBillingRecipientElement;
         new (): HTMLIrBookingBillingRecipientElement;
     };
+    interface HTMLIrBookingCompanyDialogElementEventMap {
+        "companyFormClosed": void;
+        "resetBookingEvt": Booking;
+    }
+    interface HTMLIrBookingCompanyDialogElement extends Components.IrBookingCompanyDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingCompanyDialogElementEventMap>(type: K, listener: (this: HTMLIrBookingCompanyDialogElement, ev: IrBookingCompanyDialogCustomEvent<HTMLIrBookingCompanyDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingCompanyDialogElementEventMap>(type: K, listener: (this: HTMLIrBookingCompanyDialogElement, ev: IrBookingCompanyDialogCustomEvent<HTMLIrBookingCompanyDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingCompanyDialogElement: {
+        prototype: HTMLIrBookingCompanyDialogElement;
+        new (): HTMLIrBookingCompanyDialogElement;
+    };
     interface HTMLIrBookingCompanyFormElementEventMap {
         "resetBookingEvt": Booking;
-        "companyFormClosed": void;
     }
     interface HTMLIrBookingCompanyFormElement extends Components.IrBookingCompanyForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingCompanyFormElementEventMap>(type: K, listener: (this: HTMLIrBookingCompanyFormElement, ev: IrBookingCompanyFormCustomEvent<HTMLIrBookingCompanyFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4701,7 +4770,7 @@ declare global {
         new (): HTMLIrCheckboxesElement;
     };
     interface HTMLIrCheckoutDialogElementEventMap {
-        "checkoutDialogClosed": { reason: 'dialog' | 'openInvoice' };
+        "checkoutDialogClosed": CheckoutDialogCloseEvent;
     }
     interface HTMLIrCheckoutDialogElement extends Components.IrCheckoutDialog, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCheckoutDialogElementEventMap>(type: K, listener: (this: HTMLIrCheckoutDialogElement, ev: IrCheckoutDialogCustomEvent<HTMLIrCheckoutDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4941,7 +5010,20 @@ declare global {
         prototype: HTMLIrDeparturesFilterElement;
         new (): HTMLIrDeparturesFilterElement;
     };
+    interface HTMLIrDeparturesTableElementEventMap {
+        "checkoutRoom": CheckoutRoomEvent;
+        "requestPageChange": PaginationChangeEvent;
+        "requestPageSizeChange": PaginationChangeEvent;
+    }
     interface HTMLIrDeparturesTableElement extends Components.IrDeparturesTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrDeparturesTableElementEventMap>(type: K, listener: (this: HTMLIrDeparturesTableElement, ev: IrDeparturesTableCustomEvent<HTMLIrDeparturesTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrDeparturesTableElementEventMap>(type: K, listener: (this: HTMLIrDeparturesTableElement, ev: IrDeparturesTableCustomEvent<HTMLIrDeparturesTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrDeparturesTableElement: {
         prototype: HTMLIrDeparturesTableElement;
@@ -5020,6 +5102,12 @@ declare global {
     var HTMLIrDropdownItemElement: {
         prototype: HTMLIrDropdownItemElement;
         new (): HTMLIrDropdownItemElement;
+    };
+    interface HTMLIrEmptyStateElement extends Components.IrEmptyState, HTMLStencilElement {
+    }
+    var HTMLIrEmptyStateElement: {
+        prototype: HTMLIrEmptyStateElement;
+        new (): HTMLIrEmptyStateElement;
     };
     interface HTMLIrEventsLogElement extends Components.IrEventsLog, HTMLStencilElement {
     }
@@ -6102,7 +6190,7 @@ declare global {
         "pressCheckOut": any;
         "editInitiated": TIglBookPropertyPayload;
         "resetbooking": null;
-        "openSidebar": OpenSidebarEvent<RoomGuestsPayload>;
+        "openSidebar": OpenSidebarEvent<RoomGuestsPayload1>;
     }
     interface HTMLIrRoomElement extends Components.IrRoom, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRoomElementEventMap>(type: K, listener: (this: HTMLIrRoomElement, ev: IrRoomCustomEvent<HTMLIrRoomElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6671,6 +6759,7 @@ declare global {
         "ir-booked-on-cell": HTMLIrBookedOnCellElement;
         "ir-booking": HTMLIrBookingElement;
         "ir-booking-billing-recipient": HTMLIrBookingBillingRecipientElement;
+        "ir-booking-company-dialog": HTMLIrBookingCompanyDialogElement;
         "ir-booking-company-form": HTMLIrBookingCompanyFormElement;
         "ir-booking-details": HTMLIrBookingDetailsElement;
         "ir-booking-email-logs": HTMLIrBookingEmailLogsElement;
@@ -6713,6 +6802,7 @@ declare global {
         "ir-drawer": HTMLIrDrawerElement;
         "ir-dropdown": HTMLIrDropdownElement;
         "ir-dropdown-item": HTMLIrDropdownItemElement;
+        "ir-empty-state": HTMLIrEmptyStateElement;
         "ir-events-log": HTMLIrEventsLogElement;
         "ir-extra-service": HTMLIrExtraServiceElement;
         "ir-extra-service-config": HTMLIrExtraServiceConfigElement;
@@ -7188,14 +7278,33 @@ declare namespace LocalJSX {
         "propertyId"?: number;
     }
     interface IrArrivals {
+        /**
+          * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+         */
         "language"?: string;
+        /**
+          * Property alias or short identifier used by backend endpoints (aname). Passed to `getExposedProperty` when initializing the component.
+         */
         "p"?: string;
+        /**
+          * Number of arrivals to load per page in the arrivals table. Used to configure pagination via Arrivals Store. Defaults to `20`.
+         */
+        "pageSize"?: number;
+        /**
+          * ID of the property (hotel) for which arrivals should be displayed. Used in API calls related to rooms, bookings, and check-ins.
+         */
         "propertyid"?: number;
+        /**
+          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+         */
         "ticket"?: string;
     }
     interface IrArrivalsFilters {
     }
     interface IrArrivalsTable {
+        "onCheckInRoom"?: (event: IrArrivalsTableCustomEvent<RoomGuestsPayload>) => void;
+        "onRequestPageChange"?: (event: IrArrivalsTableCustomEvent<PaginationChangeEvent>) => void;
+        "onRequestPageSizeChange"?: (event: IrArrivalsTableCustomEvent<PaginationChangeEvent>) => void;
     }
     interface IrAutocomplete {
         "danger_border"?: boolean;
@@ -7310,9 +7419,14 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "onRecipientChange"?: (event: IrBookingBillingRecipientCustomEvent<string>) => void;
     }
+    interface IrBookingCompanyDialog {
+        "booking"?: Booking;
+        "onCompanyFormClosed"?: (event: IrBookingCompanyDialogCustomEvent<void>) => void;
+        "onResetBookingEvt"?: (event: IrBookingCompanyDialogCustomEvent<Booking>) => void;
+    }
     interface IrBookingCompanyForm {
         "booking"?: Booking;
-        "onCompanyFormClosed"?: (event: IrBookingCompanyFormCustomEvent<void>) => void;
+        "formId"?: string;
         "onResetBookingEvt"?: (event: IrBookingCompanyFormCustomEvent<Booking>) => void;
     }
     interface IrBookingDetails {
@@ -7561,7 +7675,7 @@ declare namespace LocalJSX {
           * Unique identifier of the room being checked out.
          */
         "identifier"?: string;
-        "onCheckoutDialogClosed"?: (event: IrCheckoutDialogCustomEvent<{ reason: 'dialog' | 'openInvoice' }>) => void;
+        "onCheckoutDialogClosed"?: (event: IrCheckoutDialogCustomEvent<CheckoutDialogCloseEvent>) => void;
         "open"?: boolean;
     }
     interface IrCombobox {
@@ -8159,6 +8273,9 @@ declare namespace LocalJSX {
     interface IrDeparturesFilter {
     }
     interface IrDeparturesTable {
+        "onCheckoutRoom"?: (event: IrDeparturesTableCustomEvent<CheckoutRoomEvent>) => void;
+        "onRequestPageChange"?: (event: IrDeparturesTableCustomEvent<PaginationChangeEvent>) => void;
+        "onRequestPageSizeChange"?: (event: IrDeparturesTableCustomEvent<PaginationChangeEvent>) => void;
     }
     interface IrDialog {
         /**
@@ -8262,6 +8379,9 @@ declare namespace LocalJSX {
           * Required value for the option
          */
         "value": string;
+    }
+    interface IrEmptyState {
+        "message"?: string;
     }
     interface IrEventsLog {
         "booking"?: Booking;
@@ -9733,7 +9853,7 @@ declare namespace LocalJSX {
         "myRoomTypeFoodCat"?: string;
         "onDeleteFinished"?: (event: IrRoomCustomEvent<string>) => void;
         "onEditInitiated"?: (event: IrRoomCustomEvent<TIglBookPropertyPayload>) => void;
-        "onOpenSidebar"?: (event: IrRoomCustomEvent<OpenSidebarEvent<RoomGuestsPayload>>) => void;
+        "onOpenSidebar"?: (event: IrRoomCustomEvent<OpenSidebarEvent<RoomGuestsPayload1>>) => void;
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;
         "onResetbooking"?: (event: IrRoomCustomEvent<null>) => void;
@@ -10364,6 +10484,7 @@ declare namespace LocalJSX {
         "ir-booked-on-cell": IrBookedOnCell;
         "ir-booking": IrBooking;
         "ir-booking-billing-recipient": IrBookingBillingRecipient;
+        "ir-booking-company-dialog": IrBookingCompanyDialog;
         "ir-booking-company-form": IrBookingCompanyForm;
         "ir-booking-details": IrBookingDetails;
         "ir-booking-email-logs": IrBookingEmailLogs;
@@ -10406,6 +10527,7 @@ declare namespace LocalJSX {
         "ir-drawer": IrDrawer;
         "ir-dropdown": IrDropdown;
         "ir-dropdown-item": IrDropdownItem;
+        "ir-empty-state": IrEmptyState;
         "ir-events-log": IrEventsLog;
         "ir-extra-service": IrExtraService;
         "ir-extra-service-config": IrExtraServiceConfig;
@@ -10575,6 +10697,7 @@ declare module "@stencil/core" {
             "ir-booked-on-cell": LocalJSX.IrBookedOnCell & JSXBase.HTMLAttributes<HTMLIrBookedOnCellElement>;
             "ir-booking": LocalJSX.IrBooking & JSXBase.HTMLAttributes<HTMLIrBookingElement>;
             "ir-booking-billing-recipient": LocalJSX.IrBookingBillingRecipient & JSXBase.HTMLAttributes<HTMLIrBookingBillingRecipientElement>;
+            "ir-booking-company-dialog": LocalJSX.IrBookingCompanyDialog & JSXBase.HTMLAttributes<HTMLIrBookingCompanyDialogElement>;
             "ir-booking-company-form": LocalJSX.IrBookingCompanyForm & JSXBase.HTMLAttributes<HTMLIrBookingCompanyFormElement>;
             "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
             "ir-booking-email-logs": LocalJSX.IrBookingEmailLogs & JSXBase.HTMLAttributes<HTMLIrBookingEmailLogsElement>;
@@ -10617,6 +10740,7 @@ declare module "@stencil/core" {
             "ir-drawer": LocalJSX.IrDrawer & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
             "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
             "ir-dropdown-item": LocalJSX.IrDropdownItem & JSXBase.HTMLAttributes<HTMLIrDropdownItemElement>;
+            "ir-empty-state": LocalJSX.IrEmptyState & JSXBase.HTMLAttributes<HTMLIrEmptyStateElement>;
             "ir-events-log": LocalJSX.IrEventsLog & JSXBase.HTMLAttributes<HTMLIrEventsLogElement>;
             "ir-extra-service": LocalJSX.IrExtraService & JSXBase.HTMLAttributes<HTMLIrExtraServiceElement>;
             "ir-extra-service-config": LocalJSX.IrExtraServiceConfig & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigElement>;

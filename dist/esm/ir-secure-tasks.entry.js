@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
-import { m as checkUserAuthState, n as manageAnchorSession } from './utils-27f20f34.js';
+import { n as checkUserAuthState, o as manageAnchorSession } from './utils-1825b25c.js';
 import './axios-aa1335b8.js';
 import './moment-ab846cee.js';
 import './index-ffb2925f.js';
@@ -70,6 +70,8 @@ const IrSecureTasks = class {
         { name: 'Email logs', value: 'email-logs' },
         { name: 'Booking Listing', value: 'booking-listing' },
         { name: 'Sales by Channel', value: 'channel-sales' },
+        { name: 'Arrivals', value: 'arrivals' },
+        { name: 'Departures', value: 'departures' },
     ];
     handleAuthFinish(e) {
         const token = e.detail.token;
@@ -120,6 +122,10 @@ const IrSecureTasks = class {
                 return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'channel-sales':
                 return h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
+            case 'arrivals':
+                return h("ir-arrivals", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'departures':
+                return h("ir-departures", { language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             default:
                 return null;
         }

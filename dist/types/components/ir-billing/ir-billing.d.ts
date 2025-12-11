@@ -14,5 +14,6 @@ export declare class IrBilling {
     private init;
     private voidInvoice;
     private get invoices();
+    private printInvoice;
     render(): any;
 }

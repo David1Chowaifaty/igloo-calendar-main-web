@@ -25,6 +25,7 @@ export const CreditNoteSchema = z.object({
     nbr: z.string(),
     reason: z.string(),
     system_id: z.string().nullable(),
+    user: z.string().nullable(),
 });
 export const InvoiceSchema = z.object({
     billed_to_name: z.any(),
@@ -40,6 +41,7 @@ export const InvoiceSchema = z.object({
     status: StatusSchema,
     system_id: z.number(),
     target: z.any(),
+    user: z.string().nullable(),
     total_amount: z.any(),
 });
 export const InvoiceableItemReasonSchema = z.object({

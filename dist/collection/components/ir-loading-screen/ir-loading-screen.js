@@ -2,7 +2,7 @@ import { h } from "@stencil/core";
 export class IrLoadingScreen {
     message = '';
     render() {
-        return (h("div", { key: 'd3b04c8d0bbf60806b34242d790a01df38cf2430', class: "loader__container" }, h("wa-spinner", { key: '933a78960958ea91cfe92cbc4161bf4bea8731e6', style: { fontSize: '2.5rem' } })));
+        return (h("div", { key: '100feff23fd91de910ba78570b9d39b01faaf42a', class: "loader__container" }, h("wa-spinner", { key: '77ad70e8f950625f940256ec4d969d27a6602120', style: { fontSize: '2.5rem' } })));
     }
     static get is() { return "ir-loading-screen"; }
     static get encapsulation() { return "scoped"; }

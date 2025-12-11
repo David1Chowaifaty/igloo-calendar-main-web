@@ -48,6 +48,7 @@ export declare class IrInvoiceForm {
     toBeInvoicedItems: InvoiceableItem[];
     invoiceDate: Moment;
     notInvoiceableItemKeys: Set<number>;
+    private splitDisabledKeys;
     /**
      * Emitted when the invoice drawer is opened.
      *

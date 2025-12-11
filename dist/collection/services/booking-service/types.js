@@ -95,6 +95,20 @@ export const DoBookingExtraServicePropsSchema = z.object({
     booking_nbr: NumberOrStringSchema,
     is_remove: z.boolean(),
 });
+/*Arrivals */
+export const GetRoomsToCheckInPropsSchema = z.object({
+    property_id: z.string(),
+    check_in_date: z.string(),
+    page_index: z.number().default(1),
+    page_size: z.number().default(10),
+});
+/*Departures */
+export const GetRoomsToCheckOutPropsSchema = z.object({
+    property_id: z.string(),
+    check_out_date: z.string(),
+    page_index: z.number().default(1),
+    page_size: z.number().default(10),
+});
 /* INVOICE TYPES */
 export const GetBookingInvoiceInfoPropsSchema = z.object({
     booking_nbr: z.string().optional(),
@@ -120,5 +134,7 @@ export const IssueInvoicePropsSchema = z.object({
 });
 export const PrintInvoicePropsSchema = z.object({
     invoice_nbr: z.string().optional(),
+    mode: z.enum(['invoice', 'creditnote', 'proforma']),
+    invoice: InvoiceSchema.optional(),
 });
 //# sourceMappingURL=types.js.map
