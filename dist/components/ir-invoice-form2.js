@@ -11,7 +11,7 @@ import { d as defineCustomElement$3 } from './ir-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
+const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__room-info.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  padding: 0.5rem;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n  align-items: center;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
 const IrInvoiceFormStyle0 = irInvoiceFormCss;
 
 const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm extends HTMLElement {
@@ -296,6 +296,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 is_proforma: isProforma,
                 invoice,
             });
+            this.invoiceCreated.emit({ invoice });
             this.invoiceClose.emit();
         }
         catch (error) {
@@ -399,6 +400,17 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         }
         return { groups: grouped, indexById, hasSplitGroups: true };
     }
+    getDateView(fromDate, toDate) {
+        if (!fromDate) {
+            return;
+        }
+        const from_date = hooks(fromDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
+        if (!toDate) {
+            return h("span", null, from_date);
+        }
+        const to_date = hooks(toDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
+        return (h("span", null, from_date, " ", h("wa-icon", { name: "arrow-right" }), " ", to_date));
+    }
     renderRooms() {
         const rooms = this.booking?.rooms ?? [];
         if (!rooms.length || !this.invoicableKey?.size) {
@@ -417,7 +429,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                         const value = e.target.checked;
                         this.handleCheckChange({ checked: value, system_id: room.system_id });
-                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container' }, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
+                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingLeft: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
                 // {this.renderRoomItem(room, indexById.get(room.identifier) ?? idx)}
                 // {idx < groupRooms.length - 1 ? <wa-divider></wa-divider> : null}
                 );
@@ -437,7 +449,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 if (!this.canInvoiceRoom(room)) {
                     return null;
                 }
-                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total))));
+                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { class: "ir-invoice__room-info" }, h("p", null, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total))));
             })))));
         });
     }
@@ -499,7 +511,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
-            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
     }
     render() {
         if (this.isLoading) {
@@ -523,7 +535,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
-                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, extra_service.description), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
+                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
         }))))));
     }
     static get watchers() { return {

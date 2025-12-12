@@ -4401,6 +4401,6 @@ var z = /*#__PURE__*/Object.freeze({
     ZodError: ZodError
 });
 
-export { ZodError as Z, arrayType as a, booleanType as b, custom as c, anyType as d, enumType as e, ZodIssueCode as f, numberType as n, objectType as o, stringType as s, unionType as u, z };
+export { ZodError as Z, arrayType as a, booleanType as b, custom as c, nullType as d, enumType as e, anyType as f, ZodIssueCode as g, numberType as n, objectType as o, stringType as s, unionType as u, z };
 
 //# sourceMappingURL=index3.js.map

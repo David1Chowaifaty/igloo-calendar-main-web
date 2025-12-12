@@ -1,4 +1,3 @@
-import { TSourceOption } from "../../../models/igl-book-property";
 export declare class IglBookPropertyService {
     private variationService;
     setBookingInfoFromAutoComplete(context: any, res: any): void;
@@ -12,9 +11,8 @@ export declare class IglBookPropertyService {
     private calculateAmount;
     private generateDailyRates;
     private getBookedRooms;
-    prepareBookUserServiceParams({ context, sourceOption, check_in }: {
+    prepareBookUserServiceParams({ context, check_in }: {
         context: any;
-        sourceOption: TSourceOption;
         check_in: boolean;
     }): Promise<any>;
     private getRoomCategoryByRoomId;

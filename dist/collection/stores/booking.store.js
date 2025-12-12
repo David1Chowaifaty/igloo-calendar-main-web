@@ -1,5 +1,20 @@
 import { createStore } from "@stencil/store";
+import moment from "moment";
 const initialState = {
+    bookingDraft: {
+        dates: {
+            checkIn: moment().startOf('day'),
+            checkOut: moment().add(1, 'day'),
+        },
+        occupancy: {
+            adults: null,
+            children: null,
+        },
+        source: null,
+    },
+    selects: {
+        sources: [],
+    },
     checkout_guest: null,
     guest: null,
     tax_statement: null,
@@ -21,8 +36,33 @@ const initialState = {
     event_type: { type: 'PLUS_BOOKING' },
 };
 export let { state: booking_store, onChange: onRoomTypeChange, reset } = createStore(initialState);
-export function resetBookingStore() {
+export function resetBookingStore(closeModal) {
+    const { bookingDraft, selects } = booking_store;
     reset();
+    if (!closeModal) {
+        setBookingDraft(bookingDraft);
+        setBookingSelectOptions(selects);
+    }
+}
+export function setBookingDraft(params) {
+    booking_store.bookingDraft = {
+        ...booking_store.bookingDraft,
+        ...params,
+        dates: {
+            ...booking_store.bookingDraft.dates,
+            ...params.dates,
+        },
+        occupancy: {
+            ...booking_store.bookingDraft.occupancy,
+            ...params.occupancy,
+        },
+    };
+}
+export function setBookingSelectOptions(params) {
+    booking_store.selects = {
+        ...booking_store.selects,
+        ...params,
+    };
 }
 function checkVariation(variations, selected_variation) {
     if (!variations) {

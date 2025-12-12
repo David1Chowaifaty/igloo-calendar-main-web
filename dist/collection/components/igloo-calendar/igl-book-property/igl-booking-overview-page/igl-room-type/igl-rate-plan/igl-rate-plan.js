@@ -78,7 +78,7 @@ export class IglRatePlan {
         });
     }
     // Render the rate amount
-    renderRate() {
+    get rate() {
         const { visibleInventory } = this;
         if (!visibleInventory)
             return '';
@@ -86,7 +86,7 @@ export class IglRatePlan {
             return visibleInventory.rp_amount.toString();
         }
         const { selected_variation, view_mode } = visibleInventory;
-        const amount = view_mode === '001' ? selected_variation?.discounted_amount : selected_variation?.amount_per_night_gross;
+        const amount = view_mode === '001' ? selected_variation?.discounted_gross_amount : selected_variation?.amount_per_night_gross;
         return amount?.toString() || '';
     }
     // Format variation for display
@@ -142,13 +142,13 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '960a305ffdad3d31dc1a9b0de3fb5962152b8cfc', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: 'f4706af6c4d7467efdd77bc1cd551ca6a0e935dc', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '005bf4e0168a986fc0d6e0d21b947a7b44892052', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '046235fcbf7d77d50adea8e38543dbc4651003d7' }, h("wa-tooltip", { key: 'df106a978da0ff4efdf877451dfe7bfd4048cb2a', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'b0dc214cce4676c16fe35e2479834e12e61e016e', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '5fdf475b96ce5fef8dea0522ff921ebae6af972e', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '434b7987f795969b0e5ac098dea19a014b621347', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: 'fcc293adf2fd945df6893394e8797e2af70cee78', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: 'e7bf6223f670015e79b1c4cf5f9ebb08a3b1cc1c', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: 'd066286b54e463c21d3d483d35c03cbcadc1b155' }, h("wa-tooltip", { key: 'c2d3201eea5411b1a6812a9e88d54c1cf8707ffe', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'c657e140101200ba29beb17103b1e7c31ab27281', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: 'b418799061151a6cc5abadd8749650139f3406b7', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
                 is_amount_modified: true,
                 rp_amount: Number(e.detail),
-            }), "aria-label": `${this.visibleInventory?.roomtype?.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, value: this.renderRate(), placeholder: locales.entries.Lcz_Rate || 'Rate', mask: "price" }, h("span", { slot: "start" }, currency.symbol)), h("wa-select", { "data-testid": 'nigh_stay_select', disabled: disableForm, "onwa-hide": e => {
+            }), id: `rate-input-${this.ratePlan.id}`, "aria-label": `${this.visibleInventory?.roomtype?.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, value: this.rate, defaultValue: this.rate, placeholder: locales.entries.Lcz_Rate || 'Rate', mask: "price" }, h("span", { slot: "start" }, currency.symbol)), h("wa-select", { "data-testid": 'nigh_stay_select', disabled: disableForm, "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, size: "small", class: "fd-rateplan__nights-select", id: uuidv4(), onchange: evt => this.updateRateplanSelection({

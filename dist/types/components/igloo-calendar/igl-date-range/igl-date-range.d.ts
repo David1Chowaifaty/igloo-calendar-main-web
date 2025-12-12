@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { IToast } from "../../ui/ir-toast/toast";
 export declare class IglDateRange {
+    size: 'small' | 'medium' | 'large';
     defaultData: {
         [key: string]: any;
     };
@@ -18,14 +19,12 @@ export declare class IglDateRange {
     private totalNights;
     private fromDate;
     private toDate;
-    private fromDateStr;
-    private toDateStr;
     componentWillLoad(): void;
     handleDataChange(newValue: any, oldValue: any): void;
     private initializeDates;
     private calculateTotalNights;
-    private getFormattedDateString;
     private handleDateSelectEvent;
     private handleDateChange;
+    private renderDateSummary;
     render(): any;
 }

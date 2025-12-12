@@ -2,7 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
+import { ExposedGuests, GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -157,7 +157,7 @@ export declare class BookingService {
     getExposedBooking(booking_nbr: string, language: string, withExtras?: boolean): Promise<Booking>;
     private generateDays;
     private calculateTotalRate;
-    fetchExposedGuest(email: string, property_id: number): Promise<any>;
+    fetchExposedGuest(email: string, property_id: number): Promise<ExposedGuests>;
     fetchExposedBookings(booking_nbr: string, property_id: number, from_date: string, to_date: string): Promise<any>;
     getPCICardInfoURL(BOOK_NBR: string): Promise<any>;
     doReservation(body: any): Promise<any>;

@@ -174,7 +174,7 @@ export class IglBookPropertyService {
         }
         return rooms;
     }
-    async prepareBookUserServiceParams({ context, sourceOption, check_in }) {
+    async prepareBookUserServiceParams({ context, check_in }) {
         try {
             // Validate context structure
             if (!context || !context.dateRangeData) {
@@ -211,6 +211,8 @@ export class IglBookPropertyService {
                 };
             };
             let newBooking = null;
+            const sourceOption = booking_store.bookingDraft.source;
+            console.log({ sourceOption });
             console.log({ event_type: context.defaultData.event_type, defaultData: context.defaultData });
             switch (context.defaultData.event_type) {
                 case 'EDIT_BOOKING': {

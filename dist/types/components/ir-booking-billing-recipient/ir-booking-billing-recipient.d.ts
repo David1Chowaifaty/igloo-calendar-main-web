@@ -12,5 +12,6 @@ export declare class IrBookingBillingRecipient {
     private initializeDefaultValue;
     private handleRecipientChange;
     private filterRoomGuests;
+    handleBookingRecipient(): void;
     render(): any;
 }

@@ -15,8 +15,8 @@ export declare const guestInfoFormSchema: z.ZodObject<{
     first_name?: string;
     last_name?: string;
     country_id?: number;
-    country_phone_prefix?: string;
     alternative_email?: string;
+    country_phone_prefix?: string;
 }, {
     email?: string;
     mobile?: string;
@@ -24,7 +24,7 @@ export declare const guestInfoFormSchema: z.ZodObject<{
     first_name?: string;
     last_name?: string;
     country_id?: number;
-    country_phone_prefix?: string;
     alternative_email?: string;
+    country_phone_prefix?: string;
 }>;
 export type GuestInfoFormValues = z.infer<typeof guestInfoFormSchema>;

@@ -11,7 +11,7 @@ import { ICurrency } from "./models/calendarData";
 import { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 import { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 import { IToast } from "./components/ui/ir-toast/toast";
-import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
+import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
 import { CalendarModalEvent, IReallocationPayload, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
 import { IPageTwoDataUpdateProps } from "./models/models";
@@ -45,6 +45,7 @@ import { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-in
 import { FactoryArg } from "imask";
 import { ZodType, ZodTypeAny } from "zod";
 import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
+import { IssueInvoiceProps } from "./services/booking-service/types";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
@@ -68,7 +69,7 @@ export { ICurrency } from "./models/calendarData";
 export { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 export { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
 export { IToast } from "./components/ui/ir-toast/toast";
-export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes, TSourceOptions } from "./models/igl-book-property";
+export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
 export { CalendarModalEvent, IReallocationPayload, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
 export { IPageTwoDataUpdateProps } from "./models/models";
@@ -102,6 +103,7 @@ export { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-in
 export { FactoryArg } from "imask";
 export { ZodType, ZodTypeAny } from "zod";
 export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
+export { IssueInvoiceProps } from "./services/booking-service/types";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
@@ -172,7 +174,6 @@ export namespace Components {
     }
     interface IglBookPropertyHeader {
         "adultChildConstraints": TAdultChildConstraints1;
-        "adultChildCount": { adult: number; child: number };
         "bookedByInfoData": any;
         "bookingData": any;
         "bookingDataDefaultDateRange": { [key: string]: any };
@@ -182,7 +183,6 @@ export namespace Components {
         "minDate": string;
         "propertyId": number;
         "showSplitBookingOption": boolean;
-        "sourceOptions": TSourceOptions[];
         "splitBookingId": any;
         "splitBookings": any[];
         "wasBlockedUnit": boolean;
@@ -221,7 +221,6 @@ export namespace Components {
     }
     interface IglBookingOverviewPage {
         "adultChildConstraints": TAdultChildConstraints1;
-        "adultChildCount": { adult: number; child: number };
         "bookedByInfoData": any;
         "bookingData": any;
         "currency": any;
@@ -234,7 +233,6 @@ export namespace Components {
         "ratePricingMode": any;
         "selectedRooms": Map<string, Map<string, any>>;
         "showSplitBookingOption": boolean;
-        "sourceOptions": TSourceOptions[];
         "wasBlockedUnit": boolean;
     }
     interface IglBulkBlock {
@@ -279,6 +277,7 @@ export namespace Components {
         "disabled": boolean;
         "maxDate": string;
         "minDate": string;
+        "size": 'small' | 'medium' | 'large';
         "variant": 'booking' | 'default';
         "withDateDifference": boolean;
     }
@@ -508,6 +507,7 @@ export namespace Components {
     }
     interface IrBookingCompanyDialog {
         "booking": Booking;
+        "closeCompanyForm": () => Promise<void>;
         "openCompanyForm": () => Promise<void>;
     }
     interface IrBookingCompanyForm {
@@ -2347,7 +2347,7 @@ export namespace Components {
         "appearance": NativeWaInput['appearance'];
         "close": () => Promise<void>;
         /**
-          * Delay (in milliseconds) before filtering results after user input.
+          * Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode.
          */
         "debounce": number;
         /**
@@ -2359,7 +2359,7 @@ export namespace Components {
          */
         "label"?: string;
         "loading": boolean;
-        "mode": 'select' | 'default';
+        "mode": 'select' | 'default' | 'select-async';
         "open": () => Promise<void>;
         "pill": boolean;
         /**
@@ -2374,6 +2374,11 @@ export namespace Components {
           * Selected value (also shown in the input when `mode="select"`).
          */
         "value": string;
+        /**
+          * Whether to show a clear button inside the input. When clicked, the input value is cleared and the `combobox-clear` event is emitted.
+          * @default false
+         */
+        "withClear": boolean;
     }
     interface IrPickerItem {
         "active": boolean;
@@ -3809,8 +3814,6 @@ declare global {
     };
     interface HTMLIglBookPropertyHeaderElementEventMap {
         "splitBookingDropDownChange": any;
-        "sourceDropDownChange": string;
-        "adultChild": any;
         "checkClicked": any;
         "buttonClicked": { key: TPropertyButtonsTypes };
         "toast": IToast;
@@ -5420,13 +5423,7 @@ declare global {
     interface HTMLIrInvoiceFormElementEventMap {
         "invoiceOpen": void;
         "invoiceClose": void;
-        "invoiceCreated": {
-    booking: Booking;
-    recipientId: string;
-    for: 'room' | 'booking';
-    roomIdentifier?: string;
-    mode: 'create' | 'check_out-create';
-  };
+        "invoiceCreated": IssueInvoiceProps;
         "loadingChange": boolean;
     }
     interface HTMLIrInvoiceFormElement extends Components.IrInvoiceForm, HTMLStencilElement {
@@ -5912,6 +5909,7 @@ declare global {
     interface HTMLIrPickerElementEventMap {
         "combobox-select": IrComboboxSelectEventDetail;
         "text-change": string;
+        "combobox-clear": void;
     }
     interface HTMLIrPickerElement extends Components.IrPicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPickerElementEventMap>(type: K, listener: (this: HTMLIrPickerElement, ev: IrPickerCustomEvent<HTMLIrPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -6921,7 +6919,6 @@ declare namespace LocalJSX {
     }
     interface IglBookPropertyHeader {
         "adultChildConstraints"?: TAdultChildConstraints1;
-        "adultChildCount"?: { adult: number; child: number };
         "bookedByInfoData"?: any;
         "bookingData"?: any;
         "bookingDataDefaultDateRange"?: { [key: string]: any };
@@ -6929,17 +6926,14 @@ declare namespace LocalJSX {
         "defaultDaterange"?: { from_date: string; to_date: string };
         "message"?: string;
         "minDate"?: string;
-        "onAdultChild"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "onAnimateIrSelect"?: (event: IglBookPropertyHeaderCustomEvent<string>) => void;
         "onButtonClicked"?: (event: IglBookPropertyHeaderCustomEvent<{ key: TPropertyButtonsTypes }>) => void;
         "onCheckClicked"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
-        "onSourceDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<string>) => void;
         "onSpiltBookingSelected"?: (event: IglBookPropertyHeaderCustomEvent<{ key: string; data: unknown }>) => void;
         "onSplitBookingDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "onToast"?: (event: IglBookPropertyHeaderCustomEvent<IToast>) => void;
         "propertyId"?: number;
         "showSplitBookingOption"?: boolean;
-        "sourceOptions"?: TSourceOptions[];
         "splitBookingId"?: any;
         "splitBookings"?: any[];
         "wasBlockedUnit"?: boolean;
@@ -6997,7 +6991,6 @@ declare namespace LocalJSX {
     }
     interface IglBookingOverviewPage {
         "adultChildConstraints"?: TAdultChildConstraints1;
-        "adultChildCount"?: { adult: number; child: number };
         "bookedByInfoData"?: any;
         "bookingData"?: any;
         "currency"?: any;
@@ -7011,7 +7004,6 @@ declare namespace LocalJSX {
         "ratePricingMode"?: any;
         "selectedRooms"?: Map<string, Map<string, any>>;
         "showSplitBookingOption"?: boolean;
-        "sourceOptions"?: TSourceOptions[];
         "wasBlockedUnit"?: boolean;
     }
     interface IglBulkBlock {
@@ -7075,6 +7067,7 @@ declare namespace LocalJSX {
         "minDate"?: string;
         "onDateSelectEvent"?: (event: IglDateRangeCustomEvent<{ [key: string]: any }>) => void;
         "onToast"?: (event: IglDateRangeCustomEvent<IToast>) => void;
+        "size"?: 'small' | 'medium' | 'large';
         "variant"?: 'booking' | 'default';
         "withDateDifference"?: boolean;
     }
@@ -8787,13 +8780,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when an invoice is created/confirmed.  The event `detail` contains: - `booking`: the booking associated with the invoice - `recipientId`: the selected billing recipient - `for`: whether the invoice is for `"room"` or `"booking"` - `roomIdentifier`: the room identifier when invoicing a specific room - `mode`: the current invoice mode
          */
-        "onInvoiceCreated"?: (event: IrInvoiceFormCustomEvent<{
-    booking: Booking;
-    recipientId: string;
-    for: 'room' | 'booking';
-    roomIdentifier?: string;
-    mode: 'create' | 'check_out-create';
-  }>) => void;
+        "onInvoiceCreated"?: (event: IrInvoiceFormCustomEvent<IssueInvoiceProps>) => void;
         /**
           * Emitted when the invoice drawer is opened.  Fired when `openDrawer()` is called and the component transitions into the open state.
          */
@@ -9414,7 +9401,7 @@ declare namespace LocalJSX {
          */
         "appearance"?: NativeWaInput['appearance'];
         /**
-          * Delay (in milliseconds) before filtering results after user input.
+          * Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode.
          */
         "debounce"?: number;
         /**
@@ -9426,7 +9413,11 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         "loading"?: boolean;
-        "mode"?: 'select' | 'default';
+        "mode"?: 'select' | 'default' | 'select-async';
+        /**
+          * Emitted when the clear button is clicked and the combobox value is cleared.
+         */
+        "onCombobox-clear"?: (event: IrPickerCustomEvent<void>) => void;
         /**
           * Emitted when a value is selected from the combobox list.
          */
@@ -9448,6 +9439,11 @@ declare namespace LocalJSX {
           * Selected value (also shown in the input when `mode="select"`).
          */
         "value"?: string;
+        /**
+          * Whether to show a clear button inside the input. When clicked, the input value is cleared and the `combobox-clear` event is emitted.
+          * @default false
+         */
+        "withClear"?: boolean;
     }
     interface IrPickerItem {
         "active"?: boolean;

@@ -3,7 +3,7 @@ import './IBooking.js';
 import { e as extras, g as getMyBookings, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, a as arrayType, e as enumType, c as custom, d as anyType } from './index3.js';
+import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, a as arrayType, e as enumType, c as custom, d as nullType, f as anyType } from './index3.js';
 
 const NumberOrStringSchema = unionType([numberType(), stringType().optional()]);
 const CurrencySchema$1 = objectType({
@@ -143,6 +143,29 @@ const PrintInvoicePropsSchema = objectType({
     mode: enumType(['invoice', 'creditnote', 'proforma']),
     invoice: InvoiceSchema$1.optional(),
 });
+const ExposedGuestSchema = objectType({
+    address: nullType(),
+    alternative_email: nullType(),
+    cci: nullType(),
+    city: nullType(),
+    country: nullType(),
+    country_id: numberType(),
+    country_phone_prefix: stringType(),
+    dob: nullType(),
+    email: stringType(),
+    first_name: stringType(),
+    id: numberType(),
+    id_info: nullType(),
+    is_main: booleanType(),
+    last_name: stringType(),
+    mobile: stringType(),
+    mobile_without_prefix: stringType(),
+    nbr_confirmed_bookings: numberType(),
+    notes: nullType(),
+    password: nullType(),
+    subscribe_to_news_letter: nullType(),
+});
+arrayType(ExposedGuestSchema);
 
 const CurrencySchema = objectType({
     code: stringType(),

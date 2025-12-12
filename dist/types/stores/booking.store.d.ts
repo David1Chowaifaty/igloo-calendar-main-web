@@ -1,6 +1,7 @@
 import { Booking, Guest } from "../models/booking.dto";
-import { TEventType } from "../models/igl-book-property";
+import { BookingSource, TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
+import { Moment } from 'moment';
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
@@ -54,6 +55,21 @@ export interface IBookinAvailabilityParams {
     loyalty?: boolean;
     agent_code?: string;
 }
+export interface BookingDraft {
+    dates: {
+        checkIn: Moment;
+        checkOut: Moment;
+    };
+    occupancy: {
+        adults: number;
+        children: number;
+    };
+    source: BookingSource;
+    guest?: any;
+}
+export interface BookingSelects {
+    sources: BookingSource[];
+}
 export interface BookingStore {
     tax_statement: {
         message: string;
@@ -78,9 +94,13 @@ export interface BookingStore {
     fictus_booking_nbr: {
         nbr: string | null;
     };
+    bookingDraft: BookingDraft;
+    selects: BookingSelects;
 }
 export declare let booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>, reset: () => void;
-export declare function resetBookingStore(): void;
+export declare function resetBookingStore(closeModal: boolean): void;
+export declare function setBookingDraft(params: Partial<BookingDraft>): void;
+export declare function setBookingSelectOptions(params: Partial<BookingSelects>): void;
 export declare function updateInventory(roomTypeId: number): void;
 export declare function updateRoomParams({ ratePlanId, roomTypeId, params }: {
     roomTypeId: number;

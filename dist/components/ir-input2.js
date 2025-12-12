@@ -74,7 +74,7 @@ const masks = {
     },
 };
 
-const irInputCss = ":host{display:block}";
+const irInputCss = ":host{display:block}wa-input[aria-invalid='true']::part(base){border-color:var(--wa-color-danger-border-loud);outline-color:var(--wa-color-danger-border-loud);border-width:2px}";
 const IrInputStyle0 = irInputCss;
 
 const IrInput = /*@__PURE__*/ proxyCustomElement(class IrInput extends HTMLElement {
@@ -228,7 +228,18 @@ const IrInput = /*@__PURE__*/ proxyCustomElement(class IrInput extends HTMLEleme
     handleAriaInvalidChange(e) {
         this.isValid = !JSON.parse(e);
     }
+    handleValueChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            if (this._mask && this.returnMaskedValue && this._mask.value !== newValue) {
+                this._mask.value = newValue;
+                this._mask.updateValue();
+            }
+        }
+    }
     handleInput = (nextValue) => {
+        if (nextValue === this.value) {
+            return;
+        }
         this.value = nextValue ?? '';
         this.textChange.emit(this.value);
     };
@@ -355,14 +366,15 @@ const IrInput = /*@__PURE__*/ proxyCustomElement(class IrInput extends HTMLEleme
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'cef743a49762f6e9f69f720543b108fed1b1e321' }, h("wa-input", { key: '26e2e3c7809c2c1460e92ce467b4cac712f30256', type: this.type, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, onchange: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: 'eb24e5bc2cec61603a388fceaa6cbab651913ba8', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'c5ed6dd09ee81abf661c2e986e8acf1c23fe4e31', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '8a49f2aa672d5a2435df229293b5d9c83155ddb0', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'e72f26b94cb14c9f33760d2fc3a5fb61e4aadb2e', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'ef3705278a366e37cad7c2e32b505e8809abb8c5', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'b0e56f3d128a06ff04bd859e47886ffe47bd5b1e', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '3b1f0518600aefed484d86f4504ea49e19a6282c', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'db7f6aa17fc95ad2757662a625ae86e93c80ca6d' }, h("wa-input", { key: '9d81dcc1d92c8787ab4a532e50573638671774b6', type: this.type, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, onchange: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: '47051ddfa01fb1d020f10f1b1c4accc757201195', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '6535922f04f7827d19c36ce060f2eeb40692adf1', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '5f6b7673336ee9afa732c40df9b87c6a95e8835e', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'db2f3bf619c36f7fddcbb42ec331597f9a250caf', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '540deea447c0f7ff8ec3e03a0ec42ec6bb190f76', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '6107c4f57e91aa189d723c5e385f92b37b3271d8', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: 'd9113c78960930cd36593003e6615cf1e2c29f9b', name: "hint", slot: "hint" }))));
     }
     static get watchers() { return {
         "disabled": ["handleDisabledChange"],
         "mask": ["handleMaskPropsChange"],
         "min": ["handleMaskPropsChange"],
         "max": ["handleMaskPropsChange"],
-        "aria-invalid": ["handleAriaInvalidChange"]
+        "aria-invalid": ["handleAriaInvalidChange"],
+        "value": ["handleValueChange"]
     }; }
     static get style() { return IrInputStyle0; }
 }, [1, "ir-input", {
@@ -408,7 +420,8 @@ const IrInput = /*@__PURE__*/ proxyCustomElement(class IrInput extends HTMLEleme
         "mask": ["handleMaskPropsChange"],
         "min": ["handleMaskPropsChange"],
         "max": ["handleMaskPropsChange"],
-        "aria-invalid": ["handleAriaInvalidChange"]
+        "aria-invalid": ["handleAriaInvalidChange"],
+        "value": ["handleValueChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

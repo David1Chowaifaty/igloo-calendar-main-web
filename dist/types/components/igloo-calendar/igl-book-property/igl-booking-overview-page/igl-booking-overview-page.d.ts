@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { TAdultChildConstraints, TSourceOptions } from '../../../../models/igl-book-property';
+import { TAdultChildConstraints } from '../../../../models/igl-book-property';
 export declare class IglBookingOverviewPage {
     bookingData: any;
     propertyId: number;
@@ -15,11 +15,6 @@ export declare class IglBookingOverviewPage {
         to_date: string;
     };
     selectedRooms: Map<string, Map<string, any>>;
-    adultChildCount: {
-        adult: number;
-        child: number;
-    };
-    sourceOptions: TSourceOptions[];
     bookedByInfoData: any;
     initialRoomIds: any;
     wasBlockedUnit: boolean;

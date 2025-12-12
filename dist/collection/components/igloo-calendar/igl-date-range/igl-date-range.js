@@ -3,6 +3,7 @@ import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import moment from "moment";
 export class IglDateRange {
+    size = 'small';
     defaultData;
     disabled = false;
     minDate;
@@ -16,8 +17,6 @@ export class IglDateRange {
     totalNights = 0;
     fromDate;
     toDate;
-    fromDateStr = 'from';
-    toDateStr = 'to';
     componentWillLoad() {
         this.initializeDates();
     }
@@ -27,38 +26,22 @@ export class IglDateRange {
         }
     }
     initializeDates() {
-        let dt = new Date();
-        dt.setHours(0, 0, 0, 0);
-        dt.setDate(dt.getDate() + 1);
         if (this.defaultData) {
             if (this.defaultData.fromDate) {
                 this.fromDate = new Date(this.defaultData.fromDate);
                 this.fromDate.setHours(0, 0, 0, 0);
-                this.fromDateStr = this.getFormattedDateString(this.fromDate);
             }
             if (this.defaultData.toDate) {
                 this.toDate = new Date(this.defaultData.toDate);
                 this.toDate.setHours(0, 0, 0, 0);
-                this.toDateStr = this.getFormattedDateString(this.toDate);
             }
         }
         if (this.fromDate && this.toDate) {
             this.calculateTotalNights();
-            // this.handleDateSelectEvent('selectedDateRange', {
-            //   fromDate: this.fromDate.getTime(),
-            //   toDate: this.toDate.getTime(),
-            //   fromDateStr: this.fromDateStr,
-            //   toDateStr: this.toDateStr,
-            //   dateDifference: this.totalNights,
-            // });
         }
-        return [this.fromDateStr, this.toDateStr];
     }
     calculateTotalNights() {
         this.totalNights = calculateDaysBetweenDates(moment(this.fromDate).format('YYYY-MM-DD'), moment(this.toDate).format('YYYY-MM-DD'));
-    }
-    getFormattedDateString(dt) {
-        return dt.getDate() + ' ' + dt.toLocaleString('default', { month: 'short' }).toLowerCase() + ' ' + dt.getFullYear();
     }
     handleDateSelectEvent(key, data = '') {
         this.dateSelectEvent.emit({ key, data });
@@ -77,18 +60,23 @@ export class IglDateRange {
         });
         this.renderAgain = !this.renderAgain;
     }
+    renderDateSummary(showNights) {
+        const fromDateDisplay = moment(this.fromDate).format('MMM DD, YYYY');
+        const toDateDisplay = moment(this.toDate).format('MMM DD, YYYY');
+        const shouldRenderNights = showNights && this.totalNights > 0;
+        return (h("div", { class: {
+                'date-range-display': true,
+                'date-range-display--disabled': this.disabled,
+            } }, h("wa-icon", { variant: "regular", name: "calendar" }), h("span", { class: "date-range-date" }, fromDateDisplay), h("wa-icon", { name: "arrow-right" }), h("span", { class: "date-range-date" }, toDateDisplay), shouldRenderNights && (h("span", { class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+    }
     render() {
-        if (this.variant === 'booking') {
-            return (h("div", { class: `p-0 m-0 date-range-container-cn` }, h("ir-date-range", { maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
-                    this.handleDateChange(evt);
-                } }), h("div", { class: `d-flex align-items-center m-0  date-range-container ${this.disabled ? 'disabled' : ''}` }, h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("span", null, moment(this.fromDate).format('MMM DD, YYYY')), h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", null, moment(this.toDate).format('MMM DD, YYYY')), this.totalNights && h("span", { class: "m-0 p-0" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
-        }
-        return (h(Host, null, h("div", { class: `p-0 m-0 date-range-container-cn` }, h("ir-date-range", { maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
+        const showNights = this.variant === 'booking' && this.withDateDifference;
+        return (h(Host, { key: 'accf2f45167fba8d7d3795b18c1ded2cd4ca829f', size: this.size }, h("div", { key: '9f1e4a253495e256ac1e691d9e81dafbc351a6de', class: `date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}` }, h("ir-date-range", { key: 'c284c81d0acdc5435ce080703d65b78aa6778f6d', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
                 this.handleDateChange(evt);
-            } }), h("div", { class: `d-flex align-items-center m-0  date-range-container ${this.disabled ? 'disabled' : ''}` }, h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 448 512" }, h("path", { fill: "currentColor", d: "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z" })), h("span", null, moment(this.fromDate).format('MMM DD, YYYY')), h("svg", { xmlns: "http://www.w3.org/2000/svg", class: "m-0 p-0", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", null, moment(this.toDate).format('MMM DD, YYYY'))))));
+            } }), this.renderDateSummary(showNights))));
     }
     static get is() { return "igl-date-range"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["igl-date-range.css"]
@@ -101,6 +89,26 @@ export class IglDateRange {
     }
     static get properties() {
         return {
+            "size": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'small' | 'medium' | 'large'",
+                    "resolved": "\"large\" | \"medium\" | \"small\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "size",
+                "reflect": true,
+                "defaultValue": "'small'"
+            },
             "defaultData": {
                 "type": "unknown",
                 "mutable": false,

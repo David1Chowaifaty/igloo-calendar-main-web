@@ -9,7 +9,7 @@ export class IrBookingStatusTag {
         '004': 'danger',
     };
     render() {
-        return (h("wa-badge", { key: 'f2620ba8057b63312a921905c79a2a839f96f177', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
+        return (h("wa-badge", { key: '96860a2712edc402b21caecfb5f92d3f43d23987', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
     }
     static get is() { return "ir-booking-status-tag"; }
     static get encapsulation() { return "scoped"; }

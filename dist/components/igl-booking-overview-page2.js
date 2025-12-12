@@ -32,8 +32,6 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
     dateRangeData;
     defaultDaterange;
     selectedRooms;
-    adultChildCount;
-    sourceOptions;
     bookedByInfoData;
     initialRoomIds;
     wasBlockedUnit;
@@ -56,9 +54,9 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
         return from_date.add(-2, 'weeks').format('YYYY-MM-DD');
     }
     render() {
-        return (h(Host, { key: '7ab414d7ae91e64e64df4b4272c2697ae766748f' }, h("igl-book-property-header", { key: 'd36d433898a8a78187aa4e3b923544b5f641bb9d', wasBlockedUnit: this.wasBlockedUnit, bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
+        return (h(Host, { key: '3884f8b2b1f994da7b2f3f70a23495c61f7e5326' }, h("igl-book-property-header", { key: 'ecaae8731acfde9a82292167e588af2daa541e6a', wasBlockedUnit: this.wasBlockedUnit, bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
             // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
-            adultChildCount: this.adultChildCount, splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, sourceOptions: this.sourceOptions, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'b87ca16843fc9980f1f17e928a3803782ab6f9c3', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }))))))));
+            splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'f77faa2f596ed2384677a46033b56a4b9bec4105', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }))))))));
     }
     static get style() { return IglBookingOverviewPageStyle0; }
 }, [2, "igl-booking-overview-page", {
@@ -73,8 +71,6 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
         "dateRangeData": [8, "date-range-data"],
         "defaultDaterange": [16],
         "selectedRooms": [16],
-        "adultChildCount": [16],
-        "sourceOptions": [16],
         "bookedByInfoData": [8, "booked-by-info-data"],
         "initialRoomIds": [8, "initial-room-ids"],
         "wasBlockedUnit": [4, "was-blocked-unit"]

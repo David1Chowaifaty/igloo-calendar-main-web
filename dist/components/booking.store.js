@@ -1,6 +1,21 @@
 import { c as createStore } from './index2.js';
+import { h as hooks } from './moment.js';
 
 const initialState = {
+    bookingDraft: {
+        dates: {
+            checkIn: hooks().startOf('day'),
+            checkOut: hooks().add(1, 'day'),
+        },
+        occupancy: {
+            adults: null,
+            children: null,
+        },
+        source: null,
+    },
+    selects: {
+        sources: [],
+    },
     checkout_guest: null,
     guest: null,
     tax_statement: null,
@@ -22,8 +37,33 @@ const initialState = {
     event_type: { type: 'PLUS_BOOKING' },
 };
 let { state: booking_store, onChange: onRoomTypeChange, reset } = createStore(initialState);
-function resetBookingStore() {
+function resetBookingStore(closeModal) {
+    const { bookingDraft, selects } = booking_store;
     reset();
+    if (!closeModal) {
+        setBookingDraft(bookingDraft);
+        setBookingSelectOptions(selects);
+    }
+}
+function setBookingDraft(params) {
+    booking_store.bookingDraft = {
+        ...booking_store.bookingDraft,
+        ...params,
+        dates: {
+            ...booking_store.bookingDraft.dates,
+            ...params.dates,
+        },
+        occupancy: {
+            ...booking_store.bookingDraft.occupancy,
+            ...params.occupancy,
+        },
+    };
+}
+function setBookingSelectOptions(params) {
+    booking_store.selects = {
+        ...booking_store.selects,
+        ...params,
+    };
 }
 function checkVariation(variations, selected_variation) {
     if (!variations) {
@@ -228,6 +268,6 @@ function resetReserved() {
     booking_store.ratePlanSelections = { ...updatedSelections };
 }
 
-export { resetBookingStore as a, booking_store as b, calculateTotalRooms as c, reserveRooms as d, getVisibleInventory as g, modifyBookingStore as m, resetReserved as r, updateRoomParams as u };
+export { setBookingSelectOptions as a, booking_store as b, calculateTotalRooms as c, resetBookingStore as d, reserveRooms as e, getVisibleInventory as g, modifyBookingStore as m, resetReserved as r, setBookingDraft as s, updateRoomParams as u };
 
 //# sourceMappingURL=booking.store.js.map

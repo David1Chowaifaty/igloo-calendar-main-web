@@ -26,7 +26,7 @@ const IrCheckBoxes = /*@__PURE__*/ proxyCustomElement(class IrCheckBoxes extends
         }
     }
     render() {
-        return (h("div", { key: 'a10889227bc959ee4bae2499e083833c12535a85' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (h("div", { key: '5cc54f724ee91f454e6f9aaad40fd05eae6fd394' }, this.checkboxes.map((checkbox, index) => (h("ir-checkbox", { name: index.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 }, [0, "ir-checkboxes", {
         "checkboxes": [16]

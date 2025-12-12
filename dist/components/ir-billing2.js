@@ -137,7 +137,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedInvoice = null;
-            } }, h("p", null, "Confirm that you want to void this invoice and generate a corresponding credit note."), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { loading: this.isLoading === 'void', onClickHandler: this.voidInvoice.bind(this), size: "medium", variant: "danger" }, "Confirm")))));
+            } }, h("p", null, "Void invoice ", this.selectedInvoice, " by generating a credit note?"), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { loading: this.isLoading === 'void', onClickHandler: this.voidInvoice.bind(this), size: "medium", variant: "danger" }, "Confirm")))));
     }
     static get style() { return IrBillingStyle0 + IrBillingStyle1; }
 }, [2, "ir-billing", {

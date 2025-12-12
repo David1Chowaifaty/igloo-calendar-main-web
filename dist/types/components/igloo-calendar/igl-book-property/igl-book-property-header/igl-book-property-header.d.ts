@@ -1,12 +1,11 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { TAdultChildConstraints, TPropertyButtonsTypes, TSourceOptions } from '../../../../models/igl-book-property';
+import { TAdultChildConstraints, TPropertyButtonsTypes } from '../../../../models/igl-book-property';
 import { IToast } from "../../../ui/ir-toast/toast";
 import { Booking } from "../../../../models/booking.dto";
 export declare class IglBookPropertyHeader {
     splitBookingId: any;
     bookingData: any;
     minDate: string;
-    sourceOptions: TSourceOptions[];
     message: string;
     bookingDataDefaultDateRange: {
         [key: string]: any;
@@ -14,10 +13,6 @@ export declare class IglBookPropertyHeader {
     showSplitBookingOption: boolean;
     adultChildConstraints: TAdultChildConstraints;
     splitBookings: any[];
-    adultChildCount: {
-        adult: number;
-        child: number;
-    };
     dateRangeData: any;
     bookedByInfoData: any;
     defaultDaterange: {
@@ -29,8 +24,6 @@ export declare class IglBookPropertyHeader {
     isLoading: boolean;
     bookings: Booking[];
     splitBookingDropDownChange: EventEmitter<any>;
-    sourceDropDownChange: EventEmitter<string>;
-    adultChild: EventEmitter<any>;
     checkClicked: EventEmitter<any>;
     buttonClicked: EventEmitter<{
         key: TPropertyButtonsTypes;
@@ -42,12 +35,10 @@ export declare class IglBookPropertyHeader {
     }>;
     animateIrSelect: EventEmitter<string>;
     private bookingService;
-    private sourceOption;
     adultAnimationContainer: any;
     private fetchExposedBookings;
     private getSplitBookingList;
     private getSourceNode;
-    private handleAdultChildChange;
     private getAdultChildConstraints;
     private renderChildCaption;
     private handleButtonClicked;

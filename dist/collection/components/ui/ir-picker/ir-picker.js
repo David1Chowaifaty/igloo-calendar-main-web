@@ -1,4 +1,5 @@
 import { h, Host } from "@stencil/core";
+const DEFAULT_ASYNC_DEBOUNCE = 300;
 export class IrPicker {
     /** Selected value (also shown in the input when `mode="select"`). */
     value = '';
@@ -11,11 +12,18 @@ export class IrPicker {
     label;
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue;
+    /**
+     * Whether to show a clear button inside the input.
+     * When clicked, the input value is cleared and the `combobox-clear` event is emitted.
+     *
+     * @default false
+     */
+    withClear = false;
     /** The input's size. */
     size = 'small';
     /** The input's visual appearance. */
     appearance;
-    /** Delay (in milliseconds) before filtering results after user input. */
+    /** Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode. */
     debounce = 0;
     static idCounter = 0;
     componentId = ++IrPicker.idCounter;
@@ -37,6 +45,8 @@ export class IrPicker {
     comboboxSelect;
     /** Emitted when the text input value changes. */
     textChange;
+    /** Emitted when the clear button is clicked and the combobox value is cleared. */
+    comboboxClear;
     componentWillLoad() {
         const hostItems = Array.from(this.hostEl?.querySelectorAll('ir-picker-item') ?? []);
         if (hostItems.length) {
@@ -51,6 +61,12 @@ export class IrPicker {
             this.nativeInput = this.inputRef.input;
         }
         this.applyAriaAttributes();
+    }
+    disconnectedCallback() {
+        if (this.debounceTimer) {
+            window.clearTimeout(this.debounceTimer);
+            this.debounceTimer = undefined;
+        }
     }
     async open() {
         if (this.isOpen) {
@@ -105,7 +121,7 @@ export class IrPicker {
     handleValueChange(newValue) {
         this.updateSelectedFromValue(newValue);
         this.syncQueryWithValue(newValue);
-        if (this.mode === 'select') {
+        if (['select-async', 'select'].includes(this.mode)) {
             this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
     }
@@ -122,6 +138,9 @@ export class IrPicker {
     };
     handleInputFocus = () => {
         if (!this.isOpen) {
+            if (this.mode === 'select-async' && !this.query) {
+                return;
+            }
             this.open();
         }
     };
@@ -166,55 +185,67 @@ export class IrPicker {
                 break;
         }
     };
-    /** Applies the filter after the debounce delay and emits text-change when requested. */
+    /** Applies the filter and optionally emits a debounced text-change event. */
     applyFilter(value, options = {}) {
-        // Clear any pending debounce run
-        if (this.debounceTimer) {
-            clearTimeout(this.debounceTimer);
+        const { updateQuery = true, emitEvent = true } = options;
+        if (updateQuery) {
+            this.query = value;
         }
-        const runFilter = () => {
-            const { updateQuery = true, emitEvent = true } = options;
-            // Emit AFTER debounce only when caller requested it.
-            if (emitEvent) {
-                this.textChange.emit(value);
+        const normalizedQuery = value.trim().toLowerCase();
+        const items = this.slottedPickerItems;
+        const filtered = normalizedQuery ? items.filter(item => this.matchesQuery(item, normalizedQuery)) : [...items];
+        const previousActiveItem = this.activeIndex >= 0 ? this.filteredItems[this.activeIndex] : undefined;
+        this.filteredItems = filtered;
+        this.updateItemVisibility(filtered);
+        let nextIndex = previousActiveItem ? filtered.indexOf(previousActiveItem) : -1;
+        if (filtered.length === 0) {
+            this.activeIndex = -1;
+        }
+        else {
+            if (nextIndex === -1) {
+                nextIndex = this.findNearestEnabledIndex(0, 1);
             }
-            if (updateQuery) {
-                this.query = value;
-            }
-            const normalizedQuery = value.trim().toLowerCase();
-            const items = this.slottedPickerItems;
-            const filtered = normalizedQuery ? items.filter(item => this.matchesQuery(item, normalizedQuery)) : [...items];
-            const previousActiveItem = this.activeIndex >= 0 ? this.filteredItems[this.activeIndex] : undefined;
-            this.filteredItems = filtered;
-            this.updateItemVisibility(filtered);
-            let nextIndex = previousActiveItem ? filtered.indexOf(previousActiveItem) : -1;
-            if (filtered.length === 0) {
-                this.activeIndex = -1;
-            }
-            else {
-                if (nextIndex === -1) {
-                    nextIndex = this.findNearestEnabledIndex(0, 1);
-                }
-                this.activeIndex = nextIndex;
-            }
-            this.updateActiveItemIndicators();
-            const context = normalizedQuery ? `"${value.trim()}"` : undefined;
-            this.updateLiveRegion(filtered.length, context);
+            this.activeIndex = nextIndex;
+        }
+        this.updateActiveItemIndicators();
+        const context = normalizedQuery ? `"${value.trim()}"` : undefined;
+        this.updateLiveRegion(filtered.length, context);
+        if (emitEvent) {
+            this.emitTextChange(value);
+        }
+    }
+    /** Emit the latest query value with a debounce suited for async searches. */
+    emitTextChange(value) {
+        const delay = this.getTextChangeDelay();
+        if (this.debounceTimer) {
+            window.clearTimeout(this.debounceTimer);
+        }
+        const emit = () => {
+            this.textChange.emit(value);
         };
-        // No debounce → run immediately
-        if (!this.debounce) {
-            runFilter();
+        if (delay > 0) {
+            this.debounceTimer = window.setTimeout(emit, delay);
             return;
         }
-        // Debounced execution
-        this.debounceTimer = window.setTimeout(runFilter, this.debounce);
+        emit();
     }
-    syncQueryWithValue(value) {
-        if (this.mode !== 'select') {
+    getTextChangeDelay() {
+        if (typeof this.debounce === 'number' && this.debounce > 0) {
+            return this.debounce;
+        }
+        if (this.mode === 'select-async') {
+            return DEFAULT_ASYNC_DEBOUNCE;
+        }
+        return 0;
+    }
+    syncQueryWithValue(value, options = {}) {
+        if (!['select', 'select-async'].includes(this.mode)) {
             return;
         }
         if (!value) {
-            this.query = '';
+            if (options.allowEmptyFallback !== false) {
+                this.query = '';
+            }
             return;
         }
         const match = this.slottedPickerItems.find(item => item.value === value);
@@ -240,7 +271,7 @@ export class IrPicker {
         this.updateSelectedFromValue();
         this.comboboxSelect.emit({ item: detail });
         this.closeCombobox({ restoreFocus: true });
-        if (this.mode === 'select') {
+        if (['select', 'select-async'].includes(this.mode)) {
             this.query = this.getItemDisplayLabel(item);
             this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
@@ -305,8 +336,8 @@ export class IrPicker {
         this.ensureItemIds();
         this.applyFilter(this.query, { emitEvent: false });
         this.updateSelectedFromValue(this.value);
-        this.syncQueryWithValue(this.value);
-        if (this.mode === 'select' && this.value) {
+        this.syncQueryWithValue(this.value, { allowEmptyFallback: false });
+        if (['select', 'select-async'].includes(this.mode) && this.value) {
             this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
     }
@@ -426,13 +457,13 @@ export class IrPicker {
     };
     render() {
         const hasResults = this.filteredItems.length > 0;
-        const emptyDescriptionId = hasResults ? undefined : this.emptyStateId;
-        return (h(Host, { key: '83932c96c7d9785ab4989496f56528fedcab518f' }, h("wa-popup", { key: 'e621b514078bdc57e5ca35af2db89b903f95ec9c', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: 'e5895759e0285d7857eca5f88ef887ffdbf1be3d', slot: "anchor", class: "search-bar",
-            // withClear
-            size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        const showEmptyState = !this.loading && !hasResults;
+        const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
+        return (h(Host, { key: '90faaefa3a2030ab777518910fe20811d1eac771' }, h("wa-popup", { key: '9570ef8e57acadf4be60f3c05488441cbbd0d928', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '2e2386e9b55708fdd252836a921c2957e8b39371', slot: "anchor", class: "search-bar", withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
-            } }, this.loading && h("wa-spinner", { key: '1522667cab31112af694e771d9c9fb759c36d7ed', slot: "end" }), h("wa-icon", { key: 'a618fb6625bc82f658a2932e38c72a7a1d316718', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), !this.loading && (h("div", { key: 'd6f74493e38e8d43a2ff786aabf94b78aa92d32b', class: "menu", role: "presentation" }, h("p", { key: '0ada644ae3bcb693f5efbcabe057c5c3b68cafc9', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '710d236621ff77d55c7a053e634d79b41f3857bc', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, h("slot", { key: '72954267a3bd13cbc5c017e0140bdcfcce44d438', onSlotchange: this.handleSlotChange }), !hasResults && (h("li", { key: '55d25a58e62165e4726ce55b5bb6e260e9d73e74', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'f4a679fa9da255ef8d02274f7015eff0fbc413fd', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '64f7faf409457e6c514b216a6f8a9da1342ef499' }, "No results found"))))))), h("span", { key: '403a3afcc74f7acf3e3d9485aaf490c4b72ed105', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+                this.comboboxClear.emit();
+            } }, this.loading && h("wa-spinner", { key: '11597a749cf33c9d09c44439a3eee3861ac99a8d', slot: "end" }), h("wa-icon", { key: 'e39e254b85d58bfeda288273d1a56e7dafd1d90f', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: '58465c8369946122b99095ee52e25374a1ef4b30', class: "menu", role: "presentation" }, h("p", { key: 'eb5d7104952c286bf06dc194a70aa2496a5e4cbc', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '4532998f41ee11709b7cf916fdc999355cce7e05', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'b26317688d974c399990612f7663c6f0a240cbb7', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: 'dd6a23922e95c86788713ff767487ccf5ecc42f0' }), h("p", { key: '0c4896267a803e54f1b1cce3e8518b683d3f18ff' }, "Loading suggestions\u2026"))), h("slot", { key: 'ddd8a74d2233fce12f2ca65b0faf451aa37561a3', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'dbe2baa7b850fbcd1437a22b50cde70dfd7db6d8', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'd1ec99b78ea2e34566631c534b2c53ce2aaed245', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '9ec21ff25e348ac1e8437f874a14462708d3e065' }, "No results found")))))), h("span", { key: 'cb19ef7404a495d7ac702cfaabcf0ffd8a605239', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -507,8 +538,8 @@ export class IrPicker {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "'select' | 'default'",
-                    "resolved": "\"default\" | \"select\"",
+                    "original": "'select' | 'default' | 'select-async'",
+                    "resolved": "\"default\" | \"select\" | \"select-async\"",
                     "references": {}
                 },
                 "required": false,
@@ -607,6 +638,29 @@ export class IrPicker {
                 "attribute": "default-value",
                 "reflect": true
             },
+            "withClear": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [{
+                            "name": "default",
+                            "text": "false"
+                        }],
+                    "text": "Whether to show a clear button inside the input.\nWhen clicked, the input value is cleared and the `combobox-clear` event is emitted."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "with-clear",
+                "reflect": false,
+                "defaultValue": "false"
+            },
             "size": {
                 "type": "string",
                 "mutable": false,
@@ -670,7 +724,7 @@ export class IrPicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Delay (in milliseconds) before filtering results after user input."
+                    "text": "Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode."
                 },
                 "getter": false,
                 "setter": false,
@@ -725,6 +779,21 @@ export class IrPicker {
                 "complexType": {
                     "original": "string",
                     "resolved": "string",
+                    "references": {}
+                }
+            }, {
+                "method": "comboboxClear",
+                "name": "combobox-clear",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted when the clear button is clicked and the combobox value is cleared."
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
                     "references": {}
                 }
             }];

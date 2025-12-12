@@ -286,6 +286,7 @@ export class IrInvoiceForm {
                     console.error('Auto print failed:', error);
                 }
             }
+            this.invoiceCreated.emit({ invoice });
             this.invoiceClose.emit();
         }
         catch (error) {
@@ -389,6 +390,17 @@ export class IrInvoiceForm {
         }
         return { groups: grouped, indexById, hasSplitGroups: true };
     }
+    getDateView(fromDate, toDate) {
+        if (!fromDate) {
+            return;
+        }
+        const from_date = moment(fromDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
+        if (!toDate) {
+            return h("span", null, from_date);
+        }
+        const to_date = moment(toDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
+        return (h("span", null, from_date, " ", h("wa-icon", { name: "arrow-right" }), " ", to_date));
+    }
     renderRooms() {
         const rooms = this.booking?.rooms ?? [];
         if (!rooms.length || !this.invoicableKey?.size) {
@@ -407,7 +419,7 @@ export class IrInvoiceForm {
                 return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                         const value = e.target.checked;
                         this.handleCheckChange({ checked: value, system_id: room.system_id });
-                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container' }, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
+                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingLeft: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
                 // {this.renderRoomItem(room, indexById.get(room.identifier) ?? idx)}
                 // {idx < groupRooms.length - 1 ? <wa-divider></wa-divider> : null}
                 );
@@ -427,7 +439,7 @@ export class IrInvoiceForm {
                 if (!this.canInvoiceRoom(room)) {
                     return null;
                 }
-                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total))));
+                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { class: "ir-invoice__room-info" }, h("p", null, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total))));
             })))));
         });
     }
@@ -489,7 +501,7 @@ export class IrInvoiceForm {
         return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
-            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
     }
     render() {
         if (this.isLoading) {
@@ -513,7 +525,7 @@ export class IrInvoiceForm {
             return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
-                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, extra_service.description), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
+                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
         }))))));
     }
     static get is() { return "ir-invoice-form"; }
@@ -754,13 +766,13 @@ export class IrInvoiceForm {
                     "text": "Emitted when an invoice is created/confirmed.\n\nThe event `detail` contains:\n- `booking`: the booking associated with the invoice\n- `recipientId`: the selected billing recipient\n- `for`: whether the invoice is for `\"room\"` or `\"booking\"`\n- `roomIdentifier`: the room identifier when invoicing a specific room\n- `mode`: the current invoice mode"
                 },
                 "complexType": {
-                    "original": "{\n    booking: Booking;\n    recipientId: string;\n    for: 'room' | 'booking';\n    roomIdentifier?: string;\n    mode: 'create' | 'check_out-create';\n  }",
-                    "resolved": "{ booking: Booking; recipientId: string; for: \"room\" | \"booking\"; roomIdentifier?: string; mode: \"create\" | \"check_out-create\"; }",
+                    "original": "IssueInvoiceProps",
+                    "resolved": "{ invoice?: { currency?: { id?: number; }; booking_nbr?: string; target?: { code?: string; description?: string; }; Date?: string; nbr?: string; remark?: string; billed_to_name?: string; billed_to_tax?: string; items?: { key?: string | number; amount?: number; type?: string; description?: string; }[]; }; is_proforma?: boolean; }",
                     "references": {
-                        "Booking": {
+                        "IssueInvoiceProps": {
                             "location": "import",
-                            "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "path": "@/services/booking-service/types",
+                            "id": "src/services/booking-service/types.ts::IssueInvoiceProps"
                         }
                     }
                 }

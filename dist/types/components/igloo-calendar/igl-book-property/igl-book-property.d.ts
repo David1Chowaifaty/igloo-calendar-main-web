@@ -22,10 +22,6 @@ export declare class IglBookProperty {
         [key: string]: any;
     };
     adultChildConstraints: TAdultChildConstraints;
-    adultChildCount: {
-        adult: number;
-        child: number;
-    };
     renderAgain: boolean;
     dateRangeData: {
         [key: string]: any;
@@ -49,10 +45,8 @@ export declare class IglBookProperty {
     animateIrSelect: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     private initialRoomIds;
-    private sourceOption;
     private page;
     private showSplitBookingOption;
-    private sourceOptions;
     private guestData;
     private bookedByInfoData;
     private blockDatesData;
@@ -66,7 +60,6 @@ export declare class IglBookProperty {
     private MAX_HISTORY_LENGTH;
     private didReservation;
     private wasBlockedUnit;
-    private _sourceOptions;
     componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     disconnectedCallback(): void;
@@ -75,11 +68,9 @@ export declare class IglBookProperty {
         key: string;
         data: unknown;
     }>): Promise<void>;
-    handleAdultChildChange(event: CustomEvent): void;
     onDateRangeSelect(event: CustomEvent<{
         [key: string]: any;
     }>): void;
-    handleSourceDropDown(event: CustomEvent): void;
     gotoSplitPageTwo(): void;
     handleButtonClicked(event: CustomEvent<{
         key: TPropertyButtonsTypes;

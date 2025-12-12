@@ -6,5 +6,6 @@ export declare class IrBookingCompanyDialog {
     companyFormClosed: EventEmitter<void>;
     resetBookingEvt: EventEmitter<Booking>;
     openCompanyForm(): Promise<void>;
+    closeCompanyForm(): Promise<void>;
     render(): any;
 }

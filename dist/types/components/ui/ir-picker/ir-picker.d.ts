@@ -16,7 +16,7 @@ export declare class IrPicker {
     /** Selected value (also shown in the input when `mode="select"`). */
     value: string;
     loading: boolean;
-    mode: 'select' | 'default';
+    mode: 'select' | 'default' | 'select-async';
     pill: boolean;
     /** Placeholder shown inside the input when there is no query. */
     placeholder: string;
@@ -24,11 +24,18 @@ export declare class IrPicker {
     label?: string;
     /** The default value of the form control. Primarily used for resetting the form control. */
     defaultValue: NativeWaInput['defaultValue'];
+    /**
+     * Whether to show a clear button inside the input.
+     * When clicked, the input value is cleared and the `combobox-clear` event is emitted.
+     *
+     * @default false
+     */
+    withClear: boolean;
     /** The input's size. */
     size: NativeWaInput['size'];
     /** The input's visual appearance. */
     appearance: NativeWaInput['appearance'];
-    /** Delay (in milliseconds) before filtering results after user input. */
+    /** Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode. */
     debounce: number;
     private static idCounter;
     private readonly componentId;
@@ -50,8 +57,11 @@ export declare class IrPicker {
     comboboxSelect: EventEmitter<IrComboboxSelectEventDetail>;
     /** Emitted when the text input value changes. */
     textChange: EventEmitter<string>;
+    /** Emitted when the clear button is clicked and the combobox value is cleared. */
+    comboboxClear: EventEmitter<void>;
     componentWillLoad(): void;
     componentDidRender(): void;
+    disconnectedCallback(): void;
     open(): Promise<void>;
     close(): Promise<void>;
     handleKeyDown(e: any): void;
@@ -63,8 +73,11 @@ export declare class IrPicker {
     private handleInput;
     private handleInputFocus;
     private handleInputKeydown;
-    /** Applies the filter after the debounce delay and emits text-change when requested. */
+    /** Applies the filter and optionally emits a debounced text-change event. */
     private applyFilter;
+    /** Emit the latest query value with a debounce suited for async searches. */
+    private emitTextChange;
+    private getTextChangeDelay;
     private syncQueryWithValue;
     private selectActiveItem;
     private handleSelection;

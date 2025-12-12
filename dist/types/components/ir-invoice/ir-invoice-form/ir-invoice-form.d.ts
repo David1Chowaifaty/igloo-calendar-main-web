@@ -2,6 +2,7 @@ import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Moment } from 'moment';
 import { BookingInvoiceInfo, InvoiceableItem, ViewMode } from '../types';
+import { IssueInvoiceProps } from "../../../services/booking-service/types";
 export declare class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -73,13 +74,7 @@ export declare class IrInvoiceForm {
      * - `roomIdentifier`: the room identifier when invoicing a specific room
      * - `mode`: the current invoice mode
      */
-    invoiceCreated: EventEmitter<{
-        booking: Booking;
-        recipientId: string;
-        for: 'room' | 'booking';
-        roomIdentifier?: string;
-        mode: 'create' | 'check_out-create';
-    }>;
+    invoiceCreated: EventEmitter<IssueInvoiceProps>;
     loadingChange: EventEmitter<boolean>;
     private room;
     private bookingService;
@@ -106,6 +101,7 @@ export declare class IrInvoiceForm {
     private getMinDate;
     private getMaxDate;
     private computeRoomGroups;
+    private getDateView;
     private renderRooms;
     private handleCheckChange;
     private isSelected;

@@ -62,8 +62,11 @@ const IrBookingBillingRecipient = /*@__PURE__*/ proxyCustomElement(class IrBooki
         }
         this.rooms = [..._rooms];
     }
+    handleBookingRecipient() {
+        this.bookingCompanyFormRef?.closeCompanyForm();
+    }
     render() {
-        return (h(Host, { key: '0e7e588524e5a98938aea4368a7b5f78d0574a25' }, h("wa-radio-group", { key: 'ce248d7cc286919c3f5b49569a7624f9f52589a8', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'ad2bc6584c917baa1496d53d484f5d5b035bd653', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '773e9f93b64ee2f0bbba9d9bd15e8e39a3a93edc', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-dialog", { key: 'b2aeb9b4eddd4b16a27fab513bb085098fe71e95', onCompanyFormClosed: () => {
+        return (h(Host, { key: '1f42773342c290a553fdde6d984cc723e03453f4' }, h("wa-radio-group", { key: '1661f0206768b2d7308030f37bb0621bccef3c21', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'a73d5bc881cc322d8297745f86769abacc3cfc90', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '89e455141e6bc7e0884d3d5f61109fef8c63d469', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Company')), h("ir-booking-company-dialog", { key: '57c9f3c81d7095f17a9c5ef81d9352965d5a3e28', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }
@@ -82,7 +85,7 @@ const IrBookingBillingRecipient = /*@__PURE__*/ proxyCustomElement(class IrBooki
         "booking": [1040],
         "selectedRecipient": [32],
         "rooms": [32]
-    }, undefined, {
+    }, [[0, "resetBookingEvt", "handleBookingRecipient"]], {
         "booking": ["handleBookingChange"]
     }]);
 function defineCustomElement() {

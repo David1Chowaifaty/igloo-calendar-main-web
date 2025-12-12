@@ -118,6 +118,7 @@ export declare class IrInput {
     handleDisabledChange(newValue: boolean, oldValue: boolean): void;
     protected handleMaskPropsChange(): void;
     handleAriaInvalidChange(e: any): void;
+    handleValueChange(newValue: string, oldValue: string): void;
     private handleInput;
     private initializeMask;
     private setupSlotListeners;

@@ -49,7 +49,7 @@ const IrPasswordValidator = class {
         return /[!@#$%^&*()\-_=+]/.test(this.password);
     }
     render() {
-        return (h("div", { key: 'cd73335c25a7e845b1464f04f4caea76273a808a', class: "m-0 p-0" }, h("requirement-check", { key: 'fde484ac3e9256eec357440021d0a5af728ac20d', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '8c99a23ec7f127865891209867fd5247fc22ebdd', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'd478f6faefc992eb65bfc235774173224ea936a1', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: '5fe5123c7b8b062caaddad5bbe6b3dd7106c259e', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: '6c50ddd55a3b45f065e4f998e5464451018134fc', isValid: this.hasSpecialChar, text: "At least one special character" })));
+        return (h("div", { key: 'b7fd875fdd6812c722959c996c8c7f0840c88ed8', class: "m-0 p-0" }, h("requirement-check", { key: 'cc78f884f36837c530559b2113f3d00cf6f23f17', isValid: this.validLength, text: "Minimum 8 characters" }), h("requirement-check", { key: '3eff9cab68edd5b94d3e8f3908815016d5489841', isValid: this.hasUppercase, text: "At least one uppercase letter" }), h("requirement-check", { key: 'b315ea86472eae5c967bebd683d04e9c6c03f135', isValid: this.hasLowercase, text: "At least one lowercase letter" }), h("requirement-check", { key: 'e9d8ec3d30e5faa993cdce48d4fed896b03af990', isValid: this.hasDigit, text: "At least one digit" }), h("requirement-check", { key: 'e1bff160b8c1045f571c2c89c6e80dd7a23b531f', isValid: this.hasSpecialChar, text: "At least one special character" })));
     }
     static get watchers() { return {
         "password": ["handlePasswordChange"]
@@ -73,7 +73,7 @@ const RequirementCheck = class {
      */
     text = '';
     render() {
-        return (h("div", { key: '8732ba89f35f0c2ffccf22205aade8b345c218f7', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: '0ec18ab3746b36ad49023685c4a51ba3580e09b9', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: '4e33286af7954d23f0741013206f9b0719293c00' }, this.text)));
+        return (h("div", { key: '1d730010baee840330bc22c9383e9854473bf836', class: { requirement: true, valid: this.isValid } }, h("ir-icons", { key: 'b6d115d50eb0247683e5ceab8f6ba026953f833f', style: { '--icon-size': '0.875rem' }, name: this.isValid ? 'check' : 'xmark' }), h("span", { key: 'a3bdb0d0624788ee2512909c97671f44e6130265' }, this.text)));
     }
 };
 RequirementCheck.style = RequirementCheckStyle0;
