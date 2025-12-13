@@ -44,6 +44,7 @@ export declare class IrArrivals {
     handleTicketChange(newValue: string, oldValue: string): void;
     handleBookingPayment(e: CustomEvent): void;
     handleOpen(e: CustomEvent): void;
+    handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
     private init;
     private getBookings;
     private handlePaginationChange;

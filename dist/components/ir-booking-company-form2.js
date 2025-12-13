@@ -13,7 +13,6 @@ const IrBookingCompanyForm = /*@__PURE__*/ proxyCustomElement(class IrBookingCom
     }
     booking;
     formId;
-    open;
     isLoading;
     formData;
     resetBookingEvt;
@@ -53,21 +52,21 @@ const IrBookingCompanyForm = /*@__PURE__*/ proxyCustomElement(class IrBookingCom
             };
             await this.bookingService.doReservation(booking);
             this.resetBookingEvt.emit({ ...this.booking, ...this.formData });
-            this.open = false;
         }
-        catch (error) { }
+        catch (error) {
+            console.error(error);
+        }
     }
     render() {
-        return (h("form", { key: '28e1669fcb243488fba52edecd7e49754a9871d9', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '8ff2bc089247e4f0b836b71236dbd5df6cd4f12f', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: 'a324e5270c51d1f0036fd48be595fc11afd8fd86', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '04c2b201164ec5c6d758fd51671193c4286cfe6f', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: '865ba8fb7ad3f49ac27b24096c64d5498d2332b3', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: 'f6fa899ccc19837405822826c760f0c82dacdfbf', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
     static get style() { return IrBookingCompanyFormStyle0; }
 }, [2, "ir-booking-company-form", {
         "booking": [16],
         "formId": [1, "form-id"],
-        "open": [32],
         "isLoading": [32],
         "formData": [32]
     }]);

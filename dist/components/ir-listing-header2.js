@@ -3,25 +3,24 @@ import { B as BookingListingService, u as updateUserSelection, b as booking_list
 import { l as locales } from './locales.store.js';
 import { s as downloadFile, R as isPrivilegedUser } from './utils.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$v } from './igl-application-info2.js';
-import { d as defineCustomElement$u } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$t } from './igl-book-property2.js';
-import { d as defineCustomElement$s } from './igl-book-property-container2.js';
-import { d as defineCustomElement$r } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$q } from './igl-book-property-header2.js';
-import { d as defineCustomElement$p } from './igl-booking-form2.js';
-import { d as defineCustomElement$o } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$n } from './igl-date-range2.js';
-import { d as defineCustomElement$m } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$l } from './igl-rate-plan2.js';
-import { d as defineCustomElement$k } from './igl-room-type2.js';
-import { d as defineCustomElement$j } from './ir-button2.js';
-import { d as defineCustomElement$i } from './ir-country-picker2.js';
-import { d as defineCustomElement$h } from './ir-custom-button2.js';
-import { d as defineCustomElement$g } from './ir-date-picker2.js';
-import { d as defineCustomElement$f } from './ir-date-range2.js';
-import { d as defineCustomElement$e } from './ir-date-view2.js';
-import { d as defineCustomElement$d } from './ir-icon2.js';
+import { d as defineCustomElement$u } from './igl-application-info2.js';
+import { d as defineCustomElement$t } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$s } from './igl-book-property2.js';
+import { d as defineCustomElement$r } from './igl-book-property-container2.js';
+import { d as defineCustomElement$q } from './igl-book-property-footer2.js';
+import { d as defineCustomElement$p } from './igl-book-property-header2.js';
+import { d as defineCustomElement$o } from './igl-booking-form2.js';
+import { d as defineCustomElement$n } from './igl-booking-overview-page2.js';
+import { d as defineCustomElement$m } from './igl-date-range2.js';
+import { d as defineCustomElement$l } from './igl-property-booked-by2.js';
+import { d as defineCustomElement$k } from './igl-rate-plan2.js';
+import { d as defineCustomElement$j } from './igl-room-type2.js';
+import { d as defineCustomElement$i } from './ir-button2.js';
+import { d as defineCustomElement$h } from './ir-country-picker2.js';
+import { d as defineCustomElement$g } from './ir-custom-button2.js';
+import { d as defineCustomElement$f } from './ir-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-date-range2.js';
+import { d as defineCustomElement$d } from './ir-date-view2.js';
 import { d as defineCustomElement$c } from './ir-icons2.js';
 import { d as defineCustomElement$b } from './ir-input2.js';
 import { d as defineCustomElement$a } from './ir-input-text2.js';
@@ -97,13 +96,13 @@ const IrListingHeader = /*@__PURE__*/ proxyCustomElement(class IrListingHeader e
     }
     render() {
         const havePrivilege = isPrivilegedUser(booking_listing.userSelection.userTypeCode);
-        return (h(Host, { key: 'd18096d31917806cb8a92ec3fdb37d2ede3f78a0' }, h("section", { key: 'e7aec126806f6c93f85f4fce406ca1e6f7a1088b', class: "d-flex align-items-center " }, h("div", { key: '0aefa1a588fb91594b957924e991d0af1614fd86', class: "d-flex flex-fill flex-column flex-md-row align-items-md-center booking-container" }, h("div", { key: '5f9d9359b279692aa8940e172ff52f80b8628ded', class: "d-flex mb-1 d-md-none align-items-center justify-content-bettween width-fill" }, h("h3", { key: '282da3cc3847116a0233201cd0041e80dc868b60', class: "page-title" }, locales.entries?.Lcz_Bookings), h("div", { key: '6c55811254d8dccba394b354999676aac3156838' }, !havePrivilege && (h("igl-book-property-container", { key: 'd473de949f225f82f95f718defa996cdebe8bceb', p: this.p, withIrToastAndInterceptor: false, propertyid: this.propertyId, language: this.language, title: locales.entries.Lcz_CreateNewBooking, ticket: booking_listing.token }, h("ir-custom-button", { key: '59b368c0e85964aef78f88d4f542ca0e6132fb2f', id: "new-booking", class: 'new-booking-btn', variant: "brand", appearance: "plain", slot: "trigger" }, h("wa-icon", { key: '8e8054863efd8159eaae9e6a3209dac30eb545aa', name: "plus", style: { fontSize: '1.2rem' } })))))), h("h3", { key: '3d41dc1d1db852f65d3cd640c59e48df0272b873', class: "d-none d-md-block page-title" }, locales.entries?.Lcz_Bookings), h("form", { key: '12965ce3d4ba1fe3e747a7d656f2797019cb5733', onSubmit: e => {
+        return (h(Host, { key: '731daf0c5bda1225561e8e1ac7cfc32b4de4fad6' }, h("section", { key: '66940afd4360ff91bd3d03b1bdd4f6496a70bae0', class: "d-flex align-items-center " }, h("div", { key: 'abe0ad99208ae17c3ab0f345786c5e5ea1369125', class: "d-flex flex-fill flex-column flex-md-row align-items-md-center booking-container" }, h("div", { key: '8cb280e24201bb8e9f0ad177119ff7fece6892c2', class: "d-flex mb-1 d-md-none align-items-center justify-content-bettween width-fill" }, h("h3", { key: 'ad08b1967d218aa40d47b06bd0d630f6448b426e', class: "page-title" }, locales.entries?.Lcz_Bookings), h("div", { key: 'bb8c7d1be02809819ba6e672b79cdfdd5003decf' }, !havePrivilege && (h("igl-book-property-container", { key: 'f98399eb1b86b6255c8b058cf64cdc4b995942d9', p: this.p, withIrToastAndInterceptor: false, propertyid: this.propertyId, language: this.language, title: locales.entries.Lcz_CreateNewBooking, ticket: booking_listing.token }, h("ir-custom-button", { key: 'd90fc62f08df4655fffa12def83b7c9c86c5a8b9', id: "new-booking", class: 'new-booking-btn', variant: "brand", appearance: "plain", slot: "trigger" }, h("wa-icon", { key: '787997f6cb3dd46dd21c032fe52fb93621f6f6ee', name: "plus", style: { fontSize: '1.2rem' } })))))), h("h3", { key: '8d804de6b70f36add166912508e2c3c67fa36bc7', class: "d-none d-md-block page-title" }, locales.entries?.Lcz_Bookings), h("form", { key: '6f46c153dfd88518aeca547633f7e2d8f232f375', onSubmit: e => {
                 e.preventDefault();
                 console.log(this.inputValue);
                 this.handleSearchClicked(false);
-            }, class: "booking-search-field width-fill" }, h("ir-input", { key: 'eae1a46cbaa215b8ce4a018ae562868475056d73', class: 'flex-fill w-100', value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), size: "small", placeholder: locales.entries?.Lcz_FindBookNbrorName }, h("wa-icon", { key: '920b2a14c1a698073017ea5013805d9dd9a3478e', name: "magnifying-glass", slot: "start" })), h("h5", { key: '45ee3b95567b73ff3837358bc030a962e007f0a4', class: "m-0 font-weight-bold d-none d-sm-block" }, locales.entries?.Lcz_Or))), h("div", { key: '3a00174758a5ea7ecff620bc4d129d107a0e7f69', class: "d-none d-md-block" }, h("wa-tooltip", { key: '46a60683888b09c61119d58252739f4b1ab099f8', for: "new-booking" }, "Create new booking"), !havePrivilege && (h("igl-book-property-container", { key: '3584cdfd704d1d29fecf495128fdbff8b9b1cbee', p: this.p, withIrToastAndInterceptor: false, propertyid: this.propertyId, language: this.language, title: locales.entries.Lcz_CreateNewBooking, ticket: booking_listing.token }, h("ir-custom-button", { key: 'a2a1d9b06f5cbc5745f6494b8867d94134fb3014', id: "new-booking", variant: "brand", appearance: "plain", slot: "trigger" }, h("wa-icon", { key: 'd140c744fe3f4e5c6fd9a75cba80e7e52735a1b5', name: "plus", style: { fontSize: '1.2rem' } })))))), h("section", { key: '8a34374cc7aff1e6f704392134c3fff349d868bd', class: "d-flex align-items-center justify-evenly seperator-container d-sm-none" }, h("span", { key: '48452f28e1a980e4f11c00d10bea8ce63df5b0f0' }), h("h5", { key: '0259554a4a2e9e0218966e0cefb24be531a8b2ca', class: "m-0 font-weight-bold" }, locales.entries?.Lcz_Or), h("span", { key: 'c98d55974969961e946aa4b44b047af72cd3ac9a' })), h("section", { key: 'ada7f095c347be86ef5c21b04f43a6d209e599aa', class: "d-flex flex-column align-items-sm-center flex-sm-row flex-sm-wrap filters-container justify-content-lg-start mt-1" }, h("wa-select", { key: 'c43f090f635312ca6335de600685252c6d7b6cbc', onchange: e => {
+            }, class: "booking-search-field width-fill" }, h("ir-input", { key: '93406c1d6747302347f6dc1eb29d0e9bb46e6452', class: 'flex-fill w-100', value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), size: "small", placeholder: locales.entries?.Lcz_FindBookNbrorName }, h("wa-icon", { key: 'e3b5540a52c5ef8a696d02bdf29990e7a1e7a06f', name: "magnifying-glass", slot: "start" })), h("h5", { key: '26a909218c07d4459e9852c89400e5f1486fdba1', class: "m-0 font-weight-bold d-none d-sm-block" }, locales.entries?.Lcz_Or))), h("div", { key: '9a662702d4cad920f609745e75aa4532a96cde40', class: "d-none d-md-block" }, h("wa-tooltip", { key: '20cfe8af12e3bafd315b9f42197c90f678011120', for: "new-booking" }, "Create new booking"), !havePrivilege && (h("igl-book-property-container", { key: '69d56aa71037eac3b7af5deced6b0bfe9b846fec', p: this.p, withIrToastAndInterceptor: false, propertyid: this.propertyId, language: this.language, title: locales.entries.Lcz_CreateNewBooking, ticket: booking_listing.token }, h("ir-custom-button", { key: 'bfbb6029b9e62d30218a9a75d8b2dcfd1bd3b80e', id: "new-booking", variant: "brand", appearance: "plain", slot: "trigger" }, h("wa-icon", { key: '1830712794b70fd699d7d1f81084e082f8883ad5', name: "plus", style: { fontSize: '1.2rem' } })))))), h("section", { key: '542c4bb205d8edba7b4660fc72a55dc449b9fffa', class: "d-flex align-items-center justify-evenly seperator-container d-sm-none" }, h("span", { key: '643c2f2bf1e0b9e7e1ab96f3dd4b39bcc5ee1ff6' }), h("h5", { key: 'a157d8863fc12c94a4a4c845e905bd670a495182', class: "m-0 font-weight-bold" }, locales.entries?.Lcz_Or), h("span", { key: '908a9d1e896f04402ba161247f7eb081581746bd' })), h("section", { key: '09a5d7bab2c36b5e0d8bdf6ccc37b287535b6fac', class: "d-flex flex-column align-items-sm-center flex-sm-row flex-sm-wrap filters-container justify-content-lg-start mt-1" }, h("wa-select", { key: '5f0f11a4cae23c28b3a1f9759b86b66d4850f8fe', onchange: e => {
                 updateUserSelection('filter_type', e.target.value);
-            }, value: booking_listing.userSelection.filter_type?.toString(), size: "small", defaultValue: booking_listing?.types[0]?.id?.toString() }, booking_listing?.types.map(b => (h("wa-option", { key: b.id, value: b.id?.toString() }, b.name)))), h("ir-range-picker", { key: '517264826a8ca30982f45fb8633db56d19dd6159', onDateRangeChanged: e => {
+            }, value: booking_listing.userSelection.filter_type?.toString(), size: "small", defaultValue: booking_listing?.types[0]?.id?.toString() }, booking_listing?.types.map(b => (h("wa-option", { key: b.id, value: b.id?.toString() }, b.name)))), h("ir-range-picker", { key: '77c2eb679e27fc412067d3ece75b78195657532b', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate } = e.detail;
@@ -113,13 +112,13 @@ const IrListingHeader = /*@__PURE__*/ proxyCustomElement(class IrListingHeader e
                     to_date = booking_listing.userSelection.to;
                 }
                 booking_listing.userSelection = { ...booking_listing.userSelection, to: to_date, from: fromDate.format('YYYY-MM-DD') };
-            }, allowNullDates: false, fromDate: hooks(booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: hooks(booking_listing.userSelection.to, 'YYYY-MM-DD') }), h("wa-select", { key: '91cc95f74847985fcdbdb104c62289ac8032650c', onchange: e => {
+            }, allowNullDates: false, fromDate: hooks(booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: hooks(booking_listing.userSelection.to, 'YYYY-MM-DD') }), h("wa-select", { key: 'e0da9287aa9e909756b85d8cbaedc63137455da4', onchange: e => {
                 updateUserSelection('booking_status', e.target.value);
-            }, value: booking_listing.userSelection.booking_status, size: "small", defaultValue: booking_listing?.statuses[0]?.code }, booking_listing?.statuses.map(b => (h("wa-option", { key: b.code, value: b.code }, b.name)))), !isPrivilegedUser(booking_listing.userSelection.userTypeCode) && (h("wa-select", { key: '035a1ece2ac09213a5927cee10abc72fa2c7138f', onchange: e => {
+            }, value: booking_listing.userSelection.booking_status, size: "small", defaultValue: booking_listing?.statuses[0]?.code }, booking_listing?.statuses.map(b => (h("wa-option", { key: b.code, value: b.code }, b.name)))), !isPrivilegedUser(booking_listing.userSelection.userTypeCode) && (h("wa-select", { key: 'fc46e208fa3d6bff48f13e868b36cbd12560f2e5', onchange: e => {
                 updateUserSelection('channel', e.target.value);
-            }, value: booking_listing.userSelection.channel, size: "small", defaultValue: booking_listing?.channels[0]?.value }, booking_listing?.channels.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name))))), h("wa-select", { key: 'dd8ffcd64598f601aad116a19f8682a2f10a45dd', onchange: e => {
+            }, value: booking_listing.userSelection.channel, size: "small", defaultValue: booking_listing?.channels[0]?.value }, booking_listing?.channels.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name))))), h("wa-select", { key: 'f1f3c2dd17d796bef923ad9f7b95662838646c04', onchange: e => {
                 updateUserSelection('balance_filter', e.target.value);
-            }, value: booking_listing.userSelection.balance_filter, size: "small", defaultValue: booking_listing?.balance_filter[0]?.value }, booking_listing?.balance_filter.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name)))), h("div", { key: '2560fedd4728f1c942ccd372f975cdfe58c11647', class: "d-flex flex-fill align-items-end m-0" }, h("wa-tooltip", { key: '771c71167b1267a7acd3d7e99e33796f798cf22a', for: "search-btn" }, locales.entries?.Lcz_Search), h("ir-custom-button", { key: '013c5d449476d4bdd3c0f2cc8f4a09a9ae8182e3', id: "search-btn", loading: this.isLoading === 'search', onClickHandler: () => this.handleSearchClicked(false), variant: "neutral", appearance: "plain" }, h("wa-icon", { key: '0741c8e7f35238f9189278af8e840b97be63b3f7', name: "magnifying-glass", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: 'b12b664871310c215569149a84fb625f54dbed24', for: "clear-btn" }, locales.entries?.Lcz_Erase), h("ir-custom-button", { key: 'd29a25f4d363848cb18d775315582666c79430c6', id: "clear-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleClearUserField() }, h("wa-icon", { key: '296002ab14f111f040e4e4dde6d0a9c02dd66056', name: "eraser", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: 'd61b0e36165f88fdf080126ef9e84f5674572844', for: "excel-btn" }, locales.entries?.Lcz_ExportToExcel), h("ir-custom-button", { key: '7b60f82c25d43e9d5968f4dbf9b3dbc024614fdd', loading: this.isLoading === 'excel', id: "excel-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleSearchClicked(true) }, h("wa-icon", { key: 'b565f279de2755f6712b0520179ea6f1d2948008', name: "file-excel", variant: "regular", style: { fontSize: '1.2rem' } }))))));
+            }, value: booking_listing.userSelection.balance_filter, size: "small", defaultValue: booking_listing?.balance_filter[0]?.value }, booking_listing?.balance_filter.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name)))), h("div", { key: 'a0ebe22f68c80d63b0c3769592941b8a3f6ed6bf', class: "d-flex flex-fill align-items-end m-0" }, h("wa-tooltip", { key: '9d48213700c3416679ca2a7d4344076ddcd33c7e', for: "search-btn" }, locales.entries?.Lcz_Search), h("ir-custom-button", { key: '3484795c019ed4a85399946793e053c00caafc5a', id: "search-btn", loading: this.isLoading === 'search', onClickHandler: () => this.handleSearchClicked(false), variant: "neutral", appearance: "plain" }, h("wa-icon", { key: '14ae88fcc94790cf0588735acba0025fe38f8ced', name: "magnifying-glass", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: '8d45712fa66744881e3a18c623ee10cf262def22', for: "clear-btn" }, locales.entries?.Lcz_Erase), h("ir-custom-button", { key: 'd7370a840db1354b1b4a6d643ed601642d57de71', id: "clear-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleClearUserField() }, h("wa-icon", { key: 'ab5d9a5cf50103aeb7fc053b2acb82ed7d535a97', name: "eraser", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: '4cecfd4e8bbdadb0069a2cfd5da77d8bc93ba516', for: "excel-btn" }, locales.entries?.Lcz_ExportToExcel), h("ir-custom-button", { key: '0773b27e25bbac163a2c04640c27ce820f5d6fdf', loading: this.isLoading === 'excel', id: "excel-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleSearchClicked(true) }, h("wa-icon", { key: '6f0934525097e22e3b34cf761e44393670cae998', name: "file-excel", variant: "regular", style: { fontSize: '1.2rem' } }))))));
     }
     static get style() { return IrListingHeaderStyle0; }
 }, [2, "ir-listing-header", {
@@ -133,7 +132,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-listing-header", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-icon", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-range-picker", "ir-spinner", "ir-toast"];
+    const components = ["ir-listing-header", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-range-picker", "ir-spinner", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-listing-header":
             if (!customElements.get(tagName)) {
@@ -142,95 +141,90 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$u();
             }
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$t();
             }
             break;
         case "igl-book-property":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$s();
             }
             break;
         case "igl-book-property-container":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$r();
             }
             break;
         case "igl-book-property-footer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$q();
             }
             break;
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$p();
             }
             break;
         case "igl-booking-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$o();
             }
             break;
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$n();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$m();
             }
             break;
         case "igl-property-booked-by":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$l();
             }
             break;
         case "igl-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$k();
             }
             break;
         case "igl-room-type":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$j();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$i();
             }
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$h();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$g();
             }
             break;
         case "ir-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$f();
             }
             break;
         case "ir-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
-            }
-            break;
-        case "ir-date-view":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
             break;
-        case "ir-icon":
+        case "ir-date-view":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }

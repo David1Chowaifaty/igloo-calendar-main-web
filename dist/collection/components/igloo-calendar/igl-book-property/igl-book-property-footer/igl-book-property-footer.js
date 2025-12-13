@@ -1,11 +1,9 @@
 import { Fragment, Host, h } from "@stencil/core";
 import locales from "../../../../stores/locales.store";
-import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import calendar_data from "../../../../stores/calendar-data";
 import moment from "moment";
 export class IglBookPropertyFooter {
     eventType;
-    disabled = true;
     page;
     isEditOrAddRoomEvent;
     dateRangeData;
@@ -25,7 +23,7 @@ export class IglBookPropertyFooter {
         }
         return 'flex-fill';
     }
-    renderButton({ label, type, disabled, 
+    renderButton({ label, type, disabled = false, 
     // icon_name,
     isLoading, appearance, variant, }) {
         return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { size: 'medium', loading: isLoading, appearance: appearance, variant: variant, disabled: disabled, onClickHandler: () => {
@@ -41,7 +39,6 @@ export class IglBookPropertyFooter {
                 this.renderButton({
                     type: 'next',
                     label: `${locales.entries.Lcz_Next}`,
-                    disabled: isRequestPending('/Get_Exposed_Booking_Availability'),
                     icon_name: 'angles_right',
                     variant: 'brand',
                     appearance: 'accent',
@@ -96,26 +93,6 @@ export class IglBookPropertyFooter {
                 "setter": false,
                 "attribute": "event-type",
                 "reflect": false
-            },
-            "disabled": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "disabled",
-                "reflect": false,
-                "defaultValue": "true"
             },
             "page": {
                 "type": "string",

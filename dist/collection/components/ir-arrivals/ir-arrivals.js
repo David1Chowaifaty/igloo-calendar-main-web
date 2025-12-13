@@ -81,6 +81,11 @@ export class IrArrivals {
     handleOpen(e) {
         this.bookingNumber = e.detail;
     }
+    async handleResetExposedCancellationDueAmount(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.getBookings();
+    }
     async init() {
         try {
             this.isPageLoading = true;
@@ -321,6 +326,12 @@ export class IrArrivals {
             }, {
                 "name": "openBookingDetails",
                 "method": "handleOpen",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetExposedCancellationDueAmount",
+                "method": "handleResetExposedCancellationDueAmount",
                 "target": undefined,
                 "capture": false,
                 "passive": false

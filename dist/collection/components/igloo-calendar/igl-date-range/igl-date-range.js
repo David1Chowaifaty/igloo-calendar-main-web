@@ -71,7 +71,7 @@ export class IglDateRange {
     }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (h(Host, { key: 'accf2f45167fba8d7d3795b18c1ded2cd4ca829f', size: this.size }, h("div", { key: '9f1e4a253495e256ac1e691d9e81dafbc351a6de', class: `date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}` }, h("ir-date-range", { key: 'c284c81d0acdc5435ce080703d65b78aa6778f6d', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
+        return (h(Host, { key: '0bebafba8d7aa998122d7af59c3324809f221114', size: this.size }, h("div", { key: 'b060dc3cf93adfe1166e85a9a62444b0ddd8cffe', class: `date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}` }, h("ir-date-range", { key: '3a3f18d202b80537d71442d1ebc408e7e085e87b', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
                 this.handleDateChange(evt);
             } }), this.renderDateSummary(showNights))));
     }

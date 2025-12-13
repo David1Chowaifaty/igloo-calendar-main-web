@@ -16546,7 +16546,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (index.h("div", { key: '15a18a8318672f3d53b937dbf95b9935fe7b02fa', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: 'b6787159bd56cd55a1fb3de6622c1e2960fafeab', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (index.h("div", { key: '76ba8eed8b5fdc743bbdbc35350a72b43f120d68', class: { 'editor-wrapper': true, 'error': this.error } }, index.h("div", { key: 'ab6081b277ba6bc071ce75500e0aac97c202da4c', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get watchers() { return {
         "value": ["handleValueChange"],

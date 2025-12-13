@@ -23,11 +23,11 @@ const IrDeparturesFilter = class {
         departures_store.setDeparturesSearchTerm(event.detail ?? '');
     };
     render() {
-        return (index.h("div", { key: 'ec4779bd15abd131baf2897c9652f17344c24724', class: "departures-filters__container" }, index.h("ir-custom-date-picker", { key: 'bb2b51f89676de9c45dc830775eff235a15643c8', onDateChanged: e => {
+        return (index.h("div", { key: '9360ec3bca38634830b90dd99daad3e1a0208358', class: "departures-filters__container" }, index.h("ir-custom-date-picker", { key: '22add53f3f7ea1f97dbe06cfb6aabb4d890b30ee', onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 departures_store.setDeparturesReferenceDate(e.detail.start.format('YYYY-MM-DD'));
-            }, date: departures_store.departuresStore.today, class: "departures-filters__date-picker" }, index.h("wa-icon", { key: 'c107c12d076d7ff38dfc06ed1ce7bf38b191d581', name: "calendar", slot: "start" })), index.h("ir-input", { key: '5b47b709dee1f03046175da43d5eb9308ac5feba', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departures_store.departuresStore.searchTerm, "onText-change": this.handleSearchChange }, index.h("wa-icon", { key: '6f2efe3b99632f6e95b982804c22c73712031d44', name: "magnifying-glass", slot: "start" }))));
+            }, date: departures_store.departuresStore.today, class: "departures-filters__date-picker" }, index.h("wa-icon", { key: '19214889aaf1241f240ba472699a561164a4f590', name: "calendar", slot: "start" })), index.h("ir-input", { key: '92db617daf7aea39222110c2806bcdc8e48227e9', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departures_store.departuresStore.searchTerm, "onText-change": this.handleSearchChange }, index.h("wa-icon", { key: '319c7d1a52b5f1e182712b42099d6fabdaa5d119', name: "magnifying-glass", slot: "start" }))));
     }
 };
 IrDeparturesFilter.style = IrDeparturesFilterStyle0;

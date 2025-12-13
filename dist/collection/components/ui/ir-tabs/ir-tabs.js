@@ -133,7 +133,7 @@ export class IrTabs {
         }
     }
     render() {
-        return (h(Host, { key: '28c860db62dc83a12599b55e017848742bfab78e', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '83c1552098dea779a0473b267e2db3c1eb13f355', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: '21d0088a2a80e2951574ce9bddab02bf97062c87', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'fa68688f20fec436b87cbacafc72418db80ebfd3', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get is() { return "ir-tabs"; }
     static get encapsulation() { return "scoped"; }

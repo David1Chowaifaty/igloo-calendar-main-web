@@ -1,6 +1,7 @@
 import { Booking } from "../../models/booking.dto";
 import { Payment, PaymentEntries } from '../ir-booking-details/types';
 import type { PaginationChangeEvent } from "../ir-pagination/ir-pagination";
+import { GuestChangedEvent } from "../../components";
 export declare class IrBookingListing {
     el: HTMLElement;
     language: string;
@@ -39,12 +40,13 @@ export declare class IrBookingListing {
     disconnectedCallback(): void;
     handlePaginationChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
     handlePaginationPageSizeChange(event: CustomEvent<PaginationChangeEvent>): Promise<void>;
-    handleResetData(e: CustomEvent): Promise<void>;
     handleResetStoreData(e: CustomEvent): Promise<void>;
     handleBookingChanged(e: CustomEvent<Booking>): void;
     handleBookingPayment(e: CustomEvent): void;
     handleSelectGuestEvent(e: CustomEvent): void;
     handleOpen(e: CustomEvent): void;
+    handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
+    handleGuestChanged(e: CustomEvent<GuestChangedEvent>): void;
     private findBooking;
     render(): any;
 }

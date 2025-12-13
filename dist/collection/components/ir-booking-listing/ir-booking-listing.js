@@ -187,11 +187,6 @@ export class IrBookingListing {
         setPaginationPageSize(event.detail.pageSize);
         await this.fetchBookings();
     }
-    async handleResetData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchBookings();
-    }
     async handleResetStoreData(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -248,6 +243,23 @@ export class IrBookingListing {
             booking,
             cause: 'edit',
         };
+    }
+    async handleResetExposedCancellationDueAmount(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchBookings();
+    }
+    handleGuestChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        booking_listing.bookings = booking_listing.bookings.map(b => {
+            const guest = { ...b.guest };
+            const newGuest = e.detail;
+            if (guest.id === newGuest.id) {
+                return { ...b, guest: { ...guest, ...newGuest } };
+            }
+            return b;
+        });
     }
     findBooking(bookingNumber) {
         return booking_listing.bookings.find(b => b.booking_nbr === bookingNumber);
@@ -457,12 +469,6 @@ export class IrBookingListing {
                 "capture": false,
                 "passive": false
             }, {
-                "name": "resetData",
-                "method": "handleResetData",
-                "target": undefined,
-                "capture": false,
-                "passive": false
-            }, {
                 "name": "resetBookingData",
                 "method": "handleResetStoreData",
                 "target": undefined,
@@ -489,6 +495,18 @@ export class IrBookingListing {
             }, {
                 "name": "openBookingDetails",
                 "method": "handleOpen",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetExposedCancellationDueAmount",
+                "method": "handleResetExposedCancellationDueAmount",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "guestChanged",
+                "method": "handleGuestChanged",
                 "target": undefined,
                 "capture": false,
                 "passive": false

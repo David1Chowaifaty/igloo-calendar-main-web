@@ -30,7 +30,7 @@ import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
 import { NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
@@ -41,6 +41,7 @@ import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 import { Element } from "./stencil-public-runtime";
+import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 import { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
 import { FactoryArg } from "imask";
 import { ZodType, ZodTypeAny } from "zod";
@@ -88,7 +89,7 @@ export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
 export { NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
@@ -99,6 +100,7 @@ export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 export { Element } from "./stencil-public-runtime";
+export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 export { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
 export { FactoryArg } from "imask";
 export { ZodType, ZodTypeAny } from "zod";
@@ -166,7 +168,6 @@ export namespace Components {
     }
     interface IglBookPropertyFooter {
         "dateRangeData": { [key: string]: any };
-        "disabled": boolean;
         "eventType": string;
         "isEditOrAddRoomEvent": boolean;
         "isLoading": string;
@@ -5196,6 +5197,7 @@ declare global {
     };
     interface HTMLIrGuestInfoDrawerElementEventMap {
         "guestInfoDrawerClosed": { source: Element };
+        "guestChanged": GuestChangedEvent;
         "resetBookingEvt": null;
         "toast": IToast;
     }
@@ -5214,7 +5216,7 @@ declare global {
         new (): HTMLIrGuestInfoDrawerElement;
     };
     interface HTMLIrGuestInfoFormElementEventMap {
-        "guestChanged": Partial<Guest>;
+        "guestChanged": GuestChangedEvent1;
     }
     interface HTMLIrGuestInfoFormElement extends Components.IrGuestInfoForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestInfoFormElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoFormElement, ev: IrGuestInfoFormCustomEvent<HTMLIrGuestInfoFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5810,7 +5812,7 @@ declare global {
     interface HTMLIrPaymentFolioFormElementEventMap {
         "closeModal": null;
         "resetBookingEvt": null;
-        "resetExposedCancellationDueAmount": null;
+        "resetExposedCancellationDueAmount": Pick<Booking, 'booking_nbr'>;
         "loadingChanged": 'save' | 'save-print' | null;
     }
     interface HTMLIrPaymentFolioFormElement extends Components.IrPaymentFolioForm, HTMLStencilElement {
@@ -6910,7 +6912,6 @@ declare namespace LocalJSX {
     }
     interface IglBookPropertyFooter {
         "dateRangeData"?: { [key: string]: any };
-        "disabled"?: boolean;
         "eventType"?: string;
         "isEditOrAddRoomEvent"?: boolean;
         "isLoading"?: string;
@@ -8318,6 +8319,7 @@ declare namespace LocalJSX {
         "booking_nbr"?: string;
         "email"?: string;
         "language"?: string;
+        "onGuestChanged"?: (event: IrGuestInfoDrawerCustomEvent<GuestChangedEvent>) => void;
         "onGuestInfoDrawerClosed"?: (event: IrGuestInfoDrawerCustomEvent<{ source: Element }>) => void;
         "onResetBookingEvt"?: (event: IrGuestInfoDrawerCustomEvent<null>) => void;
         "onToast"?: (event: IrGuestInfoDrawerCustomEvent<IToast>) => void;
@@ -8329,7 +8331,7 @@ declare namespace LocalJSX {
         "countries"?: ICountry[];
         "guest"?: Guest;
         "language"?: string;
-        "onGuestChanged"?: (event: IrGuestInfoFormCustomEvent<Partial<Guest>>) => void;
+        "onGuestChanged"?: (event: IrGuestInfoFormCustomEvent<GuestChangedEvent1>) => void;
     }
     interface IrGuestNameCell {
         "name"?: Guest;
@@ -9307,7 +9309,7 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrPaymentFolioFormCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IrPaymentFolioFormCustomEvent<'save' | 'save-print' | null>) => void;
         "onResetBookingEvt"?: (event: IrPaymentFolioFormCustomEvent<null>) => void;
-        "onResetExposedCancellationDueAmount"?: (event: IrPaymentFolioFormCustomEvent<null>) => void;
+        "onResetExposedCancellationDueAmount"?: (event: IrPaymentFolioFormCustomEvent<Pick<Booking, 'booking_nbr'>>) => void;
         "payment"?: Payment1;
         "paymentEntries"?: PaymentEntries1;
     }

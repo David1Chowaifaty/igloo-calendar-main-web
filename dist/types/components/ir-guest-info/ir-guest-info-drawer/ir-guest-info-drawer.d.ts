@@ -2,6 +2,7 @@ import { Guest } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { ICountry } from "../../../models/IBooking";
 import { IToast } from "../../ui/ir-toast/toast";
+import { GuestChangedEvent } from "../../../components";
 export declare class IrGuestInfoDrawer {
     open: boolean;
     language: string;
@@ -15,6 +16,7 @@ export declare class IrGuestInfoDrawer {
     guestInfoDrawerClosed: EventEmitter<{
         source: Element;
     }>;
+    guestChanged: EventEmitter<GuestChangedEvent>;
     resetBookingEvt: EventEmitter<null>;
     toast: EventEmitter<IToast>;
     hostElement: HTMLElement;

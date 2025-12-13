@@ -21,6 +21,7 @@ export declare class IrDepartures {
     handleTicketChange(newValue: string, oldValue: string): void;
     handleOpen(e: CustomEvent): void;
     handleBookingPayment(e: CustomEvent): void;
+    handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
     private init;
     private getBookings;
     private handleCheckoutRoom;

@@ -2,7 +2,6 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TPropertyButtonsTypes } from '../../../../models/igl-book-property';
 export declare class IglBookPropertyFooter {
     eventType: string;
-    disabled: boolean;
     page: string;
     isEditOrAddRoomEvent: boolean;
     dateRangeData: {

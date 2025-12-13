@@ -237,7 +237,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     currency_id: z.ZodNumber;
     description: z.ZodString;
     end_date: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
-    start_date: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
+    start_date: z.ZodString;
     price: z.ZodNumber;
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {

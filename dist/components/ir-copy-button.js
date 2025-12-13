@@ -77,7 +77,7 @@ const IrCopyButton$1 = /*@__PURE__*/ proxyCustomElement(class IrCopyButton exten
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '0462b12433ad2e1f2a7dff525764a46aa4efe9ab', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: 'b5ff1da47478fba6cea88ffd8b0f86a821c475ac', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
     static get style() { return IrCopyButtonStyle0; }
 }, [2, "ir-copy-button", {

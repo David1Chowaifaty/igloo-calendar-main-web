@@ -54,6 +54,11 @@ export class IrDepartures {
         };
         this.paymentFolioRef.openFolio();
     }
+    async handleResetExposedCancellationDueAmount(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.getBookings();
+    }
     async init() {
         try {
             this.isPageLoading = true;
@@ -283,6 +288,12 @@ export class IrDepartures {
             }, {
                 "name": "payBookingBalance",
                 "method": "handleBookingPayment",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "resetExposedCancellationDueAmount",
+                "method": "handleResetExposedCancellationDueAmount",
                 "target": undefined,
                 "capture": false,
                 "passive": false

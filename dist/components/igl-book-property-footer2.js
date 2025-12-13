@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-custom-button2.js';
@@ -15,7 +14,6 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
     }
     eventType;
-    disabled = true;
     page;
     isEditOrAddRoomEvent;
     dateRangeData;
@@ -35,7 +33,7 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
         }
         return 'flex-fill';
     }
-    renderButton({ label, type, disabled, 
+    renderButton({ label, type, disabled = false, 
     // icon_name,
     isLoading, appearance, variant, }) {
         return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { size: 'medium', loading: isLoading, appearance: appearance, variant: variant, disabled: disabled, onClickHandler: () => {
@@ -51,7 +49,6 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
                 this.renderButton({
                     type: 'next',
                     label: `${locales.entries.Lcz_Next}`,
-                    disabled: isRequestPending('/Get_Exposed_Booking_Availability'),
                     icon_name: 'angles_right',
                     variant: 'brand',
                     appearance: 'accent',
@@ -77,7 +74,6 @@ const IglBookPropertyFooter = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     static get style() { return IglBookPropertyFooterStyle0; }
 }, [2, "igl-book-property-footer", {
         "eventType": [1, "event-type"],
-        "disabled": [4],
         "page": [1],
         "isEditOrAddRoomEvent": [516, "is-edit-or-add-room-event"],
         "dateRangeData": [16],
