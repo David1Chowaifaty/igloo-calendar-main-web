@@ -2,12 +2,13 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { B as BookingService } from './booking.service.js';
 import { m as buildSplitIndex, f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$8 } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$7 } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$6 } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$5 } from './ir-custom-button2.js';
-import { d as defineCustomElement$4 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$3 } from './ir-dialog2.js';
+import { d as defineCustomElement$9 } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$8 } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$7 } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
+import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$4 } from './ir-dialog2.js';
+import { d as defineCustomElement$3 } from './ir-empty-state2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
@@ -69,7 +70,6 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
     toBeInvoicedItems;
     invoiceDate = hooks();
     notInvoiceableItemKeys = new Set();
-    splitDisabledKeys = new Set();
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -98,10 +98,15 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
     previewProformaInvoice;
     loadingChange;
     room;
+    splitDisabledKeys = new Set();
+    confirmButtonRef;
     bookingService = new BookingService();
     invoiceTarget;
     componentWillLoad() {
         this.init();
+    }
+    componentDidLoad() {
+        this.confirmButtonRef = document.querySelector(`#confirm-btn_${this.formId}`);
     }
     handleViewModeChange() {
         this.enforceNonInvoiceableSelections();
@@ -214,6 +219,17 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             }
         });
         this.toBeInvoicedItems = selectedItems;
+        if (!this.confirmButtonRef) {
+            return;
+        }
+        if (this.toBeInvoicedItems.length === 0) {
+            this.confirmButtonRef.disabled = true;
+        }
+        else {
+            if (this.confirmButtonRef.disabled) {
+                this.confirmButtonRef.disabled = false;
+            }
+        }
     }
     canInvoiceRoom(room) {
         return Boolean(room && this.invoicableKey?.has(room.system_id));
@@ -517,7 +533,24 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
-            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
+    }
+    renderCancellationPenalty() {
+        const cancellationPenalty = this.booking.financial.payments?.find(p => p.payment_type?.code === '013');
+        if (!cancellationPenalty) {
+            return null;
+        }
+        const sysId = cancellationPenalty.id;
+        if (!this.invoicableKey.has(sysId)) {
+            return null;
+        }
+        const item = this.invoicableKey.get(sysId);
+        const isSelected = this.isSelected([sysId]);
+        const isDisabled = this.isDisabled([sysId]);
+        return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
+                const value = e.target.checked;
+                this.handleCheckChange({ checked: value, system_id: sysId });
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Cancellation penalty"), this.getDateView(cancellationPenalty.date, null)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, item.amount))))));
     }
     render() {
         if (this.isLoading) {
@@ -531,7 +564,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             }, class: "ir-invoice__container" }, h("ir-custom-date-picker", { onDateChanged: e => {
                 this.invoiceDate = e.detail.start;
                 this.setUpDisabledItems();
-            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
+            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
             const sysId = extra_service.system_id;
             if (!this.invoicableKey?.has(sysId)) {
                 return null;
@@ -542,7 +575,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
                 }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
-        }))))));
+        }), this.renderCancellationPenalty())))));
     }
     static get watchers() { return {
         "viewMode": ["handleViewModeChange"],
@@ -575,7 +608,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-invoice-form", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-input", "ir-spinner"];
+    const components = ["ir-invoice-form", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-empty-state", "ir-input", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-invoice-form":
             if (!customElements.get(tagName)) {
@@ -584,30 +617,35 @@ function defineCustomElement() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

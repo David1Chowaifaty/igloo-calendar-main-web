@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$i } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$h } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$g } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$d } from './ir-dialog2.js';
-import { d as defineCustomElement$c } from './ir-drawer2.js';
+import { d as defineCustomElement$j } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$i } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$h } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$g } from './ir-custom-button2.js';
+import { d as defineCustomElement$f } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-dialog2.js';
+import { d as defineCustomElement$d } from './ir-drawer2.js';
+import { d as defineCustomElement$c } from './ir-empty-state2.js';
 import { d as defineCustomElement$b } from './ir-input2.js';
 import { d as defineCustomElement$a } from './ir-invoice2.js';
 import { d as defineCustomElement$9 } from './ir-invoice-form2.js';
@@ -1456,7 +1457,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-test2-cmp", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
+    const components = ["ir-test2-cmp", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-test2-cmp":
             if (!customElements.get(tagName)) {
@@ -1465,35 +1466,40 @@ function defineCustomElement$1() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }

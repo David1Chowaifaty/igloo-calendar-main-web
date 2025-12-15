@@ -45,6 +45,7 @@ export declare class IrProformaInvoicePreview {
     private renderPropertyInfo;
     private formatBookingDates;
     private renderBillToSection;
+    private renderCancellationPenalty;
     render(): any;
 }
 export {};

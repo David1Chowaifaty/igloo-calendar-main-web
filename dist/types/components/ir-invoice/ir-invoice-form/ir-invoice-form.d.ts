@@ -49,7 +49,6 @@ export declare class IrInvoiceForm {
     toBeInvoicedItems: InvoiceableItem[];
     invoiceDate: Moment;
     notInvoiceableItemKeys: Set<number>;
-    private splitDisabledKeys;
     /**
      * Emitted when the invoice drawer is opened.
      *
@@ -78,9 +77,12 @@ export declare class IrInvoiceForm {
     previewProformaInvoice: EventEmitter<IssueInvoiceProps>;
     loadingChange: EventEmitter<boolean>;
     private room;
+    private splitDisabledKeys;
+    private confirmButtonRef;
     private bookingService;
     private invoiceTarget;
     componentWillLoad(): void;
+    componentDidLoad(): void;
     handleViewModeChange(): void;
     handleBookingChange(): void;
     handleInvoiceInfoChange(): void;
@@ -108,5 +110,6 @@ export declare class IrInvoiceForm {
     private isSelected;
     private isDisabled;
     private renderPickup;
+    private renderCancellationPenalty;
     render(): any;
 }

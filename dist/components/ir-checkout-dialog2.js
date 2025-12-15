@@ -5,7 +5,7 @@ import { d as defineCustomElement$3 } from './ir-custom-button2.js';
 import { d as defineCustomElement$2 } from './ir-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irCheckoutDialogCss = ":host{display:block}";
+const irCheckoutDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}:host{display:block}";
 const IrCheckoutDialogStyle0 = irCheckoutDialogCss;
 
 const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog extends HTMLElement {

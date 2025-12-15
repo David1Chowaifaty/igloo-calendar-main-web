@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { O as OverflowRelease, a as OverflowAdd } from './OverflowLock.js';
 
-const irDialogCss = "";
+const irDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}";
 const IrDialogStyle0 = irDialogCss;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {

@@ -113,6 +113,17 @@ export class IrProformaInvoicePreview {
         }
         return (h("div", { class: "bill-to", "aria-label": "Bill to guest" }, billed_to_name && h("p", null, billed_to_name), h("p", { class: "bill-to__name" }, ' ', billed_to_name && h("b", null, "for"), " ", [guest.first_name ?? '', guest.last_name ?? ''].join(' ').trim()), guest.email && h("p", { class: "bill-to__contact" }, guest.email), this.guestPhoneNumber && h("p", { class: "bill-to__contact" }, this.guestPhoneNumber)));
     }
+    renderCancellationPenalty() {
+        const cancellationPenalty = this.booking.financial.payments?.find(p => p.payment_type?.code === '013');
+        if (!cancellationPenalty) {
+            return null;
+        }
+        const sysId = cancellationPenalty.id;
+        if (!this.invocableKeys.has(sysId)) {
+            return null;
+        }
+        return (h("section", { class: "proforma-payment__section" }, h("div", { class: "ir-proforma-invoice__service" }, h("div", { class: 'ir-proforma-invoice__cancellation-info' }, h("p", null, "Cancellation penalty"), h("p", { class: 'ir-proforma-invoice__cancellation-date' }, "( ", this.formatDisplayDate(cancellationPenalty.date), " )")), h("span", { class: "ir-proforma-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, cancellationPenalty.amount)))));
+    }
     render() {
         if (!this.booking || !this.invoice || !this.property) {
             return;
@@ -127,7 +138,7 @@ export class IrProformaInvoicePreview {
         const existInvocablePickup = this.invocableKeys?.has(this.booking.pickup_info?.['system_id']);
         return (h(Host, null, h("article", { class: "invoice", "aria-label": "Pro-forma invoice" }, h("header", { class: "invoice__header" }, h("h3", { class: "invoice__title" }, "Pro-forma Invoice"), h("section", { class: "invoice__layout", "aria-label": "Invoice summary" }, h("div", { class: "invoice__column invoice__column--details" }, h("div", { class: "invoice__details" }, h("ir-printing-label", { label: "Date of issue:", content: this.issueDate }), h("ir-printing-label", { label: "Booking no:", content: this.bookingNumber })), billToContent && (h("section", { class: "bill-to-section", "aria-label": "Bill to" }, h("h4", { class: "section-heading" }, "Bill To"), billToContent))), h("div", { class: "invoice__column invoice__column--property" }, companyDetails && (h("section", { class: "issuer-section", "aria-label": "Issuer" }, companyDetails)), propertyOverview))), h("main", null, existInvocableRoom && (h("section", { style: { marginTop: '2.5rem' } }, h("div", { class: "proforma__accommodation-container" }, h("p", { class: "proforma__accommodation-title" }, "ACCOMMODATION"), h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.from_date)), h("p", { class: "booking-dates" }, this.formatBookingDates(this.booking?.to_date)), h("p", { class: "number-of-nights" }, totalNights, " ", totalNights === 1 ? 'night' : 'nights'), h("p", { class: "vat-exclusion" }, h("i", null, this.property?.tax_statement))), h("div", null, invocableRoom.map((room, idx) => {
             return (h(Fragment, null, h("ir-print-room", { room: room, idx: idx, booking: this.booking, key: room.identifier, currency: this.booking.currency.symbol, property: this.property })));
-        })))), existInvocablePickup && h("ir-printing-pickup", { pickup: this.booking.pickup_info }), existInvocableExtraService && (h("ir-printing-extra-service", { invocableKeys: this.invocableKeys, extraServices: this.booking.extra_services, currency: this.booking.currency })), h("section", { class: "proforma-payment__section" }, h("ir-printing-label", { label: "Balance:", content: formatAmount(this.booking.currency.symbol, this.booking.financial.due_amount) }), h("ir-printing-label", { label: "Collected (payments - refunds):", content: formatAmount(this.booking.currency.symbol, this.booking.financial.collected + this.booking.financial.refunds) }))), this.footerNote && (h("footer", { class: "invoice__footer" }, h("p", { class: "invoice__footer-note" }, this.footerNote))))));
+        })))), existInvocablePickup && h("ir-printing-pickup", { pickup: this.booking.pickup_info }), existInvocableExtraService && (h("ir-printing-extra-service", { invocableKeys: this.invocableKeys, extraServices: this.booking.extra_services, currency: this.booking.currency })), this.renderCancellationPenalty(), h("section", { class: "proforma-payment__section" }, h("ir-printing-label", { label: "Balance:", content: formatAmount(this.booking.currency.symbol, this.booking.financial.due_amount) }), h("ir-printing-label", { label: "Collected (payments - refunds):", content: formatAmount(this.booking.currency.symbol, this.booking.financial.collected + this.booking.financial.refunds) }))), this.footerNote && (h("footer", { class: "invoice__footer" }, h("p", { class: "invoice__footer-note" }, this.footerNote))))));
     }
     static get is() { return "ir-proforma-invoice-preview"; }
     static get encapsulation() { return "shadow"; }

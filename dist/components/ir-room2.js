@@ -4,15 +4,16 @@ import { z as formatName, f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
 import { B as BookingService } from './booking.service.js';
-import { d as defineCustomElement$l } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$k } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$j } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$i } from './ir-checkout-dialog2.js';
-import { d as defineCustomElement$h } from './ir-custom-button2.js';
-import { d as defineCustomElement$g } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$f } from './ir-date-view2.js';
-import { d as defineCustomElement$e } from './ir-dialog2.js';
-import { d as defineCustomElement$d } from './ir-drawer2.js';
+import { d as defineCustomElement$m } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$l } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$k } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$j } from './ir-checkout-dialog2.js';
+import { d as defineCustomElement$i } from './ir-custom-button2.js';
+import { d as defineCustomElement$h } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$g } from './ir-date-view2.js';
+import { d as defineCustomElement$f } from './ir-dialog2.js';
+import { d as defineCustomElement$e } from './ir-drawer2.js';
+import { d as defineCustomElement$d } from './ir-empty-state2.js';
 import { d as defineCustomElement$c } from './ir-input2.js';
 import { d as defineCustomElement$b } from './ir-invoice2.js';
 import { d as defineCustomElement$a } from './ir-invoice-form2.js';
@@ -425,7 +426,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-room", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-checkout-dialog", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner", "ir-unit-tag"];
+    const components = ["ir-room", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-checkout-dialog", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner", "ir-unit-tag"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-room":
             if (!customElements.get(tagName)) {
@@ -434,45 +435,50 @@ function defineCustomElement() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-checkout-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }

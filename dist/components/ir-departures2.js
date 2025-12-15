@@ -126,7 +126,7 @@ const IrDepartures = /*@__PURE__*/ proxyCustomElement(class IrDepartures extends
         });
     }
     handleTicketChange(newValue, oldValue) {
-        if (newValue !== oldValue && newValue) {
+        if (newValue !== oldValue) {
             this.tokenService.setToken(this.ticket);
             this.init();
         }
@@ -187,7 +187,7 @@ const IrDepartures = /*@__PURE__*/ proxyCustomElement(class IrDepartures extends
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckout({
-            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
+            property_id: calendar_data.property?.id?.toString() || this.propertyid?.toString(),
             check_out_date: departuresStore.today,
             page_index: departuresStore.pagination.currentPage,
             page_size: departuresStore.pagination.pageSize,
