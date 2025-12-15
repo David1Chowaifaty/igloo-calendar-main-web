@@ -33,17 +33,17 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
     }
     render() {
         console.log(this.filters);
-        return (h("ir-filters-panel", { key: '4801a3e994b5c580df74f5bd3155a1cdc76024b1', isApplyLoading: this.isLoading, onIrFilterApply: () => {
+        return (h("ir-filters-panel", { key: 'e56ac0749aababdb9e8a3924b3f3755aec8d7482', isApplyLoading: this.isLoading, onIrFilterApply: () => {
                 this.applyFilters.emit(this.filters);
             }, onIrFilterReset: () => {
                 this.filters = { ...this.baseFilters };
                 this.applyFilters.emit(this.filters);
-            } }, h("fieldset", { key: 'f42a06525dc7477f11f4b97b3be6640a9fce49d2', class: "pt-1 filter-group" }, h("label", { key: 'a1e7dcb9a57936d547b27a8f0d364bcc6d7a5063', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: '972507aca70f6760a4ca13e94cb3779ea09f4590', selectedValue: this.filters?.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
+            } }, h("fieldset", { key: '2842777f13afb2c5e3ca65062ef42b8b1258ce93', class: "pt-1 filter-group" }, h("label", { key: '0254e53ba7989c1aa70662e21017b6eb281dcd00', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Rooms"), h("ir-select", { key: '8af1337e3836c6266fb9ba0202ddbe5971226340', selectedValue: this.filters?.BOOK_CASE, selectId: "rooms", showFirstOption: false, onSelectChange: e => this.updateFilter({
                 BOOK_CASE: e.detail,
             }), data: [
                 { text: 'Booked', value: '001' },
                 { text: 'Stayed', value: '002' },
-            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '2e498dde6e3fafc29024814ad593413bd5ecd8a2', class: "filter-group" }, h("label", { key: '94fc2bf625366e86b41ca1de6ecb9ca475aa3e7f', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-m-combobox", { key: 'ba964dd97e505e58b52f3de3f0a46f865b1315d5', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
+            ] })), this.allowedProperties.length > 1 && (h("fieldset", { key: '3177f20e92393f6bfaeb310e793774b5e25c6b40', class: "filter-group" }, h("label", { key: '090ac9a038d4b19663b3d7e26b25c420c39782db', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "Properties"), h("ir-m-combobox", { key: 'd8ef34fb905b42c29d040c8c1e3eb67cc90ae4d0', defaultOption: this.filters?.LIST_AC_ID?.length === this.allowedProperties?.length ? 'all' : this.filters?.LIST_AC_ID[0]?.toString(), onOptionChange: e => {
                 const value = e.detail.value;
                 if (value === 'all') {
                     this.updateFilter({
@@ -60,7 +60,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                     label: p.name,
                     value: p.id.toString(),
                 })),
-            ] }))), h("fieldset", { key: 'e33bca75b11e83f28f94630fc4ce6c2eadc58632', class: "filter-group" }, h("label", { key: '016254142678725ef1480c471d38f5c7573cb68c', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: 'aa7d8c5c26b1c2d76b74d617b0964c81d834a769', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: 'aa353a3fe2b8bdaf3de524ac4bb621ef784fa29f', selectedValue: this.window?.toString(), onSelectChange: e => {
+            ] }))), h("fieldset", { key: 'b0ba53886cf8a21a0961d70cfcd4c9e5e104a659', class: "filter-group" }, h("label", { key: 'b0103bad94877ee3e72bf345822fc6c29d25f201', htmlFor: "period", class: "px-0 m-0", style: { paddingBottom: '0.25rem' } }, "Selected period"), h("div", { key: 'de479cc8acd670638f758cca2d6856619e190d59', class: "d-flex flex-column date-filter-group", style: { gap: '0.5rem' } }, h("ir-select", { key: '4a719989f140bf44010e96f83c0d54d1db5df78e', selectedValue: this.window?.toString(), onSelectChange: e => {
                 const dateDiff = Number(e.detail);
                 const today = hooks();
                 this.updateFilter({
@@ -78,7 +78,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                 { text: 'For the past 60 days', value: '60' },
                 { text: 'For the past 90 days', value: '90' },
                 { text: 'For the past 365 days', value: '365' },
-            ] }), h("p", { key: 'b5942146e4eccf9929ce5c79559d602391ff885d', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: 'e51a3f3cc37a02dbad189349011621e5cea17ed9', onDateRangeChanged: e => {
+            ] }), h("p", { key: 'abebe73eac4e55871e6327a566bdb2afdf18a733', class: "m-0 p-0 text-center" }, "Or"), h("ir-range-picker", { key: 'a445faec3a650633ee5a64e60dcdf28557aabf04', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate, wasFocused } = e.detail;
@@ -89,7 +89,7 @@ const IrSalesByChannelFilters = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
                 if (wasFocused)
                     this.window = null;
                 // this.dates = { from: fromDate, to: toDate };
-            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '8bc615fc399f70760bd97bf0555e9b1870a58ab9', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '8ad88e74a3cbd80075110e2e055e20acaffd062f', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '6be43cc58a3d69b5770c008cef724290c267591b', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            }, fromDate: hooks(this.filters.FROM_DATE, 'YYYY-MM-DD'), toDate: hooks(this.filters.TO_DATE, 'YYYY-MM-DD'), maxDate: hooks().format('YYYY-MM-DD'), withOverlay: false }))), h("div", { key: '8e990823baeb9bc3c6a75e0f52ba69c4d553c09a', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '5abf909808fcd3cfd8ff2ecbebab82703a56c278', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '8c973a1c5051ecf241b7880878170bfcbfcda8c6', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });

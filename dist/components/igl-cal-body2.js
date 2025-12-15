@@ -4,10 +4,11 @@ import { H as HouseKeepingService } from './housekeeping.service.js';
 import { k as calendar_dates, q as compareTime, r as createDateWithOffsetAndHour } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$b } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$a } from './igl-booking-event2.js';
-import { d as defineCustomElement$9 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
+import { d as defineCustomElement$c } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$b } from './igl-booking-event2.js';
+import { d as defineCustomElement$a } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$9 } from './ir-button2.js';
+import { d as defineCustomElement$8 } from './ir-custom-button2.js';
 import { d as defineCustomElement$7 } from './ir-date-view2.js';
 import { d as defineCustomElement$6 } from './ir-dropdown2.js';
 import { d as defineCustomElement$5 } from './ir-dropdown-item2.js';
@@ -429,9 +430,9 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         }
     }
     render() {
-        return (h(Host, { key: '3edaaacd33492cd989c144c039d7afc54a4a928a' }, h("div", { key: 'fb27870b459bef8bcbfb1dcdff1cba4b699dde70', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '82d00c4a52830af695cf0268d964ccb4a1a85b5d', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'c0660eab286f747c8ec05a88cd6c32bb083c0853' }, h("div", { key: '36e2603e116677581ce742a8c585ccfd1173505f', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '374ee868c8054e06e800f55203dc647b7a70d0ec', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '1a71ec86a1a232aebdf0f7bc42eff4b78048dbd0', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: '874d1e47edef6ecd2cccaead5b158bf9571f54e0', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -520,7 +521,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "ir-button", "ir-custom-button", "ir-date-view", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-interactive-title", "ir-label", "ir-modal"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -529,20 +530,25 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "igl-booking-event-hover":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

@@ -8,7 +8,7 @@ import { c as calendar_data } from './calendar-data.js';
 import { C as ClickOutside } from './ClickOutside.js';
 import { d as defineCustomElement$8 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$7 } from './igl-booking-event-hover2.js';
-import { d as defineCustomElement$6 } from './ir-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-view2.js';
 import { d as defineCustomElement$4 } from './ir-dropdown2.js';
 import { d as defineCustomElement$3 } from './ir-dropdown-item2.js';
@@ -915,7 +915,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-event", "igl-block-dates-view", "igl-booking-event-hover", "ir-button", "ir-date-view", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-label"];
+    const components = ["igl-booking-event", "igl-block-dates-view", "igl-booking-event-hover", "ir-custom-button", "ir-date-view", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
@@ -932,7 +932,7 @@ function defineCustomElement() {
                 defineCustomElement$7();
             }
             break;
-        case "ir-button":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

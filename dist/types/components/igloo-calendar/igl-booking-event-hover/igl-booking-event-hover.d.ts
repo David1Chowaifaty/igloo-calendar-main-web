@@ -85,5 +85,6 @@ export declare class IglBookingEventHover {
     private handleSplitBooking;
     private getNewBookingOptions;
     private getBlockedView;
+    private renderPointer;
     render(): any;
 }
