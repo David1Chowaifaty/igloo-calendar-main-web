@@ -4,10 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
 const utils = require('./utils-9892967b.js');
-const property_service = require('./property.service-e816aaaf.js');
+const events_service = require('./events.service-62433a31.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-4eb57996.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
+const property_service = require('./property.service-469c5c9c.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
 require('./index-6299b0f7.js');
@@ -42,7 +43,7 @@ const IglBookingEventHover = class {
     bookingCreated;
     showDialog;
     openCalendarSidebar;
-    eventService = new property_service.EventsService();
+    eventService = new events_service.EventsService();
     hideButtons = false;
     propertyService = new property_service.PropertyService();
     baseColor;
