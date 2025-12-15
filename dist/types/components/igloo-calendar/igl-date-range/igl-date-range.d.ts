@@ -17,14 +17,14 @@ export declare class IglDateRange {
     }>;
     toast: EventEmitter<IToast>;
     private totalNights;
-    private fromDate;
-    private toDate;
+    fromDate: Date;
+    toDate: Date;
     componentWillLoad(): void;
     handleDataChange(newValue: any, oldValue: any): void;
     private initializeDates;
     private calculateTotalNights;
     private handleDateSelectEvent;
     private handleDateChange;
-    private renderDateSummary;
+    private get dates();
     render(): any;
 }

@@ -18,7 +18,7 @@ import { d as defineCustomElement$d } from './igl-room-type2.js';
 import { d as defineCustomElement$c } from './ir-button2.js';
 import { d as defineCustomElement$b } from './ir-country-picker2.js';
 import { d as defineCustomElement$a } from './ir-custom-button2.js';
-import { d as defineCustomElement$9 } from './ir-date-range2.js';
+import { d as defineCustomElement$9 } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$8 } from './ir-date-view2.js';
 import { d as defineCustomElement$7 } from './ir-icons2.js';
 import { d as defineCustomElement$6 } from './ir-input2.js';
@@ -981,7 +981,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property", "igl-application-info", "igl-block-dates-view", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-range", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-spinner"];
+    const components = ["igl-book-property", "igl-application-info", "igl-block-dates-view", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property":
             if (!customElements.get(tagName)) {
@@ -1053,7 +1053,7 @@ function defineCustomElement() {
                 defineCustomElement$a();
             }
             break;
-        case "ir-date-range":
+        case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }

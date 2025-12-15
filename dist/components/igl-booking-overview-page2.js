@@ -7,7 +7,7 @@ import { d as defineCustomElement$8 } from './igl-date-range2.js';
 import { d as defineCustomElement$7 } from './igl-rate-plan2.js';
 import { d as defineCustomElement$6 } from './igl-room-type2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
-import { d as defineCustomElement$4 } from './ir-date-range2.js';
+import { d as defineCustomElement$4 } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-picker2.js';
 import { d as defineCustomElement$1 } from './ir-picker-item2.js';
@@ -44,7 +44,7 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
     }
     setMinDate() {
         if (!this.isEventType('EDIT_BOOKING')) {
-            return;
+            return hooks().format('YYYY-MM-DD');
         }
         const from_date = hooks(this.bookingData.FROM_DATE, 'YYYY-MM-DD');
         const today = hooks();
@@ -54,9 +54,9 @@ const IglBookingOverviewPage = /*@__PURE__*/ proxyCustomElement(class IglBooking
         return from_date.add(-2, 'weeks').format('YYYY-MM-DD');
     }
     render() {
-        return (h(Host, { key: 'cb53219eb53a1b39b55752774d80b5481cea9500' }, h("igl-book-property-header", { key: '3864127437bad3a26f8877d39b6a07c6063f8004', wasBlockedUnit: this.wasBlockedUnit, bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
+        return (h(Host, { key: '8d83ce49af6b764a69d196c3f0c2184d616f9f95' }, h("igl-book-property-header", { key: '674c21608b42da29867fa77389f0a9db6e9a1950', wasBlockedUnit: this.wasBlockedUnit, bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
             // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
-            splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: '81a9ba63b0e04eca6094bc447be523868be4e853', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }))))))));
+            splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'b96f71fe7d2e9d25db562d772fdfc3ee02822e35', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }))))))));
     }
     static get style() { return IglBookingOverviewPageStyle0; }
 }, [2, "igl-booking-overview-page", {
@@ -79,7 +79,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-booking-overview-page", "igl-book-property-header", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-custom-button", "ir-date-range", "ir-input", "ir-picker", "ir-picker-item"];
+    const components = ["igl-booking-overview-page", "igl-book-property-header", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-custom-button", "ir-custom-date-picker", "ir-input", "ir-picker", "ir-picker-item"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-booking-overview-page":
             if (!customElements.get(tagName)) {
@@ -111,7 +111,7 @@ function defineCustomElement() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-date-range":
+        case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

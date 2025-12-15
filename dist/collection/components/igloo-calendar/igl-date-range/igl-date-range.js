@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
 import moment from "moment";
@@ -15,8 +15,8 @@ export class IglDateRange {
     dateSelectEvent;
     toast;
     totalNights = 0;
-    fromDate;
-    toDate;
+    fromDate = moment().toDate();
+    toDate = moment().add(1, 'day').toDate();
     componentWillLoad() {
         this.initializeDates();
     }
@@ -60,20 +60,54 @@ export class IglDateRange {
         });
         this.renderAgain = !this.renderAgain;
     }
-    renderDateSummary(showNights) {
-        const fromDateDisplay = moment(this.fromDate).format('MMM DD, YYYY');
-        const toDateDisplay = moment(this.toDate).format('MMM DD, YYYY');
-        const shouldRenderNights = showNights && this.totalNights > 0;
-        return (h("div", { class: {
-                'date-range-display': true,
-                'date-range-display--disabled': this.disabled,
-            } }, h("wa-icon", { variant: "regular", name: "calendar" }), h("span", { class: "date-range-date" }, fromDateDisplay), h("wa-icon", { name: "arrow-right" }), h("span", { class: "date-range-date" }, toDateDisplay), shouldRenderNights && (h("span", { class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+    // private renderDateSummary(showNights: boolean) {
+    //   const fromDateDisplay = moment(this.fromDate).format('MMM DD, YYYY');
+    //   const toDateDisplay = moment(this.toDate).format('MMM DD, YYYY');
+    //   const shouldRenderNights = showNights && this.totalNights > 0;
+    //   return (
+    //     <div
+    //       class={{
+    //         'date-range-display': true,
+    //         'date-range-display--disabled': this.disabled,
+    //       }}
+    //     >
+    //       <wa-icon variant="regular" name="calendar"></wa-icon>
+    //       <span class="date-range-date">{fromDateDisplay}</span>
+    //       <wa-icon name="arrow-right"></wa-icon>
+    //       <span class="date-range-date">{toDateDisplay}</span>
+    //       {shouldRenderNights && (
+    //         <span class="date-range-nights">{this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)}</span>
+    //       )}
+    //     </div>
+    //   );
+    // }
+    get dates() {
+        const fromDate = moment(this.fromDate).format('YYYY-MM-DD');
+        const toDate = moment(this.toDate).format('YYYY-MM-DD');
+        return [fromDate, toDate];
     }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (h(Host, { key: '0bebafba8d7aa998122d7af59c3324809f221114', size: this.size }, h("div", { key: 'b060dc3cf93adfe1166e85a9a62444b0ddd8cffe', class: `date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}` }, h("ir-date-range", { key: '3a3f18d202b80537d71442d1ebc408e7e085e87b', maxDate: this.maxDate, class: 'date-range-input', disabled: this.disabled, fromDate: this.fromDate, toDate: this.toDate, minDate: this.minDate, autoApply: true, "data-state": this.disabled ? 'disabled' : 'active', onDateChanged: evt => {
-                this.handleDateChange(evt);
-            } }), this.renderDateSummary(showNights))));
+        return (
+        // <Host size={this.size}>
+        //   <div class={`date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}`}>
+        //     <ir-date-range
+        //       maxDate={this.maxDate}
+        //       class={'date-range-input'}
+        //       disabled={this.disabled}
+        //       fromDate={this.fromDate}
+        //       toDate={this.toDate}
+        //       minDate={this.minDate}
+        //       autoApply
+        //       data-state={this.disabled ? 'disabled' : 'active'}
+        //       onDateChanged={evt => {
+        //         this.handleDateChange(evt);
+        //       }}
+        //     ></ir-date-range>
+        //     {this.renderDateSummary(showNights)}
+        //   </div>
+        // </Host>
+        h("ir-custom-date-picker", { key: '020f961ae5397008d5571912bfe8775969eb19f9', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, dates: this.dates }, h("wa-icon", { key: '6f67b0290f69e842b3d5502ea4a99da80fd3b22d', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: '170663fa002e19b92e8f346bb3db5a3bc5266f80', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get is() { return "igl-date-range"; }
     static get encapsulation() { return "shadow"; }
@@ -247,7 +281,9 @@ export class IglDateRange {
     }
     static get states() {
         return {
-            "renderAgain": {}
+            "renderAgain": {},
+            "fromDate": {},
+            "toDate": {}
         };
     }
     static get events() {

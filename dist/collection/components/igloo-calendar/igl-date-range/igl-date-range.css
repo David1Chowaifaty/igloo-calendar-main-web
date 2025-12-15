@@ -1,20 +1,4 @@
-@layer wa-utilities {
-  :host([size='small']),
-  .wa-size-s {
-    font-size: var(--wa-font-size-s);
-  }
-
-  :host([size='medium']),
-  .wa-size-m {
-    font-size: var(--wa-font-size-m);
-  }
-
-  :host([size='large']),
-  .wa-size-l {
-    font-size: var(--wa-font-size-l);
-  }
-}
-
+/* @import url('../../../assets/webawesome/utilities/size.css');
 
 :host {
   display: flex;
@@ -104,7 +88,7 @@
 .date-range-nights {
   font-weight: 500;
 }
-/*md*/
+
 @media (min-width: 768px) {
   :host {
     width: fit-content;
@@ -113,4 +97,12 @@
     min-width: 290px;
     width: fit-content;
   }
+} */
+:host {
+  display: flex;
+
+  min-width: 280px;
+}
+.custom-picker {
+  width: 100%;
 }

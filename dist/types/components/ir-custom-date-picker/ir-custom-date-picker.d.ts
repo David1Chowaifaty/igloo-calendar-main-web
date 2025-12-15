@@ -5,6 +5,7 @@ export declare class IrCustomDatePicker {
     withClear: boolean;
     placeholder: string;
     label: string;
+    dates: string[];
     /**
      * Determines whether the date picker is rendered inline or in a pop-up.
      * If `true`, the picker is always visible inline.

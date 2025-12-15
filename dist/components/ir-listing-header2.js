@@ -18,8 +18,8 @@ import { d as defineCustomElement$j } from './igl-room-type2.js';
 import { d as defineCustomElement$i } from './ir-button2.js';
 import { d as defineCustomElement$h } from './ir-country-picker2.js';
 import { d as defineCustomElement$g } from './ir-custom-button2.js';
-import { d as defineCustomElement$f } from './ir-date-picker2.js';
-import { d as defineCustomElement$e } from './ir-date-range2.js';
+import { d as defineCustomElement$f } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-date-picker2.js';
 import { d as defineCustomElement$d } from './ir-date-view2.js';
 import { d as defineCustomElement$c } from './ir-icons2.js';
 import { d as defineCustomElement$b } from './ir-input2.js';
@@ -132,7 +132,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-listing-header", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-picker", "ir-date-range", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-range-picker", "ir-spinner", "ir-toast"];
+    const components = ["ir-listing-header", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-container", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-picker", "ir-date-picker", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-range-picker", "ir-spinner", "ir-toast"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-listing-header":
             if (!customElements.get(tagName)) {
@@ -214,12 +214,12 @@ function defineCustomElement() {
                 defineCustomElement$g();
             }
             break;
-        case "ir-date-picker":
+        case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-date-range":
+        case "ir-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
