@@ -10,9 +10,10 @@ export class IrBalanceCell {
     isDirect;
     bookingNumber;
     currencySymbol;
+    removeBalance;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '4f9a23d9d628185a4fb0384afc326a7f309d83b2' }, this.label && h("p", { key: 'b8fec0e1af877be02dc9607b6298468a6eb09489', class: "cell-label" }, this.label, ":"), h("p", { key: 'c71dfed5f434f21c58554ef724ec93f30610b4d0', class: "ir-price" }, formatAmount(this.currencySymbol, this.financial.gross_total)), h("div", { key: 'e49b0804f89b1f2205072b2693ecdeae87f0f344', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '4ab8444e90aae1a62b05d53f185309bf3de48f47' }, this.label && h("p", { key: 'f9b9f542cf0c00721d3ce75988fbc4dd1fc36fdb', class: "cell-label" }, this.label, ":"), this.removeBalance && this.isDirect && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.financial.gross_total))), h("div", { key: '979097737de99ef794522745420b85a9c4ea2495', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -195,6 +196,25 @@ export class IrBalanceCell {
                 "getter": false,
                 "setter": false,
                 "attribute": "currency-symbol",
+                "reflect": false
+            },
+            "removeBalance": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "remove-balance",
                 "reflect": false
             }
         };

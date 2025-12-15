@@ -9,6 +9,7 @@ export declare class IrBalanceCell {
     isDirect: boolean;
     bookingNumber: string;
     currencySymbol: string;
+    removeBalance: boolean;
     payBookingBalance: EventEmitter<{
         booking_nbr: string;
         payment: Payment;

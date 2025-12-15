@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-b3dce66a.js';
-import { a as arrivalsStore } from './arrivals.store-2bfe4e65.js';
+import { a as arrivalsStore } from './arrivals.store-21c18d01.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { h as hooks } from './moment-ab846cee.js';
-import './utils-967be716.js';
+import './utils-7e795e17.js';
 import './index-1e1f097b.js';
 import './calendar-data-8a36a1b2.js';
 import './index-a124d225.js';
@@ -35,6 +35,15 @@ const IrArrivalsTable = class {
     renderBookingRows(booking, showAction) {
         return (booking.rooms ?? []).map((room, index) => this.renderRow(booking, room, index, showAction));
     }
+    compareGuests(booking, room) {
+        const roomGuest = room?.guest;
+        const bookingGuest = booking?.guest;
+        if (!roomGuest || !bookingGuest) {
+            return false;
+        }
+        const normalize = (value) => value?.trim().toLowerCase() ?? '';
+        return normalize(roomGuest.first_name) === normalize(bookingGuest.first_name) && normalize(roomGuest.last_name) === normalize(bookingGuest.last_name);
+    }
     async handleActionsClicked(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -59,7 +68,7 @@ const IrArrivalsTable = class {
     renderRow(booking, room, index, showAction) {
         const rowKey = `${booking.booking_nbr}-${room?.identifier ?? index}`;
         const isOverdueCheckIn = hooks(room.from_date, 'YYYY-MM-DD').startOf('day').isBefore(hooks().startOf('day'), 'dates');
-        return (h("tr", { class: "ir-table-row", key: rowKey }, h("td", { class: "sticky-column" }, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest })), h("td", null, h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { overdueCheckin: isOverdueCheckIn, checkIn: room.from_date, checkOut: room.to_date })), h("td", { class: "text-center" }, h("ir-balance-cell", { bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial })), h("td", null, h("div", { class: "arrivals-table__actions-cell" }, showAction ? (h("ir-actions-cell", { buttons: isOverdueCheckIn ? ['overdue_check_in'] : ['check_in'], onIrAction: e => {
+        return (h("tr", { class: "ir-table-row", key: rowKey }, h("td", { class: "sticky-column" }, h("ir-booking-number-cell", { source: booking.source, origin: booking.origin, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-by-cell", { guest: booking.guest }), !this.compareGuests(booking, room) && h("ir-guest-name-cell", { name: room.guest })), h("td", null, h("ir-unit-cell", { room: room })), h("td", null, h("ir-dates-cell", { overdueCheckin: isOverdueCheckIn, checkIn: room.from_date, checkOut: room.to_date })), h("td", { class: "text-center" }, h("ir-balance-cell", { bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial, removeBalance: true })), h("td", null, h("div", { class: "arrivals-table__actions-cell" }, showAction ? (h("ir-actions-cell", { buttons: isOverdueCheckIn ? ['overdue_check_in'] : ['check_in'], onIrAction: e => {
                 this.selectedBooking = booking;
                 this.handleActionsClicked(e);
             } })) : room.in_out.code === '001' ? ('In-house') : ('')))));
@@ -76,7 +85,7 @@ const IrArrivalsTable = class {
     }
     render() {
         const { needsCheckInBookings, inHouseBookings, futureBookings, pagination } = arrivalsStore;
-        return (h(Host, { key: '9b407718ce9e62dce11875d059026592d2bd35f7' }, h("div", { key: '0009c298dc3c133c1b9ac7b8ac5e8d2e0aa01c71', class: "table--container" }, h("table", { key: 'bfa6a5bb2e133d00878e689c7176f41ff558887d', class: "table data-table" }, h("thead", { key: '4307b19310e786c305d299d57ab947dbc035f0dd' }, h("tr", { key: 'd345d66946063dccbd78fa663e8ea1046785085f' }, h("th", { key: '032e0be8bf8e97a999e4d369713233ba7649a4fd' }, h("span", { key: '3010a57bc634676e3102d1f5164f631a72fa7661', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: '7b97a18327b1f2209a48951439fe8c08de7de67a' }, h("div", { key: '850c7e48a30ebc63544ac37d8ae161b70335a9fd' }, h("p", { key: '8731314834a311b80cf5c46b5beb0d79726aa024' }, "Booked by"))), h("th", { key: 'b8aa3626081e8a8502d79270064763120c62ae7f' }, "Guest name"), h("th", { key: 'fa38505b2f94fb1b94310656589de447649523e1' }, "Unit"), h("th", { key: '2124c4881f542da2cfa2ce49a6ead165ea42fadb' }, "Dates"), h("th", { key: '812c010e357a702c79c020b785f156e9c0593e9d', class: "text-center" }, "Balance"), h("th", { key: '2012f17678258e14c23dde47706e614695050e0c' }))), h("tbody", { key: '04656c01913e44166a19186072eded2cf04e1a96' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: 'cd4577c52a65f01254f771b76a4c1030565ba9cf' }, h("td", { key: '96defca00398a8d24553771be8b6c3f57637f0fa', colSpan: 7, class: "empty-row" }, "No arrivals found.")))))), h("ir-pagination", { key: '8589b669a1af1a9ae16245bf3e5f5e3a749f23f2', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
+        return (h(Host, { key: 'aeb8c7cbb5b6ff4d8087599c02847bde6b6d1715' }, h("div", { key: '657bac004c4f393eb627b25b0b9338481bf4e909', class: "table--container" }, h("table", { key: 'fb80232effe7659fa03a80bdccc67e6a9c9a565a', class: "table data-table" }, h("thead", { key: '077a7726fa0921dc7baf6ae4d7df6360dce0499f' }, h("tr", { key: 'a23401fa0763ac9c4bf5b79fef80440c5b3a251d' }, h("th", { key: 'a25739181fc06bf6bf2a640482886112d70e99d4' }, h("span", { key: '6c306103187347037a61d780e15d27aec5c90adf', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: '1c93711a919c78e05184a62b09a9ba0af4946dbd' }, h("div", { key: 'cf89d2b1c1961ab92c55b1d4214a6955adaf9a19' }, h("p", { key: '83a90c2be04f7dbf57191d04b2e94632e0733491' }, "Booked by /"), h("p", { key: '69511d2df549ca5767bdbfc13a4516cd11516a3a' }, "Guest name"))), h("th", { key: 'ba51a564dbabf2706d45c5970bde8169063a1a7b' }, "Unit"), h("th", { key: '62048c651f8d40b3dd68f7ad95a21d0f8a47c4e3' }, "Dates"), h("th", { key: 'd15e290fe393e6fafd8b9160b4da59a1f2b11f16', class: "text-center" }, "Balance"), h("th", { key: '02fddc8426a1c36684ddbb8571168e6e4e7ef7dc' }))), h("tbody", { key: '254567200596366391836a57d7e7bc52cf4e46cf' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: 'bc9a25ddd333f5198bda928043f98ba245e50074' }, h("td", { key: '7c9c9adcc28a3f6d4585a9137d6447bd30a5c5ee', colSpan: 6, class: "empty-row" }, "No arrivals found.")))))), h("ir-pagination", { key: '9dadaf5f1515f2eecdc5199e3a021e339a48bf06', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
     }
 };
 IrArrivalsTable.style = IrArrivalsTableStyle0 + IrArrivalsTableStyle1;

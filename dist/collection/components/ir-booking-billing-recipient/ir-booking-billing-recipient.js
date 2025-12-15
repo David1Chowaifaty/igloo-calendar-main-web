@@ -32,26 +32,29 @@ export class IrBookingBillingRecipient {
         this.recipientChange.emit(this.selectedRecipient);
     }
     filterRoomGuests() {
-        const normalize = (str) => {
-            return str?.toLocaleLowerCase()?.trim();
-        };
-        const { guest: mainGuest } = this.booking;
-        let _rooms = [];
-        const guests = new Set();
-        const main_guest = `${normalize(mainGuest.first_name)}_${normalize(mainGuest.last_name)}`;
-        guests.add(main_guest);
-        for (const room of this.booking.rooms) {
-            const _g = `${normalize(room.guest.first_name)}_${normalize(room.guest.last_name)}`;
-            if (guests.has(_g)) {
-                continue;
-            }
-            guests.add(_g);
-            _rooms.push(room);
+        const normalize = (value) => value?.toLocaleLowerCase().trim() || '';
+        const rooms = [];
+        const seenNames = new Set();
+        const mainGuest = this.booking?.guest;
+        if (mainGuest) {
+            const mainKey = `${normalize(mainGuest.first_name)}|${normalize(mainGuest.last_name)}`;
+            seenNames.add(mainKey);
         }
-        this.rooms = [..._rooms];
+        for (const room of this.booking.rooms || []) {
+            const guest = room?.guest;
+            if (!guest)
+                continue;
+            const key = `${normalize(guest.first_name)}|${normalize(guest.last_name)}`;
+            // Skip exact duplicate first + last names
+            if (seenNames.has(key))
+                continue;
+            seenNames.add(key);
+            rooms.push(room);
+        }
+        this.rooms = rooms;
     }
     render() {
-        return (h(Host, { key: 'a3e23c56889ddf64a7348593c02e8e3f62ec233b' }, h("wa-radio-group", { key: '5cf8552dd9a3c8ccc72a9d226fc5a0216b2f29d9', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '0a4bc45009df4ce144b571acd253d913317f5cff', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: 'dc34788d44255845f9d3c7816957f5ebc6f260eb', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: 'cc8522335488a1341e492f6db6d39937d2351871', onCompanyFormClosed: () => {
+        return (h(Host, { key: '22e22a653e668b371fa7d18921f386bb4be5fb53' }, h("wa-radio-group", { key: '8b96afd0d6c791e211603050cb70bc7c520f6479', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'ec307fb7f1df06568efeb028427d172a2cea8173', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '111e2f9358bc975b68a1f61a5582686689bdc3b5', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: '181abe6d5d93e34ac7e41527174880699cc86e2e', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }

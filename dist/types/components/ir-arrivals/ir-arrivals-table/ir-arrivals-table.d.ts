@@ -9,6 +9,7 @@ export declare class IrArrivalsTable {
     checkInRoom: EventEmitter<RoomGuestsPayload>;
     private renderSection;
     private renderBookingRows;
+    private compareGuests;
     private handleActionsClicked;
     private renderRow;
     private handlePageChange;

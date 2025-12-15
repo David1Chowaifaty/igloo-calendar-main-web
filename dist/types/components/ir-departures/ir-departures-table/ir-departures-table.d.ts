@@ -11,6 +11,7 @@ export declare class IrDeparturesTable {
     requestPageSizeChange: EventEmitter<PaginationChangeEvent>;
     private renderSection;
     private renderBookingRows;
+    private compareGuests;
     private renderRow;
     private handlePageChange;
     private handlePageSizeChange;
