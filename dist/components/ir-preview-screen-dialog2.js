@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-dialog2.js';
 
-const irPreviewScreenDialogCss = ":host{display:block}.ir-fullscreen-dialog::part(dialog){width:100vw;height:100vh;max-width:none;max-height:none;margin:0;border-radius:0}@media print{.ir-fullscreen-dialog::part(header){display:none !important}}";
+const irPreviewScreenDialogCss = ":host{display:block}.ir-fullscreen-dialog::part(dialog){width:100vw;height:100vh;max-width:none;max-height:none;margin:0;border-radius:0}@media print{@page {size:A4;margin:0}html,body{margin:0;padding:0;height:auto}.ir-fullscreen-dialog::part(dialog){position:static !important;width:auto !important;height:auto !important;max-height:none !important;overflow:visible !important;transform:none !important}.ir-fullscreen-dialog::part(header){display:none !important}body *{visibility:hidden}.ir-fullscreen-dialog,.ir-fullscreen-dialog *{visibility:visible}.ir-fullscreen-dialog{position:absolute;top:0;left:0;width:100%}}";
 const IrPreviewScreenDialogStyle0 = irPreviewScreenDialogCss;
 
 const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewScreenDialog extends HTMLElement {
@@ -13,9 +13,22 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
         this.previewAction = createEvent(this, "previewAction", 7);
         this.openChanged = createEvent(this, "openChanged", 7);
     }
+    get el() { return this; }
     actionIconByType = {
         print: 'file-pdf',
         download: 'download',
+    };
+    printContainer;
+    printPlaceholder;
+    isPrintLayoutActive = false;
+    handleBeforePrint = () => {
+        if (!this.open) {
+            return;
+        }
+        this.preparePrintLayout();
+    };
+    handleAfterPrint = () => {
+        this.restorePrintLayout();
     };
     /**
      * The dialog's label as displayed in the header.
@@ -93,7 +106,13 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
             console.warn('[ir-preview-screen-dialog] window.print is not available in this environment.');
             return false;
         }
-        window.print();
+        this.preparePrintLayout();
+        try {
+            window.print();
+        }
+        finally {
+            this.restorePrintLayout();
+        }
         return true;
     }
     runDownloadAction(url, fileName) {
@@ -128,15 +147,67 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
     shouldDisableActionButton() {
         return this.action === 'download' && !this.downloadUrl;
     }
-    handleActionButtonClick = () => {
+    handleActionButtonClick() {
         this.triggerAction();
-    };
+    }
+    preparePrintLayout() {
+        if (typeof document === 'undefined' || this.printContainer || this.isPrintLayoutActive) {
+            return;
+        }
+        const contentNodes = Array.from(this.el.children).filter((child) => !child.hasAttribute('slot'));
+        if (!contentNodes.length) {
+            return;
+        }
+        const placeholder = document.createComment('ir-preview-print-placeholder');
+        this.el.insertBefore(placeholder, contentNodes[0]);
+        const container = document.createElement('div');
+        container.className = 'ir-preview-print-container';
+        contentNodes.forEach(node => {
+            container.appendChild(node);
+        });
+        document.body.appendChild(container);
+        document.body.classList.add('ir-preview-dialog-print-mode');
+        this.printPlaceholder = placeholder;
+        this.printContainer = container;
+        this.isPrintLayoutActive = true;
+    }
+    restorePrintLayout() {
+        if (!this.printContainer || !this.printPlaceholder || typeof document === 'undefined') {
+            return;
+        }
+        const targetParent = this.printPlaceholder.parentNode;
+        if (targetParent) {
+            while (this.printContainer.firstChild) {
+                targetParent.insertBefore(this.printContainer.firstChild, this.printPlaceholder);
+            }
+        }
+        this.printPlaceholder.remove();
+        this.printContainer.remove();
+        document.body.classList.remove('ir-preview-dialog-print-mode');
+        this.printPlaceholder = undefined;
+        this.printContainer = undefined;
+        this.isPrintLayoutActive = false;
+    }
+    componentDidLoad() {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        window.addEventListener('beforeprint', this.handleBeforePrint);
+        window.addEventListener('afterprint', this.handleAfterPrint);
+    }
+    disconnectedCallback() {
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('beforeprint', this.handleBeforePrint);
+            window.removeEventListener('afterprint', this.handleAfterPrint);
+        }
+        this.restorePrintLayout();
+    }
     render() {
-        return (h("ir-dialog", { key: 'f6a3cf3bce6bd3f52fb16727084072933cb97101', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'db6c2d49fed91c57890ac7a9dc24349fbe083012', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h("ir-custom-button", { key: 'fd84a753207e98e35258c41c645a65c18dab78e6', size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick, disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'b9171722a304636db6888ba448180c51f43944f8', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))), h("slot", { key: '4dfa774218229b3aacb38287b5e0977e8d9596d9' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h("ir-custom-button", { key: 'dce040f64851cf891a9b989f4482ec472e1cdb4b', size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'bda6dff552d0ba80425358e6e4205a2b6fea0c47', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))), h("slot", { key: 'ef6545a6485f5968e08e3719d033baa2f0b6ded9' })));
     }
     static get style() { return IrPreviewScreenDialogStyle0; }
 }, [1, "ir-preview-screen-dialog", {

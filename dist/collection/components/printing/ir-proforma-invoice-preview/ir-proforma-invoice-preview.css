@@ -300,6 +300,19 @@
 
 @media print {
   .invoice {
-    max-width: 100%;
+    min-width: 100%;
+    height: auto;
+    min-height: auto;
+  }
+  .invoice,
+  .invoice * {
+    visibility: visible;
+  }
+
+  .invoice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 }

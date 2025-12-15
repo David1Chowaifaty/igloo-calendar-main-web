@@ -1,7 +1,13 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 type PreviewAction = 'print' | 'download';
 export declare class IrPreviewScreenDialog {
+    el: HTMLIrPreviewScreenDialogElement;
     private readonly actionIconByType;
+    private printContainer?;
+    private printPlaceholder?;
+    private isPrintLayoutActive;
+    private readonly handleBeforePrint;
+    private readonly handleAfterPrint;
     /**
      * The dialog's label as displayed in the header.
      * Required for accessibility and announced by assistive technologies.
@@ -65,6 +71,10 @@ export declare class IrPreviewScreenDialog {
     private getActionLabel;
     private shouldDisableActionButton;
     private handleActionButtonClick;
+    private preparePrintLayout;
+    private restorePrintLayout;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
     render(): any;
 }
 export {};
