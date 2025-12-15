@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { O as OverflowRelease, a as OverflowAdd } from './OverflowLock.js';
 
-const irDialogCss = ":host{display:block;box-sizing:border-box;font:inherit;color:inherit}.dialog{border:none;margin:auto;padding:0;background:transparent;color:inherit;width:min(90vw, var(--ir-dialog-max-width, 40rem));max-width:var(--ir-dialog-max-width, 40rem);min-width:var(--ir-dialog-min-width, auto)}.dialog::backdrop{background:rgba(0, 0, 0, 0.35);backdrop-filter:blur(2px);animation:overlayShow 160ms cubic-bezier(0.16, 1, 0.3, 1)}.ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}.dialog__content{box-sizing:border-box;display:flex;flex-direction:column;background:#ffffff;border-radius:8px;box-shadow:hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;max-height:min(85vh, 100%);overflow:hidden;padding:1rem}.dialog[open] .dialog__content{animation:contentShow 300ms cubic-bezier(0.16, 1, 0.3, 1)}.dialog__header,.dialog__body,.dialog__footer{padding:0}.dialog__header{display:flex;align-items:flex-start;gap:16px}.dialog__header slot[name='modal-title']::slotted(*){margin:0}.dialog__body{flex:1 1 auto;overflow:auto;padding-bottom:2rem}.dialog__body ::slotted(*){font-size:14px;font-weight:400;color:#475467;margin:0}.dialog__footer{display:flex;align-items:center;justify-content:flex-end;gap:12px}.dialog__footer ::slotted(*){--ir-btn-width:auto}.dialog__close-button{margin-left:auto;border:none;background:transparent;padding:4px;border-radius:999px;color:#104064;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.dialog__close-button:hover{background:rgba(16, 64, 100, 0.08)}.dialog__close-button:focus-visible{outline:2px solid #104064;outline-offset:2px}.dialog__close-button svg{display:block}.dialog__header slot[name='modal-title']::slotted(*){font-size:18px;font-weight:600;color:#101828}@keyframes overlayShow{from{opacity:0}to{opacity:1}}@keyframes contentShow{from{opacity:0;transform:translateY(-8px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}";
+const irDialogCss = "";
 const IrDialogStyle0 = irDialogCss;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -18,11 +18,13 @@ const IrDialog = /*@__PURE__*/ proxyCustomElement(class IrDialog extends HTMLEle
     constructor() {
         super();
         this.__registerHost();
+        this.__attachShadow();
         this.irDialogShow = createEvent(this, "irDialogShow", 7);
         this.irDialogHide = createEvent(this, "irDialogHide", 7);
         this.irDialogAfterShow = createEvent(this, "irDialogAfterShow", 7);
         this.irDialogAfterHide = createEvent(this, "irDialogAfterHide", 7);
     }
+    get el() { return this; }
     /**
      * The dialog's label as displayed in the header.
      * You should always include a relevant label, as it is required for proper accessibility.
@@ -63,6 +65,18 @@ const IrDialog = /*@__PURE__*/ proxyCustomElement(class IrDialog extends HTMLEle
      * Emitted after the dialog closes and all animations are complete.
      */
     irDialogAfterHide;
+    slotState = new Map();
+    slotObserver;
+    SLOT_NAMES = ['label', 'header-actions', 'footer'];
+    componentWillLoad() {
+        this.updateSlotState();
+    }
+    componentDidLoad() {
+        this.setupSlotListeners();
+    }
+    disconnectedCallback() {
+        this.removeSlotListeners();
+    }
     async openModal() {
         this.open = true;
     }
@@ -94,15 +108,45 @@ const IrDialog = /*@__PURE__*/ proxyCustomElement(class IrDialog extends HTMLEle
         e.stopPropagation();
         this.irDialogAfterShow.emit();
     }
+    setupSlotListeners() {
+        // Listen to slotchange events on the host element
+        this.el.addEventListener('slotchange', this.handleSlotChange);
+        // Also use MutationObserver as a fallback for browsers that don't fire slotchange reliably
+        this.slotObserver = new MutationObserver(this.handleSlotChange);
+        this.slotObserver.observe(this.el, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['slot'],
+        });
+    }
+    removeSlotListeners() {
+        this.el.removeEventListener('slotchange', this.handleSlotChange);
+        this.slotObserver?.disconnect();
+    }
+    handleSlotChange = () => {
+        this.updateSlotState();
+    };
+    updateSlotState() {
+        const newState = new Map();
+        this.SLOT_NAMES.forEach(name => {
+            newState.set(name, this.hasSlot(name));
+        });
+        this.slotState = newState;
+    }
+    hasSlot(name) {
+        return !!this.el.querySelector(`[slot="${name}"]`);
+    }
     render() {
-        return (h("wa-dialog", { key: 'db54f5d0f204ff53b23c830bbc8d9f23953aa168', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '6dd801762ccf57c06c719e84e424bbbda4cc20ee', name: "header-actions", slot: "header-actions" }), h("slot", { key: 'b881e3411d8756b0c1fba6ae5e576547765595b0', name: "label", slot: "label" }), h("slot", { key: 'ced3cf0e5fc54cff626c3fb2736dafb8d291eb5e' }), h("slot", { key: '8b57b7143561fbc7336def018f7fa4da7151ad04', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '6b1fe59ecb342ce385be67f6db621b4d2b4cd040', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: '9bfb9c653e041dc0454ad21430fe34b17e7ec80b', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '9a7ccc75f56c7bc9c86c69e84dff9aad1e3d59ac', name: "label", slot: "label" }), h("slot", { key: 'e647c74bcb7f76759db92fbfe8554915794ddf6f' }), this.slotState.get('footer') && h("slot", { key: 'ba01f2066a1a7b79815ff675448d01dc5f5fb201', name: "footer", slot: "footer" })));
     }
     static get style() { return IrDialogStyle0; }
-}, [4, "ir-dialog", {
+}, [1, "ir-dialog", {
         "label": [513],
         "open": [1540],
         "withoutHeader": [516, "without-header"],
         "lightDismiss": [4, "light-dismiss"],
+        "slotState": [32],
         "openModal": [64],
         "closeModal": [64]
     }]);

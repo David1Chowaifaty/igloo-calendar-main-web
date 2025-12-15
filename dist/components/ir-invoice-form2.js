@@ -21,6 +21,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         this.invoiceOpen = createEvent(this, "invoiceOpen", 7);
         this.invoiceClose = createEvent(this, "invoiceClose", 7);
         this.invoiceCreated = createEvent(this, "invoiceCreated", 7);
+        this.previewProformaInvoice = createEvent(this, "previewProformaInvoice", 7);
         this.loadingChange = createEvent(this, "loadingChange", 7);
     }
     /**
@@ -94,6 +95,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      * - `mode`: the current invoice mode
      */
     invoiceCreated;
+    previewProformaInvoice;
     loadingChange;
     room;
     bookingService = new BookingService();
@@ -269,7 +271,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
             const billed_to_name = this.selectedRecipient?.startsWith('room__') ? this.selectedRecipient.replace('room__', '').trim() : '';
             let target;
             const setTarget = (code) => {
-                let f = this.invoiceTarget.find(t => t.CODE_NAME === '001');
+                let f = this.invoiceTarget.find(t => t.CODE_NAME === code);
                 if (!f) {
                     throw new Error(`Invalid code ${code}`);
                 }
@@ -278,7 +280,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                     description: f.CODE_VALUE_EN,
                 };
             };
-            if (this.selectedRecipient === 'guest') {
+            if (this.selectedRecipient === 'company') {
                 target = setTarget('002');
             }
             else {
@@ -292,6 +294,10 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 target,
                 billed_to_name,
             };
+            if (isProforma) {
+                this.previewProformaInvoice.emit({ invoice });
+                return;
+            }
             await this.bookingService.issueInvoice({
                 is_proforma: isProforma,
                 invoice,

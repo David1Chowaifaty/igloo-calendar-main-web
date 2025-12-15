@@ -3,17 +3,23 @@ import { B as BookingService } from './booking.service.js';
 import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { d as defineCustomElement$c } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$b } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$a } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$9 } from './ir-custom-button2.js';
-import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$7 } from './ir-dialog2.js';
-import { d as defineCustomElement$6 } from './ir-drawer2.js';
-import { d as defineCustomElement$5 } from './ir-empty-state2.js';
-import { d as defineCustomElement$4 } from './ir-input2.js';
-import { d as defineCustomElement$3 } from './ir-invoice2.js';
-import { d as defineCustomElement$2 } from './ir-invoice-form2.js';
+import { d as defineCustomElement$i } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$h } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$g } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$f } from './ir-custom-button2.js';
+import { d as defineCustomElement$e } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$d } from './ir-dialog2.js';
+import { d as defineCustomElement$c } from './ir-drawer2.js';
+import { d as defineCustomElement$b } from './ir-empty-state2.js';
+import { d as defineCustomElement$a } from './ir-input2.js';
+import { d as defineCustomElement$9 } from './ir-invoice2.js';
+import { d as defineCustomElement$8 } from './ir-invoice-form2.js';
+import { d as defineCustomElement$7 } from './ir-preview-screen-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-print-room2.js';
+import { d as defineCustomElement$5 } from './ir-printing-extra-service2.js';
+import { d as defineCustomElement$4 } from './ir-printing-label2.js';
+import { d as defineCustomElement$3 } from './ir-printing-pickup2.js';
+import { d as defineCustomElement$2 } from './ir-proforma-invoice-preview2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
 const irBillingCss = ".sc-ir-billing-h{display:flex;flex-direction:column;height:100%}.billing__container.sc-ir-billing{display:flex;flex-direction:column;gap:var(--wa-space-l)}.billing__section-title-row.sc-ir-billing{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.billing__section-title.sc-ir-billing{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.billing__actions-row.sc-ir-billing{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.billing__invoice-nbr.sc-ir-billing{margin:0;padding:0}.billing__invoice-nbr.--secondary.sc-ir-billing{font-size:0.75rem}.billing__price-col.sc-ir-billing{text-align:end !important}.billing__cards.sc-ir-billing{display:flex;flex-direction:column;gap:var(--wa-space-m);padding-bottom:var(--wa-space-l) !important}.billing__card.sc-ir-billing{display:block}.billing__card-header.sc-ir-billing{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}.billing__card-header-info.sc-ir-billing{display:flex;flex-direction:column}.billing__card-number.sc-ir-billing{margin:0;font-weight:var(--wa-font-weight-heading);font-family:var(--wa-font-family-heading)}.billing__card-type.sc-ir-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-secondary)}.billing__card-download-btn.sc-ir-billing{display:flex;align-items:center}.billing__card-details.sc-ir-billing{display:flex;gap:var(--wa-space-xs);justify-content:space-between}.billing__card-detail.sc-ir-billing{display:flex;flex-direction:column}.billing__card-detail-label.sc-ir-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.billing__card-detail-label.--amount.sc-ir-billing{text-align:end !important}.billing__card-detail-value.sc-ir-billing{margin:0;font-weight:var(--wa-font-weight-regular);font-size:var(--wa-font-size-s)}.billing__card-void-btn.sc-ir-billing{flex:1 1 0%}.billing__card-footer.sc-ir-billing{display:flex}.table-container.sc-ir-billing{display:none}.billing__card.sc-ir-billing::part(footer){padding-top:1rem;padding-bottom:1rem}@media (min-width: 768px){.billing__cards.sc-ir-billing{display:none}.table-container.sc-ir-billing{display:block}}";
@@ -151,7 +157,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-spinner"];
+    const components = ["ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-billing":
             if (!customElements.get(tagName)) {
@@ -160,55 +166,85 @@ function defineCustomElement() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$i();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$h();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$g();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$f();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$e();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$d();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$c();
             }
             break;
         case "ir-empty-state":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$b();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$a();
             }
             break;
         case "ir-invoice":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$9();
             }
             break;
         case "ir-invoice-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-preview-screen-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-print-room":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-printing-extra-service":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-printing-label":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-printing-pickup":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-proforma-invoice-preview":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

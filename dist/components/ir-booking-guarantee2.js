@@ -60,7 +60,7 @@ const IrBookingGuarantee = /*@__PURE__*/ proxyCustomElement(class IrBookingGuara
         return this.booking.is_direct ? Boolean(paymentMethod || this.booking.guest.cci) : true;
     }
     shouldShowToggleButton() {
-        return !this.booking.is_direct || (this.booking.is_direct && this.booking.guest.cci);
+        return (!this.booking.is_direct && this.booking.ota_guarante) || (this.booking.is_direct && this.booking.guest.cci);
     }
     renderCreditCardInfo() {
         const { cci } = this.booking.guest;

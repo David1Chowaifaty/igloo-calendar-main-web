@@ -75,6 +75,7 @@ export class IrInvoiceForm {
      * - `mode`: the current invoice mode
      */
     invoiceCreated;
+    previewProformaInvoice;
     loadingChange;
     room;
     bookingService = new BookingService();
@@ -250,7 +251,7 @@ export class IrInvoiceForm {
             const billed_to_name = this.selectedRecipient?.startsWith('room__') ? this.selectedRecipient.replace('room__', '').trim() : '';
             let target;
             const setTarget = (code) => {
-                let f = this.invoiceTarget.find(t => t.CODE_NAME === '001');
+                let f = this.invoiceTarget.find(t => t.CODE_NAME === code);
                 if (!f) {
                     throw new Error(`Invalid code ${code}`);
                 }
@@ -259,7 +260,7 @@ export class IrInvoiceForm {
                     description: f.CODE_VALUE_EN,
                 };
             };
-            if (this.selectedRecipient === 'guest') {
+            if (this.selectedRecipient === 'company') {
                 target = setTarget('002');
             }
             else {
@@ -273,6 +274,10 @@ export class IrInvoiceForm {
                 target,
                 billed_to_name,
             };
+            if (isProforma) {
+                this.previewProformaInvoice.emit({ invoice });
+                return;
+            }
             await this.bookingService.issueInvoice({
                 is_proforma: isProforma,
                 invoice,
@@ -764,6 +769,27 @@ export class IrInvoiceForm {
                 "docs": {
                     "tags": [],
                     "text": "Emitted when an invoice is created/confirmed.\n\nThe event `detail` contains:\n- `booking`: the booking associated with the invoice\n- `recipientId`: the selected billing recipient\n- `for`: whether the invoice is for `\"room\"` or `\"booking\"`\n- `roomIdentifier`: the room identifier when invoicing a specific room\n- `mode`: the current invoice mode"
+                },
+                "complexType": {
+                    "original": "IssueInvoiceProps",
+                    "resolved": "{ invoice?: { currency?: { id?: number; }; booking_nbr?: string; target?: { code?: string; description?: string; }; Date?: string; nbr?: string; remark?: string; billed_to_name?: string; billed_to_tax?: string; items?: { key?: string | number; amount?: number; type?: string; description?: string; }[]; }; is_proforma?: boolean; }",
+                    "references": {
+                        "IssueInvoiceProps": {
+                            "location": "import",
+                            "path": "@/services/booking-service/types",
+                            "id": "src/services/booking-service/types.ts::IssueInvoiceProps"
+                        }
+                    }
+                }
+            }, {
+                "method": "previewProformaInvoice",
+                "name": "previewProformaInvoice",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
                 },
                 "complexType": {
                     "original": "IssueInvoiceProps",

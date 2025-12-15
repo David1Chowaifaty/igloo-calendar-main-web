@@ -1,6 +1,7 @@
 import { Booking } from "../../models/booking.dto";
 import { EventEmitter } from '../../stencil-public-runtime';
 import { BookingInvoiceInfo, ViewMode } from './types';
+import { IssueInvoiceProps } from "../../components";
 export declare class IrInvoice {
     /**
      * Whether the invoice drawer is open.
@@ -55,6 +56,7 @@ export declare class IrInvoice {
      * underlying drawer emits `onDrawerHide`.
      */
     invoiceClose: EventEmitter<void>;
+    invoice: IssueInvoiceProps['invoice'];
     /**
      * Opens the invoice drawer.
      *

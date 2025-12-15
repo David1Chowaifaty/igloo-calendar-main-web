@@ -75,6 +75,7 @@ export declare class IrInvoiceForm {
      * - `mode`: the current invoice mode
      */
     invoiceCreated: EventEmitter<IssueInvoiceProps>;
+    previewProformaInvoice: EventEmitter<IssueInvoiceProps>;
     loadingChange: EventEmitter<boolean>;
     private room;
     private bookingService;

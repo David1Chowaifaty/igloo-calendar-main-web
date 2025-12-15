@@ -285,7 +285,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         }
     }
     render() {
-        return (h(Host, { key: 'a8fef8dd8b9b8724d36cc20930291028af535150' }, h("slot", { key: '8255a0df329b92c7943eb864a5136467979f27db' })));
+        return (h(Host, { key: 'abce64e81d4c3d884aabe4bd6b42af8e96060c1e' }, h("slot", { key: 'ad307291bbd7e8f00d2faac0ac8d3d7868cd8914' })));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],

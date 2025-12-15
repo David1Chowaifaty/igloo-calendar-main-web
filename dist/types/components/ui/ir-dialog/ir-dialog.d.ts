@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrDialog {
+    el: HTMLIrDialogElement;
     /**
      * The dialog's label as displayed in the header.
      * You should always include a relevant label, as it is required for proper accessibility.
@@ -42,11 +43,22 @@ export declare class IrDialog {
      * Emitted after the dialog closes and all animations are complete.
      */
     irDialogAfterHide: EventEmitter<void>;
+    private slotState;
+    private slotObserver;
+    private readonly SLOT_NAMES;
+    componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
     private handleWaHide;
     private handleWaShow;
     private handleWaAfterHide;
     private handleWaAfterShow;
+    private setupSlotListeners;
+    private removeSlotListeners;
+    private handleSlotChange;
+    private updateSlotState;
+    private hasSlot;
     render(): any;
 }

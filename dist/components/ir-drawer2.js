@@ -18,9 +18,11 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
     constructor() {
         super();
         this.__registerHost();
+        this.__attachShadow();
         this.drawerShow = createEvent(this, "drawerShow", 7);
         this.drawerHide = createEvent(this, "drawerHide", 7);
     }
+    get el() { return this; }
     /** Indicates whether or not the drawer is open. Toggle this attribute to show and hide the drawer. */
     open;
     /**
@@ -34,6 +36,7 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
     withoutHeader;
     /** When enabled, the drawer will be closed when the user clicks outside of it. */
     lightDismiss = true;
+    slotState = new Map();
     /** Emitted when the drawer opens. */
     drawerShow;
     /**Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss. */
@@ -44,6 +47,17 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
     onDrawerHide = (event) => {
         this.emitDrawerHide(event);
     };
+    slotObserver;
+    SLOT_NAMES = ['label', 'header-actions', 'footer'];
+    componentWillLoad() {
+        this.updateSlotState();
+    }
+    componentDidLoad() {
+        this.setupSlotListeners();
+    }
+    disconnectedCallback() {
+        this.removeSlotListeners();
+    }
     emitDrawerShow(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -57,16 +71,46 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
         }
         this.drawerHide.emit(e.detail);
     }
+    setupSlotListeners() {
+        // Listen to slotchange events on the host element
+        this.el.addEventListener('slotchange', this.handleSlotChange);
+        // Also use MutationObserver as a fallback for browsers that don't fire slotchange reliably
+        this.slotObserver = new MutationObserver(this.handleSlotChange);
+        this.slotObserver.observe(this.el, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['slot'],
+        });
+    }
+    removeSlotListeners() {
+        this.el.removeEventListener('slotchange', this.handleSlotChange);
+        this.slotObserver?.disconnect();
+    }
+    handleSlotChange = () => {
+        this.updateSlotState();
+    };
+    updateSlotState() {
+        const newState = new Map();
+        this.SLOT_NAMES.forEach(name => {
+            newState.set(name, this.hasSlot(name));
+        });
+        this.slotState = newState;
+    }
+    hasSlot(name) {
+        return !!this.el.querySelector(`[slot="${name}"]`);
+    }
     render() {
-        return (h("wa-drawer", { key: '371f260a3c17c4db84115a8f585e5dc63a664126', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss }, h("slot", { key: '3c900614ef2eb914edde28fb12e69d77c0459f22', slot: "label", name: "label" }), h("slot", { key: '16e1703b7fa102148ec84f0296ff508dbc329144', slot: "header-actions", name: "header-actions" }), h("slot", { key: '78117aab2cb0c367beb49d73d6442796a36e5bda' }), h("slot", { key: '72f2cee6ba4f5a7380543d9fda6b7c2f2d640867', slot: "footer", name: "footer" })));
+        return (h("wa-drawer", { key: '52c655ae297bcc49713c57a89322e4f234d6ad8c', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: '1d94a9bf2d220ce8ac9c2ff8a1d272b3144d7d3e', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '315762e59ce49fddfb8a643f85365b7c3e233375', name: "label", slot: "label" }), h("slot", { key: '3997ea4bf9bc66a3291d17eb1deeafadde8b6a8f' }), this.slotState.get('footer') && h("slot", { key: '7ddaff6af2a06e791115229f0481a04d0acb7b9a', name: "footer", slot: "footer" })));
     }
     static get style() { return IrDrawerStyle0; }
-}, [4, "ir-drawer", {
+}, [1, "ir-drawer", {
         "open": [516],
         "label": [513],
         "placement": [513],
         "withoutHeader": [516, "without-header"],
-        "lightDismiss": [516, "light-dismiss"]
+        "lightDismiss": [516, "light-dismiss"],
+        "slotState": [32]
     }]);
 __decorate([
     OverflowAdd()
