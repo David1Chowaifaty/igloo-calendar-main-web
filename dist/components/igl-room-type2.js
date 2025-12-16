@@ -28,7 +28,7 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '15cf38ee3d5c149c331e6ac4fa30cfd8cad441b4' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '48b976dd554d4addcc61f7768e2e1317d3665950', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: 'ea168e91dea14132d5772203304a0bf637ee2aac' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '4efb9c481f712f28a1bc0a729dcf19ca62f67638', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
                 let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
                 // let roomId = -1;

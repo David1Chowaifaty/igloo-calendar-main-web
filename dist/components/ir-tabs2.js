@@ -142,7 +142,7 @@ const IrTabs = /*@__PURE__*/ proxyCustomElement(class IrTabs extends HTMLElement
         }
     }
     render() {
-        return (h(Host, { key: 'de08d7bd71c87b17154d563d6105a0cfca8071fd', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'a61c50c37675d301f9d2b97ec1dfa8f901593dcc', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: '113b6e6c1779aa0e292d8ba2068175f3aae29265', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: 'ee47994f0ab0f1a20a28dd8cd0a01743089ed5e4', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get style() { return IrTabsStyle0; }
 }, [2, "ir-tabs", {

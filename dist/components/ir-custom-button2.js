@@ -75,13 +75,13 @@ const IrCustomButton = /*@__PURE__*/ proxyCustomElement(class IrCustomButton ext
         this.clickHandler.emit(e);
     };
     render() {
-        return (h(Host, { key: 'b865c1856f7946a7366fb3c4dcb8a37c05e8c6ad' }, h("wa-button", { key: 'ab333aa2efcb43bf280acd0e5879f0997eebaf08', ref: el => (this.buttonEl = el),
+        return (h(Host, { key: '1d9c8fe0f5e2fb73d016361b4035d272d24530c3' }, h("wa-button", { key: 'cc3da186dbded40aa2f0f4cb724d8a9c3d89e279', ref: el => (this.buttonEl = el),
             /* core button props */
             type: this.type, size: this.size, class: `ir__custom-button ${this.iconBtn ? '--icon' : ''} ${this.link ? '--link' : ''}`, disabled: this.disabled, appearance: this.link ? 'plain' : this.appearance, loading: this.loading, "with-caret": this.withCaret, variant: this.link ? 'brand' : this.variant, pill: this.pill,
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '9cb78a371e02954eb797e51e7efe726824043adf', slot: "start", name: "start" }), h("slot", { key: 'ee4951f3348c7b27a3a3c2acfbbc2123a29beac5' }), h("slot", { key: 'b9502be4052ee6f05dad2c103bc1c5bcf11dbd63', slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '9637f07a67b05ac24d4c105c1ad7d3f73d5c0186', slot: "start", name: "start" }), h("slot", { key: '997e103ad43f321a1c6938b9650bfc56944728fa' }), h("slot", { key: '55467fddaee9825f4b3c02e8c065e2b5f46aff4a', slot: "end", name: "end" }))));
     }
     static get style() { return IrCustomButtonStyle0; }
 }, [4, "ir-custom-button", {

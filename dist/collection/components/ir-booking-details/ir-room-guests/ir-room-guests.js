@@ -45,7 +45,7 @@ export class IrRoomGuests {
     bookingNumber;
     closeModal;
     render() {
-        return (h("ir-drawer", { key: 'dc6fe7dce9e8884cbe1afaa1e67fdd51c2865f89', style: {
+        return (h("ir-drawer", { key: 'e6bf0756798a157e4214c01f7765bcf2d963acbf', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -56,7 +56,7 @@ export class IrRoomGuests {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: '7e42f086ed96fa1791a3051fa59e41ead19d4d69', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: 'a1bad694d7d5801463c8cae9b9a67624f1e3e743', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'ed56fb7b7d33f7c420d167da8fa1596a2a583385', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '37317a53d018eb4d047e5767e140cd51cf09ec65', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
+            } }, this.open && (h("ir-room-guests-form", { key: '11a0ba01c41c07469b52834f57b2ea24fecb90fd', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '14234d6957505477210b60c1e25332d99eb75d58', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fe72040f74c9d564eaf73c4074486d7c86b6d58f', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '43874803126ab8de2b6cd8b1d172cd824fde136e', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
     }
     static get is() { return "ir-room-guests"; }
     static get encapsulation() { return "scoped"; }
