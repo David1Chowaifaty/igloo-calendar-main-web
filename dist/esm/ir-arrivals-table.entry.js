@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-b3dce66a.js';
-import { a as arrivalsStore } from './arrivals.store-87f6521c.js';
+import { a as arrivalsStore } from './arrivals.store-5a773752.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { h as hooks } from './moment-ab846cee.js';
-import './utils-87dcb46c.js';
+import './utils-d28797b2.js';
 import './index-1e1f097b.js';
 import './calendar-data-8a36a1b2.js';
 import './index-a124d225.js';
@@ -41,8 +41,12 @@ const IrArrivalsTable = class {
         if (!roomGuest || !bookingGuest) {
             return false;
         }
-        const normalize = (value) => value?.trim().toLowerCase() ?? '';
-        return normalize(roomGuest.first_name) === normalize(bookingGuest.first_name) && normalize(roomGuest.last_name) === normalize(bookingGuest.last_name);
+        const normalizeGuest = (guest) => {
+            const firstName = guest.first_name?.replace(/\s+/g, '').toLowerCase() || '';
+            const lastName = guest.last_name?.replace(/\s+/g, '').toLowerCase() || '';
+            return `${firstName}${lastName}`;
+        };
+        return normalizeGuest(bookingGuest) === normalizeGuest(roomGuest);
     }
     async handleActionsClicked(e) {
         e.stopImmediatePropagation();
@@ -85,7 +89,7 @@ const IrArrivalsTable = class {
     }
     render() {
         const { needsCheckInBookings, inHouseBookings, futureBookings, pagination } = arrivalsStore;
-        return (h(Host, { key: '4a0e4188376186cffdc770643a201f171ee783d9' }, h("div", { key: '10b35e69a19edcb303c70110612706aba2909537', class: "table--container" }, h("table", { key: '8d025ce996490980362aa34ea317784fd663611e', class: "table data-table" }, h("thead", { key: '6974071e0c0207c46a325530116435cd0349e934' }, h("tr", { key: '0313777e0c9b4cab7ecca4e4b79d2c0a6af46877' }, h("th", { key: 'abd855a0afaf11e3a0da57b033f348710ae3c87b' }, h("span", { key: 'd6b786351db6f6944420840fab39fc627265a68b', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: '2b16a9eaf8dd408d55273ac52fe408df93c4fc91' }, h("div", { key: '9ee210359acb097ef747be0b44e0b351192567ce' }, h("p", { key: '76ba1b3a57df97e78e901e502f418218358db00a' }, "Booked by /"), h("p", { key: 'd7bbcc02dda319d93bf91be1c1e529a2be2747db' }, "Guest name"))), h("th", { key: '4127108d777f0c2bfc33d800be460f0f0c830327' }, "Unit"), h("th", { key: '89ef28d58c33c7e42f55d60118c3c80bd6e58202' }, "Dates"), h("th", { key: 'fd1f93d2bd71b191070a42494a2d6301c1b0b147', class: "text-center" }, "Balance", h("div", { key: '7126006d93a34ca86ac93e6a9db903112096389d', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '81cdbf11fe4ad9bbe3783fd7f4758bd4ed2c162c', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Click to collect"))), h("th", { key: '1e9f91c0bf4ba6e07e09009687cb282a85f7bfac' }))), h("tbody", { key: '6aedbfc68f5d8212b2b425ce1119aa15a84e8fbc' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: 'ea316601d1e0d191abaac020a515351d9c7040b1' }, h("td", { key: '6ec61da723ff2e1b665b07d24c425b5dcf848c6e', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: 'ebcb3b621faf7defb5860b537a5f3f2ccbf4c3ba' }))))))), h("ir-pagination", { key: '2c78101f149c885ef562cb697c7523ac83ae1ad3', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
+        return (h(Host, { key: '85066baf13231040aac326fa7c125ea5919cb0a1' }, h("div", { key: 'e2e1eaa0432a4f43d77ea0542d62065b6b45023e', class: "table--container" }, h("table", { key: '055371d52bd2d9c8d388c6faca169829c779fb84', class: "table data-table" }, h("thead", { key: '72885355b5346a44c9fc1886bdc8cf50bc59988d' }, h("tr", { key: 'eab4b6c5e64385d70ae6609592f3682ee0d0c696' }, h("th", { key: 'bd43efb7d36f007914ea7b5d018de708a5f722b0' }, h("span", { key: '8b4f214657615ce05f105c1900854c28fdd1c4d1', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: 'e1fef327c6eccbf93fad4db70a27203891ca281b' }, h("div", { key: 'cde4f9109d4e1f06ab8e323dbf701afb016139c4' }, h("p", { key: '346e42f5da6b6f26a37eb71d620a4ca580531aef' }, "Booked by /"), h("p", { key: '394b450e5cb8df6cac05b7f81de6ebfca58694c4' }, "Guest name"))), h("th", { key: 'bdac0dfc5ab26ffb26ddb6d5e1cf916716893bac' }, "Unit"), h("th", { key: '6093aeafd6bdbfc6cec2b2217f9be8bd6f53d379' }, "Dates"), h("th", { key: '50f3a14d27661357f969469d34390b1f96d6d726', class: "text-center" }, "Balance", h("div", { key: 'ff80f339189ff8208e575b90a0fde5f737133b62', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '3b79c025e53f871c0a324babfee347b3d7eaf1ef', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Click to collect"))), h("th", { key: 'f992bf2ca964f7d959442e8984e556299c2b8033' }))), h("tbody", { key: 'da87512e800882f2f1cc2ea2b72ac85c24ab56c2' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: '9a37c7dfb76ad3dd1b083e31871a77f68c4a3ede' }, h("td", { key: 'bca7f48c26a26c482bc12d5b2454f3752e461d2c', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: '8e00005a544034021a7fdf777e357ad90aa79cca' }))))))), h("ir-pagination", { key: '8e8822617a8c72f0082c83cd116f97844c3c1d21', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
     }
 };
 IrArrivalsTable.style = IrArrivalsTableStyle0 + IrArrivalsTableStyle1;

@@ -1,4 +1,5 @@
 export declare class IglBookPropertyService {
+    private hasUnderscore;
     private variationService;
     setBookingInfoFromAutoComplete(context: any, res: any): void;
     resetRoomsInfoAndMessage(context: any): void;

@@ -3,6 +3,9 @@ import booking_store from "../../../stores/booking.store";
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 export class IglBookPropertyService {
+    hasUnderscore(str) {
+        return /_+/.test(str);
+    }
     variationService;
     setBookingInfoFromAutoComplete(context, res) {
         context.bookedByInfoData = {
@@ -272,7 +275,7 @@ export class IglBookPropertyService {
                                 last_name: bookedByInfoData.lastName,
                                 country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
                                 city: null,
-                                mobile: bookedByInfoData.contactNumber === null ? '' : bookedByInfoData.contactNumber,
+                                mobile: bookedByInfoData.contactNumber === null ? '' : this.hasUnderscore(bookedByInfoData.contactNumber) ? '' : bookedByInfoData.contactNumber,
                                 country_phone_prefix: bookedByInfoData?.isdCode ?? null,
                                 address: '',
                                 dob: null,
