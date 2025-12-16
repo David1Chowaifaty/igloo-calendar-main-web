@@ -5,11 +5,12 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$a } from './ir-applicable-policies2.js';
-import { d as defineCustomElement$9 } from './ir-booking-guarantee2.js';
-import { d as defineCustomElement$8 } from './ir-button2.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$b } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$a } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$9 } from './ir-button2.js';
+import { d as defineCustomElement$8 } from './ir-custom-button2.js';
+import { d as defineCustomElement$7 } from './ir-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-empty-state2.js';
 import { d as defineCustomElement$5 } from './ir-icons2.js';
 import { d as defineCustomElement$4 } from './ir-label2.js';
 import { d as defineCustomElement$3 } from './ir-payment-item2.js';
@@ -252,7 +253,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-guarantee", "ir-button", "ir-custom-button", "ir-dialog", "ir-icons", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
+    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-guarantee", "ir-button", "ir-custom-button", "ir-dialog", "ir-empty-state", "ir-icons", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
@@ -261,25 +262,30 @@ function defineCustomElement() {
             break;
         case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-booking-guarantee":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

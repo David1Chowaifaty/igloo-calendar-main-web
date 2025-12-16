@@ -73,7 +73,7 @@ export declare class IrInvoiceForm {
      * - `roomIdentifier`: the room identifier when invoicing a specific room
      * - `mode`: the current invoice mode
      */
-    invoiceCreated: EventEmitter<IssueInvoiceProps>;
+    invoiceCreated: EventEmitter<BookingInvoiceInfo>;
     previewProformaInvoice: EventEmitter<IssueInvoiceProps>;
     loadingChange: EventEmitter<boolean>;
     private room;
@@ -101,6 +101,7 @@ export declare class IrInvoiceForm {
      * `autoPrint` is `true`, triggers `window.print()` afterwards.
      */
     private handleConfirmInvoice;
+    private openLastInvoice;
     private getMinDate;
     private getMaxDate;
     private computeRoomGroups;

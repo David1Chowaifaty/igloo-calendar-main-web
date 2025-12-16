@@ -19,7 +19,7 @@ import { d as defineCustomElement$3 } from './ir-printing-pickup2.js';
 import { d as defineCustomElement$2 } from './ir-proforma-invoice-preview2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irBillingDrawerCss = ".sc-ir-billing-drawer-h{display:block}";
+const irBillingDrawerCss = ".sc-ir-billing-drawer-h{display:block}.billing__drawer.sc-ir-billing-drawer::part(footer){display:none}";
 const IrBillingDrawerStyle0 = irBillingDrawerCss;
 
 const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer extends HTMLElement {
@@ -55,18 +55,18 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '2ed7dbdf73370e7529fbb9e26a2aec6ac767bb99', style: {
+        return (h("ir-drawer", { key: '7100bd9e32681581926c98b1e7bf5280294d3065', style: {
                 '--ir-drawer-width': '50rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, onDrawerHide: e => {
+            }, class: "billing__drawer", onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '1bbb56aa414e74998559adfecc73ff898b82340f', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '13b8fb658402588d093cac43512c5bfbd58c7563', booking: this.booking })));
     }
     static get style() { return IrBillingDrawerStyle0; }
 }, [2, "ir-billing-drawer", {

@@ -301,6 +301,9 @@ export class IrInvoiceForm {
                 is_proforma: isProforma,
                 invoice,
             });
+            const invoiceInfo = await this.bookingService.getBookingInvoiceInfo({
+                booking_nbr: this.booking.booking_nbr,
+            });
             if (this.autoPrint) {
                 try {
                     // window.print();
@@ -310,7 +313,8 @@ export class IrInvoiceForm {
                     console.error('Auto print failed:', error);
                 }
             }
-            this.invoiceCreated.emit({ invoice });
+            await this.openLastInvoice(invoiceInfo);
+            this.invoiceCreated.emit(invoiceInfo);
             this.invoiceClose.emit();
         }
         catch (error) {
@@ -319,6 +323,11 @@ export class IrInvoiceForm {
         finally {
             this.loadingChange.emit(false);
         }
+    }
+    async openLastInvoice(invoiceInfo) {
+        const lastInvoice = invoiceInfo.invoices[invoiceInfo.invoices.length - 1];
+        const { My_Result } = await this.bookingService.printInvoice({ mode: lastInvoice?.credit_note ? 'creditnote' : 'invoice', invoice_nbr: lastInvoice.nbr });
+        window.open(My_Result);
     }
     getMinDate() {
         if (this.for === 'room') {
@@ -807,13 +816,13 @@ export class IrInvoiceForm {
                     "text": "Emitted when an invoice is created/confirmed.\n\nThe event `detail` contains:\n- `booking`: the booking associated with the invoice\n- `recipientId`: the selected billing recipient\n- `for`: whether the invoice is for `\"room\"` or `\"booking\"`\n- `roomIdentifier`: the room identifier when invoicing a specific room\n- `mode`: the current invoice mode"
                 },
                 "complexType": {
-                    "original": "IssueInvoiceProps",
-                    "resolved": "{ invoice?: { currency?: { id?: number; }; booking_nbr?: string; target?: { code?: string; description?: string; }; Date?: string; nbr?: string; remark?: string; billed_to_name?: string; billed_to_tax?: string; items?: { key?: string | number; amount?: number; type?: string; description?: string; }[]; }; is_proforma?: boolean; }",
+                    "original": "BookingInvoiceInfo",
+                    "resolved": "{ invoiceable_items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: any; type?: InvoiceableItemType; status?: any; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; date?: string; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; status?: { code?: string; description?: any; }; booking_nbr?: string; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; system_id?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; total_amount?: any; }[]; }",
                     "references": {
-                        "IssueInvoiceProps": {
+                        "BookingInvoiceInfo": {
                             "location": "import",
-                            "path": "@/services/booking-service/types",
-                            "id": "src/services/booking-service/types.ts::IssueInvoiceProps"
+                            "path": "../types",
+                            "id": "src/components/ir-invoice/types.ts::BookingInvoiceInfo"
                         }
                     }
                 }

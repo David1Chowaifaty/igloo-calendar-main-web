@@ -40,10 +40,10 @@ export class IrPaymentsFolio {
         ];
     }
     renderEmptyState() {
-        return (h("div", { class: "text-center p-1" }, h("p", { class: "text-muted" }, "No payments recorded yet")));
+        return h("ir-empty-state", null);
     }
     render() {
-        return (h("wa-card", { key: '41999bbaa71c3a05ca4b7897b278154d2fd7add2', class: " payments-container" }, h("div", { key: '1f2d4516373975293a1494900dfbd61324164480', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '0e73eec26a5f46633b2c34c622be337c97abe4fa', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: '7f0e8ab4d6652c0beb8918866794fdf57fe0314e', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: 'fc611d6cd40a67f44de538ab535848688f9bfcff', for: "create-payment" }, "Add Payment"), h("ir-custom-button", { key: '7ee2846560ab5895423006d9e9fbd443034dc68a', slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: '746299fe070a0ed9fa09088b8d863af26bdbf017', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
+        return (h("wa-card", { key: 'ee72bb7c22b51bfa97a1ddf2f8294e7b157a5aaf', class: " payments-container" }, h("div", { key: 'abcb2a22d477042919f4e2cf0a14c5adc3e3ac76', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '50973698c8860db6af457fa2713b1059d78da19e', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: '1e3474116e446e0062b0531b402811c2fb30f210', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: '37cc57e18f6fc0e393b86616cde4d38255c3f5b4', for: "create-payment" }, "Add Payment"), h("ir-custom-button", { key: '0f11f4fba60f1ab189a66841304951a40069d9e2', slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: 'c953e7f9401da3ea65a946ea7b524937dc9f779b', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
     }
     static get is() { return "ir-payments-folio"; }
     static get encapsulation() { return "scoped"; }

@@ -322,7 +322,11 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 is_proforma: isProforma,
                 invoice,
             });
-            this.invoiceCreated.emit({ invoice });
+            const invoiceInfo = await this.bookingService.getBookingInvoiceInfo({
+                booking_nbr: this.booking.booking_nbr,
+            });
+            await this.openLastInvoice(invoiceInfo);
+            this.invoiceCreated.emit(invoiceInfo);
             this.invoiceClose.emit();
         }
         catch (error) {
@@ -331,6 +335,11 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         finally {
             this.loadingChange.emit(false);
         }
+    }
+    async openLastInvoice(invoiceInfo) {
+        const lastInvoice = invoiceInfo.invoices[invoiceInfo.invoices.length - 1];
+        const { My_Result } = await this.bookingService.printInvoice({ mode: lastInvoice?.credit_note ? 'creditnote' : 'invoice', invoice_nbr: lastInvoice.nbr });
+        window.open(My_Result);
     }
     getMinDate() {
         if (this.for === 'room') {
