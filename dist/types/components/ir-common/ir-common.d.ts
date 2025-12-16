@@ -1,6 +1,7 @@
 import { IrOnlineResource } from '../../common/models';
 export declare class IrCommon {
     extraResources: string;
+    disableResourceInjection: boolean;
     resources: IrOnlineResource[];
     componentWillLoad(): void;
     componentDidLoad(): void;

@@ -66,6 +66,7 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
         this.__registerHost();
     }
     extraResources = '';
+    disableResourceInjection;
     resources = onlineResources;
     componentWillLoad() {
         this.parseRefs();
@@ -78,6 +79,9 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
         this.initializeStyles();
     }
     parseRefs() {
+        if (this.disableResourceInjection) {
+            return;
+        }
         if (this.extraResources !== '')
             this.resources.push(JSON.parse(this.extraResources));
     }
@@ -95,6 +99,9 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
         }
     }
     initializeStyles() {
+        if (this.disableResourceInjection) {
+            return;
+        }
         this.resources.forEach(res => {
             if (res.isCSS) {
                 this.appendTag('link', {
@@ -119,6 +126,7 @@ const IrCommon$1 = /*@__PURE__*/ proxyCustomElement(class IrCommon extends HTMLE
     static get style() { return IrCommonStyle0; }
 }, [0, "ir-common", {
         "extraResources": [513, "extra-resources"],
+        "disableResourceInjection": [4, "disable-resource-injection"],
         "resources": [32]
     }, undefined, {
         "extraResources": ["hrefsChanged"]

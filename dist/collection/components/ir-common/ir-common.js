@@ -1,6 +1,7 @@
 import { onlineResources } from "../../common/ir.common.resources";
 export class IrCommon {
     extraResources = '';
+    disableResourceInjection;
     resources = onlineResources;
     componentWillLoad() {
         this.parseRefs();
@@ -13,6 +14,9 @@ export class IrCommon {
         this.initializeStyles();
     }
     parseRefs() {
+        if (this.disableResourceInjection) {
+            return;
+        }
         if (this.extraResources !== '')
             this.resources.push(JSON.parse(this.extraResources));
     }
@@ -30,6 +34,9 @@ export class IrCommon {
         }
     }
     initializeStyles() {
+        if (this.disableResourceInjection) {
+            return;
+        }
         this.resources.forEach(res => {
             if (res.isCSS) {
                 this.appendTag('link', {
@@ -80,6 +87,25 @@ export class IrCommon {
                 "attribute": "extra-resources",
                 "reflect": true,
                 "defaultValue": "''"
+            },
+            "disableResourceInjection": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "disable-resource-injection",
+                "reflect": false
             }
         };
     }
