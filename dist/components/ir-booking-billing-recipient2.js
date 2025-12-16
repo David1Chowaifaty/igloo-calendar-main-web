@@ -44,19 +44,20 @@ const IrBookingBillingRecipient = /*@__PURE__*/ proxyCustomElement(class IrBooki
         this.recipientChange.emit(this.selectedRecipient);
     }
     filterRoomGuests() {
-        const normalize = (value) => value?.toLocaleLowerCase().trim() || '';
+        const joinKey = '|';
+        const normalize = (value) => value?.split(' ')?.join(joinKey)?.toLocaleLowerCase().trim() || '';
         const rooms = [];
         const seenNames = new Set();
         const mainGuest = this.booking?.guest;
         if (mainGuest) {
-            const mainKey = `${normalize(mainGuest.first_name)}|${normalize(mainGuest.last_name)}`;
+            const mainKey = `${normalize(mainGuest.first_name)}${mainGuest.last_name ? joinKey : ''}${normalize(mainGuest.last_name)}`;
             seenNames.add(mainKey);
         }
         for (const room of this.booking.rooms || []) {
             const guest = room?.guest;
             if (!guest)
                 continue;
-            const key = `${normalize(guest.first_name)}|${normalize(guest.last_name)}`;
+            const key = `${normalize(guest.first_name)}${guest.last_name ? joinKey : ''}${normalize(guest.last_name)}`;
             // Skip exact duplicate first + last names
             if (seenNames.has(key))
                 continue;
@@ -66,7 +67,7 @@ const IrBookingBillingRecipient = /*@__PURE__*/ proxyCustomElement(class IrBooki
         this.rooms = rooms;
     }
     render() {
-        return (h(Host, { key: '83c34fa81e8380ca2804981235a49b0a52dc70d8' }, h("wa-radio-group", { key: '06aa5e862824b4c9594e683ff47ba3b920860362', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '738925c31ffc959ede9e81bd0ace43552cb92b47', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '48ba1df424c046918fee685726b62f73871f415a', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: '03d799109836fea79ac57a6cd26f3787c837f205', onCompanyFormClosed: () => {
+        return (h(Host, { key: 'da65a2b7aabd5a0278afaadb045c3074c319a379' }, h("wa-radio-group", { key: '666b1c3001d80729c8509dd93648faa195eb272d', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'c3bf3c42d3b4af35822211ef1db8313523a79035', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '6ba37d29c3b0f522c8ceb48eac715e1fd1092f50', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: '65ac2822dafb4988358cf0d763fc508fcf5095d8', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }

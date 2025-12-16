@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
 import { RoomHkStatus } from "../../models/booking.dto";
+import { CheckoutRoomEvent } from '../ir-departures/ir-departures-table/ir-departures-table';
 export interface UnitHkStatusChangePayload {
     PR_ID: number;
     ROOM_CATEGORY_ID: number;
@@ -68,6 +69,7 @@ export declare class IglooCalendar {
     };
     isAuthenticated: boolean;
     calendarSidebarState: CalendarSidebarState;
+    invoiceState: CheckoutRoomEvent;
     dragOverHighlightElement: EventEmitter;
     moveBookingTo: EventEmitter;
     calculateUnassignedDates: EventEmitter;
@@ -198,5 +200,7 @@ export declare class IglooCalendar {
     private handleSideBarToggle;
     private handleCloseBookingWindow;
     private get isSidebarOpen();
+    private handleInvoiceClose;
+    private handleCheckoutDialogClosed;
     render(): any;
 }

@@ -14,6 +14,7 @@ export class IrCheckoutDialog {
     isLoading = 'page';
     buttons = new Set();
     invoiceInfo;
+    room;
     checkoutDialogClosed;
     bookingService = new BookingService();
     async checkoutRoom({ e, source }) {
@@ -46,6 +47,7 @@ export class IrCheckoutDialog {
             this.isLoading = 'page';
             this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
             this.setupButtons();
+            this.room = this.booking.rooms.find(r => r.identifier === this.identifier);
         }
         catch (error) {
         }
@@ -69,15 +71,15 @@ export class IrCheckoutDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'de39dc8dcc6ea0c4eb375ebf49b5b48d3caa293f', open: this.open, label: "Alert", style: { '--ir-dialog-width': 'fit-content' }, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '129cbc1f989d0de19022b01e44c1df399bab6391', open: this.open, label: "Alert", style: { '--ir-dialog-width': 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to Check Out this unit?")), h("div", { key: 'd1065e5fd34268508b69206b7c5d8657991d7516', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '59673636189c97109ade2cc2e9426ed6e4e5fbed' }, h("ir-custom-button", { key: 'a18661b052addba32075dd04ffd48fe6a32d4e28', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: 'ae608eb94d7769de7c94043395db807eef9b05b7', size: "medium",
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), h("div", { key: 'c6ab8a5bf3c84503386fa16aed35e7bd60679692', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'f470309bcf60ba66a371e4e9085c7bb53268c179' }, h("ir-custom-button", { key: '81ea5ab6546a075e961c463cec27844e029bd290', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: 'c7058df29201dea5684294d089200ed98577db80', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '9560d59364796f43a74f7a50b73ac4adcb165b9b', loading: this.isLoading === 'skipCheckout', size: "medium",
+            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '63cbf2480e92638d99e3f5996c52daf3fe970d52', loading: this.isLoading === 'skipCheckout', size: "medium",
             // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '890ab2ad30ecc350e16c8effe1c4e70c4f462097', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: 'a972da63a17665e0ffadd2eee3813fd8792cd252', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
             }, variant: 'brand', appearance: 'accent' }, "Checkout & invoice"))))));
     }
@@ -162,7 +164,8 @@ export class IrCheckoutDialog {
         return {
             "isLoading": {},
             "buttons": {},
-            "invoiceInfo": {}
+            "invoiceInfo": {},
+            "room": {}
         };
     }
     static get events() {

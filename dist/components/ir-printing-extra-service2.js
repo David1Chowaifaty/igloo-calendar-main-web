@@ -18,7 +18,7 @@ const IrPrintingExtraService = /*@__PURE__*/ proxyCustomElement(class IrPrinting
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '140fcab35d5e928d4e29d993697c188badc07c0a', class: "ir-print-extra-services" }, h("h3", { key: '081c94aa6d0217455c23b513c746edbddfbd002f', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '06280cb73821068f4fcd1a312460582b640bde2d', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'a26e040cb32dfe4af0168b2ce60eef7ae66c3df0', class: "ir-print-extra-services" }, h("h3", { key: 'a4fa867e6dc0298a3d6a394f3fb482ab796eb479', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '882ee29b73a0aa8b65bdaa0d53b519616b8f2f78', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }

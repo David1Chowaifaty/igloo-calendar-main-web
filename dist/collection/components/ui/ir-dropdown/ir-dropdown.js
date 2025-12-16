@@ -256,7 +256,7 @@ export class IrDropdown {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '459b3ecb8b84d3bf03d8a7c863a37d71be6c5919', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '57ec4bf651b236e25700baaa6c77ce4e5f8d78f5', onClick: () => {
+        return (h(Host, { key: '881a39ac89d2f2c16fb796ed09855797b71bceb5', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '5093287c5066ae8ac8dbbed8cf31cd3c22c36650', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -265,7 +265,7 @@ export class IrDropdown {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '5e4c93fa7f437b4157ccd193653a5bfe2f454f0d', name: "trigger" }), this.caret && (h("div", { key: '6621bbb4d93c302688c8cd1a8e99d2022786a1e5', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'a03f3ce566c7f7893c637c57df0d6807091e9d84', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'c4800255e91d1f1e905ce8ff235fa107ea999fff', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'f5998ab55c080021d49fe0d125abdb9f9556b4d5' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '253f1e503ac60ae8a5dfe9cd634e539932206e40', name: "trigger" }), this.caret && (h("div", { key: 'de9487c07754f17e961886e7a2c5acaa698831a4', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'ba71acc588398481593c1a12d28647514be07b20', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'afe28cdf062d7c6636298a8c71c0cea20073d327', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '08591f85ffe9eea3541b5588115bed9d9cf04557' }))));
     }
     static get is() { return "ir-dropdown"; }
     static get encapsulation() { return "scoped"; }

@@ -7,7 +7,7 @@ export class IrBookedOnCell {
     label;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: 'd619499ce1f0520d2fa16cf2b382c04324db46d1' }, this.label && h("p", { key: '3b9dcdf2142c1a950a5b72cb8b7e109b60bac63c', class: "cell-label" }, this.label, ":"), h("p", { key: '8344673df5f38cd53d3a07fca4bc6edb6c50ad96', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '7eeaf741e35fdb3da59360594e9d7ada8062e406', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: 'c7e1444a02297709adad566ea76b65d9d93f1263' }, this.label && h("p", { key: 'd4297e9fec716eaddbe0dc1b0d4e1cf6ebda9df4', class: "cell-label" }, this.label, ":"), h("p", { key: 'cd3fa9c089b4a4bcc7c60502bd750827921f25de', class: "booked-on-cell__date" }, moment(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '720c3ac45a5f14d343249f4847d83ea01002b341', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
     static get is() { return "ir-booked-on-cell"; }
     static get encapsulation() { return "scoped"; }

@@ -1,15 +1,15 @@
 {
   "entries": [
     "components/ac-pages-menu/ac-pages-menu.js",
+    "components/ir-checkout-dialog/ir-checkout-dialog.js",
+    "components/ir-pagination/ir-pagination.js",
+    "components/ir-departures/ir-departures-table/ir-departures-table.js",
     "components/igloo-calendar/igloo-calendar.js",
     "components/ui/ir-toast/ir-toast.js",
     "components/table-cells/booking/ir-actions-cell/ir-actions-cell.js",
-    "components/ir-pagination/ir-pagination.js",
-    "components/ir-checkout-dialog/ir-checkout-dialog.js",
     "components/ui/ir-combobox/ir-combobox.js",
     "components/ui/ir-input/ir-input.js",
     "components/ui/ir-custom-button/ir-custom-button.js",
-    "components/ir-departures/ir-departures-table/ir-departures-table.js",
     "components/ir-drawer/ir-drawer.js",
     "components/ui/ir-dropdown/ir-dropdown.js",
     "components/ir-guest-info/ir-guest-info-form/ir-guest-info-form.js",

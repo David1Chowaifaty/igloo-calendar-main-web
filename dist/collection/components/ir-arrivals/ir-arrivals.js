@@ -120,7 +120,7 @@ export class IrArrivals {
     }
     async getBookings() {
         const { bookings, total_count } = await this.bookingService.getRoomsToCheckIn({
-            property_id: calendar_data.property.id?.toString() ?? this.propertyid?.toString(),
+            property_id: calendar_data.property?.id?.toString() || this.propertyid?.toString(),
             check_in_date: arrivalsStore.today,
             page_index: arrivalsStore.pagination.currentPage,
             page_size: arrivalsStore.pagination.pageSize,

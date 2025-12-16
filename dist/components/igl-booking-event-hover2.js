@@ -222,25 +222,34 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         this.handleBookingOption('ADD_ROOM', eventData);
     }
     handleCustomerCheckIn() {
+        const room = this.bookingEvent.booking.rooms.find(r => r.identifier === this.bookingEvent.IDENTIFIER);
         const { adult_nbr, children_nbr, infant_nbr } = this.bookingEvent.ROOM_INFO.occupancy;
+        const unitName = room ? room.unit.name : this.bookingEvent.ROOM_INFO.unit?.name ?? '';
         this.showDialog.emit({
             reason: 'checkin',
             bookingNumber: this.bookingEvent.BOOKING_NUMBER,
             roomIdentifier: this.bookingEvent.IDENTIFIER,
-            roomName: '',
+            roomName: unitName,
             roomUnit: '',
             sidebarPayload: {
                 identifier: this.bookingEvent.IDENTIFIER,
                 bookingNumber: this.bookingEvent.BOOKING_NUMBER,
                 checkin: false,
-                roomName: this.bookingEvent.ROOM_INFO.unit?.name ?? '',
+                roomName: unitName,
                 sharing_persons: this.bookingEvent.ROOM_INFO.sharing_persons,
                 totalGuests: adult_nbr + children_nbr + infant_nbr,
             },
         });
     }
     handleCustomerCheckOut() {
-        this.showDialog.emit({ reason: 'checkout', bookingNumber: this.bookingEvent.BOOKING_NUMBER, roomIdentifier: this.bookingEvent.IDENTIFIER, roomName: '', roomUnit: '' });
+        this.showDialog.emit({
+            reason: 'checkout',
+            booking: this.bookingEvent.booking,
+            bookingNumber: this.bookingEvent.BOOKING_NUMBER,
+            roomIdentifier: this.bookingEvent.IDENTIFIER,
+            roomName: '',
+            roomUnit: '',
+        });
     }
     handleDeleteEvent() {
         this.hideBubble();
@@ -431,7 +440,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: 'b741111eec12b9341cfcfef8f129755a1ac7738c' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '6d465d9a7e268013db2f45b71a9ec4ff6c74572e' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
