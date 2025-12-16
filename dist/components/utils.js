@@ -861,18 +861,13 @@ function canCheckout({ to_date, inOutCode }) {
  * @param url - The URL of the file to download.
  * @param filename - The name of the file to save. If not provided, the URL will be used as the filename.
  */
-async function downloadFile(url, filename) {
-    const response = await fetch(url, { credentials: 'include' });
-    if (!response.ok) {
-        throw new Error(`Download failed: ${response.status}`);
-    }
-    const blob = await response.blob();
-    const blobUrl = URL.createObjectURL(blob);
+function downloadFile(url, filename) {
     const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = filename ?? url.split('/').pop() ?? 'download';
+    a.href = url;
+    a.download = filename || url;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(a);
 }
 /**
  * Converts an integer value into a float by shifting the decimal point.
