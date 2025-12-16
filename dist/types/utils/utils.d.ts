@@ -139,7 +139,7 @@ export declare function canCheckout({ to_date, inOutCode }: {
  * @param url - The URL of the file to download.
  * @param filename - The name of the file to save. If not provided, the URL will be used as the filename.
  */
-export declare function downloadFile(url: string, filename?: string): void;
+export declare function downloadFile(url: string, filename?: string): Promise<void>;
 /**
  * Converts an integer value into a float by shifting the decimal point.
  *
