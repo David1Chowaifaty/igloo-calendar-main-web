@@ -157,6 +157,11 @@ export class IrArrivals {
         event.stopPropagation();
         this.roomGuestState = event.detail;
     }
+    handleResetBooking(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.getBookings();
+    }
     // @Listen("resetBookingEvt")
     // handleResetBookings(e:CustomEvent){
     //   e.stopImmediatePropagation();
@@ -167,7 +172,7 @@ export class IrArrivals {
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Arrivals"), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-drawer", { onDrawerHide: e => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Check-ins"), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-drawer", { onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;
@@ -332,6 +337,12 @@ export class IrArrivals {
             }, {
                 "name": "resetExposedCancellationDueAmount",
                 "method": "handleResetExposedCancellationDueAmount",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "updateRoomGuests",
+                "method": "handleResetBooking",
                 "target": undefined,
                 "capture": false,
                 "passive": false

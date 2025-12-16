@@ -182,6 +182,11 @@ const IrArrivals = class {
         event.stopPropagation();
         this.roomGuestState = event.detail;
     }
+    handleResetBooking(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.getBookings();
+    }
     // @Listen("resetBookingEvt")
     // handleResetBookings(e:CustomEvent){
     //   e.stopImmediatePropagation();
@@ -192,7 +197,7 @@ const IrArrivals = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), index.h("div", { class: "ir-page__container" }, index.h("h3", { class: "page-title" }, "Arrivals"), index.h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), index.h("ir-drawer", { onDrawerHide: e => {
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), index.h("div", { class: "ir-page__container" }, index.h("h3", { class: "page-title" }, "Check-ins"), index.h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), index.h("ir-drawer", { onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;
@@ -912,7 +917,7 @@ const IrDepartures = class {
         if (this.isPageLoading) {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), index.h("div", { class: 'ir-page__container' }, index.h("h3", { class: "page-title" }, "Departures"), index.h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), index.h("ir-drawer", { onDrawerHide: e => {
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), index.h("div", { class: 'ir-page__container' }, index.h("h3", { class: "page-title" }, "Check-outs"), index.h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), index.h("ir-drawer", { onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;

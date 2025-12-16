@@ -228,10 +228,14 @@ export class IrInvoiceForm {
     async init() {
         try {
             this.isLoading = true;
-            let invoiceInfo = this.invoiceInfo;
-            if (!this.invoiceInfo) {
-                invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-            }
+            // let invoiceInfo = this.invoiceInfo;
+            // if (!this.invoiceInfo) {
+            const [booking, invoiceInfo] = await Promise.all([
+                this.bookingService.getExposedBooking(this.booking.booking_nbr, 'en', true),
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+            ]);
+            this.booking = { ...booking };
+            // }
             this.setupInvoicables(invoiceInfo);
             if (this.booking) {
                 this.selectedRecipient = this.booking.guest.id.toString();
@@ -645,7 +649,7 @@ export class IrInvoiceForm {
             },
             "booking": {
                 "type": "unknown",
-                "mutable": false,
+                "mutable": true,
                 "complexType": {
                     "original": "Booking",
                     "resolved": "Booking",

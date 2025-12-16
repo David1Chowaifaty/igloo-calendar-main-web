@@ -50,5 +50,6 @@ export declare class IrArrivals {
     private handlePaginationChange;
     private handlePaginationPageSizeChange;
     private handleCheckingRoom;
+    handleResetBooking(e: CustomEvent): void;
     render(): any;
 }

@@ -249,10 +249,14 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
     async init() {
         try {
             this.isLoading = true;
-            let invoiceInfo = this.invoiceInfo;
-            if (!this.invoiceInfo) {
-                invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-            }
+            // let invoiceInfo = this.invoiceInfo;
+            // if (!this.invoiceInfo) {
+            const [booking, invoiceInfo] = await Promise.all([
+                this.bookingService.getExposedBooking(this.booking.booking_nbr, 'en', true),
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+            ]);
+            this.booking = { ...booking };
+            // }
             this.setupInvoicables(invoiceInfo);
             if (this.booking) {
                 this.selectedRecipient = this.booking.guest.id.toString();
@@ -587,7 +591,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         "viewMode": [1, "view-mode"],
         "formId": [1, "form-id"],
         "open": [1540],
-        "booking": [16],
+        "booking": [1040],
         "for": [1],
         "roomIdentifier": [1, "room-identifier"],
         "autoPrint": [4, "auto-print"],

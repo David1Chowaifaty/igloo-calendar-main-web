@@ -252,6 +252,11 @@ const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTM
         event.stopPropagation();
         this.roomGuestState = event.detail;
     }
+    handleResetBooking(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.getBookings();
+    }
     // @Listen("resetBookingEvt")
     // handleResetBookings(e:CustomEvent){
     //   e.stopImmediatePropagation();
@@ -262,7 +267,7 @@ const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTM
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Arrivals"), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-drawer", { onDrawerHide: e => {
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Check-ins"), h("ir-arrivals-table", { onCheckInRoom: event => this.handleCheckingRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) }), h("ir-drawer", { onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingNumber = null;
@@ -296,7 +301,7 @@ const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTM
         "payment": [32],
         "roomGuestState": [32],
         "countries": [32]
-    }, [[0, "payBookingBalance", "handleBookingPayment"], [0, "openBookingDetails", "handleOpen"], [0, "resetExposedCancellationDueAmount", "handleResetExposedCancellationDueAmount"]], {
+    }, [[0, "payBookingBalance", "handleBookingPayment"], [0, "openBookingDetails", "handleOpen"], [0, "resetExposedCancellationDueAmount", "handleResetExposedCancellationDueAmount"], [0, "updateRoomGuests", "handleResetBooking"]], {
         "pageSize": ["handlePageSizeChange"],
         "ticket": ["handleTicketChange"]
     }]);
