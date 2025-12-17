@@ -54,6 +54,7 @@
     "components/ir-booking-company-dialog/ir-booking-company-dialog.js",
     "components/ir-booking-company-dialog/ir-booking-company-form/ir-booking-company-form.js",
     "components/ir-booking-details/ir-booking-details.js",
+    "components/ir-booking-details/ir-booking-details-drawer/ir-booking-details-drawer.js",
     "components/ir-booking-details/ir-booking-extra-note/ir-booking-extra-note.js",
     "components/ir-booking-details/ir-booking-header/ir-booking-header.js",
     "components/ir-booking-details/ir-booking-header/events-log/ir-events-log.js",

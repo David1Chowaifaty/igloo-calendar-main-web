@@ -21,6 +21,7 @@ import { d as defineCustomElement$4 } from './ir-printing-label2.js';
 import { d as defineCustomElement$3 } from './ir-printing-pickup2.js';
 import { d as defineCustomElement$2 } from './ir-proforma-invoice-preview2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
+import { v as v4 } from './v4.js';
 
 const irBillingCss = ".sc-ir-billing-h{display:flex;flex-direction:column;height:100%}.billing__container.sc-ir-billing{display:flex;flex-direction:column;gap:var(--wa-space-l)}.billing__section-title-row.sc-ir-billing{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.billing__section-title.sc-ir-billing{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.billing__actions-row.sc-ir-billing{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.billing__invoice-nbr.sc-ir-billing{margin:0;padding:0}.billing__invoice-nbr.--secondary.sc-ir-billing{font-size:0.75rem}.billing__price-col.sc-ir-billing{text-align:end !important}.billing__cards.sc-ir-billing{display:flex;flex-direction:column;gap:var(--wa-space-m);padding-bottom:var(--wa-space-l) !important}.billing__card.sc-ir-billing{display:block}.billing__card-header.sc-ir-billing{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}.billing__card-header-info.sc-ir-billing{display:flex;flex-direction:column}.billing__card-number.sc-ir-billing{margin:0;font-weight:var(--wa-font-weight-heading);font-family:var(--wa-font-family-heading)}.billing__card-type.sc-ir-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-secondary)}.billing__card-download-btn.sc-ir-billing{display:flex;align-items:center}.billing__card-details.sc-ir-billing{display:flex;gap:var(--wa-space-xs);justify-content:space-between}.billing__card-detail.sc-ir-billing{display:flex;flex-direction:column}.billing__card-detail-label.sc-ir-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.billing__card-detail-label.--amount.sc-ir-billing{text-align:end !important}.billing__card-detail-value.sc-ir-billing{margin:0;font-weight:var(--wa-font-weight-regular);font-size:var(--wa-font-size-s)}.billing__card-void-btn.sc-ir-billing{flex:1 1 0%}.billing__card-footer.sc-ir-billing{display:flex}.table-container.sc-ir-billing{display:none}.billing__card.sc-ir-billing::part(footer){padding-top:1rem;padding-bottom:1rem}@media (min-width: 768px){.billing__cards.sc-ir-billing{display:none}.table-container.sc-ir-billing{display:block}}";
 const IrBillingStyle0 = irBillingCss;
@@ -41,6 +42,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
     selectedInvoice = null;
     billingClose;
     bookingService = new BookingService();
+    _id = `issue_invoice__btn_${v4()}`;
     componentWillLoad() {
         this.init();
     }
@@ -113,11 +115,12 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", onClickHandler: e => {
+        const canIssueInvoice = !hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
+        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), !canIssueInvoice && h("wa-tooltip", { for: this._id }, "Invoices cannot be issued before guest arrival"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
+            }, disabled: !canIssueInvoice }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')

@@ -453,7 +453,7 @@ export interface LinkedPms {
         sent_hour: number;
         sent_minute: number;
     };
-    booking_integration_mode: {
+    bookings_integration_mode: {
         code: string;
         description: string;
     };

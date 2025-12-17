@@ -345,17 +345,18 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         if (this.for === 'room') {
             return this.room.to_date;
         }
-        const getMinCheckoutDate = () => {
-            let minDate = hooks();
-            for (const room of this.booking.rooms) {
-                const d = hooks(room.to_date, 'YYYY-MM-DD');
-                if (d.isBefore(minDate)) {
-                    minDate = d.clone();
-                }
-            }
-            return minDate;
-        };
-        return getMinCheckoutDate().format('YYYY-MM-DD');
+        // const getMinCheckoutDate = () => {
+        //   let minDate = moment();
+        //   for (const room of this.booking.rooms) {
+        //     const d = moment(room.to_date, 'YYYY-MM-DD');
+        //     if (d.isBefore(minDate)) {
+        //       minDate = d.clone();
+        //     }
+        //   }
+        //   return minDate;
+        // };
+        // return getMinCheckoutDate().format('YYYY-MM-DD');
+        return this.booking.from_date;
     }
     getMaxDate() {
         return hooks().format('YYYY-MM-DD');

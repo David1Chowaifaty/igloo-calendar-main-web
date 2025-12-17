@@ -203,11 +203,11 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: 'aa9d63e5c0229bd1cf5fdd8f09cdab97fd6ab110', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '4bbc709688058f8549404395027135e5080eb095', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h("ir-custom-button", { key: '02ad949d1dcb753dcb768008fbd7d7265c8504e7', size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '5552528b6f98585b12d4d55545c3c2167611146d', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))), h("slot", { key: 'a86f9afe1c59cee0bc7b94216b1fab0d78423f9e' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h("ir-custom-button", { key: 'be2cc4b749d78bb9f8197d5783f0e6b64b441c9f', size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '461a6a48d833aedd4494f0f39e1dd77e4b4fcabd', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))), h("slot", { key: 'dfbe673fd250cdd4d2e94a1f992986f0b6cc51d8' })));
     }
     static get style() { return IrPreviewScreenDialogStyle0; }
 }, [1, "ir-preview-screen-dialog", {

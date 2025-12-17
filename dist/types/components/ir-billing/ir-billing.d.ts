@@ -9,6 +9,7 @@ export declare class IrBilling {
     selectedInvoice: string;
     billingClose: EventEmitter<void>;
     private bookingService;
+    private _id;
     componentWillLoad(): void;
     handleInvoiceCreation(e: CustomEvent): Promise<void>;
     private init;

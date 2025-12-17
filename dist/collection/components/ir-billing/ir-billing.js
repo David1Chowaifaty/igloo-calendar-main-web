@@ -3,6 +3,7 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { downloadFile, formatAmount } from "../../utils/utils";
 import moment from "moment";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
+import { v4 } from "uuid";
 export class IrBilling {
     booking;
     isOpen = null;
@@ -11,6 +12,7 @@ export class IrBilling {
     selectedInvoice = null;
     billingClose;
     bookingService = new BookingService();
+    _id = `issue_invoice__btn_${v4()}`;
     componentWillLoad() {
         this.init();
     }
@@ -83,11 +85,12 @@ export class IrBilling {
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", onClickHandler: e => {
+        const canIssueInvoice = !moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
+        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), !canIssueInvoice && h("wa-tooltip", { for: this._id }, "Invoices cannot be issued before guest arrival"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
+            }, disabled: !canIssueInvoice }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
