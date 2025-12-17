@@ -205,7 +205,7 @@ const IrDateRange$1 = /*@__PURE__*/ proxyCustomElement(class IrDateRange extends
         });
     }
     render() {
-        return (h(Host, { key: '503b6d781bcdcd2b4694e8e9abe3cd869333d155' }, h("input", { key: '2cc20b40f13cc33446bc7a4364fc42c9960933a8', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: '012aea26829d23788e166f3379f67c251237fbf9' }, h("input", { key: '8ca4d4a54c0d9bb3ac754d0e84b85885a33f2891', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get watchers() { return {
         "minDate": ["handleMinDateChange"],

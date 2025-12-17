@@ -241,8 +241,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     price: z.ZodNumber;
     system_id: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
-    cost?: number;
     system_id?: number;
+    cost?: number;
     description?: string;
     booking_system_id?: number;
     currency_id?: number;
@@ -250,8 +250,8 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     start_date?: string;
     price?: number;
 }, {
-    cost?: number;
     system_id?: number;
+    cost?: number;
     description?: string;
     booking_system_id?: number;
     currency_id?: number;
@@ -295,6 +295,7 @@ export interface IFinancial {
     gross_total_with_extras: number;
 }
 export interface IPayment {
+    system_id?: number;
     id: number | null;
     date: string;
     amount: number;

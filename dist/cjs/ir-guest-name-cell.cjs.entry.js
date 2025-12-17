@@ -13,7 +13,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (index.h(index.Host, { key: '160b6dabe2f64742fa4c9c7b3283ea8600cf6589' }, this.name.first_name, " ", this.name.last_name));
+        return (index.h(index.Host, { key: '59b09358ccdd86a4904973dc657b5385253e6953' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = IrGuestNameCellStyle0;

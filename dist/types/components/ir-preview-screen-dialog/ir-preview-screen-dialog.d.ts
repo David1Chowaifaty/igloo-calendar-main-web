@@ -49,6 +49,7 @@ export declare class IrPreviewScreenDialog {
         url?: string;
     }>;
     openChanged: EventEmitter<boolean>;
+    private _id;
     /**
      * Opens the preview dialog.
      */

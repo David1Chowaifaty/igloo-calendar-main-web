@@ -24,7 +24,7 @@ export class IrExtraServices {
                 "mutable": false,
                 "complexType": {
                     "original": "Pick<Booking, 'currency' | 'extra_services' | 'booking_nbr'>",
-                    "resolved": "{ currency: Currency; booking_nbr: string; extra_services: { cost?: number; system_id?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }[]; }",
+                    "resolved": "{ currency: Currency; booking_nbr: string; extra_services: { system_id?: number; cost?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }[]; }",
                     "references": {
                         "Pick": {
                             "location": "global",

@@ -8,7 +8,7 @@ export class IrPrintingExtraService {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '6d3382a75a7c7f66ee61fd978c0339dc154a3f4e', class: "ir-print-extra-services" }, h("h3", { key: 'e64743c2185ce91e6d9935d7544bc65896c9ffb1', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '50b7351c1efd02a51bbbcf4b58843bab08da381d', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'b28fd6657eb46b2e35e370e2ed017d4c85e6da60', class: "ir-print-extra-services" }, h("h3", { key: '3bd7d310f9a85b4301175e60178abbe089c25513', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '1675b73419d57ec1b8c6fa5af586197f8b207027', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }
@@ -34,7 +34,7 @@ export class IrPrintingExtraService {
                 "mutable": false,
                 "complexType": {
                     "original": "Booking['extra_services']",
-                    "resolved": "{ cost?: number; system_id?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }[]",
+                    "resolved": "{ system_id?: number; cost?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }[]",
                     "references": {
                         "Booking": {
                             "location": "import",

@@ -1,6 +1,7 @@
-import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-dialog2.js';
+import { v as v4 } from './v4.js';
 
 const irPreviewScreenDialogCss = ":host{display:block}.ir-fullscreen-dialog::part(dialog){width:100vw;height:100vh;max-width:none;max-height:none;margin:0;border-radius:0}@media print{@page {size:A4;margin:0}html,body{margin:0;padding:0;height:auto}.ir-fullscreen-dialog::part(dialog){position:static !important;width:auto !important;height:auto !important;max-height:none !important;overflow:visible !important;transform:none !important}.ir-fullscreen-dialog::part(header){display:none !important}body *{visibility:hidden}.ir-fullscreen-dialog,.ir-fullscreen-dialog *{visibility:visible}.ir-fullscreen-dialog{position:absolute;top:0;left:0;width:100%}}";
 const IrPreviewScreenDialogStyle0 = irPreviewScreenDialogCss;
@@ -68,6 +69,7 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
      */
     previewAction;
     openChanged;
+    _id = `download_btn_${v4()}`;
     /**
      * Opens the preview dialog.
      */
@@ -203,11 +205,11 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '4bbc709688058f8549404395027135e5080eb095', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'aa1b7f09e538039500fc76507912112ff8db1f61', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h("ir-custom-button", { key: 'be2cc4b749d78bb9f8197d5783f0e6b64b441c9f', size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '461a6a48d833aedd4494f0f39e1dd77e4b4fcabd', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() }))), h("slot", { key: 'dfbe673fd250cdd4d2e94a1f992986f0b6cc51d8' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: '7ee567b1a5f8a2249aec4ce5487aaf3cd82d01eb' }, h("wa-tooltip", { key: '27e6e37ba5bc69cd92bc7a0d644600c7d7710a7f', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '43fbb77e85ecfd175363049e6735ceaa1319855d', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '72112dfbfa54b479c0b1bbcabf4d908cfd4e6736', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: 'fed3c69899202271551827f27b8a012dc74c6284' })));
     }
     static get style() { return IrPreviewScreenDialogStyle0; }
 }, [1, "ir-preview-screen-dialog", {

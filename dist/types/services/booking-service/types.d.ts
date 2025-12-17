@@ -290,8 +290,8 @@ export declare const SetDepartureTimePropsSchema: z.ZodObject<{
 export type SetDepartureTimeProps = z.infer<typeof SetDepartureTimePropsSchema>;
 export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
     service: z.ZodType<{
-        cost?: number;
         system_id?: number;
+        cost?: number;
         description?: string;
         booking_system_id?: number;
         currency_id?: number;
@@ -299,8 +299,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         start_date?: string;
         price?: number;
     }, z.ZodTypeDef, {
-        cost?: number;
         system_id?: number;
+        cost?: number;
         description?: string;
         booking_system_id?: number;
         currency_id?: number;
@@ -313,8 +313,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     booking_nbr?: string | number;
     service?: {
-        cost?: number;
         system_id?: number;
+        cost?: number;
         description?: string;
         booking_system_id?: number;
         currency_id?: number;
@@ -326,8 +326,8 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
 }, {
     booking_nbr?: string | number;
     service?: {
-        cost?: number;
         system_id?: number;
+        cost?: number;
         description?: string;
         booking_system_id?: number;
         currency_id?: number;
