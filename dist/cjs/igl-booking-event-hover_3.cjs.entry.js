@@ -4,11 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
 const utils = require('./utils-9892967b.js');
-const events_service = require('./events.service-62433a31.js');
+const property_service = require('./property.service-e816aaaf.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-4eb57996.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
-const property_service = require('./property.service-469c5c9c.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
 require('./index-6299b0f7.js');
@@ -43,7 +42,7 @@ const IglBookingEventHover = class {
     bookingCreated;
     showDialog;
     openCalendarSidebar;
-    eventService = new events_service.EventsService();
+    eventService = new property_service.EventsService();
     hideButtons = false;
     propertyService = new property_service.PropertyService();
     baseColor;
@@ -813,7 +812,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (index.h(index.Host, { key: '0cf95a32aeab7c46bc07db7d411a5e7eee67833d', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: '9a1be901e2ea78b78e31cb5f7b6fdedab282914f', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrDropdownItem.style = IrDropdownItemStyle0;

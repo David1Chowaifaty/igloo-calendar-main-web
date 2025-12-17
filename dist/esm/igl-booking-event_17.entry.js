@@ -1,16 +1,15 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-b3dce66a.js';
-import { B as BookingService, d as resetBookingStore } from './booking.service-60d0a2c1.js';
-import { F as isBlockUnit, x as calendar_dates, c as calculateDaysBetweenDates, C as transformNewBooking, L as checkMealPlan, b as buildSplitIndex, M as getSplitRole, f as formatAmount, N as compareTime, O as createDateWithOffsetAndHour, P as isWeekend, d as dateToFormattedString, Q as getDaysArray, R as convertDatePrice, S as formatDate } from './utils-66c94f69.js';
+import { B as BookingService, d as resetBookingStore } from './booking.service-845da1e2.js';
+import { F as isBlockUnit, x as calendar_dates, c as calculateDaysBetweenDates, C as transformNewBooking, L as checkMealPlan, b as buildSplitIndex, M as getSplitRole, f as formatAmount, N as compareTime, O as createDateWithOffsetAndHour, P as isWeekend, d as dateToFormattedString, Q as getDaysArray, R as convertDatePrice, S as formatDate } from './utils-1819eb32.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-dfbc25aa.js';
+import { E as EventsService, P as PropertyService } from './property.service-e858c2bc.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { c as calendar_data } from './calendar-data-8a36a1b2.js';
 import { C as ClickOutside, I as IMask } from './ClickOutside-af86579a.js';
 import { z, Z as ZodError } from './index-1e1f097b.js';
 import { H as HouseKeepingService } from './housekeeping.service-da0dbbe6.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-9076e08e.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-1a2a5380.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-268b1dda.js';
-import { P as PropertyService } from './property.service-63dc6e59.js';
 import { i as isRequestPending } from './ir-interceptor.store-ebb6c559.js';
 import { c as colorVariants } from './icons-5bea2cc2.js';
 import { v as v4 } from './v4-964634d6.js';
@@ -3111,7 +3110,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '72cfd5a0f9862125acb7f905351d6ece7d8cfcbf', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '0a7ae8a236470382b167e8bbba10bc7c582a65c9', ref: el => {
+        return (h(Host, { key: '61f333e406c9b9a7efd4a72898e5753ceeae0548', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '5f1b47b81b2865f3f3a24dcf502694d868549252', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -3123,12 +3122,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: '3bce975d9b51f602a49b0ab6e59c92ebfb513d9d', class: "cropped-title", style: {
+            } }, h("span", { key: 'b77487163b67bc5d2e3b410da6d0f4bac3aeae2c', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'e31fcd280a92cc137e738b6582e0f6d73af03d68', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: 'ba7b3783e60044117532a5f98d9272188639f763', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: 'dcb98cef8660ab2c3e2e99f146094c7fbc817464', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '7ce418fd29bbff04dc8d54fb5398377af905782e', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -3294,13 +3293,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: 'f69ee5965da18c0d60219ee201f7326c7ea61121', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '4c974af1a97a6cce7281c7f62de993a64aa31382', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: 'ed3168c40a19d4a0d95693d086eef24ca74c066c', class: `input-group-text 
+        return (h("fieldset", { key: '1b0b1fc82cd0c355675c89a1bab445e95780fc66', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'b1591394685d1db59ad7b99bd892eb48ba3df434', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '352c8c4945581964166bc00774b5c1e86bed77d1', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '6766e294038517d18e175055e5dc446a4e322fbc', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '1b2122113ef1dfa73730f5eeebba0be3693be9a9', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '213b505aeace7c19f2353e5d2341d5593d67fccd' }, h("span", { key: '77cf676ef8014843fde53b7bfbc381aecdc10751', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'a6ccb0a303b0b6220ef1852d80056fb124b36c46', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '4412a459a98b502a38ad0efc590ae599a472bf71', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '510811820ab7fddad96b2fbe4a130987a2288abc', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '04595f59d50b0d12c062c8ff8907993d717a43bf' }, h("span", { key: '2853c961dd505852eef790ace0f95198a7e674e2', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '200825bb0e0f66a3a26418be2d31014536b37039', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -3619,7 +3618,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (h(Host, { key: 'd09c42fc04fb9bea416ab6dd56547faa0fb5bdd9' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (h(Host, { key: '5082919a81b7a961f269fdbc51dc4d7b00392f6b' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrUnitCell {
     room;
     render() {
-        return (h(Host, { key: 'fa683066443feb6281d3b14187cbe4bd0fe89314' }, h("p", { key: '1123d921bb469bfcc46ed9946e3151dd43d0c3dc' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'abfb5d8f5baf867ae0b10f848d694d9b7ca78960', unit: this.room.unit.name })));
+        return (h(Host, { key: '0f3c5ba8ddab2ce523d1b04beea368ca2ab459e3' }, h("p", { key: 'cbd417e36990cc0d86251c3cb78246e05dcfc797' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'aa1ba5a5b7f056f312ca3b33942e921357df8fa2', unit: this.room.unit.name })));
     }
     static get is() { return "ir-unit-cell"; }
     static get encapsulation() { return "scoped"; }

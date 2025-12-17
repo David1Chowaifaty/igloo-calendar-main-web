@@ -6,7 +6,7 @@ const index = require('./index-3978a3f8.js');
 const room_service = require('./room.service-edd3d27c.js');
 const booking_service = require('./booking.service-53a86e90.js');
 const utils = require('./utils-9892967b.js');
-const events_service = require('./events.service-62433a31.js');
+const property_service = require('./property.service-e816aaaf.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-011b3f5d.js');
 const locales_store = require('./locales.store-4eb57996.js');
@@ -17,8 +17,7 @@ const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-ef854ce9.js');
 const arrivals_store = require('./arrivals.store-0d4d41f7.js');
 const axios = require('./axios-6e678d52.js');
-const property_service = require('./property.service-469c5c9c.js');
-const departures_store = require('./departures.store-b2184863.js');
+const booking_listing_service = require('./booking_listing.service-b94b95db.js');
 const hkTasks_store = require('./hk-tasks.store-3cbca981.js');
 const irInterceptor_store = require('./ir-interceptor.store-c6d5162b.js');
 const user_service = require('./user.service-03a2c5b0.js');
@@ -4235,7 +4234,7 @@ const IglooCalendar = class {
     showRoomNightsDialog;
     bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
     housekeepingService = new housekeeping_service.HouseKeepingService();
     // private auth = new Auth();
@@ -5646,6 +5645,298 @@ const IrBookingEmailLogs = class {
 };
 IrBookingEmailLogs.style = IrBookingEmailLogsStyle0;
 
+// src/utils/browserHistory.ts
+/**
+ * Read all current search params into a Record<string, string>
+ */
+function getAllParams() {
+    const params = new URLSearchParams(window.location.search);
+    const out = {};
+    for (const [key, value] of params.entries()) {
+        out[key] = value;
+    }
+    return out;
+}
+
+const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative}";
+const IrBookingListingStyle0 = irBookingListingCss;
+
+const IrBookingListing = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    get el() { return index.getElement(this); }
+    language = '';
+    ticket = '';
+    propertyid;
+    rowCount = 20;
+    p;
+    baseUrl;
+    userType;
+    isLoading = false;
+    editBookingItem = null;
+    showCost = false;
+    paymentEntries;
+    payment;
+    booking;
+    bookingListingService = new booking_listing_service.BookingListingService();
+    bookingService = new booking_service.BookingService();
+    roomService = new room_service.RoomService();
+    propertyService = new property_service.PropertyService();
+    token = new Token.Token();
+    listingModal;
+    listingModalTimeout;
+    allowedProperties;
+    havePrivilege;
+    paymentFolioRef;
+    componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
+        booking_listing_service.updateUserSelection('end_row', this.rowCount);
+        booking_listing_service.booking_listing.rowCount = this.rowCount;
+        booking_listing_service.setPaginationPageSize(this.rowCount);
+        if (this.ticket !== '') {
+            booking_listing_service.booking_listing.token = this.ticket;
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+        booking_listing_service.onBookingListingChange('userSelection', newValue => {
+            booking_listing_service.updatePaginationFromSelection(newValue);
+        });
+        booking_listing_service.onBookingListingChange('bookings', newValue => {
+            this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
+        });
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        booking_listing_service.booking_listing.token = this.ticket;
+        this.initializeApp();
+    }
+    async fetchBookings() {
+        await this.bookingListingService.getExposedBookings({
+            ...booking_listing_service.booking_listing.userSelection,
+            is_to_export: false,
+        });
+    }
+    async initializeApp() {
+        try {
+            this.isLoading = true;
+            this.havePrivilege = utils.isPrivilegedUser(this.userType);
+            let propertyId = this.propertyid;
+            if (!this.havePrivilege) {
+                if (!this.propertyid && !this.p) {
+                    throw new Error('Property ID or username is required');
+                }
+                if (!propertyId) {
+                    const propertyData = await this.roomService.getExposedProperty({
+                        id: 0,
+                        aname: this.p,
+                        language: this.language,
+                        is_backend: true,
+                    });
+                    propertyId = propertyData.My_Result.id;
+                }
+            }
+            const parallelRequests = [
+                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
+                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
+            ];
+            // let propertyDataIndex: number | null = null;
+            let allowedPropertiesIndex = null;
+            if (this.propertyid && !this.havePrivilege) {
+                // propertyDataIndex = parallelRequests.length;
+                parallelRequests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                }));
+            }
+            if (this.havePrivilege) {
+                allowedPropertiesIndex = parallelRequests.length;
+                parallelRequests.push(this.propertyService.getExposedAllowedProperties());
+            }
+            const results = await Promise.all(parallelRequests);
+            const [setupEntries] = results;
+            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.paymentEntries = {
+                groups: pay_type_group,
+                methods: pay_method,
+                types: pay_type,
+            };
+            this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
+            booking_listing_service.updateUserSelection('property_id', propertyId);
+            booking_listing_service.updateUserSelections({
+                property_ids: this.allowedProperties,
+                userTypeCode: this.userType,
+            });
+            await this.fetchBookings();
+        }
+        catch (error) {
+            console.error('Error initializing app:', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    handleSideBarToggle(e) {
+        if (e.detail) {
+            this.editBookingItem = null;
+        }
+    }
+    geSearchFiltersFromParams() {
+        //e=10&status=002&from=2025-04-15&to=2025-04-22&filter=2&c=Alitalia+Cabin+Crew
+        const params = getAllParams();
+        if (params) {
+            console.log('update params');
+            let obj = {};
+            if (params.e) {
+                obj['end_row'] = Number(params.e);
+            }
+            if (params.s) {
+                obj['start_row'] = Number(params.s);
+            }
+            if (params.status) {
+                obj['booking_status'] = params.status;
+            }
+            if (params.filter) {
+                obj['filter_type'] = params.filter;
+            }
+            if (params.from) {
+                obj['from'] = params.from;
+            }
+            if (params.to) {
+                obj['to'] = params.to;
+            }
+            booking_listing_service.updateUserSelections(obj);
+        }
+        console.log('params=>', params);
+    }
+    openModal() {
+        this.listingModalTimeout = setTimeout(() => {
+            this.listingModal = this.el.querySelector('ir-listing-modal');
+            this.listingModal.editBooking = this.editBookingItem;
+            this.listingModal.openModal();
+        }, 100);
+    }
+    disconnectedCallback() {
+        clearTimeout(this.listingModalTimeout);
+    }
+    async handlePaginationChange(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        if (!event.detail) {
+            return;
+        }
+        booking_listing_service.setPaginationPage(event.detail.currentPage);
+        await this.fetchBookings();
+    }
+    async handlePaginationPageSizeChange(event) {
+        if (!event.detail || !event.detail.pageSize) {
+            return;
+        }
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        booking_listing_service.setPaginationPageSize(event.detail.pageSize);
+        await this.fetchBookings();
+    }
+    async handleResetStoreData(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchBookings();
+    }
+    handleBookingChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        booking_listing_service.booking_listing.bookings = [
+            ...booking_listing_service.booking_listing.bookings.map(b => {
+                if (b.booking_nbr === e.detail.booking_nbr) {
+                    return e.detail;
+                }
+                return b;
+            }),
+        ];
+    }
+    handleBookingPayment(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { booking_nbr, payment } = e.detail;
+        this.booking = this.findBooking(booking_nbr);
+        const paymentType = this.paymentEntries.types.find(p => p.CODE_NAME === payment.payment_type.code);
+        this.payment = {
+            ...payment,
+            payment_type: {
+                code: paymentType.CODE_NAME,
+                description: paymentType.CODE_VALUE_EN,
+                operation: paymentType.NOTES,
+            },
+        };
+        this.paymentFolioRef.openFolio();
+    }
+    handleSelectGuestEvent(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const booking = this.findBooking(e.detail);
+        if (!booking) {
+            return;
+        }
+        this.editBookingItem = {
+            booking,
+            cause: 'guest',
+        };
+    }
+    handleOpen(e) {
+        e.stopImmediatePropagation();
+        const booking = this.findBooking(e.detail);
+        if (!booking) {
+            return;
+        }
+        this.editBookingItem = {
+            booking,
+            cause: 'edit',
+        };
+    }
+    async handleResetExposedCancellationDueAmount(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        await this.fetchBookings();
+    }
+    handleGuestChanged(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        booking_listing_service.booking_listing.bookings = booking_listing_service.booking_listing.bookings.map(b => {
+            const guest = { ...b.guest };
+            const newGuest = e.detail;
+            if (guest.id === newGuest.id) {
+                return { ...b, guest: { ...guest, ...newGuest } };
+            }
+            return b;
+        });
+    }
+    findBooking(bookingNumber) {
+        return booking_listing_service.booking_listing.bookings.find(b => b.booking_nbr === bookingNumber);
+    }
+    render() {
+        if (this.isLoading || this.ticket === '') {
+            return index.h("ir-loading-screen", null);
+        }
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.propertyid, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+                this.editBookingItem = null;
+            }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), index.h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
+                this.booking = null;
+                this.payment = null;
+            } })));
+    }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
+};
+IrBookingListing.style = IrBookingListingStyle0;
+
 const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
 
@@ -5847,171 +6138,6 @@ const IrDailyRevenue = class {
     }; }
 };
 IrDailyRevenue.style = IrDailyRevenueStyle0;
-
-const irDeparturesCss = ".page-title.sc-ir-departures{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}";
-const IrDeparturesStyle0 = irDeparturesCss;
-
-const IrDepartures = class {
-    constructor(hostRef) {
-        index.registerInstance(this, hostRef);
-    }
-    ticket;
-    propertyid;
-    language = 'en';
-    p;
-    bookingNumber;
-    booking;
-    paymentEntries;
-    isPageLoading;
-    payment;
-    checkoutState = null;
-    invoiceState = null;
-    tokenService = new Token.Token();
-    roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
-    paymentFolioRef;
-    componentWillLoad() {
-        if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-        departures_store.onDeparturesStoreChange('today', _ => {
-            this.getBookings();
-        });
-    }
-    handleTicketChange(newValue, oldValue) {
-        if (newValue !== oldValue) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
-    handleOpen(e) {
-        this.bookingNumber = e.detail;
-    }
-    handleBookingPayment(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { booking_nbr, payment } = e.detail;
-        this.booking = departures_store.departuresStore.bookings.find(b => b.booking_nbr === booking_nbr);
-        const paymentType = this.paymentEntries.types.find(p => p.CODE_NAME === payment.payment_type.code);
-        this.payment = {
-            ...payment,
-            payment_type: {
-                code: paymentType.CODE_NAME,
-                description: paymentType.CODE_VALUE_EN,
-                operation: paymentType.NOTES,
-            },
-        };
-        this.paymentFolioRef.openFolio();
-    }
-    async handleResetExposedCancellationDueAmount(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.getBookings();
-    }
-    async init() {
-        try {
-            this.isPageLoading = true;
-            if (!this.propertyid && !this.p) {
-                throw new Error('Missing credentials');
-            }
-            let propertyId = this.propertyid;
-            if (!propertyId) {
-                await this.roomService.getExposedProperty({
-                    id: 0,
-                    aname: this.p,
-                    language: this.language,
-                    is_backend: true,
-                });
-            }
-            const [_, __, setupEntries] = await Promise.all([
-                calendarData.calendar_data?.property ? Promise.resolve(null) : this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
-                this.roomService.fetchLanguage(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.getBookings(),
-            ]);
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
-        }
-        catch (error) {
-        }
-        finally {
-            this.isPageLoading = false;
-        }
-    }
-    async getBookings() {
-        const { bookings, total_count } = await this.bookingService.getRoomsToCheckout({
-            property_id: calendarData.calendar_data.property?.id?.toString() || this.propertyid?.toString(),
-            check_out_date: departures_store.departuresStore.today,
-            page_index: departures_store.departuresStore.pagination.currentPage,
-            page_size: departures_store.departuresStore.pagination.pageSize,
-        });
-        departures_store.setDepartureTotal(total_count ?? 0);
-        departures_store.initializeDeparturesStore(bookings);
-    }
-    handleCheckoutRoom(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        this.checkoutState = event.detail;
-    }
-    async handlePaginationChange(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const nextPage = event.detail?.currentPage ?? 1;
-        if (nextPage === departures_store.departuresStore.pagination.currentPage) {
-            return;
-        }
-        departures_store.setDeparturesPage(nextPage);
-        await this.getBookings();
-    }
-    async handleCheckoutDialogClosed(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const state = { ...this.checkoutState };
-        this.checkoutState = null;
-        switch (event.detail.reason) {
-            case 'checkout':
-                await this.getBookings();
-                break;
-            case 'openInvoice':
-                this.invoiceState = { ...state };
-                await this.getBookings();
-                break;
-        }
-    }
-    async handlePaginationPageSizeChange(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const nextPageSize = event.detail?.pageSize;
-        if (!Number.isFinite(nextPageSize)) {
-            return;
-        }
-        const normalizedPageSize = Math.floor(Number(nextPageSize));
-        if (normalizedPageSize === departures_store.departuresStore.pagination.pageSize) {
-            return;
-        }
-        departures_store.setDeparturesPageSize(normalizedPageSize);
-        await this.getBookings();
-    }
-    handleInvoiceClose(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        this.invoiceState = null;
-    }
-    render() {
-        if (this.isPageLoading) {
-            return index.h("ir-loading-screen", null);
-        }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_Out'] }), index.h("div", { class: 'ir-page__container' }, index.h("h3", { class: "page-title" }, "Check-outs"), index.h("ir-departures-table", { onCheckoutRoom: event => this.handleCheckoutRoom(event), onRequestPageChange: event => this.handlePaginationChange(event), onRequestPageSizeChange: event => this.handlePaginationPageSizeChange(event) })), index.h("ir-booking-details-drawer", { open: !!this.bookingNumber, propertyId: this.propertyid, bookingNumber: this.bookingNumber?.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.bookingNumber = null) }), index.h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
-                this.booking = null;
-                this.payment = null;
-            } }), index.h("ir-checkout-dialog", { booking: this.checkoutState?.booking, identifier: this.checkoutState?.identifier, open: this.checkoutState !== null, onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), index.h("ir-invoice", { onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null })));
-    }
-    static get watchers() { return {
-        "ticket": ["handleTicketChange"]
-    }; }
-};
-IrDepartures.style = IrDeparturesStyle0;
 
 const irHkTasksCss = ".sc-ir-hk-tasks-h{display:block;box-sizing:border-box}.sc-ir-hk-tasks-h *.sc-ir-hk-tasks{box-sizing:border-box}.tasks-view.sc-ir-hk-tasks{display:flex;flex-direction:column}@media (min-width: 1024px){.tasks-view.sc-ir-hk-tasks{flex-direction:row}}";
 const IrHkTasksStyle0 = irHkTasksCss;
@@ -7186,8 +7312,8 @@ IrUserManagement.style = IrUserManagementStyle0;
 exports.igloo_calendar = IglooCalendar;
 exports.ir_arrivals = IrArrivals;
 exports.ir_booking_email_logs = IrBookingEmailLogs;
+exports.ir_booking_listing = IrBookingListing;
 exports.ir_daily_revenue = IrDailyRevenue;
-exports.ir_departures = IrDepartures;
 exports.ir_hk_tasks = IrHkTasks;
 exports.ir_housekeeping = IrHousekeeping;
 exports.ir_monthly_bookings_report = IrMonthlyBookingsReport;
