@@ -59,6 +59,8 @@ export declare class IrPicker {
     textChange: EventEmitter<string>;
     /** Emitted when the clear button is clicked and the combobox value is cleared. */
     comboboxClear: EventEmitter<void>;
+    /** Emitted when the clear button is clicked and the combobox value is cleared. */
+    inputPickerBlurred: EventEmitter<void>;
     componentWillLoad(): void;
     componentDidRender(): void;
     disconnectedCallback(): void;
@@ -69,6 +71,7 @@ export declare class IrPicker {
     handleDocumentFocus(event: FocusEvent): void;
     protected handleActiveIndexChange(): void;
     protected handleValueChange(newValue: string): void;
+    clearInput(): Promise<void>;
     private closeCombobox;
     private handleInput;
     private handleInputFocus;

@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 
-const irCustomButtonCss = ":host{display:block}.ir__custom-button{width:100%}.ir__custom-button.--icon::part(base){height:auto;width:auto;padding:0}.ir__custom-button::part(base){height:var(--ir-c-btn-height, var(--wa-form-control-height));padding:var(--ir-c-btn-padding, 0 var(--wa-form-control-padding-inline));font-size:var(--ir-c-btn-font-size, auto)}.ir__custom-button.--link::part(base){height:fit-content;padding:0}";
+const irCustomButtonCss = ":host{display:block}.ir__custom-button{width:100%}.ir__custom-button.--icon::part(base){height:auto;width:auto;padding:0}.ir__custom-button::part(base){height:var(--ir-c-btn-height, var(--wa-form-control-height));padding:var(--ir-c-btn-padding, 0 var(--wa-form-control-padding-inline));font-size:var(--ir-c-btn-font-size, auto)}.ir__custom-button.--link::part(base){height:fit-content;padding:0}.ir-button__link:focus{outline:none}.ir-button__link:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.ir-button__link{display:inline-flex;align-items:center;justify-content:center;height:fit-content;padding:0;font-family:inherit;font-size:var(--wa-form-control-value-font-size);font-weight:var(--wa-font-weight-action);line-height:calc(var(--wa-form-control-height) - var(--border-width) * 2);text-decoration:none;vertical-align:middle;white-space:nowrap;border-style:var(--wa-border-style);border-width:max(1px, var(--wa-form-control-border-width));border-radius:var(--wa-form-control-border-radius);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing);cursor:pointer;user-select:none;-webkit-user-select:none;color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:transparent;border-color:transparent}.ir-button__link:hover{color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-brand-fill-quiet))}.ir-button__link:active{color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-brand-fill-quiet)), var(--wa-color-mix-active))}";
 const IrCustomButtonStyle0 = irCustomButtonCss;
 
 const IrCustomButton = /*@__PURE__*/ proxyCustomElement(class IrCustomButton extends HTMLElement {
@@ -9,6 +9,7 @@ const IrCustomButton = /*@__PURE__*/ proxyCustomElement(class IrCustomButton ext
         this.__registerHost();
         this.clickHandler = createEvent(this, "clickHandler", 7);
     }
+    get el() { return this; }
     link;
     iconBtn;
     /** The button's theme variant. Defaults to `neutral` if not within another element with a variant. */
@@ -64,24 +65,24 @@ const IrCustomButton = /*@__PURE__*/ proxyCustomElement(class IrCustomButton ext
     /** Used to override the form owner's `target` attribute. */
     formTarget;
     clickHandler;
-    buttonEl;
-    componentDidLoad() {
-        this.buttonEl.addEventListener('click', this.handleButtonClick);
-    }
-    disconnectedCallback() {
-        this.buttonEl.removeEventListener('click', this.handleButtonClick);
-    }
-    handleButtonClick = (e) => {
+    handleButtonClick(e) {
         this.clickHandler.emit(e);
-    };
+    }
     render() {
-        return (h(Host, { key: '1d9c8fe0f5e2fb73d016361b4035d272d24530c3' }, h("wa-button", { key: 'cc3da186dbded40aa2f0f4cb724d8a9c3d89e279', ref: el => (this.buttonEl = el),
+        if (this.link) {
+            return (h("button", { class: "ir-button__link", onClick: e => {
+                    this.clickHandler.emit(e);
+                } }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" })));
+        }
+        return (h(Host, null, h("wa-button", { onClick: e => {
+                this.handleButtonClick(e);
+            },
             /* core button props */
             type: this.type, size: this.size, class: `ir__custom-button ${this.iconBtn ? '--icon' : ''} ${this.link ? '--link' : ''}`, disabled: this.disabled, appearance: this.link ? 'plain' : this.appearance, loading: this.loading, "with-caret": this.withCaret, variant: this.link ? 'brand' : this.variant, pill: this.pill,
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '9637f07a67b05ac24d4c105c1ad7d3f73d5c0186', slot: "start", name: "start" }), h("slot", { key: '997e103ad43f321a1c6938b9650bfc56944728fa' }), h("slot", { key: '55467fddaee9825f4b3c02e8c065e2b5f46aff4a', slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget, exportparts: "base, start, label, end, caret, spinner" }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" }))));
     }
     static get style() { return IrCustomButtonStyle0; }
 }, [4, "ir-custom-button", {

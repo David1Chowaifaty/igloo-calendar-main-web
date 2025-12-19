@@ -47,6 +47,7 @@ export interface IReallocationPayload {
     description: string;
     hideConfirmButton?: boolean;
     rateplans?: SelectOption[];
+    matchedRatePlan?: SelectOption | null;
 }
 export interface IRoomNightsDataEventPayload {
     type: 'cancel' | 'confirm';

@@ -1,21 +1,20 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service.js';
-import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
-import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { g as guestInfoFormSchema, d as defineCustomElement$7 } from './ir-guest-info-form2.js';
-import { d as defineCustomElement$a } from './ir-country-picker2.js';
-import { d as defineCustomElement$9 } from './ir-custom-button2.js';
-import { d as defineCustomElement$8 } from './ir-drawer2.js';
-import { d as defineCustomElement$6 } from './ir-input2.js';
-import { d as defineCustomElement$5 } from './ir-input-text2.js';
-import { d as defineCustomElement$4 } from './ir-mobile-input2.js';
-import { d as defineCustomElement$3 } from './ir-picker2.js';
-import { d as defineCustomElement$2 } from './ir-picker-item2.js';
+import { d as defineCustomElement$b } from './ir-country-picker2.js';
+import { d as defineCustomElement$a } from './ir-custom-button2.js';
+import { d as defineCustomElement$9 } from './ir-drawer2.js';
+import { d as defineCustomElement$8 } from './ir-guest-info-form2.js';
+import { d as defineCustomElement$7 } from './ir-input2.js';
+import { d as defineCustomElement$6 } from './ir-input-text2.js';
+import { d as defineCustomElement$5 } from './ir-mobile-input2.js';
+import { d as defineCustomElement$4 } from './ir-picker2.js';
+import { d as defineCustomElement$3 } from './ir-picker-item2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
+import { v as v4 } from './v4.js';
 
-const irGuestInfoDrawerCss = ".sc-ir-guest-info-drawer-h{display:block}.drawer-form.sc-ir-guest-info-drawer{margin:0}.drawer-loading.sc-ir-guest-info-drawer{display:flex;align-items:center;justify-content:center;padding:2rem 1rem}.drawer-footer.sc-ir-guest-info-drawer{display:flex;gap:0.5rem}.loading-container.sc-ir-guest-info-drawer{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
+const irGuestInfoDrawerCss = ".sc-ir-guest-info-drawer-h{display:block}";
 const IrGuestInfoDrawerStyle0 = irGuestInfoDrawerCss;
 
 const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDrawer extends HTMLElement {
@@ -32,69 +31,11 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     email;
     booking_nbr;
     ticket;
-    guest = null;
-    countries = [];
-    isLoading = true;
-    autoValidate = false;
     guestInfoDrawerClosed;
     guestChanged;
     resetBookingEvt;
     toast;
     get hostElement() { return this; }
-    bookingService = new BookingService();
-    roomService = new RoomService();
-    token = new Token();
-    componentWillLoad() {
-        if (this.ticket) {
-            this.token.setToken(this.ticket);
-        }
-        if (this.open && !!this.token.getToken()) {
-            this.init();
-        }
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        this.init();
-    }
-    openChanged(newValue) {
-        if (!newValue) {
-            return;
-        }
-        if (!!this.token.getToken() && (!this.guest || !this.countries.length)) {
-            this.init();
-        }
-    }
-    async init() {
-        if (!this.open) {
-            return;
-        }
-        try {
-            this.isLoading = true;
-            const [guest, countries, fetchedLocales] = await Promise.all([
-                this.bookingService.fetchGuest(this.email),
-                this.bookingService.getCountries(this.language),
-                !locales || !locales.entries || Object.keys(locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null),
-            ]);
-            if (fetchedLocales) {
-                locales.entries = fetchedLocales.entries;
-                locales.direction = fetchedLocales.direction;
-            }
-            this.countries = countries;
-            this.guest = guest ? { ...guest, mobile: guest.mobile_without_prefix } : null;
-        }
-        catch (error) {
-            console.error(error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    handleGuestChanged = (event) => {
-        this.guest = { ...this.guest, ...event.detail };
-    };
     handleDrawerHide = (event) => {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -103,60 +44,31 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     handleCancel = () => {
         this.guestInfoDrawerClosed.emit({ source: this.hostElement });
     };
-    async editGuest() {
-        try {
-            this.autoValidate = true;
-            guestInfoFormSchema.parse(this.guest);
-            await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
-            this.toast.emit({
-                type: 'success',
-                description: '',
-                title: 'Saved Successfully',
-                position: 'top-right',
-            });
-            this.resetBookingEvt.emit(null);
-            this.guestChanged.emit(this.guest);
-            this.guestInfoDrawerClosed.emit({ source: this.hostElement });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
+    _formId = `guest-details-form_${v4()}`;
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '836e11d47303989d2c3a4094a632486e62abf2b4', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: 'd5a4a005f44c2534bb908a8f079d63f460c176dd', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '9a778bd6b5637ae98d2c778221f52a5ef9d3bd5a', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '79f1a95d6a055d061e3ae8a4597f3ec00f171290', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '1e89035bf5c796dbf5713113678859fca0ee18d1', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (h("ir-guest-info-form", { key: 'd36d97b0aef55dedea72b159f15a844cefa03abd', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: 'fecd756044a80f356dae78d502eb739291cc65a5', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a191ae26c04405bce022d495e73cd1d78f4392a9', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'daae4b7fc293d86c27ac55394a8532e11ca84a3a', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
     }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"],
-        "open": ["openChanged"]
-    }; }
     static get style() { return IrGuestInfoDrawerStyle0; }
 }, [2, "ir-guest-info-drawer", {
-        "open": [4],
+        "open": [516],
         "language": [1],
         "email": [1],
         "booking_nbr": [1],
-        "ticket": [1],
-        "guest": [32],
-        "countries": [32],
-        "isLoading": [32],
-        "autoValidate": [32]
-    }, undefined, {
-        "ticket": ["ticketChanged"],
-        "open": ["openChanged"]
+        "ticket": [1]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-drawer", "ir-guest-info-form", "ir-input", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["ir-guest-info-drawer", "ir-country-picker", "ir-custom-button", "ir-drawer", "ir-guest-info-form", "ir-input", "ir-input-text", "ir-mobile-input", "ir-picker", "ir-picker-item", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info-drawer":
             if (!customElements.get(tagName)) {
@@ -165,45 +77,50 @@ function defineCustomElement() {
             break;
         case "ir-country-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-guest-info-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-mobile-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-picker-item":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

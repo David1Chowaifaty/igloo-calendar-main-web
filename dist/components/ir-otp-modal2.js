@@ -3,7 +3,7 @@ import { T as Token } from './Token.js';
 import { R as RoomService } from './room.service.js';
 import { a as axios } from './axios.js';
 import { l as locales } from './locales.store.js';
-import { z } from './index3.js';
+import { z } from './index2.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
 import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-otp2.js';
@@ -202,7 +202,7 @@ const IrOtpModal = /*@__PURE__*/ proxyCustomElement(class IrOtpModal extends HTM
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '3725356f1ac2f7fd3a3e8a5f9736d336e8501552' }, h("dialog", { key: 'c2494a56774e6ff2c6950ade5821c7340387e2af', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '3a1adf4cde46004afd5c2fa9412a47adb36a3032', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: '4b4e3e4aa1035c3a801f592de27e9a4308df7d37' }, h("dialog", { key: '097352a294620bc5d5e9438faa24dec0d6ec1a14', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '8f09c3a0777f3a738023cdac4a29367b9706a367', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();

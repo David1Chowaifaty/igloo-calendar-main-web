@@ -1,4 +1,4 @@
-import { z, Z as ZodError, g as ZodIssueCode } from './index3.js';
+import { z, Z as ZodError, g as ZodIssueCode } from './index2.js';
 import { h as hooks } from './moment.js';
 
 // export const ZIdInfo = z.object({
@@ -74,12 +74,11 @@ const ZSharedPerson = z.object({
     ])
         .optional(),
     // .nullable(),
-    last_name: z
-        .union([
-        z.string().min(2), // if provided and non-empty, must have min length 2
-        z.literal(''), // or it can be empty string
-    ])
-        .optional(),
+    last_name: z.string().optional(),
+    // .union([
+    //   z.string().min(2), // if provided and non-empty, must have min length 2
+    //   z.literal(''), // or it can be empty string
+    // ])
     // .nullable(),
     country_id: z.coerce
         .number()
@@ -118,17 +117,17 @@ function validateSharedPerson(data) {
                 message: 'First name is required for main guest',
             });
         }
-        if (!hasValue(data.last_name)) {
-            ctx.push({
-                path: ['last_name'],
-                code: ZodIssueCode.custom,
-                message: 'Last name is required for main guest',
-            });
-        }
+        // if (!hasValue(data.last_name)) {
+        //   ctx.push({
+        //     path: ['last_name'],
+        //     code: ZodIssueCode.custom,
+        //     message: 'Last name is required for main guest',
+        //   });
+        // }
     }
     // For non-main guests: check if ANY field has data
     const hasAnyFieldData = hasValue(data.first_name) ||
-        hasValue(data.last_name) ||
+        // hasValue(data.last_name) ||
         hasValue(data.dob) ||
         (data.country_id !== null && data.country_id !== undefined && data.country_id > 0) ||
         hasValue(data.id_info?.number);
@@ -141,13 +140,13 @@ function validateSharedPerson(data) {
                 message: 'First name is required when other guest information is provided',
             });
         }
-        if (!hasValue(data.last_name)) {
-            ctx.push({
-                path: ['last_name'],
-                code: ZodIssueCode.custom,
-                message: 'Last name is required when other guest information is provided',
-            });
-        }
+        // if (!hasValue(data.last_name)) {
+        //   ctx.push({
+        //     path: ['last_name'],
+        //     code: ZodIssueCode.custom,
+        //     message: 'Last name is required when other guest information is provided',
+        //   });
+        // }
     }
     if (ctx.length >= 1) {
         throw new ZodError(ctx);

@@ -26,6 +26,11 @@ export class IrWeekdaySelector {
         { value: 6, label: 'Sa' },
         { value: 0, label: 'Su' },
     ];
+    componentWillLoad() {
+        if (this.weekdays) {
+            this.selectedWeekdays = new Set(this.weekdays);
+        }
+    }
     handleWeekdayChange(newDays, oldDays) {
         if (newDays.length !== oldDays.length && newDays.length !== this.selectedWeekdays.size) {
             this.selectedWeekdays = new Set(newDays);
@@ -53,7 +58,7 @@ export class IrWeekdaySelector {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: 'fd8e006335f3f0d346f36ed2504f56bdd97cab27', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
+        return (h(Host, { key: 'eba8d0338e1b870b4fe794b6efe5fafcd83c78ce', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get is() { return "ir-weekday-selector"; }
     static get encapsulation() { return "scoped"; }

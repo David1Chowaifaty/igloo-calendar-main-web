@@ -37,6 +37,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     confirmModal = false;
     toBeDeletedItem = null;
     modalMode = null;
+    isLoading = false;
     resetBookingEvt;
     resetExposedCancellationDueAmount;
     toast;
@@ -115,23 +116,23 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
             },
         });
     };
-    handleEditPayment = (payment) => {
+    handleEditPayment(payment) {
         this.openSidebar.emit({
             type: 'payment-folio',
             payload: { payment, mode: 'edit' },
         });
-    };
-    handleDeletePayment = (payment) => {
+    }
+    handleDeletePayment(payment) {
         this.modalMode = 'delete';
         this.toBeDeletedItem = payment;
         this.dialogRef.openModal();
-    };
+    }
     async handleIssueReceipt(detail) {
         if (detail.receipt_nbr) {
             this.openPrintScreen.emit({
                 mode: 'receipt',
                 payload: {
-                    pid: detail.id.toString(),
+                    pid: detail.system_id?.toString(),
                     rnb: detail.receipt_nbr,
                 },
             });
@@ -141,24 +142,25 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         this.openPrintScreen.emit({
             mode: 'receipt',
             payload: {
-                pid: detail.id.toString(),
+                pid: detail.system_id?.toString(),
                 rnb: `RC-${_number.My_Result}`,
             },
         });
     }
     async cancelPayment() {
         try {
-            await this.paymentService.CancelPayment(this.toBeDeletedItem.id);
+            this.isLoading = true;
+            await this.paymentService.CancelPayment(this.toBeDeletedItem.system_id);
             const newPaymentArray = this.booking.financial.payments.filter((item) => item.id !== this.toBeDeletedItem.id);
             this.booking = {
                 ...this.booking,
                 financial: { ...this.booking.financial, payments: newPaymentArray },
             };
+            this.dialogRef.closeModal();
             this.confirmModal = false;
             this.resetBookingEvt.emit(null);
             this.resetExposedCancellationDueAmount.emit(null);
             this.toBeDeletedItem = null;
-            this.modalMode = null;
         }
         catch (error) {
             console.error('Error canceling payment:', error);
@@ -168,6 +170,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                 description: 'Failed to cancel payment. Please try again.',
                 position: 'top-right',
             });
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     handleConfirmModal = async (e) => {
@@ -236,7 +241,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                     e.stopPropagation();
                 }, onIrDialogAfterHide: e => {
                     this.handleCancelModal(e);
-                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", "data-dialog": "close", variant: "neutral", appearance: "filled" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "medium", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))),
+                }, ref: el => (this.dialogRef = el), label: "Alert", lightDismiss: this.modalMode !== 'delete' }, h("p", null, this.modalMode === 'delete' ? locales.entries.Lcz_IfDeletedPermantlyLost : locales.entries.Lcz_EnteringAmountGreaterThanDue), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", "data-dialog": "close", variant: "neutral", appearance: "filled" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { loading: this.isLoading, size: "medium", onClickHandler: e => this.handleConfirmModal(e), variant: this.modalMode === 'delete' ? 'danger' : 'brand' }, this.modalMode === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))),
         ];
     }
     static get style() { return IrPaymentDetailsStyle0; }
@@ -247,7 +252,8 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         "paymentEntries": [16],
         "confirmModal": [32],
         "toBeDeletedItem": [32],
-        "modalMode": [32]
+        "modalMode": [32],
+        "isLoading": [32]
     }, [[0, "generatePayment", "handlePaymentGeneration"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

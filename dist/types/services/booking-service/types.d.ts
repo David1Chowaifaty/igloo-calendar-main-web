@@ -419,10 +419,13 @@ export type GetBookingInvoiceInfoProps = z.infer<typeof GetBookingInvoiceInfoPro
 export declare const VoidInvoicePropsSchema: z.ZodObject<{
     invoice_nbr: z.ZodOptional<z.ZodString>;
     reason: z.ZodOptional<z.ZodString>;
+    property_id: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
+    property_id?: number;
     invoice_nbr?: string;
     reason?: string;
 }, {
+    property_id?: number;
     invoice_nbr?: string;
     reason?: string;
 }>;
@@ -510,6 +513,7 @@ export declare const InvoiceSchema: z.ZodObject<{
 export type Invoice = z.infer<typeof InvoiceSchema>;
 export declare const IssueInvoicePropsSchema: z.ZodObject<{
     is_proforma: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
+    property_id: z.ZodNumber;
     invoice: z.ZodObject<{
         booking_nbr: z.ZodOptional<z.ZodString>;
         currency: z.ZodObject<{
@@ -613,6 +617,7 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             description?: string;
         }[];
     };
+    property_id?: number;
     is_proforma?: boolean;
 }, {
     invoice?: {
@@ -636,12 +641,14 @@ export declare const IssueInvoicePropsSchema: z.ZodObject<{
             description?: string;
         }[];
     };
+    property_id?: number;
     is_proforma?: boolean;
 }>;
 export type IssueInvoiceProps = z.infer<typeof IssueInvoicePropsSchema>;
 export type VoidInvoiceProps = z.infer<typeof VoidInvoicePropsSchema>;
 export declare const PrintInvoicePropsSchema: z.ZodObject<{
     invoice_nbr: z.ZodOptional<z.ZodString>;
+    property_id: z.ZodNumber;
     mode: z.ZodEnum<["invoice", "creditnote", "proforma"]>;
     invoice: z.ZodOptional<z.ZodObject<{
         booking_nbr: z.ZodOptional<z.ZodString>;
@@ -746,6 +753,7 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             description?: string;
         }[];
     };
+    property_id?: number;
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
 }, {
@@ -770,6 +778,7 @@ export declare const PrintInvoicePropsSchema: z.ZodObject<{
             description?: string;
         }[];
     };
+    property_id?: number;
     invoice_nbr?: string;
     mode?: "invoice" | "proforma" | "creditnote";
 }>;

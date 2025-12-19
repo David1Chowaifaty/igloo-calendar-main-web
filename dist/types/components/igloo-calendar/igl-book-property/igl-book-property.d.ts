@@ -86,7 +86,6 @@ export declare class IglBookProperty {
     private initializePage;
     fetchSetupEntries(): Promise<import("@/models/IBooking").ISetupEntries>;
     private isGuestDataIncomplete;
-    private isButtonDisabled;
     private setSourceOptions;
     private getFilteredSourceOptions;
     private setOtherProperties;

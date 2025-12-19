@@ -2,12 +2,6 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { IRoomNightsData, CalendarModalEvent } from "../../../models/property-types";
 import { IToast } from "../../ui/ir-toast/toast";
 import { ICountry } from "../../../models/IBooking";
-export type BarPosition = {
-    top: string;
-    left: string;
-    width: string;
-    height: string;
-};
 export declare class IglBookingEvent {
     private element;
     currency: any;
@@ -63,29 +57,22 @@ export declare class IglBookingEvent {
     private animationFrameId;
     private handleMouseMoveBind;
     private handleMouseUpBind;
+    private handleClickOutsideBind;
     private role;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
+    handleClickOutside(event: Event): void;
     hideBubbleInfoPopup(event: CustomEvent): void;
     moveBookingToHandler(event: CustomEvent): Promise<void>;
-    closeEventBubble(): void;
+    private buildBarIds;
     private fetchAndAssignBookingData;
     private reset;
     private findRoomType;
-    private buildBarIds;
     private getModalDescription;
     private resetBookingToInitialPosition;
     handleRevertBooking(event: CustomEvent<string>): void;
-    /**
-     * Checks if the target room already has a booking overlapping the given date range.
-     *
-     * @param toRoomId   - Room ID to check.
-     * @param from_date  - Start date (YYYY-MM-DD).
-     * @param to_date    - End date (YYYY-MM-DD).
-     * @returns `true` if another booking occupies the slot, otherwise `false`.
-     */
-    private checkIfSlotOccupied;
+    checkIfSlotOccupied(toRoomId: any, from_date: any, to_date: any): any;
     renderAgain(): void;
     getUniqueId(): number;
     isSplitBooking(): boolean;
@@ -104,26 +91,20 @@ export declare class IglBookingEvent {
     getBalanceNode(): any;
     setStayDays(aStayDays: number): void;
     getStayDays(): any;
-    /**
-     * Calculates the booking bar position and width in the calendar grid.
-     *
-     * @returns {{ top: string; left: string; width: string; height: string }}
-     *          Inline style values used to place the event.
-     */
-    private getPosition;
-    private getNumber;
+    getPosition(): {
+        top: string;
+        left: string;
+        width: string;
+        height: string;
+    };
+    getNumber(aData: any): number;
     startDragging(event: any, side: string): any;
     handleMouseMove(event: any): void;
     handleMouseUp(): void;
     updateData(data: any): void;
     private calculateHoverPosition;
-    private renderEventBookingNumber;
-    private showEventInfo;
-    /**
-     * Checks if the booking's departure time is later than the hotel's configured check-out time.
-     *
-     * @returns {boolean} `true` if departure is after `check_out_till`, otherwise `false`.
-     */
+    renderEventBookingNumber(): string;
+    showEventInfo(showInfo: any): any;
     private isDepartureAfterHotelCheckout;
     private computeSplitRole;
     render(): any;

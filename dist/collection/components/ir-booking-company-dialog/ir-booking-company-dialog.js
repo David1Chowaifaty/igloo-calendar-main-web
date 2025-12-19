@@ -15,17 +15,17 @@ export class IrBookingCompanyDialog {
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '70718eefddaa01a72552ff603c9b376883e0256d', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '42d375f0a34b53878befbb1d11437bea565ffcb5', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'daf1459a5d90809db39653253f8542bbd5cb49b1', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'b5b51f9fe13de80b7244fb8d9fc161c3853bc3fc', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: 'bbcff659c4d15d38e156b81dc8a799407d165dbd', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'c2f62d8437daa91b3b51c60ab9e3b9c478336856', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '8f5b3fc96f4605bc071527d1df0f367dc4f8212d', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: 'd5338729455ee81770b16fb8a2b6dba90f52a3d0', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '03075d6a62ef691b437d787b2dbb1b3d2dd671e5', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'e1cbc84b459e693d0fa2542033c34589f691e010', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
     }
     static get is() { return "ir-booking-company-dialog"; }
     static get encapsulation() { return "scoped"; }

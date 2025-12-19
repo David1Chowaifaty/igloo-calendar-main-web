@@ -120,7 +120,9 @@ export class IglBookingForm {
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("div", { key: 'c7cefa90c206725b111cefb8481ff50ddf5f54be', class: "d-flex flex-column h-100" }, h("div", { key: 'ef773ecb006d6604c174425dde13ece4b637f9a0', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '16a0532c31f0a8b28e685bd724f119feec641c17', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'e7921bad8e3f5e74491f4d5297566695aff2d0c7', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '37cb5a89c70920082507e7ae7d809133777fc29f', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+        return (h("form", { key: '3e5f22bd622f7607887cde326ddc36b0a779ee6b', class: "d-flex flex-column h-100", id: "new_booking_form", onSubmit: e => {
+                e.preventDefault();
+            } }, h("div", { key: 'b50e7701c6f14caae0cab4355770bd8eac0e8ff3', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '5339f4f0e7009ce983ed62bd8e5a5d6a24a32ec5', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: 'd976c4280dd0ec32222aeb0becdc8b1c9ede3793', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: 'c15f1b651fc2a729fe73004010ecc507e435bb3e', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

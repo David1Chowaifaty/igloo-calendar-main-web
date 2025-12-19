@@ -16,26 +16,21 @@ export declare class IrDrawer {
     withoutHeader: NativeDrawer['withoutHeader'];
     /** When enabled, the drawer will be closed when the user clicks outside of it. */
     lightDismiss: NativeDrawer['lightDismiss'];
-    private slotState;
+    private slotStateVersion;
     /** Emitted when the drawer opens. */
     drawerShow: EventEmitter<void>;
     /**Emitted when the drawer is requesting to close. Calling event.preventDefault() will prevent the drawer from closing. You can inspect event.detail.source to see which element caused the drawer to close. If the source is the drawer element itself, the user has pressed Escape or the drawer has been closed programmatically. Avoid using this unless closing the drawer will result in destructive behavior such as data loss. */
     drawerHide: EventEmitter<{
         source: Element;
     }>;
+    private readonly SLOT_NAMES;
+    private slotManager;
     private readonly onDrawerShow;
     private readonly onDrawerHide;
-    private slotObserver;
-    private readonly SLOT_NAMES;
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     private emitDrawerShow;
     private emitDrawerHide;
-    private setupSlotListeners;
-    private removeSlotListeners;
-    private handleSlotChange;
-    private updateSlotState;
-    private hasSlot;
     render(): any;
 }

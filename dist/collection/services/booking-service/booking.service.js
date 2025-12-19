@@ -393,9 +393,11 @@ export class BookingService {
     }
     async getUserDefaultCountry() {
         try {
-            const { data } = await axios.post(`/Get_Country_By_IP`, {
-                IP: '',
-            });
+            let payload = { IP: '' };
+            if (calendar_data?.property?.id) {
+                payload = { ...payload, id: calendar_data.property.id };
+            }
+            const { data } = await axios.post(`/Get_Country_By_IP`, payload);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -658,12 +660,12 @@ export class BookingService {
     /*Arrivals*/
     async getRoomsToCheckIn(props) {
         const payload = GetRoomsToCheckInPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Rooms_To_Check_In', payload);
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_In', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
     }
     async getRoomsToCheckout(props) {
         const payload = GetRoomsToCheckOutPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Rooms_To_Check_Out', payload);
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_Out', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
     }
     /*Departures */

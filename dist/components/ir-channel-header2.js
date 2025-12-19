@@ -44,10 +44,10 @@ const IrChannelHeader = /*@__PURE__*/ proxyCustomElement(class IrChannelHeader e
         });
     }
     render() {
-        return (h(Host, { key: '047860712ef63787c11da6af87a41d1aaffbfb1f' }, h("ul", { key: 'e53cd0ca242024f01acc61b827159d3c08edb29a', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
+        return (h(Host, { key: '0b4f3104dbaa895f78ff95c14765a9a8f9c0e506' }, h("ul", { key: 'aaece44446c7fa2dc1e6376e12407ae4d7097e38', class: "px-1" }, this.headerTitles.map((title, index) => (h("li", { class: `tab ${title.disabled ? 'text-light' : ''}`, key: title.id, onClick: () => {
                 if (!title.disabled)
                     this.handleTabSelection(index);
-            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '309f6b08e77e6eeb7256bc20cc729816ee64114d', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+            }, "data-disabled": title.disabled, "data-state": this.selectedIndex === index ? 'selected' : '' }, title.name)))), h("span", { key: '2be7c224c3d8d1903fae6a13be8655655333b805', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
     static get style() { return IrChannelHeaderStyle0; }
 }, [2, "ir-channel-header", {

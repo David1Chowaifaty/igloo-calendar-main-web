@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 export class IrCustomButton {
+    el;
     link;
     iconBtn;
     /** The button's theme variant. Defaults to `neutral` if not within another element with a variant. */
@@ -55,24 +56,24 @@ export class IrCustomButton {
     /** Used to override the form owner's `target` attribute. */
     formTarget;
     clickHandler;
-    buttonEl;
-    componentDidLoad() {
-        this.buttonEl.addEventListener('click', this.handleButtonClick);
-    }
-    disconnectedCallback() {
-        this.buttonEl.removeEventListener('click', this.handleButtonClick);
-    }
-    handleButtonClick = (e) => {
+    handleButtonClick(e) {
         this.clickHandler.emit(e);
-    };
+    }
     render() {
-        return (h(Host, { key: '1d9c8fe0f5e2fb73d016361b4035d272d24530c3' }, h("wa-button", { key: 'cc3da186dbded40aa2f0f4cb724d8a9c3d89e279', ref: el => (this.buttonEl = el),
+        if (this.link) {
+            return (h("button", { class: "ir-button__link", onClick: e => {
+                    this.clickHandler.emit(e);
+                } }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" })));
+        }
+        return (h(Host, null, h("wa-button", { onClick: e => {
+                this.handleButtonClick(e);
+            },
             /* core button props */
             type: this.type, size: this.size, class: `ir__custom-button ${this.iconBtn ? '--icon' : ''} ${this.link ? '--link' : ''}`, disabled: this.disabled, appearance: this.link ? 'plain' : this.appearance, loading: this.loading, "with-caret": this.withCaret, variant: this.link ? 'brand' : this.variant, pill: this.pill,
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget }, h("slot", { key: '9637f07a67b05ac24d4c105c1ad7d3f73d5c0186', slot: "start", name: "start" }), h("slot", { key: '997e103ad43f321a1c6938b9650bfc56944728fa' }), h("slot", { key: '55467fddaee9825f4b3c02e8c065e2b5f46aff4a', slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget, exportparts: "base, start, label, end, caret, spinner" }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" }))));
     }
     static get is() { return "ir-custom-button"; }
     static get originalStyleUrls() {
@@ -652,5 +653,6 @@ export class IrCustomButton {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
 }
 //# sourceMappingURL=ir-custom-button.js.map

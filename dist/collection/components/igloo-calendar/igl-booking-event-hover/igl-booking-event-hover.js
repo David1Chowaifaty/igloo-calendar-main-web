@@ -322,7 +322,7 @@ export class IglBookingEventHover {
         const channel_notes = [...this.bookingEvent.ota_notes];
         const separator = '<br>- ';
         if (channel_notes.length > maxVisible) {
-            channel_notes[maxVisible - 1] = { statement: `${channel_notes[maxVisible - 1].statement} <span style="color: #1e9ff2;">more...</span>` };
+            channel_notes[maxVisible - 1] = { statement: `${channel_notes[maxVisible - 1].statement} <span>more...</span>` };
         }
         return channel_notes
             .slice(0, maxVisible)
@@ -394,15 +394,15 @@ export class IglBookingEventHover {
     }
     getNewBookingOptions() {
         const shouldDisplayButtons = this.bookingEvent.roomsInfo[0].rateplans.some(rate => rate.is_active);
-        return (h("div", { class: `iglPopOver d-flex flex-column newBookingOptions ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left`, style: { gap: '0.5rem' } }, this.renderPointer(), shouldDisplayButtons ? (h(Fragment, null, h("ir-custom-button", { variant: "brand", appearance: "outlined", "data-testid": "bar_booking_btn", onClickHandler: _ => {
+        return (h("div", { class: `iglPopOver d-flex flex-column newBookingOptions ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left`, style: { gap: '0.5rem' } }, this.renderPointer(), shouldDisplayButtons ? (h(Fragment, null, h("ir-custom-button", { variant: "brand", appearance: "accent", "data-testid": "bar_booking_btn", onClickHandler: _ => {
                 this.handleBookingOption('BAR_BOOKING');
             } }, locales.entries.Lcz_CreateNewBooking), this.hasSplitBooking() && (
         // <div class="mb-1">
-        h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: _ => {
+        h("ir-custom-button", { variant: "neutral", appearance: "accent", onClickHandler: _ => {
                 this.handleBookingOption('SPLIT_BOOKING');
             } }, locales.entries.Lcz_AssignUnitToExistingBooking)
         // </div>
-        ))) : (h("p", { class: 'text-danger' }, locales.entries.Lcz_NoRatePlanDefined)), h("ir-custom-button", { appearance: "outlined", variant: "danger", onClickHandler: _ => {
+        ))) : (h("p", { class: 'text-danger' }, locales.entries.Lcz_NoRatePlanDefined)), h("ir-custom-button", { appearance: "accent", variant: "danger", onClickHandler: _ => {
                 this.handleBookingOption('BLOCK_DATES');
             } }, locales.entries.Lcz_Blockdates)));
     }
@@ -421,7 +421,7 @@ export class IglBookingEventHover {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: 'dc4999f0da822147da5b354badea26e0e93671ff' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '7c09384f48069ae45cb0a83b5837b0eaa3352520' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }

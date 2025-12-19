@@ -93,7 +93,7 @@ import { d as defineCustomElement$3 } from './ir-unit-tag2.js';
 import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './ota-label2.js';
 
-const irArrivalsCss = ".page-title.sc-ir-arrivals{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}";
+const irArrivalsCss = ".page-title.sc-ir-arrivals{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}.sc-ir-arrivals-h{height:100% !important;overflow-y:auto !important}";
 const IrArrivalsStyle0 = irArrivalsCss;
 
 const IrArrivals = /*@__PURE__*/ proxyCustomElement(class IrArrivals extends HTMLElement {

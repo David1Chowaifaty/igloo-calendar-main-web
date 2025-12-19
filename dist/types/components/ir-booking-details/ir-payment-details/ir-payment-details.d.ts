@@ -11,6 +11,7 @@ export declare class IrPaymentDetails {
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;
+    isLoading: boolean;
     resetBookingEvt: EventEmitter<null>;
     resetExposedCancellationDueAmount: EventEmitter<null>;
     toast: EventEmitter<IToast>;

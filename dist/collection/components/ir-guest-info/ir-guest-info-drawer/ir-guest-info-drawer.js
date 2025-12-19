@@ -1,79 +1,18 @@
 import { h } from "@stencil/core";
-import { BookingService } from "../../../services/booking-service/booking.service";
-import { RoomService } from "../../../services/room.service";
 import locales from "../../../stores/locales.store";
-import Token from "../../../models/Token";
 import { isRequestPending } from "../../../stores/ir-interceptor.store";
-import { guestInfoFormSchema } from "../ir-guest-info-form/types";
+import { v4 } from "uuid";
 export class IrGuestInfoDrawer {
     open;
     language = 'en';
     email;
     booking_nbr;
     ticket;
-    guest = null;
-    countries = [];
-    isLoading = true;
-    autoValidate = false;
     guestInfoDrawerClosed;
     guestChanged;
     resetBookingEvt;
     toast;
     hostElement;
-    bookingService = new BookingService();
-    roomService = new RoomService();
-    token = new Token();
-    componentWillLoad() {
-        if (this.ticket) {
-            this.token.setToken(this.ticket);
-        }
-        if (this.open && !!this.token.getToken()) {
-            this.init();
-        }
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        this.init();
-    }
-    openChanged(newValue) {
-        if (!newValue) {
-            return;
-        }
-        if (!!this.token.getToken() && (!this.guest || !this.countries.length)) {
-            this.init();
-        }
-    }
-    async init() {
-        if (!this.open) {
-            return;
-        }
-        try {
-            this.isLoading = true;
-            const [guest, countries, fetchedLocales] = await Promise.all([
-                this.bookingService.fetchGuest(this.email),
-                this.bookingService.getCountries(this.language),
-                !locales || !locales.entries || Object.keys(locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null),
-            ]);
-            if (fetchedLocales) {
-                locales.entries = fetchedLocales.entries;
-                locales.direction = fetchedLocales.direction;
-            }
-            this.countries = countries;
-            this.guest = guest ? { ...guest, mobile: guest.mobile_without_prefix } : null;
-        }
-        catch (error) {
-            console.error(error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    handleGuestChanged = (event) => {
-        this.guest = { ...this.guest, ...event.detail };
-    };
     handleDrawerHide = (event) => {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -82,35 +21,17 @@ export class IrGuestInfoDrawer {
     handleCancel = () => {
         this.guestInfoDrawerClosed.emit({ source: this.hostElement });
     };
-    async editGuest() {
-        try {
-            this.autoValidate = true;
-            guestInfoFormSchema.parse(this.guest);
-            await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
-            this.toast.emit({
-                type: 'success',
-                description: '',
-                title: 'Saved Successfully',
-                position: 'top-right',
-            });
-            this.resetBookingEvt.emit(null);
-            this.guestChanged.emit(this.guest);
-            this.guestInfoDrawerClosed.emit({ source: this.hostElement });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
+    _formId = `guest-details-form_${v4()}`;
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '836e11d47303989d2c3a4094a632486e62abf2b4', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: 'd5a4a005f44c2534bb908a8f079d63f460c176dd', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.isLoading ? (h("div", { class: 'loading-container' }, h("wa-spinner", { style: { fontSize: '2rem' } }))) : (h("ir-guest-info-form", { guest: this.guest, countries: this.countries, language: this.language, autoValidate: this.autoValidate, onGuestChanged: this.handleGuestChanged })), h("div", { key: '9a778bd6b5637ae98d2c778221f52a5ef9d3bd5a', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '79f1a95d6a055d061e3ae8a4597f3ec00f171290', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '1e89035bf5c796dbf5713113678859fca0ee18d1', size: "medium", variant: "brand", onClick: () => this.editGuest(), loading: isRequestPending('/Edit_Exposed_Guest'), disabled: this.isLoading }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (h("ir-guest-info-form", { key: 'd36d97b0aef55dedea72b159f15a844cefa03abd', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: 'fecd756044a80f356dae78d502eb739291cc65a5', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a191ae26c04405bce022d495e73cd1d78f4392a9', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'daae4b7fc293d86c27ac55394a8532e11ca84a3a', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get is() { return "ir-guest-info-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -143,7 +64,7 @@ export class IrGuestInfoDrawer {
                 "getter": false,
                 "setter": false,
                 "attribute": "open",
-                "reflect": false
+                "reflect": true
             },
             "language": {
                 "type": "string",
@@ -222,14 +143,6 @@ export class IrGuestInfoDrawer {
                 "attribute": "ticket",
                 "reflect": false
             }
-        };
-    }
-    static get states() {
-        return {
-            "guest": {},
-            "countries": {},
-            "isLoading": {},
-            "autoValidate": {}
         };
     }
     static get events() {
@@ -314,14 +227,5 @@ export class IrGuestInfoDrawer {
             }];
     }
     static get elementRef() { return "hostElement"; }
-    static get watchers() {
-        return [{
-                "propName": "ticket",
-                "methodName": "ticketChanged"
-            }, {
-                "propName": "open",
-                "methodName": "openChanged"
-            }];
-    }
 }
 //# sourceMappingURL=ir-guest-info-drawer.js.map

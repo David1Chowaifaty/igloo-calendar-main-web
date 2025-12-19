@@ -3,9 +3,11 @@ import locales from "../../../stores/locales.store";
 import { getPrivateNote } from "../../../utils/booking";
 import { Host, h } from "@stencil/core";
 import { BookingListingService } from "../../../services/booking_listing.service";
+import { isPrivilegedUser } from "../../../utils/utils";
 export class IrBookingListingTable {
     booking_nbr;
     isLoading;
+    isLoadMoreLoading = false;
     openBookingDetails;
     requestPageChange;
     requestPageSizeChange;
@@ -17,6 +19,8 @@ export class IrBookingListingTable {
         try {
             this.isLoading = true;
             await this.bookingListingsService.removeExposedBooking(this.booking_nbr, true);
+            booking_listing.bookings = [...booking_listing.bookings.filter(b => b.booking_nbr?.toString() !== this.booking_nbr)];
+            this.booking_nbr = null;
         }
         catch (error) {
         }
@@ -54,11 +58,39 @@ export class IrBookingListingTable {
         event.stopPropagation();
         this.requestPageSizeChange.emit(event.detail);
     }
+    async loadMoreBookings() {
+        if (this.isLoadMoreLoading) {
+            return;
+        }
+        const totalRecords = booking_listing.pagination.totalRecords;
+        const currentCount = booking_listing.bookings.length;
+        if (!totalRecords || currentCount >= totalRecords) {
+            return;
+        }
+        const pageSize = booking_listing.pagination.pageSize || booking_listing.rowCount || 20;
+        const nextStartRow = Math.ceil(currentCount / pageSize) * pageSize;
+        const nextEndRow = Math.min(nextStartRow + pageSize, totalRecords);
+        this.isLoadMoreLoading = true;
+        try {
+            await this.bookingListingsService.getExposedBookings({
+                ...booking_listing.userSelection,
+                start_row: nextStartRow,
+                end_row: nextEndRow,
+                is_to_export: false,
+            }, { append: true });
+        }
+        catch (error) {
+            console.error('Failed to load more bookings', error);
+        }
+        finally {
+            this.isLoadMoreLoading = false;
+        }
+    }
     renderRow(booking) {
         const rowKey = `${booking.booking_nbr}`;
         const totalPersons = this.calculateTotalPersons(booking);
         const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
-        return (h("tr", { class: "ir-table-row", key: rowKey }, h("td", null, h("ir-booking-number-cell", { origin: booking.origin, source: booking.source, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-on-cell", { bookedOn: booking.booked_on })), h("td", { class: "text-center" }, h("ir-booked-by-cell", { class: "text-center", clickableGuest: true, showRepeatGuestBadge: booking.guest.nbr_confirmed_bookings > 1 && !booking.agent, guest: booking.guest, identifier: booking.booking_nbr, showPersons: true, showPrivateNoteDot: getPrivateNote(booking.extras), totalPersons: totalPersons?.toString(), showPromoIcon: !!booking.promo_key, promoKey: booking.promo_key, showLoyaltyIcon: booking.is_in_loyalty_mode && !booking.promo_key })), h("td", null, h("ir-dates-cell", { checkIn: booking.from_date, checkOut: booking.to_date })), h("td", null, h("div", { style: { display: 'flex', flexDirection: 'column', gap: '0.25rem' } }, booking.rooms.map(room => (h("ir-unit-cell", { key: room.identifier, room: room }))), booking.extra_services && h("p", { style: { fontSize: '0.93rem' } }, locales.entries.Lcz_ExtraServices))), h("td", { class: "text-center" }, h("ir-balance-cell", { "data-css": "center", bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial })), h("td", { class: "text-center" }, h("ir-status-activity-cell", { lastManipulation: lastManipulation, showManipulationBadge: !!lastManipulation, showModifiedBadge: !lastManipulation && booking.events?.length > 0 && booking.events[0].type.toLowerCase() === 'modified', status: booking.status, isRequestToCancel: booking.is_requested_to_cancel, bookingNumber: booking.booking_nbr })), h("td", null, h("div", { class: "" }, h("ir-actions-cell", { onIrAction: e => {
+        return (h("tr", { class: "ir-table-row", key: rowKey }, isPrivilegedUser(booking_listing.userSelection.userTypeCode) && h("td", null, booking.property.name), h("td", null, h("ir-booking-number-cell", { origin: booking.origin, source: booking.source, channelBookingNumber: booking.channel_booking_nbr, bookingNumber: booking.booking_nbr })), h("td", null, h("ir-booked-on-cell", { bookedOn: booking.booked_on })), h("td", { class: "text-center" }, h("ir-booked-by-cell", { class: "text-center", clickableGuest: true, showRepeatGuestBadge: booking.guest.nbr_confirmed_bookings > 1 && !booking.agent, guest: booking.guest, identifier: booking.booking_nbr, showPersons: true, showPrivateNoteDot: getPrivateNote(booking.extras), totalPersons: totalPersons?.toString(), showPromoIcon: !!booking.promo_key, promoKey: booking.promo_key, showLoyaltyIcon: booking.is_in_loyalty_mode && !booking.promo_key })), h("td", null, h("ir-dates-cell", { checkIn: booking.from_date, checkOut: booking.to_date })), h("td", null, h("div", { style: { display: 'flex', flexDirection: 'column', gap: '0.25rem' } }, booking.rooms.map(room => (h("ir-unit-cell", { key: room.identifier, room: room }))), booking.extra_services && h("p", { style: { fontSize: '0.93rem' } }, locales.entries.Lcz_ExtraServices))), h("td", { class: "text-center" }, h("ir-balance-cell", { "data-css": "center", bookingNumber: booking.booking_nbr, isDirect: booking.is_direct, statusCode: booking.status.code, currencySymbol: booking.currency.symbol, financial: booking.financial })), h("td", { class: "text-center" }, h("ir-status-activity-cell", { lastManipulation: lastManipulation, showManipulationBadge: !!lastManipulation, showModifiedBadge: !lastManipulation && booking.events?.length > 0 && booking.events[0].type.toLowerCase() === 'modified', status: booking.status, isRequestToCancel: booking.is_requested_to_cancel, bookingNumber: booking.booking_nbr })), h("td", null, h("div", { class: "" }, h("ir-actions-cell", { onIrAction: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleIrActions({ action: e.detail.action, booking });
@@ -66,7 +98,8 @@ export class IrBookingListingTable {
     }
     render() {
         const pagination = booking_listing.pagination;
-        return (h(Host, { key: '1586b1ef8d6f5fe576ba41c23b7b69c346b62ff5' }, h("div", { key: '53146f100a04d6ee97fbf89a8879fee2a340625b', class: "table--container" }, h("table", { key: '2e9fc5a3a71a3f7383cefe39f0a81b5d52ed1a8f', class: "table data-table" }, h("thead", { key: 'a99a414962e3237609f08076200f6505c1c06966' }, h("tr", { key: 'd7de23bb88c4fb464c0d66e40cfa5c128ee13ae8' }, h("th", { key: '82a4db09bfb62eccfd903976ba8de65b924b16e4' }, h("span", { key: 'e140d54358204235d86f49125ba40b5021cac24f', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: '0fab7c863a24f65e1a4b2094c7b7993866877f37' }, "Booked on"), h("th", { key: '0f8e2ead2df1a47ffa91a2f64b6d6c325ce0207c' }, h("div", { key: 'e4698fd6fd8d98482f3ebf55aabafef25556c2fe' }, h("p", { key: '44a43d94bb535fdc556073751df47b243fe986da' }, "Booked by"))), h("th", { key: '976c860a005b3bcbdf3e58816e2f98f40c2981a4' }, "Dates"), h("th", { key: 'b3ed95d87d471b94a49c2a4c289f985982aff8e2' }, "Services"), h("th", { key: 'd3b6fa7560ea310d251bbc6e67de2261f83b4edb', class: "text-center" }, h("p", { key: 'a7bf3590de039e747ca0c2b10f5c1b6a40d0da96' }, "Amount "), h("wa-tooltip", { key: '6e16009e7661983a5166af196c1068b688e07f05', for: "balance-info" }, "Booking balance click to settle."), h("div", { key: '73a406e2b3bd143790d16314b09d6ff314774a26', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '479504e1856017b8f96676323ebd7af7305b94a8', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Balance"))), h("th", { key: '565fd3096f710343f76af3de27e5b834ec23b08c', class: "text-center" }, "Status"), h("th", { key: '265fd4618cafb55d77ebbb3f2d5c0fea4b674b02' }))), h("tbody", { key: 'b9b8eebe0dd753527ad9d6de0ac94354c4082ce7' }, booking_listing.bookings.length === 0 && (h("tr", { key: '55ee707e22a6bdcd5de9941a5512a1974d1cd3d7' }, h("td", { key: '639cf533539a7d6ead94f4d909d1190ec51c733d', colSpan: 8, class: "empty-row" }, "No bookings found"))), booking_listing.bookings?.map(booking => this.renderRow(booking))))), h("div", { key: '731af9903cf4f73e6b92113baae10166d4304d96', class: "card--container" }, booking_listing.bookings.map(booking => {
+        const canLoadMore = booking_listing.bookings.length > 0 && booking_listing.bookings.length < pagination.totalRecords;
+        return (h(Host, { key: '8a79ffa8cc95ddcdf4130a8184e4b56121de6888' }, h("div", { key: '4d179f9ee11b23f81afd2b4344ffd1127592a10b', class: "table--container" }, h("table", { key: 'c0c71cad5f5997d34a40fa3689a157d6eb6296cf', class: "table data-table" }, h("thead", { key: 'bdf0af58df866df5d44da96acea16ec22ba9f624' }, h("tr", { key: '1ba78718a72c9ea9bd516232f7d4a99c5d70548f' }, isPrivilegedUser(booking_listing.userSelection.userTypeCode) && h("th", { key: 'e5a658eb97441945b8cdfa784da832b945b78221', class: "text-left" }, "Property"), h("th", { key: 'ab65d90a48f4d90c475b14d5934a60ecf6d13daf' }, h("span", { key: 'd8ebe0edddfbe2e75f07dfd90a867661f784a766', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: '9006b875834c66ec70848869512b8b8ff6d62d7c' }, "Booked on"), h("th", { key: '4b6f5f6f60b2039e6ee2377dc47b036b437e7db7' }, h("div", { key: '668b20286f20642ea23c707dd82d66efd33ec2f1' }, h("p", { key: '9ec9979b4c4ba479ae655ff0e0d9ada8c60c33ae' }, "Booked by"))), h("th", { key: 'ac3b1bcfa66429964d20797c209a7c21f9260821' }, "Dates"), h("th", { key: '8ebdad99393962f24052573b39d11dd94406c2ae' }, "Services"), h("th", { key: 'e23867c1cb8390c8dc1ce151821b5faccf4ee4d5', class: "text-center" }, h("p", { key: '39f70500b9d4b1cf1e3b8e318030815e69c6d1d7' }, "Amount "), h("wa-tooltip", { key: '85425d74294bef3aae6e39f2bac68f4fa82993df', for: "balance-info" }, "Booking balance click to settle."), h("div", { key: 'd66cb1ef5dd5d14f3b70c8449da8321b211910c8', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '537f0fcbf48823cbef6d352d0c6e7a9851b21550', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Balance"))), h("th", { key: '61f175fae63c336a6f75f782911a76146b3c9688', class: "text-center" }, "Status"), h("th", { key: '14632291fd289746cc940ac7dc7f690f1b0d3ac9' }))), h("tbody", { key: 'd9e9a8b80bafb05562959ac0900d1cb417c23424' }, booking_listing.bookings.length === 0 && (h("tr", { key: '5fab6e03a283151f967fd366bc74d02d332f7bdd' }, h("td", { key: '60b341275fcad41318ffec1b5ead11a8287bc383', colSpan: isPrivilegedUser(booking_listing.userSelection.userTypeCode) ? 9 : 8, class: "empty-row" }, "No bookings found"))), booking_listing.bookings?.map(booking => this.renderRow(booking))))), h("div", { key: '4d6dbbd1f17ab4121aeb4c804665c8f7d7f9884c', class: "card--container" }, booking_listing.bookings.map(booking => {
             const rowKey = `mobile--${booking.booking_nbr}`;
             const totalPersons = this.calculateTotalPersons(booking);
             const lastManipulation = booking.ota_manipulations ? booking.ota_manipulations[booking.ota_manipulations.length - 1] : null;
@@ -75,15 +108,18 @@ export class IrBookingListingTable {
                     event.stopPropagation();
                     this.handleIrActions({ action: event.detail.action, booking: event.detail.booking });
                 } }));
-        })), pagination.totalRecords > 0 && (h("ir-pagination", { key: '8f1c9fbc6e605067ec04464131efb7d8e81b899a', class: "data-table--pagination", showing: pagination.showing, total: pagination.totalRecords, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })), h("ir-dialog", { key: 'a8a9bfe7604f5ad537ecbf295aa90871c1be7c0f', label: "Delete", open: !!this.booking_nbr, onIrDialogHide: e => {
+        })), pagination.totalRecords > 0 && (h("ir-pagination", { key: '302a77130198c17952b4d2d6fded03c7791a5fe2', class: "data-table--pagination", showing: pagination.showing, total: pagination.totalRecords, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })), canLoadMore && (h("ir-custom-button", { key: 'ff55c44e94fbd5132f20f5eed0dd3646cb5d966b', class: "booking-listing__load-more", variant: "brand", appearance: "outlined", loading: this.isLoadMoreLoading, disabled: this.isLoadMoreLoading, onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.loadMoreBookings();
+            } }, "Load more")), h("ir-dialog", { key: 'bd175c716616e97446442f9102b560f748906da9', label: "Delete", open: !!this.booking_nbr, onIrDialogHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+            }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.booking_nbr = null;
-            }, lightDismiss: false }, h("span", { key: '4318c72c87d65b30a2efd4fc40528b063c4faa91' }, locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.booking_nbr), h("div", { key: '304810bd35544fa76f89a891f9128af406598186', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '733db181a6b6f97799a4b8477b5fe2eaea211ccd', onClickHandler: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.booking_nbr = null;
-            }, size: "medium", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'bb5ab33b4f28386aff01df408a3b0599060eaf01', onClickHandler: e => {
+            }, lightDismiss: false }, h("span", { key: '6d142d36f642993e3e3828e71990c1a33ab9b37d' }, locales.entries.Lcz_SureYouWantToDeleteBookingNbr + this.booking_nbr), h("div", { key: '27f9907942a039334a3f1bed1df2c11135cb2912', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6cbbfa73a6809c3f1cb959b415631b95db6fbdc2', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '6d20dfdab692b4f705a8a2841a5a72ef162ea463', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.deleteBooking();
@@ -104,7 +140,8 @@ export class IrBookingListingTable {
     static get states() {
         return {
             "booking_nbr": {},
-            "isLoading": {}
+            "isLoading": {},
+            "isLoadMoreLoading": {}
         };
     }
     static get events() {

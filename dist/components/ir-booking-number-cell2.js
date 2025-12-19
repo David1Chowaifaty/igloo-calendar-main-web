@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
-const irBookingNumberCellCss = ".sc-ir-booking-number-cell-h{box-sizing:border-box !important}.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell,.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell::before,.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-booking-number-cell{display:none !important}.sc-ir-booking-number-cell-h{display:flex;gap:1rem;align-items:center;font-size:0.93rem}.booking-nbr-cell__channel_nbr.sc-ir-booking-number-cell{font-size:0.75rem;padding:0;margin:0}.booking-nbr-cell__container.sc-ir-booking-number-cell{display:flex;flex-direction:column;align-self:flex-start}.booked-by-source__logo.sc-ir-booking-number-cell{width:1.5625rem;background-color:white}";
+const irBookingNumberCellCss = ".sc-ir-booking-number-cell-h{box-sizing:border-box !important}.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell,.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell::before,.sc-ir-booking-number-cell-h *.sc-ir-booking-number-cell::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-booking-number-cell{display:none !important}.sc-ir-booking-number-cell-h{display:flex;gap:1rem;align-items:center;font-size:0.93rem}.booking-nbr-cell__channel_nbr.sc-ir-booking-number-cell{font-size:0.75rem;padding:0;margin:0}.booking-nbr-cell__container.sc-ir-booking-number-cell{display:flex;flex-direction:column;align-self:flex-start}.booked-by-source__logo.sc-ir-booking-number-cell{width:1.5625rem;background-color:white}.booking-nbr-cell__button.sc-ir-booking-number-cell:focus{outline:none}.booking-nbr-cell__button.sc-ir-booking-number-cell:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.booking-nbr-cell__button.sc-ir-booking-number-cell{display:inline-flex;align-items:center;justify-content:center;height:fit-content;padding:0;font-family:inherit;font-size:var(--wa-form-control-value-font-size);font-weight:var(--wa-font-weight-action);line-height:calc(var(--wa-form-control-height) - var(--border-width) * 2);text-decoration:none;vertical-align:middle;white-space:nowrap;border-style:var(--wa-border-style);border-width:max(1px, var(--wa-form-control-border-width));border-radius:var(--wa-form-control-border-radius);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing);cursor:pointer;user-select:none;-webkit-user-select:none;color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:transparent;border-color:transparent}.booking-nbr-cell__button.sc-ir-booking-number-cell:hover{color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-brand-fill-quiet))}.booking-nbr-cell__button.sc-ir-booking-number-cell:active{color:var(--wa-color-on-quiet, var(--wa-color-brand-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-brand-fill-quiet)), var(--wa-color-mix-active))}";
 const IrBookingNumberCellStyle0 = irBookingNumberCellCss;
 
 const IrBookingNumberCell = /*@__PURE__*/ proxyCustomElement(class IrBookingNumberCell extends HTMLElement {
@@ -22,7 +21,7 @@ const IrBookingNumberCell = /*@__PURE__*/ proxyCustomElement(class IrBookingNumb
     channelBookingNumber;
     openBookingDetails;
     render() {
-        return (h(Host, { key: '2e06475a7b70329a57ae3399f626fe19c5d9053b' }, this.channelBookingNumber && h("wa-tooltip", { key: '51927d07df080f81a5cef08eaaf308024844021a', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: '8c9546f88106cc16cffa1f22232c7ce99000fcbb', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: '65b9d60896297ec3d6fab278ae74702177545f73', class: "booking-nbr-cell__container" }, h("div", { key: '788f924c12e75ffdf73cbc25638a7cd807acc6f4', style: { width: 'fit-content' } }, h("ir-custom-button", { key: '2e3ccc7311cf06a12c868375c40b970f2153ae5c', size: "medium", onClickHandler: () => this.openBookingDetails.emit(this.bookingNumber), link: true, variant: "brand", appearance: "plain" }, this.bookingNumber)), h("p", { key: 'a5532426aefdcfd51607832f6f89dd01e6b2fe02', class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
+        return (h(Host, { key: '00e9da82816d2fcb4b2caa04804e64dab59c302d' }, this.channelBookingNumber && h("wa-tooltip", { key: '33260ca329ced8ab8a61e0a7ca9afd4f6a1eabd8', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), h("img", { key: 'e1294837191d8427b934c60e6242350dac5c2020', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), h("div", { key: 'a7c313fcce88e82d03c256269c51d3ee66efc02d', class: "booking-nbr-cell__container" }, h("div", { key: '8017946532c348dd92c678af80ae2a82c2f9abf8', style: { width: 'fit-content' } }, h("button", { key: 'dfc477f647716df02dc44c0e4e87e69b0b354362', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), h("p", { key: '91a394627d7969be7c0bfe461ee308308d2c2149', class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
     }
     static get style() { return IrBookingNumberCellStyle0; }
 }, [2, "ir-booking-number-cell", {
@@ -35,16 +34,11 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-number-cell", "ir-custom-button"];
+    const components = ["ir-booking-number-cell"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-number-cell":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrBookingNumberCell);
-            }
-            break;
-        case "ir-custom-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$1();
             }
             break;
     } });

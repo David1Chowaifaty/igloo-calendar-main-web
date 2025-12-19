@@ -1,7 +1,7 @@
-import { c as createStore } from './index2.js';
+import { c as createStore } from './index3.js';
 import { h as hooks } from './moment.js';
-import { z } from './index3.js';
-import { e as extras, R as isPrivilegedUser } from './utils.js';
+import { z } from './index2.js';
+import { R as isPrivilegedUser, e as extras } from './utils.js';
 import { a as axios } from './axios.js';
 
 const ymdDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected date in YYYY-MM-DD format');
@@ -190,7 +190,7 @@ class BookingListingService {
         booking_listing.balance_filter = result.balance_filter;
         initializeUserSelection();
     }
-    async getExposedBookings(params) {
+    async getExposedBookings(params, options) {
         const { property_id, userTypeCode, channel, property_ids, ...rest } = params;
         const havePrivilege = isPrivilegedUser(userTypeCode);
         const { data } = await axios.post(`/Get_Exposed_Bookings`, {
@@ -202,7 +202,12 @@ class BookingListingService {
         });
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
-        booking_listing.bookings = [...result];
+        if (options?.append) {
+            booking_listing.bookings = [...booking_listing.bookings, ...result];
+        }
+        else {
+            booking_listing.bookings = [...result];
+        }
         booking_listing.userSelection = {
             ...booking_listing.userSelection,
             total_count: header.total_count,

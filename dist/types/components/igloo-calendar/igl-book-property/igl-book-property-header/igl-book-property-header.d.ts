@@ -34,6 +34,7 @@ export declare class IglBookPropertyHeader {
         data: unknown;
     }>;
     animateIrSelect: EventEmitter<string>;
+    autoValidate: boolean;
     private bookingService;
     adultAnimationContainer: any;
     private fetchExposedBookings;

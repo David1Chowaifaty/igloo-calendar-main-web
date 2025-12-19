@@ -1,5 +1,4 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$1 } from './ir-checkbox2.js';
 
 const irWeekdaySelectorCss = ".sc-ir-weekday-selector-h{display:block}.days-checkbox.sc-ir-weekday-selector{gap:0.5rem}";
 const IrWeekdaySelectorStyle0 = irWeekdaySelectorCss;
@@ -36,6 +35,11 @@ const IrWeekdaySelector = /*@__PURE__*/ proxyCustomElement(class IrWeekdaySelect
         { value: 6, label: 'Sa' },
         { value: 0, label: 'Su' },
     ];
+    componentWillLoad() {
+        if (this.weekdays) {
+            this.selectedWeekdays = new Set(this.weekdays);
+        }
+    }
     handleWeekdayChange(newDays, oldDays) {
         if (newDays.length !== oldDays.length && newDays.length !== this.selectedWeekdays.size) {
             this.selectedWeekdays = new Set(newDays);
@@ -63,7 +67,7 @@ const IrWeekdaySelector = /*@__PURE__*/ proxyCustomElement(class IrWeekdaySelect
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: 'fd8e006335f3f0d346f36ed2504f56bdd97cab27', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("ir-checkbox", { checked: this.selectedWeekdays.has(w.value), onCheckChange: e => this.toggleWeekDays({ checked: e.detail, weekDay: w.value }), label: w.label, labelClass: "m-0 p-0", class: "days-checkbox" })))));
+        return (h(Host, { key: 'eba8d0338e1b870b4fe794b6efe5fafcd83c78ce', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]
@@ -79,16 +83,11 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-weekday-selector", "ir-checkbox"];
+    const components = ["ir-weekday-selector"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-weekday-selector":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrWeekdaySelector);
-            }
-            break;
-        case "ir-checkbox":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$1();
             }
             break;
     } });

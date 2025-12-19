@@ -5,6 +5,7 @@ import { isRequestPending } from "../../../../stores/ir-interceptor.store";
 import calendar_data from "../../../../stores/calendar-data";
 import booking_store, { setBookingDraft } from "../../../../stores/booking.store";
 import { BookingService } from "../../../../services/booking-service/booking.service";
+import { z } from "zod";
 export class IglBookPropertyHeader {
     splitBookingId = '';
     bookingData = '';
@@ -27,6 +28,7 @@ export class IglBookPropertyHeader {
     toast;
     spiltBookingSelected;
     animateIrSelect;
+    autoValidate;
     bookingService = new BookingService();
     adultAnimationContainer;
     async fetchExposedBookings(value) {
@@ -61,7 +63,7 @@ export class IglBookPropertyHeader {
     }
     getAdultChildConstraints() {
         const { adults, children } = booking_store.bookingDraft.occupancy;
-        return (h(Fragment, null, h("wa-animation", { iterations: 2, name: "bounce", easing: "ease-in-out", duration: 2000, ref: el => (this.adultAnimationContainer = el) }, h("wa-select", { class: "fd-book-property__adults-select", "onwa-hide": e => {
+        return (h(Fragment, null, h("ir-validator", { value: adults, schema: z.number().min(1), autovalidate: this.autoValidate }, h("wa-select", { class: "fd-book-property__adults-select", "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onchange: e => {
@@ -79,7 +81,7 @@ export class IglBookPropertyHeader {
                     adults,
                     children: Number(e.target.value),
                 },
-            }), defaultValue: children?.toString(), value: children?.toString(), placeholder: this.renderChildCaption(), size: "small" }, Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => (h("wa-option", { value: option?.toString() }, option))))), h("ir-custom-button", { loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)));
+            }), defaultValue: children?.toString(), value: children?.toString(), placeholder: this.renderChildCaption(), size: "small" }, Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => (h("wa-option", { value: option?.toString() }, option)))))));
     }
     renderChildCaption() {
         const maxAge = this.adultChildConstraints.child_max_age;
@@ -113,24 +115,29 @@ export class IglBookPropertyHeader {
                 });
                 return;
             }
-            else if (occupancy.adults === 0) {
+            else if (Number(occupancy.adults) === 0) {
                 this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
-                this.adultAnimationContainer.play = true;
+                // this.adultAnimationContainer.play = true;
+                this.autoValidate = true;
             }
             else {
                 this.buttonClicked.emit({ key: 'check' });
             }
         }
-        else if (this.minDate && new Date(this.dateRangeData.fromDate).getTime() > new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date).getTime()) {
-            this.toast.emit({
-                type: 'error',
-                title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
-                description: '',
-                position: 'top-right',
-            });
-        }
-        else if (occupancy.adults === 0) {
-            this.adultAnimationContainer.play = true;
+        // else if (this.minDate && new Date(this.dateRangeData.fromDate).getTime() > new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date).getTime()) {
+        //   this.toast.emit({
+        //     type: 'error',
+        //     title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace(
+        //       '%1',
+        //       moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY'),
+        //     ).replace('%2', moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
+        //     description: '',
+        //     position: 'top-right',
+        //   });
+        // }
+        else if (Number(occupancy.adults) === 0) {
+            // this.adultAnimationContainer.play = true;
+            this.autoValidate = true;
             this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
         }
         else {
@@ -151,13 +158,17 @@ export class IglBookPropertyHeader {
     }
     getMaxDate() {
         if (!this.bookingData?.block_exposed_unit_props) {
+            if (this.isEventType('PLUS_BOOKING')) {
+                return moment().add(60, 'days').format('YYYY-MM-DD');
+            }
             return undefined;
         }
         return this.bookingData?.block_exposed_unit_props.to_date;
     }
     render() {
+        console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '91d25d70956d582d7af320c48153aaed726a2de2' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '11d67d4a668357a4954ae6b5edd73efa23e63401', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: 'b7908745fe4645f97ced73bcfef136d68ad6761c', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints()), h("p", { key: '3d5c78c4c502423e1585f55de5be2d63279acb8a', class: "text-right message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: 'e4a94b16c01c35c6bd6dadfbc493a7098f3a356f' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '283af24d9a29b6b06d51ea179d27b2700a65d97f', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: '10e977c99b7aeaa8c750c12de8e4a6f4548736a9', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '64f39edb6d8987cb24a036d3d5e40862f78cdd20', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '2466898202de3d4418443f1150125f05aafc3996', class: "text-right message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }
@@ -426,7 +437,8 @@ export class IglBookPropertyHeader {
     static get states() {
         return {
             "isLoading": {},
-            "bookings": {}
+            "bookings": {},
+            "autoValidate": {}
         };
     }
     static get events() {

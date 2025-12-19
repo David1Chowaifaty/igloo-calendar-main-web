@@ -1,4 +1,4 @@
-import { c as createStore } from './index2.js';
+import { c as createStore } from './index3.js';
 import { c as calendar_data } from './calendar-data.js';
 
 const defaultTasksList = [10, 20, 50, 100];

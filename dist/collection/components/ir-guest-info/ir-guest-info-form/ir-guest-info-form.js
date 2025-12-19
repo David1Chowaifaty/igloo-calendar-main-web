@@ -1,19 +1,116 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 import { guestInfoFormSchema } from "./types";
+import Token from "../../../models/Token";
+import { BookingService } from "../../../services/booking-service/booking.service";
+import { RoomService } from "../../../services/room.service";
+import { z } from "zod";
 export class IrGuestInfoForm {
-    guest;
+    fromId;
     language;
-    countries;
+    email;
+    booking_nbr;
+    ticket;
+    guest = null;
+    countries = [];
+    isLoading = true;
     autoValidate = false;
+    guestInfoDrawerClosed;
+    resetBookingEvt;
+    toast;
     guestChanged;
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    token = new Token();
+    componentWillLoad() {
+        if (this.ticket) {
+            this.token.setToken(this.ticket);
+        }
+        if (!!this.token.getToken()) {
+            this.init();
+        }
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+    }
     handleInputChange(params) {
-        this.guestChanged.emit(params);
+        this.guest = { ...this.guest, ...params };
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            const [guest, countries, fetchedLocales] = await Promise.all([
+                this.bookingService.fetchGuest(this.email),
+                this.bookingService.getCountries(this.language),
+                !locales || !locales.entries || Object.keys(locales.entries).length === 0 ? this.roomService.fetchLanguage(this.language) : Promise.resolve(null),
+            ]);
+            if (fetchedLocales) {
+                locales.entries = fetchedLocales.entries;
+                locales.direction = fetchedLocales.direction;
+            }
+            this.countries = countries;
+            let _g = { ...guest, email: guest.email.replace(/\s+(?=@)/g, '').trim() };
+            if (_g && !_g.country_phone_prefix) {
+                const country = this.countries.find(c => c.id === _g.country_id);
+                console.log({ country });
+                if (country) {
+                    _g = { ..._g, country_phone_prefix: country?.phone_prefix };
+                }
+            }
+            this.guest = guest ? { ..._g, mobile: guest.mobile_without_prefix } : null;
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    async editGuest() {
+        try {
+            this.autoValidate = true;
+            guestInfoFormSchema.parse(this.guest);
+            await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
+            this.toast.emit({
+                type: 'success',
+                description: '',
+                title: 'Saved Successfully',
+                position: 'top-right',
+            });
+            this.resetBookingEvt.emit(null);
+            this.guestChanged.emit(this.guest);
+            this.guestInfoDrawerClosed.emit({ source: null });
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
     render() {
-        return (h(Host, { key: '5ced76462d457a84648c056be7681dbfd13e51c6' }, h("ir-validator", { key: '546e87acc5f60d00256ef96cd4f34597d303c7f9', schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '08256576ac1b5bf72d031e3be364071ea83f5760', id: 'firstName', value: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail }), label: locales.entries?.Lcz_FirstName })), h("ir-validator", { key: '327709c93ca0e2f99274b5e251acdbe6ba4f7e0d', schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: 'b8514f9ff722beb5b5011e9846e664211b7d6dd2', value: this.guest?.last_name, required: true, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail }), label: locales.entries?.Lcz_LastName })), h("ir-validator", { key: '4cd26ce02d7e8b31bd94a007123a9c17b1a19422', schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: 'beec57a7877fed157ecc4275c6e8a33a607971dc', label: locales.entries?.Lcz_Email, id: "email", value: this.guest?.email, required: true, "onText-change": e => this.handleInputChange({ email: e.detail }) })), h("ir-validator", { key: 'c1488ac0b7c94561a18f50d578df97f04928edcf', schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '9de4e2359ce43d4e125ce7fd0397544a08536707', label: locales.entries?.Lcz_AlternativeEmail, id: "altEmail", value: this.guest?.alternative_email, "onText-change": e => this.handleInputChange({ alternative_email: e.detail }) })), h("ir-validator", { key: '41f0a42d5882b5406b226bbf9b7909ff62b75bd0', schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { key: 'a06755de9c411cf0fe7ed38767faa000155d8e4b', size: "small", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => this.handleInputChange({ country_id: e.detail.id }), countries: this.countries })), h("ir-validator", { key: 'e5f214a0aa5fe1ceebef6380d08458f7fc9745ca', schema: guestInfoFormSchema.shape.mobile, value: this.guest?.mobile ?? '', autovalidate: this.autoValidate, valueEvent: "mobile-input-change" }, h("ir-mobile-input", { key: '6dcb37085296abefce525bc49047bad2e1822738', size: "small", "onMobile-input-change": e => {
-                this.handleInputChange({ mobile: e.detail.formattedValue });
-            }, "onMobile-input-country-change": e => this.handleInputChange({ country_phone_prefix: e.detail.phone_prefix }), value: this.guest?.mobile ?? '', required: true, countryCode: this.countries.find(c => c.phone_prefix === this.guest?.country_phone_prefix)?.code, countries: this.countries })), h("ir-validator", { key: '32eb6a36ea4265fa04ec29dd90a7d06086b9f9aa', schema: guestInfoFormSchema.shape.notes, value: this.guest?.notes ?? '', autovalidate: this.autoValidate, valueEvent: "wa-change change input", blurEvent: "wa-blur blur" }, h("wa-textarea", { key: '73652b474822c911ed5c2516bcd18d50685be417', size: "small", onchange: e => this.handleInputChange({ notes: e.target.value }), value: this.guest?.notes ?? '', label: locales.entries?.Lcz_PrivateNote }))));
+        if (this.isLoading) {
+            return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
+        }
+        return (h("form", { id: this.fromId, onSubmit: e => {
+                e.preventDefault();
+                this.editGuest();
+            }, class: "guest-form__container" }, h("ir-validator", { schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { id: 'firstName', value: this.guest?.first_name, defaultValue: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail.trim() }), label: locales.entries?.Lcz_FirstName })), h("ir-validator", { schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { value: this.guest?.last_name, required: true, defaultValue: this.guest?.last_name, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail.trim() }), label: locales.entries?.Lcz_LastName })), h("ir-validator", { schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_Email, id: "email", defaultValue: this.guest?.email, value: this.guest?.email, required: true, "onText-change": e => {
+                const email = e.detail.replace(/(?<=^[^@]*)\s+(?=[^@]*@noemail\.com$)/g, '').trim();
+                this.handleInputChange({ email });
+            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_AlternativeEmail, id: "altEmail", value: this.guest?.alternative_email, "onText-change": e => {
+                const email = e.detail.replace(/(?<=^[^@]*)\s+(?=[^@]*@noemail\.com$)/g, '').trim();
+                this.handleInputChange({ alternative_email: email });
+            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "small", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => {
+                const country = e.detail;
+                let params = { country_id: country.id };
+                if (!this.guest.country_phone_prefix) {
+                    params = { ...params, country_phone_prefix: country.phone_prefix };
+                }
+                this.handleInputChange(params);
+            }, countries: this.countries })), h("ir-validator", { schema: z.object({ mobile: guestInfoFormSchema.shape.mobile, phone_prefix: guestInfoFormSchema.shape.country_phone_prefix }), value: { mobile: this.guest?.mobile ?? '', phone_prefix: this.guest?.country_phone_prefix }, autovalidate: this.autoValidate, valueEvent: "mobile-input-change" }, h("ir-mobile-input", { size: "small", "onMobile-input-change": e => {
+                this.handleInputChange({ mobile: e.detail.formattedValue.trim() });
+            }, "aria-invalid": 'true', "onMobile-input-country-change": e => this.handleInputChange({ country_phone_prefix: e.detail.phone_prefix }), value: this.guest?.mobile ?? '', required: true, countryCode: this.countries.find(c => c.phone_prefix?.toString() === this.guest?.country_phone_prefix?.toString())?.code, countries: this.countries })), h("ir-validator", { schema: guestInfoFormSchema.shape.notes, value: this.guest?.notes ?? '', autovalidate: this.autoValidate, valueEvent: "wa-change change input", blurEvent: "wa-blur blur" }, h("wa-textarea", { size: "small", onchange: e => this.handleInputChange({ notes: e.target.value }), value: this.guest?.notes ?? '', label: locales.entries?.Lcz_PrivateNote }))));
     }
     static get is() { return "ir-guest-info-form"; }
     static get encapsulation() { return "scoped"; }
@@ -29,19 +126,13 @@ export class IrGuestInfoForm {
     }
     static get properties() {
         return {
-            "guest": {
-                "type": "unknown",
-                "mutable": true,
+            "fromId": {
+                "type": "string",
+                "mutable": false,
                 "complexType": {
-                    "original": "Guest",
-                    "resolved": "Guest",
-                    "references": {
-                        "Guest": {
-                            "location": "import",
-                            "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Guest"
-                        }
-                    }
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 },
                 "required": false,
                 "optional": false,
@@ -50,7 +141,9 @@ export class IrGuestInfoForm {
                     "text": ""
                 },
                 "getter": false,
-                "setter": false
+                "setter": false,
+                "attribute": "from-id",
+                "reflect": false
             },
             "language": {
                 "type": "string",
@@ -71,35 +164,12 @@ export class IrGuestInfoForm {
                 "attribute": "language",
                 "reflect": false
             },
-            "countries": {
-                "type": "unknown",
+            "email": {
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "ICountry[]",
-                    "resolved": "ICountry[]",
-                    "references": {
-                        "ICountry": {
-                            "location": "import",
-                            "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false
-            },
-            "autoValidate": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
+                    "original": "string",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,
@@ -110,14 +180,115 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-validate",
-                "reflect": false,
-                "defaultValue": "false"
+                "attribute": "email",
+                "reflect": false
+            },
+            "booking_nbr": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "booking_nbr",
+                "reflect": false
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
             }
+        };
+    }
+    static get states() {
+        return {
+            "guest": {},
+            "countries": {},
+            "isLoading": {},
+            "autoValidate": {}
         };
     }
     static get events() {
         return [{
+                "method": "guestInfoDrawerClosed",
+                "name": "guestInfoDrawerClosed",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ source: Element }",
+                    "resolved": "{ source: Element; }",
+                    "references": {
+                        "Element": {
+                            "location": "global",
+                            "id": "global::Element"
+                        }
+                    }
+                }
+            }, {
+                "method": "resetBookingEvt",
+                "name": "resetBookingEvt",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "null",
+                    "resolved": "null",
+                    "references": {}
+                }
+            }, {
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "@/components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                        }
+                    }
+                }
+            }, {
                 "method": "guestChanged",
                 "name": "guestChanged",
                 "bubbles": true,
@@ -138,6 +309,12 @@ export class IrGuestInfoForm {
                         }
                     }
                 }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "ticket",
+                "methodName": "ticketChanged"
             }];
     }
 }

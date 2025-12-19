@@ -15,6 +15,7 @@ export declare class IglPropertyBookedBy {
         [key: string]: any;
     };
     guests: ExposedGuests;
+    typedEmail: string;
     dataUpdateEvent: EventEmitter<{
         [key: string]: any;
     }>;
@@ -23,6 +24,7 @@ export declare class IglPropertyBookedBy {
     private currentMonth;
     private country;
     private paymentMethods;
+    private pickerRef;
     componentWillLoad(): void;
     handleButtonClicked(event: CustomEvent<{
         key: TPropertyButtonsTypes;

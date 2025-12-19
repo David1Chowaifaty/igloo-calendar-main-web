@@ -1,4 +1,4 @@
-import { c as createStore } from './index2.js';
+import { c as createStore } from './index3.js';
 
 const initialState = {
     channels: [],

@@ -113,7 +113,7 @@ function getAllParams() {
     return out;
 }
 
-const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative}";
+const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative;height:100% !important;overflow-y:auto !important}";
 const IrBookingListingStyle0 = irBookingListingCss;
 
 const IrBookingListing = /*@__PURE__*/ proxyCustomElement(class IrBookingListing extends HTMLElement {

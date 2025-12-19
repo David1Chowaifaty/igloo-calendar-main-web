@@ -1,4 +1,4 @@
-import { z } from './index3.js';
+import { z } from './index2.js';
 
 const ZIEntrySchema = z.object({
     CODE_NAME: z.string(),

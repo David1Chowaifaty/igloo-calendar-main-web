@@ -8,7 +8,7 @@ import { T as Token } from './Token.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { m as buildSplitIndex } from './utils.js';
+import { j as buildSplitIndex } from './utils.js';
 import { d as defineCustomElement$1b } from './igl-application-info2.js';
 import { d as defineCustomElement$1a } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$19 } from './igl-book-property2.js';

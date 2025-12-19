@@ -12,6 +12,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         this.comboboxSelect = createEvent(this, "combobox-select", 7);
         this.textChange = createEvent(this, "text-change", 7);
         this.comboboxClear = createEvent(this, "combobox-clear", 7);
+        this.inputPickerBlurred = createEvent(this, "input-picker-blurred", 7);
     }
     /** Selected value (also shown in the input when `mode="select"`). */
     value = '';
@@ -59,6 +60,8 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     textChange;
     /** Emitted when the clear button is clicked and the combobox value is cleared. */
     comboboxClear;
+    /** Emitted when the clear button is clicked and the combobox value is cleared. */
+    inputPickerBlurred;
     componentWillLoad() {
         const hostItems = Array.from(this.hostEl?.querySelectorAll('ir-picker-item') ?? []);
         if (hostItems.length) {
@@ -136,6 +139,9 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         if (['select-async', 'select'].includes(this.mode)) {
             this.applyFilter('', { updateQuery: false, emitEvent: false });
         }
+    }
+    async clearInput() {
+        this.applyFilter('');
     }
     closeCombobox(options = {}) {
         this.isOpen = false;
@@ -474,11 +480,11 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: 'b1617b8f4ec458b5b41fa17893f48d4fc1fdd937' }, h("wa-popup", { key: 'fd6ca131577c491d90f397da91acd1cc6bf10ef2', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '29a5f365fd31f380451463ce5a546e8ae4d7f35a', slot: "anchor", class: "search-bar", withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: '559a9a9b39f08f97d1ce4413b634a66812abe10c' }, h("wa-popup", { key: '9ec13a831980d8a5e14d92bf92535ec68b9993da', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '35612e243e077fd1e6cb2ac45808066c7378b5c2', slot: "anchor", class: "search-bar", withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: '655f33676b074fcc7a079973c24b924ac52e9a38', slot: "end" }), h("wa-icon", { key: '61212a3b35f3b73ea87c63d41c1428cad04ebea9', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: '7f753a2b8fa534646d0c5da14fa946ef9cbc7a94', class: "menu", role: "presentation" }, h("p", { key: '575063d29b80bb88a8b9dc161150e815fb635b15', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '6f62dfeda794e093e2a8a927ef5ca162e142c56d', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'c81b09df329de11ab83bf2e098cb75304f76caa6', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '6279df6a900e43029dcff37c227af7a372ce5f3e' }), h("p", { key: 'f74ab782d4e61e35f98223f841998331931038b0' }, "Loading suggestions\u2026"))), h("slot", { key: '560cad104f954f9e7c54c18e297da8e18ea0cd08', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'b6e949b5196f1512e2fc73965b6454e31bf7aa65', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '0ed374e4ba98aaebebb1dfb17a205087ca7da04b', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '230d1ab83a5de4040e879d3e93607fb8f636f49c' }, "No results found")))))), h("span", { key: '11975db85c35a9dc9be4b260d45aab62b32c7a35', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '405322c8136bf5f508a5dca0c28b6e288c61c6df', slot: "end" }), h("wa-icon", { key: '1e88e827814f256e07ec34dd26c79fd83c156a2d', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: 'b3641da4e66df056192696d5972fce1e119d73aa', class: "menu", role: "presentation" }, h("p", { key: 'bf2a71b84c9939fc13d56aaaf639a42e2efcbed7', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '528fc7fdf42425a27ecb9414f68ff6fe979b3cde', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'be9100780b78ab3490703c092e361dfb5dc368f1', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '9892fc0caf6c55160fb40391eeda8a3ce37db75c' }), h("p", { key: '45e0b6980bf15390c93c380ac6c310ff19c390c4' }, "Loading suggestions\u2026"))), h("slot", { key: '865bb345ad8e638910655b3416fe05b4b00706ac', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'eeac2e65a2e278a848739af96d1217dbc652a0ba', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'ea865035d564102a5f09ce799f63f9d9e4496b29', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'e83c6fa3d11040882147993f81cd264f19ddb7e4' }, "No results found")))))), h("span", { key: '0ac734e5c8fb5bde839263ca0b1dd7d88cc8829c', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -519,7 +525,8 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         "liveRegionMessage": [32],
         "slottedPickerItems": [32],
         "open": [64],
-        "close": [64]
+        "close": [64],
+        "clearInput": [64]
     }, [[0, "keydown", "handleKeyDown"], [4, "click", "handleDocumentClick"], [4, "focusin", "handleDocumentFocus"]], {
         "activeIndex": ["handleActiveIndexChange"],
         "value": ["handleValueChange"]

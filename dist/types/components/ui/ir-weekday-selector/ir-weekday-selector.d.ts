@@ -22,6 +22,7 @@ export declare class IrWeekdaySelector {
      */
     weekdayChange: EventEmitter<number[]>;
     private _weekdays;
+    componentWillLoad(): void;
     handleWeekdayChange(newDays: number[], oldDays: number[]): void;
     /**
      * Toggles the selected state of a specific weekday.

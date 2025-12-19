@@ -2,6 +2,7 @@ import type WaButton from '@awesome.me/webawesome/dist/components/button/button'
 import { EventEmitter } from '../../../stencil-public-runtime';
 export type NativeButton = WaButton;
 export declare class IrCustomButton {
+    el: HTMLIrCustomButtonElement;
     link: boolean;
     iconBtn: boolean;
     /** The button's theme variant. Defaults to `neutral` if not within another element with a variant. */
@@ -57,9 +58,6 @@ export declare class IrCustomButton {
     /** Used to override the form owner's `target` attribute. */
     formTarget: NativeButton['formTarget'];
     clickHandler: EventEmitter<MouseEvent>;
-    private buttonEl;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
     private handleButtonClick;
     render(): any;
 }

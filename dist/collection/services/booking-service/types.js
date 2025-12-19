@@ -116,6 +116,7 @@ export const GetBookingInvoiceInfoPropsSchema = z.object({
 export const VoidInvoicePropsSchema = z.object({
     invoice_nbr: z.string().optional(),
     reason: z.string().optional(),
+    property_id: z.number(),
 });
 export const InvoiceSchema = z.object({
     booking_nbr: z.string().optional(),
@@ -130,10 +131,12 @@ export const InvoiceSchema = z.object({
 });
 export const IssueInvoicePropsSchema = z.object({
     is_proforma: z.boolean().optional().default(false),
+    property_id: z.number(),
     invoice: InvoiceSchema,
 });
 export const PrintInvoicePropsSchema = z.object({
     invoice_nbr: z.string().optional(),
+    property_id: z.number(),
     mode: z.enum(['invoice', 'creditnote', 'proforma']),
     invoice: InvoiceSchema.optional(),
 });

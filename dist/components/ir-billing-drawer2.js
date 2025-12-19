@@ -55,7 +55,7 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '7100bd9e32681581926c98b1e7bf5280294d3065', style: {
+        return (h("ir-drawer", { key: '2840da68bae7cff638f857ad14a21df55b9d7b5b', style: {
                 '--ir-drawer-width': '50rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -66,7 +66,7 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '13b8fb658402588d093cac43512c5bfbd58c7563', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '8010cde28f427c3dea1c44825d9994b1b18de3a5', booking: this.booking })));
     }
     static get style() { return IrBillingDrawerStyle0; }
 }, [2, "ir-billing-drawer", {

@@ -1,4 +1,4 @@
-import { c as createStore } from './index2.js';
+import { c as createStore } from './index3.js';
 import { h as hooks } from './moment.js';
 
 const initialState = {
@@ -268,6 +268,6 @@ function resetReserved() {
     booking_store.ratePlanSelections = { ...updatedSelections };
 }
 
-export { setBookingSelectOptions as a, booking_store as b, calculateTotalRooms as c, resetBookingStore as d, reserveRooms as e, getVisibleInventory as g, modifyBookingStore as m, resetReserved as r, setBookingDraft as s, updateRoomParams as u };
+export { resetReserved as a, booking_store as b, calculateTotalRooms as c, setBookingSelectOptions as d, reserveRooms as e, getVisibleInventory as g, modifyBookingStore as m, resetBookingStore as r, setBookingDraft as s, updateRoomParams as u };
 
 //# sourceMappingURL=booking.store.js.map

@@ -7,6 +7,7 @@ export interface IrMobileInputChangeDetail {
     formattedValue: string;
 }
 export declare class IrMobileInput {
+    el: HTMLIrMobileInputElement;
     private static idCounter;
     private readonly componentId;
     private readonly inputId;
@@ -14,8 +15,6 @@ export declare class IrMobileInput {
     private readonly descriptionId;
     private readonly errorId;
     private readonly countryStatusId;
-    private inputRef?;
-    private mask?;
     /** The input's size. */
     size: NativeWaInput['size'];
     /** Visible label for the phone input */
@@ -44,20 +43,13 @@ export declare class IrMobileInput {
     mobileInputChange: EventEmitter<IrMobileInputChangeDetail>;
     mobileInputCountryChange: EventEmitter<ICountry>;
     selectedCountry?: ICountry;
-    displayValue: string;
+    isInvalid: boolean;
     componentWillLoad(): void;
-    componentDidLoad(): void;
-    disconnectedCallback(): void;
     protected handleCountryCodeChange(nextCode?: string): void;
     protected handleSelectedCountryChange(next?: ICountry, previous?: ICountry): void;
     protected handleValueChange(newValue: string, oldValue: string): void;
+    handleAriaInvalidChange(newValue: string, oldValue: string): void;
     private resolveCountry;
-    private initializeMask;
-    private rebuildMask;
-    private destroyMask;
-    private buildMaskOptions;
-    private emitChange;
     private handleCountrySelect;
-    private handlePlainInput;
     render(): any;
 }

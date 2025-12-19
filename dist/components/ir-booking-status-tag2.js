@@ -17,7 +17,7 @@ const IrBookingStatusTag = /*@__PURE__*/ proxyCustomElement(class IrBookingStatu
         '004': 'danger',
     };
     render() {
-        return (h("wa-badge", { key: 'b8c9961795200060c6f8966e720769e4187c2ae7', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
+        return (h("wa-badge", { key: '074f9a5d5345f795f97197ac676467db6f9a0e77', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
     }
     static get style() { return IrBookingStatusTagStyle0; }
 }, [2, "ir-booking-status-tag", {

@@ -1,6 +1,6 @@
 import type * as WebAwesomeEvents from '@awesome.me/webawesome/dist/events/events.d.ts';
 import type { CustomElements } from '@awesome.me/webawesome/dist/custom-elements-jsx.d.ts';
-
+import type { JSX as StencilJSX } from '../stencil-public-runtime';
 declare global {
   type WaAfterCollapseEvent = WebAwesomeEvents.WaAfterCollapseEvent;
   type WaAfterExpandEvent = WebAwesomeEvents.WaAfterExpandEvent;
@@ -34,4 +34,24 @@ declare global {
   type WaTabShowEvent = WebAwesomeEvents.WaTabShowEvent;
 }
 
+type WithHTMLEvents<T> = T & {
+  onClick?: (event: MouseEvent) => void;
+  onDblClick?: (event: MouseEvent) => void;
+  onMouseDown?: (event: MouseEvent) => void;
+  onMouseUp?: (event: MouseEvent) => void;
+  onMouseEnter?: (event: MouseEvent) => void;
+  onMouseLeave?: (event: MouseEvent) => void;
+  onKeyDown?: (event: KeyboardEvent) => void;
+  onKeyUp?: (event: KeyboardEvent) => void;
+  onFocus?: (event: FocusEvent) => void;
+  onBlur?: (event: FocusEvent) => void;
+};
+
+declare module '@stencil/core' {
+  export namespace JSX {
+    interface IntrinsicElements {
+      'wa-button': WithHTMLEvents<CustomElements['wa-button']>;
+    }
+  }
+}
 export type WebAwesomeElements = CustomElements;

@@ -3,7 +3,7 @@ import './IBooking.js';
 import { e as extras, g as getMyBookings, c as convertDateToCustomFormat, a as convertDateToTime, d as dateToFormattedString } from './utils.js';
 import { b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, a as arrayType, e as enumType, c as custom, d as nullType, f as anyType } from './index3.js';
+import { u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, a as arrayType, e as enumType, c as custom, d as nullType, f as anyType } from './index2.js';
 
 const NumberOrStringSchema = unionType([numberType(), stringType().optional()]);
 const CurrencySchema$1 = objectType({
@@ -122,6 +122,7 @@ const GetBookingInvoiceInfoPropsSchema = objectType({
 const VoidInvoicePropsSchema = objectType({
     invoice_nbr: stringType().optional(),
     reason: stringType().optional(),
+    property_id: numberType(),
 });
 const InvoiceSchema$1 = objectType({
     booking_nbr: stringType().optional(),
@@ -136,10 +137,12 @@ const InvoiceSchema$1 = objectType({
 });
 const IssueInvoicePropsSchema = objectType({
     is_proforma: booleanType().optional().default(false),
+    property_id: numberType(),
     invoice: InvoiceSchema$1,
 });
 const PrintInvoicePropsSchema = objectType({
     invoice_nbr: stringType().optional(),
+    property_id: numberType(),
     mode: enumType(['invoice', 'creditnote', 'proforma']),
     invoice: InvoiceSchema$1.optional(),
 });
@@ -560,9 +563,11 @@ class BookingService {
     }
     async getUserDefaultCountry() {
         try {
-            const { data } = await axios.post(`/Get_Country_By_IP`, {
-                IP: '',
-            });
+            let payload = { IP: '' };
+            if (calendar_data?.property?.id) {
+                payload = { ...payload, id: calendar_data.property.id };
+            }
+            const { data } = await axios.post(`/Get_Country_By_IP`, payload);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -825,12 +830,12 @@ class BookingService {
     /*Arrivals*/
     async getRoomsToCheckIn(props) {
         const payload = GetRoomsToCheckInPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Rooms_To_Check_In', payload);
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_In', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
     }
     async getRoomsToCheckout(props) {
         const payload = GetRoomsToCheckOutPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Rooms_To_Check_Out', payload);
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_Out', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
     }
     /*Departures */
