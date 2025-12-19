@@ -23,6 +23,7 @@ const initialState = {
         sources: [],
     },
     checkout_guest: null,
+    bookedByInfo: null,
     guest: null,
     tax_statement: null,
     roomTypes: [],
@@ -1185,4 +1186,4 @@ exports.setBookingDraft = setBookingDraft;
 exports.setBookingSelectOptions = setBookingSelectOptions;
 exports.updateRoomParams = updateRoomParams;
 
-//# sourceMappingURL=booking.service-4306a238.js.map
+//# sourceMappingURL=booking.service-d1a17e9f.js.map

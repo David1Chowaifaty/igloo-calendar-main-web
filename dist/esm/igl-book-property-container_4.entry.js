@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
-import { B as BookingService } from './booking.service-83e35596.js';
+import { B as BookingService } from './booking.service-406e971c.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { B as getPrivateNote, S as isPrivilegedUser, G as downloadFile } from './utils-ebd57799.js';

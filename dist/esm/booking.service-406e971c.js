@@ -21,6 +21,7 @@ const initialState = {
         sources: [],
     },
     checkout_guest: null,
+    bookedByInfo: null,
     guest: null,
     tax_statement: null,
     roomTypes: [],
@@ -1172,4 +1173,4 @@ class BookingService {
 
 export { BookingService as B, ZIEntrySchema as Z, resetReserved as a, booking_store as b, calculateTotalRooms as c, setBookingSelectOptions as d, reserveRooms as e, getVisibleInventory as g, modifyBookingStore as m, resetBookingStore as r, setBookingDraft as s, updateRoomParams as u };
 
-//# sourceMappingURL=booking.service-83e35596.js.map
+//# sourceMappingURL=booking.service-406e971c.js.map

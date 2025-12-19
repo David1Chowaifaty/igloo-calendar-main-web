@@ -17,6 +17,7 @@ const initialState = {
         sources: [],
     },
     checkout_guest: null,
+    bookedByInfo: null,
     guest: null,
     tax_statement: null,
     roomTypes: [],

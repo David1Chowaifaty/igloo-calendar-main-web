@@ -2,6 +2,23 @@ import { Booking, Guest } from "../models/booking.dto";
 import { BookingSource, TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 import { Moment } from 'moment';
+export interface BookedByInfo {
+    id?: number | string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    countryId: number | string;
+    isdCode: string | number;
+    contactNumber: string;
+    selectedArrivalTime: any;
+    emailGuest: boolean;
+    message: string;
+    cardNumber: string;
+    cardHolderName: string;
+    expiryMonth: string | number;
+    expiryYear: string | number;
+    [key: string]: any;
+}
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
@@ -78,6 +95,7 @@ export interface BookingStore {
     selectedPaymentMethod: {
         code: string;
     };
+    bookedByInfo: BookedByInfo | null;
     roomTypes: RoomType[];
     enableBooking: boolean;
     ratePlanSelections: {
