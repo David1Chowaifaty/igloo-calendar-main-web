@@ -118,12 +118,12 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
-        const canIssueInvoice = !hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), !canIssueInvoice && h("wa-tooltip", { for: this._id }, "Invoices cannot be issued before guest arrival"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
+        // const canIssueInvoice = !moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
+        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            }, disabled: !canIssueInvoice }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
+            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')

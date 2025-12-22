@@ -12,6 +12,7 @@ export declare class IglToBeAssigned {
     renderAgain: boolean;
     orderedDatesList: any[];
     noScroll: boolean;
+    selectedDateDisplay: string;
     optionEvent: EventEmitter<{
         [key: string]: any;
     }>;

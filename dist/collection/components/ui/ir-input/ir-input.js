@@ -3,6 +3,7 @@ import { masks } from "./masks";
 import IMask from "imask";
 export class IrInput {
     el;
+    name;
     /** The value of the input. */
     value = '';
     /**
@@ -66,7 +67,7 @@ export class IrInput {
      * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to
      * [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
      */
-    autocomplete;
+    autocomplete = 'off';
     /** Indicates that the input should receive focus on page load. */
     autofocus;
     /** Used to customize the label or icon of the Enter key on virtual keyboards. */
@@ -284,7 +285,7 @@ export class IrInput {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: '90f6766a9b68da16f56b8e943a1a480a63ac5078' }, h("wa-input", { key: '78840d997f808faef7f46278eba8f0ac4559077c', type: this.type, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: '2ec7c2b22de58ac69c3543c772932c6f40890a45', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'e791f7140482fc43603965f52d6d3dbcf3f24beb', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '89ab8196245a226fe8e2a73ffd2b620c84d9d0ce', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '107d3fff52c5f2728e9d8fae465faf22792abfc8', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '9fff68c4a0c07d81e7a0ac0932f80c9ea00795a2', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'a19243f912ef49c2437f1b7147704a7454656f20', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: 'd6e66bf56ec42a25c1dbd24b5b476436d64ca69c', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'd74381e97b6f1cf3540d96e9ec4fe38bcc3084bf' }, h("wa-input", { key: 'a1797c188f277d1ab81a3d767af7985ea864b344', type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: '12c77d5f162558148cadf9d6af20b59f332577f5', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '2c4c02b5bf73d30e84a9d2cf816768fcd43ecab4', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: 'fd779a66dad62a4c002684c781fc15cf12f3a8a3', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '96b1629260c4d78c3915150591dca513ea33b9fa', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'c0f664c5de2ce485ab59f3dc350ce77a02f60981', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '2a803a62b54d605cbb4c627e324548fc0e0531fc', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '543d28dfead723717eade7de7449060d49f0c3d2', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
@@ -300,6 +301,25 @@ export class IrInput {
     }
     static get properties() {
         return {
+            "name": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "name",
+                "reflect": false
+            },
             "value": {
                 "type": "string",
                 "mutable": true,
@@ -938,7 +958,8 @@ export class IrInput {
                 "getter": false,
                 "setter": false,
                 "attribute": "autocomplete",
-                "reflect": false
+                "reflect": false,
+                "defaultValue": "'off'"
             },
             "autofocus": {
                 "type": "boolean",

@@ -83,5 +83,6 @@ export declare class IrInvoice {
     viewMode: ViewMode;
     isLoading: boolean;
     private _id;
+    handleBookingChange(): void;
     render(): any;
 }
