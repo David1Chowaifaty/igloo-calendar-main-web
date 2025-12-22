@@ -13,7 +13,7 @@ import { d as defineCustomElement$3 } from './ir-empty-state2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__room-info.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  padding: 0.5rem;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n  align-items: center;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__price-column.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  gap: 0.25rem;\n  min-width: fit-content;\n}\n.ir-invoice__reason.sc-ir-invoice-form {\n  color: var(--wa-color-gray-60);\n  font-size: 0.75rem;\n  line-height: 1.2;\n  text-align: right;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
+const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__room-info.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  padding: 0.5rem;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n  align-items: center;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__price-column.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  gap: 0.25rem;\n  min-width: fit-content;\n}\n.ir-invoice__reason.sc-ir-invoice-form {\n  color: var(--wa-color-gray-60);\n  font-size: 0.75rem;\n  line-height: 1.2;\n  text-align: right;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}\n.ir-invoice__reason.sc-ir-invoice-form {\n  color: var(--wa-color-danger-fill-loud);\n}";
 const IrInvoiceFormStyle0 = irInvoiceFormCss;
 
 const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm extends HTMLElement {
@@ -103,6 +103,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
     bookingService = new BookingService();
     invoiceTarget;
     apiDisabledItemKeys = new Set();
+    alreadyInvoicedItemKeys = new Set();
     componentWillLoad() {
         this.init();
     }
@@ -219,7 +220,19 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         const base = baseKeys ?? this.notInvoiceableItemKeys ?? new Set();
         const merged = new Set(base);
         this.apiDisabledItemKeys.forEach(key => merged.add(key));
+        if (this.viewMode === 'invoice') {
+            this.alreadyInvoicedItemKeys.forEach(key => merged.add(key));
+        }
         return merged;
+    }
+    /**
+     * Indicates whether an item was already invoiced, used to disable it in invoice mode.
+     */
+    isAlreadyInvoiced(systemId) {
+        if (this.viewMode !== 'invoice' || typeof systemId !== 'number') {
+            return false;
+        }
+        return this.alreadyInvoicedItemKeys.has(systemId);
     }
     /**
      * Synchronizes the selected keys set with derived arrays and button states.
@@ -314,6 +327,17 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         });
         this.invoicableKey = new Map(mapEntries);
         this.apiDisabledItemKeys = new Set(invoiceableItems.filter(item => !item.is_invoiceable).map(item => this.getSelectableKey(item)));
+        const alreadyInvoicedKeys = [];
+        invoiceableItems.forEach(item => {
+            if (item.reason?.code !== '001') {
+                return;
+            }
+            alreadyInvoicedKeys.push(item.key);
+            if (typeof item.system_id === 'number' && item.system_id !== item.key) {
+                alreadyInvoicedKeys.push(item.system_id);
+            }
+        });
+        this.alreadyInvoicedItemKeys = new Set(alreadyInvoicedKeys);
         this.applyDefaultSelections(invoiceableItems);
         this.setUpDisabledItems();
     }
@@ -321,7 +345,11 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      * Selects invoiceable items by default, or all items in proforma mode.
      */
     applyDefaultSelections(items) {
-        const keysToSelect = this.viewMode === 'proforma' ? items.map(item => this.getSelectableKey(item)) : items.filter(item => item.is_invoiceable).map(item => this.getSelectableKey(item));
+        const keysToSelect = this.viewMode === 'proforma'
+            ? items.map(item => this.getSelectableKey(item))
+            : items
+                .filter(item => item.is_invoiceable && item.reason?.code !== '001')
+                .map(item => this.getSelectableKey(item));
         this.syncSelectedItems(new Set(keysToSelect));
     }
     /**
@@ -602,7 +630,15 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
         if (!disabledKeys.size) {
             return false;
         }
-        return systemIds.some(id => typeof id === 'number' && disabledKeys.has(id));
+        return systemIds.some(id => {
+            if (typeof id !== 'number') {
+                return false;
+            }
+            if (this.isAlreadyInvoiced(id)) {
+                return true;
+            }
+            return disabledKeys.has(id);
+        });
     }
     /**
      * Renders the room checkboxes, grouping split rooms when necessary.

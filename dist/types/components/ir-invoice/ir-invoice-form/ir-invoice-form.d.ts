@@ -81,6 +81,7 @@ export declare class IrInvoiceForm {
     private bookingService;
     private invoiceTarget;
     private apiDisabledItemKeys;
+    private alreadyInvoicedItemKeys;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleViewModeChange(): void;
@@ -98,6 +99,10 @@ export declare class IrInvoiceForm {
      * Returns the union of API-disabled keys and client-calculated non-invoiceable keys.
      */
     private getCombinedDisabledKeys;
+    /**
+     * Indicates whether an item was already invoiced, used to disable it in invoice mode.
+     */
+    private isAlreadyInvoiced;
     /**
      * Synchronizes the selected keys set with derived arrays and button states.
      */
