@@ -4,6 +4,7 @@ export class IrValidator {
     /** Zod schema used to validate the child control's value. */
     schema;
     value;
+    showErrorMessage;
     /** Enables automatic validation on every value change. */
     autovalidate;
     /** Optional form id. Falls back to the closest ancestor form when omitted. */
@@ -20,6 +21,7 @@ export class IrValidator {
     valueChange;
     isValid = true;
     autoValidateActive = false;
+    errorMessage = '';
     childEl;
     formEl;
     slotEl;
@@ -206,6 +208,12 @@ export class IrValidator {
         const nextValidity = result.success;
         const previousValidity = this.isValid;
         this.isValid = nextValidity;
+        if (!result.success) {
+            this.errorMessage = result.error.issues[0]?.message ?? '';
+        }
+        else {
+            this.errorMessage = '';
+        }
         const shouldDisplay = forceDisplay || (this.autoValidateActive && this.hasInteracted);
         if (shouldDisplay) {
             this.updateAriaValidity(nextValidity);
@@ -274,7 +282,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: '8ec0348659ed7da922a1109f13258f32f6245669' }, h("slot", { key: '70f2f04ad3c5f02554a10800c52a9b8166ce7855' })));
+        return (h(Host, { key: '38dbc480a5e05b3b2bf3b2441950cba22d0c0d5d' }, h("slot", { key: 'f472aac1913595c8886df60cd6cbc277b1fb131d' }), !this.isValid && this.showErrorMessage && (h("span", { key: '73a1876db5765ccda69b37fe2592146fff615b31', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }
@@ -330,6 +338,25 @@ export class IrValidator {
                 "getter": false,
                 "setter": false,
                 "attribute": "value",
+                "reflect": false
+            },
+            "showErrorMessage": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "show-error-message",
                 "reflect": false
             },
             "autovalidate": {
@@ -435,7 +462,8 @@ export class IrValidator {
     static get states() {
         return {
             "isValid": {},
-            "autoValidateActive": {}
+            "autoValidateActive": {},
+            "errorMessage": {}
         };
     }
     static get events() {

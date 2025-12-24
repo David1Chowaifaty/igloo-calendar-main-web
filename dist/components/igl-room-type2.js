@@ -1,5 +1,5 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { g as getVisibleInventory } from './booking.store.js';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { i as getVisibleInventory } from './booking.store.js';
 import { d as defineCustomElement$3 } from './igl-rate-plan2.js';
 import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
@@ -11,40 +11,21 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
     constructor() {
         super();
         this.__registerHost();
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
     }
     roomType;
     bookingType = 'PLUS_BOOKING';
-    dateDifference;
     ratePricingMode = [];
-    roomInfoId = null;
+    roomTypeId = null;
     currency;
-    initialRoomIds;
     isBookDisabled;
-    selectedRooms = [];
-    totalRooms;
-    roomsDistributions = [];
-    dataUpdateEvent;
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '29e017382e9dde8898fbfea7fb530743b318a149' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '1da97ba5a44c1bc2bf4b0c4095ca370d542e8e91', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: 'a067dba9136878f07c41ae33bec357b9c630e673' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '395798a66ed5ac9207e51f8d7e05b5d0e1425173', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
-                let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
-                // let roomId = -1;
-                // if (shouldBeDisabled && this.initialRoomIds) {
-                //   roomId = this.initialRoomIds.roomId;
-                // }
+                let shouldBeDisabled = this.roomTypeId === this.roomType.id;
                 const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                return (h("igl-rate-plan", {
-                    // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
-                    // index={index}
-                    isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency,
-                    // dateDifference={this.dateDifference}
-                    ratePlan: ratePlan, roomTypeId: this.roomType.id,
-                    // totalAvailableRooms={this.roomsDistributions[index]}
-                    bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled
-                }));
+                return (h("igl-rate-plan", { isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency, ratePlan: ratePlan, roomTypeId: this.roomType.id, bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled }));
             }
             return null;
         })));
@@ -53,15 +34,10 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
 }, [2, "igl-room-type", {
         "roomType": [16],
         "bookingType": [1, "booking-type"],
-        "dateDifference": [2, "date-difference"],
         "ratePricingMode": [16],
-        "roomInfoId": [2, "room-info-id"],
+        "roomTypeId": [2, "room-type-id"],
         "currency": [8],
-        "initialRoomIds": [8, "initial-room-ids"],
-        "isBookDisabled": [4, "is-book-disabled"],
-        "selectedRooms": [32],
-        "totalRooms": [32],
-        "roomsDistributions": [32]
+        "isBookDisabled": [4, "is-book-disabled"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

@@ -1,4 +1,4 @@
-import { S as canCheckout } from './utils.js';
+import { S as canCheckout } from './booking.js';
 import { c as createStore } from './index3.js';
 import { h as hooks } from './moment.js';
 

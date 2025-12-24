@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Fragment } from '@stencil/core/internal/client';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-printing-label2.js';
 
@@ -18,7 +18,7 @@ const IrPrintingExtraService = /*@__PURE__*/ proxyCustomElement(class IrPrinting
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '02cac3ec956da250ab965799b6087751c84deb07', class: "ir-print-extra-services" }, h("h3", { key: 'e33f1199321f9392976640db77f73631d88ceab2', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '735fd8877b00cbffd7a765c5164fd94774bad3b3', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'c00997d80eabe697d26fbaad6ec00a114cec0fa5', class: "ir-print-extra-services" }, h("h3", { key: '23244df857c8e0d1aaba7b07b8fdf3dbd9402d03', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '189f6cbb002c7455a13ea0ce362022543c7a8e70', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }

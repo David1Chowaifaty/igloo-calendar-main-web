@@ -1,6 +1,6 @@
 import { a as axios } from './axios.js';
 import { B as BookingService } from './booking.service.js';
-import { e as extras, i as getReleaseHoursString } from './utils.js';
+import { e as extras, h as getReleaseHoursString } from './booking.js';
 
 class EventsService {
     bookingService = new BookingService();

@@ -73,6 +73,10 @@ export declare class IrCustomDatePicker {
      */
     container?: HTMLElement;
     /**
+     * The date picker's hint.
+     */
+    hint?: string;
+    /**
      * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
      * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
      * but note that it may affect performance if triggered frequently.

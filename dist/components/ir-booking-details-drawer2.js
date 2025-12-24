@@ -1,22 +1,20 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$1c } from './igl-application-info2.js';
-import { d as defineCustomElement$1b } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$1a } from './igl-book-property2.js';
-import { d as defineCustomElement$19 } from './igl-book-property-footer2.js';
-import { d as defineCustomElement$18 } from './igl-book-property-header2.js';
-import { d as defineCustomElement$17 } from './igl-booking-form2.js';
-import { d as defineCustomElement$16 } from './igl-booking-overview-page2.js';
-import { d as defineCustomElement$15 } from './igl-date-range2.js';
-import { d as defineCustomElement$14 } from './igl-property-booked-by2.js';
-import { d as defineCustomElement$13 } from './igl-rate-plan2.js';
-import { d as defineCustomElement$12 } from './igl-room-type2.js';
-import { d as defineCustomElement$11 } from './ir-applicable-policies2.js';
-import { d as defineCustomElement$10 } from './ir-billing2.js';
-import { d as defineCustomElement$$ } from './ir-billing-drawer2.js';
-import { d as defineCustomElement$_ } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$Z } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$Y } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$X } from './ir-booking-details2.js';
+import { d as defineCustomElement$1a } from './igl-application-info2.js';
+import { d as defineCustomElement$19 } from './igl-date-range2.js';
+import { d as defineCustomElement$18 } from './igl-rate-plan2.js';
+import { d as defineCustomElement$17 } from './igl-room-type2.js';
+import { d as defineCustomElement$16 } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$15 } from './ir-billing2.js';
+import { d as defineCustomElement$14 } from './ir-billing-drawer2.js';
+import { d as defineCustomElement$13 } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$12 } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$11 } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$10 } from './ir-booking-details2.js';
+import { d as defineCustomElement$$ } from './ir-booking-editor2.js';
+import { d as defineCustomElement$_ } from './ir-booking-editor-drawer2.js';
+import { d as defineCustomElement$Z } from './ir-booking-editor-form2.js';
+import { d as defineCustomElement$Y } from './ir-booking-editor-guest-form2.js';
+import { d as defineCustomElement$X } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$W } from './ir-booking-extra-note2.js';
 import { d as defineCustomElement$V } from './ir-booking-guarantee2.js';
 import { d as defineCustomElement$U } from './ir-booking-header2.js';
@@ -125,14 +123,14 @@ const IrBookingDetailsDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingD
         this.bookingDetailsDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: '7a30c691a8917a33de6c9c4224f6b4efe18d58f1', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
+        return (h("ir-drawer", { key: '38dd01f71edd9e602685a351eb2e0ba392ad3074', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
                 '--ir-drawer-width': '80rem',
                 '--ir-drawer-background-color': '#F2F3F8',
                 '--ir-drawer-padding-left': '0',
                 '--ir-drawer-padding-right': '0',
                 '--ir-drawer-padding-top': '0',
                 '--ir-drawer-padding-bottom': '0',
-            } }, this.open && (h("ir-booking-details", { key: 'ae0b10b96917fa66a9c5c555cd8bea20f52c63ab', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
+            } }, this.open && (h("ir-booking-details", { key: 'de68612c89d0bb50be62d74e414311bf34b74d3e', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
     }
     static get style() { return IrBookingDetailsDrawerStyle0; }
 }, [2, "ir-booking-details-drawer", {
@@ -146,7 +144,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-details-drawer", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-applicable-policies", "ir-billing", "ir-billing-drawer", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-booking-details", "ir-booking-extra-note", "ir-booking-guarantee", "ir-booking-header", "ir-booking-status-tag", "ir-button", "ir-checkout-dialog", "ir-country-picker", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-service-config-form", "ir-extra-services", "ir-guest-info-drawer", "ir-guest-info-form", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-invoice", "ir-invoice-form", "ir-label", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-payment-details", "ir-payment-folio", "ir-payment-folio-form", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-picker", "ir-picker-item", "ir-pickup", "ir-pickup-form", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-room-guests-form", "ir-spinner", "ir-toast", "ir-unit-tag", "ir-validator", "ota-label"];
+    const components = ["ir-booking-details-drawer", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-applicable-policies", "ir-billing", "ir-billing-drawer", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-booking-details", "ir-booking-editor", "ir-booking-editor-drawer", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-booking-extra-note", "ir-booking-guarantee", "ir-booking-header", "ir-booking-status-tag", "ir-button", "ir-checkout-dialog", "ir-country-picker", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-events-log", "ir-extra-service", "ir-extra-service-config", "ir-extra-service-config-form", "ir-extra-services", "ir-guest-info-drawer", "ir-guest-info-form", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-invoice", "ir-invoice-form", "ir-label", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-payment-details", "ir-payment-folio", "ir-payment-folio-form", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-picker", "ir-picker-item", "ir-pickup", "ir-pickup-form", "ir-pickup-view", "ir-pms-logs", "ir-popover", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-reservation-information", "ir-room", "ir-room-guests", "ir-room-guests-form", "ir-spinner", "ir-toast", "ir-unit-tag", "ir-validator", "ota-label"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-details-drawer":
             if (!customElements.get(tagName)) {
@@ -155,90 +153,80 @@ function defineCustomElement() {
             break;
         case "igl-application-info":
             if (!customElements.get(tagName)) {
-                defineCustomElement$1c();
-            }
-            break;
-        case "igl-block-dates-view":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$1b();
-            }
-            break;
-        case "igl-book-property":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$1a();
-            }
-            break;
-        case "igl-book-property-footer":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$19();
-            }
-            break;
-        case "igl-book-property-header":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$18();
-            }
-            break;
-        case "igl-booking-form":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$17();
-            }
-            break;
-        case "igl-booking-overview-page":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$16();
             }
             break;
         case "igl-date-range":
             if (!customElements.get(tagName)) {
-                defineCustomElement$15();
-            }
-            break;
-        case "igl-property-booked-by":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$14();
+                defineCustomElement$19();
             }
             break;
         case "igl-rate-plan":
             if (!customElements.get(tagName)) {
-                defineCustomElement$13();
+                defineCustomElement$18();
             }
             break;
         case "igl-room-type":
             if (!customElements.get(tagName)) {
-                defineCustomElement$12();
+                defineCustomElement$17();
             }
             break;
         case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
-                defineCustomElement$11();
+                defineCustomElement$16();
             }
             break;
         case "ir-billing":
             if (!customElements.get(tagName)) {
-                defineCustomElement$10();
+                defineCustomElement$15();
             }
             break;
         case "ir-billing-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$$();
+                defineCustomElement$14();
             }
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$_();
+                defineCustomElement$13();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Z();
+                defineCustomElement$12();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Y();
+                defineCustomElement$11();
             }
             break;
         case "ir-booking-details":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$10();
+            }
+            break;
+        case "ir-booking-editor":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$$();
+            }
+            break;
+        case "ir-booking-editor-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$_();
+            }
+            break;
+        case "ir-booking-editor-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$Z();
+            }
+            break;
+        case "ir-booking-editor-guest-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$Y();
+            }
+            break;
+        case "ir-booking-editor-header":
             if (!customElements.get(tagName)) {
                 defineCustomElement$X();
             }

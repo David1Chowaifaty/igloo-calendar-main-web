@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { b as calculateDaysBetweenDates } from './utils.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$2 } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
@@ -14,6 +14,7 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         this.__registerHost();
         this.__attachShadow();
         this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
+        this.dateRangeChange = createEvent(this, "dateRangeChange", 7);
         this.toast = createEvent(this, "toast", 7);
     }
     size = 'small';
@@ -24,12 +25,15 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
     maxDate;
     withDateDifference = true;
     variant = 'default';
+    hint;
     renderAgain = false;
     dateSelectEvent;
+    dateRangeChange;
     toast;
     totalNights = 0;
     fromDate = hooks().toDate();
     toDate = hooks().add(1, 'day').toDate();
+    isInvalid;
     componentWillLoad() {
         this.initializeDates();
     }
@@ -71,6 +75,10 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
             toDateStr: end.format('DD MMM YYYY'),
             dateDifference: this.totalNights,
         });
+        this.dateRangeChange.emit({
+            checkIn: start,
+            checkOut: end,
+        });
         this.renderAgain = !this.renderAgain;
     }
     // private renderDateSummary(showNights: boolean) {
@@ -99,6 +107,9 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         const toDate = hooks(this.toDate).format('YYYY-MM-DD');
         return [fromDate, toDate];
     }
+    handleAriaInvalidChange(newValue) {
+        this.isInvalid = newValue;
+    }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
         return (
@@ -113,17 +124,18 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         //       minDate={this.minDate}
         //       autoApply
         //       data-state={this.disabled ? 'disabled' : 'active'}
-        //       onDateChanged={evt => {
+        //       onDateRangeChange={evt => {
         //         this.handleDateChange(evt);
         //       }}
         //     ></ir-date-range>
         //     {this.renderDateSummary(showNights)}
         //   </div>
         // </Host>
-        h("ir-custom-date-picker", { key: '4918945381faf171ede25643156d527e8dd7d6cd', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, dates: this.dates }, h("wa-icon", { key: '80dd6095abb9ce2975ca072eb56f6ed647430ba0', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f3890c454f7e8ad9db11f65feec5122e01229c82', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        h("ir-custom-date-picker", { key: 'c49dece12fcabdd64d0275ee24e55cf0a191f62d', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, hint: this.hint, dates: this.dates }, h("wa-icon", { key: '6d568a4e290207cf4e712878c271327c073e53b5', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f7d8a8b5940e64af17b1cc37e45aae887ddba657', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
-        "defaultData": ["handleDataChange"]
+        "defaultData": ["handleDataChange"],
+        "aria-invalid": ["handleAriaInvalidChange"]
     }; }
     static get style() { return IglDateRangeStyle0; }
 }, [1, "igl-date-range", {
@@ -135,11 +147,14 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         "maxDate": [1, "max-date"],
         "withDateDifference": [4, "with-date-difference"],
         "variant": [1],
+        "hint": [1],
         "renderAgain": [32],
         "fromDate": [32],
-        "toDate": [32]
+        "toDate": [32],
+        "isInvalid": [32]
     }, undefined, {
-        "defaultData": ["handleDataChange"]
+        "defaultData": ["handleDataChange"],
+        "aria-invalid": ["handleAriaInvalidChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

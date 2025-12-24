@@ -197,6 +197,6 @@ function isDomAvailable() {
     return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
-export { OverflowRelease as O, OverflowAdd as a };
+export { OverflowAdd as O, OverflowRelease as a };
 
 //# sourceMappingURL=OverflowLock.js.map

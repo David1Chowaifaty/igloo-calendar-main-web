@@ -4,22 +4,22 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
 const Token = require('./Token-8fd11984.js');
-const booking_service = require('./booking.service-d1a17e9f.js');
+const booking_service = require('./booking.service-f5e420c0.js');
 const room_service = require('./room.service-edd3d27c.js');
-const arrivals_store = require('./arrivals.store-0d4d41f7.js');
+const arrivals_store = require('./arrivals.store-652073d7.js');
 const calendarData = require('./calendar-data-e7cdcfec.js');
 const axios = require('./axios-6e678d52.js');
-const booking_listing_service = require('./booking_listing.service-1be2d2c8.js');
-const utils = require('./utils-9892967b.js');
-const index$1 = require('./index-2a589e78.js');
+const booking_listing_service = require('./booking_listing.service-e3a36bb6.js');
+const booking = require('./booking-e68bffd8.js');
+const index$1 = require('./index-2bf5e74b.js');
 const locales_store = require('./locales.store-4eb57996.js');
 const moment = require('./moment-1780b03a.js');
 const v4 = require('./v4-9b297151.js');
-const departures_store = require('./departures.store-b2184863.js');
+const departures_store = require('./departures.store-2b919ae3.js');
 const housekeeping_service = require('./housekeeping.service-ef854ce9.js');
 const hkTasks_store = require('./hk-tasks.store-3cbca981.js');
 const irInterceptor_store = require('./ir-interceptor.store-c6d5162b.js');
-const user_service = require('./user.service-03a2c5b0.js');
+const user_service = require('./user.service-ff439363.js');
 require('./index-8bb117a0.js');
 require('./index-6299b0f7.js');
 
@@ -231,7 +231,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'f6077608cfd8e8bacf927b13573379dfa5732dd7', class: "p-1" }, index.h("ir-interceptor", { key: '2f71284b18b61960b2c334691df5ef1873479ca8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'a07ebb20eb8a87a68b9c958b665a43a02db93be5' }), index.h("div", { key: '00b5249264780b4151ffc6d62c3412f1ae146131', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '8db025102403dc1b526db2537b6fc4b7dd737c29', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: 'c164c55ecede9072ee06c79415ff9ad44cddd4d3', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '8447c6e721cf0a347f5483b36ba3d2a44a35389b', class: "p-1" }, index.h("ir-interceptor", { key: 'c09060b6f069a4e0c9468a7cd50005b71d1d1336', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '22b668791f9e8ee19dfd20a9901d5d46224a1205' }), index.h("div", { key: '18cfbf2d08fff9ea07e69402b6112220405310c0', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'b918c6bf5accb1546d0bbd0cc9b49ff2d950af20', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '79c53816ef373f59ca60d0553c8bfc868fee8ec4', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -239,7 +239,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: 'bd157a42b0e96e05162c7dcf96e512af5ab4869c' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '9b07380056b116379bf1915344681ee20db1b0ae' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -327,7 +327,7 @@ const IrBookingListing = class {
     async initializeApp() {
         try {
             this.isLoading = true;
-            this.havePrivilege = utils.isPrivilegedUser(this.userType);
+            this.havePrivilege = booking.isPrivilegedUser(this.userType);
             let propertyId = this.propertyid;
             if (!this.havePrivilege) {
                 if (!this.propertyid && !this.p) {
@@ -526,7 +526,7 @@ const IrBookingListing = class {
         if (this.isLoading || this.ticket === '') {
             return index.h("ir-loading-screen", null);
         }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.propertyid, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.editBookingItem = null;
             }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), index.h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;
@@ -1074,7 +1074,7 @@ const IrHkTasks = class {
                 }));
                 console.log(sortingArray);
                 const { url } = await this.fetchTasksWithFilters(true);
-                utils.downloadFile(url);
+                booking.downloadFile(url);
                 break;
             case 'archive':
                 this.isSidebarOpen = true;

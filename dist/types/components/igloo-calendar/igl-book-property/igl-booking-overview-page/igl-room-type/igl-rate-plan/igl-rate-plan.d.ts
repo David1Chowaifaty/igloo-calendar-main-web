@@ -18,6 +18,9 @@ export declare class IglRatePlan {
     buttonClicked: EventEmitter<{
         [key: string]: any;
     }>;
+    bookingStepChange: EventEmitter<{
+        direction: 'next' | 'prev';
+    }>;
     private disableForm;
     private updateRateplanSelection;
     private handleDataChange;

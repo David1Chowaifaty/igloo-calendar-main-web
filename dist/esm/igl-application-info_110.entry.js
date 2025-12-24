@@ -1,103 +1,26 @@
-import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment, g as getElement } from './index-b3dce66a.js';
-import { b as booking_store, m as modifyBookingStore, B as BookingService, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, a as resetReserved, d as setBookingSelectOptions, e as reserveRooms, u as updateRoomParams, g as getVisibleInventory, Z as ZIEntrySchema } from './booking.service-406e971c.js';
+import { r as registerInstance, h, H as Host, c as createEvent, g as getElement, F as Fragment } from './index-b3dce66a.js';
+import { b as booking_store, u as updateRoomGuest, a as updateBookedByGuest, m as modifyBookingStore, B as BookingService, r as reserveRooms, c as resetReserved, d as updateRoomParams, g as getVisibleInventory, e as resetBookingStore, s as setBookingDraft, f as setBookingSelectOptions, h as getReservedRooms, i as hasAtLeastOneRoomSelected, j as calculateTotalRooms, k as getBookingTotalPrice, l as bookedByGuestBaseData, n as resetAvailability, Z as ZIEntrySchema } from './booking.service-d1f86d0d.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-8a36a1b2.js';
-import { f as formatAmount, e as extras, h as handleBodyOverflow, g as getReleaseHoursString, d as dateToFormattedString, b as buildSplitIndex, a as getSplitRole, i as isBlockUnit, c as calendar_dates, j as calculateDaysBetweenDates, t as transformNewBooking, k as checkMealPlan, l as findCountry, m as canCheckIn, n as compareTime, o as createDateWithOffsetAndHour, p as isWeekend, q as dateDifference, v as validateEmail, r as formatLegendColors, s as addCleaningTasks, u as formatName, w as getRoomStatus, x as cleanRoom, y as addRoomForCleaning, z as transformNewBLockedRooms, A as bookingStatus, B as getPrivateNote, C as getNextDay, D as addTwoMonthToDate, E as convertDMYToISO, F as computeEndDate, G as downloadFile, H as toFloat, I as renderTime, J as getDaysArray, K as convertDatePrice, L as formatDate } from './utils-ebd57799.js';
+import { f as formatAmount, g as getReleaseHoursString, e as extras, b as buildSplitIndex, a as getSplitRole, i as isBlockUnit, c as calendar_dates, d as calculateDaysBetweenDates, t as transformNewBooking, h as checkMealPlan, j as findCountry, k as canCheckIn, l as compareTime, m as createDateWithOffsetAndHour, n as isWeekend, o as dateToFormattedString, p as dateDifference, q as formatLegendColors, r as addCleaningTasks, s as formatName, u as getRoomStatus, v as cleanRoom, w as addRoomForCleaning, x as transformNewBLockedRooms, y as bookingStatus, z as getPrivateNote, A as getNextDay, B as addTwoMonthToDate, C as convertDMYToISO, D as computeEndDate, E as downloadFile, F as toFloat, G as renderTime, H as getDaysArray, I as convertDatePrice, J as formatDate, K as handleBodyOverflow } from './booking-7c3fba5f.js';
+import { V as VariationService, G as GuestCredentials, I as IMask, M as MaskedRange } from './index-a9ed4852.js';
 import { z, Z as ZodError, a as ZodIssueCode } from './index-1e1f097b.js';
+import { v as v4 } from './v4-964634d6.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-ebb6c559.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { P as PropertyService, l as lookup } from './index-585e3627.js';
+import { P as PropertyService, l as lookup } from './index-73da2c2a.js';
 import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-da0dbbe6.js';
 import { c as createStore } from './index-a124d225.js';
-import { v as v4 } from './v4-964634d6.js';
+import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-ebb6c559.js';
 import { c as colorVariants, i as icons } from './icons-5bea2cc2.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
 import { T as Token } from './Token-030c78a9.js';
 import { P as PaymentService } from './payment.service-fca1e8e3.js';
-import { c as commonjsGlobal } from './_commonjsHelpers-1789f0cf.js';
+import { c as commonjsGlobal } from './_commonjsHelpers-c9e3b764.js';
 import { I as InterceptorError } from './InterceptorError-b6a71486.js';
 import { S as SystemService } from './system.service-35fa8e7e.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-caf00b1d.js';
 import { _ as _formatTime, a as _formatDate, b as _getDay } from './functions-14871918.js';
-
-class VariationService {
-    /**
-     * Formats a variation based on the number of infants and returns a formatted string.
-     * @param {Object} params - The input parameters.
-     * @param {Variation} params.baseVariation - The base variation object.
-     * @param {Variation[]} params.variations - A list of available variations.
-     * @param {number} params.infants - The number of infants to adjust the variation for.
-     * @returns {string} A formatted string describing the variation adjusted for infants.
-     */
-    formatVariationBasedOnInfants(params) {
-        const variation = this.getVariationBasedOnInfants(params);
-        return this.formatVariation(variation, params.infants);
-    }
-    /**
-     * Calculates the discounted amount for a variation adjusted for the number of infants.
-     * @param {Object} params - The input parameters.
-     * @param {Variation} params.baseVariation - The base variation object.
-     * @param {Variation[]} params.variations - A list of available variations.
-     * @param {number} params.infants - The number of infants to consider for adjustments.
-     * @returns {number} The discounted amount for the selected variation, or 0 if no discounted amount is available.
-     */
-    calculateVariationAmount(params) {
-        return this.getVariationBasedOnInfants(params)?.discounted_amount || 0;
-    }
-    /**
-     * Finds the appropriate variation from a list of variations based on the number of infants.
-     * @param {Object} params - The input parameters.
-     * @param {Variation} params.baseVariation - The base variation object.
-     * @param {Variation[]} params.variations - A list of available variations.
-     * @param {number} params.infants - The number of infants to adjust for.
-     * @returns {Variation} The matching variation or the base variation if no match is found.
-     */
-    getVariationBasedOnInfants({ variations, baseVariation, infants }) {
-        const { adult_nbr, child_nbr } = baseVariation;
-        return variations.find(v => v.adult_nbr === adult_nbr && v.child_nbr === Math.max(0, child_nbr - Math.max(0, infants))) || baseVariation;
-    }
-    /**
-     * Formats a variation object into a human-readable string, adjusted for the number of infants.
-     * @param {Variation} variation - The variation object to format.
-     * @param {number} infant_nbr - The number of infants to adjust for.
-     * @returns {string} A formatted string representing the variation.
-     * @private
-     */
-    formatVariation({ child_nbr, adult_nbr }, infant_nbr) {
-        const adultNumber = Number(adult_nbr) || 0;
-        const infantNumber = Math.max(Number(infant_nbr) || 0, 0);
-        const adultLabel = adultNumber > 1 ? locales.entries.Lcz_Adults.toLowerCase() : locales.entries.Lcz_Adult.toLowerCase();
-        const childLabel = child_nbr > 1 ? locales.entries.Lcz_Children.toLowerCase() : locales.entries.Lcz_Child.toLowerCase();
-        const infantLabel = infantNumber > 1 ? (locales.entries['Lcz_Infants'] ?? 'infants')?.toLowerCase() : (locales?.entries['Lcz_Infant'] ?? 'infant')?.toLowerCase();
-        const parts = [`${adultNumber} ${adultLabel}`, child_nbr ? `${child_nbr} ${childLabel}` : '', infantNumber ? `${infantNumber} ${infantLabel}` : ''];
-        return parts.filter(Boolean).join('&nbsp&nbsp&nbsp&nbsp');
-    }
-}
-
-const GuestCredentials = z.object({
-    first_name: z.string().nonempty(),
-    last_name: z.string().nonempty(),
-});
-const RoomGuestSchema = z
-    .object({
-    bed_preference: z.string().optional().nullable(),
-    requires_bed_preference: z.boolean().nullable(),
-})
-    .superRefine((data, ctx) => {
-    if (data.requires_bed_preference && !data.bed_preference) {
-        ctx.addIssue({
-            path: ['bed_preference'],
-            message: 'Bed preference is required',
-            code: z.ZodIssueCode.custom,
-        });
-    }
-});
-z.array(RoomGuestSchema);
-const BookingGuestSchema = z.object({
-    first_name: z.string().nonempty(),
-    last_name: z.string().nonempty(),
-});
 
 const iglApplicationInfoCss = ".sc-igl-application-info-h{color:var(--wa-color-text-normal);font-family:var(--wa-font-family-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;text-align:start;display:flex;flex-direction:column;gap:0.5rem;margin-top:1.5rem}.fd-application-info__header.sc-igl-application-info{display:flex;gap:1rem;align-items:center;justify-content:space-between}.fd-application-info__variation.sc-igl-application-info{padding:0;margin:0}.fd-application-info__form.sc-igl-application-info{display:flex;flex-direction:column;gap:1rem}.fd-application-info__price-inline.sc-igl-application-info,.fd-application-info__details.sc-igl-application-info{display:none}.fd-application-info__footer.sc-igl-application-info,.fd-application-info__rateplan.sc-igl-application-info{display:flex;align-items:center;gap:1rem}.fd-application-info__footer.sc-igl-application-info{justify-content:space-between}.fd-application-info__rateplan-name.sc-igl-application-info{font-size:var(--wa-font-size-m);margin:0;padding:0}.fd-application-info__non-refundable.sc-igl-application-info{color:var(--wa-color-success-fill-loud);margin-inline-start:0.5rem}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-l)}.fd-application-info__infant.sc-igl-application-info{display:flex;flex-direction:column;gap:0.875rem}.fd-application-info__infant-label.sc-igl-application-info{margin:0;padding:0;color:var(--wa-color-danger-fill-loud)}@media (min-width: 768px){.fd-application-info__infant.sc-igl-application-info{flex-direction:row;align-items:center}.fd-application-info__infant.sc-igl-application-info .fd-application-info__select.sc-igl-application-info{max-width:100px}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-m)}.fd-application-info__header.sc-igl-application-info{justify-content:flex-start;align-items:center;gap:0.5rem}.fd-application-info__form.sc-igl-application-info{flex-direction:row}.fd-application-info__price-inline.sc-igl-application-info{display:flex;padding:0;margin:0;align-items:center}.fd-application-info__details.sc-igl-application-info{display:flex;align-items:center;gap:0.5rem}.fd-application-info__price.sc-igl-application-info,.fd-application-info__footer.sc-igl-application-info{display:none}}";
 const IglApplicationInfoStyle0 = iglApplicationInfoCss;
@@ -114,8 +37,11 @@ const IglApplicationInfo = class {
     roomIndex;
     totalNights = 1;
     baseData;
+    autoFillGuest;
     isButtonPressed = false;
     variationService = new VariationService();
+    shouldSyncBookedByFirstName = !booking_store.bookedByGuest?.firstName;
+    shouldSyncBookedByLastName = !booking_store.bookedByGuest?.lastName;
     componentWillLoad() {
         if (isSingleUnit(this.rateplanSelection.roomtype.id)) {
             const filteredRooms = this.filterRooms();
@@ -131,13 +57,30 @@ const IglApplicationInfo = class {
             ...prevGuest[this.roomIndex],
             ...params,
         };
-        booking_store.ratePlanSelections = {
-            ...booking_store.ratePlanSelections,
-            [roomTypeId]: {
-                ...booking_store.ratePlanSelections[roomTypeId],
-                [ratePlanId]: { ...this.rateplanSelection, guest: [...prevGuest] },
-            },
-        };
+        updateRoomGuest({
+            ratePlanSelection: this.rateplanSelection,
+            ratePlanId,
+            roomTypeId,
+            guest: prevGuest,
+        });
+        const shouldAutoFill = this.autoFillGuest && !booking_store.bookedByGuestManuallyEdited;
+        if (!shouldAutoFill) {
+            if (booking_store.bookedByGuestManuallyEdited) {
+                this.shouldSyncBookedByFirstName = false;
+                this.shouldSyncBookedByLastName = false;
+            }
+            return;
+        }
+        if (typeof params.first_name === 'string' && this.shouldSyncBookedByFirstName) {
+            updateBookedByGuest({
+                firstName: params.first_name,
+            });
+        }
+        if (typeof params.last_name === 'string' && this.shouldSyncBookedByLastName) {
+            updateBookedByGuest({
+                lastName: params.last_name,
+            });
+        }
     }
     handleButtonClicked(event) {
         switch (event.detail.key) {
@@ -206,6 +149,7 @@ const IglApplicationInfo = class {
                 .sort((a, b) => a.name.localeCompare(b.name))
             : filteredResults;
     }
+    tooltipId = `room_info_tooltip_${v4()}`;
     render() {
         const filteredRoomList = this.filterRooms();
         const formattedVariation = this.variationService.formatVariationBasedOnInfants({
@@ -213,7 +157,7 @@ const IglApplicationInfo = class {
             infants: this.guestInfo.infant_nbr,
             variations: this.rateplanSelection.ratePlan.variations,
         });
-        return (h(Host, { key: 'cb0e3ddc5615654f471ac010e5bc93ab093d6ac2', class: "fd-application-info", "data-testid": `room_info_${this.rateplanSelection.ratePlan.id}` }, h("div", { key: 'dd4833ca6fc822e7307defec8ada5d2d5241a991', class: "fd-application-info__header" }, (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("span", { key: 'b8571e03b180135255654ed2583ea677d2a195bc', class: "fd-application-info__roomtype-title" }, this.rateplanSelection.roomtype.name)), h("div", { key: 'd479718aa2e3a152ae886c0f0b9af6cb0ececf79', class: "fd-application-info__details" }, h("div", { key: 'd30a20924b3e4e87b25afc7ca8794c45ee0959c7', class: "fd-application-info__rateplan" }, h("p", { key: 'c961519aade41c1a8e3ac52b7dbfcf29c8c768fb', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name, this.rateplanSelection.ratePlan.is_non_refundable && h("span", { key: '3f7c43fa7a026899b755be2fb9fe60494e8b9493', class: "fd-application-info__non-refundable" }, "Non Refundable")), h("wa-tooltip", { key: '2a75987289b8118703e83e2f5afe60444917f4f9', for: `room_info_tooltip_${this.rateplanSelection.ratePlan.id}` }, h("span", { key: '1982a304515a99cd82cbef9b8299e366a40419b8', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '8891046092bd2acef97e009163c07089fe4d23d6', name: "circle-info", id: `room_info_tooltip_${this.rateplanSelection.ratePlan.id}` })), h("p", { key: '3d79ab4108137db53a878a25f73372584b15743d', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("p", { key: '7a4ea1babdefbb658d13e6dbe11c6c42bcbf7462', class: "fd-application-info__price p-0 m-0" }, h("span", { key: '649b8177c2b44959077f8ad141cd23763d1e2739', class: "ir-price" }, formatAmount(this.currency?.symbol, this.getAmount())), "/", locales.entries.Lcz_Stay)), h("div", { key: 'd1706e5f5155e7d11f8ad119bda0e53f3905738f', class: "fd-application-info__footer" }, h("div", { key: '6fc2c25a47fdb5d59bf5705ee8c47afa94c0b00a', class: "fd-application-info__rateplan" }, h("p", { key: '84e4639c8fa21f397d32f34f80acd8e48a4a9007', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name), h("wa-tooltip", { key: '0fafd009582b6d9ed83b2281de25095bd870ea25', for: `room_info_tooltip_mobile_${this.rateplanSelection.ratePlan.id}` }, h("span", { key: '50519393e3fcc4c7cf16246d4d63eeecd245620f', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '09e7f3202e26f78d4482fccd33e69b264dd4e198', name: "circle-info", id: `room_info_tooltip_mobile_${this.rateplanSelection.ratePlan.id}` })), h("p", { key: '623738485e3ef990387507d48c24c3c7fc45f9bb', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("div", { key: '559d44d9969b106bedf52ff4778f8b1caf8748d7', class: "fd-application-info__form" }, h("ir-validator", { key: '8c9130a63c24dc9a5970b3c44f519318e510c11b', value: this.guestInfo?.first_name, schema: GuestCredentials.shape.first_name }, h("ir-input", { key: '2112d14ecfb427c4c9abe948d5475e44358e60c6', class: "fd-application-info__input",
+        return (h(Host, { key: '6a06db3fb15c39cc0b23acf56cb82820caaa3e2b', class: "fd-application-info", "data-testid": `room_info_${this.rateplanSelection.ratePlan.id}` }, h("div", { key: '21becdd77921c1ab0a457fad3fddf879d2e6114f', class: "fd-application-info__header" }, (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("span", { key: 'bc817c1e5160d0f6e481052b013f4516725f1a65', class: "fd-application-info__roomtype-title" }, this.rateplanSelection.roomtype.name)), h("div", { key: '9159cfaa3dfe78051dda1f558863dff55879b83d', class: "fd-application-info__details" }, h("div", { key: '3f5b2eabc95ef64fb88c4c906a650feb3315e983', class: "fd-application-info__rateplan" }, h("p", { key: '7c8b8d8acb38d3a7310b446d810a44cecea82328', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name, this.rateplanSelection.ratePlan.is_non_refundable && h("span", { key: '3234acd64a2eb1a11968ef023a53c6e9291a030f', class: "fd-application-info__non-refundable" }, "Non Refundable")), h("wa-tooltip", { key: 'a4d8b7a5c00e96892a488b145be9a663bfa842f8', for: this.tooltipId }, h("span", { key: '32b1eaf081341fae733404a5b0ceb6cb65ce39a0', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '1f5b393f4da411b312220673611a016e96b0d218', name: "circle-info", id: this.tooltipId })), h("p", { key: 'a35fc09ad0119fc0de9cb3a92effdd0959bbd819', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("p", { key: 'a3ad1d27700564620af71eb2445364a2cadda858', class: "fd-application-info__price p-0 m-0" }, h("span", { key: '94446880ce1d715bcd984e836754b3ad962d41a0', class: "ir-price" }, formatAmount(this.currency?.symbol, this.getAmount())), "/", locales.entries.Lcz_Stay)), h("div", { key: 'c5c9b0160912859e2b9cf8f7fece1ccf59b8f11f', class: "fd-application-info__footer" }, h("div", { key: '2e459be0673bc712b6b80ddfa51e62d80522c9d8', class: "fd-application-info__rateplan" }, h("p", { key: 'a7a582ef4515cb915ff5cd23ef3ea0e3695cd119', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name), h("wa-tooltip", { key: '9c8abbec93bf3a4dbd01c0fcc692b24ceb654a4c', for: `mobile-${this.tooltipId}` }, h("span", { key: '5e556717e61f79720c6e0885b2566e459dc7bb5b', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '11ee9e70b865929fd3ee641d4c0d528fb5b13ea2', name: "circle-info", id: `mobile-${this.tooltipId}` })), h("p", { key: 'b5c86708d978dbf9e004871161119c7574ee0fc1', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("div", { key: 'c3ad4faa8229c65ee50af463a0479d95e7d4f16d', class: "fd-application-info__form" }, h("ir-validator", { key: '4af2efd342f02ce376a8cb57854ab00f6b8784dc', value: this.guestInfo?.first_name, schema: GuestCredentials.shape.first_name }, h("ir-input", { key: '37c523d0e72171b553f29b88390b84e801938e1d', class: "fd-application-info__input",
             // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.first_name === ''))}
             value: this.guestInfo?.first_name, defaultValue: this.guestInfo?.first_name, "data-testid": "guest_first_name", placeholder: locales.entries['Lcz_GuestFirstname'] ?? 'Guest first name', "onText-change": event => {
                 const name = event.detail.trim();
@@ -224,7 +168,7 @@ const IglApplicationInfo = class {
                         name,
                     });
                 }
-            } })), h("ir-validator", { key: '0fb7a3916b937b1aabc6ea28e47d3aa502a19c42', value: this.guestInfo?.last_name, schema: GuestCredentials.shape.last_name }, h("ir-input", { key: '9cbc3a3873493797fb8e2fd19dd4f51999181b36', class: "fd-application-info__input", type: "text",
+            } })), h("ir-validator", { key: 'f98e8eb811608884a0f1a4eb6ffa6ce609a91ba6', value: this.guestInfo?.last_name, schema: GuestCredentials.shape.last_name }, h("ir-input", { key: 'd2ef7f1f817752af30ebdd3dfe2f6e46f2c0aa6d', class: "fd-application-info__input", type: "text",
             // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.last_name === ''))}
             value: this.guestInfo?.last_name, defaultValue: this.guestInfo?.last_name, "data-testid": "guest_last_name", placeholder: locales.entries['Lcz_GuestLastname'] ?? 'Guest last name', "onText-change": event => {
                 const name = event.detail.trim();
@@ -237,13 +181,13 @@ const IglApplicationInfo = class {
                 }
             } })), calendar_data.is_frontdesk_enabled &&
             !isSingleUnit(this.rateplanSelection.roomtype.id) &&
-            (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("wa-select", { key: '95152722138a3378ada1a81e7e97d6e7a516c3b6', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_Assignunits, "data-testid": "unit", value: this.guestInfo?.unit, defaultValue: this.guestInfo?.unit, onchange: event => this.updateGuest({
+            (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("wa-select", { key: 'f734caa7c6b63e3dad281bb69d44d8d0071b9b5a', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_Assignunits, "data-testid": "unit", value: this.guestInfo?.unit, defaultValue: this.guestInfo?.unit, onchange: event => this.updateGuest({
                 unit: event.target.value,
-            }) }, filteredRoomList.map(room => (h("wa-option", { value: room.id.toString(), selected: this.guestInfo?.unit === room.id.toString() }, room.name))))), this.rateplanSelection.roomtype.is_bed_configuration_enabled && (h("ir-validator", { key: '0bd731ef5c38063c25396865edbe027a7101b4e7', value: this.guestInfo?.bed_preference, schema: z.string().nonempty() }, h("wa-select", { key: 'c714a5db1d1fa162475e8cc81749b7a0fa94230d', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_BedConfiguration, "data-testid": "bed_configuration", value: this.guestInfo?.bed_preference, defaultValue: this.guestInfo?.bed_preference,
+            }) }, filteredRoomList.map(room => (h("wa-option", { value: room.id.toString(), selected: this.guestInfo?.unit === room.id.toString() }, room.name))))), this.rateplanSelection.roomtype.is_bed_configuration_enabled && (h("ir-validator", { key: '981d8ce769832d25d751cb74d44ab47673a62a6b', value: this.guestInfo?.bed_preference, schema: z.string().nonempty() }, h("wa-select", { key: 'c698c77ec2028bb04814ab7b2facf2d919d10c5b', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_BedConfiguration, "data-testid": "bed_configuration", value: this.guestInfo?.bed_preference, defaultValue: this.guestInfo?.bed_preference,
             // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.bed_preference === ''))}
             onchange: event => this.updateGuest({
                 bed_preference: event.target.value,
-            }) }, this.bedPreferenceType.map(data => (h("wa-option", { value: data.CODE_NAME, selected: this.guestInfo?.bed_preference === data.CODE_NAME }, data.CODE_VALUE_EN)))))), h("p", { key: '967f0ae095244318e483a21df61e3a49c011864b', class: "fd-application-info__price-inline" }, h("span", { key: '5b4fde2bb7751cefc8d7d11bd8512d888ac9a758', class: "ir-price" }, formatAmount(this.currency?.symbol, this.getAmount())), "/", locales.entries.Lcz_Stay)), this.rateplanSelection.selected_variation.child_nbr > 0 && (h("div", { key: '0a2740366f7339fc47f1dda04c0ec48c760f9150', class: "fd-application-info__infant" }, h("p", { key: 'c22c4f7ceaef61b5387bd5511f32adbd9ff0c672', class: "fd-application-info__infant-label" }, "Any of the children below 3 years?"), h("wa-select", { key: '4ee43e9f32a60d6eac66517030234684a2d78dfe', size: "small", class: "fd-application-info__select fd-application-info__select--inline", placeholder: locales.entries['No'] || 'No', value: this.guestInfo?.infant_nbr?.toString(), defaultValue: this.guestInfo?.infant_nbr?.toString(), onchange: event => this.updateGuest({
+            }) }, this.bedPreferenceType.map(data => (h("wa-option", { value: data.CODE_NAME, selected: this.guestInfo?.bed_preference === data.CODE_NAME }, data.CODE_VALUE_EN)))))), h("p", { key: 'bfb80ee9785a37ac03627a5ad38296af63ef8c24', class: "fd-application-info__price-inline" }, h("span", { key: '97be0a231437e945347a64b21c9a92e9344e4e54', class: "ir-price" }, formatAmount(this.currency?.symbol, this.getAmount())), "/", locales.entries.Lcz_Stay)), this.rateplanSelection.selected_variation.child_nbr > 0 && (h("div", { key: '2c7499195254ea5aab7b67bd81bdf55ac4f31971', class: "fd-application-info__infant" }, h("p", { key: '7bc79ae908473684a46b09efbf7f7cf25add15a1', class: "fd-application-info__infant-label" }, "Any of the children below 3 years?"), h("wa-select", { key: 'a630ca63255c1f2d997e48a21a5155d96c054a1e', size: "small", class: "fd-application-info__select fd-application-info__select--inline", placeholder: locales.entries['No'] || 'No', value: this.guestInfo?.infant_nbr?.toString(), defaultValue: this.guestInfo?.infant_nbr?.toString(), onchange: event => this.updateGuest({
                 infant_nbr: Number(event.target.value),
             }), withClear: true }, Array.from({ length: this.rateplanSelection.selected_variation.child_nbr }, (_, i) => i + 1).map(item => (h("wa-option", { value: item.toString(), selected: this.guestInfo?.infant_nbr === item }, item))))))));
     }
@@ -334,1198 +278,107 @@ const IglBlockDatesView = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        console.log({ fromDate: this.fromDate, toDate: this.toDate });
-        return (h(Host, { key: '533b5dfb225628e59bd9fb943f245423b738b7ce' }, h("div", { key: '008ca795bd9effa19975e17cd93a55098a958a17', class: `m-0 p-0 mb-1` }, h("div", { key: 'f669e605643c95f630d30974397dfdb56653ea5d', class: "text-left p-0" }, h("ir-date-view", { key: '307d484aa5ddd0f5e9c36715b732537d5ef8c47b', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: '7e66ccc62a445dab418376c4fab2d534b12735c5', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: '19bb8a475c58c1543577d596d284276065e3681b', class: "mb-1 " }, h("label", { key: '6687faa9553546c14977be4340926973e01ae677', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: '6d9b0181a71ea891b08306fde905b860f9422339', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: 'f13e5bde7087209a8ff907dce8d4649959eda6aa', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '06a58bd41864f479fb57da19df00bf71fc448895', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
+        return (h(Host, { key: '2fd9431e52bec7937bd7a0920e65e5847a9e9f36' }, h("div", { key: '1f0f217dc3c9bcf12b9335a40ca87d88a7356c09', class: `m-0 p-0 mb-1` }, h("div", { key: '0c9439e9b34055cea9d730783a5714cff14ec363', class: "text-left p-0" }, h("ir-date-view", { key: '60ae141e23719c710321ab2e1108c3ce8959577b', from_date: this.fromDate, dateOption: "YYYY-MM-DD", showDateDifference: false, to_date: this.toDate }))), h("div", { key: '90fd22c9513ca17cbc1f86570b2c3da7811db36b', class: ` mb-1 text-left ${this.isEventHover && 'p-0'}` }, h("div", { key: 'a5d1aa6010daaf3ff2d63c52018bcd4b87bc4b4a', class: "mb-1 " }, h("label", { key: '87ed792d706cadbd5336d65a15df1f5422531364', class: "p-0 text-bold-700 font-medium-1 m-0 align-middle" }, locales.entries.Lcz_Reason, ":"), h("div", { key: 'f6e63807ebf03e57a4824bc7057f38e9561ca725', class: "p-0 m-0 pr-1  controlContainer checkBoxContainer d-inline-block align-middle" }, h("input", { key: 'cd2ba4d1a55f79b8e363a7860b9521d601bc80cf', class: "form-control", type: "checkbox", checked: this.blockDatesData.OUT_OF_SERVICE, id: "userinput6", onChange: event => this.handleOutOfService(event) })), h("span", { key: '85aa7493a9d35c055e7b6d062265cb7d813c64b7', class: "align-middle out-of-service-label" }, locales.entries.Lcz_OutOfservice)), !this.blockDatesData.OUT_OF_SERVICE ? (h("div", null, h("div", { class: "mb-1 d-flex  align-items-center" }, h("span", { class: "align-middle" }, locales.entries.Lcz_Or, " "), h("div", { class: "d-inline-flex col pr-0 align-middle" }, h("input", { class: "form-control", type: "text", placeholder: locales.entries.Lcz_OptionalReason, id: "optReason", value: this.blockDatesData.OPTIONAL_REASON, onInput: event => this.handleOptionalReason(event) }))), h("div", { class: "mb-1 w-100 pr-0 " }, h("span", { class: "text-bold-700 font-medium-1" }, locales.entries.Lcz_AutomaticReleaseIn, ": "), h("div", { class: "d-inline-block" }, h("select", { class: "form-control input-sm", id: "zSmallSelect", onChange: evt => this.handleReleaseAfterChange(evt) }, this.releaseList.map(releaseItem => (h("option", { value: +releaseItem.CODE_NAME, selected: Number(this.blockDatesData.RELEASE_AFTER_HOURS) == Number(releaseItem.CODE_NAME) }, releaseItem.CODE_VALUE_EN))))), this.blockDatesData.RELEASE_AFTER_HOURS ? (h("div", { class: "d-inline-block releaseTime" }, h("em", null, locales.entries.Lcz_On, " ", this.getReleaseHoursString()))) : null))) : null)));
     }
 };
 IglBlockDatesView.style = IglBlockDatesViewStyle0;
 
-class IglBookPropertyService {
-    hasUnderscore(str) {
-        return /_+/.test(str);
-    }
-    variationService;
-    setBookingInfoFromAutoComplete(context, res) {
-        context.bookedByInfoData = {
-            id: res.guest.id,
-            email: res.guest.email,
-            firstName: res.guest.first_name,
-            lastName: res.guest.last_name,
-            countryId: res.guest.country_id,
-            isdCode: res.guest?.country_phone_prefix ?? res.guest?.country_id.toString(),
-            contactNumber: res.guest.mobile,
-            selectedArrivalTime: res.arrival,
-            emailGuest: res.guest.subscribe_to_news_letter,
-            message: res.remark,
-            cardNumber: '',
-            cardHolderName: '',
-            expiryMonth: '',
-            expiryYear: '',
-            bookingNumber: res.booking_nbr,
-            rooms: res.rooms,
-            from_date: res.from_date,
-            to_date: res.to_date,
-        };
-    }
-    resetRoomsInfoAndMessage(context) {
-        context.defaultData.roomsInfo = [];
-        context.message = '';
-    }
-    onDataRoomUpdate(event, selectedUnits, isEdit, isEditBooking, name) {
-        let units = selectedUnits;
-        const { data, key, changedKey } = event.detail;
-        const roomCategoryKey = `c_${data.roomCategoryId}`;
-        const ratePlanKey = `p_${data.ratePlanId}`;
-        if (this.shouldClearData(key)) {
-            units = new Map();
-        }
-        this.initializeRoomCategoryIfNeeded(roomCategoryKey, units);
-        if (isEditBooking) {
-            if (changedKey === 'rate') {
-                if (units.has(roomCategoryKey) && units.get(roomCategoryKey).has(ratePlanKey)) {
-                    this.applyBookingEditToSelectedRoom(roomCategoryKey, ratePlanKey, data, units, name, isEdit);
-                }
-            }
-            else {
-                if (changedKey !== 'rateType') {
-                    if (changedKey === 'adult_child_offering') {
-                        if (units.has(roomCategoryKey) && selectedUnits.get(roomCategoryKey).has(ratePlanKey)) {
-                            this.applyBookingEditToSelectedRoom(roomCategoryKey, ratePlanKey, data, units, name, isEdit);
-                        }
-                    }
-                    else {
-                        this.applyBookingEditToSelectedRoom(roomCategoryKey, ratePlanKey, data, units, name, isEdit);
-                    }
-                }
-            }
-        }
-        else {
-            this.setSelectedRoomData(roomCategoryKey, ratePlanKey, data, units);
-        }
-        this.cleanupEmptyData(roomCategoryKey, units);
-        return units;
-    }
-    shouldClearData(key) {
-        return key === 'clearData' || key === 'EDIT_BOOKING';
-    }
-    initializeRoomCategoryIfNeeded(roomCategoryKey, selectedUnits) {
-        if (!selectedUnits.has(roomCategoryKey)) {
-            selectedUnits.set(roomCategoryKey, new Map());
-        }
-    }
-    setSelectedRoomData(roomCategoryKey, ratePlanKey, data, selectedUnits) {
-        let selectedRatePlans = selectedUnits.get(roomCategoryKey);
-        if (data.totalRooms === 0 || data.inventory === 0) {
-            selectedRatePlans.delete(ratePlanKey);
-        }
-        else {
-            selectedUnits.set(roomCategoryKey, selectedRatePlans.set(ratePlanKey, { ...data, selectedUnits: Array(data.totalRooms).fill(-1) }));
-        }
-    }
-    cleanupEmptyData(roomCategoryKey, selectedUnits) {
-        if (selectedUnits.has(roomCategoryKey)) {
-            let selectedRatePlans = selectedUnits.get(roomCategoryKey);
-            if (selectedRatePlans.size === 0) {
-                selectedUnits.delete(roomCategoryKey);
-            }
-        }
-    }
-    applyBookingEditToSelectedRoom(roomCategoryKey, ratePlanKey, data, selectedUnits, name, isEdit) {
-        selectedUnits.clear();
-        let res = {};
-        if (isEdit) {
-            res = { ...data, guestName: name || '', roomId: '' };
-        }
-        else {
-            res = { ...data };
-        }
-        selectedUnits.set(roomCategoryKey, new Map().set(ratePlanKey, res));
-    }
-    calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
-        const total_days = selected_variation.nights.length;
-        if (is_amount_modified) {
-            return view_mode === '002' ? rp_amount : rp_amount / total_days;
-        }
-    }
-    generateDailyRates(rate_plan, i) {
-        let variation = rate_plan.selected_variation;
-        const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
-        if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
-            if (!this.variationService) {
-                this.variationService = new VariationService();
-            }
-            variation = this.variationService.getVariationBasedOnInfants({
-                variations: rate_plan.ratePlan.variations,
-                baseVariation: rate_plan.selected_variation,
-                infants: rate_plan.guest[i].infant_nbr,
-            });
-        }
-        return variation.nights.map(n => ({
-            date: n.night,
-            amount: amount ?? n.discounted_amount,
-            cost: null,
-        }));
-    }
-    // private extractFirstNameAndLastName(name: string) {
-    //   const names = name.split(' ');
-    //   return { first_name: names[0] || null, last_name: names[1] || null };
-    // }
-    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
-        const rooms = [];
-        for (const roomTypeId in booking_store.ratePlanSelections) {
-            const roomtype = booking_store.ratePlanSelections[roomTypeId];
-            for (const rateplanId in roomtype) {
-                const rateplan = roomtype[rateplanId];
-                if (rateplan.reserved > 0) {
-                    for (let i = 0; i < rateplan.reserved; i++) {
-                        const { first_name, last_name } = rateplan.guest[i];
-                        rooms.push({
-                            identifier,
-                            roomtype: rateplan.roomtype,
-                            rateplan: rateplan.ratePlan,
-                            prepayment_amount_gross: 0,
-                            unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
-                            occupancy: {
-                                adult_nbr: rateplan.selected_variation.adult_nbr,
-                                children_nbr: Number(rateplan.selected_variation.child_nbr ?? 0) - Math.max(Number(rateplan.guest[i].infant_nbr ?? 0), 0),
-                                infant_nbr: rateplan.guest[i].infant_nbr,
-                            },
-                            bed_preference: rateplan.guest[i].bed_preference,
-                            from_date: hooks(check_in).format('YYYY-MM-DD'),
-                            to_date: hooks(check_out).format('YYYY-MM-DD'),
-                            notes,
-                            check_in: auto_check_in,
-                            days: this.generateDailyRates(rateplan, i),
-                            guest: {
-                                email: null,
-                                first_name,
-                                last_name,
-                                country_id: null,
-                                city: null,
-                                mobile: null,
-                                address: null,
-                                dob: null,
-                                subscribe_to_news_letter: null,
-                                cci: null,
-                            },
-                        });
-                    }
-                }
-            }
-        }
-        return rooms;
-    }
-    async prepareBookUserServiceParams({ context, check_in }) {
-        try {
-            // Validate context structure
-            if (!context || !context.dateRangeData) {
-                throw new Error('Invalid context: Missing date range data.');
-            }
-            const fromDate = new Date(context.dateRangeData.fromDate);
-            const toDate = new Date(context.dateRangeData.toDate);
-            const generateNewRooms = (identifier = null, check_in = false) => {
-                return this.getBookedRooms({
-                    check_in: fromDate,
-                    check_out: toDate,
-                    identifier,
-                    notes: '',
-                    override_unit: context.isEventType('BAR_BOOKING') ? true : false,
-                    unit: context.isEventType('BAR_BOOKING') ? context.bookingData.PR_ID : null,
-                    auto_check_in: check_in,
-                });
-            };
-            const modifyBookingDetails = ({ pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras, ...rest }, rooms) => {
-                return {
-                    assign_units: true,
-                    is_pms: true,
-                    is_direct,
-                    is_backend: true,
-                    is_in_loyalty_mode,
-                    promo_key,
-                    extras,
-                    booking: {
-                        ...rest,
-                        rooms,
-                    },
-                    extra_services,
-                    pickup_info,
-                };
-            };
-            let newBooking = null;
-            const sourceOption = booking_store.bookingDraft.source;
-            console.log({ sourceOption });
-            console.log({ event_type: context.defaultData.event_type, defaultData: context.defaultData });
-            switch (context.defaultData.event_type) {
-                case 'EDIT_BOOKING': {
-                    const { booking, currentRoomType } = context.defaultData;
-                    const filteredRooms = booking.rooms.filter(r => r.identifier !== currentRoomType.identifier);
-                    console.log('currentRoomType', currentRoomType);
-                    const newRooms = generateNewRooms(currentRoomType.identifier, currentRoomType.in_out?.code === '001');
-                    newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
-                    break;
-                }
-                case 'ADD_ROOM':
-                case 'SPLIT_BOOKING': {
-                    const { booking } = context.defaultData;
-                    // console.log(booking);
-                    if (!booking) {
-                        throw new Error('Missing booking');
-                    }
-                    const newRooms = generateNewRooms();
-                    // const previousRooms = context.defaultData.event_type === 'ADD_ROOM' ? ROOMS ?? [] : booking?.rooms;
-                    const previousRooms = booking.rooms;
-                    newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
-                    break;
-                }
-                default: {
-                    const newRooms = generateNewRooms(null, check_in);
-                    const { bookedByInfoData } = context;
-                    const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
-                    newBooking = {
-                        assign_units: true,
-                        is_pms: true,
-                        is_direct: true,
-                        is_backend: true,
-                        is_in_loyalty_mode: false,
-                        promo_key: null,
-                        extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.selectedPaymentMethod?.code }],
-                        agent: isAgent ? { id: sourceOption.tag } : null,
-                        booking: {
-                            from_date: hooks(fromDate).format('YYYY-MM-DD'),
-                            to_date: hooks(toDate).format('YYYY-MM-DD'),
-                            remark: bookedByInfoData.message || null,
-                            booking_nbr: '',
-                            property: {
-                                id: context.propertyid,
-                            },
-                            booked_on: {
-                                date: hooks().format('YYYY-MM-DD'),
-                                hour: new Date().getHours(),
-                                minute: new Date().getMinutes(),
-                            },
-                            source: isAgent ? '' : sourceOption,
-                            rooms: newRooms,
-                            currency: context.currency,
-                            arrival: { code: bookedByInfoData.selectedArrivalTime },
-                            guest: {
-                                email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
-                                first_name: bookedByInfoData.firstName,
-                                last_name: bookedByInfoData.lastName,
-                                country_id: bookedByInfoData.countryId === '' ? null : bookedByInfoData.countryId,
-                                city: null,
-                                mobile: bookedByInfoData.contactNumber === null ? '' : this.hasUnderscore(bookedByInfoData.contactNumber) ? '' : bookedByInfoData.contactNumber,
-                                country_phone_prefix: bookedByInfoData?.isdCode ?? null,
-                                address: '',
-                                dob: null,
-                                subscribe_to_news_letter: bookedByInfoData.emailGuest || false,
-                                cci: bookedByInfoData.cardNumber
-                                    ? {
-                                        nbr: bookedByInfoData.cardNumber,
-                                        holder_name: bookedByInfoData.cardHolderName,
-                                        expiry_month: bookedByInfoData.expiryMonth,
-                                        expiry_year: bookedByInfoData.expiryYear,
-                                    }
-                                    : null,
-                            },
-                        },
-                        pickup_info: null,
-                    };
-                    break;
-                }
-            }
-            return newBooking;
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    getRoomCategoryByRoomId(bookingData) {
-        return bookingData.roomsInfo?.find(roomCategory => {
-            return roomCategory.id === bookingData.RATE_TYPE;
-        });
-    }
-    setEditingRoomInfo(bookingData, selectedUnits) {
-        const category = this.getRoomCategoryByRoomId(bookingData);
-        const room_id = !category ? '' : `c_${category?.id}`;
-        const ratePlanId = `p_${bookingData.RATE_PLAN_ID}`;
-        const data = {
-            adultCount: bookingData.ADULTS_COUNT,
-            rate: bookingData.RATE,
-            rateType: bookingData.RATE_TYPE,
-            ratePlanId: bookingData.RATE_PLAN_ID,
-            roomCategoryId: category ? category.id : '',
-            roomCategoryName: category ? category.name : '',
-            totalRooms: 1,
-            ratePlanName: bookingData.RATE_PLAN,
-            roomId: bookingData.PR_ID,
-            guestName: bookingData.NAME,
-            cancelation: bookingData.cancelation,
-            guarantee: bookingData.guarantee,
-            adult_child_offering: bookingData.adult_child_offering,
-        };
-        selectedUnits.set(room_id, new Map().set(ratePlanId, data));
-    }
-}
+const iglBlockedDateDrawerCss = ".sc-igl-blocked-date-drawer-h{display:block;text-align:start}";
+const IglBlockedDateDrawerStyle0 = iglBlockedDateDrawerCss;
 
-const iglBookPropertyCss = ".sc-igl-book-property-h{position:fixed;top:0;right:0;width:100vw;min-height:100vh;z-index:99;overflow:hidden}.card-title.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%}.card-header-container.sc-igl-book-property{border-bottom:1px solid #e4e5ec;width:100%;display:flex;align-items:center;box-sizing:border-box;padding:1rem 0;justify-content:space-between}.fd-book-property__title.sc-igl-book-property{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.loading-container.sc-igl-book-property{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.card-header-container.sc-igl-book-property h3.sc-igl-book-property{padding:0;margin:0}.background-overlay.sc-igl-book-property{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.25)}.formContainer.sc-igl-book-property{height:calc(100% - 79px);overflow:auto}.gap-30.sc-igl-book-property{gap:30px}.block-date.sc-igl-book-property{width:100%}.sideWindow.sc-igl-book-property{position:absolute;inset:0;left:unset;background-color:#ffffff;width:100%;overflow:auto;animation:slideInFromRight 0.5s}.card.sc-igl-book-property{top:0;z-index:1000}.close.sc-igl-book-property{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.close-icon.sc-igl-book-property{position:absolute;top:18px;right:33px;outline:none}button.sc-igl-book-property:not(:disabled),[type='button'].sc-igl-book-property:not(:disabled){cursor:pointer}.sheet-footer.sc-igl-book-property{width:100%}.card-header-container.sc-igl-book-property{--spacing:var(--wa-space-l);padding:0;display:flex;flex-wrap:nowrap;padding-inline-start:var(--spacing);padding-block-end:0;padding-inline-end:calc(var(--spacing) - var(--wa-form-control-padding-block));padding-block-start:calc(var(--spacing) - var(--wa-form-control-padding-block));border-bottom:1px solid var(--wa-color-surface-border);padding-bottom:calc(var(--spacing) / 2);background-color:var(--wa-color-surface-default)}@media only screen and (min-width: 1200px){.sideWindow.sc-igl-book-property{max-width:70%}}@media only screen and (min-width: 2000px){.sideWindow.sc-igl-book-property{max-width:40%}}@media only screen and (min-width: 768px) and (max-width: 1200px){.sideWindow.sc-igl-book-property{max-width:90%}}@media only screen and (min-width: 600px) and (max-width: 768px){.sideWindow.sc-igl-book-property{max-width:75%}}@media only screen and (min-width: 641px){.block-date.sc-igl-book-property{max-width:450px;padding-bottom:0 !important}}@keyframes slideInFromRight{from{transform:translateX(120%)}to{transform:translateX(0)}}@keyframes slideOutToRight{from{transform:translateX(0)}to{transform:translateX(120%)}}.sideWindow--exit.sc-igl-book-property{animation:slideOutToRight 0.5s forwards}";
-const IglBookPropertyStyle0 = iglBookPropertyCss;
-
-const sheetCss$5 = ".sc-igl-book-property-h{height:100%}.sheet-container.sc-igl-book-property{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-book-property{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-book-property{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-book-property{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-book-property{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-book-property{flex-direction:row;align-items:center}}";
-const IglBookPropertyStyle1 = sheetCss$5;
-
-const IglBookProperty = class {
+const IglBlockedDateDrawer = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeBookingWindow = createEvent(this, "closeBookingWindow", 7);
-        this.blockedCreated = createEvent(this, "blockedCreated", 7);
-        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.animateIrButton = createEvent(this, "animateIrButton", 7);
-        this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
-        this.toast = createEvent(this, "toast", 7);
+        this.blockedDateDrawerClosed = createEvent(this, "blockedDateDrawerClosed", 7);
     }
-    propertyid;
-    allowedBookingSources;
-    language;
-    countries;
-    showPaymentDetails = false;
-    currency;
-    bookingData;
-    adultChildConstraints;
-    renderAgain = false;
-    dateRangeData;
-    defaultData;
-    isLoading;
-    bookingHistory = [];
-    closeBookingWindow;
-    blockedCreated;
-    resetBookingEvt;
-    animateIrButton;
-    animateIrSelect;
-    toast;
-    initialRoomIds = null;
-    page;
-    showSplitBookingOption = false;
-    guestData = [];
-    bookedByInfoData = {};
-    blockDatesData = {};
-    ratePricingMode = [];
-    selectedUnits = new Map();
-    bedPreferenceType = [];
+    /**
+     * Controls whether the blocked date drawer is open or closed.
+     * Reflected to the DOM so it can be styled or toggled externally.
+     */
+    open;
+    /**
+     * Label text displayed at the top of the drawer.
+     * Typically used as the drawer title.
+     */
+    label;
+    /**
+     * Start date of the blocked date range.
+     * Expected to be an ISO date string (YYYY-MM-DD).
+     */
+    fromDate;
+    /**
+     * End date of the blocked date range.
+     * Expected to be an ISO date string (YYYY-MM-DD).
+     */
+    toDate;
+    /**
+     * Identifier of the unit being blocked.
+     * Used when sending block requests to the booking service.
+     */
+    unitId;
+    isLoading = false;
+    blockDatesData = {
+        from_date: '',
+        to_date: '',
+        NOTES: '',
+        pr_id: null,
+        STAY_STATUS_CODE: null,
+        DESCRIPTION: null,
+        BLOCKED_TILL_DATE: null,
+        BLOCKED_TILL_HOUR: null,
+        BLOCKED_TILL_MINUTE: null,
+    };
+    blockedDateDrawerClosed;
     bookingService = new BookingService();
-    bookPropertyService = new IglBookPropertyService();
-    defaultDateRange;
-    updatedBooking = false;
-    MAX_HISTORY_LENGTH = 2;
-    didReservation;
-    wasBlockedUnit;
-    async componentWillLoad() {
-        if (booking_store.roomTypes) {
-            modifyBookingStore('roomTypes', []);
-            modifyBookingStore('ratePlanSelections', {});
-        }
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.initializeDefaultDateRange();
-        if (!this.bookingData.defaultDateRange) {
-            return;
-        }
-        this.initializeDefaultData();
-        this.wasBlockedUnit = this.defaultData.hasOwnProperty('block_exposed_unit_props');
-        modifyBookingStore('event_type', { type: this.defaultData.event_type });
-        this.fetchSetupEntriesAndInitialize();
-    }
-    componentDidLoad() {
-        document.addEventListener('keydown', this.handleKeyDown);
-        handleBodyOverflow(true);
-    }
-    disconnectedCallback() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-    }
-    clearBooking(e) {
-        if (this.isEventType('SPLIT_BOOKING')) {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            this.bookedByInfoData = {};
-            this.bookPropertyService.resetRoomsInfoAndMessage(this);
-            this.renderPage();
-        }
-    }
-    async handleSpiltBookingSelected(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { key, data } = e.detail;
-        if (key === 'select' || (key === 'blur' && data !== '')) {
-            const res = await this.bookingService.getExposedBooking(data.booking_nbr || data, this.language);
-            this.defaultData = { ...this.defaultData, booking: res };
-            this.bookPropertyService.setBookingInfoFromAutoComplete(this, res);
-            const sourceOption = booking_store.selects.sources.find(opt => opt.code === res.source.code);
-            setBookingDraft({
-                source: sourceOption,
-            });
-            this.renderPage();
-        }
-    }
-    onDateRangeSelect(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        resetBookingStore(false);
-        const opt = event.detail;
-        this.updateBookingHistory({
-            dates: {
-                checkIn: new Date(this.dateRangeData.fromDate),
-                checkOut: new Date(new Date(opt.data.toDate)),
-            },
-        });
-        if (opt.key === 'selectedDateRange') {
-            this.dateRangeData = opt.data;
-            if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
-                this.defaultData.roomsInfo = [];
-            }
-        }
-    }
-    gotoSplitPageTwo() {
-        this.gotoPage('page_two');
-    }
-    handleButtonClicked(event) {
-        switch (event.detail.key) {
-            case 'save':
-                this.bookUser(false);
-                break;
-            case 'cancel':
-                event.stopImmediatePropagation();
-                event.stopPropagation();
-                this.closeWindow();
-                break;
-            case 'back':
-                event.stopImmediatePropagation();
-                event.stopPropagation();
-                if (this.isEventType('BAR_BOOKING')) {
-                    resetReserved();
-                }
-                this.gotoPage('page_one');
-                break;
-            case 'book':
-                this.bookUser(false);
-                break;
-            case 'bookAndCheckIn':
-                this.bookUser(true);
-                break;
-            case 'next':
-                event.stopImmediatePropagation();
-                event.stopPropagation();
-                if (!booking_store.bookingDraft.occupancy?.adults) {
-                    this.animateIrSelect.emit('adult_child_select');
-                    break;
-                }
-                if (calculateTotalRooms() > 0) {
-                    this.gotoPage('page_two');
-                    break;
-                }
-                else if (this.defaultData?.roomsInfo.length === 0) {
-                    this.animateIrButton.emit('check_availability');
-                    break;
-                }
-                this.toast.emit({
-                    type: 'error',
-                    description: locales.entries.Lcz_SelectRatePlan,
-                    title: locales.entries.Lcz_SelectRatePlan,
-                });
-                break;
-            case 'check':
-                this.checkBookingAvailability();
-                break;
-        }
-    }
-    updateBookingHistory(partialData) {
-        const lastEntry = this.bookingHistory[this.bookingHistory.length - 1];
-        const newEntry = {
-            dates: {
-                checkIn: partialData.dates?.checkIn || lastEntry?.dates?.checkIn || new Date(this.dateRangeData.fromDate),
-                checkOut: partialData.dates?.checkOut || lastEntry?.dates?.checkOut || new Date(this.dateRangeData.toDate),
-            },
-            adults: partialData.adults ?? lastEntry?.adults ?? booking_store.bookingDraft.occupancy?.adults,
-            children: partialData.children ?? lastEntry?.children ?? booking_store.bookingDraft.occupancy.children,
-        };
-        // Update the booking history
-        this.bookingHistory.push(newEntry);
-        if (this.bookingHistory.length > this.MAX_HISTORY_LENGTH) {
-            this.bookingHistory.shift();
-        }
-    }
-    handleKeyDown(e) {
-        if (e.key === 'Escape') {
-            this.closeWindow();
-        }
-    }
-    initializeDefaultDateRange() {
-        this.defaultDateRange = {
-            from_date: this.bookingData.FROM_DATE,
-            to_date: this.bookingData.TO_DATE,
-        };
-    }
-    initializeDefaultData() {
-        this.defaultData = this.bookingData;
-        this.dateRangeData = { ...this.defaultData.defaultDateRange };
-        setBookingDraft({
-            dates: {
-                checkIn: hooks(this.defaultData.defaultDateRange.fromDate),
-                checkOut: hooks(this.defaultData.defaultDateRange.toDate),
-            },
-        });
-    }
-    async fetchSetupEntriesAndInitialize() {
+    async handleBlockDate() {
         try {
-            const setupEntries = await this.fetchSetupEntries();
-            this.setSourceOptions(this.allowedBookingSources);
-            this.setOtherProperties(setupEntries);
-            this.initializeEventData();
-        }
-        catch (error) {
-            console.error('Error fetching setup entries:', error);
-        }
-    }
-    initializeEventData() {
-        if (this.isEventType('EDIT_BOOKING')) {
-            this.initializeEditBookingData();
-        }
-        if (!this.isEventType('BAR_BOOKING')) {
-            this.bookPropertyService.resetRoomsInfoAndMessage(this);
-        }
-        this.initializePage();
-    }
-    initializeEditBookingData() {
-        setBookingDraft({
-            occupancy: {
-                adults: Number(this.defaultData.ADULTS_COUNT),
-                children: Number(this.defaultData.CHILDREN_COUNT),
-            },
-        });
-        this.initialRoomIds = {
-            roomName: this.defaultData.roomName,
-            ratePlanId: this.defaultData.RATE_PLAN_ID,
-            roomId: this.defaultData.PR_ID,
-            roomTypeId: this.defaultData.RATE_TYPE,
-        };
-        const { currentRoomType, GUEST } = this.defaultData;
-        modifyBookingStore('guest', {
-            bed_preference: currentRoomType.bed_preference?.toString(),
-            infant_nbr: currentRoomType.occupancy.infant_nbr,
-            first_name: GUEST.first_name ?? '',
-            last_name: GUEST.last_name ?? '',
-            // name: currentRoomType.guest.last_name ? currentRoomType.guest.first_name + ' ' + currentRoomType.guest.last_name : currentRoomType.guest.first_name,
-            unit: currentRoomType.unit?.id?.toString(),
-        });
-        this.checkBookingAvailability();
-        this.bookPropertyService.setEditingRoomInfo(this.defaultData, this.selectedUnits);
-    }
-    initializePage() {
-        switch (this.defaultData.event_type) {
-            case 'SPLIT_BOOKING':
-                this.showSplitBookingOption = true;
-                this.page = 'page_one';
-                break;
-            case 'BLOCK_DATES':
-                this.page = 'page_block_date';
-                break;
-            default:
-                this.page = 'page_one';
-                break;
-        }
-    }
-    async fetchSetupEntries() {
-        return await this.bookingService.fetchSetupEntries();
-    }
-    isGuestDataIncomplete() {
-        for (const roomtypeId in booking_store.ratePlanSelections) {
-            const roomtype = booking_store.ratePlanSelections[roomtypeId];
-            for (const rateplanId in roomtype) {
-                const rateplan = roomtype[rateplanId];
-                if (rateplan.reserved > 0) {
-                    for (const guest of rateplan.guest) {
-                        RoomGuestSchema.parse({ ...guest, requires_bed_preference: rateplan.roomtype.is_bed_configuration_enabled });
-                    }
-                }
-            }
-        }
-        return false;
-    }
-    // private isButtonDisabled() {
-    //   const isValidProperty = (property, key, comparedBy) => {
-    //     if (!property) {
-    //       return true;
-    //     }
-    //     if (property === this.guestData) {
-    //       return this.isGuestDataIncomplete();
-    //     }
-    //     if (key === 'selectedArrivalTime') {
-    //       if (property[key] !== undefined) {
-    //         return property[key].code === '';
-    //       } else {
-    //         return true;
-    //       }
-    //     }
-    //     return property[key] === comparedBy || property[key] === undefined;
-    //   };
-    //   return (
-    //     isValidProperty(this.guestData, 'guestName', '') ||
-    //     isValidProperty(this.bookedByInfoData, 'firstName', '') ||
-    //     isValidProperty(this.bookedByInfoData, 'lastName', '') ||
-    //     isValidProperty(this.bookedByInfoData, 'selectedArrivalTime', '')
-    //   );
-    // }
-    setSourceOptions(bookingSource) {
-        const _sourceOptions = this.isEventType('BAR_BOOKING') ? this.getFilteredSourceOptions(bookingSource) : bookingSource;
-        setBookingSelectOptions({
-            sources: _sourceOptions,
-        });
-        let sourceOption;
-        if (this.isEventType('EDIT_BOOKING')) {
-            const option = bookingSource.find(option => this.defaultData.SOURCE?.code === option.code);
-            sourceOption = option;
-        }
-        else {
-            sourceOption = _sourceOptions.find(o => o.type !== 'LABEL');
-        }
-        setBookingDraft({
-            source: sourceOption,
-        });
-    }
-    getFilteredSourceOptions(sourceOptions) {
-        const agentIds = new Set();
-        const hasAgentOnlyRoomType = this.bookingData?.roomsInfo?.some((rt) => {
-            const rps = rt?.rateplans ?? [];
-            if (rps.length === 0)
-                return false;
-            const isForAgentOnly = rps.every((rp) => (rp?.agents?.length ?? 0) > 0);
-            if (isForAgentOnly) {
-                rps.forEach((rp) => {
-                    (rp?.agents ?? []).forEach((ag) => agentIds.add(ag?.id?.toString()));
-                });
-            }
-            return isForAgentOnly;
-        }) ?? false;
-        if (!hasAgentOnlyRoomType) {
-            return sourceOptions;
-        }
-        return sourceOptions.filter((opt) => {
-            if (opt?.type === 'LABEL')
-                return true;
-            const candidate = opt?.tag;
-            const matchesId = candidate != null && agentIds.has(candidate);
-            return matchesId;
-        });
-    }
-    setOtherProperties(res) {
-        this.ratePricingMode = res?.ratePricingMode;
-        this.bookedByInfoData.arrivalTime = res.arrivalTime;
-        this.bedPreferenceType = res.bedPreferenceType;
-    }
-    async checkBookingAvailability() {
-        resetBookingStore(false);
-        const { source, occupancy } = booking_store.bookingDraft;
-        const from_date = hooks(this.dateRangeData.fromDate).format('YYYY-MM-DD');
-        const to_date = hooks(this.dateRangeData.toDate).format('YYYY-MM-DD');
-        const is_in_agent_mode = source?.type === 'TRAVEL_AGENCY';
-        try {
-            const room_type_ids_to_update = this.isEventType('EDIT_BOOKING') ? [this.defaultData.RATE_TYPE] : [];
-            const room_type_ids = this.isEventType('BAR_BOOKING') ? this.defaultData.roomsInfo.map(room => room.id) : [];
-            const data = await this.bookingService.getBookingAvailability({
-                from_date,
-                to_date,
-                propertyid: this.propertyid,
-                adultChildCount: {
-                    adult: occupancy.adults,
-                    child: occupancy.children,
-                },
-                language: this.language,
-                room_type_ids,
-                currency: this.currency,
-                agent_id: is_in_agent_mode ? source?.tag : null,
-                is_in_agent_mode,
-                room_type_ids_to_update,
-            });
-            if (!this.isEventType('EDIT_BOOKING')) {
-                this.defaultData.defaultDateRange.fromDate = new Date(this.dateRangeData.fromDate);
-                this.defaultData.defaultDateRange.toDate = new Date(this.dateRangeData.toDate);
-            }
-            this.defaultData = { ...this.defaultData, roomsInfo: data };
-            if (this.isEventType('EDIT_BOOKING') && !this.updatedBooking) {
-                this.updateBooking();
-            }
-        }
-        catch (error) {
-            console.error('Error initializing booking availability:', error);
-        }
-    }
-    updateBooking() {
-        try {
-            const { currentRoomType, GUEST } = this.defaultData;
-            const roomtypeId = currentRoomType.roomtype.id;
-            const rateplanId = currentRoomType.rateplan.id;
-            const guest = {
-                bed_preference: currentRoomType.bed_preference?.toString(),
-                infant_nbr: currentRoomType.occupancy.infant_nbr,
-                last_name: GUEST.last_name,
-                first_name: GUEST.first_name,
-                unit: currentRoomType.unit?.id?.toString(),
-                roomtype_id: currentRoomType.roomtype.id,
-            };
-            modifyBookingStore('guest', guest);
-            reserveRooms({
-                roomTypeId: roomtypeId,
-                ratePlanId: rateplanId,
-                rooms: 1,
-                guest: [guest],
-            });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    async checkAndBlockDate() {
-        try {
-            const { block_exposed_unit_props } = this.defaultData;
-            await this.bookingService.getBookingAvailability({
-                from_date: block_exposed_unit_props.from_date,
-                to_date: block_exposed_unit_props.to_date,
-                propertyid: this.propertyid,
-                adultChildCount: {
-                    adult: 2,
-                    child: 0,
-                },
-                language: this.language,
-                room_type_ids: this.defaultData.roomsInfo.map(room => room.id),
-                currency: this.currency,
-            });
-            const isAvailable = booking_store.roomTypes.every(rt => {
-                if (rt.is_available_to_book) {
-                    return true;
-                }
-                return rt.inventory > 0 && rt['not_available_reason'] === 'ALL-RATES-PLAN-NOT-BOOKABLE';
-            });
-            if (isAvailable) {
-                await this.handleBlockDate(false);
-            }
-            else {
-                console.warn('Blocked date is unavailable. Continuing...');
-            }
-        }
-        catch (error) {
-            console.error('Error checking and blocking date:', error);
-        }
-    }
-    async closeWindow() {
-        resetBookingStore(true);
-        handleBodyOverflow(false);
-        if (this.wasBlockedUnit && !this.didReservation) {
-            await this.checkAndBlockDate();
-        }
-        const el = document.querySelector('.sideWindow');
-        if (!el)
-            return;
-        el.classList.add('sideWindow--exit');
-        setTimeout(() => {
-            this.closeBookingWindow.emit();
-            document.removeEventListener('keydown', this.handleKeyDown);
-        }, 300);
-    }
-    isEventType(key) {
-        return this.defaultData.event_type === key;
-    }
-    handleBlockDateUpdate(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const opt = event.detail;
-        this.blockDatesData = opt.data;
-    }
-    handleGuestInfoUpdate(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const opt = event.detail;
-        if (opt.guestRefKey) {
-            if (this.isEventType('BAR_BOOKING') || this.wasBlockedUnit || this.isEventType('SPLIT_BOOKING')) {
-                this.guestData[opt.guestRefKey] = {
-                    ...opt.data,
-                    roomId: this.defaultData.PR_ID,
-                };
-            }
-            else
-                this.guestData[opt.guestRefKey] = opt.data;
-        }
-    }
-    handleBookedByInfoUpdate(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        const opt = event.detail;
-        this.bookedByInfoData = opt.value.data;
-    }
-    renderPage() {
-        this.renderAgain = !this.renderAgain;
-    }
-    gotoPage(gotoPage) {
-        this.page = gotoPage;
-        this.renderPage();
-    }
-    getPageBlockDatesView() {
-        return (h(Fragment, null, h("igl-block-dates-view", { fromDate: this.defaultData.FROM_DATE, toDate: this.defaultData.TO_DATE, entryDate: this.defaultData.ENTRY_DATE, onDataUpdateEvent: event => this.handleBlockDateUpdate(event) })));
-    }
-    handlePageTwoDataUpdateEvent(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        if (event.detail.key === 'propertyBookedBy') {
-            this.handleBookedByInfoUpdate(event);
-        }
-        else {
-            this.handleGuestInfoUpdate(event);
-        }
-    }
-    async handleBlockDate(auto_close = true) {
-        const props = this.wasBlockedUnit
-            ? this.defaultData.block_exposed_unit_props
-            : (() => {
-                const releaseData = getReleaseHoursString(+this.blockDatesData.RELEASE_AFTER_HOURS);
+            this.isLoading = true;
+            const props = (() => {
+                const releaseData = getReleaseHoursString(this.blockDatesData.RELEASE_AFTER_HOURS !== null ? Number(this.blockDatesData.RELEASE_AFTER_HOURS) : null);
                 return {
-                    from_date: dateToFormattedString(this.defaultData.defaultDateRange.fromDate),
-                    to_date: dateToFormattedString(this.defaultData.defaultDateRange.toDate),
+                    from_date: this.fromDate,
+                    to_date: this.toDate,
                     NOTES: this.blockDatesData.OPTIONAL_REASON || '',
-                    pr_id: this.defaultData.PR_ID.toString(),
+                    pr_id: this.unitId.toString(),
                     STAY_STATUS_CODE: this.blockDatesData.OUT_OF_SERVICE ? '004' : this.blockDatesData.RELEASE_AFTER_HOURS === 0 ? '002' : '003',
                     DESCRIPTION: this.blockDatesData.RELEASE_AFTER_HOURS || '',
                     ...releaseData,
                 };
             })();
-        // const blockedUnit = await transformNewBLockedRooms(result);
-        await this.bookingService.blockUnit(props);
-        // this.blockedCreated.emit(blockedUnit);
-        if (auto_close)
-            this.closeWindow();
-    }
-    async bookUser(check_in) {
-        // if (this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM')) {
-        //   if (this.isGuestDataIncomplete()) {
-        //     this.isLoading = '';
-        //     return;
-        //   }
-        // } else if (this.isButtonDisabled()) {
-        //   this.isLoading = '';
-        //   return;
-        // }
-        try {
-            this.setLoadingState(check_in);
-            if (!this.isEventType('EDIT_BOOKING') && !this.isEventType('ADD_ROOM')) {
-                BookingGuestSchema.parse({ first_name: this.bookedByInfoData?.firstName, last_name: this.bookedByInfoData?.lastName });
-            }
-            this.isGuestDataIncomplete();
-            const isEditOrAdd = this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM');
-            if (isEditOrAdd) {
-                this.bookedByInfoData.message = this.defaultData.NOTES;
-            }
-            this.didReservation = true;
-            const serviceParams = await this.bookPropertyService.prepareBookUserServiceParams({
-                context: this,
-                check_in,
-            });
-            await this.bookingService.doReservation(serviceParams);
-            await this.adjustBlockedDatesAfterReservation(serviceParams);
-            this.resetBookingEvt.emit(null);
-            this.resetLoadingState();
+            await this.bookingService.blockUnit(props);
+            this.closeDrawer();
         }
         catch (error) {
-            console.error('Error booking user:', error);
-            this.isLoading = null;
+        }
+        finally {
+            this.isLoading = false;
         }
     }
-    async adjustBlockedDatesAfterReservation(serviceParams) {
-        if (!this.wasBlockedUnit) {
-            return;
-        }
-        const original_from_date = hooks(this.defaultData.block_exposed_unit_props.from_date, 'YYYY-MM-DD');
-        const current_from_date = hooks(serviceParams.booking.from_date, 'YYYY-MM-DD');
-        const original_to_date = hooks(this.defaultData.block_exposed_unit_props.to_date, 'YYYY-MM-DD');
-        const current_to_date = hooks(serviceParams.booking.to_date, 'YYYY-MM-DD');
-        if (current_to_date.isBefore(original_to_date, 'days')) {
-            const props = { ...this.defaultData.block_exposed_unit_props, from_date: current_to_date.format('YYYY-MM-DD') };
-            await this.bookingService.blockUnit(props);
-        }
-        if (current_from_date.isAfter(original_from_date, 'days')) {
-            const props = { ...this.defaultData.block_exposed_unit_props, to_date: current_from_date.format('YYYY-MM-DD') };
-            await this.bookingService.blockUnit(props);
-        }
-        return;
-    }
-    setLoadingState(assign_units) {
-        if (this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM')) {
-            this.isLoading = 'save';
-        }
-        else {
-            this.isLoading = assign_units ? 'bookAndCheckIn' : 'book';
-        }
-    }
-    resetLoadingState() {
-        this.isLoading = '';
-        setTimeout(() => {
-            this.closeWindow();
-        }, 100);
-    }
-    getCurrentPage(name) {
-        return this.page === name;
+    closeDrawer() {
+        this.blockedDateDrawerClosed.emit();
+        this.blockDatesData = {
+            from_date: '',
+            to_date: '',
+            NOTES: '',
+            pr_id: null,
+            STAY_STATUS_CODE: null,
+            DESCRIPTION: null,
+            BLOCKED_TILL_DATE: null,
+            BLOCKED_TILL_HOUR: null,
+            BLOCKED_TILL_MINUTE: null,
+        };
     }
     render() {
-        return (h(Host, { key: '1fde8bfc3a5adf5f6b58a48f1f0d610bb19c279d', "data-testid": "book_property_sheet h-100" }, h("div", { key: '54466940c9e638ad337c18b798e838967a7d2b07', class: "background-overlay", onClick: () => this.closeWindow() }), h("div", { key: '44258e655b1b6b5f8036b2fa40ef46574c0019c9', class: 'sideWindow sheet-container ' + (this.getCurrentPage('page_block_date') ? 'block-date' : '') }, isRequestPending('/Get_Setup_Entries_By_TBL_NAME_MULTI') ? (h("div", { class: 'loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("div", { class: "sheet-header" }, h("div", { class: "card-header-container" }, h("h2", { class: "fd-book-property__title" }, this.getCurrentPage('page_block_date') ? this.defaultData.BLOCK_DATES_TITLE : this.defaultData.TITLE), h("ir-custom-button", { appearance: "plain", variant: "neutral", size: "medium", onClickHandler: () => this.closeWindow() }, h("wa-icon", { name: "xmark", library: "system", variant: "solid", label: "Close", "aria-label": "Close" })))), h("div", { class: "px-2 sheet-body" }, this.getCurrentPage('page_one') && (h("igl-booking-overview-page", { wasBlockedUnit: this.wasBlockedUnit, initialRoomIds: this.initialRoomIds, defaultDaterange: this.defaultDateRange, eventType: this.defaultData.event_type, selectedRooms: this.selectedUnits, currency: this.currency, showSplitBookingOption: this.showSplitBookingOption, ratePricingMode: this.ratePricingMode, dateRangeData: this.dateRangeData, bookingData: this.defaultData, bookedByInfoData: this.bookedByInfoData, adultChildConstraints: this.adultChildConstraints, propertyId: this.propertyid })), this.getCurrentPage('page_two') && (h("igl-booking-form", { currency: this.currency, propertyId: this.propertyid, showPaymentDetails: this.showPaymentDetails, selectedGuestData: this.guestData, countries: this.countries, isLoading: this.isLoading, selectedRooms: this.selectedUnits, bedPreferenceType: this.bedPreferenceType, dateRangeData: this.dateRangeData, bookingData: this.defaultData, showSplitBookingOption: this.showSplitBookingOption, language: this.language, bookedByInfoData: this.bookedByInfoData, defaultGuestData: this.defaultData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), onDataUpdateEvent: event => this.handlePageTwoDataUpdateEvent(event) })), this.getCurrentPage('page_block_date') ? this.getPageBlockDatesView() : null), this.getCurrentPage('page_block_date') ? (h("div", { class: "sheet-footer" }, h("ir-button", { text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: "flex-fill", onClick: () => this.closeWindow() }), h("ir-button", { text: locales.entries.Lcz_Blockdates, isLoading: isRequestPending('/Block_Exposed_Unit'), class: "flex-fill", onClick: () => this.handleBlockDate() }))) : (h("igl-book-property-footer", { page: this.page, dateRangeData: this.dateRangeData, isEditOrAddRoomEvent: this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM'), isLoading: this.isLoading, class: 'sheet-footer', eventType: this.bookingData.event_type })))))));
-    }
-};
-IglBookProperty.style = IglBookPropertyStyle0 + IglBookPropertyStyle1;
-
-const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{width:100% !important;background:#000}";
-const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;
-
-const IglBookPropertyFooter = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-    }
-    eventType;
-    page;
-    isEditOrAddRoomEvent;
-    dateRangeData;
-    isLoading;
-    buttonClicked;
-    isEventType(event) {
-        return event === this.eventType;
-    }
-    editNext(label) {
-        if (this.isEventType('EDIT_BOOKING')) {
-            if (label === 'Cancel') {
-                return 'flex-fill';
-            }
-            else {
-                return 'd-none d-md-block  flex-fill';
-            }
-        }
-        return 'flex-fill';
-    }
-    renderButton({ label, type = 'button', disabled = false, 
-    // icon_name,
-    isLoading, appearance, variant, value, form, }) {
-        return (h("div", { class: this.shouldRenderTwoButtons() ? ` ${this.editNext(label)}` : 'flex-fill' }, h("ir-custom-button", { type: type, form: form, size: 'medium', loading: isLoading, appearance: appearance, variant: variant, disabled: disabled, onClickHandler: () => {
-                this.buttonClicked.emit({ key: value });
-            }, class: "full-width" }, label)));
-    }
-    shouldRenderTwoButtons() {
-        return this.isEventType('PLUS_BOOKING') || this.isEventType('ADD_ROOM') || this.isEventType('EDIT_BOOKING');
-    }
-    render() {
-        if (this.page === 'page_one') {
-            return (h(Host, null, this.isEventType('EDIT_BOOKING') ? (h(Fragment, null, this.renderButton({ value: 'cancel', label: locales.entries.Lcz_Cancel, appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
-                this.renderButton({
-                    value: 'next',
-                    label: `${locales.entries.Lcz_Next}`,
-                    icon_name: 'angles_right',
-                    variant: 'brand',
-                    appearance: 'accent',
-                }))) : (h(Fragment, null, this.renderButton({ value: 'cancel', label: locales.entries.Lcz_Cancel, appearance: 'filled', variant: 'neutral' }), this.shouldRenderTwoButtons() &&
-                this.renderButton({ value: 'next', label: `${locales.entries.Lcz_Next}`, icon_name: 'angles_right', variant: 'brand', appearance: 'accent' })))));
-        }
-        const showBookAndCheckin = calendar_data.checkin_enabled && hooks(new Date(this.dateRangeData?.fromDate)).isSame(new Date(), 'day');
-        return (h(Fragment, null, this.isEditOrAddRoomEvent ? (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({ value: 'save', label: locales.entries.Lcz_Save, isLoading: this.isLoading === 'save', variant: 'brand', appearance: 'accent' }))) : (h(Fragment, null, this.renderButton({ value: 'back', icon_position: 'left', label: locales.entries.Lcz_Back, icon_name: 'angles_left', appearance: 'filled', variant: 'neutral' }), this.renderButton({
-            value: 'book',
-            type: 'submit',
-            form: 'new_booking_form',
-            label: locales.entries.Lcz_Book,
-            isLoading: this.isLoading === 'book',
-            variant: 'brand',
-            appearance: showBookAndCheckin ? 'outlined' : 'accent',
-        }), showBookAndCheckin &&
-            this.renderButton({
-                type: 'submit',
-                form: 'new_booking_form',
-                value: 'bookAndCheckIn',
-                label: locales.entries.Lcz_BookAndChekcIn,
-                isLoading: this.isLoading === 'bookAndCheckIn',
-                variant: 'brand',
-                appearance: 'accent',
-            })))));
-    }
-};
-IglBookPropertyFooter.style = IglBookPropertyFooterStyle0;
-
-const iglBookPropertyHeaderCss = ".sc-igl-book-property-header-h{display:flex;flex-direction:column;text-align:start;gap:1rem}.sourceContainer.sc-igl-book-property-header{max-width:350px}.message-label.sc-igl-book-property-header{font-size:80%}.fd-book-property__constraints-container.sc-igl-book-property-header,.fd-book-property__header-container.sc-igl-book-property-header{display:flex;flex-direction:column;gap:0.5rem;flex-wrap:wrap}@media (min-width: 768px){.fd-book-property__constraints-container.sc-igl-book-property-header,.fd-book-property__header-container.sc-igl-book-property-header{flex-direction:row;align-items:center}.fd-book-property__adults-select.sc-igl-book-property-header{width:100px}.fd-book-property__children-select.sc-igl-book-property-header{width:170px}}";
-const IglBookPropertyHeaderStyle0 = iglBookPropertyHeaderCss;
-
-const IglBookPropertyHeader = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.splitBookingDropDownChange = createEvent(this, "splitBookingDropDownChange", 7);
-        this.checkClicked = createEvent(this, "checkClicked", 7);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-        this.toast = createEvent(this, "toast", 7);
-        this.spiltBookingSelected = createEvent(this, "spiltBookingSelected", 7);
-        this.animateIrSelect = createEvent(this, "animateIrSelect", 7);
-    }
-    splitBookingId = '';
-    bookingData = '';
-    minDate;
-    message;
-    bookingDataDefaultDateRange;
-    showSplitBookingOption = false;
-    adultChildConstraints;
-    splitBookings;
-    dateRangeData;
-    bookedByInfoData;
-    defaultDaterange;
-    propertyId;
-    wasBlockedUnit;
-    isLoading;
-    bookings = [];
-    splitBookingDropDownChange;
-    checkClicked;
-    buttonClicked;
-    toast;
-    spiltBookingSelected;
-    animateIrSelect;
-    autoValidate;
-    bookingService = new BookingService();
-    adultAnimationContainer;
-    async fetchExposedBookings(value) {
-        this.isLoading = true;
-        this.bookings = await this.bookingService.fetchExposedBookings(value, this.propertyId, hooks(this.bookingDataDefaultDateRange.fromDate).format('YYYY-MM-DD'), hooks(this.bookingDataDefaultDateRange.toDate).format('YYYY-MM-DD'));
-        this.isLoading = false;
-    }
-    getSplitBookingList() {
-        return (h("ir-picker", { mode: "select-async", class: "sourceContainer", debounce: 300, "onText-change": e => {
-                this.fetchExposedBookings(e.detail);
-            }, defaultValue: Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : '', value: Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : '', label: `${locales.entries.Lcz_Tobooking}#`, placeholder: locales.entries.Lcz_BookingNumber, loading: this.isLoading, "onCombobox-select": e => {
-                const booking = this.bookings?.find(b => b.booking_nbr?.toString() === e.detail.item.value);
-                this.spiltBookingSelected.emit({ key: 'select', data: booking });
-            } }, this.bookings?.map(b => {
-            const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
-            return (h("ir-picker-item", { value: b.booking_nbr?.toString(), label: label }, label));
-        })));
-    }
-    getSourceNode() {
-        const { sources } = booking_store.selects;
-        return (h("wa-select", { size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, id: "xSmallSelect", "onwa-hide": e => {
+        return (h("ir-drawer", { key: '17266e53c8ece03babce6f575f9e709ff2bf827f', label: this.label, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, onchange: evt => {
-                setBookingDraft({ source: sources.find(s => s.id === evt.target.value) });
-            } }, sources.map(option => {
-            if (option.type === 'LABEL') {
-                return h("small", null, option.description);
-            }
-            return h("wa-option", { value: option.id?.toString() }, option.description);
-        })));
-    }
-    getAdultChildConstraints() {
-        const { adults, children } = booking_store.bookingDraft.occupancy;
-        return (h(Fragment, null, h("ir-validator", { value: adults, schema: z.number().min(1), autovalidate: this.autoValidate }, h("wa-select", { class: "fd-book-property__adults-select", "onwa-hide": e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-            }, onchange: e => {
-                setBookingDraft({
-                    occupancy: {
-                        children,
-                        adults: Number(e.target.value),
-                    },
-                });
-            }, value: adults?.toString(), defaultValue: adults?.toString(), placeholder: locales.entries.Lcz_AdultsCaption, size: "small" }, Array.from(Array(this.adultChildConstraints.adult_max_nbr), (_, i) => i + 1).map(option => (h("wa-option", { value: option?.toString() }, option))))), this.adultChildConstraints.child_max_nbr > 0 && (h("wa-select", { class: "fd-book-property__children-select", "onwa-hide": e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-            }, onchange: e => setBookingDraft({
-                occupancy: {
-                    adults,
-                    children: Number(e.target.value),
-                },
-            }), defaultValue: children?.toString(), value: children?.toString(), placeholder: this.renderChildCaption(), size: "small" }, Array.from(Array(this.adultChildConstraints.child_max_nbr), (_, i) => i + 1).map(option => (h("wa-option", { value: option?.toString() }, option)))))));
-    }
-    renderChildCaption() {
-        const maxAge = this.adultChildConstraints.child_max_age;
-        let years = locales.entries.Lcz_Years;
-        if (maxAge === 1) {
-            years = locales.entries.Lcz_Year;
-        }
-        return `${locales.entries.Lcz_ChildCaption} 0 - ${this.adultChildConstraints.child_max_age} ${years}`;
-    }
-    handleButtonClicked() {
-        const { occupancy } = booking_store.bookingDraft;
-        if (this.isEventType('SPLIT_BOOKING') && Object.keys(this.bookedByInfoData).length <= 1) {
-            this.toast.emit({
-                type: 'error',
-                title: locales.entries.Lcz_ChooseBookingNumber,
-                description: '',
-                position: 'top-right',
-            });
-        }
-        else if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
-            const initialToDate = hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date));
-            const initialFromDate = hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date));
-            const selectedFromDate = hooks(new Date(this.dateRangeData.fromDate));
-            const selectedToDate = hooks(new Date(this.dateRangeData.toDate));
-            if (selectedToDate.isBefore(initialFromDate) || selectedFromDate.isAfter(initialToDate)) {
-                this.toast.emit({
-                    type: 'error',
-                    title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', hooks(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', hooks(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
-                    description: '',
-                    position: 'top-right',
-                });
-                return;
-            }
-            else if (Number(occupancy.adults) === 0) {
-                this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
-                // this.adultAnimationContainer.play = true;
-                this.autoValidate = true;
-            }
-            else {
-                this.buttonClicked.emit({ key: 'check' });
-            }
-        }
-        // else if (this.minDate && new Date(this.dateRangeData.fromDate).getTime() > new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date).getTime()) {
-        //   this.toast.emit({
-        //     type: 'error',
-        //     title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace(
-        //       '%1',
-        //       moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY'),
-        //     ).replace('%2', moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
-        //     description: '',
-        //     position: 'top-right',
-        //   });
-        // }
-        else if (Number(occupancy.adults) === 0) {
-            // this.adultAnimationContainer.play = true;
-            this.autoValidate = true;
-            this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
-        }
-        else {
-            this.buttonClicked.emit({ key: 'check' });
-        }
-    }
-    isEventType(key) {
-        return this.bookingData.event_type === key;
-    }
-    getMinDate() {
-        if (this.isEventType('PLUS_BOOKING')) {
-            return hooks().add(-1, 'months').startOf('month').format('YYYY-MM-DD');
-        }
-        if (this.wasBlockedUnit) {
-            return this.bookingData?.block_exposed_unit_props.from_date;
-        }
-        return this.minDate;
-    }
-    getMaxDate() {
-        if (!this.bookingData?.block_exposed_unit_props) {
-            if (this.isEventType('PLUS_BOOKING')) {
-                return hooks().add(60, 'days').format('YYYY-MM-DD');
-            }
-            return undefined;
-        }
-        return this.bookingData?.block_exposed_unit_props.to_date;
-    }
-    render() {
-        console.log(this.bookingData.event_type);
-        const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: 'e4a94b16c01c35c6bd6dadfbc493a7098f3a356f' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '283af24d9a29b6b06d51ea179d27b2700a65d97f', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: '10e977c99b7aeaa8c750c12de8e4a6f4548736a9', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '64f39edb6d8987cb24a036d3d5e40862f78cdd20', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '2466898202de3d4418443f1150125f05aafc3996', class: "text-right message-label" }, calendar_data.tax_statement)));
+                this.closeDrawer();
+            }, open: this.open }, this.open && (h("igl-block-dates-view", { key: '3c9e5c7825268489bd50aeb414018e2cea5e2575', onDataUpdateEvent: e => (this.blockDatesData = { ...e.detail.data }), fromDate: this.fromDate, toDate: this.toDate })), h("div", { key: '416dff92ab8b521af5f31f4a330dd4794bf015dc', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'bc37b38c20e51cc23dddbc75574d752ab8a02cf1', "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '1fb83614333f8d741da49edfef047d7f5cd962d6', loading: this.isLoading, onClickHandler: () => {
+                this.handleBlockDate();
+            }, size: "medium", appearance: "accent", variant: "brand" }, "Save"))));
     }
 };
-IglBookPropertyHeader.style = IglBookPropertyHeaderStyle0;
+IglBlockedDateDrawer.style = IglBlockedDateDrawerStyle0;
 
 class EventsService {
     bookingService = new BookingService();
@@ -2470,7 +1323,7 @@ const IglBookingEvent = class {
         const isDepartureAfterHotelCheckout = this.isDepartureAfterHotelCheckout();
         backgroundColor = this.bookingEvent.STATUS === 'CHECKED-OUT' ? legend.color : backgroundColor;
         const splitRole = this.computeSplitRole();
-        return (h(Host, { key: '463ae36c689435baa05f749a396a69af3383e0ae', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: 'b9eb1153671e90f021ea31b4f197dc144a59a3e6', class: {
+        return (h(Host, { key: 'dcfd45dcda458e479c68cdf959a722cab57e2c13', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: '230a0f7f07ea73481c3369d1a0e80b8f648080bb', class: {
                 'bookingEventBase': true,
                 'skewedLeft': !this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)),
                 'skewedRight': !this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)),
@@ -2482,8 +1335,8 @@ const IglBookingEvent = class {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '6d19d0dc07f4b03cb766817d8c36bf419c846c00', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '64ab3f9e785cdff9b3f8c89f66e8cc4c6783a624', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: 'eb895ac99eeebc0b7132be30c2cf162168f13940', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '85528d32143cac7ccf583f7e91fca0178b3d3883', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: 'd4a0fad1bc184663806cba65ed09f5396bf2a3ef', class: "bookingEventTitle", style: { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '53326ce700f2d454f8235fec005108d3f0d42384' }, h("div", { key: '0b6a66457c71e53bab63d1b7294f2b9944ac632c', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '78a119e13e4a19ada9f7b38f607ea700bc022c3e', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: 'eb1a2ffa530de234cb388e6495103db7d601ad7e', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: 'f3a32db6db875b5b3e82363247bf5dcc2f9e50cd', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '606232a3fdb69f036a6c6b126e1e516bcc29b416', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'ef75bd841e74e26b2b1a55afdf7e90028ecb476f', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '0754e3ea8d9db3d3d6aa8e1cb27f709f345096d5', class: "bookingEventTitle", style: { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '4e85e6a518fa997f1ce61398bdbfe875a1f872e7' }, h("div", { key: '4512d1bb399146f4a372f66e5319f4e1e1a89219', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '5131d4d389f29a4bc29b974462836665f916bcd5', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && hooks(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
 };
@@ -2915,207 +1768,13 @@ const IglBookingEventHover = class {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: '7c09384f48069ae45cb0a83b5837b0eaa3352520' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: 'f36e9a7f7a69be49e65fa6957569581adcba7fcd' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
     }; }
 };
 IglBookingEventHover.style = IglBookingEventHoverStyle0;
-
-const iglBookingFormCss = ".sc-igl-booking-form-h{display:flex;flex-direction:column}";
-const IglBookingFormStyle0 = iglBookingFormCss;
-
-const IglBookingForm = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-        this.buttonClicked = createEvent(this, "buttonClicked", 7);
-    }
-    showPaymentDetails;
-    currency;
-    isEditOrAddRoomEvent;
-    dateRangeData;
-    bookingData;
-    showSplitBookingOption;
-    language;
-    bookedByInfoData;
-    propertyId;
-    bedPreferenceType;
-    selectedRooms;
-    isLoading;
-    countries;
-    selectedGuestData;
-    defaultGuestData;
-    selectedBookedByData;
-    guestData;
-    selectedUnits = {};
-    dataUpdateEvent;
-    buttonClicked;
-    componentWillLoad() {
-        this.initializeGuestData();
-        this.selectedBookedByData = this.bookedByInfoData;
-    }
-    initializeGuestData() {
-        let total = 0;
-        const newSelectedUnits = { ...this.selectedUnits };
-        const getRate = (rate, totalNights, isRateModified, preference) => {
-            if (isRateModified && preference === 2) {
-                return rate * totalNights;
-            }
-            return rate;
-        };
-        this.selectedUnits = newSelectedUnits;
-        this.guestData = [];
-        this.selectedRooms.forEach((room, key) => {
-            room.forEach(rate_plan => {
-                newSelectedUnits[key] = rate_plan.selectedUnits;
-                total += rate_plan.totalRooms * getRate(rate_plan.rate, this.dateRangeData.dateDifference, rate_plan.isRateModified, rate_plan.rateType);
-                for (let i = 1; i <= rate_plan.totalRooms; i++) {
-                    this.guestData.push({
-                        guestName: '',
-                        roomId: '',
-                        preference: '',
-                        ...rate_plan,
-                    });
-                }
-            });
-        });
-        this.bookingData.TOTAL_PRICE = total;
-    }
-    handleOnApplicationInfoDataUpdateEvent(event, index) {
-        const opt = event.detail;
-        const categoryIdKey = `c_${opt.data.roomCategoryId}`;
-        const updatedUnits = [...(this.selectedUnits[categoryIdKey] || [])];
-        updatedUnits[index] = opt.data.roomId;
-        this.selectedUnits = {
-            ...this.selectedUnits,
-            [categoryIdKey]: updatedUnits,
-        };
-        this.dataUpdateEvent.emit({
-            key: 'applicationInfoUpdateEvent',
-            value: event.detail,
-        });
-    }
-    handleEventData(event, key, index) {
-        if (key === 'application-info') {
-            this.handleOnApplicationInfoDataUpdateEvent(event, index);
-        }
-        else {
-            this.selectedBookedByData = event.detail.data;
-            this.dataUpdateEvent.emit({
-                key: 'propertyBookedBy',
-                value: event.detail,
-            });
-        }
-    }
-    isGuestDataIncomplete() {
-        if (this.selectedGuestData.length !== this.guestData.length) {
-            return true;
-        }
-        for (const data of this.selectedGuestData) {
-            if (data.guestName === '' || data.preference === '' || data.roomId === '') {
-                return true;
-            }
-        }
-        return false;
-    }
-    isButtonDisabled(key) {
-        const isValidProperty = (property, key, comparedBy) => {
-            if (!property) {
-                return true;
-            }
-            if (property === this.selectedGuestData) {
-                return this.isGuestDataIncomplete();
-            }
-            if (key === 'selectedArrivalTime') {
-                if (property[key] !== undefined) {
-                    return property[key].code === '';
-                }
-                else {
-                    return true;
-                }
-            }
-            return property[key] === comparedBy || property[key] === undefined;
-        };
-        return (this.isLoading === key ||
-            isValidProperty(this.selectedGuestData, 'guestName', '') ||
-            isValidProperty(this.selectedBookedByData, 'isdCode', '') ||
-            isValidProperty(this.selectedBookedByData, 'contactNumber', '') ||
-            isValidProperty(this.selectedBookedByData, 'firstName', '') ||
-            isValidProperty(this.selectedBookedByData, 'lastName', '') ||
-            isValidProperty(this.selectedBookedByData, 'countryId', -1) ||
-            isValidProperty(this.selectedBookedByData, 'selectedArrivalTime', '') ||
-            isValidProperty(this.selectedBookedByData, 'email', ''));
-    }
-    render() {
-        return (h("form", { key: 'ab73707ade268eecbcb7e51f0d481388e49ce7f7', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
-                e.preventDefault();
-            } }, h("div", { key: '74a12219e92cdbd20f9e576befe1153a55ad1aab', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '414468f3fa13f4f14d8ffaf22e3224e20fd9565c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '698c8eb7bb0a5b5c1d30dcfa2e366d019d67f7f8', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '8fd5f682ad8dc83e30f09f1da5dbf4a4d27dfbb4', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
-            const rp = ratePlan;
-            if (rp.reserved === 0) {
-                return null;
-            }
-            return [...new Array(rp.reserved)].map((_, i) => (h("igl-application-info", { totalNights: Number(this.dateRangeData.dateDifference), bedPreferenceType: this.bedPreferenceType, currency: this.currency, guestInfo: rp.guest ? rp.guest[i] : null, bookingType: this.bookingData.event_type, rateplanSelection: rp, key: `${rp.ratePlan.id}_${i}`, roomIndex: i, baseData: this.bookingData.event_type === 'EDIT_BOOKING'
-                    ? {
-                        roomtypeId: this.bookingData.currentRoomType.roomtype.id,
-                        unit: this.bookingData.currentRoomType.unit,
-                    }
-                    : undefined })));
-        })), this.isEditOrAddRoomEvent || this.showSplitBookingOption ? null : (h("igl-property-booked-by", { propertyId: this.propertyId, countries: this.countries, language: this.language, showPaymentDetails: this.showPaymentDetails, defaultData: this.bookedByInfoData, onDataUpdateEvent: event => {
-                this.handleEventData(event, 'propertyBookedBy', 0);
-            } }))));
-    }
-};
-IglBookingForm.style = IglBookingFormStyle0;
-
-const iglBookingOverviewPageCss = ".sc-igl-booking-overview-page-h{display:block}.sc-igl-booking-overview-page-h>*.sc-igl-booking-overview-page{margin:0;padding:auto}.scrollContent.sc-igl-booking-overview-page{height:calc(100% - 79px);overflow:auto;position:relative}.loading-container.sc-igl-booking-overview-page{display:flex;align-items:center;justify-content:center;height:100%;background:white;position:absolute;inset:0;z-index:100}.loader.sc-igl-booking-overview-page{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}";
-const IglBookingOverviewPageStyle0 = iglBookingOverviewPageCss;
-
-const IglBookingOverviewPage = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.roomsDataUpdate = createEvent(this, "roomsDataUpdate", 7);
-    }
-    bookingData;
-    propertyId;
-    message;
-    showSplitBookingOption;
-    eventType;
-    currency;
-    adultChildConstraints;
-    ratePricingMode;
-    dateRangeData;
-    defaultDaterange;
-    selectedRooms;
-    bookedByInfoData;
-    initialRoomIds;
-    wasBlockedUnit;
-    roomsDataUpdate;
-    getSplitBookings() {
-        return (this.bookingData.hasOwnProperty('splitBookingEvents') && this.bookingData.splitBookingEvents) || [];
-    }
-    isEventType(event) {
-        return event === this.eventType;
-    }
-    setMinDate() {
-        if (!this.isEventType('EDIT_BOOKING')) {
-            return hooks().format('YYYY-MM-DD');
-        }
-        const from_date = hooks(this.bookingData.FROM_DATE, 'YYYY-MM-DD');
-        const today = hooks();
-        if (from_date.isAfter(today)) {
-            return today.add(-2, 'weeks').format('YYYY-MM-DD');
-        }
-        return from_date.add(-2, 'weeks').format('YYYY-MM-DD');
-    }
-    render() {
-        return (h(Host, { key: '40371ee9c7d25d449832ece8bbd2fb45644f6e9c' }, h("igl-book-property-header", { key: '5175401972b5b5524b1839ac7fe815570f68196e', wasBlockedUnit: this.wasBlockedUnit, bookedByInfoData: this.bookedByInfoData, defaultDaterange: this.defaultDaterange, dateRangeData: this.dateRangeData, minDate: this.setMinDate(),
-            // minDate={this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING') ? this.bookedByInfoData.from_date || this.bookingData.FROM_DATE : undefined}
-            splitBookingId: this.showSplitBookingOption, bookingData: this.bookingData, message: this.message, bookingDataDefaultDateRange: this.bookingData.defaultDateRange, showSplitBookingOption: this.showSplitBookingOption, adultChildConstraints: this.adultChildConstraints, splitBookings: this.getSplitBookings(), propertyId: this.propertyId }), h("div", { key: 'cbdc33bec6f5d423674f9ead7711e61448c87338', class: " text-left" }, isRequestPending('/Check_Availability') && this.isEventType('EDIT_BOOKING') ? (h("div", { class: "loading-container" }, h("div", { class: "loader" }))) : (h(Fragment, null, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { initialRoomIds: this.initialRoomIds, isBookDisabled: Object.keys(this.bookedByInfoData).length <= 1, key: `room-type-${roomType.id}`, currency: this.currency, ratePricingMode: this.ratePricingMode, dateDifference: this.dateRangeData.dateDifference, bookingType: this.bookingData.event_type, roomType: roomType, class: "mt-2 mb-1 p-0", "data-testid": `room_type_${roomType.id}`, id: roomType.id.toString(), roomInfoId: this.selectedRooms.has(`c_${roomType.id}`) ? roomType.id : null, onDataUpdateEvent: evt => this.roomsDataUpdate.emit(evt.detail) }))))))));
-    }
-};
-IglBookingOverviewPage.style = IglBookingOverviewPageStyle0;
 
 class ReloadInterceptor {
     isActive = false;
@@ -3307,15 +1966,15 @@ const IglBulkBlock = class {
         }, 100);
     }
     render() {
-        return (h("form", { key: '6dc48fdb174788cee4addd3dcf17b82139db27c3', class: 'bulk-sheet-container', onSubmit: e => {
+        return (h("form", { key: 'da159ecba2f5be5b768e6148630fad4f4766144b', class: 'bulk-sheet-container', onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("div", { key: '7de490d4d419ed4b5d846b336302b69b6f66e970', class: "sheet-body px-1" }, h("div", { key: '5afd98e4d8fde949e368b103acbc3b1cfc4fc04d', class: "text-muted text-left pt-0 my-0 d-flex align-items-center pb-1", style: { gap: '0.5rem' } }, h("p", { key: '088a45cdcb615d58d63c19ff20efbbd5481da55b', class: "m-0 p-0" }, "Select the unit to"), h("ir-select", { key: 'bc2ba56a5a7cea959f1fcad7a93a3ef698631414', showFirstOption: false, selectedValue: this.blockState, data: [
+            } }, h("div", { key: '61ec24e96c35e1929a807b59c2d68540db59bde2', class: "sheet-body px-1" }, h("div", { key: 'f7e4480b448360eb809a0b08e00929e13a78cf9b', class: "text-muted text-left pt-0 my-0 d-flex align-items-center pb-1", style: { gap: '0.5rem' } }, h("p", { key: '05df5a6936dbd29b211e5c3191c27bcf1fc4609f', class: "m-0 p-0" }, "Select the unit to"), h("ir-select", { key: 'a9d812fdb08f79ee654dc8c5c814e1d47f2b9e7e', showFirstOption: false, selectedValue: this.blockState, data: [
                 { text: 'Block', value: 'block' },
                 { text: 'Unblock', value: 'unblock' },
             ], onSelectChange: e => {
                 this.blockState = e.detail;
-            } })), h("div", { key: 'efcb83bb1d5c493ae03992bc07df7f993bcab23f' }, this.errors === 'rooms' && (h("p", { key: '2c5dddf537b39983e4bdb41a90e4e244f5c43ab1', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("ul", { key: 'd49bdde2ef600d0ab40f45f8f1107ca271404833', class: "room-type-list", ref: el => (this.unitSections = el) }, calendar_data.roomsInfo.map(roomType => {
+            } })), h("div", { key: '5d4234630150e54295007f5af5762570ee728f29' }, this.errors === 'rooms' && (h("p", { key: 'f229064f4682280ae25250a10e68eeb5b8dfac3c', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("ul", { key: '9a9960794c249051320124f5c0a040b1fb4700b9', class: "room-type-list", ref: el => (this.unitSections = el) }, calendar_data.roomsInfo.map(roomType => {
             return (h(Fragment, null, h("li", { key: `roomTypeRow-${roomType.id}`, class: `room-type-row` }, h("div", { class: 'd-flex choice-row' }, h("span", { class: "pl-1 text-left room-type-name" }, roomType.name))), roomType.physicalrooms.map((room, j) => {
                 const row_style = j === roomType.physicalrooms.length - 1 ? 'pb-1' : '';
                 return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row' }, h("ir-radio", { class: "pl-1 ", name: "unit", checked: this.selectedUnit?.unit_id === room.id, onCheckChange: () => (this.selectedUnit = {
@@ -3323,9 +1982,9 @@ const IglBulkBlock = class {
                         unit_id: room.id,
                     }), label: room.name }))));
             })));
-        }))), h("table", { key: '0001de0a423a2f4cadef3378aea286d483579c6e', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '50649eeab65442406a6ff38dafd9d5c45d922ca6' }, h("tr", { key: '1c03780381c9b4037f7374698bf2ddc039d1a64f' }, h("th", { key: 'd31c25f04a334eafb2a0d58cfdaf2399442930a0', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: 'ba181037d4293bd17e6ccfec77cd9d5d59cfe3f4', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: '0af55566d31219749938a97671b257c24882eb04' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-button", { key: '9934ef685e1750b8171013c3f77d3cacc60428fa', variant: "icon", icon_name: "plus", onClickHandler: () => {
+        }))), h("table", { key: '889d932ee761fa404c46a627ba45c53f050d19a8', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '85abb338ecc93018410a0eaeb0aa59c1bd2202c7' }, h("tr", { key: 'e0570312f518ba27e409044939456dd2ba01ac9b' }, h("th", { key: '5e2b1e675379b6f0ef0d765157487337f977b559', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: '244e2b52914526fd75da6f53f4c213b75b884e7b', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: 'c4dadcc18331648adb65a4bfe3ca5a388d4aa02c' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-button", { key: '89eb213411bd30549ab0f4232f4222d635b1a156', variant: "icon", icon_name: "plus", onClickHandler: () => {
                 this.addDateRow();
-            } }))))), h("tbody", { key: 'd35bf8bb12d2a6f13a97902e1b9bd9d75660700c' }, this.dates.map((d, i) => {
+            } }))))), h("tbody", { key: 'd7fbb03da7c2593351162c02083e0ec43c7e6403' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
@@ -3373,7 +2032,7 @@ const IglBulkBlock = class {
                           text-center`, style: { width: '100%' } }))), i > 0 && (h("td", { class: "pb-1" }, h("ir-button", { variant: "icon", icon_name: "minus", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);
                 } })))));
-        })))), h("div", { key: '07923074a60ef1d0706dc96c162a5f2259868e4d', class: 'sheet-footer' }, h("ir-button", { key: 'ac9336ab865d4087751e67ccb8d5cdfb8367cf87', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: 'cdd344de64a774cba89a25ef2d78f488e523c203', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        })))), h("div", { key: '4ee18ea81883fcba74ef0dbd3334f1067c09d252', class: 'sheet-footer' }, h("ir-button", { key: 'f8b941195ebfd21527f99f920bf471becdc78970', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '623b03cf802369e051e054c9c81b8e98685a40e8', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
 };
 IglBulkBlock.style = IglBulkBlockStyle0 + IglBulkBlockStyle1;
@@ -3411,7 +2070,7 @@ const IglBulkOperations = class {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (h("div", { key: '70a8109ab886e0d8b576f63589fbf81d75ffc98d', class: 'bulk-operations-sheet-container' }, h("div", { key: '72ed955ac32f730f5450df1fe2f8bdd254bd0f1e', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '906390b6fd9fdc73a5e11998bed0e61b69b85426', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (h("div", { key: '6854cc14a087c8ffffd093aab3e982c5585c76f7', class: 'bulk-operations-sheet-container' }, h("div", { key: '973a71c39e0556995a15720d45d77484c0784a6f', class: "sheet-header d-flex align-items-center" }, h("ir-title", { key: '8d5ab95af600aabdfeaf4a99b904ac075e6c349f', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -3420,7 +2079,7 @@ const IglBulkOperations = class {
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: 'a0d33aa6258bcced703e0a3e15327b4cc0cf5dc3', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: '715fdf10eaf696ff1278a076eb284453ed619df8', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
 };
 IglBulkOperations.style = IglBulkOperationsStyle0 + IglBulkOperationsStyle1;
@@ -3667,10 +2326,10 @@ const IglBulkStopSale = class {
         }, 100);
     }
     render() {
-        return (h("form", { key: '4b3c8223a1efbc995eb2e908f9329b8714a2c389', class: 'bulk-sheet-container', onSubmit: e => {
+        return (h("form", { key: 'b45865f8ba9b7fac70415457a6bc4306d2bcc0a3', class: 'bulk-sheet-container', onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("div", { key: '664d87bad370be64729100855b2527cf227649fe', class: "sheet-body px-1" }, h("div", { key: 'f45c49b75396f3dfb01873d731853b759b3a526c', class: "text-muted text-left py-0 my-0" }, h("p", { key: 'c0ae5c6de37ab3b2ed25b50c084a0a7d5ebd345e' }, "Select the types to stop or open sales for all related rate plans")), h("div", { key: '3a54687c3bfc4d2a5bd02eb205ea42676596fdde' }, this.errors === 'rooms' && (h("p", { key: '055fe0fef4a8bd40370b242801190727ce398f5b', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("table", { key: '57fbd819a0985946c211d7d428d473fe75efa4f6', ref: el => (this.unitSections = el) }, h("thead", { key: 'b13f5121fb82f70ce41af6511e6fc1d36d7696d3' }, h("tr", { key: 'f6b14a39b1dadb96860f37674d388d70f9aab3fc' }, h("th", { key: '1ee19bbc5fa0f3a1d134ccba5d877d6c65f3c380', class: "sr-only" }, "choice"), h("th", { key: '108edba3746dffc6e2faddb0f1be86693db369be', class: "sr-only" }, "room type"))), h("tbody", { key: '407bab0648c50c2c38f50e8605d89f59971d970b' }, calendar_data.roomsInfo.map((roomType, i) => {
+            } }, h("div", { key: '93f19286447bca89118717630444bac98b42ef1e', class: "sheet-body px-1" }, h("div", { key: '9232f93a32206967b6ca7aadb14c17e3d973b6f5', class: "text-muted text-left py-0 my-0" }, h("p", { key: '9d8b8e8d423e38e44f02d423a8fff27e9296346f' }, "Select the types to stop or open sales for all related rate plans")), h("div", { key: 'fb10d9cd492c877b4ebf5747e9d59fb35d300fcf' }, this.errors === 'rooms' && (h("p", { key: 'f6200bb9d49a4ab1e44eaece76e69858ad26b340', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("table", { key: 'e96fdfc9cf21367584a6d320d6340535192e2449', ref: el => (this.unitSections = el) }, h("thead", { key: '20978021696bff815344f604b3d9e4e30babe798' }, h("tr", { key: '9d231c5ca3c0f72dda35a907d17b8f40ae352a25' }, h("th", { key: '744da7c8bdb86d9dd2f5485c3e2c2b678997358c', class: "sr-only" }, "choice"), h("th", { key: '80ef605ce6d9d1b86b5b5625e844c2cbb52e41e0', class: "sr-only" }, "room type"))), h("tbody", { key: '426fb98b55024c3d01fa78c9a74641790e497dc7' }, calendar_data.roomsInfo.map((roomType, i) => {
             const row_style = i === calendar_data.roomsInfo.length - 1 ? '' : 'pb-1';
             return (h("tr", { key: roomType.id }, h("td", { class: `choice-row ${row_style}` }, h("div", { class: 'd-flex justify-content-end' }, h("ir-select", { firstOption: `${locales.entries.Lcz_Select}...`, data: [
                     { value: 'open', text: locales.entries.Lcz_Open },
@@ -3685,13 +2344,13 @@ const IglBulkStopSale = class {
                     }
                     this.selectedRoomTypes = rest;
                 } }))), h("td", { class: `pl-1 text-left ${row_style}` }, roomType.name)));
-        })))), h("p", { key: 'f7673b03159d684104fd517db53ab691911b505c', class: "text-left mt-2 text-muted" }, "Included days"), this.errors === 'weekdays' && h("p", { key: 'bf987810252ff9d041c416cc1320876b86f6bc40', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), h("ir-weekday-selector", { key: '9977083dac5d232bbc3189d1448242b6063ce7b4', ref: el => (this.weekdaysSections = el), weekdays: Array.from(this.selectedWeekdays), onWeekdayChange: e => {
+        })))), h("p", { key: '0230360c271c6be9b3b889e9e693ab0688d08e6e', class: "text-left mt-2 text-muted" }, "Included days"), this.errors === 'weekdays' && h("p", { key: '6f24335150742faea9de89838b1a7e1c2825f041', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), h("ir-weekday-selector", { key: 'e5337cfb3258bbdee14b03de32074f43e79546e7', ref: el => (this.weekdaysSections = el), weekdays: Array.from(this.selectedWeekdays), onWeekdayChange: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.selectedWeekdays = new Set(e.detail);
-            } }), h("table", { key: 'd304ea7e9f34b5327f9e34d60074cc192c7068d4', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: 'e679e4e816079e959f1c473e176a12704434a0be' }, h("tr", { key: 'f51f9bd992c945a418283d25eb2d61eb7a61561c' }, h("th", { key: 'fbecc91c3dacd719f40eaf92e5ffbab1a0b5ae5c', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: '30a305b160b6237fc0e3d8295a403bfe2ddf9499', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: '1109f287fc484cc7c167da0bd95116ccfe4b63fa' }, this.dates.length !== this.maxDatesLength && (h("ir-button", { key: 'c511a37cb91e12657a8a312ce7f8cca8b4da3101', variant: "icon", icon_name: "plus", onClickHandler: () => {
+            } }), h("table", { key: '7218f58730a382594710035a185969ddeadc7e69', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: 'd16e2087f13cd7dbed1987d7667bb67ee00b0777' }, h("tr", { key: 'ea4af93b29ffec8b7651fc10205da81f7356e190' }, h("th", { key: '47463154e1bf28e19db07bdfae298a2e7205c6f0', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: '4b954797db3728918614128e667d8e7a3895e571', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: 'e199eafddfca468096b70eadc38b1c23b19833c1' }, this.dates.length !== this.maxDatesLength && (h("ir-button", { key: '75d0ccb61f337ddad92f0d57ab5446a44afa9db6', variant: "icon", icon_name: "plus", onClickHandler: () => {
                 this.addDateRow();
-            } }))))), h("tbody", { key: '80833752ac4f9683c621f814f7a57728225661c7' }, this.dates.map((d, i) => {
+            } }))))), h("tbody", { key: '10fcf55ecf45aeeaec85a562f2f3368a6fccd211' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
@@ -3739,7 +2398,7 @@ const IglBulkStopSale = class {
                           text-center`, style: { width: '100%' } }))), i > 0 && (h("td", { class: "pb-1" }, h("ir-button", { variant: "icon", icon_name: "minus", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);
                 } })))));
-        })))), h("div", { key: '9003c074b2c34598e0e3233acee7c3fe8ad13e19', class: 'sheet-footer' }, h("ir-button", { key: '7188bdcc2b161cc3076990d3d3ce34ddc3aad00e', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '2595f129c0e584a738c22463047cc5c0e189a441', isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_type: "submit", class: "flex-fill" }))));
+        })))), h("div", { key: '888d4125e9a5c8f440f3e654a9d35180b15eba81', class: 'sheet-footer' }, h("ir-button", { key: '7f5f16711afe1f620256d67b286f0ac0d86d3745', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: 'e9d225309dc62c1cf8786fcd649af525484ad21e', isLoading: this.isLoading, text: locales.entries.Lcz_Save, btn_type: "submit", class: "flex-fill" }))));
     }
 };
 IglBulkStopSale.style = IglBulkStopSaleStyle0 + IglBulkStopSaleStyle1;
@@ -4156,9 +2815,9 @@ const IglCalBody = class {
         }
     }
     render() {
-        return (h(Host, { key: '0f6ece33efb62c011636ba5516f468d1303fb100' }, h("div", { key: '2e40505ea0580b8810323780a84971c256a63e01', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'dd98d909f14cba8c72788f9b6e1ae4f0f4dbd779', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'c0660eab286f747c8ec05a88cd6c32bb083c0853' }, h("div", { key: '36e2603e116677581ce742a8c585ccfd1173505f', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '374ee868c8054e06e800f55203dc647b7a70d0ec', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: '73831828328425b6cbce29c9fb1a4bda076e6028', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: '874d1e47edef6ecd2cccaead5b158bf9571f54e0', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -4247,7 +2906,7 @@ const IglCalFooter = class {
         this.optionEvent.emit({ key, data });
     }
     render() {
-        return (h(Host, { key: '6620d651d7ac8dd0716874bbb42ade4abcb0dd3d', class: "footerContainer" }, h("div", { key: 'ba480d75e66ff3710d73cc17a0b753e4e7246a05', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingLeft: '10px' } }, h("button", { key: '3940b41db4a025cb58ff6ae2d2dd02126ca97780', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: '8bf6412fe2bdc20fe89efa863a64fe814febbcbc' }, locales.entries.Lcz_Legend), h("span", { key: '5c09fe9f00761b4014f7994860a9511bb9f4e263' }, "v1.08"), h("ir-new-badge", { key: '9df7094229c8857658cb310b8745d39c0da7b97d', style: { marginLeft: '0.25rem' } }))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
+        return (h(Host, { key: 'acca141935b44dbc0aefe4a9545a922a5fdfc32b', class: "footerContainer" }, h("div", { key: 'd17e94823b65320c893f2e69d3e2b676416c225a', class: "footerCell bottomLeftCell align-items-center preventPageScroll", style: { paddingLeft: '10px' } }, h("button", { key: '0fceff2bf4465cee16aac4ba44ed672d8a5cbb5a', class: "m-0 p-0 btn btn-sm  legendBtn d-flex align-items-center", style: { gap: '0.25rem' }, onClick: () => this.handleOptionEvent('showLegend') }, this.isLegendOpen ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M105.4 297.4C92.9 309.9 92.9 330.2 105.4 342.7L265.4 502.7C277.9 515.2 298.2 515.2 310.7 502.7C323.2 490.2 323.2 469.9 310.7 457.4L173.3 320L310.6 182.6C323.1 170.1 323.1 149.8 310.6 137.3C298.1 124.8 277.8 124.8 265.3 137.3L105.3 297.3zM457.4 137.4L297.4 297.4C284.9 309.9 284.9 330.2 297.4 342.7L457.4 502.7C469.9 515.2 490.2 515.2 502.7 502.7C515.2 490.2 515.2 469.9 502.7 457.4L365.3 320L502.6 182.6C515.1 170.1 515.1 149.8 502.6 137.3C490.1 124.8 469.8 124.8 457.3 137.3z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640", height: 16, width: 16 }, h("path", { fill: "currentColor", d: "M535.1 342.6C547.6 330.1 547.6 309.8 535.1 297.3L375.1 137.3C362.6 124.8 342.3 124.8 329.8 137.3C317.3 149.8 317.3 170.1 329.8 182.6L467.2 320L329.9 457.4C317.4 469.9 317.4 490.2 329.9 502.7C342.4 515.2 362.7 515.2 375.2 502.7L535.2 342.7zM183.1 502.6L343.1 342.6C355.6 330.1 355.6 309.8 343.1 297.3L183.1 137.3C170.6 124.8 150.3 124.8 137.8 137.3C125.3 149.8 125.3 170.1 137.8 182.6L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7z" }))), h("span", { key: '81538a3e654459a279fa15db7f1891b839ab70fb' }, locales.entries.Lcz_Legend), h("span", { key: '6cef146de30de35bb51ac1d4b2a342263ba7314b' }, "v1.09"), h("ir-new-badge", { key: '4e3f20711be6e27be40d69b23cca61799f6aae92', style: { marginLeft: '0.25rem' } }))), this.calendarData.days.map(dayInfo => (h("div", { class: "footerCell align-items-center" }, h("div", { class: {
                 'dayTitle full-height align-items-center': true,
                 'weekend': isWeekend(dayInfo.value),
                 'currentDay': dayInfo.value === this._today || this.highlightedDate === dayInfo.day,
@@ -4620,7 +3279,7 @@ const IglCalHeader = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: 'b2a7eae4f5984ceb74f5a89bd90e05a14253abe1' }, h("div", { key: '7bf5b5f9873d454a80eda7aba0ed2090a1a88f51', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: 'e661a6927782053365770e0050c721d0f47b92f2', class: "header__fd-actions" }, h("div", { key: '4b1b89ea6ab282d4ec1c03659134b38091543b23', class: "row justify-content-around no-gutters", style: { gap: '0' } }, !this.calendarData.is_vacation_rental && (h(Fragment, { key: '639e4b1231140fb52578178072639167f207c07f' }, h("wa-tooltip", { key: '975dfe6eff72550b644a1827420e0abda95c60d9', for: "fd-unassigned-dates_btn" }, locales.entries.Lcz_UnassignedUnitsTooltip), h("ir-custom-button", { key: 'e1fc7449e83632266957fe2235ee55e36b2b08fd', id: "fd-unassigned-dates_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('showAssigned') }, h("wa-icon", { key: '6b010203d93c58856cdc37adac57c02fd511493b', style: { fontSize: '1.5rem' }, name: "server", label: locales.entries.Lcz_UnassignedUnitsTooltip, "aria-label": locales.entries.Lcz_UnassignedUnitsTooltip })))), h("ir-date-picker", { key: 'a1ba77dd41668ea7b04ef8d2376f88a9777bb8a4', minDate: hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
+        return (h(Host, { key: '1e4f26d6f6bfc0e92b1725da1032418494e36d55' }, h("div", { key: '6cc2103341c56ad176a0332b8585e31f4bfc2e51', class: "stickyCell align-items-center topLeftCell preventPageScroll" }, h("div", { key: 'd428e9381ae14f9cca7b89da4f565e27ce7e50e3', class: "header__fd-actions" }, h("div", { key: 'e6ed1efcb18593689c84440e6b8e37204293b03f', class: "row justify-content-around no-gutters", style: { gap: '0' } }, !this.calendarData.is_vacation_rental && (h(Fragment, { key: '89297cb0535fef926972c7dab2e5eec2a6673e99' }, h("wa-tooltip", { key: '1ff365030fadf7e9e5e726c36cf1da4fa7e8610e', for: "fd-unassigned-dates_btn" }, locales.entries.Lcz_UnassignedUnitsTooltip), h("ir-custom-button", { key: 'c518358fdfae74f116b3e46320be0bda397c33ec', id: "fd-unassigned-dates_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('showAssigned') }, h("wa-icon", { key: '2bb2763c44959dd9e2e21f841b09c7a00f30a172', style: { fontSize: '1.5rem' }, name: "server", label: locales.entries.Lcz_UnassignedUnitsTooltip, "aria-label": locales.entries.Lcz_UnassignedUnitsTooltip })))), h("ir-date-picker", { key: 'e32f90a881cbfefc6fdf8c0328a83df7393b7fc6', minDate: hooks().add(-2, 'months').startOf('month').format('YYYY-MM-DD'),
             // autoApply
             // singleDatePicker
             onDateChanged: evt => {
@@ -4628,9 +3287,9 @@ const IglCalHeader = class {
                 this.handleDateSelect(evt);
             },
             // class="datePickerHidden"
-            class: 'date_btn', title: locales.entries.Lcz_Navigate, "data-toggle": "tooltip", "data-placement": "bottom" }, h("ir-custom-button", { key: 'aa19c93fdd9c6bff56c277b1464d0b7453cff24c', slot: "trigger", id: "fd-dates-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('calendar') }, h("wa-icon", { key: '7b3b84f3fb96fb5cccf7faf974e69880424a1812', style: { fontSize: '1.5rem' }, name: "calendar", variant: "regular", label: locales.entries.Lcz_Navigate, "aria-label": locales.entries.Lcz_Navigate }))), h("wa-tooltip", { key: '2a4de50eb55ab34ab2aa437a319d0ba2cae0d2cb', for: "fd-dates-navigation_btn" }, locales.entries.Lcz_Navigate), h(Fragment, { key: '40f5ca67fbf19922e1029138c070002b53a3f4bd' }, h("wa-tooltip", { key: 'a387cafc81058633a73ea772a652c4ef61fca148', for: "fd-today-navigation_btn" }, locales.entries.Lcz_Today), h("ir-custom-button", { key: '92f1457c63901ff46457d4e845507608d5b8f7a3', slot: "trigger", id: "fd-today-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('gotoToday') }, h("wa-icon", { key: '9e9a00b74704826f879c9e337b34cd5be3ac5a42', style: { fontSize: '1.5rem' }, name: "clock", variant: "regular", label: locales.entries.Lcz_Today, "aria-label": locales.entries.Lcz_Today }))), h(Fragment, { key: 'd9462fc5e3496872aa97fbb67a264e86dadb7eeb' }, h("wa-tooltip", { key: '48934d77e584d2c1e3c6b217787cc46b8f72410c', for: "fd-new-booking_btn" }, locales.entries.Lcz_CreateNewBooking), h("ir-custom-button", { key: '26f214a011293c46c1e4bf54621997d4dd09a220', slot: "trigger", id: "fd-new-booking_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('add', this.getNewBookingModel()) }, h("wa-icon", { key: '5de1a6c4aad738c0e5f5e890ae5381f28d11de22', style: { fontSize: '1.5rem' }, name: "plus", label: locales.entries.Lcz_CreateNewBooking, "aria-label": locales.entries.Lcz_CreateNewBooking }))), h(Fragment, { key: '3a773e1ef355c8a47b95d96c052135f898d991ab' }, h("wa-tooltip", { key: '912d3ba1bc2575d44f6bc70c38124616cc7b4511', for: "fd-stop-open-sale_btn" }, locales.entries.Lcz_StopOpenSale), h("ir-custom-button", { key: '6ee34894d5de6dd72091ba61311a2340cf753544', slot: "trigger", id: "fd-stop-open-sale_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) }, h("wa-icon", { key: 'c4825c4fbbcf26427b2f5c431574ac04a599f94d', variant: "regular", style: { fontSize: '1.5rem' }, name: "calendar-xmark", label: locales.entries.Lcz_StopOpenSale, "aria-label": locales.entries.Lcz_StopOpenSale })))), h("div", { key: 'fa60d5e20ad5da009d6c30e85eb7ee0a325a8ba9', class: "searchContiner" }, h("ir-picker", { key: '7945139051dc47ba8450d1bb617a83e2805e645e', size: "small", "onCombobox-select": e => {
+            class: 'date_btn', title: locales.entries.Lcz_Navigate, "data-toggle": "tooltip", "data-placement": "bottom" }, h("ir-custom-button", { key: '480a717183e071cc7b868723e50a93277fd5b8e6', slot: "trigger", id: "fd-dates-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('calendar') }, h("wa-icon", { key: 'ee87ec30758f5a9f34046059505b05b94a34c815', style: { fontSize: '1.5rem' }, name: "calendar", variant: "regular", label: locales.entries.Lcz_Navigate, "aria-label": locales.entries.Lcz_Navigate }))), h("wa-tooltip", { key: '29ac93ef6489118e1e963f5510be8d8c126b7a57', for: "fd-dates-navigation_btn" }, locales.entries.Lcz_Navigate), h(Fragment, { key: 'b2a89b464cb1c233c114cd023e3f73522ba4b274' }, h("wa-tooltip", { key: '927a579dd8f655ad10dc1a37dea58d51c13b780c', for: "fd-today-navigation_btn" }, locales.entries.Lcz_Today), h("ir-custom-button", { key: '96a6129f6b1292b0023abe4e1fea40c2584fb652', slot: "trigger", id: "fd-today-navigation_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('gotoToday') }, h("wa-icon", { key: '341549de552ebd8b526340bac6d8202d790065e2', style: { fontSize: '1.5rem' }, name: "clock", variant: "regular", label: locales.entries.Lcz_Today, "aria-label": locales.entries.Lcz_Today }))), h(Fragment, { key: 'db70cc61e5d06bb1eddbd4f356d0b22abe8ea333' }, h("wa-tooltip", { key: '15263b695d50f43071799f3eba156185230a13a2', for: "fd-new-booking_btn" }, locales.entries.Lcz_CreateNewBooking), h("ir-custom-button", { key: 'b8e854d350a48e6ad8f1350a42a7f2fb638ebd26', slot: "trigger", id: "fd-new-booking_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('add', this.getNewBookingModel()) }, h("wa-icon", { key: '1ee4849758c88dae07aeee60ee35e03d3e34d50e', style: { fontSize: '1.5rem' }, name: "plus", label: locales.entries.Lcz_CreateNewBooking, "aria-label": locales.entries.Lcz_CreateNewBooking }))), h(Fragment, { key: '9195a8054bb8e84e5dddcc1a53bd1d1cf1f56262' }, h("wa-tooltip", { key: 'ab69e0310b2f4d4001d17822f99e4275233cf2ba', for: "fd-stop-open-sale_btn" }, locales.entries.Lcz_StopOpenSale), h("ir-custom-button", { key: '940285b6f226f2d8551f4faf0f84440a5aadc24d', slot: "trigger", id: "fd-stop-open-sale_btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleOptionEvent('bulk', this.getNewBookingModel()) }, h("wa-icon", { key: 'cd25cf5c6fdbecae09a4484748c6502ef31b41d9', variant: "regular", style: { fontSize: '1.5rem' }, name: "calendar-xmark", label: locales.entries.Lcz_StopOpenSale, "aria-label": locales.entries.Lcz_StopOpenSale })))), h("div", { key: 'f4cf6a4c096e53beae902616f0488fb00d33b39d', class: "searchContiner" }, h("ir-picker", { key: 'e03bc5896c28af7406217711864fdddce5c5f361', size: "small", "onCombobox-select": e => {
                 this.handleScrollToRoom(Number(e.detail.item.value));
-            } }, this.roomsList.map(room => (h("ir-picker-item", { label: room.name, value: room.id }, room.name))))))), h("div", { key: 'cfc8a87bf0b6584443d829732bbfe2e2d087d66b', class: "stickyCell headersContainer" }, h("div", { key: '9914d70658385cbab545b204909265e570e374bb', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => {
+            } }, this.roomsList.map(room => (h("ir-picker-item", { label: room.name, value: room.id }, room.name))))))), h("div", { key: '1a5f08600a7182f36a5d424467bfc5b96817b25f', class: "stickyCell headersContainer" }, h("div", { key: 'cf2a4dbdd73cb7f6335b6c17ab5706a73adfc643', class: "monthsContainer" }, this.calendarData.monthsInfo.map(monthInfo => (h("div", { class: "monthCell", style: { width: monthInfo.daysCount * 58 + 'px' } }, h("div", { class: "monthTitle" }, monthInfo.monthName))))), this.calendarData.days.map(dayInfo => {
             return (h("div", { class: `headerCell align-items-center ${'day-' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}`, "data-day": dayInfo.day }, !this.calendarData.is_vacation_rental && (h("div", { class: "preventPageScroll", onClick: () => this.showToBeAssigned(dayInfo) }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr !== 0 ? (h("button", { class: 'fd-header__badge-btn' }, h("wa-badge", { class: "fd-header__badge", variant: 'brand', appearance: 'accent', pill: true }, this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr))) : (h("wa-badge", { variant: 'neutral', appearance: 'filled', pill: true }, ' ', this.unassignedRoomsNumber[dayInfo.day] || dayInfo.unassigned_units_nbr)))), h("div", { class: { dayTitle: true, weekend: isWeekend(dayInfo.value) } }, dayInfo.dayDisplayName), h("div", { class: "dayCapacityPercent" }, dayInfo.occupancy, "%")));
         }))));
     }
@@ -4647,6 +3306,7 @@ const IglDateRange = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
+        this.dateRangeChange = createEvent(this, "dateRangeChange", 7);
         this.toast = createEvent(this, "toast", 7);
     }
     size = 'small';
@@ -4657,12 +3317,15 @@ const IglDateRange = class {
     maxDate;
     withDateDifference = true;
     variant = 'default';
+    hint;
     renderAgain = false;
     dateSelectEvent;
+    dateRangeChange;
     toast;
     totalNights = 0;
     fromDate = hooks().toDate();
     toDate = hooks().add(1, 'day').toDate();
+    isInvalid;
     componentWillLoad() {
         this.initializeDates();
     }
@@ -4704,6 +3367,10 @@ const IglDateRange = class {
             toDateStr: end.format('DD MMM YYYY'),
             dateDifference: this.totalNights,
         });
+        this.dateRangeChange.emit({
+            checkIn: start,
+            checkOut: end,
+        });
         this.renderAgain = !this.renderAgain;
     }
     // private renderDateSummary(showNights: boolean) {
@@ -4732,6 +3399,9 @@ const IglDateRange = class {
         const toDate = hooks(this.toDate).format('YYYY-MM-DD');
         return [fromDate, toDate];
     }
+    handleAriaInvalidChange(newValue) {
+        this.isInvalid = newValue;
+    }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
         return (
@@ -4746,17 +3416,18 @@ const IglDateRange = class {
         //       minDate={this.minDate}
         //       autoApply
         //       data-state={this.disabled ? 'disabled' : 'active'}
-        //       onDateChanged={evt => {
+        //       onDateRangeChange={evt => {
         //         this.handleDateChange(evt);
         //       }}
         //     ></ir-date-range>
         //     {this.renderDateSummary(showNights)}
         //   </div>
         // </Host>
-        h("ir-custom-date-picker", { key: '4918945381faf171ede25643156d527e8dd7d6cd', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, dates: this.dates }, h("wa-icon", { key: '80dd6095abb9ce2975ca072eb56f6ed647430ba0', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f3890c454f7e8ad9db11f65feec5122e01229c82', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        h("ir-custom-date-picker", { key: 'c49dece12fcabdd64d0275ee24e55cf0a191f62d', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, hint: this.hint, dates: this.dates }, h("wa-icon", { key: '6d568a4e290207cf4e712878c271327c073e53b5', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f7d8a8b5940e64af17b1cc37e45aae887ddba657', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
-        "defaultData": ["handleDataChange"]
+        "defaultData": ["handleDataChange"],
+        "aria-invalid": ["handleAriaInvalidChange"]
     }; }
 };
 IglDateRange.style = IglDateRangeStyle0;
@@ -4849,7 +3520,7 @@ const IglLegends = class {
         this.loadingIndex = this.loadingIndex.filter(currentIndex => currentIndex !== index);
     }
     render() {
-        return (h(Host, { key: '1b6865a0ae76d3a4b8a73af527ba9e2696f31799', class: "legendContainer pr-1 text-left pb-4" }, h("div", { key: 'ed07b12a3e38690111945bca5393f8c2674e5645', class: 'w-full' }, h("div", { key: '7a50f1d05bfc616128b4c5cb0e58bd4fe2541a31', class: 'w-full' }, h("div", { key: 'dec63fb17502571bffe62b07a5eb12464217413d', class: "stickyHeader pt-1 " }, h("p", { key: '121f0afa52a5ae5cf5d7d0ae2ca015d8d8358bcc', class: "legendHeader" }, locales.entries.Lcz_Legend), h("div", { key: 'cdde01f5477bb1f2dc177698068de47b6f6b61e9', class: "legendCloseBtn", onClick: () => this.handleOptionEvent('closeSideMenu') }, h("svg", { key: '5420154ea0ac19dfeeb530580340624623469b9a', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '4694793ada5cc855f2f8be0410690dcb2c5a7116', fill: "#6b6f82", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" }))), h("hr", { key: '81e499f9c68031db48c25a46695ec29b4d84d676' })), h("div", { key: 'fd5e82decc9df81aa6445572779a99048140eebb', class: "mt-2 pl-1" }, h("table", { key: '1f95a7667bd9033c129283204c904273b122b6a5' }, (() => {
+        return (h(Host, { key: '65a1f22843d24fc90960fb655ccbe8f843c88463', class: "legendContainer pr-1 text-left pb-4" }, h("div", { key: '2c1ea2bcba6d4aaabc8bdb02117ae23b2f221bde', class: 'w-full' }, h("div", { key: 'c002de36ef7ee97309810c0267040e5e129596e9', class: 'w-full' }, h("div", { key: '37405f7b74bb3b3c49e0ad315458a91fb87432e0', class: "stickyHeader pt-1 " }, h("p", { key: 'f11a480246ba067cb3063cc7dc6e34472e738ce6', class: "legendHeader" }, locales.entries.Lcz_Legend), h("div", { key: '1532ab17ed2aaeb8788470cd4e2439594c9b294a', class: "legendCloseBtn", onClick: () => this.handleOptionEvent('closeSideMenu') }, h("svg", { key: 'eb7a1b6f924ec51afd5b9dc41f59a8d7bb2f4d4f', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'e09e61cd15d257b95b1299aa18253a8a26f9335d', fill: "#6b6f82", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" }))), h("hr", { key: 'f1efe7be68b9750063cd4057cac428dd46335777' })), h("div", { key: 'b576e6de7472444d21cd06398f86be7aaa586571', class: "mt-2 pl-1" }, h("table", { key: 'b78febc7ccc4d5862dcb1d883ac49b0f75ab4e1f' }, (() => {
             const legendInfo = this.legendData.find(l => l.id === '14');
             return (h("tr", null, h("td", null, h("div", { class: `legend_${legendInfo.design}`, style: { '--ir-skew-background': legendInfo.color } })), h("td", null, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { class: "font-small-3" }, legendInfo.name), h("ir-new-badge", null)))));
         })(), this.legendData.map(legendInfo => {
@@ -4858,16 +3529,16 @@ const IglLegends = class {
             }
             const stripeColor = calendar_data.colorsForegrounds[legendInfo?.color];
             return (h("tr", { key: `legend_${legendInfo.id}`, class: "legendRow " }, h("td", null, legendInfo.design === 'broom' ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, h("path", { fill: "black", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" }))) : legendInfo.design === 'check' ? (h("svg", { height: 14, width: 14, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { fill: "green", d: "M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z" }))) : (h("div", { class: `legend_${legendInfo.design} ${['1', '7'].includes(legendInfo.id.toString()) ? `striped ${legendInfo.id.toString() === '1' ? 'vertical' : ''}` : ''}`, style: { '--ir-skew-background': legendInfo.color, '--ir-event-bg-stripe-color': stripeColor?.stripe, 'backgroundColor': legendInfo.color } }))), h("td", null, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { class: "font-small-3" }, legendInfo.name)))));
-        }), h("tr", { key: 'e84d584c2f4aa219204c77a94d6a71f3a9c07891' }, h("td", { key: 'a2fb1c0acb6b93773d89314390b8336843e73ac1', colSpan: 2 }, h("hr", { key: 'd183a5c8c40c98bbb08064089b91c0c51bc82f5d', style: { marginTop: '0.5rem', marginBottom: '0.5rem' } }))), h("tr", { key: 'a23493de7c60e7e68182f5ce93d99f9954992dc1' }, h("th", { key: 'df872625c7d7c3a3bdbd25ca8d3e76668df771e2', colSpan: 2, class: "", style: { paddingBottom: '0.5rem' } }, h("div", { key: '91c1284778c3c2b043dc17cbf447fcd56e4565fa', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("span", { key: 'f7dfab226647c5499c997d45654734324958f7d2' }, "Default colors")))), this.legendData.map(legendInfo => {
+        }), h("tr", { key: 'a6e2ccc4f637e55ae3dfa0e8a29fc39b37b43228' }, h("td", { key: 'd156d873c634c36957971ec6501c63696e79b91c', colSpan: 2 }, h("hr", { key: '72d3066800b1006b44276c38b104c9f651b9b830', style: { marginTop: '0.5rem', marginBottom: '0.5rem' } }))), h("tr", { key: 'cd2ee07144976cfb8354f155352330c386881cad' }, h("th", { key: 'a481166dea99d1f765c1ec7da7fa3afcca7f53df', colSpan: 2, class: "", style: { paddingBottom: '0.5rem' } }, h("div", { key: '203d325806422bc7ed054f2d5e9b583d1b51c2d4', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("span", { key: 'dd0b1324b05eaa7002566ba4e0353fea698eeb4c' }, "Default colors")))), this.legendData.map(legendInfo => {
             if (!['1', '2', '3'].includes(legendInfo.id)) {
                 return null;
             }
             const stripeColor = calendar_data.colorsForegrounds[legendInfo?.color];
             return (h("tr", { key: `legend_${legendInfo.id}`, class: "legendRow " }, h("td", null, legendInfo.design === 'broom' ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "12", width: "13.5", viewBox: "0 0 576 512", style: { display: 'block' } }, h("path", { fill: "black", d: "M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6l0 29.1L364.3 320l29.1 0c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z" }))) : legendInfo.design === 'check' ? (h("svg", { height: 14, width: 14, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { fill: "green", d: "M530.8 134.1C545.1 144.5 548.3 164.5 537.9 178.8L281.9 530.8C276.4 538.4 267.9 543.1 258.5 543.9C249.1 544.7 240 541.2 233.4 534.6L105.4 406.6C92.9 394.1 92.9 373.8 105.4 361.3C117.9 348.8 138.2 348.8 150.7 361.3L252.2 462.8L486.2 141.1C496.6 126.8 516.6 123.6 530.9 134z" }))) : (h("div", { class: `legend_${legendInfo.design} ${['1', '7'].includes(legendInfo.id.toString()) ? `striped ${legendInfo.id.toString() === '1' ? 'vertical' : ''}` : ''}`, style: { '--ir-skew-background': legendInfo.color, '--ir-event-bg-stripe-color': stripeColor?.stripe, 'backgroundColor': legendInfo.color } }))), h("td", null, h("div", { class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("span", { class: "font-small-3" }, legendInfo.name), legendInfo.id === '14' && h("ir-new-badge", null)))));
-        }), h("tr", { key: '29e2428b7538b8f3e5fb75e86cb55801eee40c38' }, h("td", { key: '9e0ff1f00010fc7d454a9fc7a8fe29afb00ab04b', colSpan: 2 }, h("hr", { key: '7825f1bac264c6ca5d94a0dce10960372a63fa5f', style: { marginTop: '0.5rem', marginBottom: '0.5rem' } }))), h("tr", { key: '4beb10189dfc446deafec506e94fb82acfa20ffc' }, h("th", { key: '4b09ea583d0234af73c95754f93be583a482bc85', colSpan: 2, style: { paddingBottom: '0.5rem' } }, h("div", { key: '9e826a1d95ed98b9aacf2ed5e90f69f77e46e5d6', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("span", { key: '44de6b306bba4c28a0b010e6c0d228f729919ffc' }, "Use your own colors"), h("ir-new-badge", { key: '4082f957957070e2e04d5725ab8ba9183d0ef631' })))), calendar_data.property.calendar_extra?.booking_colors.map((legendInfo, index) => {
+        }), h("tr", { key: '99a3981af815c1fa73a42528c79b8751b34721ec' }, h("td", { key: '6da3b606cdf49e2e7a8e933b0e7457cf46befc9b', colSpan: 2 }, h("hr", { key: 'df30ffce8f411db3bc6a08c4d556ddc22bf08efb', style: { marginTop: '0.5rem', marginBottom: '0.5rem' } }))), h("tr", { key: '702cf12de593e6bc250acd869db0375ba0512d73' }, h("th", { key: '648a605812ad39a58730516699f98640e6938505', colSpan: 2, style: { paddingBottom: '0.5rem' } }, h("div", { key: '92c8b731579263b5a1ff247ad785130e9732a6f0', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("span", { key: '855f6b94a7afbb303b53c368f5bca8f12cc3adf9' }, "Use your own colors"), h("ir-new-badge", { key: '9a92c7928a203322d112ecfaf890ad06b3283a09' })))), calendar_data.property.calendar_extra?.booking_colors.map((legendInfo, index) => {
             const previewClass = `legend_${legendInfo.design}`;
             return (h("tr", { key: `legend_${index}`, class: "legendRow " }, h("td", null, h("div", { class: previewClass, style: { backgroundColor: legendInfo.color } })), h("td", { class: "legendDetailsCell" }, h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("ir-input-text", { class: "legendTextarea border-0 m-0 p-0", value: legendInfo.name, inputContainerStyle: { margin: '0' }, placeholder: "Reason for this color", onTextChange: event => this.handleNameInput(index, event.detail), onInputBlur: () => this.handleBlur(index) }), this.loadingIndex.includes(index) && (this.saveState === 'saving' || this.saveState === 'saved') ? (h("ir-success-loader", { onLoaderComplete: () => this.handleLoaderComplete(index) })) : null))));
-        }))), h("hr", { key: 'f2a8d9bec43337b87fcd02ba2dc35550f8531c6e', style: { marginTop: '1rem', marginBottom: '0.5rem' } }), h("div", { key: 'aff630e7067cd3deb4e8bee80eab9ce4f3320a12', class: "mt-1" }, h("div", { key: 'f92154e4839dc55086efb1f0cdc0985d222b7a14', class: "legendCalendar" }, h("div", { key: '94e7d102bdfdc90d70e612e6dca66411f8b53fa2', class: "legendRow align-items-center" }, h("div", { key: 'e1c9da585acc405964f2128d653fef82ed5ae05e', class: "legendCal br-t br-s br-bt" }, h("strong", { key: 'e30a43fbb7ce1d126359d515d5e5f3698b906bd0' }, "MAR 2022")), h("div", { key: '4fe02b0bc0253bee87a37cf84b6476be85c01d69', class: "highphenLegend" }, locales.entries.Lcz_MonthAndYear)), h("div", { key: '25f3361f8e3da722f25edc7eff996de140157e9d', class: "legendRow" }, h("div", { key: '7c4a126ea8a2030d8f02751c686987fa459800ad', class: "legendCal headerCell align-items-center br-s" }, h("wa-badge", { key: '192b19bc3c43ff7a176d5235965c93b430bf711e', pill: true }, "3")), h("div", { key: 'bc4509535bd3e909763dc5062ba650e16529645e', class: "highphenLegend" }, h("div", { key: '3aef294881d725be40b244dd9decdb6c5237de19' }, locales.entries.Lcz_UnassignedUnits))), h("div", { key: 'b805196f3777ca58e15a2ea6f28e79475330fc64', class: "legendRow" }, h("div", { key: '8b8073aa08175545fcdd7f3f9085a483d95a3eab', class: "legendCal dayTitle br-s" }, "Fri 18"), h("div", { key: 'f78ec6dac8f6305fef99450c54302c86fc7399a1', class: "highphenLegend" }, locales.entries.Lcz_Date)), h("div", { key: '1122d2174bdcb2b15254ef53ff056623b3b189d3', class: "legendRow" }, h("div", { key: 'c1f895197cf3edb74c9422a862f32a67088247cf', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), h("div", { key: '65419d1b9dc24cb146a0c7db792f9dbb64da7fff', class: "highphenLegend" }, locales.entries.Lcz_Occupancy)), h("div", { key: '16fdfe1c7d9767bbf0083990fe1e46f94de99985', class: "legendRow" }, h("div", { key: 'a12323fe2a46eff1cc1d8a91247df30ec80775da', class: "legendCal br-s br-bt  font-weight-bold total-availability" }, "20"), h("div", { key: 'a42cb2b14012a730aa1ae77baa4fa62f576e8fb6', class: "highphenLegend" }, locales.entries.Lcz_TotalAvailability))))))));
+        }))), h("hr", { key: '5283b8f9228e8eedc7e22e57673af253adbe84a2', style: { marginTop: '1rem', marginBottom: '0.5rem' } }), h("div", { key: 'e34f2a7d61e48e0160baeeb6af5b7dd02bf85670', class: "mt-1" }, h("div", { key: '3a40ca46db9f0dba058ce9c72678c456252e3163', class: "legendCalendar" }, h("div", { key: '4dfc07789793d63ac1df0928260a76493c3ec8e1', class: "legendRow align-items-center" }, h("div", { key: '92604ade02946a77faed2af2866901ef1cd74ce5', class: "legendCal br-t br-s br-bt" }, h("strong", { key: '0d7fbae6fac52e8eb708c5d9446f1a86a50140a3' }, "MAR 2022")), h("div", { key: '72d962231af7997c3220978ba7f8e0626f7094d4', class: "highphenLegend" }, locales.entries.Lcz_MonthAndYear)), h("div", { key: 'e2a7b8a20dc7987fe42bbf95689b510d6ca35aa4', class: "legendRow" }, h("div", { key: 'b901e3f6369dff03a437cfcff9f34ae276275d45', class: "legendCal headerCell align-items-center br-s" }, h("wa-badge", { key: '2e8eadfcf6f7190495ba4b174d233fbd574ff810', pill: true }, "3")), h("div", { key: '1d0d1611ed8592de08216a2454f06f4b882664eb', class: "highphenLegend" }, h("div", { key: '488d0e6a8d3aeb4073834cf9c0f2666218c3b62c' }, locales.entries.Lcz_UnassignedUnits))), h("div", { key: '0b4281e670d2211f4999137151f1bd855b9ee134', class: "legendRow" }, h("div", { key: 'f2a1b7358e5cd41e35452f856b60b6754ec74a6a', class: "legendCal dayTitle br-s" }, "Fri 18"), h("div", { key: '62bc8640352c72842fbeb73cce32f7fc533a7f93', class: "highphenLegend" }, locales.entries.Lcz_Date)), h("div", { key: 'f77d601a7ea4a1db0a8497179fd12afbff24b525', class: "legendRow" }, h("div", { key: 'b98eb65d3fbbf8ebc5321a9c1c2ae22b488361d0', class: "legendCal br-s br-bt dayCapacityPercent" }, "15%"), h("div", { key: '3b8b8d90fb7a20475914b825b50a08efdcd3726c', class: "highphenLegend" }, locales.entries.Lcz_Occupancy)), h("div", { key: '8058b06e1f93211e832caeb9fb1021351c890e06', class: "legendRow" }, h("div", { key: 'b5542b7d817b9c298a723f9a328a51077525f372', class: "legendCal br-s br-bt  font-weight-bold total-availability" }, "20"), h("div", { key: '33b058e96409b7de843b30841a6c9f5290178e63', class: "highphenLegend" }, locales.entries.Lcz_TotalAvailability))))))));
     }
     static get watchers() { return {
         "saveState": ["handleSaveStateChange"]
@@ -4875,3848 +3546,14 @@ const IglLegends = class {
 };
 IglLegends.style = IglLegendsStyle0;
 
-/** Checks if value is string */
-function isString(str) {
-  return typeof str === 'string' || str instanceof String;
-}
-
-/** Checks if value is object */
-function isObject(obj) {
-  var _obj$constructor;
-  return typeof obj === 'object' && obj != null && (obj == null || (_obj$constructor = obj.constructor) == null ? void 0 : _obj$constructor.name) === 'Object';
-}
-function pick(obj, keys) {
-  if (Array.isArray(keys)) return pick(obj, (_, k) => keys.includes(k));
-  return Object.entries(obj).reduce((acc, _ref) => {
-    let [k, v] = _ref;
-    if (keys(v, k)) acc[k] = v;
-    return acc;
-  }, {});
-}
-
-/** Direction */
-const DIRECTION = {
-  NONE: 'NONE',
-  LEFT: 'LEFT',
-  FORCE_LEFT: 'FORCE_LEFT',
-  RIGHT: 'RIGHT',
-  FORCE_RIGHT: 'FORCE_RIGHT'
-};
-
-/** Direction */
-
-function forceDirection(direction) {
-  switch (direction) {
-    case DIRECTION.LEFT:
-      return DIRECTION.FORCE_LEFT;
-    case DIRECTION.RIGHT:
-      return DIRECTION.FORCE_RIGHT;
-    default:
-      return direction;
-  }
-}
-
-/** Escapes regular expression control chars */
-function escapeRegExp(str) {
-  return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
-}
-
-// cloned from https://github.com/epoberezkin/fast-deep-equal with small changes
-function objectIncludes(b, a) {
-  if (a === b) return true;
-  const arrA = Array.isArray(a),
-    arrB = Array.isArray(b);
-  let i;
-  if (arrA && arrB) {
-    if (a.length != b.length) return false;
-    for (i = 0; i < a.length; i++) if (!objectIncludes(a[i], b[i])) return false;
-    return true;
-  }
-  if (arrA != arrB) return false;
-  if (a && b && typeof a === 'object' && typeof b === 'object') {
-    const dateA = a instanceof Date,
-      dateB = b instanceof Date;
-    if (dateA && dateB) return a.getTime() == b.getTime();
-    if (dateA != dateB) return false;
-    const regexpA = a instanceof RegExp,
-      regexpB = b instanceof RegExp;
-    if (regexpA && regexpB) return a.toString() == b.toString();
-    if (regexpA != regexpB) return false;
-    const keys = Object.keys(a);
-    // if (keys.length !== Object.keys(b).length) return false;
-
-    for (i = 0; i < keys.length; i++) if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
-    for (i = 0; i < keys.length; i++) if (!objectIncludes(b[keys[i]], a[keys[i]])) return false;
-    return true;
-  } else if (a && b && typeof a === 'function' && typeof b === 'function') {
-    return a.toString() === b.toString();
-  }
-  return false;
-}
-
-/** Provides details of changing input */
-class ActionDetails {
-  /** Current input value */
-
-  /** Current cursor position */
-
-  /** Old input value */
-
-  /** Old selection */
-
-  constructor(opts) {
-    Object.assign(this, opts);
-
-    // double check if left part was changed (autofilling, other non-standard input triggers)
-    while (this.value.slice(0, this.startChangePos) !== this.oldValue.slice(0, this.startChangePos)) {
-      --this.oldSelection.start;
-    }
-    if (this.insertedCount) {
-      // double check right part
-      while (this.value.slice(this.cursorPos) !== this.oldValue.slice(this.oldSelection.end)) {
-        if (this.value.length - this.cursorPos < this.oldValue.length - this.oldSelection.end) ++this.oldSelection.end;else ++this.cursorPos;
-      }
-    }
-  }
-
-  /** Start changing position */
-  get startChangePos() {
-    return Math.min(this.cursorPos, this.oldSelection.start);
-  }
-
-  /** Inserted symbols count */
-  get insertedCount() {
-    return this.cursorPos - this.startChangePos;
-  }
-
-  /** Inserted symbols */
-  get inserted() {
-    return this.value.substr(this.startChangePos, this.insertedCount);
-  }
-
-  /** Removed symbols count */
-  get removedCount() {
-    // Math.max for opposite operation
-    return Math.max(this.oldSelection.end - this.startChangePos ||
-    // for Delete
-    this.oldValue.length - this.value.length, 0);
-  }
-
-  /** Removed symbols */
-  get removed() {
-    return this.oldValue.substr(this.startChangePos, this.removedCount);
-  }
-
-  /** Unchanged head symbols */
-  get head() {
-    return this.value.substring(0, this.startChangePos);
-  }
-
-  /** Unchanged tail symbols */
-  get tail() {
-    return this.value.substring(this.startChangePos + this.insertedCount);
-  }
-
-  /** Remove direction */
-  get removeDirection() {
-    if (!this.removedCount || this.insertedCount) return DIRECTION.NONE;
-
-    // align right if delete at right
-    return (this.oldSelection.end === this.cursorPos || this.oldSelection.start === this.cursorPos) &&
-    // if not range removed (event with backspace)
-    this.oldSelection.end === this.oldSelection.start ? DIRECTION.RIGHT : DIRECTION.LEFT;
-  }
-}
-
-/** Applies mask on element */
-function IMask(el, opts) {
-  // currently available only for input-like elements
-  return new IMask.InputMask(el, opts);
-}
-
-// TODO can't use overloads here because of https://github.com/microsoft/TypeScript/issues/50754
-// export function maskedClass(mask: string): typeof MaskedPattern;
-// export function maskedClass(mask: DateConstructor): typeof MaskedDate;
-// export function maskedClass(mask: NumberConstructor): typeof MaskedNumber;
-// export function maskedClass(mask: Array<any> | ArrayConstructor): typeof MaskedDynamic;
-// export function maskedClass(mask: MaskedDate): typeof MaskedDate;
-// export function maskedClass(mask: MaskedNumber): typeof MaskedNumber;
-// export function maskedClass(mask: MaskedEnum): typeof MaskedEnum;
-// export function maskedClass(mask: MaskedRange): typeof MaskedRange;
-// export function maskedClass(mask: MaskedRegExp): typeof MaskedRegExp;
-// export function maskedClass(mask: MaskedFunction): typeof MaskedFunction;
-// export function maskedClass(mask: MaskedPattern): typeof MaskedPattern;
-// export function maskedClass(mask: MaskedDynamic): typeof MaskedDynamic;
-// export function maskedClass(mask: Masked): typeof Masked;
-// export function maskedClass(mask: typeof Masked): typeof Masked;
-// export function maskedClass(mask: typeof MaskedDate): typeof MaskedDate;
-// export function maskedClass(mask: typeof MaskedNumber): typeof MaskedNumber;
-// export function maskedClass(mask: typeof MaskedEnum): typeof MaskedEnum;
-// export function maskedClass(mask: typeof MaskedRange): typeof MaskedRange;
-// export function maskedClass(mask: typeof MaskedRegExp): typeof MaskedRegExp;
-// export function maskedClass(mask: typeof MaskedFunction): typeof MaskedFunction;
-// export function maskedClass(mask: typeof MaskedPattern): typeof MaskedPattern;
-// export function maskedClass(mask: typeof MaskedDynamic): typeof MaskedDynamic;
-// export function maskedClass<Mask extends typeof Masked> (mask: Mask): Mask;
-// export function maskedClass(mask: RegExp): typeof MaskedRegExp;
-// export function maskedClass(mask: (value: string, ...args: any[]) => boolean): typeof MaskedFunction;
-
-/** Get Masked class by mask type */
-function maskedClass(mask) /* TODO */{
-  if (mask == null) throw new Error('mask property should be defined');
-  if (mask instanceof RegExp) return IMask.MaskedRegExp;
-  if (isString(mask)) return IMask.MaskedPattern;
-  if (mask === Date) return IMask.MaskedDate;
-  if (mask === Number) return IMask.MaskedNumber;
-  if (Array.isArray(mask) || mask === Array) return IMask.MaskedDynamic;
-  if (IMask.Masked && mask.prototype instanceof IMask.Masked) return mask;
-  if (IMask.Masked && mask instanceof IMask.Masked) return mask.constructor;
-  if (mask instanceof Function) return IMask.MaskedFunction;
-  console.warn('Mask not found for mask', mask); // eslint-disable-line no-console
-  return IMask.Masked;
-}
-function normalizeOpts(opts) {
-  if (!opts) throw new Error('Options in not defined');
-  if (IMask.Masked) {
-    if (opts.prototype instanceof IMask.Masked) return {
-      mask: opts
-    };
-
-    /*
-      handle cases like:
-      1) opts = Masked
-      2) opts = { mask: Masked, ...instanceOpts }
-    */
-    const {
-      mask = undefined,
-      ...instanceOpts
-    } = opts instanceof IMask.Masked ? {
-      mask: opts
-    } : isObject(opts) && opts.mask instanceof IMask.Masked ? opts : {};
-    if (mask) {
-      const _mask = mask.mask;
-      return {
-        ...pick(mask, (_, k) => !k.startsWith('_')),
-        mask: mask.constructor,
-        _mask,
-        ...instanceOpts
-      };
-    }
-  }
-  if (!isObject(opts)) return {
-    mask: opts
-  };
-  return {
-    ...opts
-  };
-}
-
-// TODO can't use overloads here because of https://github.com/microsoft/TypeScript/issues/50754
-
-// From masked
-// export default function createMask<Opts extends Masked, ReturnMasked=Opts> (opts: Opts): ReturnMasked;
-// // From masked class
-// export default function createMask<Opts extends MaskedOptions<typeof Masked>, ReturnMasked extends Masked=InstanceType<Opts['mask']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedDate>, ReturnMasked extends MaskedDate=MaskedDate<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedNumber>, ReturnMasked extends MaskedNumber=MaskedNumber<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedEnum>, ReturnMasked extends MaskedEnum=MaskedEnum<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedRange>, ReturnMasked extends MaskedRange=MaskedRange<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedRegExp>, ReturnMasked extends MaskedRegExp=MaskedRegExp<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedFunction>, ReturnMasked extends MaskedFunction=MaskedFunction<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedPattern>, ReturnMasked extends MaskedPattern=MaskedPattern<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<typeof MaskedDynamic>, ReturnMasked extends MaskedDynamic=MaskedDynamic<Opts['parent']>> (opts: Opts): ReturnMasked;
-// // From mask opts
-// export default function createMask<Opts extends MaskedOptions<Masked>, ReturnMasked=Opts extends MaskedOptions<infer M> ? M : never> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedNumberOptions, ReturnMasked extends MaskedNumber=MaskedNumber<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedDateFactoryOptions, ReturnMasked extends MaskedDate=MaskedDate<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedEnumOptions, ReturnMasked extends MaskedEnum=MaskedEnum<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedRangeOptions, ReturnMasked extends MaskedRange=MaskedRange<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedPatternOptions, ReturnMasked extends MaskedPattern=MaskedPattern<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedDynamicOptions, ReturnMasked extends MaskedDynamic=MaskedDynamic<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<RegExp>, ReturnMasked extends MaskedRegExp=MaskedRegExp<Opts['parent']>> (opts: Opts): ReturnMasked;
-// export default function createMask<Opts extends MaskedOptions<Function>, ReturnMasked extends MaskedFunction=MaskedFunction<Opts['parent']>> (opts: Opts): ReturnMasked;
-
-/** Creates new {@link Masked} depending on mask type */
-function createMask(opts) {
-  if (IMask.Masked && opts instanceof IMask.Masked) return opts;
-  const nOpts = normalizeOpts(opts);
-  const MaskedClass = maskedClass(nOpts.mask);
-  if (!MaskedClass) throw new Error("Masked class is not found for provided mask " + nOpts.mask + ", appropriate module needs to be imported manually before creating mask.");
-  if (nOpts.mask === MaskedClass) delete nOpts.mask;
-  if (nOpts._mask) {
-    nOpts.mask = nOpts._mask;
-    delete nOpts._mask;
-  }
-  return new MaskedClass(nOpts);
-}
-IMask.createMask = createMask;
-
-/**  Generic element API to use with mask */
-class MaskElement {
-  /** */
-
-  /** */
-
-  /** */
-
-  /** Safely returns selection start */
-  get selectionStart() {
-    let start;
-    try {
-      start = this._unsafeSelectionStart;
-    } catch {}
-    return start != null ? start : this.value.length;
-  }
-
-  /** Safely returns selection end */
-  get selectionEnd() {
-    let end;
-    try {
-      end = this._unsafeSelectionEnd;
-    } catch {}
-    return end != null ? end : this.value.length;
-  }
-
-  /** Safely sets element selection */
-  select(start, end) {
-    if (start == null || end == null || start === this.selectionStart && end === this.selectionEnd) return;
-    try {
-      this._unsafeSelect(start, end);
-    } catch {}
-  }
-
-  /** */
-  get isActive() {
-    return false;
-  }
-  /** */
-
-  /** */
-
-  /** */
-}
-IMask.MaskElement = MaskElement;
-
-const KEY_Z = 90;
-const KEY_Y = 89;
-
-/** Bridge between HTMLElement and {@link Masked} */
-class HTMLMaskElement extends MaskElement {
-  /** HTMLElement to use mask on */
-
-  constructor(input) {
-    super();
-    this.input = input;
-    this._onKeydown = this._onKeydown.bind(this);
-    this._onInput = this._onInput.bind(this);
-    this._onBeforeinput = this._onBeforeinput.bind(this);
-    this._onCompositionEnd = this._onCompositionEnd.bind(this);
-  }
-  get rootElement() {
-    var _this$input$getRootNo, _this$input$getRootNo2, _this$input;
-    return (_this$input$getRootNo = (_this$input$getRootNo2 = (_this$input = this.input).getRootNode) == null ? void 0 : _this$input$getRootNo2.call(_this$input)) != null ? _this$input$getRootNo : document;
-  }
-
-  /** Is element in focus */
-  get isActive() {
-    return this.input === this.rootElement.activeElement;
-  }
-
-  /** Binds HTMLElement events to mask internal events */
-  bindEvents(handlers) {
-    this.input.addEventListener('keydown', this._onKeydown);
-    this.input.addEventListener('input', this._onInput);
-    this.input.addEventListener('beforeinput', this._onBeforeinput);
-    this.input.addEventListener('compositionend', this._onCompositionEnd);
-    this.input.addEventListener('drop', handlers.drop);
-    this.input.addEventListener('click', handlers.click);
-    this.input.addEventListener('focus', handlers.focus);
-    this.input.addEventListener('blur', handlers.commit);
-    this._handlers = handlers;
-  }
-  _onKeydown(e) {
-    if (this._handlers.redo && (e.keyCode === KEY_Z && e.shiftKey && (e.metaKey || e.ctrlKey) || e.keyCode === KEY_Y && e.ctrlKey)) {
-      e.preventDefault();
-      return this._handlers.redo(e);
-    }
-    if (this._handlers.undo && e.keyCode === KEY_Z && (e.metaKey || e.ctrlKey)) {
-      e.preventDefault();
-      return this._handlers.undo(e);
-    }
-    if (!e.isComposing) this._handlers.selectionChange(e);
-  }
-  _onBeforeinput(e) {
-    if (e.inputType === 'historyUndo' && this._handlers.undo) {
-      e.preventDefault();
-      return this._handlers.undo(e);
-    }
-    if (e.inputType === 'historyRedo' && this._handlers.redo) {
-      e.preventDefault();
-      return this._handlers.redo(e);
-    }
-  }
-  _onCompositionEnd(e) {
-    this._handlers.input(e);
-  }
-  _onInput(e) {
-    if (!e.isComposing) this._handlers.input(e);
-  }
-
-  /** Unbinds HTMLElement events to mask internal events */
-  unbindEvents() {
-    this.input.removeEventListener('keydown', this._onKeydown);
-    this.input.removeEventListener('input', this._onInput);
-    this.input.removeEventListener('beforeinput', this._onBeforeinput);
-    this.input.removeEventListener('compositionend', this._onCompositionEnd);
-    this.input.removeEventListener('drop', this._handlers.drop);
-    this.input.removeEventListener('click', this._handlers.click);
-    this.input.removeEventListener('focus', this._handlers.focus);
-    this.input.removeEventListener('blur', this._handlers.commit);
-    this._handlers = {};
-  }
-}
-IMask.HTMLMaskElement = HTMLMaskElement;
-
-/** Bridge between InputElement and {@link Masked} */
-class HTMLInputMaskElement extends HTMLMaskElement {
-  /** InputElement to use mask on */
-
-  constructor(input) {
-    super(input);
-    this.input = input;
-  }
-
-  /** Returns InputElement selection start */
-  get _unsafeSelectionStart() {
-    return this.input.selectionStart != null ? this.input.selectionStart : this.value.length;
-  }
-
-  /** Returns InputElement selection end */
-  get _unsafeSelectionEnd() {
-    return this.input.selectionEnd;
-  }
-
-  /** Sets InputElement selection */
-  _unsafeSelect(start, end) {
-    this.input.setSelectionRange(start, end);
-  }
-  get value() {
-    return this.input.value;
-  }
-  set value(value) {
-    this.input.value = value;
-  }
-}
-IMask.HTMLMaskElement = HTMLMaskElement;
-
-class HTMLContenteditableMaskElement extends HTMLMaskElement {
-  /** Returns HTMLElement selection start */
-  get _unsafeSelectionStart() {
-    const root = this.rootElement;
-    const selection = root.getSelection && root.getSelection();
-    const anchorOffset = selection && selection.anchorOffset;
-    const focusOffset = selection && selection.focusOffset;
-    if (focusOffset == null || anchorOffset == null || anchorOffset < focusOffset) {
-      return anchorOffset;
-    }
-    return focusOffset;
-  }
-
-  /** Returns HTMLElement selection end */
-  get _unsafeSelectionEnd() {
-    const root = this.rootElement;
-    const selection = root.getSelection && root.getSelection();
-    const anchorOffset = selection && selection.anchorOffset;
-    const focusOffset = selection && selection.focusOffset;
-    if (focusOffset == null || anchorOffset == null || anchorOffset > focusOffset) {
-      return anchorOffset;
-    }
-    return focusOffset;
-  }
-
-  /** Sets HTMLElement selection */
-  _unsafeSelect(start, end) {
-    if (!this.rootElement.createRange) return;
-    const range = this.rootElement.createRange();
-    range.setStart(this.input.firstChild || this.input, start);
-    range.setEnd(this.input.lastChild || this.input, end);
-    const root = this.rootElement;
-    const selection = root.getSelection && root.getSelection();
-    if (selection) {
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  }
-
-  /** HTMLElement value */
-  get value() {
-    return this.input.textContent || '';
-  }
-  set value(value) {
-    this.input.textContent = value;
-  }
-}
-IMask.HTMLContenteditableMaskElement = HTMLContenteditableMaskElement;
-
-class InputHistory {
-  constructor() {
-    this.states = [];
-    this.currentIndex = 0;
-  }
-  get currentState() {
-    return this.states[this.currentIndex];
-  }
-  get isEmpty() {
-    return this.states.length === 0;
-  }
-  push(state) {
-    // if current index points before the last element then remove the future
-    if (this.currentIndex < this.states.length - 1) this.states.length = this.currentIndex + 1;
-    this.states.push(state);
-    if (this.states.length > InputHistory.MAX_LENGTH) this.states.shift();
-    this.currentIndex = this.states.length - 1;
-  }
-  go(steps) {
-    this.currentIndex = Math.min(Math.max(this.currentIndex + steps, 0), this.states.length - 1);
-    return this.currentState;
-  }
-  undo() {
-    return this.go(-1);
-  }
-  redo() {
-    return this.go(+1);
-  }
-  clear() {
-    this.states.length = 0;
-    this.currentIndex = 0;
-  }
-}
-InputHistory.MAX_LENGTH = 100;
-
-/** Listens to element events and controls changes between element and {@link Masked} */
-class InputMask {
-  /**
-    View element
-  */
-
-  /** Internal {@link Masked} model */
-
-  constructor(el, opts) {
-    this.el = el instanceof MaskElement ? el : el.isContentEditable && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' ? new HTMLContenteditableMaskElement(el) : new HTMLInputMaskElement(el);
-    this.masked = createMask(opts);
-    this._listeners = {};
-    this._value = '';
-    this._unmaskedValue = '';
-    this._rawInputValue = '';
-    this.history = new InputHistory();
-    this._saveSelection = this._saveSelection.bind(this);
-    this._onInput = this._onInput.bind(this);
-    this._onChange = this._onChange.bind(this);
-    this._onDrop = this._onDrop.bind(this);
-    this._onFocus = this._onFocus.bind(this);
-    this._onClick = this._onClick.bind(this);
-    this._onUndo = this._onUndo.bind(this);
-    this._onRedo = this._onRedo.bind(this);
-    this.alignCursor = this.alignCursor.bind(this);
-    this.alignCursorFriendly = this.alignCursorFriendly.bind(this);
-    this._bindEvents();
-
-    // refresh
-    this.updateValue();
-    this._onChange();
-  }
-  maskEquals(mask) {
-    var _this$masked;
-    return mask == null || ((_this$masked = this.masked) == null ? void 0 : _this$masked.maskEquals(mask));
-  }
-
-  /** Masked */
-  get mask() {
-    return this.masked.mask;
-  }
-  set mask(mask) {
-    if (this.maskEquals(mask)) return;
-    if (!(mask instanceof IMask.Masked) && this.masked.constructor === maskedClass(mask)) {
-      // TODO "any" no idea
-      this.masked.updateOptions({
-        mask
-      });
-      return;
-    }
-    const masked = mask instanceof IMask.Masked ? mask : createMask({
-      mask
-    });
-    masked.unmaskedValue = this.masked.unmaskedValue;
-    this.masked = masked;
-  }
-
-  /** Raw value */
-  get value() {
-    return this._value;
-  }
-  set value(str) {
-    if (this.value === str) return;
-    this.masked.value = str;
-    this.updateControl('auto');
-  }
-
-  /** Unmasked value */
-  get unmaskedValue() {
-    return this._unmaskedValue;
-  }
-  set unmaskedValue(str) {
-    if (this.unmaskedValue === str) return;
-    this.masked.unmaskedValue = str;
-    this.updateControl('auto');
-  }
-
-  /** Raw input value */
-  get rawInputValue() {
-    return this._rawInputValue;
-  }
-  set rawInputValue(str) {
-    if (this.rawInputValue === str) return;
-    this.masked.rawInputValue = str;
-    this.updateControl();
-    this.alignCursor();
-  }
-
-  /** Typed unmasked value */
-  get typedValue() {
-    return this.masked.typedValue;
-  }
-  set typedValue(val) {
-    if (this.masked.typedValueEquals(val)) return;
-    this.masked.typedValue = val;
-    this.updateControl('auto');
-  }
-
-  /** Display value */
-  get displayValue() {
-    return this.masked.displayValue;
-  }
-
-  /** Starts listening to element events */
-  _bindEvents() {
-    this.el.bindEvents({
-      selectionChange: this._saveSelection,
-      input: this._onInput,
-      drop: this._onDrop,
-      click: this._onClick,
-      focus: this._onFocus,
-      commit: this._onChange,
-      undo: this._onUndo,
-      redo: this._onRedo
-    });
-  }
-
-  /** Stops listening to element events */
-  _unbindEvents() {
-    if (this.el) this.el.unbindEvents();
-  }
-
-  /** Fires custom event */
-  _fireEvent(ev, e) {
-    const listeners = this._listeners[ev];
-    if (!listeners) return;
-    listeners.forEach(l => l(e));
-  }
-
-  /** Current selection start */
-  get selectionStart() {
-    return this._cursorChanging ? this._changingCursorPos : this.el.selectionStart;
-  }
-
-  /** Current cursor position */
-  get cursorPos() {
-    return this._cursorChanging ? this._changingCursorPos : this.el.selectionEnd;
-  }
-  set cursorPos(pos) {
-    if (!this.el || !this.el.isActive) return;
-    this.el.select(pos, pos);
-    this._saveSelection();
-  }
-
-  /** Stores current selection */
-  _saveSelection( /* ev */
-  ) {
-    if (this.displayValue !== this.el.value) {
-      console.warn('Element value was changed outside of mask. Syncronize mask using `mask.updateValue()` to work properly.'); // eslint-disable-line no-console
-    }
-    this._selection = {
-      start: this.selectionStart,
-      end: this.cursorPos
-    };
-  }
-
-  /** Syncronizes model value from view */
-  updateValue() {
-    this.masked.value = this.el.value;
-    this._value = this.masked.value;
-    this._unmaskedValue = this.masked.unmaskedValue;
-    this._rawInputValue = this.masked.rawInputValue;
-  }
-
-  /** Syncronizes view from model value, fires change events */
-  updateControl(cursorPos) {
-    const newUnmaskedValue = this.masked.unmaskedValue;
-    const newValue = this.masked.value;
-    const newRawInputValue = this.masked.rawInputValue;
-    const newDisplayValue = this.displayValue;
-    const isChanged = this.unmaskedValue !== newUnmaskedValue || this.value !== newValue || this._rawInputValue !== newRawInputValue;
-    this._unmaskedValue = newUnmaskedValue;
-    this._value = newValue;
-    this._rawInputValue = newRawInputValue;
-    if (this.el.value !== newDisplayValue) this.el.value = newDisplayValue;
-    if (cursorPos === 'auto') this.alignCursor();else if (cursorPos != null) this.cursorPos = cursorPos;
-    if (isChanged) this._fireChangeEvents();
-    if (!this._historyChanging && (isChanged || this.history.isEmpty)) this.history.push({
-      unmaskedValue: newUnmaskedValue,
-      selection: {
-        start: this.selectionStart,
-        end: this.cursorPos
-      }
-    });
-  }
-
-  /** Updates options with deep equal check, recreates {@link Masked} model if mask type changes */
-  updateOptions(opts) {
-    const {
-      mask,
-      ...restOpts
-    } = opts; // TODO types, yes, mask is optional
-
-    const updateMask = !this.maskEquals(mask);
-    const updateOpts = this.masked.optionsIsChanged(restOpts);
-    if (updateMask) this.mask = mask;
-    if (updateOpts) this.masked.updateOptions(restOpts); // TODO
-
-    if (updateMask || updateOpts) this.updateControl();
-  }
-
-  /** Updates cursor */
-  updateCursor(cursorPos) {
-    if (cursorPos == null) return;
-    this.cursorPos = cursorPos;
-
-    // also queue change cursor for mobile browsers
-    this._delayUpdateCursor(cursorPos);
-  }
-
-  /** Delays cursor update to support mobile browsers */
-  _delayUpdateCursor(cursorPos) {
-    this._abortUpdateCursor();
-    this._changingCursorPos = cursorPos;
-    this._cursorChanging = setTimeout(() => {
-      if (!this.el) return; // if was destroyed
-      this.cursorPos = this._changingCursorPos;
-      this._abortUpdateCursor();
-    }, 10);
-  }
-
-  /** Fires custom events */
-  _fireChangeEvents() {
-    this._fireEvent('accept', this._inputEvent);
-    if (this.masked.isComplete) this._fireEvent('complete', this._inputEvent);
-  }
-
-  /** Aborts delayed cursor update */
-  _abortUpdateCursor() {
-    if (this._cursorChanging) {
-      clearTimeout(this._cursorChanging);
-      delete this._cursorChanging;
-    }
-  }
-
-  /** Aligns cursor to nearest available position */
-  alignCursor() {
-    this.cursorPos = this.masked.nearestInputPos(this.masked.nearestInputPos(this.cursorPos, DIRECTION.LEFT));
-  }
-
-  /** Aligns cursor only if selection is empty */
-  alignCursorFriendly() {
-    if (this.selectionStart !== this.cursorPos) return; // skip if range is selected
-    this.alignCursor();
-  }
-
-  /** Adds listener on custom event */
-  on(ev, handler) {
-    if (!this._listeners[ev]) this._listeners[ev] = [];
-    this._listeners[ev].push(handler);
-    return this;
-  }
-
-  /** Removes custom event listener */
-  off(ev, handler) {
-    if (!this._listeners[ev]) return this;
-    if (!handler) {
-      delete this._listeners[ev];
-      return this;
-    }
-    const hIndex = this._listeners[ev].indexOf(handler);
-    if (hIndex >= 0) this._listeners[ev].splice(hIndex, 1);
-    return this;
-  }
-
-  /** Handles view input event */
-  _onInput(e) {
-    this._inputEvent = e;
-    this._abortUpdateCursor();
-    const details = new ActionDetails({
-      // new state
-      value: this.el.value,
-      cursorPos: this.cursorPos,
-      // old state
-      oldValue: this.displayValue,
-      oldSelection: this._selection
-    });
-    const oldRawValue = this.masked.rawInputValue;
-    const offset = this.masked.splice(details.startChangePos, details.removed.length, details.inserted, details.removeDirection, {
-      input: true,
-      raw: true
-    }).offset;
-
-    // force align in remove direction only if no input chars were removed
-    // otherwise we still need to align with NONE (to get out from fixed symbols for instance)
-    const removeDirection = oldRawValue === this.masked.rawInputValue ? details.removeDirection : DIRECTION.NONE;
-    let cursorPos = this.masked.nearestInputPos(details.startChangePos + offset, removeDirection);
-    if (removeDirection !== DIRECTION.NONE) cursorPos = this.masked.nearestInputPos(cursorPos, DIRECTION.NONE);
-    this.updateControl(cursorPos);
-    delete this._inputEvent;
-  }
-
-  /** Handles view change event and commits model value */
-  _onChange() {
-    if (this.displayValue !== this.el.value) this.updateValue();
-    this.masked.doCommit();
-    this.updateControl();
-    this._saveSelection();
-  }
-
-  /** Handles view drop event, prevents by default */
-  _onDrop(ev) {
-    ev.preventDefault();
-    ev.stopPropagation();
-  }
-
-  /** Restore last selection on focus */
-  _onFocus(ev) {
-    this.alignCursorFriendly();
-  }
-
-  /** Restore last selection on focus */
-  _onClick(ev) {
-    this.alignCursorFriendly();
-  }
-  _onUndo() {
-    this._applyHistoryState(this.history.undo());
-  }
-  _onRedo() {
-    this._applyHistoryState(this.history.redo());
-  }
-  _applyHistoryState(state) {
-    if (!state) return;
-    this._historyChanging = true;
-    this.unmaskedValue = state.unmaskedValue;
-    this.el.select(state.selection.start, state.selection.end);
-    this._saveSelection();
-    this._historyChanging = false;
-  }
-
-  /** Unbind view events and removes element reference */
-  destroy() {
-    this._unbindEvents();
-    this._listeners.length = 0;
-    delete this.el;
-  }
-}
-IMask.InputMask = InputMask;
-
-/** Provides details of changing model value */
-class ChangeDetails {
-  /** Inserted symbols */
-
-  /** Additional offset if any changes occurred before tail */
-
-  /** Raw inserted is used by dynamic mask */
-
-  /** Can skip chars */
-
-  static normalize(prep) {
-    return Array.isArray(prep) ? prep : [prep, new ChangeDetails()];
-  }
-  constructor(details) {
-    Object.assign(this, {
-      inserted: '',
-      rawInserted: '',
-      tailShift: 0,
-      skip: false
-    }, details);
-  }
-
-  /** Aggregate changes */
-  aggregate(details) {
-    this.inserted += details.inserted;
-    this.rawInserted += details.rawInserted;
-    this.tailShift += details.tailShift;
-    this.skip = this.skip || details.skip;
-    return this;
-  }
-
-  /** Total offset considering all changes */
-  get offset() {
-    return this.tailShift + this.inserted.length;
-  }
-  get consumed() {
-    return Boolean(this.rawInserted) || this.skip;
-  }
-  equals(details) {
-    return this.inserted === details.inserted && this.tailShift === details.tailShift && this.rawInserted === details.rawInserted && this.skip === details.skip;
-  }
-}
-IMask.ChangeDetails = ChangeDetails;
-
-/** Provides details of continuous extracted tail */
-class ContinuousTailDetails {
-  /** Tail value as string */
-
-  /** Tail start position */
-
-  /** Start position */
-
-  constructor(value, from, stop) {
-    if (value === void 0) {
-      value = '';
-    }
-    if (from === void 0) {
-      from = 0;
-    }
-    this.value = value;
-    this.from = from;
-    this.stop = stop;
-  }
-  toString() {
-    return this.value;
-  }
-  extend(tail) {
-    this.value += String(tail);
-  }
-  appendTo(masked) {
-    return masked.append(this.toString(), {
-      tail: true
-    }).aggregate(masked._appendPlaceholder());
-  }
-  get state() {
-    return {
-      value: this.value,
-      from: this.from,
-      stop: this.stop
-    };
-  }
-  set state(state) {
-    Object.assign(this, state);
-  }
-  unshift(beforePos) {
-    if (!this.value.length || beforePos != null && this.from >= beforePos) return '';
-    const shiftChar = this.value[0];
-    this.value = this.value.slice(1);
-    return shiftChar;
-  }
-  shift() {
-    if (!this.value.length) return '';
-    const shiftChar = this.value[this.value.length - 1];
-    this.value = this.value.slice(0, -1);
-    return shiftChar;
-  }
-}
-
-/** Append flags */
-
-/** Extract flags */
-
-// see https://github.com/microsoft/TypeScript/issues/6223
-
-/** Provides common masking stuff */
-class Masked {
-  /** */
-
-  /** */
-
-  /** Transforms value before mask processing */
-
-  /** Transforms each char before mask processing */
-
-  /** Validates if value is acceptable */
-
-  /** Does additional processing at the end of editing */
-
-  /** Format typed value to string */
-
-  /** Parse string to get typed value */
-
-  /** Enable characters overwriting */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  constructor(opts) {
-    this._value = '';
-    this._update({
-      ...Masked.DEFAULTS,
-      ...opts
-    });
-    this._initialized = true;
-  }
-
-  /** Sets and applies new options */
-  updateOptions(opts) {
-    if (!this.optionsIsChanged(opts)) return;
-    this.withValueRefresh(this._update.bind(this, opts));
-  }
-
-  /** Sets new options */
-  _update(opts) {
-    Object.assign(this, opts);
-  }
-
-  /** Mask state */
-  get state() {
-    return {
-      _value: this.value,
-      _rawInputValue: this.rawInputValue
-    };
-  }
-  set state(state) {
-    this._value = state._value;
-  }
-
-  /** Resets value */
-  reset() {
-    this._value = '';
-  }
-  get value() {
-    return this._value;
-  }
-  set value(value) {
-    this.resolve(value, {
-      input: true
-    });
-  }
-
-  /** Resolve new value */
-  resolve(value, flags) {
-    if (flags === void 0) {
-      flags = {
-        input: true
-      };
-    }
-    this.reset();
-    this.append(value, flags, '');
-    this.doCommit();
-  }
-  get unmaskedValue() {
-    return this.value;
-  }
-  set unmaskedValue(value) {
-    this.resolve(value, {});
-  }
-  get typedValue() {
-    return this.parse ? this.parse(this.value, this) : this.unmaskedValue;
-  }
-  set typedValue(value) {
-    if (this.format) {
-      this.value = this.format(value, this);
-    } else {
-      this.unmaskedValue = String(value);
-    }
-  }
-
-  /** Value that includes raw user input */
-  get rawInputValue() {
-    return this.extractInput(0, this.displayValue.length, {
-      raw: true
-    });
-  }
-  set rawInputValue(value) {
-    this.resolve(value, {
-      raw: true
-    });
-  }
-  get displayValue() {
-    return this.value;
-  }
-  get isComplete() {
-    return true;
-  }
-  get isFilled() {
-    return this.isComplete;
-  }
-
-  /** Finds nearest input position in direction */
-  nearestInputPos(cursorPos, direction) {
-    return cursorPos;
-  }
-  totalInputPositions(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    return Math.min(this.displayValue.length, toPos - fromPos);
-  }
-
-  /** Extracts value in range considering flags */
-  extractInput(fromPos, toPos, flags) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    return this.displayValue.slice(fromPos, toPos);
-  }
-
-  /** Extracts tail in range */
-  extractTail(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    return new ContinuousTailDetails(this.extractInput(fromPos, toPos), fromPos);
-  }
-
-  /** Appends tail */
-  appendTail(tail) {
-    if (isString(tail)) tail = new ContinuousTailDetails(String(tail));
-    return tail.appendTo(this);
-  }
-
-  /** Appends char */
-  _appendCharRaw(ch, flags) {
-    if (!ch) return new ChangeDetails();
-    this._value += ch;
-    return new ChangeDetails({
-      inserted: ch,
-      rawInserted: ch
-    });
-  }
-
-  /** Appends char */
-  _appendChar(ch, flags, checkTail) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const consistentState = this.state;
-    let details;
-    [ch, details] = this.doPrepareChar(ch, flags);
-    if (ch) {
-      details = details.aggregate(this._appendCharRaw(ch, flags));
-
-      // TODO handle `skip`?
-
-      // try `autofix` lookahead
-      if (!details.rawInserted && this.autofix === 'pad') {
-        const noFixState = this.state;
-        this.state = consistentState;
-        let fixDetails = this.pad(flags);
-        const chDetails = this._appendCharRaw(ch, flags);
-        fixDetails = fixDetails.aggregate(chDetails);
-
-        // if fix was applied or
-        // if details are equal use skip restoring state optimization
-        if (chDetails.rawInserted || fixDetails.equals(details)) {
-          details = fixDetails;
-        } else {
-          this.state = noFixState;
-        }
-      }
-    }
-    if (details.inserted) {
-      let consistentTail;
-      let appended = this.doValidate(flags) !== false;
-      if (appended && checkTail != null) {
-        // validation ok, check tail
-        const beforeTailState = this.state;
-        if (this.overwrite === true) {
-          consistentTail = checkTail.state;
-          for (let i = 0; i < details.rawInserted.length; ++i) {
-            checkTail.unshift(this.displayValue.length - details.tailShift);
-          }
-        }
-        let tailDetails = this.appendTail(checkTail);
-        appended = tailDetails.rawInserted.length === checkTail.toString().length;
-
-        // not ok, try shift
-        if (!(appended && tailDetails.inserted) && this.overwrite === 'shift') {
-          this.state = beforeTailState;
-          consistentTail = checkTail.state;
-          for (let i = 0; i < details.rawInserted.length; ++i) {
-            checkTail.shift();
-          }
-          tailDetails = this.appendTail(checkTail);
-          appended = tailDetails.rawInserted.length === checkTail.toString().length;
-        }
-
-        // if ok, rollback state after tail
-        if (appended && tailDetails.inserted) this.state = beforeTailState;
-      }
-
-      // revert all if something went wrong
-      if (!appended) {
-        details = new ChangeDetails();
-        this.state = consistentState;
-        if (checkTail && consistentTail) checkTail.state = consistentTail;
-      }
-    }
-    return details;
-  }
-
-  /** Appends optional placeholder at the end */
-  _appendPlaceholder() {
-    return new ChangeDetails();
-  }
-
-  /** Appends optional eager placeholder at the end */
-  _appendEager() {
-    return new ChangeDetails();
-  }
-
-  /** Appends symbols considering flags */
-  append(str, flags, tail) {
-    if (!isString(str)) throw new Error('value should be string');
-    const checkTail = isString(tail) ? new ContinuousTailDetails(String(tail)) : tail;
-    if (flags != null && flags.tail) flags._beforeTailState = this.state;
-    let details;
-    [str, details] = this.doPrepare(str, flags);
-    for (let ci = 0; ci < str.length; ++ci) {
-      const d = this._appendChar(str[ci], flags, checkTail);
-      if (!d.rawInserted && !this.doSkipInvalid(str[ci], flags, checkTail)) break;
-      details.aggregate(d);
-    }
-    if ((this.eager === true || this.eager === 'append') && flags != null && flags.input && str) {
-      details.aggregate(this._appendEager());
-    }
-
-    // append tail but aggregate only tailShift
-    if (checkTail != null) {
-      details.tailShift += this.appendTail(checkTail).tailShift;
-      // TODO it's a good idea to clear state after appending ends
-      // but it causes bugs when one append calls another (when dynamic dispatch set rawInputValue)
-      // this._resetBeforeTailState();
-    }
-    return details;
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    this._value = this.displayValue.slice(0, fromPos) + this.displayValue.slice(toPos);
-    return new ChangeDetails();
-  }
-
-  /** Calls function and reapplies current value */
-  withValueRefresh(fn) {
-    if (this._refreshing || !this._initialized) return fn();
-    this._refreshing = true;
-    const rawInput = this.rawInputValue;
-    const value = this.value;
-    const ret = fn();
-    this.rawInputValue = rawInput;
-    // append lost trailing chars at the end
-    if (this.value && this.value !== value && value.indexOf(this.value) === 0) {
-      this.append(value.slice(this.displayValue.length), {}, '');
-      this.doCommit();
-    }
-    delete this._refreshing;
-    return ret;
-  }
-  runIsolated(fn) {
-    if (this._isolated || !this._initialized) return fn(this);
-    this._isolated = true;
-    const state = this.state;
-    const ret = fn(this);
-    this.state = state;
-    delete this._isolated;
-    return ret;
-  }
-  doSkipInvalid(ch, flags, checkTail) {
-    return Boolean(this.skipInvalid);
-  }
-
-  /** Prepares string before mask processing */
-  doPrepare(str, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    return ChangeDetails.normalize(this.prepare ? this.prepare(str, this, flags) : str);
-  }
-
-  /** Prepares each char before mask processing */
-  doPrepareChar(str, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    return ChangeDetails.normalize(this.prepareChar ? this.prepareChar(str, this, flags) : str);
-  }
-
-  /** Validates if value is acceptable */
-  doValidate(flags) {
-    return (!this.validate || this.validate(this.value, this, flags)) && (!this.parent || this.parent.doValidate(flags));
-  }
-
-  /** Does additional processing at the end of editing */
-  doCommit() {
-    if (this.commit) this.commit(this.value, this);
-  }
-  splice(start, deleteCount, inserted, removeDirection, flags) {
-    if (inserted === void 0) {
-      inserted = '';
-    }
-    if (removeDirection === void 0) {
-      removeDirection = DIRECTION.NONE;
-    }
-    if (flags === void 0) {
-      flags = {
-        input: true
-      };
-    }
-    const tailPos = start + deleteCount;
-    const tail = this.extractTail(tailPos);
-    const eagerRemove = this.eager === true || this.eager === 'remove';
-    let oldRawValue;
-    if (eagerRemove) {
-      removeDirection = forceDirection(removeDirection);
-      oldRawValue = this.extractInput(0, tailPos, {
-        raw: true
-      });
-    }
-    let startChangePos = start;
-    const details = new ChangeDetails();
-
-    // if it is just deletion without insertion
-    if (removeDirection !== DIRECTION.NONE) {
-      startChangePos = this.nearestInputPos(start, deleteCount > 1 && start !== 0 && !eagerRemove ? DIRECTION.NONE : removeDirection);
-
-      // adjust tailShift if start was aligned
-      details.tailShift = startChangePos - start;
-    }
-    details.aggregate(this.remove(startChangePos));
-    if (eagerRemove && removeDirection !== DIRECTION.NONE && oldRawValue === this.rawInputValue) {
-      if (removeDirection === DIRECTION.FORCE_LEFT) {
-        let valLength;
-        while (oldRawValue === this.rawInputValue && (valLength = this.displayValue.length)) {
-          details.aggregate(new ChangeDetails({
-            tailShift: -1
-          })).aggregate(this.remove(valLength - 1));
-        }
-      } else if (removeDirection === DIRECTION.FORCE_RIGHT) {
-        tail.unshift();
-      }
-    }
-    return details.aggregate(this.append(inserted, flags, tail));
-  }
-  maskEquals(mask) {
-    return this.mask === mask;
-  }
-  optionsIsChanged(opts) {
-    return !objectIncludes(this, opts);
-  }
-  typedValueEquals(value) {
-    const tval = this.typedValue;
-    return value === tval || Masked.EMPTY_VALUES.includes(value) && Masked.EMPTY_VALUES.includes(tval) || (this.format ? this.format(value, this) === this.format(this.typedValue, this) : false);
-  }
-  pad(flags) {
-    return new ChangeDetails();
-  }
-}
-Masked.DEFAULTS = {
-  skipInvalid: true
-};
-Masked.EMPTY_VALUES = [undefined, null, ''];
-IMask.Masked = Masked;
-
-class ChunksTailDetails {
-  /** */
-
-  constructor(chunks, from) {
-    if (chunks === void 0) {
-      chunks = [];
-    }
-    if (from === void 0) {
-      from = 0;
-    }
-    this.chunks = chunks;
-    this.from = from;
-  }
-  toString() {
-    return this.chunks.map(String).join('');
-  }
-  extend(tailChunk) {
-    if (!String(tailChunk)) return;
-    tailChunk = isString(tailChunk) ? new ContinuousTailDetails(String(tailChunk)) : tailChunk;
-    const lastChunk = this.chunks[this.chunks.length - 1];
-    const extendLast = lastChunk && (
-    // if stops are same or tail has no stop
-    lastChunk.stop === tailChunk.stop || tailChunk.stop == null) &&
-    // if tail chunk goes just after last chunk
-    tailChunk.from === lastChunk.from + lastChunk.toString().length;
-    if (tailChunk instanceof ContinuousTailDetails) {
-      // check the ability to extend previous chunk
-      if (extendLast) {
-        // extend previous chunk
-        lastChunk.extend(tailChunk.toString());
-      } else {
-        // append new chunk
-        this.chunks.push(tailChunk);
-      }
-    } else if (tailChunk instanceof ChunksTailDetails) {
-      if (tailChunk.stop == null) {
-        // unwrap floating chunks to parent, keeping `from` pos
-        let firstTailChunk;
-        while (tailChunk.chunks.length && tailChunk.chunks[0].stop == null) {
-          firstTailChunk = tailChunk.chunks.shift(); // not possible to be `undefined` because length was checked above
-          firstTailChunk.from += tailChunk.from;
-          this.extend(firstTailChunk);
-        }
-      }
-
-      // if tail chunk still has value
-      if (tailChunk.toString()) {
-        // if chunks contains stops, then popup stop to container
-        tailChunk.stop = tailChunk.blockIndex;
-        this.chunks.push(tailChunk);
-      }
-    }
-  }
-  appendTo(masked) {
-    if (!(masked instanceof IMask.MaskedPattern)) {
-      const tail = new ContinuousTailDetails(this.toString());
-      return tail.appendTo(masked);
-    }
-    const details = new ChangeDetails();
-    for (let ci = 0; ci < this.chunks.length; ++ci) {
-      const chunk = this.chunks[ci];
-      const lastBlockIter = masked._mapPosToBlock(masked.displayValue.length);
-      const stop = chunk.stop;
-      let chunkBlock;
-      if (stop != null && (
-      // if block not found or stop is behind lastBlock
-      !lastBlockIter || lastBlockIter.index <= stop)) {
-        if (chunk instanceof ChunksTailDetails ||
-        // for continuous block also check if stop is exist
-        masked._stops.indexOf(stop) >= 0) {
-          details.aggregate(masked._appendPlaceholder(stop));
-        }
-        chunkBlock = chunk instanceof ChunksTailDetails && masked._blocks[stop];
-      }
-      if (chunkBlock) {
-        const tailDetails = chunkBlock.appendTail(chunk);
-        details.aggregate(tailDetails);
-
-        // get not inserted chars
-        const remainChars = chunk.toString().slice(tailDetails.rawInserted.length);
-        if (remainChars) details.aggregate(masked.append(remainChars, {
-          tail: true
-        }));
-      } else {
-        details.aggregate(masked.append(chunk.toString(), {
-          tail: true
-        }));
-      }
-    }
-    return details;
-  }
-  get state() {
-    return {
-      chunks: this.chunks.map(c => c.state),
-      from: this.from,
-      stop: this.stop,
-      blockIndex: this.blockIndex
-    };
-  }
-  set state(state) {
-    const {
-      chunks,
-      ...props
-    } = state;
-    Object.assign(this, props);
-    this.chunks = chunks.map(cstate => {
-      const chunk = "chunks" in cstate ? new ChunksTailDetails() : new ContinuousTailDetails();
-      chunk.state = cstate;
-      return chunk;
-    });
-  }
-  unshift(beforePos) {
-    if (!this.chunks.length || beforePos != null && this.from >= beforePos) return '';
-    const chunkShiftPos = beforePos != null ? beforePos - this.from : beforePos;
-    let ci = 0;
-    while (ci < this.chunks.length) {
-      const chunk = this.chunks[ci];
-      const shiftChar = chunk.unshift(chunkShiftPos);
-      if (chunk.toString()) {
-        // chunk still contains value
-        // but not shifted - means no more available chars to shift
-        if (!shiftChar) break;
-        ++ci;
-      } else {
-        // clean if chunk has no value
-        this.chunks.splice(ci, 1);
-      }
-      if (shiftChar) return shiftChar;
-    }
-    return '';
-  }
-  shift() {
-    if (!this.chunks.length) return '';
-    let ci = this.chunks.length - 1;
-    while (0 <= ci) {
-      const chunk = this.chunks[ci];
-      const shiftChar = chunk.shift();
-      if (chunk.toString()) {
-        // chunk still contains value
-        // but not shifted - means no more available chars to shift
-        if (!shiftChar) break;
-        --ci;
-      } else {
-        // clean if chunk has no value
-        this.chunks.splice(ci, 1);
-      }
-      if (shiftChar) return shiftChar;
-    }
-    return '';
-  }
-}
-
-class PatternCursor {
-  constructor(masked, pos) {
-    this.masked = masked;
-    this._log = [];
-    const {
-      offset,
-      index
-    } = masked._mapPosToBlock(pos) || (pos < 0 ?
-    // first
-    {
-      index: 0,
-      offset: 0
-    } :
-    // last
-    {
-      index: this.masked._blocks.length,
-      offset: 0
-    });
-    this.offset = offset;
-    this.index = index;
-    this.ok = false;
-  }
-  get block() {
-    return this.masked._blocks[this.index];
-  }
-  get pos() {
-    return this.masked._blockStartPos(this.index) + this.offset;
-  }
-  get state() {
-    return {
-      index: this.index,
-      offset: this.offset,
-      ok: this.ok
-    };
-  }
-  set state(s) {
-    Object.assign(this, s);
-  }
-  pushState() {
-    this._log.push(this.state);
-  }
-  popState() {
-    const s = this._log.pop();
-    if (s) this.state = s;
-    return s;
-  }
-  bindBlock() {
-    if (this.block) return;
-    if (this.index < 0) {
-      this.index = 0;
-      this.offset = 0;
-    }
-    if (this.index >= this.masked._blocks.length) {
-      this.index = this.masked._blocks.length - 1;
-      this.offset = this.block.displayValue.length; // TODO this is stupid type error, `block` depends on index that was changed above
-    }
-  }
-  _pushLeft(fn) {
-    this.pushState();
-    for (this.bindBlock(); 0 <= this.index; --this.index, this.offset = ((_this$block = this.block) == null ? void 0 : _this$block.displayValue.length) || 0) {
-      var _this$block;
-      if (fn()) return this.ok = true;
-    }
-    return this.ok = false;
-  }
-  _pushRight(fn) {
-    this.pushState();
-    for (this.bindBlock(); this.index < this.masked._blocks.length; ++this.index, this.offset = 0) {
-      if (fn()) return this.ok = true;
-    }
-    return this.ok = false;
-  }
-  pushLeftBeforeFilled() {
-    return this._pushLeft(() => {
-      if (this.block.isFixed || !this.block.value) return;
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.FORCE_LEFT);
-      if (this.offset !== 0) return true;
-    });
-  }
-  pushLeftBeforeInput() {
-    // cases:
-    // filled input: 00|
-    // optional empty input: 00[]|
-    // nested block: XX<[]>|
-    return this._pushLeft(() => {
-      if (this.block.isFixed) return;
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.LEFT);
-      return true;
-    });
-  }
-  pushLeftBeforeRequired() {
-    return this._pushLeft(() => {
-      if (this.block.isFixed || this.block.isOptional && !this.block.value) return;
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.LEFT);
-      return true;
-    });
-  }
-  pushRightBeforeFilled() {
-    return this._pushRight(() => {
-      if (this.block.isFixed || !this.block.value) return;
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.FORCE_RIGHT);
-      if (this.offset !== this.block.value.length) return true;
-    });
-  }
-  pushRightBeforeInput() {
-    return this._pushRight(() => {
-      if (this.block.isFixed) return;
-
-      // const o = this.offset;
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.NONE);
-      // HACK cases like (STILL DOES NOT WORK FOR NESTED)
-      // aa|X
-      // aa<X|[]>X_    - this will not work
-      // if (o && o === this.offset && this.block instanceof PatternInputDefinition) continue;
-      return true;
-    });
-  }
-  pushRightBeforeRequired() {
-    return this._pushRight(() => {
-      if (this.block.isFixed || this.block.isOptional && !this.block.value) return;
-
-      // TODO check |[*]XX_
-      this.offset = this.block.nearestInputPos(this.offset, DIRECTION.NONE);
-      return true;
-    });
-  }
-}
-
-class PatternFixedDefinition {
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  constructor(opts) {
-    Object.assign(this, opts);
-    this._value = '';
-    this.isFixed = true;
-  }
-  get value() {
-    return this._value;
-  }
-  get unmaskedValue() {
-    return this.isUnmasking ? this.value : '';
-  }
-  get rawInputValue() {
-    return this._isRawInput ? this.value : '';
-  }
-  get displayValue() {
-    return this.value;
-  }
-  reset() {
-    this._isRawInput = false;
-    this._value = '';
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this._value.length;
-    }
-    this._value = this._value.slice(0, fromPos) + this._value.slice(toPos);
-    if (!this._value) this._isRawInput = false;
-    return new ChangeDetails();
-  }
-  nearestInputPos(cursorPos, direction) {
-    if (direction === void 0) {
-      direction = DIRECTION.NONE;
-    }
-    const minPos = 0;
-    const maxPos = this._value.length;
-    switch (direction) {
-      case DIRECTION.LEFT:
-      case DIRECTION.FORCE_LEFT:
-        return minPos;
-      case DIRECTION.NONE:
-      case DIRECTION.RIGHT:
-      case DIRECTION.FORCE_RIGHT:
-      default:
-        return maxPos;
-    }
-  }
-  totalInputPositions(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this._value.length;
-    }
-    return this._isRawInput ? toPos - fromPos : 0;
-  }
-  extractInput(fromPos, toPos, flags) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this._value.length;
-    }
-    if (flags === void 0) {
-      flags = {};
-    }
-    return flags.raw && this._isRawInput && this._value.slice(fromPos, toPos) || '';
-  }
-  get isComplete() {
-    return true;
-  }
-  get isFilled() {
-    return Boolean(this._value);
-  }
-  _appendChar(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (this.isFilled) return new ChangeDetails();
-    const appendEager = this.eager === true || this.eager === 'append';
-    const appended = this.char === ch;
-    const isResolved = appended && (this.isUnmasking || flags.input || flags.raw) && (!flags.raw || !appendEager) && !flags.tail;
-    const details = new ChangeDetails({
-      inserted: this.char,
-      rawInserted: isResolved ? this.char : ''
-    });
-    this._value = this.char;
-    this._isRawInput = isResolved && (flags.raw || flags.input);
-    return details;
-  }
-  _appendEager() {
-    return this._appendChar(this.char, {
-      tail: true
-    });
-  }
-  _appendPlaceholder() {
-    const details = new ChangeDetails();
-    if (this.isFilled) return details;
-    this._value = details.inserted = this.char;
-    return details;
-  }
-  extractTail() {
-    return new ContinuousTailDetails('');
-  }
-  appendTail(tail) {
-    if (isString(tail)) tail = new ContinuousTailDetails(String(tail));
-    return tail.appendTo(this);
-  }
-  append(str, flags, tail) {
-    const details = this._appendChar(str[0], flags);
-    if (tail != null) {
-      details.tailShift += this.appendTail(tail).tailShift;
-    }
-    return details;
-  }
-  doCommit() {}
-  get state() {
-    return {
-      _value: this._value,
-      _rawInputValue: this.rawInputValue
-    };
-  }
-  set state(state) {
-    this._value = state._value;
-    this._isRawInput = Boolean(state._rawInputValue);
-  }
-  pad(flags) {
-    return this._appendPlaceholder();
-  }
-}
-
-class PatternInputDefinition {
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  constructor(opts) {
-    const {
-      parent,
-      isOptional,
-      placeholderChar,
-      displayChar,
-      lazy,
-      eager,
-      ...maskOpts
-    } = opts;
-    this.masked = createMask(maskOpts);
-    Object.assign(this, {
-      parent,
-      isOptional,
-      placeholderChar,
-      displayChar,
-      lazy,
-      eager
-    });
-  }
-  reset() {
-    this.isFilled = false;
-    this.masked.reset();
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.value.length;
-    }
-    if (fromPos === 0 && toPos >= 1) {
-      this.isFilled = false;
-      return this.masked.remove(fromPos, toPos);
-    }
-    return new ChangeDetails();
-  }
-  get value() {
-    return this.masked.value || (this.isFilled && !this.isOptional ? this.placeholderChar : '');
-  }
-  get unmaskedValue() {
-    return this.masked.unmaskedValue;
-  }
-  get rawInputValue() {
-    return this.masked.rawInputValue;
-  }
-  get displayValue() {
-    return this.masked.value && this.displayChar || this.value;
-  }
-  get isComplete() {
-    return Boolean(this.masked.value) || this.isOptional;
-  }
-  _appendChar(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (this.isFilled) return new ChangeDetails();
-    const state = this.masked.state;
-    // simulate input
-    let details = this.masked._appendChar(ch, this.currentMaskFlags(flags));
-    if (details.inserted && this.doValidate(flags) === false) {
-      details = new ChangeDetails();
-      this.masked.state = state;
-    }
-    if (!details.inserted && !this.isOptional && !this.lazy && !flags.input) {
-      details.inserted = this.placeholderChar;
-    }
-    details.skip = !details.inserted && !this.isOptional;
-    this.isFilled = Boolean(details.inserted);
-    return details;
-  }
-  append(str, flags, tail) {
-    // TODO probably should be done via _appendChar
-    return this.masked.append(str, this.currentMaskFlags(flags), tail);
-  }
-  _appendPlaceholder() {
-    if (this.isFilled || this.isOptional) return new ChangeDetails();
-    this.isFilled = true;
-    return new ChangeDetails({
-      inserted: this.placeholderChar
-    });
-  }
-  _appendEager() {
-    return new ChangeDetails();
-  }
-  extractTail(fromPos, toPos) {
-    return this.masked.extractTail(fromPos, toPos);
-  }
-  appendTail(tail) {
-    return this.masked.appendTail(tail);
-  }
-  extractInput(fromPos, toPos, flags) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.value.length;
-    }
-    return this.masked.extractInput(fromPos, toPos, flags);
-  }
-  nearestInputPos(cursorPos, direction) {
-    if (direction === void 0) {
-      direction = DIRECTION.NONE;
-    }
-    const minPos = 0;
-    const maxPos = this.value.length;
-    const boundPos = Math.min(Math.max(cursorPos, minPos), maxPos);
-    switch (direction) {
-      case DIRECTION.LEFT:
-      case DIRECTION.FORCE_LEFT:
-        return this.isComplete ? boundPos : minPos;
-      case DIRECTION.RIGHT:
-      case DIRECTION.FORCE_RIGHT:
-        return this.isComplete ? boundPos : maxPos;
-      case DIRECTION.NONE:
-      default:
-        return boundPos;
-    }
-  }
-  totalInputPositions(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.value.length;
-    }
-    return this.value.slice(fromPos, toPos).length;
-  }
-  doValidate(flags) {
-    return this.masked.doValidate(this.currentMaskFlags(flags)) && (!this.parent || this.parent.doValidate(this.currentMaskFlags(flags)));
-  }
-  doCommit() {
-    this.masked.doCommit();
-  }
-  get state() {
-    return {
-      _value: this.value,
-      _rawInputValue: this.rawInputValue,
-      masked: this.masked.state,
-      isFilled: this.isFilled
-    };
-  }
-  set state(state) {
-    this.masked.state = state.masked;
-    this.isFilled = state.isFilled;
-  }
-  currentMaskFlags(flags) {
-    var _flags$_beforeTailSta;
-    return {
-      ...flags,
-      _beforeTailState: (flags == null || (_flags$_beforeTailSta = flags._beforeTailState) == null ? void 0 : _flags$_beforeTailSta.masked) || (flags == null ? void 0 : flags._beforeTailState)
-    };
-  }
-  pad(flags) {
-    return new ChangeDetails();
-  }
-}
-PatternInputDefinition.DEFAULT_DEFINITIONS = {
-  '0': /\d/,
-  'a': /[\u0041-\u005A\u0061-\u007A\u00AA\u00B5\u00BA\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0\u08A2-\u08AC\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097F\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C33\u0C35-\u0C39\u0C3D\u0C58\u0C59\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D60\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F4\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191C\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19C1-\u19C7\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FCC\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA697\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788\uA78B-\uA78E\uA790-\uA793\uA7A0-\uA7AA\uA7F8-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA80-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uABC0-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC]/,
-  // http://stackoverflow.com/a/22075070
-  '*': /./
-};
-
-/** Masking by RegExp */
-class MaskedRegExp extends Masked {
-  /** */
-
-  /** Enable characters overwriting */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    const mask = opts.mask;
-    if (mask) opts.validate = value => value.search(mask) >= 0;
-    super._update(opts);
-  }
-}
-IMask.MaskedRegExp = MaskedRegExp;
-
-/** Pattern mask */
-class MaskedPattern extends Masked {
-  /** */
-
-  /** */
-
-  /** Single char for empty input */
-
-  /** Single char for filled input */
-
-  /** Show placeholder only when needed */
-
-  /** Enable characters overwriting */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  constructor(opts) {
-    super({
-      ...MaskedPattern.DEFAULTS,
-      ...opts,
-      definitions: Object.assign({}, PatternInputDefinition.DEFAULT_DEFINITIONS, opts == null ? void 0 : opts.definitions)
-    });
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    opts.definitions = Object.assign({}, this.definitions, opts.definitions);
-    super._update(opts);
-    this._rebuildMask();
-  }
-  _rebuildMask() {
-    const defs = this.definitions;
-    this._blocks = [];
-    this.exposeBlock = undefined;
-    this._stops = [];
-    this._maskedBlocks = {};
-    const pattern = this.mask;
-    if (!pattern || !defs) return;
-    let unmaskingBlock = false;
-    let optionalBlock = false;
-    for (let i = 0; i < pattern.length; ++i) {
-      if (this.blocks) {
-        const p = pattern.slice(i);
-        const bNames = Object.keys(this.blocks).filter(bName => p.indexOf(bName) === 0);
-        // order by key length
-        bNames.sort((a, b) => b.length - a.length);
-        // use block name with max length
-        const bName = bNames[0];
-        if (bName) {
-          const {
-            expose,
-            repeat,
-            ...bOpts
-          } = normalizeOpts(this.blocks[bName]); // TODO type Opts<Arg & Extra>
-          const blockOpts = {
-            lazy: this.lazy,
-            eager: this.eager,
-            placeholderChar: this.placeholderChar,
-            displayChar: this.displayChar,
-            overwrite: this.overwrite,
-            autofix: this.autofix,
-            ...bOpts,
-            repeat,
-            parent: this
-          };
-          const maskedBlock = repeat != null ? new IMask.RepeatBlock(blockOpts /* TODO */) : createMask(blockOpts);
-          if (maskedBlock) {
-            this._blocks.push(maskedBlock);
-            if (expose) this.exposeBlock = maskedBlock;
-
-            // store block index
-            if (!this._maskedBlocks[bName]) this._maskedBlocks[bName] = [];
-            this._maskedBlocks[bName].push(this._blocks.length - 1);
-          }
-          i += bName.length - 1;
-          continue;
-        }
-      }
-      let char = pattern[i];
-      let isInput = (char in defs);
-      if (char === MaskedPattern.STOP_CHAR) {
-        this._stops.push(this._blocks.length);
-        continue;
-      }
-      if (char === '{' || char === '}') {
-        unmaskingBlock = !unmaskingBlock;
-        continue;
-      }
-      if (char === '[' || char === ']') {
-        optionalBlock = !optionalBlock;
-        continue;
-      }
-      if (char === MaskedPattern.ESCAPE_CHAR) {
-        ++i;
-        char = pattern[i];
-        if (!char) break;
-        isInput = false;
-      }
-      const def = isInput ? new PatternInputDefinition({
-        isOptional: optionalBlock,
-        lazy: this.lazy,
-        eager: this.eager,
-        placeholderChar: this.placeholderChar,
-        displayChar: this.displayChar,
-        ...normalizeOpts(defs[char]),
-        parent: this
-      }) : new PatternFixedDefinition({
-        char,
-        eager: this.eager,
-        isUnmasking: unmaskingBlock
-      });
-      this._blocks.push(def);
-    }
-  }
-  get state() {
-    return {
-      ...super.state,
-      _blocks: this._blocks.map(b => b.state)
-    };
-  }
-  set state(state) {
-    if (!state) {
-      this.reset();
-      return;
-    }
-    const {
-      _blocks,
-      ...maskedState
-    } = state;
-    this._blocks.forEach((b, bi) => b.state = _blocks[bi]);
-    super.state = maskedState;
-  }
-  reset() {
-    super.reset();
-    this._blocks.forEach(b => b.reset());
-  }
-  get isComplete() {
-    return this.exposeBlock ? this.exposeBlock.isComplete : this._blocks.every(b => b.isComplete);
-  }
-  get isFilled() {
-    return this._blocks.every(b => b.isFilled);
-  }
-  get isFixed() {
-    return this._blocks.every(b => b.isFixed);
-  }
-  get isOptional() {
-    return this._blocks.every(b => b.isOptional);
-  }
-  doCommit() {
-    this._blocks.forEach(b => b.doCommit());
-    super.doCommit();
-  }
-  get unmaskedValue() {
-    return this.exposeBlock ? this.exposeBlock.unmaskedValue : this._blocks.reduce((str, b) => str += b.unmaskedValue, '');
-  }
-  set unmaskedValue(unmaskedValue) {
-    if (this.exposeBlock) {
-      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
-      this.exposeBlock.unmaskedValue = unmaskedValue;
-      this.appendTail(tail);
-      this.doCommit();
-    } else super.unmaskedValue = unmaskedValue;
-  }
-  get value() {
-    return this.exposeBlock ? this.exposeBlock.value :
-    // TODO return _value when not in change?
-    this._blocks.reduce((str, b) => str += b.value, '');
-  }
-  set value(value) {
-    if (this.exposeBlock) {
-      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
-      this.exposeBlock.value = value;
-      this.appendTail(tail);
-      this.doCommit();
-    } else super.value = value;
-  }
-  get typedValue() {
-    return this.exposeBlock ? this.exposeBlock.typedValue : super.typedValue;
-  }
-  set typedValue(value) {
-    if (this.exposeBlock) {
-      const tail = this.extractTail(this._blockStartPos(this._blocks.indexOf(this.exposeBlock)) + this.exposeBlock.displayValue.length);
-      this.exposeBlock.typedValue = value;
-      this.appendTail(tail);
-      this.doCommit();
-    } else super.typedValue = value;
-  }
-  get displayValue() {
-    return this._blocks.reduce((str, b) => str += b.displayValue, '');
-  }
-  appendTail(tail) {
-    return super.appendTail(tail).aggregate(this._appendPlaceholder());
-  }
-  _appendEager() {
-    var _this$_mapPosToBlock;
-    const details = new ChangeDetails();
-    let startBlockIndex = (_this$_mapPosToBlock = this._mapPosToBlock(this.displayValue.length)) == null ? void 0 : _this$_mapPosToBlock.index;
-    if (startBlockIndex == null) return details;
-
-    // TODO test if it works for nested pattern masks
-    if (this._blocks[startBlockIndex].isFilled) ++startBlockIndex;
-    for (let bi = startBlockIndex; bi < this._blocks.length; ++bi) {
-      const d = this._blocks[bi]._appendEager();
-      if (!d.inserted) break;
-      details.aggregate(d);
-    }
-    return details;
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const blockIter = this._mapPosToBlock(this.displayValue.length);
-    const details = new ChangeDetails();
-    if (!blockIter) return details;
-    for (let bi = blockIter.index, block; block = this._blocks[bi]; ++bi) {
-      var _flags$_beforeTailSta;
-      const blockDetails = block._appendChar(ch, {
-        ...flags,
-        _beforeTailState: (_flags$_beforeTailSta = flags._beforeTailState) == null || (_flags$_beforeTailSta = _flags$_beforeTailSta._blocks) == null ? void 0 : _flags$_beforeTailSta[bi]
-      });
-      details.aggregate(blockDetails);
-      if (blockDetails.consumed) break; // go next char
-    }
-    return details;
-  }
-  extractTail(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    const chunkTail = new ChunksTailDetails();
-    if (fromPos === toPos) return chunkTail;
-    this._forEachBlocksInRange(fromPos, toPos, (b, bi, bFromPos, bToPos) => {
-      const blockChunk = b.extractTail(bFromPos, bToPos);
-      blockChunk.stop = this._findStopBefore(bi);
-      blockChunk.from = this._blockStartPos(bi);
-      if (blockChunk instanceof ChunksTailDetails) blockChunk.blockIndex = bi;
-      chunkTail.extend(blockChunk);
-    });
-    return chunkTail;
-  }
-  extractInput(fromPos, toPos, flags) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (fromPos === toPos) return '';
-    let input = '';
-    this._forEachBlocksInRange(fromPos, toPos, (b, _, fromPos, toPos) => {
-      input += b.extractInput(fromPos, toPos, flags);
-    });
-    return input;
-  }
-  _findStopBefore(blockIndex) {
-    let stopBefore;
-    for (let si = 0; si < this._stops.length; ++si) {
-      const stop = this._stops[si];
-      if (stop <= blockIndex) stopBefore = stop;else break;
-    }
-    return stopBefore;
-  }
-
-  /** Appends placeholder depending on laziness */
-  _appendPlaceholder(toBlockIndex) {
-    const details = new ChangeDetails();
-    if (this.lazy && toBlockIndex == null) return details;
-    const startBlockIter = this._mapPosToBlock(this.displayValue.length);
-    if (!startBlockIter) return details;
-    const startBlockIndex = startBlockIter.index;
-    const endBlockIndex = toBlockIndex != null ? toBlockIndex : this._blocks.length;
-    this._blocks.slice(startBlockIndex, endBlockIndex).forEach(b => {
-      if (!b.lazy || toBlockIndex != null) {
-        var _blocks2;
-        details.aggregate(b._appendPlaceholder((_blocks2 = b._blocks) == null ? void 0 : _blocks2.length));
-      }
-    });
-    return details;
-  }
-
-  /** Finds block in pos */
-  _mapPosToBlock(pos) {
-    let accVal = '';
-    for (let bi = 0; bi < this._blocks.length; ++bi) {
-      const block = this._blocks[bi];
-      const blockStartPos = accVal.length;
-      accVal += block.displayValue;
-      if (pos <= accVal.length) {
-        return {
-          index: bi,
-          offset: pos - blockStartPos
-        };
-      }
-    }
-  }
-  _blockStartPos(blockIndex) {
-    return this._blocks.slice(0, blockIndex).reduce((pos, b) => pos += b.displayValue.length, 0);
-  }
-  _forEachBlocksInRange(fromPos, toPos, fn) {
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    const fromBlockIter = this._mapPosToBlock(fromPos);
-    if (fromBlockIter) {
-      const toBlockIter = this._mapPosToBlock(toPos);
-      // process first block
-      const isSameBlock = toBlockIter && fromBlockIter.index === toBlockIter.index;
-      const fromBlockStartPos = fromBlockIter.offset;
-      const fromBlockEndPos = toBlockIter && isSameBlock ? toBlockIter.offset : this._blocks[fromBlockIter.index].displayValue.length;
-      fn(this._blocks[fromBlockIter.index], fromBlockIter.index, fromBlockStartPos, fromBlockEndPos);
-      if (toBlockIter && !isSameBlock) {
-        // process intermediate blocks
-        for (let bi = fromBlockIter.index + 1; bi < toBlockIter.index; ++bi) {
-          fn(this._blocks[bi], bi, 0, this._blocks[bi].displayValue.length);
-        }
-
-        // process last block
-        fn(this._blocks[toBlockIter.index], toBlockIter.index, 0, toBlockIter.offset);
-      }
-    }
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    const removeDetails = super.remove(fromPos, toPos);
-    this._forEachBlocksInRange(fromPos, toPos, (b, _, bFromPos, bToPos) => {
-      removeDetails.aggregate(b.remove(bFromPos, bToPos));
-    });
-    return removeDetails;
-  }
-  nearestInputPos(cursorPos, direction) {
-    if (direction === void 0) {
-      direction = DIRECTION.NONE;
-    }
-    if (!this._blocks.length) return 0;
-    const cursor = new PatternCursor(this, cursorPos);
-    if (direction === DIRECTION.NONE) {
-      // -------------------------------------------------
-      // NONE should only go out from fixed to the right!
-      // -------------------------------------------------
-      if (cursor.pushRightBeforeInput()) return cursor.pos;
-      cursor.popState();
-      if (cursor.pushLeftBeforeInput()) return cursor.pos;
-      return this.displayValue.length;
-    }
-
-    // FORCE is only about a|* otherwise is 0
-    if (direction === DIRECTION.LEFT || direction === DIRECTION.FORCE_LEFT) {
-      // try to break fast when *|a
-      if (direction === DIRECTION.LEFT) {
-        cursor.pushRightBeforeFilled();
-        if (cursor.ok && cursor.pos === cursorPos) return cursorPos;
-        cursor.popState();
-      }
-
-      // forward flow
-      cursor.pushLeftBeforeInput();
-      cursor.pushLeftBeforeRequired();
-      cursor.pushLeftBeforeFilled();
-
-      // backward flow
-      if (direction === DIRECTION.LEFT) {
-        cursor.pushRightBeforeInput();
-        cursor.pushRightBeforeRequired();
-        if (cursor.ok && cursor.pos <= cursorPos) return cursor.pos;
-        cursor.popState();
-        if (cursor.ok && cursor.pos <= cursorPos) return cursor.pos;
-        cursor.popState();
-      }
-      if (cursor.ok) return cursor.pos;
-      if (direction === DIRECTION.FORCE_LEFT) return 0;
-      cursor.popState();
-      if (cursor.ok) return cursor.pos;
-      cursor.popState();
-      if (cursor.ok) return cursor.pos;
-      return 0;
-    }
-    if (direction === DIRECTION.RIGHT || direction === DIRECTION.FORCE_RIGHT) {
-      // forward flow
-      cursor.pushRightBeforeInput();
-      cursor.pushRightBeforeRequired();
-      if (cursor.pushRightBeforeFilled()) return cursor.pos;
-      if (direction === DIRECTION.FORCE_RIGHT) return this.displayValue.length;
-
-      // backward flow
-      cursor.popState();
-      if (cursor.ok) return cursor.pos;
-      cursor.popState();
-      if (cursor.ok) return cursor.pos;
-      return this.nearestInputPos(cursorPos, DIRECTION.LEFT);
-    }
-    return cursorPos;
-  }
-  totalInputPositions(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    let total = 0;
-    this._forEachBlocksInRange(fromPos, toPos, (b, _, bFromPos, bToPos) => {
-      total += b.totalInputPositions(bFromPos, bToPos);
-    });
-    return total;
-  }
-
-  /** Get block by name */
-  maskedBlock(name) {
-    return this.maskedBlocks(name)[0];
-  }
-
-  /** Get all blocks by name */
-  maskedBlocks(name) {
-    const indices = this._maskedBlocks[name];
-    if (!indices) return [];
-    return indices.map(gi => this._blocks[gi]);
-  }
-  pad(flags) {
-    const details = new ChangeDetails();
-    this._forEachBlocksInRange(0, this.displayValue.length, b => details.aggregate(b.pad(flags)));
-    return details;
-  }
-}
-MaskedPattern.DEFAULTS = {
-  ...Masked.DEFAULTS,
-  lazy: true,
-  placeholderChar: '_'
-};
-MaskedPattern.STOP_CHAR = '`';
-MaskedPattern.ESCAPE_CHAR = '\\';
-MaskedPattern.InputDefinition = PatternInputDefinition;
-MaskedPattern.FixedDefinition = PatternFixedDefinition;
-IMask.MaskedPattern = MaskedPattern;
-
-/** Pattern which accepts ranges */
-class MaskedRange extends MaskedPattern {
-  /**
-    Optionally sets max length of pattern.
-    Used when pattern length is longer then `to` param length. Pads zeros at start in this case.
-  */
-
-  /** Min bound */
-
-  /** Max bound */
-
-  get _matchFrom() {
-    return this.maxLength - String(this.from).length;
-  }
-  constructor(opts) {
-    super(opts); // mask will be created in _update
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    const {
-      to = this.to || 0,
-      from = this.from || 0,
-      maxLength = this.maxLength || 0,
-      autofix = this.autofix,
-      ...patternOpts
-    } = opts;
-    this.to = to;
-    this.from = from;
-    this.maxLength = Math.max(String(to).length, maxLength);
-    this.autofix = autofix;
-    const fromStr = String(this.from).padStart(this.maxLength, '0');
-    const toStr = String(this.to).padStart(this.maxLength, '0');
-    let sameCharsCount = 0;
-    while (sameCharsCount < toStr.length && toStr[sameCharsCount] === fromStr[sameCharsCount]) ++sameCharsCount;
-    patternOpts.mask = toStr.slice(0, sameCharsCount).replace(/0/g, '\\0') + '0'.repeat(this.maxLength - sameCharsCount);
-    super._update(patternOpts);
-  }
-  get isComplete() {
-    return super.isComplete && Boolean(this.value);
-  }
-  boundaries(str) {
-    let minstr = '';
-    let maxstr = '';
-    const [, placeholder, num] = str.match(/^(\D*)(\d*)(\D*)/) || [];
-    if (num) {
-      minstr = '0'.repeat(placeholder.length) + num;
-      maxstr = '9'.repeat(placeholder.length) + num;
-    }
-    minstr = minstr.padEnd(this.maxLength, '0');
-    maxstr = maxstr.padEnd(this.maxLength, '9');
-    return [minstr, maxstr];
-  }
-  doPrepareChar(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    let details;
-    [ch, details] = super.doPrepareChar(ch.replace(/\D/g, ''), flags);
-    if (!ch) details.skip = !this.isComplete;
-    return [ch, details];
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (!this.autofix || this.value.length + 1 > this.maxLength) return super._appendCharRaw(ch, flags);
-    const fromStr = String(this.from).padStart(this.maxLength, '0');
-    const toStr = String(this.to).padStart(this.maxLength, '0');
-    const [minstr, maxstr] = this.boundaries(this.value + ch);
-    if (Number(maxstr) < this.from) return super._appendCharRaw(fromStr[this.value.length], flags);
-    if (Number(minstr) > this.to) {
-      if (!flags.tail && this.autofix === 'pad' && this.value.length + 1 < this.maxLength) {
-        return super._appendCharRaw(fromStr[this.value.length], flags).aggregate(this._appendCharRaw(ch, flags));
-      }
-      return super._appendCharRaw(toStr[this.value.length], flags);
-    }
-    return super._appendCharRaw(ch, flags);
-  }
-  doValidate(flags) {
-    const str = this.value;
-    const firstNonZero = str.search(/[^0]/);
-    if (firstNonZero === -1 && str.length <= this._matchFrom) return true;
-    const [minstr, maxstr] = this.boundaries(str);
-    return this.from <= Number(maxstr) && Number(minstr) <= this.to && super.doValidate(flags);
-  }
-  pad(flags) {
-    const details = new ChangeDetails();
-    if (this.value.length === this.maxLength) return details;
-    const value = this.value;
-    const padLength = this.maxLength - this.value.length;
-    if (padLength) {
-      this.reset();
-      for (let i = 0; i < padLength; ++i) {
-        details.aggregate(super._appendCharRaw('0', flags));
-      }
-
-      // append tail
-      value.split('').forEach(ch => this._appendCharRaw(ch));
-    }
-    return details;
-  }
-}
-IMask.MaskedRange = MaskedRange;
-
-const DefaultPattern = 'd{.}`m{.}`Y';
-
-// Make format and parse required when pattern is provided
-
-/** Date mask */
-class MaskedDate extends MaskedPattern {
-  static extractPatternOptions(opts) {
-    const {
-      mask,
-      pattern,
-      ...patternOpts
-    } = opts;
-    return {
-      ...patternOpts,
-      mask: isString(mask) ? mask : pattern
-    };
-  }
-
-  /** Pattern mask for date according to {@link MaskedDate#format} */
-
-  /** Start date */
-
-  /** End date */
-
-  /** Format typed value to string */
-
-  /** Parse string to get typed value */
-
-  constructor(opts) {
-    super(MaskedDate.extractPatternOptions({
-      ...MaskedDate.DEFAULTS,
-      ...opts
-    }));
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    const {
-      mask,
-      pattern,
-      blocks,
-      ...patternOpts
-    } = {
-      ...MaskedDate.DEFAULTS,
-      ...opts
-    };
-    const patternBlocks = Object.assign({}, MaskedDate.GET_DEFAULT_BLOCKS());
-    // adjust year block
-    if (opts.min) patternBlocks.Y.from = opts.min.getFullYear();
-    if (opts.max) patternBlocks.Y.to = opts.max.getFullYear();
-    if (opts.min && opts.max && patternBlocks.Y.from === patternBlocks.Y.to) {
-      patternBlocks.m.from = opts.min.getMonth() + 1;
-      patternBlocks.m.to = opts.max.getMonth() + 1;
-      if (patternBlocks.m.from === patternBlocks.m.to) {
-        patternBlocks.d.from = opts.min.getDate();
-        patternBlocks.d.to = opts.max.getDate();
-      }
-    }
-    Object.assign(patternBlocks, this.blocks, blocks);
-    super._update({
-      ...patternOpts,
-      mask: isString(mask) ? mask : pattern,
-      blocks: patternBlocks
-    });
-  }
-  doValidate(flags) {
-    const date = this.date;
-    return super.doValidate(flags) && (!this.isComplete || this.isDateExist(this.value) && date != null && (this.min == null || this.min <= date) && (this.max == null || date <= this.max));
-  }
-
-  /** Checks if date is exists */
-  isDateExist(str) {
-    return this.format(this.parse(str, this), this).indexOf(str) >= 0;
-  }
-
-  /** Parsed Date */
-  get date() {
-    return this.typedValue;
-  }
-  set date(date) {
-    this.typedValue = date;
-  }
-  get typedValue() {
-    return this.isComplete ? super.typedValue : null;
-  }
-  set typedValue(value) {
-    super.typedValue = value;
-  }
-  maskEquals(mask) {
-    return mask === Date || super.maskEquals(mask);
-  }
-  optionsIsChanged(opts) {
-    return super.optionsIsChanged(MaskedDate.extractPatternOptions(opts));
-  }
-}
-MaskedDate.GET_DEFAULT_BLOCKS = () => ({
-  d: {
-    mask: MaskedRange,
-    from: 1,
-    to: 31,
-    maxLength: 2
-  },
-  m: {
-    mask: MaskedRange,
-    from: 1,
-    to: 12,
-    maxLength: 2
-  },
-  Y: {
-    mask: MaskedRange,
-    from: 1900,
-    to: 9999
-  }
-});
-MaskedDate.DEFAULTS = {
-  ...MaskedPattern.DEFAULTS,
-  mask: Date,
-  pattern: DefaultPattern,
-  format: (date, masked) => {
-    if (!date) return '';
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return [day, month, year].join('.');
-  },
-  parse: (str, masked) => {
-    const [day, month, year] = str.split('.').map(Number);
-    return new Date(year, month - 1, day);
-  }
-};
-IMask.MaskedDate = MaskedDate;
-
-/** Dynamic mask for choosing appropriate mask in run-time */
-class MaskedDynamic extends Masked {
-  constructor(opts) {
-    super({
-      ...MaskedDynamic.DEFAULTS,
-      ...opts
-    });
-    this.currentMask = undefined;
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    super._update(opts);
-    if ('mask' in opts) {
-      this.exposeMask = undefined;
-      // mask could be totally dynamic with only `dispatch` option
-      this.compiledMasks = Array.isArray(opts.mask) ? opts.mask.map(m => {
-        const {
-          expose,
-          ...maskOpts
-        } = normalizeOpts(m);
-        const masked = createMask({
-          overwrite: this._overwrite,
-          eager: this._eager,
-          skipInvalid: this._skipInvalid,
-          ...maskOpts
-        });
-        if (expose) this.exposeMask = masked;
-        return masked;
-      }) : [];
-
-      // this.currentMask = this.doDispatch(''); // probably not needed but lets see
-    }
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const details = this._applyDispatch(ch, flags);
-    if (this.currentMask) {
-      details.aggregate(this.currentMask._appendChar(ch, this.currentMaskFlags(flags)));
-    }
-    return details;
-  }
-  _applyDispatch(appended, flags, tail) {
-    if (appended === void 0) {
-      appended = '';
-    }
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (tail === void 0) {
-      tail = '';
-    }
-    const prevValueBeforeTail = flags.tail && flags._beforeTailState != null ? flags._beforeTailState._value : this.value;
-    const inputValue = this.rawInputValue;
-    const insertValue = flags.tail && flags._beforeTailState != null ? flags._beforeTailState._rawInputValue : inputValue;
-    const tailValue = inputValue.slice(insertValue.length);
-    const prevMask = this.currentMask;
-    const details = new ChangeDetails();
-    const prevMaskState = prevMask == null ? void 0 : prevMask.state;
-
-    // clone flags to prevent overwriting `_beforeTailState`
-    this.currentMask = this.doDispatch(appended, {
-      ...flags
-    }, tail);
-
-    // restore state after dispatch
-    if (this.currentMask) {
-      if (this.currentMask !== prevMask) {
-        // if mask changed reapply input
-        this.currentMask.reset();
-        if (insertValue) {
-          this.currentMask.append(insertValue, {
-            raw: true
-          });
-          details.tailShift = this.currentMask.value.length - prevValueBeforeTail.length;
-        }
-        if (tailValue) {
-          details.tailShift += this.currentMask.append(tailValue, {
-            raw: true,
-            tail: true
-          }).tailShift;
-        }
-      } else if (prevMaskState) {
-        // Dispatch can do something bad with state, so
-        // restore prev mask state
-        this.currentMask.state = prevMaskState;
-      }
-    }
-    return details;
-  }
-  _appendPlaceholder() {
-    const details = this._applyDispatch();
-    if (this.currentMask) {
-      details.aggregate(this.currentMask._appendPlaceholder());
-    }
-    return details;
-  }
-  _appendEager() {
-    const details = this._applyDispatch();
-    if (this.currentMask) {
-      details.aggregate(this.currentMask._appendEager());
-    }
-    return details;
-  }
-  appendTail(tail) {
-    const details = new ChangeDetails();
-    if (tail) details.aggregate(this._applyDispatch('', {}, tail));
-    return details.aggregate(this.currentMask ? this.currentMask.appendTail(tail) : super.appendTail(tail));
-  }
-  currentMaskFlags(flags) {
-    var _flags$_beforeTailSta, _flags$_beforeTailSta2;
-    return {
-      ...flags,
-      _beforeTailState: ((_flags$_beforeTailSta = flags._beforeTailState) == null ? void 0 : _flags$_beforeTailSta.currentMaskRef) === this.currentMask && ((_flags$_beforeTailSta2 = flags._beforeTailState) == null ? void 0 : _flags$_beforeTailSta2.currentMask) || flags._beforeTailState
-    };
-  }
-  doDispatch(appended, flags, tail) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    if (tail === void 0) {
-      tail = '';
-    }
-    return this.dispatch(appended, this, flags, tail);
-  }
-  doValidate(flags) {
-    return super.doValidate(flags) && (!this.currentMask || this.currentMask.doValidate(this.currentMaskFlags(flags)));
-  }
-  doPrepare(str, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    let [s, details] = super.doPrepare(str, flags);
-    if (this.currentMask) {
-      let currentDetails;
-      [s, currentDetails] = super.doPrepare(s, this.currentMaskFlags(flags));
-      details = details.aggregate(currentDetails);
-    }
-    return [s, details];
-  }
-  doPrepareChar(str, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    let [s, details] = super.doPrepareChar(str, flags);
-    if (this.currentMask) {
-      let currentDetails;
-      [s, currentDetails] = super.doPrepareChar(s, this.currentMaskFlags(flags));
-      details = details.aggregate(currentDetails);
-    }
-    return [s, details];
-  }
-  reset() {
-    var _this$currentMask;
-    (_this$currentMask = this.currentMask) == null || _this$currentMask.reset();
-    this.compiledMasks.forEach(m => m.reset());
-  }
-  get value() {
-    return this.exposeMask ? this.exposeMask.value : this.currentMask ? this.currentMask.value : '';
-  }
-  set value(value) {
-    if (this.exposeMask) {
-      this.exposeMask.value = value;
-      this.currentMask = this.exposeMask;
-      this._applyDispatch();
-    } else super.value = value;
-  }
-  get unmaskedValue() {
-    return this.exposeMask ? this.exposeMask.unmaskedValue : this.currentMask ? this.currentMask.unmaskedValue : '';
-  }
-  set unmaskedValue(unmaskedValue) {
-    if (this.exposeMask) {
-      this.exposeMask.unmaskedValue = unmaskedValue;
-      this.currentMask = this.exposeMask;
-      this._applyDispatch();
-    } else super.unmaskedValue = unmaskedValue;
-  }
-  get typedValue() {
-    return this.exposeMask ? this.exposeMask.typedValue : this.currentMask ? this.currentMask.typedValue : '';
-  }
-  set typedValue(typedValue) {
-    if (this.exposeMask) {
-      this.exposeMask.typedValue = typedValue;
-      this.currentMask = this.exposeMask;
-      this._applyDispatch();
-      return;
-    }
-    let unmaskedValue = String(typedValue);
-
-    // double check it
-    if (this.currentMask) {
-      this.currentMask.typedValue = typedValue;
-      unmaskedValue = this.currentMask.unmaskedValue;
-    }
-    this.unmaskedValue = unmaskedValue;
-  }
-  get displayValue() {
-    return this.currentMask ? this.currentMask.displayValue : '';
-  }
-  get isComplete() {
-    var _this$currentMask2;
-    return Boolean((_this$currentMask2 = this.currentMask) == null ? void 0 : _this$currentMask2.isComplete);
-  }
-  get isFilled() {
-    var _this$currentMask3;
-    return Boolean((_this$currentMask3 = this.currentMask) == null ? void 0 : _this$currentMask3.isFilled);
-  }
-  remove(fromPos, toPos) {
-    const details = new ChangeDetails();
-    if (this.currentMask) {
-      details.aggregate(this.currentMask.remove(fromPos, toPos))
-      // update with dispatch
-      .aggregate(this._applyDispatch());
-    }
-    return details;
-  }
-  get state() {
-    var _this$currentMask4;
-    return {
-      ...super.state,
-      _rawInputValue: this.rawInputValue,
-      compiledMasks: this.compiledMasks.map(m => m.state),
-      currentMaskRef: this.currentMask,
-      currentMask: (_this$currentMask4 = this.currentMask) == null ? void 0 : _this$currentMask4.state
-    };
-  }
-  set state(state) {
-    const {
-      compiledMasks,
-      currentMaskRef,
-      currentMask,
-      ...maskedState
-    } = state;
-    if (compiledMasks) this.compiledMasks.forEach((m, mi) => m.state = compiledMasks[mi]);
-    if (currentMaskRef != null) {
-      this.currentMask = currentMaskRef;
-      this.currentMask.state = currentMask;
-    }
-    super.state = maskedState;
-  }
-  extractInput(fromPos, toPos, flags) {
-    return this.currentMask ? this.currentMask.extractInput(fromPos, toPos, flags) : '';
-  }
-  extractTail(fromPos, toPos) {
-    return this.currentMask ? this.currentMask.extractTail(fromPos, toPos) : super.extractTail(fromPos, toPos);
-  }
-  doCommit() {
-    if (this.currentMask) this.currentMask.doCommit();
-    super.doCommit();
-  }
-  nearestInputPos(cursorPos, direction) {
-    return this.currentMask ? this.currentMask.nearestInputPos(cursorPos, direction) : super.nearestInputPos(cursorPos, direction);
-  }
-  get overwrite() {
-    return this.currentMask ? this.currentMask.overwrite : this._overwrite;
-  }
-  set overwrite(overwrite) {
-    this._overwrite = overwrite;
-  }
-  get eager() {
-    return this.currentMask ? this.currentMask.eager : this._eager;
-  }
-  set eager(eager) {
-    this._eager = eager;
-  }
-  get skipInvalid() {
-    return this.currentMask ? this.currentMask.skipInvalid : this._skipInvalid;
-  }
-  set skipInvalid(skipInvalid) {
-    this._skipInvalid = skipInvalid;
-  }
-  get autofix() {
-    return this.currentMask ? this.currentMask.autofix : this._autofix;
-  }
-  set autofix(autofix) {
-    this._autofix = autofix;
-  }
-  maskEquals(mask) {
-    return Array.isArray(mask) ? this.compiledMasks.every((m, mi) => {
-      if (!mask[mi]) return;
-      const {
-        mask: oldMask,
-        ...restOpts
-      } = mask[mi];
-      return objectIncludes(m, restOpts) && m.maskEquals(oldMask);
-    }) : super.maskEquals(mask);
-  }
-  typedValueEquals(value) {
-    var _this$currentMask5;
-    return Boolean((_this$currentMask5 = this.currentMask) == null ? void 0 : _this$currentMask5.typedValueEquals(value));
-  }
-}
-/** Currently chosen mask */
-/** Currently chosen mask */
-/** Compliled {@link Masked} options */
-/** Chooses {@link Masked} depending on input value */
-MaskedDynamic.DEFAULTS = {
-  ...Masked.DEFAULTS,
-  dispatch: (appended, masked, flags, tail) => {
-    if (!masked.compiledMasks.length) return;
-    const inputValue = masked.rawInputValue;
-
-    // simulate input
-    const inputs = masked.compiledMasks.map((m, index) => {
-      const isCurrent = masked.currentMask === m;
-      const startInputPos = isCurrent ? m.displayValue.length : m.nearestInputPos(m.displayValue.length, DIRECTION.FORCE_LEFT);
-      if (m.rawInputValue !== inputValue) {
-        m.reset();
-        m.append(inputValue, {
-          raw: true
-        });
-      } else if (!isCurrent) {
-        m.remove(startInputPos);
-      }
-      m.append(appended, masked.currentMaskFlags(flags));
-      m.appendTail(tail);
-      return {
-        index,
-        weight: m.rawInputValue.length,
-        totalInputPositions: m.totalInputPositions(0, Math.max(startInputPos, m.nearestInputPos(m.displayValue.length, DIRECTION.FORCE_LEFT)))
-      };
-    });
-
-    // pop masks with longer values first
-    inputs.sort((i1, i2) => i2.weight - i1.weight || i2.totalInputPositions - i1.totalInputPositions);
-    return masked.compiledMasks[inputs[0].index];
-  }
-};
-IMask.MaskedDynamic = MaskedDynamic;
-
-/** Pattern which validates enum values */
-class MaskedEnum extends MaskedPattern {
-  constructor(opts) {
-    super({
-      ...MaskedEnum.DEFAULTS,
-      ...opts
-    }); // mask will be created in _update
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    const {
-      enum: enum_,
-      ...eopts
-    } = opts;
-    if (enum_) {
-      const lengths = enum_.map(e => e.length);
-      const requiredLength = Math.min(...lengths);
-      const optionalLength = Math.max(...lengths) - requiredLength;
-      eopts.mask = '*'.repeat(requiredLength);
-      if (optionalLength) eopts.mask += '[' + '*'.repeat(optionalLength) + ']';
-      this.enum = enum_;
-    }
-    super._update(eopts);
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const matchFrom = Math.min(this.nearestInputPos(0, DIRECTION.FORCE_RIGHT), this.value.length);
-    const matches = this.enum.filter(e => this.matchValue(e, this.unmaskedValue + ch, matchFrom));
-    if (matches.length) {
-      if (matches.length === 1) {
-        this._forEachBlocksInRange(0, this.value.length, (b, bi) => {
-          const mch = matches[0][bi];
-          if (bi >= this.value.length || mch === b.value) return;
-          b.reset();
-          b._appendChar(mch, flags);
-        });
-      }
-      const d = super._appendCharRaw(matches[0][this.value.length], flags);
-      if (matches.length === 1) {
-        matches[0].slice(this.unmaskedValue.length).split('').forEach(mch => d.aggregate(super._appendCharRaw(mch)));
-      }
-      return d;
-    }
-    return new ChangeDetails({
-      skip: !this.isComplete
-    });
-  }
-  extractTail(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    // just drop tail
-    return new ContinuousTailDetails('', fromPos);
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    if (fromPos === toPos) return new ChangeDetails();
-    const matchFrom = Math.min(super.nearestInputPos(0, DIRECTION.FORCE_RIGHT), this.value.length);
-    let pos;
-    for (pos = fromPos; pos >= 0; --pos) {
-      const matches = this.enum.filter(e => this.matchValue(e, this.value.slice(matchFrom, pos), matchFrom));
-      if (matches.length > 1) break;
-    }
-    const details = super.remove(pos, toPos);
-    details.tailShift += pos - fromPos;
-    return details;
-  }
-  get isComplete() {
-    return this.enum.indexOf(this.value) >= 0;
-  }
-}
-/** Match enum value */
-MaskedEnum.DEFAULTS = {
-  ...MaskedPattern.DEFAULTS,
-  matchValue: (estr, istr, matchFrom) => estr.indexOf(istr, matchFrom) === matchFrom
-};
-IMask.MaskedEnum = MaskedEnum;
-
-/** Masking by custom Function */
-class MaskedFunction extends Masked {
-  /** */
-
-  /** Enable characters overwriting */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    super._update({
-      ...opts,
-      validate: opts.mask
-    });
-  }
-}
-IMask.MaskedFunction = MaskedFunction;
-
-var _MaskedNumber;
-/** Number mask */
-class MaskedNumber extends Masked {
-  /** Single char */
-
-  /** Single char */
-
-  /** Array of single chars */
-
-  /** */
-
-  /** */
-
-  /** Digits after point */
-
-  /** Flag to remove leading and trailing zeros in the end of editing */
-
-  /** Flag to pad trailing zeros after point in the end of editing */
-
-  /** Enable characters overwriting */
-
-  /** */
-
-  /** */
-
-  /** */
-
-  /** Format typed value to string */
-
-  /** Parse string to get typed value */
-
-  constructor(opts) {
-    super({
-      ...MaskedNumber.DEFAULTS,
-      ...opts
-    });
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    super._update(opts);
-    this._updateRegExps();
-  }
-  _updateRegExps() {
-    const start = '^' + (this.allowNegative ? '[+|\\-]?' : '');
-    const mid = '\\d*';
-    const end = (this.scale ? "(" + escapeRegExp(this.radix) + "\\d{0," + this.scale + "})?" : '') + '$';
-    this._numberRegExp = new RegExp(start + mid + end);
-    this._mapToRadixRegExp = new RegExp("[" + this.mapToRadix.map(escapeRegExp).join('') + "]", 'g');
-    this._thousandsSeparatorRegExp = new RegExp(escapeRegExp(this.thousandsSeparator), 'g');
-  }
-  _removeThousandsSeparators(value) {
-    return value.replace(this._thousandsSeparatorRegExp, '');
-  }
-  _insertThousandsSeparators(value) {
-    // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
-    const parts = value.split(this.radix);
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, this.thousandsSeparator);
-    return parts.join(this.radix);
-  }
-  doPrepareChar(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const [prepCh, details] = super.doPrepareChar(this._removeThousandsSeparators(this.scale && this.mapToRadix.length && (
-    /*
-      radix should be mapped when
-      1) input is done from keyboard = flags.input && flags.raw
-      2) unmasked value is set = !flags.input && !flags.raw
-      and should not be mapped when
-      1) value is set = flags.input && !flags.raw
-      2) raw value is set = !flags.input && flags.raw
-    */
-    flags.input && flags.raw || !flags.input && !flags.raw) ? ch.replace(this._mapToRadixRegExp, this.radix) : ch), flags);
-    if (ch && !prepCh) details.skip = true;
-    if (prepCh && !this.allowPositive && !this.value && prepCh !== '-') details.aggregate(this._appendChar('-'));
-    return [prepCh, details];
-  }
-  _separatorsCount(to, extendOnSeparators) {
-    if (extendOnSeparators === void 0) {
-      extendOnSeparators = false;
-    }
-    let count = 0;
-    for (let pos = 0; pos < to; ++pos) {
-      if (this._value.indexOf(this.thousandsSeparator, pos) === pos) {
-        ++count;
-        if (extendOnSeparators) to += this.thousandsSeparator.length;
-      }
-    }
-    return count;
-  }
-  _separatorsCountFromSlice(slice) {
-    if (slice === void 0) {
-      slice = this._value;
-    }
-    return this._separatorsCount(this._removeThousandsSeparators(slice).length, true);
-  }
-  extractInput(fromPos, toPos, flags) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    [fromPos, toPos] = this._adjustRangeWithSeparators(fromPos, toPos);
-    return this._removeThousandsSeparators(super.extractInput(fromPos, toPos, flags));
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const prevBeforeTailValue = flags.tail && flags._beforeTailState ? flags._beforeTailState._value : this._value;
-    const prevBeforeTailSeparatorsCount = this._separatorsCountFromSlice(prevBeforeTailValue);
-    this._value = this._removeThousandsSeparators(this.value);
-    const oldValue = this._value;
-    this._value += ch;
-    const num = this.number;
-    let accepted = !isNaN(num);
-    let skip = false;
-    if (accepted) {
-      let fixedNum;
-      if (this.min != null && this.min < 0 && this.number < this.min) fixedNum = this.min;
-      if (this.max != null && this.max > 0 && this.number > this.max) fixedNum = this.max;
-      if (fixedNum != null) {
-        if (this.autofix) {
-          this._value = this.format(fixedNum, this).replace(MaskedNumber.UNMASKED_RADIX, this.radix);
-          skip || (skip = oldValue === this._value && !flags.tail); // if not changed on tail it's still ok to proceed
-        } else {
-          accepted = false;
-        }
-      }
-      accepted && (accepted = Boolean(this._value.match(this._numberRegExp)));
-    }
-    let appendDetails;
-    if (!accepted) {
-      this._value = oldValue;
-      appendDetails = new ChangeDetails();
-    } else {
-      appendDetails = new ChangeDetails({
-        inserted: this._value.slice(oldValue.length),
-        rawInserted: skip ? '' : ch,
-        skip
-      });
-    }
-    this._value = this._insertThousandsSeparators(this._value);
-    const beforeTailValue = flags.tail && flags._beforeTailState ? flags._beforeTailState._value : this._value;
-    const beforeTailSeparatorsCount = this._separatorsCountFromSlice(beforeTailValue);
-    appendDetails.tailShift += (beforeTailSeparatorsCount - prevBeforeTailSeparatorsCount) * this.thousandsSeparator.length;
-    return appendDetails;
-  }
-  _findSeparatorAround(pos) {
-    if (this.thousandsSeparator) {
-      const searchFrom = pos - this.thousandsSeparator.length + 1;
-      const separatorPos = this.value.indexOf(this.thousandsSeparator, searchFrom);
-      if (separatorPos <= pos) return separatorPos;
-    }
-    return -1;
-  }
-  _adjustRangeWithSeparators(from, to) {
-    const separatorAroundFromPos = this._findSeparatorAround(from);
-    if (separatorAroundFromPos >= 0) from = separatorAroundFromPos;
-    const separatorAroundToPos = this._findSeparatorAround(to);
-    if (separatorAroundToPos >= 0) to = separatorAroundToPos + this.thousandsSeparator.length;
-    return [from, to];
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    [fromPos, toPos] = this._adjustRangeWithSeparators(fromPos, toPos);
-    const valueBeforePos = this.value.slice(0, fromPos);
-    const valueAfterPos = this.value.slice(toPos);
-    const prevBeforeTailSeparatorsCount = this._separatorsCount(valueBeforePos.length);
-    this._value = this._insertThousandsSeparators(this._removeThousandsSeparators(valueBeforePos + valueAfterPos));
-    const beforeTailSeparatorsCount = this._separatorsCountFromSlice(valueBeforePos);
-    return new ChangeDetails({
-      tailShift: (beforeTailSeparatorsCount - prevBeforeTailSeparatorsCount) * this.thousandsSeparator.length
-    });
-  }
-  nearestInputPos(cursorPos, direction) {
-    if (!this.thousandsSeparator) return cursorPos;
-    switch (direction) {
-      case DIRECTION.NONE:
-      case DIRECTION.LEFT:
-      case DIRECTION.FORCE_LEFT:
-        {
-          const separatorAtLeftPos = this._findSeparatorAround(cursorPos - 1);
-          if (separatorAtLeftPos >= 0) {
-            const separatorAtLeftEndPos = separatorAtLeftPos + this.thousandsSeparator.length;
-            if (cursorPos < separatorAtLeftEndPos || this.value.length <= separatorAtLeftEndPos || direction === DIRECTION.FORCE_LEFT) {
-              return separatorAtLeftPos;
-            }
-          }
-          break;
-        }
-      case DIRECTION.RIGHT:
-      case DIRECTION.FORCE_RIGHT:
-        {
-          const separatorAtRightPos = this._findSeparatorAround(cursorPos);
-          if (separatorAtRightPos >= 0) {
-            return separatorAtRightPos + this.thousandsSeparator.length;
-          }
-        }
-    }
-    return cursorPos;
-  }
-  doCommit() {
-    if (this.value) {
-      const number = this.number;
-      let validnum = number;
-
-      // check bounds
-      if (this.min != null) validnum = Math.max(validnum, this.min);
-      if (this.max != null) validnum = Math.min(validnum, this.max);
-      if (validnum !== number) this.unmaskedValue = this.format(validnum, this);
-      let formatted = this.value;
-      if (this.normalizeZeros) formatted = this._normalizeZeros(formatted);
-      if (this.padFractionalZeros && this.scale > 0) formatted = this._padFractionalZeros(formatted);
-      this._value = formatted;
-    }
-    super.doCommit();
-  }
-  _normalizeZeros(value) {
-    const parts = this._removeThousandsSeparators(value).split(this.radix);
-
-    // remove leading zeros
-    parts[0] = parts[0].replace(/^(\D*)(0*)(\d*)/, (match, sign, zeros, num) => sign + num);
-    // add leading zero
-    if (value.length && !/\d$/.test(parts[0])) parts[0] = parts[0] + '0';
-    if (parts.length > 1) {
-      parts[1] = parts[1].replace(/0*$/, ''); // remove trailing zeros
-      if (!parts[1].length) parts.length = 1; // remove fractional
-    }
-    return this._insertThousandsSeparators(parts.join(this.radix));
-  }
-  _padFractionalZeros(value) {
-    if (!value) return value;
-    const parts = value.split(this.radix);
-    if (parts.length < 2) parts.push('');
-    parts[1] = parts[1].padEnd(this.scale, '0');
-    return parts.join(this.radix);
-  }
-  doSkipInvalid(ch, flags, checkTail) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const dropFractional = this.scale === 0 && ch !== this.thousandsSeparator && (ch === this.radix || ch === MaskedNumber.UNMASKED_RADIX || this.mapToRadix.includes(ch));
-    return super.doSkipInvalid(ch, flags, checkTail) && !dropFractional;
-  }
-  get unmaskedValue() {
-    return this._removeThousandsSeparators(this._normalizeZeros(this.value)).replace(this.radix, MaskedNumber.UNMASKED_RADIX);
-  }
-  set unmaskedValue(unmaskedValue) {
-    super.unmaskedValue = unmaskedValue;
-  }
-  get typedValue() {
-    return this.parse(this.unmaskedValue, this);
-  }
-  set typedValue(n) {
-    this.rawInputValue = this.format(n, this).replace(MaskedNumber.UNMASKED_RADIX, this.radix);
-  }
-
-  /** Parsed Number */
-  get number() {
-    return this.typedValue;
-  }
-  set number(number) {
-    this.typedValue = number;
-  }
-  get allowNegative() {
-    return this.min != null && this.min < 0 || this.max != null && this.max < 0;
-  }
-  get allowPositive() {
-    return this.min != null && this.min > 0 || this.max != null && this.max > 0;
-  }
-  typedValueEquals(value) {
-    // handle  0 -> '' case (typed = 0 even if value = '')
-    // for details see https://github.com/uNmAnNeR/imaskjs/issues/134
-    return (super.typedValueEquals(value) || MaskedNumber.EMPTY_VALUES.includes(value) && MaskedNumber.EMPTY_VALUES.includes(this.typedValue)) && !(value === 0 && this.value === '');
-  }
-}
-_MaskedNumber = MaskedNumber;
-MaskedNumber.UNMASKED_RADIX = '.';
-MaskedNumber.EMPTY_VALUES = [...Masked.EMPTY_VALUES, 0];
-MaskedNumber.DEFAULTS = {
-  ...Masked.DEFAULTS,
-  mask: Number,
-  radix: ',',
-  thousandsSeparator: '',
-  mapToRadix: [_MaskedNumber.UNMASKED_RADIX],
-  min: Number.MIN_SAFE_INTEGER,
-  max: Number.MAX_SAFE_INTEGER,
-  scale: 2,
-  normalizeZeros: true,
-  padFractionalZeros: false,
-  parse: Number,
-  format: n => n.toLocaleString('en-US', {
-    useGrouping: false,
-    maximumFractionDigits: 20
-  })
-};
-IMask.MaskedNumber = MaskedNumber;
-
-/** Mask pipe source and destination types */
-const PIPE_TYPE = {
-  MASKED: 'value',
-  UNMASKED: 'unmaskedValue',
-  TYPED: 'typedValue'
-};
-/** Creates new pipe function depending on mask type, source and destination options */
-function createPipe(arg, from, to) {
-  if (from === void 0) {
-    from = PIPE_TYPE.MASKED;
-  }
-  if (to === void 0) {
-    to = PIPE_TYPE.MASKED;
-  }
-  const masked = createMask(arg);
-  return value => masked.runIsolated(m => {
-    m[from] = value;
-    return m[to];
-  });
-}
-
-/** Pipes value through mask depending on mask type, source and destination options */
-function pipe(value, mask, from, to) {
-  return createPipe(mask, from, to)(value);
-}
-IMask.PIPE_TYPE = PIPE_TYPE;
-IMask.createPipe = createPipe;
-IMask.pipe = pipe;
-
-/** Pattern mask */
-class RepeatBlock extends MaskedPattern {
-  get repeatFrom() {
-    var _ref;
-    return (_ref = Array.isArray(this.repeat) ? this.repeat[0] : this.repeat === Infinity ? 0 : this.repeat) != null ? _ref : 0;
-  }
-  get repeatTo() {
-    var _ref2;
-    return (_ref2 = Array.isArray(this.repeat) ? this.repeat[1] : this.repeat) != null ? _ref2 : Infinity;
-  }
-  constructor(opts) {
-    super(opts);
-  }
-  updateOptions(opts) {
-    super.updateOptions(opts);
-  }
-  _update(opts) {
-    var _ref3, _ref4, _this$_blocks;
-    const {
-      repeat,
-      ...blockOpts
-    } = normalizeOpts(opts); // TODO type
-    this._blockOpts = Object.assign({}, this._blockOpts, blockOpts);
-    const block = createMask(this._blockOpts);
-    this.repeat = (_ref3 = (_ref4 = repeat != null ? repeat : block.repeat) != null ? _ref4 : this.repeat) != null ? _ref3 : Infinity; // TODO type
-
-    super._update({
-      mask: 'm'.repeat(Math.max(this.repeatTo === Infinity && ((_this$_blocks = this._blocks) == null ? void 0 : _this$_blocks.length) || 0, this.repeatFrom)),
-      blocks: {
-        m: block
-      },
-      eager: block.eager,
-      overwrite: block.overwrite,
-      skipInvalid: block.skipInvalid,
-      lazy: block.lazy,
-      placeholderChar: block.placeholderChar,
-      displayChar: block.displayChar
-    });
-  }
-  _allocateBlock(bi) {
-    if (bi < this._blocks.length) return this._blocks[bi];
-    if (this.repeatTo === Infinity || this._blocks.length < this.repeatTo) {
-      this._blocks.push(createMask(this._blockOpts));
-      this.mask += 'm';
-      return this._blocks[this._blocks.length - 1];
-    }
-  }
-  _appendCharRaw(ch, flags) {
-    if (flags === void 0) {
-      flags = {};
-    }
-    const details = new ChangeDetails();
-    for (let bi = (_this$_mapPosToBlock$ = (_this$_mapPosToBlock = this._mapPosToBlock(this.displayValue.length)) == null ? void 0 : _this$_mapPosToBlock.index) != null ? _this$_mapPosToBlock$ : Math.max(this._blocks.length - 1, 0), block, allocated;
-    // try to get a block or
-    // try to allocate a new block if not allocated already
-    block = (_this$_blocks$bi = this._blocks[bi]) != null ? _this$_blocks$bi : allocated = !allocated && this._allocateBlock(bi); ++bi) {
-      var _this$_mapPosToBlock$, _this$_mapPosToBlock, _this$_blocks$bi, _flags$_beforeTailSta;
-      const blockDetails = block._appendChar(ch, {
-        ...flags,
-        _beforeTailState: (_flags$_beforeTailSta = flags._beforeTailState) == null || (_flags$_beforeTailSta = _flags$_beforeTailSta._blocks) == null ? void 0 : _flags$_beforeTailSta[bi]
-      });
-      if (blockDetails.skip && allocated) {
-        // remove the last allocated block and break
-        this._blocks.pop();
-        this.mask = this.mask.slice(1);
-        break;
-      }
-      details.aggregate(blockDetails);
-      if (blockDetails.consumed) break; // go next char
-    }
-    return details;
-  }
-  _trimEmptyTail(fromPos, toPos) {
-    var _this$_mapPosToBlock2, _this$_mapPosToBlock3;
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    const firstBlockIndex = Math.max(((_this$_mapPosToBlock2 = this._mapPosToBlock(fromPos)) == null ? void 0 : _this$_mapPosToBlock2.index) || 0, this.repeatFrom, 0);
-    let lastBlockIndex;
-    if (toPos != null) lastBlockIndex = (_this$_mapPosToBlock3 = this._mapPosToBlock(toPos)) == null ? void 0 : _this$_mapPosToBlock3.index;
-    if (lastBlockIndex == null) lastBlockIndex = this._blocks.length - 1;
-    let removeCount = 0;
-    for (let blockIndex = lastBlockIndex; firstBlockIndex <= blockIndex; --blockIndex, ++removeCount) {
-      if (this._blocks[blockIndex].unmaskedValue) break;
-    }
-    if (removeCount) {
-      this._blocks.splice(lastBlockIndex - removeCount + 1, removeCount);
-      this.mask = this.mask.slice(removeCount);
-    }
-  }
-  reset() {
-    super.reset();
-    this._trimEmptyTail();
-  }
-  remove(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos === void 0) {
-      toPos = this.displayValue.length;
-    }
-    const removeDetails = super.remove(fromPos, toPos);
-    this._trimEmptyTail(fromPos, toPos);
-    return removeDetails;
-  }
-  totalInputPositions(fromPos, toPos) {
-    if (fromPos === void 0) {
-      fromPos = 0;
-    }
-    if (toPos == null && this.repeatTo === Infinity) return Infinity;
-    return super.totalInputPositions(fromPos, toPos);
-  }
-  get state() {
-    return super.state;
-  }
-  set state(state) {
-    this._blocks.length = state._blocks.length;
-    this.mask = this.mask.slice(0, this._blocks.length);
-    super.state = state;
-  }
-}
-IMask.RepeatBlock = RepeatBlock;
-
-try {
-  globalThis.IMask = IMask;
-} catch {}
-
-const iglPropertyBookedByCss = ".sc-igl-property-booked-by-h{display:block}.bookedByEmailContainer.sc-igl-property-booked-by{flex:auto;max-width:350px}.bookedDetailsForm.sc-igl-property-booked-by label.sc-igl-property-booked-by{min-width:125px;max-width:125px}.row.sc-igl-booking-form.sc-igl-property-booked-by{padding:0 !important}.bookedDetailsForm.sc-igl-property-booked-by .form-group.sc-igl-property-booked-by{margin-bottom:10px !important}.bookedDetailsForm.sc-igl-property-booked-by .checkBoxContainer.sc-igl-property-booked-by input.sc-igl-property-booked-by{height:1.2rem !important;width:30px}.property-booked-by__money-transfer-description.sc-igl-property-booked-by *.sc-igl-property-booked-by{margin:0 !important;margin-bottom:0 !important;margin-top:0 !important}.property-booked-by__money-transfer-description.sc-igl-property-booked-by,.property-booked-by__money-transfer-description.sc-igl-property-booked-by .sc-igl-property-booked-by:where(*,*.sc-igl-property-booked-by::before,*.sc-igl-property-booked-by::after){margin:0.5rem !important}.controlContainer.sc-igl-property-booked-by textarea.sc-igl-property-booked-by{height:60px !important}.margin3.sc-igl-property-booked-by{margin-bottom:5px !important}@media (min-width: 768px){.bookedByEmailContainer.sc-igl-property-booked-by{margin-left:37px}}.fd-property-booked-by__guest-form.sc-igl-property-booked-by{display:grid;padding:0;box-sizing:border-box;gap:0.5rem;width:100%;flex:1 1 0%}";
-const IglPropertyBookedByStyle0 = iglPropertyBookedByCss;
-
-const IglPropertyBookedBy = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
-    }
-    language;
-    showPaymentDetails = false;
-    defaultData;
-    countries = [];
-    propertyId;
-    isButtonPressed = false;
-    bookedByData = {
-        id: undefined,
-        email: '',
-        firstName: '',
-        lastName: '',
-        countryId: '',
-        isdCode: '',
-        contactNumber: '',
-        selectedArrivalTime: '',
-        emailGuest: false,
-        message: '',
-        cardNumber: '',
-        cardHolderName: '',
-        expiryMonth: '',
-        expiryYear: '',
-    };
-    guests;
-    typedEmail;
-    dataUpdateEvent;
-    bookingService = new BookingService();
-    arrivalTimeList = [];
-    currentMonth = '01';
-    country;
-    paymentMethods = [];
-    pickerRef;
-    componentWillLoad() {
-        this.assignCountryCode();
-        this.initializeDateData();
-        this.populateBookedByData();
-        this.paymentMethods = calendar_data.property.allowed_payment_methods.filter(p => p.is_active && !p.is_payment_gateway);
-        if (this.paymentMethods.length > 0) {
-            modifyBookingStore('selectedPaymentMethod', { code: this.paymentMethods[0].code });
-        }
-    }
-    handleButtonClicked(event) {
-        switch (event.detail.key) {
-            case 'book':
-            case 'bookAndCheckIn':
-                this.isButtonPressed = true;
-                break;
-        }
-    }
-    async assignCountryCode() {
-        const country = await this.bookingService.getUserDefaultCountry();
-        const countryId = country['COUNTRY_ID'];
-        this.country = countryId;
-        const _c = this.countries.find(c => c.id?.toString() === countryId?.toString());
-        this.bookedByData = { ...this.bookedByData, isdCode: _c.phone_prefix.toString(), countryId };
-    }
-    initializeDateData() {
-        const dt = new Date();
-        const month = dt.getMonth() + 1;
-        this.currentMonth = month < 10 ? `0${month}` : month.toString();
-    }
-    populateBookedByData() {
-        this.bookedByData = this.defaultData ? { ...this.bookedByData, ...this.defaultData } : {};
-        this.arrivalTimeList = this.defaultData?.arrivalTime || [];
-        this.bookedByData = { ...this.bookedByData, selectedArrivalTime: this.arrivalTimeList[0].CODE_NAME };
-        if (!this.bookedByData.expiryMonth) {
-            this.bookedByData.expiryMonth = this.currentMonth;
-        }
-        if (!this.bookedByData.expiryYear) {
-            this.bookedByData.expiryYear = new Date().getFullYear();
-        }
-    }
-    handleDataChange(key, event) {
-        this.bookedByData = { ...this.bookedByData, [key]: key === 'emailGuest' ? event.target.checked : event.target.value };
-        this.dataUpdateEvent.emit({
-            key: 'bookedByInfoUpdated',
-            data: { ...this.bookedByData },
-        });
-        if (key === 'countryId') {
-            this.bookedByData = {
-                ...this.bookedByData,
-                isdCode: event.target.value,
-            };
-        }
-        // console.log(this.bookedByData);
-    }
-    handleCreditCardDataChange(key, value) {
-        this.bookedByData[key] = value;
-        this.dataUpdateEvent.emit({
-            key: 'bookedByInfoUpdated',
-            data: { ...this.bookedByData },
-        });
-        if (key === 'countryId') {
-            this.bookedByData = {
-                ...this.bookedByData,
-                isdCode: value,
-            };
-        }
-        // console.log(this.bookedByData);
-    }
-    handleCountryChange(value) {
-        const country = this.countries?.find(country => country.id === value);
-        this.bookedByData = {
-            ...this.bookedByData,
-            isdCode: this.bookedByData?.contactNumber ? this.bookedByData?.isdCode : country?.phone_prefix,
-            countryId: value,
-        };
-        this.dataUpdateEvent.emit({
-            key: 'bookedByInfoUpdated',
-            data: { ...this.bookedByData },
-        });
-    }
-    updateGuest(props) {
-        modifyBookingStore('checkout_guest', { ...(booking_store.checkout_guest ?? {}), ...props });
-    }
-    handleComboboxSelect(e) {
-        const guest = this.guests?.find(guest => guest.id?.toString() === e.detail.item.value);
-        if (!guest) {
-            console.warn(`guest not found with id ${e.detail.item.value}`);
-            return;
-        }
-        this.bookedByData.email = guest.email;
-        this.bookedByData = {
-            ...this.bookedByData,
-            id: guest.id,
-            firstName: guest.first_name,
-            lastName: guest.last_name,
-            contactNumber: guest.mobile_without_prefix,
-            countryId: guest.country_id,
-            isdCode: guest['country_phone_prefix'] ?? guest?.country_id,
-        };
-        this.dataUpdateEvent.emit({
-            key: 'bookedByInfoUpdated',
-            data: this.bookedByData,
-        });
-    }
-    clearEvent() {
-        this.bookedByData = {
-            ...this.bookedByData,
-            id: '',
-            firstName: '',
-            lastName: '',
-            contactNumber: '',
-            email: '',
-            isdCode: this.country.toString(),
-            countryId: this.country,
-        };
-        this.dataUpdateEvent.emit({
-            key: 'bookedByInfoUpdated',
-            data: { ...this.bookedByData },
-        });
-    }
-    async fetchGuests(email) {
-        this.typedEmail = email;
-        this.guests = await this.bookingService.fetchExposedGuest(email, this.propertyId);
-    }
-    get expiryDate() {
-        const { expiryMonth, expiryYear } = this.bookedByData;
-        if (!expiryMonth || !expiryYear) {
-            return '';
-        }
-        // Normalize year to YY
-        const year = expiryYear.toString().length === 4 ? expiryYear.toString().slice(-2) : expiryYear.toString();
-        return `${expiryMonth}/${year}`;
-    }
-    render() {
-        return (h(Host, { key: '2006e0787dd4caf1abacc5d54cc93954bf3c996e' }, h("div", { key: '622bc33e17fe8a2cb451b00621f4b1a83931e58d', class: "text-left mt-3" }, h("div", { key: '6fd2aa13990bbe7a83479c76009d6a07b667a9c1', class: "d-flex", style: { alignItems: 'flex-end', gap: '0.5rem' } }, h("ir-picker", { key: 'aef985ab02a8bdf9a41c5efd8375d93ae967178c', class: "bookedByEmailContainer m-0 p-0", label: locales.entries.Lcz_BookedBy, value: this.bookedByData.email, ref: el => (this.pickerRef = el), "aria-invalid": String(Boolean(this.isButtonPressed && this.bookedByData.email !== '' && validateEmail(this.bookedByData.email))), withClear: true, "onText-change": event => this.fetchGuests(event.detail), debounce: 300, "onInput-picker-blurred": e => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                const email = this.typedEmail;
-                if (this.bookedByData.email) {
-                    return;
-                }
-                if (this.guests.length === 0) {
-                    if (z.string().email().safeParse(email).success) {
-                        this.bookedByData = {
-                            ...this.bookedByData,
-                            email,
-                        };
-                    }
-                    else {
-                        this.clearEvent();
-                        this.pickerRef.clearInput();
-                    }
-                }
-            }, "onCombobox-clear": e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.clearEvent();
-            }, loading: isRequestPending('/Fetch_Exposed_Guests'), placeholder: locales.entries.Lcz_FindEmailAddress, mode: "select-async", "onCombobox-select": this.handleComboboxSelect.bind(this) }, this.guests?.map(guest => {
-            const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
-            return (h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
-        })), h("div", { key: '0b345eeea769beb1da57a7fb5db1d60ebff82293', style: { paddingBottom: '0.5rem' } }, h("wa-tooltip", { key: '3c4b3a655c05ff9a2db8bf4aa7bd624810ca5f88', for: `main_guest-search-tooltip` }, "Leave empty if email is unavailable"), h("wa-icon", { key: '6eeca0db9c267d091b8854843a18f68e14884a26', name: "circle-info", id: `main_guest-search-tooltip` })))), h("div", { key: 'dd4fdb0ee447ea528f644f47dfe81c5ce8cfe5d0', class: "bookedDetailsForm text-left mt-2 font-small-3 " }, h("div", { key: '253965a5b8c3d331c8557835661526584a0c6a45', class: "d-flex flex-column flex-md-row  justify-content-md-between ", style: { gap: '1rem' } }, h("div", { key: '88d9f03a8b329ce36ab67bf1d737f82e7d2b7605', class: "fd-property-booked-by__guest-form " }, h("ir-validator", { key: 'b88d9faf8d0323039d5017975328dc2d9555cd61', value: this.bookedByData.firstName, schema: BookingGuestSchema.shape.first_name }, h("ir-input", { key: '724098e23b04dcd9ad9e30e8a8871e5f4c42ff75', "onText-change": event => {
-                this.updateGuest({ first_name: event.detail });
-                this.handleDataChange('firstName', { target: { value: event.detail.trim() } });
-            }, defaultValue: this.bookedByData.firstName, value: this.bookedByData.firstName, label: locales.entries.Lcz_FirstName, placeholder: locales.entries.Lcz_FirstName, required: true, name: "last_name_custom", autocomplete: "family-name" })), h("ir-validator", { key: '297dab7db1a458b9e0577edb8254ae4702f5d83f', value: this.bookedByData.lastName, schema: BookingGuestSchema.shape.last_name }, h("ir-input", { key: '915a85be26e0e507c44c9267f0749a79ffe25cff', "onText-change": event => {
-                this.updateGuest({ last_name: event.detail });
-                this.handleDataChange('lastName', { target: { value: event.detail.trim() } });
-            }, name: "first_name_custom", autocomplete: "given-name", defaultValue: this.bookedByData.lastName, value: this.bookedByData.lastName, label: locales.entries.Lcz_LastName, placeholder: locales.entries.Lcz_LastName, required: true })), h("ir-country-picker", { key: '5159327e5883e3b9c27b5bf3ef7e7fa0ce2dded1', label: locales.entries.Lcz_Country, variant: "modern", testId: "main_guest_country", class: "flex-grow-1 m-0", onCountryChange: e => this.handleCountryChange(e.detail.id), countries: this.countries, country: this.countries.find(c => c.id === this.bookedByData.countryId) }), h("ir-mobile-input", { key: '90d6c5652702b3bee69755df9ddcc5e715bc1a7b', size: "small", "onMobile-input-change": e => {
-                this.handleDataChange('contactNumber', { target: { value: e.detail.formattedValue } });
-            }, "onMobile-input-country-change": e => this.handleDataChange('isdCode', { target: { value: e.detail.phone_prefix } }), value: this.bookedByData.contactNumber,
-            // required
-            countryCode: this.countries.find(c => c.phone_prefix === this.bookedByData.isdCode)?.code, countries: this.countries }), h("wa-select", { key: '93a5097548af7197f4c094c9b147327989e12a50', size: "small", label: locales.entries.Lcz_YourArrivalTime, "data-testid": "arrival_time", "aria-disabled": String(Boolean(this.isButtonPressed && this.bookedByData.selectedArrivalTime.code === '')), id: v4(), defaultValue: this.arrivalTimeList[0].CODE_NAME, value: this.bookedByData.selectedArrivalTime.code, onchange: event => this.handleDataChange('selectedArrivalTime', event) }, this.arrivalTimeList.map(time => (h("wa-option", { value: time.CODE_NAME, selected: this.bookedByData.selectedArrivalTime.code === time.CODE_NAME }, time.CODE_VALUE_EN))))), h("div", { key: '0086570da31b110cdc3d0e5633f95baac0a5a0c6', class: "p-0 flex-fill  ml-md-3 d-flex flex-column", style: { gap: '0.5rem' } }, h("wa-textarea", { key: '241801795ee9e91e38b68074889df96488190275', onchange: event => this.handleDataChange('message', event), size: "small", value: this.bookedByData.message, defaultValue: this.bookedByData.message, label: locales.entries.Lcz_AnyMessageForUs, rows: 4 }), this.paymentMethods.length > 1 && (h("wa-select", { key: 'c8978e66ea34e05de573f500f50c233abc182e3a', label: 'Payment Method', size: "small", value: booking_store?.selectedPaymentMethod?.code, onchange: e => modifyBookingStore('selectedPaymentMethod', {
-                code: e.target.value,
-            }) }, this.paymentMethods.map(p => (h("wa-option", { value: p.code }, p.description))))), booking_store.selectedPaymentMethod?.code === '001' && (h(Fragment, { key: '4d7040e2fff9f030b2df36ec3cec4b9416719fcf' }, h("ir-input", { key: '6783662c2a80fad428f66139caf47a8ac1f668c2', value: this.bookedByData.cardNumber, defaultValue: this.bookedByData.cardNumber, "onText-change": e => this.handleCreditCardDataChange('cardNumber', e.detail.trim()), label: locales.entries.Lcz_CardNumber }), h("ir-input", { key: '80eee63f11198b771ceb879ce169fdbf39d2d1b7', value: this.bookedByData.cardHolderName, defaultValue: this.bookedByData.cardHolderName, "onText-change": e => this.handleCreditCardDataChange('cardHolderName', e.detail.trim()), label: locales.entries.Lcz_CardHolderName }), h("ir-input", { key: 'fd3171c2165b66cbc1f9f5da3e0a60884744fd8e', "onText-change": e => {
-                const [month, year] = e.detail.split('/');
-                this.handleCreditCardDataChange('expiryYear', month ?? '');
-                this.handleCreditCardDataChange('expiryMonth', year ?? '');
-            }, value: this.expiryDate, mask: {
-                mask: 'MM/YY',
-                placeholderChar: '_',
-                blocks: {
-                    MM: {
-                        mask: IMask.MaskedRange,
-                        from: 1,
-                        to: 12,
-                        maxLength: 2,
-                    },
-                    YY: {
-                        mask: IMask.MaskedRange,
-                        from: new Date().getFullYear() % 100,
-                        to: (new Date().getFullYear() % 100) + 20,
-                        maxLength: 2,
-                    },
-                },
-            }, label: locales.entries.Lcz_ExpiryDate }))), booking_store.selectedPaymentMethod?.code === '005' && (h("div", { key: 'c4510e9fd711d709458a857daae187e1967c8197', class: "form-group mt-md-1 mt-1 p-0 d-flex flex-column flex-md-row align-items-md-center" }, h("label", { key: '7d0c3899096bc962185955bd36b2469fea44e759', class: "p-0 m-0 margin3" }), h("div", { key: '4dfaa608836aa5a0891e0af384ccf2a0a6e3b116', class: "p-0 m-0  controlContainer flex-fill" }, h("div", { key: '2f11308fafe0163b3d3e3a69f3b0eaa6e745f8a8', class: "property-booked-by__money-transfer-description", innerHTML: this.paymentMethods.find(p => p.code === '005')?.localizables.find(l => l.language.code.toLowerCase() === 'en')?.description })))), h("wa-checkbox", { key: 'dbb1409eb522d8a8d6158fed50259d098a89288a', checked: this.bookedByData.emailGuest, onchange: event => this.handleDataChange('emailGuest', event) }, locales.entries.Lcz_EmailTheGuest))))));
-    }
-};
-IglPropertyBookedBy.style = IglPropertyBookedByStyle0;
-
-const iglRatePlanCss = ".sc-igl-rate-plan-h{display:block;margin-bottom:1rem;color:var(--wa-color-text-quiet)}.rate-plan.sc-igl-rate-plan{display:flex;flex-direction:column;margin-top:0.25rem;gap:0.5rem}.rate-plan--unavailable.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan-name-container.sc-igl-rate-plan{display:flex;align-items:center;gap:0.5rem;margin:0;padding:0}.rateplan-name-container.sc-igl-rate-plan p.sc-igl-rate-plan{margin:0}.rateplan-container.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%;margin-top:0.5rem}.variation-select.sc-igl-rate-plan{width:100%;max-width:300px;flex:1}.rp-select.sc-igl-rate-plan:disabled{background-color:#eceff1;color:#7a7a7a}.rateplan-config.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%}.rate-total-night-view.sc-igl-rate-plan{display:flex;flex:1;gap:0;align-items:stretch}.rateplan-price-input.sc-igl-rate-plan{flex:1;width:100%}.total-nights-container.sc-igl-rate-plan{width:max-content}.rp-select--nights.sc-igl-rate-plan{border-top-left-radius:0;border-bottom-left-radius:0}.inventory-select.sc-igl-rate-plan{width:100%;max-width:200px}.edit-booking-radio.sc-igl-rate-plan{display:none}.mobile-only.sc-igl-rate-plan{width:100%;display:block}.desktop-only.sc-igl-rate-plan{display:none}.rate-plan-unavailable-text.sc-igl-rate-plan{margin:0;color:var(--wa-color-danger-fill-loud)}.rateplan-name-container.sc-igl-rate-plan{font-family:var(--wa-font-family-heading);font-weight:400;line-height:var(--wa-line-height-condensed);text-wrap:balance}.non-ref-span.sc-igl-rate-plan{font-size:12px;color:var(--wa-color-success-fill-loud)}.nightBorder.sc-igl-rate-plan{border-left-width:0;border-top-right-radius:3px !important;border-bottom-right-radius:3px !important}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__price-input.sc-igl-rate-plan::part(base),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}.fd-rateplan__price-input.sc-igl-rate-plan{flex:1 1 0%;z-index:1}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__price-input.sc-igl-rate-plan::part(base){border-top-right-radius:0;border-bottom-right-radius:0}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-right-width:0}.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-left-width:0}.fd-rateplan__nights-select.sc-igl-rate-plan{min-width:100px}.fd-rateplan__inventory-select.sc-igl-rate-plan{min-width:60px}.fd-rateplan__nights-select[open].sc-igl-rate-plan,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-visible,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-within{z-index:2}@media (min-width: 768px){.booking-btn.sc-igl-rate-plan{width:100%}.mobile-only.sc-igl-rate-plan{display:none}.desktop-only.sc-igl-rate-plan{display:block}.edit-booking-radio.sc-igl-rate-plan{display:block;margin-left:0.75rem}.rateplan-container.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:flex-end}.rateplan-config.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan__booking-btn.sc-igl-rate-plan{width:95px}}@media (min-width: 991px){.sc-igl-rate-plan-h{margin:0}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0 !important}.rateplan-price-input.sc-igl-rate-plan{max-width:250px}.rate-plan--available.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}}@media only screen and (min-width: 991px) and (max-width: 1300px){.rateplan-name-container.sc-igl-rate-plan{width:40%}.price-amount.sc-igl-rate-plan{max-width:150px !important}}@media (min-width: 1024px){.fd-rateplan__price-input.sc-igl-rate-plan{width:170px;max-width:170px}.fd-rateplan__nights-select.sc-igl-rate-plan{width:100px;max-width:100px}.rate-total-night-view.sc-igl-rate-plan{margin:0;padding:0;box-sizing:border-box;flex:0}.fd-rateplan__inventory-select.sc-igl-rate-plan{width:100px}.rateplan-config.sc-igl-rate-plan{width:fit-content}}@media (min-width: 1200px){.rateplan-name-container.sc-igl-rate-plan{width:40%;margin-top:0}}";
+const iglRatePlanCss = ".sc-igl-rate-plan-h{display:block;margin-bottom:1rem;color:var(--wa-color-text-quiet)}.rate-plan.sc-igl-rate-plan{display:flex;flex-direction:column;margin-top:0.25rem;gap:0.5rem}.rate-plan--unavailable.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan-name-container.sc-igl-rate-plan{display:flex;align-items:center;gap:0.5rem;margin:0;padding:0}.rateplan-name-container.sc-igl-rate-plan p.sc-igl-rate-plan{margin:0}.rateplan-container.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%;margin-top:0.5rem}.variation-select.sc-igl-rate-plan{width:100%;max-width:300px;flex:1}.rp-select.sc-igl-rate-plan:disabled{background-color:#eceff1;color:#7a7a7a}.rateplan-config.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%}.rate-total-night-view.sc-igl-rate-plan{display:flex;flex:1;gap:0;align-items:stretch}.rateplan-price-input.sc-igl-rate-plan{flex:1;width:100%}.total-nights-container.sc-igl-rate-plan{width:max-content}.rp-select--nights.sc-igl-rate-plan{border-top-left-radius:0;border-bottom-left-radius:0}.inventory-select.sc-igl-rate-plan{width:100%;max-width:200px}.edit-booking-radio.sc-igl-rate-plan{display:none}.mobile-only.sc-igl-rate-plan{width:100%;display:block}.desktop-only.sc-igl-rate-plan{display:none}.rate-plan-unavailable-text.sc-igl-rate-plan{margin:0;color:var(--wa-color-danger-fill-loud)}.rateplan-name-container.sc-igl-rate-plan{font-family:var(--wa-font-family-heading);font-weight:400;line-height:var(--wa-line-height-condensed);text-wrap:balance}.non-ref-span.sc-igl-rate-plan{font-size:12px;color:var(--wa-color-success-fill-loud)}.nightBorder.sc-igl-rate-plan{border-left-width:0;border-top-right-radius:3px !important;border-bottom-right-radius:3px !important}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__price-input.sc-igl-rate-plan::part(base),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}.fd-rateplan__price-input.sc-igl-rate-plan{flex:1 1 0%;z-index:1}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__price-input.sc-igl-rate-plan::part(base){border-top-right-radius:0;border-bottom-right-radius:0}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-right-width:0}.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-left-width:0}.fd-rateplan__nights-select.sc-igl-rate-plan{min-width:100px}.fd-rateplan__inventory-select.sc-igl-rate-plan{min-width:60px}.fd-rateplan__nights-select[open].sc-igl-rate-plan,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-visible,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-within{z-index:2}@media (min-width: 768px){.booking-btn.sc-igl-rate-plan{width:100%}.mobile-only.sc-igl-rate-plan{display:none}.desktop-only.sc-igl-rate-plan{display:block}.edit-booking-radio.sc-igl-rate-plan{display:block;margin-left:0.75rem}.rateplan-container.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:flex-end}.rateplan-config.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan__booking-btn.sc-igl-rate-plan{width:95px}}@media (min-width: 991px){.sc-igl-rate-plan-h{margin:0}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0 !important}.rateplan-price-input.sc-igl-rate-plan{max-width:250px}.rate-plan--available.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}}@media only screen and (min-width: 991px) and (max-width: 1300px){.rateplan-name-container.sc-igl-rate-plan{width:40%}.price-amount.sc-igl-rate-plan{max-width:150px !important}}@media (min-width: 1024px){.booking-btn.sc-igl-rate-plan{width:100px}.fd-rateplan__price-input.sc-igl-rate-plan{width:170px;max-width:170px}.fd-rateplan__nights-select.sc-igl-rate-plan{width:100px;max-width:100px}.rate-total-night-view.sc-igl-rate-plan{margin:0;padding:0;box-sizing:border-box;flex:0}.fd-rateplan__inventory-select.sc-igl-rate-plan{width:100px}.rateplan-config.sc-igl-rate-plan{width:fit-content}}@media (min-width: 1200px){.rateplan-name-container.sc-igl-rate-plan{width:40%;margin-top:0}}";
 const IglRatePlanStyle0 = iglRatePlanCss;
 
 const IglRatePlan = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.bookingStepChange = createEvent(this, "bookingStepChange", 7);
     }
     // Used Props with type annotations
     ratePlan;
@@ -8728,6 +3565,7 @@ const IglRatePlan = class {
     isBookDisabled = false;
     visibleInventory;
     buttonClicked;
+    bookingStepChange;
     // Determine if the form inputs should be disabled
     disableForm() {
         const { bookingType, shouldBeDisabled, ratePlan, visibleInventory } = this;
@@ -8774,6 +3612,7 @@ const IglRatePlan = class {
             resetReserved();
         }
         this.reserveRoom();
+        this.bookingStepChange.emit({ direction: 'next' });
         this.buttonClicked.emit({ key: 'next' });
     }
     reserveRoom() {
@@ -8857,7 +3696,7 @@ const IglRatePlan = class {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '3a1da05ce31d9eac56800930c3a6cadb9e1a08f7', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '91d00e020d84cc6c1b0a34d09e681087af7a3eb7', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '9d8d83d848623ef7fa7d3fe75248861485726675', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '314b7d0fde5d56a60bb8e6db88706feb09e5b173' }, h("wa-tooltip", { key: 'f75489021506624d8a6882f557a3d57ea9956062', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'd8e0e0f63e23c6af5c209579873f77d4ffb40975', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '3417dd9694f7873e4356bd2da8fbcfbd4347b3c9', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '8100df6da9dd03d2356d0ee2b0b23ae3b63c50ad', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '42ad90226bb0a358307cff74585dd339b983a828', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: 'a6ca3f048445293953e7cbe8e2c3b29ab80e8b66', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: 'f40aea0c639ccc92366b4fe608abf2eb5042ff4c' }, h("wa-tooltip", { key: '2aa316c6bc134b95ae2930e332e2931091259123', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'fe525f5294360a20453f3658b4dc192fe83e5d26', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: 'b520404f876d150a460b6e90b2c40246954b6209', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
@@ -8987,7 +3826,7 @@ const IglReallocationDialog = class {
     };
     render() {
         const hasRateplans = this.hasRateplanRequirement();
-        return (h("ir-dialog", { key: 'cec4bd208195792d7fe91e73a48dc65e36afc508', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '59efbf21db6b00334d61fa24dca8ad9547eb346a' }, h("div", { key: '81c904b12a2e8bce657f4f9b85782562d74b8eb1', class: "dialog-body" }, h("p", { key: 'b8f386a30d84b209d88757b2a81a6e56dbd530c9', class: "text-left dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
+        return (h("ir-dialog", { key: 'ca2b4b86b549c2b5b33ee1a2de6d083d69af072c', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: 'a42d583e72566342966ceeb211ad9dc73ccae638' }, h("div", { key: '075fdf1fbe88bc6bad086c57197cd9d8c21528ef', class: "dialog-body" }, h("p", { key: '83821f1f3b56cb5b8e7d3356502409854e5e2fe4', class: "text-left dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
         // <ir-select
         //   ref={el => (this.rateplanSelectEl = el)}
         //   required
@@ -8996,13 +3835,13 @@ const IglReallocationDialog = class {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: 'a99b2694d683a73445fbd934ce66a524a48d8d32', "onwa-hide": e => {
+        h("wa-select", { key: 'beeda5b1f99a275bda55405e0bd9749c6a3627b2', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '7557bbc846987cdd22d60607c780bd86330e4d97', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '2337a35fe2338a3c3a63b386013652237e7049b0', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '75da8272e99cd33cbf27f749dfb0390e92bca4c0', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: '5b43564262125d86d0f54832f1994486f8cdc6c3', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: 'e8b6525b525b306a41dce2bbbc64cb0fccebf33b', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '011d4baec722214846d94e97a2e4da3fb0b0511e', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '8f009962d2adc933d718c13ac69851c5121619e3', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: '0a6e3a0f1c429ce6073a538445e734fbffb1bdbc', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
     }
     static get watchers() { return {
         "data": ["handleDataChange"]
@@ -9016,40 +3855,21 @@ const IglRoomTypeStyle0 = iglRoomTypeCss;
 const IglRoomType = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.dataUpdateEvent = createEvent(this, "dataUpdateEvent", 7);
     }
     roomType;
     bookingType = 'PLUS_BOOKING';
-    dateDifference;
     ratePricingMode = [];
-    roomInfoId = null;
+    roomTypeId = null;
     currency;
-    initialRoomIds;
     isBookDisabled;
-    selectedRooms = [];
-    totalRooms;
-    roomsDistributions = [];
-    dataUpdateEvent;
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '29e017382e9dde8898fbfea7fb530743b318a149' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '1da97ba5a44c1bc2bf4b0c4095ca370d542e8e91', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: 'a067dba9136878f07c41ae33bec357b9c630e673' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '395798a66ed5ac9207e51f8d7e05b5d0e1425173', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
-                let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
-                // let roomId = -1;
-                // if (shouldBeDisabled && this.initialRoomIds) {
-                //   roomId = this.initialRoomIds.roomId;
-                // }
+                let shouldBeDisabled = this.roomTypeId === this.roomType.id;
                 const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                return (h("igl-rate-plan", {
-                    // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
-                    // index={index}
-                    isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency,
-                    // dateDifference={this.dateDifference}
-                    ratePlan: ratePlan, roomTypeId: this.roomType.id,
-                    // totalAvailableRooms={this.roomsDistributions[index]}
-                    bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled
-                }));
+                return (h("igl-rate-plan", { isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency, ratePlan: ratePlan, roomTypeId: this.roomType.id, bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled }));
             }
             return null;
         })));
@@ -9259,17 +4079,17 @@ const IglSplitBooking = class {
         this.selectedUnit = merged;
     }
     render() {
-        return (h("form", { key: '50b27c569567a1d0fb44ef8c5926d08f7098e74b', onSubmit: e => {
+        return (h("form", { key: '385efe45c56cb7ce28193a2fcf410773f985c3fe', onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, h("ir-title", { key: '2285f7bc0fc11cc4ced94fa44615202c4378d6c1', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: '54d34a96cd77dff4c14454f22263e5b958000bef', class: "px-1 sheet-body" }, h("div", { key: '9ad11d78762719fea40a7f29ad8187be9d670367', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'e01593dc5c30dfd39e3ca9086e622f928502c67b' }, h("ir-date-view", { key: 'a6eca185cb2fbccdaea1cccbd3b1a4daa7d633ec', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: '5e598c73c6e92c87bfe39c8a25b1ef551d03e563', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '1162bc5a47005f9a29f3e5232349827509f33fca', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: '5d363040030523f5b7fc7e74c42d9e89b3b0806b' }, "From:"), h("ir-date-picker", { key: '50bc4ce08f4a100d460e412174088269059ba91b', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
+            }, class: "sheet-container" }, h("ir-title", { key: '0f8d09774cee07b49cd783d07255c3b3ff2f6e51', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: 'c767e71158c4e8f7b9ce7cc36bd17970fd0b927e', class: "px-1 sheet-body" }, h("div", { key: '05f3d6f47b5aa0932468409ac9cff92a6cafc1c4', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'b8298d9c445df00992a1350b7cf621b677e2dd7b' }, h("ir-date-view", { key: '37633cf8091e6aa0e435008c7c56cf2b977c1b9b', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: 'b170f3e3bf5030541540641c826b64b23f84f1a8', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '94d7f129a3961380e7d2ebe0d44c4ece03e5d007', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: 'ff586526fcde416fc42a14cf157e2c92f9af71b8' }, "From:"), h("ir-date-picker", { key: '00066a8b5907428f144398065cf687f58e6fb1a4', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
             // aria-invalid={this.errors?.arrival_date && !this.pickupData.arrival_date ? 'true' : 'false'}
             onDateChanged: evt => {
                 this.selectedDates = {
                     ...this.selectedDates,
                     from_date: evt.detail.start,
                 };
-            } }, h("input", { key: '600a79548ba626f8c508fb353b76af55195b2c27', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'dd7d6a5e428bea2235317eb3aa75da21c558623b', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '845433eff0ea0ffa5f27cb48416aac82d9baaf8f', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: '9640e3e503580960e4233b1d3e412828b3b59b5a', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
+            } }, h("input", { key: '19bcda21c647eecca87d465ad12ab450471e14f1', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: '8a877795af7833f26eb7310e91b83482515f52f3', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '2e1ebf7edc7dea05b386ac98914f295b5cfc0969', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'a34f9dc3e04c95d8d94b8f58caefefa326a119cd', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
             if (!roomType.is_available_to_book) {
                 return null;
             }
@@ -9317,7 +4137,7 @@ const IglSplitBooking = class {
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: '4e5db8d4b80c9a90e96fd40bf0de09d06203ee23', class: 'sheet-footer' }, h("ir-button", { key: '1bb24370e338fe1ca287875cf74cf111e51c2b74', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '015a9102c95df5b4475a2a78d69566983f6e5397', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: '5df50c25ad479d6f86a0d52846702fc158bed822', class: 'sheet-footer' }, h("ir-button", { key: 'e4cde79a1fa0cb13d0c3603ee77f16b4d15bca9a', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '46745bd24927b8aba7059421cc8344286747b6fe', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
 };
 IglSplitBooking.style = IglSplitBookingStyle0 + IglSplitBookingStyle1;
@@ -9508,7 +4328,7 @@ const IglTbaBookingView = class {
         });
     }
     render() {
-        return (h(Host, { key: '76caf3a7063de47233eff9a3b771646f00c216e5' }, h("div", { key: 'af2aace573a3fc62b84a2bd4415a66e4611d2dd7', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '1f92eb47c9bf98588b6a4c0c46bfa2668a8a62d1', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: 'c6df0aa7ac21bb0a5977fae1756ad2839a3eed34', class: "row m-0 p-0 actionsContainer" }, h("select", { key: '1c06c35447a28f4e48ce07fb066c9d5c973dda0f', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: '816fe7f01ffcfce8c86c3420885a05bf28b572b9', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '566231bc21eb3aa31118e532f3fdf6648882bbfa', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: 'c535672f39d61710fe4acf0b52bc7ea0832309c0', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: 'b093c9cd89de49ccd75d4b389afc4e762171f12e', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: '670eb6e136d96b51e08ec1fa273fdab7cca5062d' }))));
+        return (h(Host, { key: '632b0b7958ba4c73bb2a24fb9db45083ab376b7a' }, h("div", { key: 'd4d656e18737157082f68f75e98c518db73d53c9', class: "bookingContainer", onClick: () => this.handleHighlightAvailability() }, h("div", { key: '25f277f3254595baa67e4ac020e6ba8de640b041', class: `guestTitle ${this.highlightSection ? 'selectedOrder' : ''} pointer font-small-3`, "data-toggle": "tooltip", "data-placement": "top", "data-original-title": "Click to assign unit" }, `Book# ${this.eventData.BOOKING_NUMBER} - ${this.eventData.NAME}`), h("div", { key: 'a643baa0d5f8b9f15497960a3a758fa6a76ab833', class: "row m-0 p-0 actionsContainer" }, h("select", { key: 'dc5c884da35111bec4781a3fbcc1cc6fe1fc9fd0', class: "form-control input-sm room-select flex-grow-1", id: v4(), onChange: evt => this.onSelectRoom(evt) }, h("option", { key: 'ea505e97bcd34aa324125789f1e82b2d199aa27e', value: "", selected: this.selectedRoom == -1 }, locales.entries.Lcz_AssignUnit), this.allRoomsList.map(room => (h("option", { value: room.id, selected: this.selectedRoom == room.id }, room.name)))), this.highlightSection ? (h("div", { class: "buttonsContainer bg-red" }, h("button", { type: "button", class: "btn btn-secondary btn-sm mx-0", onClick: evt => this.handleCloseAssignment(evt) }, h("svg", { class: "m-0 p-0", xmlns: "http://www.w3.org/2000/svg", height: "12", width: "9", viewBox: "0 0 384 512" }, h("path", { fill: "currentColor", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" }))))) : null), h("div", { key: '7986bd311729bc1a68043b5f327a879401a84a55', class: "d-flex align-items-center ", style: { gap: '0.5rem', paddingInline: '5px' } }, h("ir-button", { key: '616625710c794524fe4b59f0867080c38238cd8f', isLoading: this.isLoading === 'default', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_Assign, onClickHandler: evt => this.handleAssignUnit(evt), btn_disabled: this.selectedRoom === -1 }), this.canCheckIn() && (h("ir-button", { key: 'd8d16e0853e59d55780af75de314c9028cda8a00', isLoading: this.isLoading === 'checkin', size: "sm", class: "flex-grow-1", text: locales.entries.Lcz_AssignedAndChecIn, onClickHandler: evt => this.handleAssignUnit(evt, true), btn_disabled: this.selectedRoom === -1 }))), h("hr", { key: 'fde61296820c57ede6ad004bb189a7a14cb33747' }))));
     }
 };
 IglTbaBookingView.style = IglTbaBookingViewStyle0;
@@ -9555,7 +4375,7 @@ const IglTbaCategoryView = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '5739e7a319f35dc59a491a5323605f14513dbb07' }, h("div", { key: '22b55220be80c57b4631d9f3f9d56039ebd42f17', class: "sectionContainer" }, h("div", { key: '296e68770ff4a93dabb1a4fc22d72affbcf24311', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '9fece039de214d2de93512e8eabd7e503e6fb636' }, h("div", { key: '2c554513dfc1e2e33f92fc51f299776301e6e3e4', class: "sectionContainer" }, h("div", { key: '91127f678cd48a84f323b7d8d36222bb3a073f2f', class: "font-weight-bold mt-1 font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
 };
 IglTbaCategoryView.style = IglTbaCategoryViewStyle0;
@@ -9804,7 +4624,7 @@ const IglToBeAssigned = class {
     }
     render() {
         const selectedDateData = this.selectedDate ? this.data[this.selectedDate] : null;
-        return (h(Host, { key: 'bf91e479f6a7d1ec4c8dc369bc3d196e12814593', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: 'a8f944ad6ac804a788fe1b3bb9b637927f2124be' }, h("div", { key: '7815c224ef3028c29998c7fc45cf824ca61458e5' }, h("div", { key: 'cea8d1213032a0c9226ca932d6788ca92fb0c9c9', class: "stickyHeader pt-1" }, h("div", { key: '76fc3e1e7e135f9e98f08f47b8554c2a32d917aa', class: 'assignment_header' }, h("p", { key: '9b33b7bafac043312504164be8edef2396ec007d', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: '029fd79f361f82fb466ec2301659f63a28725b86', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: 'ee52bf871d79f8a1fcb27cbf0c1cf271e51dfc0e' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, selectedDateData?.dateStr || this.selectedDateDisplay), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, this.orderedDatesList?.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: '4ed978fc98711725564f944311c1d90a56a7aaff', class: "scrollabledArea" }, this.selectedDate ? (selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
+        return (h(Host, { key: '3ff897bd704a3a557e5753a3cd4da46ff2b06a38', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: 'ef7f7fb2b5a20f658b4bdd45a665cc3b3043a834' }, h("div", { key: '8eb5cf6936b42bad8d3e0152fd2378c6e18d6a95' }, h("div", { key: 'a13d99b263dfe671f128f7cd869f7c228d073dcc', class: "stickyHeader pt-1" }, h("div", { key: 'aa86d4f3833840d9283b6aa73fba729d8e65bd74', class: 'assignment_header' }, h("p", { key: '28d2ebfa7b248b740e2a7d720eb90be41147139f', class: "tobeAssignedHeader " }, locales.entries.Lcz_Assignments), h("ir-button", { key: 'e543c67c0466eaaefdf221ff8fad7933af6edc2a', class: "close_btn", variant: "icon", btn_styles: "close_btn_style", icon_name: "double_caret_left", style: colorVariants.secondary, onClickHandler: () => this.handleOptionEvent('closeSideMenu'), visibleBackgroundOnHover: true })), h("hr", { key: '279755807cb6b7e277d00c54125c56d416101902' }), Object.keys(this.data).length === 0 ? (h("p", null, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center" }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h(Fragment, null, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, selectedDateData?.dateStr || this.selectedDateDisplay), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, this.orderedDatesList?.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (locales.entries.Lcz_AllBookingsAreAssigned)))), !this.isLoading && (h("div", { key: 'f89c3e28724a300e51dd75172449fccc32e9f38c', class: "scrollabledArea" }, this.selectedDate ? (selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("div", { class: "mt-1" }, locales.entries.Lcz_AllAssignForThisDay))) : null))))));
     }
     static get watchers() { return {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]
@@ -11172,12 +5992,24 @@ const IglooCalendar = class {
         // if (!this.isAuthenticated) {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
-        return (h(Host, { key: '1eb26ac86d098edd1c0f98965ef4810228b0e1bf' }, h("ir-toast", { key: '38467f1a3da34cd623309088bf646fef7f1be26b' }), h("ir-interceptor", { key: '57d995601ca1451b62bb526f6aa24a58fb5b0221' }), h("div", { key: '06e3029128810e63630451d2cce5687ed8833f6e', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), this.bookingItem && (h("igl-book-property", { key: '50f14dc42aa143cafebf5bd14074927112f8410c', allowedBookingSources: this.calendarData.allowedBookingSources, adultChildConstraints: this.calendarData.adultChildConstraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() })), h("ir-sidebar", { key: '96ff1dba192d5cac5ee5aea8b8b44204f999148e', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: '1eb26ac86d098edd1c0f98965ef4810228b0e1bf' }, h("ir-toast", { key: '38467f1a3da34cd623309088bf646fef7f1be26b' }), h("ir-interceptor", { key: '57d995601ca1451b62bb526f6aa24a58fb5b0221' }), h("div", { key: '06e3029128810e63630451d2cce5687ed8833f6e', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("ir-sidebar", { key: '789c9b079f3f1a21ec46979c487a46009d934a7a', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
                 width: this.calendarSidebarState?.type === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? '#F2F3F8' : 'white',
-            } }, this.roomNightsData && (h("ir-room-nights", { key: 'e396089387892eea6fb5462c88c3f0afdc156e6d', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: '2b6993dcbf7d9b8880c769b9ea9a71fedf10a49d', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) })), this.calendarSidebarState?.type === 'bulk-blocks' && (h("igl-bulk-operations", { key: '4768112225e9f02d976a32a60de3f9d8bf2dbb73', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
+            } }, this.roomNightsData && (h("ir-room-nights", { key: 'bdbb38adb81abe8147329950d46590e549f40491', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: 'aa462259fa7c900d8383cb8e80265809f32bc09f', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) })), this.calendarSidebarState?.type === 'bulk-blocks' && (h("igl-bulk-operations", { key: 'ddf8e214520a4a3e39d38bf60ad97ac050dd5b43', slot: "sidebar-body", property_id: this.property_id, onCloseModal: () => (this.calendarSidebarState = null) })
         // <igl-bulk-stop-sale slot="sidebar-body" property_id={this.property_id} onCloseModal={() => (this.calendarSidebarState = null)}></igl-bulk-stop-sale>
-        )), h("ir-booking-details-drawer", { key: '623c7bac89d4d10d8f2fd90ec79850f183931774', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: '075a26044f13d236e09d8a0985d082f2100110e6', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: 'd75b7df7e5f9bb6ba8db5a26fd0d8948482777c1', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: 'c9cd24529f7e335776141c84b7f9ae14603e2c88', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: '977184dcbd059f248bf81c6ab8a4f2eaf15e7be7', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '78c2aefbba79919c9a4fe7fc23c069664abdbb2d', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null })));
+        )), h("ir-booking-details-drawer", { key: '18712bad1b94001150c4ac1817a1fb3eb46b8697', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: 'e137f0c2f50d4ddd1ba4e260c601e17ebbf1ccdd', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: '9e1f81cb79b87404e55925649e894238831aba10', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: 'a3b0694fc791e3dde69f65e44eb183101890b214', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: '6e0a9879c38bca5941a38ad7932d61da8887fbbf', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '34521fe2e3cc95c03d42a19e98ee70f33bf2cafb', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: '23a2d233aca6a0c81f05474cf8cc2cb87082809a', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
+                ENTRY_DATE: this.bookingItem?.ENTRY_DATE,
+                ENTRY_HOUR: this.bookingItem?.ENTRY_HOUR,
+                ENTRY_MINUTE: this.bookingItem?.ENTRY_MINUTE,
+                OPTIONAL_REASON: this.bookingItem?.OPTIONAL_REASON,
+                OUT_OF_SERVICE: this.bookingItem?.OUT_OF_SERVICE,
+                RELEASE_AFTER_HOURS: this.bookingItem?.RELEASE_AFTER_HOURS,
+                STATUS_CODE: this.bookingItem?.STATUS_CODE,
+            }, checkOut: this.bookingItem?.TO_DATE }), h("igl-blocked-date-drawer", { key: '27a3adc6cc7f14104f0d07b084bd9b086d0e5fcd', onBlockedDateDrawerClosed: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.bookingItem = null;
+            }, unitId: this.bookingItem?.PR_ID, fromDate: this.bookingItem?.FROM_DATE, toDate: this.bookingItem?.TO_DATE, label: this.bookingItem?.BLOCK_DATES_TITLE?.trim(), open: this.bookingItem?.event_type === 'BLOCK_DATES' })));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -11763,12 +6595,12 @@ const IrBilling = class {
         if (this.isLoading === 'page') {
             return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
         }
-        // const canIssueInvoice = !moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
+        const canIssueInvoice = !hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
+        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), !canIssueInvoice && h("wa-tooltip", { for: this._id }, "Invoices cannot be issued before guest arrival"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
+            }, disabled: !canIssueInvoice }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
@@ -11844,7 +6676,7 @@ const IrBillingDrawer = class {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '2840da68bae7cff638f857ad14a21df55b9d7b5b', style: {
+        return (h("ir-drawer", { key: 'b550a3002eff6c791f7353ebf8b42b35410c076e', style: {
                 '--ir-drawer-width': '50rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -11855,7 +6687,7 @@ const IrBillingDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '8010cde28f427c3dea1c44825d9994b1b18de3a5', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '7f6c2f49d7db838fdcc21ae84750ff1b282ccf01', booking: this.booking })));
     }
 };
 IrBillingDrawer.style = IrBillingDrawerStyle0;
@@ -11921,7 +6753,7 @@ const IrBookingBillingRecipient = class {
         this.rooms = rooms;
     }
     render() {
-        return (h(Host, { key: '51a5d89cc05aa380848ff42a3f86fe5b3c0bbd09' }, h("wa-radio-group", { key: 'e5733953318a45c41ea209014f6991490f92dc0e', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'e3ebf3f1e9024b4bda9d10bb2a0af8b833ad9a7c', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '5d2eaa9aa8e9b77994e87922eaa75d521c3c9997', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: '665f78f833b2190cbe78d83d23357aabf5ebecdd', onCompanyFormClosed: () => {
+        return (h(Host, { key: 'ebba7fa3022927c7c978191b0f8fb0afdd29c79a' }, h("wa-radio-group", { key: 'd038f2817481ae20e91f1b7dd580ab864842c107', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '8c2b58c675b59bcd6f3b9d0dd79c1aa1e74253ae', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), h("wa-radio", { key: '9a6ce1176155bf16bed12fa9291f439ac911cc8a', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name')), h("ir-booking-company-dialog", { key: 'c70b6f2aead7b8d0c1ba4901fec359ca15d84c52', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }
@@ -11966,17 +6798,17 @@ const IrBookingCompanyDialog = class {
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '42d375f0a34b53878befbb1d11437bea565ffcb5', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '3d27cd09b11946ee74ff48b19e6ea787e6ed62e5', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'b5b51f9fe13de80b7244fb8d9fc161c3853bc3fc', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '8d1c411b8c8f19c1e421ef62c9669514078575d1', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: 'd5338729455ee81770b16fb8a2b6dba90f52a3d0', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '03075d6a62ef691b437d787b2dbb1b3d2dd671e5', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'e1cbc84b459e693d0fa2542033c34589f691e010', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: 'fac92bd47abebbf122972ed7a81322ba7469796a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'f5b0c82b2eee1ee421fb237370830fc480d02f58', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'a11a0bdbf35702d75da414faa71337ea5f745862', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
     }
 };
 IrBookingCompanyDialog.style = IrBookingCompanyDialogStyle0;
@@ -12036,15 +6868,15 @@ const IrBookingCompanyForm = class {
         }
     }
     render() {
-        return (h("form", { key: 'a5a8e20f40411812968b4cc28a6e5141e6c7bdae', id: this.formId, onSubmit: e => {
+        return (h("form", { key: 'e64ba5c2f73373d4399dde40791bb66b18ba3eb2', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: 'f2bc5703238614e95cc3c51087567144cb965293', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '6e6118bd3ef47e62ccab8a355db0bc7973591fb2', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: 'b48298d739a0a3f3e9ecda7102fbdc4823aabc23', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '919a0cf05b729f3ef92d4bd35d9edda61938640d', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
 };
 IrBookingCompanyForm.style = IrBookingCompanyFormStyle0;
 
-const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden;--ir-dialog-max-width:20rem;text-align:start;padding:var(--wa-space-l);position:relative;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.sc-ir-booking-details-h *.sc-ir-booking-details{box-sizing:border-box;font-family:inherit !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important}.font-medium.sc-ir-booking-details{font-weight:600}.sc-ir-booking-details-h th.sc-ir-booking-details{font-weight:600}.booking-details__date-view-header.sc-ir-booking-details{font-size:1.1rem !important}.booking-details__booking-info.sc-ir-booking-details{display:grid;padding:var(--wa-space-m);gap:var(--wa-space-l)}.booking-details__info-column.sc-ir-booking-details{display:flex;flex-direction:column;gap:var(--wa-space-l)}@media (min-width: 890px){.booking-details__booking-info.sc-ir-booking-details{grid-template-columns:repeat(2, 1fr)}}@media (min-width: 1024px){.booking-details__booking-info.sc-ir-booking-details{gap:var(--wa-space-xl)}}.card.room-group.sc-ir-booking-details{margin-bottom:1rem !important}.card.room-group.sc-ir-booking-details:last-child{margin-bottom:1.81rem !important}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.loading-container.sc-ir-booking-details{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0.2rem 0.3rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}.dialog-title.sc-ir-booking-details{width:fit-content}";
+const irBookingDetailsCss = ".sc-ir-booking-details-h{overflow-x:hidden;--ir-dialog-max-width:20rem;text-align:start;padding:var(--wa-space-l);position:relative;height:100%}.sc-ir-booking-details-h *.sc-ir-booking-details{box-sizing:border-box}.font-medium.sc-ir-booking-details{font-weight:600}.sc-ir-booking-details-h th.sc-ir-booking-details{font-weight:600}.booking-details__date-view-header.sc-ir-booking-details{font-size:1.1rem !important}.booking-details__booking-info.sc-ir-booking-details{display:grid;padding:var(--wa-space-m);gap:var(--wa-space-l)}.booking-details__info-column.sc-ir-booking-details{display:flex;flex-direction:column;gap:var(--wa-space-l)}@media (min-width: 890px){.booking-details__booking-info.sc-ir-booking-details{grid-template-columns:repeat(2, 1fr)}}@media (min-width: 1024px){.booking-details__booking-info.sc-ir-booking-details{gap:var(--wa-space-xl)}}.card.room-group.sc-ir-booking-details{margin-bottom:1rem !important}.card.room-group.sc-ir-booking-details:last-child{margin-bottom:1.81rem !important}.h-28.sc-ir-booking-details{height:2rem}.mx-01.sc-ir-booking-details{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}.date-margin.sc-ir-booking-details{margin-right:5px}.pickup-margin.sc-ir-booking-details{margin-bottom:7px !important}.header-date.sc-ir-booking-details{padding-left:5px !important}.pointer.sc-ir-booking-details{cursor:pointer}.sc-ir-booking-details:root{--sidebar-width:50rem}.loading-container.sc-ir-booking-details{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}.sm-padding-right.sc-ir-booking-details{padding-right:0.2rem}.sm-padding-left.sc-ir-booking-details{padding-left:0.2rem}.sm-padding-top.sc-ir-booking-details{padding-top:0.2rem}.sm-padding-bottom.sc-ir-booking-details{padding-bottom:0.2rem}.info-notes.sc-ir-booking-details{list-style:none;padding-left:0}.light-blue-bg.sc-ir-booking-details{background-color:#acecff;padding:0.2rem 0.3rem}.iframeHeight.sc-ir-booking-details{height:17.5rem}.dialog-title.sc-ir-booking-details{width:fit-content}";
 const IrBookingDetailsStyle0 = irBookingDetailsCss;
 
 const IrBookingDetails = class {
@@ -12459,13 +7291,14 @@ const IrBookingDetails = class {
         }))));
     }
     render() {
+        console.log(this.bookingItem);
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const roomsSection = this.renderRooms();
         return [
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } })))),
-            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: calendar_data.property.is_pms_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }),
+            h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }),
             h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), roomsSection), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })),
             h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                     e.stopImmediatePropagation();
@@ -12512,7 +7345,7 @@ const IrBookingDetails = class {
                     this.sidebarState = null;
                 }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }),
             h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }),
-            h(Fragment, null, this.bookingItem && (h("igl-book-property", { allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.property_id, bookingData: this.bookingItem, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))),
+            h(Fragment, null, h("ir-booking-editor-drawer", { roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, booking: this.booking, ticket: this.ticket, open: this.bookingItem !== null, roomIdentifier: this.bookingItem?.IDENTIFIER, language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, checkOut: this.bookingItem?.TO_DATE })),
         ];
     }
     handleRoomCheckout(room) {
@@ -12590,17 +7423,1267 @@ const IrBookingDetailsDrawer = class {
         this.bookingDetailsDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: '7a30c691a8917a33de6c9c4224f6b4efe18d58f1', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
+        return (h("ir-drawer", { key: '38dd01f71edd9e602685a351eb2e0ba392ad3074', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
                 '--ir-drawer-width': '80rem',
                 '--ir-drawer-background-color': '#F2F3F8',
                 '--ir-drawer-padding-left': '0',
                 '--ir-drawer-padding-right': '0',
                 '--ir-drawer-padding-top': '0',
                 '--ir-drawer-padding-bottom': '0',
-            } }, this.open && (h("ir-booking-details", { key: 'ae0b10b96917fa66a9c5c555cd8bea20f52c63ab', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
+            } }, this.open && (h("ir-booking-details", { key: 'de68612c89d0bb50be62d74e414311bf34b74d3e', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
     }
 };
 IrBookingDetailsDrawer.style = IrBookingDetailsDrawerStyle0;
+
+const RoomsGuestsSchema = z.array(z
+    .object({
+    first_name: z.string().nonempty(),
+    last_name: z.string().nonempty(),
+    bed_preference: z.string().optional().nullable(),
+    requires_bed_preference: z.boolean().nullable(),
+})
+    .superRefine((data, ctx) => {
+    if (data.requires_bed_preference && !data.bed_preference) {
+        ctx.addIssue({
+            path: ['bed_preference'],
+            message: 'Bed preference is required',
+            code: z.ZodIssueCode.custom,
+        });
+    }
+}));
+const BookedByGuestSchema = z.object({
+    firstName: z.string().nonempty(),
+    lastName: z.string().nonempty(),
+});
+
+class IRBookingEditorService {
+    /** Current booking editor mode */
+    mode;
+    /** Lazy-initialized variation service */
+    variationService;
+    constructor(mode) {
+        this.mode = mode;
+    }
+    setMode(mode) {
+        this.mode = mode;
+    }
+    // ─────────────────────────────────────────────
+    // Utility helpers
+    // ─────────────────────────────────────────────
+    /**
+     * Checks whether a string contains underscores.
+     * Used to validate phone numbers.
+     */
+    hasUnderscore(str) {
+        return /_+/.test(str);
+    }
+    /**
+     * Generates daily rate entries for a reserved room.
+     */
+    calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+        const total_days = selected_variation.nights.length;
+        if (is_amount_modified) {
+            return view_mode === '002' ? rp_amount : rp_amount / total_days;
+        }
+    }
+    /**
+     * Builds room payloads based on selected rate plans
+     * and booking draft context.
+     */
+    generateDailyRates(rate_plan, i) {
+        let variation = rate_plan.selected_variation;
+        const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
+        if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
+            if (!this.variationService) {
+                this.variationService = new VariationService();
+            }
+            variation = this.variationService.getVariationBasedOnInfants({
+                variations: rate_plan.ratePlan.variations,
+                baseVariation: rate_plan.selected_variation,
+                infants: rate_plan.guest[i].infant_nbr,
+            });
+        }
+        return variation.nights.map(n => ({
+            date: n.night,
+            amount: amount ?? n.discounted_amount,
+            cost: null,
+        }));
+    }
+    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+        const rooms = [];
+        for (const roomTypeId in booking_store.ratePlanSelections) {
+            const roomtype = booking_store.ratePlanSelections[roomTypeId];
+            for (const rateplanId in roomtype) {
+                const rateplan = roomtype[rateplanId];
+                if (rateplan.reserved > 0) {
+                    for (let i = 0; i < rateplan.reserved; i++) {
+                        const { first_name, last_name } = rateplan.guest[i];
+                        rooms.push({
+                            identifier,
+                            roomtype: rateplan.roomtype,
+                            rateplan: rateplan.ratePlan,
+                            prepayment_amount_gross: 0,
+                            unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
+                            occupancy: {
+                                adult_nbr: rateplan.selected_variation.adult_nbr,
+                                children_nbr: Number(rateplan.selected_variation.child_nbr ?? 0) - Math.max(Number(rateplan.guest[i].infant_nbr ?? 0), 0),
+                                infant_nbr: rateplan.guest[i].infant_nbr,
+                            },
+                            bed_preference: rateplan.guest[i].bed_preference,
+                            from_date: hooks(check_in).format('YYYY-MM-DD'),
+                            to_date: hooks(check_out).format('YYYY-MM-DD'),
+                            notes,
+                            check_in: auto_check_in,
+                            days: this.generateDailyRates(rateplan, i),
+                            guest: {
+                                email: null,
+                                first_name,
+                                last_name,
+                                country_id: null,
+                                city: null,
+                                mobile: null,
+                                address: null,
+                                dob: null,
+                                subscribe_to_news_letter: null,
+                                cci: null,
+                            },
+                        });
+                    }
+                }
+            }
+        }
+        return rooms;
+    }
+    isEventType(mode) {
+        if (Array.isArray(mode)) {
+            return mode.includes(this.mode);
+        }
+        return this.mode === mode;
+    }
+    /**
+     * Prepares payload parameters for the booking user service
+     * based on the current editor mode.
+     */
+    async prepareBookUserServiceParams({ check_in, booking, room, unitId }) {
+        try {
+            // Validate context structure
+            const { dates } = booking_store.bookingDraft;
+            const fromDate = dates.checkIn;
+            const toDate = dates.checkOut;
+            const generateNewRooms = (identifier = null, check_in = false) => {
+                return this.getBookedRooms({
+                    check_in: fromDate,
+                    check_out: toDate,
+                    identifier,
+                    notes: '',
+                    override_unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? true : false,
+                    unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? unitId?.toString() ?? null : null,
+                    auto_check_in: check_in,
+                });
+            };
+            const modifyBookingDetails = ({ pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras, ...rest }, rooms) => {
+                return {
+                    assign_units: true,
+                    is_pms: true,
+                    is_direct,
+                    is_backend: true,
+                    is_in_loyalty_mode,
+                    promo_key,
+                    extras,
+                    booking: {
+                        ...rest,
+                        rooms,
+                    },
+                    extra_services,
+                    pickup_info,
+                };
+            };
+            let newBooking = null;
+            const sourceOption = booking_store.bookingDraft.source;
+            switch (this.mode) {
+                case 'EDIT_BOOKING': {
+                    const filteredRooms = booking.rooms.filter(r => r.identifier !== room.identifier);
+                    const newRooms = generateNewRooms(room.identifier, room.in_out?.code === '001');
+                    newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
+                    break;
+                }
+                case 'ADD_ROOM':
+                case 'SPLIT_BOOKING': {
+                    const newRooms = generateNewRooms();
+                    const previousRooms = booking.rooms;
+                    newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
+                    break;
+                }
+                default: {
+                    const newRooms = generateNewRooms(null, check_in);
+                    const { bookedByGuest } = booking_store;
+                    const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
+                    newBooking = {
+                        assign_units: true,
+                        is_pms: true,
+                        is_direct: true,
+                        is_backend: true,
+                        is_in_loyalty_mode: false,
+                        promo_key: null,
+                        extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.selectedPaymentMethod?.code }],
+                        agent: isAgent ? { id: sourceOption.tag } : null,
+                        booking: {
+                            from_date: hooks(fromDate).format('YYYY-MM-DD'),
+                            to_date: hooks(toDate).format('YYYY-MM-DD'),
+                            remark: bookedByGuest.note || null,
+                            booking_nbr: '',
+                            property: {
+                                id: calendar_data.property.id,
+                            },
+                            booked_on: {
+                                date: hooks().format('YYYY-MM-DD'),
+                                hour: new Date().getHours(),
+                                minute: new Date().getMinutes(),
+                            },
+                            source: isAgent ? '' : sourceOption,
+                            rooms: newRooms,
+                            currency: calendar_data.property.currency,
+                            arrival: { code: bookedByGuest.selectedArrivalTime },
+                            guest: {
+                                email: bookedByGuest.email === '' ? null : bookedByGuest.email || null,
+                                first_name: bookedByGuest.firstName,
+                                last_name: bookedByGuest.lastName,
+                                country_id: bookedByGuest.countryId === '' ? null : bookedByGuest.countryId,
+                                city: null,
+                                mobile: bookedByGuest.mobile === null ? '' : this.hasUnderscore(bookedByGuest.mobile) ? '' : bookedByGuest.mobile,
+                                country_phone_prefix: bookedByGuest?.phone_prefix ?? null,
+                                address: '',
+                                dob: null,
+                                subscribe_to_news_letter: bookedByGuest.emailGuest || false,
+                                cci: bookedByGuest.cardNumber
+                                    ? {
+                                        nbr: bookedByGuest.cardNumber,
+                                        holder_name: bookedByGuest.cardHolderName,
+                                        expiry_month: bookedByGuest.expiryMonth,
+                                        expiry_year: bookedByGuest.expiryYear,
+                                    }
+                                    : null,
+                            },
+                        },
+                        pickup_info: null,
+                    };
+                    break;
+                }
+            }
+            return newBooking;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+const irBookingEditorCss = ".sc-ir-booking-editor-h{display:block;height:100%}.booking-editor__roomtype-container.sc-ir-booking-editor{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;padding-bottom:3rem}";
+const IrBookingEditorStyle0 = irBookingEditorCss;
+
+const IrBookingEditor = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.loadingChanged = createEvent(this, "loadingChanged", 7);
+        this.adjustBlockedUnit = createEvent(this, "adjustBlockedUnit", 7);
+    }
+    propertyId;
+    language = 'en';
+    roomTypeIds = [];
+    identifier;
+    booking;
+    mode = 'PLUS_BOOKING';
+    checkIn;
+    checkOut;
+    step;
+    blockedUnit;
+    unitId;
+    isLoading = true;
+    resetBookingEvt;
+    loadingChanged;
+    adjustBlockedUnit;
+    roomService = new RoomService();
+    bookingService = new BookingService();
+    bookingEditorService = new IRBookingEditorService(this.mode);
+    room;
+    get adjustedCheckout() {
+        if (this.bookingEditorService.isEventType('PLUS_BOOKING') && !this.blockedUnit) {
+            return undefined;
+        }
+        return this.checkOut;
+    }
+    componentWillLoad() {
+        this.initializeApp();
+    }
+    handleModeChange(newMode, oldMode) {
+        if (newMode !== oldMode) {
+            this.bookingEditorService.setMode(newMode);
+        }
+    }
+    handleGuestSelected(e) {
+        this.booking = { ...e.detail };
+        updateBookedByGuest({
+            firstName: this.booking.guest.first_name,
+            lastName: this.booking.guest.last_name,
+        });
+        const source = booking_store.selects.sources.find(s => s.code === this.booking.source.code);
+        setBookingDraft({
+            source,
+        });
+    }
+    async initializeApp() {
+        try {
+            this.isLoading = true;
+            this.bookingEditorService.setMode(this.mode);
+            const [languageTexts, countriesList] = await Promise.all([
+                this.roomService.fetchLanguage(this.language),
+                this.bookingService.getCountries(this.language),
+                this.roomService.getExposedProperty({
+                    id: Number(this.propertyId),
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                    include_sales_rate_plans: true,
+                }),
+            ]);
+            if (!locales.entries) {
+                locales.entries = languageTexts.entries;
+                locales.direction = languageTexts.direction;
+            }
+            await this.fetchSetupEntriesAndInitialize();
+            setBookingSelectOptions({
+                countries: countriesList,
+            });
+            this.initializeDraftFromBooking();
+            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+                await this.checkBookingAvailability();
+            }
+        }
+        catch (error) {
+            console.error('Error initializing app:', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    disconnectedCallback() {
+        resetBookingStore(true);
+    }
+    handleCheckAvailability(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.checkBookingAvailability();
+    }
+    /**
+     * Initializes booking draft and guest data
+     * based on the current editor mode.
+     *
+     * Throws if required booking data is missing.
+     */
+    initializeDraftFromBooking() {
+        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
+            if (!this.booking || (!this.identifier && this.bookingEditorService.isEventType('EDIT_BOOKING'))) {
+                throw new Error('Missing booking or identifier');
+            }
+        }
+        if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+            const room = this.booking.rooms.find(room => room.identifier === this.identifier);
+            modifyBookingStore('guest', {
+                bed_preference: room.bed_preference?.toString(),
+                infant_nbr: room.occupancy.infant_nbr,
+                first_name: room.guest.first_name ?? '',
+                last_name: room.guest.last_name ?? '',
+                unit: room.unit?.id?.toString(),
+            });
+            this.room = room;
+        }
+        let draft = {
+            dates: {
+                checkIn: this.checkIn ? hooks(this.checkIn, 'YYYY-MM-DD') : hooks(),
+                checkOut: this.checkOut ? hooks(this.checkOut, 'YYYY-MM-DD') : hooks().add(1, 'day'),
+            },
+        };
+        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
+            const source = booking_store.selects.sources.find(s => s.code === this.booking.source.code);
+            draft = {
+                ...draft,
+                source,
+            };
+            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+                draft = {
+                    ...draft,
+                    occupancy: {
+                        adults: this.booking.occupancy.adult_nbr,
+                        children: this.booking.occupancy.children_nbr,
+                    },
+                };
+            }
+            updateBookedByGuest({
+                firstName: this.booking.guest.first_name,
+                lastName: this.booking.guest.last_name,
+            });
+        }
+        setBookingDraft(draft);
+    }
+    updateBooking() {
+        try {
+            const currentRoomType = this.room;
+            const roomtypeId = currentRoomType.roomtype.id;
+            const rateplanId = currentRoomType.rateplan.id;
+            const guest = {
+                bed_preference: currentRoomType.bed_preference?.toString(),
+                infant_nbr: currentRoomType.occupancy.infant_nbr,
+                last_name: currentRoomType.guest.last_name,
+                first_name: currentRoomType.guest.first_name,
+                unit: currentRoomType.unit?.id?.toString(),
+                roomtype_id: currentRoomType.roomtype.id,
+            };
+            modifyBookingStore('guest', guest);
+            reserveRooms({
+                roomTypeId: roomtypeId,
+                ratePlanId: rateplanId,
+                rooms: 1,
+                guest: [guest],
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    async checkBookingAvailability() {
+        // resetBookingStore(false);
+        const { source, occupancy, dates } = booking_store.bookingDraft;
+        const from_date = dates.checkIn.format('YYYY-MM-DD');
+        const to_date = dates.checkOut.format('YYYY-MM-DD');
+        const is_in_agent_mode = source?.type === 'TRAVEL_AGENCY';
+        try {
+            const room_type_ids_to_update = this.bookingEditorService.isEventType('EDIT_BOOKING') ? [this.room.roomtype?.id] : [];
+            const room_type_ids = this.bookingEditorService.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? this.roomTypeIds.map(r => Number(r)) : [];
+            await this.bookingService.getBookingAvailability({
+                from_date,
+                to_date,
+                propertyid: calendar_data.property.id,
+                adultChildCount: {
+                    adult: occupancy.adults,
+                    child: occupancy.children,
+                },
+                language: this.language,
+                room_type_ids,
+                currency: calendar_data.property.currency,
+                agent_id: is_in_agent_mode ? source?.tag : null,
+                is_in_agent_mode,
+                room_type_ids_to_update,
+            });
+            if (this.mode !== 'EDIT_BOOKING') {
+                await this.assignCountryCode();
+            }
+            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+                this.updateBooking();
+            }
+        }
+        catch (error) {
+            console.error('Error initializing booking availability:', error);
+        }
+    }
+    async doReservation(source) {
+        try {
+            this.loadingChanged.emit({ cause: source });
+            const reservedRooms = getReservedRooms();
+            RoomsGuestsSchema.parse(reservedRooms.map(r => ({ ...r.guest, requires_bed_preference: r.ratePlanSelection.roomtype.is_bed_configuration_enabled })));
+            BookedByGuestSchema.parse(booking_store.bookedByGuest);
+            const body = await this.bookingEditorService.prepareBookUserServiceParams({
+                check_in: source === 'book-checkin',
+                booking: this.booking,
+                room: this.room,
+                unitId: this.unitId?.toString(),
+            });
+            console.log({ DoReservationPayload: body });
+            await this.bookingService.doReservation(body);
+            this.adjustBlockedUnit.emit(body);
+            this.resetBookingEvt.emit(null);
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.loadingChanged.emit({ cause: null });
+        }
+        // alert('do reservation');
+    }
+    async assignCountryCode() {
+        const country = await this.bookingService.getUserDefaultCountry();
+        const countryId = country['COUNTRY_ID'];
+        const _c = booking_store.selects.countries.find(c => c.id?.toString() === countryId?.toString());
+        updateBookedByGuest({
+            countryId: countryId,
+            phone_prefix: _c?.phone_prefix,
+        });
+    }
+    async fetchSetupEntriesAndInitialize() {
+        try {
+            const setupEntries = await this.fetchSetupEntries();
+            this.setSourceOptions(calendar_data.property.allowed_booking_sources);
+            this.setOtherProperties(setupEntries);
+        }
+        catch (error) {
+            console.error('Error fetching setup entries:', error);
+        }
+    }
+    setOtherProperties(setupEntries) {
+        setBookingSelectOptions({
+            arrivalTime: setupEntries.arrivalTime,
+            bedPreferences: setupEntries.bedPreferenceType,
+            ratePricingMode: setupEntries.ratePricingMode,
+        });
+    }
+    setSourceOptions(bookingSource) {
+        const _sourceOptions = this.bookingEditorService.isEventType('BAR_BOOKING') ? this.getFilteredSourceOptions(bookingSource) : bookingSource;
+        setBookingSelectOptions({
+            sources: _sourceOptions,
+        });
+        let sourceOption;
+        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
+            const option = bookingSource.find(option => this.booking.source?.code === option.code);
+            sourceOption = option;
+        }
+        else {
+            sourceOption = _sourceOptions.find(o => o.type !== 'LABEL');
+        }
+        setBookingDraft({
+            source: sourceOption,
+        });
+    }
+    getFilteredSourceOptions(sourceOptions) {
+        const agentIds = new Set();
+        if (!Boolean(this.unitId)) {
+            return sourceOptions;
+        }
+        const room = calendar_data.roomsInfo.find(room => room.physicalrooms.find(r => r.id.toString() === this.unitId?.toString()));
+        const hasAgentOnlyRoomType = (() => {
+            const rps = room?.rateplans ?? [];
+            if (rps.length === 0)
+                return false;
+            const isForAgentOnly = rps.every((rp) => (rp?.agents?.length ?? 0) > 0);
+            if (isForAgentOnly) {
+                rps.forEach((rp) => {
+                    (rp?.agents ?? []).forEach((ag) => agentIds.add(ag?.id?.toString()));
+                });
+            }
+            return isForAgentOnly;
+        })() ?? false;
+        if (!hasAgentOnlyRoomType) {
+            return sourceOptions;
+        }
+        return sourceOptions.filter((opt) => {
+            if (opt?.type === 'LABEL')
+                return true;
+            const candidate = opt?.tag;
+            const matchesId = candidate != null && agentIds.has(candidate);
+            return matchesId;
+        });
+    }
+    async fetchSetupEntries() {
+        return await this.bookingService.fetchSetupEntries();
+    }
+    render() {
+        if (this.isLoading) {
+            return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
+        }
+        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h(Fragment, null, h("ir-booking-editor-header", { booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency })))))), this.step === 'confirm' && (h("ir-booking-editor-form", { onDoReservation: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.doReservation(e.detail);
+            }, room: this.room, mode: this.mode })))));
+    }
+    static get watchers() { return {
+        "mode": ["handleModeChange"]
+    }; }
+};
+IrBookingEditor.style = IrBookingEditorStyle0;
+
+const irBookingEditorDrawerCss = ".sc-ir-booking-editor-drawer-h{display:block}.booking-editor__drawer.sc-ir-booking-editor-drawer::part(dialog){overflow:hidden}";
+const IrBookingEditorDrawerStyle0 = irBookingEditorDrawerCss;
+
+const IrBookingEditorDrawer = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.bookingEditorClosed = createEvent(this, "bookingEditorClosed", 7);
+    }
+    /** Controls drawer visibility (reflected to DOM). */
+    open;
+    /** Auth token used for API requests. */
+    ticket;
+    /** Property identifier. */
+    propertyid;
+    /** UI language code (default: `en`). */
+    language = 'en';
+    /** Booking being created or edited. */
+    booking;
+    /** Current booking editor mode. */
+    mode = 'PLUS_BOOKING';
+    /** Optional drawer title override. */
+    label;
+    /** Check-in date (ISO string). */
+    checkIn;
+    /** Check-out date (ISO string). */
+    checkOut;
+    /** Selected unit identifier. */
+    unitId;
+    /** Payload for blocked unit dates. */
+    blockedUnit;
+    /** Allowed room type identifiers. */
+    roomTypeIds = [];
+    /** Room identifier used by the editor. */
+    roomIdentifier;
+    step = 'details';
+    isLoading;
+    /** Emitted when the booking editor drawer is closed. */
+    bookingEditorClosed;
+    token = new Token();
+    bookingService = new BookingService();
+    wasBlockedUnit = false;
+    didAdjustBlockedUnit = false;
+    originalBlockPayload;
+    componentWillLoad() {
+        if (this.token) {
+            this.token.setToken(this.ticket);
+        }
+        this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    handleTicketChange() {
+        if (this.token) {
+            this.token.setToken(this.ticket);
+        }
+    }
+    handleBlockedUnitChange(newValue) {
+        this.initializeBlockedUnitState(newValue);
+    }
+    handleCheckInChange() {
+        this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    handleCheckOutChange() {
+        this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    handleUnitChange() {
+        this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    initializeBlockedUnitState(blockedUnit) {
+        const allowedStatusCodes = ['002', '003', '004'];
+        if (!blockedUnit) {
+            this.wasBlockedUnit = false;
+            this.originalBlockPayload = undefined;
+            return;
+        }
+        const hasBlockMetadata = Boolean(blockedUnit && allowedStatusCodes.includes(blockedUnit.STATUS_CODE));
+        if (!hasBlockMetadata || !this.checkIn || !this.checkOut || !this.unitId) {
+            this.wasBlockedUnit = false;
+            this.originalBlockPayload = undefined;
+            this.didAdjustBlockedUnit = false;
+            return;
+        }
+        this.originalBlockPayload = {
+            from_date: this.checkIn,
+            to_date: this.checkOut,
+            NOTES: blockedUnit.OPTIONAL_REASON || '',
+            pr_id: this.unitId.toString(),
+            STAY_STATUS_CODE: (blockedUnit.STATUS_CODE || (blockedUnit.OUT_OF_SERVICE ? '004' : Number(blockedUnit.RELEASE_AFTER_HOURS) === 0 ? '002' : '003')),
+            DESCRIPTION: blockedUnit.RELEASE_AFTER_HOURS || '',
+            BLOCKED_TILL_DATE: blockedUnit.ENTRY_DATE || undefined,
+            BLOCKED_TILL_HOUR: blockedUnit.ENTRY_HOUR !== undefined && blockedUnit.ENTRY_HOUR !== null ? blockedUnit.ENTRY_HOUR.toString() : undefined,
+            BLOCKED_TILL_MINUTE: blockedUnit.ENTRY_MINUTE !== undefined && blockedUnit.ENTRY_MINUTE !== null ? blockedUnit.ENTRY_MINUTE.toString() : undefined,
+        };
+        this.wasBlockedUnit = true;
+        this.didAdjustBlockedUnit = false;
+    }
+    handleBookingStepChange(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        const { direction } = e.detail;
+        switch (direction) {
+            case 'next':
+                this.step = 'confirm';
+                break;
+            case 'prev':
+                this.step = 'details';
+                break;
+            default:
+                console.warn('Direction not supported');
+        }
+    }
+    get drawerLabel() {
+        if (this.label) {
+            return this.label;
+        }
+        switch (this.mode) {
+            case 'SPLIT_BOOKING':
+            case 'BAR_BOOKING':
+            case 'ADD_ROOM':
+            case 'EDIT_BOOKING':
+            case 'PLUS_BOOKING':
+                return 'New Booking';
+        }
+    }
+    goToConfirm = (e) => {
+        e?.stopPropagation();
+        this.step = 'confirm';
+    };
+    goToDetails = () => {
+        this.step = 'details';
+    };
+    renderFooter() {
+        switch (this.step) {
+            case 'details':
+                return this.renderDetailsActions();
+            case 'confirm':
+                return this.renderConfirmActions();
+            default:
+                return null;
+        }
+    }
+    renderConfirmActions() {
+        const { checkIn } = booking_store?.bookingDraft?.dates;
+        const hasCheckIn = checkIn ? checkIn?.isSame(hooks(), 'date') : false;
+        return (h(Fragment, null, h("ir-custom-button", { onClickHandler: this.goToDetails, size: "medium", appearance: "filled", variant: "neutral" }, "Back"), h("ir-custom-button", { loading: this.isLoading === 'book', value: "book", form: "new_booking_form", disabled: false, type: "submit", size: "medium", appearance: hasCheckIn ? 'outlined' : 'accent', variant: "brand" }, "Book"), hasCheckIn && (h("ir-custom-button", { loading: this.isLoading === 'book-checkin', value: "book-checkin", form: "new_booking_form", type: "submit", size: "medium", appearance: "accent", variant: "brand" }, "Book and check-in"))));
+    }
+    renderDetailsActions() {
+        const haveRoomSelected = hasAtLeastOneRoomSelected();
+        return (h(Fragment, null, h("ir-custom-button", { "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), ['EDIT_BOOKING', 'PLUS_BOOKING', 'ADD_ROOM'].includes(this.mode) && (h(Fragment, null, !haveRoomSelected && h("wa-tooltip", { for: "booking_editor__next-button" }, "Please select at least one unit to continue."), h("ir-custom-button", { id: "booking_editor__next-button", disabled: !haveRoomSelected, onClickHandler: this.goToConfirm, size: "medium", appearance: "accent", variant: "brand" }, "Next")))));
+    }
+    async closeDrawer() {
+        if (this.wasBlockedUnit && !this.didAdjustBlockedUnit) {
+            await this.checkAndBlockDate();
+        }
+        else if (this.blockedUnit && this.blockedUnit.STATUS_CODE) {
+            await this.handleBlockDate();
+        }
+        this.bookingEditorClosed.emit();
+        this.step = 'details';
+    }
+    getBlockUnitPayload() {
+        if (this.wasBlockedUnit && this.originalBlockPayload) {
+            return this.originalBlockPayload;
+        }
+        if (!this.blockedUnit || !this.checkIn || !this.checkOut || !this.unitId) {
+            return undefined;
+        }
+        const releaseData = getReleaseHoursString(this.blockedUnit.RELEASE_AFTER_HOURS !== null ? Number(this.blockedUnit.RELEASE_AFTER_HOURS) : null);
+        return {
+            from_date: this.checkIn,
+            to_date: this.checkOut,
+            NOTES: this.blockedUnit.OPTIONAL_REASON || '',
+            pr_id: this.unitId.toString(),
+            STAY_STATUS_CODE: this.blockedUnit.OUT_OF_SERVICE ? '004' : Number(this.blockedUnit.RELEASE_AFTER_HOURS) === 0 ? '002' : '003',
+            DESCRIPTION: this.blockedUnit.RELEASE_AFTER_HOURS || '',
+            ...releaseData,
+        };
+    }
+    async handleBlockDate(autoReset = true, overridePayload) {
+        try {
+            const payload = overridePayload ?? this.getBlockUnitPayload();
+            if (!payload) {
+                return;
+            }
+            await this.bookingService.blockUnit(payload);
+            if (autoReset) {
+                this.blockedUnit = undefined;
+                this.initializeBlockedUnitState(undefined);
+            }
+        }
+        catch (error) { }
+    }
+    async handleAdjustBlockedUnitEvent(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        try {
+            await this.adjustBlockedDatesAfterReservation(event.detail);
+            this.didAdjustBlockedUnit = true;
+        }
+        catch (error) {
+            console.error('Error adjusting blocked unit:', error);
+        }
+    }
+    async adjustBlockedDatesAfterReservation(serviceParams) {
+        if (!this.wasBlockedUnit || !this.originalBlockPayload) {
+            return;
+        }
+        const original_from_date = hooks(this.originalBlockPayload.from_date, 'YYYY-MM-DD');
+        const current_from_date = hooks(serviceParams.booking.from_date, 'YYYY-MM-DD');
+        const original_to_date = hooks(this.originalBlockPayload.to_date, 'YYYY-MM-DD');
+        const current_to_date = hooks(serviceParams.booking.to_date, 'YYYY-MM-DD');
+        if (current_to_date.isBefore(original_to_date, 'days')) {
+            const props = { ...this.originalBlockPayload, from_date: current_to_date.format('YYYY-MM-DD') };
+            await this.bookingService.blockUnit(props);
+        }
+        if (current_from_date.isAfter(original_from_date, 'days')) {
+            const props = { ...this.originalBlockPayload, to_date: current_from_date.format('YYYY-MM-DD') };
+            await this.bookingService.blockUnit(props);
+        }
+        return;
+    }
+    async checkAndBlockDate() {
+        try {
+            if (!this.originalBlockPayload || !this.roomTypeIds || this.roomTypeIds.length === 0) {
+                return;
+            }
+            const roomTypeIds = this.roomTypeIds.map(id => Number(id)).filter(id => !Number.isNaN(id));
+            if (roomTypeIds.length === 0) {
+                return;
+            }
+            await this.bookingService.getBookingAvailability({
+                from_date: this.originalBlockPayload.from_date,
+                to_date: this.originalBlockPayload.to_date,
+                propertyid: calendar_data.property.id,
+                adultChildCount: {
+                    adult: 2,
+                    child: 0,
+                },
+                language: this.language,
+                room_type_ids: roomTypeIds,
+                currency: calendar_data.property?.currency,
+            });
+            const isAvailable = booking_store.roomTypes.every(rt => {
+                if (rt.is_available_to_book) {
+                    return true;
+                }
+                return rt.inventory > 0 && rt['not_available_reason'] === 'ALL-RATES-PLAN-NOT-BOOKABLE';
+            });
+            if (isAvailable) {
+                await this.handleBlockDate();
+            }
+            else {
+                console.warn('Blocked date is unavailable. Continuing...');
+            }
+        }
+        catch (error) {
+            console.error('Error checking and blocking date:', error);
+        }
+    }
+    render() {
+        return (h("ir-drawer", { key: 'c77769289b180478eb58931fbc7646c611ef1e8c', onDrawerHide: async (event) => {
+                event.stopImmediatePropagation();
+                event.stopPropagation();
+                await this.closeDrawer();
+            }, style: {
+                '--ir-drawer-width': '70rem',
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '51cc9607a3863e9a14e49c159b5c66522e770e89', onLoadingChanged: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isLoading = e.detail.cause;
+            }, onAdjustBlockedUnit: event => this.handleAdjustBlockedUnitEvent(event), unitId: this.unitId, propertyId: this.propertyid, roomTypeIds: this.roomTypeIds, onResetBookingEvt: async () => {
+                this.blockedUnit = undefined;
+                this.initializeBlockedUnitState(undefined);
+                await this.closeDrawer();
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: '02e74b79721f147e7f63234e72ceb98c6c9c6e75', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+    }
+    static get watchers() { return {
+        "ticket": ["handleTicketChange"],
+        "blockedUnit": ["handleBlockedUnitChange"],
+        "checkIn": ["handleCheckInChange"],
+        "checkOut": ["handleCheckOutChange"],
+        "unitId": ["handleUnitChange"]
+    }; }
+};
+IrBookingEditorDrawer.style = IrBookingEditorDrawerStyle0;
+
+const irBookingEditorFormCss = ".sc-ir-booking-editor-form-h{display:flex;flex-direction:column;height:100%}.booking-editor__guest-form.sc-ir-booking-editor-form{display:flex;flex-direction:column;gap:1rem;height:100%}.booking-editor__header.sc-ir-booking-editor-form{width:100%;align-items:flex-center;display:flex}.booking-editor__dates.sc-ir-booking-editor-form{line-height:1.2}.booking-editor__total.sc-ir-booking-editor-form{display:flex;align-items:center;white-space:nowrap}.booking-editor__total-label.sc-ir-booking-editor-form{margin-right:4px}.booking-editor__total-amount.sc-ir-booking-editor-form{white-space:nowrap}.booking-editor__booked-by.sc-ir-booking-editor-form{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem}.booking-editor__heading.sc-ir-booking-editor-form{margin:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}@media (min-width: 768px){.booking-editor__booked-by.sc-ir-booking-editor-form{flex-direction:row;align-items:center}.booking-editor__booked-by-picker.sc-ir-booking-editor-form{max-width:40rem}}";
+const IrBookingEditorFormStyle0 = irBookingEditorFormCss;
+
+const IrBookingEditorForm = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.doReservation = createEvent(this, "doReservation", 7);
+    }
+    mode = 'PLUS_BOOKING';
+    room;
+    guests;
+    doReservation;
+    bookingService = new BookingService();
+    pickerEl;
+    async fetchGuests(email) {
+        try {
+            if (!email) {
+                return;
+            }
+            this.guests = await this.bookingService.fetchExposedGuest(email, calendar_data.property.id);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    handleComboboxSelect(e) {
+        const guest = this.guests?.find(guest => guest.id?.toString() === e.detail.item.value);
+        if (!guest) {
+            console.warn(`guest not found with id ${e.detail.item.value}`);
+            return;
+        }
+        updateBookedByGuest({
+            id: guest.id,
+            email: guest.email,
+            firstName: guest.first_name,
+            lastName: guest.last_name,
+            mobile: guest.mobile_without_prefix,
+            countryId: guest.country_id?.toString(),
+            phone_prefix: guest['country_phone_prefix'],
+        });
+    }
+    render() {
+        const { dates } = booking_store.bookingDraft;
+        let hasBookedByGuestController = false;
+        const totalRooms = calculateTotalRooms();
+        const totalCost = totalRooms > 1 ? getBookingTotalPrice() : 0;
+        return (h("form", { key: '2e46ae3bacef6e5892c46a262fd911f328d433e5', class: "booking-editor__guest-form", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+                e.preventDefault();
+                const submitter = e.submitter;
+                this.doReservation.emit(submitter?.value);
+            } }, h("div", { key: 'b2114222722516131b6baf5c949dd195959900eb', class: "booking-editor__header" }, h("ir-date-view", { key: '51bd9911b1b5164a1219f3c43169004d7eed6b8d', class: "booking-editor__dates mr-1 flex-fill font-weight-bold font-medium-1", from_date: dates.checkIn, to_date: dates.checkOut, dateOption: "DD MMM YYYY" }), totalRooms > 1 && (h("div", { key: '1d74debd4e8b79952f35f4761720006af4b0edbd', class: "booking-editor__total mt-1 mt-md-0 text-right" }, h("span", { key: '6df97c794cdc7cbca31ac794e1e1180108d3885c', class: "booking-editor__total-label" }, locales.entries.Lcz_TotalPrice), ' ', h("span", { key: '4c9c96e5cd6de5970d1851f13199ab1ddbc1935c', class: "booking-editor__total-amount font-weight-bold font-medium-1" }, formatAmount(calendar_data.property.currency.symbol, totalCost))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            const rp = ratePlan;
+            if (rp.reserved === 0) {
+                return null;
+            }
+            return [...new Array(rp.reserved)].map((_, i) => {
+                const shouldAutoFillGuest = ['BAR_BOOKING', 'PLUS_BOOKING'].includes(this.mode) &&
+                    booking_store.bookedByGuest.id === -1 &&
+                    !hasBookedByGuestController &&
+                    !booking_store.bookedByGuestManuallyEdited;
+                if (shouldAutoFillGuest) {
+                    hasBookedByGuestController = true;
+                }
+                return (h("igl-application-info", { autoFillGuest: shouldAutoFillGuest, totalNights: calculateDaysBetweenDates(dates.checkIn.format('YYYY-MM-DD'), dates.checkOut.format('YYYY-MM-DD')), bedPreferenceType: booking_store.selects.bedPreferences, currency: calendar_data.property.currency, guestInfo: rp.guest ? rp.guest[i] : null, bookingType: this.mode, rateplanSelection: rp, key: `${rp.ratePlan.id}_${i}`, roomIndex: i, baseData: this.mode === 'EDIT_BOOKING'
+                        ? {
+                            roomtypeId: this.room.roomtype.id,
+                            unit: this.room.unit,
+                        }
+                        : undefined }));
+            });
+        })), ['BAR_BOOKING', 'PLUS_BOOKING'].includes(this.mode) && (h("section", { key: '9fd2eeaeb1a8480e5046a1f5970c5af6cd253726', class: 'mt-2' }, h("div", { key: '9401a97e2c82b24164928046c44ec5e31e714734', class: "booking-editor__booked-by booking-editor__booked-by-header" }, h("h4", { key: 'e247b9e3f7c2e087ffb137e0199a7bad868cfca2', class: "booking-editor__heading booking-editor__booked-by-title" }, "Booked by"), h("ir-picker", { key: '95e01a39f1f9785dbb2873aac6d572e419d3ccb6', class: "booking-editor__booked-by-picker", appearance: "filled",
+            // placeholder="Search customer by email, name or company name"
+            placeholder: "Search customer by email or name", withClear: true, "onText-change": event => this.fetchGuests(event.detail), debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), mode: "select-async", ref: el => (this.pickerEl = el), "onCombobox-select": this.handleComboboxSelect.bind(this) }, this.guests?.map(guest => {
+            const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
+            return (h("ir-picker-item", { label: label, value: guest.id?.toString(), key: guest.id }, label));
+        })), booking_store.bookedByGuest.id !== -1 && (h("ir-custom-button", { key: '4339fb9ed56deb7d829021e7a606a7a7fc7ed4b0', onClickHandler: () => {
+                updateBookedByGuest(bookedByGuestBaseData);
+                this.pickerEl.clearInput();
+            }, variant: "brand" }, "Clear user"))), h("ir-booking-editor-guest-form", { key: '12de1820f81b9d4e44d4eea026f20eb6689568fd' })))));
+    }
+};
+IrBookingEditorForm.style = IrBookingEditorFormStyle0;
+
+const irBookingEditorGuestFormCss = ".sc-ir-booking-editor-guest-form-h{padding-bottom:3rem}.sc-ir-booking-editor-guest-form-h{display:flex;flex-direction:column;gap:1rem}.booking-editor__guest-name-group.sc-ir-booking-editor-guest-form,.booking-editor__form-control.sc-ir-booking-editor-guest-form{display:flex;flex-direction:column;gap:1rem}.booking-editor__guest-input.sc-ir-booking-editor-guest-form,.booking-editor__guest-input-validator.sc-ir-booking-editor-guest-form{width:100%}.booking-editor__form-control.sc-ir-booking-editor-guest-form{width:100%;flex-grow:0;height:fit-content}.booking-editor__payment-info-description.sc-ir-booking-editor-guest-form{display:flex;height:fit-content;flex-direction:column}.booking-editor__guest-input-label.--first-name-pc-label.sc-ir-booking-editor-guest-form{display:none}@media (min-width: 768px){.booking-editor__guest-input-label.--first-name-pc-label.sc-ir-booking-editor-guest-form{display:block}.booking-editor__guest-name-group.sc-ir-booking-editor-guest-form{display:flex;flex-direction:row;align-items:flex-end}.booking-editor__guest-input-label.--first-name-mobile-label.sc-ir-booking-editor-guest-form,.booking-editor__guest-input.--last-name.sc-ir-booking-editor-guest-form::part(label){display:none}.sc-ir-booking-editor-guest-form-h{flex-direction:row;gap:2rem}}";
+const IrBookingEditorGuestFormStyle0 = irBookingEditorGuestFormCss;
+
+const IrBookingEditorGuestForm = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    paymentMethods = [];
+    expiryDateMask = {
+        mask: 'MM/YY',
+        placeholderChar: '_',
+        blocks: {
+            MM: {
+                mask: IMask.MaskedRange,
+                from: 1,
+                to: 12,
+                maxLength: 2,
+            },
+            YY: {
+                mask: IMask.MaskedRange,
+                from: new Date().getFullYear() % 100,
+                to: (new Date().getFullYear() % 100) + 20,
+                maxLength: 2,
+            },
+        },
+    };
+    componentWillLoad() {
+        this.paymentMethods = calendar_data.property.allowed_payment_methods.filter(p => p.is_active && !p.is_payment_gateway);
+        if (this.paymentMethods.length > 0) {
+            modifyBookingStore('selectedPaymentMethod', { code: this.paymentMethods[0].code });
+        }
+    }
+    updateCountry(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        const country = event.detail;
+        let payload = { countryId: country.id.toString() };
+        if (!booking_store.bookedByGuest.mobile) {
+            payload = { ...payload, phone_prefix: country.phone_prefix };
+        }
+        updateBookedByGuest(payload);
+    }
+    get expiryDate() {
+        const { expiryMonth, expiryYear } = booking_store.bookedByGuest;
+        if (!expiryMonth || !expiryYear) {
+            return '';
+        }
+        // Normalize year to YY
+        const year = expiryYear.toString().length === 4 ? expiryYear.toString().slice(-2) : expiryYear.toString();
+        return `${expiryMonth}/${year}`;
+    }
+    render() {
+        const { bookedByGuest, selects } = booking_store;
+        return (h(Host, { key: '7e1dab3e41299a1d1c7d92cac15db8e812898b8a' }, h("section", { key: 'a0a90a02e325a06f60de30f6d0935d41c24c26ba', class: "booking-editor__form-control" }, h("ir-input", { key: 'ef55ff659f18f04b977f630e9703cfac96fa15f8', label: "Email address", "onText-change": e => updateBookedByGuest({ email: e.detail }), type: "email", value: bookedByGuest.email, defaultValue: bookedByGuest.email, placeholder: "Email (leave empty if not available)" }), h("div", { key: '452332176aee58b40edc6637c54d01b1dc9fcef4', class: "booking-editor__guest-name-group", id: "booking-editor-guest-name-group" }, h("ir-validator", { key: '7482424b43617430e77e042cf528ea4bf5e8feee', class: "booking-editor__guest-input-validator", value: bookedByGuest.firstName, schema: BookedByGuestSchema.shape.firstName }, h("ir-input", { key: '4b0a70b09481d0d9c805e7b8dbb6fcfc407ad170', id: "booking-editor-guest-first-name", class: "booking-editor__guest-input --first-name",
+            // label="Name"
+            value: bookedByGuest.firstName, defaultValue: bookedByGuest.firstName, placeholder: "First name", autocomplete: "off", "onText-change": e => updateBookedByGuest({ firstName: e.detail }) }, h("p", { key: '5502983c50205f42d1925ff16510fb12313c3bb1', style: { margin: '0', marginBottom: '0.5rem' }, slot: "label" }, h("span", { key: '1cc3199c3bfceda513cd98ef274e98c3dd896458', class: "booking-editor__guest-input-label --first-name-pc-label" }, "Name"), h("span", { key: '7cb418a0faf226a9dc858abdcbf24970cf3dfff1', class: "booking-editor__guest-input-label --first-name-mobile-label" }, "First name")))), h("ir-validator", { key: '6c0b565bc54a975af48c295052a837d238304928', class: "booking-editor__guest-input-validator", value: bookedByGuest.lastName, schema: BookedByGuestSchema.shape.lastName }, h("ir-input", { key: '7b42ff55952da3b8392452d37101a6963431d673', id: "booking-editor-guest-last-name", class: "booking-editor__guest-input --last-name", label: "Last name", "onText-change": e => updateBookedByGuest({ lastName: e.detail }), value: bookedByGuest.lastName, defaultValue: bookedByGuest.lastName, placeholder: "Last name", autocomplete: "off" }))), h("ir-country-picker", { key: '5d58630926ae7955c1641bfcea28e3f71f9926d3', label: locales.entries.Lcz_Country, variant: "modern", testId: "main_guest_country", class: "flex-grow-1 m-0", onCountryChange: e => this.updateCountry(e), countries: selects.countries, country: selects.countries.find(c => c.id.toString() === bookedByGuest.countryId?.toString()) }), h("ir-mobile-input", { key: '56a8288382c827defab9fbf79ab669de328e7ef7', size: "small", "onMobile-input-change": e => {
+                updateBookedByGuest({ mobile: e.detail.formattedValue });
+            }, "onMobile-input-country-change": e => updateBookedByGuest({ phone_prefix: e.detail.phone_prefix }), value: bookedByGuest.mobile, countryCode: selects.countries.find(c => c.phone_prefix === bookedByGuest.phone_prefix)?.code, countries: selects.countries }), h("wa-select", { key: '08be5609c19b40c12e3ac0b0453bfa3e3c55776d', size: "small", label: locales.entries.Lcz_YourArrivalTime, "data-testid": "arrival_time", id: v4(), defaultValue: selects.arrivalTime[0].CODE_NAME, value: bookedByGuest.selectedArrivalTime, onchange: event => updateBookedByGuest({ selectedArrivalTime: event.target.value }) }, selects.arrivalTime.map(time => (h("wa-option", { value: time.CODE_NAME, selected: bookedByGuest.selectedArrivalTime === time.CODE_NAME }, time.CODE_VALUE_EN))))), h("section", { key: '7873305dfb3452a24b7e5607f5f9afbcc4e7464e', class: 'booking-editor__form-control' }, h("wa-textarea", { key: 'fe52792e9802b0c55ed305ae6ab5ef48f79b6b9b', onchange: event => updateBookedByGuest({ note: event.target.value }), size: "small", value: bookedByGuest.note, defaultValue: bookedByGuest.note, label: locales.entries.Lcz_AnyMessageForUs, rows: 4 }), this.paymentMethods.length > 1 && (h("wa-select", { key: '48e3aba4d6cfa079d9dc2ec9bfd67f5ed64f5758', label: 'Payment Method', size: "small", defaultValue: booking_store?.selectedPaymentMethod?.code ?? this.paymentMethods[0].code, value: booking_store?.selectedPaymentMethod?.code, onchange: e => modifyBookingStore('selectedPaymentMethod', {
+                code: e.target.value,
+            }) }, this.paymentMethods.map(p => (h("wa-option", { value: p.code }, p.description))))), booking_store.selectedPaymentMethod?.code === '001' && (h(Fragment, { key: 'b80a1845fea6a808868bc7957acdf10eb2415ce0' }, h("ir-input", { key: 'a4d15a8fef4baa7302688c9403e5111b32ffb28b', value: bookedByGuest.cardNumber, defaultValue: bookedByGuest.cardNumber, "onText-change": e => updateBookedByGuest({ cardNumber: e.detail.trim() }), label: locales.entries.Lcz_CardNumber }), h("ir-input", { key: 'db3594a30205950100c4a3fa755fe286fcfff2fb', value: bookedByGuest.cardHolderName, defaultValue: bookedByGuest.cardHolderName, "onText-change": e => updateBookedByGuest({ cardHolderName: e.detail.trim() }), label: locales.entries.Lcz_CardHolderName }), h("ir-input", { key: 'ac061d974bc8889b62e7f58d1511b0d0bcd645bf', "onText-change": e => {
+                const [month, year] = e.detail.split('/');
+                updateBookedByGuest({
+                    expiryMonth: month,
+                    expiryYear: year,
+                });
+            }, value: this.expiryDate, mask: this.expiryDateMask, label: locales.entries.Lcz_ExpiryDate }))), booking_store.selectedPaymentMethod?.code === '005' && (h(Fragment, { key: '73f42c500f9935b4d7b38b30897342ab7bf8c8d6' }, h("style", { key: 'e329b7aa90db87d2c45fbee93fca873c0f6289bb' }, `p{
+              margin:0;
+              padding:0}`), h("div", { key: 'bc45b7eacb08f74e4a99a61b5caff8076b39d5a1', class: "booking-editor__payment-info-description", innerHTML: this.paymentMethods.find(p => p.code === '005')?.localizables.find(l => l.language.code.toLowerCase() === 'en')?.description }))), h("wa-checkbox", { key: '5bdccf4e4c0b26334206f3d2f892ed05f111d79d', checked: bookedByGuest.emailGuest, onchange: event => updateBookedByGuest({ emailGuest: event.target.checked }) }, locales.entries.Lcz_EmailTheGuest))));
+    }
+};
+IrBookingEditorGuestForm.style = IrBookingEditorGuestFormStyle0;
+
+const irBookingEditorHeaderCss = ".sc-ir-booking-editor-header-h{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.booking-editor-header__container.sc-ir-booking-editor-header{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.booking-editor-header__booking-picker.sc-ir-booking-editor-header{max-width:350px}.booking-editor-header__booking-picker-validator.sc-ir-booking-editor-header{margin-bottom:1rem}@media (min-width: 768px){.booking-editor-header__container.sc-ir-booking-editor-header{flex-direction:row;align-items:flex-start;flex-wrap:wrap}.booking-editor-header__adults-select.sc-ir-booking-editor-header{width:100px}.booking-editor-header__children-select.sc-ir-booking-editor-header{width:170px}}@media (min-width: 1024px){.booking-editor__date-validator.sc-ir-booking-editor-header::part(error-message){position:absolute}}";
+const IrBookingEditorHeaderStyle0 = irBookingEditorHeaderCss;
+
+const IrBookingEditorHeader = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.guestSelected = createEvent(this, "guestSelected", 7);
+        this.checkAvailability = createEvent(this, "checkAvailability", 7);
+    }
+    /** Booking context used for edit, add-room, and split flows */
+    booking;
+    /** Controls header behavior and date constraints */
+    mode = 'PLUS_BOOKING';
+    /** Fixed check-in date (YYYY-MM-DD), if applicable */
+    checkIn;
+    /** Fixed check-out date (YYYY-MM-DD), if applicable */
+    checkOut;
+    isLoading;
+    bookings = [];
+    datesSchema;
+    guestSelected;
+    checkAvailability;
+    bookingService = new BookingService();
+    adultsSchema = z.coerce.number().min(1);
+    bookingEditorService = new IRBookingEditorService();
+    BookedByGuestPickerSchema = z
+        .object({
+        firstName: z.string(),
+        // lastName: z.string(),
+    })
+        .superRefine((data, ctx) => {
+        if (!data.firstName) {
+            ctx.addIssue({
+                path: ['firstName'],
+                code: z.ZodIssueCode.custom,
+                message: locales.entries.Lcz_ChooseBookingNumber,
+            });
+        }
+        // if (!data.lastName) {
+        //   ctx.addIssue({
+        //     path: ['lastName'],
+        //     code: z.ZodIssueCode.custom,
+        //     message: locales.entries.Lcz_ChooseBookingNumber,
+        //   });
+        // }
+    });
+    pickerRef;
+    // =====================
+    // Handlers
+    // =====================
+    componentWillLoad() {
+        this.createDatesSchema();
+        this.bookingEditorService.setMode(this.mode);
+    }
+    handleBookingChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.createDatesSchema();
+        }
+    }
+    handleModeChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.createDatesSchema();
+            this.bookingEditorService.setMode(this.mode);
+        }
+    }
+    // private createDatesSchema() {
+    //   this.datesSchema = z.object({
+    //     checkIn: z.custom(date => {
+    //       if (!moment.isMoment(date)) {
+    //         return false;
+    //       }
+    //       if (['SPLIT_BOOKING', 'ADD_ROOM'].includes(this.mode) && !date.isSameOrBefore(this.booking.to_date)) {
+    //         return false;
+    //       }
+    //       return true;
+    //     }),
+    //     checkOut: z.custom(data => moment.isMoment(data)),
+    //   });
+    // }
+    createDatesSchema() {
+        this.datesSchema = z
+            .object({
+            checkIn: z.any(),
+            checkOut: z.any(),
+        })
+            .superRefine((data, ctx) => {
+            // ─────────────────────────────
+            // checkIn validations
+            // ─────────────────────────────
+            if (!hooks.isMoment(data.checkIn)) {
+                ctx.addIssue({
+                    path: ['checkIn'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Check-in date is required',
+                });
+            }
+            if (hooks.isMoment(data.checkIn) && this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && !data.checkIn.isSameOrBefore(this.booking.to_date)) {
+                ctx.addIssue({
+                    path: ['checkIn'],
+                    code: z.ZodIssueCode.custom,
+                    message: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', hooks(this.booking.from_date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY')).replace('%2', hooks(this.booking.to_date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY'))}  `,
+                });
+            }
+            // ─────────────────────────────
+            // checkOut validations
+            // ─────────────────────────────
+            if (!hooks.isMoment(data.checkOut)) {
+                ctx.addIssue({
+                    path: ['checkOut'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Check-out date is required',
+                });
+            }
+        });
+    }
+    async handleBookingSearch(value) {
+        try {
+            this.isLoading = true;
+            if (!value) {
+                this.pickerRef.clearInput();
+                return;
+            }
+            this.bookings = await this.bookingService.fetchExposedBookings(value, calendar_data.property.id, this.checkIn, this.checkOut);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    handleSubmit(event) {
+        event.preventDefault();
+        this.stopEvent(event);
+        try {
+            if (this.mode === 'SPLIT_BOOKING' && !booking_store.bookedByGuest.firstName) {
+                BookedByGuestSchema.parse(booking_store.bookedByGuest);
+            }
+            this.datesSchema.parse(booking_store.bookingDraft.dates);
+            this.adultsSchema.parse(booking_store.bookingDraft?.occupancy?.adults);
+            this.checkAvailability.emit();
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    handleDateRangeChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        setBookingDraft({ dates: event.detail });
+    }
+    handleSourceChange(event) {
+        this.stopEvent(event);
+        const value = event.target.value;
+        const source = booking_store.selects.sources.find(s => s.id === value);
+        setBookingDraft({ source });
+    }
+    handleAdultsChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        const adults = Number(event.target.value);
+        const { children } = booking_store.bookingDraft.occupancy;
+        setBookingDraft({
+            occupancy: { adults, children },
+        });
+    }
+    handleChildrenChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        const children = Number(event.target.value);
+        const { adults } = booking_store.bookingDraft.occupancy;
+        setBookingDraft({
+            occupancy: { adults, children },
+        });
+    }
+    stopEvent(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    }
+    // =====================
+    // Computed values
+    // =====================
+    get minDate() {
+        const today = hooks();
+        switch (this.mode) {
+            case 'EDIT_BOOKING':
+                return today.add(-2, 'weeks').format('YYYY-MM-DD');
+            case 'ADD_ROOM':
+                return this.booking?.from_date;
+            case 'SPLIT_BOOKING':
+            default:
+                if (this.checkIn)
+                    return this.checkIn;
+                return today.format('YYYY-MM-DD');
+        }
+    }
+    get maxDate() {
+        const today = hooks();
+        const next60Days = today.add(60, 'days').format('YYYY-MM-DD');
+        switch (this.mode) {
+            case 'PLUS_BOOKING':
+                if (this.checkOut)
+                    return this.checkOut;
+                return next60Days;
+            case 'ADD_ROOM':
+            // return this.booking.to_date;
+            case 'SPLIT_BOOKING':
+            default:
+                return next60Days;
+        }
+    }
+    get childrenSelectPlaceholder() {
+        const { child_max_age } = calendar_data.property.adult_child_constraints;
+        const years = child_max_age === 1 ? locales.entries.Lcz_Year : locales.entries.Lcz_Years;
+        return `${locales.entries.Lcz_ChildCaption} 0 - ${child_max_age} ${years}`;
+    }
+    async selectGuest(e) {
+        this.stopEvent(e);
+        const booking_nbr = e.detail?.item?.value;
+        const booking = await this.bookingService.getExposedBooking(booking_nbr, 'en', true);
+        this.guestSelected.emit(booking);
+    }
+    render() {
+        const { sources } = booking_store.selects;
+        const { adults, children } = booking_store.bookingDraft.occupancy;
+        const { checkIn, checkOut } = booking_store.bookingDraft.dates;
+        return (h(Host, { key: 'ee538c943fe888a0bf32b817accbd5b2218481dd' }, h("form", { key: '12da661622ef33611c06106c24dd44ab48489c1d', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: '5129179fe2d460ee6bad3078733d504732a3077e', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: '833fc83eb63d2bab422f1f0fc3c6a13a18e30d4b', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${locales.entries.Lcz_Tobooking}#`,
+            // defaultValue={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
+            // value={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
+            placeholder: locales.entries.Lcz_BookingNumber, loading: this.isLoading, "onText-change": e => this.handleBookingSearch(e.detail), "onCombobox-select": this.selectGuest.bind(this) }, this.bookings.map(b => {
+            const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
+            return (h("ir-picker-item", { value: b.booking_nbr?.toString(), label: label }, label));
+        })))), h("div", { key: '8fff46d50dd4ff1f4379963a36a7375d3753ee0c', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && (h("wa-select", { key: 'd2b8b8eaf67ee6ba1dce15b9ea1946a677810baa', size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), h("ir-validator", { key: '753b0c74cdf18a1efdb8d3bffd5ee408cbb1f176', class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("igl-date-range", { key: '9bf1828a09f6101f32438c1d157a0ac116691407', defaultData: {
+                fromDate: checkIn?.format('YYYY-MM-DD') ?? '',
+                toDate: checkOut?.format('YYYY-MM-DD') ?? '',
+            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: '791f8c88fc4c99f5e03cfdb47212bfc31e59d9f6' }, h("ir-validator", { key: 'c7bfb7ff6d016378c82bd6946ad73ed2f8bcde72', value: adults, schema: this.adultsSchema }, h("wa-select", { key: '8e68b0ae7bad71fc980213a0e46be524d971e4cd', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '412247cbc8956f858d05d77e626ebf72eb5780fa', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: '93ec9ef540880e6ed1f1b77bd08fd18fa5d7039e', loading: isRequestPending('/Check_Availability'), type: "submit", variant: "brand" }, "Check")))));
+    }
+    static get watchers() { return {
+        "booking": ["handleBookingChange"],
+        "mode": ["handleModeChange"]
+    }; }
+};
+IrBookingEditorHeader.style = IrBookingEditorHeaderStyle0;
 
 const irBookingExtraNoteCss = ".sc-ir-booking-extra-note-h{display:block}";
 const IrBookingExtraNoteStyle0 = irBookingExtraNoteCss;
@@ -12670,9 +8753,9 @@ const IrBookingExtraNote = class {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: 'a87307f017b02d86e17493eb27a4db12cbf4d4f0', label: "Private note", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '36f1475d5ae206114d578bf47417138cac36960b', label: "Private note", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: '5e6c1c64050e8ab64b62f75b0dddbd379279dd67', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'af4c0d1a401bd76fecb40b03fdd8c93f92fae827', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'ed3292c1f7b9f8dc16fb919635660c25c85f7d46', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'a872a0abd9db5b86b2fb800e6e94090dee92e63c', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-textarea", { key: '498bbb24db4375e9f5e7d556472a1365d0c99658', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: '0282fb45b5c82ec7612327307328ed1cb01e6d6b', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '150f80ce5fedee070a70389e236ee38b73d020ac', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '804841db1526c3b3dd2fe5f92960d02761c611fe', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
 };
 IrBookingExtraNote.style = IrBookingExtraNoteStyle0;
@@ -12851,13 +8934,13 @@ const IrBookingHeader = class {
     render() {
         const lastManipulation = this.booking.ota_manipulations ? this.booking.ota_manipulations[this.booking.ota_manipulations.length - 1] : null;
         const showPms = calendar_data.property?.linked_pms?.findIndex(lp => lp?.is_active && lp?.bookings_integration_mode?.code === '001') !== -1;
-        return (h("div", { key: '9fea21eac6a4bd73fb3e608089a8c2709418f26b', class: "fluid-container px-1" }, h("div", { key: '5ae394747011804ccd71146d33fba56cf9c9dceb', class: "d-flex flex-column p-0 mx-0 flex-lg-row align-items-md-center justify-content-between" }, h("div", { key: '6989bcba38069055d6c36c4f35472033b51ec5b5', class: "m-0 p-0 mb-1 mb-lg-0 mt-md-0" }, h("div", { key: '09b6805b157b8ac32dbfb4d0d95ef207b8de241e', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { key: '151ff0389ebd03daed9a2ccdac6556b52f537d20', style: { color: 'black' }, class: "font-size-large m-0 p-0" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("wa-dropdown", { key: 'b877f1648a47efa01649d980f1db6bc47000d02f', "onwa-hide": e => {
+        return (h("div", { key: 'bdd7e61896592b169726e09c8b2675de2d24be05', class: "fluid-container px-1" }, h("div", { key: '814adb89e1933c3f58dbe7cb1dfdefaf4347184e', class: "d-flex flex-column p-0 mx-0 flex-lg-row align-items-md-center justify-content-between" }, h("div", { key: '8063874491ba6fa3e32465575696671ad4721449', class: "m-0 p-0 mb-1 mb-lg-0 mt-md-0" }, h("div", { key: 'ca7e62cd3ae6e14b22b97c1c1990a7b386c72567', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { key: 'a3ca263162c6554f0f95297e0f5eaf1298ac3332', style: { color: 'black' }, class: "font-size-large m-0 p-0" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("wa-dropdown", { key: 'f4a622b72e460e264d840c6de4460ea0d8e7e63c', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
                 this.bookingStatus = e.detail.item.value;
                 this.modalEl.openModal();
-            } }, h("ir-custom-button", { key: '70cc5c811d25e81579055631e649069214c8e61e', slot: "trigger",
+            } }, h("ir-custom-button", { key: 'ff7f2099651053b62184a45f2bb28d9535104a9a', slot: "trigger",
             // onClickHandler={() => {
             //   if (!this.booking.is_direct) {
             //     this.modalEl.openModal();
@@ -12867,29 +8950,29 @@ const IrBookingHeader = class {
             // }}
             withCaret: true,
             // loading={isRequestPending('/Change_Exposed_Booking_Status')}
-            appearance: 'outlined', size: "small", variant: "brand" }, h("ir-booking-status-tag", { key: '122ec64cfc652588cd86bf291a2cea1a1f3640ec', slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", { key: 'e0bf9518cc3a2bc3d5ddd88cd0c2d513affbc27b' }, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))), h("p", { key: '9f5f132c89d4f8ca4dee2450ca708f4d8a2006e8', class: "m-0 p-0" }, !this.booking.is_direct && h("span", { key: '1c8223e4688384601aba9e08f260168b011947fb', class: "mr-1 m-0" }, this.booking.channel_booking_nbr))), h("div", { key: '828a8e2b1630748d3d3647dfbf3f3eb596177b09', class: "d-flex justify-content-end align-items-center", style: { gap: '1rem', flexWrap: 'wrap' } }, h("div", { key: '4ae0424b6e25cc90424cfc6a40254a6b5b73b9fc', class: "d-flex flex-column align-items-center" }, lastManipulation && (h("ir-popover", { key: 'be9822016cac710aa69cf87ebfaabef12830ae71', trigger: "hover", renderContentAsHtml: true, content: `<div><p>Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}.</p>
-                <p>${this.alertMessage}</p></div>` }, h("p", { key: '6311277205509006c50aa9de72c51d0a61ae48ae', class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", { key: 'f9fb3614f090c3ba885f471fac80d065f8c99b24' }, "Modified"))))), this.booking.allowed_actions.length > 0 && this.booking.is_editable && (h("div", { key: '121e0a3dba1cd24185516b0818eeab08ddd93bc6', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.25rem' } })), h("ir-custom-button", { key: 'ecbf8fd93da8137ce9a03c791fae655fa274dccd', onClickHandler: e => {
+            appearance: 'outlined', size: "small", variant: "brand" }, h("ir-booking-status-tag", { key: 'd691ab6754d9dcc97503bd47c02625012f284938', slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", { key: '8d893b641396e3086b693ba10da72915ce976dd8' }, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))), h("p", { key: 'ad47a9d83a931cd7a6f5292a45bcc574b0630dab', class: "m-0 p-0" }, !this.booking.is_direct && h("span", { key: '4b1434e0868ba3e4b16d54f0aaafa55506d7efb8', class: "mr-1 m-0" }, this.booking.channel_booking_nbr))), h("div", { key: '3863f68fed4c030bd117d1699601271672968951', class: "d-flex justify-content-end align-items-center", style: { gap: '1rem', flexWrap: 'wrap' } }, h("div", { key: '0fb536ba3fbc56d6edbe2c712df4ec1657471a29', class: "d-flex flex-column align-items-center" }, lastManipulation && (h("ir-popover", { key: '76e48cd8112a6fea981fa322339f32c233b5705d', trigger: "hover", renderContentAsHtml: true, content: `<div><p>Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}.</p>
+                <p>${this.alertMessage}</p></div>` }, h("p", { key: '5fc1637c291b29f0742fa25bd1bd6a180e877ca9', class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", { key: '5cff4becc75428a451277a557d51b01eaae120d5' }, "Modified"))))), this.booking.allowed_actions.length > 0 && this.booking.is_editable && (h("div", { key: 'f2f1140f0507728261222a068f741dc74fb60e8f', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.25rem' } })), h("ir-custom-button", { key: '7de96424e4ed2ab85b1ad2a4237fb875067054c7', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'events-log' });
-            }, appearance: 'outlined', size: "small", variant: "brand" }, "Events log"), showPms && (h("ir-custom-button", { key: '16c1e4ff76f146344ddc6239c6012212fef3d4d5', onClickHandler: e => {
+            }, appearance: 'outlined', size: "small", variant: "brand" }, "Events log"), showPms && (h("ir-custom-button", { key: '0350e2908cc0f5e24b199d8e7a5be68b9eb2890d', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'pms' });
-            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: 'f7ba3fa85085ea2eb98573a5f9bda94ba33953ff' }, h("ir-custom-button", { key: 'e339363d60a5ed8f464ab882da490777f90fe397', id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: '998f80946f3cb665fbfd22a7c4ec751a7e78b56e' }, h("wa-tooltip", { key: 'ce874fc5df853207792661ca47c434a91b7bf299', for: "print" }, "Print booking"), h("ir-custom-button", { key: '71ff1b5fe58a4ceeabd2390251b01cfc1b6f9bd9', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '131cb0284584893624416c651d7504782381bc07', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: 'd09b7a30cac03722bc27a7f6ad3b71a1746115ea' }, h("wa-tooltip", { key: 'cf80b2ade68d04f5873910d2ad4e4d031eb6ffcf', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: '7fa85f323d5d6ff1442970e3cd59963ed7a7e2f5', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '940ac82e6d0f0d1e32ea9602e7edc9845728fbef', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: '173a9fa06f1dae1eae7879c1cb7828a5d89f46ed' }, h("wa-tooltip", { key: 'e2844125b03f3f992e29a03e6c70311417e97b0e', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: '8f79767e3fccd449f515850a69131f5008871b39', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: '4985fc213a51c81eb1378ad360b4be6fcb3d2453', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasMenu && (h(Fragment, { key: '3903f01b3156719d0297fbe0de7654fc4c3c19f1' }, h("wa-tooltip", { key: '9aaa6a377432eac6ec41d32124ed3790ce64af1e', for: "menu" }, "Go back"), h("ir-custom-button", { key: '7db7bae70663a603820c1956607b90c5f651c1ba', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'fc5e811fbe1af403ba9cccd2cfc30bd8f0b2cbc1', name: "list", style: { fontSize: '1.2rem' }, label: "Go back" })))), this.hasCloseButton && (h("ir-custom-button", { key: 'f14c40693739b2e1a61085bf7456d058bfd6e692', onClickHandler: e => {
+            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: 'dd87bea6413561af9c4ca24438c1655339945dc5' }, h("ir-custom-button", { key: '026b3e036470861661ef1a0126ec76125c61f392', id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: '23bc1df75a9c8d3e3abdcd07a8568713a2c0025c' }, h("wa-tooltip", { key: 'eeb07db767ebcafb5358c9ad59e5795381cc9a8d', for: "print" }, "Print booking"), h("ir-custom-button", { key: '3489bc8b85b6730f593eb9d549a9090e0e1f107b', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '18ef2f7de1aa6cf94bd597c7b75a63345d8aee1a', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: '6c73b725a05f555061e9aa6cbc984e98d70a38d2' }, h("wa-tooltip", { key: 'e47551d369744cc2c91c278d385b6f6b325a7bef', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: '5cffbb84a050a6983625773d462c019a8a6ff427', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: 'efa1201469370f7ad031e433f2b0182ae7687ded', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: '17b05916076737e840722871173d306f782b3f5a' }, h("wa-tooltip", { key: 'c4941c25d0bbd7731eec3023e4623691feea3249', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: '54eab8282bc6d7d80eee6725f18a22be84456b83', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: 'add299a029d255837634b9069356f2e9a6b011f4', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasMenu && (h(Fragment, { key: 'f695afa3728900dfff8b8d67704c8d0e6ddebc60' }, h("wa-tooltip", { key: 'a8185626d9fef1c55a91735af9041223d6e0b517', for: "menu" }, "Go back"), h("ir-custom-button", { key: 'b43bcc5cec1712684150c0c69acb80f7cf08cc08', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '3f48410b178dc6c82f5101d654a95ccd2284ace0', name: "list", style: { fontSize: '1.2rem' }, label: "Go back" })))), this.hasCloseButton && (h("ir-custom-button", { key: 'a005844d26bd2995f80db68b4b3505b65fdb4d99', onClickHandler: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeSidebar.emit(null);
-            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'c08825d6122b47cc63635308ad90a20cdf3faff2', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: '1653fcc826a2901b6644a15804f453fee83869df', onIrDialogHide: _ => {
+            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'db8a72f3d8a13ef2404b8891b18d1ad2f07e282e', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: 'a09a8d3bb5bea9b26b90e7356214cb61c991f8d6', onIrDialogHide: _ => {
                 this.currentDialogStatus = null;
-            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: '619a5339a99275045c7a37337cf161e6007fd27a', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
+            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: '0d0562bdd8ef3378e2723ff9d4b197e1d88fd434', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingStatus = null;
-            } }, h("p", { key: 'ee76dee8a4b4278c9ae89ca92717d195eca4f60f' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: 'c9d6c4b1c937cfecb964f40793c9c368dbba8ac4', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: 'd3f5e49f840ee3106ca26e4b51109491ae18a962', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: '57f32e6c3b48640df19426c21912f1147da6c11d', onClickHandler: e => {
+            } }, h("p", { key: '0895400ffaba2190713f6a0f89eb8eecd037e18c' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: 'a8157a3378f1ca74d7604ab77646c508d6655aa5', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: '21b218b1024773366aa59b737a49a6b78dbb5dfc', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: '928e49104eeb7bab656adee442c942b0e2ab3ca5', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateStatus();
@@ -12914,7 +8997,7 @@ const IrBookingStatusTag = class {
         '004': 'danger',
     };
     render() {
-        return (h("wa-badge", { key: '074f9a5d5345f795f97197ac676467db6f9a0e77', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
+        return (h("wa-badge", { key: '603760cb6fbfbe4d1ef5bc9c0c81290fe38956e6', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
     }
 };
 IrBookingStatusTag.style = IrBookingStatusTagStyle0;
@@ -13712,6 +9795,10 @@ const IrCustomDatePicker = class {
      */
     container;
     /**
+     * The date picker's hint.
+     */
+    hint;
+    /**
      * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
      * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
      * but note that it may affect performance if triggered frequently.
@@ -13881,7 +9968,6 @@ const IrCustomDatePicker = class {
             return;
         }
         const containerTarget = this.container ?? this.calendarContainerRef ?? this.el;
-        console.log(this.minDate, this.maxDate);
         this.datePicker = new AirDatepicker(this.pickerRef, {
             container: containerTarget,
             inline: true,
@@ -13942,7 +10028,7 @@ const IrCustomDatePicker = class {
     }
     render() {
         const triggerClasses = `custom-date-picker__trigger ${this.triggerContainerStyle} ${this.disabled ? 'custom-date-picker__trigger--disabled' : ''}`;
-        return (h(Host, { key: '2798a688a02244e93830904bced21f738a397a49', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: 'd0a5651ca2a503f55fd75b6aeeeed045afc875d3', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-input", { key: '9cd7625c98124452cf91c984ac7bcccf0772dae2', disabled: this.disabled, placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", defaultValue: this.getTriggerLabel(), value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '0a9a0728a452afa6f5c3507d0982645922f587ad', name: "start", slot: "start" }), h("slot", { key: '302b8604a81854f996c055a3295ec98c328e78fb', name: "end", slot: "end" })), h("div", { key: '23b9c28f5f73d2cfe4e1e1b229926a99ed0408b9', class: "picker-surface" }, h("div", { key: '189afec5206452fb1a6673f1d0c5b608cf556643', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: '379ca233e38416b21d5a05b936fa079633b79251', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
+        return (h(Host, { key: '8778c552e25ded1af012743fa51e8e0e4002ceb6', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: '152552993a742a178c17ea9999477294a2e1e720', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-input", { key: '73abe0428ec458953a45bd6c804dfb3a802a1d94', disabled: this.disabled, placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), hint: this.hint, class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", defaultValue: this.getTriggerLabel(), value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '8466bdc77c06b413e4418ba5913677892ae9b516', name: "hint", slot: "hint" }), h("slot", { key: '28335719e8b6944863530c8dc401274d18aa8abc', name: "start", slot: "start" }), h("slot", { key: 'd3ac841388c04c169efdea2f97112b61431be9a1', name: "end", slot: "end" })), h("div", { key: 'bd101eb611626a8447cb16c590882b4e0dba35e0', class: "picker-surface" }, h("div", { key: 'b19d16e299c4eed322b8e8d4531d9d1cc59eb76d', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: '8f45b59cfb3ba9dc792f696ed4ad50b775ec21b1', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
     }
     static get watchers() { return {
         "date": ["datePropChanged"],
@@ -16035,7 +12121,7 @@ const IrDatePicker = class {
         this.datePicker?.destroy?.();
     }
     render() {
-        return (h("div", { key: '2f6bdfab0234d8f4deff105eef1020f22cab72f8', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '0b71e5dd3175f378576d5c0ef33745ba90e8aa77', name: "trigger" }), h("input", { key: '7931c3b2174314a50ddd4d4d3d9ed2abeac464a1', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '3f7f57607fb53d3fee9f8d26a3054e5ed21440b6', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '891e144b06d3d1a969d3a60c0894aa3608972a6c', name: "trigger" }), h("input", { key: 'c49ef1a08e18f912396e6dd8ae482e494e18a9a4', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get watchers() { return {
         "date": ["datePropChanged"],
@@ -16100,7 +12186,7 @@ const IrDateView = class {
         }
     }
     render() {
-        return (h(Host, { key: '0560ae0718d40cbf0291cabb510b87bd496ca86b', class: "d-flex align-items-center" }, h("span", { key: '6c978364b86e82caae3cda133574df8ae71cefe7' }, this.dates.from_date), ' ', h("svg", { key: 'c4e9faf9051bc203afe4a53b6aa8b6b0f61f5108', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: 'a3f1c6d6c3527adb4510f366ae70d711fad218a0', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '6d01bc673aee678cdaf19a960b51f3d60620e70b' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '1d9061eacf0f25a962fa64ddc6a76640469696e7', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: 'c35503c1b5c706d17a36e2866ba6f3f091c64d4f', class: "d-flex align-items-center" }, h("span", { key: 'c5fc0caf03f9083d416de3ee96c4f8c74afa82d6' }, this.dates.from_date), ' ', h("svg", { key: 'a8966ed4dec310440a7a2056e2bf10d6968d4e18', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '04fea63b4b186e764088c85af9ae14421883a72d', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: 'e2232d5f285c829dcc581f380ea9a3ef7655fa42' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '82e661503d4e8559617f7864d1c9ab63d59ce4f6', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],
@@ -16441,7 +12527,7 @@ const IrDialog = class {
         return !!this.el.querySelector(`[slot="${name}"]`);
     }
     render() {
-        return (h("wa-dialog", { key: 'e95cd93e66546f5ecd51a9d7e6eb3034c5e39941', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: '515e29c543ca90f2af25150b4ea01ce85296c511', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '34384da25e9532034b273810a078335765b20888', name: "label", slot: "label" }), h("slot", { key: '97d6be8b848744a39e9a0f9ea8211d72be3076e1' }), this.slotState.get('footer') && h("slot", { key: 'bacab09740b898354ce7f72b2cb1d9c83ae7e37c', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '8825e87fc38a38236f1154b4d7db60edf0f58083', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: 'dfd36784b818e85c4c953ebdcdf07d0d0ce61fe1', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '5da5610a3897e24ef39d5ce75cc8379220e3b37b', name: "label", slot: "label" }), h("slot", { key: 'f13a06fc511904e2ed75847fbde07adf9929e7b9' }), this.slotState.get('footer') && h("slot", { key: 'd8daa36db421b1668f596fa03bcd90dad75d971f', name: "footer", slot: "footer" })));
     }
 };
 __decorate$1([
@@ -16548,7 +12634,7 @@ class SlotManager {
         this.slotState = newState;
     }
     checkSlotHasContent(name) {
-        return !!this.hostElement.querySelector(`[slot="${name}"]`);
+        return Array.from(this.hostElement.children).some(child => child.getAttribute('slot') === name);
     }
 }
 /**
@@ -16649,7 +12735,7 @@ const IrDrawer = class {
         this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("wa-drawer", { key: '65d4e552f955dc3bc9ee21c38da63b134c2c15a5', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: '1c0cbfcf7502f81d50c8dc4283b76ca5f44b0c4d', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: '15bf6be1c4776f6e15305636f07bc388098aa037', name: "label", slot: "label" }), h("slot", { key: 'ad62cd4694abca1056272c8d3cfd722d53c9582a' }), this.slotManager.hasSlot('footer') && h("slot", { key: '77438de1ec6714ec4c58fed5894edd79552b94b3', name: "footer", slot: "footer" })));
+        return (h("wa-drawer", { key: '5bed8f475e9dcd4747a66ac2a8975e5c40bc722c', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: 'f80ca620e2ee3b30a282f1aecde6e8f152cc4b53', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: '4c613dda9079c762c7a89865e7f5f7dad5d6de47', name: "label", slot: "label" }), h("slot", { key: 'e52e1ea612a969207baeda11bf26395bb3c3a735' }), this.slotManager.hasSlot('footer') && h("slot", { key: '124d3431125e694b7535aad388736fe5f692877f', name: "footer", slot: "footer" })));
     }
 };
 __decorate([
@@ -16924,7 +13010,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '6763a3f9fdd8447c3300adbee42369d039b22b49', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '9ef9529b8a1ffdb5a6bb4bea89f0dc12439d03f5', onClick: () => {
+        return (h(Host, { key: '6268026d8ab86d02695547b5867eb5e952ebfba4', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '58bcd6469253fc485378a09e8848c0b4dfe9d247', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -16933,7 +13019,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '8c81144505c1999ad19ce998af8d4312f7c97f79', name: "trigger" }), this.caret && (h("div", { key: '64c8a99962822026986fc4abbe5f5b3ceb5c1cfd', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '961bfdc346a9dac8d58f1ee3c4e46390fbb99281', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'acc0bf3336c2edbdb14a04b639c270b3ad2226b1', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'c5097d8ea6bb5bcb9d2ce02b8ac34d0d16e04641' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'b49d8a9e20f75bb76b47c3e994c460dcf37f119d', name: "trigger" }), this.caret && (h("div", { key: '4b6faf743d0bed16d0a35b39c031d2a64085eb8a', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'bc480ef8d6d21bceb67e160f2ac81b307bdc1492', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'c30c5fa17995a0690d8ef8cfa31b1ed2f4c6aaec', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '302648348628028192e7e431ea4647ad0f3d345a' }))));
     }
     static get watchers() { return {
         "value": ["handleValueChange"]
@@ -17025,7 +13111,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '6dad3f2117faaae047746598883f37fc307c6c57', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '9cdd5dd8563705043291e7970eaea9d71afebe6a', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
 };
 IrDropdownItem.style = IrDropdownItemStyle0;
@@ -17039,7 +13125,7 @@ const IrEmptyState = class {
     }
     message = 'No records found';
     render() {
-        return (h(Host, { key: '83b316886a5f50813932f57e1299f1ae25795ec0' }, h("slot", { key: 'cbf9130b71717cbb51132460295428fe24fa3534', name: "icon" }, h("wa-icon", { key: '6a2dbff92c1c509d14c98589929ef654f9fd8f50', name: "ban", style: { transform: 'rotate(90deg)', fontSize: '2rem' } })), h("p", { key: '01cc5e936cd5f94382f45459edc3bcbfab3f528d', part: "message", class: "message" }, this.message), h("slot", { key: '2a044c27fb7db9dae628e647b61f9ffcf80d953d' })));
+        return (h(Host, { key: '7198b4a3e9a5dd3b913fefe319c27c600d952344' }, h("slot", { key: '1d876fddd6fc03225200139e397c774fedf728a9', name: "icon" }, h("wa-icon", { key: '50dc8e21546f8dd5136eb71aa613bf48877d5193', name: "ban", style: { transform: 'rotate(90deg)', fontSize: '2rem' } })), h("p", { key: '4d6f26ccca639bb1b9b8c6819056ac085eebd48c', part: "message", class: "message" }, "No records found"), h("slot", { key: 'c617bab94c380f8a401704fda451322beb6af369' })));
     }
 };
 IrEmptyState.style = IrEmptyStateStyle0;
@@ -17066,7 +13152,7 @@ const IrEventsLog = class {
         }
     }
     render() {
-        return (h("div", { key: '160ed6e16b798c44949977e81050806c45206abd', class: "" }, isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { class: "sr-only" }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, this.bookingEvents?.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
+        return (h("div", { key: 'ac1c15f7f52fde7f5fc7d9cef2ceddc105e86111', class: "" }, isRequestPending('/Get_Exposed_Booking_Events') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h(Fragment, null, h("table", { class: " dialog-container-height" }, h("thead", { class: "sr-only" }, h("tr", null, h("th", null, "date"), h("th", null, "user"), h("th", null, "status"))), h("tbody", null, this.bookingEvents?.map(e => (h("tr", { key: e.id, class: "pb-1" }, h("td", { class: "event-row dates-row" }, h("span", null, e.date), h("span", null, String(e.hour).padStart(2, '0'), ":", String(e.minute).padStart(2, '0'), ":", String(e.second).padStart(2, '0'))), h("td", { class: "pl-3 event-row " }, e.type), h("td", { class: "pl-1 event-row " }, e.user))))))))));
     }
 };
 IrEventsLog.style = IrEventsLogStyle0;
@@ -17102,18 +13188,18 @@ const IrExtraService = class {
         }
     }
     render() {
-        return (h(Host, { key: 'e9dafd9133890074a3c43edb183dc220304022c9' }, h("div", { key: '660ab931e74db4330282d8167c987279672962de' }, h("div", { key: '87ee675834208f31dc3c7ba615c97890e20d9678', class: 'extra-service-container' }, h("p", { key: 'cdfee299514a849133e6b2415f8d948d0b4656d9', class: "extra-service-description" }, this.service.description), h("div", { key: 'ab4bcff66cdc3a1caf2a9a44363a882d66b6fa14', class: "extra-service-actions" }, !!this.service.price && this.service.price > 0 && (h("p", { key: '2bcca96e1b5fa7d3e7ac0b636c9deedbf69b505f', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price))), h("div", { key: '430b4fbf3c8af71881e1f15fc9908f1098609152', class: "d-flex align-items-center" }, h("wa-tooltip", { key: 'c452d6b4f0f33a9fe2c8a46e54fabdd0da72fabd', for: `edit-extra-service-${this.service.booking_system_id}` }, "Edit service"), h("ir-custom-button", { key: '517e8a9925f9d1c313420efa0f7cb2a06fe39e98', id: `edit-extra-service-${this.service.booking_system_id}`, onClickHandler: e => {
+        return (h(Host, { key: '92d590666145f35d8c0223853432fd81ed184786' }, h("div", { key: '7470d50398a8d4e65fe4f76cbe2cf968488b6670' }, h("div", { key: 'e835425580236b69718bd029bbd54e74eb0e60a4', class: 'extra-service-container' }, h("p", { key: '250a89da11a4bb58c6f132afe599769ee8c80f4c', class: "extra-service-description" }, this.service.description), h("div", { key: '9a4fc610c96c117cb5812c32f6424102eee87f87', class: "extra-service-actions" }, !!this.service.price && this.service.price > 0 && (h("p", { key: 'a4683f903e54f8eb72060067438bd124f389e697', class: "extra-service-price p-0 m-0 font-weight-bold" }, formatAmount(this.currencySymbol, this.service.price))), h("div", { key: 'a5b221083941d524bbcf164f9adeb91683aea53f', class: "d-flex align-items-center" }, h("wa-tooltip", { key: '3eadbfa9f6575750599db6046f1ce0635aa71f3c', for: `edit-extra-service-${this.service.booking_system_id}` }, "Edit service"), h("ir-custom-button", { key: '7fe9f3bc0a008e41887777ddbbe89c48b9f3ce9c', id: `edit-extra-service-${this.service.booking_system_id}`, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.editExtraService.emit(this.service);
-            }, iconBtn: true, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: '8d3c461320c68b5d33748921fadfc1734e427500', name: "edit", label: "Edit", style: { fontSize: '1rem' } })), h("wa-tooltip", { key: 'dc9fbdfcca446f87222f3a2db68d802338e79277', for: `delete-extra-service-${this.service.booking_system_id}` }, "Delete service"), h("ir-custom-button", { key: 'd5ec06efdb6a3fec04f09a38380a37ca2f0f2786', iconBtn: true, id: `delete-extra-service-${this.service.booking_system_id}`, onClickHandler: e => {
+            }, iconBtn: true, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: 'e2dd9be81eaab9e497a6d419a67557ee08e771c8', name: "edit", label: "Edit", style: { fontSize: '1rem' } })), h("wa-tooltip", { key: '155bbc8d9a735ecd45d6bcb0fed913c51ec79999', for: `delete-extra-service-${this.service.booking_system_id}` }, "Delete service"), h("ir-custom-button", { key: 'ee3b46c21d26188dcf29fc044b4c10bc8774f58d', iconBtn: true, id: `delete-extra-service-${this.service.booking_system_id}`, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.irModalRef.openModal();
-            }, appearance: 'plain', variant: 'danger' }, h("wa-icon", { key: '3a044b4e57b4b21aef3349746982cdfe42a2a196', name: "trash-can", label: "Edit", style: { fontSize: '1rem' } }))))), h("div", { key: '58e26e044de4c55e77346151b2bbd7c902adb9b3', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-dialog", { key: 'c8eb06fab4f5c0c3cdaafc3cfe435216c13a251b', onIrDialogHide: e => {
+            }, appearance: 'plain', variant: 'danger' }, h("wa-icon", { key: 'f04a7ef035852b9fa4ff0aa436af86763ed0a8cb', name: "trash-can", label: "Edit", style: { fontSize: '1rem' } }))))), h("div", { key: '77936d1302eeb04e6a8f425b0fd9d1080ff9bb7f', class: "extra-service-conditional-date" }, this.service.start_date && this.service.end_date ? (h("ir-date-view", { class: "extra-service-date-view mr-1", from_date: this.service.start_date, to_date: this.service.end_date, showDateDifference: false })) : (this.service.start_date && h("p", { class: "extra-service-date-view" }, hooks(new Date(this.service.start_date)).format('MMM DD, YYYY'))))), h("ir-dialog", { key: '38809e15c4c56734572c90eaad31a5742df2befd', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}`, h("div", { key: '99dd1a41e526eedb52960f25298bc5e3fe0c2738', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6680e066858db91a56c81415521e361ba440416f', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '4ba67ce2739b8f8120d75dbfff325845364a5c73', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "medium" }, locales.entries.Lcz_Delete)))));
+            }, label: "Alert", ref: el => (this.irModalRef = el), lightDismiss: false }, `${locales.entries['Lcz_AreYouSureDoYouWantToRemove ']} ${locales.entries.Lcz_ThisService} ${locales.entries.Lcz_FromThisBooking}`, h("div", { key: '36c6f5298a51d519ba5eb074c10c1cafe756c278', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '0a30d71c01b93baa14189cdc28f3505d617cd340', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '5a25d825977ec1fc70f6a5267b628e0c58faf41e', onClickHandler: () => this.deleteService(), loading: isRequestPending('/Do_Booking_Extra_Service'), variant: "danger", size: "medium" }, locales.entries.Lcz_Delete)))));
     }
 };
 IrExtraService.style = IrExtraServiceStyle0;
@@ -17134,7 +13220,7 @@ const IrExtraServiceConfig = class {
         this.closeModal.emit();
     }
     render() {
-        return (h("ir-drawer", { key: '5ba10463a01d1f4393982ac6fecbd1e068afe541', style: {
+        return (h("ir-drawer", { key: 'aa3f623426bd01f7a4c40184eaa951f1a1e56f58', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -17145,11 +13231,11 @@ const IrExtraServiceConfig = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: '988f8466d0b0cbee4a1721b9c627241f32bce628', onCloseModal: e => {
+            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: 'da3cdc9cd0cdb2c95ee56041818f857fa57fc1a9', onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, booking: this.booking, service: this.service })), h("div", { key: 'ac6d82948af1f29d43d678eba36395f0f98eb781', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '25c8d94c9f19269b95616ee6518ae08a401a4c82', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'e0d591c15ba166334245b79c6e1e5ac8ed50dfcb', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
+            }, booking: this.booking, service: this.service })), h("div", { key: '79e2b742bfa87f17921a81e29bf036f77e6c0e4e', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '042448a82a256a38f20da02c7cf789ad4b5e5437', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '7bb452d00dd1b0fb610614110118204c341fd8ba', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
     }
 };
 IrExtraServiceConfig.style = IrExtraServiceConfigStyle0;
@@ -17382,16 +13468,16 @@ const IrExtraServiceConfigForm = class {
         this.s_service = { ...prevService, ...params };
     }
     render() {
-        return (h("form", { key: '1cded517adc95d04041e5dd0f507cf510fb82613', id: "extra-service-config-form", onSubmit: async (e) => {
+        return (h("form", { key: '08684efc223bc9a16136f493cea56014f0234a14', id: "extra-service-config-form", onSubmit: async (e) => {
                 e.preventDefault();
                 this.saveAmenity();
-            }, class: 'extra-service-config__container' }, h("ir-validator", { key: '628ffda19096228675971183816b280b8b0ee6cb', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: '9f9ff77d88b7032736c3d6050e35085129c9ff75', size: "small", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": "Amenity description", maxlength: 250, label: locales.entries.Lcz_Description })), h("ir-validator", { key: 'add7fcdc59f5a7d250b5b039643420cee1760b3f', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-custom-date-picker", { key: '3f9bf9fdbc9322da4ac6a8875b26c9a9b17fd565', placeholder: "Select date", withClear: true, label: "Dates on", emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') }) })), h("ir-custom-date-picker", { key: '7adfa0d79075f41f030fb713a78fc4a6355356bf', withClear: true, emitEmptyDate: true, placeholder: "Select date", date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
+            }, class: 'extra-service-config__container' }, h("ir-validator", { key: 'caff92b60c6d98a8d163de2a8339b6b7250769ae', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: '2cb676df436883bea957a4c64584719179cb8892', size: "small", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": "Amenity description", maxlength: 250, label: locales.entries.Lcz_Description })), h("ir-validator", { key: 'a9cec05ba51ffbc2cde04fcf99887e8b98f0ec0b', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-custom-date-picker", { key: '36270541cc173bb17e08a1683d474b58accb1f32', placeholder: "Select date", withClear: true, label: "Dates on", emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') }) })), h("ir-custom-date-picker", { key: 'd89d950fe415a09aed6da9104f60af4df68c8db2', withClear: true, emitEmptyDate: true, placeholder: "Select date", date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateService({ end_date: e.detail.start?.format('YYYY-MM-DD') });
-            }, label: "Till and including" }), h("ir-validator", { key: 'c050efec107af635477995de0a50d1544c65f4dd', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: 'f1c647d833ebadf9558d9b6d669e48a84aa06883', "onText-change": e => {
+            }, label: "Till and including" }), h("ir-validator", { key: '3f17908b2f4405ae8b90f9d1870c02e0313886f1', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: '2d493d22de290bcf6775343c363ed9dffa46347f', "onText-change": e => {
                 this.updateService({ price: Number(e.detail) });
-            }, defaultValue: this.s_service?.price?.toString(), value: this.s_service?.price?.toString(), mask: 'price', type: "text", label: locales.entries.Lcz_Price }, h("span", { key: '077e2a030b748a3d8e6603b76154391b18c2af4d', slot: "start" }, this.booking.currency.symbol))), h("ir-validator", { key: 'c2f2857cc73735f1e12899ee77bba4e8ba2bd056', value: this.s_service?.cost ?? null, schema: ExtraServiceSchema.shape.cost }, h("ir-input", { key: 'fbe46499033f02b3bcd16d75ad4363e72650559f', defaultValue: this.s_service?.cost?.toString(), "onText-change": e => this.updateService({ cost: Number(e.detail) }), value: this.s_service?.cost?.toString(), mask: 'price', label: locales.entries.Lcz_Cost }, h("span", { key: '00fa1268cc39a9e4d828821c130f5b63c616e952', slot: "start" }, this.booking.currency.symbol)))));
+            }, defaultValue: this.s_service?.price?.toString(), value: this.s_service?.price?.toString(), mask: 'price', type: "text", label: locales.entries.Lcz_Price }, h("span", { key: 'e720723b6fec6db4d0b90da3be9bd7ad4240308d', slot: "start" }, this.booking.currency.symbol))), h("ir-validator", { key: 'd750623d1133f0285d60159d2c7a0df919747a18', value: this.s_service?.cost ?? null, schema: ExtraServiceSchema.shape.cost }, h("ir-input", { key: '51d3be6f68bf2cb82e716168f2a1be9094cea27a', defaultValue: this.s_service?.cost?.toString(), "onText-change": e => this.updateService({ cost: Number(e.detail) }), value: this.s_service?.cost?.toString(), mask: 'price', label: locales.entries.Lcz_Cost }, h("span", { key: '74c168abffdd6b3bfe1adb20c1e7a9c842027f83', slot: "start" }, this.booking.currency.symbol)))));
     }
     static get watchers() { return {
         "service": ["handleServiceChange"]
@@ -17408,7 +13494,7 @@ const IrExtraServices = class {
     }
     booking;
     render() {
-        return (h(Host, { key: '199d5cf7acca59658bff65899dfc6d474dfcd909' }, h("wa-card", { key: '64abb6786ce9d5dad39a70814fdb6b4eee6b8f78' }, h("p", { key: 'ab4eb4de6d5e83dcc6b80e4114f4f27c526b0778', slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { key: 'c2775c8946ea4d2e8b09029cdc85cb2ce6732691', for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { key: '086dfd11b5e36beb171b68af9df21bec725bee63', slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { key: 'd113928b2c9bba37ef4a496dd4c1d86ef63da0e3', name: "plus", style: { fontSize: '1rem' } })), (this.booking.extra_services ?? [])?.length === 0 && h("ir-empty-state", { key: '8ab23b6b499045a0fec180b93c1038968af49037' }), this.booking.extra_services?.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("wa-divider", null)))))));
+        return (h(Host, { key: 'cbee6e236e0d62e7cbfcc7b69f555897439c0dcd' }, h("wa-card", { key: '4c495fc4a6fe1321d48e32f91fc1ff8f8d34a0e4' }, h("p", { key: '0648c8f007201aaac6caf6e1bf1cbfffe09c0f12', slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { key: 'd42bb71a45a5e564b93a2e8cd644a2d3c533da02', for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { key: '5caf5b4f72b6ef7ff73d049dd2cf5a504c249776', slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { key: 'bccedb4aa55607bd4b01191542b1d83e0d0cbf74', name: "plus", style: { fontSize: '1rem' } })), (this.booking.extra_services ?? [])?.length === 0 && h("ir-empty-state", { key: '4c23afff3bd497d1b975de45642aae2d718511bd' }), this.booking.extra_services?.map((service, index) => (h(Fragment, null, h("ir-extra-service", { bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== this.booking.extra_services.length - 1 && h("wa-divider", null)))))));
     }
 };
 IrExtraServices.style = IrExtraServicesStyle0;
@@ -17445,14 +13531,14 @@ const IrGuestInfoDrawer = class {
     _formId = `guest-details-form_${v4()}`;
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: 'd5a4a005f44c2534bb908a8f079d63f460c176dd', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: 'f8a7addfbda985ae300c2480e78cdf2a783ac5f0', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.open && (h("ir-guest-info-form", { key: 'd36d97b0aef55dedea72b159f15a844cefa03abd', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: 'fecd756044a80f356dae78d502eb739291cc65a5', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a191ae26c04405bce022d495e73cd1d78f4392a9', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'daae4b7fc293d86c27ac55394a8532e11ca84a3a', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (h("ir-guest-info-form", { key: 'c6245448602c718d11bcee6db5889cb5b8187165', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: '9248095a4c9d58d0c14b58dd167d4f55fc6456dc', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '2cf98f0ca1765944f272d022d24329a3cce04797', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'c797c96ea2dad7b3082fa8fdc1d7397b72c825cf', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
     }
 };
 IrGuestInfoDrawer.style = IrGuestInfoDrawerStyle0;
@@ -17579,7 +13665,7 @@ const IrGuestInfoForm = class {
             } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "small", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => {
                 const country = e.detail;
                 let params = { country_id: country.id };
-                if (!this.guest?.mobile) {
+                if (!this.guest.country_phone_prefix) {
                     params = { ...params, country_phone_prefix: country.phone_prefix };
                 }
                 this.handleInputChange(params);
@@ -17605,7 +13691,7 @@ const IrIcon = class {
     type = 'button';
     iconClickHandler;
     render() {
-        return (h("button", { key: 'e96e037052d8735e5622d27ee21f2ee8b3b97a13', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '3ee80ad1bb197a873ad7892e3655c00250b8a402', name: "icon" })));
+        return (h("button", { key: 'ef80201adbd22ddfc8915ba5dfcca0142a21a611', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '336262a30bc081a3cb53a2e5fecf5d3149b02c80', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;
@@ -17719,7 +13805,7 @@ const masks = {
     },
 };
 
-const irInputCss = ":host{display:block}wa-input[aria-invalid='true']::part(base){border-color:var(--wa-color-danger-border-loud);outline-color:var(--wa-color-danger-border-loud);border-width:2px}";
+const irInputCss = ":host{display:block}:host([aria-invalid='true']) wa-input::part(base),wa-input[aria-invalid='true']::part(base){border-color:var(--wa-color-danger-border-loud);outline-color:var(--wa-color-danger-border-loud);border-width:2px}";
 const IrInputStyle0 = irInputCss;
 
 const IrInput = class {
@@ -18012,7 +14098,7 @@ const IrInput = class {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: 'd74381e97b6f1cf3540d96e9ec4fe38bcc3084bf' }, h("wa-input", { key: 'a1797c188f277d1ab81a3d767af7985ea864b344', type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base" }, this.slotState.get('label') && h("slot", { key: '12c77d5f162558148cadf9d6af20b59f332577f5', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '2c4c02b5bf73d30e84a9d2cf816768fcd43ecab4', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: 'fd779a66dad62a4c002684c781fc15cf12f3a8a3', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: '96b1629260c4d78c3915150591dca513ea33b9fa', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: 'c0f664c5de2ce485ab59f3dc350ce77a02f60981', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '2a803a62b54d605cbb4c627e324548fc0e0531fc', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '543d28dfead723717eade7de7449060d49f0c3d2', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'b56c88a8cd8d8bd7f608dff1d9bf9dd858b1c875' }, h("wa-input", { key: 'b1ad4ab10b564f77bcbafe03155a2bdcd77de059', type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'cc63d18cd091c975f39a78e241c69493c1bbdd70', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'b06f04e90a846979e6309dac7806c2144455ab35', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '12b15f2097d91f6a1e8bc6bb51c90e078906f2c8', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'ff2477c46d8f23ffbc7cc56043064635fa76a9bc', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '2ce9d7992e5003a6db0e7324082c6c9c383ab113', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '5ce5026f6585e4272464cc39428c739077db4d3a', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '813eaf3cf6c786b3c39feaf543956161e8f5d46e', name: "hint", slot: "hint" }))));
     }
     static get watchers() { return {
         "disabled": ["handleDisabledChange"],
@@ -18335,7 +14421,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '53a26ecdd252bd1016520009e75d939fefcceb8a', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '5bef707a78f30281af650ec6e003d45be4e5738b', ref: el => {
+        return (h(Host, { key: '67bdbef73e118c5e1509103e3c3475d96df4378c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '33efeafec824f789ac5629b9aaea7053c4e86113', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -18347,12 +14433,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: 'fd23f1433d386eea896214a9a4a3014ad2598963', class: "cropped-title", style: {
+            } }, h("span", { key: 'db1e7b8b71040f152a01972ed52feb75efc224a8', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'd13c3d4c84776f0be1d70f75d6d604bbb38f34cf', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '2fd5a86f62cb3c8924b04354df680ee46400ae2b', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: '8c4a66840bd2e90acfcfdad50d30320ac972a018', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: 'a9f69f5163f3402fe683ca314d994389f3c56646', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -18602,7 +14688,7 @@ const IrInterceptor = class {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '9547e0ccf2ba20096c50ee92c42a2372c2c4b679' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'fb5630468005de1f28fe2b42c2ba7c5857ca3637', class: "loadingScreenContainer" }, h("div", { key: '72a328c9080d429af367b1260c12e0b3b92cc531', class: "loaderContainer" }, h("ir-spinner", { key: 'e413dc6bc60a658b941554d95dc669ff7777c7e8' })))), this.showModal && (h("ir-otp-modal", { key: 'e5a107536ea1acb8f456a47990fc51ad08a54be3', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: 'bff1d1d1d63baa2c9814b6f18ce6ecb8d9daf7ad' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'c85e693d8283dd15ea084db76bc1a67c334b752e', class: "loadingScreenContainer" }, h("div", { key: '5cc19f372d44f87e78a1d674dd1f4bd5e54b4111', class: "loaderContainer" }, h("ir-spinner", { key: '467eba215f219987fbe10f2cac22db8d5d1852f4' })))), this.showModal && (h("ir-otp-modal", { key: 'cf02cf5b1e0dbf4310a8b974357c5352e95744dc', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -18702,20 +14788,8 @@ const IrInvoice = class {
     viewMode = 'invoice';
     isLoading;
     _id = `invoice-form__${v4()}`;
-    componentWillLoad() {
-        if (this.booking) {
-            if (hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates') && this.viewMode === 'invoice') {
-                this.viewMode = 'proforma';
-            }
-        }
-    }
-    handleBookingChange() {
-        if (hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates') && this.viewMode === 'invoice') {
-            this.viewMode = 'proforma';
-        }
-    }
     render() {
-        return (h(Host, { key: '968a3679e624f60d6b74e8a220bfa2ed2e5424f9' }, h("ir-drawer", { key: '056cd2f03352cbf2d13d53bf7414a8b2772e7b1a', style: {
+        return (h(Host, { key: '71e35b2768b1a2a40666914eb85bc233761ba86d' }, h("ir-drawer", { key: '63e11ca8a42d38a1586ca7839b072918d1accf70', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -18726,30 +14800,27 @@ const IrInvoice = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, h("div", { key: '1e1c5bb13a361abac65e7bdd5a7c5918537ced04', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: '9916975a8bc5ab4a872878a1bc5c05f019ef70b4', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
+            } }, h("div", { key: '42e1f29fa978ff51f4d5e8c228e44f7a8916b286', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: 'f45e79667e407f1ac939293f02f71a41500677f2', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: '77188d500399783cba4bd3493d5bc82ba439eb15', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'a00b8eac0a354df9bad061dbfed316a5b7f12ee9', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a86f144b1e484557486b05ef39ad1aac1c00dca4', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: '114a6f1a3367d70acc32708a4f0a5bdb6624d166', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'c5f87dfb5551d59e9f325c52e2e7d64341a19057', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '94c9ffa4f4c5b41d9543e11eca094bb0d580aa34', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: '21d6898c9d0ab2b6f3692735b2ac5d3b7394b8dd', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: 'e049bd11bcf4978510784b0330b00ded8fbc2ef7', onOpenChanged: e => {
+            } }, "Cancel"), h("ir-custom-button", { key: '6068a53d2488968c4fb1014683a8ac72707ff346', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: '694ff83b2e89c379553d035e1e9f2e233a014a2f', onOpenChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     this.invoice = null;
                 }
-            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: '0045e16c785a273df7fc4b44ec286c3be52ddce2', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
+            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: '0c334b5cc7786bdd87d6e5ba042ece145def6909', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
     }
-    static get watchers() { return {
-        "booking": ["handleBookingChange"]
-    }; }
 };
 IrInvoice.style = IrInvoiceStyle0;
 
-const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__room-info.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  padding: 0.5rem;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n  align-items: center;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__price-column.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  gap: 0.25rem;\n  min-width: fit-content;\n}\n.ir-invoice__reason.sc-ir-invoice-form {\n  color: var(--wa-color-gray-60);\n  font-size: 0.75rem;\n  line-height: 1.2;\n  text-align: right;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}\n.ir-invoice__reason.sc-ir-invoice-form {\n  color: var(--wa-color-danger-fill-loud);\n}";
+const irInvoiceFormCss = "@layer wa-utilities {\n  .sc-ir-invoice-form-h[size='small'],\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  .sc-ir-invoice-form-h[size='medium'],\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  .sc-ir-invoice-form-h[size='large'],\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n.sc-ir-invoice-form-h {\n  display: block;\n  height: 100%;\n}\n.ir-invoice__container.sc-ir-invoice-form {\n  display: grid;\n  gap: var(--wa-space-l);\n  box-sizing: border-box;\n}\n.ir-invoice__service.sc-ir-invoice-form:last-child {\n  border-bottom-left-radius: var(--wa-border-radius-m);\n  border-bottom-right-radius: var(--wa-border-radius-m);\n}\n.ir-invoice__service.sc-ir-invoice-form:first-child {\n  border-top-left-radius: var(--wa-border-radius-m);\n  border-top-right-radius: var(--wa-border-radius-m);\n  border-top: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n}\n.ir-invoice__service.sc-ir-invoice-form {\n  border-bottom: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-left: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  border-right: var(--wa-form-control-border-width) var(--wa-form-control-border-style) var(--wa-form-control-border-color);\n  background-color: var(--wa-color-surface-default);\n  \n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__service.sc-ir-invoice-form:not(:disabled):hover {\n  background-color: color-mix(in srgb, var(--wa-color-surface-default) 95%, var(--wa-color-mix-hover));\n}\n.ir-invoice__checkbox.sc-ir-invoice-form, .ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  height: 100%;\n  width: 100%;\n  display: flex;\n  box-sizing: border-box;\n}\n.ir-invoice__room-info.sc-ir-invoice-form {\n  display: flex;\n  flex-direction: column;\n  gap: 0.25rem;\n  padding: 0.5rem;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(base) {\n  min-height: var(--wa-form-control-height);\n  padding: 0 var(--wa-form-control-padding-inline);\n  display: flex;\n  align-items: center;\n  box-sizing: border-box;\n  width: 100%;\n}\n.ir-invoice__checkbox.group.sc-ir-invoice-form::part(base) {\n  padding-block: var(--wa-form-control-padding-inline);\n  align-items: flex-start;\n}\n.ir-invoice__checkbox.sc-ir-invoice-form::part(label) {\n  display: flex;\n  width: 100%;\n}\n.ir-invoice__room-checkbox-container.sc-ir-invoice-form {\n  display: flex;\n  gap: 0.5rem;\n  width: 100%;\n  justify-content: space-between;\n  text-align: start;\n  align-items: center;\n}\n.ir-invoice__room-checkbox-container.group.sc-ir-invoice-form {\n  flex-direction: column;\n}\n.ir-invoice__checkbox-price.sc-ir-invoice-form {\n  font-weight: 700;\n  color: var(--wa-color-neutral-900);\n  white-space: nowrap;\n  text-align: right;\n  flex: 1 1 0%;\n}\n.ir-invoice__form-control-label.sc-ir-invoice-form {\n  display: inline-flex;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-end: 0.5em;\n}";
 const IrInvoiceFormStyle0 = irInvoiceFormCss;
 
 const IrInvoiceForm = class {
@@ -18834,11 +14905,10 @@ const IrInvoiceForm = class {
     previewProformaInvoice;
     loadingChange;
     room;
+    splitDisabledKeys = new Set();
     confirmButtonRef;
     bookingService = new BookingService();
     invoiceTarget;
-    apiDisabledItemKeys = new Set();
-    alreadyInvoicedItemKeys = new Set();
     componentWillLoad() {
         this.init();
     }
@@ -18846,9 +14916,6 @@ const IrInvoiceForm = class {
         this.confirmButtonRef = document.querySelector(`#confirm-btn_${this.formId}`);
     }
     handleViewModeChange() {
-        if (this.invoicableKey?.size) {
-            this.applyDefaultSelections(Array.from(this.invoicableKey.values()));
-        }
         this.enforceNonInvoiceableSelections();
     }
     handleBookingChange() {
@@ -18863,16 +14930,15 @@ const IrInvoiceForm = class {
     handleInvoiceInfoChange() {
         this.setupInvoicables(this.invoiceInfo);
     }
-    /**
-     * Builds the list of invoice items that cannot yet be invoiced based on dates, splits and API-provided flags.
-     */
     setUpDisabledItems() {
         if (!this.booking || !this.invoicableKey?.size) {
             this.notInvoiceableItemKeys = new Set();
+            this.splitDisabledKeys = new Set();
             return;
         }
         const invoiceDate = (this.invoiceDate ?? hooks()).clone().startOf('day');
         const disabledKeys = new Set();
+        this.splitDisabledKeys = new Set();
         const markIfBefore = (key, dateStr, options) => {
             if (options?.checkedOut) {
                 return;
@@ -18920,26 +14986,28 @@ const IrInvoiceForm = class {
                         return;
                     }
                     disabledKeys.add(room.system_id);
+                    this.splitDisabledKeys.add(room.system_id);
                 });
             });
         }
         this.notInvoiceableItemKeys = disabledKeys;
-        this.enforceNonInvoiceableSelections(this.getCombinedDisabledKeys(disabledKeys));
+        this.enforceNonInvoiceableSelections(disabledKeys);
     }
-    /**
-     * Removes selections that correspond to disabled invoice items unless in proforma mode.
-     */
-    enforceNonInvoiceableSelections(disabledKeys) {
-        if (this.viewMode === 'proforma') {
-            return;
-        }
-        const enforcedDisabledKeys = disabledKeys ?? this.getCombinedDisabledKeys();
-        if (!enforcedDisabledKeys.size) {
+    enforceNonInvoiceableSelections(disabledKeys = this.notInvoiceableItemKeys ?? new Set()) {
+        if (!disabledKeys.size) {
             return;
         }
         const nextKeys = new Set(this.selectedItemKeys);
         let changed = false;
-        enforcedDisabledKeys.forEach(key => {
+        disabledKeys.forEach(key => {
+            const isSplitDisabled = this.splitDisabledKeys.has(key);
+            if (this.viewMode === 'proforma' && !isSplitDisabled) {
+                if (!nextKeys.has(key)) {
+                    nextKeys.add(key);
+                    changed = true;
+                }
+                return;
+            }
             if (nextKeys.delete(key)) {
                 changed = true;
             }
@@ -18948,30 +15016,6 @@ const IrInvoiceForm = class {
             this.syncSelectedItems(nextKeys);
         }
     }
-    /**
-     * Returns the union of API-disabled keys and client-calculated non-invoiceable keys.
-     */
-    getCombinedDisabledKeys(baseKeys) {
-        const base = baseKeys ?? this.notInvoiceableItemKeys ?? new Set();
-        const merged = new Set(base);
-        this.apiDisabledItemKeys.forEach(key => merged.add(key));
-        if (this.viewMode === 'invoice') {
-            this.alreadyInvoicedItemKeys.forEach(key => merged.add(key));
-        }
-        return merged;
-    }
-    /**
-     * Indicates whether an item was already invoiced, used to disable it in invoice mode.
-     */
-    isAlreadyInvoiced(systemId) {
-        if (this.viewMode !== 'invoice' || typeof systemId !== 'number') {
-            return false;
-        }
-        return this.alreadyInvoicedItemKeys.has(systemId);
-    }
-    /**
-     * Synchronizes the selected keys set with derived arrays and button states.
-     */
     syncSelectedItems(selectedKeys) {
         this.selectedItemKeys = selectedKeys;
         const selectedItems = [];
@@ -18994,21 +15038,12 @@ const IrInvoiceForm = class {
             }
         }
     }
-    /**
-     * Indicates whether a room has an invoiceable entry.
-     */
     canInvoiceRoom(room) {
         return Boolean(room && this.invoicableKey?.has(room.system_id));
     }
-    /**
-     * Checks if any rooms in a collection are invoiceable.
-     */
     hasInvoiceableRooms(rooms) {
         return rooms.some(room => this.canInvoiceRoom(room));
     }
-    /**
-     * Returns the system IDs for rooms that can be invoiced.
-     */
     getInvoiceableRoomIds(rooms) {
         const ids = [];
         rooms.forEach(room => {
@@ -19018,9 +15053,6 @@ const IrInvoiceForm = class {
         });
         return ids;
     }
-    /**
-     * Loads booking/invoice data and ancillary metadata required to render the form.
-     */
     async init() {
         try {
             this.isLoading = true;
@@ -19048,50 +15080,11 @@ const IrInvoiceForm = class {
             this.isLoading = false;
         }
     }
-    /**
-     * Converts API invoiceable items into lookup maps/sets and applies default selections.
-     */
     setupInvoicables(invoiceInfo) {
-        const invoiceableItems = invoiceInfo?.invoiceable_items ?? [];
-        const mapEntries = [];
-        invoiceableItems.forEach(item => {
-            mapEntries.push([item.key, item]);
-            if (typeof item.system_id === 'number' && item.system_id !== item.key) {
-                mapEntries.push([item.system_id, item]);
-            }
-        });
-        this.invoicableKey = new Map(mapEntries);
-        this.apiDisabledItemKeys = new Set(invoiceableItems.filter(item => !item.is_invoiceable).map(item => this.getSelectableKey(item)));
-        const alreadyInvoicedKeys = [];
-        invoiceableItems.forEach(item => {
-            if (item.reason?.code !== '001') {
-                return;
-            }
-            alreadyInvoicedKeys.push(item.key);
-            if (typeof item.system_id === 'number' && item.system_id !== item.key) {
-                alreadyInvoicedKeys.push(item.system_id);
-            }
-        });
-        this.alreadyInvoicedItemKeys = new Set(alreadyInvoicedKeys);
-        this.applyDefaultSelections(invoiceableItems);
+        const invoiceableItems = (invoiceInfo.invoiceable_items ?? []).filter(item => item.is_invoiceable);
+        this.invoicableKey = new Map(invoiceableItems.map(item => [item.key, item]));
+        this.syncSelectedItems(new Set(invoiceableItems.map(item => item.key)));
         this.setUpDisabledItems();
-    }
-    /**
-     * Selects invoiceable items by default, or all items in proforma mode.
-     */
-    applyDefaultSelections(items) {
-        const keysToSelect = this.viewMode === 'proforma'
-            ? items.map(item => this.getSelectableKey(item))
-            : items
-                .filter(item => item.is_invoiceable && item.reason?.code !== '001')
-                .map(item => this.getSelectableKey(item));
-        this.syncSelectedItems(new Set(keysToSelect));
-    }
-    /**
-     * Resolves the correct checkbox key to use for a given invoiceable item.
-     */
-    getSelectableKey(item) {
-        return typeof item.system_id === 'number' ? item.system_id : item.key;
     }
     /**
      * Handles confirming/creating the invoice.
@@ -19151,9 +15144,6 @@ const IrInvoiceForm = class {
             this.loadingChange.emit(false);
         }
     }
-    /**
-     * Opens the most recently created invoice in a new window using the booking service.
-     */
     async openLastInvoice(invoiceInfo) {
         const lastInvoice = invoiceInfo.invoices[invoiceInfo.invoices.length - 1];
         const { My_Result } = await this.bookingService.printInvoice({
@@ -19163,9 +15153,6 @@ const IrInvoiceForm = class {
         });
         window.open(My_Result);
     }
-    /**
-     * Provides the minimum selectable invoice date depending on booking vs. room mode.
-     */
     getMinDate() {
         if (this.for === 'room') {
             return this.room.to_date;
@@ -19183,15 +15170,9 @@ const IrInvoiceForm = class {
         // return getMinCheckoutDate().format('YYYY-MM-DD');
         return this.booking.from_date;
     }
-    /**
-     * Returns today's date as the maximum invoice date.
-     */
     getMaxDate() {
         return hooks().format('YYYY-MM-DD');
     }
-    /**
-     * Groups rooms so that linked/split rooms can be invoiced together and ordered consistently.
-     */
     computeRoomGroups(rooms) {
         const indexById = new Map();
         rooms.forEach((room, idx) => indexById.set(room.identifier, idx));
@@ -19267,9 +15248,6 @@ const IrInvoiceForm = class {
         }
         return { groups: grouped, indexById, hasSplitGroups: true };
     }
-    /**
-     * Renders the visual date range for a given service entry.
-     */
     getDateView(fromDate, toDate) {
         if (!fromDate) {
             return;
@@ -19281,34 +15259,48 @@ const IrInvoiceForm = class {
         const to_date = hooks(toDate, 'YYYY-MM-DD').format('MMM DD, YYYY');
         return (h("span", null, from_date, " ", h("wa-icon", { name: "arrow-right" }), " ", to_date));
     }
-    /**
-     * Outputs the non-invoiceable reason text for a given system ID when in invoice mode.
-     */
-    renderReasonDescription(systemId) {
-        if (this.viewMode !== 'invoice' || typeof systemId !== 'number' || !this.invoicableKey?.size) {
+    renderRooms() {
+        const rooms = this.booking?.rooms ?? [];
+        if (!rooms.length || !this.invoicableKey?.size) {
             return null;
         }
-        const item = this.invoicableKey.get(systemId);
-        if (!item || item.is_invoiceable || !item.reason?.description) {
-            return null;
+        const { groups, hasSplitGroups } = this.computeRoomGroups(rooms);
+        if (!hasSplitGroups) {
+            const groupRooms = groups[0].rooms;
+            const invoiceableRooms = groupRooms.filter(room => this.canInvoiceRoom(room));
+            if (!invoiceableRooms.length) {
+                return null;
+            }
+            return invoiceableRooms.map(room => {
+                const isSelected = this.isSelected([room.system_id]);
+                const isDisabled = this.isDisabled([room.system_id]);
+                return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
+                        const value = e.target.checked;
+                        this.handleCheckChange({ checked: value, system_id: room.system_id });
+                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingLeft: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total)))))
+                // {this.renderRoomItem(room, indexById.get(room.identifier) ?? idx)}
+                // {idx < groupRooms.length - 1 ? <wa-divider></wa-divider> : null}
+                );
+            });
         }
-        return h("span", { class: "ir-invoice__reason" }, item.reason.description);
+        return groups.map(group => {
+            if (!this.hasInvoiceableRooms(group.rooms)) {
+                return null;
+            }
+            const roomIds = this.getInvoiceableRoomIds(group.rooms);
+            const isDisabled = this.isDisabled(roomIds);
+            const isSelected = this.isSelected(roomIds);
+            return (h("div", { class: "ir-invoice__service", key: group.order }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
+                    const value = e.target.checked;
+                    this.handleCheckChange({ checked: value, system_ids: roomIds });
+                }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox group" }, h("div", { class: 'ir-invoice__room-checkbox-container group' }, group.rooms.map(room => {
+                if (!this.canInvoiceRoom(room)) {
+                    return null;
+                }
+                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { class: "ir-invoice__room-info" }, h("p", null, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, room.gross_total))));
+            })))));
+        });
     }
-    /**
-     * Renders a price/value column along with any reason description for the given system ID.
-     */
-    renderPriceColumn(amount, systemId) {
-        const hasAmount = typeof amount === 'number';
-        const reason = this.renderReasonDescription(systemId);
-        if (!hasAmount && !reason) {
-            return null;
-        }
-        const currencySymbol = this.booking?.currency?.symbol ?? '';
-        return (h("div", { class: "ir-invoice__price-column" }, hasAmount && h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(currencySymbol, amount)), reason));
-    }
-    /**
-     * Handles toggling checkbox selections for invoiceable items.
-     */
     handleCheckChange({ checked, system_id, system_ids }) {
         if (!this.invoicableKey) {
             return;
@@ -19317,7 +15309,7 @@ const IrInvoiceForm = class {
         if (!ids.length) {
             return;
         }
-        if (this.isDisabled(ids)) {
+        if (this.viewMode === 'invoice' && ids.some(id => this.notInvoiceableItemKeys.has(id))) {
             return;
         }
         const nextKeys = new Set(this.selectedItemKeys);
@@ -19340,9 +15332,6 @@ const IrInvoiceForm = class {
             this.syncSelectedItems(nextKeys);
         }
     }
-    /**
-     * Determines if any ID in a collection is currently selected.
-     */
     isSelected(system_ids = []) {
         if (!system_ids?.length) {
             return false;
@@ -19354,75 +15343,12 @@ const IrInvoiceForm = class {
         }
         return false;
     }
-    /**
-     * Determines if any member of a checkbox group should be disabled.
-     */
     isDisabled(systemIds = []) {
         if (this.viewMode === 'proforma' || !systemIds?.length) {
             return false;
         }
-        const disabledKeys = this.getCombinedDisabledKeys();
-        if (!disabledKeys.size) {
-            return false;
-        }
-        return systemIds.some(id => {
-            if (typeof id !== 'number') {
-                return false;
-            }
-            if (this.isAlreadyInvoiced(id)) {
-                return true;
-            }
-            return disabledKeys.has(id);
-        });
+        return systemIds.some(id => typeof id === 'number' && this.notInvoiceableItemKeys.has(id));
     }
-    /**
-     * Renders the room checkboxes, grouping split rooms when necessary.
-     */
-    renderRooms() {
-        const rooms = this.booking?.rooms ?? [];
-        if (!rooms.length || !this.invoicableKey?.size) {
-            return null;
-        }
-        const { groups, hasSplitGroups } = this.computeRoomGroups(rooms);
-        if (!hasSplitGroups) {
-            const groupRooms = groups[0].rooms;
-            const invoiceableRooms = groupRooms.filter(room => this.canInvoiceRoom(room));
-            if (!invoiceableRooms.length) {
-                return null;
-            }
-            return invoiceableRooms.map(room => {
-                const isSelected = this.isSelected([room.system_id]);
-                const isDisabled = this.isDisabled([room.system_id]);
-                return (h("div", { class: "ir-invoice__service", key: room.identifier }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
-                        const value = e.target.checked;
-                        this.handleCheckChange({ checked: value, system_id: room.system_id });
-                    }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: 'ir-invoice__room-checkbox-container align-items-center' }, h("div", { class: "ir-invoice__room-info" }, h("span", null, h("b", null, room.roomtype.name), h("span", { style: { paddingLeft: '0.5rem' } }, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), this.renderPriceColumn(room.gross_total, room.system_id))))
-                // {this.renderRoomItem(room, indexById.get(room.identifier) ?? idx)}
-                // {idx < groupRooms.length - 1 ? <wa-divider></wa-divider> : null}
-                );
-            });
-        }
-        return groups.map(group => {
-            if (!this.hasInvoiceableRooms(group.rooms)) {
-                return null;
-            }
-            const roomIds = this.getInvoiceableRoomIds(group.rooms);
-            const isDisabled = this.isDisabled(roomIds);
-            const isSelected = this.isSelected(roomIds);
-            return (h("div", { class: "ir-invoice__service", key: group.order }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
-                    const value = e.target.checked;
-                    this.handleCheckChange({ checked: value, system_ids: roomIds });
-                }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox group" }, h("div", { class: 'ir-invoice__room-checkbox-container group' }, group.rooms.map(room => {
-                if (!this.canInvoiceRoom(room)) {
-                    return null;
-                }
-                return (h("div", { class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { class: "ir-invoice__room-info" }, h("p", null, h("b", null, room.roomtype.name), h("span", null, room.rateplan.short_name)), this.getDateView(room.from_date, room.to_date)), this.renderPriceColumn(room.gross_total, room.system_id)));
-            })))));
-        });
-    }
-    /**
-     * Renders the pickup service row when invoiceable.
-     */
     renderPickup() {
         const sysId = this.booking.pickup_info?.['system_id'];
         if (!this.invoicableKey?.has(sysId)) {
@@ -19433,11 +15359,8 @@ const IrInvoiceForm = class {
         return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
-            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null)), this.renderPriceColumn(this.booking.pickup_info.selected_option.amount, sysId)))));
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Pickup"), this.getDateView(this.booking.pickup_info.date, null)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, this.booking.pickup_info.selected_option.amount))))));
     }
-    /**
-     * Renders the cancellation penalty checkbox when the booking contains one.
-     */
     renderCancellationPenalty() {
         const cancellationPenalty = this.booking.financial.payments?.find(p => p.payment_type?.code === '013');
         if (!cancellationPenalty) {
@@ -19453,7 +15376,7 @@ const IrInvoiceForm = class {
         return (h("div", { class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                 const value = e.target.checked;
                 this.handleCheckChange({ checked: value, system_id: sysId });
-            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Cancellation penalty"), this.getDateView(cancellationPenalty.date, null)), this.renderPriceColumn(item.amount, sysId)))));
+            }, defaultChecked: isSelected, checked: isSelected, class: "ir-invoice__checkbox" }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, "Cancellation penalty"), this.getDateView(cancellationPenalty.date, null)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, item.amount))))));
     }
     render() {
         if (this.isLoading) {
@@ -19467,7 +15390,7 @@ const IrInvoiceForm = class {
             }, class: "ir-invoice__container" }, h("ir-custom-date-picker", { onDateChanged: e => {
                 this.invoiceDate = e.detail.start;
                 this.setUpDisabledItems();
-            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), this.viewMode === 'invoice' && hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates') ? (h("ir-empty-state", { message: "Invoices cannot be issued before guest arrival" })) : (h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
+            }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
             const sysId = extra_service.system_id;
             if (!this.invoicableKey?.has(sysId)) {
                 return null;
@@ -19477,8 +15400,8 @@ const IrInvoiceForm = class {
             return (h("div", { key: extra_service.system_id, class: "ir-invoice__service" }, h("wa-checkbox", { disabled: isDisabled, size: "small", onchange: e => {
                     const value = e.target.checked;
                     this.handleCheckChange({ checked: value, system_id: sysId });
-                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), this.renderPriceColumn(extra_service.price, sysId)))));
-        }), this.renderCancellationPenalty()))))));
+                }, defaultChecked: isSelected, class: "ir-invoice__checkbox", checked: isSelected }, h("div", { class: "ir-invoice__room-checkbox-container" }, h("div", { class: 'ir-invoice__room-info' }, h("span", null, extra_service.description), this.getDateView(extra_service.start_date, extra_service.end_date)), h("span", { class: "ir-invoice__checkbox-price" }, formatAmount(this.booking.currency.symbol, extra_service.price))))));
+        }), this.renderCancellationPenalty())))));
     }
     static get watchers() { return {
         "viewMode": ["handleViewModeChange"],
@@ -19534,7 +15457,7 @@ const IrLoadingScreen = class {
     }
     message = '';
     render() {
-        return (h("div", { key: '705a7c327fa5c4974015971f54e84496c8c3a9c7', class: "loader__container" }, h("wa-spinner", { key: 'd4d6f82f6c7a025b1409449b3d205051ad66eb76', style: { fontSize: '2.5rem' } })));
+        return (h("div", { key: 'c945d36c0491764910f0a61b1d75b185bcbc9eaa', class: "loader__container" }, h("wa-spinner", { key: '38d520d4f8d3df94254865e4492dd68065cbd40f', style: { fontSize: '2.5rem' } })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;
@@ -19664,17 +15587,17 @@ const IrMobileInput = class {
     // };
     render() {
         const describedByIds = [this.description ? this.descriptionId : null, this.error ? this.errorId : null].filter(Boolean).join(' ') || undefined;
-        return (h(Host, { key: 'fff16c49117158d40a21acf4bcbe8df5bd4f6e6b', size: 'small', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: '1245eb30129dd11d3d371ea3e397c728f16e87f7', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: 'a12cd28f6bb93a21576147bed85f357502ed14f5', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '86a0f47c983bf66c49f22ea48877bafbb1a26be1', "onwa-show": e => {
+        return (h(Host, { key: 'dbc11f620d5d7ac85189241b2df6edd83906a37f', size: 'small', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: 'a7183fd4f51228d13cb309011b973c5b42d5874f', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: 'a932109a68fe928fad6e65defb17bb57dd39377f', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '26736bb64f44e9fe46cb09b0bd7a38a88bedc439', "onwa-show": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
             }, "onwa-hide": e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
-            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: 'a76150c6cd2b51403251d5d5d22e972233488894', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: '11b276d1af8e208b080bd3223ca0b197aa951117', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: '5a4c15b39491a8e3cf0acdb5e9a0a187f4e257f5', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: '80d382dcb84aefbaefb5eb2b92d52ac4adb03433', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: '2b8f87695b0e4f64b31bf246c12b5e42238b998e', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
+            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '6ca9aa75a17ff8be6e3a9333b686d4b0dd54b580', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: 'ee9226e474190b61ba0197f7f8cb6157ee42f5b8', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: 'b35feea34736d05616449b646bf6513c87447cae', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: 'daf9812696a88db278a2a8b3bf6714eddc2ba0da', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: '2770c06a7f5c2c5f68f0a670b6a212fba68d7a92', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
                 const value = e.detail;
                 this.value = value;
                 this.mobileInputChange.emit({ formattedValue: value, value, country: this.selectedCountry });
-            } }, this.selectedCountry && h("span", { key: '2ddf3adebc4771289c871577c0d795e8c8063ea0', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
+            } }, this.selectedCountry && h("span", { key: '932d20d18e00ef542687087800f9d05315d836ec', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
     }
     static get watchers() { return {
         "countryCode": ["handleCountryCodeChange"],
@@ -19823,13 +15746,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '3a5bf66717bbce2cc0898623f6b8defc32f18e4e', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '9366fa69790be2fa6e7e46609905f7a83cb7551e', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: '244157b443d2453766966becf04c2ea115d9931f', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '984d94681262ca4678cf877abc4a0990dabb9c66', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '187a8d51ecfe900e328cf55b7808acf24e11ca6c', class: `ir-alert-header` }, h("p", { key: 'ab6a79c432df27dfd60ab8f07d4bfdd6cb3d2089' }, this.modalTitle))), h("div", { key: 'e7717e49126669a01ef9921ddd8a4824abf9bba0', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '03bd9ca51005cfd4e895383124caf19d31c0d8de' }, this.modalBody)), h("div", { key: '1e9b6441b3f4c11b852cf44b484c7852d6f4ca2e', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '120073f28618d00a321c606b9bfb5cf96f635e9a', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: 'a7b102fbbf6a0948b0018231f299537126c6b50e', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: 'b4b4259846f6bf3dff99ae69c3bdd769607c97aa', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: 'bdbc1aaef57c053c4f2930f98ae5fab0b538195a', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'b54458cf0622b8d906db8ee4c8a5f208a8cd4921', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'd1ee3db0dcd0fcdf3dfa924a8ee3d205737b5d83', class: `ir-alert-header` }, h("p", { key: '2e9e8b7105ca48da53759934dada14d168b8e724' }, this.modalTitle))), h("div", { key: '89878555e31c8623ac8b4ebd1b6b95a0381f97d9', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '9863386ec7f1279305b2a0e81c16d9aed63dd0cd' }, this.modalBody)), h("div", { key: 'def02cad3789844fc6e46e432f5efab0b05658ec', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '9e57518797eeff99005b9a005420e22ede64eb8d', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '7bada638646ce4ea86d1005eab52d952d488aaef', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '511a04e34ea5829ed0fd91dc8e0971f13eb9aae9', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -19843,7 +15766,7 @@ const IrNewBadge = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: 'f60de411fdab4fe4ea51c2ea4d08d5d8a719ec94' }, h("span", { key: 'e5fdaaf86392ba988201243a6ea65265da476556', class: "new-badge" }, "new")));
+        return (h(Host, { key: '91f27febc035372afdb3c3167ad5e48094042f8f' }, h("span", { key: '3a1ac45e3ff76cde65ea9b448a7a01c3c60832f4', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = IrNewBadgeStyle0;
@@ -20082,7 +16005,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '7c922d55a2bad5413ff78102717d093230c350d2', class: "otp-input-container" }, h("div", { key: '3e8526c721a49a717669c43d973f8285da78b93b', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: 'fd8fc7e56e1abd9919c5c31ea1bc76eebf623b84', class: "otp-input-container" }, h("div", { key: '308906e493260746145a633cf98584fe7339d9d9', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
@@ -20263,7 +16186,7 @@ const IrOtpModal = class {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '4b4e3e4aa1035c3a801f592de27e9a4308df7d37' }, h("dialog", { key: '097352a294620bc5d5e9438faa24dec0d6ec1a14', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '8f09c3a0777f3a738023cdac4a29367b9706a367', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: 'f18fcea5ad785f42d754066ae8720b8c1a9bbe60' }, h("dialog", { key: '709c209a41608630237828f3411904f6b2eb674c', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '554580591a040ecd093f01350edfc9e2e9a8bb8d', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();
@@ -20573,7 +16496,7 @@ const IrPaymentFolio = class {
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: 'f5131a2711bc89cded3153bf9b0f905da2361f3d', placement: "start", style: {
+        return (h("ir-drawer", { key: '798c8b6ed59c88ecabcd5cc12bfdc363865c076c', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -20584,11 +16507,11 @@ const IrPaymentFolio = class {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: 'c9706a72d654d404f9f4a5818f826286a8518981', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: 'b7dab3b837c08c1dd15cad06f9b3f33ee5bfd970', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: 'a9de9c5a54764b28e187cc6a7cad58e51f6315a9', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'd6becee6c736993ff2e29abd7d98c6cacb714ab8', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'c738a3b7d8bd0d88d5c88fa7a54fe9bd8631bde8', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: 'ddcf11e2462d202a21da57c44369b9af48e97682', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'fa57e300a3a6747947c536517863f30061421e64', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'e6827d5ad4f51f8bf1e7fb89e2463ea8066f8fee', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }
@@ -20876,23 +16799,23 @@ const IrPaymentFolioForm = class {
     }
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("form", { key: 'f5789c5652ba62c90ebe5c9ad1f91a7d7410df14', onSubmit: e => {
+        return (h("form", { key: '2e44edc22910e1566833c1941744c7be34b336b4', onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 if (submitter?.value === 'save') {
                     this.savePayment();
                 }
-            }, class: "payment-folio__form", id: this.formId }, h("ir-custom-date-picker", { key: '9e29557ed71e6bc54a2e121220112a89745bf592', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
+            }, class: "payment-folio__form", id: this.formId }, h("ir-custom-date-picker", { key: 'e976867a053257635d3505fbee72962e808585f3', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
                 this.updateFolioData({ date: evt.detail.start?.format(DATE_FORMAT) });
-            }, minDate: hooks().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: '23c2afb228b7c90064ce309e482d1dc902d5f34c', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '97686805e9fc50cd3d9fc65093c0802e757c0dea', id: this.controlIds.transactionType, size: "small", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
+            }, minDate: hooks().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: '6c51a1b3340e8c61ae8d4300e1bc17397d68d1fe', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '604ff1d867d9956dff1f363bf5fd5309b7cc6c5a', id: this.controlIds.transactionType, size: "small", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handleDropdownChange(event.target.value);
-            } }, h("wa-option", { key: '6082a4a38f51d0b8f99819862a4929cb552af10e', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: '1d0a1d5776461101f3bd0892a749434b8ef6cf59', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '277be9ebd39c3a3ac122807f7b3180757a91cb8f', id: this.controlIds.paymentMethod, size: "small", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
+            } }, h("wa-option", { key: '4b216b40bfe973d34bc1ce18b192ae9f911ca598', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: '82809b9a4904251a0eaad53dbe6ba1485e6a5448', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '25528aca9eb3c10b5ad2ef869ff6d793145a001a', id: this.controlIds.paymentMethod, size: "small", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handlePaymentMethodDropdownChange(event.target.value);
-            } }, h("wa-option", { key: '3d50e0eab02c2b3e4e10b38370c356ad0a2cc3c5', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
+            } }, h("wa-option", { key: 'b6f7b6e6c1dd124be98b256932c6d722bf373f1f', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
             return (h("wa-option", { key: pt.CODE_NAME, label: pt.CODE_VALUE_EN, value: pt.CODE_NAME }, pt.CODE_VALUE_EN));
-        })))), h("ir-validator", { key: '6e5f109522dc5212893ff6e4a3357aa3eb046cd3', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: 'ea37b6b871a0509521f5618510af7ad42573d388', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'd4f2409665d1879d9cf7750b01c2fd88a29f7e40', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'e6f0bc8ec50145857561fab2ce7515eacd894fcc', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '34f2d3687fa2cd9e7fae7428234ac5112992f267', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
+        })))), h("ir-validator", { key: '3dcc0c66b0894415cb1e727ce440b765e3b4bee5', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '0ad018767d81daa2f1ea6e40b85a88a7118cf92c', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'aef4b879ed5510636a632c77c71d49e5c9862d17', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'a8df6928d78a53696daf2aa16d00ebde391ef9a5', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: 'e314d99c9cdcb0d5eef225ce2798cf15eb8f493a', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
     }
     static get watchers() { return {
         "payment": ["handlePaymentChange"],
@@ -20921,7 +16844,7 @@ const IrPaymentItem = class {
         const paymentDescription = (PAYMENT_TYPES_WITH_METHOD.includes(this.payment.payment_type?.code)
             ? `${this.payment.payment_type?.description}: ${this.payment.payment_method.description}`
             : this.payment.payment_type.description) ?? this.payment.designation;
-        return (h("div", { key: 'e2994dfa2f99c1dd1f70ba880ae6bc31cd8d02ed', class: "payment-item__payment-item" }, h("div", { key: 'ae8f99719633440eef158a7994c575a5007d9088', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: '241bbb0ef75b937229e7fab51cceb75a18e4de2e', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: 'a00a783759856dc43ec01d25d9d1658b51edd585', class: "payment-item__payment-date" }, hooks(this.payment.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { key: 'b4b3d8fe96170e115e1fd3f1983b39f377770820', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: 'f93fefa188c97e968dda02a76034c0273287923d', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '454000a0aebd50d0166408d4b7f65c3de2e4253f', class: "payment-item__payment-reference" }, this.payment?.reference)), h("div", { key: '4073d88259d66d8bf736f870f20df334724ae0b5', class: "payment-item__payment-toolbar" }, h("p", { key: '39849eb11cb398280385933c3c5218c39955cb6a', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: '3261de68396b9c4c78275eb434b6811d7624f5ae', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: '889aa8288a41ae9dfb9863b64e2a022b420be6c0', class: "payment-item__payment-actions" }, h("div", { key: 'dbc54eeec82817d541280cbb73a77e14ff3a0653', class: "d-flex align-items-center" }, h("wa-tooltip", { key: '4abe5e2c65dc331de96beac22d2e32dce6e97ecf', for: this._id }, "User: ", this.payment.time_stamp.user), h("wa-icon", { key: '1d2e2ebe537f9c72652950b664206f8a0a753d91', name: "user", id: this._id }), h("wa-dropdown", { key: 'c8cd03409d6be7838fa70713d3da21f8f1a4485b', "onwa-hide": e => {
+        return (h("div", { key: 'ac11f498d4ccbafc5aefe1e84961dcd6cb367387', class: "payment-item__payment-item" }, h("div", { key: '8c0a5da1d0577bb1857caf7cdd20aac811fc9176', class: "payment-item__payment-body", part: "payment-body" }, h("div", { key: 'c2b2f8314bdd521c9b36c002e694a021b66197ef', class: "payment-item__payment-fields", part: "payment-fields" }, h("p", { key: '1ec83be83370051d4f9c1ef5f3e292bd86b72539', class: "payment-item__payment-date" }, hooks(this.payment.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("p", { key: 'b502bb7d55f91f73b496254aab9c8ce6d6317a9c', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: 'dc8008cf807ae805b147691695dec28f6d3048e0', class: "payment-item__payment-description" }, paymentDescription)), this.payment.reference && h("p", { key: '3903c069776b155a7b310d6a55cb2da95ed4564e', class: "payment-item__payment-reference" }, this.payment?.reference)), h("div", { key: '6f73abb83082343af90194b03b2de0069b19eeae', class: "payment-item__payment-toolbar" }, h("p", { key: 'f81cc85698ca010f1545eecf6b2a50a1d4668edc', class: `payment-item__payment-amount ${isCredit ? 'is-credit' : 'is-debit'}` }, formatAmount(this.payment.currency.symbol, this.payment.amount)), h("p", { key: 'e1cf7871fff27a30faea0b98b7fbf21571f6ba26', class: "payment-item__payment-description" }, paymentDescription), h("div", { key: '1baadee6ce99f4c2e50c13736aed81a7ab82aa02', class: "payment-item__payment-actions" }, h("div", { key: '7ed88918d591d2a38cebfb2f29835d0528781f3b', class: "d-flex align-items-center" }, h("wa-tooltip", { key: '502a0176211dcf52f698b0e6eb56305c5c8ec656', for: this._id }, "User: ", this.payment.time_stamp.user), h("wa-icon", { key: 'a5765068a7accc3ff15c13252f5da259d9588501', name: "user", id: this._id }), h("wa-dropdown", { key: '39679caf304021ba2f2af95c8a2b2dabae437a1c', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -20936,7 +16859,7 @@ const IrPaymentItem = class {
                         this.issueReceipt.emit(this.payment);
                         break;
                 }
-            } }, h("ir-custom-button", { key: '4dce11f2c9d274b38d38979b32ab67ee2316b508', slot: "trigger", appearance: "plain" }, h("wa-icon", { key: 'c1c7c395648fbaa510eb8ffefce5e485d746f171', name: "ellipsis-vertical" })), this.payment.payment_type.code === '001' && (h("wa-dropdown-item", { key: '65c9758af815d35f1654013d9026c2a2c521104b', value: "receipt" }, h("wa-icon", { key: '14e51046ec9d12e664026e8e226cf1780cf7b6d9', name: "receipt", slot: "icon" }), "Print Receipt")), h("wa-dropdown-item", { key: 'c8a4cdfa92a8d54664d3eea13ad6347bddae998d', value: "edit" }, h("wa-icon", { key: 'f7eb7facb998a65e82f1cd65bed4c7ccab9760d5', slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { key: '0acf71948b63819ee0e670b367511462766e8ef7', value: "delete", variant: "danger" }, h("wa-icon", { key: 'a75ea53e8719a770692b12d09a682b0967354ee6', slot: "icon", name: "trash" }), "Delete"))))), this.payment.reference && h("p", { key: '28fa2ad1dc9ad3a37b55a4862dcd278950146ae7', class: "payment-item__payment-reference" }, this.payment?.reference)));
+            } }, h("ir-custom-button", { key: '9c0775a380d981aa8478fd433e210a0ec5ada6bc', slot: "trigger", appearance: "plain" }, h("wa-icon", { key: '0206f39cf265c7fdd4153e25c7e7ae9f2f0b669f', name: "ellipsis-vertical" })), this.payment.payment_type.code === '001' && (h("wa-dropdown-item", { key: '85fa3c59bfb35b29fde6334eedf10473814ea987', value: "receipt" }, h("wa-icon", { key: '32d6dd9c947dea89c1b7b342424adb44c7e26344', name: "receipt", slot: "icon" }), "Print Receipt")), h("wa-dropdown-item", { key: '6299b02cb384c3a865d2fa54e837b73a743093bf', value: "edit" }, h("wa-icon", { key: 'b50af1ca74a986b2bab5c7462cc13e6e2aa82521', slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { key: '9c5c5f31fa71e2c326561472f35839f584898735', value: "delete", variant: "danger" }, h("wa-icon", { key: '4097ba428905220d56f337a70b76169df3cac649', slot: "icon", name: "trash" }), "Delete"))))), this.payment.reference && h("p", { key: '62ccb566e7dd1c6d2942dbfb0307c8b4796fc55f', class: "payment-item__payment-reference" }, this.payment?.reference)));
     }
 };
 IrPaymentItem.style = IrPaymentItemStyle0;
@@ -20957,7 +16880,7 @@ const IrPaymentSummary = class {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     render() {
-        return (h("div", { key: 'db55227b1c94c064a5bd0a3053e750044ce1a412', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: 'c17a6843e5922dc8a6728bd35da109d17ccb6427', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: '46b8017df964f6ee6955296bdb07ca470370d154' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: '2daae2c7f0507a2c67ef8506aad198744ea97b75', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: 'a8a2ea8f285c9479abb6a924c5643ef09e29f864' }, locales.entries.Lcz_Balance, ": "), h("span", { key: 'f67cc443d82c572c4c3f5b29f05d8427ba8f4b75', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { key: '76ef8cd489ffb04d36a0f9ac7963ac85471159e3', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: '0f30671d4ac30860604fd9ee2be0d4e359f20b56' }, locales.entries.Lcz_Collected, ": "), h("span", { key: '27260aef86ce09cbe5cd961c8293aef7ec880adb' }, formatAmount(this.currency.symbol, this.collected))))));
+        return (h("div", { key: 'b6720906c316f07debcf9a7eb894c55720187cea', class: " m-0" }, this.shouldShowTotalCost() && (h("div", { key: '06396be091662549774ba0346d8714e6425b2f87', class: "mb-2 h4 total-cost-container" }, locales.entries.Lcz_TotalCost, ":", h("span", { key: 'fc26a0525591861f86a7c05b216b4c8b1d6de0e7' }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { key: '36a8ea89d3b3fa08dd139ddf9ade30d1645c2166', class: "h4 d-flex align-items-center justify-content-between" }, h("span", { key: '7d55655b23ff9cca50e5f9dc0d3dde1f68c4d24b' }, locales.entries.Lcz_Balance, ": "), h("span", { key: 'c4c18b697ac9d21f8682eaa8061aaba3b460c16a', class: "danger font-weight-bold" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { key: '1f0a40468adf10b50dfa731eb266b5c38b27d8b9', class: "mb-2 h4 d-flex align-items-center justify-content-between" }, h("span", { key: '975c594884cbf72c7f9c07c549cad79565989280' }, locales.entries.Lcz_Collected, ": "), h("span", { key: 'a42ee6a6c785148f71b55b910736048e1f7d3e9a' }, formatAmount(this.currency.symbol, this.collected))))));
     }
 };
 IrPaymentSummary.style = IrPaymentSummaryStyle0;
@@ -21015,12 +16938,12 @@ const IrPaymentsFolio = class {
         return h("ir-empty-state", null);
     }
     render() {
-        return (h("wa-card", { key: '9b2539551b23257c8ee691408fa099709fd7e333', class: " payments-container" }, h("div", { key: '4644b2ddf263d07174e5bb6d8c7bd3a9d49a7eb1', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '230bc266b8111280a17ac577d622fdae65a59059', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: 'fcf5a1acf62862cad87c851b41cf41723f15a4bb', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: '2b24fe959cbf51f7f1ce1bb851ab85abdaee4a6f', for: "create-payment" }, "Add Payment"), h("ir-custom-button", { key: '85864cfe645a27c8db2150d18b325d873c67c2a7', slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: '778b6d2a37e54f30e5698574a39233c8195fe975', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
+        return (h("wa-card", { key: '0d683ad3af03c37b777aebf51730bde280785915', class: " payments-container" }, h("div", { key: 'ba7f2483a03f0e12f22e4bc3b7c5eef87b40ce26', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '43e50ab29a8fd88b129535ed77821c1bfe1174dc', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: '43745b65c463937e881c1e308ac8205c9abfa04f', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: '7b7f4715c1073d04ea7e938c174ba05a8fa2748b', for: "create-payment" }, "Add Payment"), h("ir-custom-button", { key: 'b2c8bf2d6e0d9c092fe267f4e4a27e2d05d365ea', slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: 'b8541dbe03b19ea008a8b131afbe13f3f9446371', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
     }
 };
 IrPaymentsFolio.style = IrPaymentsFolioStyle0;
 
-const irPickerCss = ":host{display:block;width:100%}.menu{display:flex;flex-direction:column;min-width:max-content;margin:0px;padding:0.5rem 0;border:var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);background-color:var(--wa-color-surface-raised);box-shadow:var(--wa-shadow-m);color:var(--wa-color-text-normal);text-align:start;user-select:none;overflow:auto;max-width:var(--auto-size-available-width) !important;max-height:var(--auto-size-available-height) !important}.results{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;max-height:min(60vh, 24rem);overflow-y:auto}.group{display:flex;flex-direction:column;gap:0.35rem}.group__label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--wa-color-text-muted);margin:0 0.25rem}.group__options{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.25rem}.option{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:var(--wa-border-radius-m);cursor:pointer;transition:background-color 120ms ease, box-shadow 120ms ease}.option__leading{color:var(--wa-color-text-muted);display:flex;align-items:center;justify-content:center;font-size:1rem}.option__leading wa-icon{font-size:1.15rem}.option__content{display:flex;flex-direction:column;gap:0.15rem;flex:1}.option__label{font-weight:600}.option__description{font-size:0.85rem;color:var(--wa-color-text-muted)}.option__suffix{margin-inline-start:auto;display:flex;align-items:center;gap:0.5rem}.option__meta{padding:0.15rem 0.45rem;border-radius:var(--wa-border-radius-pill, 999px);background-color:var(--wa-color-surface, rgba(255, 255, 255, 0.08));font-size:0.75rem;color:var(--wa-color-text-normal)}.option__shortcut{display:flex;gap:0.25rem}.option__shortcut kbd{border-radius:var(--wa-border-radius-s);border:1px solid var(--wa-color-surface-border);padding:0.15rem 0.35rem;font-size:0.75rem;font-family:inherit;background-color:var(--wa-color-surface, rgba(255, 255, 255, 0.04))}.option--active{background-color:var(--wa-color-surface-hover, rgba(255, 255, 255, 0.06));box-shadow:inset 0 0 0 1px var(--wa-color-surface-border)}.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;padding:2rem 1rem;text-align:center;color:var(--wa-color-text-muted)}.empty-state wa-icon{font-size:1.25rem}.loading-state{display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;color:var(--wa-color-text-muted)}.loading-state p{margin:0;font-size:0.9rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}";
+const irPickerCss = ":host{display:block;width:100%}.menu{display:flex;flex-direction:column;min-width:max-content;margin:0px;padding:0.5rem 0;border:var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-surface-border);border-radius:var(--wa-border-radius-m);background-color:var(--wa-color-surface-raised);box-shadow:var(--wa-shadow-m);color:var(--wa-color-text-normal);text-align:start;user-select:none;overflow:auto;max-width:var(--auto-size-available-width) !important;max-height:var(--auto-size-available-height) !important}wa-input[aria-invalid='true']::part(base){border-color:var(--wa-color-danger-border-loud);outline-color:var(--wa-color-danger-border-loud);border-width:2px}.results{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;max-height:min(60vh, 24rem);overflow-y:auto}.group{display:flex;flex-direction:column;gap:0.35rem}.group__label{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--wa-color-text-muted);margin:0 0.25rem}.group__options{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.25rem}.option{display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:var(--wa-border-radius-m);cursor:pointer;transition:background-color 120ms ease, box-shadow 120ms ease}.option__leading{color:var(--wa-color-text-muted);display:flex;align-items:center;justify-content:center;font-size:1rem}.option__leading wa-icon{font-size:1.15rem}.option__content{display:flex;flex-direction:column;gap:0.15rem;flex:1}.option__label{font-weight:600}.option__description{font-size:0.85rem;color:var(--wa-color-text-muted)}.option__suffix{margin-inline-start:auto;display:flex;align-items:center;gap:0.5rem}.option__meta{padding:0.15rem 0.45rem;border-radius:var(--wa-border-radius-pill, 999px);background-color:var(--wa-color-surface, rgba(255, 255, 255, 0.08));font-size:0.75rem;color:var(--wa-color-text-normal)}.option__shortcut{display:flex;gap:0.25rem}.option__shortcut kbd{border-radius:var(--wa-border-radius-s);border:1px solid var(--wa-color-surface-border);padding:0.15rem 0.35rem;font-size:0.75rem;font-family:inherit;background-color:var(--wa-color-surface, rgba(255, 255, 255, 0.04))}.option--active{background-color:var(--wa-color-surface-hover, rgba(255, 255, 255, 0.06));box-shadow:inset 0 0 0 1px var(--wa-color-surface-border)}.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;padding:2rem 1rem;text-align:center;color:var(--wa-color-text-muted)}.empty-state wa-icon{font-size:1.25rem}.loading-state{display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;color:var(--wa-color-text-muted)}.loading-state p{margin:0;font-size:0.9rem}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}";
 const IrPickerStyle0 = irPickerCss;
 
 const DEFAULT_ASYNC_DEBOUNCE = 300;
@@ -21072,6 +16995,7 @@ const IrPicker = class {
     filteredItems = [];
     liveRegionMessage = '';
     slottedPickerItems = [];
+    isValid;
     /** Emitted when a value is selected from the combobox list. */
     comboboxSelect;
     /** Emitted when the text input value changes. */
@@ -21150,6 +17074,9 @@ const IrPicker = class {
         this.updateActiveItemIndicators();
         this.applyAriaAttributes();
         this.scrollActiveOptionIntoView();
+    }
+    handleAriaInvalid(newValue) {
+        this.isValid = newValue;
     }
     handleValueChange(newValue) {
         this.updateSelectedFromValue(newValue);
@@ -21498,11 +17425,11 @@ const IrPicker = class {
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: '559a9a9b39f08f97d1ce4413b634a66812abe10c' }, h("wa-popup", { key: '9ec13a831980d8a5e14d92bf92535ec68b9993da', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '35612e243e077fd1e6cb2ac45808066c7378b5c2', slot: "anchor", class: "search-bar", withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: 'be2c52f293bf0100f638027ed469ac925a44cc78' }, h("wa-popup", { key: 'a56060cb15d3896a7105f8dfa2ead65168eda3ef', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '1f40305a83523a6130ad1158ca546ef858d0d743', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: '405322c8136bf5f508a5dca0c28b6e288c61c6df', slot: "end" }), h("wa-icon", { key: '1e88e827814f256e07ec34dd26c79fd83c156a2d', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: 'b3641da4e66df056192696d5972fce1e119d73aa', class: "menu", role: "presentation" }, h("p", { key: 'bf2a71b84c9939fc13d56aaaf639a42e2efcbed7', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '528fc7fdf42425a27ecb9414f68ff6fe979b3cde', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'be9100780b78ab3490703c092e361dfb5dc368f1', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '9892fc0caf6c55160fb40391eeda8a3ce37db75c' }), h("p", { key: '45e0b6980bf15390c93c380ac6c310ff19c390c4' }, "Loading suggestions\u2026"))), h("slot", { key: '865bb345ad8e638910655b3416fe05b4b00706ac', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'eeac2e65a2e278a848739af96d1217dbc652a0ba', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'ea865035d564102a5f09ce799f63f9d9e4496b29', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'e83c6fa3d11040882147993f81cd264f19ddb7e4' }, "No results found")))))), h("span", { key: '0ac734e5c8fb5bde839263ca0b1dd7d88cc8829c', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '0204496c41d950e255ea9f927ea5fe9d5e7219f8', slot: "end" }), h("wa-icon", { key: '6cc69ffabed1e69bdbf561460564386a978fcaac', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: 'ce93a279505d37d9d6e6cfe547b53974798e44a2', class: "menu", role: "presentation" }, h("p", { key: 'a719363c7440b7cb9a768fef7bced687a989c1a9', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '603b6717dd4ed332b07d5786b5257a6ab283ae9c', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '5720f41aa01d81eb98e82350d279e83cdc916b29', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '8be806671fe3ff16ec2ccc41ff6330afb2429459' }), h("p", { key: 'fa4040ca1b259f18ddbe4ab284fb8384a5e1c50d' }, "Loading suggestions\u2026"))), h("slot", { key: 'ce0ae4c0de6246bbaa9dda3c66e618a0b03112bf', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'c7f6124f8fcecf7ffd97437ecb116a8f0e884e3a', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '9aee310197528aab7b5b84db086b8062433b9fa4', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'c88b321818fb16fd28bdcf536b4fe3c7f6be323c' }, "No results found")))))), h("span", { key: 'fea1d1e6b3a213fbd61adf766ce53c487e200014', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -21521,6 +17448,7 @@ const IrPicker = class {
     }
     static get watchers() { return {
         "activeIndex": ["handleActiveIndexChange"],
+        "aria-invalid": ["handleAriaInvalid"],
         "value": ["handleValueChange"]
     }; }
 };
@@ -21539,7 +17467,7 @@ const IrPickerItem = class {
     active = false;
     selected = false;
     render() {
-        return (h(Host, { key: 'd0fb836cf30bfbc2cacd0188d770527e3fd4628c', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: '63b4da534fc58b9496821af055425d8b8982d1fa', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: 'd0fe980d475c037e2d194a52dbb09daf7440b8e4', class: "picker-item__check", name: "check" }), h("div", { key: 'af0ecdfc00854edda8658aba643053111606e072', class: "picker-item__content", part: "content" }, h("slot", { key: '79352e225936ab830f82e9d4e339422a611a0b79' })))));
+        return (h(Host, { key: '59e37375e7f01b2558d55151c050eb610bc882c2', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: '3474f154eb9f066658cf876849043d431a1e5d26', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: '5cb14cd595a5135fa793ae0389bbe359320b82b5', class: "picker-item__check", name: "check" }), h("div", { key: 'b1f25881c979dd83ed448aab2f6bdafffdfc8aad', class: "picker-item__content", part: "content" }, h("slot", { key: 'ceb0ddee7c06a3cc2cf818239615ff37ded21f6f' })))));
     }
 };
 IrPickerItem.style = IrPickerItemStyle0;
@@ -21588,7 +17516,7 @@ const IrPickup = class {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '3f34715c390abed0385461cade88683d1bab32b6', style: {
+        return (h("ir-drawer", { key: '6b69e6da493f9ac560c6875f48572e0774b1a7d7', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -21599,7 +17527,7 @@ const IrPickup = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '38e88b1a857df4c6b21a79775caf5d86393e1272', onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: '33762c91d3a6a06f01fdd62ef621075cf5b65eba', onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -21607,7 +17535,7 @@ const IrPickup = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: '05dfcef3f3bde64eefd41ea928a253e11cc559a7', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'ca1ee326be2c0f3a6798a713b78ec1a9f2a488f1', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '7b8e10a084c7d451bea623405d1819f413e4a4fa', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '4888312f044f6ed8d7b6593866c9800b4ad47b3c', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '0519a069a6491faedea7b46ec58da29a0c7fe969', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'ef536a737da1ae79bce1e4f4a4fed6c0eb25052c', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
 };
 IrPickup.style = IrPickupStyle0;
@@ -21930,16 +17858,16 @@ const IrPickupForm = class {
         }
     }
     render() {
-        return (h("form", { key: 'd0da21053459acf2e5d52d010e24f9e3a4b72fc4', id: this.formId, class: "pickup__container", onSubmit: async (e) => {
+        return (h("form", { key: '5f9d66e5b4b64f3ad6352c29e66f75a4bfef7536', id: this.formId, class: "pickup__container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.savePickup();
-            } }, h("ir-validator", { key: 'bd1f5d8edc7ee12e886da10b3c001bac07138b05', schema: this.pickupSchema.shape.location, autovalidate: this.autoValidate, value: this.pickupData.location, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '529d2b829bb7bd3dd39020d36675437f3d6d23c3', size: "small", onchange: e => this.handleLocationChange(e.target.value), defaultValue: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString(), value: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString() }, h("wa-option", { key: 'd78d72bc5880ad6f5f2321d203caf915d16e57c6', value: "" }, locales.entries.Lcz_Pickup_NoThankYou), this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom).map(option => (h("wa-option", { key: `pickup-location-${option.value}`, value: option.value?.toString() }, option.text))))), this.shouldRenderDetails && (h("div", { key: '11cd783275f95033a0b8af4b0490a9853145c9f9', class: "pickup__container", "data-testid": "pickup_body" }, h("ir-validator", { key: '835472d233d5b195a6d83ca7b770628d65ca67a6', schema: this.pickupSchema.shape.arrival_date, autovalidate: this.autoValidate, value: this.pickupData.arrival_date ?? '', valueEvent: "dateChanged", blurEvent: "datePickerBlur blur" }, h("ir-custom-date-picker", { key: '8aa33e88dd120aca974236febd862c8f17d14d4f', date: this.pickupData.arrival_date, minDate: this.bookingDates.from, maxDate: this.bookingDates?.to, emitEmptyDate: true, onDateChanged: evt => {
+            } }, h("ir-validator", { key: 'fcd8fc140bc28d023f93918d4e6687f55393abfa', schema: this.pickupSchema.shape.location, autovalidate: this.autoValidate, value: this.pickupData.location, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '950b45c4aa61c25efa2cf2ce0bbd5ca0599071dd', size: "small", onchange: e => this.handleLocationChange(e.target.value), defaultValue: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString(), value: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString() }, h("wa-option", { key: 'd8e860958e613960ad7891c17b4a25eed9986ab2', value: "" }, locales.entries.Lcz_Pickup_NoThankYou), this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom).map(option => (h("wa-option", { key: `pickup-location-${option.value}`, value: option.value?.toString() }, option.text))))), this.shouldRenderDetails && (h("div", { key: '4b919cdf9dea23258f72d3ac1c35e927d37ec1d7', class: "pickup__container", "data-testid": "pickup_body" }, h("ir-validator", { key: '714fb4a5930dc0ebdf28846cf0e224678b65c05d', schema: this.pickupSchema.shape.arrival_date, autovalidate: this.autoValidate, value: this.pickupData.arrival_date ?? '', valueEvent: "dateChanged", blurEvent: "datePickerBlur blur" }, h("ir-custom-date-picker", { key: '8ffcabfa119922a129f30d26dfe81218e7848eae', date: this.pickupData.arrival_date, minDate: this.bookingDates.from, maxDate: this.bookingDates?.to, emitEmptyDate: true, onDateChanged: evt => {
                 this.updatePickupData('arrival_date', evt.detail.start?.format('YYYY-MM-DD') ?? null);
-            }, label: locales.entries.Lcz_ArrivalDate })), h("ir-validator", { key: 'a77ac5ae1df8865b5af14d9e55f19f20a654757e', schema: this.pickupSchema.shape.arrival_time, autovalidate: this.autoValidate, value: this.pickupData.arrival_time, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '6d7e829a9713d3c674ca4703516d21d18d93409b', value: this.pickupData.arrival_time, "onText-change": e => {
+            }, label: locales.entries.Lcz_ArrivalDate })), h("ir-validator", { key: '748249c982027c3fca3f1637f4bd7517f27a868b', schema: this.pickupSchema.shape.arrival_time, autovalidate: this.autoValidate, value: this.pickupData.arrival_time, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '5e21f2712bd0ee246acb08f91e2897f5afcc5d7d', value: this.pickupData.arrival_time, "onText-change": e => {
                 this.updatePickupData('arrival_time', e.detail);
-            }, mask: 'time', label: locales.entries.Lcz_Time })), h("ir-validator", { key: '0bb408b9a049e3e7a41087409e4db73794f8e4ef', schema: this.pickupSchema.shape.flight_details, autovalidate: this.autoValidate, value: this.pickupData.flight_details, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '99b81954fee1ac9cb7da4ae7ea739dc7e27e8c48', "onText-change": e => this.updatePickupData('flight_details', e.detail), value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails })), h("ir-validator", { key: '4b4de2809572326b29c3e820d065e9196f5afedd', schema: this.pickupSchema.shape.vehicle_type_code, autovalidate: this.autoValidate, value: this.pickupData.vehicle_type_code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: 'b3482e4b6cb42ef7c00b888631f8519bc3a0be5e', size: "small", onchange: e => this.handleVehicleTypeChange(e.target.value), value: this.pickupData.vehicle_type_code, defaultValue: this.pickupData.vehicle_type_code }, this.allowedOptionsByLocation.map(option => (h("wa-option", { value: option.vehicle.code, key: option.vehicle.code }, option.vehicle.description))))), h("ir-validator", { key: '93a5740d081e6eaedf59c4598e670adf6632f4f8', schema: this.pickupSchema.shape.number_of_vehicles, autovalidate: this.autoValidate, value: this.pickupData.number_of_vehicles, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: 'e75118a9421b811dc22a05d0deeb5e76aa45da59', size: "small", defaultValue: this.pickupData.number_of_vehicles?.toString(), value: this.pickupData.number_of_vehicles?.toString(), label: locales.entries.Lcz_NbrOfVehicles, onchange: e => {
+            }, mask: 'time', label: locales.entries.Lcz_Time })), h("ir-validator", { key: 'b2024d5a4c72edbd97a4d93171f8c8f483e6a210', schema: this.pickupSchema.shape.flight_details, autovalidate: this.autoValidate, value: this.pickupData.flight_details, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: 'a3f07b47d919e0c9a807ec3cc60df5d3ae63d066', "onText-change": e => this.updatePickupData('flight_details', e.detail), value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails })), h("ir-validator", { key: '585c7f2abc606bade55e175541952b6776ddb2c1', schema: this.pickupSchema.shape.vehicle_type_code, autovalidate: this.autoValidate, value: this.pickupData.vehicle_type_code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '6c06626f340e092b6ad1571c14d889bc08767979', size: "small", onchange: e => this.handleVehicleTypeChange(e.target.value), value: this.pickupData.vehicle_type_code, defaultValue: this.pickupData.vehicle_type_code }, this.allowedOptionsByLocation.map(option => (h("wa-option", { value: option.vehicle.code, key: option.vehicle.code }, option.vehicle.description))))), h("ir-validator", { key: '48ca976554f00f5887adbd11c8e71539037383ab', schema: this.pickupSchema.shape.number_of_vehicles, autovalidate: this.autoValidate, value: this.pickupData.number_of_vehicles, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '03687be00adc497b4708a50999fff0682b7f0f5d', size: "small", defaultValue: this.pickupData.number_of_vehicles?.toString(), value: this.pickupData.number_of_vehicles?.toString(), label: locales.entries.Lcz_NbrOfVehicles, onchange: e => {
                 this.handleVehicleQuantityChange(Number(e.target.value));
-            } }, this.vehicleCapacity.map(i => (h("wa-option", { key: `capacity_${i}`, value: i.toString() }, i))))), h("ir-input", { key: 'd7e9123c9fb89daa9e545b29e7cda83ec8352593', mask: 'price', readonly: true, label: `${locales.entries.Lcz_DueUponBooking}`, value: this.pickupData.due_upon_booking }, h("span", { key: '7e843b7703453dcd1b45d381c73b15e12a59cf50', slot: "start" }, this.pickupData.currency?.symbol))))));
+            } }, this.vehicleCapacity.map(i => (h("wa-option", { key: `capacity_${i}`, value: i.toString() }, i))))), h("ir-input", { key: '6a2b4edc2952a61c9b1bbcae15092d0969b8d344', mask: 'price', readonly: true, label: `${locales.entries.Lcz_DueUponBooking}`, value: this.pickupData.due_upon_booking }, h("span", { key: '87571bd4eca8dd601a00f4e103494171d0807b84', slot: "start" }, this.pickupData.currency?.symbol))))));
     }
     static get watchers() { return {
         "defaultPickupData": ["handleSubmitPickupChange"],
@@ -21987,7 +17915,7 @@ const IrPmsLogs = class {
         }
     }
     render() {
-        return (h("div", { key: 'bcc83169464a31a83503cc72b4e10cb67c89ff91', class: "" }, isRequestPending('/Get_Exposed_PMS_Logs') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h("div", { class: 'dialog-container-height' }, h("div", { class: "d-flex align-items-center ", style: { paddingBottom: '0.5rem' } }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_SentAt, ":"), this.pmsLogs?.sent_date ? (h("p", { class: "list-item" }, this.pmsLogs?.sent_date, " ", _formatTime(this.pmsLogs?.sent_hour.toString(), this.pmsLogs?.sent_minute.toString()))) : (h("p", { class: `list-item ${this.pmsLogs?.sent_date ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))), h("div", { class: "d-flex align-items-center p-0 m-0" }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_Acknowledged), h("p", { class: `list-item  ${this.pmsLogs?.is_acknowledged ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))))));
+        return (h("div", { key: '850f6ffd1ea69737c70c73c53bc3700ac35f4869', class: "" }, isRequestPending('/Get_Exposed_PMS_Logs') ? (h("div", { class: 'd-flex align-items-center justify-content-center dialog-container-height' }, h("ir-spinner", null))) : (h("div", { class: 'dialog-container-height' }, h("div", { class: "d-flex align-items-center ", style: { paddingBottom: '0.5rem' } }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_SentAt, ":"), this.pmsLogs?.sent_date ? (h("p", { class: "list-item" }, this.pmsLogs?.sent_date, " ", _formatTime(this.pmsLogs?.sent_hour.toString(), this.pmsLogs?.sent_minute.toString()))) : (h("p", { class: `list-item ${this.pmsLogs?.sent_date ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))), h("div", { class: "d-flex align-items-center p-0 m-0" }, h("p", { class: "list-title p-0 m-0" }, locales.entries.Lcz_Acknowledged), h("p", { class: `list-item  ${this.pmsLogs?.is_acknowledged ? 'green' : 'red'}` }, this.pmsLogs?.is_acknowledged ? locales.entries.Lcz_YES : locales.entries.Lcz_NO))))));
     }
 };
 IrPmsLogs.style = IrPmsLogsStyle0;
@@ -22055,7 +17983,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (h(Host, { key: 'ddc68e43d45b9ec425531f36c0b58f31d3a8e604', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (h(Host, { key: 'a0ce8467514ec7497ff7edf528d4adf7faf923c5', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -22265,11 +18193,11 @@ const IrPreviewScreenDialog = class {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '012c2f72b1f4b512eb03ab3231be58d199818659', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'f1a28ee89c304253ed1b3ff10bd8c7c4a85e663c', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: 'c6419dad9463025fd83eafa5851ed24fb574c288' }, h("wa-tooltip", { key: '359af04f03b113944561a8b22b22d9accb555a33', for: this._id }, "Print PDF"), h("ir-custom-button", { key: 'e53fb69554b67d79759dcecab77c0a37bd8a979a', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '74a38c4ba99339f3f023763e09dc713a8d10b7d2', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: '81b760defb08fe29e91e3cd7412d6b5ffcf10dcc' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: '7a41edba0aa024950541566be7b88d9633c52014' }, h("wa-tooltip", { key: 'cf841544f7a8dda7aa5743af25b9c3a4e1cef6d8', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '2a170030dd9eef182ee647a8c76c64d30b1b7fc9', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '72e3629430b7aea50a0fc8a1cda0f3fa0bd4aa7a', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: '48e50c95a73f49b72e798f6041b7ce1703de1307' })));
     }
 };
 IrPreviewScreenDialog.style = IrPreviewScreenDialogStyle0;
@@ -22435,13 +18363,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: 'f1eb1791f84ff6adfcf3f87adbb1b5d7b9d82eb2', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'ee95ca1417058a02338efe35c12c7929cd548632', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: 'ffec629df3212e226d78c1208ad27b98449948a7', class: `input-group-text 
+        return (h("fieldset", { key: '72d12518bfd39e0cf5c956f1e23ddcb715a84da0', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'da2c33681d0331abd8f2b8290757803d44d5ea95', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '7f66043965a657fc01d4cc39a26b5a84ef44a442', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '4c9d471775a48e36d9b1e116fa74c3bf21675512', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'a5678fd7ea13682030d2b432d9ec4f8af248b523', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'e3d642e8449b60f3d5a88d9dce363719addf74ce' }, h("span", { key: '97ac3adae4b923589389e47f3267897b7b37ef73', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '9c741272f92d2e6c9962be3c45cf41524f9240d1', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: 'd4bb65f819ce3d2974f24d202f4c60afd1648db9', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '453c731cb9164fa6b09fba06e2397716de7119d4', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '143b187eb15c713f922ad75c9998c74847ac73bf' }, h("span", { key: '8767c3fc7aff1612fb1262bdb3f8b5255273861d', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '6940e759b5a9c5f5a30eb6e641d1af5998e50ba9', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -22537,7 +18465,7 @@ const IrPrintRoom = class {
     render() {
         const { room, booking, property, currency, idx } = this;
         const haveMultipleRooms = property.roomtypes?.find(rt => rt.id === room?.roomtype?.id)?.physicalrooms?.length > 1;
-        return (h("section", { key: 'ca3e6fa04714e06619a1d1448db82b0af068e680', class: "ir-print-room" }, h("header", { key: '2e09a8368f00ad6e8650876b754bb112451f5913', class: "ir-print-room__header" }, h("p", { key: '82b7dd9c1c16a4fd9c7248ce0ac84bfc3c8c3100', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && h("p", { key: '4ccaa55393ab275d8f96beb7867bc715f5317735', class: "ir-print-room__unit" }, "(unit ", room.roomtype.id, ")"), h("p", { key: 'bffa5b1e3f5d29601c13ac4115c86d2087ad88bb', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), h("div", { key: '0ab6f0433c92dc2a0757bea08895989192b8fea9', class: "ir-print-room__body" }, h("div", { key: '7fc55a4010e49cfc0595411b22354e521ba8b25d', class: "ir-print-room__details" }, h("div", { key: 'd15e2b3a5f4e071eb26d75fcc41dcfc39d66c884', class: "ir-print-room__row" }, h("ir-printing-label", { key: '92c69d1fb96aebd5e495a3dc87117dc3b80a53ab', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), h("ir-printing-label", { key: '16dd9db249c749ba46b10ea554f676a4df93ab43', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), h("div", { key: '1ff0715cbd5ed54cb6076e608aa3c495dd02423c', class: "ir-print-room__row" }, h("div", { key: '0c287095e39088536917b6e865d04ce63c2ced2e', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), h("span", { key: '0819d518ce1b9a922f0e72b36b530a27a5583e34', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && h("p", { key: 'ccee3a078eac8796f0af1028441a563eb9f04257', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), h("ir-printing-label", { key: '7b0e68abc7b6fff4dff8a23ab12bf2638f8df6ba', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (h("div", { key: 'f104e3379465720a4a0285af1d3a4f47a338ecf5', class: "ir-print-room__policies" }, h("ir-printing-label", { key: '9613009994f2c3a54d9119e5dadd23e51ae734a8', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), h("ir-printing-label", { key: 'b42c3fe17f8283c4459231f22e8464b28b1817ec', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), h("aside", { key: '8722bcb2e664b76fa96c0cc394f4adf35761523a', class: "ir-print-room__totals" }, h("ir-printing-label", { key: '9e52cc9ed3dc4a1537fe373bded3e105486d0e45', label: "Total:", content: formatAmount(currency, room?.total) }), this.renderTaxSection(), h("ir-printing-label", { key: 'ff08979c96363fb7dc8664034ff064af404c9252', label: "Grand total:", content: formatAmount(currency, room?.gross_total) }), booking?.is_direct && h("ir-printing-label", { key: '9e5a750d21718aba309fb59d3a9be738364af2fb', label: "Due upon booking:", content: formatAmount(currency, Number(room?.gross_guarantee)) }))), h("div", { key: '04125e15d5d176392f98128b31c63092224e37fe', class: {
+        return (h("section", { key: 'd70d031e1ffd1be84d566d1e84ac74c9b51bb1d4', class: "ir-print-room" }, h("header", { key: '026116f1e120bd27ae44e6f247c1f66945cfdce6', class: "ir-print-room__header" }, h("p", { key: 'ad577ae94927f16ff2c792f494bf718425a2810a', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && h("p", { key: '235d211a0ce5d07717f486c8e29e137d87649c23', class: "ir-print-room__unit" }, "(unit ", room.roomtype.id, ")"), h("p", { key: '86c14d701db7dd82cbda633252034be95430efa3', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), h("div", { key: '9b07b70c4fbb06a841b0ff7f80e73b7edfa538e0', class: "ir-print-room__body" }, h("div", { key: '95ec5b35566842d4e3d7301c815686d55ccb78cf', class: "ir-print-room__details" }, h("div", { key: '183bd76a56f3b52656d2e72f380daad0f5ad01fc', class: "ir-print-room__row" }, h("ir-printing-label", { key: '043c321865a1ceb48fc71afc9d9ec1efb139aa79', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), h("ir-printing-label", { key: '816d8eb51ba92e91d31c1e90d30b25231e0a8db2', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), h("div", { key: '4cb641d7c9c60012f93791ec77e60e4396ef8b35', class: "ir-print-room__row" }, h("div", { key: '81b7e3337ef840ca6b3b823301ed67209d991054', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), h("span", { key: '93be497b54024c16eb9283d80608a9918ab10e42', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && h("p", { key: '409d61f74978a4b3fdeeaa469526585c418058b7', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), h("ir-printing-label", { key: '69774ac8dfbf9a565bf7a4678796782dbeeb8b35', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (h("div", { key: 'af15f87664dff5c591e7b1176c06d796af2dd9a3', class: "ir-print-room__policies" }, h("ir-printing-label", { key: '7a547851aefcbfc55eb4592dd79c4c5d25719307', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), h("ir-printing-label", { key: 'ffaf31bda08329a47ed7009e3bba3ac6b5c82944', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), h("aside", { key: 'e79d3544c79db0bc857769873778aebfa9ffe18f', class: "ir-print-room__totals" }, h("ir-printing-label", { key: '4573ad643e9e510cae79d211d9b08600e6c824ef', label: "Total:", content: formatAmount(currency, room?.total) }), this.renderTaxSection(), h("ir-printing-label", { key: '61b9329925847fd3d61da0166d137ed5482fe3d2', label: "Grand total:", content: formatAmount(currency, room?.gross_total) }), booking?.is_direct && h("ir-printing-label", { key: '11fc6e37fd6743936573f785966eea7ff116ccb3', label: "Due upon booking:", content: formatAmount(currency, Number(room?.gross_guarantee)) }))), h("div", { key: '7fe80b147d619015db69acfaa7c3e4485195b9ae', class: {
                 'ir-print-room__daily-amounts': true,
                 'ir-print-room__daily-amounts--with-divider': idx < booking?.rooms?.length - 1,
             } }, room?.days?.map(d => (h("div", { class: "room_amount_container", key: d.date }, h("p", { class: "room_amount date" }, this.formatDate(d.date)), h("p", { class: "room_amount amount", style: { paddingRight: '0.375rem' } }, formatAmount(currency, d.amount))))))));
@@ -22558,7 +18486,7 @@ const IrPrintingExtraService = class {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '02cac3ec956da250ab965799b6087751c84deb07', class: "ir-print-extra-services" }, h("h3", { key: 'e33f1199321f9392976640db77f73631d88ceab2', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '735fd8877b00cbffd7a765c5164fd94774bad3b3', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'c00997d80eabe697d26fbaad6ec00a114cec0fa5', class: "ir-print-extra-services" }, h("h3", { key: '23244df857c8e0d1aaba7b07b8fdf3dbd9402d03', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '189f6cbb002c7455a13ea0ce362022543c7a8e70', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }
@@ -22836,9 +18764,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h("div", { key: '7346b3a97509e015e359fa3eeec892100c960198', class: "input-group" }, h("label", { key: '5f5be84f1ce182cbfa5cadcad85b1ac664e9cae8', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '4619e49d370ebf6c340b22cb67c353377fb3c830' }, this.label), h("input", { key: 'c805deb645b8b1b19af054ebb5f1dfeda3b14985', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (h("div", { key: 'd42cb66612a7195d8b528f123c4b28ab4c248757', class: "input-group" }, h("label", { key: '509c1478781f7283c46c1c0575e7091ba9c01e9e', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: 'd5183a95d9d821e2730e0d4d552e8e65a5987329' }, this.label), h("input", { key: '9cf2fbfff951371e523787f308cbcfc70af1a7f4', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: '76efd3c0a2ced35bb6c5fdfd50605684066ed27f', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: '7ac8e92c3cc16b412b5c964248a442c30ce3294b', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -22932,13 +18860,13 @@ const IrReservationInformation = class {
     }
     render() {
         const privateNote = getPrivateNote(this.booking.extras);
-        return (h("wa-card", { key: 'b69889a00e7c12a09c0c737a80c272a843b6a468' }, h("div", { key: '1cb0d9ed8a0296371f2216f867e4c1ee093dbde8', class: "reservation-information", ref: el => (this.reservationInformationEl = el) }, h("p", { key: '7ac795d2ee0f44e45db85c711dc3ea62dd9b0004', class: "reservation-information__property-name" }, this.booking.property.name || ''), h("ir-label", { key: 'b3cbb55690bd49fcf98374b1eef3c756586a7fb1', labelText: `${locales.entries.Lcz_Source}:`, content: this.booking.origin.Label, image: { src: this.booking.origin.Icon, alt: this.booking.origin.Label } }), h("ir-label", { key: '156426f2d23ea389053981a5f6c43ced2e5d7993', renderContentAsHtml: true, labelText: `${locales.entries.Lcz_BookedOn}:`, content: `${_formatDate(this.booking.booked_on.date)}&nbsp&nbsp&nbsp&nbsp${_formatTime(this.booking.booked_on.hour.toString(), this.booking.booked_on.minute.toString())}` }), h("div", { key: '99df2d39bd60c3acdb15eb3438ff8ebe3963f6e2', class: "reservation-information__row" }, h("ir-label", { key: '3994de710ef3bf71d1d3ff916d27583b30ebefa8', labelText: `${locales.entries.Lcz_BookedBy}:`, content: `${this.booking.guest.first_name} ${this.booking.guest.last_name}` }, this.booking.guest?.nbr_confirmed_bookings > 1 && !this.booking.agent && (h("div", { key: 'cae90a7078a2d5d94133878e1d2cf48c03ac4e66', class: 'm-0 p-0 ', slot: "prefix" }, h("wa-tooltip", { key: '3109bc8d566bf328689d1ae26d5f24bbfc4480f3', for: "guests_nbr_confirmed_bookings" }, `${locales.entries.Lcz_BookingsNbr}`.replace('%1', this.booking.guest.nbr_confirmed_bookings.toString())), h("div", { key: '33b5c3159b25944752f1b39e101fef69206f1ffc', style: { color: '#FB0AAD' }, id: "guests_nbr_confirmed_bookings" }, h("span", { key: '0b06ddf1279b213304f2f28e8ee8201776b7160c' }, " ", this.booking.guest.nbr_confirmed_bookings), h("wa-icon", { key: '3cfd3dc7e2446f5ab8ecc5fca1723dcf995e2446', name: "heart", style: { color: '#FB0AAD' } }))))), h("wa-tooltip", { key: '042cec7d92ccb3614023cea39b864a5e8a87b910', for: `edit_guest-details` }, "Edit guest details"), h("ir-custom-button", { key: '55b1ff393459d98b68e196f4395af471193819d2', iconBtn: true, id: `edit_guest-details`, onClickHandler: e => this.handleEditClick(e, 'guest'), appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: 'c0f9e419cd8f53d222010562f454255c7fd894fd', name: "edit", label: "Edit guest details", style: { fontSize: '1rem' } }))), h("div", { key: '47454c897304561201fae38fae1cee30d3229bba', class: "reservation-information__row" }, h("ir-label", { key: '3531c5a1492c1fa7c42a4e0e85d1606ccfe07fd7', labelText: `Company:`, placeholder: 'No company name provided', content: `${this.booking.company_name ?? ''}${this.booking.company_tax_nbr ? ` - ${this.booking.company_tax_nbr}` : ''}`, display: 'flex' }), h("wa-tooltip", { key: '4bcb3cd172f5765027e12dfbbcebb0690a0cbcc2', for: `edit_create-company-info` }, "Add company info"), h("ir-custom-button", { key: '27120206a332cdbb953fbef22835f8c6aef26015', iconBtn: true, id: `edit_create-company-info`, onClickHandler: e => {
+        return (h("wa-card", { key: '2287a891772013a14f99e60f7ca57c8ae4259e93' }, h("div", { key: 'fb8248a7954b5dd54db5f492dd42b24d9b28300e', class: "reservation-information", ref: el => (this.reservationInformationEl = el) }, h("p", { key: '144d9395746d53adb4de5a5068e222d5482ada48', class: "reservation-information__property-name" }, this.booking.property.name || ''), h("ir-label", { key: '1688862fde5d40457349500f7e1de7da6109eeb7', labelText: `${locales.entries.Lcz_Source}:`, content: this.booking.origin.Label, image: { src: this.booking.origin.Icon, alt: this.booking.origin.Label } }), h("ir-label", { key: 'dae34228fe8a7393173a6b59f4a6a64a20902f7f', renderContentAsHtml: true, labelText: `${locales.entries.Lcz_BookedOn}:`, content: `${_formatDate(this.booking.booked_on.date)}&nbsp&nbsp&nbsp&nbsp${_formatTime(this.booking.booked_on.hour.toString(), this.booking.booked_on.minute.toString())}` }), h("div", { key: '65a5256ee39795906c6758b74c7d9b9e8c07d108', class: "reservation-information__row" }, h("ir-label", { key: 'f877b1e5f11a01b02df648b34b416f26d46ad7e5', labelText: `${locales.entries.Lcz_BookedBy}:`, content: `${this.booking.guest.first_name} ${this.booking.guest.last_name}` }, this.booking.guest?.nbr_confirmed_bookings > 1 && !this.booking.agent && (h("div", { key: '610f9b8def7aa0016357841f371c9087a0efdf9c', class: 'm-0 p-0 ', slot: "prefix" }, h("wa-tooltip", { key: '4b3593241d2c6ef1672f51656d8097c855819e0a', for: "guests_nbr_confirmed_bookings" }, `${locales.entries.Lcz_BookingsNbr}`.replace('%1', this.booking.guest.nbr_confirmed_bookings.toString())), h("div", { key: 'a0d8d80d68bca183e40e0e8a5c2b0853f0086f3b', style: { color: '#FB0AAD' }, id: "guests_nbr_confirmed_bookings" }, h("span", { key: 'c801bb85cf436900bea2779c979d6d2d719fec05' }, " ", this.booking.guest.nbr_confirmed_bookings), h("wa-icon", { key: '44422bcbe13ba0215932bee0c3e98bef5b536b56', name: "heart", style: { color: '#FB0AAD' } }))))), h("wa-tooltip", { key: '524e4e0d1872587fa3034178f49b1cc8137eb47a', for: `edit_guest-details` }, "Edit guest details"), h("ir-custom-button", { key: 'f93694243d52c96add419e5e17bfb1c5742e1e38', iconBtn: true, id: `edit_guest-details`, onClickHandler: e => this.handleEditClick(e, 'guest'), appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: '6af50c5dce1ea085633a7614d1b6e88f4c9db107', name: "edit", label: "Edit guest details", style: { fontSize: '1rem' } }))), h("div", { key: '296f189e91f33c8997bfe27f993787ed23f8e97b', class: "reservation-information__row" }, h("ir-label", { key: 'e75de54592034dbac9678d44678b29b356291c97', labelText: `Company:`, placeholder: 'No company name provided', content: `${this.booking.company_name ?? ''}${this.booking.company_tax_nbr ? ` - ${this.booking.company_tax_nbr}` : ''}`, display: 'flex' }), h("wa-tooltip", { key: '2fd841ce225ae66ebe00bd58140799bcbf90b48d', for: `edit_create-company-info` }, "Add company info"), h("ir-custom-button", { key: 'e8a92d5e94bf7b27ea83fee27e37df9f78f92dbb', iconBtn: true, id: `edit_create-company-info`, onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.irBookingCompanyFormRef.openCompanyForm();
-            }, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: 'ccabd8928733d9554c78eb08da338b8bee8a4151', name: "edit", label: "Add or modify company info", style: { fontSize: '1rem' } }))), this.booking.guest.mobile && h("ir-label", { key: '6dea37f65073c20e2bf57d71ee206312e164ca7c', labelText: `${locales.entries.Lcz_Phone}:`, content: this.renderPhoneNumber() }), !this.booking.agent && h("ir-label", { key: '8b95a8cc225b3eb848e0af73e1e7b7f506f964a9', labelText: `${locales.entries.Lcz_Email}:`, content: this.booking.guest.email }), this.booking.guest.alternative_email && h("ir-label", { key: '8f1e9af976e4dd94fd735d1960449ce90fabc3fb', labelText: `${locales.entries.Lcz_AlternativeEmail}:`, content: this.booking.guest.alternative_email }), this.booking?.guest?.address && h("ir-label", { key: '9072b045876f6ab5cecb7134deaae7fbdabaae29', labelText: `${locales.entries.Lcz_Address}:`, content: this.booking.guest.address }), this.userCountry && (h("ir-label", { key: 'bbbce8d7a257eab424a6a8567063531f144c64d0', labelText: `${locales.entries.Lcz_Country}:`, isCountryImage: true, content: this.userCountry.name, image: { src: this.userCountry.flag, alt: this.userCountry.name } })), this.booking.guest?.notes && h("ir-label", { key: '63a023e735e16a893641cef621b000d5aa520ec3', display: "inline", labelText: `${locales.entries.Lcz_GuestPrivateNote}:`, content: this.booking.guest?.notes }), this.booking.is_direct && h("ir-label", { key: '0f2cfa858683a7a6ffaed83a1e00ed846154fe15', labelText: `${locales.entries.Lcz_ArrivalTime}:`, content: this.booking.arrival.description }), this.booking.promo_key && h("ir-label", { key: '24b4162e9f40b574617995b6aeb4cc480add1147', labelText: `${locales.entries.Lcz_Coupon}:`, content: this.booking.promo_key }), this.booking.is_in_loyalty_mode && !this.booking.promo_key && (h("div", { key: 'aac08252ba797d0547413e2934739adb4de284c5', class: "d-flex align-items-center" }, h("svg", { key: '65ff902159599ee1b46bf1581120a449f9a0c1bd', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '648f0ad40fec360694633d8697cc6f33a5b753fa', fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" })), h("p", { key: '80ed0637d4e9d7e834f0242d30ff06cc51af7117', class: "m-0 p-0 ml-1" }, locales.entries.Lcz_LoyaltyDiscountApplied))), this.booking.is_direct ? (h("ir-label", { labelText: `${locales.entries.Lcz_GuestRemark}:`, display: "inline", content: this.booking.remark })) : (h("ota-label", { class: 'm-0 p-0', label: `${locales.entries.Lcz_ChannelNotes || 'Channel notes'}:`, remarks: this.booking.ota_notes, maxVisibleItems: this.booking.ota_notes?.length })), h("div", { key: 'dcf2b47bbd21b301cf68cdedf668e6f5eb1abf32', class: "reservation-information__row" }, h("ir-label", { key: '8a671030fb0cdd8f23ec1e902c32531f5ee8d88e', labelText: `${locales.entries.Lcz_BookingPrivateNote}:`, placeholder: locales.entries.Lcz_VisibleToHotelOnly, content: privateNote, display: privateNote ? 'inline' : 'flex' }), h("wa-tooltip", { key: 'a2017f993af0c001b553c53320e7310cf1cb2ecc', for: `edit_create-extra-note` }, privateNote ? 'Edit' : 'Create', " private note"), h("ir-custom-button", { key: '6c5dea41027143ce88240b432c6b884d77cb4995', iconBtn: true, id: `edit_create-extra-note`, onClickHandler: () => {
+            }, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: '690e0b1593ca286ab911bc23257b5a4d44a1e8fe', name: "edit", label: "Add or modify company info", style: { fontSize: '1rem' } }))), this.booking.guest.mobile && h("ir-label", { key: 'c22e51206f60641f7167868eb2d3614873413080', labelText: `${locales.entries.Lcz_Phone}:`, content: this.renderPhoneNumber() }), !this.booking.agent && h("ir-label", { key: '68e72c26c1abe152f23b971934bc5ef55646b30b', labelText: `${locales.entries.Lcz_Email}:`, content: this.booking.guest.email }), this.booking.guest.alternative_email && h("ir-label", { key: '2c5ab9ee302b28fb4e0f10f1bdeb3fc667adf26c', labelText: `${locales.entries.Lcz_AlternativeEmail}:`, content: this.booking.guest.alternative_email }), this.booking?.guest?.address && h("ir-label", { key: 'ccdb2c8e3e2b9d328c4d3a46a785523969ab7ee5', labelText: `${locales.entries.Lcz_Address}:`, content: this.booking.guest.address }), this.userCountry && (h("ir-label", { key: 'bd0497af05e9edb6f1ee279547c84e8be49ef37a', labelText: `${locales.entries.Lcz_Country}:`, isCountryImage: true, content: this.userCountry.name, image: { src: this.userCountry.flag, alt: this.userCountry.name } })), this.booking.guest?.notes && h("ir-label", { key: 'dcc6d29bf58adcdfd85f695d585e30cb6caad0f6', display: "inline", labelText: `${locales.entries.Lcz_GuestPrivateNote}:`, content: this.booking.guest?.notes }), this.booking.is_direct && h("ir-label", { key: '10e227ef534452e25945d532536769019ed21577', labelText: `${locales.entries.Lcz_ArrivalTime}:`, content: this.booking.arrival.description }), this.booking.promo_key && h("ir-label", { key: 'b3238601d45643ecf3e1bfcf143be509ebb984cf', labelText: `${locales.entries.Lcz_Coupon}:`, content: this.booking.promo_key }), this.booking.is_in_loyalty_mode && !this.booking.promo_key && (h("div", { key: '844f42b5868711c241892c57bc6de13fe32fe7ca', class: "d-flex align-items-center" }, h("svg", { key: 'fb1aa57614579b5f9ab39dda7f2b09519c85a8f2', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '408ed8ad0a5a302114cd2070cd193ab7afacfef6', fill: "#fc6c85", d: "M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8v-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5v3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20c0 0-.1-.1-.1-.1c0 0 0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5v3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2v-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z" })), h("p", { key: '36b9ae955cfcde38a1d899904e7b6e0bb5309437', class: "m-0 p-0 ml-1" }, locales.entries.Lcz_LoyaltyDiscountApplied))), this.booking.is_direct ? (h("ir-label", { labelText: `${locales.entries.Lcz_GuestRemark}:`, display: "inline", content: this.booking.remark })) : (h("ota-label", { class: 'm-0 p-0', label: `${locales.entries.Lcz_ChannelNotes || 'Channel notes'}:`, remarks: this.booking.ota_notes, maxVisibleItems: this.booking.ota_notes?.length })), h("div", { key: 'ca3f06c8a1347c220e18079156d5db83b528c0ba', class: "reservation-information__row" }, h("ir-label", { key: 'c48c867a05e9dba46fd257713ae38cac1830cdd5', labelText: `${locales.entries.Lcz_BookingPrivateNote}:`, placeholder: locales.entries.Lcz_VisibleToHotelOnly, content: privateNote, display: privateNote ? 'inline' : 'flex' }), h("wa-tooltip", { key: 'b78ae727e9fb9ba7df3e3e1af99043b86b82584a', for: `edit_create-extra-note` }, privateNote ? 'Edit' : 'Create', " private note"), h("ir-custom-button", { key: 'c6657e5330856fd456882ee1b71af08ac3172184', iconBtn: true, id: `edit_create-extra-note`, onClickHandler: () => {
                 this.irBookingExtraNoteRef.openDialog();
-            }, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: '752ddc3e1d68c84d502600f5cec7c9954d55d0f7', style: { fontSize: '1rem' }, name: "edit", label: "Edit or create private note" }))), h("ir-booking-extra-note", { key: '15d4d962c83b428635d8a55da3dc93dacb7d994c', booking: this.booking, ref: el => (this.irBookingExtraNoteRef = el) }), h("ir-booking-company-dialog", { key: 'de5e39cc9d158b08b4ec6cf265a4f902ad4df888', booking: this.booking, ref: el => (this.irBookingCompanyFormRef = el) }))));
+            }, appearance: 'plain', variant: 'neutral' }, h("wa-icon", { key: '02be209e53a9c221246c6478a290bb07b776c03c', style: { fontSize: '1rem' }, name: "edit", label: "Edit or create private note" }))), h("ir-booking-extra-note", { key: '9586e50de75ba685633366a45a9631857b2e2125', booking: this.booking, ref: el => (this.irBookingExtraNoteRef = el) }), h("ir-booking-company-dialog", { key: 'a36b1a3d7674547132c1bbf44b81b56e25943b2d', booking: this.booking, ref: el => (this.irBookingCompanyFormRef = el) }))));
     }
 };
 IrReservationInformation.style = IrReservationInformationStyle0;
@@ -23230,9 +19158,9 @@ const IrRoom = class {
     }
     render() {
         const bed = this.getBedName();
-        return (h(Host, { key: '69f6eb75f04698361e1f751ecb6961fe5d08f6c6' }, h("div", { key: 'bf72bcc08dd10ae0694fe3cc58346f906d20eb16', class: "booking-room__header-row" }, h("button", { key: 'a76b4f701feeb034ab8747accfbbafb96dcfb7a9', "data-state": this.collapsed ? 'closed' : 'opened', class: "booking-room__collapse-btn", onClick: () => (this.collapsed = !this.collapsed) }, h("wa-icon", { key: '5554c76f7dacad5c570a9a313de16b4c89d63c86', name: "chevron-right" })), h("div", { key: 'f34e5d9318e26d3fe43ed989a21a762baefe7ab2', style: { width: '100%', cursor: 'default' } }, h("div", { key: 'c087dea8b921633113d4d2ffe74ba60f48dff7ec',
+        return (h(Host, { key: '099c80f6307b3cd794291bc65e8e187794b88626' }, h("div", { key: '0a2cf482e58f0143170f95ec2f6ef0311a34689a', class: "booking-room__header-row" }, h("button", { key: '07e0e1b84814ddca309b12d622be0854d9cf11b4', "data-state": this.collapsed ? 'closed' : 'opened', class: "booking-room__collapse-btn", onClick: () => (this.collapsed = !this.collapsed) }, h("wa-icon", { key: '5d56f7ee1bc5024801c44cc3324196e63fa66302', name: "chevron-right" })), h("div", { key: '643dcba1c17eccc67bf241673ae143249441a83b', style: { width: '100%', cursor: 'default' } }, h("div", { key: 'df5fc561e3870db80618e903f447c2d56ace2b1e',
             // slot="summary"
-            class: "booking-room_summary", style: { width: '100%', cursor: 'default' } }, h("div", { key: '8d6925855d070fb12db5f67a66e7dae376d3f5f1', class: "booking-room__summary-row" }, h("p", { key: '187f82736aa435cab7ae9bfab662440d204bfa08', class: "booking-room__summary-text" }, h("span", { key: 'a4accf1b3c046cdc737fc4631060bf513a1f4755', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: '156a34e66564e47b421866e7063cf73013a39139', class: "booking-room__price-row" }, h("span", { key: 'baac2e99cbcec5d5931c75fef605ccdba31869f2', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), h("div", { key: '7122cd15981d65effccb9f4edb4303b00cdd18e6', class: "booking-room__actions" }, this.hasRoomEdit && this.isEditable && (h(Fragment, { key: 'a593209a8d2574fd1da86cda42718a0cfe974a49' }, h("wa-tooltip", { key: 'a779948b32110f295ba2530aa760973be3f07eca', for: `edit-room-${this.room.identifier}` }, "Edit ", this.room.roomtype.name), h("ir-custom-button", { key: 'd044a21b08ad1c2f51a7661c9b9403cefca2ed7b', iconBtn: true, id: `edit-room-${this.room.identifier}`, class: "booking-room__edit-button", onClickHandler: this.handleEditClick.bind(this), variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '27007c225e27e3c0e88844163988009d16cbdff7', label: "Edit room", class: "booking-room__edit-icon", name: "edit", style: { fontSize: '1rem' } })))), this.hasRoomDelete && this.isEditable && (h(Fragment, { key: '0a9f9c9c5d4f03da19b4794bbba810a415e4ae24' }, h("wa-tooltip", { key: '564244bfa6e808203fa4d0d9e898c6465ed0f28b', for: `delete-room-${this.room.identifier}` }, "Delete ", this.room.roomtype.name), h("ir-custom-button", { key: '964b6f9dfa965cadd4c1e2c62034d1cec5fa3cf2', iconBtn: true, id: `delete-room-${this.room.identifier}`, class: "booking-room__delete-button", onClickHandler: this.openModal.bind(this, 'delete'), variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: 'dbdf427d476be762e3973978b13e9af47861c665', label: "Delete room", class: "booking-room__delete-icon", name: "trash-can", style: { fontSize: '1rem' } }))))))), h("div", { key: '925a534b73b3bf66a2396debfe66e993b42fc26d', class: "booking-room__dates-row" }, h("ir-date-view", { key: '6cf9ae0d9d3e41ae8fcf57120a92c7764fe07978', class: "booking-room__date-view", from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (
+            class: "booking-room_summary", style: { width: '100%', cursor: 'default' } }, h("div", { key: '8b36b1046b7d3667aca2680c7698b1ed301a0a6d', class: "booking-room__summary-row" }, h("p", { key: '7291aa7f4cd4bfff5d1fa3cc30dc2e2049edf776', class: "booking-room__summary-text" }, h("span", { key: 'd3b7cb78329db4606addac015d758a6906075b09', class: "booking-room__summary-highlight" }, this.myRoomTypeFoodCat || '', " "), " ", this.mealCodeName, ' ', this.room.rateplan.is_non_refundable && ` - ${locales.entries.Lcz_NonRefundable}`, ' '), h("div", { key: '40e8470dcbcf8cc7aae655fa06a5d89750d56f14', class: "booking-room__price-row" }, h("span", { key: '46467f5f29968738c9e1ab06e092c61f085c5e46', class: "booking-room__price" }, formatAmount(this.currency, this.room['gross_total'])), h("div", { key: '224208fb75d4de9f626a657ee989d8513265a550', class: "booking-room__actions" }, this.hasRoomEdit && this.isEditable && (h(Fragment, { key: 'bc6607b2b274a4c0124f165de78fcfe0b39f9b64' }, h("wa-tooltip", { key: '5cc7b346e32dc77a7932f0e4d58461e75976624d', for: `edit-room-${this.room.identifier}` }, "Edit ", this.room.roomtype.name), h("ir-custom-button", { key: 'd7c812cf46f506282f73910641b923942986ea40', iconBtn: true, id: `edit-room-${this.room.identifier}`, class: "booking-room__edit-button", onClickHandler: this.handleEditClick.bind(this), variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '2f1571ef593f8f8b4dcad61a3e9e09088a8f47f8', label: "Edit room", class: "booking-room__edit-icon", name: "edit", style: { fontSize: '1rem' } })))), this.hasRoomDelete && this.isEditable && (h(Fragment, { key: '1d0c663a831c524fa013b53b308aeab452ac728c' }, h("wa-tooltip", { key: 'a8b649574e5588079d5edbfa444fea0a8bf33fbe', for: `delete-room-${this.room.identifier}` }, "Delete ", this.room.roomtype.name), h("ir-custom-button", { key: 'e6b5f8b0af2575288dbcf136c842ca694e86d682', iconBtn: true, id: `delete-room-${this.room.identifier}`, class: "booking-room__delete-button", onClickHandler: this.openModal.bind(this, 'delete'), variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: '20031fcc06dda77da8c81fdffa7b4009c16c7605', label: "Delete room", class: "booking-room__delete-icon", name: "trash-can", style: { fontSize: '1rem' } }))))))), h("div", { key: '3d16383505f18f0e3f08bcb4b8897c61ca37966f', class: "booking-room__dates-row" }, h("ir-date-view", { key: '6b96cf35d9d0cd85f3077f1ed3fa95e1bea07943', class: "booking-room__date-view", from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), !isSingleUnit(this.room.roomtype.id) && calendar_data.is_frontdesk_enabled && this.room.unit && (
         // <div class={'d-flex justify-content-center align-items-center'}>
         //   <ir-tooltip message={(this.room.unit as IUnit).name} customSlot>
         //     <span slot="tooltip-trigger" class={`light-blue-bg  ${this.hasCheckIn || this.hasCheckOut ? 'mr-2' : ''} `}>
@@ -23240,9 +19168,9 @@ const IrRoom = class {
         //     </span>
         //   </ir-tooltip>
         // </div>
-        h("ir-unit-tag", { key: '156d84e471e07399fac4c60de9a8c5fda9716bd8', unit: this.room.unit.name })), this.hasCheckIn && (h("ir-custom-button", { key: '7276dfb5875859168ece69bac1436f64e03a146b', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", appearance: "outlined", variant: "brand" }, locales.entries.Lcz_CheckIn)), this.hasCheckOut && (h("ir-custom-button", { key: '658f1f396a94849ca3d487e705a4ea2a475d71e4', appearance: "outlined", variant: "brand", onClickHandler: () => {
+        h("ir-unit-tag", { key: '345d655ba673e5ed4651a75fb4e002c5702e2858', unit: this.room.unit.name })), this.hasCheckIn && (h("ir-custom-button", { key: 'bb97cfb70231b2483d8ab49bbf84de53851ec4cd', onClickHandler: this.handleCheckIn.bind(this), id: "checkin", appearance: "outlined", variant: "brand" }, locales.entries.Lcz_CheckIn)), this.hasCheckOut && (h("ir-custom-button", { key: 'fad186a6a67a91539a8f38bfbabde34c810c3aa7', appearance: "outlined", variant: "brand", onClickHandler: () => {
                 this.modalReason = 'checkout';
-            }, id: "checkout" }, locales.entries.Lcz_CheckOut))), h("div", { key: '257572c94c8d53d5c92d7902c376297dc46b6f2a', class: "booking-room__guest-row" }, h("p", { key: 'caeeffd9cb34c69a21f7850714e28e1992447a7b', class: "booking-room__text-reset booking-room__guest-name" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
+            }, id: "checkout" }, locales.entries.Lcz_CheckOut))), h("div", { key: 'b882bf3cfbbb903c732f9452e5d57808276a5228', class: "booking-room__guest-row" }, h("p", { key: 'f7e1ad975d3f9ff5ddc87ec4948d0fbeb653c7b9', class: "booking-room__text-reset booking-room__guest-name" }, `${this.mainGuest.first_name || ''} ${this.mainGuest.last_name || ''}`), this.room.rateplan.selected_variation.adult_nbr > 0 &&
             (this.room.unit ? (
             // <ir-tooltip message={'View guests'} class="m-0 p-0" customSlot>
             //   <ir-button
@@ -23256,12 +19184,12 @@ const IrRoom = class {
             //     text={this.formatVariation(this.room.occupancy)}
             //   ></ir-button>
             // </ir-tooltip>
-            h(Fragment, null, h("wa-tooltip", { for: `view-guest-btn-${this.room.identifier}` }, "View guests"), h("ir-custom-button", { link: true, onClickHandler: () => this.showGuestModal(), id: `view-guest-btn-${this.room.identifier}`, variant: "brand", appearance: "plain" }, h("span", { innerHTML: this.formatVariation(this.room.occupancy) })))) : (h("span", { innerHTML: this.formatVariation(this.room.occupancy) }))), bed && h("p", { key: 'c24ec89a481db4d5ac1919a0798a0d3dd720e3e1', class: "booking-room__text-reset booking-room__bed-info" }, "(", bed, ")")), this.includeDepartureTime && (h("div", { key: '24170be10338745c3a888da05016bdbf9006abf7', class: "booking-room__departure-row" }, h("p", { key: '2ac02f9df27355ab7a8759435bbb239706fbd729', class: "booking-room__text-reset booking-room__departure-label" }, "Expected departure time:"), h("wa-select", { key: '204bcd5fc02074b23e5fb77fab807492f1425040', onchange: e => {
+            h(Fragment, null, h("wa-tooltip", { for: `view-guest-btn-${this.room.identifier}` }, "View guests"), h("ir-custom-button", { link: true, onClickHandler: () => this.showGuestModal(), id: `view-guest-btn-${this.room.identifier}`, variant: "brand", appearance: "plain" }, h("span", { innerHTML: this.formatVariation(this.room.occupancy) })))) : (h("span", { innerHTML: this.formatVariation(this.room.occupancy) }))), bed && h("p", { key: '401a92216d153eec7cbe0a7fd5aa4fa32a0d0685', class: "booking-room__text-reset booking-room__bed-info" }, "(", bed, ")")), this.includeDepartureTime && (h("div", { key: '3ccc723bb6d41db28f786280a50759d8ebc334ce', class: "booking-room__departure-row" }, h("p", { key: '892314754fa739e617fb840b415916470316f11e', class: "booking-room__text-reset booking-room__departure-label" }, "Expected departure time:"), h("wa-select", { key: 'dd50cd4224e2e5cabd96836d068d46fed0905efc', onchange: e => {
                 this.updateDepartureTime(e.target.value);
-            }, style: { width: '140px' }, size: "small", placeholder: "Not provided", value: this.room.departure_time?.code, defaultValue: this.room.departure_time?.code }, this.departureTime?.map(dt => (h("wa-option", { key: dt.CODE_NAME, value: dt.CODE_NAME }, dt[`CODE_VALUE_${this.language?.toUpperCase()}`] ?? dt[`CODE_VALUE_EN`]))))))), !this.collapsed && (h("div", { key: '625eeb1ee9add93934f518d3f471688c6cbac03b', class: "booking-room__details-container" }, h("div", { key: '16878be2d414848224f7e207ed2248205b48020e', class: "booking-room__breakdown-row" }, h("div", { key: 'e2328f2f49aa4fb235fcd1257f3ec67872d9f7fc', class: "booking-room__breakdown-label-wrapper" }, h("p", { key: '5ca0fe88c243b4bf2f003a83a0659b08324959bb', class: "booking-room__breakdown-label" }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: '55890899269763e2e80b43deedbd7c7959094e73', class: "booking-room__breakdown-table" }, h("table", { key: 'adc1557d850ab8d38449429c5f2eec734256f7de' }, this.room.days.length > 0 &&
+            }, style: { width: '140px' }, size: "small", placeholder: "Not provided", value: this.room.departure_time?.code, defaultValue: this.room.departure_time?.code }, this.departureTime?.map(dt => (h("wa-option", { key: dt.CODE_NAME, value: dt.CODE_NAME }, dt[`CODE_VALUE_${this.language?.toUpperCase()}`] ?? dt[`CODE_VALUE_EN`]))))))), !this.collapsed && (h("div", { key: 'db356b6888c2c5a7a0bd71ce455891e085a33df7', class: "booking-room__details-container" }, h("div", { key: '5060c03db7445b038879a2d9e2ae4dafd09847d4', class: "booking-room__breakdown-row" }, h("div", { key: '34a5fa746dc4747e679e041737e8df7db7bbcf6f', class: "booking-room__breakdown-label-wrapper" }, h("p", { key: 'f7f921bd7ddae47ba93711ad967aa75169246b75', class: "booking-room__breakdown-label" }, `${locales.entries.Lcz_Breakdown}:`)), h("div", { key: '9c7acd91aaeb01f1d47a2196ff0d802d5c20baac', class: "booking-room__breakdown-table" }, h("table", { key: 'e28c9d0ecadeace8124eea43b1d5fe6e106b5acf' }, this.room.days.length > 0 &&
             this.room.days.map(room => {
                 return (h("tr", null, h("td", { class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-right" }, _getDay(room.date)), h("td", { class: "booking-room__cell booking-room__cell--right" }, formatAmount(this.currency, room.amount)), room.cost > 0 && room.cost !== null && (h("td", { class: "booking-room__cell booking-room__cell--left booking-room__cell--pad-left night-cost" }, formatAmount(this.currency, room.cost)))));
-            }), h("tr", { key: '2448dbe643a3ef241cc987c148210d302c6bceda', class: '' }, h("th", { key: '1a077d36a7976a974d6302a4ae0195a404fae6c2', class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-right subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '537dd5f6322f161f5b5a16ac16a2fa5e4e02321a', class: "booking-room__cell booking-room__cell--right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && (h("th", { key: '1476ab91603295ea4b0ef14a0b538c384bd03ceb', class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-left night-cost" }, formatAmount(this.currency, this.room.cost)))), this.booking.is_direct ? (h(Fragment, null, (() => {
+            }), h("tr", { key: '373d94a9b3e6487434373b3a81bc6762619d9a7c', class: '' }, h("th", { key: '5fb3a69825f8f7e26595bf475eff3aa17b21e030', class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-right subtotal_row" }, locales.entries.Lcz_SubTotal), h("th", { key: '0e4746fb41ce9601868cc0fa5547b155d8c56fbe', class: "booking-room__cell booking-room__cell--right subtotal_row" }, formatAmount(this.currency, this.room.total)), this.room.gross_cost > 0 && this.room.gross_cost !== null && (h("th", { key: '404afe6e294a557ad11d4c011325b5aa0543218a', class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-left night-cost" }, formatAmount(this.currency, this.room.cost)))), this.booking.is_direct ? (h(Fragment, null, (() => {
             const filtered_data = calendar_data.taxes.filter(tx => tx.pct > 0);
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-right" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name, " (", d.pct, "%)"), h("td", { class: "booking-room__cell booking-room__cell--right" }, formatAmount(this.currency, (this.room.total * d.pct) / 100)), this.room.gross_cost > 0 && this.room.gross_cost !== null && (h("td", { class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-left night-cost" }, formatAmount(this.currency, (this.room.cost * d.pct) / 100)))));
@@ -23271,21 +19199,21 @@ const IrRoom = class {
             return filtered_data.map(d => {
                 return (h("tr", null, h("td", { class: "booking-room__cell booking-room__cell--right booking-room__cell--pad-right" }, d.is_exlusive ? locales.entries.Lcz_Excluding : locales.entries.Lcz_Including, " ", d.name), h("td", { class: "booking-room__cell booking-room__cell--right" }, d.currency.symbol, d.amount)));
             });
-        })()))))), h("ir-label", { key: '297ab7195f06825625c2be4bbec76427c94d45c3', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: '040226471a245342a97ffaa685c2d8fc1fa7ec58' }, this.room.rateplan.cancelation && (h("ir-label", { key: 'a1ff6e6df5d8cbac05c8cd79baa685482f548ef6', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: '9be0536870fbc8de8b336fb65fa1ff22306b2b35', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: '916841321c5de137b4d2b0d21cc12b4cdafaea8e' }, h("ir-label", { key: '389a2096a3d7172fd28596d159abd4cc370d9c90', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '3bb4775b30629890de90825d34c7221a89d4aad3', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))))), h("ir-dialog", { key: 'b17167ebbac34d559ffdeb2e5a00fda1073191cc', label: this.modalReason === 'delete' ? 'Alert' : locales.entries.Lcz_Confirmation, ref: el => (this.modal = el), onIrDialogHide: e => {
+        })()))))), h("ir-label", { key: '4654f2aa3cae4854f51bfbaa425038dd4de4564e', labelText: `${locales.entries.Lcz_SmokingOptions}:`, display: "inline", content: this.getSmokingLabel() }), this.booking.is_direct && (h(Fragment, { key: '5549ecef1ce4ab28f47e14c42f7e1222544be4da' }, this.room.rateplan.cancelation && (h("ir-label", { key: 'd82e2f386e8ceaf153d311f97c7d0f2e55c316f0', labelText: `${locales.entries.Lcz_Cancellation}:`, display: "inline", content: this.room.rateplan.cancelation || '', renderContentAsHtml: true })), this.room.rateplan.guarantee && (h("ir-label", { key: '4487ffc34e4d19f77b072c32e3f94ea020550e27', labelText: `${locales.entries.Lcz_Guarantee}:`, display: "inline", content: this.room.rateplan.guarantee || '', renderContentAsHtml: true })))), this.room.ota_meta && (h("div", { key: '3e47b994a17102bd9786fcd983f9103db14465dd' }, h("ir-label", { key: '8b848a648df4f200ddfe4dd1abd87eb2b3e94b59', labelText: `${locales.entries.Lcz_MealPlan}:`, display: "inline", content: this.room.ota_meta.meal_plan }), h("ir-label", { key: '0f8ef4fcec117c94ddf4c954a2e111ed6c72cfb0', labelText: `${locales.entries.Lcz_Policies}:`, display: "inline", content: this.room.ota_meta.policies }))))))), h("ir-dialog", { key: 'ee99c12654b3609eb1e293b33832ef253b7172a8', label: this.modalReason === 'delete' ? 'Alert' : locales.entries.Lcz_Confirmation, ref: el => (this.modal = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalReason = null;
-            }, lightDismiss: this.modalReason === 'checkin' }, h("p", { key: '7c491eeab392e8f129f3ac3165f5f78e4c9d71e7' }, this.renderModalMessage()), h("div", { key: 'b5df8ddd7192ced663399e56375b80e9cc9f0fc9', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '8c439726cfaab1505f0390ca742b99722cd96d68', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '413901c936262136d15c50bbffe79f85f7bf21a9', size: "medium", loading: this.isLoading, onClickHandler: e => this.handleModalConfirmation(e), variant: this.modalReason === 'delete' ? 'danger' : 'brand' }, this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))), h("ir-checkout-dialog", { key: '0c833028d49e79b4354b2ede47549f9ee106d759', onCheckoutDialogClosed: e => {
+            }, lightDismiss: this.modalReason === 'checkin' }, h("p", { key: '4cb1004cf606b146c4092dd8541f73a7927b3df6' }, this.renderModalMessage()), h("div", { key: 'b834d3241871edc01bc3b971bc465a8ea374093d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '68acff105b783564eef9e56a89e0dddfdc7377d9', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '33bfb7827957444c0d7f42fea506b56b9b553ef4', size: "medium", loading: this.isLoading, onClickHandler: e => this.handleModalConfirmation(e), variant: this.modalReason === 'delete' ? 'danger' : 'brand' }, this.modalReason === 'delete' ? locales.entries.Lcz_Delete : locales.entries.Lcz_Confirm))), h("ir-checkout-dialog", { key: 'bbd424efd0305be251f35f4c5d1132e2f156df28', onCheckoutDialogClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalReason = null;
                 if (e.detail.reason === 'openInvoice') {
                     this.isOpen = true;
                 }
-            }, identifier: this.room.identifier, open: this.modalReason === 'checkout', booking: this.booking }), h("ir-invoice", { key: '65430302858e1b66c97689181c54e63b2c6a03f7', onInvoiceClose: e => {
+            }, identifier: this.room.identifier, open: this.modalReason === 'checkout', booking: this.booking }), h("ir-invoice", { key: '61ef2c9c8d02c31fd20a207acbc86c5bda0fe69c', onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
@@ -23361,7 +19289,7 @@ const IrRoomGuests = class {
     bookingNumber;
     closeModal;
     render() {
-        return (h("ir-drawer", { key: '68b5e3d4f75f77be6d0b8b647f838c4c80f7441d', style: {
+        return (h("ir-drawer", { key: 'dd633ca5c8b136934a1ce269e623738c7a6fa3ff', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -23372,7 +19300,7 @@ const IrRoomGuests = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: '3a5d836d98086141e3af2735455ffa653817338a', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '58e8cbe61498b3c2ce505e9a9787424e8fd5b462', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '24bbcd23de6f397389175aa12b943c04ffae5bd3', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'daf7607e225befe962d1e309b5377174a2bf7323', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
+            } }, this.open && (h("ir-room-guests-form", { key: 'fcf933e3c03538876a7ea94743e0dcc2ac17b971', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '1807f85758b15102bd4f03f6d2880271a1116c63', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'c8c375e42dfe5517f5e573aa59c1d28faf82f880', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '6d7bb3a4ba157d3b338afaeb0a5739528de01c56', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
     }
 };
 IrRoomGuests.style = IrRoomGuestsStyle0;
@@ -23968,7 +19896,7 @@ const IrSelect = class {
             className.push('border-danger');
         }
         let label = this.label ? (this.floatingLabel ? (h("label", { id: this.labelId, class: `floating-label active`, htmlFor: this.selectId }, this.label, this.required ? '*' : '')) : (h("div", { class: `input-group-prepend col-${this.labelWidth} p-0 text-${this.labelColor}` }, h("label", { htmlFor: this.selectId, class: `input-group-text ${this.labelPosition === 'right' ? 'justify-content-end' : this.labelPosition === 'center' ? 'justify-content-center' : ''} ${this.labelBackground ? 'bg-' + this.labelBackground : ''} flex-grow-1 text-${this.labelColor} border-${this.labelBorder === 'none' ? 0 : this.labelBorder} ` }, this.label, this.required ? '*' : '')))) : null;
-        return (h("div", { key: '397f49d22fda76388f6705d74022a7d658e81b62', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: 'c302beb7dfcb7d080cae5715607c6fbdff40e8f1', class: "input-group row m-0" }, label, h("select", { key: 'a533af07b6651d3672c812d772285ed5953a09eb', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '93e9fe53c3378614095110f3efce2ee333ce1a23', value: '' }, this.firstOption), this.data.map(item => {
+        return (h("div", { key: 'c615e7f129af8f4400300680a9c5fd9fd50bd621', class: `form-group m-0 ${this.selectContainerStyle}` }, h("div", { key: '0ae1fe091faea1d2c593dc0e05258d6792d14af0', class: "input-group row m-0" }, label, h("select", { key: '02e6833840cd5deee82751261da917dcf5b74666', disabled: this.disabled, "aria-invalid": this.error ? 'true' : 'false', "data-testid": this.testId, style: this.selectForcedStyles, ref: el => (this.selectEl = el), id: this.selectId, class: `${this.selectStyles} ${this.error ? 'border-danger' : ''} ${className.join(' ')} form-control-${this.size} text-${this.textSize} `, onInput: this.handleSelectChange.bind(this), required: this.required }, this.showFirstOption && h("option", { key: '79c6366a0c0a6799e4b396bc0dfff7046ae29e5c', value: '' }, this.firstOption), this.data.map(item => {
             return (h("option", { selected: this.selectedValue === item.value, value: item.value }, item.text));
         })))));
     }
@@ -24089,12 +20017,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '0a66994c04843602cf1821d793cc13c3f9935f49', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '59ef9d8807a810e80ef699225f3c15897b6811f4', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '2eb0d7c47a3c83d8ef93774576a820c279feba52', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '13c00af7264a9c604e0f381efc2d82ebe1903cec', class: 'sidebar-title' }, h("p", { key: 'ca6c0cd188f202bf81acb69adae5f61b04b66dd2', class: 'p-0 m-0' }, this.label), h("div", { key: '9dd278987e3449651c0e2b4faf03da93ca78a9e0', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '0a60efbe5c83f98eb789e24584872f1d8ae21cfa', class: "", onIconClickHandler: () => {
+            h("div", { key: '23ca67e945306defd7c03964e4e8e951e0565ba2', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: 'fd5c226db9c2487d9298985bde62f05c0127a4c4', class: 'sidebar-title' }, h("p", { key: '550c42465cde4b0320188961fb00e8ecd0548cab', class: 'p-0 m-0' }, this.label), h("div", { key: 'c1d02ba33867947e310f54292b83de0619b73a41', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: 'ef656d0def2c9f11ee6c4cf27d115b5488554556', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'b444d1bc621182f63c8ee5a3f05af51f6f3eb377', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '7e091671aa763ae9442a0ea9be00626c464e2261', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '29878e2b731d16db7abe3b73e5f7f0f13f36942d', name: "sidebar-body" })),
+                } }, h("svg", { key: 'ac9578b81fd544d189b2f1d662d7f25ba8767d2f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '50354bd4c615447eb3014fa9d98a99c9617de530', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'a3f5e88cbdefefcc530eb21efc26c517d712b4ff', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {
@@ -24171,7 +20099,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: '97cdea6cd53be60a9525cd8180ebd4370a3eac29' }, h("wa-spinner", { key: 'd28050cce6193a68c1e963d9c98a4d3d00da87d6', style: { fontSize: '2rem' } })));
+        return (h(Host, { key: 'b309a475dd313c13f777a1e9b03a058dd4ba2aeb' }, h("wa-spinner", { key: '8d6735dfcd9e9abd6f5f805b89e996ac97e6267a', style: { fontSize: '2rem' } })));
     }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],
@@ -24276,7 +20204,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (h(Host, { key: '7d6bbdc7099ba4497da676dfcd107f743ecfa2bf' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
+        return (h(Host, { key: 'c2cb16b11cfa90d97c1c224586536e8d5aa5654e' }, this.phase === 'spinner' ? (h("svg", { part: "spinner", width: "18", height: "18", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z", class: "spinner" }))) : (h("ir-icons", { part: "check", name: "check", style: { color: '#45b16d' } }))));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],
@@ -24427,7 +20355,7 @@ const IrTabs = class {
         }
     }
     render() {
-        return (h(Host, { key: '28c860db62dc83a12599b55e017848742bfab78e', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '83c1552098dea779a0473b267e2db3c1eb13f355', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
+        return (h(Host, { key: '14070dce991cfeda0a3ffb812f64bcd69b9c33f0', role: "tablist", "aria-label": this.ariaLabel, "aria-orientation": "horizontal" }, this.tabs.map(tab => (h("button", { class: "tab", key: tab.id, type: "button", "data-tab-id": tab.id, role: "tab", tabindex: this._selectedTab?.id === tab.id ? 0 : -1, "aria-selected": this._selectedTab?.id === tab.id ? 'true' : 'false', "aria-controls": `tabpanel-${tab.id}`, id: `tab-${tab.id}`, disabled: this.disabled, "data-state": this._selectedTab?.id === tab.id ? 'selected' : undefined, onClick: () => this.selectTab(tab), onKeyDown: event => this.handleKeyDown(event, tab) }, tab.label))), h("span", { key: '79cbbe44fd5f8e3a11111061f3b9b564ea4e75dc', class: "active-indicator", ref: el => (this.activeIndicator = el) })));
     }
 };
 IrTabs.style = IrTabsStyle0;
@@ -24455,9 +20383,9 @@ const IrTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: '6e762297e8a3730f005fc404ab0b103490938ddb' }, h("h4", { key: '464e3cc6654d3d12b7ce73030944c6c086284fa7', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'f55a7b6903b68ba44e186e2bd9da01b5a219e9be', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: 'fba1cbfd5553827835863775b530c4603b861497' }, h("h4", { key: 'b3f26293d595fb45288848d4f332891f90b0e33a', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: 'b3ebca7ae7f3109d6293fd4507f94ce3e96718d0', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: '0f84096e212e3d9324b54a60a8cd690d2b50112d', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '4d5660f71c4da9a40fb733badcd95e9256467431', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '2c464b74aaac46e0bf5ba0471c2e101a2b0d0971', class: 'title-body' }, h("slot", { key: 'b286ce64c3aa51c02e412f3824cf062d9e03a562', name: "title-body" })))));
+            } }, h("svg", { key: '85e47d80dd7457de5e0af2f4c003635c2775815c', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '2b53c7bca0e3ef174e1aaf8c40720d6f35e68be6', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '3be313d1875a251f61619842f55a5f655e410360', class: 'title-body' }, h("slot", { key: 'bfa78dda660e166fc2cabf70bb5834625177bed1', name: "title-body" })))));
     }
     static get watchers() { return {
         "justifyContent": ["handleJustifyContentChange"]
@@ -24502,7 +20430,7 @@ const IrToast = class {
         }
     }
     render() {
-        return h(Host, { key: '339c906cc1c1ab8338c5da03abfcdacb8d3e4689' });
+        return h(Host, { key: 'cb197f53e065f50f5cca09ca30a8814d82e0dce0' });
     }
 };
 IrToast.style = IrToastStyle0;
@@ -24583,7 +20511,7 @@ const IrUnitTag = class {
         }
     }
     render() {
-        return (h(Fragment, { key: '2fdaf9c529f430e1e08a62cb9975cf086c4dddd9' }, this.showTooltip && h("wa-tooltip", { key: '9f2d2e5bec0ac7ccd664d2b069070f64989feb08', for: this._id }, this.unit), h("wa-tag", { key: '2988dae3b316b579bd598fbf944c1518a8d2534f', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: 'ec9bd96b1f4b647353f8de0d9e5cd0e02d9de3fd', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (h(Fragment, { key: 'b11bdd0f9e7debca6803cc443db6d6cf8eb40f25' }, this.showTooltip && h("wa-tooltip", { key: '23d92133520dec820f31f84781cc60c5b13bf308', for: this._id }, this.unit), h("wa-tag", { key: '30ddd800963c39cb7b3020c683071da462538750', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, h("span", { key: '5b1537b7da27725e83a664d29e9a13f294188f1a', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get watchers() { return {
         "unit": ["onUnitChange"]
@@ -24591,7 +20519,7 @@ const IrUnitTag = class {
 };
 IrUnitTag.style = IrUnitTagStyle0;
 
-const irValidatorCss = ":host{display:block}";
+const irValidatorCss = ":host{display:block;position:relative}.error-message{font-weight:var(--wa-form-control-hint-font-weight);margin-block-start:0.5em;font-size:var(--wa-font-size-smaller);line-height:var(--wa-form-control-label-line-height);color:var(--wa-color-danger-fill-loud);}";
 const IrValidatorStyle0 = irValidatorCss;
 
 const IrValidator = class {
@@ -24604,6 +20532,7 @@ const IrValidator = class {
     /** Zod schema used to validate the child control's value. */
     schema;
     value;
+    showErrorMessage;
     /** Enables automatic validation on every value change. */
     autovalidate;
     /** Optional form id. Falls back to the closest ancestor form when omitted. */
@@ -24620,6 +20549,7 @@ const IrValidator = class {
     valueChange;
     isValid = true;
     autoValidateActive = false;
+    errorMessage = '';
     childEl;
     formEl;
     slotEl;
@@ -24806,6 +20736,12 @@ const IrValidator = class {
         const nextValidity = result.success;
         const previousValidity = this.isValid;
         this.isValid = nextValidity;
+        if (!result.success) {
+            this.errorMessage = result.error.issues[0]?.message ?? '';
+        }
+        else {
+            this.errorMessage = '';
+        }
         const shouldDisplay = forceDisplay || (this.autoValidateActive && this.hasInteracted);
         if (shouldDisplay) {
             this.updateAriaValidity(nextValidity);
@@ -24874,7 +20810,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (h(Host, { key: '8ec0348659ed7da922a1109f13258f32f6245669' }, h("slot", { key: '70f2f04ad3c5f02554a10800c52a9b8166ce7855' })));
+        return (h(Host, { key: '38dbc480a5e05b3b2bf3b2441950cba22d0c0d5d' }, h("slot", { key: 'f472aac1913595c8886df60cd6cbc277b1fb131d' }), !this.isValid && this.showErrorMessage && (h("span", { key: '73a1876db5765ccda69b37fe2592146fff615b31', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],
@@ -24953,7 +20889,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: 'eba8d0338e1b870b4fe794b6efe5fafcd83c78ce', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: '7856b0aa63143f76db48ff2ae155e65ffe166385', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]
@@ -25005,6 +20941,6 @@ const OtaLabel = class {
 };
 OtaLabel.style = OtaLabelStyle0;
 
-export { IglApplicationInfo as igl_application_info, IglBlockDatesView as igl_block_dates_view, IglBookProperty as igl_book_property, IglBookPropertyFooter as igl_book_property_footer, IglBookPropertyHeader as igl_book_property_header, IglBookingEvent as igl_booking_event, IglBookingEventHover as igl_booking_event_hover, IglBookingForm as igl_booking_form, IglBookingOverviewPage as igl_booking_overview_page, IglBulkBlock as igl_bulk_block, IglBulkOperations as igl_bulk_operations, IglBulkStopSale as igl_bulk_stop_sale, IglCalBody as igl_cal_body, IglCalFooter as igl_cal_footer, IglCalHeader as igl_cal_header, IglDateRange as igl_date_range, IglLegends as igl_legends, IglPropertyBookedBy as igl_property_booked_by, IglRatePlan as igl_rate_plan, IglReallocationDialog as igl_reallocation_dialog, IglRoomType as igl_room_type, IglSplitBooking as igl_split_booking, IglTbaBookingView as igl_tba_booking_view, IglTbaCategoryView as igl_tba_category_view, IglToBeAssigned as igl_to_be_assigned, IglooCalendar as igloo_calendar, IrApplicablePolicies as ir_applicable_policies, IrBilling as ir_billing, IrBillingDrawer as ir_billing_drawer, IrBookingBillingRecipient as ir_booking_billing_recipient, IrBookingCompanyDialog as ir_booking_company_dialog, IrBookingCompanyForm as ir_booking_company_form, IrBookingDetails as ir_booking_details, IrBookingDetailsDrawer as ir_booking_details_drawer, IrBookingExtraNote as ir_booking_extra_note, IrBookingGuarantee as ir_booking_guarantee, IrBookingHeader as ir_booking_header, IrBookingStatusTag as ir_booking_status_tag, IrButton as ir_button, IrCheckoutDialog as ir_checkout_dialog, IrCommon as ir_common, IrCountryPicker as ir_country_picker, IrCustomButton as ir_custom_button, IrCustomDatePicker as ir_custom_date_picker, IrDatePicker as ir_date_picker, IrDateView as ir_date_view, IrDialog as ir_dialog, IrDrawer as ir_drawer, IrDropdown as ir_dropdown, IrDropdownItem as ir_dropdown_item, IrEmptyState as ir_empty_state, IrEventsLog as ir_events_log, IrExtraService as ir_extra_service, IrExtraServiceConfig as ir_extra_service_config, IrExtraServiceConfigForm as ir_extra_service_config_form, IrExtraServices as ir_extra_services, IrGuestInfoDrawer as ir_guest_info_drawer, IrGuestInfoForm as ir_guest_info_form, IrIcon as ir_icon, IrIcons as ir_icons, IrInput as ir_input, IrInputText as ir_input_text, IrInteractiveTitle as ir_interactive_title, IrInterceptor as ir_interceptor, IrInvoice as ir_invoice, IrInvoiceForm as ir_invoice_form, IrLabel as ir_label, IrLoadingScreen as ir_loading_screen, IrMobileInput as ir_mobile_input, IrModal as ir_modal, IrNewBadge as ir_new_badge, IrOtp as ir_otp, IrOtpModal as ir_otp_modal, IrPaymentDetails as ir_payment_details, IrPaymentFolio as ir_payment_folio, IrPaymentFolioForm as ir_payment_folio_form, IrPaymentItem as ir_payment_item, IrPaymentSummary as ir_payment_summary, IrPaymentsFolio as ir_payments_folio, IrPicker as ir_picker, IrPickerItem as ir_picker_item, IrPickup as ir_pickup, IrPickupForm as ir_pickup_form, IrPickupView as ir_pickup_view, IrPmsLogs as ir_pms_logs, IrPopover as ir_popover, IrPreviewScreenDialog as ir_preview_screen_dialog, IrPriceInput as ir_price_input, IrPrintRoom as ir_print_room, IrPrintingExtraService as ir_printing_extra_service, IrPrintingLabel as ir_printing_label, IrPrintingPickup as ir_printing_pickup, IrProformaInvoicePreview as ir_proforma_invoice_preview, IrRadio as ir_radio, IrReservationInformation as ir_reservation_information, IrRoom as ir_room, IrRoomGuests as ir_room_guests, IrRoomGuestsForm as ir_room_guests_form, IrRoomNights as ir_room_nights, IrSelect as ir_select, IrSidebar as ir_sidebar, IrSpinner as ir_spinner, IrSuccessLoader as ir_success_loader, IrTabs as ir_tabs, IrTitle as ir_title, IrToast as ir_toast, IrUnitTag as ir_unit_tag, IrValidator as ir_validator, IrWeekdaySelector as ir_weekday_selector, OtaLabel as ota_label };
+export { IglApplicationInfo as igl_application_info, IglBlockDatesView as igl_block_dates_view, IglBlockedDateDrawer as igl_blocked_date_drawer, IglBookingEvent as igl_booking_event, IglBookingEventHover as igl_booking_event_hover, IglBulkBlock as igl_bulk_block, IglBulkOperations as igl_bulk_operations, IglBulkStopSale as igl_bulk_stop_sale, IglCalBody as igl_cal_body, IglCalFooter as igl_cal_footer, IglCalHeader as igl_cal_header, IglDateRange as igl_date_range, IglLegends as igl_legends, IglRatePlan as igl_rate_plan, IglReallocationDialog as igl_reallocation_dialog, IglRoomType as igl_room_type, IglSplitBooking as igl_split_booking, IglTbaBookingView as igl_tba_booking_view, IglTbaCategoryView as igl_tba_category_view, IglToBeAssigned as igl_to_be_assigned, IglooCalendar as igloo_calendar, IrApplicablePolicies as ir_applicable_policies, IrBilling as ir_billing, IrBillingDrawer as ir_billing_drawer, IrBookingBillingRecipient as ir_booking_billing_recipient, IrBookingCompanyDialog as ir_booking_company_dialog, IrBookingCompanyForm as ir_booking_company_form, IrBookingDetails as ir_booking_details, IrBookingDetailsDrawer as ir_booking_details_drawer, IrBookingEditor as ir_booking_editor, IrBookingEditorDrawer as ir_booking_editor_drawer, IrBookingEditorForm as ir_booking_editor_form, IrBookingEditorGuestForm as ir_booking_editor_guest_form, IrBookingEditorHeader as ir_booking_editor_header, IrBookingExtraNote as ir_booking_extra_note, IrBookingGuarantee as ir_booking_guarantee, IrBookingHeader as ir_booking_header, IrBookingStatusTag as ir_booking_status_tag, IrButton as ir_button, IrCheckoutDialog as ir_checkout_dialog, IrCommon as ir_common, IrCountryPicker as ir_country_picker, IrCustomButton as ir_custom_button, IrCustomDatePicker as ir_custom_date_picker, IrDatePicker as ir_date_picker, IrDateView as ir_date_view, IrDialog as ir_dialog, IrDrawer as ir_drawer, IrDropdown as ir_dropdown, IrDropdownItem as ir_dropdown_item, IrEmptyState as ir_empty_state, IrEventsLog as ir_events_log, IrExtraService as ir_extra_service, IrExtraServiceConfig as ir_extra_service_config, IrExtraServiceConfigForm as ir_extra_service_config_form, IrExtraServices as ir_extra_services, IrGuestInfoDrawer as ir_guest_info_drawer, IrGuestInfoForm as ir_guest_info_form, IrIcon as ir_icon, IrIcons as ir_icons, IrInput as ir_input, IrInputText as ir_input_text, IrInteractiveTitle as ir_interactive_title, IrInterceptor as ir_interceptor, IrInvoice as ir_invoice, IrInvoiceForm as ir_invoice_form, IrLabel as ir_label, IrLoadingScreen as ir_loading_screen, IrMobileInput as ir_mobile_input, IrModal as ir_modal, IrNewBadge as ir_new_badge, IrOtp as ir_otp, IrOtpModal as ir_otp_modal, IrPaymentDetails as ir_payment_details, IrPaymentFolio as ir_payment_folio, IrPaymentFolioForm as ir_payment_folio_form, IrPaymentItem as ir_payment_item, IrPaymentSummary as ir_payment_summary, IrPaymentsFolio as ir_payments_folio, IrPicker as ir_picker, IrPickerItem as ir_picker_item, IrPickup as ir_pickup, IrPickupForm as ir_pickup_form, IrPickupView as ir_pickup_view, IrPmsLogs as ir_pms_logs, IrPopover as ir_popover, IrPreviewScreenDialog as ir_preview_screen_dialog, IrPriceInput as ir_price_input, IrPrintRoom as ir_print_room, IrPrintingExtraService as ir_printing_extra_service, IrPrintingLabel as ir_printing_label, IrPrintingPickup as ir_printing_pickup, IrProformaInvoicePreview as ir_proforma_invoice_preview, IrRadio as ir_radio, IrReservationInformation as ir_reservation_information, IrRoom as ir_room, IrRoomGuests as ir_room_guests, IrRoomGuestsForm as ir_room_guests_form, IrRoomNights as ir_room_nights, IrSelect as ir_select, IrSidebar as ir_sidebar, IrSpinner as ir_spinner, IrSuccessLoader as ir_success_loader, IrTabs as ir_tabs, IrTitle as ir_title, IrToast as ir_toast, IrUnitTag as ir_unit_tag, IrValidator as ir_validator, IrWeekdaySelector as ir_weekday_selector, OtaLabel as ota_label };
 
 //# sourceMappingURL=igl-application-info_110.entry.js.map

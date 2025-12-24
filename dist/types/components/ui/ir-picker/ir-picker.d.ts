@@ -53,6 +53,7 @@ export declare class IrPicker {
     filteredItems: PickerItemElement[];
     liveRegionMessage: string;
     slottedPickerItems: PickerItemElement[];
+    isValid: string;
     /** Emitted when a value is selected from the combobox list. */
     comboboxSelect: EventEmitter<IrComboboxSelectEventDetail>;
     /** Emitted when the text input value changes. */
@@ -70,6 +71,7 @@ export declare class IrPicker {
     handleDocumentClick(event: MouseEvent): void;
     handleDocumentFocus(event: FocusEvent): void;
     protected handleActiveIndexChange(): void;
+    handleAriaInvalid(newValue: any): void;
     protected handleValueChange(newValue: string): void;
     clearInput(): Promise<void>;
     private closeCombobox;

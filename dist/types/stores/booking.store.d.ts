@@ -1,24 +1,8 @@
 import { Booking, Guest } from "../models/booking.dto";
+import { ICountry, ISetupEntries } from "../models/IBooking";
 import { BookingSource, TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 import { Moment } from 'moment';
-export interface BookedByInfo {
-    id?: number | string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    countryId: number | string;
-    isdCode: string | number;
-    contactNumber: string;
-    selectedArrivalTime: any;
-    emailGuest: boolean;
-    message: string;
-    cardNumber: string;
-    cardHolderName: string;
-    expiryMonth: string | number;
-    expiryYear: string | number;
-    [key: string]: any;
-}
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
@@ -86,6 +70,26 @@ export interface BookingDraft {
 }
 export interface BookingSelects {
     sources: BookingSource[];
+    ratePricingMode: ISetupEntries['ratePricingMode'];
+    arrivalTime: ISetupEntries['arrivalTime'];
+    bedPreferences: ISetupEntries['bedPreferenceType'];
+    countries: ICountry[];
+}
+export interface BookedByGuest {
+    id: number | null;
+    email: string;
+    firstName: string;
+    lastName: string;
+    countryId: string;
+    phone_prefix: string;
+    mobile: string;
+    selectedArrivalTime: string;
+    emailGuest: boolean;
+    note: string;
+    cardNumber: string;
+    cardHolderName: string;
+    expiryMonth: string;
+    expiryYear: string;
 }
 export interface BookingStore {
     tax_statement: {
@@ -95,7 +99,6 @@ export interface BookingStore {
     selectedPaymentMethod: {
         code: string;
     };
-    bookedByInfo: BookedByInfo | null;
     roomTypes: RoomType[];
     enableBooking: boolean;
     ratePlanSelections: {
@@ -114,12 +117,46 @@ export interface BookingStore {
     };
     bookingDraft: BookingDraft;
     selects: BookingSelects;
+    bookedByGuest: BookedByGuest;
+    bookedByGuestManuallyEdited: boolean;
 }
+export interface ReservedRoomSelection {
+    roomTypeId: number;
+    ratePlanId: number;
+    reservationIndex: number;
+    guest: RatePlanGuest | null;
+    ratePlanSelection: IRatePlanSelection;
+}
+export declare const bookedByGuestBaseData: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    countryId: string;
+    phone_prefix: string;
+    mobile: string;
+    selectedArrivalTime: string;
+    emailGuest: boolean;
+    note: string;
+    cardNumber: string;
+    cardHolderName: string;
+    expiryMonth: string;
+    expiryYear: string;
+};
 export declare let booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>, reset: () => void;
 export declare function resetBookingStore(closeModal: boolean): void;
+export declare function resetAvailability(): void;
 export declare function setBookingDraft(params: Partial<BookingDraft>): void;
 export declare function setBookingSelectOptions(params: Partial<BookingSelects>): void;
+export declare function updateBookedByGuest(params: Partial<BookedByGuest>): void;
+export declare function updateRoomGuest({ guest, ratePlanId, roomTypeId, ratePlanSelection, }: {
+    roomTypeId: number;
+    ratePlanId: number;
+    guest: IRatePlanSelection['guest'];
+    ratePlanSelection: IRatePlanSelection;
+}): void;
 export declare function updateInventory(roomTypeId: number): void;
+export declare function hasAtLeastOneRoomSelected(): boolean;
 export declare function updateRoomParams({ ratePlanId, roomTypeId, params }: {
     roomTypeId: number;
     ratePlanId: number;
@@ -137,7 +174,10 @@ export declare function calculateTotalCost(gross?: boolean): {
     totalAmount: number;
     prePaymentAmount: number;
 };
+export declare function getBookingTotalPrice(): number;
 export declare function validateBooking(): boolean;
 export declare function calculateTotalRooms(): any;
 export declare function resetReserved(): void;
+export declare function setBookedByGuestManualEditState(isEdited: boolean): void;
 export default booking_store;
+export declare function getReservedRooms(): ReservedRoomSelection[];

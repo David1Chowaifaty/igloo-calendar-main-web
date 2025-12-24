@@ -1,21 +1,21 @@
 import { r as registerInstance, h, H as Host, g as getElement, c as createEvent } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
-import { B as BookingService } from './booking.service-406e971c.js';
+import { B as BookingService } from './booking.service-d1f86d0d.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-f6ab11d6.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-2ab3c824.js';
 import { c as calendar_data } from './calendar-data-8a36a1b2.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-68130e0c.js';
-import { S as isPrivilegedUser, G as downloadFile } from './utils-ebd57799.js';
-import { P as PropertyService, l as lookup } from './index-585e3627.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-aa24f0e7.js';
+import { R as isPrivilegedUser, E as downloadFile } from './booking-7c3fba5f.js';
+import { P as PropertyService, l as lookup } from './index-73da2c2a.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { v as v4 } from './v4-964634d6.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-8b0fc70f.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-7b421a59.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-da0dbbe6.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-2d27ad14.js';
 import { i as isRequestPending } from './ir-interceptor.store-ebb6c559.js';
-import { U as UserService } from './user.service-1c109a1b.js';
+import { U as UserService } from './user.service-ef0fd64a.js';
 import './index-1e1f097b.js';
 import './index-a124d225.js';
 
@@ -227,7 +227,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: 'f6077608cfd8e8bacf927b13573379dfa5732dd7', class: "p-1" }, h("ir-interceptor", { key: '2f71284b18b61960b2c334691df5ef1873479ca8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'a07ebb20eb8a87a68b9c958b665a43a02db93be5' }), h("div", { key: '00b5249264780b4151ffc6d62c3412f1ae146131', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '8db025102403dc1b526db2537b6fc4b7dd737c29', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'c164c55ecede9072ee06c79415ff9ad44cddd4d3', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '8447c6e721cf0a347f5483b36ba3d2a44a35389b', class: "p-1" }, h("ir-interceptor", { key: 'c09060b6f069a4e0c9468a7cd50005b71d1d1336', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '22b668791f9e8ee19dfd20a9901d5d46224a1205' }), h("div", { key: '18cfbf2d08fff9ea07e69402b6112220405310c0', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'b918c6bf5accb1546d0bbd0cc9b49ff2d950af20', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '79c53816ef373f59ca60d0553c8bfc868fee8ec4', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -235,7 +235,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: 'bd157a42b0e96e05162c7dcf96e512af5ab4869c' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '9b07380056b116379bf1915344681ee20db1b0ae' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -522,7 +522,7 @@ const IrBookingListing = class {
         if (this.isLoading || this.ticket === '') {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.propertyid, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.editBookingItem = null;
             }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), h("ir-payment-folio", { style: { height: 'auto' }, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
                 this.booking = null;

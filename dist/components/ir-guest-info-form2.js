@@ -136,7 +136,7 @@ const IrGuestInfoForm = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoForm e
             } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "small", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => {
                 const country = e.detail;
                 let params = { country_id: country.id };
-                if (!this.guest?.mobile) {
+                if (!this.guest.country_phone_prefix) {
                     params = { ...params, country_phone_prefix: country.phone_prefix };
                 }
                 this.handleInputChange(params);

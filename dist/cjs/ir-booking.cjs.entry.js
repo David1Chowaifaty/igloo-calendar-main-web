@@ -4,13 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-3978a3f8.js');
 const Token = require('./Token-8fd11984.js');
-const utils = require('./utils-9892967b.js');
+const booking = require('./booking-e68bffd8.js');
 require('./axios-6e678d52.js');
 require('./moment-1780b03a.js');
 require('./index-8bb117a0.js');
-require('./calendar-data-e7cdcfec.js');
-require('./index-6299b0f7.js');
 require('./locales.store-4eb57996.js');
+require('./index-6299b0f7.js');
+require('./calendar-data-e7cdcfec.js');
 
 const irBookingCss = ".sc-ir-booking-h{display:block}";
 const IrBookingStyle0 = irBookingCss;
@@ -25,7 +25,7 @@ const IrBooking = class {
     isAuthenticated = false;
     token = new Token.Token();
     componentWillLoad() {
-        const isAuthenticated = utils.checkUserAuthState();
+        const isAuthenticated = booking.checkUserAuthState();
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
@@ -35,7 +35,7 @@ const IrBooking = class {
         const token = e.detail.token;
         this.token.setToken(token);
         this.isAuthenticated = true;
-        utils.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        booking.manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
     render() {
         if (!this.isAuthenticated)

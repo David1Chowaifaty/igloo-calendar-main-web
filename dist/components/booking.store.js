@@ -1,7 +1,26 @@
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { c as createStore } from './index3.js';
 import { h as hooks } from './moment.js';
 
+const bookedByGuestBaseData = {
+    id: -1,
+    email: '',
+    firstName: '',
+    lastName: '',
+    countryId: '',
+    phone_prefix: '',
+    mobile: '',
+    selectedArrivalTime: '',
+    emailGuest: false,
+    note: '',
+    cardNumber: '',
+    cardHolderName: '',
+    expiryMonth: '',
+    expiryYear: '',
+};
 const initialState = {
+    bookedByGuest: bookedByGuestBaseData,
+    bookedByGuestManuallyEdited: false,
     bookingDraft: {
         dates: {
             checkIn: hooks().startOf('day'),
@@ -15,9 +34,12 @@ const initialState = {
     },
     selects: {
         sources: [],
+        ratePricingMode: [],
+        arrivalTime: [],
+        bedPreferences: [],
+        countries: [],
     },
     checkout_guest: null,
-    bookedByInfo: null,
     guest: null,
     tax_statement: null,
     roomTypes: [],
@@ -39,12 +61,16 @@ const initialState = {
 };
 let { state: booking_store, onChange: onRoomTypeChange, reset } = createStore(initialState);
 function resetBookingStore(closeModal) {
-    const { bookingDraft, selects } = booking_store;
+    const { bookingDraft, selects, bookedByGuest } = booking_store;
     reset();
     if (!closeModal) {
         setBookingDraft(bookingDraft);
+        updateBookedByGuest(bookedByGuest);
         setBookingSelectOptions(selects);
     }
+}
+function resetAvailability() {
+    resetBookingStore(false);
 }
 function setBookingDraft(params) {
     booking_store.bookingDraft = {
@@ -127,6 +153,21 @@ onRoomTypeChange('roomTypes', (newValue) => {
     booking_store.ratePlanSelections = ratePlanSelections;
     booking_store.resetBooking = false;
 });
+function updateBookedByGuest(params) {
+    booking_store.bookedByGuest = {
+        ...booking_store.bookedByGuest,
+        ...params,
+    };
+}
+function updateRoomGuest({ guest, ratePlanId, roomTypeId, ratePlanSelection, }) {
+    booking_store.ratePlanSelections = {
+        ...booking_store.ratePlanSelections,
+        [roomTypeId]: {
+            ...booking_store.ratePlanSelections[roomTypeId],
+            [ratePlanId]: { ...ratePlanSelection, guest: [...guest] },
+        },
+    };
+}
 function updateInventory(roomTypeId) {
     const roomTypeSelection = booking_store.ratePlanSelections[roomTypeId];
     const calculateTotalSelectedRoomsExcludingIndex = (excludedRatePlanId) => {
@@ -152,6 +193,9 @@ function updateInventory(roomTypeId) {
             [roomTypeId]: newRatePlans,
         };
     }
+}
+function hasAtLeastOneRoomSelected() {
+    return Object.values(booking_store.ratePlanSelections).some(roomTypeSelection => Object.values(roomTypeSelection).some(ratePlan => ratePlan.reserved > 0));
 }
 function updateRoomParams({ ratePlanId, roomTypeId, params }) {
     booking_store.ratePlanSelections = {
@@ -246,6 +290,34 @@ function getVisibleInventory(roomTypeId, ratePlanId) {
 function modifyBookingStore(key, value) {
     booking_store[key] = value;
 }
+function x(rateplanSelection, totalNights) {
+    if (rateplanSelection.is_amount_modified) {
+        return rateplanSelection.view_mode === '001' ? rateplanSelection.rp_amount : rateplanSelection.rp_amount * totalNights;
+    }
+    let variation = rateplanSelection.selected_variation;
+    // if (this.guestInfo?.infant_nbr) {
+    //   variation = this.variationService.getVariationBasedOnInfants({
+    //     variations: this.rateplanSelection.ratePlan.variations,
+    //     baseVariation: this.rateplanSelection.selected_variation,
+    //     infants: this.guestInfo?.infant_nbr,
+    //   });
+    // }
+    return variation.discounted_gross_amount;
+}
+function getBookingTotalPrice() {
+    const dateDiff = calculateDaysBetweenDates(booking_store.bookingDraft.dates.checkIn.format('YYYY-MM-DD'), booking_store.bookingDraft.dates.checkOut.format('YYYY-MM-DD'));
+    let totalPrice = 0;
+    Object.values(booking_store.ratePlanSelections).forEach(roomTypeSelection => {
+        Object.values(roomTypeSelection).forEach(ratePlan => {
+            if (ratePlan.reserved === 0) {
+                return;
+            }
+            const rateAmount = x(ratePlan, dateDiff);
+            totalPrice += rateAmount;
+        });
+    });
+    return totalPrice;
+}
 function calculateTotalRooms() {
     return Object.values(booking_store.ratePlanSelections).reduce((total, value) => {
         return (total +
@@ -268,7 +340,31 @@ function resetReserved() {
     }, {});
     booking_store.ratePlanSelections = { ...updatedSelections };
 }
+function setBookedByGuestManualEditState(isEdited) {
+    booking_store.bookedByGuestManuallyEdited = isEdited;
+}
+function getReservedRooms() {
+    const reservedRooms = [];
+    Object.entries(booking_store.ratePlanSelections).forEach(([roomTypeId, ratePlans]) => {
+        Object.entries(ratePlans).forEach(([ratePlanId, ratePlanSelection]) => {
+            if (!ratePlanSelection.reserved) {
+                return;
+            }
+            const guests = ratePlanSelection.guest ?? [];
+            for (let reservationIndex = 0; reservationIndex < ratePlanSelection.reserved; reservationIndex++) {
+                reservedRooms.push({
+                    roomTypeId: Number(roomTypeId),
+                    ratePlanId: Number(ratePlanId),
+                    reservationIndex,
+                    guest: guests[reservationIndex] ?? null,
+                    ratePlanSelection,
+                });
+            }
+        });
+    });
+    return reservedRooms;
+}
 
-export { resetReserved as a, booking_store as b, calculateTotalRooms as c, setBookingSelectOptions as d, reserveRooms as e, getVisibleInventory as g, modifyBookingStore as m, resetBookingStore as r, setBookingDraft as s, updateRoomParams as u };
+export { updateBookedByGuest as a, booking_store as b, calculateTotalRooms as c, resetReserved as d, setBookingSelectOptions as e, reserveRooms as f, setBookedByGuestManualEditState as g, updateRoomParams as h, getVisibleInventory as i, getReservedRooms as j, hasAtLeastOneRoomSelected as k, getBookingTotalPrice as l, modifyBookingStore as m, bookedByGuestBaseData as n, resetAvailability as o, resetBookingStore as r, setBookingDraft as s, updateRoomGuest as u };
 
 //# sourceMappingURL=booking.store.js.map

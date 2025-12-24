@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$2 } from './ir-icons2.js';
 import { d as defineCustomElement$1 } from './ir-stats-card2.js';
@@ -32,7 +32,7 @@ const IrSalesByCountrySummary = /*@__PURE__*/ proxyCustomElement(class IrSalesBy
         const lastYearTotalRoomNights = this.calculateTotalValues('nights', true);
         const lastYearTotalGuests = this.calculateTotalValues('number_of_guests', true);
         const lastYearTotalRevenue = this.calculateTotalValues('revenue', true);
-        return (h("div", { key: '61f21fc938b47a399da56f3da98081bc5f4c2295', class: "sales-by-country-summary__container" }, h("ir-stats-card", { key: 'ccdc2f2d725212e27be33dd42c37c29a418071df', cardTitle: "Total Room Nights", icon: this.getIcon(totalRoomNights, lastYearTotalRoomNights), value: totalRoomNights.toString(), subtitle: lastYearTotalRoomNights ? `Last year ${lastYearTotalRoomNights}` : undefined }), h("ir-stats-card", { key: '4217a0e1bbdde380f5657250e04cd819a29197a5', icon: this.getIcon(totalGuests, lastYearTotalGuests), cardTitle: "Total Guests", value: totalGuests.toString(), subtitle: lastYearTotalGuests ? `Last year ${lastYearTotalGuests}` : undefined }), h("ir-stats-card", { key: '289a410d2acffe91df0fdfd121c8078204c63804', icon: this.getIcon(totalRevenue, lastYearTotalRevenue), cardTitle: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), subtitle: lastYearTotalRevenue ? `Last year ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
+        return (h("div", { key: 'f5dc5b30c86477b79167aee32164c7e3de75abd5', class: "sales-by-country-summary__container" }, h("ir-stats-card", { key: 'dcdd3656444670168c4ef3e521b466c43eebf4e2', cardTitle: "Total Room Nights", icon: this.getIcon(totalRoomNights, lastYearTotalRoomNights), value: totalRoomNights.toString(), subtitle: lastYearTotalRoomNights ? `Last year ${lastYearTotalRoomNights}` : undefined }), h("ir-stats-card", { key: '7982eea77460454e2d9aa9c80f1b45dc401a0073', icon: this.getIcon(totalGuests, lastYearTotalGuests), cardTitle: "Total Guests", value: totalGuests.toString(), subtitle: lastYearTotalGuests ? `Last year ${lastYearTotalGuests}` : undefined }), h("ir-stats-card", { key: '5a6692120e348355f40a02f7a1c786209e7c8978', icon: this.getIcon(totalRevenue, lastYearTotalRevenue), cardTitle: "Total Revenue", value: formatAmount(calendar_data.currency.symbol, totalRevenue), subtitle: lastYearTotalRevenue ? `Last year ${formatAmount(calendar_data.currency.symbol, lastYearTotalRevenue)}` : undefined })));
     }
     static get style() { return IrSalesByCountrySummaryStyle0; }
 }, [2, "ir-sales-by-country-summary", {

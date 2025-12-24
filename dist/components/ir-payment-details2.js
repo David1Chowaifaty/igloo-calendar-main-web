@@ -3,7 +3,7 @@ import { B as BookingService } from './booking.service.js';
 import { P as PaymentService } from './payment.service.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$b } from './ir-applicable-policies2.js';
 import { d as defineCustomElement$a } from './ir-booking-guarantee2.js';

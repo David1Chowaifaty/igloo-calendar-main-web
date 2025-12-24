@@ -5,6 +5,7 @@ export declare class IrValidator {
     /** Zod schema used to validate the child control's value. */
     schema: ZodTypeAny;
     value: any;
+    showErrorMessage: boolean;
     /** Enables automatic validation on every value change. */
     autovalidate?: boolean;
     /** Optional form id. Falls back to the closest ancestor form when omitted. */
@@ -26,6 +27,7 @@ export declare class IrValidator {
     }>;
     private isValid;
     private autoValidateActive;
+    private errorMessage;
     private childEl?;
     private formEl?;
     private slotEl?;

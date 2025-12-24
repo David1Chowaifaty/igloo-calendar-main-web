@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { O as OverflowRelease, a as OverflowAdd } from './OverflowLock.js';
+import { a as OverflowRelease, O as OverflowAdd } from './OverflowLock.js';
 
 const irDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}";
 const IrDialogStyle0 = irDialogCss;
@@ -138,7 +138,7 @@ const IrDialog = /*@__PURE__*/ proxyCustomElement(class IrDialog extends HTMLEle
         return !!this.el.querySelector(`[slot="${name}"]`);
     }
     render() {
-        return (h("wa-dialog", { key: 'e95cd93e66546f5ecd51a9d7e6eb3034c5e39941', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: '515e29c543ca90f2af25150b4ea01ce85296c511', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '34384da25e9532034b273810a078335765b20888', name: "label", slot: "label" }), h("slot", { key: '97d6be8b848744a39e9a0f9ea8211d72be3076e1' }), this.slotState.get('footer') && h("slot", { key: 'bacab09740b898354ce7f72b2cb1d9c83ae7e37c', name: "footer", slot: "footer" })));
+        return (h("wa-dialog", { key: '8825e87fc38a38236f1154b4d7db60edf0f58083', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && h("slot", { key: 'dfd36784b818e85c4c953ebdcdf07d0d0ce61fe1', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && h("slot", { key: '5da5610a3897e24ef39d5ce75cc8379220e3b37b', name: "label", slot: "label" }), h("slot", { key: 'f13a06fc511904e2ed75847fbde07adf9929e7b9' }), this.slotState.get('footer') && h("slot", { key: 'd8daa36db421b1668f596fa03bcd90dad75d971f', name: "footer", slot: "footer" })));
     }
     static get style() { return IrDialogStyle0; }
 }, [1, "ir-dialog", {

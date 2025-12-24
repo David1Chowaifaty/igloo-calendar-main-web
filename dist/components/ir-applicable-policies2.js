@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
 import { H as HelpDocButton } from './HelpButton.js';

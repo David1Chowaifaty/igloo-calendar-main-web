@@ -1,14 +1,14 @@
 import { h, r as registerInstance, F as Fragment } from './index-b3dce66a.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-14871918.js';
-import { j as calculateDaysBetweenDates, f as formatAmount } from './utils-ebd57799.js';
-import { B as BookingService } from './booking.service-406e971c.js';
+import { d as calculateDaysBetweenDates, f as formatAmount } from './booking-7c3fba5f.js';
+import { B as BookingService } from './booking.service-d1f86d0d.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
 import { l as locales } from './locales.store-f4150353.js';
 import './index-1e1f097b.js';
-import './calendar-data-8a36a1b2.js';
-import './index-a124d225.js';
 import './axios-aa1335b8.js';
+import './index-a124d225.js';
+import './calendar-data-8a36a1b2.js';
 
 const BeLogoFooter = ({ width, height, ...props }) => {
     return (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },

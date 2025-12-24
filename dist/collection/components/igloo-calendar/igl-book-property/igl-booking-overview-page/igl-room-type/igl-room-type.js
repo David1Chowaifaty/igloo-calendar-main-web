@@ -3,36 +3,18 @@ import { Host, h } from "@stencil/core";
 export class IglRoomType {
     roomType;
     bookingType = 'PLUS_BOOKING';
-    dateDifference;
     ratePricingMode = [];
-    roomInfoId = null;
+    roomTypeId = null;
     currency;
-    initialRoomIds;
     isBookDisabled;
-    selectedRooms = [];
-    totalRooms;
-    roomsDistributions = [];
-    dataUpdateEvent;
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '29e017382e9dde8898fbfea7fb530743b318a149' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '1da97ba5a44c1bc2bf4b0c4095ca370d542e8e91', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: 'a067dba9136878f07c41ae33bec357b9c630e673' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '395798a66ed5ac9207e51f8d7e05b5d0e1425173', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
-                let shouldBeDisabled = this.roomInfoId && this.roomInfoId === this.roomType.id;
-                // let roomId = -1;
-                // if (shouldBeDisabled && this.initialRoomIds) {
-                //   roomId = this.initialRoomIds.roomId;
-                // }
+                let shouldBeDisabled = this.roomTypeId === this.roomType.id;
                 const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                return (h("igl-rate-plan", {
-                    // is_bed_configuration_enabled={this.roomType.is_bed_configuration_enabled}
-                    // index={index}
-                    isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency,
-                    // dateDifference={this.dateDifference}
-                    ratePlan: ratePlan, roomTypeId: this.roomType.id,
-                    // totalAvailableRooms={this.roomsDistributions[index]}
-                    bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled
-                }));
+                return (h("igl-rate-plan", { isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency, ratePlan: ratePlan, roomTypeId: this.roomType.id, bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled }));
             }
             return null;
         })));
@@ -94,25 +76,6 @@ export class IglRoomType {
                 "reflect": false,
                 "defaultValue": "'PLUS_BOOKING'"
             },
-            "dateDifference": {
-                "type": "number",
-                "mutable": false,
-                "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "date-difference",
-                "reflect": false
-            },
             "ratePricingMode": {
                 "type": "unknown",
                 "mutable": false,
@@ -131,7 +94,7 @@ export class IglRoomType {
                 "setter": false,
                 "defaultValue": "[]"
             },
-            "roomInfoId": {
+            "roomTypeId": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
@@ -147,7 +110,7 @@ export class IglRoomType {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-info-id",
+                "attribute": "room-type-id",
                 "reflect": false,
                 "defaultValue": "null"
             },
@@ -170,25 +133,6 @@ export class IglRoomType {
                 "attribute": "currency",
                 "reflect": false
             },
-            "initialRoomIds": {
-                "type": "any",
-                "mutable": false,
-                "complexType": {
-                    "original": "any",
-                    "resolved": "any",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "initial-room-ids",
-                "reflect": false
-            },
             "isBookDisabled": {
                 "type": "boolean",
                 "mutable": false,
@@ -209,31 +153,6 @@ export class IglRoomType {
                 "reflect": false
             }
         };
-    }
-    static get states() {
-        return {
-            "selectedRooms": {},
-            "totalRooms": {},
-            "roomsDistributions": {}
-        };
-    }
-    static get events() {
-        return [{
-                "method": "dataUpdateEvent",
-                "name": "dataUpdateEvent",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "{ [key: string]: any }",
-                    "resolved": "{ [key: string]: any; }",
-                    "references": {}
-                }
-            }];
     }
 }
 //# sourceMappingURL=igl-room-type.js.map

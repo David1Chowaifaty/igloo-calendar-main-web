@@ -13,6 +13,7 @@ export class IglRatePlan {
     isBookDisabled = false;
     visibleInventory;
     buttonClicked;
+    bookingStepChange;
     // Determine if the form inputs should be disabled
     disableForm() {
         const { bookingType, shouldBeDisabled, ratePlan, visibleInventory } = this;
@@ -59,6 +60,7 @@ export class IglRatePlan {
             resetReserved();
         }
         this.reserveRoom();
+        this.bookingStepChange.emit({ direction: 'next' });
         this.buttonClicked.emit({ key: 'next' });
     }
     reserveRoom() {
@@ -142,7 +144,7 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '3a1da05ce31d9eac56800930c3a6cadb9e1a08f7', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '91d00e020d84cc6c1b0a34d09e681087af7a3eb7', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '9d8d83d848623ef7fa7d3fe75248861485726675', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '314b7d0fde5d56a60bb8e6db88706feb09e5b173' }, h("wa-tooltip", { key: 'f75489021506624d8a6882f557a3d57ea9956062', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'd8e0e0f63e23c6af5c209579873f77d4ffb40975', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '3417dd9694f7873e4356bd2da8fbcfbd4347b3c9', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '8100df6da9dd03d2356d0ee2b0b23ae3b63c50ad', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '42ad90226bb0a358307cff74585dd339b983a828', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: 'a6ca3f048445293953e7cbe8e2c3b29ab80e8b66', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: 'f40aea0c639ccc92366b4fe608abf2eb5042ff4c' }, h("wa-tooltip", { key: '2aa316c6bc134b95ae2930e332e2931091259123', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'fe525f5294360a20453f3658b4dc192fe83e5d26', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: 'b520404f876d150a460b6e90b2c40246954b6209', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
@@ -356,6 +358,21 @@ export class IglRatePlan {
                 "complexType": {
                     "original": "{ [key: string]: any }",
                     "resolved": "{ [key: string]: any; }",
+                    "references": {}
+                }
+            }, {
+                "method": "bookingStepChange",
+                "name": "bookingStepChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "{ direction: 'next' | 'prev' }",
+                    "resolved": "{ direction: \"next\" | \"prev\"; }",
                     "references": {}
                 }
             }];

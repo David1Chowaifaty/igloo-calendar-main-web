@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { c as calendar_data } from './calendar-data.js';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
@@ -23,7 +23,7 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
     removeBalance;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '8f085daf6672e5057f6e926e7624c433fd1e187f' }, this.label && h("p", { key: 'd9471c6f04e77164329724498dfd64f8bda02ff7', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '875e3d5242168af9afa4cb21b264c56276fcbaf9', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '70db016902bb99cb8c87aed4b676af90bde7bcfd' }, this.label && h("p", { key: '2a15b19116d44627968cfcb89913cb50026646a1', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '40161d3bacf0677dc567bf226f399e5887076a58', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({

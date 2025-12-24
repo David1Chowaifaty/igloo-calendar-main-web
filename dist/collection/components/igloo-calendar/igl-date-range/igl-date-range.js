@@ -11,12 +11,15 @@ export class IglDateRange {
     maxDate;
     withDateDifference = true;
     variant = 'default';
+    hint;
     renderAgain = false;
     dateSelectEvent;
+    dateRangeChange;
     toast;
     totalNights = 0;
     fromDate = moment().toDate();
     toDate = moment().add(1, 'day').toDate();
+    isInvalid;
     componentWillLoad() {
         this.initializeDates();
     }
@@ -58,6 +61,10 @@ export class IglDateRange {
             toDateStr: end.format('DD MMM YYYY'),
             dateDifference: this.totalNights,
         });
+        this.dateRangeChange.emit({
+            checkIn: start,
+            checkOut: end,
+        });
         this.renderAgain = !this.renderAgain;
     }
     // private renderDateSummary(showNights: boolean) {
@@ -86,6 +93,9 @@ export class IglDateRange {
         const toDate = moment(this.toDate).format('YYYY-MM-DD');
         return [fromDate, toDate];
     }
+    handleAriaInvalidChange(newValue) {
+        this.isInvalid = newValue;
+    }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
         return (
@@ -100,14 +110,14 @@ export class IglDateRange {
         //       minDate={this.minDate}
         //       autoApply
         //       data-state={this.disabled ? 'disabled' : 'active'}
-        //       onDateChanged={evt => {
+        //       onDateRangeChange={evt => {
         //         this.handleDateChange(evt);
         //       }}
         //     ></ir-date-range>
         //     {this.renderDateSummary(showNights)}
         //   </div>
         // </Host>
-        h("ir-custom-date-picker", { key: '4918945381faf171ede25643156d527e8dd7d6cd', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, dates: this.dates }, h("wa-icon", { key: '80dd6095abb9ce2975ca072eb56f6ed647430ba0', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f3890c454f7e8ad9db11f65feec5122e01229c82', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        h("ir-custom-date-picker", { key: 'c49dece12fcabdd64d0275ee24e55cf0a191f62d', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, hint: this.hint, dates: this.dates }, h("wa-icon", { key: '6d568a4e290207cf4e712878c271327c073e53b5', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'f7d8a8b5940e64af17b1cc37e45aae887ddba657', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get is() { return "igl-date-range"; }
     static get encapsulation() { return "shadow"; }
@@ -276,6 +286,25 @@ export class IglDateRange {
                 "attribute": "variant",
                 "reflect": false,
                 "defaultValue": "'default'"
+            },
+            "hint": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "hint",
+                "reflect": false
             }
         };
     }
@@ -283,7 +312,8 @@ export class IglDateRange {
         return {
             "renderAgain": {},
             "fromDate": {},
-            "toDate": {}
+            "toDate": {},
+            "isInvalid": {}
         };
     }
     static get events() {
@@ -301,6 +331,27 @@ export class IglDateRange {
                     "original": "{ [key: string]: any }",
                     "resolved": "{ [key: string]: any; }",
                     "references": {}
+                }
+            }, {
+                "method": "dateRangeChange",
+                "name": "dateRangeChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "DateRangeChangeEvent",
+                    "resolved": "{ checkIn: Moment; checkOut: Moment; }",
+                    "references": {
+                        "DateRangeChangeEvent": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/igloo-calendar/igl-date-range/igl-date-range.tsx",
+                            "id": "src/components/igloo-calendar/igl-date-range/igl-date-range.tsx::DateRangeChangeEvent"
+                        }
+                    }
                 }
             }, {
                 "method": "toast",
@@ -329,6 +380,9 @@ export class IglDateRange {
         return [{
                 "propName": "defaultData",
                 "methodName": "handleDataChange"
+            }, {
+                "propName": "aria-invalid",
+                "methodName": "handleAriaInvalidChange"
             }];
     }
 }

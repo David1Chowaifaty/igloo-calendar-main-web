@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { b as calculateDaysBetweenDates } from './utils.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
 
 const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
@@ -59,7 +59,7 @@ const IrDateView = /*@__PURE__*/ proxyCustomElement(class IrDateView extends HTM
         }
     }
     render() {
-        return (h(Host, { key: '0560ae0718d40cbf0291cabb510b87bd496ca86b', class: "d-flex align-items-center" }, h("span", { key: '6c978364b86e82caae3cda133574df8ae71cefe7' }, this.dates.from_date), ' ', h("svg", { key: 'c4e9faf9051bc203afe4a53b6aa8b6b0f61f5108', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: 'a3f1c6d6c3527adb4510f366ae70d711fad218a0', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '6d01bc673aee678cdaf19a960b51f3d60620e70b' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '1d9061eacf0f25a962fa64ddc6a76640469696e7', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: 'c35503c1b5c706d17a36e2866ba6f3f091c64d4f', class: "d-flex align-items-center" }, h("span", { key: 'c5fc0caf03f9083d416de3ee96c4f8c74afa82d6' }, this.dates.from_date), ' ', h("svg", { key: 'a8966ed4dec310440a7a2056e2bf10d6968d4e18', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '04fea63b4b186e764088c85af9ae14421883a72d', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: 'e2232d5f285c829dcc581f380ea9a3ef7655fa42' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '82e661503d4e8559617f7864d1c9ab63d59ce4f6', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "from_date": ["handleFromDateChange"],

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { f as formatAmount } from './utils.js';
+import { f as formatAmount } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { b as booking_store } from './booking.store.js';
 import { d as defineCustomElement$a } from './igl-application-info2.js';
@@ -140,9 +140,9 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("form", { key: 'ab73707ade268eecbcb7e51f0d481388e49ce7f7', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: 'cd1e8e0c9df0ac776b90873975286b85d20cadd0', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
-            } }, h("div", { key: '74a12219e92cdbd20f9e576befe1153a55ad1aab', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '414468f3fa13f4f14d8ffaf22e3224e20fd9565c', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '698c8eb7bb0a5b5c1d30dcfa2e366d019d67f7f8', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '8fd5f682ad8dc83e30f09f1da5dbf4a4d27dfbb4', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, h("div", { key: 'a19cc3ac1f63f17ca6d748cb281826aa9eb24d04', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '9ad3fcaac8ab05e8c544e7b6189f4848e7b1074a', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '169ecd6e0d8f8c83f7cd8f1295f70e24e5b5babb', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '858166579d584a1f0771f213ff459b131b5d1cb9', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

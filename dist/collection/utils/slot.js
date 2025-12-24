@@ -94,7 +94,7 @@ export class SlotManager {
         this.slotState = newState;
     }
     checkSlotHasContent(name) {
-        return !!this.hostElement.querySelector(`[slot="${name}"]`);
+        return Array.from(this.hostElement.children).some(child => child.getAttribute('slot') === name);
     }
 }
 /**

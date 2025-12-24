@@ -86,6 +86,10 @@ export class IrCustomDatePicker {
      */
     container;
     /**
+     * The date picker's hint.
+     */
+    hint;
+    /**
      * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
      * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
      * but note that it may affect performance if triggered frequently.
@@ -255,7 +259,6 @@ export class IrCustomDatePicker {
             return;
         }
         const containerTarget = this.container ?? this.calendarContainerRef ?? this.el;
-        console.log(this.minDate, this.maxDate);
         this.datePicker = new AirDatepicker(this.pickerRef, {
             container: containerTarget,
             inline: true,
@@ -316,7 +319,7 @@ export class IrCustomDatePicker {
     }
     render() {
         const triggerClasses = `custom-date-picker__trigger ${this.triggerContainerStyle} ${this.disabled ? 'custom-date-picker__trigger--disabled' : ''}`;
-        return (h(Host, { key: '2798a688a02244e93830904bced21f738a397a49', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: 'd0a5651ca2a503f55fd75b6aeeeed045afc875d3', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-input", { key: '9cd7625c98124452cf91c984ac7bcccf0772dae2', disabled: this.disabled, placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", defaultValue: this.getTriggerLabel(), value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '0a9a0728a452afa6f5c3507d0982645922f587ad', name: "start", slot: "start" }), h("slot", { key: '302b8604a81854f996c055a3295ec98c328e78fb', name: "end", slot: "end" })), h("div", { key: '23b9c28f5f73d2cfe4e1e1b229926a99ed0408b9', class: "picker-surface" }, h("div", { key: '189afec5206452fb1a6673f1d0c5b608cf556643', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: '379ca233e38416b21d5a05b936fa079633b79251', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
+        return (h(Host, { key: '8778c552e25ded1af012743fa51e8e0e4002ceb6', class: { 'custom-date-picker': true, 'custom-date-picker--open': this.isActive, 'custom-date-picker--disabled': this.disabled } }, h("wa-popup", { key: '152552993a742a178c17ea9999477294a2e1e720', distance: 8, class: "custom-date-picker__popup", arrow: true, "arrow-placement": "anchor", flip: true, shift: true, active: this.isActive }, h("ir-input", { key: '73abe0428ec458953a45bd6c804dfb3a802a1d94', disabled: this.disabled, placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, onKeyDown: this.handleAnchorKeyDown, "aria-invalid": String(this.isPickerInvalid), hint: this.hint, class: triggerClasses, onClick: this.handleAnchorClick, readonly: true, slot: "anchor", defaultValue: this.getTriggerLabel(), value: this.getTriggerLabel(), label: this.label }, h("slot", { key: '8466bdc77c06b413e4418ba5913677892ae9b516', name: "hint", slot: "hint" }), h("slot", { key: '28335719e8b6944863530c8dc401274d18aa8abc', name: "start", slot: "start" }), h("slot", { key: 'd3ac841388c04c169efdea2f97112b61431be9a1', name: "end", slot: "end" })), h("div", { key: 'bd101eb611626a8447cb16c590882b4e0dba35e0', class: "picker-surface" }, h("div", { key: 'b19d16e299c4eed322b8e8d4531d9d1cc59eb76d', class: "picker-surface__calendar", ref: el => (this.calendarContainerRef = el) }), h("input", { key: '8f45b59cfb3ba9dc792f696ed4ad50b775ec21b1', type: "text", class: "picker-surface__input", ref: el => (this.pickerRef = el), "aria-hidden": "true", tabIndex: -1, readOnly: true })))));
     }
     static get is() { return "ir-custom-date-picker"; }
     static get originalStyleUrls() {
@@ -699,6 +702,25 @@ export class IrCustomDatePicker {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "hint": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": true,
+                "docs": {
+                    "tags": [],
+                    "text": "The date picker's hint."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "hint",
+                "reflect": false
             },
             "forceDestroyOnUpdate": {
                 "type": "boolean",

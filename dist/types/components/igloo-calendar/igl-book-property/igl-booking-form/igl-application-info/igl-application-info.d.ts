@@ -16,8 +16,11 @@ export declare class IglApplicationInfo {
         };
         roomtypeId: number;
     };
+    autoFillGuest: boolean;
     isButtonPressed: boolean;
     private variationService;
+    private shouldSyncBookedByFirstName;
+    private shouldSyncBookedByLastName;
     componentWillLoad(): void;
     private updateGuest;
     handleButtonClicked(event: CustomEvent<{
@@ -27,5 +30,6 @@ export declare class IglApplicationInfo {
     private getTooltipMessages;
     private getAmount;
     private filterRooms;
+    private tooltipId;
     render(): any;
 }

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { a as OverflowAdd, O as OverflowRelease } from './OverflowLock.js';
+import { O as OverflowAdd, a as OverflowRelease } from './OverflowLock.js';
 
 /**
  * SlotManager - A reusable service for managing slot state in Stencil components
@@ -97,7 +97,7 @@ class SlotManager {
         this.slotState = newState;
     }
     checkSlotHasContent(name) {
-        return !!this.hostElement.querySelector(`[slot="${name}"]`);
+        return Array.from(this.hostElement.children).some(child => child.getAttribute('slot') === name);
     }
 }
 /**
@@ -200,7 +200,7 @@ const IrDrawer = /*@__PURE__*/ proxyCustomElement(class IrDrawer extends HTMLEle
         this.drawerHide.emit(e.detail);
     }
     render() {
-        return (h("wa-drawer", { key: '65d4e552f955dc3bc9ee21c38da63b134c2c15a5', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: '1c0cbfcf7502f81d50c8dc4283b76ca5f44b0c4d', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: '15bf6be1c4776f6e15305636f07bc388098aa037', name: "label", slot: "label" }), h("slot", { key: 'ad62cd4694abca1056272c8d3cfd722d53c9582a' }), this.slotManager.hasSlot('footer') && h("slot", { key: '77438de1ec6714ec4c58fed5894edd79552b94b3', name: "footer", slot: "footer" })));
+        return (h("wa-drawer", { key: '5bed8f475e9dcd4747a66ac2a8975e5c40bc722c', "onwa-show": this.onDrawerShow, "onwa-hide": this.onDrawerHide, class: "ir__drawer", style: { '--size': 'var(--ir-drawer-width,40rem)' }, open: this.open, label: this.label, placement: this.placement, withoutHeader: this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotManager.hasSlot('header-actions') && h("slot", { key: 'f80ca620e2ee3b30a282f1aecde6e8f152cc4b53', name: "header-actions", slot: "header-actions" }), this.slotManager.hasSlot('label') && h("slot", { key: '4c613dda9079c762c7a89865e7f5f7dad5d6de47', name: "label", slot: "label" }), h("slot", { key: 'e52e1ea612a969207baeda11bf26395bb3c3a735' }), this.slotManager.hasSlot('footer') && h("slot", { key: '124d3431125e694b7535aad388736fe5f692877f', name: "footer", slot: "footer" })));
     }
     static get style() { return IrDrawerStyle0; }
 }, [1, "ir-drawer", {

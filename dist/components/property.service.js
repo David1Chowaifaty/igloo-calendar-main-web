@@ -1,6 +1,6 @@
 import { z } from './index2.js';
 import { c as calendar_data } from './calendar-data.js';
-import { s as downloadFile } from './utils.js';
+import { s as downloadFile } from './booking.js';
 import { a as axios } from './axios.js';
 
 // src/components/ir-sales-by-channel/types.ts

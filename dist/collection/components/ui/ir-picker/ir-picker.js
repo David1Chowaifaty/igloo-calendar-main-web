@@ -41,6 +41,7 @@ export class IrPicker {
     filteredItems = [];
     liveRegionMessage = '';
     slottedPickerItems = [];
+    isValid;
     /** Emitted when a value is selected from the combobox list. */
     comboboxSelect;
     /** Emitted when the text input value changes. */
@@ -119,6 +120,9 @@ export class IrPicker {
         this.updateActiveItemIndicators();
         this.applyAriaAttributes();
         this.scrollActiveOptionIntoView();
+    }
+    handleAriaInvalid(newValue) {
+        this.isValid = newValue;
     }
     handleValueChange(newValue) {
         this.updateSelectedFromValue(newValue);
@@ -467,11 +471,11 @@ export class IrPicker {
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: '559a9a9b39f08f97d1ce4413b634a66812abe10c' }, h("wa-popup", { key: '9ec13a831980d8a5e14d92bf92535ec68b9993da', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '35612e243e077fd1e6cb2ac45808066c7378b5c2', slot: "anchor", class: "search-bar", withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: 'be2c52f293bf0100f638027ed469ac925a44cc78' }, h("wa-popup", { key: 'a56060cb15d3896a7105f8dfa2ead65168eda3ef', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '1f40305a83523a6130ad1158ca546ef858d0d743', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: '405322c8136bf5f508a5dca0c28b6e288c61c6df', slot: "end" }), h("wa-icon", { key: '1e88e827814f256e07ec34dd26c79fd83c156a2d', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: 'b3641da4e66df056192696d5972fce1e119d73aa', class: "menu", role: "presentation" }, h("p", { key: 'bf2a71b84c9939fc13d56aaaf639a42e2efcbed7', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '528fc7fdf42425a27ecb9414f68ff6fe979b3cde', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'be9100780b78ab3490703c092e361dfb5dc368f1', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '9892fc0caf6c55160fb40391eeda8a3ce37db75c' }), h("p", { key: '45e0b6980bf15390c93c380ac6c310ff19c390c4' }, "Loading suggestions\u2026"))), h("slot", { key: '865bb345ad8e638910655b3416fe05b4b00706ac', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'eeac2e65a2e278a848739af96d1217dbc652a0ba', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: 'ea865035d564102a5f09ce799f63f9d9e4496b29', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'e83c6fa3d11040882147993f81cd264f19ddb7e4' }, "No results found")))))), h("span", { key: '0ac734e5c8fb5bde839263ca0b1dd7d88cc8829c', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '0204496c41d950e255ea9f927ea5fe9d5e7219f8', slot: "end" }), h("wa-icon", { key: '6cc69ffabed1e69bdbf561460564386a978fcaac', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: 'ce93a279505d37d9d6e6cfe547b53974798e44a2', class: "menu", role: "presentation" }, h("p", { key: 'a719363c7440b7cb9a768fef7bced687a989c1a9', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '603b6717dd4ed332b07d5786b5257a6ab283ae9c', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '5720f41aa01d81eb98e82350d279e83cdc916b29', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '8be806671fe3ff16ec2ccc41ff6330afb2429459' }), h("p", { key: 'fa4040ca1b259f18ddbe4ab284fb8384a5e1c50d' }, "Loading suggestions\u2026"))), h("slot", { key: 'ce0ae4c0de6246bbaa9dda3c66e618a0b03112bf', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: 'c7f6124f8fcecf7ffd97437ecb116a8f0e884e3a', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '9aee310197528aab7b5b84db086b8062433b9fa4', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'c88b321818fb16fd28bdcf536b4fe3c7f6be323c' }, "No results found")))))), h("span", { key: 'fea1d1e6b3a213fbd61adf766ce53c487e200014', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -749,7 +753,8 @@ export class IrPicker {
             "activeIndex": {},
             "filteredItems": {},
             "liveRegionMessage": {},
-            "slottedPickerItems": {}
+            "slottedPickerItems": {},
+            "isValid": {}
         };
     }
     static get events() {
@@ -881,6 +886,9 @@ export class IrPicker {
         return [{
                 "propName": "activeIndex",
                 "methodName": "handleActiveIndexChange"
+            }, {
+                "propName": "aria-invalid",
+                "methodName": "handleAriaInvalid"
             }, {
                 "propName": "value",
                 "methodName": "handleValueChange"

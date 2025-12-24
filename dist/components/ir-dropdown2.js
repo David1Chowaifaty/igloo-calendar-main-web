@@ -266,7 +266,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
         this.closeDropdown();
     }
     render() {
-        return (h(Host, { key: '6763a3f9fdd8447c3300adbee42369d039b22b49', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '9ef9529b8a1ffdb5a6bb4bea89f0dc12439d03f5', onClick: () => {
+        return (h(Host, { key: '6268026d8ab86d02695547b5867eb5e952ebfba4', class: `dropdown ${this.isOpen ? 'show' : ''}` }, h("div", { key: '58bcd6469253fc485378a09e8848c0b4dfe9d247', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -275,7 +275,7 @@ const IrDropdown = /*@__PURE__*/ proxyCustomElement(class IrDropdown extends HTM
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: '8c81144505c1999ad19ce998af8d4312f7c97f79', name: "trigger" }), this.caret && (h("div", { key: '64c8a99962822026986fc4abbe5f5b3ceb5c1cfd', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: '961bfdc346a9dac8d58f1ee3c4e46390fbb99281', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'acc0bf3336c2edbdb14a04b639c270b3ad2226b1', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: 'c5097d8ea6bb5bcb9d2ce02b8ac34d0d16e04641' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, h("slot", { key: 'b49d8a9e20f75bb76b47c3e994c460dcf37f119d', name: "trigger" }), this.caret && (h("div", { key: '4b6faf743d0bed16d0a35b39c031d2a64085eb8a', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, h("ir-icons", { key: 'bc480ef8d6d21bceb67e160f2ac81b307bdc1492', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), h("div", { key: 'c30c5fa17995a0690d8ef8cfa31b1ed2f4c6aaec', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, h("slot", { key: '302648348628028192e7e431ea4647ad0f3d345a' }))));
     }
     static get watchers() { return {
         "value": ["handleValueChange"]

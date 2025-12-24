@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 
-const irValidatorCss = ":host{display:block}";
+const irValidatorCss = ":host{display:block;position:relative}.error-message{font-weight:var(--wa-form-control-hint-font-weight);margin-block-start:0.5em;font-size:var(--wa-font-size-smaller);line-height:var(--wa-form-control-label-line-height);color:var(--wa-color-danger-fill-loud);}";
 const IrValidatorStyle0 = irValidatorCss;
 
 const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends HTMLElement {
@@ -15,6 +15,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
     /** Zod schema used to validate the child control's value. */
     schema;
     value;
+    showErrorMessage;
     /** Enables automatic validation on every value change. */
     autovalidate;
     /** Optional form id. Falls back to the closest ancestor form when omitted. */
@@ -31,6 +32,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
     valueChange;
     isValid = true;
     autoValidateActive = false;
+    errorMessage = '';
     childEl;
     formEl;
     slotEl;
@@ -217,6 +219,12 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         const nextValidity = result.success;
         const previousValidity = this.isValid;
         this.isValid = nextValidity;
+        if (!result.success) {
+            this.errorMessage = result.error.issues[0]?.message ?? '';
+        }
+        else {
+            this.errorMessage = '';
+        }
         const shouldDisplay = forceDisplay || (this.autoValidateActive && this.hasInteracted);
         if (shouldDisplay) {
             this.updateAriaValidity(nextValidity);
@@ -285,7 +293,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         }
     }
     render() {
-        return (h(Host, { key: '8ec0348659ed7da922a1109f13258f32f6245669' }, h("slot", { key: '70f2f04ad3c5f02554a10800c52a9b8166ce7855' })));
+        return (h(Host, { key: '38dbc480a5e05b3b2bf3b2441950cba22d0c0d5d' }, h("slot", { key: 'f472aac1913595c8886df60cd6cbc277b1fb131d' }), !this.isValid && this.showErrorMessage && (h("span", { key: '73a1876db5765ccda69b37fe2592146fff615b31', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],
@@ -299,13 +307,15 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
 }, [1, "ir-validator", {
         "schema": [16],
         "value": [8],
+        "showErrorMessage": [4, "show-error-message"],
         "autovalidate": [516],
         "form": [1],
         "valueEvent": [1, "value-event"],
         "blurEvent": [1, "blur-event"],
         "validationDebounce": [2, "validation-debounce"],
         "isValid": [32],
-        "autoValidateActive": [32]
+        "autoValidateActive": [32],
+        "errorMessage": [32]
     }, undefined, {
         "schema": ["handleSchemaChange"],
         "autovalidate": ["handleAutoValidatePropChange"],
