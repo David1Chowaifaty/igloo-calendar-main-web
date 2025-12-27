@@ -2,7 +2,7 @@ import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
 import { l as locales } from './locales.store-f4150353.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
-import { B as BookingService } from './booking.service-d1f86d0d.js';
+import { B as BookingService } from './booking.service-3adacb53.js';
 import './axios-aa1335b8.js';
 import './index-a124d225.js';
 import './calendar-data-8a36a1b2.js';

@@ -1,8 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$2 } from './ir-button2.js';
-import { d as defineCustomElement$1 } from './ir-icons2.js';
+import { h as hooks } from './moment.js';
+import { d as defineCustomElement$2 } from './ir-custom-button2.js';
+import { d as defineCustomElement$1 } from './ir-empty-state2.js';
 
-const irNotificationsCss = ".sc-ir-notifications-h{display:block;box-sizing:border-box !important;width:fit-content;height:fit-content}.dropdown-menu.sc-ir-notifications,.dropdown-item.sc-ir-notifications,.dropdown.sc-ir-notifications{box-sizing:border-box !important}.notification-trigger.sc-ir-notifications{width:fit-content}.notification-trigger.sc-ir-notifications::after{content:attr(data-notifications);display:flex;align-items:center;justify-content:center;min-width:1.2rem;height:1.2rem;font-size:11px;font-weight:600;padding:0;margin:0;background-color:#dc3545;color:white;border-radius:50%;position:absolute;right:-6px;top:-2px;box-shadow:0 2px 4px rgba(0, 0, 0, 0.1);transform:scale(1);transition:all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);animation:badge-pulse 2s infinite}.notification-trigger.sc-ir-notifications:hover::after{transform:scale(1.1);box-shadow:0 4px 8px rgba(0, 0, 0, 0.2)}.notification-trigger[data-notifications='0'].sc-ir-notifications::after{display:none}.notification-trigger.badge-animate.sc-ir-notifications::after{animation:badge-bounce 0.6s ease-in-out}@keyframes badge-pulse{0%,70%,100%{transform:scale(1);opacity:1}35%{transform:scale(1.05);opacity:0.9}}@keyframes badge-bounce{0%{transform:scale(1)}25%{transform:scale(0.8) rotate(-5deg)}50%{transform:scale(1.2) rotate(5deg)}75%{transform:scale(0.95) rotate(-2deg)}100%{transform:scale(1) rotate(0deg)}}@keyframes badge-number-change{0%{transform:scale(1) translateY(0);opacity:1}50%{transform:scale(1.3) translateY(-5px);opacity:0.7}100%{transform:scale(1) translateY(0);opacity:1}}.notifications-dropdown.sc-ir-notifications .dropdown-item.sc-ir-notifications{display:flex;align-items:center;gap:0.5rem;cursor:pointer}.notifications-dropdown.sc-ir-notifications .dropdown-menu.sc-ir-notifications{width:max-content !important;min-width:300px}.notifications-dropdown.sc-ir-notifications .dropdown-item.active.sc-ir-notifications,.notifications-dropdown.sc-ir-notifications .dropdown-item.sc-ir-notifications:active,.notifications-dropdown.sc-ir-notifications .dropdown-item.sc-ir-notifications:focus{background-color:var(--blue)}.notification-item.sc-ir-notifications{display:flex;justify-content:space-between;align-items:center;gap:0.5rem}.notification-item.sc-ir-notifications p.sc-ir-notifications{padding:0;margin:0}.notification-item.sc-ir-notifications:active{background-color:#f4f5fa !important}";
+const irNotificationsCss = ".sc-ir-notifications-h{display:block;box-sizing:border-box !important;width:fit-content;height:fit-content}.notification__bell-icon.sc-ir-notifications{display:inline-flex;transform-origin:top center}.header-notification-badge.sc-ir-notifications{position:absolute;top:-5px;right:-5px;z-index:1}.notification__popover.sc-ir-notifications::part(body){padding:0;padding-bottom:1rem;max-height:300px;overflow-y:auto}.notification-item.sc-ir-notifications{display:flex;align-items:center;min-width:250px;padding:0.5rem 1rem;transition:color var(--wa-transition-normal, 150ms ease);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.notification-item.sc-ir-notifications:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.notification-item.sc-ir-notifications:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.notification-item.sc-ir-notifications:focus{outline:none}.notification-item.sc-ir-notifications:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.notification-item__content.sc-ir-notifications{display:flex;flex-direction:column;flex:1 1 0%}.notification-item.sc-ir-notifications{border-bottom:1px solid var(--wa-color-surface-border)}.notification-item.sc-ir-notifications:last-child{border-bottom:0}.notification__popover-title.sc-ir-notifications,.notification-item__title.sc-ir-notifications,.notification-item__time.sc-ir-notifications{margin:0;padding:0}.notification-item__title.sc-ir-notifications,.notification__popover-title.sc-ir-notifications{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance}.notification__popover-title.sc-ir-notifications{font-size:var(--wa-font-size-m);padding:1rem;position:sticky;top:0;background-color:var(--wa-color-surface-default)}.notification-item__title.sc-ir-notifications,.notification-item__time.sc-ir-notifications{font-size:var(--wa-font-size-s)}.notification-item__time.sc-ir-notifications{color:var(--wa-color-text-quiet)}.notification-item__unread-indicator.sc-ir-notifications{display:block;height:0.5rem;width:0.5rem;border-radius:0.25rem;background-color:var(--wa-color-brand-fill-loud)}";
 const IrNotificationsStyle0 = irNotificationsCss;
 
 const IrNotifications = /*@__PURE__*/ proxyCustomElement(class IrNotifications extends HTMLElement {
@@ -14,20 +15,23 @@ const IrNotifications = /*@__PURE__*/ proxyCustomElement(class IrNotifications e
     get el() { return this; }
     // Make notifications reactive;
     notifications = [];
-    isOpen = false;
     notificationCleared;
     buttonRef;
+    animationRef;
+    bellKeyframes = [
+        { offset: 0, transform: 'rotate(0deg)' },
+        { offset: 0.15, transform: 'rotate(-15deg)' },
+        { offset: 0.3, transform: 'rotate(13deg)' },
+        { offset: 0.45, transform: 'rotate(-10deg)' },
+        { offset: 0.6, transform: 'rotate(8deg)' },
+        { offset: 0.75, transform: 'rotate(-5deg)' },
+        { offset: 1, transform: 'rotate(0deg)' },
+    ];
     componentDidLoad() {
         this.updateNotificationBadge();
-        document.addEventListener('click', this.onDocumentClick, true);
-        document.addEventListener('keydown', this.onDocumentKeydown, true);
     }
     componentDidUpdate() {
         this.updateNotificationBadge();
-    }
-    disconnectedCallback() {
-        document.removeEventListener('click', this.onDocumentClick, true);
-        document.removeEventListener('keydown', this.onDocumentKeydown, true);
     }
     handleNotificationCountChange(newValue, oldValue) {
         if (oldValue && newValue.length !== oldValue.length) {
@@ -40,43 +44,47 @@ const IrNotifications = /*@__PURE__*/ proxyCustomElement(class IrNotifications e
         }
     }
     animateNotificationChange() {
-        if (this.buttonRef) {
-            this.buttonRef.classList.add('badge-animate');
-            setTimeout(() => {
-                this.buttonRef.classList.remove('badge-animate');
-            }, 600);
-        }
-    }
-    dismissNotification(notification) {
-        this.notificationCleared.emit(notification);
-        this.notifications = this.notifications.filter(n => n.id !== notification.id);
-    }
-    onDocumentClick = (ev) => {
-        if (!this.isOpen)
+        if (this.notifications?.length <= 0)
             return;
-        const target = ev.target;
-        if (target && !this.el.contains(target)) {
-            this.isOpen = false;
+        this.animationRef.cancel();
+        this.animationRef.play = true;
+    }
+    getRelativeTimeFromParts(date, hour, minute) {
+        const now = hooks();
+        const then = hooks(date, 'YYYY-MM-DD').hour(hour).minute(minute).second(0);
+        if (!then.isValid())
+            return '';
+        const diffSeconds = now.diff(then, 'seconds');
+        if (diffSeconds < 60)
+            return 'just now';
+        const diffMinutes = now.diff(then, 'minutes');
+        if (diffMinutes < 60) {
+            return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
         }
-    };
-    onDocumentKeydown = (ev) => {
-        if (!this.isOpen)
-            return;
-        if (ev.key === 'Escape' || ev.key === 'Esc') {
-            this.isOpen = false;
-            this.buttonRef?.focus?.();
+        const diffHours = now.diff(then, 'hours');
+        if (diffHours < 24) {
+            return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
         }
-    };
+        const diffDays = now.diff(then, 'days');
+        if (diffDays < 7) {
+            return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+        }
+        const diffWeeks = now.diff(then, 'weeks');
+        return `${diffWeeks} week${diffWeeks !== 1 ? 's' : ''} ago`;
+    }
+    // private dismissNotification(notification: Notification) {
+    //   this.notificationCleared.emit(notification);
+    //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
+    // }
     render() {
-        return (h(Host, { key: '800c931235f3ac43fc8cb11e9f70aa8f26db61d8' }, h("div", { key: '7792b58b02e6ac94b8b86d7a92c09323dc3bad18', class: `dropdown notifications-dropdown ${this.isOpen ? 'show' : ''}` }, h("ir-button", { key: '7322f59a9c33ba1da7439abd14bae6afa7f49d79', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notifications.length.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "aria-expanded": String(this.isOpen), onClickHandler: () => (this.isOpen = !this.isOpen) }), h("div", { key: 'd20614b76e15f2e096218bc18a391693dd186031', class: `dropdown-menu dropdown-menu-right ` }, this.notifications.length === 0 ? (h("p", { class: "m-0 dropdown-header" }, "All caught up.")) : (this.notifications.map(notification => (h("div", { class: `notification-item dropdown-item ${notification.type}`, key: notification.id }, h("div", { class: "notification-content" }, h("strong", null, notification.title), h("p", null, notification.message), notification.link && (h("a", { href: notification.link.href, target: notification.link.target || '_self' }, notification.link.text || 'View more'))), notification.dismissible && (h("ir-button", { onClickHandler: () => this.dismissNotification(notification), variant: "icon", btn_color: "light", icon_name: "xmark" }))))))))));
+        return (h(Host, { key: 'b73bc6ebe3403e0df518d50a5d626def9bf13585' }, h("div", { key: '0ffa6639db1a0f19bb3293c987d23e78143dad79', style: { position: 'relative' } }, h("wa-tooltip", { key: '6155bd42080e97e9b402c325f0012798aeaf8ec1', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (h("wa-badge", { key: '15fa94cba87f30a87b372cb42f940736d0114a24', pill: true, class: "header-notification-badge" }, this.notifications.length)), h("wa-animation", { key: 'fa2ad28162bee2f0a5e96d26552b2bc34eeb0d2b', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: 'f126b679e29b428e9522526dc554221aa2466275', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: '5c2ef9e9c7a80c0a19bf19cf8508284f1f3b5c15', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.2rem' } })))), h("wa-popover", { key: 'da51b7d3fd43e6a6cf9cde43be4f78d53b58c1f6', class: "notification__popover", for: "notifications-button" }, h("p", { key: '46622fec7705fc8df7eddc6432e774d2c502829e', class: "notification__popover-title" }, "Notifications"), this.notifications?.map(notification => (h("div", { class: "notification-item" }, h("div", { class: "notification-item__content" }, h("p", { class: "notification-item__title" }, notification.title), h("p", { class: "notification-item__time" }, this.getRelativeTimeFromParts(notification.date, notification.hour, notification.minute))), h("span", { class: "notification-item__unread-indicator" })))), this.notifications?.length === 0 && (h("ir-empty-state", { key: 'e58e4973838df176314ece91946c2b4c734a0d21', style: { width: '250px', height: '150px' } }, h("wa-icon", { key: 'edbf342c55c62508436c18543e232c28579c739e', slot: "icon", name: "inbox" }))))));
     }
     static get watchers() { return {
         "notifications": ["handleNotificationCountChange"]
     }; }
     static get style() { return IrNotificationsStyle0; }
 }, [2, "ir-notifications", {
-        "notifications": [1040],
-        "isOpen": [32]
+        "notifications": [1040]
     }, undefined, {
         "notifications": ["handleNotificationCountChange"]
     }]);
@@ -84,19 +92,19 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-notifications", "ir-button", "ir-icons"];
+    const components = ["ir-notifications", "ir-custom-button", "ir-empty-state"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-notifications":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrNotifications);
             }
             break;
-        case "ir-button":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }
             break;
-        case "ir-icons":
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

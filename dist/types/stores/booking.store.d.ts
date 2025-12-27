@@ -3,6 +3,9 @@ import { ICountry, ISetupEntries } from "../models/IBooking";
 import { BookingSource, TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 import { Moment } from 'moment';
+/**
+ * Shape of a single rate plan selection for a specific room type.
+ */
 export interface IRatePlanSelection {
     reserved: number;
     visibleInventory: number;
@@ -56,6 +59,9 @@ export interface IBookinAvailabilityParams {
     loyalty?: boolean;
     agent_code?: string;
 }
+/**
+ * Temporary booking info captured across the booking wizard.
+ */
 export interface BookingDraft {
     dates: {
         checkIn: Moment;
@@ -68,6 +74,9 @@ export interface BookingDraft {
     source: BookingSource;
     guest?: any;
 }
+/**
+ * Lookup datasets used by dropdowns across the booking experience.
+ */
 export interface BookingSelects {
     sources: BookingSource[];
     ratePricingMode: ISetupEntries['ratePricingMode'];
@@ -75,6 +84,9 @@ export interface BookingSelects {
     bedPreferences: ISetupEntries['bedPreferenceType'];
     countries: ICountry[];
 }
+/**
+ * Snapshot of the guest that pays for or books the reservation.
+ */
 export interface BookedByGuest {
     id: number | null;
     email: string;
@@ -91,6 +103,9 @@ export interface BookedByGuest {
     expiryMonth: string;
     expiryYear: string;
 }
+/**
+ * Root state shared across the booking experience.
+ */
 export interface BookingStore {
     tax_statement: {
         message: string;
@@ -144,40 +159,97 @@ export declare const bookedByGuestBaseData: {
     expiryYear: string;
 };
 export declare let booking_store: BookingStore, onRoomTypeChange: import("@stencil/store/dist/types").OnChangeHandler<BookingStore>, reset: () => void;
+/**
+ * Clears the booking store. Optionally rehydrates dropdowns and guest info when keeping the modal open.
+ */
 export declare function resetBookingStore(closeModal: boolean): void;
+/**
+ * Convenience helper that resets shared state while keeping the modal visible.
+ */
 export declare function resetAvailability(): void;
+/**
+ * Updates booking draft pieces (dates, occupancy, source) while keeping unrelated keys intact.
+ */
 export declare function setBookingDraft(params: Partial<BookingDraft>): void;
+/**
+ * Updates dropdown lookup datasets (sources, bed preferences, etc.).
+ */
 export declare function setBookingSelectOptions(params: Partial<BookingSelects>): void;
+/**
+ * Partially updates the booked-by guest snapshot, preserving other properties.
+ */
 export declare function updateBookedByGuest(params: Partial<BookedByGuest>): void;
+/**
+ * Updates the guest list assigned to a specific rate plan selection.
+ */
 export declare function updateRoomGuest({ guest, ratePlanId, roomTypeId, ratePlanSelection, }: {
     roomTypeId: number;
     ratePlanId: number;
     guest: IRatePlanSelection['guest'];
     ratePlanSelection: IRatePlanSelection;
 }): void;
+/**
+ * Recomputes remaining visible inventory for a room type whenever selections change.
+ */
 export declare function updateInventory(roomTypeId: number): void;
+/**
+ * Returns true when any room type currently has at least one reservation selected.
+ */
 export declare function hasAtLeastOneRoomSelected(): boolean;
+/**
+ * Applies a patch of values to the given room type & rate plan combination.
+ */
 export declare function updateRoomParams({ ratePlanId, roomTypeId, params }: {
     roomTypeId: number;
     ratePlanId: number;
     params: Partial<IRatePlanSelection>;
 }): void;
+/**
+ * Reserves a number of rooms for a rate plan and bootstraps its selection entry if needed.
+ */
 export declare function reserveRooms({ ratePlanId, roomTypeId, rooms, guest }: {
     roomTypeId: number;
     ratePlanId: number;
     rooms: number;
     guest?: RatePlanGuest[];
 }): void;
+/**
+ * Safely retrieves the selection payload for a specific room type/rate plan pair.
+ */
 export declare function getVisibleInventory(roomTypeId: number, ratePlanId: number): IRatePlanSelection;
+/**
+ * Generic setter for store keys when more specific helpers are unnecessary.
+ */
 export declare function modifyBookingStore(key: keyof BookingStore, value: any): void;
+/**
+ * Computes total and prepayment amounts with an option to force gross calculation.
+ */
 export declare function calculateTotalCost(gross?: boolean): {
     totalAmount: number;
     prePaymentAmount: number;
 };
+/**
+ * Aggregates the total booking price combining all selected rate plans.
+ */
 export declare function getBookingTotalPrice(): number;
+/**
+ * Validates that every reserved guest entry contains a non-empty name.
+ */
 export declare function validateBooking(): boolean;
+/**
+ * Counts the number of reserved rooms across all rate plans.
+ */
 export declare function calculateTotalRooms(): any;
+/**
+ * Clears all reserved rooms and resets per-rate-plan metadata.
+ */
 export declare function resetReserved(): void;
+/**
+ * Flags whether the booked-by guest fields were manually edited (for UX hints elsewhere).
+ */
 export declare function setBookedByGuestManualEditState(isEdited: boolean): void;
-export default booking_store;
+/**
+ * Returns a flat array of each reserved room along with its guest/context.
+ */
 export declare function getReservedRooms(): ReservedRoomSelection[];
+export default booking_store;

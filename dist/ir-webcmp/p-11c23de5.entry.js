@@ -1,0 +1,2 @@
+import{r as a,h as s,H as c}from"./p-acddcbeb.js";const e=".sc-ir-sales-by-channel-summary-h{display:block}";const r=e;const b=class{constructor(s){a(this,s)}render(){return s(c,{key:"83042286c3672e88a40b22609a52cbebc1967932"},s("slot",{key:"9eae01faa3877a67cba33ecfcf89dfad4b78f186"}))}};b.style=r;export{b as ir_sales_by_channel_summary};
+//# sourceMappingURL=p-11c23de5.entry.js.map

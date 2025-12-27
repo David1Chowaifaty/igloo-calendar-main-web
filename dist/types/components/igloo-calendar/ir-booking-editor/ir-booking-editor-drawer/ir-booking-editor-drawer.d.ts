@@ -34,6 +34,7 @@ export declare class IrBookingEditorDrawer {
     bookingEditorClosed: EventEmitter<void>;
     private token;
     private bookingService;
+    private bookingEditorService;
     private wasBlockedUnit;
     private didAdjustBlockedUnit;
     private originalBlockPayload?;

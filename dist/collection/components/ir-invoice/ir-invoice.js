@@ -89,7 +89,7 @@ export class IrInvoice {
     isLoading;
     _id = `invoice-form__${v4()}`;
     render() {
-        return (h(Host, { key: '71e35b2768b1a2a40666914eb85bc233761ba86d' }, h("ir-drawer", { key: '63e11ca8a42d38a1586ca7839b072918d1accf70', style: {
+        return (h(Host, { key: '8bda5b235bb8f237f3dc8ef706353c33223cbcaf' }, h("ir-drawer", { key: '48f5b6a642100bd99718773041533dfd9a8b328e', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -100,22 +100,22 @@ export class IrInvoice {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, h("div", { key: '42e1f29fa978ff51f4d5e8c228e44f7a8916b286', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: 'f45e79667e407f1ac939293f02f71a41500677f2', onchange: e => {
+            } }, h("div", { key: 'a70b1e15bdc3cb505fbd545c2430a2330960bf9b', class: "d-flex align-items-center", slot: "header-actions" }, h("wa-switch", { key: 'e35294b96c9b411f3187e8707d0eed05a3dc59eb', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: '114a6f1a3367d70acc32708a4f0a5bdb6624d166', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: 'c5f87dfb5551d59e9f325c52e2e7d64341a19057', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '94c9ffa4f4c5b41d9543e11eca094bb0d580aa34', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Pro-forma")), this.open && (h("ir-invoice-form", { key: 'd0c42a44fd1a67f4b005db46d615835f19590426', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '74f4904fe97cc81627e39a2822c06fae28795ba6', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '35e56583451065b457314d5827b97ddadc113164', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), h("ir-custom-button", { key: '6068a53d2488968c4fb1014683a8ac72707ff346', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: '694ff83b2e89c379553d035e1e9f2e233a014a2f', onOpenChanged: e => {
+            } }, "Cancel"), h("ir-custom-button", { key: '78442081da5eb2ff79117d7c9387ad14ea5c1ad0', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), h("ir-preview-screen-dialog", { key: '409913475414d9bf961604832aa393790aefe452', onOpenChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     this.invoice = null;
                 }
-            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: '0c334b5cc7786bdd87d6e5ba042ece145def6909', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
+            }, open: this.invoice !== null }, h("ir-proforma-invoice-preview", { key: 'c03526ac0d7a65b6400e268ad4fbacba38218524', invoice: this.invoice, property: calendar_data.property, booking: this.booking })))));
     }
     static get is() { return "ir-invoice"; }
     static get encapsulation() { return "scoped"; }

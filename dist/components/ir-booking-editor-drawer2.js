@@ -1,10 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { k as hasAtLeastOneRoomSelected, b as booking_store } from './booking.store.js';
+import { d as resetReserved, k as hasAtLeastOneRoomSelected, b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { h as getReleaseHoursString } from './booking.js';
 import { B as BookingService } from './booking.service.js';
+import { I as IRBookingEditorService, d as defineCustomElement$i } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$p } from './igl-application-info2.js';
 import { d as defineCustomElement$o } from './igl-date-range2.js';
 import { d as defineCustomElement$n } from './igl-rate-plan2.js';
@@ -12,7 +13,6 @@ import { d as defineCustomElement$m } from './igl-room-type2.js';
 import { d as defineCustomElement$l } from './ir-booking-editor2.js';
 import { d as defineCustomElement$k } from './ir-booking-editor-form2.js';
 import { d as defineCustomElement$j } from './ir-booking-editor-guest-form2.js';
-import { d as defineCustomElement$i } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$h } from './ir-button2.js';
 import { d as defineCustomElement$g } from './ir-country-picker2.js';
 import { d as defineCustomElement$f } from './ir-custom-button2.js';
@@ -72,6 +72,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
     bookingEditorClosed;
     token = new Token();
     bookingService = new BookingService();
+    bookingEditorService = new IRBookingEditorService();
     wasBlockedUnit = false;
     didAdjustBlockedUnit = false;
     originalBlockPayload;
@@ -159,6 +160,13 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         this.step = 'confirm';
     };
     goToDetails = () => {
+        if (this.mode === 'BAR_BOOKING') {
+            resetReserved();
+        }
+        if (this.mode === 'EDIT_BOOKING') {
+            resetReserved();
+            this.bookingEditorService.updateBooking(this.bookingEditorService.getRoom(this.booking, this.roomIdentifier));
+        }
         this.step = 'details';
     };
     renderFooter() {
@@ -290,13 +298,18 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         }
     }
     render() {
-        return (h("ir-drawer", { key: 'c77769289b180478eb58931fbc7646c611ef1e8c', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '10fdd91bc2642b56a55c723e44f3364664fbc363', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
             }, style: {
                 '--ir-drawer-width': '70rem',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '51cc9607a3863e9a14e49c159b5c66522e770e89', onLoadingChanged: e => {
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '1696338d89f06164f9d7d5136851bd209430102d', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -304,7 +317,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: '02e74b79721f147e7f63234e72ceb98c6c9c6e75', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'fb0072be04eb620c71ad1a5e93add4aa02d9df0d', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"],

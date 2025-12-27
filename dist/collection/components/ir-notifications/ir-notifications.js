@@ -1,22 +1,26 @@
 import { Host, h } from "@stencil/core";
+import moment from "moment";
 export class IrNotifications {
     el;
     // Make notifications reactive;
     notifications = [];
-    isOpen = false;
     notificationCleared;
     buttonRef;
+    animationRef;
+    bellKeyframes = [
+        { offset: 0, transform: 'rotate(0deg)' },
+        { offset: 0.15, transform: 'rotate(-15deg)' },
+        { offset: 0.3, transform: 'rotate(13deg)' },
+        { offset: 0.45, transform: 'rotate(-10deg)' },
+        { offset: 0.6, transform: 'rotate(8deg)' },
+        { offset: 0.75, transform: 'rotate(-5deg)' },
+        { offset: 1, transform: 'rotate(0deg)' },
+    ];
     componentDidLoad() {
         this.updateNotificationBadge();
-        document.addEventListener('click', this.onDocumentClick, true);
-        document.addEventListener('keydown', this.onDocumentKeydown, true);
     }
     componentDidUpdate() {
         this.updateNotificationBadge();
-    }
-    disconnectedCallback() {
-        document.removeEventListener('click', this.onDocumentClick, true);
-        document.removeEventListener('keydown', this.onDocumentKeydown, true);
     }
     handleNotificationCountChange(newValue, oldValue) {
         if (oldValue && newValue.length !== oldValue.length) {
@@ -29,35 +33,40 @@ export class IrNotifications {
         }
     }
     animateNotificationChange() {
-        if (this.buttonRef) {
-            this.buttonRef.classList.add('badge-animate');
-            setTimeout(() => {
-                this.buttonRef.classList.remove('badge-animate');
-            }, 600);
-        }
-    }
-    dismissNotification(notification) {
-        this.notificationCleared.emit(notification);
-        this.notifications = this.notifications.filter(n => n.id !== notification.id);
-    }
-    onDocumentClick = (ev) => {
-        if (!this.isOpen)
+        if (this.notifications?.length <= 0)
             return;
-        const target = ev.target;
-        if (target && !this.el.contains(target)) {
-            this.isOpen = false;
+        this.animationRef.cancel();
+        this.animationRef.play = true;
+    }
+    getRelativeTimeFromParts(date, hour, minute) {
+        const now = moment();
+        const then = moment(date, 'YYYY-MM-DD').hour(hour).minute(minute).second(0);
+        if (!then.isValid())
+            return '';
+        const diffSeconds = now.diff(then, 'seconds');
+        if (diffSeconds < 60)
+            return 'just now';
+        const diffMinutes = now.diff(then, 'minutes');
+        if (diffMinutes < 60) {
+            return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
         }
-    };
-    onDocumentKeydown = (ev) => {
-        if (!this.isOpen)
-            return;
-        if (ev.key === 'Escape' || ev.key === 'Esc') {
-            this.isOpen = false;
-            this.buttonRef?.focus?.();
+        const diffHours = now.diff(then, 'hours');
+        if (diffHours < 24) {
+            return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
         }
-    };
+        const diffDays = now.diff(then, 'days');
+        if (diffDays < 7) {
+            return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+        }
+        const diffWeeks = now.diff(then, 'weeks');
+        return `${diffWeeks} week${diffWeeks !== 1 ? 's' : ''} ago`;
+    }
+    // private dismissNotification(notification: Notification) {
+    //   this.notificationCleared.emit(notification);
+    //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
+    // }
     render() {
-        return (h(Host, { key: '800c931235f3ac43fc8cb11e9f70aa8f26db61d8' }, h("div", { key: '7792b58b02e6ac94b8b86d7a92c09323dc3bad18', class: `dropdown notifications-dropdown ${this.isOpen ? 'show' : ''}` }, h("ir-button", { key: '7322f59a9c33ba1da7439abd14bae6afa7f49d79', ref: el => (this.buttonRef = el), variant: "icon", icon_name: "bell", "data-notifications": this.notifications.length.toString(), class: "notification-trigger", btn_type: "button", "data-reference": "parent", "aria-expanded": String(this.isOpen), onClickHandler: () => (this.isOpen = !this.isOpen) }), h("div", { key: 'd20614b76e15f2e096218bc18a391693dd186031', class: `dropdown-menu dropdown-menu-right ` }, this.notifications.length === 0 ? (h("p", { class: "m-0 dropdown-header" }, "All caught up.")) : (this.notifications.map(notification => (h("div", { class: `notification-item dropdown-item ${notification.type}`, key: notification.id }, h("div", { class: "notification-content" }, h("strong", null, notification.title), h("p", null, notification.message), notification.link && (h("a", { href: notification.link.href, target: notification.link.target || '_self' }, notification.link.text || 'View more'))), notification.dismissible && (h("ir-button", { onClickHandler: () => this.dismissNotification(notification), variant: "icon", btn_color: "light", icon_name: "xmark" }))))))))));
+        return (h(Host, { key: 'b73bc6ebe3403e0df518d50a5d626def9bf13585' }, h("div", { key: '0ffa6639db1a0f19bb3293c987d23e78143dad79', style: { position: 'relative' } }, h("wa-tooltip", { key: '6155bd42080e97e9b402c325f0012798aeaf8ec1', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (h("wa-badge", { key: '15fa94cba87f30a87b372cb42f940736d0114a24', pill: true, class: "header-notification-badge" }, this.notifications.length)), h("wa-animation", { key: 'fa2ad28162bee2f0a5e96d26552b2bc34eeb0d2b', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, h("ir-custom-button", { key: 'f126b679e29b428e9522526dc554221aa2466275', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, h("wa-icon", { key: '5c2ef9e9c7a80c0a19bf19cf8508284f1f3b5c15', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.2rem' } })))), h("wa-popover", { key: 'da51b7d3fd43e6a6cf9cde43be4f78d53b58c1f6', class: "notification__popover", for: "notifications-button" }, h("p", { key: '46622fec7705fc8df7eddc6432e774d2c502829e', class: "notification__popover-title" }, "Notifications"), this.notifications?.map(notification => (h("div", { class: "notification-item" }, h("div", { class: "notification-item__content" }, h("p", { class: "notification-item__title" }, notification.title), h("p", { class: "notification-item__time" }, this.getRelativeTimeFromParts(notification.date, notification.hour, notification.minute))), h("span", { class: "notification-item__unread-indicator" })))), this.notifications?.length === 0 && (h("ir-empty-state", { key: 'e58e4973838df176314ece91946c2b4c734a0d21', style: { width: '250px', height: '150px' } }, h("wa-icon", { key: 'edbf342c55c62508436c18543e232c28579c739e', slot: "icon", name: "inbox" }))))));
     }
     static get is() { return "ir-notifications"; }
     static get encapsulation() { return "scoped"; }
@@ -99,11 +108,6 @@ export class IrNotifications {
             }
         };
     }
-    static get states() {
-        return {
-            "isOpen": {}
-        };
-    }
     static get events() {
         return [{
                 "method": "notificationCleared",
@@ -117,7 +121,7 @@ export class IrNotifications {
                 },
                 "complexType": {
                     "original": "Notification",
-                    "resolved": "Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"warning\" | \"alert\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; createdAt: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"success\" | \"info\"; ariaRole?: \"status\"; }",
+                    "resolved": "Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"error\" | \"warning\" | \"alert\"; ariaRole?: \"alert\"; } | Readonly<{ id: string; title: string; message: string; date: string; hour: number; minute: number; read?: boolean; dismissible?: boolean; autoDismissMs?: number; icon?: string; link?: NotificationLink; actions?: readonly NotificationAction[]; meta?: Record<string, unknown>; }> & { type: \"success\" | \"info\"; ariaRole?: \"status\"; }",
                     "references": {
                         "Notification": {
                             "location": "import",

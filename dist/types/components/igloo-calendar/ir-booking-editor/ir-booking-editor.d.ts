@@ -37,7 +37,6 @@ export declare class IrBookingEditor {
      * Throws if required booking data is missing.
      */
     private initializeDraftFromBooking;
-    private updateBooking;
     private checkBookingAvailability;
     private doReservation;
     private assignCountryCode;

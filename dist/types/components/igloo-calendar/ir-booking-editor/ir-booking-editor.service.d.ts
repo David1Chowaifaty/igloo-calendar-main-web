@@ -8,6 +8,15 @@ export declare class IRBookingEditorService {
     constructor(mode?: BookingEditorMode);
     setMode(mode: BookingEditorMode): void;
     /**
+     * Syncs room data with the booking store and reserves a room.
+     * Aborts if required room data is missing.
+     */
+    updateBooking(room?: Room): void;
+    /**
+     * Finds a room by identifier and syncs its guest data to the store.
+     */
+    getRoom(booking?: Booking, identifier?: string): Room | undefined;
+    /**
      * Checks whether a string contains underscores.
      * Used to validate phone numbers.
      */

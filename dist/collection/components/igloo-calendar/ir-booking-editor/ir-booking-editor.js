@@ -3,7 +3,7 @@ import { BookedByGuestSchema, RoomsGuestsSchema } from "./types";
 import { RoomService } from "../../../services/room.service";
 import { BookingService } from "../../../services/booking-service/booking.service";
 import locales from "../../../stores/locales.store";
-import booking_store, { getReservedRooms, modifyBookingStore, reserveRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, updateBookedByGuest, } from "../../../stores/booking.store";
+import booking_store, { getReservedRooms, resetBookingStore, setBookingDraft, setBookingSelectOptions, updateBookedByGuest } from "../../../stores/booking.store";
 import calendar_data from "../../../stores/calendar-data";
 import moment from "moment";
 import { IRBookingEditorService } from "./ir-booking-editor.service";
@@ -108,15 +108,7 @@ export class IrBookingEditor {
             }
         }
         if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-            const room = this.booking.rooms.find(room => room.identifier === this.identifier);
-            modifyBookingStore('guest', {
-                bed_preference: room.bed_preference?.toString(),
-                infant_nbr: room.occupancy.infant_nbr,
-                first_name: room.guest.first_name ?? '',
-                last_name: room.guest.last_name ?? '',
-                unit: room.unit?.id?.toString(),
-            });
-            this.room = room;
+            this.room = this.bookingEditorService.getRoom(this.booking, this.identifier);
         }
         let draft = {
             dates: {
@@ -146,31 +138,6 @@ export class IrBookingEditor {
         }
         setBookingDraft(draft);
     }
-    updateBooking() {
-        try {
-            const currentRoomType = this.room;
-            const roomtypeId = currentRoomType.roomtype.id;
-            const rateplanId = currentRoomType.rateplan.id;
-            const guest = {
-                bed_preference: currentRoomType.bed_preference?.toString(),
-                infant_nbr: currentRoomType.occupancy.infant_nbr,
-                last_name: currentRoomType.guest.last_name,
-                first_name: currentRoomType.guest.first_name,
-                unit: currentRoomType.unit?.id?.toString(),
-                roomtype_id: currentRoomType.roomtype.id,
-            };
-            modifyBookingStore('guest', guest);
-            reserveRooms({
-                roomTypeId: roomtypeId,
-                ratePlanId: rateplanId,
-                rooms: 1,
-                guest: [guest],
-            });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
     async checkBookingAvailability() {
         // resetBookingStore(false);
         const { source, occupancy, dates } = booking_store.bookingDraft;
@@ -199,7 +166,7 @@ export class IrBookingEditor {
                 await this.assignCountryCode();
             }
             if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-                this.updateBooking();
+                this.bookingEditorService.updateBooking(this.room);
             }
         }
         catch (error) {

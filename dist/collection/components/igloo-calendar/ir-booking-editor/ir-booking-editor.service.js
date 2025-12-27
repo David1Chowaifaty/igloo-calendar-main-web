@@ -1,5 +1,5 @@
 import VariationService from "../../../services/variation.service";
-import booking_store from "../../../stores/booking.store";
+import booking_store, { modifyBookingStore, reserveRooms } from "../../../stores/booking.store";
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
@@ -13,6 +13,60 @@ export class IRBookingEditorService {
     }
     setMode(mode) {
         this.mode = mode;
+    }
+    /**
+     * Syncs room data with the booking store and reserves a room.
+     * Aborts if required room data is missing.
+     */
+    updateBooking(room) {
+        if (!room)
+            return;
+        try {
+            const roomtypeId = room.roomtype?.id;
+            const rateplanId = room.rateplan?.id;
+            const guestData = room.guest;
+            const occupancy = room.occupancy;
+            if (!roomtypeId || !rateplanId || !guestData || !occupancy) {
+                console.warn('[updateBooking] Missing required room data', room);
+                return;
+            }
+            const guest = {
+                bed_preference: room.bed_preference?.toString() ?? null,
+                infant_nbr: occupancy.infant_nbr ?? 0,
+                last_name: guestData.last_name ?? '',
+                first_name: guestData.first_name ?? '',
+                unit: room.unit?.id?.toString() ?? null,
+                roomtype_id: roomtypeId,
+            };
+            modifyBookingStore('guest', guest);
+            reserveRooms({
+                roomTypeId: roomtypeId,
+                ratePlanId: rateplanId,
+                rooms: 1,
+                guest: [guest],
+            });
+        }
+        catch (error) {
+            console.error('[updateBooking] Failed', error);
+        }
+    }
+    /**
+     * Finds a room by identifier and syncs its guest data to the store.
+     */
+    getRoom(booking, identifier) {
+        if (!booking || !identifier)
+            return;
+        const room = booking.rooms?.find(r => r.identifier === identifier);
+        if (!room)
+            return;
+        modifyBookingStore('guest', {
+            bed_preference: room.bed_preference?.toString() ?? null,
+            infant_nbr: room.occupancy?.infant_nbr ?? 0,
+            first_name: room.guest?.first_name ?? '',
+            last_name: room.guest?.last_name ?? '',
+            unit: room.unit?.id?.toString() ?? null,
+        });
+        return room;
     }
     // ─────────────────────────────────────────────
     // Utility helpers

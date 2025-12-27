@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host, g as getElement, c as createEvent } from './index-b3dce66a.js';
 import { T as Token } from './Token-030c78a9.js';
-import { B as BookingService } from './booking.service-d1f86d0d.js';
+import { B as BookingService } from './booking.service-3adacb53.js';
 import { R as RoomService } from './room.service-cbe9248d.js';
 import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-2ab3c824.js';
 import { c as calendar_data } from './calendar-data-8a36a1b2.js';
@@ -227,7 +227,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '8447c6e721cf0a347f5483b36ba3d2a44a35389b', class: "p-1" }, h("ir-interceptor", { key: 'c09060b6f069a4e0c9468a7cd50005b71d1d1336', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '22b668791f9e8ee19dfd20a9901d5d46224a1205' }), h("div", { key: '18cfbf2d08fff9ea07e69402b6112220405310c0', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'b918c6bf5accb1546d0bbd0cc9b49ff2d950af20', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '79c53816ef373f59ca60d0553c8bfc868fee8ec4', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '4a4d0ded7def84567502b71bedf29a7633356d94', class: "p-1" }, h("ir-interceptor", { key: 'aaaff10a915a6252bf7a8c829518f6fddcb402fc', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'd917eded5a974b1113462daee8788781f1dc9241' }), h("div", { key: 'b625a81e2c005a3f7aca3d5e7786d2df4cb6d52e', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '6ef8901b6589194e0190860ab2db04ab798c9ed7', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '8bf250991d9e5476cf991832ba4d86b234103164', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -235,7 +235,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '9b07380056b116379bf1915344681ee20db1b0ae' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: 'bb1d02eb9400fe3e84d279c8c9c7b4ff75d38235' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

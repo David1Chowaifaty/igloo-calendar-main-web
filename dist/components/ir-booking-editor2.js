@@ -3,7 +3,7 @@ import { R as RoomsGuestsSchema, B as BookedByGuestSchema } from './types2.js';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';
-import { a as updateBookedByGuest, b as booking_store, s as setBookingDraft, e as setBookingSelectOptions, r as resetBookingStore, m as modifyBookingStore, f as reserveRooms, j as getReservedRooms } from './booking.store.js';
+import { a as updateBookedByGuest, b as booking_store, s as setBookingDraft, e as setBookingSelectOptions, r as resetBookingStore, j as getReservedRooms } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { I as IRBookingEditorService, d as defineCustomElement$h } from './ir-booking-editor-header2.js';
@@ -141,15 +141,7 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
             }
         }
         if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-            const room = this.booking.rooms.find(room => room.identifier === this.identifier);
-            modifyBookingStore('guest', {
-                bed_preference: room.bed_preference?.toString(),
-                infant_nbr: room.occupancy.infant_nbr,
-                first_name: room.guest.first_name ?? '',
-                last_name: room.guest.last_name ?? '',
-                unit: room.unit?.id?.toString(),
-            });
-            this.room = room;
+            this.room = this.bookingEditorService.getRoom(this.booking, this.identifier);
         }
         let draft = {
             dates: {
@@ -179,31 +171,6 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
         }
         setBookingDraft(draft);
     }
-    updateBooking() {
-        try {
-            const currentRoomType = this.room;
-            const roomtypeId = currentRoomType.roomtype.id;
-            const rateplanId = currentRoomType.rateplan.id;
-            const guest = {
-                bed_preference: currentRoomType.bed_preference?.toString(),
-                infant_nbr: currentRoomType.occupancy.infant_nbr,
-                last_name: currentRoomType.guest.last_name,
-                first_name: currentRoomType.guest.first_name,
-                unit: currentRoomType.unit?.id?.toString(),
-                roomtype_id: currentRoomType.roomtype.id,
-            };
-            modifyBookingStore('guest', guest);
-            reserveRooms({
-                roomTypeId: roomtypeId,
-                ratePlanId: rateplanId,
-                rooms: 1,
-                guest: [guest],
-            });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
     async checkBookingAvailability() {
         // resetBookingStore(false);
         const { source, occupancy, dates } = booking_store.bookingDraft;
@@ -232,7 +199,7 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
                 await this.assignCountryCode();
             }
             if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-                this.updateBooking();
+                this.bookingEditorService.updateBooking(this.room);
             }
         }
         catch (error) {
