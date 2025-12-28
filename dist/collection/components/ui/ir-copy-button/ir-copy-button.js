@@ -69,7 +69,7 @@ export class IrCopyButton {
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: 'b11d78d092ec472922f52f02c9e2edb5f7d3d0a1', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: 'e39f2f24d43ca4fe73b61fc349228adac131892d', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
     static get is() { return "ir-copy-button"; }
     static get encapsulation() { return "scoped"; }

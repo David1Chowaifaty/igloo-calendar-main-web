@@ -298,7 +298,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         }
     }
     render() {
-        return (h("ir-drawer", { key: '10fdd91bc2642b56a55c723e44f3364664fbc363', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '4e6c0200feb8e460c5e0b30b07120baec7039e9f', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -309,7 +309,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '1696338d89f06164f9d7d5136851bd209430102d', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '801c19832d0d1ca2d5d955e2ca6707125b8aae10', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -317,7 +317,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'fb0072be04eb620c71ad1a5e93add4aa02d9df0d', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'fa2ad3d518d2b466d513e0bb7cd81f2669d5fb09', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"],

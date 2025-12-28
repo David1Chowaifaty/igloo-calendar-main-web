@@ -67,7 +67,7 @@ const IrWeekdaySelector = /*@__PURE__*/ proxyCustomElement(class IrWeekdaySelect
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '27bd66f8518041a50762827a2514bb57c7c35c75', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: '710453b2093f81874913f2a46f9fa3601ab2cd04', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

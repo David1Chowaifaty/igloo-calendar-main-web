@@ -23,7 +23,7 @@ const IrBalanceCell = /*@__PURE__*/ proxyCustomElement(class IrBalanceCell exten
     removeBalance;
     payBookingBalance;
     render() {
-        return (h(Host, { key: '37a466687bae0725de5470e7586361bb6463e8b9' }, this.label && h("p", { key: '957d7c849763aca0c518ef55096f4c2ac9aa3487', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: 'bd351c94e086dbdbec33496e9baf964315edc8ab', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: 'd4d1e3abbc3eeab8f8491aa92a38aa63c428fa1f' }, this.label && h("p", { key: 'c0f6bd3b22b97c55762cfcc2ca19b20d1755f406', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: 'd40e455138cef7ee1e4872a4b02632b8300fe028', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({

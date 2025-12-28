@@ -2840,6 +2840,8 @@ export namespace Components {
          */
         "percentage": string;
     }
+    interface IrPropertySwitcher {
+    }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
@@ -2895,6 +2897,17 @@ export namespace Components {
           * Whether to show the overlay before the date is selected.
          */
         "withOverlay": boolean;
+    }
+    interface IrReallocationDrawer {
+        "booking": Booking;
+        "open": boolean;
+        "pool": string;
+        "roomIdentifier": string;
+    }
+    interface IrReallocationForm {
+        "booking": Booking;
+        "identifier": string;
+        "pool": string;
     }
     interface IrReservationInformation {
         "booking": Booking;
@@ -3961,6 +3974,14 @@ export interface IrRadioCustomEvent<T> extends CustomEvent<T> {
 export interface IrRangePickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrRangePickerElement;
+}
+export interface IrReallocationDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrReallocationDrawerElement;
+}
+export interface IrReallocationFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrReallocationFormElement;
 }
 export interface IrReservationInformationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6576,6 +6597,12 @@ declare global {
         prototype: HTMLIrProgressIndicatorElement;
         new (): HTMLIrProgressIndicatorElement;
     };
+    interface HTMLIrPropertySwitcherElement extends Components.IrPropertySwitcher, HTMLStencilElement {
+    }
+    var HTMLIrPropertySwitcherElement: {
+        prototype: HTMLIrPropertySwitcherElement;
+        new (): HTMLIrPropertySwitcherElement;
+    };
     interface HTMLIrRadioElementEventMap {
         "checkChange": boolean;
     }
@@ -6609,6 +6636,40 @@ declare global {
     var HTMLIrRangePickerElement: {
         prototype: HTMLIrRangePickerElement;
         new (): HTMLIrRangePickerElement;
+    };
+    interface HTMLIrReallocationDrawerElementEventMap {
+        "closeModal": void;
+    }
+    interface HTMLIrReallocationDrawerElement extends Components.IrReallocationDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrReallocationDrawerElementEventMap>(type: K, listener: (this: HTMLIrReallocationDrawerElement, ev: IrReallocationDrawerCustomEvent<HTMLIrReallocationDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrReallocationDrawerElementEventMap>(type: K, listener: (this: HTMLIrReallocationDrawerElement, ev: IrReallocationDrawerCustomEvent<HTMLIrReallocationDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrReallocationDrawerElement: {
+        prototype: HTMLIrReallocationDrawerElement;
+        new (): HTMLIrReallocationDrawerElement;
+    };
+    interface HTMLIrReallocationFormElementEventMap {
+        "closeModal": null;
+    }
+    interface HTMLIrReallocationFormElement extends Components.IrReallocationForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrReallocationFormElementEventMap>(type: K, listener: (this: HTMLIrReallocationFormElement, ev: IrReallocationFormCustomEvent<HTMLIrReallocationFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrReallocationFormElementEventMap>(type: K, listener: (this: HTMLIrReallocationFormElement, ev: IrReallocationFormCustomEvent<HTMLIrReallocationFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrReallocationFormElement: {
+        prototype: HTMLIrReallocationFormElement;
+        new (): HTMLIrReallocationFormElement;
     };
     interface HTMLIrReservationInformationElementEventMap {
         "openSidebar": OpenSidebarEvent<any>;
@@ -7397,8 +7458,11 @@ declare global {
         "ir-printing-pickup": HTMLIrPrintingPickupElement;
         "ir-proforma-invoice-preview": HTMLIrProformaInvoicePreviewElement;
         "ir-progress-indicator": HTMLIrProgressIndicatorElement;
+        "ir-property-switcher": HTMLIrPropertySwitcherElement;
         "ir-radio": HTMLIrRadioElement;
         "ir-range-picker": HTMLIrRangePickerElement;
+        "ir-reallocation-drawer": HTMLIrReallocationDrawerElement;
+        "ir-reallocation-form": HTMLIrReallocationFormElement;
         "ir-reservation-information": HTMLIrReservationInformationElement;
         "ir-reset-password": HTMLIrResetPasswordElement;
         "ir-revenue-row": HTMLIrRevenueRowElement;
@@ -10523,6 +10587,8 @@ declare namespace LocalJSX {
          */
         "percentage"?: string;
     }
+    interface IrPropertySwitcher {
+    }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
@@ -10583,6 +10649,19 @@ declare namespace LocalJSX {
           * Whether to show the overlay before the date is selected.
          */
         "withOverlay"?: boolean;
+    }
+    interface IrReallocationDrawer {
+        "booking"?: Booking;
+        "onCloseModal"?: (event: IrReallocationDrawerCustomEvent<void>) => void;
+        "open"?: boolean;
+        "pool"?: string;
+        "roomIdentifier"?: string;
+    }
+    interface IrReallocationForm {
+        "booking"?: Booking;
+        "identifier"?: string;
+        "onCloseModal"?: (event: IrReallocationFormCustomEvent<null>) => void;
+        "pool"?: string;
     }
     interface IrReservationInformation {
         "booking"?: Booking;
@@ -11406,8 +11485,11 @@ declare namespace LocalJSX {
         "ir-printing-pickup": IrPrintingPickup;
         "ir-proforma-invoice-preview": IrProformaInvoicePreview;
         "ir-progress-indicator": IrProgressIndicator;
+        "ir-property-switcher": IrPropertySwitcher;
         "ir-radio": IrRadio;
         "ir-range-picker": IrRangePicker;
+        "ir-reallocation-drawer": IrReallocationDrawer;
+        "ir-reallocation-form": IrReallocationForm;
         "ir-reservation-information": IrReservationInformation;
         "ir-reset-password": IrResetPassword;
         "ir-revenue-row": IrRevenueRow;
@@ -11644,8 +11726,11 @@ declare module "@stencil/core" {
             "ir-printing-pickup": LocalJSX.IrPrintingPickup & JSXBase.HTMLAttributes<HTMLIrPrintingPickupElement>;
             "ir-proforma-invoice-preview": LocalJSX.IrProformaInvoicePreview & JSXBase.HTMLAttributes<HTMLIrProformaInvoicePreviewElement>;
             "ir-progress-indicator": LocalJSX.IrProgressIndicator & JSXBase.HTMLAttributes<HTMLIrProgressIndicatorElement>;
+            "ir-property-switcher": LocalJSX.IrPropertySwitcher & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherElement>;
             "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
             "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
+            "ir-reallocation-drawer": LocalJSX.IrReallocationDrawer & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;
+            "ir-reallocation-form": LocalJSX.IrReallocationForm & JSXBase.HTMLAttributes<HTMLIrReallocationFormElement>;
             "ir-reservation-information": LocalJSX.IrReservationInformation & JSXBase.HTMLAttributes<HTMLIrReservationInformationElement>;
             "ir-reset-password": LocalJSX.IrResetPassword & JSXBase.HTMLAttributes<HTMLIrResetPasswordElement>;
             "ir-revenue-row": LocalJSX.IrRevenueRow & JSXBase.HTMLAttributes<HTMLIrRevenueRowElement>;

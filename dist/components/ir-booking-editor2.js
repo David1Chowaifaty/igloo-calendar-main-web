@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
-import { R as RoomsGuestsSchema, B as BookedByGuestSchema } from './types2.js';
+import { R as RoomsGuestsSchema, B as BookedByGuestSchema } from './types3.js';
 import { R as RoomService } from './room.service.js';
 import { B as BookingService } from './booking.service.js';
 import { l as locales } from './locales.store.js';

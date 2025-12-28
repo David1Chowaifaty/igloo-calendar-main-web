@@ -140,9 +140,9 @@ const IglBookingForm = /*@__PURE__*/ proxyCustomElement(class IglBookingForm ext
             isValidProperty(this.selectedBookedByData, 'email', ''));
     }
     render() {
-        return (h("form", { key: 'cd1e8e0c9df0ac776b90873975286b85d20cadd0', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: '8cc104004a7206bb763f94a54db6829608a6998e', class: "d-flex flex-column h-100", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
-            } }, h("div", { key: 'a19cc3ac1f63f17ca6d748cb281826aa9eb24d04', class: "d-flex flex-wrap" }, h("ir-date-view", { key: '9ad3fcaac8ab05e8c544e7b6189f4848e7b1074a', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '169ecd6e0d8f8c83f7cd8f1295f70e24e5b5babb', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '858166579d584a1f0771f213ff459b131b5d1cb9', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, h("div", { key: 'b10e362e17df212b7447884a601bf10fb331651d', class: "d-flex flex-wrap" }, h("ir-date-view", { key: 'acbd9f1b10ef88af3b4b3fb3b3f121bde96c50e7', class: "mr-1 flex-fill font-weight-bold font-medium-1", from_date: new Date(this.dateRangeData.fromDate), to_date: new Date(this.dateRangeData.toDate), dateOption: "DD MMM YYYY" }), this.guestData.length > 1 && (h("div", { key: '17e4882d20f67a8cdd56d5f49e6fe7212d282853', class: "mt-1 mt-md-0 text-right" }, locales.entries.Lcz_TotalPrice, " ", h("span", { key: '0a71bfe70afec4e420719a1b6553fb39d3d29dc9', class: "font-weight-bold font-medium-1" }, formatAmount(this.currency.symbol, this.bookingData.TOTAL_PRICE || '0'))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;

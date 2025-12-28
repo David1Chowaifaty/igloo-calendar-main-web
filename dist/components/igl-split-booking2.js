@@ -6,7 +6,8 @@ import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { n as checkMealPlan } from './booking.js';
 import { h as hooks } from './moment.js';
-import { z, Z as ZodError } from './index2.js';
+import { Z as ZodError } from './index2.js';
+import { S as SelectedUnitSchema } from './types2.js';
 import { d as defineCustomElement$8 } from './ir-button2.js';
 import { d as defineCustomElement$7 } from './ir-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-date-view2.js';
@@ -15,12 +16,6 @@ import { d as defineCustomElement$4 } from './ir-icons2.js';
 import { d as defineCustomElement$3 } from './ir-radio2.js';
 import { d as defineCustomElement$2 } from './ir-select2.js';
 import { d as defineCustomElement$1 } from './ir-title2.js';
-
-const SelectedUnitSchema = z.object({
-    roomtype_id: z.coerce.number(),
-    unit_id: z.coerce.number(),
-    rateplan_id: z.coerce.number(),
-});
 
 const iglSplitBookingCss = ".sc-igl-split-booking-h{display:block}.sc-igl-split-booking-h{display:flex;flex-direction:column;flex:1 1 0%;height:100%}.bulk-sheet-container.sc-igl-split-booking{display:flex;flex-direction:column;flex:1;min-height:0;gap:1rem}.animated-container.sc-igl-split-booking{transition:all 0.5s ease}.physical-room.sc-igl-split-booking{margin-left:1rem !important}.physical-room.sc-igl-split-booking>td.sc-igl-split-booking:last-child{padding-left:1rem}.room-type-list.sc-igl-split-booking{padding:0;margin:0}.room-type-list.sc-igl-split-booking>li.sc-igl-split-booking,.physical-room.sc-igl-split-booking,.room-type-row.sc-igl-split-booking{list-style:none}";
 const IglSplitBookingStyle0 = iglSplitBookingCss;
@@ -219,17 +214,17 @@ const IglSplitBooking = /*@__PURE__*/ proxyCustomElement(class IglSplitBooking e
         this.selectedUnit = merged;
     }
     render() {
-        return (h("form", { key: '385efe45c56cb7ce28193a2fcf410773f985c3fe', onSubmit: e => {
+        return (h("form", { key: '64a961c5848719261a8a0fbd572d8c4dda12bae5', onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, h("ir-title", { key: '0f8d09774cee07b49cd783d07255c3b3ff2f6e51', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: 'c767e71158c4e8f7b9ce7cc36bd17970fd0b927e', class: "px-1 sheet-body" }, h("div", { key: '05f3d6f47b5aa0932468409ac9cff92a6cafc1c4', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'b8298d9c445df00992a1350b7cf621b677e2dd7b' }, h("ir-date-view", { key: '37633cf8091e6aa0e435008c7c56cf2b977c1b9b', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: 'b170f3e3bf5030541540641c826b64b23f84f1a8', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '94d7f129a3961380e7d2ebe0d44c4ece03e5d007', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: 'ff586526fcde416fc42a14cf157e2c92f9af71b8' }, "From:"), h("ir-date-picker", { key: '00066a8b5907428f144398065cf687f58e6fb1a4', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
+            }, class: "sheet-container" }, h("ir-title", { key: '9b3a883401cd7341117caaf6e7905d950bf911c3', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: 'a1f50c65934e220cb7b63fbf0ec45f215b1762e7', class: "px-1 sheet-body" }, h("div", { key: 'd4e6d162499d9cf4bdaaa62d54d9e535a1c1f399', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '99515ee9f1cfde4ec3e6a9e4a622e0fa09e05569' }, h("ir-date-view", { key: '7012c722bd762a39c68007aae366d11fd515dcfe', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: 'd247c9d469cecc7e6bbf8162a8cffa3f48fd378e', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: 'b93d0214419e5fe0b8074951b7ddb6fb4a46d53f', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: 'b14cc112976aececa648dc04df9ef2ea71fec5d3' }, "From:"), h("ir-date-picker", { key: 'c4b047b6983124ab3e0d227e729fd8519a3b6e28', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
             // aria-invalid={this.errors?.arrival_date && !this.pickupData.arrival_date ? 'true' : 'false'}
             onDateChanged: evt => {
                 this.selectedDates = {
                     ...this.selectedDates,
                     from_date: evt.detail.start,
                 };
-            } }, h("input", { key: '19bcda21c647eecca87d465ad12ab450471e14f1', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: '8a877795af7833f26eb7310e91b83482515f52f3', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '2e1ebf7edc7dea05b386ac98914f295b5cfc0969', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'a34f9dc3e04c95d8d94b8f58caefefa326a119cd', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
+            } }, h("input", { key: '33712fcda061a1e0b02a0f5b63b62891ac27d4e5', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'f33b88f681e98370e703ff3df6266762cf73f7f2', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: 'd4432af46809999b2ae80a422fe2e249d8f46a77', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'c710fcd8e4bcc23c35420b87624c01c5e5b3094e', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
             if (!roomType.is_available_to_book) {
                 return null;
             }
@@ -277,7 +272,7 @@ const IglSplitBooking = /*@__PURE__*/ proxyCustomElement(class IglSplitBooking e
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: '5df50c25ad479d6f86a0d52846702fc158bed822', class: 'sheet-footer' }, h("ir-button", { key: 'e4cde79a1fa0cb13d0c3603ee77f16b4d15bca9a', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '46745bd24927b8aba7059421cc8344286747b6fe', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: '43c2d4c11130fd63f4ec4607dca653ca3b51daad', class: 'sheet-footer' }, h("ir-button", { key: 'ec088c0dd7aa2d37d880257591967fa52392531d', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '0f0cf26aec2214d95034e08845ab3652ee575461', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
     static get style() { return IglSplitBookingStyle0 + IglSplitBookingStyle1; }
 }, [2, "igl-split-booking", {

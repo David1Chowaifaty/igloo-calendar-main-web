@@ -30,7 +30,7 @@ export type AvailabilityBatchPayload = {
     availability: number;
 };
 export type CalendarSidebarState = {
-    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split';
+    type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split' | 'reallocate-drawer';
     payload: any;
 };
 export declare class IglooCalendar {
