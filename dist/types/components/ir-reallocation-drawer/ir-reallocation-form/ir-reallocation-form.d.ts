@@ -25,5 +25,6 @@ export declare class IrReallocationForm {
     private reallocateUnit;
     private updateSelectedUnit;
     private get minDate();
+    private get maxDate();
     render(): any;
 }

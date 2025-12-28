@@ -18833,7 +18833,7 @@ const IrReallocationDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '1f24940b7daedbaf7919c072ca8f8f777ec32952', formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'e86ec09ae677cf37a45bde6b866c9b757a6dc0f9', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '44abe00f39bc18b9ade972350ce1675c662c502c', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'fad562b3298fff2a3d2dad555b3ba28109e57782', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: 'a704056bfeb394708df699cc0c608e499bf850a3', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '5e2acf2c12b7f07f4788fefe919e425607ddeb47', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '34c3a84a2b0d42db72d4f2515aa68d4cd1a0b360', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'bd7ec7b2aa31bd4924dad1adb0d516b0b6104280', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
 };
 IrReallocationDrawer.style = IrReallocationDrawerStyle0;
@@ -18956,6 +18956,9 @@ const IrReallocationForm = class {
         this.selectedUnit = merged;
     }
     get minDate() {
+        if (!this.booking.is_direct) {
+            return this.booking.from_date;
+        }
         const MFromDate = hooks(this.room.from_date, 'YYYY-MM-DD');
         const today = hooks();
         if (MFromDate.isBefore(today)) {
@@ -18963,15 +18966,21 @@ const IrReallocationForm = class {
         }
         return today.format('YYYY-MM-DD');
     }
+    get maxDate() {
+        if (this.booking.is_direct) {
+            return;
+        }
+        return this.booking.from_date;
+    }
     render() {
-        return (h("form", { key: '6ad80c2dbb939b62973d4d95ba48f5bbb24cb233', id: this.formId, class: "reallocation-form", onSubmit: e => {
+        return (h("form", { key: '4215931ef1acc2ffb87e44e846ea846fc127c1df', id: this.formId, class: "reallocation-form", onSubmit: e => {
                 e.preventDefault();
                 this.reallocateUnit();
-            } }, h("div", { key: 'fd82d20bf7bdff0eabe67599c65b9f86c7b5b365', class: "booking-summary" }, h("ir-date-view", { key: '0007257fb49576bad72b2bd7d53a8585b55d3603', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("p", { key: '764abf0de1677d4a232f4ee2218d414d113bb7f7', class: "rateplan-details" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: 'e9f3482b4439d02f76a89877a4899ea9db074dbc', class: "date-picker-row" }, h("ir-custom-date-picker", { key: '32bbe2716b391c58e967463c6387b465c9741277', "data-testid": "pickup_arrival_date", date: this.date?.format('YYYY-MM-DD'),
+            } }, h("div", { key: 'e302b704a368448b297a44fa2ff876cab323c4ce', class: "booking-summary" }, h("ir-date-view", { key: '72825978b918716c16a20f8eb29201685c3cb1e8', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("p", { key: '6df94a72d7a16df87c2f5e5cda914fb0f2340bea', class: "rateplan-details" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '9176e8f09866fe341177da071a3d1b6cf126f3d6', class: "date-picker-row" }, h("ir-custom-date-picker", { key: '828885d7cd23df6f132059c53f08822a55c31d00', "data-testid": "pickup_arrival_date", date: this.date?.format('YYYY-MM-DD'),
             // maxDate={this.defaultDates?.to_date.format('YYYY-MM-DD')}
-            minDate: this.minDate, emitEmptyDate: true, label: "From:", onDateChanged: evt => {
+            minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, label: "From:", onDateChanged: evt => {
                 this.date = evt.detail.start;
-            } }), h("ir-custom-button", { key: 'f5382bb7eb20e45f2a92be0dffceb49d5530a677', variant: "brand", loading: isRequestPending('/Check_Availability'), onClickHandler: () => this.checkBookingAvailability() }, "Check available units")), this.errors?.roomtype_id && h("p", { key: '5afe60717366bcd74f36f747f6ff53f112502d9d', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: '759f30566945544b7fb9dc25a39c0d189fcd9909', onchange: e => {
+            } }), h("ir-custom-button", { key: '668b231b06e687a154100af74d1992fbbc45e3e8', variant: "brand", loading: isRequestPending('/Check_Availability'), onClickHandler: () => this.checkBookingAvailability() }, "Check available units")), this.errors?.roomtype_id && h("p", { key: '0d8c4788ce2f44ddbb38935341490b4640e289d5', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: '345dc85dcd76858cb6c8a3fe3d37daf7ec5b3c4c', onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),
