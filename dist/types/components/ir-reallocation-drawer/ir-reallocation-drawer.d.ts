@@ -6,5 +6,6 @@ export declare class IrReallocationDrawer {
     roomIdentifier: string;
     pool: string;
     closeModal: EventEmitter<void>;
+    private _id;
     render(): any;
 }

@@ -8,6 +8,7 @@ export declare class IrReallocationForm {
     booking: Booking;
     identifier: string;
     pool: string;
+    formId: string;
     date: Moment;
     room: Room;
     roomTypes: PropertyRoomType[];

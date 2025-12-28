@@ -2906,6 +2906,7 @@ export namespace Components {
     }
     interface IrReallocationForm {
         "booking": Booking;
+        "formId": string;
         "identifier": string;
         "pool": string;
     }
@@ -10659,6 +10660,7 @@ declare namespace LocalJSX {
     }
     interface IrReallocationForm {
         "booking"?: Booking;
+        "formId"?: string;
         "identifier"?: string;
         "onCloseModal"?: (event: IrReallocationFormCustomEvent<null>) => void;
         "pool"?: string;
