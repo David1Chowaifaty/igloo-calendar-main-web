@@ -18832,7 +18832,7 @@ const IrReallocationDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '5c7162a1b374070c131ba093c038cf2936310e18', booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'eab16a0c717eb3a693b930a0ba4948ec3bd29cdd', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'ed9120f3cc2049cf11aab2fffd857336a47976ff', "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '88c18100cd2de86239fd2889dfc9fedb8b0d4224', loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: '5c7162a1b374070c131ba093c038cf2936310e18', booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'eab16a0c717eb3a693b930a0ba4948ec3bd29cdd', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '1a336ae6797546dd76793082d28600f923fd17ad', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'b2f3fd886c53e6a4db61dd3357e2aad40aa81f6b', size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
 };
 IrReallocationDrawer.style = IrReallocationDrawerStyle0;
