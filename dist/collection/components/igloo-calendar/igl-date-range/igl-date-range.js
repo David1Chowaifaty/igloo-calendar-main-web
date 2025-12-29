@@ -117,7 +117,9 @@ export class IglDateRange {
         //     {this.renderDateSummary(showNights)}
         //   </div>
         // </Host>
-        h("ir-custom-date-picker", { key: '91d9e6d97f9ab394213bc70e0888a0741a6fde3e', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, hint: this.hint, dates: this.dates }, h("wa-icon", { key: '18330036af894ea6258ceec8bbd04bc992bf4583', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'ab13ccbf154d672fba600f13762291f781278b3e', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        h("ir-date-select", { key: 'ae20a84a7221ceecca2a700e9a88bf75d7048a1b', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true,
+            // hint={this.hint}
+            dates: this.dates }, h("wa-icon", { key: 'd2bcc2d1644c615037556129482c1e23d1ebf58f', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: '76d533c05ab6563dff91fedd4dd1e1ffb88337f8', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get is() { return "igl-date-range"; }
     static get encapsulation() { return "shadow"; }

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
-import { m as calendar_dates, q as compareTime, r as createDateWithOffsetAndHour } from './booking.js';
+import { d as calendar_dates, e as compareTime, f as createDateWithOffsetAndHour } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$c } from './igl-block-dates-view2.js';
@@ -430,9 +430,9 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         }
     }
     render() {
-        return (h(Host, { key: 'ab10dc311d08383fb18ee4e62486f9436a88404a' }, h("div", { key: 'ebcfa86b55ec02776e7cc096814789f543480a37', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'f7e943c1ba81a5d35d28c275e87bb004d67e80b6', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'abfb2ac8dcb5e68cca5a469d8d7e133b7a81be3c' }, h("div", { key: '20dcafb8445dc93c9885cf902f068a2e6462bd5b', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '49db100def1181203480980e1dc2443a612bdd13', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: 'a196d09441e0963f6ca945607de2e0f92afdde27', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: 'fd75f4d5f1d43f2a9e485d09fa9635346ed3eaa1', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;

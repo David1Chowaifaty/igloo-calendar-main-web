@@ -76,9 +76,9 @@ const IrRadio = /*@__PURE__*/ proxyCustomElement(class IrRadio extends HTMLEleme
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h("div", { key: '5b5fc266e5e7c46e7812107f9c0b2d040383cd05', class: "input-group" }, h("label", { key: 'b364d49272c8dcb6bba5d9985627882e07d7ecf9', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '361d158b6b1a351966329631da55d2bd3fdc5826' }, this.label), h("input", { key: '8eee06d67fbf524bfb5e06b4f6688fc938727b0d', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (h("div", { key: '779cd96658f20762f64a72badc463f017f68e699', class: "input-group" }, h("label", { key: 'ba6182dc39251ec0c6716bf63e55217a8d96fb50', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '11deee25b9c48b340c5d5be8d93511e4cc82dbba' }, this.label), h("input", { key: '98650a11876a6a17299afd26ca3b6ecc8de5cc3c', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: 'd6b6f9ae5a4d5f4baf7d5ca75124d56f0634a44c', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: '7880af9d15c17523b825988bb3ccb9188fa5d120', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]

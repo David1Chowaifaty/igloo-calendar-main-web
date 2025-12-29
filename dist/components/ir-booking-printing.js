@@ -1,10 +1,11 @@
 import { h, proxyCustomElement, HTMLElement, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { _ as _formatTime } from './functions.js';
-import { c as calculateDaysBetweenDates, f as formatAmount } from './booking.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
 import { B as BookingService } from './booking.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
+import { f as formatAmount } from './utils.js';
 
 const BeLogoFooter = ({ width, height, ...props }) => {
     return (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },

@@ -1,4 +1,4 @@
-import { S as canCheckout } from './booking.js';
+import { C as canCheckout } from './utils.js';
 import { c as createStore } from './index3.js';
 import { h as hooks } from './moment.js';
 
@@ -95,6 +95,7 @@ function runDeparturesPipeline() {
     departuresStore.filteredBookings = searchedBookings;
     departuresStore.paginatedBookings = searchedBookings;
     const split = splitBookingsByStatus(searchedBookings);
+    console.log(searchedBookings, split);
     departuresStore.needsCheckOutBookings = split.needsCheckOut;
     departuresStore.outBookings = split.out;
     departuresStore.futureRooms = split.futureRooms;
@@ -139,7 +140,7 @@ function splitBookingsByStatus(bookings) {
     }, { needsCheckOut: [], out: [], futureRooms: [] });
 }
 function isNeedsCheckOut(room) {
-    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out.code });
+    return canCheckout({ to_date: room.to_date, inOutCode: room.in_out.code, skipAutoCheckout: true });
 }
 function isOut(room) {
     return room.in_out?.code === '002';

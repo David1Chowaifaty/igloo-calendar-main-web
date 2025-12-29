@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 import { _ as _formatTime } from './functions.js';
-import { f as formatAmount } from './booking.js';
+import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$1 } from './ir-printing-label2.js';
 

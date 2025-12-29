@@ -10,7 +10,7 @@ import { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 import { ICurrency } from "./models/calendarData";
 import { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 import { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
-import { IToast } from "./components/ui/ir-toast/toast";
+import { IToast, TPositions as TPositions1 } from "./components/ui/ir-toast/toast";
 import { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
 import { CalendarModalEvent, IReallocationPayload, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
@@ -20,6 +20,7 @@ import { DateRangeChangeEvent } from "./components/igloo-calendar/igl-date-range
 import { Currency, RatePlan, RoomType } from "./models/property";
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Property, Room, SharedPerson } from "./models/booking.dto";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
+import { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
@@ -66,7 +67,8 @@ import { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 import { Tab } from "./components/ui/ir-tabs/ir-tabs";
 import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
-import { Toast } from "./components/ir-toast-provider/ir-toast-provider";
+import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
+import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
 export { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
@@ -74,7 +76,7 @@ export { IRatePlanSelection, RatePlanGuest } from "./stores/booking.store";
 export { ICurrency } from "./models/calendarData";
 export { ICountry, IEntries, RoomBlockDetails } from "./models/IBooking";
 export { TAdultChildConstraints, TIglBookPropertyPayload } from "./models/igl-book-property.d";
-export { IToast } from "./components/ui/ir-toast/toast";
+export { IToast, TPositions as TPositions1 } from "./components/ui/ir-toast/toast";
 export { IglBookPropertyPayloadEditBooking, TAdultChildConstraints as TAdultChildConstraints1, TPropertyButtonsTypes } from "./models/igl-book-property";
 export { CalendarModalEvent, IReallocationPayload, IRoomNightsData, IRoomNightsDataEventPayload } from "./models/property-types";
 export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar";
@@ -84,6 +86,7 @@ export { DateRangeChangeEvent } from "./components/igloo-calendar/igl-date-range
 export { Currency, RatePlan, RoomType } from "./models/property";
 export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Property, Room, SharedPerson } from "./models/booking.dto";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
+export { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
@@ -130,7 +133,8 @@ export { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 export { Tab } from "./components/ui/ir-tabs/ir-tabs";
 export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
-export { Toast } from "./components/ir-toast-provider/ir-toast-provider";
+export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
+export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export namespace Components {
@@ -375,6 +379,10 @@ export namespace Components {
         "to_date": string;
         "unassignedDatesProp": any;
     }
+    interface IglToastProvider {
+        "hide": (id: string) => Promise<void>;
+        "show": (message: string, options?: { variant?: "primary" | "success" | "warning" | "danger" | "neutral"; duration?: number; closable?: boolean; icon?: string; }) => Promise<string>;
+    }
     interface IglooCalendar {
         "baseUrl": string;
         "currencyName": string;
@@ -408,6 +416,81 @@ export namespace Components {
     }
     interface IrActionsCell {
         "buttons": IrActionButton[];
+    }
+    interface IrAirDatePicker {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose": boolean;
+        "clearDatePicker": () => Promise<void>;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker": boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date": string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat": string;
+        "dates": string[];
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled": boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate": boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate": boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline": boolean;
+        "label": string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates": boolean | number;
+        "placeholder": string;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range": boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths": boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths": boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker": boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle": string;
+        "withClear": boolean;
     }
     interface IrApplicablePolicies {
         "booking": Booking;
@@ -1310,6 +1393,83 @@ export namespace Components {
           * Label for the week column in the calendar.
          */
         "weekLabel": string;
+    }
+    interface IrDateSelect {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose": boolean;
+        "clearDatePicker": () => Promise<void>;
+        "closeDatePicker": () => Promise<void>;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker": boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date": string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat": string;
+        "dates": string[];
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled": boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate": boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate": boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline": boolean;
+        "label": string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates": boolean | number;
+        "openDatePicker": () => Promise<void>;
+        "placeholder": string;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range": boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths": boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths": boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker": boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle": string;
+        "withClear": boolean;
     }
     interface IrDateView {
         "dateOption": string;
@@ -3361,9 +3521,46 @@ export namespace Components {
          */
         "position": TPositions;
     }
+    interface IrToastAlert {
+        /**
+          * Optional primary action label
+         */
+        "actionLabel"?: string;
+        /**
+          * Plain text description for the toast body
+         */
+        "description"?: string;
+        /**
+          * Whether the close button should be rendered
+         */
+        "dismissible": boolean;
+        /**
+          * Heading displayed at the top of the toast
+         */
+        "label"?: string;
+        /**
+          * Indicates when the provider is playing the exit animation
+         */
+        "leaving": boolean;
+        /**
+          * Toast position drives enter/exit direction
+         */
+        "position": TPositions;
+        /**
+          * Unique identifier passed back to the provider when interacting with the toast
+         */
+        "toastId": string;
+        /**
+          * Maps to visual style tokens
+         */
+        "variant": ToastVariant;
+    }
     interface IrToastProvider {
-        "hide": (id: string) => Promise<void>;
-        "show": (message: string, options?: { variant?: "primary" | "success" | "warning" | "danger" | "neutral"; duration?: number; closable?: boolean; icon?: string; }) => Promise<string>;
+        "addToast": (toast: Omit<Toast1, "id">) => Promise<string>;
+        "clearAllToasts": () => Promise<void>;
+        "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+        "removeToast": (id: string) => Promise<void>;
+        "rtl": boolean;
     }
     interface IrTooltip {
         /**
@@ -3608,6 +3805,10 @@ export interface IrActionsCellCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrActionsCellElement;
 }
+export interface IrAirDatePickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAirDatePickerElement;
+}
 export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrApplicablePoliciesElement;
@@ -3755,6 +3956,10 @@ export interface IrDatePickerCustomEvent<T> extends CustomEvent<T> {
 export interface IrDateRangeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrDateRangeElement;
+}
+export interface IrDateSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrDateSelectElement;
 }
 export interface IrDeleteModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4067,6 +4272,10 @@ export interface IrTextareaCustomEvent<T> extends CustomEvent<T> {
 export interface IrTitleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrTitleElement;
+}
+export interface IrToastAlertCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrToastAlertElement;
 }
 export interface IrUnitStatusCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4593,6 +4802,12 @@ declare global {
         prototype: HTMLIglToBeAssignedElement;
         new (): HTMLIglToBeAssignedElement;
     };
+    interface HTMLIglToastProviderElement extends Components.IglToastProvider, HTMLStencilElement {
+    }
+    var HTMLIglToastProviderElement: {
+        prototype: HTMLIglToastProviderElement;
+        new (): HTMLIglToastProviderElement;
+    };
     interface HTMLIglooCalendarElementEventMap {
         "dragOverHighlightElement": any;
         "moveBookingTo": any;
@@ -4649,6 +4864,29 @@ declare global {
     var HTMLIrActionsCellElement: {
         prototype: HTMLIrActionsCellElement;
         new (): HTMLIrActionsCellElement;
+    };
+    interface HTMLIrAirDatePickerElementEventMap {
+        "dateChanged": {
+    start: moment.Moment | null;
+    end: moment.Moment | null;
+    dates: Date | Date[];
+  };
+        "datePickerFocus": void;
+        "datePickerBlur": void;
+    }
+    interface HTMLIrAirDatePickerElement extends Components.IrAirDatePicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAirDatePickerElementEventMap>(type: K, listener: (this: HTMLIrAirDatePickerElement, ev: IrAirDatePickerCustomEvent<HTMLIrAirDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAirDatePickerElementEventMap>(type: K, listener: (this: HTMLIrAirDatePickerElement, ev: IrAirDatePickerCustomEvent<HTMLIrAirDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAirDatePickerElement: {
+        prototype: HTMLIrAirDatePickerElement;
+        new (): HTMLIrAirDatePickerElement;
     };
     interface HTMLIrApplicablePoliciesElementEventMap {
         "generatePayment": IPaymentAction;
@@ -5401,6 +5639,28 @@ declare global {
     var HTMLIrDateRangeElement: {
         prototype: HTMLIrDateRangeElement;
         new (): HTMLIrDateRangeElement;
+    };
+    interface HTMLIrDateSelectElementEventMap {
+        "datePickerFocus": void;
+        "datePickerBlur": void;
+        "dateChanged": {
+    start: moment.Moment | null;
+    end: moment.Moment | null;
+  };
+    }
+    interface HTMLIrDateSelectElement extends Components.IrDateSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrDateSelectElementEventMap>(type: K, listener: (this: HTMLIrDateSelectElement, ev: IrDateSelectCustomEvent<HTMLIrDateSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrDateSelectElementEventMap>(type: K, listener: (this: HTMLIrDateSelectElement, ev: IrDateSelectCustomEvent<HTMLIrDateSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrDateSelectElement: {
+        prototype: HTMLIrDateSelectElement;
+        new (): HTMLIrDateSelectElement;
     };
     interface HTMLIrDateViewElement extends Components.IrDateView, HTMLStencilElement {
     }
@@ -7156,6 +7416,25 @@ declare global {
         prototype: HTMLIrToastElement;
         new (): HTMLIrToastElement;
     };
+    interface HTMLIrToastAlertElementEventMap {
+        "irToastDismiss": { id: string; reason: 'manual' };
+        "irToastAction": { id: string };
+        "irToastInteractionChange": { id: string; interacting: boolean };
+    }
+    interface HTMLIrToastAlertElement extends Components.IrToastAlert, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrToastAlertElementEventMap>(type: K, listener: (this: HTMLIrToastAlertElement, ev: IrToastAlertCustomEvent<HTMLIrToastAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrToastAlertElementEventMap>(type: K, listener: (this: HTMLIrToastAlertElement, ev: IrToastAlertCustomEvent<HTMLIrToastAlertElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrToastAlertElement: {
+        prototype: HTMLIrToastAlertElement;
+        new (): HTMLIrToastAlertElement;
+    };
     interface HTMLIrToastProviderElement extends Components.IrToastProvider, HTMLStencilElement {
     }
     var HTMLIrToastProviderElement: {
@@ -7315,9 +7594,11 @@ declare global {
         "igl-tba-booking-view": HTMLIglTbaBookingViewElement;
         "igl-tba-category-view": HTMLIglTbaCategoryViewElement;
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
+        "igl-toast-provider": HTMLIglToastProviderElement;
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-accordion": HTMLIrAccordionElement;
         "ir-actions-cell": HTMLIrActionsCellElement;
+        "ir-air-date-picker": HTMLIrAirDatePickerElement;
         "ir-applicable-policies": HTMLIrApplicablePoliciesElement;
         "ir-arrivals": HTMLIrArrivalsElement;
         "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
@@ -7369,6 +7650,7 @@ declare global {
         "ir-daily-revenue-filters": HTMLIrDailyRevenueFiltersElement;
         "ir-date-picker": HTMLIrDatePickerElement;
         "ir-date-range": HTMLIrDateRangeElement;
+        "ir-date-select": HTMLIrDateSelectElement;
         "ir-date-view": HTMLIrDateViewElement;
         "ir-dates-cell": HTMLIrDatesCellElement;
         "ir-delete-modal": HTMLIrDeleteModalElement;
@@ -7504,6 +7786,7 @@ declare global {
         "ir-textarea": HTMLIrTextareaElement;
         "ir-title": HTMLIrTitleElement;
         "ir-toast": HTMLIrToastElement;
+        "ir-toast-alert": HTMLIrToastAlertElement;
         "ir-toast-provider": HTMLIrToastProviderElement;
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-unit-cell": HTMLIrUnitCellElement;
@@ -7836,6 +8119,8 @@ declare namespace LocalJSX {
         "to_date"?: string;
         "unassignedDatesProp"?: any;
     }
+    interface IglToastProvider {
+    }
     interface IglooCalendar {
         "baseUrl"?: string;
         "currencyName"?: string;
@@ -7879,6 +8164,96 @@ declare namespace LocalJSX {
     interface IrActionsCell {
         "buttons"?: IrActionButton[];
         "onIrAction"?: (event: IrActionsCellCustomEvent<{ action: IrActionButton }>) => void;
+    }
+    interface IrAirDatePicker {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose"?: boolean;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker"?: boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date"?: string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat"?: string;
+        "dates"?: string[];
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate"?: boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate"?: boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline"?: boolean;
+        "label"?: string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates"?: boolean | number;
+        /**
+          * Emitted when the selected date changes. Returns the selected date as Moment objects.
+         */
+        "onDateChanged"?: (event: IrAirDatePickerCustomEvent<{
+    start: moment.Moment | null;
+    end: moment.Moment | null;
+    dates: Date | Date[];
+  }>) => void;
+        /**
+          * Emitted when the date picker loses focus or is closed.
+         */
+        "onDatePickerBlur"?: (event: IrAirDatePickerCustomEvent<void>) => void;
+        /**
+          * Emitted when the date picker gains focus or is opened.
+         */
+        "onDatePickerFocus"?: (event: IrAirDatePickerCustomEvent<void>) => void;
+        "placeholder"?: string;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range"?: boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths"?: boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths"?: boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker"?: boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle"?: string;
+        "withClear"?: boolean;
     }
     interface IrApplicablePolicies {
         "booking"?: Booking;
@@ -8869,6 +9244,86 @@ declare namespace LocalJSX {
           * Label for the week column in the calendar.
          */
         "weekLabel"?: string;
+    }
+    interface IrDateSelect {
+        /**
+          * Closes the picker automatically after a date is selected.
+         */
+        "autoClose"?: boolean;
+        /**
+          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+         */
+        "container"?: HTMLElement;
+        /**
+          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+         */
+        "customPicker"?: boolean;
+        /**
+          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+         */
+        "date"?: string | Date | null;
+        /**
+          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+         */
+        "dateFormat"?: string;
+        "dates"?: string[];
+        /**
+          * Disables the input and prevents interaction.
+         */
+        "disabled"?: boolean;
+        /**
+          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+         */
+        "emitEmptyDate"?: boolean;
+        /**
+          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+         */
+        "forceDestroyOnUpdate"?: boolean;
+        /**
+          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+         */
+        "inline"?: boolean;
+        "label"?: string;
+        /**
+          * The latest date that can be selected.
+         */
+        "maxDate"?: string | Date;
+        /**
+          * The earliest date that can be selected.
+         */
+        "minDate"?: string | Date;
+        /**
+          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+         */
+        "multipleDates"?: boolean | number;
+        "onDateChanged"?: (event: IrDateSelectCustomEvent<{
+    start: moment.Moment | null;
+    end: moment.Moment | null;
+  }>) => void;
+        "onDatePickerBlur"?: (event: IrDateSelectCustomEvent<void>) => void;
+        "onDatePickerFocus"?: (event: IrDateSelectCustomEvent<void>) => void;
+        "placeholder"?: string;
+        /**
+          * Whether the picker should allow range selection (start and end date).
+         */
+        "range"?: boolean;
+        /**
+          * Allows selecting days from previous/next month shown in the current view.
+         */
+        "selectOtherMonths"?: boolean;
+        /**
+          * Shows days from previous/next month in the current month's calendar.
+         */
+        "showOtherMonths"?: boolean;
+        /**
+          * Enables the timepicker functionality (select hours and minutes).
+         */
+        "timepicker"?: boolean;
+        /**
+          * Styles for the trigger container
+         */
+        "triggerContainerStyle"?: string;
+        "withClear"?: boolean;
     }
     interface IrDateView {
         "dateOption"?: string;
@@ -11169,7 +11624,46 @@ declare namespace LocalJSX {
          */
         "position"?: TPositions;
     }
+    interface IrToastAlert {
+        /**
+          * Optional primary action label
+         */
+        "actionLabel"?: string;
+        /**
+          * Plain text description for the toast body
+         */
+        "description"?: string;
+        /**
+          * Whether the close button should be rendered
+         */
+        "dismissible"?: boolean;
+        /**
+          * Heading displayed at the top of the toast
+         */
+        "label"?: string;
+        /**
+          * Indicates when the provider is playing the exit animation
+         */
+        "leaving"?: boolean;
+        "onIrToastAction"?: (event: IrToastAlertCustomEvent<{ id: string }>) => void;
+        "onIrToastDismiss"?: (event: IrToastAlertCustomEvent<{ id: string; reason: 'manual' }>) => void;
+        "onIrToastInteractionChange"?: (event: IrToastAlertCustomEvent<{ id: string; interacting: boolean }>) => void;
+        /**
+          * Toast position drives enter/exit direction
+         */
+        "position"?: TPositions;
+        /**
+          * Unique identifier passed back to the provider when interacting with the toast
+         */
+        "toastId": string;
+        /**
+          * Maps to visual style tokens
+         */
+        "variant"?: ToastVariant;
+    }
     interface IrToastProvider {
+        "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+        "rtl"?: boolean;
     }
     interface IrTooltip {
         /**
@@ -11343,9 +11837,11 @@ declare namespace LocalJSX {
         "igl-tba-booking-view": IglTbaBookingView;
         "igl-tba-category-view": IglTbaCategoryView;
         "igl-to-be-assigned": IglToBeAssigned;
+        "igl-toast-provider": IglToastProvider;
         "igloo-calendar": IglooCalendar;
         "ir-accordion": IrAccordion;
         "ir-actions-cell": IrActionsCell;
+        "ir-air-date-picker": IrAirDatePicker;
         "ir-applicable-policies": IrApplicablePolicies;
         "ir-arrivals": IrArrivals;
         "ir-arrivals-filters": IrArrivalsFilters;
@@ -11397,6 +11893,7 @@ declare namespace LocalJSX {
         "ir-daily-revenue-filters": IrDailyRevenueFilters;
         "ir-date-picker": IrDatePicker;
         "ir-date-range": IrDateRange;
+        "ir-date-select": IrDateSelect;
         "ir-date-view": IrDateView;
         "ir-dates-cell": IrDatesCell;
         "ir-delete-modal": IrDeleteModal;
@@ -11532,6 +12029,7 @@ declare namespace LocalJSX {
         "ir-textarea": IrTextarea;
         "ir-title": IrTitle;
         "ir-toast": IrToast;
+        "ir-toast-alert": IrToastAlert;
         "ir-toast-provider": IrToastProvider;
         "ir-tooltip": IrTooltip;
         "ir-unit-cell": IrUnitCell;
@@ -11578,9 +12076,11 @@ declare module "@stencil/core" {
             "igl-tba-booking-view": LocalJSX.IglTbaBookingView & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
             "igl-tba-category-view": LocalJSX.IglTbaCategoryView & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
             "igl-to-be-assigned": LocalJSX.IglToBeAssigned & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
+            "igl-toast-provider": LocalJSX.IglToastProvider & JSXBase.HTMLAttributes<HTMLIglToastProviderElement>;
             "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-accordion": LocalJSX.IrAccordion & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
             "ir-actions-cell": LocalJSX.IrActionsCell & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
+            "ir-air-date-picker": LocalJSX.IrAirDatePicker & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
             "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
             "ir-arrivals": LocalJSX.IrArrivals & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
             "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
@@ -11638,6 +12138,7 @@ declare module "@stencil/core" {
             "ir-daily-revenue-filters": LocalJSX.IrDailyRevenueFilters & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
             "ir-date-picker": LocalJSX.IrDatePicker & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;
             "ir-date-range": LocalJSX.IrDateRange & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
+            "ir-date-select": LocalJSX.IrDateSelect & JSXBase.HTMLAttributes<HTMLIrDateSelectElement>;
             "ir-date-view": LocalJSX.IrDateView & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
             "ir-dates-cell": LocalJSX.IrDatesCell & JSXBase.HTMLAttributes<HTMLIrDatesCellElement>;
             "ir-delete-modal": LocalJSX.IrDeleteModal & JSXBase.HTMLAttributes<HTMLIrDeleteModalElement>;
@@ -11773,6 +12274,7 @@ declare module "@stencil/core" {
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
+            "ir-toast-alert": LocalJSX.IrToastAlert & JSXBase.HTMLAttributes<HTMLIrToastAlertElement>;
             "ir-toast-provider": LocalJSX.IrToastProvider & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-unit-cell": LocalJSX.IrUnitCell & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;

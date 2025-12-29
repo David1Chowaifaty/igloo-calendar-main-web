@@ -129,9 +129,10 @@ export interface CheckInParams {
  * @returns True if check-in is allowed; otherwise, false.
  */
 export declare function canCheckIn({ from_date, to_date, isCheckedIn }: CheckInParams): boolean;
-export declare function canCheckout({ to_date, inOutCode }: {
+export declare function canCheckout({ to_date, inOutCode, skipAutoCheckout }: {
     to_date: string;
     inOutCode: string;
+    skipAutoCheckout?: boolean;
 }): boolean;
 /**
  * Downloads a file from a given URL.

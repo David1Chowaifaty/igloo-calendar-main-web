@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Fragment } from '@stencil/core/internal/client';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables.js';
-import { f as formatAmount } from './booking.js';
+import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$5 } from './ir-accordion2.js';
 import { d as defineCustomElement$4 } from './ir-button2.js';
@@ -78,7 +78,7 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: '5183a1bb846461c45bbfacf2a6663b640a44c6f2', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: '8d7c0d52cd6c34b43b4aa2a936ba7c7bf8806dd1', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)

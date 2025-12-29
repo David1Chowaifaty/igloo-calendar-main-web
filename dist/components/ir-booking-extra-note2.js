@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
 import { B as BookingService } from './booking.service.js';
-import { F as getPrivateNote } from './booking.js';
+import { o as getPrivateNote } from './booking.js';
 import { d as defineCustomElement$2 } from './ir-custom-button2.js';
 import { d as defineCustomElement$1 } from './ir-dialog2.js';
 
@@ -74,9 +74,9 @@ const IrBookingExtraNote = /*@__PURE__*/ proxyCustomElement(class IrBookingExtra
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '8ba3a17ee3b0f47b20e47a01ebedd4304934f7f9', label: "Private note", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: 'dc309d991244b9f6208f94a81ce4ab9b6423cd12', label: "Private note", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: '7fcbb0f6c34b1c722bafba96006d91023695ae57', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: '80b9ab8bcd504bf3452354246e1bbcea0535673d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '7beb90bd63238e7eae344e4ce9f1d6126b82db9c', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'e32403ccb1ea352318d917b1683e2e6eab7413b9', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-textarea", { key: '3f9f6fab1cc0c6a91e465bfd2ab7f43ab6130bf0', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'f3da6423b43ef5d5d6655bf5f9d9961d786fe9e4', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '0af1d922be2049ca3f1a0d006d1271894b20cdcb', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '6d62efdaee4ae62d166db6c2b2acaca8701bdaf3', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
     static get style() { return IrBookingExtraNoteStyle0; }
 }, [2, "ir-booking-extra-note", {

@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host, Fragment } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { f as formatAmount, c as calculateDaysBetweenDates } from './booking.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
+import { f as formatAmount } from './utils.js';
 import { d as defineCustomElement$4 } from './ir-print-room2.js';
 import { d as defineCustomElement$3 } from './ir-printing-extra-service2.js';
 import { d as defineCustomElement$2 } from './ir-printing-label2.js';

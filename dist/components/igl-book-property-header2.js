@@ -6,9 +6,10 @@ import { c as calendar_data } from './calendar-data.js';
 import { b as booking_store, s as setBookingDraft } from './booking.store.js';
 import { B as BookingService } from './booking.service.js';
 import { z } from './index2.js';
-import { d as defineCustomElement$7 } from './igl-date-range2.js';
+import { d as defineCustomElement$8 } from './igl-date-range2.js';
+import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
@@ -189,7 +190,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '41a9f4c5a2f0bfbf92c4375c4153155e8ba2831c' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '030dfc1e34957b753f171bb63f7211b6068e78c6', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: '1dc1a2caa8d426a466a474af296c3afe604954ef', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '466aa16b0f93872a3cfb6397bc4e287ef6626a2b', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '9bf5ac272969b7c4a41712c89a198a2a52cf0adf', class: "text-right message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '262af9021c83074fde25bbfd0ce10c946796d1c0' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '72c23dba7c6fee77177b47fbbe5c0a18e1e8e481', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: '8a733cbdc2851fd886f3ab8aea70b6c4ec09aa4f', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: 'b18772d57d89ca61137f906d5739325a5581f930', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: 'eb11b2313209c9624fb1a9fc866205d0cb0e7068', class: "text-right message-label" }, calendar_data.tax_statement)));
     }
     static get style() { return IglBookPropertyHeaderStyle0; }
 }, [2, "igl-book-property-header", {
@@ -214,7 +215,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-custom-button", "ir-custom-date-picker", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["igl-book-property-header", "igl-date-range", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
@@ -222,6 +223,11 @@ function defineCustomElement() {
             }
             break;
         case "igl-date-range":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
@@ -231,7 +237,7 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

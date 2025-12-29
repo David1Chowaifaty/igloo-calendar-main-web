@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
-import { f as formatAmount } from './booking.js';
+import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$4 } from './ir-accordion2.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';
@@ -23,7 +23,7 @@ const IrRevenueRow = /*@__PURE__*/ proxyCustomElement(class IrRevenueRow extends
     contentId = `ir-rr-content-${++accId}`;
     render() {
         const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
-        return (h(Host, { key: 'd1cbbe50e72e26768b7c803a5f0fad25c1e3a7a7' }, h("ir-accordion", { key: '025ac7870a00d7c5854d4d4e93d793a2e59c2df9', class: "ir-revenue-row__accordion" }, h("div", { key: '3a88328d977166581ab6fe7a49e79eb47cfa07ab', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '789fb680659088089fb87b1a5f10ef3e601be095', class: "ir-revenue-row__header-left" }, h("p", { key: 'e2f93e24b6a1c4d6f2a8bc02ffc7338846b9a694', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: 'fdaa5da75db69bb63b2183f52d5bfb5724aaffcf', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '437bae364be9cf209b82ae379ee8f5a3e5e0f229', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '0bdcfdbb0b76482e6c7ea1554929592885f99e16', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '3cf2adcdf19db81db0db975f5dc93f2f1c998929', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+        return (h(Host, { key: 'fd6e70f2e1adef41edf3d76d66892c54bfddf4dc' }, h("ir-accordion", { key: 'b08963abbb5aeadf1b84c2fae8c158e04a2f9c6d', class: "ir-revenue-row__accordion" }, h("div", { key: '5d9182bf44fb74a5cb1407d437490c14a490df1b', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '2fe4eda9258354da1c89bbe107b49083f8b6e276', class: "ir-revenue-row__header-left" }, h("p", { key: 'd4c46acc1d86700ba4db2e7181791e53d9c857a9', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: '4ff706b68f125d20af09a8442a265d6f37a7603a', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '6b1e2d0019288dc35fe5b38d80113c9fd9177c4e', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: '2fb5ab13040d99dd2c2a6b27d393f9c0993a2c9b', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '0472f4b875bfcba661c9f5224c1292b55dbc05f5', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
     }
     static get style() { return IrRevenueRowStyle0; }
 }, [2, "ir-revenue-row", {

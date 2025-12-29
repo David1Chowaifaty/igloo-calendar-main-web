@@ -10,8 +10,8 @@ export declare const guestInfoFormSchema: z.ZodObject<{
     notes: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     email?: string;
-    mobile?: string;
     notes?: string;
+    mobile?: string;
     first_name?: string;
     last_name?: string;
     country_id?: number;
@@ -19,8 +19,8 @@ export declare const guestInfoFormSchema: z.ZodObject<{
     country_phone_prefix?: string;
 }, {
     email?: string;
-    mobile?: string;
     notes?: string;
+    mobile?: string;
     first_name?: string;
     last_name?: string;
     country_id?: number;

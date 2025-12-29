@@ -1,6 +1,5 @@
 import moment from "moment";
 import { z } from "zod";
-import { compareTime, createDateWithOffsetAndHour } from "./booking";
 import calendarData from "../stores/calendar-data";
 import locales from "../stores/locales.store";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
@@ -341,15 +340,16 @@ export function canCheckIn({ from_date, to_date, isCheckedIn }) {
         return false;
     }
     const now = moment();
-    if ((moment().isSameOrAfter(new Date(from_date), 'days') && moment().isBefore(new Date(to_date), 'days')) ||
-        (moment().isSame(new Date(to_date), 'days') &&
-            !compareTime(now.toDate(), createDateWithOffsetAndHour(calendarData.checkin_checkout_hours?.offset, calendarData.checkin_checkout_hours?.hour)))) {
+    if ((now.isSameOrAfter(new Date(from_date), 'days') && now.isBefore(new Date(to_date), 'days')) ||
+        now.isSame(new Date(to_date), 'days')
+    // && !compareTime(now.toDate(), createDateWithOffsetAndHour(calendarData.checkin_checkout_hours?.offset, calendarData.checkin_checkout_hours?.hour))
+    ) {
         return true;
     }
     return false;
 }
-export function canCheckout({ to_date, inOutCode }) {
-    if (!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) {
+export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
+    if ((!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
     if (inOutCode === '002') {

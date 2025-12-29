@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { F as getPrivateNote } from './booking.js';
+import { o as getPrivateNote } from './booking.js';
 import { d as defineCustomElement$a } from './ir-balance-cell2.js';
 import { d as defineCustomElement$9 } from './ir-booked-by-cell2.js';
 import { d as defineCustomElement$8 } from './ir-booked-on-cell2.js';

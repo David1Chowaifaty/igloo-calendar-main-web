@@ -2,7 +2,8 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { l as locales } from './locales.store.js';
 import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$2 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$3 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
 const iglDateRangeCss = ":host{display:flex;min-width:280px}.custom-picker{width:100%}";
@@ -131,7 +132,9 @@ const IglDateRange = /*@__PURE__*/ proxyCustomElement(class IglDateRange extends
         //     {this.renderDateSummary(showNights)}
         //   </div>
         // </Host>
-        h("ir-custom-date-picker", { key: '91d9e6d97f9ab394213bc70e0888a0741a6fde3e', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, hint: this.hint, dates: this.dates }, h("wa-icon", { key: '18330036af894ea6258ceec8bbd04bc992bf4583', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'ab13ccbf154d672fba600f13762291f781278b3e', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        h("ir-date-select", { key: 'ae20a84a7221ceecca2a700e9a88bf75d7048a1b', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true,
+            // hint={this.hint}
+            dates: this.dates }, h("wa-icon", { key: 'd2bcc2d1644c615037556129482c1e23d1ebf58f', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: '76d533c05ab6563dff91fedd4dd1e1ffb88337f8', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get watchers() { return {
         "defaultData": ["handleDataChange"],
@@ -160,14 +163,19 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-date-range", "ir-custom-date-picker", "ir-input"];
+    const components = ["igl-date-range", "ir-air-date-picker", "ir-date-select", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-date-range":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglDateRange);
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

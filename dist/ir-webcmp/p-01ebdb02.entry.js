@@ -1,2 +1,0 @@
-import{r as e,h as r,H as s}from"./p-acddcbeb.js";const o=":host{display:block}";const t=o;const c=class{constructor(r){e(this,r)}render(){return r(s,{key:"f19e7ea6b67b2c4687e477808a7353beda75ae99"},"hello")}};c.style=t;export{c as ir_property_switcher};
-//# sourceMappingURL=p-01ebdb02.entry.js.map

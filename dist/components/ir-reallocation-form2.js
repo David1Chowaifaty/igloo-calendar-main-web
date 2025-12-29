@@ -6,7 +6,8 @@ import { r as resetBookingStore } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
-import { c as calculateDaysBetweenDates, n as checkMealPlan } from './booking.js';
+import { c as calculateDaysBetweenDates } from './booking.js';
+import { j as checkMealPlan } from './utils.js';
 import { h as hooks } from './moment.js';
 import { Z as ZodError } from './index2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
@@ -151,14 +152,14 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
         return this.booking.from_date;
     }
     render() {
-        return (h("form", { key: '4215931ef1acc2ffb87e44e846ea846fc127c1df', id: this.formId, class: "reallocation-form", onSubmit: e => {
+        return (h("form", { key: 'b7fc9f48b87f4ded85dda31c03ad36df247d6624', id: this.formId, class: "reallocation-form", onSubmit: e => {
                 e.preventDefault();
                 this.reallocateUnit();
-            } }, h("div", { key: 'e302b704a368448b297a44fa2ff876cab323c4ce', class: "booking-summary" }, h("ir-date-view", { key: '72825978b918716c16a20f8eb29201685c3cb1e8', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("p", { key: '6df94a72d7a16df87c2f5e5cda914fb0f2340bea', class: "rateplan-details" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '9176e8f09866fe341177da071a3d1b6cf126f3d6', class: "date-picker-row" }, h("ir-custom-date-picker", { key: '828885d7cd23df6f132059c53f08822a55c31d00', "data-testid": "pickup_arrival_date", date: this.date?.format('YYYY-MM-DD'),
+            } }, h("div", { key: '9614615925a3ecbb08f9509a414eafd6b771ec8e', class: "booking-summary" }, h("ir-date-view", { key: '27da43f2ff3ec3ad615a3bcd60c3980b4b29e617', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("p", { key: 'e71d3b1bb411af92a08afa6a953538f58d2a8ea1', class: "rateplan-details" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '9a523e382d5f774fc43a49d6d1c85ee15e7beeed', class: "date-picker-row" }, h("ir-custom-date-picker", { key: 'a49804896057f3a8f722db084db6b81704835e33', "data-testid": "pickup_arrival_date", date: this.date?.format('YYYY-MM-DD'),
             // maxDate={this.defaultDates?.to_date.format('YYYY-MM-DD')}
             minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, label: "From:", onDateChanged: evt => {
                 this.date = evt.detail.start;
-            } }), h("ir-custom-button", { key: '668b231b06e687a154100af74d1992fbbc45e3e8', variant: "brand", loading: isRequestPending('/Check_Availability'), onClickHandler: () => this.checkBookingAvailability() }, "Check available units")), this.errors?.roomtype_id && h("p", { key: '0d8c4788ce2f44ddbb38935341490b4640e289d5', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: '345dc85dcd76858cb6c8a3fe3d37daf7ec5b3c4c', onchange: e => {
+            } }), h("ir-custom-button", { key: '09210c1f3323d11922a6f83ea452a7bf9388ec97', variant: "brand", loading: isRequestPending('/Check_Availability'), onClickHandler: () => this.checkBookingAvailability() }, "Check available units")), this.errors?.roomtype_id && h("p", { key: '487b4b89f8703cca2b461503ebd3a0b25d666634', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: '0307fd668a770801dd60762f4c71799d3ecbd501', onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),

@@ -258,7 +258,7 @@ export declare const BlockAvailabilityForBracketsPropsSchema: z.ZodObject<{
     property_id?: number;
     description?: string;
     unit_id?: number;
-    block_status_code?: "004" | "003" | "002";
+    block_status_code?: "003" | "002" | "004";
     brackets?: {
         from_date?: string;
         to_date?: string;
@@ -267,7 +267,7 @@ export declare const BlockAvailabilityForBracketsPropsSchema: z.ZodObject<{
     property_id?: number;
     description?: string;
     unit_id?: number;
-    block_status_code?: "004" | "003" | "002";
+    block_status_code?: "003" | "002" | "004";
     brackets?: {
         from_date?: string;
         to_date?: string;
@@ -279,12 +279,12 @@ export declare const SetDepartureTimePropsSchema: z.ZodObject<{
     room_identifier: z.ZodOptional<z.ZodString>;
     code: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    property_id?: number;
     code?: string;
+    property_id?: number;
     room_identifier?: string;
 }, {
-    property_id?: number;
     code?: string;
+    property_id?: number;
     room_identifier?: string;
 }>;
 export type SetDepartureTimeProps = z.infer<typeof SetDepartureTimePropsSchema>;
@@ -807,10 +807,10 @@ export declare const ExposedGuestSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     email?: string;
     id?: number;
+    address?: null;
+    notes?: null;
     mobile?: string;
     password?: null;
-    notes?: null;
-    address?: null;
     first_name?: string;
     last_name?: string;
     country_id?: number;
@@ -828,10 +828,10 @@ export declare const ExposedGuestSchema: z.ZodObject<{
 }, {
     email?: string;
     id?: number;
+    address?: null;
+    notes?: null;
     mobile?: string;
     password?: null;
-    notes?: null;
-    address?: null;
     first_name?: string;
     last_name?: string;
     country_id?: number;
@@ -872,10 +872,10 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     email?: string;
     id?: number;
+    address?: null;
+    notes?: null;
     mobile?: string;
     password?: null;
-    notes?: null;
-    address?: null;
     first_name?: string;
     last_name?: string;
     country_id?: number;
@@ -893,10 +893,10 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
 }, {
     email?: string;
     id?: number;
+    address?: null;
+    notes?: null;
     mobile?: string;
     password?: null;
-    notes?: null;
-    address?: null;
     first_name?: string;
     last_name?: string;
     country_id?: number;

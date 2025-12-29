@@ -8,10 +8,11 @@ import { m as modifyBookingStore, f as reserveRooms, b as booking_store, o as re
 import { z } from './index2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { V as VariationService } from './variation.service.js';
-import { e as extras } from './booking.js';
-import { d as defineCustomElement$7 } from './igl-date-range2.js';
+import { e as extras } from './utils.js';
+import { d as defineCustomElement$8 } from './igl-date-range2.js';
+import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
@@ -519,16 +520,16 @@ const IrBookingEditorHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         const { sources } = booking_store.selects;
         const { adults, children } = booking_store.bookingDraft.occupancy;
         const { checkIn, checkOut } = booking_store.bookingDraft.dates;
-        return (h(Host, { key: '61381a2fbe39c9f5d315269b008585a8227575dd' }, h("form", { key: '84dc72d31827215225749ba1018f5a65600e762d', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: '4ade259f6f91ab72a562174db28eb3500f1735f2', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: 'b62fa14ad4f691dabef97c8b404b2db5b5d8b43a', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${locales.entries.Lcz_Tobooking}#`,
+        return (h(Host, { key: '099ed2e1292520c13d27c407183b16eee1dd9093' }, h("form", { key: '8010e1f9a217becaa4ddc26deb56185ecff31a2c', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: '2b6a2b469b864628d06c5545271ebdf823589c6f', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: '826cbd77cb6a8c056e65c1c07772385d6a7982da', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${locales.entries.Lcz_Tobooking}#`,
             // defaultValue={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
             // value={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
             placeholder: locales.entries.Lcz_BookingNumber, loading: this.isLoading, "onText-change": e => this.handleBookingSearch(e.detail), "onCombobox-select": this.selectGuest.bind(this) }, this.bookings.map(b => {
             const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
             return (h("ir-picker-item", { value: b.booking_nbr?.toString(), label: label }, label));
-        })))), h("div", { key: '080093888dbf6b7c9bd6b99146488f598f673e3b', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && (h("wa-select", { key: 'af216ebf36be9521d98bbf014b24f9d353ba074c', size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), h("ir-validator", { key: '4ef3b0c4e8de5bc8478123768ab38bb1d73c26e4', class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("igl-date-range", { key: '82c3c0a9cc94cd9739bc211f3d1ee7d12ea185fd', defaultData: {
+        })))), h("div", { key: 'a0589029edaf2549b1b12638a58596b70fbaf227', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && (h("wa-select", { key: '0f06fc4911580b2e0497886c0af6a251c1360328', size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), h("ir-validator", { key: 'f7bec2eb5bdbebf0a63078d2b9c4349e261fe265', class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("igl-date-range", { key: '03f912618105c9c5f90deff9f861c7a6cea7d259', defaultData: {
                 fromDate: checkIn?.format('YYYY-MM-DD') ?? '',
                 toDate: checkOut?.format('YYYY-MM-DD') ?? '',
-            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: '3d5ce48dff1c46e5094a867402f3f70dcd56d6ce' }, h("ir-validator", { key: 'f1b4c9ffe73be74acd5f515941c6c8d62efcf794', value: adults, schema: this.adultsSchema }, h("wa-select", { key: '1c05163e5da4bd8278c8a2fffedccba2cbd68620', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '7db4887ba19dc93d541e3f691ca4be2d81e696c1', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: 'c32e7a569b027efb684c458212df48f49330c656', loading: isRequestPending('/Check_Availability'), type: "submit", variant: "brand" }, "Check")))));
+            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: '5563e1a41a8d19eade66064d76d2f1c148dfcfc2' }, h("ir-validator", { key: 'fb1ab5481a3c28fc6efae37d529adfbaaf7fa0a7', value: adults, schema: this.adultsSchema }, h("wa-select", { key: 'aaacd84b15cf4b87f9657355b52fed02ae512b2b', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '7b98a31f63e3f5a8604516ad51c7bb7b8c0886c4', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: 'a5b5a0c21118d972baf3034fb5ecd8ba93828be6', loading: isRequestPending('/Check_Availability'), type: "submit", variant: "brand" }, "Check")))));
     }
     static get watchers() { return {
         "booking": ["handleBookingChange"],
@@ -551,7 +552,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-editor-header", "igl-date-range", "ir-custom-button", "ir-custom-date-picker", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["ir-booking-editor-header", "igl-date-range", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-editor-header":
             if (!customElements.get(tagName)) {
@@ -559,6 +560,11 @@ function defineCustomElement() {
             }
             break;
         case "igl-date-range":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
@@ -568,7 +574,7 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

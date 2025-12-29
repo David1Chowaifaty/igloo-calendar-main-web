@@ -1,9 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { o as findCountry, p as canCheckIn, q as compareTime, r as createDateWithOffsetAndHour, f as formatAmount } from './booking.js';
+import { k as findCountry, l as canCheckIn, f as formatAmount } from './utils.js';
 import { E as EventsService } from './events.service.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
+import { e as compareTime, f as createDateWithOffsetAndHour } from './booking.js';
 import { P as PropertyService } from './property.service.js';
 import { d as defineCustomElement$7 } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
@@ -447,7 +448,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: '42592174f07903ce6e5a846e5a77d73b178cda85' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '39b739937cbe280666fc61945daa488f00acbfe5' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]

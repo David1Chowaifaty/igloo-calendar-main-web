@@ -22,6 +22,7 @@ export declare class IglCalHeader {
     private roomsList;
     private toBeAssignedService;
     dateRef: HTMLIrButtonElement;
+    dateSelectRef: HTMLIrDateSelectElement;
     componentWillLoad(): void;
     handleCalendarDataChanged(): void;
     private initializeRoomsList;

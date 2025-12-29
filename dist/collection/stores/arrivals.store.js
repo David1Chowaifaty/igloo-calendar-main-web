@@ -125,9 +125,9 @@ function splitBookingsByStatus(bookings) {
     }, { needsCheckIn: [], inHouse: [], futureRooms: [] });
 }
 function isNeedsCheckIn(room) {
-    if (!room.unit) {
-        return false;
-    }
+    // if (!room.unit) {
+    //   return false;
+    // }
     return canCheckIn({
         from_date: room.from_date,
         to_date: room.to_date,

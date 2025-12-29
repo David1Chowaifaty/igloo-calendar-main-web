@@ -12,7 +12,7 @@ const IrPropertySwitcher = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return index.h(index.Host, { key: 'f19e7ea6b67b2c4687e477808a7353beda75ae99' }, "hello");
+        return index.h(index.Host, { key: '21dfdf86f05a255c61d11459f22ae6ad5ea2c580' }, "hello");
     }
 };
 IrPropertySwitcher.style = IrPropertySwitcherStyle0;

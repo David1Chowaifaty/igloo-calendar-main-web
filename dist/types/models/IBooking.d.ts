@@ -77,7 +77,6 @@ export declare const ZIEntrySchema: z.ZodObject<{
     TBL_NAME: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     NOTES?: string;
-    ENTRY_DATE?: string;
     CODE_NAME?: string;
     CODE_VALUE_AR?: string;
     CODE_VALUE_DE?: string;
@@ -89,6 +88,7 @@ export declare const ZIEntrySchema: z.ZodObject<{
     CODE_VALUE_RU?: string;
     CODE_VALUE_UA?: string;
     DISPLAY_ORDER?: number;
+    ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     INVARIANT_VALUE?: string;
     ISDELETEABLE?: boolean;
@@ -100,7 +100,6 @@ export declare const ZIEntrySchema: z.ZodObject<{
     TBL_NAME?: string;
 }, {
     NOTES?: string;
-    ENTRY_DATE?: string;
     CODE_NAME?: string;
     CODE_VALUE_AR?: string;
     CODE_VALUE_DE?: string;
@@ -112,6 +111,7 @@ export declare const ZIEntrySchema: z.ZodObject<{
     CODE_VALUE_RU?: string;
     CODE_VALUE_UA?: string;
     DISPLAY_ORDER?: number;
+    ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     INVARIANT_VALUE?: string;
     ISDELETEABLE?: boolean;
