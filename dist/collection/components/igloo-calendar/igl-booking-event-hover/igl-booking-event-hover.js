@@ -285,6 +285,7 @@ export class IglBookingEventHover {
         let data = roomData ? roomData : this.bookingEvent;
         data.event_type = eventType;
         data.TITLE = this.renderTitle(eventType, roomInfo);
+        data.IDENTIFIER = this.bookingEvent.IDENTIFIER;
         if (['003', '002', '004'].includes(this.bookingEvent.STATUS_CODE)) {
             data.roomsInfo = [roomInfo.ROOMS_INFO];
         }
@@ -428,7 +429,7 @@ export class IglBookingEventHover {
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: '39b739937cbe280666fc61945daa488f00acbfe5' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '6990f241e066891ab481e383dfd051188b31a13c' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get is() { return "igl-booking-event-hover"; }
     static get encapsulation() { return "scoped"; }
