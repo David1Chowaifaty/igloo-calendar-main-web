@@ -1,5 +1,6 @@
 :host {
   display: block;
+  height: 100%;
   color: var(--ir-text-color, #1f2a37);
   font-family: var(--ir-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
 }

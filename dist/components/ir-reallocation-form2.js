@@ -9,11 +9,12 @@ import { c as calculateDaysBetweenDates } from './booking.js';
 import { j as checkMealPlan } from './utils.js';
 import { h as hooks } from './moment.js';
 import { Z as ZodError } from './index2.js';
-import { d as defineCustomElement$3 } from './ir-date-view2.js';
-import { d as defineCustomElement$2 } from './ir-empty-state2.js';
+import { d as defineCustomElement$4 } from './ir-date-view2.js';
+import { d as defineCustomElement$3 } from './ir-empty-state2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irReallocationFormCss = ".sc-ir-reallocation-form-h{display:block;color:var(--ir-text-color, #1f2a37);font-family:var(--ir-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif)}.reallocation-form.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.75rem}.booking-summary.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.5rem}.rateplan-details.sc-ir-reallocation-form{margin:0;font-weight:500;color:var(--ir-muted-text-color, #4b5563)}.date-picker-row.sc-ir-reallocation-form{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:flex-end}.date-picker-row.sc-ir-reallocation-form .ir-custom-date-picker.sc-ir-reallocation-form{flex:1 1 220px}.error-message.sc-ir-reallocation-form{margin:0;margin-top:0.75rem;color:var(--ir-error-color, #c0392b);font-size:0.95rem}.room-type-list.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem}.choice-row.sc-ir-reallocation-form{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.room-type-name.sc-ir-reallocation-form{font-weight:600;color:var(--ir-heading-color, #111827)}.physical-room.sc-ir-reallocation-form{display:flex;align-items:center;font-size:0.95rem;padding-inline-start:1rem}.physical-room.sc-ir-reallocation-form::part(label){display:flex;align-items:center}.physical-room.sc-ir-reallocation-form+.physical-room.sc-ir-reallocation-form{margin-top:0.5rem}.physical-room--last.sc-ir-reallocation-form{margin-bottom:0.25rem}.physical-room.sc-ir-reallocation-form wa-select.sc-ir-reallocation-form{margin-left:1rem;min-width:220px}.custom-date-picker.sc-ir-reallocation-form{max-width:200px}.room-type-row.sc-ir-reallocation-form{margin-bottom:0.5rem}";
+const irReallocationFormCss = ".sc-ir-reallocation-form-h{display:block;height:100%;color:var(--ir-text-color, #1f2a37);font-family:var(--ir-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif)}.reallocation-form.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.75rem}.booking-summary.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.5rem}.rateplan-details.sc-ir-reallocation-form{margin:0;font-weight:500;color:var(--ir-muted-text-color, #4b5563)}.date-picker-row.sc-ir-reallocation-form{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:flex-end}.date-picker-row.sc-ir-reallocation-form .ir-custom-date-picker.sc-ir-reallocation-form{flex:1 1 220px}.error-message.sc-ir-reallocation-form{margin:0;margin-top:0.75rem;color:var(--ir-error-color, #c0392b);font-size:0.95rem}.room-type-list.sc-ir-reallocation-form{display:flex;flex-direction:column;gap:0.75rem;margin-top:0.75rem}.choice-row.sc-ir-reallocation-form{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.room-type-name.sc-ir-reallocation-form{font-weight:600;color:var(--ir-heading-color, #111827)}.physical-room.sc-ir-reallocation-form{display:flex;align-items:center;font-size:0.95rem;padding-inline-start:1rem}.physical-room.sc-ir-reallocation-form::part(label){display:flex;align-items:center}.physical-room.sc-ir-reallocation-form+.physical-room.sc-ir-reallocation-form{margin-top:0.5rem}.physical-room--last.sc-ir-reallocation-form{margin-bottom:0.25rem}.physical-room.sc-ir-reallocation-form wa-select.sc-ir-reallocation-form{margin-left:1rem;min-width:220px}.custom-date-picker.sc-ir-reallocation-form{max-width:200px}.room-type-row.sc-ir-reallocation-form{margin-bottom:0.5rem}";
 const IrReallocationFormStyle0 = irReallocationFormCss;
 
 const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocationForm extends HTMLElement {
@@ -27,6 +28,7 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
     pool;
     formId;
     date;
+    isLoading;
     room;
     roomTypes = [];
     selectedUnit = {};
@@ -54,6 +56,7 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
         return room;
     }
     async checkBookingAvailability() {
+        this.isLoading = true;
         resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
@@ -74,6 +77,7 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
                 room_type_ids_to_update: [],
             });
             this.roomTypes = data.filter(r => r.is_available_to_book);
+            this.isLoading = false;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
@@ -150,16 +154,19 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
     //   return this.booking.from_date;
     // }
     render() {
-        return (h("form", { key: '00c7f1f47755ff1bea274cc50940c41237f008e5', id: this.formId, class: "reallocation-form", onSubmit: e => {
+        if (this.isLoading) {
+            return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
+        }
+        return (h("form", { id: this.formId, class: "reallocation-form", onSubmit: e => {
                 e.preventDefault();
                 this.reallocateUnit();
-            } }, h("div", { key: '5e966d0a1a58eb245161d94d75e1367b574aa300', class: "booking-summary" }, h("ir-date-view", { key: 'c33ff693a31a25b3a8f757f6dabc82076a0e4fd1', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("span", { key: '4985509268ad55877f12adf2213fa133ec4b779b' }, h("span", { key: '7f8a7019783680938b5b3b54583d9443241498d5' }, "From:"), h("p", { key: 'e70eb727f2ed68abbc4f0f31189799d850a0b7bf', class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', this.room.unit.name))), h("p", { key: '7db29459fa97461cd91fd817062974291ae2d51f' }, "To:"), this.roomTypes.length === 0 && h("ir-empty-state", { key: '605a246c82d7fe7d81369c42b6472028c2c4e945' }), this.errors?.roomtype_id && h("p", { key: '85eb12dc9f3d9964b01fcf6f2bb992696ee25b4a', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: 'a36c681e71173b07007517050d3a7cd6234f389f', onchange: e => {
+            } }, h("div", { class: "booking-summary" }, h("ir-date-view", { from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("span", null, h("span", null, "From:"), h("p", { class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', this.room.unit.name))), this.errors?.roomtype_id && h("p", { class: "error-message" }, "Please select a room"), this.roomTypes.length === 0 ? (h("ir-empty-state", { style: { marginTop: '20vh' } })) : (h("wa-radio-group", { onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),
                     unit_id: Number(unit_id),
                 });
-            }, name: "available-units", class: "room-type-list" }, this.roomTypes?.map(roomType => {
+            }, name: "available-units", class: "room-type-list" }, h("p", { style: { margin: '0', padding: '0', marginBottom: '0.5rem' } }, "To:"), this.roomTypes?.map(roomType => {
             const units = (() => {
                 const unitMap = new Map();
                 for (const rateplan of roomType.rateplans ?? []) {
@@ -184,7 +191,7 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
                     return h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`);
                 }))))));
             })));
-        }))));
+        })))));
     }
     static get style() { return IrReallocationFormStyle0; }
 }, [2, "ir-reallocation-form", {
@@ -193,6 +200,7 @@ const IrReallocationForm = /*@__PURE__*/ proxyCustomElement(class IrReallocation
         "pool": [1],
         "formId": [1, "form-id"],
         "date": [32],
+        "isLoading": [32],
         "room": [32],
         "roomTypes": [32],
         "selectedUnit": [32],
@@ -203,7 +211,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-reallocation-form", "ir-date-view", "ir-empty-state", "ir-validator"];
+    const components = ["ir-reallocation-form", "ir-date-view", "ir-empty-state", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-reallocation-form":
             if (!customElements.get(tagName)) {
@@ -212,10 +220,15 @@ function defineCustomElement() {
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-empty-state":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

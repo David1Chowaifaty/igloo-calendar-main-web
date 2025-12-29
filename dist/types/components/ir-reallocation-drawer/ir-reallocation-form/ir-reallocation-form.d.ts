@@ -10,6 +10,7 @@ export declare class IrReallocationForm {
     pool: string;
     formId: string;
     date: Moment;
+    isLoading: boolean;
     room: Room;
     roomTypes: PropertyRoomType[];
     selectedUnit: Partial<SelectedUnit>;

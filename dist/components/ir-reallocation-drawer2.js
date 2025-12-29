@@ -1,10 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-date-view2.js';
-import { d as defineCustomElement$4 } from './ir-drawer2.js';
-import { d as defineCustomElement$3 } from './ir-empty-state2.js';
-import { d as defineCustomElement$2 } from './ir-reallocation-form2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-date-view2.js';
+import { d as defineCustomElement$5 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-empty-state2.js';
+import { d as defineCustomElement$3 } from './ir-reallocation-form2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
 
@@ -41,7 +42,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-reallocation-drawer", "ir-custom-button", "ir-date-view", "ir-drawer", "ir-empty-state", "ir-reallocation-form", "ir-validator"];
+    const components = ["ir-reallocation-drawer", "ir-custom-button", "ir-date-view", "ir-drawer", "ir-empty-state", "ir-reallocation-form", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-reallocation-drawer":
             if (!customElements.get(tagName)) {
@@ -50,25 +51,30 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-date-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-empty-state":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-reallocation-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

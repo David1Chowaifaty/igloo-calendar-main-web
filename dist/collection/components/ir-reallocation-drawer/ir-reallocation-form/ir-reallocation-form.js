@@ -15,6 +15,7 @@ export class IrReallocationForm {
     pool;
     formId;
     date;
+    isLoading;
     room;
     roomTypes = [];
     selectedUnit = {};
@@ -42,6 +43,7 @@ export class IrReallocationForm {
         return room;
     }
     async checkBookingAvailability() {
+        this.isLoading = true;
         resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
@@ -62,6 +64,7 @@ export class IrReallocationForm {
                 room_type_ids_to_update: [],
             });
             this.roomTypes = data.filter(r => r.is_available_to_book);
+            this.isLoading = false;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
@@ -138,16 +141,19 @@ export class IrReallocationForm {
     //   return this.booking.from_date;
     // }
     render() {
-        return (h("form", { key: '00c7f1f47755ff1bea274cc50940c41237f008e5', id: this.formId, class: "reallocation-form", onSubmit: e => {
+        if (this.isLoading) {
+            return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
+        }
+        return (h("form", { id: this.formId, class: "reallocation-form", onSubmit: e => {
                 e.preventDefault();
                 this.reallocateUnit();
-            } }, h("div", { key: '5e966d0a1a58eb245161d94d75e1367b574aa300', class: "booking-summary" }, h("ir-date-view", { key: 'c33ff693a31a25b3a8f757f6dabc82076a0e4fd1', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("span", { key: '4985509268ad55877f12adf2213fa133ec4b779b' }, h("span", { key: '7f8a7019783680938b5b3b54583d9443241498d5' }, "From:"), h("p", { key: 'e70eb727f2ed68abbc4f0f31189799d850a0b7bf', class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', this.room.unit.name))), h("p", { key: '7db29459fa97461cd91fd817062974291ae2d51f' }, "To:"), this.roomTypes.length === 0 && h("ir-empty-state", { key: '605a246c82d7fe7d81369c42b6472028c2c4e945' }), this.errors?.roomtype_id && h("p", { key: '85eb12dc9f3d9964b01fcf6f2bb992696ee25b4a', class: "error-message" }, "Please select a room"), h("wa-radio-group", { key: 'a36c681e71173b07007517050d3a7cd6234f389f', onchange: e => {
+            } }, h("div", { class: "booking-summary" }, h("ir-date-view", { from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("span", null, h("span", null, "From:"), h("p", { class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', this.room.unit.name))), this.errors?.roomtype_id && h("p", { class: "error-message" }, "Please select a room"), this.roomTypes.length === 0 ? (h("ir-empty-state", { style: { marginTop: '20vh' } })) : (h("wa-radio-group", { onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),
                     unit_id: Number(unit_id),
                 });
-            }, name: "available-units", class: "room-type-list" }, this.roomTypes?.map(roomType => {
+            }, name: "available-units", class: "room-type-list" }, h("p", { style: { margin: '0', padding: '0', marginBottom: '0.5rem' } }, "To:"), this.roomTypes?.map(roomType => {
             const units = (() => {
                 const unitMap = new Map();
                 for (const rateplan of roomType.rateplans ?? []) {
@@ -172,7 +178,7 @@ export class IrReallocationForm {
                     return h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`);
                 }))))));
             })));
-        }))));
+        })))));
     }
     static get is() { return "ir-reallocation-form"; }
     static get encapsulation() { return "scoped"; }
@@ -273,6 +279,7 @@ export class IrReallocationForm {
     static get states() {
         return {
             "date": {},
+            "isLoading": {},
             "room": {},
             "roomTypes": {},
             "selectedUnit": {},
