@@ -2,12 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-3978a3f8.js');
-const channel_service = require('./channel.service-be8a5aa1.js');
-const channel_store = require('./channel.store-8864149a.js');
-const locales_store = require('./locales.store-4eb57996.js');
-require('./calendar-data-e7cdcfec.js');
-require('./index-6299b0f7.js');
+const index = require('./index-35d81173.js');
+const channel_service = require('./channel.service-dec6e4f3.js');
+const channel_store = require('./channel.store-7a31c832.js');
+const locales_store = require('./locales.store-32782582.js');
+require('./calendar-data-0598de26.js');
+require('./index-fbf1fe1d.js');
 require('./axios-6e678d52.js');
 
 const irChannelEditorCss = ".sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}";

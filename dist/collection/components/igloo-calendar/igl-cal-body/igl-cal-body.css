@@ -20,6 +20,7 @@
   user-select: none;
   -webkit-user-drag: none;
 }
+
 /* .cellData[data-dirty-room='true'] { 
   border-bottom: 5px solid rgb(80, 80, 80) !important;
 } */
@@ -158,3 +159,6 @@
   top: 0;
   left: 0;
 }
+/* .roomTitle[data-room-has-today-checkin='true'] {
+  background-color: var(--wa-color-brand-fill-quiet) !important;
+} */

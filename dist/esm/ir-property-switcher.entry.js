@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-b3dce66a.js';
+import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
 
 const irPropertySwitcherCss = ":host{display:block}";
 const IrPropertySwitcherStyle0 = irPropertySwitcherCss;

@@ -7,6 +7,7 @@ export type MaskConfig<N extends MaskName = MaskName> = (typeof masks)[N];
 export type MaskProp = MaskName | MaskConfig | FactoryArg;
 export type NativeWaInput = WaInput;
 export declare class IrInput {
+    internals: ElementInternals;
     el: HTMLIrInputElement;
     name: string;
     /** The value of the input. */

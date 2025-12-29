@@ -2,6 +2,7 @@ import { Host, h } from "@stencil/core";
 import { masks } from "./masks";
 import IMask from "imask";
 export class IrInput {
+    internals;
     el;
     name;
     /** The value of the input. */
@@ -160,6 +161,7 @@ export class IrInput {
         if (!this.mask) {
             this.value = nextValue ?? '';
         }
+        this.internals.setFormValue(nextValue ?? '');
         this.textChange.emit(nextValue ?? '');
     };
     async initializeMask() {
@@ -285,10 +287,11 @@ export class IrInput {
             // We must pass "1,000.00" to wa-input to avoid the overwrite warning
             displayValue = this._mask.value;
         }
-        return (h(Host, { key: '1545144cf14a2483938eaf9104f8769061b08452' }, h("wa-input", { key: '4c36ea5da367eedaab6256add5f8f379127f7526', type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'e1779dec6f0e65752658eac15fc9c5359802606d', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: '815326fc47b5b4fb8e7a0b2137a521e6aabe8ff8', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '31a94771c44aaaef0d4726ace18884379c628ae5', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'ebd1419d0d5b474a5f9afa6c43c6777aa94c1892', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '6fc740fa29cd39964f577e933373ea40b33be585', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: 'b8fc1298ee98cdf91be23960c0672d5a629b544b', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '9f922e6f153a74ede1b530c85a99e1e9dd26ae8e', name: "hint", slot: "hint" }))));
+        return (h(Host, { key: 'e573424470aa1c500fcba329f328bcbf5f824c77' }, h("wa-input", { key: 'e56a684ff65d89cb36c6583f75e409d7ebf04571', type: this.type, name: this.name, value: displayValue, ref: el => (this.inputRef = el), defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, "aria-invalid": String(!this.isValid), label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, class: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, oninput: this.handleChange, "onwa-clear": this.handleClear, onblur: this.handleBlur, onfocus: this.handleFocus, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotState.get('label') && h("slot", { key: 'bdcaf6a000991db736ff62174d011a2eac6ea8ee', name: "label", slot: "label" }), this.slotState.get('start') && h("slot", { key: 'dbfdae521bcd41b639b8cbc6028d8466ce3d37b3', name: "start", slot: "start" }), this.slotState.get('end') && h("slot", { key: '54b072865b5e7c3eed3971b0532e3a4aac728f40', name: "end", slot: "end" }), this.slotState.get('clear-icon') && h("slot", { key: 'fa1bd1044d578dc2f53b0f54a64e81077fc48431', name: "clear-icon", slot: "clear-icon" }), this.slotState.get('hide-password-icon') && h("slot", { key: '4bcbcc8e62b7b2db40b40e3d62026ac0617d8e68', name: "hide-password-icon", slot: "hide-password-icon" }), this.slotState.get('show-password-icon') && h("slot", { key: '737b8e9b1151236bde4b6038b4a604f41bb5ebb8', name: "show-password-icon", slot: "show-password-icon" }), this.slotState.get('hint') && h("slot", { key: '125a1b19eb065324afdcdd94155b2f1589644970', name: "hint", slot: "hint" }))));
     }
     static get is() { return "ir-input"; }
     static get encapsulation() { return "shadow"; }
+    static get formAssociated() { return true; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-input.css"]
@@ -1252,5 +1255,6 @@ export class IrInput {
                 "methodName": "handleValueChange"
             }];
     }
+    static get attachInternalsMemberName() { return "internals"; }
 }
 //# sourceMappingURL=ir-input.js.map

@@ -33,8 +33,11 @@ export declare class IglCalBody {
     private bookingMap;
     private interactiveTitle;
     private dayRateMap;
+    private roomsWithTodayCheckinStatus;
+    private categoriesWithTodayCheckinStatus;
     componentWillLoad(): void;
     handleCalendarDataChange(): void;
+    handleTodayChange(): void;
     dragOverHighlightElementHandler(event: CustomEvent): void;
     gotoRoom(event: CustomEvent): void;
     addToBeAssignedEvents(event: CustomEvent): void;
@@ -76,6 +79,10 @@ export declare class IglCalBody {
     private renderModalBody;
     private renderModalMiddleButtonText;
     private renderModalRightButtonText;
+    private updateTodayCheckinStatus;
+    private getTodayISODate;
+    private roomHasTodayCheckin;
+    private categoryHasRoomWithTodayCheckin;
     private updateDisabledCellsCache;
     private getCellKey;
     private isCellDisabled;

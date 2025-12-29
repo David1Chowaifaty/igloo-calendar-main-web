@@ -1,4 +1,4 @@
-import { r as registerInstance, h, F as Fragment, H as Host } from './index-b3dce66a.js';
+import { r as registerInstance, h, F as Fragment, H as Host } from './index-7e96440e.js';
 
 const irOtaServicesCss = ".sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}";
 const IrOtaServicesStyle0 = irOtaServicesCss;

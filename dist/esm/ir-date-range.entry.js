@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-b3dce66a.js';
+import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-7e96440e.js';
 import { h as hooks } from './moment-ab846cee.js';
 
 const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
@@ -204,7 +204,7 @@ const IrDateRange = class {
         });
     }
     render() {
-        return (h(Host, { key: '659f5774fbeed7c3a97428f77144539beeede774' }, h("input", { key: 'd781a1b4b75fae0c5547afafd31bc3821d816f75', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (h(Host, { key: 'b1175e53ab58c290ac0df10f05bb542485315bef' }, h("input", { key: 'b5d8979ccd6eca9d12a722caba0c0d7ff3252ba3', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get watchers() { return {
         "minDate": ["handleMinDateChange"],

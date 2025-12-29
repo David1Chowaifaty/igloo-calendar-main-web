@@ -2,14 +2,14 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-3978a3f8.js');
-const utils = require('./utils-202c6503.js');
-const calendarData = require('./calendar-data-e7cdcfec.js');
+const index = require('./index-35d81173.js');
+const utils = require('./utils-02a0d542.js');
+const calendarData = require('./calendar-data-0598de26.js');
 const functions = require('./functions-1d46da3c.js');
 require('./moment-1780b03a.js');
 require('./index-8bb117a0.js');
-require('./locales.store-4eb57996.js');
-require('./index-6299b0f7.js');
+require('./locales.store-32782582.js');
+require('./index-fbf1fe1d.js');
 
 const irAccordionCss = ":host{--ir-acc-duration:220ms;--ir-acc-ease:cubic-bezier(0.2, 0.8, 0.2, 1);--ir-acc-border:#e5e7eb;--ir-acc-radius:6px;--ir-acc-bg:#fff;--ir-acc-focus:#3b82f6;--ir-acc-space-2:0.5rem;--ir-acc-space-3:0.75rem;--ir-acc-space-4:1rem;display:block}.ir-accordion{border:1px solid var(--ir-acc-border);border-radius:var(--ir-acc-radius);background:var(--ir-acc-bg);overflow:hidden}.ir-accordion__trigger{display:flex;align-items:center;justify-content:flex-start;gap:var(--ir-acc-space-2);width:100%;padding:var(--ir-acc-space-4);background:transparent;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:background-color 0.15s ease}.ir-accordion__trigger:hover:not(:disabled){background:rgba(0, 0, 0, 0.02)}.ir-accordion__trigger:disabled{opacity:0.6;cursor:not-allowed}.ir-accordion__trigger:focus,.ir-accordion__trigger:focus-visible{outline:2px solid var(--ir-acc-focus);outline-offset:-2px}.ir-accordion__trigger:focus:not(:focus-visible){outline:none}.ir-accordion__caret{flex-shrink:0;transition:transform var(--ir-acc-duration) var(--ir-acc-ease);transform:rotate(-90deg)}.ir-accordion[data-open='true'] .ir-accordion__caret,.ir-accordion__caret.is-open{transform:rotate(0deg)}.ir-accordion__trigger-content{flex:1;min-width:0;}.ir-accordion__content{transition:height var(--ir-acc-duration) var(--ir-acc-ease);will-change:height}.ir-accordion__content:not([data-expanded='true']){height:0 !important;overflow:hidden !important;visibility:hidden}.ir-accordion__content[data-expanded='true']{visibility:visible}.ir-accordion__content-inner{padding:var(--ir-acc-space-3) var(--ir-acc-space-4)}@media (prefers-reduced-motion: reduce){.ir-accordion__caret{transition:none}.ir-accordion__content{transition:none}}";
 const IrAccordionStyle0 = irAccordionCss;
@@ -196,7 +196,7 @@ const IrAccordion = class {
     };
     render() {
         const isOpen = this._expanded;
-        return (index.h(index.Host, { key: '7020cb1554e62ff3cabe69f51199f19445dc6312' }, index.h("div", { key: '00e4a7a5f8c197cd7dbf1d95fccc20331251c9f6', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, index.h("button", { key: '972c724cbb0a85e3a52e02ba96bc1e64f658f781', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && index.h("ir-icons", { key: 'de667955f9faeb15629656a8e79d14da640e5107', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), index.h("div", { key: 'ba2158df8769c9b13e02623e5dd13c3be1351d97', class: "ir-accordion__trigger-content" }, index.h("slot", { key: 'f352a960794000a325ec7aba21c808026eae743f', name: "trigger" }))), index.h("div", { key: '65bcd04f42341962b8ae3d73988743b37b7ca50c', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, index.h("div", { key: '4c5ad0b07fe07f7782dc149229eb5acadb1e84e4', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, index.h("slot", { key: '798b2d67d3ad6e20781bb4dd714c850aba16f7c1' }))))));
+        return (index.h(index.Host, { key: '7af47fda64f01cfdc59cb9fdc5ba0248e3453ad4' }, index.h("div", { key: 'ebff371575fbdb49b04caf9c9fad15a79d4a33ec', part: "base", class: "ir-accordion", "data-open": isOpen ? 'true' : 'false' }, index.h("button", { key: '3c2f9f64a97566d11329a8f30ca1d4691e2421fe', type: "button", class: "ir-accordion__trigger", "aria-expanded": isOpen ? 'true' : 'false', "aria-controls": this.contentId, "aria-busy": this.isAnimating ? 'true' : 'false', onClick: this.onTriggerClick, onKeyDown: this.onTriggerKeyDown, disabled: this.isAnimating, part: "trigger" }, this.caret && index.h("ir-icons", { key: '84b7876a587762bef1a34184c7195f075cd7b718', name: 'angle-down', class: `ir-accordion__caret ${isOpen ? 'is-open' : ''}`, "aria-hidden": "true" }), index.h("div", { key: '79700e6c5484743a357fbd0dd5a977d6c0b0dfc5', class: "ir-accordion__trigger-content" }, index.h("slot", { key: '1344973d5394562b3a991d64748a0f52e96158fc', name: "trigger" }))), index.h("div", { key: 'f4ce3d4a6d429d3f29802b4927adaecfaa61561d', class: "ir-accordion__content", id: this.contentId, ref: el => (this.detailsEl = el), "data-expanded": isOpen ? 'true' : null, role: "region", "aria-hidden": isOpen ? 'false' : 'true' }, index.h("div", { key: 'b43a5187c8a198370788fce51a6722b475f3f64a', class: "ir-accordion__content-inner", part: "content", ref: el => (this.contentEl = el) }, index.h("slot", { key: '1b777ac7578bd74c6447c47f50df5e5ea09b826f' }))))));
     }
     static get watchers() { return {
         "expanded": ["watchExpanded"]

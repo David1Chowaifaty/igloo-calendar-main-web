@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-b3dce66a.js';
+import { r as registerInstance, c as createEvent, h } from './index-7e96440e.js';
 
 const irPasswordValidatorCss = ".sc-ir-password-validator-h{display:block}";
 const IrPasswordValidatorStyle0 = irPasswordValidatorCss;

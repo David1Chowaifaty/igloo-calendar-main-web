@@ -129,7 +129,7 @@ DESKTOP (>= 1024px)
   }
 
   .header-search {
-    max-width: 500px;
+    max-width: 700px;
   }
 }
 
@@ -138,12 +138,8 @@ SUPER LARGE SCREENS (>= 1440px)
 ===================================================== */
 
 @media (min-width: 1440px) {
-  .app-header {
-    padding-inline: 3rem;
-  }
-
   .app-header__center {
-    max-width: 500px;
+    max-width: 700px;
   }
 }
 .app-header {

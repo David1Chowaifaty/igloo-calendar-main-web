@@ -1,4 +1,4 @@
-import { r as registerInstance, g as getElement, h, H as Host, c as createEvent, F as Fragment } from './index-b3dce66a.js';
+import { r as registerInstance, g as getElement, h, H as Host, c as createEvent, F as Fragment } from './index-7e96440e.js';
 
 const irMenuCss = ":host{display:block}";
 const IrMenuStyle0 = irMenuCss;

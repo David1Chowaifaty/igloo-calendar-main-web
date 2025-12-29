@@ -1,4 +1,4 @@
-import { r as registerInstance, h } from './index-b3dce66a.js';
+import { r as registerInstance, h } from './index-7e96440e.js';
 
 const irCopyButtonCss = ".sc-ir-copy-button-h{display:inline-block}.copy-tooltip.sc-ir-copy-button{position:relative;display:inline-flex}.copy-button.sc-ir-copy-button{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;cursor:pointer;transition:background-color 160ms ease, color 160ms ease, transform 120ms ease;min-width:2rem;min-height:2rem;border:none}.copy-button[disabled].sc-ir-copy-button{cursor:wait}.icon-container.sc-ir-copy-button{position:relative;width:1.2rem;height:1.2rem}.icon-container.sc-ir-copy-button .icon.sc-ir-copy-button{position:absolute;inset:0;display:inline-flex;align-items:center;justify-content:center;opacity:0;transform:scale(0.92);transition:opacity 180ms ease, transform 200ms ease;color:inherit}.icon-container.sc-ir-copy-button svg.sc-ir-copy-button{width:100%;height:100%;fill:currentColor}.icon-container[data-state='idle'].sc-ir-copy-button .icon--idle.sc-ir-copy-button,.icon-container[data-state='loading'].sc-ir-copy-button .icon--loading.sc-ir-copy-button,.icon-container[data-state='success'].sc-ir-copy-button .icon--success.sc-ir-copy-button,.icon-container[data-state='failed'].sc-ir-copy-button .icon--failed.sc-ir-copy-button{opacity:1;transform:scale(1)}.spinner_P7sC.sc-ir-copy-button{transform-origin:center;animation:spinner_svv2 0.75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}.copy-button[data-state='success'].sc-ir-copy-button{color:#166534}.copy-button[data-state='failed'].sc-ir-copy-button{color:#991b1b}.copy-button[data-state='loading'].sc-ir-copy-button{cursor:wait}@keyframes ir-copy-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrCopyButtonStyle0 = irCopyButtonCss;
@@ -76,7 +76,7 @@ const IrCopyButton = class {
     }
     render() {
         const state = this.currentState;
-        return (h("button", { key: '5b6e4bb046306a6db8eb10c64865a8d76ea6bc1f', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
+        return (h("button", { key: '6433fa619d23bdff06b438f4d7af0b184d3ab2cf', type: "button", class: "copy-button btn btn-outline-secondary p-0 m-0", "data-state": state, "data-tooltip-placeholder": true, "aria-label": this.tooltipMessage, "aria-describedby": this.tooltipId, "aria-busy": state === 'loading' ? 'true' : 'false', disabled: state === 'loading', onClick: () => this.copyToClipboard() }, this.renderIcons()));
     }
 };
 IrCopyButton.style = IrCopyButtonStyle0;

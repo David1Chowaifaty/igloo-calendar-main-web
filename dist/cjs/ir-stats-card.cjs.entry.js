@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-3978a3f8.js');
+const index = require('./index-35d81173.js');
 
 const irStatsCardCss = ".sc-ir-stats-card-h{display:block}";
 const IrStatsCardStyle0 = irStatsCardCss;

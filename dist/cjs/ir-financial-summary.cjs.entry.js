@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-3978a3f8.js');
+const index = require('./index-35d81173.js');
 
 const irFinancialSummaryCss = ".sc-ir-financial-summary-h{display:block}";
 const IrFinancialSummaryStyle0 = irFinancialSummaryCss;

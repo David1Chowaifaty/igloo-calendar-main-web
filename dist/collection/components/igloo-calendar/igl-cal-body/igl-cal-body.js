@@ -30,10 +30,13 @@ export class IglCalBody {
     bookingMap = new Map();
     interactiveTitle = [];
     dayRateMap = new Map();
+    roomsWithTodayCheckinStatus = new Set();
+    categoriesWithTodayCheckinStatus = new Set();
     // private disabledCellsCache = new Map<string, boolean>();
     componentWillLoad() {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
+        this.updateTodayCheckinStatus();
         calendar_dates.days.forEach(day => {
             this.dayRateMap.set(day.day, day.rate);
         });
@@ -41,7 +44,11 @@ export class IglCalBody {
     }
     handleCalendarDataChange() {
         this.bookingMap = this.getBookingMap(this.getBookingData());
+        this.updateTodayCheckinStatus();
         this.updateDisabledCellsCache();
+    }
+    handleTodayChange() {
+        this.updateTodayCheckinStatus();
     }
     dragOverHighlightElementHandler(event) {
         this.dragOverElement = event.detail.dragOverElement;
@@ -328,7 +335,8 @@ export class IglCalBody {
         if (this.getTotalPhysicalRooms(roomCategory) <= 1 || !roomCategory.is_active) {
             return null;
         }
-        return (h("div", { class: "roomRow" }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
+        const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomCategory);
+        return (h("div", { class: "roomRow", "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: `cellData text-left align-items-center roomHeaderCell categoryTitle ${'category_' + this.getCategoryId(roomCategory)}`, onClick: () => this.toggleCategory(roomCategory), "data-has-today-checkin": String(hasRoomWithTodayCheckin) }, h("div", { class: 'categoryName' }, h("ir-interactive-title", { popoverTitle: this.getCategoryName(roomCategory) })), roomCategory.expanded ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))) : (h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 320 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), this.getGeneralCategoryDayColumns('category_' + this.getCategoryId(roomCategory), true, index)));
     }
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
@@ -336,6 +344,7 @@ export class IglCalBody {
      * @param {RoomCategory} roomCategory - The category containing room details.
      */
     getRoomsByCategory(roomCategory) {
+        const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomCategory);
         // Check accordion is expanded.
         if (!roomCategory.expanded) {
             return null;
@@ -346,7 +355,9 @@ export class IglCalBody {
             }
             const haveSingleRooms = this.getTotalPhysicalRooms(roomCategory) <= 1;
             const name = haveSingleRooms ? this.getCategoryName(roomCategory) : this.getRoomName(room);
-            return (h("div", { class: "roomRow" }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + this.getRoomId(room)}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": this.getRoomId(room), onClick: () => {
+            const roomId = this.getRoomId(room);
+            const roomHasTodayCheckin = this.roomHasTodayCheckin(roomId);
+            return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomCategory) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
                     if (!calendar_data.housekeeping_enabled) {
                         return;
                     }
@@ -408,9 +419,9 @@ export class IglCalBody {
         }
     }
     render() {
-        return (h(Host, { key: 'abfb2ac8dcb5e68cca5a469d8d7e133b7a81be3c' }, h("div", { key: '20dcafb8445dc93c9885cf902f068a2e6462bd5b', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '49db100def1181203480980e1dc2443a612bdd13', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '06ea2940dd82428c0880a5d1d8e349ea116de545' }, h("div", { key: '616502c59371cfa77938d49261401a124317484d', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'c9070b1fe0ea91d93d987497f12a5e9caf03fb5f', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("ir-modal", { key: 'fd75f4d5f1d43f2a9e485d09fa9635346ed3eaa1', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
+        }))), h("ir-modal", { key: 'b7f44fe50f8d103c80af860e9849cc5815416387', ref: el => (this.hkModal = el), leftBtnText: locales?.entries?.Lcz_Cancel, middleBtnText: this.renderModalMiddleButtonText(), middleBtnActive: true, rightBtnText: this.renderModalRightButtonText(), modalBody: this.renderModalBody(), onConfirmModal: e => this.confirmHousekeepingUpdate(e, '004'), onMiddleModal: e => this.confirmHousekeepingUpdate(e, this.selectedRoom?.hk_status === '002' ? '001' : '002'), autoClose: false, isMiddleButtonLoading: this.isLoading === 'middle', isLoading: this.isLoading === 'right', onCancelModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
@@ -444,6 +455,46 @@ export class IglCalBody {
             return null;
         }
         return this.selectedRoom.hk_status !== '004' ? 'Clean & Inspected' : 'Clean';
+    }
+    updateTodayCheckinStatus() {
+        const todayISO = this.getTodayISODate();
+        const rooms = new Set();
+        const categories = new Set();
+        (this.getBookingData() ?? []).forEach(booking => {
+            const roomInfo = booking?.ROOM_INFO;
+            if (roomInfo?.in_out?.code !== '001') {
+                return;
+            }
+            if (booking.FROM_DATE !== todayISO && booking.TO_DATE !== todayISO) {
+                return;
+            }
+            const roomId = Number(booking.PR_ID);
+            if (!Number.isNaN(roomId)) {
+                rooms.add(roomId);
+            }
+            const categoryId = Number(booking.RATE_TYPE);
+            if (!Number.isNaN(categoryId)) {
+                categories.add(categoryId);
+            }
+        });
+        this.roomsWithTodayCheckinStatus = rooms;
+        this.categoriesWithTodayCheckinStatus = categories;
+    }
+    getTodayISODate() {
+        const todayValue = typeof this.today === 'string' ? this.today : this.today ? this.today.toString() : '';
+        if (todayValue) {
+            const parsed = moment(todayValue, 'D_M_YYYY', true);
+            if (parsed.isValid()) {
+                return parsed.format('YYYY-MM-DD');
+            }
+        }
+        return moment().format('YYYY-MM-DD');
+    }
+    roomHasTodayCheckin(roomId) {
+        return this.roomsWithTodayCheckinStatus.has(roomId);
+    }
+    categoryHasRoomWithTodayCheckin(roomCategory) {
+        return this.categoriesWithTodayCheckinStatus.has(this.getCategoryId(roomCategory));
     }
     updateDisabledCellsCache() {
         calendar_dates.disabled_cells.clear();
@@ -708,6 +759,9 @@ export class IglCalBody {
         return [{
                 "propName": "calendarData",
                 "methodName": "handleCalendarDataChange"
+            }, {
+                "propName": "today",
+                "methodName": "handleTodayChange"
             }];
     }
     static get listeners() {

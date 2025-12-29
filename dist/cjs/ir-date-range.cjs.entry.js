@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-const index = require('./index-3978a3f8.js');
+const index = require('./index-35d81173.js');
 const moment = require('./moment-1780b03a.js');
 
 const irDateRangeCss = ".sc-ir-date-range-h{display:block;width:100%}.date-range-input.sc-ir-date-range{width:100%}";
@@ -208,7 +208,7 @@ const IrDateRange = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '659f5774fbeed7c3a97428f77144539beeede774' }, index.h("input", { key: 'd781a1b4b75fae0c5547afafd31bc3821d816f75', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (index.h(index.Host, { key: 'b1175e53ab58c290ac0df10f05bb542485315bef' }, index.h("input", { key: 'b5d8979ccd6eca9d12a722caba0c0d7ff3252ba3', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get watchers() { return {
         "minDate": ["handleMinDateChange"],
