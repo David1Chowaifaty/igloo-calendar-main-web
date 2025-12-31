@@ -5,6 +5,7 @@ import { h as hooks } from './moment.js';
 const bookedByGuestBaseData = {
     id: -1,
     email: '',
+    company: '',
     firstName: '',
     lastName: '',
     countryId: '',

@@ -192,11 +192,11 @@ export class IrPreviewScreenDialog {
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: 'eb1ee681bc8c49455e3b7ff96dfc858bd04ca91a', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'b9a799d3e84450c27e939524a37d9c03982c5f93', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: '630ec539fbd30d7a95c53ff3cff3c73321ae4f2c' }, h("wa-tooltip", { key: '97cc068bbfddf1d84e2caf8958fcbb1eaa61cb0a', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '759cb3948010038bad1bc2d3523a1b9903484902', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '630d55ce539531c5893dc7f7105917fe59e71024', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: '515922c4a1c667523b0955480f9d22212b6a3097' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: 'c8bc65013f0fac9b67074ad744dc1b3c9b7bebbd' }, h("wa-tooltip", { key: '2a833ae87d3539605c9b61710bb9e1d7090623e7', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '9ece3a372f54faebd62695215e70b4ccb29eb44f', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'e8002ddabe977775b8376f5fd1f8d1a33116c029', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: 'c5dddd376344cbf7b5084f18e76c3e32ee1c0ced' })));
     }
     static get is() { return "ir-preview-screen-dialog"; }
     static get encapsulation() { return "shadow"; }

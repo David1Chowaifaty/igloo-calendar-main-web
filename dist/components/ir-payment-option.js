@@ -1,22 +1,24 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$b } from './ir-option-details2.js';
+import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$d } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-icon2.js';
-import { d as defineCustomElement$e } from './ir-icons2.js';
-import { d as defineCustomElement$d } from './ir-input-text2.js';
-import { d as defineCustomElement$c } from './ir-interceptor2.js';
-import { d as defineCustomElement$a } from './ir-otp2.js';
-import { d as defineCustomElement$9 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$8 } from './ir-select2.js';
-import { d as defineCustomElement$7 } from './ir-sidebar2.js';
-import { d as defineCustomElement$6 } from './ir-spinner2.js';
-import { d as defineCustomElement$5 } from './ir-switch2.js';
-import { d as defineCustomElement$4 } from './ir-text-editor2.js';
-import { d as defineCustomElement$3 } from './ir-title2.js';
-import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { d as defineCustomElement$i } from './ir-button2.js';
+import { d as defineCustomElement$h } from './ir-icon2.js';
+import { d as defineCustomElement$g } from './ir-icons2.js';
+import { d as defineCustomElement$f } from './ir-input-text2.js';
+import { d as defineCustomElement$e } from './ir-interceptor2.js';
+import { d as defineCustomElement$c } from './ir-otp2.js';
+import { d as defineCustomElement$b } from './ir-otp-modal2.js';
+import { d as defineCustomElement$a } from './ir-select2.js';
+import { d as defineCustomElement$9 } from './ir-sidebar2.js';
+import { d as defineCustomElement$8 } from './ir-spinner2.js';
+import { d as defineCustomElement$7 } from './ir-switch2.js';
+import { d as defineCustomElement$6 } from './ir-text-editor2.js';
+import { d as defineCustomElement$5 } from './ir-title2.js';
+import { d as defineCustomElement$4 } from './ir-toast2.js';
+import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
 const IrPaymentOptionStyle0 = irPaymentOptionCss;
@@ -224,7 +226,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-text-editor", "ir-title", "ir-toast"];
+    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-text-editor", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-option":
             if (!customElements.get(tagName)) {
@@ -233,75 +235,85 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$i();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-option-details":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-switch":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
             }
             break;
         case "ir-text-editor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-toast-alert":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-toast-provider":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

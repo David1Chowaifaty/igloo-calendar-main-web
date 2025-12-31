@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 export class IrToast {
     element;
     /**
@@ -10,27 +10,28 @@ export class IrToast {
      * Array of active toast messages.
      */
     toasts = [];
-    onToast(event) {
-        const toast = event.detail;
-        this.showToast(toast);
-    }
-    showToast(toast) {
-        const toastrOptions = {
-            positionClass: 'toast-top-right',
-            closeButton: true,
-            timeOut: toast.duration || 5000,
-        };
-        switch (toast.type) {
-            case 'success':
-                toastr.success(toast.title, '', toastrOptions);
-                break;
-            case 'error':
-                toastr.error(toast.title, '', toastrOptions);
-                break;
-        }
-    }
+    // @Listen('toast', { target: 'body' })
+    // onToast(event: CustomEvent<IToast>) {
+    //   const toast: IToast = event.detail;
+    //   this.showToast(toast);
+    // }
+    // private showToast(toast: IToast) {
+    //   const toastrOptions = {
+    //     positionClass: 'toast-top-right',
+    //     closeButton: true,
+    //     timeOut: toast.duration || 5000,
+    //   };
+    //   switch (toast.type) {
+    //     case 'success':
+    //       toastr.success(toast.title, '', toastrOptions);
+    //       break;
+    //     case 'error':
+    //       toastr.error(toast.title, '', toastrOptions);
+    //       break;
+    //   }
+    // }
     render() {
-        return h(Host, { key: '38e737eb9049888ae0f48c3b415b41991563b417' });
+        return h("ir-toast-provider", { key: '5e2da58b75981030b3e928a8cb5db511f9588cc2' });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }
@@ -80,14 +81,5 @@ export class IrToast {
         };
     }
     static get elementRef() { return "element"; }
-    static get listeners() {
-        return [{
-                "name": "toast",
-                "method": "onToast",
-                "target": "body",
-                "capture": false,
-                "passive": false
-            }];
-    }
 }
 //# sourceMappingURL=ir-toast.js.map

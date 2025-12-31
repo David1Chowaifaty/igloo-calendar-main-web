@@ -137,5 +137,7 @@ export declare class IrInput {
     private handleBlur;
     private handleFocus;
     private hasSlot;
+    focusInput(): Promise<void>;
+    blurInput(): Promise<void>;
     render(): any;
 }

@@ -10,7 +10,5 @@ export declare class IrToast {
      * Array of active toast messages.
      */
     toasts: IToast[];
-    onToast(event: CustomEvent<IToast>): void;
-    private showToast;
     render(): any;
 }

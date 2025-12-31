@@ -29,9 +29,9 @@ export declare class IrToastAlert {
         id: string;
         interacting: boolean;
     }>;
-    private handleAction;
-    private handleDismiss;
+    private interacting;
     private setInteracting;
     private getIcon;
+    private get calloutVariant();
     render(): any;
 }

@@ -48,7 +48,7 @@ export interface ISelectedVariation {
     variation: Variation;
     state: 'default' | 'modified';
 }
-export interface IBookinAvailabilityParams {
+export interface IBookingAvailabilityParams {
     from_date: Date | null;
     to_date: Date | null;
     adult_nbr: number;
@@ -92,6 +92,7 @@ export interface BookedByGuest {
     email: string;
     firstName: string;
     lastName: string;
+    company: string;
     countryId: string;
     phone_prefix: string;
     mobile: string;
@@ -123,7 +124,7 @@ export interface BookingStore {
         type: TEventType;
     };
     guest: RatePlanGuest;
-    bookingAvailabilityParams: IBookinAvailabilityParams;
+    bookingAvailabilityParams: IBookingAvailabilityParams;
     booking: Booking;
     resetBooking: boolean;
     isInFreeCancelationZone: boolean;
@@ -145,6 +146,7 @@ export interface ReservedRoomSelection {
 export declare const bookedByGuestBaseData: {
     id: number;
     email: string;
+    company: string;
     firstName: string;
     lastName: string;
     countryId: string;

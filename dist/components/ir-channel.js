@@ -2,20 +2,22 @@ import { h, proxyCustomElement, HTMLElement, Host, Fragment } from '@stencil/cor
 import { R as RoomService } from './room.service.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store.js';
 import { l as locales } from './locales.store.js';
-import { C as ChannelService, d as defineCustomElement$d } from './ir-channel-editor2.js';
+import { C as ChannelService, d as defineCustomElement$f } from './ir-channel-editor2.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$e } from './ir-button2.js';
-import { d as defineCustomElement$c } from './ir-channel-general2.js';
-import { d as defineCustomElement$b } from './ir-channel-header2.js';
-import { d as defineCustomElement$a } from './ir-channel-mapping2.js';
-import { d as defineCustomElement$9 } from './ir-combobox2.js';
-import { d as defineCustomElement$8 } from './ir-icon2.js';
-import { d as defineCustomElement$7 } from './ir-icons2.js';
-import { d as defineCustomElement$6 } from './ir-loading-screen2.js';
-import { d as defineCustomElement$5 } from './ir-modal2.js';
-import { d as defineCustomElement$4 } from './ir-sidebar2.js';
-import { d as defineCustomElement$3 } from './ir-switch2.js';
-import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$e } from './ir-channel-general2.js';
+import { d as defineCustomElement$d } from './ir-channel-header2.js';
+import { d as defineCustomElement$c } from './ir-channel-mapping2.js';
+import { d as defineCustomElement$b } from './ir-combobox2.js';
+import { d as defineCustomElement$a } from './ir-icon2.js';
+import { d as defineCustomElement$9 } from './ir-icons2.js';
+import { d as defineCustomElement$8 } from './ir-loading-screen2.js';
+import { d as defineCustomElement$7 } from './ir-modal2.js';
+import { d as defineCustomElement$6 } from './ir-sidebar2.js';
+import { d as defineCustomElement$5 } from './ir-switch2.js';
+import { d as defineCustomElement$4 } from './ir-toast2.js';
+import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 
 const actions = (entries) => [
     {
@@ -295,7 +297,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-channel", "ir-button", "ir-channel-editor", "ir-channel-general", "ir-channel-header", "ir-channel-mapping", "ir-combobox", "ir-icon", "ir-icons", "ir-loading-screen", "ir-modal", "ir-sidebar", "ir-switch", "ir-toast"];
+    const components = ["ir-channel", "ir-button", "ir-channel-editor", "ir-channel-general", "ir-channel-header", "ir-channel-mapping", "ir-combobox", "ir-icon", "ir-icons", "ir-loading-screen", "ir-modal", "ir-sidebar", "ir-switch", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-channel":
             if (!customElements.get(tagName)) {
@@ -304,65 +306,75 @@ function defineCustomElement$1() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-channel-editor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-channel-general":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-channel-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-channel-mapping":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-switch":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-toast-alert":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-toast-provider":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

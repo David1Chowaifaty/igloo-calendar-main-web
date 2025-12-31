@@ -415,7 +415,6 @@ export class IrBookingDetails {
         }))));
     }
     render() {
-        console.log(this.bookingItem);
         if (!this.booking) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }

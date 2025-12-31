@@ -4,6 +4,7 @@ import moment from "moment";
 export const bookedByGuestBaseData = {
     id: -1,
     email: '',
+    company: '',
     firstName: '',
     lastName: '',
     countryId: '',

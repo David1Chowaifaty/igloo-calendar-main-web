@@ -229,6 +229,7 @@ export class IRBookingEditorService {
                         extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.selectedPaymentMethod?.code }],
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         booking: {
+                            company_name: bookedByGuest.company ?? null,
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
                             to_date: moment(toDate).format('YYYY-MM-DD'),
                             remark: bookedByGuest.note || null,

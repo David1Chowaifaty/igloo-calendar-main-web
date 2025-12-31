@@ -8,21 +8,23 @@ import { c as calendar_data } from './calendar-data.js';
 import { _ as _formatTime } from './functions.js';
 import { h as hooks } from './moment.js';
 import { c as commonjsGlobal } from './_commonjsHelpers.js';
-import { a as InterceptorError, d as defineCustomElement$b } from './ir-interceptor2.js';
+import { a as InterceptorError, d as defineCustomElement$d } from './ir-interceptor2.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$f } from './ir-button2.js';
-import { d as defineCustomElement$e } from './ir-icon2.js';
-import { d as defineCustomElement$d } from './ir-icons2.js';
-import { d as defineCustomElement$c } from './ir-input-text2.js';
-import { d as defineCustomElement$a } from './ir-otp2.js';
-import { d as defineCustomElement$9 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$8 } from './ir-password-validator2.js';
-import { d as defineCustomElement$7 } from './ir-reset-password2.js';
-import { d as defineCustomElement$6 } from './ir-select2.js';
-import { d as defineCustomElement$5 } from './ir-sidebar2.js';
-import { d as defineCustomElement$4 } from './ir-spinner2.js';
-import { d as defineCustomElement$3 } from './ir-title2.js';
-import { d as defineCustomElement$2 } from './ir-toast2.js';
+import { d as defineCustomElement$h } from './ir-button2.js';
+import { d as defineCustomElement$g } from './ir-icon2.js';
+import { d as defineCustomElement$f } from './ir-icons2.js';
+import { d as defineCustomElement$e } from './ir-input-text2.js';
+import { d as defineCustomElement$c } from './ir-otp2.js';
+import { d as defineCustomElement$b } from './ir-otp-modal2.js';
+import { d as defineCustomElement$a } from './ir-password-validator2.js';
+import { d as defineCustomElement$9 } from './ir-reset-password2.js';
+import { d as defineCustomElement$8 } from './ir-select2.js';
+import { d as defineCustomElement$7 } from './ir-sidebar2.js';
+import { d as defineCustomElement$6 } from './ir-spinner2.js';
+import { d as defineCustomElement$5 } from './ir-title2.js';
+import { d as defineCustomElement$4 } from './ir-toast2.js';
+import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 var uaParser_pack = {exports: {}};
@@ -194,13 +196,13 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         this.updateUserField('username', usermame);
     }
     render() {
-        return (h("form", { key: 'fd9c9dfe7d6bae3359158e0b3621a6cde6ae2a55', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: '7376af07b78fefd7cea4c4d01c62055b3a630029', class: "sheet-container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: '8a5bdda1e8c57b961fd9fa753414c53fbcec1302', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '8d152ebf00382f55a52ad797027a5ab98d2b022f', class: "px-1 sheet-body" }, h("ir-input-text", { key: '4423fa2e7044b19f9ed8917d88e9e7bcf12e13b5', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: this.errors?.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: 'c1f5eb29302881d6b399bb2415d590231af0bb9b', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: this.errors?.mobile, asyncParse: true, autoValidate: this.user ? (this.userInfo?.mobile !== this.user.mobile ? true : false) : this.autoValidate, label: locales.entries.Lcz_Mobile, mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: this.errors?.type && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
+            } }, h("ir-title", { key: 'ecf1f6049a72026c25fc73da5f8b96c7adf44338', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '37d38d5bee373da254f1b9763a4465f759116039', class: "px-1 sheet-body" }, h("ir-input-text", { key: '140bee8ef9db1ce150dd9526480f2908e589e829', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: this.errors?.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: 'efe6699634de741d473093c5677f326ac13dc7d1', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: this.errors?.mobile, asyncParse: true, autoValidate: this.user ? (this.userInfo?.mobile !== this.user.mobile ? true : false) : this.autoValidate, label: locales.entries.Lcz_Mobile, mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: this.errors?.type && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
                 text: t.value,
                 value: t.code,
-            })), firstOption: locales.entries.Lcz_Select, selectedValue: this.userInfo.type?.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'adb58c4362bd5632b9ab54dd064a8f38b94dfbdf' }, h("input", { key: '40061e9140c75fb70967c188a1a8848f82c85433', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { key: 'bf3b91d7d951e7a0581a31a60e0d5f14a71812f8', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: this.errors?.username, label: locales.entries.Lcz_Username, disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username,
+            })), firstOption: locales.entries.Lcz_Select, selectedValue: this.userInfo.type?.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '0bccb6822aafc47779da768c0e4f7383c667ea9d' }, h("input", { key: 'c10c1577b68bb130a557754f0aef196ada8b0550', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { key: '0cf4f9b7e4a74c45f11979f92fed475b1c0ca179', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: this.errors?.username, label: locales.entries.Lcz_Username, disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username,
             // onInputBlur={this.handleBlur.bind(this)}
             maxLength: 40, autoComplete: "off" }))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales.entries.Lcz_Password, value: this.userInfo.password, autoComplete: "off", type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
                 // if (this.user) this.showPasswordValidation = false;
@@ -210,20 +212,20 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, locales.entries.Lcz_Password), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: locales.entries.Lcz_ChangePassword, btn_color: "link" }))
         // ))
-        ), this.user?.sign_ins?.length > 0 && (h("section", { key: 'cf5a14bbc34f3eeeca269c1eedcdad655f571656', class: "logins-history-section mt-2" }, h("div", { key: 'b1c7f30e6031957d48b016a4ca2f2925d4dac5f1', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '2446501ce535ff41684b58069e9c6342936b1b19', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '6df8ff8d2d7e65842c964872042da639ab233591', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'e62bacd8863258fb2f4cab8e7eeb79dd37d9c190', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        ), this.user?.sign_ins?.length > 0 && (h("section", { key: '8bae7776bf81f3e20c30629f3adab3f93ebd61d3', class: "logins-history-section mt-2" }, h("div", { key: 'f7b1ab0d7eb82fbc62dd31d3eaa38b09473210ad', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '9474b127e13d3713462b056d2ea0a63bdf3c62d0', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'e8a030edc6319cdd174547295d8529996d8b22f4', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '34bd01c0eaa7e19e27aaa8d812d53e348dca532f', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '8236d8a9683caec68206d429351d5e0f9709d5d5', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '0203d536e99b8d1b3f99cbdc5b360e6ba3a5aab4', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: '8d54b1d8889dfb5a2f56512b007dfe6fe1e879ca', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: '2b187ff2f975640b671495d83f8f2cb475e3c41d', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: '21c46c75cc536b0fbb219177bf9bc50d3c0bfb49', class: "sheet-footer" }, h("ir-button", { key: 'a5787f5b53f2fb3e271207569993a368c23e63a0', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '9ab72bcd4465f67b0b658ddc5c77f3c6293b5a76', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))), h("div", { key: 'a3ff4e97b8a0fdea2bf30c163be2d4d83471fdcb', class: "sheet-footer" }, h("ir-button", { key: '21a8783c924cd1f70bf5d90f28015f40c84c1e48', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: 'c89afdec80a45705fdc9b6eda7136e193561a1e5', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
     }
     static get style() { return IrUserFormPanelStyle0 + IrUserFormPanelStyle1; }
 }, [2, "ir-user-form-panel", {
@@ -251,7 +253,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-user-form-panel", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-select", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "requirement-check"];
+    const components = ["ir-user-form-panel", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-select", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-user-form-panel":
             if (!customElements.get(tagName)) {
@@ -260,70 +262,80 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-input-text":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$d();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$c();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$b();
             }
             break;
         case "ir-password-validator":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$a();
             }
             break;
         case "ir-reset-password":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$9();
             }
             break;
         case "ir-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$8();
             }
             break;
         case "ir-sidebar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$7();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$6();
             }
             break;
         case "ir-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$5();
             }
             break;
         case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-toast-alert":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-toast-provider":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

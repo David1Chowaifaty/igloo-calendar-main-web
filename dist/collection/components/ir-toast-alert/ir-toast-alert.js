@@ -1,4 +1,4 @@
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 export class IrToastAlert {
     /** Unique identifier passed back to the provider when interacting with the toast */
     toastId;
@@ -19,32 +19,40 @@ export class IrToastAlert {
     irToastDismiss;
     irToastAction;
     irToastInteractionChange;
-    handleAction = () => {
-        this.irToastAction.emit({ id: this.toastId });
-    };
-    handleDismiss = () => {
-        if (!this.dismissible) {
+    interacting = false;
+    setInteracting = (interacting) => {
+        if (this.interacting === interacting) {
             return;
         }
-        this.irToastDismiss.emit({ id: this.toastId, reason: 'manual' });
-    };
-    setInteracting = (interacting) => {
+        this.interacting = interacting;
         this.irToastInteractionChange.emit({ id: this.toastId, interacting });
     };
     getIcon() {
         switch (this.variant) {
             case 'success':
-                return (h("svg", { viewBox: "0 0 24 24", class: "toast__icon", "aria-hidden": "true" }, h("path", { d: "M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.49 10 10-4.49 10-10 10zm-1.2-5.2l6.3-6.3-1.4-1.4-4.9 4.9-2.1-2.1-1.4 1.4 3.5 3.5z" })));
+                return h("wa-icon", { slot: "icon", name: "circle-check" });
             case 'warning':
-                return (h("svg", { viewBox: "0 0 24 24", class: "toast__icon", "aria-hidden": "true" }, h("path", { d: "M12 2 1 21h22L12 2zm0 5 6.46 12H5.54L12 7zm-1 4v4h2v-4h-2zm0 6v2h2v-2h-2z" })));
+                return h("wa-icon", { slot: "icon", name: "triangle-exclamation" });
             case 'danger':
-                return (h("svg", { viewBox: "0 0 24 24", class: "toast__icon", "aria-hidden": "true" }, h("path", { d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" })));
+                return h("wa-icon", { slot: "icon", name: "triangle-exclamation" });
             default:
-                return (h("svg", { viewBox: "0 0 24 24", class: "toast__icon", "aria-hidden": "true" }, h("path", { d: "M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" })));
+                return h("wa-icon", { slot: "icon", name: "circle-info" });
+        }
+    }
+    get calloutVariant() {
+        switch (this.variant) {
+            case 'info':
+                return 'neutral';
+            case 'success':
+                return 'success';
+            case 'warning':
+                return 'warning';
+            case 'danger':
+                return 'danger';
         }
     }
     render() {
-        return (h(Host, { key: 'e1451bfa6be93ca63e13addcc404e0071cfb48d2', role: "status", "aria-live": "polite", "aria-atomic": "true", "data-variant": this.variant, "data-leaving": this.leaving ? 'true' : 'false', "data-position": this.position, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("article", { key: 'ee2de68da239a427b6eb48917a0ebff77127ee92', class: "toast", part: "base" }, h("div", { key: '258cdd3587d92ab48aa35ff9b9e98a24fc48c69c', class: "toast__leading", part: "icon" }, this.getIcon()), h("div", { key: 'e34c8cff75eaeb09a92a1533cda04044e23df5f7', class: "toast__body", part: "content" }, this.label && (h("p", { key: '392081c2c2a8f4c0f633f815840c9b2790ceb03e', class: "toast__title", part: "title" }, this.label)), this.description && (h("p", { key: '61fde0ebc88f9a2f3a750b953066ef2513b534b4', class: "toast__description", part: "description" }, this.description))), (this.actionLabel || this.dismissible) && (h("div", { key: '64ce947a241527d63a42e3481ca09fd376768fb2', class: "toast__actions", part: "actions" }, this.actionLabel && (h("button", { key: '78b837e3e30e26537c80384caa37ccb1073a3880', type: "button", class: "toast__action", onClick: this.handleAction }, this.actionLabel)), this.dismissible && (h("button", { key: '9ad0a9afcd99d55c4d4925530937ae13b806d662', type: "button", class: "toast__dismiss", "aria-label": "Dismiss notification", onClick: this.handleDismiss }, h("svg", { key: '33c80e65458eb37afa3b4fbb65e56704465185d1', viewBox: "0 0 16 16", "aria-hidden": "true" }, h("path", { key: '80bc03321c7d9b0751c9aa6527ae2dd6b4d782de', d: "M4.646 4.646 8 8l3.354-3.354 1.292 1.292L9.292 9.293l3.354 3.354-1.292 1.292L8 10.707l-3.354 3.354-1.292-1.292L6.708 9.293 3.354 5.939z" })))))))));
+        return (h("div", { key: '3bae2d7ecf4b8848fdbfb8768d859fdd80eec9a4', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: '0da3721bf1e96dd8f95a36a2e95010cc82502639', variant: this.calloutVariant }, this.getIcon(), h("div", { key: 'b1b8dcc897d61e3e513166409328d2418c79e2aa', class: "toast__body" }, this.label && h("h3", { key: '54452811e2c82b8f9ba559cb224c12219c6bd5c8', class: "toast__title" }, this.label), this.description && h("p", { key: 'c77cdfad225e8e1aa18c2ac64b900e6066fe1213', class: "toast__description" }, this.description)))));
     }
     static get is() { return "ir-toast-alert"; }
     static get encapsulation() { return "shadow"; }
@@ -140,7 +148,7 @@ export class IrToastAlert {
                 "getter": false,
                 "setter": false,
                 "attribute": "variant",
-                "reflect": false,
+                "reflect": true,
                 "defaultValue": "'info'"
             },
             "dismissible": {

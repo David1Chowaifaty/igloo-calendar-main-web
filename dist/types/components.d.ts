@@ -763,6 +763,7 @@ export namespace Components {
           * Fixed check-out date (YYYY-MM-DD), if applicable
          */
         "checkOut": string;
+        "isBlockConversion": boolean;
         /**
           * Controls header behavior and date constraints
          */
@@ -1783,6 +1784,7 @@ export namespace Components {
           * Indicates that the input should receive focus on page load.
          */
         "autofocus": NativeWaInput1['autofocus'];
+        "blurInput": () => Promise<void>;
         /**
           * The default value of the form control. Primarily used for resetting the form control.
          */
@@ -1795,6 +1797,7 @@ export namespace Components {
           * Used to customize the label or icon of the Enter key on virtual keyboards.
          */
         "enterkeyhint": NativeWaInput1['enterkeyhint'];
+        "focusInput": () => Promise<void>;
         /**
           * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
          */
@@ -3001,6 +3004,21 @@ export namespace Components {
         "percentage": string;
     }
     interface IrPropertySwitcher {
+        "mode": 'dropdown' | 'dialog';
+    }
+    /**
+     * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
+     * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
+     */
+    interface IrPropertySwitcherDialogContent {
+        /**
+          * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
+         */
+        "open": boolean;
+        /**
+          * ID of the property that is currently selected in the parent component.
+         */
+        "selectedPropertyId"?: number;
     }
     interface IrRadio {
         /**
@@ -3556,8 +3574,9 @@ export namespace Components {
         "variant": ToastVariant;
     }
     interface IrToastProvider {
-        "addToast": (toast: Omit<Toast1, "id">) => Promise<string>;
+        "addToast": (toast: Toast1) => Promise<string>;
         "clearAllToasts": () => Promise<void>;
+        "duration": number;
         "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "removeToast": (id: string) => Promise<void>;
         "rtl": boolean;
@@ -4172,6 +4191,14 @@ export interface IrPreviewScreenDialogCustomEvent<T> extends CustomEvent<T> {
 export interface IrPriceInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPriceInputElement;
+}
+export interface IrPropertySwitcherCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPropertySwitcherElement;
+}
+export interface IrPropertySwitcherDialogContentCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPropertySwitcherDialogContentElement;
 }
 export interface IrRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6858,11 +6885,43 @@ declare global {
         prototype: HTMLIrProgressIndicatorElement;
         new (): HTMLIrProgressIndicatorElement;
     };
+    interface HTMLIrPropertySwitcherElementEventMap {
+        "propertyChange": AllowedProperty;
+    }
     interface HTMLIrPropertySwitcherElement extends Components.IrPropertySwitcher, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPropertySwitcherElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherElement, ev: IrPropertySwitcherCustomEvent<HTMLIrPropertySwitcherElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPropertySwitcherElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherElement, ev: IrPropertySwitcherCustomEvent<HTMLIrPropertySwitcherElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrPropertySwitcherElement: {
         prototype: HTMLIrPropertySwitcherElement;
         new (): HTMLIrPropertySwitcherElement;
+    };
+    interface HTMLIrPropertySwitcherDialogContentElementEventMap {
+        "propertySelected": AllowedProperty;
+    }
+    /**
+     * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
+     * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
+     */
+    interface HTMLIrPropertySwitcherDialogContentElement extends Components.IrPropertySwitcherDialogContent, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPropertySwitcherDialogContentElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherDialogContentElement, ev: IrPropertySwitcherDialogContentCustomEvent<HTMLIrPropertySwitcherDialogContentElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPropertySwitcherDialogContentElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherDialogContentElement, ev: IrPropertySwitcherDialogContentCustomEvent<HTMLIrPropertySwitcherDialogContentElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrPropertySwitcherDialogContentElement: {
+        prototype: HTMLIrPropertySwitcherDialogContentElement;
+        new (): HTMLIrPropertySwitcherDialogContentElement;
     };
     interface HTMLIrRadioElementEventMap {
         "checkChange": boolean;
@@ -7742,6 +7801,7 @@ declare global {
         "ir-proforma-invoice-preview": HTMLIrProformaInvoicePreviewElement;
         "ir-progress-indicator": HTMLIrProgressIndicatorElement;
         "ir-property-switcher": HTMLIrPropertySwitcherElement;
+        "ir-property-switcher-dialog-content": HTMLIrPropertySwitcherDialogContentElement;
         "ir-radio": HTMLIrRadioElement;
         "ir-range-picker": HTMLIrRangePickerElement;
         "ir-reallocation-drawer": HTMLIrReallocationDrawerElement;
@@ -8561,6 +8621,7 @@ declare namespace LocalJSX {
           * Fixed check-out date (YYYY-MM-DD), if applicable
          */
         "checkOut"?: string;
+        "isBlockConversion"?: boolean;
         /**
           * Controls header behavior and date constraints
          */
@@ -11044,6 +11105,29 @@ declare namespace LocalJSX {
         "percentage"?: string;
     }
     interface IrPropertySwitcher {
+        "mode"?: 'dropdown' | 'dialog';
+        /**
+          * Emits whenever the user selects a new property from the switcher dialog.
+         */
+        "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<AllowedProperty>) => void;
+    }
+    /**
+     * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
+     * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
+     */
+    interface IrPropertySwitcherDialogContent {
+        /**
+          * Emits whenever the user picks a property from the list.
+         */
+        "onPropertySelected"?: (event: IrPropertySwitcherDialogContentCustomEvent<AllowedProperty>) => void;
+        /**
+          * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
+         */
+        "open"?: boolean;
+        /**
+          * ID of the property that is currently selected in the parent component.
+         */
+        "selectedPropertyId"?: number;
     }
     interface IrRadio {
         /**
@@ -11662,6 +11746,7 @@ declare namespace LocalJSX {
         "variant"?: ToastVariant;
     }
     interface IrToastProvider {
+        "duration"?: number;
         "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "rtl"?: boolean;
     }
@@ -11985,6 +12070,7 @@ declare namespace LocalJSX {
         "ir-proforma-invoice-preview": IrProformaInvoicePreview;
         "ir-progress-indicator": IrProgressIndicator;
         "ir-property-switcher": IrPropertySwitcher;
+        "ir-property-switcher-dialog-content": IrPropertySwitcherDialogContent;
         "ir-radio": IrRadio;
         "ir-range-picker": IrRangePicker;
         "ir-reallocation-drawer": IrReallocationDrawer;
@@ -12230,6 +12316,11 @@ declare module "@stencil/core" {
             "ir-proforma-invoice-preview": LocalJSX.IrProformaInvoicePreview & JSXBase.HTMLAttributes<HTMLIrProformaInvoicePreviewElement>;
             "ir-progress-indicator": LocalJSX.IrProgressIndicator & JSXBase.HTMLAttributes<HTMLIrProgressIndicatorElement>;
             "ir-property-switcher": LocalJSX.IrPropertySwitcher & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherElement>;
+            /**
+             * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
+             * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
+             */
+            "ir-property-switcher-dialog-content": LocalJSX.IrPropertySwitcherDialogContent & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherDialogContentElement>;
             "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
             "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
             "ir-reallocation-drawer": LocalJSX.IrReallocationDrawer & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;
