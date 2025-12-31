@@ -115,12 +115,12 @@ const IrSidebar = /*@__PURE__*/ proxyCustomElement(class IrSidebar extends HTMLE
             className = '';
         }
         return [
-            h("div", { key: 'b4b59f84960df8f79ed4ef1b0e0fa17f3853d139', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '77350f2a83afc064bb0674d7700b95d3c4c91743', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: 'fd2fa8c37b3035845471d8a38d5a8bd889de36f2', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '14582b8b1959ee719ceb8c0744b12b45853c58a6', class: 'sidebar-title' }, h("p", { key: 'b61e1049f33741085f0f402bf5ded7419a1d331f', class: 'p-0 m-0' }, this.label), h("div", { key: '6296b94a376f943946da89f73a9ee3e4f8b737d0', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '686a30d1c0a984c62836888bbc759194adee91af', class: "", onIconClickHandler: () => {
+            h("div", { key: '819bd98c860273eed5bda0da7403e9561e2e398b', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '7fd80e3a77e54a84eea11b3161fc98bda9ac6727', class: 'sidebar-title' }, h("p", { key: '9535a3313f39a8572b556be47c4dfe31ab87fe88', class: 'p-0 m-0' }, this.label), h("div", { key: '3bc1136117ac2ce8657821c42d57e2e7a744893e', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '1d6854aabb91406e91ebee8d4238fddbf2364561', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'd7fbd209d9e63b373e469f1362769261b7d8a03f', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '193a6b5e7ad55ca7cf27c02b722fbfb08e6c3718', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'bd92d536ac1e175b44950dd916979cd56f8ff95a', name: "sidebar-body" })),
+                } }, h("svg", { key: 'fe50223dec27da9075389e7a0714a275e79ded8b', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '75ccf9a016650c6e7895314fa3a6285576b03818', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '7fa82597d83fcb595de2d0978a250a75f702244b', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

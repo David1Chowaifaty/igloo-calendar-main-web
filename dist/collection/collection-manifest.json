@@ -97,6 +97,7 @@
     "components/ir-booking-listing/ir-booking-listing-table/ir-booking-listing-table.js",
     "components/ir-booking-listing/ir-listing-header/ir-listing-header.js",
     "components/ir-booking-listing/ir-listing-modal/ir-listing-modal.js",
+    "components/ir-booking-new-form/ir-booking-new-form.js",
     "components/ir-booking-printing/ir-booking-printing.js",
     "components/ir-channel/ir-channel.js",
     "components/ir-channel/ir-channel-editor/ir-channel-editor.js",

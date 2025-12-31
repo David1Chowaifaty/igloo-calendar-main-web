@@ -808,6 +808,11 @@ export namespace Components {
     }
     interface IrBookingListingTable {
     }
+    interface IrBookingNewForm {
+        "language": string;
+        "propertyid": string;
+        "ticket": string;
+    }
     interface IrBookingNumberCell {
         "bookingNumber": Booking['booking_nbr'];
         "channelBookingNumber": Booking['channel_booking_nbr'];
@@ -5325,6 +5330,12 @@ declare global {
         prototype: HTMLIrBookingListingTableElement;
         new (): HTMLIrBookingListingTableElement;
     };
+    interface HTMLIrBookingNewFormElement extends Components.IrBookingNewForm, HTMLStencilElement {
+    }
+    var HTMLIrBookingNewFormElement: {
+        prototype: HTMLIrBookingNewFormElement;
+        new (): HTMLIrBookingNewFormElement;
+    };
     interface HTMLIrBookingNumberCellElementEventMap {
         "openBookingDetails": Booking['booking_nbr'];
     }
@@ -7686,6 +7697,7 @@ declare global {
         "ir-booking-listing": HTMLIrBookingListingElement;
         "ir-booking-listing-mobile-card": HTMLIrBookingListingMobileCardElement;
         "ir-booking-listing-table": HTMLIrBookingListingTableElement;
+        "ir-booking-new-form": HTMLIrBookingNewFormElement;
         "ir-booking-number-cell": HTMLIrBookingNumberCellElement;
         "ir-booking-printing": HTMLIrBookingPrintingElement;
         "ir-booking-status-tag": HTMLIrBookingStatusTagElement;
@@ -8675,6 +8687,11 @@ declare namespace LocalJSX {
         "onOpenBookingDetails"?: (event: IrBookingListingTableCustomEvent<string>) => void;
         "onRequestPageChange"?: (event: IrBookingListingTableCustomEvent<PaginationChangeEvent>) => void;
         "onRequestPageSizeChange"?: (event: IrBookingListingTableCustomEvent<PaginationChangeEvent>) => void;
+    }
+    interface IrBookingNewForm {
+        "language"?: string;
+        "propertyid"?: string;
+        "ticket"?: string;
     }
     interface IrBookingNumberCell {
         "bookingNumber"?: Booking['booking_nbr'];
@@ -11955,6 +11972,7 @@ declare namespace LocalJSX {
         "ir-booking-listing": IrBookingListing;
         "ir-booking-listing-mobile-card": IrBookingListingMobileCard;
         "ir-booking-listing-table": IrBookingListingTable;
+        "ir-booking-new-form": IrBookingNewForm;
         "ir-booking-number-cell": IrBookingNumberCell;
         "ir-booking-printing": IrBookingPrinting;
         "ir-booking-status-tag": IrBookingStatusTag;
@@ -12201,6 +12219,7 @@ declare module "@stencil/core" {
             "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
             "ir-booking-listing-mobile-card": LocalJSX.IrBookingListingMobileCard & JSXBase.HTMLAttributes<HTMLIrBookingListingMobileCardElement>;
             "ir-booking-listing-table": LocalJSX.IrBookingListingTable & JSXBase.HTMLAttributes<HTMLIrBookingListingTableElement>;
+            "ir-booking-new-form": LocalJSX.IrBookingNewForm & JSXBase.HTMLAttributes<HTMLIrBookingNewFormElement>;
             "ir-booking-number-cell": LocalJSX.IrBookingNumberCell & JSXBase.HTMLAttributes<HTMLIrBookingNumberCellElement>;
             "ir-booking-printing": LocalJSX.IrBookingPrinting & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
             "ir-booking-status-tag": LocalJSX.IrBookingStatusTag & JSXBase.HTMLAttributes<HTMLIrBookingStatusTagElement>;
