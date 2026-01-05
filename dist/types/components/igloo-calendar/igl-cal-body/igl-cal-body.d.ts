@@ -18,18 +18,15 @@ export declare class IglCalBody {
     dragOverElement: string;
     renderAgain: boolean;
     selectedRoom: PhysicalRoom;
-    isLoading: 'middle' | 'right' | null;
-    addBookingDatasEvent: EventEmitter<any[]>;
-    showBookingPopup: EventEmitter;
-    scrollPageToRoom: EventEmitter;
     selectedRooms: {
         [key: string]: any;
     };
+    addBookingDatasEvent: EventEmitter<any[]>;
+    showBookingPopup: EventEmitter;
+    scrollPageToRoom: EventEmitter;
     private fromRoomId;
     private newEvent;
     private currentDate;
-    private hkModal;
-    private housekeepingService;
     private bookingMap;
     private interactiveTitle;
     private dayRateMap;
@@ -47,7 +44,7 @@ export declare class IglCalBody {
     private getCategoryName;
     private getCategoryId;
     private getTotalPhysicalRooms;
-    private getCategoryRooms;
+    private getRoomtypeUnits;
     private getRoomName;
     private getRoomId;
     private getRoomById;
@@ -63,27 +60,23 @@ export declare class IglCalBody {
     private showNewBookingPopup;
     private renderElement;
     private getBookingMap;
-    private getGeneralCategoryDayColumns;
-    private getGeneralRoomDayColumns;
+    private getRoomtypeDayInventoryCells;
+    private getGeneralUnitsDayCells;
     private toggleCategory;
-    private getRoomCategoryRow;
+    private getRoomtypeRow;
     /**
      * Renders a list of active rooms for an expanded room category. Returns an array of JSX elements, including headers and day columns, or an empty array if the category is collapsed or contains no active rooms.
      *
-     * @param {RoomCategory} roomCategory - The category containing room details.
+     * @param {RoomCategory} roomType - The category containing room details.
      */
-    private getRoomsByCategory;
+    private getUnitsByRoomtype;
     private getRoomRows;
-    private confirmHousekeepingUpdate;
-    render(): any;
-    private renderModalBody;
-    private renderModalMiddleButtonText;
-    private renderModalRightButtonText;
+    private getTodayCheckinRoomsAndCategories;
     private updateTodayCheckinStatus;
-    private getTodayISODate;
     private roomHasTodayCheckin;
     private categoryHasRoomWithTodayCheckin;
     private updateDisabledCellsCache;
     private getCellKey;
     private isCellDisabled;
+    render(): any;
 }

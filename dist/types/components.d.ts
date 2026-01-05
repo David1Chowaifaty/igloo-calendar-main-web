@@ -17,8 +17,8 @@ import { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar
 import { IPageTwoDataUpdateProps } from "./models/models";
 import { IrToast } from "./components/ui/ir-toast/ir-toast";
 import { DateRangeChangeEvent } from "./components/igloo-calendar/igl-date-range/igl-date-range";
+import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom, Property, Room, SharedPerson } from "./models/booking.dto";
 import { Currency, RatePlan, RoomType } from "./models/property";
-import { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Property, Room, SharedPerson } from "./models/booking.dto";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 import { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
@@ -83,8 +83,8 @@ export { CalendarSidebarState } from "./components/igloo-calendar/igloo-calendar
 export { IPageTwoDataUpdateProps } from "./models/models";
 export { IrToast } from "./components/ui/ir-toast/ir-toast";
 export { DateRangeChangeEvent } from "./components/igloo-calendar/igl-date-range/igl-date-range";
+export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, PhysicalRoom, Property, Room, SharedPerson } from "./models/booking.dto";
 export { Currency, RatePlan, RoomType } from "./models/property";
-export { Booking, ExtraService, Guest, IBookingPickupInfo, IOtaNotes, IPayment, OTAManipulations, OtaService, Property, Room, SharedPerson } from "./models/booking.dto";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 export { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
@@ -319,6 +319,24 @@ export namespace Components {
         "size": 'small' | 'medium' | 'large';
         "variant": 'booking' | 'default';
         "withDateDifference": boolean;
+    }
+    interface IglHousekeepingDialog {
+        /**
+          * Booking number associated with the selected room (if any). Used for housekeeping action tracking.
+         */
+        "bookingNumber": number;
+        /**
+          * Controls whether the dialog is open. The parent component is responsible for toggling this value.
+         */
+        "open": boolean;
+        /**
+          * Current property identifier. Required for housekeeping service requests.
+         */
+        "propertyId": number;
+        /**
+          * Currently selected room for housekeeping actions. When null or undefined, the dialog will not render.
+         */
+        "selectedRoom": PhysicalRoom;
     }
     interface IglLegends {
         "legendData": { [key: string]: any };
@@ -3785,6 +3803,10 @@ export interface IglDateRangeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglDateRangeElement;
 }
+export interface IglHousekeepingDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglHousekeepingDialogElement;
+}
 export interface IglLegendsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglLegendsElement;
@@ -4680,6 +4702,23 @@ declare global {
     var HTMLIglDateRangeElement: {
         prototype: HTMLIglDateRangeElement;
         new (): HTMLIglDateRangeElement;
+    };
+    interface HTMLIglHousekeepingDialogElementEventMap {
+        "irAfterClose": void;
+    }
+    interface HTMLIglHousekeepingDialogElement extends Components.IglHousekeepingDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglHousekeepingDialogElementEventMap>(type: K, listener: (this: HTMLIglHousekeepingDialogElement, ev: IglHousekeepingDialogCustomEvent<HTMLIglHousekeepingDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglHousekeepingDialogElementEventMap>(type: K, listener: (this: HTMLIglHousekeepingDialogElement, ev: IglHousekeepingDialogCustomEvent<HTMLIglHousekeepingDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglHousekeepingDialogElement: {
+        prototype: HTMLIglHousekeepingDialogElement;
+        new (): HTMLIglHousekeepingDialogElement;
     };
     interface HTMLIglLegendsElementEventMap {
         "optionEvent": { [key: string]: any };
@@ -7655,6 +7694,7 @@ declare global {
         "igl-cal-footer": HTMLIglCalFooterElement;
         "igl-cal-header": HTMLIglCalHeaderElement;
         "igl-date-range": HTMLIglDateRangeElement;
+        "igl-housekeeping-dialog": HTMLIglHousekeepingDialogElement;
         "igl-legends": HTMLIglLegendsElement;
         "igl-property-booked-by": HTMLIglPropertyBookedByElement;
         "igl-rate-plan": HTMLIglRatePlanElement;
@@ -8112,6 +8152,28 @@ declare namespace LocalJSX {
         "size"?: 'small' | 'medium' | 'large';
         "variant"?: 'booking' | 'default';
         "withDateDifference"?: boolean;
+    }
+    interface IglHousekeepingDialog {
+        /**
+          * Booking number associated with the selected room (if any). Used for housekeeping action tracking.
+         */
+        "bookingNumber"?: number;
+        /**
+          * Fired after dialog is fully closed
+         */
+        "onIrAfterClose"?: (event: IglHousekeepingDialogCustomEvent<void>) => void;
+        /**
+          * Controls whether the dialog is open. The parent component is responsible for toggling this value.
+         */
+        "open"?: boolean;
+        /**
+          * Current property identifier. Required for housekeeping service requests.
+         */
+        "propertyId"?: number;
+        /**
+          * Currently selected room for housekeeping actions. When null or undefined, the dialog will not render.
+         */
+        "selectedRoom"?: PhysicalRoom;
     }
     interface IglLegends {
         "legendData"?: { [key: string]: any };
@@ -11930,6 +11992,7 @@ declare namespace LocalJSX {
         "igl-cal-footer": IglCalFooter;
         "igl-cal-header": IglCalHeader;
         "igl-date-range": IglDateRange;
+        "igl-housekeeping-dialog": IglHousekeepingDialog;
         "igl-legends": IglLegends;
         "igl-property-booked-by": IglPropertyBookedBy;
         "igl-rate-plan": IglRatePlan;
@@ -12171,6 +12234,7 @@ declare module "@stencil/core" {
             "igl-cal-footer": LocalJSX.IglCalFooter & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
             "igl-cal-header": LocalJSX.IglCalHeader & JSXBase.HTMLAttributes<HTMLIglCalHeaderElement>;
             "igl-date-range": LocalJSX.IglDateRange & JSXBase.HTMLAttributes<HTMLIglDateRangeElement>;
+            "igl-housekeeping-dialog": LocalJSX.IglHousekeepingDialog & JSXBase.HTMLAttributes<HTMLIglHousekeepingDialogElement>;
             "igl-legends": LocalJSX.IglLegends & JSXBase.HTMLAttributes<HTMLIglLegendsElement>;
             "igl-property-booked-by": LocalJSX.IglPropertyBookedBy & JSXBase.HTMLAttributes<HTMLIglPropertyBookedByElement>;
             "igl-rate-plan": LocalJSX.IglRatePlan & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;

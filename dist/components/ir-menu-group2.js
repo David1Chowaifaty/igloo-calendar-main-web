@@ -26,7 +26,7 @@ const IrMenuGroup = /*@__PURE__*/ proxyCustomElement(class IrMenuGroup extends H
         this.openChanged.emit(true);
     };
     render() {
-        return (h("wa-details", { key: 'bf29104dc3fb7c76affe353cabaee1d90c9f6ac4', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: '477f003aef56a20b9291a8f9bec8913c1cad3e41', slot: "summary", name: "summary" }), h("slot", { key: 'e1f5da5f9644cb7e58b889f7faba73f89dc8cc0c' })));
+        return (h("wa-details", { key: '763edafe2a42f9b4a43c444dddcfbe64394a2b46', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: '7ec9f45539bcd90976220f5be4b4b05a088ae5d0', slot: "summary", name: "summary" }), h("slot", { key: '2a4f78ef75fc25185d4d81e297fb5c36eb83b092' })));
     }
     static get style() { return IrMenuGroupStyle0; }
 }, [1, "ir-menu-group", {

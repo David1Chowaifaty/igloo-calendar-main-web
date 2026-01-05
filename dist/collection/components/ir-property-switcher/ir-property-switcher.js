@@ -17,11 +17,11 @@ export class IrPropertySwitcher {
         this.propertyChange.emit(event.detail);
     };
     render() {
-        return (h(Host, { key: '9f92a193604abc07fd601bbbbf6f76537912257a' }, this.trigger(), h("ir-dialog", { key: '4df2b37b3b6de250d727ec0276f293d168e5855a', onIrDialogAfterHide: e => {
+        return (h(Host, { key: '685abfbd99633e385560fc4920dfb230c0190a81' }, this.trigger(), h("ir-dialog", { key: '1f0d8952c1804b1dc8d3be8ec7bf1a6226164980', onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: 'a72d9ade9ad4dfcacbf0efdb03498697077316f7', open: this.open, selectedPropertyId: this.selectedProperty?.id, onPropertySelected: this.handlePropertySelected })))));
+            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: 'a055f3f4697a266a805842cb7f887defb76a640b', open: this.open, selectedPropertyId: this.selectedProperty?.id, onPropertySelected: this.handlePropertySelected })))));
     }
     static get is() { return "ir-property-switcher"; }
     static get encapsulation() { return "scoped"; }

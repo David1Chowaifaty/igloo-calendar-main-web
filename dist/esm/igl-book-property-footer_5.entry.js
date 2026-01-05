@@ -3,15 +3,15 @@ import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
-import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.service-230ca55b.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.service-87c78da5.js';
 import { z } from './index-1e1f097b.js';
-import { f as formatAmount, C as validateEmail } from './utils-41b21cb2.js';
+import { f as formatAmount, D as validateEmail } from './utils-c81962e8.js';
 import { I as IMask } from './index-e2caf943.js';
 import { B as BookingGuestSchema } from './types-4fa492e5.js';
 import { v as v4 } from './v4-964634d6.js';
 import './index-f100e9d2.js';
 import './axios-aa1335b8.js';
-import './booking-877e88b0.js';
+import './booking-1e009761.js';
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{width:100% !important;background:#000}";
 const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;
@@ -250,9 +250,9 @@ const IglBookPropertyHeader = class {
     }
     getMaxDate() {
         if (!this.bookingData?.block_exposed_unit_props) {
-            if (this.isEventType('PLUS_BOOKING')) {
-                return hooks().add(60, 'days').format('YYYY-MM-DD');
-            }
+            // if (this.isEventType('PLUS_BOOKING')) {
+            //   return moment().add(60, 'days').format('YYYY-MM-DD');
+            // }
             return undefined;
         }
         return this.bookingData?.block_exposed_unit_props.to_date;
@@ -260,7 +260,7 @@ const IglBookPropertyHeader = class {
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '4349ff655141520a8b3001fda930dc46110dd437' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: 'd84fa0062bfabe6e5164e77f448769481875f3e3', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: 'fb6b773ab414123f3ed2df79279111fce6f7e1af', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '353aac8d2446043c510bbf9e2ea965ccbdd6963f', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '83fe8101cf9a7b52b9e72a795d6f6a6138a9e3b4', class: "text-right message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '5727bb290f004ceae4a58e21d59e0bbb896e77d3' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '31e860800d56d1ba4cb2d0c6a87f59fa2800472a', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: 'c1683f6c9a81fc729b2577d8ba2142ef5c0b8d67', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: 'ca0240c19f9dfbd380062b2494b2344896d79b40', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: 'a795ce30283db2fe320d2f2141000513491ce763', class: "text-right message-label" }, calendar_data.tax_statement)));
     }
 };
 IglBookPropertyHeader.style = IglBookPropertyHeaderStyle0;

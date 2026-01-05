@@ -39,6 +39,7 @@
     "components/igloo-calendar/igl-bulk-operations/igl-bulk-block/igl-bulk-block.js",
     "components/igloo-calendar/igl-bulk-operations/igl-bulk-stop-sale/igl-bulk-stop-sale.js",
     "components/igloo-calendar/igl-cal-body/igl-cal-body.js",
+    "components/igloo-calendar/igl-cal-body/igl-housekeeping-dialog/igl-housekeeping-dialog.js",
     "components/igloo-calendar/igl-cal-footer/igl-cal-footer.js",
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",
     "components/igloo-calendar/igl-legends/igl-legends.js",

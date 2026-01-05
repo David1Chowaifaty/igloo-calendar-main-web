@@ -20,7 +20,11 @@
 .rateplan-details {
   margin: 0;
   font-weight: 500;
-  color: var(--ir-muted-text-color, #4b5563);
+  color: var(--wa-color-text-quiet, #4b5563);
+}
+.rateplan-details-unit {
+  font-weight: 700;
+  color: var(--wa-color-text-normal);
 }
 
 .date-picker-row {
