@@ -444,9 +444,9 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         return disabled;
     }
     render() {
-        return (h(Host, { key: '2169ee24e28f28514679bb07bbd8a0d993051ca2' }, h("div", { key: '0c179de90b4d68e7b8e00e3233933e32468a122c', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0504348ce59f905d3ed38fd7781c4c32dc08a885', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '07f6da4f9e796cd378b73f8026f7c020d9ab16b0' }, h("div", { key: 'c63482097ecf576db910c31d7b5c8b936d0c0d22', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'a76f864e6edb8981308f0cb6e623011bbd6f2775', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '536c5c1951ead2741a9faf6191c14b0f206e75c2', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '741695d08cb653478eddf3514cd01efc1ddfb4b3', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;

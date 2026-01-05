@@ -11,7 +11,7 @@ const IrUnitCell = /*@__PURE__*/ proxyCustomElement(class IrUnitCell extends HTM
     }
     room;
     render() {
-        return (h(Host, { key: 'd40d6b4bd012854883d203c9d6e4e51544516c87' }, h("p", { key: '269bcda402a1727e16aaa522611c3872d8d1e03a' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '145d5047765bfa7e7f44357fea167b0dc3651b2b', unit: this.room.unit.name })));
+        return (h(Host, { key: '0cf0d0eebafcfb4d3651654fc20358c6bb04bec0' }, h("p", { key: '13ab9219e53fc116069123f04a219ccffd73c109' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'bc3e5e47d980cd5644e68f075cee53e4f0bebd1f', unit: this.room.unit.name })));
     }
     static get style() { return IrUnitCellStyle0; }
 }, [2, "ir-unit-cell", {

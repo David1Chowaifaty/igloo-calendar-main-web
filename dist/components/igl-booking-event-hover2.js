@@ -449,7 +449,7 @@ const IglBookingEventHover = /*@__PURE__*/ proxyCustomElement(class IglBookingEv
         return h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (h(Host, { key: '2dd36c4229f0a4d34d352e66b52b9ac73c0e8e88' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (h(Host, { key: '2e05b492e8f8b85046ada48f8bd11f7a6957b3fe' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
