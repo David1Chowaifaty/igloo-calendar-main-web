@@ -212,17 +212,24 @@ export class IrBookingEditorDrawer {
         if (!this.wasBlockedUnit || !this.originalBlockPayload) {
             return;
         }
-        const original_from_date = moment(this.originalBlockPayload.from_date, 'YYYY-MM-DD');
-        const current_from_date = moment(serviceParams.booking.from_date, 'YYYY-MM-DD');
-        const original_to_date = moment(this.originalBlockPayload.to_date, 'YYYY-MM-DD');
-        const current_to_date = moment(serviceParams.booking.to_date, 'YYYY-MM-DD');
-        if (current_to_date.isBefore(original_to_date, 'days')) {
-            const props = { ...this.originalBlockPayload, from_date: current_to_date.format('YYYY-MM-DD') };
-            await this.bookingService.blockUnit(props);
+        const originalPayload = { ...this.originalBlockPayload };
+        const originalFromDate = moment(this.originalBlockPayload.from_date, 'YYYY-MM-DD');
+        const currentFromDate = moment(serviceParams.booking.from_date, 'YYYY-MM-DD');
+        const originalToDate = moment(this.originalBlockPayload.to_date, 'YYYY-MM-DD');
+        const currentToDate = moment(serviceParams.booking.to_date, 'YYYY-MM-DD');
+        if (currentToDate.isBefore(originalToDate, 'days')) {
+            const trailingBlockPayload = {
+                ...originalPayload,
+                from_date: currentToDate.format('YYYY-MM-DD'),
+            };
+            await this.bookingService.blockUnit(trailingBlockPayload);
         }
-        if (current_from_date.isAfter(original_from_date, 'days')) {
-            const props = { ...this.originalBlockPayload, to_date: current_from_date.format('YYYY-MM-DD') };
-            await this.bookingService.blockUnit(props);
+        if (currentFromDate.isAfter(originalFromDate, 'days')) {
+            const leadingBlockPayload = {
+                ...originalPayload,
+                to_date: currentFromDate.format('YYYY-MM-DD'),
+            };
+            await this.bookingService.blockUnit(leadingBlockPayload);
         }
         return;
     }
@@ -265,7 +272,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: '9ca193c34134174b695adce006837c7e440b5bb4', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: '517dfd7108ff8cea1bff3c3e7def22ee702eb1b4', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -276,7 +283,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: 'c05097c240962b7ad888de8c94e4a1449a6cc4e3', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: 'ec2fcf29157cd5ee70d958eaba84924880127129', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -284,7 +291,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'da6f70dcd54e127309cc404685bb3a6039ccaec1', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'c8f041f6ddfd57caa781ab55ee233b7e470edc8f', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
