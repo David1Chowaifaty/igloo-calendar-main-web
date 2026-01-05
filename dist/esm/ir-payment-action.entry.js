@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h } from './index-7e96440e.js';
-import { f as formatAmount } from './utils-c81962e8.js';
+import { f as formatAmount } from './utils-78094d83.js';
 import { h as hooks } from './moment-ab846cee.js';
 import './index-1e1f097b.js';
 import './calendar-data-2ae53dc9.js';

@@ -27,6 +27,21 @@
   transform: translateY(-50%);
 }
 
+.legend_skew.pending {
+  border-width: 1px;
+  border-style: dashed;
+  border-color: var(--wa-color-success-fill-loud);
+}
+.legend_skew.in-house {
+  background-color: var(--wa-color-brand-fill-quiet) !important;
+  color: var(--wa-color-brand-on-quiet) !important;
+  width: 30px;
+  transform: skew(0);
+  vertical-align: middle;
+  font-size: 12px;
+  text-align: center;
+}
+
 .legendCloseBtn:hover {
   background-color: #f6f6f6;
 }

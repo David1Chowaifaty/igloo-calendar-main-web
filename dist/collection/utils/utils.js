@@ -183,6 +183,12 @@ export function formatLegendColors(legendData) {
         formattedLegendData[legend.id] = legend;
         formattedLegendData.statusId = statusId; // NOTE: This will overwrite the 'statusId' property with every iteration.
     });
+    formattedLegendData[1].color = 'var(--wa-color-success-fill-loud)';
+    formattedLegendData[2].color = 'var(--wa-color-success-fill-loud)';
+    formattedLegendData[3].color = 'var(--wa-color-success-fill-normal)';
+    formattedLegendData[6].color = 'var(--wa-color-danger-fill-loud)';
+    formattedLegendData[7].color = 'var(--wa-color-danger-fill-loud)';
+    formattedLegendData[11].color = 'var(--wa-color-warning-fill-normal)';
     return formattedLegendData;
 }
 export function isBlockUnit(status_code) {
