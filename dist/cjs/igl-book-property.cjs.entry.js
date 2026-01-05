@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-4cdf5976.js');
+const booking_service = require('./booking.service-77646e8b.js');
 const utils = require('./utils-02a0d542.js');
 const variation_service = require('./variation.service-22ace345.js');
 const moment = require('./moment-1780b03a.js');
@@ -12,6 +12,7 @@ const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const types = require('./types-234b9df3.js');
 require('./axios-6e678d52.js');
 require('./index-8bb117a0.js');
+require('./booking-45a2d24d.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-0598de26.js');
 

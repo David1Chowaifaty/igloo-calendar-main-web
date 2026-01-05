@@ -66,7 +66,7 @@ export class IrBookingEditorGuestForm {
                 });
             }, value: this.expiryDate, mask: this.expiryDateMask, label: locales.entries.Lcz_ExpiryDate }))), booking_store.selectedPaymentMethod?.code === '005' && (h(Fragment, { key: '0709cb4e1baf9402415115f810c93e23a08bf94e' }, h("style", { key: '85e67a452df52fb2194848a83204f4194c891be2' }, `p{
               margin:0;
-              padding:0}`), h("div", { key: '40d68e43e7b970d1fa351705e591935a2d485df3', class: "booking-editor__payment-info-description", innerHTML: this.paymentMethods.find(p => p.code === '005')?.localizables.find(l => l.language.code.toLowerCase() === 'en')?.description }))), h("wa-checkbox", { key: '85499fd23be9f88e1627fe516e3df8bb440099e3', checked: bookedByGuest.emailGuest, onchange: event => updateBookedByGuest({ emailGuest: event.target.checked }) }, locales.entries.Lcz_EmailTheGuest))));
+              padding:0}`), h("div", { key: '40d68e43e7b970d1fa351705e591935a2d485df3', class: "booking-editor__payment-info-description", innerHTML: this.paymentMethods.find(p => p.code === '005')?.localizables.find(l => l.language.code.toLowerCase() === 'en')?.description }))), h("wa-checkbox", { key: 'ec414470fdc142e3abd10f81dbfd254e1024203f', defaultChecked: bookedByGuest.emailGuest, checked: bookedByGuest.emailGuest, onchange: event => updateBookedByGuest({ emailGuest: event.target.checked }) }, locales.entries.Lcz_EmailTheGuest))));
     }
     static get is() { return "ir-booking-editor-guest-form"; }
     static get encapsulation() { return "scoped"; }

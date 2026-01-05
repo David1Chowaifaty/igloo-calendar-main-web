@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-4cdf5976.js');
+const booking_service = require('./booking.service-77646e8b.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./axios-6e678d52.js');
 require('./index-8bb117a0.js');
@@ -11,6 +11,7 @@ require('./utils-02a0d542.js');
 require('./moment-1780b03a.js');
 require('./calendar-data-0598de26.js');
 require('./index-fbf1fe1d.js');
+require('./booking-45a2d24d.js');
 
 const iglBlockDatesViewCss = ".sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}";
 const IglBlockDatesViewStyle0 = iglBlockDatesViewCss;

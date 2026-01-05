@@ -11,7 +11,7 @@ export const bookedByGuestBaseData = {
     phone_prefix: '',
     mobile: '',
     selectedArrivalTime: '',
-    emailGuest: false,
+    emailGuest: true,
     note: '',
     cardNumber: '',
     cardHolderName: '',

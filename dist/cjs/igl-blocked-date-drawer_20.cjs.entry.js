@@ -3,17 +3,17 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-4cdf5976.js');
+const booking_service = require('./booking.service-77646e8b.js');
 const utils = require('./utils-02a0d542.js');
+const booking = require('./booking-45a2d24d.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-72c0afc0.js');
+const property_service = require('./property.service-a94a309e.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-0598de26.js');
 const index$1 = require('./index-8bb117a0.js');
 const housekeeping_service = require('./housekeeping.service-9e0d3074.js');
 const toBeAssigned_service = require('./toBeAssigned.service-85d11b5e.js');
 const unassigned_dates_store = require('./unassigned_dates.store-4a879984.js');
-const property_service = require('./property.service-b9bce2f2.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const icons = require('./icons-b526f0f2.js');
 const index$2 = require('./index-e9a28e3e.js');
@@ -159,7 +159,7 @@ const IglBookingEvent = class {
     bubbleInfoTopSide = false;
     isStretch = false;
     /*Services */
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     bookingService = new booking_service.BookingService();
     /* Resize props */
     resizeSide = '';
@@ -184,9 +184,9 @@ const IglBookingEvent = class {
     role = '';
     componentWillLoad() {
         window.addEventListener('click', this.handleClickOutsideBind);
-        this.bookingEvent.SPLIT_INDEX = booking_service.buildSplitIndex(this.bookingEvent.ROOMS);
+        this.bookingEvent.SPLIT_INDEX = booking.buildSplitIndex(this.bookingEvent.ROOMS);
         if (this.bookingEvent.SPLIT_INDEX) {
-            this.role = booking_service.getSplitRole(this.bookingEvent.SPLIT_INDEX, this.bookingEvent.IDENTIFIER) ?? '';
+            this.role = booking.getSplitRole(this.bookingEvent.SPLIT_INDEX, this.bookingEvent.IDENTIFIER) ?? '';
         }
     }
     componentDidLoad() {
@@ -267,8 +267,8 @@ const IglBookingEvent = class {
                     console.log(this.findRoomType(Number(this.bookingEvent.PR_ID)), this.findRoomType(Number(toRoomId)));
                     if ((!moment.hooks(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isSame(moment.hooks(to_date, 'YYYY-MM-DD'), 'dates') ||
                         this.findRoomType(Number(this.bookingEvent.PR_ID)) !== this.findRoomType(Number(toRoomId))) &&
-                        (booking_service.calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)?.disabled ||
-                            (booking_service.calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)?.disabled && booking_service.calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)?.disabled)) &&
+                        (booking.calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)?.disabled ||
+                            (booking.calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)?.disabled && booking.calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)?.disabled)) &&
                         !this.isStretch) {
                         this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
                     }
@@ -303,7 +303,7 @@ const IglBookingEvent = class {
                                 }
                                 const oldFromDate = this.bookingEvent.defaultDates.from_date;
                                 const oldToDate = this.bookingEvent.defaultDates.to_date;
-                                const diffDays = booking_service.calculateDaysBetweenDates(oldFromDate, oldToDate);
+                                const diffDays = booking.calculateDaysBetweenDates(oldFromDate, oldToDate);
                                 let shrinkingDirection = null;
                                 let fromDate = oldFromDate;
                                 let toDate = oldToDate;
@@ -375,7 +375,7 @@ const IglBookingEvent = class {
                                     let cursor = base_date;
                                     let counter = 0;
                                     while (cursor !== to_date) {
-                                        if (booking_service.calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)?.disabled) {
+                                        if (booking.calendar_dates.disabled_cells.get(`${toRoomId}_${cursor}`)?.disabled) {
                                             counter++;
                                         }
                                         cursor = moment.hooks(cursor, 'YYYY-MM-DD').add(1, 'days').format('YYYY-MM-DD');
@@ -448,7 +448,7 @@ const IglBookingEvent = class {
                 throw new Error(`booking#${this.bookingEvent.BOOKING_NUMBER} has an empty pool`);
             }
             data.rooms = filteredRooms;
-            const transformedBooking = booking_service.transformNewBooking(data)[0];
+            const transformedBooking = booking.transformNewBooking(data)[0];
             const { ID, TO_DATE, FROM_DATE, NO_OF_DAYS, STATUS, NAME, IDENTIFIER, origin, TOTAL_PRICE, PR_ID, POOL, BOOKING_NUMBER, NOTES, is_direct, BALANCE, channel_booking_nbr, ...otherBookingData } = transformedBooking;
             this.bookingEvent = {
                 ...otherBookingData,
@@ -986,10 +986,10 @@ const IglBookingEvent = class {
         return t1.isBefore(t2);
     }
     computeSplitRole() {
-        const SPLIT_INDEX = booking_service.buildSplitIndex(this.bookingEvent.ROOMS);
+        const SPLIT_INDEX = booking.buildSplitIndex(this.bookingEvent.ROOMS);
         let splitRole = null;
         if (SPLIT_INDEX) {
-            splitRole = booking_service.getSplitRole(SPLIT_INDEX, this.bookingEvent.IDENTIFIER) ?? '';
+            splitRole = booking.getSplitRole(SPLIT_INDEX, this.bookingEvent.IDENTIFIER) ?? '';
         }
         return splitRole;
     }
@@ -1424,10 +1424,10 @@ const IglBulkStopSale = class {
             return p;
         };
         const updateCalendarCells = (payloads) => {
-            const prevDisabledCells = new Map(booking_service.calendar_dates.disabled_cells);
+            const prevDisabledCells = new Map(booking.calendar_dates.disabled_cells);
             // Caches
             const roomsInfoById = new Map(calendarData.calendar_data.roomsInfo.map((rt, i) => [rt.id, { roomType: rt, index: i }]));
-            const dayIndexByValue = new Map(booking_service.calendar_dates.days.map((day, i) => [day.value, i]));
+            const dayIndexByValue = new Map(booking.calendar_dates.days.map((day, i) => [day.value, i]));
             const rateByRoomTypeAndDate = new Map();
             for (const payload of payloads) {
                 for (const restriction of payload.restrictions) {
@@ -1440,7 +1440,7 @@ const IglBulkStopSale = class {
                         console.warn(`Couldn't find date ${night}`);
                         continue;
                     }
-                    const day = booking_service.calendar_dates.days[dayIndex];
+                    const day = booking.calendar_dates.days[dayIndex];
                     const rateKey = `${room_type_id}_${night}`;
                     let rp = rateByRoomTypeAndDate.get(rateKey);
                     if (!rp) {
@@ -1461,7 +1461,7 @@ const IglBulkStopSale = class {
                     }
                 }
             }
-            booking_service.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
+            booking.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
         };
         try {
             this.errors = null;
@@ -1694,7 +1694,7 @@ const IglCalBody = class {
         this.currentDate.setHours(0, 0, 0, 0);
         this.bookingMap = this.getBookingMap(this.getBookingData());
         this.updateTodayCheckinStatus();
-        booking_service.calendar_dates.days.forEach(day => {
+        booking.calendar_dates.days.forEach(day => {
             this.dayRateMap.set(day.day, day.rate);
         });
         this.updateDisabledCellsCache();
@@ -1944,17 +1944,17 @@ const IglCalBody = class {
     getBookingMap(bookings) {
         const bookingMap = new Map();
         const today = moment.hooks().startOf('day');
-        for (const booking of bookings) {
-            const fromDate = moment.hooks(booking.FROM_DATE, 'YYYY-MM-DD').startOf('day');
-            const toDate = moment.hooks(booking.TO_DATE, 'YYYY-MM-DD').startOf('day');
+        for (const booking$1 of bookings) {
+            const fromDate = moment.hooks(booking$1.FROM_DATE, 'YYYY-MM-DD').startOf('day');
+            const toDate = moment.hooks(booking$1.TO_DATE, 'YYYY-MM-DD').startOf('day');
             // Check if today is between fromDate and toDate, inclusive.
             if (today.isSameOrAfter(fromDate) && today.isSameOrBefore(toDate)) {
-                if (!bookingMap.has(booking.PR_ID)) {
-                    bookingMap.set(booking.PR_ID, booking.BOOKING_NUMBER);
+                if (!bookingMap.has(booking$1.PR_ID)) {
+                    bookingMap.set(booking$1.PR_ID, booking$1.BOOKING_NUMBER);
                 }
                 else {
-                    if (booking_service.compareTime(moment.hooks().toDate(), booking_service.createDateWithOffsetAndHour(calendarData.calendar_data.checkin_checkout_hours?.offset, calendarData.calendar_data.checkin_checkout_hours?.hour))) {
-                        bookingMap.set(booking.PR_ID, booking.BOOKING_NUMBER);
+                    if (booking.compareTime(moment.hooks().toDate(), booking.createDateWithOffsetAndHour(calendarData.calendar_data.checkin_checkout_hours?.offset, calendarData.calendar_data.checkin_checkout_hours?.hour))) {
+                        bookingMap.set(booking$1.PR_ID, booking$1.BOOKING_NUMBER);
                     }
                 }
             }
@@ -1962,7 +1962,7 @@ const IglCalBody = class {
         return bookingMap;
     }
     getGeneralCategoryDayColumns(addClass, isCategory = false, index$1) {
-        return booking_service.calendar_dates.days.map(dayInfo => {
+        return booking.calendar_dates.days.map(dayInfo => {
             // const isActive = true;
             return (index.h("div", { class: `cellData  font-weight-bold categoryPriceColumn ${addClass + '_' + dayInfo.day} ${dayInfo.day === this.today || dayInfo.day === this.highlightedDate ? 'currentDay' : ''}` }, isCategory ? (index.h(index.Fragment, null, index.h("span", { class: 'categoryName' }, dayInfo.rate[index$1].exposed_inventory.rts))) : ('')));
         });
@@ -1974,7 +1974,7 @@ const IglCalBody = class {
             const isDisabled = (isCellDisabled && Object.keys(this.selectedRooms).length === 0) || (isCellDisabled && this.isCellDisabled(Number(roomId), prevDate));
             const isSelected = this.selectedRooms.hasOwnProperty(this.getSelectedCellRefName(roomId, dayInfo));
             const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
-            const cleaningDates = booking_service.calendar_dates.cleaningTasks.has(+roomId) ? booking_service.calendar_dates.cleaningTasks.get(+roomId) : null;
+            const cleaningDates = booking.calendar_dates.cleaningTasks.has(+roomId) ? booking.calendar_dates.cleaningTasks.get(+roomId) : null;
             const shouldBeCleaned = ['001', '003'].includes(calendarData.calendar_data.cleaning_frequency?.code) ? false : cleaningDates?.has(dayInfo.value);
             return (index.h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''}`, style: !isDisabled && { '--cell-cursor': 'default' }, onClick: () => {
                     if (isDisabled) {
@@ -2154,14 +2154,14 @@ const IglCalBody = class {
         return this.categoriesWithTodayCheckinStatus.has(this.getCategoryId(roomCategory));
     }
     updateDisabledCellsCache() {
-        booking_service.calendar_dates.disabled_cells.clear();
+        booking.calendar_dates.disabled_cells.clear();
         this.calendarData.roomsInfo?.forEach((roomCategory, categoryIndex) => {
             if (roomCategory.is_active) {
                 this.getCategoryRooms(roomCategory)?.forEach(room => {
                     if (room.is_active) {
                         this.calendarData.days.forEach(dayInfo => {
                             const cellKey = this.getCellKey(room.id, dayInfo.value);
-                            booking_service.calendar_dates.disabled_cells.set(cellKey, {
+                            booking.calendar_dates.disabled_cells.set(cellKey, {
                                 disabled: !dayInfo.rate[categoryIndex].is_available_to_book,
                                 reason: 'stop_sale',
                             });
@@ -2176,10 +2176,10 @@ const IglCalBody = class {
     }
     isCellDisabled(roomId, day) {
         const key = this.getCellKey(roomId, day);
-        if (!booking_service.calendar_dates.disabled_cells.has(key)) {
+        if (!booking.calendar_dates.disabled_cells.has(key)) {
             return false;
         }
-        const { disabled } = booking_service.calendar_dates.disabled_cells.get(key);
+        const { disabled } = booking.calendar_dates.disabled_cells.get(key);
         return disabled;
     }
     static get watchers() { return {
@@ -2535,7 +2535,7 @@ const IglReallocationDialog = class {
     resetModalState;
     dialogEl;
     rateplanSelectEl;
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     handleDataChange(newData) {
         this.resetState(newData);
         if (newData) {
@@ -3544,7 +3544,7 @@ const IrReallocationForm = class {
     mealPlanOptions = null;
     closeModal;
     bookingService = new booking_service.BookingService();
-    eventsService = new events_service.EventsService();
+    eventsService = new property_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.date = moment.hooks(this.room.from_date, 'YYYY-MM-DD');
@@ -3594,7 +3594,7 @@ const IrReallocationForm = class {
     getDates() {
         return {
             from_date: this.date.clone().format('YYYY-MM-DD'),
-            to_date: this.date.clone().add(booking_service.calculateDaysBetweenDates(this.room.from_date, this.room.to_date), 'days').format('YYYY-MM-DD'),
+            to_date: this.date.clone().add(booking.calculateDaysBetweenDates(this.room.from_date, this.room.to_date), 'days').format('YYYY-MM-DD'),
         };
     }
     async reallocateUnit() {

@@ -243,6 +243,7 @@ class IRBookingEditorService {
                         promo_key: null,
                         extras: [...extras.filter(e => e.key !== 'payment_code'), { key: 'payment_code', value: booking_store.selectedPaymentMethod?.code }],
                         agent: isAgent ? { id: sourceOption.tag } : null,
+                        is_email_client: bookedByGuest.emailGuest,
                         booking: {
                             company_name: bookedByGuest.company ?? null,
                             from_date: hooks(fromDate).format('YYYY-MM-DD'),
@@ -271,7 +272,7 @@ class IRBookingEditorService {
                                 country_phone_prefix: bookedByGuest?.phone_prefix ?? null,
                                 address: '',
                                 dob: null,
-                                subscribe_to_news_letter: bookedByGuest.emailGuest || false,
+                                // subscribe_to_news_letter: bookedByGuest.emailGuest || false,
                                 cci: bookedByGuest.cardNumber
                                     ? {
                                         nbr: bookedByGuest.cardNumber,
