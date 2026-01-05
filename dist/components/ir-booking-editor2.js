@@ -31,7 +31,7 @@ import { d as defineCustomElement$3 } from './ir-picker-item2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irBookingEditorCss = ".sc-ir-booking-editor-h{display:block;height:100%}.booking-editor__roomtype-container.sc-ir-booking-editor{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;padding-bottom:3rem}";
+const irBookingEditorCss = ".sc-ir-booking-editor-h{display:block;height:100%}.booking-editor__roomtype-container.sc-ir-booking-editor{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem;padding-bottom:3rem}";
 const IrBookingEditorStyle0 = irBookingEditorCss;
 
 const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor extends HTMLElement {

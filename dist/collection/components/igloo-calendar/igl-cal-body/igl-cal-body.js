@@ -359,7 +359,6 @@ export class IglCalBody {
         const today = moment();
         const rooms = new Set();
         const categories = new Set();
-        console.log('here');
         this.getBookingData().forEach(booking => {
             const roomInfo = booking?.ROOM_INFO;
             // Must be a check-in
@@ -423,9 +422,9 @@ export class IglCalBody {
         return disabled;
     }
     render() {
-        return (h(Host, { key: 'fa24d350b3f3bea6cc132572983aaf4d57b3dadc' }, h("div", { key: '6ae01ca4b187269e3ff703b3be893d85edb7be8a', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '7f6ac9814ddd14188b2cb22b6f1748bd00c72554', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '2169ee24e28f28514679bb07bbd8a0d993051ca2' }, h("div", { key: '0c179de90b4d68e7b8e00e3233933e32468a122c', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '0504348ce59f905d3ed38fd7781c4c32dc08a885', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'fe460dd5339127e6804788318fc3d43eecb66ef2', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '536c5c1951ead2741a9faf6191c14b0f206e75c2', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;

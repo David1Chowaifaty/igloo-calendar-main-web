@@ -15,10 +15,7 @@
   margin-bottom: 1rem;
 }
 .booking-editor-header__tax_statement {
-  font-size: 0.875rem;
-  margin: 0;
-  padding: 0;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 @media (min-width: 768px) {
   .booking-editor-header__container {
@@ -31,9 +28,6 @@
   }
   .booking-editor-header__children-select {
     width: 170px;
-  }
-  .booking-editor-header__tax_statement {
-    text-align: end;
   }
 }
 @media (min-width: 1024px) {

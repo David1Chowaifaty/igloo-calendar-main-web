@@ -1,10 +1,12 @@
-import { a as axios } from './axios-aa1335b8.js';
-import { z, u as unionType, n as numberType, s as stringType, o as objectType, b as booleanType, c as arrayType, e as enumType, d as custom, f as nullType, g as anyType } from './index-1e1f097b.js';
-import { e as extras, w as convertDateToCustomFormat, x as convertDateToTime, h as dateToFormattedString } from './utils-c81962e8.js';
-import { a as calculateDaysBetweenDates, o as getMyBookings } from './booking-1e009761.js';
-import { c as createStore } from './index-f100e9d2.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { c as calendar_data } from './calendar-data-2ae53dc9.js';
+'use strict';
+
+const axios = require('./axios-6e678d52.js');
+const index$1 = require('./index-8bb117a0.js');
+const utils = require('./utils-02a0d542.js');
+const booking = require('./booking-45a2d24d.js');
+const index = require('./index-fbf1fe1d.js');
+const moment = require('./moment-1780b03a.js');
+const calendarData = require('./calendar-data-0598de26.js');
 
 const bookedByGuestBaseData = {
     id: -1,
@@ -31,8 +33,8 @@ const initialState = {
     bookedByGuestManuallyEdited: false,
     bookingDraft: {
         dates: {
-            checkIn: hooks().startOf('day'),
-            checkOut: hooks().add(1, 'day'),
+            checkIn: moment.hooks().startOf('day'),
+            checkOut: moment.hooks().add(1, 'day'),
         },
         occupancy: {
             adults: null,
@@ -67,7 +69,7 @@ const initialState = {
     fictus_booking_nbr: null,
     event_type: { type: 'PLUS_BOOKING' },
 };
-let { state: booking_store, onChange: onRoomTypeChange, reset } = createStore(initialState);
+let { state: booking_store, onChange: onRoomTypeChange, reset } = index.createStore(initialState);
 // -----------------------------------------------------------------------------
 // Helpers
 // -----------------------------------------------------------------------------
@@ -366,7 +368,7 @@ function getRatePlanDisplayAmount(rateplanSelection, totalNights) {
  * Aggregates the total booking price combining all selected rate plans.
  */
 function getBookingTotalPrice() {
-    const dateDiff = calculateDaysBetweenDates(booking_store.bookingDraft.dates.checkIn.format('YYYY-MM-DD'), booking_store.bookingDraft.dates.checkOut.format('YYYY-MM-DD'));
+    const dateDiff = booking.calculateDaysBetweenDates(booking_store.bookingDraft.dates.checkIn.format('YYYY-MM-DD'), booking_store.bookingDraft.dates.checkOut.format('YYYY-MM-DD'));
     let totalPrice = 0;
     Object.values(booking_store.ratePlanSelections).forEach(roomTypeSelection => {
         Object.values(roomTypeSelection).forEach(ratePlan => {
@@ -374,7 +376,7 @@ function getBookingTotalPrice() {
                 return;
             }
             const rateAmount = getRatePlanDisplayAmount(ratePlan, dateDiff);
-            totalPrice += rateAmount;
+            totalPrice += rateAmount * ratePlan.reserved;
         });
     });
     return totalPrice;
@@ -448,29 +450,29 @@ function getReservedRooms() {
     return reservedRooms;
 }
 
-const ZIEntrySchema = z.object({
-    CODE_NAME: z.string(),
-    CODE_VALUE_AR: z.string().nullable(),
-    CODE_VALUE_DE: z.string().nullable(),
-    CODE_VALUE_EL: z.string().nullable(),
-    CODE_VALUE_EN: z.string().nullable(),
-    CODE_VALUE_FR: z.string().nullable(),
-    CODE_VALUE_HE: z.string().nullable(),
-    CODE_VALUE_PL: z.string().nullable(),
-    CODE_VALUE_RU: z.string().nullable(),
-    CODE_VALUE_UA: z.string().nullable(),
-    DISPLAY_ORDER: z.number().nullable(),
-    ENTRY_DATE: z.string().nullable(),
-    ENTRY_USER_ID: z.number().nullable(),
-    INVARIANT_VALUE: z.string().nullable(),
-    ISDELETEABLE: z.boolean(),
-    ISDELETED: z.boolean(),
-    ISSYSTEM: z.boolean(),
-    ISUPDATEABLE: z.boolean(),
-    ISVISIBLE: z.boolean(),
-    NOTES: z.string().nullable(),
-    OWNER_ID: z.number().nullable(),
-    TBL_NAME: z.string(),
+const ZIEntrySchema = index$1.z.object({
+    CODE_NAME: index$1.z.string(),
+    CODE_VALUE_AR: index$1.z.string().nullable(),
+    CODE_VALUE_DE: index$1.z.string().nullable(),
+    CODE_VALUE_EL: index$1.z.string().nullable(),
+    CODE_VALUE_EN: index$1.z.string().nullable(),
+    CODE_VALUE_FR: index$1.z.string().nullable(),
+    CODE_VALUE_HE: index$1.z.string().nullable(),
+    CODE_VALUE_PL: index$1.z.string().nullable(),
+    CODE_VALUE_RU: index$1.z.string().nullable(),
+    CODE_VALUE_UA: index$1.z.string().nullable(),
+    DISPLAY_ORDER: index$1.z.number().nullable(),
+    ENTRY_DATE: index$1.z.string().nullable(),
+    ENTRY_USER_ID: index$1.z.number().nullable(),
+    INVARIANT_VALUE: index$1.z.string().nullable(),
+    ISDELETEABLE: index$1.z.boolean(),
+    ISDELETED: index$1.z.boolean(),
+    ISSYSTEM: index$1.z.boolean(),
+    ISUPDATEABLE: index$1.z.boolean(),
+    ISVISIBLE: index$1.z.boolean(),
+    NOTES: index$1.z.string().nullable(),
+    OWNER_ID: index$1.z.number().nullable(),
+    TBL_NAME: index$1.z.string(),
 });
 var AmenityType;
 (function (AmenityType) {
@@ -489,276 +491,276 @@ var Code;
     Code["The002"] = "002";
 })(Code || (Code = {}));
 
-const NumberOrStringSchema = unionType([numberType(), stringType().optional()]);
-const CurrencySchema$1 = objectType({
-    id: numberType(),
+const NumberOrStringSchema = index$1.unionType([index$1.numberType(), index$1.stringType().optional()]);
+const CurrencySchema$1 = index$1.objectType({
+    id: index$1.numberType(),
 });
 const CurrencyWithCodeSchema = CurrencySchema$1.extend({
-    code: stringType().optional(),
+    code: index$1.stringType().optional(),
 });
-const ItemSchema$1 = objectType({
-    amount: numberType(),
-    type: stringType().optional(),
-    key: unionType([numberType(), stringType().optional()]),
-    description: stringType().optional().optional().default(''),
+const ItemSchema$1 = index$1.objectType({
+    amount: index$1.numberType(),
+    type: index$1.stringType().optional(),
+    key: index$1.unionType([index$1.numberType(), index$1.stringType().optional()]),
+    description: index$1.stringType().optional().optional().default(''),
 });
-const TargetSchema = objectType({
-    code: stringType().optional(),
-    description: stringType().optional(),
+const TargetSchema = index$1.objectType({
+    code: index$1.stringType().optional(),
+    description: index$1.stringType().optional(),
 });
-objectType({
-    unit_id: numberType(),
-    from_date: stringType().optional(),
-    to_date: stringType().optional(),
+index$1.objectType({
+    unit_id: index$1.numberType(),
+    from_date: index$1.stringType().optional(),
+    to_date: index$1.stringType().optional(),
 });
-objectType({
-    starter: stringType().optional(),
+index$1.objectType({
+    starter: index$1.stringType().optional(),
 });
-objectType({
-    booking_nbr: stringType().optional(),
-    currency_id: numberType(),
-    language: stringType().optional().optional(),
-    rate_plan_id: numberType(),
-    room_type_id: numberType(),
-    property_id: numberType(),
-    is_preserve_history: booleanType().optional(),
-    room_identifier: stringType().optional().optional(),
+index$1.objectType({
+    booking_nbr: index$1.stringType().optional(),
+    currency_id: index$1.numberType(),
+    language: index$1.stringType().optional().optional(),
+    rate_plan_id: index$1.numberType(),
+    room_type_id: index$1.numberType(),
+    property_id: index$1.numberType(),
+    is_preserve_history: index$1.booleanType().optional(),
+    room_identifier: index$1.stringType().optional().optional(),
 });
-objectType({
-    booking_nbr: stringType().optional(),
-    room_identifier: stringType().optional(),
-    status: stringType().optional(),
+index$1.objectType({
+    booking_nbr: index$1.stringType().optional(),
+    room_identifier: index$1.stringType().optional(),
+    status: index$1.stringType().optional(),
 });
-objectType({
-    booking_nbr: stringType().optional(),
-    currency_id: numberType(),
-    language: stringType().optional(),
+index$1.objectType({
+    booking_nbr: index$1.stringType().optional(),
+    currency_id: index$1.numberType(),
+    language: index$1.stringType().optional(),
 });
-const RestrictionSchema = objectType({
+const RestrictionSchema = index$1.objectType({
     room_type_id: NumberOrStringSchema,
-    night: stringType().optional(),
+    night: index$1.stringType().optional(),
 });
-objectType({
-    is_closed: booleanType(),
-    restrictions: arrayType(RestrictionSchema),
-    operation_type: stringType().optional().optional(),
+index$1.objectType({
+    is_closed: index$1.booleanType(),
+    restrictions: index$1.arrayType(RestrictionSchema),
+    operation_type: index$1.stringType().optional().optional(),
 });
-objectType({
-    book_nbr: stringType().optional(),
-    status: stringType().optional(),
+index$1.objectType({
+    book_nbr: index$1.stringType().optional(),
+    status: index$1.stringType().optional(),
 });
-const AdultChildCountSchema = objectType({
-    adult: numberType(),
-    child: numberType(),
+const AdultChildCountSchema = index$1.objectType({
+    adult: index$1.numberType(),
+    child: index$1.numberType(),
 });
-objectType({
-    from_date: stringType().optional(),
-    to_date: stringType().optional(),
-    propertyid: numberType(),
+index$1.objectType({
+    from_date: index$1.stringType().optional(),
+    to_date: index$1.stringType().optional(),
+    propertyid: index$1.numberType(),
     adultChildCount: AdultChildCountSchema,
-    language: stringType().optional(),
-    room_type_ids: arrayType(numberType()),
-    room_type_ids_to_update: arrayType(numberType()).optional(),
-    rate_plan_ids: arrayType(numberType()).optional(),
+    language: index$1.stringType().optional(),
+    room_type_ids: index$1.arrayType(index$1.numberType()),
+    room_type_ids_to_update: index$1.arrayType(index$1.numberType()).optional(),
+    rate_plan_ids: index$1.arrayType(index$1.numberType()).optional(),
     currency: CurrencyWithCodeSchema,
-    is_in_agent_mode: booleanType().optional(),
+    is_in_agent_mode: index$1.booleanType().optional(),
     agent_id: NumberOrStringSchema.optional(),
 });
-const AvailabilityBracketSchema = objectType({
-    from_date: stringType().optional(),
-    to_date: stringType().optional(),
+const AvailabilityBracketSchema = index$1.objectType({
+    from_date: index$1.stringType().optional(),
+    to_date: index$1.stringType().optional(),
 });
-objectType({
-    unit_id: numberType(),
-    block_status_code: enumType(['003', '004', '002']).optional(),
-    description: stringType().optional().optional(),
-    property_id: numberType(),
-    brackets: arrayType(AvailabilityBracketSchema),
+index$1.objectType({
+    unit_id: index$1.numberType(),
+    block_status_code: index$1.enumType(['003', '004', '002']).optional(),
+    description: index$1.stringType().optional().optional(),
+    property_id: index$1.numberType(),
+    brackets: index$1.arrayType(AvailabilityBracketSchema),
 });
-objectType({
-    property_id: numberType(),
-    room_identifier: stringType().optional(),
-    code: stringType().optional(),
+index$1.objectType({
+    property_id: index$1.numberType(),
+    room_identifier: index$1.stringType().optional(),
+    code: index$1.stringType().optional(),
 });
-objectType({
-    service: custom(),
+index$1.objectType({
+    service: index$1.custom(),
     booking_nbr: NumberOrStringSchema,
-    is_remove: booleanType(),
+    is_remove: index$1.booleanType(),
 });
 /*Arrivals */
-const GetRoomsToCheckInPropsSchema = objectType({
-    property_id: stringType(),
-    check_in_date: stringType(),
-    page_index: numberType().default(1),
-    page_size: numberType().default(10),
+const GetRoomsToCheckInPropsSchema = index$1.objectType({
+    property_id: index$1.stringType(),
+    check_in_date: index$1.stringType(),
+    page_index: index$1.numberType().default(1),
+    page_size: index$1.numberType().default(10),
 });
 /*Departures */
-const GetRoomsToCheckOutPropsSchema = objectType({
-    property_id: stringType(),
-    check_out_date: stringType(),
-    page_index: numberType().default(1),
-    page_size: numberType().default(10),
+const GetRoomsToCheckOutPropsSchema = index$1.objectType({
+    property_id: index$1.stringType(),
+    check_out_date: index$1.stringType(),
+    page_index: index$1.numberType().default(1),
+    page_size: index$1.numberType().default(10),
 });
 /* INVOICE TYPES */
-const GetBookingInvoiceInfoPropsSchema = objectType({
-    booking_nbr: stringType().optional(),
+const GetBookingInvoiceInfoPropsSchema = index$1.objectType({
+    booking_nbr: index$1.stringType().optional(),
 });
-const VoidInvoicePropsSchema = objectType({
-    invoice_nbr: stringType().optional(),
-    reason: stringType().optional(),
-    property_id: numberType(),
+const VoidInvoicePropsSchema = index$1.objectType({
+    invoice_nbr: index$1.stringType().optional(),
+    reason: index$1.stringType().optional(),
+    property_id: index$1.numberType(),
 });
-const InvoiceSchema$1 = objectType({
-    booking_nbr: stringType().optional(),
+const InvoiceSchema$1 = index$1.objectType({
+    booking_nbr: index$1.stringType().optional(),
     currency: CurrencySchema$1,
     target: TargetSchema,
-    Date: stringType().optional(),
-    nbr: stringType().optional(),
-    remark: stringType().optional(),
-    billed_to_name: stringType().optional(),
-    billed_to_tax: stringType().optional(),
-    items: arrayType(ItemSchema$1),
+    Date: index$1.stringType().optional(),
+    nbr: index$1.stringType().optional(),
+    remark: index$1.stringType().optional(),
+    billed_to_name: index$1.stringType().optional(),
+    billed_to_tax: index$1.stringType().optional(),
+    items: index$1.arrayType(ItemSchema$1),
 });
-const IssueInvoicePropsSchema = objectType({
-    is_proforma: booleanType().optional().default(false),
-    property_id: numberType(),
+const IssueInvoicePropsSchema = index$1.objectType({
+    is_proforma: index$1.booleanType().optional().default(false),
+    property_id: index$1.numberType(),
     invoice: InvoiceSchema$1,
 });
-const PrintInvoicePropsSchema = objectType({
-    invoice_nbr: stringType().optional(),
-    property_id: numberType(),
-    mode: enumType(['invoice', 'creditnote', 'proforma']),
+const PrintInvoicePropsSchema = index$1.objectType({
+    invoice_nbr: index$1.stringType().optional(),
+    property_id: index$1.numberType(),
+    mode: index$1.enumType(['invoice', 'creditnote', 'proforma']),
     invoice: InvoiceSchema$1.optional(),
 });
-const ExposedGuestSchema = objectType({
-    address: nullType(),
-    alternative_email: nullType(),
-    cci: nullType(),
-    city: nullType(),
-    country: nullType(),
-    country_id: numberType(),
-    country_phone_prefix: stringType(),
-    dob: nullType(),
-    email: stringType(),
-    first_name: stringType(),
-    id: numberType(),
-    id_info: nullType(),
-    is_main: booleanType(),
-    last_name: stringType(),
-    mobile: stringType(),
-    mobile_without_prefix: stringType(),
-    nbr_confirmed_bookings: numberType(),
-    notes: nullType(),
-    password: nullType(),
-    subscribe_to_news_letter: nullType(),
+const ExposedGuestSchema = index$1.objectType({
+    address: index$1.nullType(),
+    alternative_email: index$1.nullType(),
+    cci: index$1.nullType(),
+    city: index$1.nullType(),
+    country: index$1.nullType(),
+    country_id: index$1.numberType(),
+    country_phone_prefix: index$1.stringType(),
+    dob: index$1.nullType(),
+    email: index$1.stringType(),
+    first_name: index$1.stringType(),
+    id: index$1.numberType(),
+    id_info: index$1.nullType(),
+    is_main: index$1.booleanType(),
+    last_name: index$1.stringType(),
+    mobile: index$1.stringType(),
+    mobile_without_prefix: index$1.stringType(),
+    nbr_confirmed_bookings: index$1.numberType(),
+    notes: index$1.nullType(),
+    password: index$1.nullType(),
+    subscribe_to_news_letter: index$1.nullType(),
 });
-arrayType(ExposedGuestSchema);
+index$1.arrayType(ExposedGuestSchema);
 
-const CurrencySchema = objectType({
-    code: stringType(),
-    id: numberType(),
-    symbol: stringType(),
+const CurrencySchema = index$1.objectType({
+    code: index$1.stringType(),
+    id: index$1.numberType(),
+    symbol: index$1.stringType(),
 });
-const StatusSchema = objectType({
-    code: stringType(),
-    description: anyType(),
+const StatusSchema = index$1.objectType({
+    code: index$1.stringType(),
+    description: index$1.anyType(),
 });
-const ItemSchema = objectType({
-    amount: numberType(),
-    booking_nbr: stringType(),
+const ItemSchema = index$1.objectType({
+    amount: index$1.numberType(),
+    booking_nbr: index$1.stringType(),
     currency: CurrencySchema,
-    description: anyType(),
-    invoice_nbr: stringType(),
-    is_invoiceable: booleanType(),
-    key: numberType(),
+    description: index$1.anyType(),
+    invoice_nbr: index$1.stringType(),
+    is_invoiceable: index$1.booleanType(),
+    key: index$1.numberType(),
     status: StatusSchema,
-    system_id: numberType(),
-    type: stringType(),
+    system_id: index$1.numberType(),
+    type: index$1.stringType(),
 });
-const CreditNoteSchema = objectType({
-    date: stringType(),
-    nbr: stringType(),
-    reason: stringType(),
-    system_id: stringType().nullable(),
-    user: stringType().nullable(),
+const CreditNoteSchema = index$1.objectType({
+    date: index$1.stringType(),
+    nbr: index$1.stringType(),
+    reason: index$1.stringType(),
+    system_id: index$1.stringType().nullable(),
+    user: index$1.stringType().nullable(),
 });
-const InvoiceSchema = objectType({
-    billed_to_name: anyType(),
-    billed_to_tax: anyType(),
-    booking_nbr: stringType(),
+const InvoiceSchema = index$1.objectType({
+    billed_to_name: index$1.anyType(),
+    billed_to_tax: index$1.anyType(),
+    booking_nbr: index$1.stringType(),
     credit_note: CreditNoteSchema.nullable(),
     currency: CurrencySchema,
-    date: stringType(),
-    items: arrayType(ItemSchema),
-    nbr: stringType(),
-    pdf_url: anyType(),
-    remark: stringType(),
+    date: index$1.stringType(),
+    items: index$1.arrayType(ItemSchema),
+    nbr: index$1.stringType(),
+    pdf_url: index$1.anyType(),
+    remark: index$1.stringType(),
     status: StatusSchema,
-    system_id: numberType(),
-    target: anyType(),
-    user: stringType().nullable(),
-    total_amount: anyType(),
+    system_id: index$1.numberType(),
+    target: index$1.anyType(),
+    user: index$1.stringType().nullable(),
+    total_amount: index$1.anyType(),
 });
-const InvoiceableItemReasonSchema = objectType({
-    code: enumType(['001', '002', '003']),
-    description: stringType().nullable(),
+const InvoiceableItemReasonSchema = index$1.objectType({
+    code: index$1.enumType(['001', '002', '003']),
+    description: index$1.stringType().nullable(),
 });
-const InvoiceableItemSchema = objectType({
-    amount: numberType(),
-    booking_nbr: stringType(),
+const InvoiceableItemSchema = index$1.objectType({
+    amount: index$1.numberType(),
+    booking_nbr: index$1.stringType(),
     currency: CurrencySchema,
-    invoice_nbr: stringType().nullable(),
-    is_invoiceable: booleanType(),
-    key: numberType(),
-    status: anyType(),
-    system_id: anyType(),
+    invoice_nbr: index$1.stringType().nullable(),
+    is_invoiceable: index$1.booleanType(),
+    key: index$1.numberType(),
+    status: index$1.anyType(),
+    system_id: index$1.anyType(),
     reason: InvoiceableItemReasonSchema.nullable(),
-    type: enumType(['BSA', 'BSP', 'BSE', 'PAYMENT']),
+    type: index$1.enumType(['BSA', 'BSP', 'BSE', 'PAYMENT']),
 });
-const BookingInvoiceInfoSchema = objectType({
-    invoiceable_items: arrayType(InvoiceableItemSchema),
-    invoices: arrayType(InvoiceSchema).nullable(),
+const BookingInvoiceInfoSchema = index$1.objectType({
+    invoiceable_items: index$1.arrayType(InvoiceableItemSchema),
+    invoices: index$1.arrayType(InvoiceSchema).nullable(),
 });
 
 // import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 class BookingService {
     async unBlockUnitByPeriod(props) {
-        const { data } = await axios.post(`/Unblock_Unit_By_Period`, props);
+        const { data } = await axios.axios.post(`/Unblock_Unit_By_Period`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async getNextValue(props) {
-        const { data } = await axios.post(`/Get_Next_Value`, props);
+        const { data } = await axios.axios.post(`/Get_Next_Value`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async getExposedApplicablePolicies(props) {
-        const { data } = await axios.post(`/Get_Exposed_Applicable_Policies`, props);
+        const { data } = await axios.axios.post(`/Get_Exposed_Applicable_Policies`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data.My_Result ?? [];
     }
     async handleExposedRoomInOut(props) {
-        const { data } = await axios.post(`/Handle_Exposed_Room_InOut`, props);
+        const { data } = await axios.axios.post(`/Handle_Exposed_Room_InOut`, props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async GetPenaltyStatement(params) {
-        const { data } = await axios.post('/Get_Penalty_Statement', params);
+        const { data } = await axios.axios.post('/Get_Penalty_Statement', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data.My_Result;
     }
     async setExposedRestrictionPerRoomType(params) {
-        const { data } = await axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, {
+        const { data } = await axios.axios.post(`https://gateway.igloorooms.com/IRBE/Set_Exposed_Restriction_Per_Room_Type`, {
             operation_type: params.operation_type ?? 'close_open',
             ...params,
         });
@@ -768,14 +770,14 @@ class BookingService {
         return data;
     }
     async getLov() {
-        const { data } = await axios.post(`/Get_LOV`, {});
+        const { data } = await axios.axios.post(`/Get_LOV`, {});
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
         return data;
     }
     async sendBookingConfirmationEmail(booking_nbr, language) {
-        const { data } = await axios.post(`/Send_Booking_Confirmation_Email`, {
+        const { data } = await axios.axios.post(`/Send_Booking_Confirmation_Email`, {
             booking_nbr,
             language,
         });
@@ -786,11 +788,11 @@ class BookingService {
     }
     async getCalendarData(propertyid, from_date, to_date) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Calendar`, {
+            const { data } = await axios.axios.post(`/Get_Exposed_Calendar`, {
                 propertyid,
                 from_date,
                 to_date,
-                extras,
+                extras: utils.extras,
                 include_sales_rate_plans: true,
             });
             if (data.ExceptionMsg !== '') {
@@ -798,7 +800,7 @@ class BookingService {
             }
             const months = data.My_Result.months;
             const customMonths = [];
-            const myBooking = await getMyBookings(months);
+            const myBooking = await booking.getMyBookings(months);
             const days = months
                 .map(month => {
                 customMonths.push({
@@ -810,9 +812,9 @@ class BookingService {
                         console.log(day);
                     }
                     return {
-                        day: convertDateToCustomFormat(day.description, month.description),
+                        day: utils.convertDateToCustomFormat(day.description, month.description),
                         value: day.value,
-                        currentDate: convertDateToTime(day.description, month.description),
+                        currentDate: utils.convertDateToTime(day.description, month.description),
                         dayDisplayName: day.description,
                         rate: day.room_types,
                         unassigned_units_nbr: day.unassigned_units_nbr,
@@ -840,7 +842,7 @@ class BookingService {
         }
     }
     async handleExposedRoomGuests(props) {
-        const { data } = await axios.post('/Handle_Exposed_Room_Guests', props);
+        const { data } = await axios.axios.post('/Handle_Exposed_Room_Guests', props);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -848,7 +850,7 @@ class BookingService {
     }
     async fetchGuest(email) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Guest`, { email });
+            const { data } = await axios.axios.post(`/Get_Exposed_Guest`, { email });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -861,7 +863,7 @@ class BookingService {
     }
     async changeExposedBookingStatus(props) {
         try {
-            const { data } = await axios.post(`/Change_Exposed_Booking_Status`, props);
+            const { data } = await axios.axios.post(`/Change_Exposed_Booking_Status`, props);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -873,7 +875,7 @@ class BookingService {
     }
     async fetchPMSLogs(booking_nbr) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
+            const { data } = await axios.axios.post(`/Get_Exposed_PMS_Logs`, { booking_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -886,7 +888,7 @@ class BookingService {
     }
     async getExposedBookingEvents(booking_nbr) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
+            const { data } = await axios.axios.post(`/Get_Exposed_Booking_Events`, { booking_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -899,7 +901,7 @@ class BookingService {
     }
     async editExposedGuest(guest, book_nbr) {
         try {
-            const { data } = await axios.post(`/Edit_Exposed_Guest`, { ...guest, book_nbr });
+            const { data } = await axios.axios.post(`/Edit_Exposed_Guest`, { ...guest, book_nbr });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -913,12 +915,12 @@ class BookingService {
     async getBookingAvailability(props) {
         try {
             const { adultChildCount, currency, ...rest } = props;
-            const { data } = await axios.post(`/Check_Availability`, {
+            const { data } = await axios.axios.post(`/Check_Availability`, {
                 ...rest,
                 adult_nbr: adultChildCount.adult,
                 child_nbr: adultChildCount.child,
                 currency_ref: currency.code,
-                skip_getting_assignable_units: !calendar_data.is_frontdesk_enabled,
+                skip_getting_assignable_units: !calendarData.calendar_data.is_frontdesk_enabled,
                 is_backend: true,
             });
             if (data.ExceptionMsg !== '') {
@@ -979,7 +981,7 @@ class BookingService {
     }
     async getCountries(language) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Countries`, {
+            const { data } = await axios.axios.post(`/Get_Exposed_Countries`, {
                 language,
             });
             if (data.ExceptionMsg !== '') {
@@ -993,7 +995,7 @@ class BookingService {
         }
     }
     async getSetupEntriesByTableName(TBL_NAME) {
-        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
+        const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME`, {
             TBL_NAME,
         });
         if (data.ExceptionMsg !== '') {
@@ -1018,7 +1020,7 @@ class BookingService {
         }
     }
     async doBookingExtraService({ booking_nbr, service, is_remove }) {
-        const { data } = await axios.post(`/Do_Booking_Extra_Service`, { ...service, booking_nbr, is_remove });
+        const { data } = await axios.axios.post(`/Do_Booking_Extra_Service`, { ...service, booking_nbr, is_remove });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -1036,7 +1038,7 @@ class BookingService {
         return result;
     }
     async getSetupEntriesByTableNameMulti(entries) {
-        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
+        const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -1048,10 +1050,10 @@ class BookingService {
     async getUserDefaultCountry() {
         try {
             let payload = { IP: '' };
-            if (calendar_data?.property?.id) {
-                payload = { ...payload, id: calendar_data.property.id };
+            if (calendarData.calendar_data?.property?.id) {
+                payload = { ...payload, id: calendarData.calendar_data.property.id };
             }
-            const { data } = await axios.post(`/Get_Country_By_IP`, payload);
+            const { data } = await axios.axios.post(`/Get_Country_By_IP`, payload);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -1064,7 +1066,7 @@ class BookingService {
     }
     async blockUnit(params) {
         try {
-            const { data } = await axios.post(`/Block_Exposed_Unit`, params);
+            const { data } = await axios.axios.post(`/Block_Exposed_Unit`, params);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -1078,7 +1080,7 @@ class BookingService {
     }
     async blockAvailabilityForBrackets(params) {
         try {
-            const { data } = await axios.post(`/Block_Availability_For_Brackets`, params);
+            const { data } = await axios.axios.post(`/Block_Availability_For_Brackets`, params);
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }
@@ -1090,7 +1092,7 @@ class BookingService {
         }
     }
     async setDepartureTime(params) {
-        const { data } = await axios.post('/Set_Departure_Time', params);
+        const { data } = await axios.axios.post('/Set_Departure_Time', params);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -1098,7 +1100,7 @@ class BookingService {
     }
     async getUserInfo(email) {
         try {
-            const { data } = await axios.post(`/GET_EXPOSED_GUEST`, {
+            const { data } = await axios.axios.post(`/GET_EXPOSED_GUEST`, {
                 email,
             });
             if (data.ExceptionMsg !== '') {
@@ -1113,10 +1115,10 @@ class BookingService {
     }
     async getExposedBooking(booking_nbr, language, withExtras = true) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Booking`, {
+            const { data } = await axios.axios.post(`/Get_Exposed_Booking`, {
                 booking_nbr,
                 language,
-                extras: withExtras ? extras : null,
+                extras: withExtras ? utils.extras : null,
             });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
@@ -1149,7 +1151,7 @@ class BookingService {
     }
     async fetchExposedGuest(email, property_id) {
         try {
-            const { data } = await axios.post(`/Fetch_Exposed_Guests`, {
+            const { data } = await axios.axios.post(`/Fetch_Exposed_Guests`, {
                 email,
                 property_id,
             });
@@ -1165,7 +1167,7 @@ class BookingService {
     }
     async fetchExposedBookings(booking_nbr, property_id, from_date, to_date) {
         try {
-            const { data } = await axios.post(`/Fetch_Exposed_Bookings`, {
+            const { data } = await axios.axios.post(`/Fetch_Exposed_Bookings`, {
                 booking_nbr,
                 property_id,
                 from_date,
@@ -1183,7 +1185,7 @@ class BookingService {
     }
     async getPCICardInfoURL(BOOK_NBR) {
         try {
-            const { data } = await axios.post(`/Get_PCI_Card_Info_URL`, {
+            const { data } = await axios.axios.post(`/Get_PCI_Card_Info_URL`, {
                 BOOK_NBR,
             });
             if (data.ExceptionMsg !== '') {
@@ -1197,7 +1199,7 @@ class BookingService {
         }
     }
     async doReservation(body) {
-        const { data } = await axios.post(`/DoReservation`, { ...body, extras: body.extras ? body.extras : extras });
+        const { data } = await axios.axios.post(`/DoReservation`, { ...body, extras: body.extras ? body.extras : utils.extras });
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -1206,8 +1208,8 @@ class BookingService {
     }
     async bookUser({ bookedByInfoData, check_in, currency, extras = null, fromDate, guestData, pickup_info, propertyid, rooms, source, toDate, totalNights, arrivalTime, bookingNumber, defaultGuest, identifier, pr_id, }) {
         try {
-            const fromDateStr = dateToFormattedString(fromDate);
-            const toDateStr = dateToFormattedString(toDate);
+            const fromDateStr = utils.dateToFormattedString(fromDate);
+            const toDateStr = utils.dateToFormattedString(toDate);
             let guest = {
                 email: bookedByInfoData.email === '' ? null : bookedByInfoData.email || null,
                 first_name: bookedByInfoData.firstName,
@@ -1314,38 +1316,57 @@ class BookingService {
     /*Arrivals*/
     async getRoomsToCheckIn(props) {
         const payload = GetRoomsToCheckInPropsSchema.parse(props);
-        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_In', payload);
+        const { data } = await axios.axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_In', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_In?.total_count };
     }
     async getRoomsToCheckout(props) {
         const payload = GetRoomsToCheckOutPropsSchema.parse(props);
-        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_Out', payload);
+        const { data } = await axios.axios.post('https://gateway.igloorooms.com/IRBE/Get_Rooms_To_Check_Out', payload);
         return { bookings: data.My_Result, total_count: data.My_Params_Get_Rooms_To_Check_Out?.total_count };
     }
     /*Departures */
     /* INVOICE */
     async getBookingInvoiceInfo(props) {
         const payload = GetBookingInvoiceInfoPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Booking_Invoice_Info', payload);
+        const { data } = await axios.axios.post('/Get_Booking_Invoice_Info', payload);
         return BookingInvoiceInfoSchema.parse(data.My_Result);
     }
     async issueInvoice(props) {
         const p = IssueInvoicePropsSchema.parse(props);
-        const { data } = await axios.post('/Issue_Invoice', p);
+        const { data } = await axios.axios.post('/Issue_Invoice', p);
         return data;
     }
     async voidInvoice(props) {
         const payload = VoidInvoicePropsSchema.parse(props);
-        const { data } = await axios.post('/Void_Invoice', payload);
+        const { data } = await axios.axios.post('/Void_Invoice', payload);
         return data;
     }
     async printInvoice(props) {
         const payload = PrintInvoicePropsSchema.parse(props);
-        const { data } = await axios.post('/Print_Invoice', payload);
+        const { data } = await axios.axios.post('/Print_Invoice', payload);
         return data;
     }
 }
 
-export { BookingService as B, ZIEntrySchema as Z, updateBookedByGuest as a, booking_store as b, resetReserved as c, updateRoomParams as d, resetBookingStore as e, setBookingSelectOptions as f, getVisibleInventory as g, getReservedRooms as h, hasAtLeastOneRoomSelected as i, calculateTotalRooms as j, getBookingTotalPrice as k, bookedByGuestBaseData as l, modifyBookingStore as m, resetAvailability as n, setBookedByGuestManualEditState as o, reserveRooms as r, setBookingDraft as s, updateRoomGuest as u };
+exports.BookingService = BookingService;
+exports.ZIEntrySchema = ZIEntrySchema;
+exports.bookedByGuestBaseData = bookedByGuestBaseData;
+exports.booking_store = booking_store;
+exports.calculateTotalRooms = calculateTotalRooms;
+exports.getBookingTotalPrice = getBookingTotalPrice;
+exports.getReservedRooms = getReservedRooms;
+exports.getVisibleInventory = getVisibleInventory;
+exports.hasAtLeastOneRoomSelected = hasAtLeastOneRoomSelected;
+exports.modifyBookingStore = modifyBookingStore;
+exports.reserveRooms = reserveRooms;
+exports.resetAvailability = resetAvailability;
+exports.resetBookingStore = resetBookingStore;
+exports.resetReserved = resetReserved;
+exports.setBookedByGuestManualEditState = setBookedByGuestManualEditState;
+exports.setBookingDraft = setBookingDraft;
+exports.setBookingSelectOptions = setBookingSelectOptions;
+exports.updateBookedByGuest = updateBookedByGuest;
+exports.updateRoomGuest = updateRoomGuest;
+exports.updateRoomParams = updateRoomParams;
 
-//# sourceMappingURL=booking.service-87c78da5.js.map
+//# sourceMappingURL=booking.service-850f5f6e.js.map

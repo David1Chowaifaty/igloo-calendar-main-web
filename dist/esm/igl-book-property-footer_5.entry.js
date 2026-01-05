@@ -3,7 +3,7 @@ import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
-import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.service-87c78da5.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.service-1fc206d9.js';
 import { z } from './index-1e1f097b.js';
 import { f as formatAmount, D as validateEmail } from './utils-c81962e8.js';
 import { I as IMask } from './index-e2caf943.js';

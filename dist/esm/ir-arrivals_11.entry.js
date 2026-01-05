@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host, g as getElement, c as createEvent } from './index-7e96440e.js';
 import { T as Token } from './Token-030c78a9.js';
-import { B as BookingService } from './booking.service-87c78da5.js';
+import { B as BookingService } from './booking.service-1fc206d9.js';
 import { R as RoomService } from './room.service-29f502a3.js';
 import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-dea20350.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';

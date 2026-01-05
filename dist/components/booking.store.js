@@ -370,7 +370,7 @@ function getBookingTotalPrice() {
                 return;
             }
             const rateAmount = getRatePlanDisplayAmount(ratePlan, dateDiff);
-            totalPrice += rateAmount;
+            totalPrice += rateAmount * ratePlan.reserved;
         });
     });
     return totalPrice;
