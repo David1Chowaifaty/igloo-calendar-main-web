@@ -1,5 +1,8 @@
+/* @import url('../../../assets/webawesome/component/host.css'); */
 :host {
+  --spacing: var(--wa-space-l);
   display: block;
+  width: max-content;
 }
 
 /* Legend */
@@ -342,7 +345,48 @@
 .legendStatus.error {
   color: #d32f2f;
 }
-
+.fd-legend__title {
+  align-self: center;
+  flex: 1 1 auto;
+  font-style: inherit;
+  font-variant: inherit;
+  font-stretch: inherit;
+  font-family: inherit;
+  font-optical-sizing: inherit;
+  font-size-adjust: inherit;
+  font-kerning: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-language-override: inherit;
+  font-size: var(--wa-font-size-l);
+  font-weight: var(--wa-font-weight-heading);
+  line-height: var(--wa-line-height-condensed);
+  margin: 0px;
+  padding: 0;
+}
+.fd-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: var(--wa-color-surface-default);
+  z-index: 1;
+  padding-inline-start: var(--spacing);
+  padding-block-end: 0;
+  padding-inline-end: calc(var(--spacing) - var(--wa-form-control-padding-block));
+  padding-block-start: calc(var(--spacing) - var(--wa-form-control-padding-block));
+  border-bottom: 1px solid var(--wa-color-surface-border);
+  padding-bottom: calc(var(--spacing) / 2);
+  box-sizing: border-box;
+  background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
+}
+.legendContainer {
+  padding: 0 !important;
+}
+.fd-legend__body {
+  padding: var(--spacing);
+}
 .headerCell {
   width: 70px;
   display: flex;

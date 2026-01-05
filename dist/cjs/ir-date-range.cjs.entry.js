@@ -208,7 +208,7 @@ const IrDateRange = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: 'b1175e53ab58c290ac0df10f05bb542485315bef' }, index.h("input", { key: 'b5d8979ccd6eca9d12a722caba0c0d7ff3252ba3', class: "date-range-input", type: "button", disabled: this.disabled })));
+        return (index.h(index.Host, { key: 'ffd220be522c8f552da2a6672ba7fdb22c459a4d' }, index.h("input", { key: 'fb6805df9d6469fa4d9ab858d38164db76258576', class: "date-range-input", type: "button", disabled: this.disabled })));
     }
     static get watchers() { return {
         "minDate": ["handleMinDateChange"],

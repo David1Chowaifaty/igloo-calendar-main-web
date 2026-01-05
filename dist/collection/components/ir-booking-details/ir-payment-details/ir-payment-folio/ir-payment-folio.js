@@ -63,7 +63,7 @@ export class IrPaymentFolio {
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: '0dd54f83fcfb896bda8302b57cdd8e53c5465e07', placement: "start", style: {
+        return (h("ir-drawer", { key: 'eeb78b27d457d11ccc30524401a78ef2095d3de4', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -74,11 +74,11 @@ export class IrPaymentFolio {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: 'aa0f5e742788683c2d59b2cc42bd36866669978c', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: 'be9886c0d07964d660c3500057a2120411f5fd24', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: 'c024fcba85e6f43d508dbe6c7859bfc552c07b43', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'b5a52d0f5c8f72b0839ea63ff39474905a2ac612', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'e3fac409a0e80a49d872322ea5f105ff93c2b52a', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '2aedeb38f6327bf7b15337061e4ff34f4645fd6d', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: 'ffdd35d87dd285e45badcbd14fff56b9bec6bbcd', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: '0de3d378ed0e3d35e7870a42acb25c6656e7d613', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }

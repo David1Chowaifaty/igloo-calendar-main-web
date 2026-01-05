@@ -47,14 +47,14 @@ const IrGuestInfoDrawer = /*@__PURE__*/ proxyCustomElement(class IrGuestInfoDraw
     _formId = `guest-details-form_${v4()}`;
     render() {
         const drawerLabel = locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (h("ir-drawer", { key: '49130945cc85130ab23dccc8c760a28aa416cbbb', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (h("ir-drawer", { key: '2ab5a120cad2aae7223dcace547c17f16c1e7217', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.open && (h("ir-guest-info-form", { key: '957fd4362255045278d9435018843305957cba3d', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: '72f9625901834a7865c3562e0e4fdaa3aed7fe3e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '6254a0c69c4da9235f80d48e9b55aa4262f00aed', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: 'b9635179906ce16d7e7f7e800499c649535da06e', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (h("ir-guest-info-form", { key: 'a69fa251a6a8b50b2f2feb39e6bb10da101b861d', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), h("div", { key: '97bc7a64320aec43f4da4b3321e1d5b3da7d15b3', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'efd1fa354894c548f2afe2259d6f0175713af070', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales.entries?.Lcz_Cancel || 'Cancel'), h("ir-custom-button", { key: '9fe44ad0d8112c539f667ba7841c964c9947cd05', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: isRequestPending('/Edit_Exposed_Guest') }, locales.entries?.Lcz_Save || 'Save'))));
     }
     static get style() { return IrGuestInfoDrawerStyle0; }
 }, [2, "ir-guest-info-drawer", {

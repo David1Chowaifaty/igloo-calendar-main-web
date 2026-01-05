@@ -71,7 +71,7 @@ const IrMComboboxItem = class {
     };
     render() {
         // Render either provided html_content or the slotted content
-        return (index.h(index.Host, { key: '40110914ec474a57461654306448303952e6146a', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: '1c6eee5bb3c4b1bb343c26dbd87a96d5dc0c7cf6', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrMComboboxItem.style = IrMComboboxItemStyle0;

@@ -65,7 +65,7 @@ export class IrRevenueTable {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'b9745d9eb2571c9e965d79c9334c88f0289ccf2b', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: '784525dfbb770d1a7a830d157d6fa190f395aa01', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
