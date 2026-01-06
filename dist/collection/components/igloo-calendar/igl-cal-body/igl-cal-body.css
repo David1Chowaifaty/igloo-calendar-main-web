@@ -97,9 +97,10 @@
   position: sticky;
   left: 0;
   background: var(--wa-color-surface-default);
-  border-right: 1px solid var(--wa-color-surface-border);
+  border-inline-end: 1px solid var(--wa-color-surface-border);
   width: 170px;
   z-index: 1;
+  border-inline-start: 0px;
 }
 
 .currentDay {
