@@ -1,8 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service.js';
-import { e as extras, h as handleBodyOverflow, g as getReleaseHoursString, b as dateToFormattedString } from './utils.js';
-import { V as VariationService } from './variation.service.js';
-import { b as booking_store, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, d as resetReserved, e as setBookingSelectOptions, f as reserveRooms } from './booking.store.js';
+import { V as VariationService, b as booking_store, B as BookingService, m as modifyBookingStore, s as setBookingDraft, r as resetBookingStore, c as calculateTotalRooms, d as resetReserved, e as setBookingSelectOptions, f as reserveRooms } from './booking.store.js';
+import { e as extras, h as handleBodyOverflow, g as getReleaseHoursString, d as dateToFormattedString } from './utils.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';

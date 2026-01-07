@@ -3,7 +3,7 @@ import { v as validateSharedPerson, Z as ZSharedPerson } from './booking.dto.js'
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { M as MaskedRange } from './index4.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { Z as ZodError } from './index2.js';
 import { d as defineCustomElement$7 } from './ir-country-picker2.js';
 import { d as defineCustomElement$6 } from './ir-input2.js';

@@ -1,10 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { d as resetReserved, k as hasAtLeastOneRoomSelected, b as booking_store } from './booking.store.js';
+import { B as BookingService, d as resetReserved, k as hasAtLeastOneRoomSelected, b as booking_store } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { g as getReleaseHoursString } from './utils.js';
-import { B as BookingService } from './booking.service.js';
 import { I as IRBookingEditorService, d as defineCustomElement$i } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$q } from './igl-application-info2.js';
 import { d as defineCustomElement$p } from './igl-date-range2.js';

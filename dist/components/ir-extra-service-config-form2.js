@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { E as ExtraServiceSchema } from './booking.dto.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { l as locales } from './locales.store.js';
 import { Z as ZodError } from './index2.js';
 import { d as defineCustomElement$3 } from './ir-custom-date-picker2.js';

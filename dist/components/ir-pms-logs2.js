@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/clien
 import { _ as _formatTime } from './functions.js';
 import { l as locales } from './locales.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
 const irPmsLogsCss = ".sc-ir-pms-logs-h{display:block}.dialog-container-height.sc-ir-pms-logs{height:4rem}.list-title.sc-ir-pms-logs{margin:0;padding:0;font-weight:600;white-space:nowrap;display:inline}.list-item.sc-ir-pms-logs{margin:0;padding:0;font-size:14px;margin-left:5px;width:fit-content}.list-item.green.sc-ir-pms-logs{color:#629a4c;font-weight:600}.list-item.red.sc-ir-pms-logs{color:#ff4961;font-weight:600}";

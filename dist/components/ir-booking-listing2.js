@@ -3,7 +3,7 @@ import { B as BookingListingService, u as updateUserSelection, b as booking_list
 import { R as RoomService } from './room.service.js';
 import { B as isPrivilegedUser } from './utils.js';
 import { T as Token } from './Token.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { P as PropertyService } from './property.service.js';
 import { d as defineCustomElement$1w } from './igl-application-info2.js';
 import { d as defineCustomElement$1v } from './igl-date-range2.js';

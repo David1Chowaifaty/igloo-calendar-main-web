@@ -3,13 +3,13 @@ import booking_store, { modifyBookingStore, reserveRooms } from "../../../stores
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
-import { BookingService } from "../../../services/booking-service/booking.service";
+// import { BookingService } from '@/services/booking-service/booking.service';
 export class IRBookingEditorService {
     /** Current booking editor mode */
     mode;
     /** Lazy-initialized variation service */
     variationService;
-    bookingService = new BookingService();
+    // private bookingService = new BookingService();
     constructor(mode) {
         this.mode = mode;
     }
@@ -89,15 +89,16 @@ export class IRBookingEditorService {
         const total_days = selected_variation.nights.length;
         // Gross amount (tax included)
         const gross = view_mode === '002' ? rp_amount : rp_amount / total_days;
-        const tax = await this.bookingService.calculateExclusiveTax({
-            property_id: calendar_data.property.id,
-            amount: gross,
-        });
-        if (!tax || tax <= 0) {
-            return gross;
-        }
-        const net = gross / (1 + tax / gross);
-        return Number(net.toFixed(2));
+        return gross;
+        // const tax = await this.bookingService.calculateExclusiveTax({
+        //   property_id: calendar_data.property.id,
+        //   amount: gross,
+        // });
+        // if (!tax || tax <= 0) {
+        //   return gross;
+        // }
+        // const net = gross / (1 + tax / gross);
+        // return Number(net.toFixed(2));
     }
     /**
      * Builds room payloads based on selected rate plans

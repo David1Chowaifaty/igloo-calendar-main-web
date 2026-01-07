@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { a as axios } from './axios.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { P as PaymentService } from './payment.service.js';

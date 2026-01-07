@@ -233,7 +233,7 @@ export declare function calculateTotalCost(gross?: boolean): {
 /**
  * Aggregates the total booking price combining all selected rate plans.
  */
-export declare function getBookingTotalPrice(): number;
+export declare function getBookingTotalPrice(): Promise<number>;
 /**
  * Validates that every reserved guest entry contains a non-empty name.
  */

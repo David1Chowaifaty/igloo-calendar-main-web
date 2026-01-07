@@ -4,7 +4,7 @@ import { P as PropertyService } from './property.service.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { d as defineCustomElement$j } from './ir-button2.js';
 import { d as defineCustomElement$i } from './ir-checkbox2.js';
 import { d as defineCustomElement$h } from './ir-date-picker2.js';

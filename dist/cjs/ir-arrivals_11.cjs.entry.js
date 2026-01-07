@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const Token = require('./Token-8fd11984.js');
-const booking_service = require('./booking.service-ddcd3158.js');
+const booking_store = require('./booking.store-761b52d1.js');
 const room_service = require('./room.service-18eb6707.js');
 const arrivals_store = require('./arrivals.store-5e55ab97.js');
 const calendarData = require('./calendar-data-0598de26.js');
@@ -66,7 +66,7 @@ const IrArrivals = class {
     countries;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -283,7 +283,7 @@ const IrBookingListing = class {
     payment;
     booking;
     bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
     token = new Token.Token();
@@ -562,7 +562,7 @@ const IrDailyRevenue = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
@@ -762,7 +762,7 @@ const IrDepartures = class {
     invoiceState = null;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -1743,7 +1743,7 @@ const IrSalesByCountry = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new index$1.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -1914,7 +1914,7 @@ const IrUserManagement = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     userTypes = new Map();
     socket;
     superAdminId = '5';

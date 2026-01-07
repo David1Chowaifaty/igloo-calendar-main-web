@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { f as formatAmount } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$3 } from './ir-custom-button2.js';
 import { d as defineCustomElement$2 } from './ir-date-view2.js';

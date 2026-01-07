@@ -1,6 +1,9 @@
+import { BookingService } from "../services/booking-service/booking.service";
 import { calculateDaysBetweenDates } from "../utils/booking";
 import { createStore } from "@stencil/store";
 import moment from "moment";
+import calendar_data from "./calendar-data";
+import VariationService from "../services/variation.service";
 export const bookedByGuestBaseData = {
     id: -1,
     email: '',
@@ -385,29 +388,65 @@ export function calculateTotalCost(gross = false) {
 /**
  * Returns the amount displayed for a rate plan, honoring overrides and nightly view.
  */
-function getRatePlanDisplayAmount(rateplanSelection, totalNights) {
+async function getRatePlanDisplayAmount({ rateplanSelection, totalNights, index, bookingService, variationService, }) {
     if (rateplanSelection.is_amount_modified) {
-        return rateplanSelection.view_mode === '001' ? rateplanSelection.rp_amount : rateplanSelection.rp_amount * totalNights;
+        const net = rateplanSelection.view_mode === '001' ? rateplanSelection.rp_amount : rateplanSelection.rp_amount * totalNights;
+        const tax = await bookingService.calculateExclusiveTax({
+            property_id: calendar_data.property.id,
+            amount: net,
+        });
+        return net + tax;
     }
-    return rateplanSelection.selected_variation?.discounted_gross_amount ?? 0;
+    const guestInfo = rateplanSelection.guest ? rateplanSelection.guest[index] : null;
+    let variation = rateplanSelection.selected_variation;
+    if (guestInfo.infant_nbr) {
+        variation = variationService.getVariationBasedOnInfants({
+            variations: rateplanSelection.ratePlan.variations,
+            baseVariation: rateplanSelection.selected_variation,
+            infants: guestInfo?.infant_nbr,
+        });
+    }
+    return variation?.discounted_gross_amount ?? 0;
 }
 /**
  * Aggregates the total booking price combining all selected rate plans.
  */
-export function getBookingTotalPrice() {
+export async function getBookingTotalPrice() {
     const dateDiff = calculateDaysBetweenDates(booking_store.bookingDraft.dates.checkIn.format('YYYY-MM-DD'), booking_store.bookingDraft.dates.checkOut.format('YYYY-MM-DD'));
+    const bookingService = new BookingService();
+    const variationService = new VariationService();
     let totalPrice = 0;
-    Object.values(booking_store.ratePlanSelections).forEach(roomTypeSelection => {
-        Object.values(roomTypeSelection).forEach(ratePlan => {
-            if (ratePlan.reserved === 0) {
-                return;
-            }
-            const rateAmount = getRatePlanDisplayAmount(ratePlan, dateDiff);
+    for (const roomTypeSelection of Object.values(booking_store.ratePlanSelections)) {
+        for (let j = 0; j < Object.values(roomTypeSelection).length; j++) {
+            const ratePlan = Object.values(roomTypeSelection)[j];
+            if (ratePlan.reserved === 0)
+                continue;
+            const rateAmount = await getRatePlanDisplayAmount({
+                bookingService,
+                variationService,
+                index: j,
+                rateplanSelection: ratePlan,
+                totalNights: dateDiff,
+            });
             totalPrice += rateAmount * ratePlan.reserved;
-        });
-    });
-    return totalPrice;
+        }
+    }
+    return Number(totalPrice.toFixed(2));
 }
+// export  function getBookingTotalPrice(): number {
+//   const dateDiff = calculateDaysBetweenDates(booking_store.bookingDraft.dates.checkIn.format('YYYY-MM-DD'), booking_store.bookingDraft.dates.checkOut.format('YYYY-MM-DD'));
+//   let totalPrice = 0;
+//   Object.values(booking_store.ratePlanSelections).forEach((roomTypeSelection) => {
+//     Object.values(roomTypeSelection).forEach(ratePlan => {
+//       if (ratePlan.reserved === 0) {
+//         return;
+//       }
+//       const rateAmount = getRatePlanDisplayAmount(ratePlan, dateDiff);
+//       totalPrice += rateAmount * ratePlan.reserved;
+//     });
+//   });
+//   return totalPrice;
+// }
 /**
  * Validates that every reserved guest entry contains a non-empty name.
  */

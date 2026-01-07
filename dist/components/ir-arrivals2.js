@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { R as RoomService } from './room.service.js';
 import { s as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, b as setArrivalsTotal, i as initializeArrivalsStore, c as setArrivalsPage } from './arrivals.store.js';
 import { c as calendar_data } from './calendar-data.js';

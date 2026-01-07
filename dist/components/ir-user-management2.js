@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
 import { l as lookup } from './index5.js';

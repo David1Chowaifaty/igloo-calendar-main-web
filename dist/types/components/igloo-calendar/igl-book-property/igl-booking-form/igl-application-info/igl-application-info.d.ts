@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../../../../stencil-public-runtime';
 import { TPropertyButtonsTypes } from "../../../../../components";
 import { ICurrency } from "../../../../../models/calendarData";
 import { IRatePlanSelection, RatePlanGuest } from "../../../../../stores/booking.store";
@@ -18,11 +19,15 @@ export declare class IglApplicationInfo {
     };
     autoFillGuest: boolean;
     isButtonPressed: boolean;
+    amount: number;
+    recalculateTotalCost: EventEmitter<void>;
     private variationService;
+    private bookingService;
     private shouldSyncBookedByFirstName;
     private shouldSyncBookedByLastName;
-    componentWillLoad(): void;
+    componentWillLoad(): Promise<void>;
     private updateGuest;
+    handleGuestInfoChange(): Promise<void>;
     handleButtonClicked(event: CustomEvent<{
         key: TPropertyButtonsTypes;
         data?: CustomEvent;

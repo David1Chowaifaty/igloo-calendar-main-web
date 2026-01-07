@@ -4,7 +4,7 @@ import { i as formatName } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
 import { f as formatAmount } from './utils.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { d as defineCustomElement$m } from './ir-booking-billing-recipient2.js';
 import { d as defineCustomElement$l } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$k } from './ir-booking-company-form2.js';

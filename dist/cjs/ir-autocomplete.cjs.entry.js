@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-ddcd3158.js');
+const booking_store = require('./booking.store-761b52d1.js');
 const locales_store = require('./locales.store-32782582.js');
 const v4 = require('./v4-9b297151.js');
 require('./axios-6e678d52.js');
@@ -51,7 +51,7 @@ const IrAutocomplete = class {
     get el() { return index.getElement(this); }
     inputRef;
     debounceTimer;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     no_result_found = '';
     componentWillLoad() {
         this.no_result_found = locales_store.locales.entries.Lcz_NoResultsFound;

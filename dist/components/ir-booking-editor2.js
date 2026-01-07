@@ -1,9 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { R as RoomsGuestsSchema, B as BookedByGuestSchema } from './types3.js';
 import { R as RoomService } from './room.service.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService, a as updateBookedByGuest, b as booking_store, s as setBookingDraft, e as setBookingSelectOptions, r as resetBookingStore, j as getReservedRooms } from './booking.store.js';
 import { l as locales } from './locales.store.js';
-import { a as updateBookedByGuest, b as booking_store, s as setBookingDraft, e as setBookingSelectOptions, r as resetBookingStore, j as getReservedRooms } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { I as IRBookingEditorService, d as defineCustomElement$h } from './ir-booking-editor-header2.js';

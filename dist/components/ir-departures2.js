@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { T as Token } from './Token.js';
 import { o as onDeparturesStoreChange, d as departuresStore, s as setDepartureTotal, i as initializeDeparturesStore, a as setDeparturesPage, b as setDeparturesPageSize } from './departures.store.js';
 import { R as RoomService } from './room.service.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$1q } from './igl-application-info2.js';
 import { d as defineCustomElement$1p } from './igl-date-range2.js';

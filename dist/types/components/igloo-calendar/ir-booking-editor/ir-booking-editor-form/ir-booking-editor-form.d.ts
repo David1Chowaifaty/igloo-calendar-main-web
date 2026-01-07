@@ -6,9 +6,13 @@ export declare class IrBookingEditorForm {
     mode: BookingEditorMode;
     room: Room;
     guests: ExposedGuests;
+    totalCost: number;
     doReservation: EventEmitter<string>;
     private bookingService;
+    private totalRooms;
     pickerEl: HTMLIrPickerElement;
+    componentWillLoad(): Promise<void>;
+    handleRecalculation(e: CustomEvent): Promise<void>;
     private fetchGuests;
     private handleComboboxSelect;
     render(): any;

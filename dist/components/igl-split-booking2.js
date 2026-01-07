@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
-import { B as BookingService } from './booking.service.js';
-import { r as resetBookingStore } from './booking.store.js';
+import { B as BookingService, r as resetBookingStore } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';

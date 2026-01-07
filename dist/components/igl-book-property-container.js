@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { B as BookingService } from './booking.service.js';
+import { B as BookingService } from './booking.store.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$w } from './igl-application-info2.js';

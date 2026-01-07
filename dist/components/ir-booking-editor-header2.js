@@ -1,13 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
 import { B as BookedByGuestSchema } from './types3.js';
 import { h as hooks } from './moment.js';
-import { B as BookingService } from './booking.service.js';
+import { m as modifyBookingStore, f as reserveRooms, V as VariationService, b as booking_store, B as BookingService, o as resetAvailability, s as setBookingDraft } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
-import { m as modifyBookingStore, f as reserveRooms, b as booking_store, o as resetAvailability, s as setBookingDraft } from './booking.store.js';
 import { z } from './index2.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
-import { V as VariationService } from './variation.service.js';
 import { e as extras } from './utils.js';
 import { d as defineCustomElement$8 } from './igl-date-range2.js';
 import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
@@ -18,12 +16,13 @@ import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
+// import { BookingService } from '@/services/booking-service/booking.service';
 class IRBookingEditorService {
     /** Current booking editor mode */
     mode;
     /** Lazy-initialized variation service */
     variationService;
-    bookingService = new BookingService();
+    // private bookingService = new BookingService();
     constructor(mode) {
         this.mode = mode;
     }
@@ -103,15 +102,16 @@ class IRBookingEditorService {
         const total_days = selected_variation.nights.length;
         // Gross amount (tax included)
         const gross = view_mode === '002' ? rp_amount : rp_amount / total_days;
-        const tax = await this.bookingService.calculateExclusiveTax({
-            property_id: calendar_data.property.id,
-            amount: gross,
-        });
-        if (!tax || tax <= 0) {
-            return gross;
-        }
-        const net = gross / (1 + tax / gross);
-        return Number(net.toFixed(2));
+        return gross;
+        // const tax = await this.bookingService.calculateExclusiveTax({
+        //   property_id: calendar_data.property.id,
+        //   amount: gross,
+        // });
+        // if (!tax || tax <= 0) {
+        //   return gross;
+        // }
+        // const net = gross / (1 + tax / gross);
+        // return Number(net.toFixed(2));
     }
     /**
      * Builds room payloads based on selected rate plans
@@ -545,7 +545,7 @@ const IrBookingEditorHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         })))), h("div", { key: '757cd408173dd5333baae16438347b8d7729c75d', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && (h("wa-select", { key: '65d277046d8a5ac268a6cd64527d3a29bbd622a1', size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), h("ir-validator", { key: 'b3f50e4e4fef2cbbd7984b3d945e730d918c8d0c', class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("igl-date-range", { key: '6a27da27ac5a5d80efec41c72bf50ae5f3aecd59', defaultData: {
                 fromDate: checkIn?.format('YYYY-MM-DD') ?? '',
                 toDate: checkOut?.format('YYYY-MM-DD') ?? '',
-            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: 'a76b2ad7915c7ece42c8eaa41f2b0931284f05af' }, h("ir-validator", { key: 'd6c5654c80cb1378f777e16d7ce889fa16b68d99', value: adults, schema: this.adultsSchema }, h("wa-select", { key: 'f63d2428c6c7ce3795b1a6a38e7aeab2ed25ab00', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '57344d4e882cdc1d050ff4259f6585512e6ea030', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: '93fd5b7c41be212eb104c2d113cd36649cc5f864', loading: isRequestPending('/Check_Availability'), type: "submit", variant: "brand" }, "Check")), booking_store.roomTypes?.length > 0 && (h("wa-callout", { key: 'df1074c636484b96805722766a58757917cb7ff0', size: "small", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, "Including taxes and fees.")))));
+            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: 'a76b2ad7915c7ece42c8eaa41f2b0931284f05af' }, h("ir-validator", { key: 'd6c5654c80cb1378f777e16d7ce889fa16b68d99', value: adults, schema: this.adultsSchema }, h("wa-select", { key: 'f63d2428c6c7ce3795b1a6a38e7aeab2ed25ab00', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '57344d4e882cdc1d050ff4259f6585512e6ea030', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(), "onwa-hide": this.stopEvent.bind(this), onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: '93fd5b7c41be212eb104c2d113cd36649cc5f864', loading: isRequestPending('/Check_Availability'), type: "submit", variant: "brand" }, "Check")), booking_store.roomTypes?.length > 0 && (h("wa-callout", { key: 'df1074c636484b96805722766a58757917cb7ff0', size: "small", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement)))));
     }
     static get watchers() { return {
         "booking": ["handleBookingChange"],

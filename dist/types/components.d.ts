@@ -3735,6 +3735,10 @@ export interface AcPagesMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLAcPagesMenuElement;
 }
+export interface IglApplicationInfoCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglApplicationInfoElement;
+}
 export interface IglBlockDatesViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglBlockDatesViewElement;
@@ -4369,7 +4373,18 @@ declare global {
         prototype: HTMLAcPagesMenuElement;
         new (): HTMLAcPagesMenuElement;
     };
+    interface HTMLIglApplicationInfoElementEventMap {
+        "recalculateTotalCost": void;
+    }
     interface HTMLIglApplicationInfoElement extends Components.IglApplicationInfo, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglApplicationInfoElementEventMap>(type: K, listener: (this: HTMLIglApplicationInfoElement, ev: IglApplicationInfoCustomEvent<HTMLIglApplicationInfoElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglApplicationInfoElementEventMap>(type: K, listener: (this: HTMLIglApplicationInfoElement, ev: IglApplicationInfoCustomEvent<HTMLIglApplicationInfoElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIglApplicationInfoElement: {
         prototype: HTMLIglApplicationInfoElement;
@@ -7926,6 +7941,7 @@ declare namespace LocalJSX {
         "bookingType"?: string;
         "currency"?: ICurrency;
         "guestInfo"?: RatePlanGuest | null;
+        "onRecalculateTotalCost"?: (event: IglApplicationInfoCustomEvent<void>) => void;
         "rateplanSelection"?: IRatePlanSelection;
         "roomIndex"?: number;
         "totalNights"?: number;

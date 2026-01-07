@@ -147,13 +147,13 @@ export class IrReallocationForm {
         return (h("form", { id: this.formId, class: "reallocation-form", onSubmit: e => {
                 e.preventDefault();
                 this.reallocateUnit();
-            } }, h("div", { class: "booking-summary" }, h("ir-date-view", { from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), h("p", { style: { padding: '0', margin: '0' } }, h("span", null, "From: "), h("span", { class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', h("span", { class: "rateplan-details-unit" }, this.room.unit.name)))), this.errors?.roomtype_id && h("p", { class: "error-message" }, "Please select a room"), this.roomTypes.length === 0 ? (h("ir-empty-state", { style: { marginTop: '20vh' } })) : (h("wa-radio-group", { onchange: e => {
+            } }, h("div", { class: "booking-summary" }, h("ir-date-view", { from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("div", null, h("wa-callout", { size: "small", appearance: "filled", variant: "neutral" }, h("p", { style: { padding: '0', margin: '0' } }, h("span", { class: "rateplan-details" }, this.room.roomtype.name, " ", this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '', ' ', h("span", { class: "rateplan-details-unit" }, this.room.unit.name)))), this.errors?.roomtype_id && h("p", { class: "error-message" }, "Please select a room"), this.roomTypes.length === 0 ? (h("ir-empty-state", { style: { marginTop: '20vh' } })) : (h(Fragment, null, h("div", { class: "arrow-container" }, h("svg", { height: 30, xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 640 640" }, h("path", { d: "M297.4 566.6C309.9 579.1 330.2 579.1 342.7 566.6L502.7 406.6C515.2 394.1 515.2 373.8 502.7 361.3C490.2 348.8 469.9 348.8 457.4 361.3L352 466.7L352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 466.7L182.6 361.3C170.1 348.8 149.8 348.8 137.3 361.3C124.8 373.8 124.8 394.1 137.3 406.6L297.3 566.6z" }))), h("wa-callout", { size: "small", appearance: "filled", variant: "neutral" }, h("wa-radio-group", { onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),
                     unit_id: Number(unit_id),
                 });
-            }, name: "available-units", class: "room-type-list" }, h("p", { style: { margin: '0', padding: '0', marginBottom: '0.5rem' } }, "To:"), this.roomTypes?.map(roomType => {
+            }, name: "available-units", class: "room-type-list" }, this.roomTypes?.map(roomType => {
             const units = (() => {
                 const unitMap = new Map();
                 for (const rateplan of roomType.rateplans ?? []) {
@@ -178,7 +178,7 @@ export class IrReallocationForm {
                     return h("wa-option", { value: option.value?.toString() }, option.text + `${option.custom_text ? ' | ' : ''}${option.custom_text}`);
                 }))))));
             })));
-        })))));
+        }))))))));
     }
     static get is() { return "ir-reallocation-form"; }
     static get encapsulation() { return "scoped"; }
