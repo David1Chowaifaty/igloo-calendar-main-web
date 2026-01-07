@@ -3,11 +3,13 @@ import booking_store, { modifyBookingStore, reserveRooms } from "../../../stores
 import { extras } from "../../../utils/utils";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
+import { BookingService } from "../../../services/booking-service/booking.service";
 export class IRBookingEditorService {
     /** Current booking editor mode */
     mode;
     /** Lazy-initialized variation service */
     variationService;
+    bookingService = new BookingService();
     constructor(mode) {
         this.mode = mode;
     }
@@ -81,19 +83,29 @@ export class IRBookingEditorService {
     /**
      * Generates daily rate entries for a reserved room.
      */
-    calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+    async calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+        if (!is_amount_modified)
+            return null;
         const total_days = selected_variation.nights.length;
-        if (is_amount_modified) {
-            return view_mode === '002' ? rp_amount : rp_amount / total_days;
+        // Gross amount (tax included)
+        const gross = view_mode === '002' ? rp_amount : rp_amount / total_days;
+        const tax = await this.bookingService.calculateExclusiveTax({
+            property_id: calendar_data.property.id,
+            amount: gross,
+        });
+        if (!tax || tax <= 0) {
+            return gross;
         }
+        const net = gross / (1 + tax / gross);
+        return Number(net.toFixed(2));
     }
     /**
      * Builds room payloads based on selected rate plans
      * and booking draft context.
      */
-    generateDailyRates(rate_plan, i) {
+    async generateDailyRates(rate_plan, i) {
         let variation = rate_plan.selected_variation;
-        const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
+        const amount = rate_plan.is_amount_modified ? await this.calculateAmount(rate_plan) : null;
         if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
             if (!this.variationService) {
                 this.variationService = new VariationService();
@@ -110,7 +122,7 @@ export class IRBookingEditorService {
             cost: null,
         }));
     }
-    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+    async getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
@@ -119,6 +131,7 @@ export class IRBookingEditorService {
                 if (rateplan.reserved > 0) {
                     for (let i = 0; i < rateplan.reserved; i++) {
                         const { first_name, last_name } = rateplan.guest[i];
+                        const days = await this.generateDailyRates(rateplan, i);
                         rooms.push({
                             identifier,
                             roomtype: rateplan.roomtype,
@@ -135,7 +148,7 @@ export class IRBookingEditorService {
                             to_date: moment(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
-                            days: this.generateDailyRates(rateplan, i),
+                            days,
                             guest: {
                                 email: null,
                                 first_name,
@@ -171,8 +184,8 @@ export class IRBookingEditorService {
             const { dates } = booking_store.bookingDraft;
             const fromDate = dates.checkIn;
             const toDate = dates.checkOut;
-            const generateNewRooms = (identifier = null, check_in = false) => {
-                return this.getBookedRooms({
+            const generateNewRooms = async (identifier = null, check_in = false) => {
+                return await this.getBookedRooms({
                     check_in: fromDate,
                     check_out: toDate,
                     identifier,
@@ -204,19 +217,19 @@ export class IRBookingEditorService {
             switch (this.mode) {
                 case 'EDIT_BOOKING': {
                     const filteredRooms = booking.rooms.filter(r => r.identifier !== room.identifier);
-                    const newRooms = generateNewRooms(room.identifier, room.in_out?.code === '001');
+                    const newRooms = await generateNewRooms(room.identifier, room.in_out?.code === '001');
                     newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
                     break;
                 }
                 case 'ADD_ROOM':
                 case 'SPLIT_BOOKING': {
-                    const newRooms = generateNewRooms();
+                    const newRooms = await generateNewRooms();
                     const previousRooms = booking.rooms;
                     newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
                     break;
                 }
                 default: {
-                    const newRooms = generateNewRooms(null, check_in);
+                    const newRooms = await generateNewRooms(null, check_in);
                     const { bookedByGuest } = booking_store;
                     const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
                     newBooking = {

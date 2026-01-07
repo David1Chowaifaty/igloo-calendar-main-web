@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-00bb3231.js');
+const booking_service = require('./booking.service-ddcd3158.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-0598de26.js');
 const utils = require('./utils-54f6f6b7.js');
@@ -1724,7 +1724,7 @@ const IglBookingEventHover = class {
         return true;
     }
     getInfoElement() {
-        return (index.h("div", { class: `iglPopOver infoBubble ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left` }, this.renderPointer(), index.h("div", { class: `d-flex p-0 m-0  ${this.bookingEvent.BALANCE > 1 ? 'pb-0' : 'pb-1'}` }, index.h("div", { class: "px-0  font-weight-bold font-medium-1 d-flex align-items-center", style: { flex: '1 1 0%' } }, index.h("img", { src: this.bookingEvent?.origin?.Icon, alt: this.bookingEvent?.origin?.Label, class: 'icon-image' }), index.h("p", { class: 'p-0 m-0' }, !this.bookingEvent.is_direct ? this.bookingEvent.channel_booking_nbr : this.bookingEvent.BOOKING_NUMBER)), index.h("div", { class: "pr-0  text-right d-flex align-items-center", style: { gap: '0.5rem' } }, index.h("ir-dropdown", { caret: false, onOptionChange: async (e) => {
+        return (index.h("div", { class: `iglPopOver infoBubble ${this.bubbleInfoTop ? 'bubbleInfoAbove' : ''} text-left` }, this.renderPointer(), index.h("div", { class: `d-flex p-0 m-0  ${this.bookingEvent.BALANCE > 1 ? 'pb-0' : 'pb-1'}` }, index.h("div", { class: "px-0  font-weight-bold font-medium-1 d-flex align-items-center", style: { flex: '1 1 0%' } }, index.h("img", { src: this.bookingEvent?.origin?.Icon, alt: this.bookingEvent?.origin?.Label, class: 'icon-image' }), index.h("p", { class: 'p-0 m-0' }, !this.bookingEvent.is_direct ? this.bookingEvent.channel_booking_nbr : this.bookingEvent.BOOKING_NUMBER)), index.h("div", { class: "pr-0  text-right d-flex align-items-center", style: { gap: '0.5rem' } }, this.bookingEvent?.STATUS !== 'PENDING-CONFIRMATION' && (index.h("ir-dropdown", { caret: false, onOptionChange: async (e) => {
                 const newBookingColor = e.detail === 'none' ? null : calendarData.calendar_data.property.calendar_extra?.booking_colors.find(c => c.color === e.detail);
                 await this.propertyService.setRoomCalendarExtra({
                     property_id: calendarData.calendar_data.property.id,
@@ -1742,7 +1742,7 @@ const IglBookingEventHover = class {
                 'color': 'white',
                 'borderRadius': '0.21rem',
                 'padding': '0.25rem',
-            }, name: "ban" }))), index.h("ir-dropdown-item", { value: "none" }, index.h("ir-icons", { class: "p-0 m-0 d-flex align-items-center", style: { '--icon-size': '1rem', 'height': '1rem', 'width': '1rem' }, name: "ban" })), calendarData.calendar_data.property.calendar_extra?.booking_colors.map(s => (index.h("ir-dropdown-item", { value: s.color }, index.h("div", { style: { height: '1rem', width: '1rem', borderRadius: '0.21rem', background: s.color } }))))), utils.formatAmount(this.currency.symbol, this.getTotalPrice()))), this.bookingEvent.BALANCE > 1 && (index.h("p", { class: "pr-0 m-0 p-0 text-right balance_amount" }, locales_store.locales.entries.Lcz_Balance, ": ", utils.formatAmount(this.currency.symbol, this.bookingEvent.BALANCE))), index.h("div", { class: "row p-0 m-0" }, index.h("div", { class: "px-0 pr-0 col-12" }, index.h("ir-date-view", { from_date: this.bookingEvent.defaultDates.from_date, to_date: this.bookingEvent.defaultDates.to_date, showDateDifference: false }))), this.bookingEvent.NAME && index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `Guest name:`, content: this.bookingEvent.NAME }), this.getArrivalTime() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_ArrivalTime}:`, content: this.getArrivalTime() })), this.getTotalOccupants() && (index.h("ir-label", { class: "m-0 p-0", containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_Occupancy}:`, content: this.getTotalOccupants() })), this.getPhoneNumber() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_Phone}:`, content: this.renderPhone() })), this.getRatePlan() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_RatePlan}:`, content: this.getRatePlan() })), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `Departure time:`, content: this.bookingEvent.DEPARTURE_TIME?.description })), this.bookingEvent.PRIVATE_NOTE && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_BookingPrivateNote}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE })), this.bookingEvent.is_direct && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_GuestRemark}:`, display: "inline", content: this.bookingEvent.NOTES })), index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_ChannelNotes}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && index.h("ir-label", { labelText: `${locales_store.locales.entries.Lcz_InternalRemark}:`, content: this.getInternalNote() }), index.h("div", { class: "row p-0 m-0 mt-2" }, index.h("div", { class: "full-width d-flex align-items-center", style: { gap: '0.25rem' }, role: "group" }, index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", onClickHandler: () => this.handleEditBooking() }, "Edit"), index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, "Reassign"), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, locales_store.locales.entries.Lcz_AddRoom)), this.canSplitBooking() && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, "Split")), this.canCheckIn() && (index.h("ir-custom-button", { style: { width: '100%' }, onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, locales_store.locales.entries.Lcz_CheckIn)), this.canCheckOut() && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, locales_store.locales.entries.Lcz_CheckOut)), this.hideButtons
+            }, name: "ban" }))), index.h("ir-dropdown-item", { value: "none" }, index.h("ir-icons", { class: "p-0 m-0 d-flex align-items-center", style: { '--icon-size': '1rem', 'height': '1rem', 'width': '1rem' }, name: "ban" })), calendarData.calendar_data.property.calendar_extra?.booking_colors.map(s => (index.h("ir-dropdown-item", { value: s.color }, index.h("div", { style: { height: '1rem', width: '1rem', borderRadius: '0.21rem', background: s.color } })))))), utils.formatAmount(this.currency.symbol, this.getTotalPrice()))), this.bookingEvent.BALANCE > 1 && (index.h("p", { class: "pr-0 m-0 p-0 text-right balance_amount" }, locales_store.locales.entries.Lcz_Balance, ": ", utils.formatAmount(this.currency.symbol, this.bookingEvent.BALANCE))), index.h("div", { class: "row p-0 m-0" }, index.h("div", { class: "px-0 pr-0 col-12" }, index.h("ir-date-view", { from_date: this.bookingEvent.defaultDates.from_date, to_date: this.bookingEvent.defaultDates.to_date, showDateDifference: false }))), this.bookingEvent.NAME && index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `Guest name:`, content: this.bookingEvent.NAME }), this.getArrivalTime() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_ArrivalTime}:`, content: this.getArrivalTime() })), this.getTotalOccupants() && (index.h("ir-label", { class: "m-0 p-0", containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_Occupancy}:`, content: this.getTotalOccupants() })), this.getPhoneNumber() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_Phone}:`, content: this.renderPhone() })), this.getRatePlan() && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_RatePlan}:`, content: this.getRatePlan() })), this.bookingEvent.DEPARTURE_TIME?.code !== '000' && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `Departure time:`, content: this.bookingEvent.DEPARTURE_TIME?.description })), this.bookingEvent.PRIVATE_NOTE && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, class: "m-0 p-0", labelText: `${locales_store.locales.entries.Lcz_BookingPrivateNote}:`, display: "inline", content: this.bookingEvent.PRIVATE_NOTE })), this.bookingEvent.is_direct && (index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_GuestRemark}:`, display: "inline", content: this.bookingEvent.NOTES })), index.h("ir-label", { containerStyle: { padding: '0', margin: '0' }, labelText: `${locales_store.locales.entries.Lcz_ChannelNotes}:`, display: "inline", content: this.getOTANotes(), renderContentAsHtml: true }), this.getInternalNote() && index.h("ir-label", { labelText: `${locales_store.locales.entries.Lcz_InternalRemark}:`, content: this.getInternalNote() }), index.h("div", { class: "row p-0 m-0 mt-2" }, index.h("div", { class: "full-width d-flex align-items-center", style: { gap: '0.25rem' }, role: "group" }, index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", onClickHandler: () => this.handleEditBooking() }, "Edit"), index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleReallocationBooking() }, "Reassign"), this.bookingEvent.is_direct && this.bookingEvent.IS_EDITABLE && !this.hideButtons && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleAddRoom() }, locales_store.locales.entries.Lcz_AddRoom)), this.canSplitBooking() && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleSplitBooking() }, "Split")), this.canCheckIn() && (index.h("ir-custom-button", { style: { width: '100%' }, onClickHandler: () => this.handleCustomerCheckIn(), variant: "brand", appearance: "outlined" }, locales_store.locales.entries.Lcz_CheckIn)), this.canCheckOut() && (index.h("ir-custom-button", { style: { width: '100%' }, variant: "brand", appearance: "outlined", onClickHandler: () => this.handleCustomerCheckOut() }, locales_store.locales.entries.Lcz_CheckOut)), this.hideButtons
             ? null
             : !this.shouldHideUnassignUnit && (index.h("ir-custom-button", { variant: "danger", style: { width: '100%' }, appearance: "outlined", onClickHandler: _ => {
                     this.handleDeleteEvent();
@@ -1788,7 +1788,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '2e05b492e8f8b85046ada48f8bd11f7a6957b3fe' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '117cae354d219488bf5f8de58e8bffa7a4269e70' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
@@ -7812,6 +7812,7 @@ class IRBookingEditorService {
     mode;
     /** Lazy-initialized variation service */
     variationService;
+    bookingService = new booking_service.BookingService();
     constructor(mode) {
         this.mode = mode;
     }
@@ -7885,19 +7886,29 @@ class IRBookingEditorService {
     /**
      * Generates daily rate entries for a reserved room.
      */
-    calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+    async calculateAmount({ is_amount_modified, selected_variation, view_mode, rp_amount }) {
+        if (!is_amount_modified)
+            return null;
         const total_days = selected_variation.nights.length;
-        if (is_amount_modified) {
-            return view_mode === '002' ? rp_amount : rp_amount / total_days;
+        // Gross amount (tax included)
+        const gross = view_mode === '002' ? rp_amount : rp_amount / total_days;
+        const tax = await this.bookingService.calculateExclusiveTax({
+            property_id: calendarData.calendar_data.property.id,
+            amount: gross,
+        });
+        if (!tax || tax <= 0) {
+            return gross;
         }
+        const net = gross / (1 + tax / gross);
+        return Number(net.toFixed(2));
     }
     /**
      * Builds room payloads based on selected rate plans
      * and booking draft context.
      */
-    generateDailyRates(rate_plan, i) {
+    async generateDailyRates(rate_plan, i) {
         let variation = rate_plan.selected_variation;
-        const amount = rate_plan.is_amount_modified ? this.calculateAmount(rate_plan) : null;
+        const amount = rate_plan.is_amount_modified ? await this.calculateAmount(rate_plan) : null;
         if (rate_plan.guest[i].infant_nbr > 0 && !rate_plan.is_amount_modified) {
             if (!this.variationService) {
                 this.variationService = new variation_service.VariationService();
@@ -7914,7 +7925,7 @@ class IRBookingEditorService {
             cost: null,
         }));
     }
-    getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+    async getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
         const rooms = [];
         for (const roomTypeId in booking_service.booking_store.ratePlanSelections) {
             const roomtype = booking_service.booking_store.ratePlanSelections[roomTypeId];
@@ -7923,6 +7934,7 @@ class IRBookingEditorService {
                 if (rateplan.reserved > 0) {
                     for (let i = 0; i < rateplan.reserved; i++) {
                         const { first_name, last_name } = rateplan.guest[i];
+                        const days = await this.generateDailyRates(rateplan, i);
                         rooms.push({
                             identifier,
                             roomtype: rateplan.roomtype,
@@ -7939,7 +7951,7 @@ class IRBookingEditorService {
                             to_date: moment.hooks(check_out).format('YYYY-MM-DD'),
                             notes,
                             check_in: auto_check_in,
-                            days: this.generateDailyRates(rateplan, i),
+                            days,
                             guest: {
                                 email: null,
                                 first_name,
@@ -7975,8 +7987,8 @@ class IRBookingEditorService {
             const { dates } = booking_service.booking_store.bookingDraft;
             const fromDate = dates.checkIn;
             const toDate = dates.checkOut;
-            const generateNewRooms = (identifier = null, check_in = false) => {
-                return this.getBookedRooms({
+            const generateNewRooms = async (identifier = null, check_in = false) => {
+                return await this.getBookedRooms({
                     check_in: fromDate,
                     check_out: toDate,
                     identifier,
@@ -8008,19 +8020,19 @@ class IRBookingEditorService {
             switch (this.mode) {
                 case 'EDIT_BOOKING': {
                     const filteredRooms = booking.rooms.filter(r => r.identifier !== room.identifier);
-                    const newRooms = generateNewRooms(room.identifier, room.in_out?.code === '001');
+                    const newRooms = await generateNewRooms(room.identifier, room.in_out?.code === '001');
                     newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
                     break;
                 }
                 case 'ADD_ROOM':
                 case 'SPLIT_BOOKING': {
-                    const newRooms = generateNewRooms();
+                    const newRooms = await generateNewRooms();
                     const previousRooms = booking.rooms;
                     newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
                     break;
                 }
                 default: {
-                    const newRooms = generateNewRooms(null, check_in);
+                    const newRooms = await generateNewRooms(null, check_in);
                     const { bookedByGuest } = booking_service.booking_store;
                     const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
                     newBooking = {

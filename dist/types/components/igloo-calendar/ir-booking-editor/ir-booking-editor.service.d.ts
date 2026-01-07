@@ -5,6 +5,7 @@ export declare class IRBookingEditorService {
     private mode;
     /** Lazy-initialized variation service */
     private variationService?;
+    private bookingService;
     constructor(mode?: BookingEditorMode);
     setMode(mode: BookingEditorMode): void;
     /**

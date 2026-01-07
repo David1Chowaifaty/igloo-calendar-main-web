@@ -2,7 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { ExposedGuests, GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
+import { CalculateExclusiveTaxProps, ExposedGuests, GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -122,6 +122,7 @@ export declare class BookingService {
         is_in_agent_mode?: boolean;
         agent_id?: string | number;
     }): Promise<BookingDetails>;
+    calculateExclusiveTax(props: CalculateExclusiveTaxProps): Promise<any>;
     private sortRoomTypes;
     private modifyRateplans;
     private sortVariations;

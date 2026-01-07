@@ -913,3 +913,14 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     subscribe_to_news_letter?: null;
 }>, "many">;
 export type ExposedGuests = z.infer<typeof ExposedGuestsSchema>;
+export declare const CalculateExclusiveTaxPropsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    amount: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    amount?: number;
+    property_id?: number;
+}, {
+    amount?: number;
+    property_id?: number;
+}>;
+export type CalculateExclusiveTaxProps = z.infer<typeof CalculateExclusiveTaxPropsSchema>;

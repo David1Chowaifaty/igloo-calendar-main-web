@@ -170,6 +170,10 @@ const ExposedGuestSchema = objectType({
     subscribe_to_news_letter: nullType(),
 });
 arrayType(ExposedGuestSchema);
+const CalculateExclusiveTaxPropsSchema = objectType({
+    property_id: numberType().min(1),
+    amount: numberType(),
+});
 
 const CurrencySchema = objectType({
     code: stringType(),
@@ -450,6 +454,11 @@ class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async calculateExclusiveTax(props) {
+        const payload = CalculateExclusiveTaxPropsSchema.parse(props);
+        const { data } = await axios.post('/Calculate_Exclusive_Tax', payload);
+        return data.My_Result ?? 0;
     }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {

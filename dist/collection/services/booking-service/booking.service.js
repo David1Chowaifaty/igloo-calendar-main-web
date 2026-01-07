@@ -14,7 +14,7 @@ import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
+import { CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -279,6 +279,11 @@ export class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async calculateExclusiveTax(props) {
+        const payload = CalculateExclusiveTaxPropsSchema.parse(props);
+        const { data } = await axios.post('/Calculate_Exclusive_Tax', payload);
+        return data.My_Result ?? 0;
     }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {

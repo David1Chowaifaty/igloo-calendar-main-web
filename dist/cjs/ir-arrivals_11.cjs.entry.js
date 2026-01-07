@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const Token = require('./Token-8fd11984.js');
-const booking_service = require('./booking.service-00bb3231.js');
+const booking_service = require('./booking.service-ddcd3158.js');
 const room_service = require('./room.service-18eb6707.js');
 const arrivals_store = require('./arrivals.store-5e55ab97.js');
 const calendarData = require('./calendar-data-0598de26.js');

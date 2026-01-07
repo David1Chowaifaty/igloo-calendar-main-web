@@ -653,6 +653,10 @@ const ExposedGuestSchema = objectType({
     subscribe_to_news_letter: nullType(),
 });
 arrayType(ExposedGuestSchema);
+const CalculateExclusiveTaxPropsSchema = objectType({
+    property_id: numberType().min(1),
+    amount: numberType(),
+});
 
 const CurrencySchema = objectType({
     code: stringType(),
@@ -933,6 +937,11 @@ class BookingService {
             console.error(error);
             throw new Error(error);
         }
+    }
+    async calculateExclusiveTax(props) {
+        const payload = CalculateExclusiveTaxPropsSchema.parse(props);
+        const { data } = await axios.post('/Calculate_Exclusive_Tax', payload);
+        return data.My_Result ?? 0;
     }
     sortRoomTypes(roomTypes, userCriteria) {
         return roomTypes.sort((a, b) => {
@@ -1348,4 +1357,4 @@ class BookingService {
 
 export { BookingService as B, ZIEntrySchema as Z, updateBookedByGuest as a, booking_store as b, resetReserved as c, updateRoomParams as d, resetBookingStore as e, setBookingSelectOptions as f, getVisibleInventory as g, getReservedRooms as h, hasAtLeastOneRoomSelected as i, calculateTotalRooms as j, getBookingTotalPrice as k, bookedByGuestBaseData as l, modifyBookingStore as m, resetAvailability as n, setBookedByGuestManualEditState as o, reserveRooms as r, setBookingDraft as s, updateRoomGuest as u };
 
-//# sourceMappingURL=booking.service-62c8d06e.js.map
+//# sourceMappingURL=booking.service-34dbad4e.js.map
