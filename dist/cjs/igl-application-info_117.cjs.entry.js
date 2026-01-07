@@ -3805,7 +3805,7 @@ const IglRatePlan = class {
                 booking_store.resetReserved();
                 this.reserveRoom();
                 this.bookProperty();
-            } }, visibleInventory.reserved === 1 ? locales_store.locales.entries.Lcz_Current : locales_store.locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (index.h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales_store.locales.entries.Lcz_Book)))) : (index.h("p", { class: "rate-plan-unavailable-text" }, locales_store.locales.entries['Lcz_NotAvailable'] || 'Not available')))));
+            } }, locales_store.locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (index.h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales_store.locales.entries.Lcz_Book)))) : (index.h("p", { class: "rate-plan-unavailable-text" }, locales_store.locales.entries['Lcz_NotAvailable'] || 'Not available')))));
     }
 };
 IglRatePlan.style = IglRatePlanStyle0;
@@ -7862,11 +7862,12 @@ class IRBookingEditorService {
                 console.warn('[updateBooking] Missing required room data', room);
                 return;
             }
+            const mainGuest = room.sharing_persons.find(g => g.is_main);
             const guest = {
                 bed_preference: room.bed_preference?.toString() ?? null,
                 infant_nbr: occupancy.infant_nbr ?? 0,
-                last_name: guestData.last_name ?? '',
-                first_name: guestData.first_name ?? '',
+                last_name: mainGuest?.last_name ?? room.guest.last_name ?? '',
+                first_name: mainGuest?.first_name ?? room.guest.first_name ?? '',
                 unit: room.unit?.id?.toString() ?? null,
                 roomtype_id: roomtypeId,
             };
@@ -8570,7 +8571,7 @@ const IrBookingEditorDrawer = class {
     }
     renderDetailsActions() {
         const haveRoomSelected = booking_store.hasAtLeastOneRoomSelected();
-        return (index.h(index.Fragment, null, index.h("ir-custom-button", { "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), ['EDIT_BOOKING', 'PLUS_BOOKING', 'ADD_ROOM'].includes(this.mode) && (index.h(index.Fragment, null, !haveRoomSelected && index.h("wa-tooltip", { for: "booking_editor__next-button" }, "Please select at least one unit to continue."), index.h("ir-custom-button", { id: "booking_editor__next-button", disabled: !haveRoomSelected, onClickHandler: this.goToConfirm, size: "medium", appearance: "accent", variant: "brand" }, "Next")))));
+        return (index.h(index.Fragment, null, index.h("ir-custom-button", { "data-drawer": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), ['PLUS_BOOKING', 'ADD_ROOM'].includes(this.mode) && (index.h(index.Fragment, null, !haveRoomSelected && index.h("wa-tooltip", { for: "booking_editor__next-button" }, "Please select at least one unit to continue."), index.h("ir-custom-button", { id: "booking_editor__next-button", disabled: !haveRoomSelected, onClickHandler: this.goToConfirm, size: "medium", appearance: "accent", variant: "brand" }, "Next")))));
     }
     async closeDrawer() {
         if (this.wasBlockedUnit && !this.didAdjustBlockedUnit) {
@@ -8689,7 +8690,7 @@ const IrBookingEditorDrawer = class {
         }
     }
     render() {
-        return (index.h("ir-drawer", { key: '5695740f2d555fc86677b0d269ca40805f0e3f5c', onDrawerHide: async (event) => {
+        return (index.h("ir-drawer", { key: '2162f251b4df020174dad46cc5e45b505a19c418', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -8700,7 +8701,7 @@ const IrBookingEditorDrawer = class {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (index.h("ir-booking-editor", { key: '59098fbccb9d1296010bdc5be30782f446fe7d30', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (index.h("ir-booking-editor", { key: 'd4b812e7d242eb27e0ab1384b19652a34824a555', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -8708,7 +8709,7 @@ const IrBookingEditorDrawer = class {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), index.h("div", { key: 'd0a6f3c80ef1e620c30b03d5787bb463b01c57f7', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), index.h("div", { key: '7b33d341571634daaa0cdec95f96c4809b2bed4d', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"],

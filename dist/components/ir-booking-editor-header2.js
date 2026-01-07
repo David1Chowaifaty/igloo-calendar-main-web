@@ -45,11 +45,12 @@ class IRBookingEditorService {
                 console.warn('[updateBooking] Missing required room data', room);
                 return;
             }
+            const mainGuest = room.sharing_persons.find(g => g.is_main);
             const guest = {
                 bed_preference: room.bed_preference?.toString() ?? null,
                 infant_nbr: occupancy.infant_nbr ?? 0,
-                last_name: guestData.last_name ?? '',
-                first_name: guestData.first_name ?? '',
+                last_name: mainGuest?.last_name ?? room.guest.last_name ?? '',
+                first_name: mainGuest?.first_name ?? room.guest.first_name ?? '',
                 unit: room.unit?.id?.toString() ?? null,
                 roomtype_id: roomtypeId,
             };

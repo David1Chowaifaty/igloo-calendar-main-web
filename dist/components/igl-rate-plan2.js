@@ -175,7 +175,7 @@ const IglRatePlan = /*@__PURE__*/ proxyCustomElement(class IglRatePlan extends H
                 resetReserved();
                 this.reserveRoom();
                 this.bookProperty();
-            } }, visibleInventory.reserved === 1 ? locales.entries.Lcz_Current : locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "rate-plan-unavailable-text" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
+            } }, locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "rate-plan-unavailable-text" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
     }
     static get style() { return IglRatePlanStyle0; }
 }, [2, "igl-rate-plan", {
