@@ -221,10 +221,11 @@ const IrBookingNewForm = class {
     }
     render() {
         console.log('booking-item', this.bookingItem);
-        return (index.h(index.Host, { key: '4beab93223d5c54ae9eee58ec1fa756730e7f84e' }, index.h("div", { key: '4d88f7ea3d9fcd4be66b3b17a61f71b03de60067', onClick: () => {
+        return (index.h(index.Host, { key: '4beab93223d5c54ae9eee58ec1fa756730e7f84e' }, index.h("ir-custom-button", { key: 'cdc92aeb5ff3d0ff5497ed76d7fd68f751aeb887', onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
                 this.handleTriggerClicked();
-                console.log('trigger-clicked');
-            } }, index.h("slot", { key: '931b531f0303b5cb8befc5ef35135d04f373f8cc', name: "trigger" }, index.h("ir-custom-button", { key: '7c188940321abefaa76f228890e03b0c20f358eb', appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: 'a8e68ec4e8da6e0189d7d6198b9d9d96f3c92f81', name: "circle-plus", style: { fontSize: '1.2rem' } })))), index.h("ir-booking-editor-drawer", { key: '929372520d9bf9ca1a1b01107827eb1af5be077a', onBookingEditorClosed: e => {
+            }, appearance: "plain", variant: "brand" }, index.h("wa-icon", { key: 'a86195c75003df98ca6073721b053265531e4c10', name: "circle-plus", style: { fontSize: '1.2rem' } })), index.h("ir-booking-editor-drawer", { key: '9b08e809aaec4ba4e26c93b84cfc8e575589eadd', onBookingEditorClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;

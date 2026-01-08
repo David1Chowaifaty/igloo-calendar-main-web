@@ -2908,7 +2908,7 @@ const IrBookingStatusTag = class {
         '004': 'danger',
     };
     render() {
-        return (index.h("wa-badge", { key: '3c29a1622b9420bf6caa818fa145da24db739616', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
+        return (index.h("wa-badge", { key: 'df09244dcc654681e834815625be551bb4b00e49', style: { padding: '0.375em 0.625em', letterSpacing: '0.03rem' }, variant: this.badgeVariant[this.isRequestToCancel ? '003' : this.status.code] }, this.status.description.toUpperCase()));
     }
 };
 IrBookingStatusTag.style = IrBookingStatusTagStyle0;
@@ -3410,14 +3410,14 @@ const IrGuestInfoDrawer = class {
     _formId = `guest-details-form_${v4.v4()}`;
     render() {
         const drawerLabel = locales_store.locales?.entries?.Lcz_GuestDetails || 'Guest info';
-        return (index.h("ir-drawer", { key: 'bbe5144fda1f36cdf64e7c790b1ac0a9911b26f3', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
+        return (index.h("ir-drawer", { key: 'f8a7addfbda985ae300c2480e78cdf2a783ac5f0', open: this.open, label: drawerLabel, onDrawerHide: this.handleDrawerHide, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            } }, this.open && (index.h("ir-guest-info-form", { key: '695073942b8bcd0b1037fdd2e61b58ecfec56938', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), index.h("div", { key: '46a0c6b410e7bfa3507bd037b54e828773e8e930', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'fdb1522835c414c7147996a843709980330b04c1', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales_store.locales.entries?.Lcz_Cancel || 'Cancel'), index.h("ir-custom-button", { key: '089e8a0becfbc6e24513ac87869d500126c9750e', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest') }, locales_store.locales.entries?.Lcz_Save || 'Save'))));
+            } }, this.open && (index.h("ir-guest-info-form", { key: 'c6245448602c718d11bcee6db5889cb5b8187165', ticket: this.ticket, language: this.language, email: this.email, booking_nbr: this.booking_nbr, fromId: this._formId })), index.h("div", { key: '9248095a4c9d58d0c14b58dd167d4f55fc6456dc', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '2cf98f0ca1765944f272d022d24329a3cce04797', size: "medium", appearance: "filled", variant: "neutral", type: "button", onClickHandler: this.handleCancel }, locales_store.locales.entries?.Lcz_Cancel || 'Cancel'), index.h("ir-custom-button", { key: 'c797c96ea2dad7b3082fa8fdc1d7397b72c825cf', type: "submit", form: this._formId, size: "medium", variant: "brand", loading: irInterceptor_store.isRequestPending('/Edit_Exposed_Guest') }, locales_store.locales.entries?.Lcz_Save || 'Save'))));
     }
 };
 IrGuestInfoDrawer.style = IrGuestInfoDrawerStyle0;
@@ -3669,7 +3669,7 @@ const IrInvoice = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'ab7905335a7c42f22e2ebc44d1c59d6a9220aed6' }, index.h("ir-drawer", { key: 'e41c57b77216e13dc541affed23711582b932d9b', style: {
+        return (index.h(index.Host, { key: '0c4d77b732e8fc14fbfa5a30469daa1afebdaaf9' }, index.h("ir-drawer", { key: '0885eeed126a829f1f94e5dd3eeac0cfd87e0c95', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -3680,22 +3680,22 @@ const IrInvoice = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDrawer();
-            } }, index.h("div", { key: 'c520fe37d5e2b388ff50eb6a4eca5a2b05c51971', class: "d-flex align-items-center", slot: "header-actions" }, index.h("wa-switch", { key: '8837ebbe25aadb438532210b48b17ee2ae7f46c4', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
+            } }, index.h("div", { key: 'f472a31277d85e774c4c913e5f1922b0926f41da', class: "d-flex align-items-center", slot: "header-actions" }, index.h("wa-switch", { key: '524e1dfa9d6add5d87fcd4657a39a026b9ceafb6', defaultChecked: this.viewMode === 'proforma', checked: this.viewMode === 'proforma', onchange: e => {
                 if (e.target.checked) {
                     this.viewMode = 'proforma';
                 }
                 else {
                     this.viewMode = 'invoice';
                 }
-            } }, "Pro-forma")), this.open && (index.h("ir-invoice-form", { key: 'c2144e1470bff91c61fd1cb6ed9f915b4dc1fcb0', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), index.h("div", { key: 'f72133930f9022cbf941e9429580dc065eb0a3a3', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: '3f020f8200ca88b71815542535b1e008ff357f3e', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
+            } }, "Pro-forma")), this.open && (index.h("ir-invoice-form", { key: '3c8b6ceb4ea7ff8a0e09421a59b698a083d8714d', viewMode: this.viewMode, for: this.for, roomIdentifier: this.roomIdentifier, booking: this.booking, autoPrint: this.autoPrint, formId: this._id, onPreviewProformaInvoice: e => (this.invoice = e.detail.invoice), invoiceInfo: this.invoiceInfo, onLoadingChange: e => (this.isLoading = e.detail) })), index.h("div", { key: '11044db7928695c39fb04edeb18e2a71e10520cb', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'd20357fd1e9c1471105962f710641e3fd01bbe66', size: "medium", appearance: "filled", class: "w-100 flex-fill", variant: "neutral", onClickHandler: () => {
                 this.closeDrawer();
-            } }, "Cancel"), index.h("ir-custom-button", { key: '57befdeb1d5dfb5783c932f0e522c6367bf31d33', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), index.h("ir-preview-screen-dialog", { key: 'c467be107589b5c159c235520639535d4eda40d7', onOpenChanged: e => {
+            } }, "Cancel"), index.h("ir-custom-button", { key: 'c3227c75ce844b3090fb54bdb078bcf59d896718', disabled: this.invoiceInfo?.invoiceable_items?.filter(i => i.is_invoiceable)?.length === 0, loading: this.isLoading, value: "invoice", type: "submit", form: this._id, class: "w-100 flex-fill", size: "medium", variant: "brand", id: `confirm-btn_${this._id}` }, "Confirm")), index.h("ir-preview-screen-dialog", { key: '3b9752514a4db3efd0a4a244b6405ac78545d3f5', onOpenChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     this.invoice = null;
                 }
-            }, open: this.invoice !== null }, index.h("ir-proforma-invoice-preview", { key: '60514044be7c10fafe198217c03d1ae0f67ca348', invoice: this.invoice, property: calendarData.calendar_data.property, booking: this.booking })))));
+            }, open: this.invoice !== null }, index.h("ir-proforma-invoice-preview", { key: 'bb4b89cf272040e2a3739f8aee676226e21de09d', invoice: this.invoice, property: calendarData.calendar_data.property, booking: this.booking })))));
     }
     static get watchers() { return {
         "booking": ["handleBookingChange"]
@@ -5711,7 +5711,7 @@ const IrPopover = class {
         $(this.popoverTrigger).popover('dispose');
     }
     render() {
-        return (index.h(index.Host, { key: '2fc08c0fd1a9c2e8520225b2cd6ca0f09ce4076c', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
+        return (index.h(index.Host, { key: 'b665eef1d2dcc87d50ab32bbceb75b35256afb49', style: { '--ir-popover-left': this.irPopoverLeft } }, this.trigger !== 'focus' ? (index.h("p", { ref: el => (this.popoverTrigger = el), class: "popover-title m-0 p-0", style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -5921,11 +5921,11 @@ const IrPreviewScreenDialog = class {
         this.restorePrintLayout();
     }
     render() {
-        return (index.h("ir-dialog", { key: '076043dd35f86c8b5440c7a5a032b5b39f23d42f', onIrDialogHide: e => {
+        return (index.h("ir-dialog", { key: 'fe87d9b5c4f0c28af1f88555a97df4cbe57c7021', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (index.h(index.Fragment, { key: 'a36d3a606b897b347c10b7f8cc0aa14b1ca813be' }, index.h("wa-tooltip", { key: 'e2b6899b05c17c945b5e83222b7820483f99bc91', for: this._id }, "Print PDF"), index.h("ir-custom-button", { key: 'fae8071680a6ed31e14a7951063595d794def46b', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, index.h("wa-icon", { key: 'aa8c5f84272846b461986aa7b392dd79431d024d', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), index.h("slot", { key: 'd2a1f7040bb955f76adf5476953a379d1a383c8b' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (index.h(index.Fragment, { key: '43d03c82c1c075e9e8d88c5a85b5da3816127bfb' }, index.h("wa-tooltip", { key: '949efaadbfd284df3b4ddc4a48c51ca2243c3b62', for: this._id }, "Print PDF"), index.h("ir-custom-button", { key: '371b67efdd3f8fcec7c6e5aa18b14fc5da5346ea', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, index.h("wa-icon", { key: '64e5d5fbe3af491089340e01d39b491ebc7b2fe4', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), index.h("slot", { key: '1672fc7565f20de1b94533995a6a00b70b99224a' })));
     }
 };
 IrPreviewScreenDialog.style = IrPreviewScreenDialogStyle0;
@@ -6017,7 +6017,7 @@ const IrPrintRoom = class {
     render() {
         const { room, booking, property, currency, idx } = this;
         const haveMultipleRooms = property.roomtypes?.find(rt => rt.id === room?.roomtype?.id)?.physicalrooms?.length > 1;
-        return (index.h("section", { key: 'c34f14cd9821dee04d0ce53bf9c4aa1fa525c6a2', class: "ir-print-room" }, index.h("header", { key: '55747e4ae7cd16e2467908080baf1415632f4b3e', class: "ir-print-room__header" }, index.h("p", { key: '42a4ced89a144bc076a51985c425cc3a5a791436', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && index.h("p", { key: '2317833720d7be2c0c014c9cc328406132cc176a', class: "ir-print-room__unit" }, "(unit ", room.roomtype.id, ")"), index.h("p", { key: 'ff70a391674c1c31ab18d814466d618d5e86126b', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), index.h("div", { key: '856289e8ada911422eebcefae0ac0744dfb416e7', class: "ir-print-room__body" }, index.h("div", { key: '88539b1db7a6e88bbd1942d728d68b98ffdbc36a', class: "ir-print-room__details" }, index.h("div", { key: '2c8da3535d5e4b3038f462500376fb5b5dbf7a74', class: "ir-print-room__row" }, index.h("ir-printing-label", { key: 'cbb418db20379287810fb41784b01a42a99f7acc', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), index.h("ir-printing-label", { key: '4dc8f30e250e568a42cf4adc3346783fa8ca0f48', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), index.h("div", { key: '5a2d0522b26c09e4c7e74243b3f32fd6555a3c02', class: "ir-print-room__row" }, index.h("div", { key: '0fb5941e943fee7b4a8d9255c11e31002abd8682', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), index.h("span", { key: '16f2b6badb24be08f062e9fd5784a26a0424dc78', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && index.h("p", { key: '6371ec3e305066d863b7e0838d3f22527f568e61', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), index.h("ir-printing-label", { key: '181238d39d065cc1f81ceb5f2a4bd4622e521bff', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (index.h("div", { key: '169071b0d1e691ef22d75786cef17f148eac0a53', class: "ir-print-room__policies" }, index.h("ir-printing-label", { key: 'df4653446a3abce73f3469efb5424e26b77408f4', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), index.h("ir-printing-label", { key: 'f198645a9b0ef682c5b85fd73605506ba4937d73', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), index.h("aside", { key: '393c3453aad67563f88510aa4ad39d8e757b7148', class: "ir-print-room__totals" }, index.h("ir-printing-label", { key: '696fe618e2c6ca86f05158e1df96f247adf2c5ff', label: "Total:", content: utils.formatAmount(currency, room?.total) }), this.renderTaxSection(), index.h("ir-printing-label", { key: '7a5a3f1caad550da7c61fa608e9d4e5efbe844ce', label: "Grand total:", content: utils.formatAmount(currency, room?.gross_total) }), booking?.is_direct && index.h("ir-printing-label", { key: 'b50b1304db2e0460e732b9ce8c4a573d7c4ef6a2', label: "Due upon booking:", content: utils.formatAmount(currency, Number(room?.gross_guarantee)) }))), index.h("div", { key: 'e411b97ded5814e8b4f58aad3373705fbeb8593c', class: {
+        return (index.h("section", { key: '2934715d305ab16ca894852488a2c5c88e9093a4', class: "ir-print-room" }, index.h("header", { key: '10696116a9b312d07aa90ac612e21b6d4f910841', class: "ir-print-room__header" }, index.h("p", { key: '3228dc364f81107b15dea13cd392c29bffc53129', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && index.h("p", { key: '22ce8f0b040da224a69bc35741114e1fe26e039d', class: "ir-print-room__unit" }, "(unit ", room.roomtype.id, ")"), index.h("p", { key: 'd1bc3ebb0c5c926cb34b856404197dd94085b6e2', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), index.h("div", { key: '6e229f1033c4b8d80ed7adcc7d73511f0f3075f1', class: "ir-print-room__body" }, index.h("div", { key: 'aeb9de8810ef53e5db61d0a0ff048016b6179109', class: "ir-print-room__details" }, index.h("div", { key: '5e323416fca405611b6f1656322a623740f9e6f0', class: "ir-print-room__row" }, index.h("ir-printing-label", { key: '06767c3d15d00d36ab2f75bdbc96d4980617ccd5', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), index.h("ir-printing-label", { key: '89112db8d993751e1c99327302dfae047a5762ab', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), index.h("div", { key: 'f511c666263c8c89116f501de233fed5b5853731', class: "ir-print-room__row" }, index.h("div", { key: 'f8dc940a209f9a43e1a9ac2faf28fc6c15600a1e', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), index.h("span", { key: 'bdfcd402b4ffb922d655adc720b7dc7e0bff11d8', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && index.h("p", { key: 'd4b2d4fda0fd1e30e6753d4982a64bf0466e1af5', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), index.h("ir-printing-label", { key: 'be8e3e0cce36c9aab89c858fc3db8d18a6a0963f', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (index.h("div", { key: 'cfb09d5f61875d4bb8cc6adbd0ff4912afba9ed2', class: "ir-print-room__policies" }, index.h("ir-printing-label", { key: '32abf406be81b66946302722b9ef82400f5bc69a', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), index.h("ir-printing-label", { key: 'fdf044fd2f3b792551f1e29bc7776d432f01df09', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), index.h("aside", { key: 'cc64df04f52cd97a7bdd55c139be26599c090e88', class: "ir-print-room__totals" }, index.h("ir-printing-label", { key: '2b4a9ffc4683fdfbac264b11e9e833163bac03a6', label: "Total:", content: utils.formatAmount(currency, room?.total) }), this.renderTaxSection(), index.h("ir-printing-label", { key: '6d0aa27371fb79630a655e1b9625b684ee05e9f8', label: "Grand total:", content: utils.formatAmount(currency, room?.gross_total) }), booking?.is_direct && index.h("ir-printing-label", { key: 'b27b9cd4437d4f628f52c99486b20234ae3ffcf8', label: "Due upon booking:", content: utils.formatAmount(currency, Number(room?.gross_guarantee)) }))), index.h("div", { key: 'f8b67a64696312afbb6922961a8f84d9ad6216c1', class: {
                 'ir-print-room__daily-amounts': true,
                 'ir-print-room__daily-amounts--with-divider': idx < booking?.rooms?.length - 1,
             } }, room?.days?.map(d => (index.h("div", { class: "room_amount_container", key: d.date }, index.h("p", { class: "room_amount date" }, this.formatDate(d.date)), index.h("p", { class: "room_amount amount", style: { paddingRight: '0.375rem' } }, utils.formatAmount(currency, d.amount))))))));
@@ -6038,7 +6038,7 @@ const IrPrintingExtraService = class {
     currency;
     invocableKeys;
     render() {
-        return (index.h("section", { key: '034d801088b006b7969e470026a16e4fc1495150', class: "ir-print-extra-services" }, index.h("h3", { key: '251cb8f0ad9074ab69c783634ac90ed42dc9766e', class: "ir-print-extra-services__title" }, "Extra services"), index.h("div", { key: '81fb4b591f08aab80108757c70c9660ac73658b7', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (index.h("section", { key: 'cfa18a4c091f748a892613fafb517b046c799570', class: "ir-print-extra-services" }, index.h("h3", { key: '8466f56adaea8182bcc03279340513dac5eb0c23', class: "ir-print-extra-services__title" }, "Extra services"), index.h("div", { key: 'e6ef941924660672aa24e9f36a43debd102bb7b9', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }
@@ -7088,7 +7088,7 @@ const IrUnitTag = class {
         }
     }
     render() {
-        return (index.h(index.Fragment, { key: '8ef7bff6bb6d2448584e666affa98a2cbdf0cf58' }, this.showTooltip && index.h("wa-tooltip", { key: '31b32d57e489595997f164515145600dab16a0f0', for: this._id }, this.unit), index.h("wa-tag", { key: '83df7ec527bc0217296670df3de77a294260d4db', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, index.h("span", { key: 'c235a86d84f16ec98e9791fa857c90cff0091a42', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
+        return (index.h(index.Fragment, { key: 'd340f3915767df1f3b1995e11431676aac3ea558' }, this.showTooltip && index.h("wa-tooltip", { key: 'c93eed871f0da795c16e18c1599fe0d781b0c670', for: this._id }, this.unit), index.h("wa-tag", { key: '9dbe95c971df7e2642335461c45d31bd13a2fda1', id: this._id, class: "unit-tag__el", size: "small", appearance: "filled", variant: "brand" }, index.h("span", { key: '93d73eb0cbffde12159f20bf6f584a373c6ffa9f', class: "unit-tag__content", ref: this.setContentRef }, this.unit))));
     }
     static get watchers() { return {
         "unit": ["onUnitChange"]

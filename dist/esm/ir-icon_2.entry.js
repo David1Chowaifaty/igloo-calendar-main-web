@@ -12,7 +12,7 @@ const IrIcon = class {
     type = 'button';
     iconClickHandler;
     render() {
-        return (h("button", { key: '58e26ec1fc7caa5ba25daa427c73168af4a97f1a', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'f3987257e4fbac52e3ca4c144cf90f387b8f5f75', name: "icon" })));
+        return (h("button", { key: '9ca9da7dd760e2748ad0b97cd4c0a36f0f4c4f2e', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: 'b8975082769275aad7f7535d4f2c1fd7d626aaec', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;
@@ -40,9 +40,9 @@ const IrTitle = class {
         }
     }
     render() {
-        return (h(Host, { key: 'd6f44680cf4b4e3e131b1aca044a02a42ff6cc2a' }, h("h4", { key: 'cfa9f4c9442c526375ae595db07c994d5840c893', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '1c0c1661bb42061a52e60e86b8dbb0ba7ff22a2c', class: 'close', onIconClickHandler: () => {
+        return (h(Host, { key: '4828a60e1a1fe9f463d26cf9d73e6398a13ac000' }, h("h4", { key: 'e418e7e0f4e3481a3844b048b1535f6fcb313c08', class: "text-left label font-medium-2 py-0 my-0" }, this.label), this.displayContext === 'sidebar' && (h("ir-icon", { key: '1c70426fbfa0dddd66eb2f5c1156214960338ec7', class: 'close', onIconClickHandler: () => {
                 this.closeSideBar.emit(null);
-            } }, h("svg", { key: 'bf572f805a095c2115d44e6658ba3c3eff187eb0', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'a15e7d4bc9bccaf3972f6ed004d8e7dd994353ef', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '1714fc805138377e1f39d6b2f8da595c1dbe18b4', class: 'title-body' }, h("slot", { key: '76d0deb3cbe861e7daa7a8b1f9b025b11d5b2ab5', name: "title-body" })))));
+            } }, h("svg", { key: '3ced2741b51f35dfd69b7f00507295e5a65ffc78', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'a99440c22ac20b1deeeaef1edda5fef41cfedd75', d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))), this.displayContext !== 'sidebar' && (h("div", { key: '828619aaf052c23f7b8326420b5a756ead1abcc9', class: 'title-body' }, h("slot", { key: '351efb8176baa900aaeaf7826d29c5d3e6dfd4af', name: "title-body" })))));
     }
     static get watchers() { return {
         "justifyContent": ["handleJustifyContentChange"]
