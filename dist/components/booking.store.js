@@ -176,6 +176,9 @@ const CalculateExclusiveTaxPropsSchema = objectType({
     property_id: numberType().min(1),
     amount: numberType(),
 });
+const AckExposedRevisionPropsSchema = objectType({
+    revision_id: numberType(),
+});
 
 const CurrencySchema = objectType({
     code: stringType(),
@@ -406,6 +409,11 @@ class BookingService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async ackExposedRevision(props) {
+        const payload = AckExposedRevisionPropsSchema.parse(props);
+        const { data } = await axios.post('/Ack_Exposed_Revision', payload);
+        return data;
     }
     async getExposedBookingEvents(booking_nbr) {
         try {

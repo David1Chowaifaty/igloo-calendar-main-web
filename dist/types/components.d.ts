@@ -3043,6 +3043,23 @@ export namespace Components {
          */
         "selectedPropertyId"?: number;
     }
+    interface IrQueueChart {
+        /**
+          * Chart title
+         */
+        "label": string;
+        /**
+          * Labels for X-axis
+         */
+        "labels": string[];
+        /**
+          * Values for bars
+         */
+        "values": number[];
+    }
+    interface IrQueueManager {
+        "ticket": string;
+    }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
@@ -6988,6 +7005,18 @@ declare global {
         prototype: HTMLIrPropertySwitcherDialogContentElement;
         new (): HTMLIrPropertySwitcherDialogContentElement;
     };
+    interface HTMLIrQueueChartElement extends Components.IrQueueChart, HTMLStencilElement {
+    }
+    var HTMLIrQueueChartElement: {
+        prototype: HTMLIrQueueChartElement;
+        new (): HTMLIrQueueChartElement;
+    };
+    interface HTMLIrQueueManagerElement extends Components.IrQueueManager, HTMLStencilElement {
+    }
+    var HTMLIrQueueManagerElement: {
+        prototype: HTMLIrQueueManagerElement;
+        new (): HTMLIrQueueManagerElement;
+    };
     interface HTMLIrRadioElementEventMap {
         "checkChange": boolean;
     }
@@ -7869,6 +7898,8 @@ declare global {
         "ir-progress-indicator": HTMLIrProgressIndicatorElement;
         "ir-property-switcher": HTMLIrPropertySwitcherElement;
         "ir-property-switcher-dialog-content": HTMLIrPropertySwitcherDialogContentElement;
+        "ir-queue-chart": HTMLIrQueueChartElement;
+        "ir-queue-manager": HTMLIrQueueManagerElement;
         "ir-radio": HTMLIrRadioElement;
         "ir-range-picker": HTMLIrRangePickerElement;
         "ir-reallocation-drawer": HTMLIrReallocationDrawerElement;
@@ -11224,6 +11255,23 @@ declare namespace LocalJSX {
          */
         "selectedPropertyId"?: number;
     }
+    interface IrQueueChart {
+        /**
+          * Chart title
+         */
+        "label"?: string;
+        /**
+          * Labels for X-axis
+         */
+        "labels"?: string[];
+        /**
+          * Values for bars
+         */
+        "values"?: number[];
+    }
+    interface IrQueueManager {
+        "ticket"?: string;
+    }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
@@ -12168,6 +12216,8 @@ declare namespace LocalJSX {
         "ir-progress-indicator": IrProgressIndicator;
         "ir-property-switcher": IrPropertySwitcher;
         "ir-property-switcher-dialog-content": IrPropertySwitcherDialogContent;
+        "ir-queue-chart": IrQueueChart;
+        "ir-queue-manager": IrQueueManager;
         "ir-radio": IrRadio;
         "ir-range-picker": IrRangePicker;
         "ir-reallocation-drawer": IrReallocationDrawer;
@@ -12420,6 +12470,8 @@ declare module "@stencil/core" {
              * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
              */
             "ir-property-switcher-dialog-content": LocalJSX.IrPropertySwitcherDialogContent & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherDialogContentElement>;
+            "ir-queue-chart": LocalJSX.IrQueueChart & JSXBase.HTMLAttributes<HTMLIrQueueChartElement>;
+            "ir-queue-manager": LocalJSX.IrQueueManager & JSXBase.HTMLAttributes<HTMLIrQueueManagerElement>;
             "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
             "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
             "ir-reallocation-drawer": LocalJSX.IrReallocationDrawer & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;

@@ -24,6 +24,7 @@ export declare class IglLegends {
     private handleNameInput;
     private handleBlur;
     private handleLoaderComplete;
+    private updateLegend;
     render(): any;
 }
 export {};

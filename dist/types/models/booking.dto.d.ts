@@ -898,6 +898,7 @@ export interface IPmsLog {
     is_sent: boolean;
     sent_date: string;
     sent_hour: number;
+    revision_id: number;
     sent_minute: number;
 }
 export {};

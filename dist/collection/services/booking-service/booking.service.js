@@ -14,7 +14,7 @@ import { getMyBookings } from "../../utils/booking";
 import booking_store from "../../stores/booking.store";
 import calendar_data from "../../stores/calendar-data";
 import { z } from "zod";
-import { CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
+import { AckExposedRevisionPropsSchema, CalculateExclusiveTaxPropsSchema, GetBookingInvoiceInfoPropsSchema, GetRoomsToCheckInPropsSchema, GetRoomsToCheckOutPropsSchema, IssueInvoicePropsSchema, PrintInvoicePropsSchema, VoidInvoicePropsSchema, } from "./types";
 import { BookingInvoiceInfoSchema } from "../../components/ir-invoice/types";
 /**
  * Builds a grouped payment types record from raw entries and groups.
@@ -229,6 +229,11 @@ export class BookingService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async ackExposedRevision(props) {
+        const payload = AckExposedRevisionPropsSchema.parse(props);
+        const { data } = await axios.post('/Ack_Exposed_Revision', payload);
+        return data;
     }
     async getExposedBookingEvents(booking_nbr) {
         try {

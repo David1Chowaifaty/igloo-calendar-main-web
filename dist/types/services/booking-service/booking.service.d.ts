@@ -2,7 +2,7 @@ import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRe
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
 import { PaymentEntries } from "../../components/ir-booking-details/types";
-import { CalculateExclusiveTaxProps, ExposedGuests, GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
+import { AckExposedRevisionProps, CalculateExclusiveTaxProps, ExposedGuests, GetBookingInvoiceInfoProps, GetRoomsToCheckInProps, GetRoomsToCheckOutProps, IssueInvoiceProps, PrintInvoiceProps, RoomsToProcessResult, VoidInvoiceProps } from './types';
 import { BookingInvoiceInfo } from "../../components/ir-invoice/types";
 export interface IBookingParams {
     bookedByInfoData: any;
@@ -101,6 +101,7 @@ export declare class BookingService {
         status: string;
     }): Promise<any>;
     fetchPMSLogs(booking_nbr: string | number): Promise<IPmsLog>;
+    ackExposedRevision(props: AckExposedRevisionProps): Promise<any>;
     getExposedBookingEvents(booking_nbr: string | number): Promise<ExposedBookingEvent[] | null>;
     editExposedGuest(guest: Guest, book_nbr: string): Promise<any>;
     getBookingAvailability(props: {

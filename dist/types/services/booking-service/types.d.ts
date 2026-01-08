@@ -924,3 +924,11 @@ export declare const CalculateExclusiveTaxPropsSchema: z.ZodObject<{
     property_id?: number;
 }>;
 export type CalculateExclusiveTaxProps = z.infer<typeof CalculateExclusiveTaxPropsSchema>;
+export declare const AckExposedRevisionPropsSchema: z.ZodObject<{
+    revision_id: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    revision_id?: number;
+}, {
+    revision_id?: number;
+}>;
+export type AckExposedRevisionProps = z.infer<typeof AckExposedRevisionPropsSchema>;

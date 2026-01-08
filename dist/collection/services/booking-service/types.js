@@ -167,4 +167,7 @@ export const CalculateExclusiveTaxPropsSchema = z.object({
     property_id: z.number().min(1),
     amount: z.number(),
 });
+export const AckExposedRevisionPropsSchema = z.object({
+    revision_id: z.number(),
+});
 //# sourceMappingURL=types.js.map

@@ -163,6 +163,8 @@
     "components/ir-preview-screen-dialog/ir-preview-screen-dialog.js",
     "components/ir-property-switcher/ir-property-switcher-dialog-content.js",
     "components/ir-property-switcher/ir-property-switcher.js",
+    "components/ir-queue-manager/ir-queue-manager.js",
+    "components/ir-queue-manager/ir-queue-chart/ir-queue-chart.js",
     "components/ir-reallocation-drawer/ir-reallocation-drawer.js",
     "components/ir-reallocation-drawer/ir-reallocation-form/ir-reallocation-form.js",
     "components/ir-reset-password/ir-reset-password.js",
