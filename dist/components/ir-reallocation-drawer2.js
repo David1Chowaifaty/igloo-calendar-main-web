@@ -25,11 +25,11 @@ const IrReallocationDrawer = /*@__PURE__*/ proxyCustomElement(class IrReallocati
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: 'b71e5141f588ea1452352b855ad127179858bdca', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '065ed4fc8ebb9b635f3c95c5b55b5f938526ea43', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '1198c0c2a376a1f4a2e1d72b2f8b61f6ed4ad956', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'cf91f64ea38e25d54f58f0ec35c9556ce46dadc7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'c388d1abc319c6f0ddf098a622b5eefbd645645d', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'ee921ed538628bb1209026c0fe4b4dd910f5e957', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: '601cb5cab0e812b97ea4588fdc171b439bf98ac1', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '8864ea48e54df19ffe70f66b3a0ab42297a2c266', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '4bfaa49e2ef6c9cf2d97d6c5a7faf80883a5988b', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '72b894c2b8f33bc938a09154d02559e3090760a3', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
     static get style() { return IrReallocationDrawerStyle0; }
 }, [2, "ir-reallocation-drawer", {

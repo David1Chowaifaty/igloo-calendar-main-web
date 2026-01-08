@@ -84,13 +84,16 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
             this.debounceTimer = undefined;
         }
     }
+    async focusInput() {
+        this._focusInput();
+    }
     async open() {
         if (this.isOpen) {
-            this.focusInput();
+            this._focusInput();
             return;
         }
         this.isOpen = true;
-        requestAnimationFrame(() => this.focusInput());
+        requestAnimationFrame(() => this._focusInput());
         if (this.filteredItems.length) {
             const selectedIndex = this.filteredItems.findIndex(item => item.value === this.value);
             if (selectedIndex >= 0) {
@@ -150,7 +153,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
     closeCombobox(options = {}) {
         this.isOpen = false;
         if (options.restoreFocus) {
-            this.focusInput();
+            this._focusInput();
         }
     }
     handleInput = (event) => {
@@ -302,7 +305,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         }
         this.activeIndex = -1;
     }
-    focusInput() {
+    _focusInput() {
         this.inputRef?.focus();
         this.nativeInput?.focus();
     }
@@ -484,11 +487,11 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         // In async mode avoid showing the empty state until loading finished and no results rendered.
         const showEmptyState = !this.loading && !hasResults && (!isAsyncMode || !hasChildren);
         const emptyDescriptionId = showEmptyState ? this.emptyStateId : undefined;
-        return (h(Host, { key: '6bedc661a661dfd3fca2a2a5cfe71d1c58623847' }, h("wa-popup", { key: 'd57f875386049a0c34d3315fb04a09a776d467ae', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '87097aef7b9eae52e8e31d734b45b1d0094be3a3', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
+        return (h(Host, { key: '66acc03df9baf5798a263c54e18b3f133528024f' }, h("wa-popup", { key: 'a93f64c0098418b8410ee649bdd28305caf8e883', flip: true, shift: true, placement: "bottom", sync: "width", "auto-size": "vertical", "auto-size-padding": 10, active: this.isOpen }, h("wa-input", { key: '8bb7687232ef0dc82facbe73411731e604cd8dde', slot: "anchor", class: "search-bar", "aria-invalid": this.isValid, withClear: this.withClear, size: this.size, value: this.query, defaultValue: this.defaultValue, ref: el => (this.inputRef = el), appearance: this.appearance, label: this.label, pill: this.pill, onblur: () => this.inputPickerBlurred.emit(), autocomplete: "off", placeholder: this.placeholder || 'Search', oninput: this.handleInput, onfocus: this.handleInputFocus, "onwa-clear": () => {
                 this.applyFilter('');
                 this.open();
                 this.comboboxClear.emit();
-            } }, this.loading && h("wa-spinner", { key: '66875b3620871e69edebd4a7eb49c9ad6fec4cc5', slot: "end" }), h("wa-icon", { key: 'b57edd12c5c822ea12fba18677671ccc3ec3f3cb', slot: "start", name: "magnifying-glass", "aria-hidden": "true" })), h("div", { key: '8285fc0a3061810cc6953ef59edddd11e8940bf8', class: "menu", role: "presentation" }, h("p", { key: '7fbc87e49579153dd90542d59fc742e2b7cba931', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '63e9cf33709086ccf87aa27f264c92685ba2ffb4', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: '02dbcc291a07b946b549098652511e1c42d57c6b', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: 'f1d52b783d6ea2bfac842bbc0cae3739bacd65fa' }), h("p", { key: '529398a307f096be3880b5586469c83453967663' }, "Loading suggestions\u2026"))), h("slot", { key: '9be6eb3416d9195e5217fb494e3697a8269119fc', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: '140fe19fd14a8d02e257bd95711364f8e7809aff', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '8fea431453d4d16248e5222a30f82da859ce6e22', name: "circle-info", "aria-hidden": "true" }), h("p", { key: '0511abccaddbc69f25a24517b577d970610496e6' }, "No results found")))))), h("span", { key: '3f6eaa5654d74d103b3030d792ba0ff024c74664', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
+            } }, this.loading && h("wa-spinner", { key: '810f0d0a712e925fd917db440a8c3e62287dbadd', slot: "end" }), h("wa-icon", { key: '9c2ed6bc2d11bd68a9daa2f47e7f1dbceef98b22', slot: "start", name: "magnifying-glass", "aria-hidden": "true" }), h("slot", { key: 'f6bdc32bb5d4e2eaa2a2c1062a5aef77a9fbfbf8', name: "end", slot: "end" })), h("div", { key: '785b45d752d056936e65f23a101aebc22aa4f018', class: "menu", role: "presentation" }, h("p", { key: 'beef92b44ca6004effb6f47608b1415d442d6d7f', class: "sr-only", id: this.listboxLabelId }, "Available search shortcuts"), h("ul", { key: '1d01ddfc268c60fed6da57e7588277b97de61f7b', class: "results", id: this.listboxId, role: "listbox", "aria-labelledby": this.listboxLabelId, "aria-describedby": emptyDescriptionId, "aria-busy": this.loading ? 'true' : undefined, onClick: this.handleResultsClick, onPointerDown: this.handleResultsPointerDown }, this.loading && (h("li", { key: 'f318b3f99f672335374a95528e00a647be7cc52b', class: "loading-state", role: "presentation" }, h("wa-spinner", { key: '414f03b92adf2998ef64961c8a44ea32c9a4d15a' }), h("p", { key: 'fca7d8c0f2311ac6b5028c08bf309918e3e94a8e' }, "Loading suggestions\u2026"))), h("slot", { key: '78086ba39db811f3db616c8844a34ccbe16936f9', onSlotchange: this.handleSlotChange }), showEmptyState && (h("li", { key: '12e9e7c288800a45599d0f5bb79344ac9c8a0099', class: "empty-state", role: "presentation", id: this.emptyStateId }, h("wa-icon", { key: '7226a2191efdcfc309bfe2d6725c0487e3471a34', name: "circle-info", "aria-hidden": "true" }), h("p", { key: 'f41840388e134a858c5f86b637aec4e2264d30f4' }, "No results found")))))), h("span", { key: '4a04f033f3686ec287dd20dc531077060cd1ed46', class: "sr-only", "aria-live": "polite" }, this.liveRegionMessage)));
     }
     updateLiveRegion(resultCount, context) {
         if (!resultCount) {
@@ -530,6 +533,7 @@ const IrPicker = /*@__PURE__*/ proxyCustomElement(class IrPicker extends HTMLEle
         "liveRegionMessage": [32],
         "slottedPickerItems": [32],
         "isValid": [32],
+        "focusInput": [64],
         "open": [64],
         "close": [64],
         "clearInput": [64]

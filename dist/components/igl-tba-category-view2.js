@@ -46,7 +46,7 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '6b05c470862a0cdf66981bf3ae352b6bd2471ad4' }, h("div", { key: '576207263becc2d25d7c0e594d4af17312050139', class: "sectionContainer" }, h("div", { key: '94b10ceb876eb87d667640ecbfa2fa55fd26224a', class: "font-weight-bold font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: 'eb82a07e64c46e6ee4d83f782c8ee1a4ebcc20e9' }, h("div", { key: '58d8c2ae6d1c8c71426bfe5f5f0909bf88f697ae', class: "sectionContainer" }, h("div", { key: 'd2feb4086bc4459eb96ec1dbf2602f95d8150069', class: "font-weight-bold font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get style() { return IglTbaCategoryViewStyle0; }
 }, [2, "igl-tba-category-view", {

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-3550227d.js');
+const booking_service = require('./booking.service-8c0b6002.js');
 const room_service = require('./room.service-18eb6707.js');
 const locales_store = require('./locales.store-32782582.js');
 const Token = require('./Token-8fd11984.js');
@@ -43,7 +43,7 @@ const GuestInfo = class {
     closeSideBar;
     resetBookingEvt;
     toast;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     async componentWillLoad() {

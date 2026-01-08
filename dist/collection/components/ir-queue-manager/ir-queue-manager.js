@@ -36,31 +36,39 @@ export class IrQueueManager {
         this.isLoading = false;
     }
     formatResults(data) {
-        const properties = [];
-        const pendingRequests = [];
         if (!data) {
-            return { properties, pendingRequests };
+            return { properties: [], pendingRequests: [] };
         }
-        for (const item of data.split(',')) {
+        const parsed = data
+            .split(',')
+            .map(item => {
             const [property, pending] = item.split('|').map(v => v.trim());
-            if (!property || pending === undefined)
-                continue;
             const pendingNumber = Number(pending);
-            if (Number.isNaN(pendingNumber))
-                continue;
-            properties.push(property);
-            pendingRequests.push(pendingNumber);
-        }
+            if (!property || Number.isNaN(pendingNumber)) {
+                return null;
+            }
+            return {
+                property,
+                pending: pendingNumber,
+            };
+        })
+            .filter((v) => v !== null);
+        // 🔽 Sort by pending requests (highest first)
+        parsed.sort((a, b) => b.pending - a.pending);
         return {
-            properties,
-            pendingRequests,
+            properties: parsed.map(p => p.property),
+            pendingRequests: parsed.map(p => p.pending),
         };
     }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Pending Queues"), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), this.data.map(d => (h("wa-card", null, h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " total pending)"), h("ir-queue-chart", { label: d.q_name, labels: d.properties, values: d.pendingRequests })))))));
+        return (h(Host, null, h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Pending Queues"), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), h("div", { class: "queue-grid" }, this.data.map(d => (h("wa-card", null, h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " total pending)"), d.properties.map((property, index) => {
+            const pending = d.pendingRequests[index];
+            const percentage = d.total_pending > 0 ? (pending / d.total_pending) * 100 : 0;
+            return (h("div", { class: "queue-item" }, h("span", { class: "queue-item__property" }, property), h("div", { class: "queue-item__status" }, h("wa-progress-bar", { class: "queue-item__progress", value: percentage }), h("span", { class: "queue-item__count" }, pending))));
+        }))))))));
     }
     static get is() { return "ir-queue-manager"; }
     static get encapsulation() { return "scoped"; }

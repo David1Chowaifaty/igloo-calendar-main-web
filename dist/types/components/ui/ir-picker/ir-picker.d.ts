@@ -65,6 +65,7 @@ export declare class IrPicker {
     componentWillLoad(): void;
     componentDidRender(): void;
     disconnectedCallback(): void;
+    focusInput(): Promise<void>;
     open(): Promise<void>;
     close(): Promise<void>;
     handleKeyDown(e: any): void;
@@ -86,7 +87,7 @@ export declare class IrPicker {
     private syncQueryWithValue;
     private selectActiveItem;
     private handleSelection;
-    private focusInput;
+    private _focusInput;
     private applyAriaAttributes;
     private scrollActiveOptionIntoView;
     private scrollSelectedIntoView;

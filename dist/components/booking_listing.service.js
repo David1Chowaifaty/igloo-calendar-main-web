@@ -202,6 +202,9 @@ class BookingListingService {
         });
         const result = data.My_Result;
         const header = data.My_Params_Get_Exposed_Bookings;
+        if (options?.skipStore) {
+            return result;
+        }
         if (options?.append) {
             booking_listing.bookings = [...booking_listing.bookings, ...result];
         }

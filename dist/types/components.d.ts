@@ -33,7 +33,7 @@ import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 import { NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { Moment } from "moment/min/moment-with-locales";
@@ -99,7 +99,7 @@ export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IToast as IToast2 } from "./components.d";
+export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 export { NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { Moment } from "moment/min/moment-with-locales";
@@ -2729,6 +2729,7 @@ export namespace Components {
           * The default value of the form control. Primarily used for resetting the form control.
          */
         "defaultValue": NativeWaInput['defaultValue'];
+        "focusInput": () => Promise<void>;
         /**
           * Optional label applied to the text field.
          */
@@ -2796,6 +2797,14 @@ export namespace Components {
     }
     interface IrPmsLogs {
         "bookingNumber": string;
+    }
+    interface IrPmsPage {
+        "propertyid": string;
+        "ticket": string;
+    }
+    interface IrPmsSearch {
+        "propertyid": string;
+        "ticket": string;
     }
     interface IrPopover {
         /**
@@ -3028,6 +3037,7 @@ export namespace Components {
     }
     interface IrPropertySwitcher {
         "mode": 'dropdown' | 'dialog';
+        "ticket": string;
     }
     /**
      * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
@@ -3477,8 +3487,6 @@ export namespace Components {
     interface IrTestCmp {
     }
     interface IrTest2Cmp {
-    }
-    interface IrTest3Cmp {
     }
     interface IrTextEditor {
         "error": boolean;
@@ -4231,6 +4239,10 @@ export interface IrPickupCustomEvent<T> extends CustomEvent<T> {
 export interface IrPickupFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPickupFormElement;
+}
+export interface IrPmsSearchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrPmsSearchElement;
 }
 export interface IrPreviewScreenDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6888,6 +6900,29 @@ declare global {
         prototype: HTMLIrPmsLogsElement;
         new (): HTMLIrPmsLogsElement;
     };
+    interface HTMLIrPmsPageElement extends Components.IrPmsPage, HTMLStencilElement {
+    }
+    var HTMLIrPmsPageElement: {
+        prototype: HTMLIrPmsPageElement;
+        new (): HTMLIrPmsPageElement;
+    };
+    interface HTMLIrPmsSearchElementEventMap {
+        "combobox-select": IrComboboxSelectEventDetail;
+    }
+    interface HTMLIrPmsSearchElement extends Components.IrPmsSearch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrPmsSearchElementEventMap>(type: K, listener: (this: HTMLIrPmsSearchElement, ev: IrPmsSearchCustomEvent<HTMLIrPmsSearchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrPmsSearchElementEventMap>(type: K, listener: (this: HTMLIrPmsSearchElement, ev: IrPmsSearchCustomEvent<HTMLIrPmsSearchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrPmsSearchElement: {
+        prototype: HTMLIrPmsSearchElement;
+        new (): HTMLIrPmsSearchElement;
+    };
     interface HTMLIrPopoverElement extends Components.IrPopover, HTMLStencilElement {
     }
     var HTMLIrPopoverElement: {
@@ -7506,12 +7541,6 @@ declare global {
         prototype: HTMLIrTest2CmpElement;
         new (): HTMLIrTest2CmpElement;
     };
-    interface HTMLIrTest3CmpElement extends Components.IrTest3Cmp, HTMLStencilElement {
-    }
-    var HTMLIrTest3CmpElement: {
-        prototype: HTMLIrTest3CmpElement;
-        new (): HTMLIrTest3CmpElement;
-    };
     interface HTMLIrTextEditorElementEventMap {
         "textChange": string;
     }
@@ -7887,6 +7916,8 @@ declare global {
         "ir-pickup-form": HTMLIrPickupFormElement;
         "ir-pickup-view": HTMLIrPickupViewElement;
         "ir-pms-logs": HTMLIrPmsLogsElement;
+        "ir-pms-page": HTMLIrPmsPageElement;
+        "ir-pms-search": HTMLIrPmsSearchElement;
         "ir-popover": HTMLIrPopoverElement;
         "ir-preview-screen-dialog": HTMLIrPreviewScreenDialogElement;
         "ir-price-input": HTMLIrPriceInputElement;
@@ -7939,7 +7970,6 @@ declare global {
         "ir-tasks-table-pagination": HTMLIrTasksTablePaginationElement;
         "ir-test-cmp": HTMLIrTestCmpElement;
         "ir-test2-cmp": HTMLIrTest2CmpElement;
-        "ir-test3-cmp": HTMLIrTest3CmpElement;
         "ir-text-editor": HTMLIrTextEditorElement;
         "ir-textarea": HTMLIrTextareaElement;
         "ir-title": HTMLIrTitleElement;
@@ -11000,6 +11030,15 @@ declare namespace LocalJSX {
     interface IrPmsLogs {
         "bookingNumber"?: string;
     }
+    interface IrPmsPage {
+        "propertyid"?: string;
+        "ticket"?: string;
+    }
+    interface IrPmsSearch {
+        "onCombobox-select"?: (event: IrPmsSearchCustomEvent<IrComboboxSelectEventDetail>) => void;
+        "propertyid"?: string;
+        "ticket"?: string;
+    }
     interface IrPopover {
         /**
           * Content to display inside the popover. Can be plain text or HTML depending on `renderContentAsHtml`.
@@ -11236,6 +11275,7 @@ declare namespace LocalJSX {
           * Emits whenever the user selects a new property from the switcher dialog.
          */
         "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<AllowedProperty>) => void;
+        "ticket"?: string;
     }
     /**
      * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
@@ -11741,8 +11781,6 @@ declare namespace LocalJSX {
     }
     interface IrTest2Cmp {
     }
-    interface IrTest3Cmp {
-    }
     interface IrTextEditor {
         "error"?: boolean;
         "maxLength"?: number;
@@ -12205,6 +12243,8 @@ declare namespace LocalJSX {
         "ir-pickup-form": IrPickupForm;
         "ir-pickup-view": IrPickupView;
         "ir-pms-logs": IrPmsLogs;
+        "ir-pms-page": IrPmsPage;
+        "ir-pms-search": IrPmsSearch;
         "ir-popover": IrPopover;
         "ir-preview-screen-dialog": IrPreviewScreenDialog;
         "ir-price-input": IrPriceInput;
@@ -12257,7 +12297,6 @@ declare namespace LocalJSX {
         "ir-tasks-table-pagination": IrTasksTablePagination;
         "ir-test-cmp": IrTestCmp;
         "ir-test2-cmp": IrTest2Cmp;
-        "ir-test3-cmp": IrTest3Cmp;
         "ir-text-editor": IrTextEditor;
         "ir-textarea": IrTextarea;
         "ir-title": IrTitle;
@@ -12455,6 +12494,8 @@ declare module "@stencil/core" {
             "ir-pickup-form": LocalJSX.IrPickupForm & JSXBase.HTMLAttributes<HTMLIrPickupFormElement>;
             "ir-pickup-view": LocalJSX.IrPickupView & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
             "ir-pms-logs": LocalJSX.IrPmsLogs & JSXBase.HTMLAttributes<HTMLIrPmsLogsElement>;
+            "ir-pms-page": LocalJSX.IrPmsPage & JSXBase.HTMLAttributes<HTMLIrPmsPageElement>;
+            "ir-pms-search": LocalJSX.IrPmsSearch & JSXBase.HTMLAttributes<HTMLIrPmsSearchElement>;
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
             "ir-preview-screen-dialog": LocalJSX.IrPreviewScreenDialog & JSXBase.HTMLAttributes<HTMLIrPreviewScreenDialogElement>;
             "ir-price-input": LocalJSX.IrPriceInput & JSXBase.HTMLAttributes<HTMLIrPriceInputElement>;
@@ -12511,7 +12552,6 @@ declare module "@stencil/core" {
             "ir-tasks-table-pagination": LocalJSX.IrTasksTablePagination & JSXBase.HTMLAttributes<HTMLIrTasksTablePaginationElement>;
             "ir-test-cmp": LocalJSX.IrTestCmp & JSXBase.HTMLAttributes<HTMLIrTestCmpElement>;
             "ir-test2-cmp": LocalJSX.IrTest2Cmp & JSXBase.HTMLAttributes<HTMLIrTest2CmpElement>;
-            "ir-test3-cmp": LocalJSX.IrTest3Cmp & JSXBase.HTMLAttributes<HTMLIrTest3CmpElement>;
             "ir-text-editor": LocalJSX.IrTextEditor & JSXBase.HTMLAttributes<HTMLIrTextEditorElement>;
             "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
