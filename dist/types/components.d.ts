@@ -58,10 +58,10 @@ import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 import { Notification } from "./components/ir-notifications/types";
 import { PaymentOption } from "./models/payment-options";
 import { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
+import { AllowedProperties, FetchedProperty } from "./services/property.service";
 import { Moment as Moment1 } from "moment";
 import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
-import { AllowedProperties } from "./services/property.service";
 import { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
 import { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 import { Tab } from "./components/ui/ir-tabs/ir-tabs";
@@ -124,10 +124,10 @@ export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 export { Notification } from "./components/ir-notifications/types";
 export { PaymentOption } from "./models/payment-options";
 export { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
+export { AllowedProperties, FetchedProperty } from "./services/property.service";
 export { Moment as Moment1 } from "moment";
 export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
-export { AllowedProperties } from "./services/property.service";
 export { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
 export { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 export { Tab } from "./components/ui/ir-tabs/ir-tabs";
@@ -3036,6 +3036,7 @@ export namespace Components {
         "percentage": string;
     }
     interface IrPropertySwitcher {
+        "baseUrl": string;
         "mode": 'dropdown' | 'dialog';
         "ticket": string;
     }
@@ -3048,6 +3049,10 @@ export namespace Components {
           * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
          */
         "open": boolean;
+        /**
+          * Linked properties provided by the parent switcher.
+         */
+        "properties": FetchedProperty[];
         /**
           * ID of the property that is currently selected in the parent component.
          */
@@ -7003,7 +7008,7 @@ declare global {
         new (): HTMLIrProgressIndicatorElement;
     };
     interface HTMLIrPropertySwitcherElementEventMap {
-        "propertyChange": AllowedProperty;
+        "propertyChange": FetchedProperty;
     }
     interface HTMLIrPropertySwitcherElement extends Components.IrPropertySwitcher, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPropertySwitcherElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherElement, ev: IrPropertySwitcherCustomEvent<HTMLIrPropertySwitcherElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7020,7 +7025,7 @@ declare global {
         new (): HTMLIrPropertySwitcherElement;
     };
     interface HTMLIrPropertySwitcherDialogContentElementEventMap {
-        "propertySelected": AllowedProperty;
+        "propertySelected": FetchedProperty;
     }
     /**
      * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
@@ -11270,11 +11275,12 @@ declare namespace LocalJSX {
         "percentage"?: string;
     }
     interface IrPropertySwitcher {
+        "baseUrl"?: string;
         "mode"?: 'dropdown' | 'dialog';
         /**
           * Emits whenever the user selects a new property from the switcher dialog.
          */
-        "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<AllowedProperty>) => void;
+        "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<FetchedProperty>) => void;
         "ticket"?: string;
     }
     /**
@@ -11285,11 +11291,15 @@ declare namespace LocalJSX {
         /**
           * Emits whenever the user picks a property from the list.
          */
-        "onPropertySelected"?: (event: IrPropertySwitcherDialogContentCustomEvent<AllowedProperty>) => void;
+        "onPropertySelected"?: (event: IrPropertySwitcherDialogContentCustomEvent<FetchedProperty>) => void;
         /**
           * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
          */
         "open"?: boolean;
+        /**
+          * Linked properties provided by the parent switcher.
+         */
+        "properties"?: FetchedProperty[];
         /**
           * ID of the property that is currently selected in the parent component.
          */

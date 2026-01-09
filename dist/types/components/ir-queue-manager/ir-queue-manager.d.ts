@@ -12,6 +12,7 @@ export declare class IrQueueManager {
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     private init;
+    private fetchData;
     private formatResults;
     render(): any;
 }

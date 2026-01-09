@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
-const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;overflow-y:auto}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}";
+const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}";
 const IrPropertySwitcherDialogContentStyle0 = irPropertySwitcherDialogContentCss;
 
 const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class IrPropertySwitcherDialogContent extends HTMLElement {
@@ -15,18 +15,18 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
     open = false;
     /** ID of the property that is currently selected in the parent component. */
     selectedPropertyId;
+    /** Linked properties provided by the parent switcher. */
+    properties = [];
     /** Emits whenever the user picks a property from the list. */
     propertySelected;
-    properties = [];
+    linkedProperties = [];
     filteredProperties = [];
     searchTerm = '';
     highlightedIndex = -1;
-    isLoading = false;
-    error = null;
     // private propertyService = new PropertyService();
     inputRef;
     componentWillLoad() {
-        this.loadProperties();
+        this.syncProperties(this.properties);
     }
     handleOpenChange(isOpen) {
         if (!isOpen) {
@@ -37,26 +37,18 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
             this.resetFilters();
         });
     }
+    componentDidLoad() {
+        this.inputRef?.focusInput();
+    }
     handleSelectedPropertyIdChange() {
         this.syncHighlightedIndex();
     }
-    async loadProperties() {
-        this.isLoading = true;
-        this.error = null;
-        try {
-            // const result = await this.propertyService.getExposedAllowedProperties();
-            // this.properties = Array.isArray(result) ? result : [];
-            // this.applyFilters(true);
-        }
-        catch (error) {
-            console.error('Failed to fetch allowed properties', error);
-            this.error = error?.message ?? 'Unable to fetch properties.';
-            this.properties = [];
-            this.applyFilters(true);
-        }
-        finally {
-            this.isLoading = false;
-        }
+    handlePropertiesChange(newValue) {
+        this.syncProperties(newValue);
+    }
+    syncProperties(properties = []) {
+        this.linkedProperties = Array.isArray(properties) ? properties : [];
+        this.applyFilters(true);
     }
     resetFilters() {
         this.searchTerm = '';
@@ -64,7 +56,7 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
     }
     applyFilters(resetHighlight = false) {
         const query = this.searchTerm.trim().toLowerCase();
-        const filtered = !query ? [...this.properties] : this.properties.filter(property => property.name.toLowerCase().includes(query));
+        const filtered = !query ? [...this.linkedProperties] : this.linkedProperties.filter(property => property.PROPERTY_NAME.toLowerCase().includes(query));
         this.filteredProperties = filtered;
         if (!filtered.length) {
             this.highlightedIndex = -1;
@@ -83,7 +75,7 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
         if (!this.selectedPropertyId) {
             return -1;
         }
-        return list.findIndex(property => property.id === this.selectedPropertyId);
+        return list.findIndex(property => property.PROPERTY_ID === this.selectedPropertyId);
     }
     syncHighlightedIndex() {
         if (!this.filteredProperties.length) {
@@ -140,27 +132,32 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: '02d56f42f4d1684fe4ac17ad50656ef98b0fb6cd' }, h("ir-input", { key: 'e3fbb6d57d704cd3e1305bf9e6f1deafafd42ebd', autoFocus: true, ref: el => (this.inputRef = el), placeholder: "Find property", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '9abf7261cef7dd82763c298f3bb0617d6953d680', tabIndex: -1, class: "property-switcher__results" }, this.isLoading && this.renderStatus('Loading properties...'), !this.isLoading && this.error && this.renderStatus(this.error), !this.isLoading && !this.error && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), !this.isLoading &&
-            !this.error &&
-            this.filteredProperties.map((property, index) => (h("wa-option", { value: property.id?.toString(), onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.id, current: this.highlightedIndex === index }, property.name))))));
+        return (h(Host, { key: '17502f9bfcbf8156d0da32e60729586056d45ce4' }, h("ir-input", { key: 'd4debcd6b465006498840ca7cda8b27777a203de', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Find property", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '327475c0a5d950d0ffd0ca462e96f0918b16bb87', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'ad17da54346ffe5050c77d5cfc5c312d8fc7c282' }, h("p", { key: '45c45296c3cb7314a93e1442477499a55b143402', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, h("small", { key: 'd4ce3c08b41004780ae4417ee25808802ee97899' }, "Linked Properties")), this.properties.map(property => {
+            const label = `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`;
+            return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, value: property.PROPERTY_ID?.toString(), label: label }, label));
+        }), h("wa-divider", { key: 'f1780e25e77bafd6bee4231c82e5921e60ef4e2b' }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index) => {
+            const label = `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`;
+            return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, current: this.highlightedIndex === index, value: property.PROPERTY_ID?.toString(), label: label }, label));
+        }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"],
-        "selectedPropertyId": ["handleSelectedPropertyIdChange"]
+        "selectedPropertyId": ["handleSelectedPropertyIdChange"],
+        "properties": ["handlePropertiesChange"]
     }; }
     static get style() { return IrPropertySwitcherDialogContentStyle0; }
 }, [2, "ir-property-switcher-dialog-content", {
         "open": [4],
         "selectedPropertyId": [2, "selected-property-id"],
-        "properties": [32],
+        "properties": [16],
+        "linkedProperties": [32],
         "filteredProperties": [32],
         "searchTerm": [32],
-        "highlightedIndex": [32],
-        "isLoading": [32],
-        "error": [32]
+        "highlightedIndex": [32]
     }, undefined, {
         "open": ["handleOpenChange"],
-        "selectedPropertyId": ["handleSelectedPropertyIdChange"]
+        "selectedPropertyId": ["handleSelectedPropertyIdChange"],
+        "properties": ["handlePropertiesChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

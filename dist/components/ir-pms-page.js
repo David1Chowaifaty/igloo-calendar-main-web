@@ -1,20 +1,21 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$g } from './ir-custom-button2.js';
-import { d as defineCustomElement$f } from './ir-dialog2.js';
-import { d as defineCustomElement$e } from './ir-drawer2.js';
-import { d as defineCustomElement$d } from './ir-empty-state2.js';
-import { d as defineCustomElement$c } from './ir-input2.js';
-import { d as defineCustomElement$b } from './ir-menu2.js';
-import { d as defineCustomElement$a } from './ir-menu-drawer2.js';
-import { d as defineCustomElement$9 } from './ir-menu-group2.js';
-import { d as defineCustomElement$8 } from './ir-menu-item2.js';
-import { d as defineCustomElement$7 } from './ir-notifications2.js';
-import { d as defineCustomElement$6 } from './ir-picker2.js';
-import { d as defineCustomElement$5 } from './ir-picker-item2.js';
-import { d as defineCustomElement$4 } from './ir-pms-search2.js';
-import { d as defineCustomElement$3 } from './ir-property-switcher2.js';
-import { d as defineCustomElement$2 } from './ir-property-switcher-dialog-content2.js';
+import { d as defineCustomElement$h } from './ir-custom-button2.js';
+import { d as defineCustomElement$g } from './ir-dialog2.js';
+import { d as defineCustomElement$f } from './ir-drawer2.js';
+import { d as defineCustomElement$e } from './ir-empty-state2.js';
+import { d as defineCustomElement$d } from './ir-input2.js';
+import { d as defineCustomElement$c } from './ir-menu2.js';
+import { d as defineCustomElement$b } from './ir-menu-drawer2.js';
+import { d as defineCustomElement$a } from './ir-menu-group2.js';
+import { d as defineCustomElement$9 } from './ir-menu-item2.js';
+import { d as defineCustomElement$8 } from './ir-notifications2.js';
+import { d as defineCustomElement$7 } from './ir-picker2.js';
+import { d as defineCustomElement$6 } from './ir-picker-item2.js';
+import { d as defineCustomElement$5 } from './ir-pms-search2.js';
+import { d as defineCustomElement$4 } from './ir-property-switcher2.js';
+import { d as defineCustomElement$3 } from './ir-property-switcher-dialog-content2.js';
+import { d as defineCustomElement$2 } from './ir-select2.js';
 
 const irPmsPageCss = ".app-header.sc-ir-pms-page{position:sticky;top:0;z-index:999}.ir-nav-link.sc-ir-pms-page,.nav-sublink.sc-ir-pms-page{all:unset;display:block;box-sizing:border-box;color:var(--wa-color-text-normal);padding:0.5rem 0}.ir-nav-link.sc-ir-pms-page:hover,.nav-sublink.sc-ir-pms-page:hover{color:var(--wa-color-text-normal);text-decoration:underline;-webkit-text-decoration:underline;text-decoration-thickness:0.09375em;text-underline-offset:0.125em}.ir-nav-link.sc-ir-pms-page:focus,.nav-sublink.sc-ir-pms-page:focus{outline:none}.ir-nav-link.sc-ir-pms-page:focus-visible,.nav-sublink.sc-ir-pms-page:focus-visible{outline:var(--wa-focus-ring);outline-offset:var(--wa-focus-ring-offset)}.nav-group.sc-ir-pms-page::part(header),.nav-group.sc-ir-pms-page::part(content){padding:0;border-radius:0}.nav-group.sc-ir-pms-page::part(content){padding:0rem 1rem;display:flex;flex-direction:column;gap:1rem}.app-header.sc-ir-pms-page{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;background:var(--wa-color-surface-default);border-bottom:1px solid var(--wa-color-surface-border)}.app-header__left.sc-ir-pms-page,.app-header__right.sc-ir-pms-page{display:flex;align-items:center}.app-header__right.sc-ir-pms-page{margin-left:auto}.app-header__center.sc-ir-pms-page{flex:1;display:flex;justify-content:center;position:static}.header-search.sc-ir-pms-page{width:100%}.header-desktop-only.sc-ir-pms-page,.header-property-switcher.sc-ir-pms-page{display:none}@media (min-width: 768px){.app-header.sc-ir-pms-page{position:relative;padding:1rem 1.5rem}.app-header__center.sc-ir-pms-page{position:absolute;left:50%;transform:translateX(-50%);width:100%;max-width:420px;pointer-events:auto}.header-search.sc-ir-pms-page{max-width:420px}.header-property-switcher.sc-ir-pms-page{display:inline-flex}}@media (min-width: 1024px){.header-desktop-only.sc-ir-pms-page{display:inline-flex}.header-search.sc-ir-pms-page{max-width:700px}}@media (min-width: 1440px){.app-header__center.sc-ir-pms-page{max-width:700px}}.app-header.sc-ir-pms-page{position:sticky;top:0}.menu-footer.sc-ir-pms-page{display:flex;flex-direction:column;width:100%;text-align:start}.menu-footer.sc-ir-pms-page h4.sc-ir-pms-page{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.logo.sc-ir-pms-page{height:24px}";
 const IrPmsPageStyle0 = irPmsPageCss;
@@ -77,7 +78,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-pms-page", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-menu", "ir-menu-drawer", "ir-menu-group", "ir-menu-item", "ir-notifications", "ir-picker", "ir-picker-item", "ir-pms-search", "ir-property-switcher", "ir-property-switcher-dialog-content"];
+    const components = ["ir-pms-page", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-menu", "ir-menu-drawer", "ir-menu-group", "ir-menu-item", "ir-notifications", "ir-picker", "ir-picker-item", "ir-pms-search", "ir-property-switcher", "ir-property-switcher-dialog-content", "ir-select"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-pms-page":
             if (!customElements.get(tagName)) {
@@ -86,75 +87,80 @@ function defineCustomElement$1() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-empty-state":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-menu":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-menu-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-menu-group":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-menu-item":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-notifications":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-picker-item":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-pms-search":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-property-switcher":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-property-switcher-dialog-content":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

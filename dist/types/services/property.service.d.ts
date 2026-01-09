@@ -1,5 +1,12 @@
 import { type ChannelReportResult, type ChannelSalesParams } from "../components/ir-sales-by-channel/types";
 import { z } from 'zod';
+export type FetchedProperty = {
+    A_NAME: string;
+    COUNTRY_CODE: string;
+    COUNTRY_NAME: string;
+    PROPERTY_ID: number;
+    PROPERTY_NAME: string;
+};
 export type CountrySalesParams = {
     AC_ID: number;
     WINDOW: number;

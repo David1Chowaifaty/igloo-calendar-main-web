@@ -1,4 +1,5 @@
 import Token from "../../models/Token";
+import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { Host, h } from "@stencil/core";
 import axios from "axios";
 export class IrQueueManager {
@@ -20,6 +21,10 @@ export class IrQueueManager {
         }
     }
     async init() {
+        await this.fetchData();
+        this.isLoading = false;
+    }
+    async fetchData() {
         const { data } = await axios.post('/Get_Q_Summary', {});
         if (data.ExceptionMsg) {
             return;
@@ -33,7 +38,6 @@ export class IrQueueManager {
                 total_pending: r.total_pending,
             };
         });
-        this.isLoading = false;
     }
     formatResults(data) {
         if (!data) {
@@ -64,10 +68,12 @@ export class IrQueueManager {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("div", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Pending Queues"), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), h("div", { class: "queue-grid" }, this.data.map(d => (h("wa-card", null, h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " total pending)"), d.properties.map((property, index) => {
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "ir-page__container" }, h("div", { class: "queue-page__header" }, h("h3", { class: "page-title" }, "Pending Queues"), h("ir-custom-button", { onClickHandler: () => {
+                this.fetchData();
+            }, appearance: "filled", loading: isRequestPending('/Get_Q_Summary') }, h("wa-icon", { name: "refresh" }))), this.data.length === 0 && h("ir-empty-state", { style: { marginTop: '20vh' } }), h("div", { class: "queue-grid" }, this.data.map(d => (h("wa-card", null, h("p", { slot: "header" }, d.q_name, " (", d.total_pending, " total pending)"), d.properties.map((property, index) => {
             const pending = d.pendingRequests[index];
             const percentage = d.total_pending > 0 ? (pending / d.total_pending) * 100 : 0;
-            return (h("div", { class: "queue-item" }, h("span", { class: "queue-item__property" }, property), h("div", { class: "queue-item__status" }, h("wa-progress-bar", { class: "queue-item__progress", value: percentage }), h("span", { class: "queue-item__count" }, pending))));
+            return (h("div", { class: "queue-item" }, h("span", { class: "queue-item__property" }, property), h("div", { class: "queue-item__status" }, h("wa-progress-bar", { class: "queue-item__progress", value: percentage }), h("span", { class: "queue-item__count" }, pending, " (", percentage.toFixed(2), "%)"))));
         }))))))));
     }
     static get is() { return "ir-queue-manager"; }

@@ -295,7 +295,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'abbcbdcec15b0f5a73e80299dcdfc10a336007c7' }, index.h("slot", { key: 'f7f909667d6b45e8b1199eaaa49c25fd74660f4e' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: '87473be8b3b1c46650e8029bc3121d3ddd5016b7', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (index.h(index.Host, { key: 'f9484d3a89da8ca80a9b25f9b96c6375bfc83cd8' }, index.h("slot", { key: 'bda333316f5768959586dfbc49ee72a529f10b93' }), !this.isValid && this.showErrorMessage && (index.h("span", { key: 'fcfada1d2104f9116987f42b756122be03d7dc3f', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],

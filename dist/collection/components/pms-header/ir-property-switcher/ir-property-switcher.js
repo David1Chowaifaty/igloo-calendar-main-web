@@ -1,28 +1,148 @@
 import { Host, h } from "@stencil/core";
+import axios from "axios";
+import Token from "../../../models/Token";
 export class IrPropertySwitcher {
     el;
     mode = 'dialog';
     ticket;
+    baseUrl;
     open = false;
     selectedProperty;
+    linkedProperties = [];
+    displayMode = 'read-only';
+    token = new Token();
     /** Emits whenever the user selects a new property from the switcher dialog. */
     propertyChange;
+    async componentWillLoad() {
+        if (this.baseUrl)
+            this.token.setBaseUrl(this.baseUrl);
+        if (this.ticket) {
+            this.token.setToken(this.ticket);
+            await this.initializeLinkedProperties();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.token.setToken(this.ticket);
+            this.initializeLinkedProperties();
+        }
+    }
+    getStoredSelectedAc() {
+        const raw = localStorage.getItem('_Selected_Ac');
+        if (!raw) {
+            return null;
+        }
+        try {
+            return JSON.parse(raw);
+        }
+        catch (error) {
+            console.error('Failed to parse _Selected_Ac from localStorage', error);
+            return null;
+        }
+    }
+    updateSelectedProperty(selectedAc) {
+        this.selectedProperty = {
+            A_NAME: selectedAc.My_User?.USERNAME ?? '',
+            COUNTRY_CODE: selectedAc.COUNTRY_ID,
+            COUNTRY_NAME: selectedAc.My_Country?.L1_NAME_REF ?? '',
+            PROPERTY_ID: selectedAc.AC_ID,
+            PROPERTY_NAME: selectedAc.NAME,
+        };
+    }
+    async initializeLinkedProperties() {
+        const selectedAc = this.getStoredSelectedAc();
+        if (!selectedAc) {
+            this.linkedProperties = [];
+            this.resolveDisplayMode(false);
+            return;
+        }
+        this.updateSelectedProperty(selectedAc);
+        await this.fetchLinkedProperties(selectedAc.AC_ID);
+        this.resolveDisplayMode(true);
+    }
+    async fetchLinkedProperties(acId) {
+        try {
+            const { data } = await axios.post('/Fetch_Linked_Properties', { AC_ID: acId });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            this.linkedProperties = Array.isArray(data.My_Result) ? data.My_Result : [];
+        }
+        catch (error) {
+            console.error('Failed to fetch linked properties', error);
+            this.linkedProperties = [];
+        }
+    }
+    resolveDisplayMode(hasSelectedAc) {
+        const userInfoRaw = localStorage.getItem('UserInfo_b');
+        let userInfo = null;
+        if (userInfoRaw) {
+            try {
+                userInfo = JSON.parse(userInfoRaw);
+            }
+            catch (error) {
+                console.error('Failed to parse UserInfo_b from localStorage', error);
+            }
+        }
+        const userTypeCode = String(userInfo?.USER_TYPE_CODE ?? '');
+        if (userTypeCode === '1' || userTypeCode === '4') {
+            this.displayMode = 'dialog';
+            return;
+        }
+        if (!hasSelectedAc || !this.linkedProperties.length) {
+            this.displayMode = 'read-only';
+            return;
+        }
+        this.displayMode = 'dropdown';
+    }
     trigger() {
         return (h("ir-custom-button", { onClickHandler: () => {
                 this.open = !this.open;
-            }, withCaret: true, variant: "neutral", appearance: "plain" }, h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.name ?? 'Select property')));
+            }, withCaret: true, variant: "neutral", appearance: "plain" }, h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Select property')));
     }
-    handlePropertySelected = (event) => {
-        this.selectedProperty = event.detail;
-        this.open = false;
-        this.propertyChange.emit(event.detail);
+    handlePropertySelected = async (event) => {
+        await this.applySelectedProperty(event.detail);
     };
+    handleDropdownSelect = async (event) => {
+        const selectedId = Number(event.detail);
+        const property = this.linkedProperties.find(item => item.PROPERTY_ID === selectedId);
+        if (!property) {
+            return;
+        }
+        await this.applySelectedProperty(property);
+    };
+    async applySelectedProperty(property) {
+        this.selectedProperty = property;
+        this.open = false;
+        try {
+            const { data } = await axios.post('/Get_Ac_By_AC_ID_Adv', {
+                AC_ID: property.PROPERTY_ID,
+                Bypass_Caching: true,
+                IS_BACK_OFFICE: true,
+            });
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            localStorage.setItem('_Selected_Ac', JSON.stringify(data.My_Result ?? data));
+        }
+        catch (error) {
+            console.error('Failed to fetch selected property details', error);
+        }
+        this.propertyChange.emit(property);
+        await this.initializeLinkedProperties();
+    }
+    renderReadOnly() {
+        return h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Property');
+    }
     render() {
-        return (h(Host, { key: 'af71f34d468a6715125670a5bf3c5e03e8f84a4a' }, this.trigger(), h("ir-dialog", { key: '1f6c7506b7b43b9572754c1d6cb0db64f28a99ed', onIrDialogAfterHide: e => {
+        return (h(Host, { key: 'b9994bb627cabffc2b5a737c7f60f92173217d18' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("ir-select", { key: 'ee6f9edac1c2ce2ededd709f7eaa8e0d8ca12526', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(property => ({
+                value: property.PROPERTY_ID?.toString(),
+                text: `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`,
+            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (h("div", { key: 'f7d6c256bf2d8c1c490f922333f960b5a3d783b8' }, this.trigger(), h("ir-dialog", { key: '22c29fdcbd644cd647b94d49ed15a367307ae621', onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: '62211cbfe0e987039dda5aee2488921854f1af8a', open: this.open, selectedPropertyId: this.selectedProperty?.id, onPropertySelected: this.handlePropertySelected })))));
+            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: '68f5b87461f5331760c19c4afb0975f174e1a989', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
     }
     static get is() { return "ir-property-switcher"; }
     static get encapsulation() { return "scoped"; }
@@ -76,13 +196,34 @@ export class IrPropertySwitcher {
                 "setter": false,
                 "attribute": "ticket",
                 "reflect": false
+            },
+            "baseUrl": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "base-url",
+                "reflect": false
             }
         };
     }
     static get states() {
         return {
             "open": {},
-            "selectedProperty": {}
+            "selectedProperty": {},
+            "linkedProperties": {},
+            "displayMode": {}
         };
     }
     static get events() {
@@ -97,17 +238,24 @@ export class IrPropertySwitcher {
                     "text": "Emits whenever the user selects a new property from the switcher dialog."
                 },
                 "complexType": {
-                    "original": "AllowedProperty",
-                    "resolved": "{ name?: string; id?: number; }",
+                    "original": "FetchedProperty",
+                    "resolved": "{ A_NAME: string; COUNTRY_CODE: string; COUNTRY_NAME: string; PROPERTY_ID: number; PROPERTY_NAME: string; }",
                     "references": {
-                        "AllowedProperty": {
-                            "location": "global",
-                            "id": "global::AllowedProperty"
+                        "FetchedProperty": {
+                            "location": "import",
+                            "path": "@/services/property.service",
+                            "id": "src/services/property.service.ts::FetchedProperty"
                         }
                     }
                 }
             }];
     }
     static get elementRef() { return "el"; }
+    static get watchers() {
+        return [{
+                "propName": "ticket",
+                "methodName": "handleTicketChange"
+            }];
+    }
 }
 //# sourceMappingURL=ir-property-switcher.js.map
