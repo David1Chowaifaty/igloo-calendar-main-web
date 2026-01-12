@@ -14,15 +14,19 @@ export declare class IrPropertySwitcher {
     /** Emits whenever the user selects a new property */
     propertyChange: EventEmitter<FetchedProperty>;
     private storagePoller?;
+    private userInfoPoller?;
     private lastSelectedAcRaw;
     private lastUserInfoRaw;
     componentWillLoad(): Promise<void>;
     disconnectedCallback(): void;
     handleTicketChange(newValue: string, oldValue: string): Promise<void>;
-    private startStoragePolling;
-    private stopStoragePolling;
+    private startSelectedAcPolling;
+    private stopSelectedAcPolling;
+    private startUserInfoPolling;
+    private stopUserInfoPolling;
     private handleStorageEvent;
-    private pollLocalStorage;
+    private pollSelectedAcStorage;
+    private pollUserInfoStorage;
     private updateSelectedProperty;
     private fetchLinkedProperties;
     private resolveDisplayMode;
