@@ -135,14 +135,15 @@ export class IrPropertySwitcher {
         return h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Property');
     }
     render() {
-        return (h(Host, { key: 'b9994bb627cabffc2b5a737c7f60f92173217d18' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("ir-select", { key: 'ee6f9edac1c2ce2ededd709f7eaa8e0d8ca12526', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(property => ({
+        console.log(this.selectedProperty);
+        return (h(Host, { key: '9d1b5872e971bab9b2288dca3513a22a1c787b61' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("ir-select", { key: '6c794799f77dc21b2a4ffff7bf50fde1a3b54fef', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(property => ({
                 value: property.PROPERTY_ID?.toString(),
                 text: `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`,
-            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (h("div", { key: 'f7d6c256bf2d8c1c490f922333f960b5a3d783b8' }, this.trigger(), h("ir-dialog", { key: '22c29fdcbd644cd647b94d49ed15a367307ae621', onIrDialogAfterHide: e => {
+            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (h("div", { key: 'b1ec022e702cd9a9307067dc660ee7d506b391df' }, this.trigger(), h("ir-dialog", { key: '1ab49d17a866fb7fa5caf757b55e000b195aaf73', onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: '68f5b87461f5331760c19c4afb0975f174e1a989', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
+            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (h("ir-property-switcher-dialog-content", { key: 'd5c8713e572341de5367eedb5924592e2d78b517', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
     }
     static get is() { return "ir-property-switcher"; }
     static get encapsulation() { return "scoped"; }
