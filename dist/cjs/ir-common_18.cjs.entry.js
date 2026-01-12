@@ -2047,35 +2047,83 @@ const IrPropertySwitcher = class {
     linkedProperties = [];
     displayMode = 'read-only';
     token = new Token.Token();
-    /** Emits whenever the user selects a new property from the switcher dialog. */
+    /** Emits whenever the user selects a new property */
     propertyChange;
+    storagePoller;
+    lastSelectedAcRaw = null;
+    lastUserInfoRaw = null;
     async componentWillLoad() {
         if (this.baseUrl)
             this.token.setBaseUrl(this.baseUrl);
-        if (this.ticket) {
+        if (this.ticket)
             this.token.setToken(this.ticket);
-            await this.initializeLinkedProperties();
+        // Try once immediately
+        await this.pollLocalStorage();
+        // Start polling only if data not ready yet
+        if (!this.selectedProperty) {
+            this.startStoragePolling();
         }
+        // Listen for cross-tab updates
+        window.addEventListener('storage', this.handleStorageEvent);
     }
-    handleTicketChange(newValue, oldValue) {
+    disconnectedCallback() {
+        this.stopStoragePolling();
+        window.removeEventListener('storage', this.handleStorageEvent);
+    }
+    /* --------------------------------------------
+     * Watchers
+     * -------------------------------------------- */
+    async handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
-            this.token.setToken(this.ticket);
-            this.initializeLinkedProperties();
+            this.token.setToken(newValue);
+            await this.pollLocalStorage();
+            this.startStoragePolling();
         }
     }
-    getStoredSelectedAc() {
-        const raw = localStorage.getItem('_Selected_Ac');
-        if (!raw) {
-            return null;
+    /* --------------------------------------------
+     * LocalStorage polling logic
+     * -------------------------------------------- */
+    startStoragePolling() {
+        if (this.storagePoller)
+            return;
+        this.storagePoller = window.setInterval(this.pollLocalStorage, 300);
+    }
+    stopStoragePolling() {
+        if (this.storagePoller) {
+            clearInterval(this.storagePoller);
+            this.storagePoller = undefined;
         }
+    }
+    handleStorageEvent = () => {
+        // Cross-tab change → re-enable polling briefly
+        this.startStoragePolling();
+    };
+    pollLocalStorage = async () => {
+        const selectedAcRaw = localStorage.getItem('_Selected_Ac');
+        const userInfoRaw = localStorage.getItem('UserInfo_b');
+        // Nothing changed → skip work
+        if (selectedAcRaw === this.lastSelectedAcRaw && userInfoRaw === this.lastUserInfoRaw) {
+            return;
+        }
+        this.lastSelectedAcRaw = selectedAcRaw;
+        this.lastUserInfoRaw = userInfoRaw;
+        if (!selectedAcRaw || !userInfoRaw) {
+            return;
+        }
+        let selectedAc;
         try {
-            return JSON.parse(raw);
+            selectedAc = JSON.parse(selectedAcRaw);
         }
-        catch (error) {
-            console.error('Failed to parse _Selected_Ac from localStorage', error);
-            return null;
+        catch {
+            return;
         }
-    }
+        // ✅ Storage is now valid
+        this.updateSelectedProperty(selectedAc);
+        await this.fetchLinkedProperties(selectedAc.AC_ID);
+        this.resolveDisplayMode(true);
+        // 🛑 Stop polling once initialized
+        this.stopStoragePolling();
+    };
     updateSelectedProperty(selectedAc) {
         this.selectedProperty = {
             A_NAME: selectedAc.My_User?.USERNAME ?? '',
@@ -2085,21 +2133,12 @@ const IrPropertySwitcher = class {
             PROPERTY_NAME: selectedAc.NAME,
         };
     }
-    async initializeLinkedProperties() {
-        const selectedAc = this.getStoredSelectedAc();
-        if (!selectedAc) {
-            this.linkedProperties = [];
-            this.resolveDisplayMode(false);
-            return;
-        }
-        this.updateSelectedProperty(selectedAc);
-        await this.fetchLinkedProperties(selectedAc.AC_ID);
-        this.resolveDisplayMode(true);
-    }
     async fetchLinkedProperties(acId) {
         try {
-            const { data } = await axios.axios.post('/Fetch_Linked_Properties', { AC_ID: acId });
-            if (data.ExceptionMsg !== '') {
+            const { data } = await axios.axios.post('/Fetch_Linked_Properties', {
+                AC_ID: acId,
+            });
+            if (data.ExceptionMsg) {
                 throw new Error(data.ExceptionMsg);
             }
             this.linkedProperties = Array.isArray(data.My_Result) ? data.My_Result : [];
@@ -2112,13 +2151,12 @@ const IrPropertySwitcher = class {
     resolveDisplayMode(hasSelectedAc) {
         const userInfoRaw = localStorage.getItem('UserInfo_b');
         let userInfo = null;
-        if (userInfoRaw) {
-            try {
+        try {
+            if (userInfoRaw)
                 userInfo = JSON.parse(userInfoRaw);
-            }
-            catch (error) {
-                console.error('Failed to parse UserInfo_b from localStorage', error);
-            }
+        }
+        catch {
+            /* noop */
         }
         const userTypeCode = String(userInfo?.USER_TYPE_CODE ?? '');
         if (userTypeCode === '1' || userTypeCode === '4') {
@@ -2131,20 +2169,14 @@ const IrPropertySwitcher = class {
         }
         this.displayMode = 'dropdown';
     }
-    trigger() {
-        return (index.h("ir-custom-button", { onClickHandler: () => {
-                this.open = !this.open;
-            }, withCaret: true, variant: "neutral", appearance: "plain" }, index.h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Select property')));
-    }
     handlePropertySelected = async (event) => {
         await this.applySelectedProperty(event.detail);
     };
     handleDropdownSelect = async (event) => {
         const selectedId = Number(event.detail);
-        const property = this.linkedProperties.find(item => item.PROPERTY_ID === selectedId);
-        if (!property) {
+        const property = this.linkedProperties.find(p => p.PROPERTY_ID === selectedId);
+        if (!property)
             return;
-        }
         await this.applySelectedProperty(property);
     };
     async applySelectedProperty(property) {
@@ -2156,7 +2188,7 @@ const IrPropertySwitcher = class {
                 Bypass_Caching: true,
                 IS_BACK_OFFICE: true,
             });
-            if (data.ExceptionMsg !== '') {
+            if (data.ExceptionMsg) {
                 throw new Error(data.ExceptionMsg);
             }
             localStorage.setItem('_Selected_Ac', JSON.stringify(data.My_Result ?? data));
@@ -2165,21 +2197,24 @@ const IrPropertySwitcher = class {
             console.error('Failed to fetch selected property details', error);
         }
         this.propertyChange.emit(property);
-        await this.initializeLinkedProperties();
+        // Re-init via polling-safe path
+        this.startStoragePolling();
     }
     renderReadOnly() {
         return index.h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Property');
     }
+    trigger() {
+        return (index.h("ir-custom-button", { withCaret: true, variant: "neutral", appearance: "plain", onClickHandler: () => (this.open = !this.open) }, index.h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Select property')));
+    }
     render() {
-        console.log(this.selectedProperty);
-        return (index.h(index.Host, { key: '9d1b5872e971bab9b2288dca3513a22a1c787b61' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("ir-select", { key: '6c794799f77dc21b2a4ffff7bf50fde1a3b54fef', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(property => ({
-                value: property.PROPERTY_ID?.toString(),
-                text: `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`,
-            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (index.h("div", { key: 'b1ec022e702cd9a9307067dc660ee7d506b391df' }, this.trigger(), index.h("ir-dialog", { key: '1ab49d17a866fb7fa5caf757b55e000b195aaf73', onIrDialogAfterHide: e => {
+        return (index.h(index.Host, { key: '19d06785c05b1c90a7480b44079f13299277c5ad' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("ir-select", { key: 'eddb8768b12f415a940d5a41f7c27a34d4102176', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(p => ({
+                value: p.PROPERTY_ID?.toString(),
+                text: `${p.PROPERTY_NAME} ${p.COUNTRY_NAME}`,
+            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (index.h("div", { key: '4e962aa95cc8e9c9c9687cb08adc8b269414a7bc' }, this.trigger(), index.h("ir-dialog", { key: '59feb30f8a293fd4551a4fb089b8f48ac6f0f237', withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog", onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog" }, this.open && (index.h("ir-property-switcher-dialog-content", { key: 'd5c8713e572341de5367eedb5924592e2d78b517', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
+            } }, this.open && (index.h("ir-property-switcher-dialog-content", { key: 'a18672e11a5582dcc8ab516163d71b195a12a964', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

@@ -11,20 +11,26 @@ export declare class IrPropertySwitcher {
     linkedProperties: FetchedProperty[];
     displayMode: SwitcherMode;
     private token;
-    /** Emits whenever the user selects a new property from the switcher dialog. */
+    /** Emits whenever the user selects a new property */
     propertyChange: EventEmitter<FetchedProperty>;
+    private storagePoller?;
+    private lastSelectedAcRaw;
+    private lastUserInfoRaw;
     componentWillLoad(): Promise<void>;
-    handleTicketChange(newValue: any, oldValue: any): void;
-    private getStoredSelectedAc;
+    disconnectedCallback(): void;
+    handleTicketChange(newValue: string, oldValue: string): Promise<void>;
+    private startStoragePolling;
+    private stopStoragePolling;
+    private handleStorageEvent;
+    private pollLocalStorage;
     private updateSelectedProperty;
-    private initializeLinkedProperties;
     private fetchLinkedProperties;
     private resolveDisplayMode;
-    private trigger;
     private handlePropertySelected;
     private handleDropdownSelect;
     private applySelectedProperty;
     private renderReadOnly;
+    private trigger;
     render(): any;
 }
 export {};

@@ -11278,7 +11278,7 @@ declare namespace LocalJSX {
         "baseUrl"?: string;
         "mode"?: 'dropdown' | 'dialog';
         /**
-          * Emits whenever the user selects a new property from the switcher dialog.
+          * Emits whenever the user selects a new property
          */
         "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<FetchedProperty>) => void;
         "ticket"?: string;
