@@ -1,0 +1,2 @@
+function t(t,n={}){return function(e,o,c){const i=c.value;const{leading:s=false,trailing:a=true}=n;const f=new WeakMap;const r=new WeakMap;c.value=function(...n){const e=this;const o=Date.now();const c=f.get(e);const u=r.get(e);if(c){clearTimeout(c)}if(s&&!c){i.apply(e,n);r.set(e,o)}if(a){const c=setTimeout((()=>{if(!s||s&&u&&o-u>=t){i.apply(e,n)}f.delete(e);r.delete(e)}),t);f.set(e,c)}};return c}}export{t as D};
+//# sourceMappingURL=p-367551b0.js.map

@@ -20,17 +20,9 @@ export class IrPropertySwitcher {
     async componentWillLoad() {
         if (this.baseUrl)
             this.token.setBaseUrl(this.baseUrl);
-        if (this.ticket)
+        if (this.ticket) {
             this.token.setToken(this.ticket);
-        // Try once immediately
-        await this.pollSelectedAcStorage();
-        this.pollUserInfoStorage();
-        // Start polling only if data not ready yet
-        if (!this.selectedProperty) {
-            this.startSelectedAcPolling();
-        }
-        if (!this.lastUserInfoRaw) {
-            this.startUserInfoPolling();
+            this.init();
         }
         // Listen for cross-tab updates
         window.addEventListener('storage', this.handleStorageEvent);
@@ -40,20 +32,22 @@ export class IrPropertySwitcher {
         this.stopUserInfoPolling();
         window.removeEventListener('storage', this.handleStorageEvent);
     }
-    /* --------------------------------------------
-     * Watchers
-     * -------------------------------------------- */
     async handleTicketChange(newValue, oldValue) {
         if (newValue !== oldValue) {
             this.token.setToken(newValue);
-            await this.pollSelectedAcStorage();
+            this.init();
+        }
+    }
+    async init() {
+        await this.pollSelectedAcStorage();
+        this.pollUserInfoStorage();
+        if (!this.selectedProperty) {
             this.startSelectedAcPolling();
+        }
+        if (!this.lastUserInfoRaw) {
             this.startUserInfoPolling();
         }
     }
-    /* --------------------------------------------
-     * LocalStorage polling logic
-     * -------------------------------------------- */
     startSelectedAcPolling() {
         if (this.storagePoller)
             return;
@@ -128,8 +122,8 @@ export class IrPropertySwitcher {
     }
     async fetchLinkedProperties(acId) {
         try {
-            const { data } = await axios.post('/Fetch_Linked_Properties', {
-                AC_ID: acId,
+            const { data } = await axios.post(`${this.baseUrl ?? ''}/Fetch_Linked_Properties`, {
+                property_id: acId,
             });
             if (data.ExceptionMsg) {
                 throw new Error(data.ExceptionMsg);
@@ -163,33 +157,36 @@ export class IrPropertySwitcher {
         this.displayMode = 'dropdown';
     }
     handlePropertySelected = async (event) => {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
         await this.applySelectedProperty(event.detail);
     };
     handleDropdownSelect = async (event) => {
-        const selectedId = Number(event.detail);
-        const property = this.linkedProperties.find(p => p.PROPERTY_ID === selectedId);
+        const selectedId = Number(event.detail.item.value);
+        const property = this.linkedProperties.find(p => p.property_id === selectedId);
         if (!property)
             return;
-        await this.applySelectedProperty(property);
+        await this.applySelectedProperty(property.property_id);
     };
-    async applySelectedProperty(property) {
-        this.selectedProperty = property;
+    async applySelectedProperty(propertyId) {
         this.open = false;
         try {
-            const { data } = await axios.post('/Get_Ac_By_AC_ID_Adv', {
-                AC_ID: property.PROPERTY_ID,
+            const { data } = await axios.post(`${this.baseUrl ?? ''}/Get_Ac_By_AC_ID_Adv`, {
+                AC_ID: propertyId,
                 Bypass_Caching: true,
                 IS_BACK_OFFICE: true,
             });
             if (data.ExceptionMsg) {
                 throw new Error(data.ExceptionMsg);
             }
-            localStorage.setItem('_Selected_Ac', JSON.stringify(data.My_Result ?? data));
+            const property = data.My_Result;
+            localStorage.setItem('_Selected_Ac', JSON.stringify(property));
+            this.propertyChange.emit(property);
+            this.updateSelectedProperty(property);
         }
         catch (error) {
             console.error('Failed to fetch selected property details', error);
         }
-        this.propertyChange.emit(property);
         // Re-init via polling-safe path
         this.startSelectedAcPolling();
         this.startUserInfoPolling();
@@ -201,14 +198,18 @@ export class IrPropertySwitcher {
         return (h("ir-custom-button", { withCaret: true, variant: "neutral", appearance: "plain", onClickHandler: () => (this.open = !this.open) }, h("p", { class: "property-switcher__trigger" }, this.selectedProperty?.PROPERTY_NAME ?? 'Select property')));
     }
     render() {
-        return (h(Host, { key: '2c6bb2d45054cd7b79b48d8163f4a245290098fa' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("ir-select", { key: '8f44fd3d5ecaeb60e0c4b2beb108587021da5e1a', showFirstOption: false, selectedValue: this.selectedProperty?.PROPERTY_ID?.toString() ?? '', data: this.linkedProperties.map(p => ({
-                value: p.PROPERTY_ID?.toString(),
-                text: `${p.PROPERTY_NAME} ${p.COUNTRY_NAME}`,
-            })), onSelectChange: this.handleDropdownSelect })), this.displayMode === 'dialog' && (h("div", { key: 'e20cb517dadc78a17dd0644e1f1a947a24ca2e3a' }, this.trigger(), h("ir-dialog", { key: 'b9391ba45bc8afdca3013e338f81fd65c73b12a0', withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog", onIrDialogAfterHide: e => {
+        return (h(Host, { key: 'e84539385daf18e70cf74ac9128956e230c5fdfb' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: '75dac4652970804a45fb42ef8238a6d0ed3b6818', "onwa-hide": e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }, "onwa-select": e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                this.handleDropdownSelect(e);
+            } }, h("ir-custom-button", { key: '23577c9b80df9e53dbeffd0dec07efa681053861', slot: "trigger", withCaret: true, variant: "neutral", appearance: "plain" }, this.selectedProperty?.PROPERTY_NAME), this.linkedProperties?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '35d206ff86407189aeb48df2204be429c2492afa' }, this.trigger(), h("ir-dialog", { key: 'b6ac09abe4c28270a179663244470871c55f1e62', withoutHeader: true, open: this.open, label: "Find property", class: "property-switcher__dialog", onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            } }, this.open && (h("ir-property-switcher-dialog-content", { key: '6b74212240464cd33041c3880ca948939a4e50d9', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
+            } }, this.open && (h("ir-property-switcher-dialog-content", { key: '0e0da1dd2689e56903c9e38d2788724aea947c99', open: this.open, selectedPropertyId: this.selectedProperty?.PROPERTY_ID, properties: this.linkedProperties, onPropertySelected: this.handlePropertySelected })))))));
     }
     static get is() { return "ir-property-switcher"; }
     static get encapsulation() { return "scoped"; }

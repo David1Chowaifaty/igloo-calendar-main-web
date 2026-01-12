@@ -1,7 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
 import { z, Z as ZodError } from './index2.js';
-import { H as HouseKeepingService } from './housekeeping.service.js';
 import { C as CONSTANTS } from './constants.js';
 import { U as UserService } from './user.service.js';
 import { c as calendar_data } from './calendar-data.js';
@@ -10,21 +9,22 @@ import { h as hooks } from './moment.js';
 import { c as commonjsGlobal } from './_commonjsHelpers.js';
 import { a as InterceptorError, d as defineCustomElement$d } from './ir-interceptor2.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$h } from './ir-button2.js';
+import { d as defineCustomElement$i } from './ir-button2.js';
+import { d as defineCustomElement$h } from './ir-custom-button2.js';
 import { d as defineCustomElement$g } from './ir-icon2.js';
 import { d as defineCustomElement$f } from './ir-icons2.js';
-import { d as defineCustomElement$e } from './ir-input-text2.js';
+import { d as defineCustomElement$e } from './ir-input2.js';
 import { d as defineCustomElement$c } from './ir-otp2.js';
 import { d as defineCustomElement$b } from './ir-otp-modal2.js';
 import { d as defineCustomElement$a } from './ir-password-validator2.js';
 import { d as defineCustomElement$9 } from './ir-reset-password2.js';
-import { d as defineCustomElement$8 } from './ir-select2.js';
-import { d as defineCustomElement$7 } from './ir-sidebar2.js';
-import { d as defineCustomElement$6 } from './ir-spinner2.js';
-import { d as defineCustomElement$5 } from './ir-title2.js';
-import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
-import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
+import { d as defineCustomElement$8 } from './ir-sidebar2.js';
+import { d as defineCustomElement$7 } from './ir-spinner2.js';
+import { d as defineCustomElement$6 } from './ir-title2.js';
+import { d as defineCustomElement$5 } from './ir-toast2.js';
+import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
+import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 var uaParser_pack = {exports: {}};
@@ -50,6 +50,7 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         this.resetData = createEvent(this, "resetData", 7);
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
     }
+    formId;
     user;
     userTypes = (Map);
     isEdit = false;
@@ -85,7 +86,6 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
     emailErrorMessage;
     resetData;
     closeSideBar;
-    housekeepingService = new HouseKeepingService();
     userService = new UserService();
     disableFields = false;
     isPropertyAdmin = false;
@@ -113,7 +113,11 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
                 return true;
             }
             if (name.length >= 3) {
-                return !(await new UserService().checkUserExistence({ UserName: name }));
+                const _user = await new UserService().checkUserExistence({ UserName: name });
+                if (!_user) {
+                    return true;
+                }
+                return false;
             }
             return true;
         }, { message: 'Username already exists.' }),
@@ -145,7 +149,6 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
     }
     async createOrUpdateUser() {
         try {
-            console.log('hello world');
             this.isLoading = true;
             this.emailErrorMessage = undefined;
             if (!this.autoValidate) {
@@ -186,49 +189,40 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
             this.isLoading = false;
         }
     }
-    async handleBlur(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        if (this.user || !this.userInfo.name) {
-            return;
-        }
-        const usermame = await this.housekeepingService.generateUserName(this.userInfo.name);
-        this.updateUserField('username', usermame);
-    }
     render() {
-        return (h("form", { key: 'c8703d8d852a3c19f8f9699dd49bd1101627b915', class: "sheet-container", onSubmit: async (e) => {
+        return (h("form", { key: '30f03ee1114a658c73f86c3b3842de71bf87ca0a', id: this.formId,
+            // class="sheet-container"
+            onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("ir-title", { key: 'a6bb169f02f0abf99e0b7460beecbb5b840b8371', class: "px-1 sheet-header", displayContext: "sidebar", label: this.isEdit ? this.user.username : 'Create New User' }), h("section", { key: '321b51a3e511bcce34b9d9392afa294b6e4e07ab', class: "px-1 sheet-body" }, h("ir-input-text", { key: '814a5bac21144dbe9fbd387dc49ec22d7d24416c', testId: "email", zod: this.userSchema.pick({ email: true }), wrapKey: "email", autoValidate: this.autoValidate, error: this.errors?.email, label: locales.entries.Lcz_Email, placeholder: "", onTextChange: e => this.updateUserField('email', e.detail), value: this.userInfo.email, onInputBlur: this.handleBlur.bind(this), maxLength: 40, errorMessage: this.emailErrorMessage }), h("ir-input-text", { key: 'd1f99592ce6cae6994fed65401c09ec15fcb373c', testId: "mobile", disabled: this.disableFields, zod: this.userSchema.pick({ mobile: true }), wrapKey: "mobile", error: this.errors?.mobile, asyncParse: true, autoValidate: this.user ? (this.userInfo?.mobile !== this.user.mobile ? true : false) : this.autoValidate, label: locales.entries.Lcz_Mobile, mask: this.mobileMask, placeholder: '', value: this.userInfo.mobile, onTextChange: e => this.updateUserField('mobile', e.detail) }), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("div", { class: "mb-1" }, h("ir-select", { testId: "user_type", error: this.errors?.type && !this.userInfo.type, disabled: this.disableFields, label: "Role", data: this.allowedUsersTypes.map(t => ({
-                text: t.value,
-                value: t.code,
-            })), firstOption: locales.entries.Lcz_Select, selectedValue: this.userInfo.type?.toString(), onSelectChange: e => this.updateUserField('type', e.detail) }))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: '5438db68ec93d809735a0789b361f8cc6cdd52cc' }, h("input", { key: '0f0038bf4c77b71e064dadb40af2997696f651a1', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { key: '6f9a07c6779935ab1922baeee45596263eb1ee63', testId: "username", zod: this.userSchema.pick({ username: true }), wrapKey: "username", autoValidate: this.autoValidate, error: this.errors?.username, label: locales.entries.Lcz_Username, disabled: this.disableFields, placeholder: "", onTextChange: e => this.updateUserField('username', e.detail), value: this.userInfo.username,
-            // onInputBlur={this.handleBlur.bind(this)}
-            maxLength: 40, autoComplete: "off" }))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-input-text", { testId: "password", autoValidate: this.user ? (!this.userInfo?.password ? false : true) : this.autoValidate, label: locales.entries.Lcz_Password, value: this.userInfo.password, autoComplete: "off", type: "password", maxLength: 16, zod: this.userSchema.pick({ password: true }), wrapKey: "password", error: this.errors?.password, onInputFocus: () => (this.showPasswordValidation = true), onInputBlur: () => {
+            } }, h("div", { key: '31627d7133ad0178e1ca7c85db3b711b14c3b21e', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '9f9cf28373fec176451cc5ba503410c67546f81d', value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '00de2e886bd7d7f3de25972d6988f4cf80e17ef8', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: locales.entries.Lcz_Email, "data-testid": "email", id: "user-email" }, this.emailErrorMessage && (h("span", { key: 'dc15d71495aef12c81d18f6eeadb10e5a4021410', style: { color: 'var(--wa-color-danger-fill-loud)' }, slot: "hint" }, this.emailErrorMessage)))), h("ir-validator", { key: 'e39b80428535553c9f9be40c6ff49c75946479dc', autovalidate: this.user ? (this.userInfo?.mobile !== this.user.mobile ? true : false) : this.autoValidate, showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'ccefefc6455ae981a807ec976b9ecdaebfb4c487', maxlength: 40, "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: locales.entries.Lcz_Mobile, "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
+            // error={this.errors?.type && !this.userInfo.type}
+            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "small", defaultValue: this.userInfo.type?.toString(), placeholder: locales.entries.Lcz_Select, onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'a8632cca7a6708a3885d7e6fef351ff11cab59e5' }, h("input", { key: '5dece382db07c3cabe044354a692521b2f550d72', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: '6df66949bcf3cd18237b58ed45569de8a5af9eda', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '74d5a3fe06c135663c0ab3d773c8451e8179d9d7', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: locales.entries.Lcz_Username })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: locales.entries.Lcz_Password, value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
                 // if (this.user) this.showPasswordValidation = false;
-            }, onTextChange: e => this.updateUserField('password', e.detail) }), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
+            }, "onText-change": e => this.updateUserField('password', e.detail) })), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
         // this.user.type.toString() !== this.superAdminId &&
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, locales.entries.Lcz_Password), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: locales.entries.Lcz_ChangePassword, btn_color: "link" }))
         // ))
-        ), this.user?.sign_ins?.length > 0 && (h("section", { key: '3e9ba4856eaa5f2a0c0c78614350ff16cf6bb63c', class: "logins-history-section mt-2" }, h("div", { key: '5c290e2496bff72700a46b3a73bc85d31d3f2dc4', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: 'c7b3f5a98cfbf4004ee1160da8f0dd00fc177fc3', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '8fb735b753227640d33287c7714e6d350244c6b1', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '63b08b282293a99a1b6f0f05abc9023e7d01a4d5', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        )), this.user?.sign_ins?.length > 0 && (h("section", { key: 'fa04731b0d7b7675c504aaace86fbbd67a1b8560', class: "logins-history-section mt-2" }, h("div", { key: '63b79b0b7cf10d13d4d0f8f4f53376e98e500ea8', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: '1531284d2f3c2f185affa27db60c8f458fdfe26f', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '3177ca1596640412a57141e977082e62617bdeda', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: 'b5cdb0cb95066e83ccfe293a5cc8712cbec5a21f', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '87dfb277b5c6fe95c8893fcf9ea379b37c51f589', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: 'dc594887b5a5d97f83452eb064bc54212f7329bc', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: '3f2ee356af14e419cedad6d271e1e6879324e8d8', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: '8372873dec5ab99ec4873a2cc7dd4b392931c9c4', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            }, slot: "sidebar-body" })))), h("div", { key: '60ef129f4fcf816a0768fc9414651aac209332ba', class: "sheet-footer" }, h("ir-button", { key: '9c2ee812dd8aea26de8f3c7db53a779c94aac3b2', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_styles: "w-100 justify-content-center align-items-center", btn_color: "secondary", text: locales.entries.Lcz_Cancel }), h("ir-button", { key: '6abd49f41e153cd49cdf890b3eb417cf981ee459', "data-testid": "save", isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_Save }))));
+            }, slot: "sidebar-body" })))));
     }
     static get style() { return IrUserFormPanelStyle0 + IrUserFormPanelStyle1; }
 }, [2, "ir-user-form-panel", {
+        "formId": [1, "form-id"],
         "user": [16],
         "userTypes": [16],
         "isEdit": [4, "is-edit"],
@@ -253,7 +247,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-user-form-panel", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-select", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "requirement-check"];
+    const components = ["ir-user-form-panel", "ir-button", "ir-custom-button", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-user-form-panel":
             if (!customElements.get(tagName)) {
@@ -261,6 +255,11 @@ function defineCustomElement() {
             }
             break;
         case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }
@@ -275,7 +274,7 @@ function defineCustomElement() {
                 defineCustomElement$f();
             }
             break;
-        case "ir-input-text":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
@@ -305,37 +304,37 @@ function defineCustomElement() {
                 defineCustomElement$9();
             }
             break;
-        case "ir-select":
+        case "ir-sidebar":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-sidebar":
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-spinner":
+        case "ir-title":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-title":
+        case "ir-toast":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-toast":
+        case "ir-toast-alert":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-provider":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-provider":
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

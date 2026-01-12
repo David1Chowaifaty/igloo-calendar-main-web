@@ -85,6 +85,14 @@ export class PropertyService {
         }
         return AllowedPropertiesSchema.parse(data.My_Result);
     }
+    async searchExposedAllowedProperties(searchTerm) {
+        const payload = searchTerm ? { search_term: searchTerm } : {};
+        const { data } = await axios.post('/Get_Exposed_Allowed_Properties', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return Array.isArray(data.My_Result) ? data.My_Result : [];
+    }
     async getCountrySales(params) {
         const { data } = await axios.post('/Get_Country_Sales', params);
         if (data.ExceptionMsg !== '') {

@@ -177,6 +177,7 @@
     "components/ir-unit-tag/ir-unit-tag.js",
     "components/ir-user-management/ir-user-management.js",
     "components/ir-user-management/ir-user-form-panel/ir-user-form-panel.js",
+    "components/ir-user-management/ir-user-form-panel/ir-user-form-panel-drawer/ir-user-form-panel-drawer.js",
     "components/ir-user-management/ir-user-management-table/ir-user-management-table.js",
     "components/pms-header/ir-menu/ir-menu.js",
     "components/pms-header/ir-menu-drawer/ir-menu-drawer.js",

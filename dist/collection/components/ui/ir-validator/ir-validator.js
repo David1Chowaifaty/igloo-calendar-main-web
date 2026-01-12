@@ -4,6 +4,7 @@ export class IrValidator {
     /** Zod schema used to validate the child control's value. */
     schema;
     value;
+    asyncValidation;
     showErrorMessage;
     /** Enables automatic validation on every value change. */
     autovalidate;
@@ -48,15 +49,15 @@ export class IrValidator {
         this.slotEl?.removeEventListener('slotchange', this.handleSlotChange);
         this.clearValidationTimer();
     }
-    handleSchemaChange() {
+    async handleSchemaChange() {
         if (this.autoValidateActive && this.hasInteracted) {
-            this.flushValidation();
+            await this.flushValidation();
         }
     }
-    handleAutoValidatePropChange(next) {
+    async handleAutoValidatePropChange(next) {
         this.syncAutovalidateFlag(next);
         if (this.autoValidateActive) {
-            this.flushValidation();
+            await this.flushValidation();
         }
     }
     handleFormPropChange() {
@@ -84,13 +85,13 @@ export class IrValidator {
             .map(token => token.trim())
             .filter(Boolean);
     }
-    handleValuePropChange(next, previous) {
+    async handleValuePropChange(next, previous) {
         if (Object.is(next, previous))
             return;
         // keep the tracked value in sync with external changes without emitting another change event
         this.updateValue(next, { suppressValidation: true, emitChange: false });
         if (this.autoValidateActive && this.hasInteracted) {
-            this.flushValidation();
+            await this.flushValidation();
         }
     }
     handleSlotChange = () => {
@@ -160,12 +161,12 @@ export class IrValidator {
         this.hasInteracted = true;
         this.updateValue(nextValue);
     };
-    handleBlurEvent = () => {
+    handleBlurEvent = async () => {
         if (!this.childEl)
             return;
         this.hasInteracted = true;
         if (this.autoValidateActive) {
-            this.flushValidation();
+            await this.flushValidation();
         }
     };
     extractEventValue(event) {
@@ -199,12 +200,18 @@ export class IrValidator {
             this.scheduleValidation();
         }
     }
-    validateCurrentValue(forceDisplay = false) {
+    async validateCurrentValue(forceDisplay = false) {
         if (!this.schema)
             return true;
         const value = this.currentValue ?? this.readValueFromChild();
         this.currentValue = value;
-        const result = this.schema.safeParse(value);
+        let result;
+        if (this.asyncValidation) {
+            result = await this.schema.safeParseAsync(value);
+        }
+        else {
+            result = this.schema.safeParse(value);
+        }
         const nextValidity = result.success;
         const previousValidity = this.isValid;
         this.isValid = nextValidity;
@@ -253,27 +260,27 @@ export class IrValidator {
         }
         return this.el.closest('form');
     }
-    handleFormSubmit = () => {
+    handleFormSubmit = async () => {
         this.hasInteracted = true;
-        const valid = this.flushValidation();
+        const valid = await this.flushValidation();
         if (!valid && !this.autoValidateActive) {
             this.autoValidateActive = true;
         }
     };
-    scheduleValidation(immediate = false) {
+    async scheduleValidation(immediate = false) {
         this.clearValidationTimer();
         const delay = Number(this.validationDebounce);
         if (immediate || !isFinite(delay) || delay <= 0) {
-            return this.validateCurrentValue(true);
+            return await this.validateCurrentValue(true);
         }
-        this.validationTimer = setTimeout(() => {
+        this.validationTimer = setTimeout(async () => {
             this.validationTimer = undefined;
-            this.validateCurrentValue(true);
+            await this.validateCurrentValue(true);
         }, delay);
         return this.isValid;
     }
-    flushValidation() {
-        return this.scheduleValidation(true);
+    async flushValidation() {
+        return await this.scheduleValidation(true);
     }
     clearValidationTimer() {
         if (this.validationTimer !== undefined) {
@@ -282,7 +289,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: 'f9484d3a89da8ca80a9b25f9b96c6375bfc83cd8' }, h("slot", { key: 'bda333316f5768959586dfbc49ee72a529f10b93' }), !this.isValid && this.showErrorMessage && (h("span", { key: 'fcfada1d2104f9116987f42b756122be03d7dc3f', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: '7a06c9e35c5406b1f9efee6b5487488dd225975f' }, h("slot", { key: 'f807e82ac059a03f64790c13a84855a6ef52b322' }), !this.isValid && this.showErrorMessage && (h("span", { key: '80379a18b151f9e4fd88f665dc59d31fa2f7682b', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }
@@ -338,6 +345,25 @@ export class IrValidator {
                 "getter": false,
                 "setter": false,
                 "attribute": "value",
+                "reflect": false
+            },
+            "asyncValidation": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "async-validation",
                 "reflect": false
             },
             "showErrorMessage": {

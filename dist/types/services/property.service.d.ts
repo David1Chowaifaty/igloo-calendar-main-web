@@ -7,6 +7,11 @@ export type FetchedProperty = {
     PROPERTY_ID: number;
     PROPERTY_NAME: string;
 };
+export type LinkedProperty = {
+    name: string;
+    property_id: number;
+    token: string;
+};
 export type CountrySalesParams = {
     AC_ID: number;
     WINDOW: number;
@@ -99,6 +104,7 @@ export declare class PropertyService {
         name?: string;
         id?: number;
     }[]>;
+    searchExposedAllowedProperties(searchTerm: string): Promise<FetchedProperty[]>;
     getCountrySales(params: CountrySalesParams): Promise<any>;
     getDailyRevenueReport(params: DailyRevenueReportParams): Promise<any>;
     setExposedCleaningFrequency(params: {

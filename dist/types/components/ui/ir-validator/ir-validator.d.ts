@@ -5,6 +5,7 @@ export declare class IrValidator {
     /** Zod schema used to validate the child control's value. */
     schema: ZodTypeAny;
     value: any;
+    asyncValidation: boolean;
     showErrorMessage: boolean;
     /** Enables automatic validation on every value change. */
     autovalidate?: boolean;
@@ -39,14 +40,14 @@ export declare class IrValidator {
     componentWillLoad(): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
-    protected handleSchemaChange(): void;
-    protected handleAutoValidatePropChange(next?: boolean): void;
+    protected handleSchemaChange(): Promise<void>;
+    protected handleAutoValidatePropChange(next?: boolean): Promise<void>;
     protected handleFormPropChange(): void;
     protected handleValueEventChange(newValue: string, oldValue: string): void;
     protected handleBlurEventChange(newValue: string, oldValue: string): void;
     private syncAutovalidateFlag;
     private parseEvents;
-    protected handleValuePropChange(next: unknown, previous: unknown): void;
+    protected handleValuePropChange(next: unknown, previous: unknown): Promise<void>;
     private handleSlotChange;
     private initializeChildReference;
     private pickSingleChild;

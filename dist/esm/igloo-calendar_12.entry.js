@@ -1,26 +1,27 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
 import { R as RoomService } from './room.service-29f502a3.js';
-import { B as BookingService } from './booking.service-689bd4fa.js';
-import { o as formatLegendColors, d as dateToFormattedString, f as isBlockUnit, p as getNextDay, q as addTwoMonthToDate, r as convertDMYToISO, t as computeEndDate, i as isPrivilegedUser, u as downloadFile } from './utils-9546bb29.js';
-import { E as EventsService, P as PropertyService } from './property.service-7c8f69cf.js';
+import { B as BookingService } from './booking.service-f71ed919.js';
+import { o as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, p as getNextDay, q as addTwoMonthToDate, r as convertDMYToISO, t as computeEndDate, k as isPrivilegedUser, u as downloadFile } from './utils-25b06543.js';
+import { E as EventsService, P as PropertyService } from './property.service-05256895.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-d4133646.js';
-import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-03cc2d8d.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-377bbc5a.js';
+import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-2ee394ee.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
-import { T as Token } from './Token-030c78a9.js';
+import { T as Token } from './Token-6926f92b.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-9879d1c1.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-572ee955.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-623b70fa.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-840f9ca1.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-c90a5a45.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-371035ee.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-41c256c8.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-2266a681.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
-import { U as UserService } from './user.service-055d8d92.js';
+import { U as UserService } from './user.service-a9aa63a0.js';
 import './index-87419685.js';
 import './index-f100e9d2.js';
+import './debounce-542065c2.js';
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -7316,6 +7317,8 @@ const IrUserManagement = class {
     userTypeCode;
     baseUserTypeCode;
     userId;
+    currentTrigger = null;
+    user = null;
     isLoading = true;
     users = [];
     property_id;
@@ -7478,7 +7481,7 @@ const IrUserManagement = class {
         if (this.isLoading) {
             return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-loading-screen", null)));
         }
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, locales.entries.Lcz_ExtranetUsers)), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("h3", { class: "page-title" }, locales.entries.Lcz_ExtranetUsers), h("div", { class: "", style: { gap: '1rem' } }, h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

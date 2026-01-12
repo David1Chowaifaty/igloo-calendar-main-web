@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { T as Token } from './Token-030c78a9.js';
+import { T as Token } from './Token-6926f92b.js';
 import { A as AuthService } from './authenticate.service-45a84845.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
 import './axios-aa1335b8.js';

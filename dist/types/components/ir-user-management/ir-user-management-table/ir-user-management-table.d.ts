@@ -20,7 +20,7 @@ export declare class IrUserManagementTable {
     canCreate: boolean;
     toast: EventEmitter<IToast>;
     resetData: EventEmitter<null>;
-    private modalRef;
+    private dialogRef;
     private userService;
     private systemService;
     componentWillLoad(): void;
@@ -28,10 +28,8 @@ export declare class IrUserManagementTable {
     private assignPermissions;
     private handleUserActiveChange;
     private executeUserAction;
-    private renderCurrentTrigger;
     private openModal;
     private maskEmail;
-    private resetModalState;
     private verifyAdminAction;
     render(): any;
 }

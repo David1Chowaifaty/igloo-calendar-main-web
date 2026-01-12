@@ -71,7 +71,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (index.h(index.Host, { key: '5a8a8cb5418ce69368da80eba17dc3e48f969e60' }, index.h("wa-spinner", { key: '5d87f573010ac40e6975be5fc2ff29fb49c84e5f', style: { fontSize: '2rem' } })));
+        return (index.h(index.Host, { key: 'c07de2fedeab9d6f87aefd8d4e6f34a25f7a8a5a' }, index.h("wa-spinner", { key: '89b4d2be9aee4abd58ab6936be7f96c8750c7be7', style: { fontSize: '2rem' } })));
     }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],

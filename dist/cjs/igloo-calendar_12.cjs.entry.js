@@ -6,14 +6,14 @@ const index = require('./index-35d81173.js');
 const room_service = require('./room.service-18eb6707.js');
 const booking_service = require('./booking.service-8c0b6002.js');
 const utils = require('./utils-2cdf6642.js');
-const property_service = require('./property.service-8dbcfd9c.js');
+const property_service = require('./property.service-fb44c9a6.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-fb071d62.js');
 const booking = require('./booking-bd08a013.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-0598de26.js');
 const unassigned_dates_store = require('./unassigned_dates.store-4a879984.js');
-const Token = require('./Token-8fd11984.js');
+const Token = require('./Token-fed66fdd.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-9e0d3074.js');
 const arrivals_store = require('./arrivals.store-dfcb1b52.js');
@@ -22,9 +22,10 @@ const booking_listing_service = require('./booking_listing.service-06637a8d.js')
 const departures_store = require('./departures.store-8626176a.js');
 const hkTasks_store = require('./hk-tasks.store-691d527e.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
-const user_service = require('./user.service-f2eb317a.js');
+const user_service = require('./user.service-c84dd18b.js');
 require('./index-8bb117a0.js');
 require('./index-fbf1fe1d.js');
+require('./debounce-1b63fe86.js');
 
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -7320,6 +7321,8 @@ const IrUserManagement = class {
     userTypeCode;
     baseUserTypeCode;
     userId;
+    currentTrigger = null;
+    user = null;
     isLoading = true;
     users = [];
     property_id;
@@ -7482,7 +7485,7 @@ const IrUserManagement = class {
         if (this.isLoading) {
             return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", null), index.h("ir-loading-screen", null)));
         }
-        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("div", { class: "d-flex  pb-2 align-items-center justify-content-between" }, index.h("h3", { class: "mb-1 mb-md-0" }, locales_store.locales.entries.Lcz_ExtranetUsers)), index.h("div", { class: "", style: { gap: '1rem' } }, index.h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, class: "card", isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
+        return (index.h(index.Host, null, index.h("ir-toast", null), index.h("ir-interceptor", { suppressToastEndpoints: ['/Change_User_Pwd', '/Handle_Exposed_User'] }), index.h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, index.h("h3", { class: "page-title" }, locales_store.locales.entries.Lcz_ExtranetUsers), index.h("div", { class: "", style: { gap: '1rem' } }, index.h("ir-user-management-table", { property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: [this.superAdminId, '17'].includes(this.userTypeCode?.toString()), userTypes: this.userTypes, isSuperAdmin: this.userTypeCode?.toString() === this.superAdminId, users: this.users })))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]

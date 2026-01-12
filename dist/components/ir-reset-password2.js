@@ -2,22 +2,24 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@sten
 import { T as Token } from './Token.js';
 import { A as AuthService } from './authenticate.service.js';
 import { R as RoomService } from './room.service.js';
-import { S as SystemService, d as defineCustomElement$8 } from './ir-otp-modal2.js';
+import { S as SystemService, d as defineCustomElement$9 } from './ir-otp-modal2.js';
 import { l as locales } from './locales.store.js';
 import { C as CONSTANTS } from './constants.js';
 import { z, Z as ZodError } from './index2.js';
-import { d as defineCustomElement$e } from './ir-button2.js';
-import { d as defineCustomElement$d } from './ir-icon2.js';
-import { d as defineCustomElement$c } from './ir-icons2.js';
-import { d as defineCustomElement$b } from './ir-input-text2.js';
-import { d as defineCustomElement$a } from './ir-interceptor2.js';
-import { d as defineCustomElement$9 } from './ir-otp2.js';
-import { d as defineCustomElement$7 } from './ir-password-validator2.js';
-import { d as defineCustomElement$6 } from './ir-spinner2.js';
-import { d as defineCustomElement$5 } from './ir-title2.js';
-import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
-import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$f } from './ir-custom-button2.js';
+import { d as defineCustomElement$e } from './ir-icon2.js';
+import { d as defineCustomElement$d } from './ir-icons2.js';
+import { d as defineCustomElement$c } from './ir-input2.js';
+import { d as defineCustomElement$b } from './ir-interceptor2.js';
+import { d as defineCustomElement$a } from './ir-otp2.js';
+import { d as defineCustomElement$8 } from './ir-password-validator2.js';
+import { d as defineCustomElement$7 } from './ir-spinner2.js';
+import { d as defineCustomElement$6 } from './ir-title2.js';
+import { d as defineCustomElement$5 } from './ir-toast2.js';
+import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
+import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 const irResetPasswordCss = ".base-host.sc-ir-reset-password{height:100vh;display:grid;align-content:center;padding:2rem;box-sizing:border-box;background-position:center;background-repeat:no-repeat;background-size:cover;background:white}p.sc-ir-reset-password,input.sc-ir-reset-password,button.sc-ir-reset-password{margin:0}p.sc-ir-reset-password,input.sc-ir-reset-password,button.sc-ir-reset-password,div.sc-ir-reset-password,section.sc-ir-reset-password,form.sc-ir-reset-password{box-sizing:border-box}.lock-icon.sc-ir-reset-password{align-self:center}.form-container.sc-ir-reset-password{padding:1rem;display:flex;flex-direction:column;height:100%;background:white;border-radius:0.25rem;gap:1rem;width:100%;max-width:38rem;margin-left:auto;margin-right:auto}.separator-container.sc-ir-reset-password{display:flex;align-items:center;gap:0.5rem;padding-top:1.5rem;padding-bottom:1rem}.separator-container.sc-ir-reset-password p.sc-ir-reset-password{color:#6b6f82;font-size:1rem}.separator.sc-ir-reset-password{flex:1 1 0%;height:1px;background:#dadada}.login-btn.sc-ir-reset-password{margin-top:1rem}.logo.sc-ir-reset-password{align-self:center}.app_links.sc-ir-reset-password{display:flex;align-items:center;justify-content:center;gap:1rem;padding-block:0.5rem}.app_links.sc-ir-reset-password a.sc-ir-reset-password img.sc-ir-reset-password{width:70%}.password_toggle.sc-ir-reset-password{all:unset;position:absolute;top:2px;right:1rem}";
@@ -149,7 +151,13 @@ const IrResetPassword = /*@__PURE__*/ proxyCustomElement(class IrResetPassword e
         // if (!locales.entries && !insideSidebar) {
         //   return <ir-loading-screen></ir-loading-screen>;
         // }
-        return (h("div", { key: '75683f3f70093243fcea7049a5d65c6e661d9be4', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, h(Fragment, { key: '7e481fa34894003d162adc47dd7b69918f33def0' }, !insideSidebar && (h(Fragment, { key: '0b3a105f107945a40f8d6092cc7494925830341c' }, h("ir-interceptor", { key: 'a2b24249e7e96a9a5a823680eabd41dc1e68ff66', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: 'cb80988d54626ca6c3c2217892244c281a6343e3' }))), h("form", { key: '59fdc891df612fadf435bb57b1c0b0e8e4af21be', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: '5cd5665ff7a4a3ee015c16923e83a2acf215328d', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: 'ef1a27d22d6ecf6c0f705b444bce35d78b15ded3', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'e81c4a09938dc9e5e0b75a2f869aa9fbd0067588', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '95c85d213c5d03b781ef0154fb6a515c148447d8', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: 'e698b7717487ca20f1447ce99eefb23067a40ee9', class: "text-center mb-2" }, h("h4", { key: '4558834f2eeea5157c2a055d724d37ff982e1e38', class: "mb-1" }, locales?.entries?.Lcz_SetNewPassword), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: '8dc0de9b06ed92b7095e0c75fac777e6d0c39861' }, h("div", { key: '79c0f5cf2939939f94a9ba68f6709d9eb06dc845', class: 'mb-2' }, h("div", { key: '800fb92b9bed2ab0367f47d001fd704cfd2aebb6', class: "m-0 p-0" }, h("div", { key: 'c44c208632ccc6c56e82c1dea9ffe0a5685d2b20', class: 'position-relative' }, h("ir-input-text", { key: 'c4bad200a30c30b8518bd28ac5fc7f4bebc2a6a4', error: this.error?.password, autoValidate: this.autoValidate, value: this.password, onTextChange: e => (this.password = e.detail), label: "", class: "m-0 p-0", inputStyles: 'm-0', zod: this.ResetPasswordSchema.pick({ password: true }), wrapKey: "password", placeholder: locales.entries?.Lcz_NewPassword, onInputFocus: () => (this.showValidator = true), type: 'password' })), this.showValidator && h("ir-password-validator", { key: 'f83b0ab2f312427e039bf987c3f29ca3230b49ec', class: "mb-1", password: this.password })), h("div", { key: 'd6ad609bd595fb5bd95d9d8f070164c721bf4242', class: 'position-relative' }, h("ir-input-text", { key: '08ad75fdb03aa6e129192ef0e382abbb9e1bcc24', error: this.error?.confirm_password, autoValidate: this.autoValidate, zod: this.ResetPasswordSchema.pick({ confirm_password: true }), wrapKey: "confirm_password", value: this.confirmPassword, onTextChange: e => (this.confirmPassword = e.detail), label: "", placeholder: locales.entries?.Lcz_ConfirmPassword, type: 'password' }))), !insideSidebar && (h("div", { key: 'e3de7b46f93bfd5f74a58e331573bd9ba9fe9dcf', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-button", { key: '00ddf5be17b74fadbfa20b9babf66c22784b1fc0', btn_styles: 'flex-fill', onClickHandler: () => window.history.back(), class: "flex-fill", text: locales.entries?.Lcz_Cancel, size: "md", btn_color: "secondary" }), h("ir-button", { key: 'c5ca39e606679d98f9ddd69b444a09a6d2515d82', btn_styles: 'flex-fill', class: "flex-fill", isLoading: this.isLoading, btn_type: "submit", text: locales.entries?.Lcz_ChangePassword, size: "md" })))))), insideSidebar && (h("div", { key: '3264989a10060c8ac9e38a9784ddc7c6b3368aa2', class: 'sheet-footer w-full' }, h("ir-button", { key: 'f57efb6f837ec716629eebdcfd933b123a9ea6e2', text: locales.entries.Lcz_Cancel, onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", btn_color: "secondary", btn_styles: "w-100 justify-content-center align-items-center", size: "md" }), h("ir-button", { key: '1bf88cd67930eaa47ff102fe7c1083975bcb2d06', isLoading: this.isLoading, class: "flex-fill", btn_type: "submit", btn_styles: "w-100 justify-content-center align-items-center", text: locales.entries.Lcz_ChangePassword, size: "md" })))))));
+        return (h("div", { key: '75683f3f70093243fcea7049a5d65c6e661d9be4', class: { 'base-host': !insideSidebar, 'h-100': insideSidebar } }, h(Fragment, { key: '7e481fa34894003d162adc47dd7b69918f33def0' }, !insideSidebar && (h(Fragment, { key: '0b3a105f107945a40f8d6092cc7494925830341c' }, h("ir-interceptor", { key: 'a2b24249e7e96a9a5a823680eabd41dc1e68ff66', suppressToastEndpoints: ['/Change_User_Pwd'] }), h("ir-toast", { key: 'cb80988d54626ca6c3c2217892244c281a6343e3' }))), h("form", { key: '59fdc891df612fadf435bb57b1c0b0e8e4af21be', onSubmit: this.handleChangePassword.bind(this), class: { 'sheet-container': insideSidebar } }, insideSidebar && h("ir-title", { key: '5cd5665ff7a4a3ee015c16923e83a2acf215328d', class: "px-1 sheet-header", displayContext: "sidebar", label: 'Change Password' }), h("div", { key: 'ef1a27d22d6ecf6c0f705b444bce35d78b15ded3', class: { 'form-container': true, 'sheet-body px-1': insideSidebar, 'px-2': !insideSidebar } }, h("svg", { key: 'e81c4a09938dc9e5e0b75a2f869aa9fbd0067588', class: "lock-icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 24, width: 24 }, h("path", { key: '95c85d213c5d03b781ef0154fb6a515c148447d8', fill: "currentColor", d: "M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" })), h("div", { key: 'e698b7717487ca20f1447ce99eefb23067a40ee9', class: "text-center mb-2" }, h("h4", { key: '4558834f2eeea5157c2a055d724d37ff982e1e38', class: "mb-1" }, locales?.entries?.Lcz_SetNewPassword), this.submitted ? (h("p", null, "An email has been sent to your address. Please check your inbox to confirm the password change.")) : (h("p", null, "Your new password must be different to previously used password"))), !this.submitted && (h("section", { key: '8dc0de9b06ed92b7095e0c75fac777e6d0c39861' }, h("div", { key: '396cea809276906a38377809649f5de0ce3592e6', class: 'mb-2 d-flex flex-column', style: { gap: '1rem' } }, h("div", { key: 'b9098495f46229e03eff63566ec1d3433c4e8d3d', class: "m-0 p-0" }, h("div", { key: 'aa8d28332cff15b41883b82a6f0c168ff22d744f', class: 'position-relative' }, h("ir-validator", { key: 'e142373d210ece003a3bbabfdb7fd8e3f9f0e047', schema: this.ResetPasswordSchema.shape.password, value: this.password }, h("ir-input", { key: '92e877a0fe9c19c9076ced3df228cb2a4bad6d82', type: "password", passwordToggle: true, "onText-change": e => (this.password = e.detail), onInputFocus: () => (this.showValidator = true), placeholder: locales.entries?.Lcz_NewPassword, value: this.password }))), this.showValidator && h("ir-password-validator", { key: 'ca3f8f2c1362de284cc6d607c1cae8f1725bb6cd', class: "mb-1", password: this.password })), h("div", { key: '8c65d7eadcd740c2970913a65cdcdf5eb381acf5', class: 'position-relative' }, h("ir-validator", { key: 'e9e294cf556599ef88eeed95dbe92095c81a04b5', schema: this.ResetPasswordSchema.shape.confirm_password, value: this.confirmPassword }, h("ir-input", { key: 'bdea0669d3a38b1dc77761fa81fedd0d1085e341', type: "password", passwordToggle: true, "onText-change": e => (this.confirmPassword = e.detail), placeholder: locales.entries?.Lcz_ConfirmPassword, value: this.confirmPassword })))), !insideSidebar && (h("div", { key: '853bd90df7733a316f46049c63f5abdee805a729', class: "d-flex flex-column mt-2 flex-sm-row align-items-sm-center", style: { gap: '0.5rem' } }, h("ir-custom-button", { key: '129dc51e9549cdd7ae347b13cb05c73322119252',
+            // btn_styles={'flex-fill'}
+            onClickHandler: () => window.history.back(), class: "flex-fill",
+            // text={locales.entries?.Lcz_Cancel}
+            size: "medium", appearance: "filled", variant: "neutral" }, locales.entries?.Lcz_Cancel), h("ir-custom-button", { key: 'b70469cef65545efba008e071354a73bdf332980',
+            // btn_styles={'flex-fill'}
+            class: "flex-fill", loading: this.isLoading, type: "submit", size: "medium", variant: "brand" }, locales.entries?.Lcz_ChangePassword)))))), insideSidebar && (h("div", { key: '127388ea3727af46c05786b5941d1917de5aabee', class: 'sheet-footer w-full' }, h("ir-custom-button", { key: 'f9de7a479a5a236e7674e2f15b55c042d25e1548', onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "medium" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '3fe6b8b264988d5160419526d99d86d4365bc637', variant: "brand", loading: this.isLoading, class: "flex-fill", type: "submit", size: "medium" }, locales.entries.Lcz_ChangePassword)))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -176,7 +184,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-reset-password", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "requirement-check"];
+    const components = ["ir-reset-password", "ir-button", "ir-custom-button", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-reset-password":
             if (!customElements.get(tagName)) {
@@ -185,65 +193,75 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
+            }
+            break;
+        case "ir-custom-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
             }
             break;
         case "ir-icon":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
-        case "ir-input-text":
+        case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-otp":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-otp-modal":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-password-validator":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-spinner":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-title":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-toast":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-toast-alert":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-toast-provider":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

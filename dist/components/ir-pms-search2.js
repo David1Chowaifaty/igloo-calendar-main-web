@@ -90,7 +90,7 @@ const IrPmsSearch = /*@__PURE__*/ proxyCustomElement(class IrPmsSearch extends H
         this.isLoading = false;
     }
     render() {
-        return (h(Host, { key: '5c01ca8737f09826d4ea1838ddb03bfb76f97369' }, h("ir-picker", { key: 'a1b1fed39fc89bb861ea6d6369a02aa4ddc01673', loading: this.isLoading, "onText-change": event => this.fetchBookings(event), mode: "select-async", ref: el => (this.pickerInputRef = el), pill: true, appearance: "filled", "onCombobox-select": event => this.handleComboboxSelect(event) }, this.shortcutHint && h("span", { key: '27fb001cc25284772682628514313aad98d48f8d', slot: "end" }, this.shortcutHint), this.bookings.map(b => {
+        return (h(Host, { key: '8f1d790cb94a11387d37449e9e6f37c1114df341' }, h("ir-picker", { key: '4b0540c99ee1be71dc76fef4f8b32fb4eef101c2', loading: this.isLoading, "onText-change": event => this.fetchBookings(event), mode: "select-async", ref: el => (this.pickerInputRef = el), pill: true, appearance: "filled", "onCombobox-select": event => this.handleComboboxSelect(event) }, this.shortcutHint && h("span", { key: '039bde98ae7bacaac12fd6e98eb20c96ba7a6686', slot: "end" }, this.shortcutHint), this.bookings.map(b => {
             const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
             return (h("ir-picker-item", { value: b.booking_nbr, label: label }, label));
         }))));

@@ -10,6 +10,8 @@ export declare class IrUserManagement {
     userTypeCode: string | number;
     baseUserTypeCode: string | number;
     userId: string | number;
+    currentTrigger: any;
+    user: User;
     isLoading: boolean;
     users: User[];
     property_id: number;

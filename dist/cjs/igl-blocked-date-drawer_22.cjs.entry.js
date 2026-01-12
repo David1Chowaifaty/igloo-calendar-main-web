@@ -7,7 +7,7 @@ const booking_service = require('./booking.service-8c0b6002.js');
 const utils = require('./utils-2cdf6642.js');
 const booking = require('./booking-bd08a013.js');
 const moment = require('./moment-1780b03a.js');
-const property_service = require('./property.service-8dbcfd9c.js');
+const property_service = require('./property.service-fb44c9a6.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-0598de26.js');
 const index$1 = require('./index-8bb117a0.js');
@@ -3307,7 +3307,7 @@ const IrInteractiveTitle = class {
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (index.h(index.Host, { key: '046df6f8fa32e71ba346e10675ba97a235f56787', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: 'b8fde15c7d6a20eba76e61031abe68652f1b2893', ref: el => {
+        return (index.h(index.Host, { key: '4898825d7baac5448da0e94c80c64a7ac9efe43b', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '60241db40a28a6905084aee6a5463e0deb57c071', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -3319,12 +3319,12 @@ const IrInteractiveTitle = class {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, index.h("span", { key: 'b834db8b0398830c5f899c696bff22230f6aa222', class: "cropped-title", style: {
+            } }, index.h("span", { key: '713449bf9d8446517cf2283afdf6f08645d93970', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'b2f7482e1f9362b23a6460014a81de6cd37eec0a', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '5408e6ff38172aa105d8d53a6919db427e423ef5', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (index.h("div", { key: 'c10412d58a32bd4aee4a1d6a916d5f79c54b1e18', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, index.h("slot", { key: '2ca6552d453f71934cb6e5da53d77d9a3075f369', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -3503,13 +3503,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: '837c61a95f81e1c698382893e44305c300ee2675', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: 'af9b845fcbb96d7a9373c41b9ce82359ea076123', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '22065a23b083d91614a4416a635b5389a3a77463', class: `input-group-text 
+        return (index.h("fieldset", { key: '7c07ca773b6009cc3ba737a2d3721442ee2fa693', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '0892a669227754d1ced0a82b3abda62f7592f918', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: 'dbdc89ddb4b58e5a445e70be9d7686da01fe0598', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: 'a5977e9b7c1549032c9aa6a9ff31031745377985', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '8b53949c2539830b86dc4ed7d4a54e0c487e4666', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: 'c6daa8d37d03d7cccc001597f8eb6586a880c2c6' }, index.h("span", { key: 'a93e69d219edc0eb8b9a059d3aa062d2565f2a9f', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '31bec65a20a701a3b6d69c9dfc8dc60188bad4ec', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: '2df95728784aeee6efaead813ee730f07f560ca7', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: 'a154153026f52591998ee05f2ab4e5993496e7c1', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: 'f211be65972b9fbe89ebfb3abf752fcbc44827e0' }, index.h("span", { key: '73f92a07fa8e8d154260295f66d9bf033910c74a', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '91ac2746b01eaaf31ed06e85ddb319d886ebd1fa', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -4033,7 +4033,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '97cfe6b5014a690056518cfae1c13f3e9c6d8a0c' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (index.h(index.Host, { key: '46b1e09285497e54319d45549aed995ba3fc646e' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

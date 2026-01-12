@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../stencil-public-runtime';
 import { User } from "../../../models/Users";
 import { AllowedUser } from '../types';
 export declare class IrUserFormPanel {
+    formId: string;
     user: User;
     userTypes: {
         new (entries?: readonly (readonly [string | number, string])[]): Map<string | number, string>;
@@ -30,7 +31,6 @@ export declare class IrUserFormPanel {
     emailErrorMessage: string;
     resetData: EventEmitter<null>;
     closeSideBar: EventEmitter<null>;
-    private housekeepingService;
     private userService;
     private disableFields;
     private isPropertyAdmin;
@@ -40,6 +40,5 @@ export declare class IrUserFormPanel {
     componentWillLoad(): Promise<void>;
     private updateUserField;
     private createOrUpdateUser;
-    private handleBlur;
     render(): any;
 }

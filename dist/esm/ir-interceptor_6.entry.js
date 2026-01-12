@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, g
 import { a as axios } from './axios-aa1335b8.js';
 import { a as interceptor_requests } from './ir-interceptor.store-1376ed6c.js';
 import { I as InterceptorError } from './InterceptorError-b6a71486.js';
-import { T as Token } from './Token-030c78a9.js';
+import { T as Token } from './Token-6926f92b.js';
 import { R as RoomService } from './room.service-29f502a3.js';
 import { S as SystemService } from './system.service-35fa8e7e.js';
 import { l as locales } from './locales.store-cb784e95.js';

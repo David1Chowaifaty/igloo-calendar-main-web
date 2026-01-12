@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { FetchedProperty } from "../../../services/property.service";
+import { FetchedProperty, LinkedProperty } from "../../../services/property.service";
 type SwitcherMode = 'dropdown' | 'dialog' | 'read-only';
 export declare class IrPropertySwitcher {
     el: HTMLIrPropertySwitcherElement;
@@ -8,7 +8,7 @@ export declare class IrPropertySwitcher {
     baseUrl: string;
     open: boolean;
     selectedProperty?: FetchedProperty;
-    linkedProperties: FetchedProperty[];
+    linkedProperties: LinkedProperty[];
     displayMode: SwitcherMode;
     private token;
     /** Emits whenever the user selects a new property */
@@ -20,6 +20,7 @@ export declare class IrPropertySwitcher {
     componentWillLoad(): Promise<void>;
     disconnectedCallback(): void;
     handleTicketChange(newValue: string, oldValue: string): Promise<void>;
+    private init;
     private startSelectedAcPolling;
     private stopSelectedAcPolling;
     private startUserInfoPolling;

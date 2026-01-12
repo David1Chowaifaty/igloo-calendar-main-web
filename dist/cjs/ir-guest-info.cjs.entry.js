@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const booking_service = require('./booking.service-8c0b6002.js');
 const room_service = require('./room.service-18eb6707.js');
 const locales_store = require('./locales.store-32782582.js');
-const Token = require('./Token-8fd11984.js');
+const Token = require('./Token-fed66fdd.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 require('./axios-6e678d52.js');
 require('./index-8bb117a0.js');
