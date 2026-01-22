@@ -14,25 +14,14 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
     menuItems = [];
     selectedHref;
     componentWillLoad() {
-        if (!this.selectedHref) {
-            this.selectedHref = this.getCurrentLocation();
-        }
-        else {
-            this.selectedHref = this.normalizeHref(this.selectedHref);
-        }
+        const initialHref = this.selectedHref ?? this.getCurrentLocation();
+        this.selectedHref = this.normalizeHref(initialHref);
     }
     componentDidLoad() {
         this.handleSlotChange();
     }
-    connectedCallback() {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('popstate', this.handleLocationChange);
-        }
-    }
-    disconnectedCallback() {
-        if (typeof window !== 'undefined') {
-            window.removeEventListener('popstate', this.handleLocationChange);
-        }
+    handleLocationChange() {
+        this.updateSelectedHref(this.getCurrentLocation());
     }
     async setSelectedHref(href) {
         this.updateSelectedHref(href);
@@ -45,9 +34,6 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
         this.menuItems = Array.from(this.el.querySelectorAll('ir-menu-item'));
         this.applySelection(this.selectedHref);
     };
-    handleLocationChange = () => {
-        this.updateSelectedHref(this.getCurrentLocation());
-    };
     updateSelectedHref(href) {
         const normalized = this.normalizeHref(href);
         if (normalized !== this.selectedHref) {
@@ -57,7 +43,13 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
     getCurrentLocation() {
         if (typeof window === 'undefined')
             return undefined;
-        return this.normalizeHref(`${window.location.pathname}${window.location.search}${window.location.hash}`);
+        const { pathname, search, hash } = window.location;
+        const cleanPath = pathname.replace(/\/+$/, '') || '/';
+        let lastSegment = cleanPath.split('/').pop() ?? cleanPath;
+        if (lastSegment === '') {
+            lastSegment = '/';
+        }
+        return `${lastSegment}${search}${hash}`;
     }
     normalizeHref(href) {
         if (!href)
@@ -83,6 +75,21 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
             }
         });
     }
+    openGroupForSelectedHref(targetHref) {
+        const normalizedTarget = this.normalizeHref(targetHref);
+        if (!normalizedTarget)
+            return;
+        for (const item of this.menuItems) {
+            const itemHref = this.normalizeHref(item.href);
+            if (itemHref === normalizedTarget) {
+                const group = item.closest('ir-menu-group');
+                if (group && !group.open) {
+                    group.open = true;
+                }
+                break;
+            }
+        }
+    }
     handleItemClick(event) {
         const path = event.composedPath();
         const menuItem = path.find(node => {
@@ -105,8 +112,16 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
             }
         }
     }
+    handleOpenChange(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (e.detail) {
+            const href = this.selectedHref ?? this.getCurrentLocation();
+            this.openGroupForSelectedHref(href);
+        }
+    }
     render() {
-        return (h(Host, { key: '17b7728af96393d155521ec11c7a7af138234dff' }, h("slot", { key: 'f41fafd6d941c6a96016bc55539500dee96c893e', onSlotchange: this.handleSlotChange })));
+        return (h(Host, { key: 'b5a2f92de72a8d87747de1d29c0a8096fec48940' }, h("slot", { key: 'c9bd9fe07e72cd71f72352216fcbb8bb103e896d', onSlotchange: this.handleSlotChange })));
     }
     static get watchers() { return {
         "selectedHref": ["handleSelectedHrefChange"]
@@ -115,7 +130,7 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
 }, [1, "ir-menu", {
         "selectedHref": [1537, "selected-href"],
         "setSelectedHref": [64]
-    }, [[2, "click", "handleItemClick"], [0, "openChanged", "handleGroupOpen"]], {
+    }, [[8, "popstate", "handleLocationChange"], [2, "click", "handleItemClick"], [0, "openChanged", "handleGroupOpen"], [16, "menuOpenChanged", "handleOpenChange"]], {
         "selectedHref": ["handleSelectedHrefChange"]
     }]);
 function defineCustomElement() {

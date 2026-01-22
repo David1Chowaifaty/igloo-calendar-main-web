@@ -1,3 +1,14 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { Debounce } from "../../../decorators/debounce";
 import Token from "../../../models/Token";
 import { BookingListingService } from "../../../services/booking_listing.service";
 import { Host, h } from "@stencil/core";
@@ -7,15 +18,14 @@ export class IrPmsSearch {
     shortcutHint = null;
     bookings = [];
     isLoading;
-    pickerInputRef;
     tokenService = new Token();
     bookingListingService = new BookingListingService();
     comboboxSelect;
+    autoCompleteRef;
     componentWillLoad() {
         document.addEventListener('keydown', this.focusInput);
         this.detectShortcutHint();
         if (this.ticket) {
-            console.log(this.ticket);
             this.tokenService.setToken(this.ticket);
         }
     }
@@ -44,7 +54,9 @@ export class IrPmsSearch {
         const isCmdOrCtrl = event.metaKey || event.ctrlKey;
         if (isK && isCmdOrCtrl) {
             event.preventDefault();
-            this.pickerInputRef?.focusInput();
+            // this.pickerInputRef?.focusInput();
+            console.log(this.autoCompleteRef);
+            this.autoCompleteRef.focusInput();
         }
     };
     async fetchBookings(event) {
@@ -52,7 +64,11 @@ export class IrPmsSearch {
         event.stopImmediatePropagation();
         event.stopPropagation();
         const value = event.detail;
-        const isNumber = !isNaN(Number(value));
+        this.autoCompleteRef.hide();
+        if (!value) {
+            return;
+        }
+        const isNumber = /^(?:-?\d+|.{3}-.*)$/.test(value);
         this.isLoading = true;
         this.bookings = await this.bookingListingService.getExposedBookings({
             book_nbr: isNumber ? value : null,
@@ -75,18 +91,24 @@ export class IrPmsSearch {
             property_ids: null,
             channel: '',
         }, { skipStore: true });
+        this.autoCompleteRef.show();
         this.isLoading = false;
-    }
-    render() {
-        return (h(Host, { key: '8f1d790cb94a11387d37449e9e6f37c1114df341' }, h("ir-picker", { key: '4b0540c99ee1be71dc76fef4f8b32fb4eef101c2', loading: this.isLoading, "onText-change": event => this.fetchBookings(event), mode: "select-async", ref: el => (this.pickerInputRef = el), pill: true, appearance: "filled", "onCombobox-select": event => this.handleComboboxSelect(event) }, this.shortcutHint && h("span", { key: '039bde98ae7bacaac12fd6e98eb20c96ba7a6686', slot: "end" }, this.shortcutHint), this.bookings.map(b => {
-            const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
-            return (h("ir-picker-item", { value: b.booking_nbr, label: label }, label));
-        }))));
     }
     handleComboboxSelect(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
-        this.comboboxSelect.emit(event.detail);
+        this.comboboxSelect.emit({
+            item: {
+                label: "",
+                value: event.detail
+            }
+        });
+    }
+    render() {
+        return (h(Host, { key: '6596213e70b096d32e6948089fd7aca361a3aee3' }, h("ir-autocomplete", { key: '5d1163079ab2438df706dd354b5c3f49bd0f7282', class: "pms-search__autocomplete", placeholder: 'Search', ref: el => this.autoCompleteRef = el, "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: 'filled' }, h("wa-icon", { key: 'ac0de9a316fe6ddaf42d428d1ec15ae713003288', name: 'magnifying-glass', slot: 'start' }), h("div", { key: '9a36717f64f94ad0e7deca9785d547d046d1b8a3', slot: 'end', class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'a45bd8ca5f2ebb7624f1ea761ab61787957090ac' }), this.shortcutHint && h("span", { key: '5b94dc6431ae6769aeee812e7b1e995af2d9430d' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: '9f1134ec9dad0fdc4b4fd6b9d77a47b90f761e94', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '3badcfcb9f41150cab42b2c3188d1134ff5d0687', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'ea694ddd19353417456df93a777da82132fd49e7', class: "pms-search__empty-content" }, h("div", { key: '308c9f9bfe2aefde6a72ef5443c6806a91f4d241', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
+            const label = `${b.booking_nbr}  ${b.guest.first_name} ${b.guest.last_name}`;
+            return (h("ir-autocomplete-option", { class: 'pms-search__autocomplete-option', value: b.booking_nbr, label: label }, h("img", { slot: 'start', class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), h("div", { class: "pms-search__option" }, h("p", { class: "pms-search__option-bookings" }, h("span", { class: "pms-search__option-booking" }, b.booking_nbr), b.channel_booking_nbr && (h("span", { class: "pms-search__option-channel-booking" }, b.channel_booking_nbr))), h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), h("ir-booking-status-tag", { slot: 'end', class: "pms-search__option-status", status: b.status })));
+        }))));
     }
     static get is() { return "ir-pms-search"; }
     static get encapsulation() { return "shadow"; }
@@ -180,4 +202,7 @@ export class IrPmsSearch {
             }];
     }
 }
+__decorate([
+    Debounce(300)
+], IrPmsSearch.prototype, "fetchBookings", null);
 //# sourceMappingURL=ir-pms-search.js.map

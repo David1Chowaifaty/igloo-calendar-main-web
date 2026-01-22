@@ -25,7 +25,7 @@ import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
-import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+import { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { BookingService } from "./services/booking-service/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
@@ -33,8 +33,7 @@ import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
-import { NativeWaInput } from "./components/ui/ir-input/ir-input";
+import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { Moment } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -47,7 +46,7 @@ import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
-import { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
+import { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
 import { FactoryArg } from "imask";
 import { ZodType, ZodTypeAny } from "zod";
 import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
@@ -58,7 +57,8 @@ import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 import { Notification } from "./components/ir-notifications/types";
 import { PaymentOption } from "./models/payment-options";
 import { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
-import { AllowedProperties, FetchedProperty, LinkedProperty } from "./services/property.service";
+import { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
+import { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
 import { Moment as Moment1 } from "moment";
 import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
@@ -67,6 +67,7 @@ import { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 import { Tab } from "./components/ui/ir-tabs/ir-tabs";
 import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+import { TPositions } from "./components/ui/ir-toast/toast";
 import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 import { User } from "./models/Users";
@@ -91,7 +92,7 @@ export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
-export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+export { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { BookingService } from "./services/booking-service/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
@@ -99,8 +100,7 @@ export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
-export { NativeWaInput } from "./components/ui/ir-input/ir-input";
+export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { Moment } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -113,7 +113,7 @@ export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
-export { MaskProp, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
+export { MaskProp as MaskProp1, NativeWaInput as NativeWaInput1 } from "./components/ui/ir-input/ir-input";
 export { FactoryArg } from "imask";
 export { ZodType, ZodTypeAny } from "zod";
 export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
@@ -124,7 +124,8 @@ export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings
 export { Notification } from "./components/ir-notifications/types";
 export { PaymentOption } from "./models/payment-options";
 export { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
-export { AllowedProperties, FetchedProperty, LinkedProperty } from "./services/property.service";
+export { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
+export { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
 export { Moment as Moment1 } from "moment";
 export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
@@ -133,6 +134,7 @@ export { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 export { Tab } from "./components/ui/ir-tabs/ir-tabs";
 export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+export { TPositions } from "./components/ui/ir-toast/toast";
 export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 export { User } from "./models/Users";
@@ -274,6 +276,7 @@ export namespace Components {
         "wasBlockedUnit": boolean;
     }
     interface IglBulkBlock {
+        "formId": string;
         "maxDatesLength": number;
         "property_id": number;
     }
@@ -281,7 +284,13 @@ export namespace Components {
         "maxDatesLength": number;
         "property_id": number;
     }
+    interface IglBulkOperationsDrawer {
+        "maxDatesLength": number;
+        "open": boolean;
+        "property_id": number;
+    }
     interface IglBulkStopSale {
+        "formId": string;
         "maxDatesLength": number;
         "property_id": number;
     }
@@ -542,19 +551,155 @@ export namespace Components {
     interface IrArrivalsTable {
     }
     interface IrAutocomplete {
-        "danger_border": boolean;
+        /**
+          * The input's visual appearance.
+         */
+        "appearance": NativeWaInput['appearance'];
+        /**
+          * Controls whether and how text input is automatically capitalized as it is entered by the user.
+         */
+        "autocapitalize": NativeWaInput['autocapitalize'];
+        /**
+          * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+         */
+        "autocomplete": NativeWaInput['autocomplete'];
+        /**
+          * Indicates whether the browser's autocorrect feature is on or off.
+         */
+        "autocorrect": NativeWaInput['autocorrect'];
+        /**
+          * Indicates that the input should receive focus on page load.
+         */
+        "autofocus": NativeWaInput['autofocus'];
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue": NativeWaInput['defaultValue'];
+        /**
+          * Disables the input.
+         */
         "disabled": boolean;
-        "duration": number;
-        "from_date": string;
-        "inputId": string;
-        "isSplitBooking": boolean;
+        /**
+          * Used to customize the label or icon of the Enter key on virtual keyboards.
+         */
+        "enterkeyhint": NativeWaInput['enterkeyhint'];
+        "focusInput": () => Promise<void>;
+        /**
+          * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+         */
+        "form": NativeWaInput['form'];
+        "hide": () => Promise<void>;
+        /**
+          * The input's hint. If you need to display HTML, use the `hint` slot instead.
+         */
+        "hint": NativeWaInput['hint'];
+        /**
+          * Custom CSS classes applied to the inner `<ir-input>` element.  You can also target the exposed parts `::part(input)` and `::part(base)` for deeper styling of the native input and container.
+         */
+        "inputClass": string;
+        /**
+          * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+         */
+        "inputmode": NativeWaInput['inputmode'];
+        /**
+          * The input's label. If you need to display HTML, use the `label` slot instead.
+         */
+        "label": NativeWaInput['label'];
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask": MaskProp;
+        /**
+          * The input's maximum value. Only applies to date and number input types.
+         */
+        "max": NativeWaInput['max'];
+        /**
+          * The maximum length of input that will be considered valid.
+         */
+        "maxlength": NativeWaInput['maxlength'];
+        /**
+          * The input's minimum value. Only applies to date and number input types.
+         */
+        "min": NativeWaInput['min'];
+        /**
+          * The minimum length of input that will be considered valid.
+         */
+        "minlength": NativeWaInput['minlength'];
         "name": string;
-        "placeholder": string;
-        "propertyId": number;
-        "required": boolean;
-        "testId": string;
-        "to_date": string;
-        "type": 'email' | 'text' | 'password' | 'number' | 'search';
+        "open": boolean;
+        /**
+          * Adds a button to toggle the password's visibility. Only applies to password types.
+         */
+        "passwordToggle": NativeWaInput['passwordToggle'];
+        /**
+          * Determines whether or not the password is currently visible. Only applies to password input types.
+         */
+        "passwordVisible": NativeWaInput['passwordVisible'];
+        /**
+          * A regular expression pattern to validate input against.
+         */
+        "pattern": NativeWaInput['pattern'];
+        /**
+          * Draws a pill-style input with rounded edges.
+         */
+        "pill": NativeWaInput['pill'];
+        /**
+          * Placeholder text to show as a hint when the input is empty.
+         */
+        "placeholder": NativeWaInput['placeholder'];
+        "placement": AutocompletePopupElement["placement"];
+        /**
+          * Makes the input readonly.
+         */
+        "readonly": NativeWaInput['readonly'];
+        /**
+          * Makes the input a required field.
+         */
+        "required": NativeWaInput['required'];
+        "returnMaskedValue": boolean;
+        "show": () => Promise<void>;
+        /**
+          * The input's size.
+         */
+        "size": NativeWaInput['size'];
+        /**
+          * Enables spell checking on the input.
+         */
+        "spellcheck": NativeWaInput['spellcheck'];
+        /**
+          * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+         */
+        "step": NativeWaInput['step'];
+        /**
+          * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+         */
+        "type": NativeWaInput['type'];
+        /**
+          * The value of the input.
+         */
+        "value": string;
+        /**
+          * Adds a clear button when the input is not empty.
+         */
+        "withClear": NativeWaInput['withClear'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+         */
+        "withHint": NativeWaInput['withHint'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+         */
+        "withLabel": NativeWaInput['withLabel'];
+        /**
+          * Hides the browser's built-in increment/decrement spin buttons for number inputs.
+         */
+        "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
+    }
+    interface IrAutocompleteOption {
+        "current": boolean;
+        "disabled": boolean;
+        "label": string;
+        "selected": boolean;
         "value": string;
     }
     interface IrBalanceCell {
@@ -1844,7 +1989,7 @@ export namespace Components {
         /**
           * Mask for the input field (optional)
          */
-        "mask": MaskProp;
+        "mask": MaskProp1;
         /**
           * The input's maximum value. Only applies to date and number input types.
          */
@@ -2463,7 +2608,8 @@ export namespace Components {
     interface IrNewBadge {
     }
     interface IrNotifications {
-        "notifications": Notification[];
+        "propertyid": number;
+        "ticket": string;
     }
     interface IrOptionDetails {
         "propertyId": string;
@@ -2802,6 +2948,11 @@ export namespace Components {
         "propertyid": string;
         "ticket": string;
     }
+    interface IrPmsPaymentDueAlert {
+        "baseUrl": string;
+        "propertyid": number;
+        "ticket": string;
+    }
     interface IrPmsSearch {
         "propertyid": string;
         "ticket": string;
@@ -3038,6 +3189,8 @@ export namespace Components {
     interface IrPropertySwitcher {
         "baseUrl": string;
         "mode": 'dropdown' | 'dialog';
+        "propertyId"?: number;
+        "selectedLinkedPropertyId"?: number;
         "ticket": string;
     }
     /**
@@ -3142,6 +3295,9 @@ export namespace Components {
         "formId": string;
         "identifier": string;
         "pool": string;
+    }
+    interface IrRectifier {
+        "formId": string;
     }
     interface IrReservationInformation {
         "booking": Booking;
@@ -3660,6 +3816,28 @@ export namespace Components {
          */
         "withHtml": boolean;
     }
+    interface IrUnbookableRooms {
+        "consecutive_period": number;
+        "mode": UnbookableRoomsMode;
+        "period_to_check": number;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrUnbookableRoomsData {
+        "allowedProperties": AllowedProperties;
+        "errorMessage": string;
+        "filters": UnbookableRoomsFilters;
+        "isLoading": boolean;
+        "mode": UnbookableRoomsMode;
+        "progressFilters": { period_to_check: number; consecutive_period: number; };
+        "unbookableRooms": FetchUnBookableRoomsResult;
+    }
+    interface IrUnbookableRoomsFilters {
+        "filters": UnbookableRoomsFilters;
+        "isLoading": boolean;
+        "mode": UnbookableRoomsMode;
+        "unbookableRooms": FetchUnBookableRoomsResult;
+    }
     interface IrUnitCell {
         "room": Room;
     }
@@ -3831,6 +4009,10 @@ export interface IglBulkBlockCustomEvent<T> extends CustomEvent<T> {
 export interface IglBulkOperationsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglBulkOperationsElement;
+}
+export interface IglBulkOperationsDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglBulkOperationsDrawerElement;
 }
 export interface IglBulkStopSaleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4176,6 +4358,10 @@ export interface IrMComboboxItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMComboboxItemElement;
 }
+export interface IrMenuDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrMenuDrawerElement;
+}
 export interface IrMenuGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMenuGroupElement;
@@ -4296,6 +4482,10 @@ export interface IrReallocationFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrReallocationFormElement;
 }
+export interface IrRectifierCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrRectifierElement;
+}
 export interface IrReservationInformationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrReservationInformationElement;
@@ -4383,6 +4573,10 @@ export interface IrTitleCustomEvent<T> extends CustomEvent<T> {
 export interface IrToastAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrToastAlertElement;
+}
+export interface IrUnbookableRoomsFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrUnbookableRoomsFiltersElement;
 }
 export interface IrUnitStatusCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -4640,8 +4834,9 @@ declare global {
         new (): HTMLIglBookingOverviewPageElement;
     };
     interface HTMLIglBulkBlockElementEventMap {
-        "closeModal": null;
+        "closeDrawer": null;
         "toast": IToast;
+        "loadingChanged": boolean;
     }
     interface HTMLIglBulkBlockElement extends Components.IglBulkBlock, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglBulkBlockElementEventMap>(type: K, listener: (this: HTMLIglBulkBlockElement, ev: IglBulkBlockCustomEvent<HTMLIglBulkBlockElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -4675,9 +4870,28 @@ declare global {
         prototype: HTMLIglBulkOperationsElement;
         new (): HTMLIglBulkOperationsElement;
     };
+    interface HTMLIglBulkOperationsDrawerElementEventMap {
+        "closeDrawer": null;
+        "toast": IrToast;
+    }
+    interface HTMLIglBulkOperationsDrawerElement extends Components.IglBulkOperationsDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglBulkOperationsDrawerElementEventMap>(type: K, listener: (this: HTMLIglBulkOperationsDrawerElement, ev: IglBulkOperationsDrawerCustomEvent<HTMLIglBulkOperationsDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglBulkOperationsDrawerElementEventMap>(type: K, listener: (this: HTMLIglBulkOperationsDrawerElement, ev: IglBulkOperationsDrawerCustomEvent<HTMLIglBulkOperationsDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglBulkOperationsDrawerElement: {
+        prototype: HTMLIglBulkOperationsDrawerElement;
+        new (): HTMLIglBulkOperationsDrawerElement;
+    };
     interface HTMLIglBulkStopSaleElementEventMap {
-        "closeModal": null;
+        "closeDrawer": null;
         "toast": IToast;
+        "loadingChanged": boolean;
     }
     interface HTMLIglBulkStopSaleElement extends Components.IglBulkStopSale, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglBulkStopSaleElementEventMap>(type: K, listener: (this: HTMLIglBulkStopSaleElement, ev: IglBulkStopSaleCustomEvent<HTMLIglBulkStopSaleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5076,9 +5290,8 @@ declare global {
         new (): HTMLIrArrivalsTableElement;
     };
     interface HTMLIrAutocompleteElementEventMap {
-        "comboboxValue": { key: string; data: unknown };
-        "inputCleared": null;
-        "toast": IToast1;
+        "text-change": string;
+        "combobox-change": string;
     }
     interface HTMLIrAutocompleteElement extends Components.IrAutocomplete, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAutocompleteElementEventMap>(type: K, listener: (this: HTMLIrAutocompleteElement, ev: IrAutocompleteCustomEvent<HTMLIrAutocompleteElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5093,6 +5306,12 @@ declare global {
     var HTMLIrAutocompleteElement: {
         prototype: HTMLIrAutocompleteElement;
         new (): HTMLIrAutocompleteElement;
+    };
+    interface HTMLIrAutocompleteOptionElement extends Components.IrAutocompleteOption, HTMLStencilElement {
+    }
+    var HTMLIrAutocompleteOptionElement: {
+        prototype: HTMLIrAutocompleteOptionElement;
+        new (): HTMLIrAutocompleteOptionElement;
     };
     interface HTMLIrBalanceCellElementEventMap {
         "payBookingBalance": { booking_nbr: string; payment: Payment };
@@ -6464,7 +6683,18 @@ declare global {
         prototype: HTMLIrMenuElement;
         new (): HTMLIrMenuElement;
     };
+    interface HTMLIrMenuDrawerElementEventMap {
+        "menuOpenChanged": boolean;
+    }
     interface HTMLIrMenuDrawerElement extends Components.IrMenuDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMenuDrawerElementEventMap>(type: K, listener: (this: HTMLIrMenuDrawerElement, ev: IrMenuDrawerCustomEvent<HTMLIrMenuDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMenuDrawerElementEventMap>(type: K, listener: (this: HTMLIrMenuDrawerElement, ev: IrMenuDrawerCustomEvent<HTMLIrMenuDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrMenuDrawerElement: {
         prototype: HTMLIrMenuDrawerElement;
@@ -6930,6 +7160,12 @@ declare global {
         prototype: HTMLIrPmsPageElement;
         new (): HTMLIrPmsPageElement;
     };
+    interface HTMLIrPmsPaymentDueAlertElement extends Components.IrPmsPaymentDueAlert, HTMLStencilElement {
+    }
+    var HTMLIrPmsPaymentDueAlertElement: {
+        prototype: HTMLIrPmsPaymentDueAlertElement;
+        new (): HTMLIrPmsPaymentDueAlertElement;
+    };
     interface HTMLIrPmsSearchElementEventMap {
         "combobox-select": IrComboboxSelectEventDetail;
     }
@@ -7027,7 +7263,11 @@ declare global {
         new (): HTMLIrProgressIndicatorElement;
     };
     interface HTMLIrPropertySwitcherElementEventMap {
-        "propertyChange": FetchedProperty;
+        "propertyChange": {
+    property: GetACByACID;
+    linkedProperty: LinkedProperty | null;
+    allLinkedProperties: LinkedProperty[];
+  };
     }
     interface HTMLIrPropertySwitcherElement extends Components.IrPropertySwitcher, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrPropertySwitcherElementEventMap>(type: K, listener: (this: HTMLIrPropertySwitcherElement, ev: IrPropertySwitcherCustomEvent<HTMLIrPropertySwitcherElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7045,6 +7285,7 @@ declare global {
     };
     interface HTMLIrPropertySwitcherDialogContentElementEventMap {
         "propertySelected": FetchedProperty['PROPERTY_ID'];
+        "linkedPropertyChange": LinkedProperty;
     }
     /**
      * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
@@ -7143,6 +7384,24 @@ declare global {
     var HTMLIrReallocationFormElement: {
         prototype: HTMLIrReallocationFormElement;
         new (): HTMLIrReallocationFormElement;
+    };
+    interface HTMLIrRectifierElementEventMap {
+        "loadingChanged": boolean;
+        "closeDrawer": void;
+    }
+    interface HTMLIrRectifierElement extends Components.IrRectifier, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrRectifierElementEventMap>(type: K, listener: (this: HTMLIrRectifierElement, ev: IrRectifierCustomEvent<HTMLIrRectifierElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrRectifierElementEventMap>(type: K, listener: (this: HTMLIrRectifierElement, ev: IrRectifierCustomEvent<HTMLIrRectifierElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrRectifierElement: {
+        prototype: HTMLIrRectifierElement;
+        new (): HTMLIrRectifierElement;
     };
     interface HTMLIrReservationInformationElementEventMap {
         "openSidebar": OpenSidebarEvent<any>;
@@ -7653,6 +7912,37 @@ declare global {
         prototype: HTMLIrTooltipElement;
         new (): HTMLIrTooltipElement;
     };
+    interface HTMLIrUnbookableRoomsElement extends Components.IrUnbookableRooms, HTMLStencilElement {
+    }
+    var HTMLIrUnbookableRoomsElement: {
+        prototype: HTMLIrUnbookableRoomsElement;
+        new (): HTMLIrUnbookableRoomsElement;
+    };
+    interface HTMLIrUnbookableRoomsDataElement extends Components.IrUnbookableRoomsData, HTMLStencilElement {
+    }
+    var HTMLIrUnbookableRoomsDataElement: {
+        prototype: HTMLIrUnbookableRoomsDataElement;
+        new (): HTMLIrUnbookableRoomsDataElement;
+    };
+    interface HTMLIrUnbookableRoomsFiltersElementEventMap {
+        "filtersChange": Partial<UnbookableRoomsFilters>;
+        "filtersReset": void;
+        "filtersSave": void;
+    }
+    interface HTMLIrUnbookableRoomsFiltersElement extends Components.IrUnbookableRoomsFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrUnbookableRoomsFiltersElementEventMap>(type: K, listener: (this: HTMLIrUnbookableRoomsFiltersElement, ev: IrUnbookableRoomsFiltersCustomEvent<HTMLIrUnbookableRoomsFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrUnbookableRoomsFiltersElementEventMap>(type: K, listener: (this: HTMLIrUnbookableRoomsFiltersElement, ev: IrUnbookableRoomsFiltersCustomEvent<HTMLIrUnbookableRoomsFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrUnbookableRoomsFiltersElement: {
+        prototype: HTMLIrUnbookableRoomsFiltersElement;
+        new (): HTMLIrUnbookableRoomsFiltersElement;
+    };
     interface HTMLIrUnitCellElement extends Components.IrUnitCell, HTMLStencilElement {
     }
     var HTMLIrUnitCellElement: {
@@ -7803,6 +8093,7 @@ declare global {
         "igl-booking-overview-page": HTMLIglBookingOverviewPageElement;
         "igl-bulk-block": HTMLIglBulkBlockElement;
         "igl-bulk-operations": HTMLIglBulkOperationsElement;
+        "igl-bulk-operations-drawer": HTMLIglBulkOperationsDrawerElement;
         "igl-bulk-stop-sale": HTMLIglBulkStopSaleElement;
         "igl-cal-body": HTMLIglCalBodyElement;
         "igl-cal-footer": HTMLIglCalFooterElement;
@@ -7828,6 +8119,7 @@ declare global {
         "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
         "ir-arrivals-table": HTMLIrArrivalsTableElement;
         "ir-autocomplete": HTMLIrAutocompleteElement;
+        "ir-autocomplete-option": HTMLIrAutocompleteOptionElement;
         "ir-balance-cell": HTMLIrBalanceCellElement;
         "ir-billing": HTMLIrBillingElement;
         "ir-billing-drawer": HTMLIrBillingDrawerElement;
@@ -7958,6 +8250,7 @@ declare global {
         "ir-pickup-view": HTMLIrPickupViewElement;
         "ir-pms-logs": HTMLIrPmsLogsElement;
         "ir-pms-page": HTMLIrPmsPageElement;
+        "ir-pms-payment-due-alert": HTMLIrPmsPaymentDueAlertElement;
         "ir-pms-search": HTMLIrPmsSearchElement;
         "ir-popover": HTMLIrPopoverElement;
         "ir-preview-screen-dialog": HTMLIrPreviewScreenDialogElement;
@@ -7976,6 +8269,7 @@ declare global {
         "ir-range-picker": HTMLIrRangePickerElement;
         "ir-reallocation-drawer": HTMLIrReallocationDrawerElement;
         "ir-reallocation-form": HTMLIrReallocationFormElement;
+        "ir-rectifier": HTMLIrRectifierElement;
         "ir-reservation-information": HTMLIrReservationInformationElement;
         "ir-reset-password": HTMLIrResetPasswordElement;
         "ir-revenue-row": HTMLIrRevenueRowElement;
@@ -8018,6 +8312,9 @@ declare global {
         "ir-toast-alert": HTMLIrToastAlertElement;
         "ir-toast-provider": HTMLIrToastProviderElement;
         "ir-tooltip": HTMLIrTooltipElement;
+        "ir-unbookable-rooms": HTMLIrUnbookableRoomsElement;
+        "ir-unbookable-rooms-data": HTMLIrUnbookableRoomsDataElement;
+        "ir-unbookable-rooms-filters": HTMLIrUnbookableRoomsFiltersElement;
         "ir-unit-cell": HTMLIrUnitCellElement;
         "ir-unit-status": HTMLIrUnitStatusElement;
         "ir-unit-tag": HTMLIrUnitTagElement;
@@ -8206,8 +8503,10 @@ declare namespace LocalJSX {
         "wasBlockedUnit"?: boolean;
     }
     interface IglBulkBlock {
+        "formId"?: string;
         "maxDatesLength"?: number;
-        "onCloseModal"?: (event: IglBulkBlockCustomEvent<null>) => void;
+        "onCloseDrawer"?: (event: IglBulkBlockCustomEvent<null>) => void;
+        "onLoadingChanged"?: (event: IglBulkBlockCustomEvent<boolean>) => void;
         "onToast"?: (event: IglBulkBlockCustomEvent<IToast>) => void;
         "property_id"?: number;
     }
@@ -8217,9 +8516,18 @@ declare namespace LocalJSX {
         "onToast"?: (event: IglBulkOperationsCustomEvent<IrToast>) => void;
         "property_id"?: number;
     }
-    interface IglBulkStopSale {
+    interface IglBulkOperationsDrawer {
         "maxDatesLength"?: number;
-        "onCloseModal"?: (event: IglBulkStopSaleCustomEvent<null>) => void;
+        "onCloseDrawer"?: (event: IglBulkOperationsDrawerCustomEvent<null>) => void;
+        "onToast"?: (event: IglBulkOperationsDrawerCustomEvent<IrToast>) => void;
+        "open"?: boolean;
+        "property_id"?: number;
+    }
+    interface IglBulkStopSale {
+        "formId"?: string;
+        "maxDatesLength"?: number;
+        "onCloseDrawer"?: (event: IglBulkStopSaleCustomEvent<null>) => void;
+        "onLoadingChanged"?: (event: IglBulkStopSaleCustomEvent<boolean>) => void;
         "onToast"?: (event: IglBulkStopSaleCustomEvent<IToast>) => void;
         "property_id"?: number;
     }
@@ -8544,22 +8852,154 @@ declare namespace LocalJSX {
         "onRequestPageSizeChange"?: (event: IrArrivalsTableCustomEvent<PaginationChangeEvent>) => void;
     }
     interface IrAutocomplete {
-        "danger_border"?: boolean;
+        /**
+          * The input's visual appearance.
+         */
+        "appearance"?: NativeWaInput['appearance'];
+        /**
+          * Controls whether and how text input is automatically capitalized as it is entered by the user.
+         */
+        "autocapitalize"?: NativeWaInput['autocapitalize'];
+        /**
+          * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+         */
+        "autocomplete"?: NativeWaInput['autocomplete'];
+        /**
+          * Indicates whether the browser's autocorrect feature is on or off.
+         */
+        "autocorrect"?: NativeWaInput['autocorrect'];
+        /**
+          * Indicates that the input should receive focus on page load.
+         */
+        "autofocus"?: NativeWaInput['autofocus'];
+        /**
+          * The default value of the form control. Primarily used for resetting the form control.
+         */
+        "defaultValue"?: NativeWaInput['defaultValue'];
+        /**
+          * Disables the input.
+         */
         "disabled"?: boolean;
-        "duration"?: number;
-        "from_date"?: string;
-        "inputId"?: string;
-        "isSplitBooking"?: boolean;
+        /**
+          * Used to customize the label or icon of the Enter key on virtual keyboards.
+         */
+        "enterkeyhint"?: NativeWaInput['enterkeyhint'];
+        /**
+          * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you to place the form control outside of a form and associate it with the form that has this `id`. The form must be in the same document or shadow root for this to work.
+         */
+        "form"?: NativeWaInput['form'];
+        /**
+          * The input's hint. If you need to display HTML, use the `hint` slot instead.
+         */
+        "hint"?: NativeWaInput['hint'];
+        /**
+          * Custom CSS classes applied to the inner `<ir-input>` element.  You can also target the exposed parts `::part(input)` and `::part(base)` for deeper styling of the native input and container.
+         */
+        "inputClass"?: string;
+        /**
+          * Tells the browser what type of data will be entered by the user, allowing it to display the appropriate virtual keyboard on supportive devices.
+         */
+        "inputmode"?: NativeWaInput['inputmode'];
+        /**
+          * The input's label. If you need to display HTML, use the `label` slot instead.
+         */
+        "label"?: NativeWaInput['label'];
+        /**
+          * Mask for the input field (optional)
+         */
+        "mask"?: MaskProp;
+        /**
+          * The input's maximum value. Only applies to date and number input types.
+         */
+        "max"?: NativeWaInput['max'];
+        /**
+          * The maximum length of input that will be considered valid.
+         */
+        "maxlength"?: NativeWaInput['maxlength'];
+        /**
+          * The input's minimum value. Only applies to date and number input types.
+         */
+        "min"?: NativeWaInput['min'];
+        /**
+          * The minimum length of input that will be considered valid.
+         */
+        "minlength"?: NativeWaInput['minlength'];
         "name"?: string;
-        "onComboboxValue"?: (event: IrAutocompleteCustomEvent<{ key: string; data: unknown }>) => void;
-        "onInputCleared"?: (event: IrAutocompleteCustomEvent<null>) => void;
-        "onToast"?: (event: IrAutocompleteCustomEvent<IToast1>) => void;
-        "placeholder"?: string;
-        "propertyId"?: number;
-        "required"?: boolean;
-        "testId"?: string;
-        "to_date"?: string;
-        "type"?: 'email' | 'text' | 'password' | 'number' | 'search';
+        "onCombobox-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
+        "onText-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
+        "open"?: boolean;
+        /**
+          * Adds a button to toggle the password's visibility. Only applies to password types.
+         */
+        "passwordToggle"?: NativeWaInput['passwordToggle'];
+        /**
+          * Determines whether or not the password is currently visible. Only applies to password input types.
+         */
+        "passwordVisible"?: NativeWaInput['passwordVisible'];
+        /**
+          * A regular expression pattern to validate input against.
+         */
+        "pattern"?: NativeWaInput['pattern'];
+        /**
+          * Draws a pill-style input with rounded edges.
+         */
+        "pill"?: NativeWaInput['pill'];
+        /**
+          * Placeholder text to show as a hint when the input is empty.
+         */
+        "placeholder"?: NativeWaInput['placeholder'];
+        "placement"?: AutocompletePopupElement["placement"];
+        /**
+          * Makes the input readonly.
+         */
+        "readonly"?: NativeWaInput['readonly'];
+        /**
+          * Makes the input a required field.
+         */
+        "required"?: NativeWaInput['required'];
+        "returnMaskedValue"?: boolean;
+        /**
+          * The input's size.
+         */
+        "size"?: NativeWaInput['size'];
+        /**
+          * Enables spell checking on the input.
+         */
+        "spellcheck"?: NativeWaInput['spellcheck'];
+        /**
+          * Specifies the granularity that the value must adhere to, or the special value `any` which means no stepping is implied, allowing any numeric value. Only applies to date and number input types.
+         */
+        "step"?: NativeWaInput['step'];
+        /**
+          * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+         */
+        "type"?: NativeWaInput['type'];
+        /**
+          * The value of the input.
+         */
+        "value"?: string;
+        /**
+          * Adds a clear button when the input is not empty.
+         */
+        "withClear"?: NativeWaInput['withClear'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+         */
+        "withHint"?: NativeWaInput['withHint'];
+        /**
+          * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+         */
+        "withLabel"?: NativeWaInput['withLabel'];
+        /**
+          * Hides the browser's built-in increment/decrement spin buttons for number inputs.
+         */
+        "withoutSpinButtons"?: NativeWaInput['withoutSpinButtons'];
+    }
+    interface IrAutocompleteOption {
+        "current"?: boolean;
+        "disabled"?: boolean;
+        "label"?: string;
+        "selected"?: boolean;
         "value"?: string;
     }
     interface IrBalanceCell {
@@ -9998,7 +10438,7 @@ declare namespace LocalJSX {
         /**
           * Mask for the input field (optional)
          */
-        "mask"?: MaskProp;
+        "mask"?: MaskProp1;
         /**
           * The input's maximum value. Only applies to date and number input types.
          */
@@ -10496,6 +10936,7 @@ declare namespace LocalJSX {
         "selectedHref"?: string;
     }
     interface IrMenuDrawer {
+        "onMenuOpenChanged"?: (event: IrMenuDrawerCustomEvent<boolean>) => void;
         "open"?: boolean;
     }
     interface IrMenuGroup {
@@ -10664,8 +11105,9 @@ declare namespace LocalJSX {
     interface IrNewBadge {
     }
     interface IrNotifications {
-        "notifications"?: Notification[];
         "onNotificationCleared"?: (event: IrNotificationsCustomEvent<Notification>) => void;
+        "propertyid"?: number;
+        "ticket"?: string;
     }
     interface IrOptionDetails {
         "onCloseModal"?: (event: IrOptionDetailsCustomEvent<PaymentOption | null>) => void;
@@ -11076,6 +11518,11 @@ declare namespace LocalJSX {
         "propertyid"?: string;
         "ticket"?: string;
     }
+    interface IrPmsPaymentDueAlert {
+        "baseUrl"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
     interface IrPmsSearch {
         "onCombobox-select"?: (event: IrPmsSearchCustomEvent<IrComboboxSelectEventDetail>) => void;
         "propertyid"?: string;
@@ -11315,9 +11762,15 @@ declare namespace LocalJSX {
         "baseUrl"?: string;
         "mode"?: 'dropdown' | 'dialog';
         /**
-          * Emits whenever the user selects a new property
+          * Single unified event - emitted when dialog confirms selection OR dropdown selects linked property
          */
-        "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<FetchedProperty>) => void;
+        "onPropertyChange"?: (event: IrPropertySwitcherCustomEvent<{
+    property: GetACByACID;
+    linkedProperty: LinkedProperty | null;
+    allLinkedProperties: LinkedProperty[];
+  }>) => void;
+        "propertyId"?: number;
+        "selectedLinkedPropertyId"?: number;
         "ticket"?: string;
     }
     /**
@@ -11325,6 +11778,7 @@ declare namespace LocalJSX {
      * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
      */
     interface IrPropertySwitcherDialogContent {
+        "onLinkedPropertyChange"?: (event: IrPropertySwitcherDialogContentCustomEvent<LinkedProperty>) => void;
         /**
           * Emits whenever the user picks a property from the list.
          */
@@ -11433,6 +11887,11 @@ declare namespace LocalJSX {
         "identifier"?: string;
         "onCloseModal"?: (event: IrReallocationFormCustomEvent<null>) => void;
         "pool"?: string;
+    }
+    interface IrRectifier {
+        "formId"?: string;
+        "onCloseDrawer"?: (event: IrRectifierCustomEvent<void>) => void;
+        "onLoadingChanged"?: (event: IrRectifierCustomEvent<boolean>) => void;
     }
     interface IrReservationInformation {
         "booking"?: Booking;
@@ -12004,6 +12463,31 @@ declare namespace LocalJSX {
          */
         "withHtml"?: boolean;
     }
+    interface IrUnbookableRooms {
+        "consecutive_period"?: number;
+        "mode"?: UnbookableRoomsMode;
+        "period_to_check"?: number;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrUnbookableRoomsData {
+        "allowedProperties"?: AllowedProperties;
+        "errorMessage"?: string;
+        "filters"?: UnbookableRoomsFilters;
+        "isLoading"?: boolean;
+        "mode"?: UnbookableRoomsMode;
+        "progressFilters"?: { period_to_check: number; consecutive_period: number; };
+        "unbookableRooms"?: FetchUnBookableRoomsResult;
+    }
+    interface IrUnbookableRoomsFilters {
+        "filters"?: UnbookableRoomsFilters;
+        "isLoading"?: boolean;
+        "mode"?: UnbookableRoomsMode;
+        "onFiltersChange"?: (event: IrUnbookableRoomsFiltersCustomEvent<Partial<UnbookableRoomsFilters>>) => void;
+        "onFiltersReset"?: (event: IrUnbookableRoomsFiltersCustomEvent<void>) => void;
+        "onFiltersSave"?: (event: IrUnbookableRoomsFiltersCustomEvent<void>) => void;
+        "unbookableRooms"?: FetchUnBookableRoomsResult;
+    }
     interface IrUnitCell {
         "room"?: Room;
     }
@@ -12152,6 +12636,7 @@ declare namespace LocalJSX {
         "igl-booking-overview-page": IglBookingOverviewPage;
         "igl-bulk-block": IglBulkBlock;
         "igl-bulk-operations": IglBulkOperations;
+        "igl-bulk-operations-drawer": IglBulkOperationsDrawer;
         "igl-bulk-stop-sale": IglBulkStopSale;
         "igl-cal-body": IglCalBody;
         "igl-cal-footer": IglCalFooter;
@@ -12177,6 +12662,7 @@ declare namespace LocalJSX {
         "ir-arrivals-filters": IrArrivalsFilters;
         "ir-arrivals-table": IrArrivalsTable;
         "ir-autocomplete": IrAutocomplete;
+        "ir-autocomplete-option": IrAutocompleteOption;
         "ir-balance-cell": IrBalanceCell;
         "ir-billing": IrBilling;
         "ir-billing-drawer": IrBillingDrawer;
@@ -12307,6 +12793,7 @@ declare namespace LocalJSX {
         "ir-pickup-view": IrPickupView;
         "ir-pms-logs": IrPmsLogs;
         "ir-pms-page": IrPmsPage;
+        "ir-pms-payment-due-alert": IrPmsPaymentDueAlert;
         "ir-pms-search": IrPmsSearch;
         "ir-popover": IrPopover;
         "ir-preview-screen-dialog": IrPreviewScreenDialog;
@@ -12325,6 +12812,7 @@ declare namespace LocalJSX {
         "ir-range-picker": IrRangePicker;
         "ir-reallocation-drawer": IrReallocationDrawer;
         "ir-reallocation-form": IrReallocationForm;
+        "ir-rectifier": IrRectifier;
         "ir-reservation-information": IrReservationInformation;
         "ir-reset-password": IrResetPassword;
         "ir-revenue-row": IrRevenueRow;
@@ -12367,6 +12855,9 @@ declare namespace LocalJSX {
         "ir-toast-alert": IrToastAlert;
         "ir-toast-provider": IrToastProvider;
         "ir-tooltip": IrTooltip;
+        "ir-unbookable-rooms": IrUnbookableRooms;
+        "ir-unbookable-rooms-data": IrUnbookableRoomsData;
+        "ir-unbookable-rooms-filters": IrUnbookableRoomsFilters;
         "ir-unit-cell": IrUnitCell;
         "ir-unit-status": IrUnitStatus;
         "ir-unit-tag": IrUnitTag;
@@ -12398,6 +12889,7 @@ declare module "@stencil/core" {
             "igl-booking-overview-page": LocalJSX.IglBookingOverviewPage & JSXBase.HTMLAttributes<HTMLIglBookingOverviewPageElement>;
             "igl-bulk-block": LocalJSX.IglBulkBlock & JSXBase.HTMLAttributes<HTMLIglBulkBlockElement>;
             "igl-bulk-operations": LocalJSX.IglBulkOperations & JSXBase.HTMLAttributes<HTMLIglBulkOperationsElement>;
+            "igl-bulk-operations-drawer": LocalJSX.IglBulkOperationsDrawer & JSXBase.HTMLAttributes<HTMLIglBulkOperationsDrawerElement>;
             "igl-bulk-stop-sale": LocalJSX.IglBulkStopSale & JSXBase.HTMLAttributes<HTMLIglBulkStopSaleElement>;
             "igl-cal-body": LocalJSX.IglCalBody & JSXBase.HTMLAttributes<HTMLIglCalBodyElement>;
             "igl-cal-footer": LocalJSX.IglCalFooter & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
@@ -12423,6 +12915,7 @@ declare module "@stencil/core" {
             "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
             "ir-arrivals-table": LocalJSX.IrArrivalsTable & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;
             "ir-autocomplete": LocalJSX.IrAutocomplete & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
+            "ir-autocomplete-option": LocalJSX.IrAutocompleteOption & JSXBase.HTMLAttributes<HTMLIrAutocompleteOptionElement>;
             "ir-balance-cell": LocalJSX.IrBalanceCell & JSXBase.HTMLAttributes<HTMLIrBalanceCellElement>;
             "ir-billing": LocalJSX.IrBilling & JSXBase.HTMLAttributes<HTMLIrBillingElement>;
             "ir-billing-drawer": LocalJSX.IrBillingDrawer & JSXBase.HTMLAttributes<HTMLIrBillingDrawerElement>;
@@ -12559,6 +13052,7 @@ declare module "@stencil/core" {
             "ir-pickup-view": LocalJSX.IrPickupView & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
             "ir-pms-logs": LocalJSX.IrPmsLogs & JSXBase.HTMLAttributes<HTMLIrPmsLogsElement>;
             "ir-pms-page": LocalJSX.IrPmsPage & JSXBase.HTMLAttributes<HTMLIrPmsPageElement>;
+            "ir-pms-payment-due-alert": LocalJSX.IrPmsPaymentDueAlert & JSXBase.HTMLAttributes<HTMLIrPmsPaymentDueAlertElement>;
             "ir-pms-search": LocalJSX.IrPmsSearch & JSXBase.HTMLAttributes<HTMLIrPmsSearchElement>;
             "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
             "ir-preview-screen-dialog": LocalJSX.IrPreviewScreenDialog & JSXBase.HTMLAttributes<HTMLIrPreviewScreenDialogElement>;
@@ -12581,6 +13075,7 @@ declare module "@stencil/core" {
             "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
             "ir-reallocation-drawer": LocalJSX.IrReallocationDrawer & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;
             "ir-reallocation-form": LocalJSX.IrReallocationForm & JSXBase.HTMLAttributes<HTMLIrReallocationFormElement>;
+            "ir-rectifier": LocalJSX.IrRectifier & JSXBase.HTMLAttributes<HTMLIrRectifierElement>;
             "ir-reservation-information": LocalJSX.IrReservationInformation & JSXBase.HTMLAttributes<HTMLIrReservationInformationElement>;
             "ir-reset-password": LocalJSX.IrResetPassword & JSXBase.HTMLAttributes<HTMLIrResetPasswordElement>;
             "ir-revenue-row": LocalJSX.IrRevenueRow & JSXBase.HTMLAttributes<HTMLIrRevenueRowElement>;
@@ -12623,6 +13118,9 @@ declare module "@stencil/core" {
             "ir-toast-alert": LocalJSX.IrToastAlert & JSXBase.HTMLAttributes<HTMLIrToastAlertElement>;
             "ir-toast-provider": LocalJSX.IrToastProvider & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
+            "ir-unbookable-rooms": LocalJSX.IrUnbookableRooms & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
+            "ir-unbookable-rooms-data": LocalJSX.IrUnbookableRoomsData & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;
+            "ir-unbookable-rooms-filters": LocalJSX.IrUnbookableRoomsFilters & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsFiltersElement>;
             "ir-unit-cell": LocalJSX.IrUnitCell & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;
             "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
             "ir-unit-tag": LocalJSX.IrUnitTag & JSXBase.HTMLAttributes<HTMLIrUnitTagElement>;

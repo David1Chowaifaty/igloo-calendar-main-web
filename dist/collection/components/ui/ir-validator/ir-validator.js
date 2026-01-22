@@ -1,3 +1,14 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { Debounce } from "../../../decorators/debounce";
 import { Host, h } from "@stencil/core";
 export class IrValidator {
     el;
@@ -267,20 +278,20 @@ export class IrValidator {
             this.autoValidateActive = true;
         }
     };
-    async scheduleValidation(immediate = false) {
-        this.clearValidationTimer();
-        const delay = Number(this.validationDebounce);
-        if (immediate || !isFinite(delay) || delay <= 0) {
-            return await this.validateCurrentValue(true);
-        }
-        this.validationTimer = setTimeout(async () => {
-            this.validationTimer = undefined;
-            await this.validateCurrentValue(true);
-        }, delay);
-        return this.isValid;
+    async scheduleValidation() {
+        // this.clearValidationTimer();
+        // const delay = Number(this.validationDebounce);
+        // if (immediate || !isFinite(delay) || delay <= 0) {
+        return await this.validateCurrentValue(true);
+        // }
+        // this.validationTimer = setTimeout(async () => {
+        //   this.validationTimer = undefined;
+        //   await this.validateCurrentValue(true);
+        // }, delay);
+        // return this.isValid;
     }
     async flushValidation() {
-        return await this.scheduleValidation(true);
+        return await this.scheduleValidation();
     }
     clearValidationTimer() {
         if (this.validationTimer !== undefined) {
@@ -289,7 +300,7 @@ export class IrValidator {
         }
     }
     render() {
-        return (h(Host, { key: '7a06c9e35c5406b1f9efee6b5487488dd225975f' }, h("slot", { key: 'f807e82ac059a03f64790c13a84855a6ef52b322' }), !this.isValid && this.showErrorMessage && (h("span", { key: '80379a18b151f9e4fd88f665dc59d31fa2f7682b', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: '593ce0864d3d76e9f5816d9e4e4a9fe6ef792f7b' }, h("slot", { key: 'b6b339f68e69d255716b37c0eeb28d5753e12355' }), !this.isValid && this.showErrorMessage && (h("span", { key: '65f93de6c7755af02a1aa039e312bf5c5657ff6b', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get is() { return "ir-validator"; }
     static get encapsulation() { return "shadow"; }
@@ -548,4 +559,7 @@ export class IrValidator {
             }];
     }
 }
+__decorate([
+    Debounce(300)
+], IrValidator.prototype, "scheduleValidation", null);
 //# sourceMappingURL=ir-validator.js.map

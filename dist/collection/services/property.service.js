@@ -2,6 +2,7 @@ import { parseChannelReportResult, parseChannelSalesParams } from "../components
 import calendar_data from "../stores/calendar-data";
 import { downloadFile } from "../utils/utils";
 import axios from "axios";
+import moment from "moment";
 import { z } from "zod";
 export const SetPropertyCalendarExtraParamsSchema = z.object({
     property_id: z.number(),
@@ -12,6 +13,33 @@ export const SetRoomCalendarExtraParamsSchema = z.object({
     property_id: z.number(),
     room_identifier: z.string(),
     value: z.string(),
+});
+export const FetchNotificationsParamsSchema = z.object({
+    property_id: z.coerce.number(),
+});
+export const FetchNotificationsResultSchema = z.array(z.object({ message: z.string(), type: z.enum(['financial', 'availability_alert']) }));
+export const ExposedRectifierParamsSchema = z.object({
+    property_id: z.coerce.number(),
+    room_type_ids: z.array(z.number()).min(1),
+    from: z.string().refine(date => {
+        const _date = moment(date, 'YYYY-MM-DD');
+        if (!moment.isMoment(_date)) {
+            return false;
+        }
+        return true;
+    }),
+    to: z.string().refine(date => {
+        const _date = moment(date, 'YYYY-MM-DD');
+        if (!moment.isMoment(_date)) {
+            return false;
+        }
+        return true;
+    }),
+});
+export const FetchUnBookableRoomsSchema = z.object({
+    property_ids: z.array(z.number()),
+    period_to_check: z.coerce.number(),
+    consecutive_period: z.coerce.number(),
 });
 export class PropertyService {
     async getExposedProperty(params) {
@@ -50,6 +78,14 @@ export class PropertyService {
             console.log(error);
             throw new Error(error);
         }
+    }
+    async exposedRectifier(params) {
+        const payload = ExposedRectifierParamsSchema.parse(params);
+        const { data } = await axios.post('/Exposed_Rectifier', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
     }
     async setPropertyCalendarExtra(params) {
         const payload = SetPropertyCalendarExtraParamsSchema.parse(params);
@@ -127,6 +163,22 @@ export class PropertyService {
         }
         if (params.is_export_to_excel) {
             downloadFile(data.My_Params_Get_Monthly_Stats.Link_excel);
+        }
+        return data.My_Result;
+    }
+    async fetchNotifications(property_id) {
+        const payload = FetchNotificationsParamsSchema.parse({ property_id });
+        const { data } = await axios.post('/Fetch_Notifications', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return FetchNotificationsResultSchema.parse(data.My_Result);
+    }
+    async fetchUnBookableRooms(params) {
+        const payload = FetchUnBookableRoomsSchema.parse(params);
+        const { data } = await axios.post('/Fetch_UnBookable_Rooms', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
         }
         return data.My_Result;
     }

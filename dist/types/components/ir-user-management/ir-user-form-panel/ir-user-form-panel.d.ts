@@ -18,17 +18,11 @@ export declare class IrUserFormPanel {
     userTypeCode: string | number;
     allowedUsersTypes: AllowedUser[];
     baseUserTypeCode: string | number;
-    isLoading: boolean;
-    autoValidate: boolean;
     showFullHistory: boolean;
     userInfo: User;
-    errors: {
-        [P in keyof User]?: any;
-    } | null;
     showPasswordValidation: boolean;
     isUsernameTaken: boolean;
     isOpen: boolean;
-    emailErrorMessage: string;
     resetData: EventEmitter<null>;
     closeSideBar: EventEmitter<null>;
     private userService;

@@ -6,18 +6,19 @@ export type SelectedRooms = {
     result: 'open' | 'closed';
 };
 export declare class IglBulkStopSale {
+    formId: string;
     maxDatesLength: number;
     property_id: number;
     selectedRoomTypes: SelectedRooms[];
     errors: 'dates' | 'rooms' | 'weekdays';
-    isLoading: boolean;
     dates: {
         from: Moment | null;
         to: Moment | null;
     }[];
     selectedWeekdays: Set<number>;
-    closeModal: EventEmitter<null>;
+    closeDrawer: EventEmitter<null>;
     toast: EventEmitter<IToast>;
+    loadingChanged: EventEmitter<boolean>;
     private sidebar;
     private dateRefs;
     private reloadInterceptor;

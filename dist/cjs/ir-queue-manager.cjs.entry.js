@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const Token = require('./Token-fed66fdd.js');
+const Token = require('./Token-8fd11984.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const axios = require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');

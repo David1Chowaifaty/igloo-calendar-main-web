@@ -52,6 +52,7 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     total_count?: number;
     from?: string;
     to?: string;
+    property_ids?: number[];
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;
@@ -65,7 +66,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     start_row?: number;
     end_row?: number;
     is_to_export?: boolean;
-    property_ids?: number[];
 }, {
     name?: string;
     book_nbr?: string;
@@ -73,6 +73,7 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     total_count?: number;
     from?: string;
     to?: string;
+    property_ids?: number[];
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;
@@ -86,7 +87,6 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     start_row?: number;
     end_row?: number;
     is_to_export?: boolean;
-    property_ids?: number[];
 }>;
 export type ExposedBookingsParams = z.infer<typeof ExposedBookingsParamsSchema>;
 export declare const booking_listing: IBookingListingStore, onBookingListingChange: import("@stencil/store/dist/types").OnChangeHandler<IBookingListingStore>;

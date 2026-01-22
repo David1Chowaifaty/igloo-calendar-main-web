@@ -5,17 +5,17 @@ export declare class IrMenu {
     selectedHref?: string;
     componentWillLoad(): void;
     componentDidLoad(): void;
-    connectedCallback(): void;
-    disconnectedCallback(): void;
+    handleLocationChange(): void;
     setSelectedHref(href?: string): Promise<void>;
     handleSelectedHrefChange(newValue?: string): void;
     private handleSlotChange;
-    private handleLocationChange;
     private updateSelectedHref;
     private getCurrentLocation;
     private normalizeHref;
     private applySelection;
+    private openGroupForSelectedHref;
     handleItemClick(event: Event): void;
     handleGroupOpen(e: CustomEvent<boolean>): void;
+    handleOpenChange(e: CustomEvent<boolean>): void;
     render(): any;
 }

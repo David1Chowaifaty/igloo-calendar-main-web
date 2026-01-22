@@ -5,15 +5,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-35d81173.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-1d46da3c.js');
-const booking = require('./booking-bd08a013.js');
-const booking_service = require('./booking.service-8c0b6002.js');
+const booking = require('./booking-4deb3cc3.js');
+const booking_store = require('./booking.store-92f2a985.js');
 const room_service = require('./room.service-18eb6707.js');
 const locales_store = require('./locales.store-32782582.js');
-const utils = require('./utils-2cdf6642.js');
+const utils = require('./utils-1ff7957f.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-0598de26.js');
-require('./index-8bb117a0.js');
 
 const BeLogoFooter = ({ width, height, ...props }) => {
     return (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },
@@ -52,7 +51,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() token: string;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;

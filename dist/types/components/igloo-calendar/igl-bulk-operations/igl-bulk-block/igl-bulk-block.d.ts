@@ -7,6 +7,7 @@ export type SelectedRooms = {
     result: RoomStatus;
 };
 export declare class IglBulkBlock {
+    formId: string;
     maxDatesLength: number;
     property_id: number;
     selectedRoomTypes: Map<string | number, SelectedRooms[]>;
@@ -15,14 +16,14 @@ export declare class IglBulkBlock {
         unit_id: number;
     } | null;
     errors: 'dates' | 'rooms';
-    isLoading: boolean;
     blockState: 'block' | 'unblock';
     dates: {
         from: Moment | null;
         to: Moment | null;
     }[];
-    closeModal: EventEmitter<null>;
+    closeDrawer: EventEmitter<null>;
     toast: EventEmitter<IToast>;
+    loadingChanged: EventEmitter<boolean>;
     private sidebar;
     private dateRefs;
     private reloadInterceptor;

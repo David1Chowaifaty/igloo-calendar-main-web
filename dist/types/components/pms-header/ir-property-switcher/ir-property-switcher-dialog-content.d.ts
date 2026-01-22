@@ -14,12 +14,16 @@ export declare class IrPropertySwitcherDialogContent {
     properties: LinkedProperty[];
     /** Emits whenever the user picks a property from the list. */
     propertySelected: EventEmitter<FetchedProperty['PROPERTY_ID']>;
+    linkedPropertyChange: EventEmitter<LinkedProperty>;
     private filteredProperties;
     private searchTerm;
     private highlightedIndex;
     private inputRef?;
+    private resetOnOpenFrame;
+    private focusOnLoadFrame;
     handleOpenChange(isOpen: boolean): void;
     componentDidLoad(): void;
+    disconnectedCallback(): void;
     handleSelectedPropertyIdChange(): void;
     private resetSearch;
     private fetchProperties;

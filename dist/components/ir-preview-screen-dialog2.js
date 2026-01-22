@@ -205,11 +205,11 @@ const IrPreviewScreenDialog = /*@__PURE__*/ proxyCustomElement(class IrPreviewSc
         this.restorePrintLayout();
     }
     render() {
-        return (h("ir-dialog", { key: '076043dd35f86c8b5440c7a5a032b5b39f23d42f', onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '85abacdb64a90f13707955cf78aa7825b0b4f4dc', onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openChanged.emit(false);
-            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: 'a36d3a606b897b347c10b7f8cc0aa14b1ca813be' }, h("wa-tooltip", { key: 'e2b6899b05c17c945b5e83222b7820483f99bc91', for: this._id }, "Print PDF"), h("ir-custom-button", { key: 'fae8071680a6ed31e14a7951063595d794def46b', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: 'aa8c5f84272846b461986aa7b392dd79431d024d', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: 'd2a1f7040bb955f76adf5476953a379d1a383c8b' })));
+            }, label: this.label, open: this.open, class: "ir-fullscreen-dialog" }, !this.hideDefaultAction && (h(Fragment, { key: 'd1ea0bc9c7957d5d9bc5cca460e20dff8a15c3c5' }, h("wa-tooltip", { key: '64896bb51f1b6ea3f992b3875af660e78f3c5378', for: this._id }, "Print PDF"), h("ir-custom-button", { key: '1887a39bf1d8b33a95354b3a0451fee3e485ec6a', id: this._id, size: "medium", slot: "header-actions", variant: "neutral", appearance: "plain", onClickHandler: this.handleActionButtonClick.bind(this), disabled: this.shouldDisableActionButton() }, h("wa-icon", { key: '9086ae76d3628f225ac400fe75f0c04f2ad9e686', name: this.actionIconByType[this.action], label: this.getActionLabel(), "aria-label": this.getActionLabel() })))), h("slot", { key: 'a5abdaff679055d7391608e64bf826fff44df639' })));
     }
     static get style() { return IrPreviewScreenDialogStyle0; }
 }, [1, "ir-preview-screen-dialog", {

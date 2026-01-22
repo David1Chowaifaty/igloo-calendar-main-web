@@ -1,10 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { h as formatAmount } from './utils-25b06543.js';
+import { f as formatAmount } from './utils-d0dadf41.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import './index-f100e9d2.js';
-import './index-87419685.js';
 
 const irMonthlyBookingsReportFilterCss = ".sc-ir-monthly-bookings-report-filter-h{display:flex;height:100%;flex:1 1 0%}.sales-filters-card.sc-ir-monthly-bookings-report-filter{min-width:max-content;flex:1 1 0%}#salesFiltersCollapse.collapse.sc-ir-monthly-bookings-report-filter:not(.show){display:block}";
 const IrMonthlyBookingsReportFilterStyle0 = irMonthlyBookingsReportFilterCss;
@@ -39,38 +38,65 @@ const IrMonthlyBookingsReportFilter = class {
         this.filters = this.baseFilters;
         this.applyFilters.emit(this.filters);
     }
+    // private generateMonths(): ReportDate[] {
+    //   const firstOfThisMonth = moment().startOf('month');
+    //   const startDate = moment().subtract(1, 'year').startOf('month');
+    //   const dates = [];
+    //   const format = 'YYYY-MM-DD';
+    //   let cursor = startDate.clone();
+    //   while (cursor.format(format) !== firstOfThisMonth.format(format)) {
+    //     dates.push({
+    //       description: cursor.format('MMMM YYYY'),
+    //       firstOfMonth: cursor.format('YYYY-MM-DD'),
+    //       lastOfMonth: cursor.clone().endOf('month').format('YYYY-MM-DD'),
+    //     });
+    //     cursor.add(1, 'month');
+    //   }
+    //   dates.push({
+    //     description: firstOfThisMonth.format('MMMM YYYY'),
+    //     firstOfMonth: firstOfThisMonth.format('YYYY-MM-DD'),
+    //     lastOfMonth: firstOfThisMonth.clone().endOf('month').format('YYYY-MM-DD'),
+    //   });
+    //   return dates.reverse();
+    // }
     generateMonths() {
+        const format = 'YYYY-MM-DD';
         const firstOfThisMonth = hooks().startOf('month');
         const startDate = hooks().subtract(1, 'year').startOf('month');
         const dates = [];
-        const format = 'YYYY-MM-DD';
         let cursor = startDate.clone();
-        while (cursor.format(format) !== firstOfThisMonth.format(format)) {
+        // Past → current month
+        while (cursor.isSameOrBefore(firstOfThisMonth, 'month')) {
             dates.push({
                 description: cursor.format('MMMM YYYY'),
-                firstOfMonth: cursor.format('YYYY-MM-DD'),
-                lastOfMonth: cursor.clone().endOf('month').format('YYYY-MM-DD'),
+                firstOfMonth: cursor.format(format),
+                lastOfMonth: cursor.clone().endOf('month').format(format),
             });
             cursor.add(1, 'month');
         }
-        dates.push({
-            description: firstOfThisMonth.format('MMMM YYYY'),
-            firstOfMonth: firstOfThisMonth.format('YYYY-MM-DD'),
-            lastOfMonth: firstOfThisMonth.clone().endOf('month').format('YYYY-MM-DD'),
-        });
+        // Add 6 future months
+        const futureCursor = firstOfThisMonth.clone().add(1, 'month');
+        for (let i = 0; i < 6; i++) {
+            dates.push({
+                description: futureCursor.format('MMMM YYYY'),
+                firstOfMonth: futureCursor.format(format),
+                lastOfMonth: futureCursor.clone().endOf('month').format(format),
+            });
+            futureCursor.add(1, 'month');
+        }
         return dates.reverse();
     }
     render() {
-        return (h("div", { key: '3fec1c9275928bcce303692a6a3ecb86850739ed', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: 'abc46a921bc89fefc2084062b804ab80d5ec4023', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: 'ded6a1ecf8013d4438a0fa21e6701068576a84b7', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '903e1e641c618fc5edf9d3bc2c5bae660bc7fa3f', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'a51158cf10de0963fe14076be7b56285293b78c0', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '6f40f8baedc9f5c27e4861b5225926a85f2f5236', class: "m-0 p-0 flex-grow-1" }, locales.entries?.Lcz_Filters || 'Filters'))), h("div", { key: '0c3e48bcf0b6b167586d30a7434bd266db5697e4', class: "m-0 p-0 collapse filters-section", id: "salesFiltersCollapse" }, h("fieldset", { key: 'b18c36161c5f3b04bf71ffedc19e7bd95c47e6e2', class: "pt-1 filter-group" }, h("label", { key: '175cb0e9edb78890377a3cd7fb226bb1a9e4b324', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "For"), h("ir-select", { key: 'f7af5ab37c3b096a3d0250221215faa21708b4fe', showFirstOption: false, selectedValue: this.filters?.date?.description, onSelectChange: e => {
+        return (h("div", { key: '4220828eb59ef3485fa656b6fe75caf79b96cc36', class: "card mb-0 p-1 d-flex flex-column sales-filters-card" }, h("div", { key: '2adc4fb674eb2254ae5a9e34ce137fa351405759', class: "d-flex align-items-center justify-content-between sales-filters-header" }, h("div", { key: '5b729570de53be4c9227044810dd0e40d2a9a882', class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("svg", { key: '4f25abd040b61d0eacb3985d8a0948274d804ad1', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: 'c16827cf4511cfa65a6c62e74db3da464f879c4f', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: 'd18cc0a0279578841dcd9b23b22712c8bcabeba9', class: "m-0 p-0 flex-grow-1" }, locales.entries?.Lcz_Filters || 'Filters'))), h("div", { key: 'cbd389b19314814a3eb0d1637f652f2268d44546', class: "m-0 p-0 collapse filters-section", id: "salesFiltersCollapse" }, h("fieldset", { key: '961aa7dd9de1ccdb7b74701758e7e1873cc5b7e2', class: "pt-1 filter-group" }, h("label", { key: 'bbaea1ffe44e9ef423e2bc0d0353fea83bdead82', htmlFor: "rooms", class: "m-0 px-0", style: { paddingBottom: '0.25rem' } }, "For"), h("ir-select", { key: '9597bcdb2013cb3cbafe845e4b9220af1e618318', showFirstOption: false, selectedValue: this.filters?.date?.description, onSelectChange: e => {
                 this.updateFilter({ date: this.dates.find(d => d.description === e.detail) });
             }, data: this.dates.map(d => ({
                 text: d.description,
                 value: d.description,
-            })) })), h("div", { key: '3ffb1df3499831c5ff54f2508b142cf3a3aabc28', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: '0c27ad53ed4939b624064b5503528d957728d406', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: 'af34ef0263db760267f84ac4946126a46ddf548a', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
+            })) })), h("div", { key: 'f0a64591cafcd0af27f61c009a9e8bb16f76fdf1', class: "d-flex align-items-center mt-1 mb-2 compare-year-toggle", style: { gap: '0.5rem' } }, h("label", { key: 'c2063a5538fe66bf4961c98c476972c30bfdf8ce', htmlFor: "compare-prev-year", style: { paddingBottom: '0.25rem' } }, "Compare with previous year"), h("ir-checkbox", { key: '044be5d165c9d1b9d45aa4d1e25db7bf5d15d5be', checked: this.filters?.include_previous_year, checkboxId: "compare-prev-year", onCheckChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateFilter({ include_previous_year: e.detail });
-            } })), h("div", { key: '6432f3dd320f5e2e25e8867f12a825ae72f1efdb', class: "d-flex align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: 'd7ac63ebe27b2bd73f19ec91010ff367cc96bdb7', btn_type: "button", "data-testid": "reset", text: locales.entries?.Lcz_Reset ?? 'Reset', size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '738b084505a3af036a53a74925c7b14d8b6c11d1', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries?.Lcz_Apply ?? 'Apply', size: "sm", onClickHandler: e => this.applyFiltersEvt(e) })))));
+            } })), h("div", { key: '444ba123744cce308f73f352cbc05f18d6e77bd4', class: "d-flex align-items-center justify-content-end filter-actions", style: { gap: '1rem' } }, h("ir-button", { key: '74d936df93c3f18eb1ac14ec1ad0d9dfe75ff64c', btn_type: "button", "data-testid": "reset", text: locales.entries?.Lcz_Reset ?? 'Reset', size: "sm", btn_color: "secondary", onClickHandler: e => this.resetFilters(e) }), h("ir-button", { key: '41420bf4c19cda591fee7588937c63b783551af8', btn_type: "button", "data-testid": "apply", isLoading: this.isLoading, text: locales.entries?.Lcz_Apply ?? 'Apply', size: "sm", onClickHandler: e => this.applyFiltersEvt(e) })))));
     }
 };
 IrMonthlyBookingsReportFilter.style = IrMonthlyBookingsReportFilterStyle0;
@@ -88,13 +114,13 @@ const IrMonthlyBookingsReportTable = class {
     reports = [];
     render() {
         // const totalUnits = this.reports?.reduce((prev, curr) => prev + curr.units_booked, 0) ?? 0;
-        return (h(Host, { key: '6588f308f4142ca128c2ada302080deb566aa803', class: 'card p-1  table-container table-responsive' }, h("table", { key: '82db18c70eb62b57de5f2c50bd325d89e5dcec4e', class: "table" }, h("thead", { key: 'd1c2bb1564566756ae6e89e7553caddde26a6d93', class: "table-header" }, h("tr", { key: '005c6f14967ec346e051007ac681db374584424b' }, h("th", { key: '77e76919fe2bf35c39edaf92a3927b1a07a456b5', class: "text-center" }, "Date"), h("th", { key: 'c9a0492f633293d7dc2a034d740849d0f039dc7e', class: "text-center" }, "Units booked"), h("th", { key: '1df2bd4f8666a3b698f0b84fe3149bdcd9866139', class: "text-center" }, "Total guests"), h("th", { key: '08d93739933e54c58b58f6089cf86e5352ba0c31', class: "text-right" }, h("ir-tooltip", { key: '7587e1ab8315198c880c63d79959c79cf6061223', customSlot: true, message: "Average Daily Rate", alignment: "end" }, h("span", { key: 'b0192f51b840edd14de2efbded76ae206700ea03', slot: "tooltip-trigger" }, "ADR"))), h("th", { key: 'f487d3f855d9dcc41d453b0ff7389854a93f1a3d', class: "text-right" }, "Rooms revenue"), h("th", { key: '5fc9b84128b751c676ca156750d530ed3a84f485', class: "" }, "Occupancy"))), h("tbody", { key: '330f4fa7bd97b99dde8deab0dbcb3087b0d73f8a' }, this.reports.length === 0 && (h("tr", { key: '1f5809d1875ed8bc26557d3952a69080d775dfc8' }, h("td", { key: '6fa748064f4289eff7c232dbbe386074c7f901fb', colSpan: 3, class: 'text-center', style: { height: '30vh' } }, "No data found"))), this.reports.map(report => {
+        return (h(Host, { key: 'cb2e21a07c5257ef26948b8553558c47af189324', class: 'card p-1  table-container table-responsive' }, h("table", { key: 'c1e2f77562b218597cc6ce517ddd3c6b928734b5', class: "table" }, h("thead", { key: '410a2a75d06fdf204b34be5979030701390a9306', class: "table-header" }, h("tr", { key: '6d01f0f716258dee68c24a5f1af06a7c38603ef4' }, h("th", { key: '976b4a170e25b6a917609d8342dfdd4e01a16790', class: "text-center" }, "Date"), h("th", { key: '8be8c64cd20b044a12af9f33391b9d066cdace30', class: "text-center" }, "Units booked"), h("th", { key: 'fcc72c6ff6e744c530e6425cdf1619a5bc03266e', class: "text-center" }, "Total guests"), h("th", { key: '1d7df0f761905dfef30cc76499d6a3ca9fb3cce8', class: "text-right" }, h("ir-tooltip", { key: 'e6163d6d6ccde57b5882d824d681a5e6a5e3bae8', customSlot: true, message: "Average Daily Rate", alignment: "end" }, h("span", { key: '7a083595f7385d0dfc16c8a8f97f8462f3e1954c', slot: "tooltip-trigger" }, "ADR"))), h("th", { key: '07526fe3a7f37c3ec318f9a841975bb9967c0292', class: "text-right" }, "Rooms revenue"), h("th", { key: '0efe22512985c46424cd75f31a0a6a72ff114a36', class: "" }, "Occupancy"))), h("tbody", { key: 'cfc6f74ffe12e9dd6c7539b14c6ba9d61e2b891e' }, this.reports.length === 0 && (h("tr", { key: 'b4a76879cc53ef2aa21dca6b7d0a0a6d16342ffd' }, h("td", { key: '2bedf84511addc4a57aa40f6d215291244d4b415', colSpan: 3, class: 'text-center', style: { height: '30vh' } }, "No data found"))), this.reports.map(report => {
             const mainPercentage = `${parseFloat(report.occupancy_percent.toString()).toFixed(2)}%`;
             const secondaryPercentage = report.last_year ? `${parseFloat(report.last_year.occupancy_percent.toString()).toFixed(2)}%` : null;
             const reportDate = hooks(report.day, 'YYYY-MM-DD');
             const isFutureDate = hooks().isBefore(reportDate, 'dates');
             return (h("tr", { key: report.day, class: `ir-table-row ${isFutureDate ? 'future-report' : ''}` }, h("td", { class: 'text-center' }, reportDate.format('D')), h("td", { class: "text-center" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${report.last_year?.units_booked ? 'font-weight-bold' : ''}` }, report.units_booked), report.last_year?.units_booked > 0 && h("p", { class: "p-0 m-0" }, report.last_year?.units_booked))), h("td", { class: "text-center" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${report.last_year?.total_guests ? 'font-weight-bold' : ''}` }, report.total_guests), report.last_year?.total_guests > 0 && h("p", { class: "p-0 m-0" }, report.last_year?.total_guests))), h("td", { class: "text-right" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${report.last_year?.adr ? 'font-weight-bold' : ''}` }, formatAmount(calendar_data.currency.symbol, report.adr)), report.last_year?.adr > 0 && h("p", { class: "p-0 m-0" }, formatAmount(calendar_data.currency.symbol, report.last_year.adr)))), h("td", { class: "text-right" }, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("p", { class: `p-0 m-0 ${report.last_year?.rooms_revenue ? 'font-weight-bold' : ''}` }, formatAmount(calendar_data.currency.symbol, report.rooms_revenue)), report.last_year?.rooms_revenue > 0 && h("p", { class: "p-0 m-0" }, formatAmount(calendar_data.currency.symbol, report.last_year.rooms_revenue)))), h("td", null, h("div", { class: 'd-flex flex-column', style: { gap: '0.5rem' } }, h("ir-progress-indicator", { percentage: mainPercentage }), report.last_year?.occupancy_percent > 0 && h("ir-progress-indicator", { percentage: secondaryPercentage, color: "secondary" })))));
-        })), h("tfoot", { key: '633cc62458cb082d3650757d7f38d449ad119151' }, h("tr", { key: '905f07f0d2b09ffd233349f6d7dcd8c3e89a68c7' }, h("td", { key: '9e0aa528caca459287d1dc53c2d3209d9211d2ac', colSpan: 5 }), h("td", { key: 'd3cf3c092342aa448d11e353e962ac6aaaec751b', colSpan: 1, class: "text-right", style: { whiteSpace: 'nowrap' } }, h("div", { key: '57452b15269358a8f6aed25af97941de3b165138', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: '0ff47ea25244f866e6a68253f3ba9cd89643e08d', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '1a1c8238b9cc146e8cf73cfdaba4ef3142a604d7', class: "legend bg-primary" }), h("p", { key: '60e7798778a259fcf9c3a11b65c7271263faa547', class: "p-0 m-0" }, "Selected period ")), h("div", { key: '6ab314314730baf9d536eef8ff13fce9bdd93fd6', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '1038848b4636d521d0fc8bd67af4ed322f272ac9', class: "legend secondary" }), h("p", { key: '6e054b6d41bcc847ef0fc943a2214073a8e1cd5c', class: "p-0 m-0" }, "Previous year")))))))));
+        })), h("tfoot", { key: 'fda8b67e2136721f2dbeb6536e616db509070a59' }, h("tr", { key: 'd636ef68befd77b99faded88dfdc28af19d71903' }, h("td", { key: 'fbde3c64524bc1bdd3ef936c55ef4512a6f4505d', colSpan: 5 }), h("td", { key: '0c53a05c9495012c12de676febdd0d4b27d75e52', colSpan: 1, class: "text-right", style: { whiteSpace: 'nowrap' } }, h("div", { key: '03d60ea43d318da373ad3e72d492e1808c77809c', class: 'd-flex align-items-center justify-content-end', style: { gap: '1rem', paddingTop: '0.5rem' } }, h("div", { key: 'bfeeb472b1418c1d9e0f0f3fdfe8de53061c9afa', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: 'b12192a669d71772c116cfe83eb57217c958d142', class: "legend bg-primary" }), h("p", { key: 'cd4440437879b24e2f01b89ab633b9c4013451c2', class: "p-0 m-0" }, "Selected period ")), h("div", { key: '72c811c0e51965b583557ac278c5fe59e2166d69', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '0d85d59b595917301484f724b35a8f1e6607320b', class: "legend secondary" }), h("p", { key: 'f1cb70ed00d22ba68fb71624ed9af986b5622754', class: "p-0 m-0" }, "Previous year")))))))));
     }
 };
 IrMonthlyBookingsReportTable.style = IrMonthlyBookingsReportTableStyle0 + IrMonthlyBookingsReportTableStyle1;

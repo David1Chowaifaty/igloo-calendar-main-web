@@ -7,16 +7,17 @@ import { z, ZodError } from "zod";
 // import calendar_dates from '@/stores/calendar-dates.store';
 import locales from "../../../../stores/locales.store";
 export class IglBulkBlock {
+    formId;
     maxDatesLength = 8;
     property_id;
     selectedRoomTypes = new Map();
     selectedUnit = null;
     errors;
-    isLoading;
     blockState = 'block';
     dates = [{ from: null, to: null }];
-    closeModal;
+    closeDrawer;
     toast;
+    loadingChanged;
     sidebar;
     dateRefs = [];
     reloadInterceptor;
@@ -48,7 +49,7 @@ export class IglBulkBlock {
     async addBlockDates() {
         try {
             this.errors = null;
-            this.isLoading = true;
+            this.loadingChanged.emit(true);
             const periods = this.datesSchema.parse(this.dates);
             if (!this.selectedUnit) {
                 this.unitSections.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -81,8 +82,8 @@ export class IglBulkBlock {
                 title: locales.entries.Lcz_RequestSubmittedSuccessfully,
                 description: '',
             });
-            this.isLoading = false;
-            this.closeModal.emit();
+            this.loadingChanged.emit(false);
+            this.closeDrawer.emit();
         }
         catch (error) {
             console.log(error);
@@ -92,7 +93,7 @@ export class IglBulkBlock {
             }
         }
         finally {
-            this.isLoading = false;
+            this.loadingChanged.emit(false);
         }
     }
     activate() {
@@ -148,31 +149,29 @@ export class IglBulkBlock {
         }, 100);
     }
     render() {
-        return (h("form", { key: 'c0c512b5176ad9c7ccd975e2d0ac784ace8d7ccb', class: 'bulk-sheet-container', onSubmit: e => {
+        return (h("form", { key: '0fc95c221336d103699f5aa5c14719a48d657b07', id: this.formId, class: "igl-bulk-block__form", onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("div", { key: 'ddb241caecba6fac489426dece48e03119dc48a8', class: "sheet-body px-1" }, h("div", { key: 'df17a6f8e66a0e89f27c6ed232da579947cb24e5', class: "text-muted text-left pt-0 my-0 d-flex align-items-center pb-1", style: { gap: '0.5rem' } }, h("p", { key: '0ec15c2023e82f117c3e63c1640e5afdf4747559', class: "m-0 p-0" }, "Select the unit to"), h("ir-select", { key: 'f2bff04764a2451c5ec01390325381c2afc9a0c7', showFirstOption: false, selectedValue: this.blockState, data: [
-                { text: 'Block', value: 'block' },
-                { text: 'Unblock', value: 'unblock' },
-            ], onSelectChange: e => {
-                this.blockState = e.detail;
-            } })), h("div", { key: '17893fa7d2b7fbdf9150ee0a9b7d2712f34dc497' }, this.errors === 'rooms' && (h("p", { key: 'f713da1b228d9810c429f53bc92b28c48d96d156', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("ul", { key: 'a2c64eb43b7b5ce9f2822023fc72e737f18a377a', class: "room-type-list", ref: el => (this.unitSections = el) }, calendar_data.roomsInfo.map(roomType => {
-            return (h(Fragment, null, h("li", { key: `roomTypeRow-${roomType.id}`, class: `room-type-row` }, h("div", { class: 'd-flex choice-row' }, h("span", { class: "pl-1 text-left room-type-name" }, roomType.name))), roomType.physicalrooms.map((room, j) => {
-                const row_style = j === roomType.physicalrooms.length - 1 ? 'pb-1' : '';
-                return (h("li", { key: `physicalRoom-${room.id}-${j}`, class: `physical-room ${row_style}` }, h("div", { class: 'd-flex choice-row' }, h("ir-radio", { class: "pl-1 ", name: "unit", checked: this.selectedUnit?.unit_id === room.id, onCheckChange: () => (this.selectedUnit = {
-                        roomtype_id: roomType.id,
-                        unit_id: room.id,
-                    }), label: room.name }))));
+            } }, h("wa-radio-group", { key: '0537164aa20819cf7aec6d408fad1d9d0340bf2f', size: "small", label: "Block or unblock a unit", orientation: "horizontal", name: "action" }, h("wa-radio", { key: 'b21932ba04ea690210ee27f96e9fceb84ae6298f', style: { flex: '1 1 0%' }, appearance: "button", value: "block" }, "Block"), h("wa-radio", { key: '562282c77a57ba545d22baa84ee3acdc2ad69129', style: { flex: '1 1 0%' }, appearance: "button", value: "unblock" }, "Unblock")), h("div", { key: 'fc5c0b4ce1f0d03b763815523c6391334660355b' }, this.errors === 'rooms' && (h("p", { key: 'd5fefd3c59e894ac5b743301ad005949a1c1210c', class: "igl-bulk-block__error" }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("wa-radio-group", { key: 'c4c7f955e3d545f57b53acc17b2a73cf973a3eb7', name: "unit", ref: el => (this.unitSections = el), onchange: e => {
+                const [roomtypeId, unitId] = e.target.value?.toString().split('-');
+                this.selectedUnit = {
+                    roomtype_id: roomtypeId,
+                    unit_id: unitId,
+                };
+            } }, calendar_data.roomsInfo.map(roomType => {
+            return (h(Fragment, null, h("div", { key: `roomTypeRow-${roomType.id}`, class: "igl-bulk-block__roomtype-row" }, h("div", { class: "igl-bulk-block__roomtype-choice" }, h("span", { class: "igl-bulk-block__roomtype-name" }, roomType.name))), roomType.physicalrooms.map((room, j) => {
+                const rowStyle = j === roomType.physicalrooms.length - 1 ? 'igl-bulk-block__unit-row--last' : '';
+                return (h("div", { key: `physicalRoom-${room.id}-${j}`, class: `igl-bulk-block__unit-row ${rowStyle}` }, h("div", { class: "igl-bulk-block__unit-choice" }, h("wa-radio", { value: `${roomType.id}-${room.id}`, "data-roomtype": roomType.id, checked: this.selectedUnit?.unit_id === room.id }, room.name))));
             })));
-        }))), h("table", { key: '461482c37c649f56102508685dddf5f054f8be84', class: "mt-1", ref: el => (this.datesSections = el) }, h("thead", { key: '2d61d092449cfcdfefe46587d9019b5399ed44db' }, h("tr", { key: '88e89f4c2c28bfb5f8abeb448b16994ee9424024' }, h("th", { key: 'c34554a1c4dc6c809a8ed5a1ea164c3082f831c2', class: "text-left" }, locales.entries.Lcz_From), h("th", { key: 'b6e057d7459f026bd41e4224be22f6b19dc35c0a', class: "text-left" }, locales.entries.Lcz_ToExclusive), h("td", { key: '5cd66ffb79f0f24793c58a33d206eda7a16b1e90' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-button", { key: 'a6c892a8d3b7a0844aa3c837ef4705e663d0ca60', variant: "icon", icon_name: "plus", onClickHandler: () => {
+        }))), h("table", { key: '60b20c5db0de3a9cb3e4024fe849ccdab267523e', class: "igl-bulk-block__dates-table", ref: el => (this.datesSections = el) }, h("thead", { key: '309476446273fdbb62b1348e59a83b45270dfd5f' }, h("tr", { key: '8cb29a2cf4378e1ff5239a7f7c2abff55d52e5f7' }, h("th", { key: '12900d7392e425a509733dbbfa116c6b3f480248', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_From), h("th", { key: 'caf0ad3e43c6017de12823f89391bdf82a297865', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_ToExclusive), h("td", { key: 'a7490b0af9fc6b60ef906d00fd63193f09277e0f' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-custom-button", { key: '4e6371ab637b6eaa936ae643f99aab2cf79764e2', appearance: "plain", variant: "neutral", onClickHandler: () => {
                 this.addDateRow();
-            } }))))), h("tbody", { key: '2369a44f56fe5f5ead659f59bde606f28905b4cf' }, this.dates.map((d, i) => {
+            } }, h("wa-icon", { key: '718d851a0c18c07b24099a1ad0ac7d9eb56b13e6', name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", { key: 'bb61fe0a7f6c665eff6a6b9c5cef8b30f25f4c60' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
             const fromDateMinDate = i > 0 ? this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate : this.minDate;
             const toDateMinDate = this.dates[i].from ? this.dates[i]?.from.clone().add(1, 'days')?.format('YYYY-MM-DD') : this.minDate;
-            return (h("tr", { key: `date_${i}` }, h("td", { class: "pr-1 pb-1" }, h("ir-date-picker", { ref: el => {
+            return (h("tr", { key: `date_${i}` }, h("td", { class: "igl-bulk-block__date-cell" }, h("ir-custom-date-picker", { ref: el => {
                     this.dateRefs[i].from = el;
                 }, forceDestroyOnUpdate: true, minDate: fromDateMinDate, "data-testid": "pickup_arrival_date", date: d.from?.format('YYYY-MM-DD'), emitEmptyDate: true, "aria-invalid": String(this.errors === 'dates' && !d.from), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
@@ -192,7 +191,7 @@ export class IglBulkBlock {
                     if (!this.dates[index]?.to) {
                         this.dateRefs[index].to.openDatePicker();
                     }
-                } }, h("input", { type: "text", slot: "trigger", value: d.from ? d.from.format('MMM DD, YYYY') : null, class: `form-control input-sm ${this.errors === 'dates' && !d.to ? 'border-danger' : ''} text-center`, style: { width: '100%' } }))), h("td", { class: "pr-1 pb-1" }, h("ir-date-picker", { forceDestroyOnUpdate: true, ref: el => {
+                } })), h("td", { class: "igl-bulk-block__date-cell" }, h("ir-custom-date-picker", { forceDestroyOnUpdate: true, disabled: !d.from, ref: el => {
                     this.dateRefs[i].to = el;
                 }, "data-testid": "pickup_arrival_date", date: d.to?.format('YYYY-MM-DD'), emitEmptyDate: true, minDate: toDateMinDate, "aria-invalid": String(this.errors === 'dates' && !d.to), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
@@ -209,27 +208,44 @@ export class IglBulkBlock {
                     if (!this.dates[index]?.to) {
                         this.dateRefs[index].to.openDatePicker();
                     }
-                } }, h("input", { type: "text", slot: "trigger", value: d.to ? d.to.format('MMM DD, YYYY') : null, class: `form-control input-sm 
-                          ${this.errors === 'dates' && !d.to ? 'border-danger' : ''}
-                          text-center`, style: { width: '100%' } }))), i > 0 && (h("td", { class: "pb-1" }, h("ir-button", { variant: "icon", icon_name: "minus", onClickHandler: () => {
+                } })), i > 0 && (h("td", { class: "igl-bulk-block__date-action-cell" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);
-                } })))));
-        })))), h("div", { key: '271aa816dae5615313eabeddfb1a1c5d5b72354e', class: 'sheet-footer' }, h("ir-button", { key: 'd45dd7d5f12e095bdbb81b374048d7d2f933cf9c', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: 'f6eedd9a8aa1a9260fa1347f105c1e5f8b804361', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+                } }, h("wa-icon", { name: "minus", style: { fontSize: '1.2rem' } }))))));
+        })))));
     }
     static get is() { return "igl-bulk-block"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["igl-bulk-block.css", "../../../../common/sheet.css"]
+            "$": ["igl-bulk-block.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["igl-bulk-block.css", "../../../../common/sheet.css"]
+            "$": ["igl-bulk-block.css"]
         };
     }
     static get properties() {
         return {
+            "formId": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "form-id",
+                "reflect": false
+            },
             "maxDatesLength": {
                 "type": "number",
                 "mutable": false,
@@ -276,15 +292,14 @@ export class IglBulkBlock {
             "selectedRoomTypes": {},
             "selectedUnit": {},
             "errors": {},
-            "isLoading": {},
             "blockState": {},
             "dates": {}
         };
     }
     static get events() {
         return [{
-                "method": "closeModal",
-                "name": "closeModal",
+                "method": "closeDrawer",
+                "name": "closeDrawer",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
@@ -317,6 +332,21 @@ export class IglBulkBlock {
                             "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
+                }
+            }, {
+                "method": "loadingChanged",
+                "name": "loadingChanged",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
                 }
             }];
     }

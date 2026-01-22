@@ -1,9 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { D as Debounce } from './debounce.js';
 import { a as axios } from './axios.js';
+import { D as Debounce } from './debounce.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
-const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}";
+const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base){font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}";
 const IrPropertySwitcherDialogContentStyle0 = irPropertySwitcherDialogContentCss;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -21,6 +21,7 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
         super();
         this.__registerHost();
         this.propertySelected = createEvent(this, "propertySelected", 7);
+        this.linkedPropertyChange = createEvent(this, "linkedPropertyChange", 7);
     }
     get el() { return this; }
     /** Whether the surrounding dialog is open. Used to focus and reset the search input as needed. */
@@ -31,21 +32,32 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
     properties = [];
     /** Emits whenever the user picks a property from the list. */
     propertySelected;
+    linkedPropertyChange;
     filteredProperties = [];
     searchTerm = '';
     highlightedIndex = -1;
     inputRef;
+    resetOnOpenFrame;
+    focusOnLoadFrame;
     handleOpenChange(isOpen) {
         if (!isOpen) {
             return;
         }
-        requestAnimationFrame(() => {
-            this.inputRef?.focusInput();
+        this.resetOnOpenFrame = requestAnimationFrame(() => {
+            // this.inputRef?.focusInput();
             this.resetSearch();
         });
     }
     componentDidLoad() {
-        this.inputRef?.focusInput();
+        this.focusOnLoadFrame = requestAnimationFrame(() => {
+            this.inputRef?.focusInput();
+        });
+    }
+    disconnectedCallback() {
+        if (this.resetOnOpenFrame)
+            cancelAnimationFrame(this.resetOnOpenFrame);
+        if (this.focusOnLoadFrame)
+            cancelAnimationFrame(this.focusOnLoadFrame);
     }
     handleSelectedPropertyIdChange() {
         this.syncHighlightedIndex();
@@ -147,11 +159,14 @@ const IrPropertySwitcherDialogContent = /*@__PURE__*/ proxyCustomElement(class I
         return h("div", { class: "property-switcher__status" }, text);
     }
     render() {
-        return (h(Host, { key: '357614e8ffd5c2532314764d707cc9891adb08e0' }, h("ir-input", { key: 'e988582f9b6964c985107ca374318134857c8e3b', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Find property", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '6d17451c07890eb7ded920e1daf565d3b1c6f66c', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: '51daa281f5e9cf9220b4c6aea80942004352aa52' }, h("p", { key: 'd21ee71a25b47506e77b239a6778eba5833f61d4', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, h("small", { key: 'f14c7f9255987397cd48acdb126f50b7002209a9' }, "Linked Properties")), this.properties.map(property => {
+        return (h(Host, { key: '47daa8547a4ef20867653794149b0fb47874098d' }, h("ir-input", { key: '96c727f22d28f9b11d69980bdbd0e72965fdb39a', autofocus: true, ref: el => (this.inputRef = el), placeholder: "Enter name or A number", class: "property-switcher__search-input", value: this.searchTerm, "onText-change": this.handleSearchChange, onKeyDown: this.handleKeyDown, withClear: true }), h("div", { key: '118d8e75bff2246c473dc90ba8c37b184a16e9dd', tabIndex: -1, class: "property-switcher__results" }, !this.searchTerm && this.properties?.length > 0 && (h("div", { key: 'e56b4ff3a15cf0340d1f2b6fec0cebab2a3b75a9' }, h("p", { key: '286aad3cf19361be3f7e3f711c42bf8d6bf03bf7', style: { padding: '1rem', margin: '0', paddingTop: '0' } }, "Linked Properties"), this.properties.map(property => {
             const label = `${property.name}`;
-            return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.property_id, value: property.property_id?.toString(), label: label }, label));
-        }), h("wa-divider", { key: 'c3468e6a7858f6c298e275224c67a0d677725eec' }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index) => {
-            const label = `${property.PROPERTY_NAME} ${property.COUNTRY_NAME}`;
+            return (h("wa-option", { onClick: () => {
+                    // this.selectProperty(property as any);
+                    this.linkedPropertyChange.emit(property);
+                }, selected: this.selectedPropertyId === property.property_id, value: property.property_id?.toString(), label: label }, label));
+        }))), this.searchTerm && this.filteredProperties.length === 0 && this.renderStatus('No properties found'), this.filteredProperties.map((property, index) => {
+            const label = `${property.COUNTRY_CODE}: ${property.PROPERTY_NAME} - ${property.A_NAME}`;
             return (h("wa-option", { onClick: () => this.selectProperty(property), selected: this.selectedPropertyId === property.PROPERTY_ID, current: this.highlightedIndex === index, value: property.PROPERTY_ID?.toString(), label: label }, label));
         }))));
     }

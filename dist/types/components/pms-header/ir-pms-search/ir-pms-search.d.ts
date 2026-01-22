@@ -7,16 +7,16 @@ export declare class IrPmsSearch {
     shortcutHint: string | null;
     bookings: Booking[];
     isLoading: boolean;
-    private pickerInputRef;
     private tokenService;
     private bookingListingService;
     comboboxSelect: EventEmitter<IrComboboxSelectEventDetail>;
+    autoCompleteRef: HTMLIrAutocompleteElement;
     componentWillLoad(): void;
     disconnectedCallback(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     private detectShortcutHint;
     private focusInput;
     private fetchBookings;
-    render(): any;
     private handleComboboxSelect;
+    render(): any;
 }
