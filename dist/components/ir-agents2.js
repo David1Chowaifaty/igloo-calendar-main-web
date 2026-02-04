@@ -137,7 +137,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         this.agents = [...agents];
     }
     async fetchAgents() {
-        this.agents = await this.agentsService.getExposedAgents({ property_id: this.propertyid });
+        this.agents = await this.agentsService.getExposedAgents({ property_id: calendar_data?.property ? calendar_data?.property.id : this.propertyid });
     }
     handleEditAgent(agent) {
         this.selectedAgent = agent;
