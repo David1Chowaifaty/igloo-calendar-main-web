@@ -472,8 +472,21 @@ export namespace Components {
         "setupEntries": AgentSetupEntries;
     }
     interface IrAgents {
+        /**
+          * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+         */
         "language": string;
+        /**
+          * Property alias or short identifier used by backend endpoints (aname). Passed to `getExposedProperty` when initializing the component.
+         */
+        "p": string;
+        /**
+          * ID of the property (hotel) for which arrivals should be displayed. Used in API calls related to rooms, bookings, and check-ins.
+         */
         "propertyid": number;
+        /**
+          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+         */
         "ticket": string;
     }
     interface IrAgentsTable {
@@ -8975,9 +8988,22 @@ declare namespace LocalJSX {
         "setupEntries"?: AgentSetupEntries;
     }
     interface IrAgents {
+        /**
+          * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+         */
         "language"?: string;
         "onToast"?: (event: IrAgentsCustomEvent<IToast1>) => void;
+        /**
+          * Property alias or short identifier used by backend endpoints (aname). Passed to `getExposedProperty` when initializing the component.
+         */
+        "p"?: string;
+        /**
+          * ID of the property (hotel) for which arrivals should be displayed. Used in API calls related to rooms, bookings, and check-ins.
+         */
         "propertyid"?: number;
+        /**
+          * Authentication token issued by the PMS backend. Required for initializing the component and making API calls.
+         */
         "ticket"?: string;
     }
     interface IrAgentsTable {

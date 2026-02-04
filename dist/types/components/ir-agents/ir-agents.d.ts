@@ -4,9 +4,26 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { AgentSetupEntries } from './types';
 import { IToast } from '../ui/ir-toast/toast';
 export declare class IrAgents {
-    propertyid: number;
+    /**
+     * Authentication token issued by the PMS backend.
+     * Required for initializing the component and making API calls.
+     */
     ticket: string;
+    /**
+     * ID of the property (hotel) for which arrivals should be displayed.
+     * Used in API calls related to rooms, bookings, and check-ins.
+     */
+    propertyid: number;
+    /**
+     * Two-letter language code (ISO) used for translations and API locale.
+     * Defaults to `'en'`.
+     */
     language: string;
+    /**
+     * Property alias or short identifier used by backend endpoints (aname).
+     * Passed to `getExposedProperty` when initializing the component.
+     */
+    p: string;
     agents: Agents;
     selectedAgent: Agent | null;
     isDrawerOpen: boolean;

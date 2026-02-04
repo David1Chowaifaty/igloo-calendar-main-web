@@ -5,9 +5,26 @@ import { Host, h } from "@stencil/core";
 import calendar_data from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property.service";
 export class IrAgents {
-    propertyid;
+    /**
+     * Authentication token issued by the PMS backend.
+     * Required for initializing the component and making API calls.
+     */
     ticket;
+    /**
+     * ID of the property (hotel) for which arrivals should be displayed.
+     * Used in API calls related to rooms, bookings, and check-ins.
+     */
+    propertyid;
+    /**
+     * Two-letter language code (ISO) used for translations and API locale.
+     * Defaults to `'en'`.
+     */
     language = 'en';
+    /**
+     * Property alias or short identifier used by backend endpoints (aname).
+     * Passed to `getExposedProperty` when initializing the component.
+     */
+    p;
     agents = [];
     selectedAgent = null;
     isDrawerOpen = false;
@@ -38,13 +55,28 @@ export class IrAgents {
     async init() {
         try {
             this.isLoading = true;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Missing credentials');
+            }
+            let propertyId = this.propertyid;
+            if (!propertyId) {
+                await this.propertyService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                });
+            }
             const [countries, setupEntries] = await Promise.all([
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD']),
-                this.propertyService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                }),
+                calendar_data?.property
+                    ? Promise.resolve(null)
+                    : this.propertyService.getExposedProperty({
+                        id: this.propertyid || 0,
+                        language: this.language,
+                        aname: this.p,
+                    }),
                 this.fetchAgents(),
             ]);
             const { agent_rate_type, agent_type, ta_payment_method } = this.bookingService.groupEntryTablesResult(setupEntries);
@@ -169,25 +201,6 @@ export class IrAgents {
     }
     static get properties() {
         return {
-            "propertyid": {
-                "type": "number",
-                "mutable": false,
-                "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
-            },
             "ticket": {
                 "type": "string",
                 "mutable": false,
@@ -200,11 +213,30 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Authentication token issued by the PMS backend.\nRequired for initializing the component and making API calls."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "ticket",
+                "reflect": false
+            },
+            "propertyid": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "ID of the property (hotel) for which arrivals should be displayed.\nUsed in API calls related to rooms, bookings, and check-ins."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "propertyid",
                 "reflect": false
             },
             "language": {
@@ -219,13 +251,32 @@ export class IrAgents {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Two-letter language code (ISO) used for translations and API locale.\nDefaults to `'en'`."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
+            },
+            "p": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Property alias or short identifier used by backend endpoints (aname).\nPassed to `getExposedProperty` when initializing the component."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "p",
+                "reflect": false
             }
         };
     }

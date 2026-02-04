@@ -1,6 +1,5 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-7e96440e.js';
-import { C as ClickOutside } from './ClickOutside-e1255f85.js';
-import { c as createSlotManager } from './slot-4b32bd27.js';
+import { C as ClickOutside, c as createSlotManager } from './slot-7f8ed1b3.js';
 
 const irAutocompleteCss = ".listbox {\n  display: block;\n  position: relative;\n  font: inherit;\n  box-shadow: var(--wa-shadow-m);\n  background: var(--wa-color-surface-raised);\n  border-color: var(--wa-color-surface-border);\n  border-radius: var(--wa-border-radius-m);\n  border-style: var(--wa-border-style);\n  border-width: var(--wa-border-width-s);\n  padding-block: 0.5em;\n  padding-inline: 0;\n  overflow: auto;\n  overscroll-behavior: none;\n\n  /* Make sure it adheres to the popup's auto size */\n  max-width: var(--auto-size-available-width);\n  max-height: var(--auto-size-available-height);\n\n  &::slotted(wa-divider) {\n    --spacing: 0.5em;\n  }\n\n}\n\n::slotted(ir-autocomplete-option) {\n  display: block;\n}\n";
 const IrAutocompleteStyle0 = irAutocompleteCss;

@@ -1,11 +1,10 @@
 import { h, r as registerInstance, F as Fragment } from './index-7e96440e.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-14871918.js';
-import { c as calculateDaysBetweenDates } from './booking-497905a9.js';
-import { B as BookingService } from './booking.service-b0bf4d6b.js';
+import { B as BookingService, d as calculateDaysBetweenDates } from './booking.store-62804499.js';
 import { R as RoomService } from './room.service-29f502a3.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { t as formatAmount } from './utils-a9a216b5.js';
+import { f as formatAmount } from './utils-6a0494bc.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
 import './calendar-data-2ae53dc9.js';
