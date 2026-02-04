@@ -13,7 +13,7 @@
   padding-inline: 0;
   padding-bottom: 0;
   padding-top: 1rem;
-  padding-inline-start: 0.5rem;
+  /* padding-inline-start: 0.5rem; */
 }
 .agent-card.--business-info::part(header) {
   padding-top: 0;
@@ -51,4 +51,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+/*md*/
+@media (min-width: 768px) {
+  .agent-card::part(body) {
+    padding-inline-start: 0.5rem;
+  }
+  /* :host {
+    max-width: 400px;
+  } */
 }

@@ -1,0 +1,1203 @@
+import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, g as getElement } from './index-7e96440e.js';
+import { V as VariationService, B as BookingService, b as booking_store, n as updateRoomGuest, u as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, o as updateRoomParams } from './booking.service-b0bf4d6b.js';
+import { l as locales } from './locales.store-cb784e95.js';
+import { i as isSingleUnit, c as calendar_data } from './calendar-data-2ae53dc9.js';
+import { z, t as formatAmount } from './utils-a9a216b5.js';
+import { G as GuestCredentials } from './types-86004ca5.js';
+import { v as v4 } from './v4-964634d6.js';
+import { c as calculateDaysBetweenDates } from './booking-497905a9.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { A as AirDatepicker, d as default_1 } from './en-390b0336.js';
+import { C as ClickOutside } from './ClickOutside-e1255f85.js';
+import { c as createSlotManager } from './slot-4b32bd27.js';
+import './axios-aa1335b8.js';
+import './index-f100e9d2.js';
+import './_commonjsHelpers-c9e3b764.js';
+
+const iglApplicationInfoCss = ".sc-igl-application-info-h{color:var(--wa-color-text-normal);font-family:var(--wa-font-family-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;text-align:start;display:flex;flex-direction:column;gap:0.5rem;margin-top:1.5rem}.fd-application-info__header.sc-igl-application-info{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}.fd-application-info__variation.sc-igl-application-info{padding:0;margin:0}.fd-application-info__form.sc-igl-application-info{display:flex;flex-direction:column;gap:1rem}.fd-application-info__price-inline.sc-igl-application-info,.fd-application-info__details.sc-igl-application-info{display:none}.fd-application-info__footer.sc-igl-application-info,.fd-application-info__rateplan.sc-igl-application-info{display:flex;align-items:center;gap:1rem}.fd-application-info__footer.sc-igl-application-info{justify-content:space-between}.fd-application-info__rateplan-name.sc-igl-application-info{font-size:var(--wa-font-size-m);margin:0;padding:0}.fd-application-info__non-refundable.sc-igl-application-info{color:var(--wa-color-success-fill-loud);margin-inline-start:0.5rem}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-l)}.fd-application-info__infant.sc-igl-application-info{display:flex;flex-direction:column;gap:0.875rem}.fd-application-info__infant-label.sc-igl-application-info{margin:0;padding:0;color:var(--wa-color-danger-fill-loud)}.fd-application-info__price.sc-igl-application-info{margin:0;padding:0;display:flex;flex-direction:column}@media (min-width: 768px){.fd-application-info__infant.sc-igl-application-info{flex-direction:row;align-items:center}.fd-application-info__infant.sc-igl-application-info .fd-application-info__select.sc-igl-application-info{max-width:100px}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-m)}.fd-application-info__header.sc-igl-application-info{justify-content:flex-start;align-items:center;gap:0.5rem}.fd-application-info__form.sc-igl-application-info{flex-direction:row}.fd-application-info__price-inline.sc-igl-application-info{display:flex;flex-direction:column;padding:0;margin:0;align-items:flex-end}.fd-application-info__details.sc-igl-application-info{display:flex;align-items:center;gap:0.5rem}.fd-application-info__price.sc-igl-application-info,.fd-application-info__footer.sc-igl-application-info{display:none}}";
+const IglApplicationInfoStyle0 = iglApplicationInfoCss;
+
+const IglApplicationInfo = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.recalculateTotalCost = createEvent(this, "recalculateTotalCost", 7);
+    }
+    rateplanSelection;
+    guestInfo;
+    currency;
+    bedPreferenceType = [];
+    bookingType = 'PLUS_BOOKING';
+    roomIndex;
+    totalNights = 1;
+    baseData;
+    autoFillGuest;
+    isButtonPressed = false;
+    amount = 0;
+    recalculateTotalCost;
+    variationService = new VariationService();
+    bookingService = new BookingService();
+    shouldSyncBookedByFirstName = !booking_store.bookedByGuest?.firstName;
+    shouldSyncBookedByLastName = !booking_store.bookedByGuest?.lastName;
+    async componentWillLoad() {
+        if (isSingleUnit(this.rateplanSelection.roomtype.id)) {
+            const filteredRooms = this.filterRooms();
+            if (filteredRooms.length > 0)
+                this.updateGuest({ unit: filteredRooms[0]?.id?.toString() });
+        }
+        this.amount = await this.getAmount();
+    }
+    updateGuest(params) {
+        const roomTypeId = this.rateplanSelection.roomtype.id;
+        const ratePlanId = this.rateplanSelection.ratePlan.id;
+        let prevGuest = [...this.rateplanSelection.guest];
+        prevGuest[this.roomIndex] = {
+            ...prevGuest[this.roomIndex],
+            ...params,
+        };
+        updateRoomGuest({
+            ratePlanSelection: this.rateplanSelection,
+            ratePlanId,
+            roomTypeId,
+            guest: prevGuest,
+        });
+        const shouldAutoFill = this.autoFillGuest && !booking_store.bookedByGuestManuallyEdited;
+        if (!shouldAutoFill) {
+            if (booking_store.bookedByGuestManuallyEdited) {
+                this.shouldSyncBookedByFirstName = false;
+                this.shouldSyncBookedByLastName = false;
+            }
+            return;
+        }
+        if (typeof params.first_name === 'string' && this.shouldSyncBookedByFirstName) {
+            updateBookedByGuest({
+                firstName: params.first_name,
+            });
+        }
+        if (typeof params.last_name === 'string' && this.shouldSyncBookedByLastName) {
+            updateBookedByGuest({
+                lastName: params.last_name,
+            });
+        }
+    }
+    async handleGuestInfoChange() {
+        if (this.rateplanSelection.is_amount_modified) {
+            return;
+        }
+        this.amount = await this.getAmount();
+    }
+    handleButtonClicked(event) {
+        switch (event.detail.key) {
+            case 'book':
+            case 'bookAndCheckIn':
+            case 'save':
+                this.isButtonPressed = true;
+                break;
+        }
+    }
+    getTooltipMessages() {
+        const { ratePlan, selected_variation } = this.rateplanSelection;
+        let selectedVariation = selected_variation;
+        if (this.guestInfo?.infant_nbr) {
+            selectedVariation = this.variationService.getVariationBasedOnInfants({
+                variations: ratePlan.variations,
+                baseVariation: selected_variation,
+                infants: this.guestInfo?.infant_nbr,
+            });
+        }
+        if (!selectedVariation)
+            return;
+        const matchingVariation = ratePlan.variations?.find(variation => variation.adult_nbr === selectedVariation.adult_nbr && variation.child_nbr === selectedVariation.child_nbr);
+        if (!matchingVariation)
+            return;
+        const cancellationPolicy = matchingVariation.applicable_policies?.find(p => p.type === 'cancelation')?.combined_statement;
+        const guaranteePolicy = matchingVariation.applicable_policies?.find(p => p.type === 'guarantee')?.combined_statement;
+        let tooltip = '';
+        if (cancellationPolicy) {
+            tooltip += `<b><u>Cancellation:</u></b> ${cancellationPolicy}<br/>`;
+        }
+        if (guaranteePolicy) {
+            tooltip += `<b><u>Guarantee:</u></b> ${guaranteePolicy}`;
+        }
+        return tooltip || undefined;
+    }
+    async getAmount() {
+        if (this.rateplanSelection.is_amount_modified) {
+            const net = this.rateplanSelection.view_mode === '001' ? this.rateplanSelection.rp_amount : this.rateplanSelection.rp_amount * this.totalNights;
+            const tax = await this.bookingService.calculateExclusiveTax({
+                amount: net,
+                property_id: calendar_data.property.id,
+            });
+            return net + (tax ?? 0);
+        }
+        let variation = this.rateplanSelection.selected_variation;
+        if (this.guestInfo?.infant_nbr) {
+            variation = this.variationService.getVariationBasedOnInfants({
+                variations: this.rateplanSelection.ratePlan.variations,
+                baseVariation: this.rateplanSelection.selected_variation,
+                infants: this.guestInfo?.infant_nbr,
+            });
+        }
+        return variation.discounted_gross_amount;
+    }
+    filterRooms() {
+        const result = [];
+        if (!calendar_data.is_frontdesk_enabled) {
+            return result;
+        }
+        this.rateplanSelection.ratePlan?.assignable_units?.forEach(unit => {
+            if (unit.Is_Fully_Available) {
+                result.push({ name: unit.name, id: unit.pr_id });
+            }
+        });
+        const filteredGuestsRoom = this.rateplanSelection.guest.filter((_, i) => i !== this.roomIndex).map(r => r.unit);
+        const filteredResults = result.filter(r => !filteredGuestsRoom.includes(r.id.toString()));
+        return this.bookingType === 'EDIT_BOOKING'
+            ? [...filteredResults, this.rateplanSelection.roomtype.id === this.baseData?.roomtypeId ? this.baseData?.unit : null]
+                .filter(f => !!f)
+                .sort((a, b) => a.name.localeCompare(b.name))
+            : filteredResults;
+    }
+    tooltipId = `room_info_tooltip_${v4()}`;
+    render() {
+        const filteredRoomList = this.filterRooms();
+        const formattedVariation = this.variationService.formatVariationBasedOnInfants({
+            baseVariation: this.rateplanSelection.selected_variation,
+            infants: this.guestInfo.infant_nbr,
+            variations: this.rateplanSelection.ratePlan.variations,
+        });
+        // const amount = await this.getAmount();
+        return (h(Host, { key: 'bcd5c61fbeeb8fd8898e561926605cfb52acfa6d', class: "fd-application-info", "data-testid": `room_info_${this.rateplanSelection.ratePlan.id}` }, h("div", { key: '33a7f3f18e5e8bd5750314111da584ca9d797c8f', class: "fd-application-info__header" }, (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("span", { key: '83b33a588db40725aaf29c7f37336e8dc89c99bf', class: "fd-application-info__roomtype-title" }, this.rateplanSelection.roomtype.name)), h("div", { key: 'a9e5747ee145960539f0e86fb986df518fecafc5', class: "fd-application-info__details" }, h("div", { key: '633ce86dc403f5b9166d17b58737a1f6c2de9fa1', class: "fd-application-info__rateplan" }, h("p", { key: 'b96990f2e74e1a5f9430288ec6a4bac0f2c5603a', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name, this.rateplanSelection.ratePlan.is_non_refundable && h("span", { key: 'f32ab84fe03d26e666e9f79cd68a0fbc5bc9238b', class: "fd-application-info__non-refundable" }, "Non Refundable")), h("wa-tooltip", { key: 'f8c722eb561a72ff15f108efec2a6c55b92cf020', for: this.tooltipId }, h("span", { key: 'd2e31e75e12b1f273b3d38567bd4ec1938bb02c4', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '89e6d53e96800377639b594ce1ea419c322f9aa7', name: "circle-info", id: this.tooltipId })), h("p", { key: '2a9cb636882b5ca77d34a9372020e526dc46d0e7', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("p", { key: '89ab9e551c60ba40a9b8f24a745c4b86db754859', class: "fd-application-info__price" }, h("span", { key: '853f80cb6c0640045fc09586300e2597449fd00e', class: "ir-price" }, formatAmount(this.currency?.symbol, this.amount), "/", locales.entries.Lcz_Stay), h("p", { key: '79db05f4389d9125d35cc3dbf444972a55aab940', style: { margin: '0', padding: '0', fontSize: '0.75rem' } }, "Including taxes and fees"))), h("div", { key: '336e4ab041099d3592fc2c38066071080652a6c6', class: "fd-application-info__footer" }, h("div", { key: '616b333e06bbce15dcf50a7efd6926199d4db3bf', class: "fd-application-info__rateplan" }, h("p", { key: '9409ae6490a6543b3daf3e4c6ede7066778ba55b', class: "fd-application-info__rateplan-name" }, this.rateplanSelection.ratePlan.short_name), h("wa-tooltip", { key: '68de02a9e2c80460e00708303f6c305dd8d5b4e9', for: `mobile-${this.tooltipId}` }, h("span", { key: '08ec2104b5214586631f78f6ab3789bab3037b25', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '1b31afd875426f4acfb2911b1aa3c5443227f790', name: "circle-info", id: `mobile-${this.tooltipId}` })), h("p", { key: '44d7a6efd89c344c79299e49cc4da2c4d6d6bbda', class: "fd-application-info__variation", innerHTML: formattedVariation })), h("div", { key: '5730303c861f7bba510a11e27344a7d2956d36e2', class: "fd-application-info__form" }, h("ir-validator", { key: 'eff0c1789fe113c3c417183e18228d90c050fe6f', value: this.guestInfo?.first_name, schema: GuestCredentials.shape.first_name }, h("ir-input", { key: '19f32037cc3e1157b52cfcaa34335cfd5e53e075', class: "fd-application-info__input",
+            // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.first_name === ''))}
+            value: this.guestInfo?.first_name, defaultValue: this.guestInfo?.first_name, "data-testid": "guest_first_name", placeholder: locales.entries['Lcz_GuestFirstname'] ?? 'Guest first name', "onText-change": event => {
+                const name = event.detail.trim();
+                this.updateGuest({ first_name: name });
+                if (booking_store.event_type.type === 'EDIT_BOOKING') {
+                    modifyBookingStore('guest', {
+                        ...booking_store.guest,
+                        name,
+                    });
+                }
+            } })), h("ir-validator", { key: 'a904192c8a7aab7bceb8e4ab21935c94355c2dac', value: this.guestInfo?.last_name, schema: GuestCredentials.shape.last_name }, h("ir-input", { key: '6d90c1f2e60fb1af1590d10ebe78d744888af1bc', class: "fd-application-info__input", type: "text",
+            // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.last_name === ''))}
+            value: this.guestInfo?.last_name, defaultValue: this.guestInfo?.last_name, "data-testid": "guest_last_name", placeholder: locales.entries['Lcz_GuestLastname'] ?? 'Guest last name', "onText-change": event => {
+                const name = event.detail.trim();
+                this.updateGuest({ last_name: name });
+                if (booking_store.event_type.type === 'EDIT_BOOKING') {
+                    modifyBookingStore('guest', {
+                        ...booking_store.guest,
+                        name,
+                    });
+                }
+            } })), calendar_data.is_frontdesk_enabled &&
+            !isSingleUnit(this.rateplanSelection.roomtype.id) &&
+            (this.bookingType === 'PLUS_BOOKING' || this.bookingType === 'ADD_ROOM' || this.bookingType === 'EDIT_BOOKING') && (h("wa-select", { key: 'e1906711e91e570b52748c611f5b9b27c68de64f', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_Assignunits, "data-testid": "unit", value: this.guestInfo?.unit, defaultValue: this.guestInfo?.unit, onchange: event => this.updateGuest({
+                unit: event.target.value,
+            }) }, filteredRoomList.map(room => (h("wa-option", { value: room.id.toString(), selected: this.guestInfo?.unit === room.id.toString() }, room.name))))), this.rateplanSelection.roomtype.is_bed_configuration_enabled && (h("ir-validator", { key: '848e627c8dead4facf0338da73d0d5ce7dd3e532', value: this.guestInfo?.bed_preference, schema: z.string().nonempty() }, h("wa-select", { key: '45074d47c99891240600267aa89994b8e0651048', "with-clear": true, size: "small", class: "fd-application-info__select", placeholder: locales.entries.Lcz_BedConfiguration, "data-testid": "bed_configuration", value: this.guestInfo?.bed_preference, defaultValue: this.guestInfo?.bed_preference,
+            // aria-invalid={String(Boolean(this.isButtonPressed && this.guestInfo?.bed_preference === ''))}
+            onchange: event => this.updateGuest({
+                bed_preference: event.target.value,
+            }) }, this.bedPreferenceType.map(data => (h("wa-option", { value: data.CODE_NAME, selected: this.guestInfo?.bed_preference === data.CODE_NAME }, data.CODE_VALUE_EN)))))), h("p", { key: '555064af5113e577fec33792bfebb2eb42570273', class: "fd-application-info__price-inline" }, h("span", { key: '0b2a64fd5ca673f544d124526269e3af4930e79e', class: "ir-price" }, formatAmount(this.currency?.symbol, this.amount), "/", locales.entries.Lcz_Stay), h("p", { key: '9671a9761613c905f6eabfc43758c05a6b13541a', style: { margin: '0', padding: '0', fontSize: '0.75rem' } }, "Including taxes and fees"))), this.rateplanSelection.selected_variation.child_nbr > 0 && (h("div", { key: '4d08e38bf640c40e7755d90144060b708a7d3909', class: "fd-application-info__infant" }, h("p", { key: '6f8e9197c3a179d202bba387ca7896330e741e65', class: "fd-application-info__infant-label" }, "Any of the children below 3 years?"), h("wa-select", { key: '0ac1d59f3e7bc567be71f50aa8926beeabba0e3a', size: "small", class: "fd-application-info__select fd-application-info__select--inline", placeholder: locales.entries['No'] || 'No', value: this.guestInfo?.infant_nbr?.toString(), defaultValue: this.guestInfo?.infant_nbr?.toString(), onchange: event => {
+                this.updateGuest({
+                    infant_nbr: Number(event.target.value),
+                });
+                if (this.rateplanSelection.is_amount_modified) {
+                    return;
+                }
+                this.recalculateTotalCost.emit();
+            }, withClear: true }, Array.from({ length: this.rateplanSelection.selected_variation.child_nbr }, (_, i) => i + 1).map(item => (h("wa-option", { value: item.toString(), selected: this.guestInfo?.infant_nbr === item }, item))))))));
+    }
+    static get watchers() { return {
+        "guestInfo": ["handleGuestInfoChange"]
+    }; }
+};
+IglApplicationInfo.style = IglApplicationInfoStyle0;
+
+const iglDateRangeCss = ":host{display:flex;min-width:280px}.custom-picker{width:100%}";
+const IglDateRangeStyle0 = iglDateRangeCss;
+
+const IglDateRange = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.dateSelectEvent = createEvent(this, "dateSelectEvent", 7);
+        this.dateRangeChange = createEvent(this, "dateRangeChange", 7);
+        this.toast = createEvent(this, "toast", 7);
+    }
+    size = 'small';
+    defaultData;
+    disabled = false;
+    minDate;
+    dateLabel;
+    maxDate;
+    withDateDifference = true;
+    variant = 'default';
+    hint;
+    renderAgain = false;
+    dateSelectEvent;
+    dateRangeChange;
+    toast;
+    totalNights = 0;
+    fromDate = hooks().toDate();
+    toDate = hooks().add(1, 'day').toDate();
+    isInvalid;
+    componentWillLoad() {
+        this.initializeDates();
+    }
+    handleDataChange(newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+            this.initializeDates();
+        }
+    }
+    initializeDates() {
+        if (this.defaultData) {
+            if (this.defaultData.fromDate) {
+                this.fromDate = new Date(this.defaultData.fromDate);
+                this.fromDate.setHours(0, 0, 0, 0);
+            }
+            if (this.defaultData.toDate) {
+                this.toDate = new Date(this.defaultData.toDate);
+                this.toDate.setHours(0, 0, 0, 0);
+            }
+        }
+        if (this.fromDate && this.toDate) {
+            this.calculateTotalNights();
+        }
+    }
+    calculateTotalNights() {
+        this.totalNights = calculateDaysBetweenDates(hooks(this.fromDate).format('YYYY-MM-DD'), hooks(this.toDate).format('YYYY-MM-DD'));
+    }
+    handleDateSelectEvent(key, data = '') {
+        this.dateSelectEvent.emit({ key, data });
+    }
+    handleDateChange(evt) {
+        const { start, end } = evt.detail;
+        this.fromDate = start.toDate();
+        this.toDate = end.toDate();
+        this.calculateTotalNights();
+        this.handleDateSelectEvent('selectedDateRange', {
+            fromDate: this.fromDate.getTime(),
+            toDate: this.toDate.getTime(),
+            fromDateStr: start.format('DD MMM YYYY'),
+            toDateStr: end.format('DD MMM YYYY'),
+            dateDifference: this.totalNights,
+        });
+        this.dateRangeChange.emit({
+            checkIn: start,
+            checkOut: end,
+        });
+        this.renderAgain = !this.renderAgain;
+    }
+    // private renderDateSummary(showNights: boolean) {
+    //   const fromDateDisplay = moment(this.fromDate).format('MMM DD, YYYY');
+    //   const toDateDisplay = moment(this.toDate).format('MMM DD, YYYY');
+    //   const shouldRenderNights = showNights && this.totalNights > 0;
+    //   return (
+    //     <div
+    //       class={{
+    //         'date-range-display': true,
+    //         'date-range-display--disabled': this.disabled,
+    //       }}
+    //     >
+    //       <wa-icon variant="regular" name="calendar"></wa-icon>
+    //       <span class="date-range-date">{fromDateDisplay}</span>
+    //       <wa-icon name="arrow-right"></wa-icon>
+    //       <span class="date-range-date">{toDateDisplay}</span>
+    //       {shouldRenderNights && (
+    //         <span class="date-range-nights">{this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)}</span>
+    //       )}
+    //     </div>
+    //   );
+    // }
+    get dates() {
+        const fromDate = hooks(this.fromDate).format('YYYY-MM-DD');
+        const toDate = hooks(this.toDate).format('YYYY-MM-DD');
+        return [fromDate, toDate];
+    }
+    handleAriaInvalidChange(newValue) {
+        this.isInvalid = newValue;
+    }
+    render() {
+        const showNights = this.variant === 'booking' && this.withDateDifference;
+        return (
+        // <Host size={this.size}>
+        //   <div class={`date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}`}>
+        //     <ir-date-range
+        //       maxDate={this.maxDate}
+        //       class={'date-range-input'}
+        //       disabled={this.disabled}
+        //       fromDate={this.fromDate}
+        //       toDate={this.toDate}
+        //       minDate={this.minDate}
+        //       autoApply
+        //       data-state={this.disabled ? 'disabled' : 'active'}
+        //       onDateRangeChange={evt => {
+        //         this.handleDateChange(evt);
+        //       }}
+        //     ></ir-date-range>
+        //     {this.renderDateSummary(showNights)}
+        //   </div>
+        // </Host>
+        h("ir-date-select", { key: 'ae20a84a7221ceecca2a700e9a88bf75d7048a1b', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true,
+            // hint={this.hint}
+            dates: this.dates }, h("wa-icon", { key: 'd2bcc2d1644c615037556129482c1e23d1ebf58f', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: '76d533c05ab6563dff91fedd4dd1e1ffb88337f8', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+    }
+    static get watchers() { return {
+        "defaultData": ["handleDataChange"],
+        "aria-invalid": ["handleAriaInvalidChange"]
+    }; }
+};
+IglDateRange.style = IglDateRangeStyle0;
+
+const iglRatePlanCss = ".sc-igl-rate-plan-h{display:block;margin-bottom:1rem;color:var(--wa-color-text-quiet)}.rate-plan.sc-igl-rate-plan{display:flex;flex-direction:column;min-height:32px;margin-top:0.25rem;gap:0.5rem}.rate-plan--unavailable.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan-name-container.sc-igl-rate-plan{display:flex;align-items:center;gap:0.5rem;margin:0;padding:0}.rateplan-name-container.sc-igl-rate-plan p.sc-igl-rate-plan{margin:0}.rateplan-container.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%;margin-top:0.5rem}.variation-select.sc-igl-rate-plan{width:100%;max-width:300px;flex:1}.rp-select.sc-igl-rate-plan:disabled{background-color:#eceff1;color:#7a7a7a}.rateplan-config.sc-igl-rate-plan{display:flex;flex-direction:column;gap:0.75rem;width:100%}.rate-total-night-view.sc-igl-rate-plan{display:flex;flex:1;gap:0;align-items:stretch}.rateplan-price-input.sc-igl-rate-plan{flex:1;width:100%}.total-nights-container.sc-igl-rate-plan{width:max-content}.rp-select--nights.sc-igl-rate-plan{border-top-left-radius:0;border-bottom-left-radius:0}.inventory-select.sc-igl-rate-plan{width:100%;max-width:200px}.edit-booking-radio.sc-igl-rate-plan{display:none}.mobile-only.sc-igl-rate-plan{width:100%;display:block}.desktop-only.sc-igl-rate-plan{display:none}.rate-plan-unavailable-text.sc-igl-rate-plan{margin:0;color:var(--wa-color-danger-fill-loud)}.rateplan-name-container.sc-igl-rate-plan{font-family:var(--wa-font-family-heading);font-weight:400;line-height:var(--wa-line-height-condensed);text-wrap:balance}.non-ref-span.sc-igl-rate-plan{font-size:12px;color:var(--wa-color-success-fill-loud)}.nightBorder.sc-igl-rate-plan{border-left-width:0;border-top-right-radius:3px !important;border-bottom-right-radius:3px !important}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__price-input.sc-igl-rate-plan::part(base),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}.fd-rateplan__price-input.sc-igl-rate-plan{flex:1 1 0%;z-index:1}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox),.sc-igl-rate-plan:dir(ltr) .fd-rateplan__price-input.sc-igl-rate-plan::part(base){border-top-right-radius:0;border-bottom-right-radius:0}.sc-igl-rate-plan:dir(rtl) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-right-width:0}.sc-igl-rate-plan:dir(ltr) .fd-rateplan__nights-select.sc-igl-rate-plan::part(combobox){border-left-width:0}.fd-rateplan__nights-select.sc-igl-rate-plan{min-width:100px}.fd-rateplan__inventory-select.sc-igl-rate-plan{min-width:60px}.fd-rateplan__nights-select[open].sc-igl-rate-plan,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-visible,.fd-rateplan__nights-select.sc-igl-rate-plan:focus-within{z-index:2}@media (min-width: 768px){.booking-btn.sc-igl-rate-plan{width:100%}.mobile-only.sc-igl-rate-plan{display:none}.desktop-only.sc-igl-rate-plan{display:block}.edit-booking-radio.sc-igl-rate-plan{display:block;margin-left:0.75rem}.rateplan-container.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:flex-end}.rateplan-config.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}.rateplan__booking-btn.sc-igl-rate-plan{width:95px}}@media (min-width: 991px){.sc-igl-rate-plan-h{margin:0}.rateplan-name-container.sc-igl-rate-plan{margin-bottom:0 !important}.rateplan-price-input.sc-igl-rate-plan{max-width:250px}.rate-plan--available.sc-igl-rate-plan{flex-direction:row;align-items:center;justify-content:space-between}}@media only screen and (min-width: 991px) and (max-width: 1300px){.rateplan-name-container.sc-igl-rate-plan{width:40%}.price-amount.sc-igl-rate-plan{max-width:150px !important}}@media (min-width: 1024px){.booking-btn.sc-igl-rate-plan{width:100px}.fd-rateplan__price-input.sc-igl-rate-plan{width:170px;max-width:170px}.fd-rateplan__nights-select.sc-igl-rate-plan{width:100px;max-width:100px}.rate-total-night-view.sc-igl-rate-plan{margin:0;padding:0;box-sizing:border-box;flex:0}.fd-rateplan__inventory-select.sc-igl-rate-plan{width:100px}.rateplan-config.sc-igl-rate-plan{width:fit-content}}@media (min-width: 1200px){.rateplan-name-container.sc-igl-rate-plan{width:40%;margin-top:0}}";
+const IglRatePlanStyle0 = iglRatePlanCss;
+
+const IglRatePlan = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.buttonClicked = createEvent(this, "buttonClicked", 7);
+        this.bookingStepChange = createEvent(this, "bookingStepChange", 7);
+    }
+    // Used Props with type annotations
+    ratePlan;
+    roomTypeId;
+    ratePricingMode = [];
+    currency;
+    shouldBeDisabled;
+    bookingType = 'PLUS_BOOKING';
+    isBookDisabled = false;
+    visibleInventory;
+    unavailableRatePlanIds = new Set();
+    buttonClicked;
+    bookingStepChange;
+    // Determine if the form inputs should be disabled
+    disableForm() {
+        const { bookingType, shouldBeDisabled, ratePlan, visibleInventory } = this;
+        if (bookingType === 'EDIT_BOOKING' && shouldBeDisabled) {
+            return false;
+        }
+        return !ratePlan.is_available_to_book || visibleInventory?.visibleInventory === 0;
+    }
+    // Update the rate plan selection in the booking store
+    updateRateplanSelection(props) {
+        const { roomTypeId, ratePlan } = this;
+        const currentSelections = booking_store.ratePlanSelections;
+        booking_store.ratePlanSelections = {
+            ...currentSelections,
+            [roomTypeId]: {
+                ...currentSelections[roomTypeId],
+                [ratePlan.id]: {
+                    ...currentSelections[roomTypeId][ratePlan.id],
+                    ...props,
+                },
+            },
+        };
+    }
+    // Handle changes to select inputs
+    handleDataChange(key, evt) {
+        const value = evt.target.value;
+        if (key === 'adult_child_offering') {
+            this.handleVariationChange(value);
+        }
+        else if (key === 'rate') {
+            this.updateRateplanSelection({ view_mode: value });
+        }
+        else if (key === 'totalRooms') {
+            reserveRooms({
+                roomTypeId: this.roomTypeId,
+                ratePlanId: this.ratePlan.id,
+                rooms: Number(value),
+            });
+        }
+    }
+    // Navigate to the next page for booking
+    bookProperty() {
+        if (this.bookingType === 'BAR_BOOKING') {
+            resetReserved();
+        }
+        this.reserveRoom();
+        this.bookingStepChange.emit({ direction: 'next' });
+        this.buttonClicked.emit({ key: 'next' });
+    }
+    reserveRoom() {
+        reserveRooms({
+            roomTypeId: this.roomTypeId,
+            ratePlanId: this.ratePlan.id,
+            rooms: 1,
+            guest: [
+                {
+                    last_name: booking_store.guest?.last_name,
+                    first_name: booking_store.guest?.first_name,
+                    unit: this.roomTypeId === booking_store.guest?.roomtype_id ? booking_store.guest?.unit : null,
+                    bed_preference: this.visibleInventory.roomtype.is_bed_configuration_enabled ? booking_store.guest?.bed_preference : null,
+                    infant_nbr: this.visibleInventory.selected_variation?.child_nbr > 0 ? booking_store.guest?.infant_nbr : null,
+                },
+            ],
+        });
+    }
+    // Render the rate amount
+    get rate() {
+        const { visibleInventory } = this;
+        if (!visibleInventory)
+            return '';
+        if (visibleInventory.is_amount_modified) {
+            return visibleInventory.rp_amount.toString();
+        }
+        const { selected_variation, view_mode } = visibleInventory;
+        // const amount = view_mode === '001' ? selected_variation?.discounted_gross_amount : selected_variation?.amount_per_night_gross;
+        const amount = view_mode === '001' ? selected_variation?.discounted_amount : selected_variation?.amount_per_night;
+        return amount?.toString() || '';
+    }
+    // Format variation for display
+    formatVariation(variation) {
+        if (!variation)
+            return '';
+        const adults = `${variation.adult_nbr} ${variation.adult_nbr === 1 ? locales.entries['Lcz_Adult']?.toLowerCase() : locales.entries['Lcz_Adults']?.toLowerCase()}`;
+        const children = variation.child_nbr > 0
+            ? `${variation.child_nbr} ${variation.child_nbr > 1 ? locales.entries['Lcz_Children']?.toLowerCase() : locales.entries['Lcz_Child']?.toLowerCase()}`
+            : '';
+        return children ? `${adults} ${children}` : adults;
+    }
+    // Get tooltip messages for the rate plan
+    getTooltipMessages() {
+        const { ratePlan, visibleInventory } = this;
+        const selectedVariation = visibleInventory?.selected_variation;
+        if (!selectedVariation)
+            return;
+        const matchingVariation = ratePlan.variations?.find(variation => this.formatVariation(variation) === this.formatVariation(selectedVariation));
+        if (!matchingVariation)
+            return;
+        const cancellationPolicy = matchingVariation.applicable_policies?.find(p => p.type === 'cancelation')?.combined_statement;
+        const guaranteePolicy = matchingVariation.applicable_policies?.find(p => p.type === 'guarantee')?.combined_statement;
+        let tooltip = '';
+        if (cancellationPolicy) {
+            tooltip += `<b><u>Cancellation:</u></b> ${cancellationPolicy}<br/>`;
+        }
+        if (guaranteePolicy) {
+            tooltip += `<b><u>Guarantee:</u></b> ${guaranteePolicy}`;
+        }
+        return tooltip || undefined;
+    }
+    // Handle variation change when a different option is selected
+    async handleVariationChange(value) {
+        const { ratePlan, roomTypeId } = this;
+        const variations = ratePlan.variations || [];
+        const selectedVariation = variations.find(v => this.formatVariation(v) === value);
+        if (!selectedVariation)
+            return;
+        updateRoomParams({
+            params: { selected_variation: selectedVariation },
+            ratePlanId: ratePlan.id,
+            roomTypeId,
+        });
+    }
+    // Reset reserved rooms in the booking store
+    render() {
+        const { ratePlan, bookingType, currency, ratePricingMode, visibleInventory } = this;
+        const isAvailableToBook = ratePlan.is_available_to_book;
+        const disableForm = this.disableForm();
+        const selectedVariation = visibleInventory?.selected_variation;
+        const formattedVariations = ratePlan.variations?.map(v => this.formatVariation(v));
+        // if (!this.visibleInventory) {
+        //   return null;
+        // }
+        return (h(Host, { key: '1ec295c73c39f527216970d0a61f1623cf5b343b', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '70c2616f1951508fbe29e0ed83eb29adc2ab9f90', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '3fef2eb143b0892e93078c70151ff5e7997bdbee', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '4d676fe70f29517b23f2b43c5005279d0fc9c283' }, h("wa-tooltip", { key: '613a945b4ef3609d2d75b4406ca57a8f14b72f19', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: '0cb706a7ea4755b0a0354d55612c286f6a3187bd', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '5edf3f52401dd09b527102405629e74cb6be2399', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: 'b855854fb4ece7bb43919e561157cb4f74290bf4' }, h("wa-tooltip", { key: '5c451912f6dc01e63da018c014784b0be151f7fd', for: `rateplan-warning-${this.ratePlan.id}` }, "You are forcing a stop-sale restriction."), h("wa-icon", { key: 'b7c9f91fb7d054ea7e886996cdec44ccda091e60', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+            }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
+                is_amount_modified: true,
+                rp_amount: Number(e.detail),
+            }), id: `rate-input-${this.ratePlan.id}`, "aria-label": `${this.visibleInventory?.roomtype?.name} ${this.ratePlan.short_name}'s rate`, "aria-describedby": `${this.ratePlan.short_name}'s rate`, value: this.rate, defaultValue: this.rate, placeholder: locales.entries.Lcz_Rate || 'Rate', mask: "price" }, h("span", { slot: "start" }, currency.symbol)), h("wa-select", { "data-testid": 'nigh_stay_select', disabled: disableForm, "onwa-hide": e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+            }, size: "small", class: "fd-rateplan__nights-select", id: v4(), onchange: evt => this.updateRateplanSelection({
+                view_mode: evt.target.value,
+            }), value: visibleInventory?.view_mode, defaultValue: visibleInventory?.view_mode }, ratePricingMode.map(data => (h("wa-option", { value: data.CODE_NAME, selected: visibleInventory?.view_mode === data.CODE_NAME }, data.CODE_VALUE_EN))))), (bookingType === 'PLUS_BOOKING' || bookingType === 'ADD_ROOM') && (h("wa-select", { "data-testid": 'inventory_select', disabled: visibleInventory.visibleInventory === 0, class: "fd-rateplan__inventory-select", onchange: evt => this.handleDataChange('totalRooms', evt), value: visibleInventory.reserved?.toString(), defaultValue: visibleInventory.reserved?.toString(), size: "small", "onwa-hide": e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+            } }, Array.from({ length: (visibleInventory.visibleInventory || 0) + 1 }, (_, i) => i).map(i => (h("wa-option", { value: i?.toString(), selected: visibleInventory.reserved === i }, i)))))), bookingType === 'EDIT_BOOKING' && (h(Fragment, null, h("ir-custom-button", { variant: "brand", "data-testid": "book_property", disabled: disableForm, type: "button", appearance: visibleInventory.reserved === 1 ? 'accent' : 'outlined', class: "rateplan__booking-btn", onClickHandler: () => {
+                resetReserved();
+                this.reserveRoom();
+                this.bookProperty();
+            } }, locales.entries.Lcz_Select))), (bookingType === 'BAR_BOOKING' || bookingType === 'SPLIT_BOOKING') && (h("ir-custom-button", { "data-testid": "book", disabled: disableForm || (bookingType === 'SPLIT_BOOKING' && this.isBookDisabled), type: "button", class: "booking-btn", variant: "brand", onClickHandler: () => this.bookProperty() }, locales.entries.Lcz_Book)))) : (h("p", { class: "rate-plan-unavailable-text" }, locales.entries['Lcz_NotAvailable'] || 'Not available')))));
+    }
+};
+IglRatePlan.style = IglRatePlanStyle0;
+
+const irAirDatePickerCss = ".air-datepicker-cell.-year-.-other-decade-,.air-datepicker-cell.-day-.-other-month-{color:var(--adp-color-other-month)}.air-datepicker-cell.-year-.-other-decade-:hover,.air-datepicker-cell.-day-.-other-month-:hover{color:var(--adp-color-other-month-hover)}.-disabled-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-disabled-.-focus-.air-datepicker-cell.-day-.-other-month-{color:var(--adp-color-other-month)}.-selected-.air-datepicker-cell.-year-.-other-decade-,.-selected-.air-datepicker-cell.-day-.-other-month-{color:#fff;background:var(--adp-background-color-selected-other-month)}.-selected-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-selected-.-focus-.air-datepicker-cell.-day-.-other-month-{background:var(--adp-background-color-selected-other-month-focused)}.-in-range-.air-datepicker-cell.-year-.-other-decade-,.-in-range-.air-datepicker-cell.-day-.-other-month-{background-color:var(--adp-background-color-in-range);color:var(--adp-color)}.-in-range-.-focus-.air-datepicker-cell.-year-.-other-decade-,.-in-range-.-focus-.air-datepicker-cell.-day-.-other-month-{background-color:var(--adp-background-color-in-range-focused)}.air-datepicker-cell.-year-.-other-decade-:empty,.air-datepicker-cell.-day-.-other-month-:empty{background:none;border:none}.air-datepicker-cell{border-radius:var(--adp-cell-border-radius);box-sizing:border-box;cursor:pointer;display:flex;position:relative;align-items:center;justify-content:center;z-index:1}.air-datepicker-cell.-focus-{background:var(--adp-cell-background-color-hover)}.air-datepicker-cell.-current-{color:var(--adp-color-current-date)}.air-datepicker-cell.-current-.-focus-{color:var(--adp-color)}.air-datepicker-cell.-current-.-in-range-{color:var(--adp-color-current-date)}.air-datepicker-cell.-disabled-{cursor:default;color:var(--adp-color-disabled)}.air-datepicker-cell.-disabled-.-focus-{color:var(--adp-color-disabled)}.air-datepicker-cell.-disabled-.-in-range-{color:var(--adp-color-disabled-in-range)}.air-datepicker-cell.-disabled-.-current-.-focus-{color:var(--adp-color-disabled)}.air-datepicker-cell.-in-range-{background:var(--adp-cell-background-color-in-range);border-radius:0}.air-datepicker-cell.-in-range-:hover,.air-datepicker-cell.-in-range-.-focus-{background:var(--adp-cell-background-color-in-range-hover)}.air-datepicker-cell.-range-from-{border:1px solid var(--adp-cell-border-color-in-range);background-color:var(--adp-cell-background-color-in-range);border-radius:var(--adp-cell-border-radius) 0 0 var(--adp-cell-border-radius)}.air-datepicker-cell.-range-to-{border:1px solid var(--adp-cell-border-color-in-range);background-color:var(--adp-cell-background-color-in-range);border-radius:0 var(--adp-cell-border-radius) var(--adp-cell-border-radius) 0}.air-datepicker-cell.-range-to-.-range-from-{border-radius:var(--adp-cell-border-radius)}.air-datepicker-cell.-selected-{color:#fff;border:none;background:var(--adp-cell-background-color-selected)}.air-datepicker-cell.-selected-.-current-{color:#fff;background:var(--adp-cell-background-color-selected)}.air-datepicker-cell.-selected-.-focus-{background:var(--adp-cell-background-color-selected-hover)}.air-datepicker-body{transition:all var(--adp-transition-duration) var(--adp-transition-ease)}.air-datepicker-body.-hidden-{display:none}.air-datepicker-body--day-names{display:grid;grid-template-columns:repeat(7, var(--adp-day-cell-width));margin:8px 0 3px}.air-datepicker-body--day-name{color:var(--adp-day-name-color);display:flex;align-items:center;justify-content:center;flex:1;text-align:center;text-transform:uppercase;font-size:.8em}.air-datepicker-body--day-name.-clickable-{cursor:pointer}.air-datepicker-body--day-name.-clickable-:hover{color:var(--adp-day-name-color-hover)}.air-datepicker-body--cells{display:grid}.air-datepicker-body--cells.-days-{grid-template-columns:repeat(7, var(--adp-day-cell-width));grid-auto-rows:var(--adp-day-cell-height)}.air-datepicker-body--cells.-months-{grid-template-columns:repeat(3, 1fr);grid-auto-rows:var(--adp-month-cell-height)}.air-datepicker-body--cells.-years-{grid-template-columns:repeat(4, 1fr);grid-auto-rows:var(--adp-year-cell-height)}.air-datepicker-nav{display:flex;justify-content:space-between;border-bottom:1px solid var(--adp-border-color-inner);min-height:var(--adp-nav-height);padding:var(--adp-padding);box-sizing:content-box}.-only-timepicker- .air-datepicker-nav{display:none}.air-datepicker-nav--title,.air-datepicker-nav--action{display:flex;cursor:pointer;align-items:center;justify-content:center}.air-datepicker-nav--action{width:var(--adp-nav-action-size);border-radius:var(--adp-border-radius);-webkit-user-select:none;-moz-user-select:none;user-select:none}.air-datepicker-nav--action:hover{background:var(--adp-background-color-hover)}.air-datepicker-nav--action:active{background:var(--adp-background-color-active)}.air-datepicker-nav--action.-disabled-{visibility:hidden}.air-datepicker-nav--action svg{width:32px;height:32px}.air-datepicker-nav--action path{fill:none;stroke:var(--adp-nav-arrow-color);stroke-width:2px}.air-datepicker-nav--title{border-radius:var(--adp-border-radius);padding:0 8px}.air-datepicker-nav--title i{font-style:normal;color:var(--adp-nav-color-secondary);margin-left:.3em}.air-datepicker-nav--title:hover{background:var(--adp-background-color-hover)}.air-datepicker-nav--title:active{background:var(--adp-background-color-active)}.air-datepicker-nav--title.-disabled-{cursor:default;background:none}.air-datepicker-buttons{display:grid;grid-auto-columns:1fr;grid-auto-flow:column}.air-datepicker-button{display:inline-flex;color:var(--adp-btn-color);border-radius:var(--adp-btn-border-radius);cursor:pointer;height:var(--adp-btn-height);border:none;background:rgba(255,255,255,0)}.air-datepicker-button:hover{color:var(--adp-btn-color-hover);background:var(--adp-btn-background-color-hover)}.air-datepicker-button:focus{color:var(--adp-btn-color-hover);background:var(--adp-btn-background-color-hover);outline:none}.air-datepicker-button:active{background:var(--adp-btn-background-color-active)}.air-datepicker-button span{outline:none;display:flex;align-items:center;justify-content:center;width:100%;height:100%}.air-datepicker-time{display:grid;grid-template-columns:max-content 1fr;grid-column-gap:12px;align-items:center;position:relative;padding:0 var(--adp-time-padding-inner)}.-only-timepicker- .air-datepicker-time{border-top:none}.air-datepicker-time--current{display:flex;align-items:center;flex:1;font-size:14px;text-align:center}.air-datepicker-time--current-colon{margin:0 2px 3px;line-height:1}.air-datepicker-time--current-hours,.air-datepicker-time--current-minutes{line-height:1;font-size:19px;font-family:\"Century Gothic\",CenturyGothic,AppleGothic,sans-serif;position:relative;z-index:1}.air-datepicker-time--current-hours:after,.air-datepicker-time--current-minutes:after{content:\"\";background:var(--adp-background-color-hover);border-radius:var(--adp-border-radius);position:absolute;left:-2px;top:-3px;right:-2px;bottom:-2px;z-index:-1;opacity:0}.air-datepicker-time--current-hours.-focus-:after,.air-datepicker-time--current-minutes.-focus-:after{opacity:1}.air-datepicker-time--current-ampm{text-transform:uppercase;align-self:flex-end;color:var(--adp-time-day-period-color);margin-left:6px;font-size:11px;margin-bottom:1px}.air-datepicker-time--row{display:flex;align-items:center;font-size:11px;height:17px;background:linear-gradient(to right, var(--adp-time-track-color), var(--adp-time-track-color)) left 50%/100% var(--adp-time-track-height) no-repeat}.air-datepicker-time--row:first-child{margin-bottom:4px}.air-datepicker-time--row input[type=range]{background:none;cursor:pointer;flex:1;height:100%;width:100%;padding:0;margin:0;-webkit-appearance:none}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none}.air-datepicker-time--row input[type=range]::-ms-tooltip{display:none}.air-datepicker-time--row input[type=range]:hover::-webkit-slider-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:hover::-moz-range-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:hover::-ms-thumb{border-color:var(--adp-time-track-color-hover)}.air-datepicker-time--row input[type=range]:focus{outline:none}.air-datepicker-time--row input[type=range]:focus::-webkit-slider-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]:focus::-moz-range-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]:focus::-ms-thumb{background:var(--adp-cell-background-color-selected);border-color:var(--adp-cell-background-color-selected)}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-webkit-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-moz-range-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-moz-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-ms-thumb{box-sizing:border-box;height:12px;width:12px;border-radius:3px;border:1px solid var(--adp-time-track-color);background:#fff;cursor:pointer;-ms-transition:background var(--adp-transition-duration);transition:background var(--adp-transition-duration)}.air-datepicker-time--row input[type=range]::-webkit-slider-thumb{margin-top:calc(var(--adp-time-thumb-size)/2*-1)}.air-datepicker-time--row input[type=range]::-webkit-slider-runnable-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-moz-range-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-track{border:none;height:var(--adp-time-track-height);cursor:pointer;color:rgba(0,0,0,0);background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-fill-lower{background:rgba(0,0,0,0)}.air-datepicker-time--row input[type=range]::-ms-fill-upper{background:rgba(0,0,0,0)}.air-datepicker{--adp-font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";--adp-font-size:14px;--adp-width:246px;--adp-z-index:100;--adp-padding:4px;--adp-grid-areas:\"nav\" \"body\" \"timepicker\" \"buttons\";--adp-transition-duration:.3s;--adp-transition-ease:ease-out;--adp-transition-offset:8px;--adp-background-color:#fff;--adp-background-color-hover:#f0f0f0;--adp-background-color-active:#eaeaea;--adp-background-color-in-range:rgba(92, 196, 239, .1);--adp-background-color-in-range-focused:rgba(92, 196, 239, .2);--adp-background-color-selected-other-month-focused:#8ad5f4;--adp-background-color-selected-other-month:#a2ddf6;--adp-color:#4a4a4a;--adp-color-secondary:#9c9c9c;--adp-accent-color:#4eb5e6;--adp-color-current-date:var(--adp-accent-color);--adp-color-other-month:#dedede;--adp-color-disabled:#aeaeae;--adp-color-disabled-in-range:#939393;--adp-color-other-month-hover:#c5c5c5;--adp-border-color:#dbdbdb;--adp-border-color-inner:#efefef;--adp-border-radius:4px;--adp-border-color-inline:#d7d7d7;--adp-nav-height:32px;--adp-nav-arrow-color:var(--adp-color-secondary);--adp-nav-action-size:32px;--adp-nav-color-secondary:var(--adp-color-secondary);--adp-day-name-color:#ff9a19;--adp-day-name-color-hover:#8ad5f4;--adp-day-cell-width:1fr;--adp-day-cell-height:32px;--adp-month-cell-height:42px;--adp-year-cell-height:56px;--adp-pointer-size:10px;--adp-poiner-border-radius:2px;--adp-pointer-offset:14px;--adp-cell-border-radius:4px;--adp-cell-background-color-hover:var(--adp-background-color-hover);--adp-cell-background-color-selected:#5cc4ef;--adp-cell-background-color-selected-hover:#45bced;--adp-cell-background-color-in-range:rgba(92, 196, 239, 0.1);--adp-cell-background-color-in-range-hover:rgba(92, 196, 239, 0.2);--adp-cell-border-color-in-range:var(--adp-cell-background-color-selected);--adp-btn-height:32px;--adp-btn-color:var(--adp-accent-color);--adp-btn-color-hover:var(--adp-color);--adp-btn-border-radius:var(--adp-border-radius);--adp-btn-background-color-hover:var(--adp-background-color-hover);--adp-btn-background-color-active:var(--adp-background-color-active);--adp-time-track-height:1px;--adp-time-track-color:#dedede;--adp-time-track-color-hover:#b1b1b1;--adp-time-thumb-size:12px;--adp-time-padding-inner:10px;--adp-time-day-period-color:var(--adp-color-secondary);--adp-mobile-font-size:16px;--adp-mobile-nav-height:40px;--adp-mobile-width:320px;--adp-mobile-day-cell-height:38px;--adp-mobile-month-cell-height:48px;--adp-mobile-year-cell-height:64px}.air-datepicker-overlay{--adp-overlay-background-color:rgba(0, 0, 0, .3);--adp-overlay-transition-duration:.3s;--adp-overlay-transition-ease:ease-out;--adp-overlay-z-index:99}.air-datepicker{background:var(--adp-background-color);border:1px solid var(--adp-border-color);box-shadow:0 4px 12px rgba(0,0,0,.15);border-radius:var(--adp-border-radius);box-sizing:content-box;display:grid;grid-template-columns:1fr;grid-template-rows:repeat(4, max-content);grid-template-areas:var(--adp-grid-areas);font-family:var(--adp-font-family),sans-serif;font-size:var(--adp-font-size);color:var(--adp-color);width:var(--adp-width);position:absolute;transition:opacity var(--adp-transition-duration) var(--adp-transition-ease),transform var(--adp-transition-duration) var(--adp-transition-ease);z-index:var(--adp-z-index)}.air-datepicker:not(.-custom-position-){opacity:0}.air-datepicker.-from-top-{transform:translateY(calc(var(--adp-transition-offset) * -1))}.air-datepicker.-from-right-{transform:translateX(var(--adp-transition-offset))}.air-datepicker.-from-bottom-{transform:translateY(var(--adp-transition-offset))}.air-datepicker.-from-left-{transform:translateX(calc(var(--adp-transition-offset) * -1))}.air-datepicker.-active-:not(.-custom-position-){transform:translate(0, 0);opacity:1}.air-datepicker.-active-.-custom-position-{transition:none}.air-datepicker.-inline-{border-color:var(--adp-border-color-inline);box-shadow:none;position:static;left:auto;right:auto;opacity:1;transform:none}.air-datepicker.-inline- .air-datepicker--pointer{display:none}.air-datepicker.-is-mobile-{--adp-font-size:var(--adp-mobile-font-size);--adp-day-cell-height:var(--adp-mobile-day-cell-height);--adp-month-cell-height:var(--adp-mobile-month-cell-height);--adp-year-cell-height:var(--adp-mobile-year-cell-height);--adp-nav-height:var(--adp-mobile-nav-height);--adp-nav-action-size:var(--adp-mobile-nav-height);position:fixed;width:var(--adp-mobile-width);border:none}.air-datepicker.-is-mobile- *{-webkit-tap-highlight-color:rgba(0,0,0,0)}.air-datepicker.-is-mobile- .air-datepicker--pointer{display:none}.air-datepicker.-is-mobile-:not(.-custom-position-){transform:translate(-50%, calc(-50% + var(--adp-transition-offset)))}.air-datepicker.-is-mobile-.-active-:not(.-custom-position-){transform:translate(-50%, -50%)}.air-datepicker.-custom-position-{transition:none}.air-datepicker-global-container{position:absolute;left:0;top:0}.air-datepicker--pointer{--pointer-half-size:calc(var(--adp-pointer-size) / 2);position:absolute;width:var(--adp-pointer-size);height:var(--adp-pointer-size);z-index:-1}.air-datepicker--pointer:after{content:\"\";position:absolute;background:#fff;border-top:1px solid var(--adp-border-color-inline);border-right:1px solid var(--adp-border-color-inline);border-top-right-radius:var(--adp-poiner-border-radius);width:var(--adp-pointer-size);height:var(--adp-pointer-size);box-sizing:border-box}.-top-left- .air-datepicker--pointer,.-top-center- .air-datepicker--pointer,.-top-right- .air-datepicker--pointer,[data-popper-placement^=top] .air-datepicker--pointer{top:calc(100% - var(--pointer-half-size) + 1px)}.-top-left- .air-datepicker--pointer:after,.-top-center- .air-datepicker--pointer:after,.-top-right- .air-datepicker--pointer:after,[data-popper-placement^=top] .air-datepicker--pointer:after{transform:rotate(135deg)}.-right-top- .air-datepicker--pointer,.-right-center- .air-datepicker--pointer,.-right-bottom- .air-datepicker--pointer,[data-popper-placement^=right] .air-datepicker--pointer{right:calc(100% - var(--pointer-half-size) + 1px)}.-right-top- .air-datepicker--pointer:after,.-right-center- .air-datepicker--pointer:after,.-right-bottom- .air-datepicker--pointer:after,[data-popper-placement^=right] .air-datepicker--pointer:after{transform:rotate(225deg)}.-bottom-left- .air-datepicker--pointer,.-bottom-center- .air-datepicker--pointer,.-bottom-right- .air-datepicker--pointer,[data-popper-placement^=bottom] .air-datepicker--pointer{bottom:calc(100% - var(--pointer-half-size) + 1px)}.-bottom-left- .air-datepicker--pointer:after,.-bottom-center- .air-datepicker--pointer:after,.-bottom-right- .air-datepicker--pointer:after,[data-popper-placement^=bottom] .air-datepicker--pointer:after{transform:rotate(315deg)}.-left-top- .air-datepicker--pointer,.-left-center- .air-datepicker--pointer,.-left-bottom- .air-datepicker--pointer,[data-popper-placement^=left] .air-datepicker--pointer{left:calc(100% - var(--pointer-half-size) + 1px)}.-left-top- .air-datepicker--pointer:after,.-left-center- .air-datepicker--pointer:after,.-left-bottom- .air-datepicker--pointer:after,[data-popper-placement^=left] .air-datepicker--pointer:after{transform:rotate(45deg)}.-top-left- .air-datepicker--pointer,.-bottom-left- .air-datepicker--pointer{left:var(--adp-pointer-offset)}.-top-right- .air-datepicker--pointer,.-bottom-right- .air-datepicker--pointer{right:var(--adp-pointer-offset)}.-top-center- .air-datepicker--pointer,.-bottom-center- .air-datepicker--pointer{left:calc(50% - var(--adp-pointer-size)/2)}.-left-top- .air-datepicker--pointer,.-right-top- .air-datepicker--pointer{top:var(--adp-pointer-offset)}.-left-bottom- .air-datepicker--pointer,.-right-bottom- .air-datepicker--pointer{bottom:var(--adp-pointer-offset)}.-left-center- .air-datepicker--pointer,.-right-center- .air-datepicker--pointer{top:calc(50% - var(--adp-pointer-size)/2)}.air-datepicker--navigation{grid-area:nav}.air-datepicker--content{box-sizing:content-box;padding:var(--adp-padding);grid-area:body}.-only-timepicker- .air-datepicker--content{display:none}.air-datepicker--time{grid-area:timepicker}.air-datepicker--buttons{grid-area:buttons}.air-datepicker--buttons,.air-datepicker--time{padding:var(--adp-padding);border-top:1px solid var(--adp-border-color-inner)}.air-datepicker-overlay{position:fixed;background:var(--adp-overlay-background-color);left:0;top:0;width:0;height:0;opacity:0;transition:opacity var(--adp-overlay-transition-duration) var(--adp-overlay-transition-ease),left 0s,height 0s,width 0s;transition-delay:0s,var(--adp-overlay-transition-duration),var(--adp-overlay-transition-duration),var(--adp-overlay-transition-duration);z-index:var(--adp-overlay-z-index)}.air-datepicker-overlay.-active-{opacity:1;width:100%;height:100%;transition:opacity var(--adp-overlay-transition-duration) var(--adp-overlay-transition-ease),height 0s,width 0s}:host{display:block}.custom-date-picker__calendar{--adp-padding:1rem;}";
+const IrAirDatePickerStyle0 = irAirDatePickerCss;
+
+const IrAirDatePicker = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.dateChanged = createEvent(this, "dateChanged", 7);
+        this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
+        this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
+    }
+    get el() { return getElement(this); }
+    withClear;
+    placeholder;
+    label;
+    dates;
+    /**
+     * Determines whether the date picker is rendered inline or in a pop-up.
+     * If `true`, the picker is always visible inline.
+     */
+    inline = false;
+    /**
+     * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+     */
+    date = null;
+    /**
+     * Enables multiple dates.
+     * If `true`, multiple selection is allowed.
+     * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+     */
+    multipleDates = false;
+    /**
+     * Whether the picker should allow range selection (start and end date).
+     */
+    range = false;
+    /**
+     * Format for the date as it appears in the input field.
+     * Follows the `AirDatepicker` format rules.
+     */
+    dateFormat = 'yyyy-MM-dd';
+    /**
+     * Enables the timepicker functionality (select hours and minutes).
+     */
+    timepicker = false;
+    /**
+     * The earliest date that can be selected.
+     */
+    minDate;
+    /**
+     * The latest date that can be selected.
+     */
+    maxDate;
+    /**
+     * Disables the input and prevents interaction.
+     */
+    disabled = false;
+    /**
+     * Closes the picker automatically after a date is selected.
+     */
+    autoClose = true;
+    /**
+     * Shows days from previous/next month in the current month's calendar.
+     */
+    showOtherMonths = true;
+    /**
+     * Allows selecting days from previous/next month shown in the current view.
+     */
+    selectOtherMonths = true;
+    /**
+     * Controls how the date picker is triggered.
+     * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
+     * - **`false`**: A default button input is used to open the picker.
+     *
+     * Defaults to `false`.
+     */
+    customPicker = false;
+    /**
+     * Pass a container element if you need the date picker to be appended to a specific element
+     * for styling or positioning (particularly for arrow rendering).
+     * If not provided, it defaults to `this.el`.
+     */
+    container;
+    /**
+     * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
+     * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
+     * but note that it may affect performance if triggered frequently.
+     * Defaults to `false`.
+     */
+    forceDestroyOnUpdate = false;
+    /**
+     * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
+     * Otherwise, empty-date changes will be ignored (no event emitted).
+     *
+     * Defaults to `false`.
+     */
+    emitEmptyDate = false;
+    /**
+     * Styles for the trigger container
+     */
+    triggerContainerStyle = '';
+    currentDate = null;
+    /**
+     * Emitted when the selected date changes.
+     * Returns the selected date as Moment objects.
+     */
+    dateChanged;
+    /**
+     * Emitted when the date picker gains focus or is opened.
+     */
+    datePickerFocus;
+    /**
+     * Emitted when the date picker loses focus or is closed.
+     */
+    datePickerBlur;
+    datePicker;
+    openDatePickerTimeout;
+    componentWillLoad() {
+        // Sync initial @Prop to internal state
+        if (this.date) {
+            this.currentDate = this.toValidDate(this.date);
+        }
+    }
+    componentDidLoad() {
+        this.initializeDatepicker();
+    }
+    datePropChanged(newDate, oldDate) {
+        if (this.isSameDates(newDate, oldDate)) {
+            return;
+        }
+        this.updatePickerDate(newDate);
+    }
+    minDatePropChanged(newVal, oldVal) {
+        if (!this.datePicker) {
+            return;
+        }
+        if (!this.isSameDates(newVal, oldVal)) {
+            this.datePicker?.update({ minDate: this.toValidDate(newVal) });
+        }
+    }
+    maxDatePropChanged(newVal, oldVal) {
+        if (!this.isSameDates(newVal, oldVal)) {
+            this.datePicker?.update({ maxDate: this.toValidDate(newVal) });
+        }
+    }
+    async clearDatePicker() {
+        this.datePicker?.clear();
+    }
+    isSameDates(d1, d2) {
+        if (!d1 && !d2)
+            return true;
+        if (!d1 || !d2)
+            return false;
+        return hooks(d1).isSame(hooks(d2), 'day');
+    }
+    toValidDate(value) {
+        if (!value)
+            return null;
+        const d = new Date(value);
+        return isNaN(d.getTime()) ? null : d;
+    }
+    updatePickerDate(newDate) {
+        const valid = this.toValidDate(newDate);
+        if (!valid) {
+            // If invalid or null, just clear
+            this.datePicker?.clear();
+            this.currentDate = null;
+            return;
+        }
+        // If it's a truly new date, select it
+        if (!this.isSameDates(this.currentDate, valid)) {
+            this.currentDate = valid;
+            if (this.forceDestroyOnUpdate) {
+                this.datePicker.destroy();
+                this.datePicker = null;
+                this.initializeDatepicker();
+            }
+            else {
+                this.datePicker?.selectDate(valid);
+            }
+        }
+    }
+    initializeDatepicker() {
+        if (this.datePicker)
+            return;
+        this.datePicker = new AirDatepicker(this.el, {
+            container: this.container,
+            inline: true,
+            selectedDates: this.dates ? this.dates : this.currentDate ? [this.currentDate] : [],
+            multipleDates: this.multipleDates,
+            range: this.range,
+            dateFormat: this.dateFormat,
+            timepicker: this.timepicker,
+            minDate: this.toValidDate(this.minDate) ?? undefined,
+            maxDate: this.toValidDate(this.maxDate) ?? undefined,
+            autoClose: this.autoClose,
+            locale: default_1,
+            showOtherMonths: this.showOtherMonths,
+            selectOtherMonths: this.selectOtherMonths,
+            onHide: () => {
+                this.datePickerBlur.emit();
+            },
+            onShow: () => {
+                this.datePickerFocus.emit();
+            },
+            onSelect: ({ date }) => this.handleDateSelect(date),
+        });
+        // this.datePicker.$datepicker.style.height = '280px';
+        this.datePicker.$datepicker?.classList.add('ir-custom-date-picker__calendar');
+        this.datePicker.$datepicker.style.borderWidth = '0px';
+        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected', 'var(--wa-color-brand-fill-loud)');
+        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected-hover', 'var(--wa-color-brand-fill-loud)');
+        this.datePicker.$datepicker.style.setProperty('--adp-background-color-selected-other-month', 'var(--wa-color-brand-fill-normal)');
+        this.datePicker.$datepicker.style.setProperty('--adp-background-color-selected-other-month-focused', 'var(--wa-color-brand-fill-loud)');
+        this.datePicker.$datepicker.style.setProperty('--adp-accent-color', 'var(--wa-color-brand-fill-loud)');
+        this.datePicker.$datepicker.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
+        this.datePicker.$datepicker.style.setProperty('--adp-padding', '4px !important');
+    }
+    handleDateSelect(selected) {
+        const dates = Array.isArray(selected) ? selected.filter(Boolean) : selected ? [selected] : [];
+        if (!dates.length || !(dates[0] instanceof Date)) {
+            if (this.emitEmptyDate) {
+                this.dateChanged.emit({
+                    start: null,
+                    end: null,
+                    dates: selected,
+                });
+            }
+            this.currentDate = null;
+            this.date = null;
+            return;
+        }
+        const startDate = dates[0];
+        const endDate = this.range && dates.length > 1 ? dates[1] : startDate;
+        this.currentDate = startDate;
+        this.date = startDate;
+        this.dateChanged.emit({
+            start: startDate ? hooks(startDate) : null,
+            end: endDate ? hooks(endDate) : null,
+            dates: selected,
+        });
+    }
+    disconnectedCallback() {
+        if (this.openDatePickerTimeout) {
+            clearTimeout(this.openDatePickerTimeout);
+        }
+        this.datePicker?.destroy?.();
+    }
+    render() {
+        return null;
+    }
+    static get watchers() { return {
+        "date": ["datePropChanged"],
+        "minDate": ["minDatePropChanged"],
+        "maxDate": ["maxDatePropChanged"]
+    }; }
+};
+IrAirDatePicker.style = IrAirDatePickerStyle0;
+
+const irDateSelectCss = ":host{display:flex;--arrow-size:0.375rem;--max-width:25rem;--show-duration:100ms;--hide-duration:100ms;--arrow-diagonal-size:calc((var(--arrow-size) * sin(45deg)));font-size:var(--wa-font-size-m);line-height:var(--wa-line-height-normal);text-align:start;white-space:normal}.ir-date-select__control{width:100%;display:flex}.ir-date-select__calendar{display:flex;flex-direction:column;width:max-content;max-width:var(--max-width);padding:var(--wa-space-m);background-color:var(--wa-color-surface-default);border:var(--wa-panel-border-width) solid var(--wa-color-surface-border);border-radius:var(--wa-panel-border-radius);border-style:var(--wa-panel-border-style);box-shadow:var(--wa-shadow-l);color:var(--wa-color-text-normal);user-select:none;-webkit-user-select:none}.ir-date-select__popup{--arrow-size:inherit;--show-duration:inherit;--hide-duration:inherit;pointer-events:auto}.ir-date-select__popup::part(arrow){background-color:var(--wa-color-surface-default);border-top:none;border-left:none;border-bottom:solid var(--wa-panel-border-width) var(--wa-color-surface-border);border-right:solid var(--wa-panel-border-width) var(--wa-color-surface-border);box-shadow:none}.ir-date-select__control[aria-disabled='true']{opacity:0.5;cursor:not-allowed !important;pointer-events:none}.ir-date-select__trigger,.ir-date-select__input{width:100%}";
+const IrDateSelectStyle0 = irDateSelectCss;
+
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+const IrDateSelect = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.datePickerFocus = createEvent(this, "datePickerFocus", 7);
+        this.datePickerBlur = createEvent(this, "datePickerBlur", 7);
+        this.dateChanged = createEvent(this, "dateChanged", 7);
+    }
+    get el() { return getElement(this); }
+    withClear;
+    placeholder;
+    label;
+    dates;
+    /**
+     * Determines whether the date picker is rendered inline or in a pop-up.
+     * If `true`, the picker is always visible inline.
+     */
+    inline = false;
+    /**
+     * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+     */
+    date = null;
+    /**
+     * Enables multiple dates.
+     * If `true`, multiple selection is allowed.
+     * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+     */
+    multipleDates = false;
+    /**
+     * Whether the picker should allow range selection (start and end date).
+     */
+    range = false;
+    /**
+     * Format for the date as it appears in the input field.
+     * Follows the `AirDatepicker` format rules.
+     */
+    dateFormat = 'yyyy-MM-dd';
+    /**
+     * Enables the timepicker functionality (select hours and minutes).
+     */
+    timepicker = false;
+    /**
+     * The earliest date that can be selected.
+     */
+    minDate;
+    /**
+     * The latest date that can be selected.
+     */
+    maxDate;
+    /**
+     * Disables the input and prevents interaction.
+     */
+    disabled = false;
+    /**
+     * Closes the picker automatically after a date is selected.
+     */
+    autoClose = true;
+    /**
+     * Shows days from previous/next month in the current month's calendar.
+     */
+    showOtherMonths = true;
+    /**
+     * Allows selecting days from previous/next month shown in the current view.
+     */
+    selectOtherMonths = true;
+    /**
+     * Controls how the date picker is triggered.
+     * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
+     * - **`false`**: A default button input is used to open the picker.
+     *
+     * Defaults to `false`.
+     */
+    customPicker = false;
+    /**
+     * Pass a container element if you need the date picker to be appended to a specific element
+     * for styling or positioning (particularly for arrow rendering).
+     * If not provided, it defaults to `this.el`.
+     */
+    container;
+    /**
+     * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
+     * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
+     * but note that it may affect performance if triggered frequently.
+     * Defaults to `false`.
+     */
+    forceDestroyOnUpdate = false;
+    /**
+     * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
+     * Otherwise, empty-date changes will be ignored (no event emitted).
+     *
+     * Defaults to `false`.
+     */
+    emitEmptyDate = false;
+    /**
+     * Styles for the trigger container
+     */
+    triggerContainerStyle = '';
+    isActive = false;
+    currentDate;
+    slotManagerHasSlot = 0;
+    isValid;
+    datePickerFocus;
+    datePickerBlur;
+    dateChanged;
+    static instanceCounter = 0;
+    popupId;
+    SLOT_NAMES = ['label', 'start', 'end', 'clear-icon', 'hide-password-icon', 'show-password-icon', 'hint'];
+    // Create slot manager with state change callback
+    slotManager = createSlotManager(null, // Will be set in componentWillLoad
+    this.SLOT_NAMES, () => {
+        // Trigger re-render when slot state changes
+        this.slotManagerHasSlot++;
+    });
+    airDatePickerRef;
+    componentWillLoad() {
+        IrDateSelect.instanceCounter += 1;
+        this.popupId = `ir-date-select-popup-${IrDateSelect.instanceCounter}`;
+        this.slotManager = createSlotManager(this.el, this.SLOT_NAMES, () => {
+            this.slotManagerHasSlot++;
+        });
+        this.slotManager.initialize();
+        if (this.el.hasAttribute('aria-invalid')) {
+            this.isValid = this.el.getAttribute('aria-invalid');
+        }
+    }
+    componentDidLoad() {
+        this.slotManager.setupListeners();
+    }
+    disconnectedCallback() {
+        this.slotManager.destroy();
+    }
+    handleAriaInvalidChange(newVal, oldVal) {
+        if (newVal !== oldVal)
+            this.isValid = newVal;
+    }
+    async clearDatePicker() {
+        this.airDatePickerRef?.clearDatePicker();
+    }
+    async openDatePicker() {
+        this.isActive = true;
+    }
+    async closeDatePicker() {
+        this.isActive = false;
+    }
+    togglePicker() {
+        this.isActive ? this.closeDatePicker() : this.openDatePicker();
+    }
+    handleKeyDown(event) {
+        switch (event.key) {
+            case 'Enter':
+            case ' ':
+                event.preventDefault();
+                this.togglePicker();
+                break;
+            case 'Escape':
+                if (this.isActive) {
+                    event.preventDefault();
+                    this.closeDatePicker();
+                }
+                break;
+        }
+    }
+    get _label() {
+        if (this.range) {
+            return this.dates.map(d => hooks(d).format('MMM DD, YYYY')).join(' → ');
+        }
+        if (!this.currentDate) {
+            return null;
+        }
+        return this.timepicker ? hooks(this.currentDate).format('MMM DD, YYYY, HH:mm') : hooks(this.currentDate).format('MMM DD, YYYY');
+    }
+    render() {
+        return (h(Host, { key: 'b8e54967e59467506831852fea8025f5052232e3', class: {
+                'ir-date-select': true,
+                'ir-date-select--active': this.isActive,
+                'ir-date-select--inline': this.inline,
+                'ir-date-select--disabled': this.disabled,
+            } }, h("wa-popup", { key: '4d338fc670ec2cd33a94e63794aa55c6c18890df', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '739bb55a8381883da92184c7df4915018c822f44', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: 'c10a88e399d6d76117d0368d78627dba520629c8', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: '05d75c74a0fed47cb17d3f4931a854d68c5c0824', name: "trigger" }, h("ir-input", { key: '2b22244e987b7c8e93486a1a44a4a2d6cd7246c8', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '39b96ce3fd0f8a3b3c6b2f5400efb8f603622ee6', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: 'ac8e45f72cbdb17d11b18fce1becf588a42b3e77', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '430c871cfda396e9219365c99aaac37499813521', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'b7378ac7e436e782f66e07e98b9af8dbc47d0f33', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'cad43898d1b040d0f564003b608777c49f4d29e0', name: "hint", slot: "hint" }))))), h("div", { key: 'ce3e441d48da66cf56c47eb9536917edb0b63610', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '2aa299b3702718609149cda2981d112a75328e19', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.currentDate = e.detail?.start;
+                this.dateChanged.emit(e.detail);
+                const shouldClose = this.autoClose && (!this.range || (this.range && e.detail.dates.length > 1));
+                if (shouldClose) {
+                    this.togglePicker();
+                }
+            } }), h("slot", { key: '5b360e50160d8cef60e09247da4a4fd525d5a688' })))));
+    }
+    static get watchers() { return {
+        "aria-invalid": ["handleAriaInvalidChange"]
+    }; }
+};
+__decorate([
+    ClickOutside()
+], IrDateSelect.prototype, "closeDatePicker", null);
+IrDateSelect.style = IrDateSelectStyle0;
+
+const irDateViewCss = ".sc-ir-date-view-h{display:block;font-size:13.65px !important;width:100%}.mx-01.sc-ir-date-view{--m:5px;margin-right:var(--m) !important;margin-left:var(--m) !important}";
+const IrDateViewStyle0 = irDateViewCss;
+
+const IrDateView = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    from_date;
+    to_date;
+    showDateDifference = true;
+    dateOption = 'YYYY-MM-DD';
+    dates;
+    componentWillLoad() {
+        this.initializeDates();
+    }
+    handleFromDateChange(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            this.initializeDates();
+        }
+    }
+    handleToDateChange(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            this.initializeDates();
+        }
+    }
+    initializeDates() {
+        this.convertDate('from_date', this.from_date);
+        this.convertDate('to_date', this.to_date);
+        const fromDate = hooks(this.dates.from_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
+        const toDate = hooks(this.dates.to_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
+        this.dates.date_difference = calculateDaysBetweenDates(fromDate, toDate);
+    }
+    convertDate(key, date) {
+        this.dates = this.dates || {
+            from_date: '',
+            to_date: '',
+            date_difference: 0,
+        };
+        if (!date) {
+            return;
+        }
+        if (typeof date === 'string') {
+            this.dates[key] = hooks(date, this.dateOption).format('MMM DD, YYYY');
+        }
+        else if (date instanceof Date) {
+            this.dates[key] = hooks(date).format('MMM DD, YYYY');
+        }
+        else if (hooks.isMoment(date)) {
+            this.dates[key] = date.format('MMM DD, YYYY');
+        }
+        else {
+            console.error('Unsupported date type');
+        }
+    }
+    render() {
+        return (h(Host, { key: 'b26b7421869d677dd9b730b2288034ab24d6fa69', class: "d-flex align-items-center" }, h("span", { key: '9e943cd9bbc012de16afa5705df700b4c01c31f2' }, this.dates.from_date), ' ', h("svg", { key: '1b76cef51c99ab9183325653ae1b647d91cc5897', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: 'fc21fb7f8231720a83196f9877249f30adff8abf', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: 'd64ee612cf535ebc6c63f1ac909e4f950715b2ca' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '83db93bbf713db933bcc17b286df79f21f6e446b', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+    }
+    static get watchers() { return {
+        "from_date": ["handleFromDateChange"],
+        "to_date": ["handleToDateChange"]
+    }; }
+};
+IrDateView.style = IrDateViewStyle0;
+
+const irMobileInputCss = "@layer wa-utilities {\n  :host([size='small']),\n  .wa-size-s {\n    font-size: var(--wa-font-size-s);\n  }\n\n  :host([size='medium']),\n  .wa-size-m {\n    font-size: var(--wa-font-size-m);\n  }\n\n  :host([size='large']),\n  .wa-size-l {\n    font-size: var(--wa-font-size-l);\n  }\n}\n\n:host {\n  box-sizing: border-box;\n  width: 100%;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n.sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0 0 0 0);\n  white-space: nowrap;\n  border: 0;\n}\n.mobile-input__logo {\n  height: var(--wa-font-size-s);\n  aspect-ratio: 4/3;\n  border-radius: 3px;\n}\n.mobile-input__required {\n  color: #f3676c !important;\n}\n.mobile-input__prefix-dropdown::part(menu) {\n  height: 300px;\n  /* padding-top: 0; */\n}\n.mobile-input__container {\n  display: flex;\n  align-items: stretch;\n  width: 100%;\n  margin-top: 0.5rem;\n}\n.mobile-input__container--disabled {\n  opacity: 0.7;\n}\n.mobile-input__phone-country {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n}\n.mobile-input__phone {\n  flex: 1 1 0%;\n}\n.mobile-input__phone {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.mobile-input__phone--invalid {\n  border-color: var(--wa-color-danger-600);\n}\n.mobile-input__label {\n  display: inline-block;\n  position: relative;\n  color: var(--wa-form-control-label-color);\n  font-weight: var(--wa-form-control-label-font-weight);\n  line-height: var(--wa-form-control-label-line-height);\n  margin-block-start: 0.5em !important;\n}\n.mobile-input__description {\n  margin: 0.25rem 0 0.5rem;\n  color: var(--wa-color-neutral-500);\n  font-size: 0.875rem;\n}\n.mobile-input__error {\n  margin: 0.5rem 0 0;\n  color: var(--wa-color-danger-600);\n  font-size: 0.875rem;\n}\n.mobile-input__required {\n  margin-left: 0.25rem;\n  color: var(--wa-color-danger-600);\n}\n.mobile-input__trigger,\n.mobile-input__phone {\n  padding: 0 var(--wa-form-control-padding-inline);\n  color: var(--wa-form-control-value-color);\n  font-size: var(--wa-form-control-value-size);\n  font-family: inherit;\n  font-weight: var(--wa-form-control-value-font-weight);\n  line-height: var(--wa-form-control-value-line-height);\n  vertical-align: middle;\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  box-sizing: border-box;\n  background-color: var(--wa-form-control-background-color);\n  border-color: var(--wa-form-control-border-color);\n  border-style: var(--wa-form-control-border-style);\n  border-width: var(--wa-form-control-border-width);\n  border-radius: var(--wa-form-control-border-radius);\n  transition: background-color var(--wa-transition-normal), border var(--wa-transition-normal), all var(--wa-transition-normal), outline var(--wa-transition-fast);\n  transition-timing-function: var(--wa-transition-easing);\n}\n.mobile-input__container {\n  height: var(--wa-form-control-height);\n}\n.mobile-input__trigger {\n  height: 100%;\n}\n.mobile-input__trigger:focus,\n.mobile-input__phone:focus {\n  outline: none;\n}\n.mobile-input__trigger:disabled,\n.mobile-input__phone:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.mobile-input__trigger:focus-visible,\n.mobile-input__phone:focus-visible {\n  outline: var(--wa-focus-ring);\n  outline-offset: var(--wa-focus-ring-offset);\n  z-index: 2;\n}\n.mobile-input__phone::placeholder {\n  color: var(--wa-form-control-placeholder-color);\n  user-select: none;\n  -webkit-user-select: none;\n}\n.mobile-input__trigger {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  border-right: 0;\n  cursor: pointer;\n}\n.mobile-input__phone {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.mobile-input__phone {\n  cursor: text;\n}\n.mobile-input__trigger[aria-expanded='true'] {\n  outline: var(--wa-focus-ring);\n  outline-offset: var(--wa-focus-ring-offset);\n  z-index: 2;\n}\n.mobile-input__trigger[aria-expanded='true'] .mobile-input__phone-country-caret {\n  transform: rotate(-180deg);\n}\n\n.mobile-input__country-name {\n  flex: 1;\n}\n.mobile-input__country-prefix {\n  color: var(--wa-color-neutral-500);\n}\n.mobile-input__trigger[aria-invalid='true'] {\n  border-color: var(--wa-color-danger-border-loud);\n  outline-color: var(--wa-color-danger-border-loud);\n  border-width: 2px;\n}\n.phone__input {\n  flex: 1 1 0%;\n  width: 100%;\n}\n.phone__input:dir(ltr)::part(base) {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.phone__input:dir(rtl)::part(base) {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n}\n";
+const IrMobileInputStyle0 = irMobileInputCss;
+
+const IrMobileInput = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.mobileInputChange = createEvent(this, "mobile-input-change", 7);
+        this.mobileInputCountryChange = createEvent(this, "mobile-input-country-change", 7);
+    }
+    get el() { return getElement(this); }
+    static idCounter = 0;
+    componentId = ++IrMobileInput.idCounter;
+    inputId = `ir-mobile-input-${this.componentId}`;
+    labelId = `${this.inputId}-label`;
+    descriptionId = `${this.inputId}-description`;
+    errorId = `${this.inputId}-error`;
+    countryStatusId = `${this.inputId}-country-status`;
+    /** The input's size. */
+    size = 'small';
+    /** Visible label for the phone input */
+    label = 'Phone number';
+    /** Name attribute passed to the native input */
+    name = 'phone';
+    /** Placeholder shown when the input is empty */
+    placeholder = 'Enter phone number';
+    /** Help text rendered under the label */
+    description;
+    /** Error message announced to screen readers */
+    error;
+    /** Native required attribute */
+    required = false;
+    /** Whether the control is disabled */
+    disabled = false;
+    /** Selected country ISO code. Component updates this prop when a new country is chosen */
+    countryCode;
+    /** Input value without formatting. Component keeps this prop in sync */
+    value = '';
+    /**
+     * Country list, used to populate prefix and dropdown.
+     * If not provided, fetched from the booking service.
+     */
+    countries = [];
+    mobileInputChange;
+    mobileInputCountryChange;
+    selectedCountry;
+    isInvalid = false;
+    componentWillLoad() {
+        const resolvedCountry = this.resolveCountry(this.countryCode) ?? null;
+        if (!resolvedCountry) {
+            return;
+        }
+        if (this.el.hasAttribute('aria-invalid')) {
+            this.isInvalid = Boolean(JSON.parse(this.el.getAttribute('aria-invalid')));
+        }
+        this.selectedCountry = resolvedCountry;
+        this.countryCode = resolvedCountry?.code;
+        this.value = this.value ?? '';
+    }
+    handleCountryCodeChange(nextCode) {
+        const resolvedCountry = this.resolveCountry(nextCode);
+        if (resolvedCountry && resolvedCountry !== this.selectedCountry) {
+            this.selectedCountry = resolvedCountry;
+        }
+    }
+    handleSelectedCountryChange(next, previous) {
+        if (!next)
+            return;
+        if (!previous || next.code !== previous.code) {
+            if (this.countryCode !== next.code) {
+                this.countryCode = next.code;
+            }
+            this.mobileInputCountryChange.emit(next);
+        }
+    }
+    handleValueChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.value = newValue ?? '';
+        }
+    }
+    handleAriaInvalidChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.isInvalid = Boolean(newValue);
+        }
+    }
+    resolveCountry(code) {
+        if (!code)
+            return undefined;
+        return this.countries.find(country => country.code.toUpperCase() === code.toUpperCase());
+    }
+    // private emitChange() {
+    //   if (!this.selectedCountry) return;
+    //   this.mobileInputChange.emit({
+    //     country: this.selectedCountry,
+    //     value: this.value ?? '',
+    //     formattedValue: this.value ?? '',
+    //   });
+    // }
+    handleCountrySelect = (event) => {
+        if (this.disabled)
+            return;
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        const value = event.detail?.item?.value;
+        const selected = this.countries.find(country => country.id.toString() === `${value}`);
+        if (selected) {
+            this.selectedCountry = selected;
+        }
+        requestAnimationFrame(() => {
+            const innerInput = this.el.shadowRoot?.querySelector('ir-input')?.shadowRoot?.querySelector('input');
+            innerInput?.focus();
+        });
+    };
+    // private handlePlainInput = (event: Event) => {
+    //   const { value } = event.target as HTMLInputElement;
+    //   this.mobileInputChange.emit({ formattedValue: value, value, country: this.selectedCountry });
+    //   if (this.mask) return;
+    //   const nextValue = (event.target as HTMLInputElement)?.value ?? '';
+    //   if (nextValue !== this.value) {
+    //     this.value = nextValue;
+    //     this.displayValue = nextValue;
+    //     this.emitChange();
+    //   }
+    // };
+    render() {
+        const describedByIds = [this.description ? this.descriptionId : null, this.error ? this.errorId : null].filter(Boolean).join(' ') || undefined;
+        return (h(Host, { key: '518a34a92f510bbe7ad9e8093c41f9735cdb6bf1', size: 'small', role: "group", "aria-labelledby": this.labelId, "aria-describedby": describedByIds }, h("label", { key: 'bff12413cd5c492caeb4c4c454d378a2119b6690', class: "mobile-input__label", id: this.labelId, htmlFor: this.inputId }, this.label, this.required ? (h("span", { class: "mobile-input__required", "aria-hidden": "true" }, "*")) : null), this.description ? (h("p", { id: this.descriptionId, class: "mobile-input__description" }, this.description)) : null, h("div", { key: '1e6445683ad3f675147857cf52b9106d731510a8', class: { 'mobile-input__container': true, 'mobile-input__container--disabled': this.disabled } }, h("wa-dropdown", { key: '5ef8bd561ab873005624dfc675b4eb94e4021eff', "onwa-show": e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }, "onwa-hide": e => {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }, "onwa-select": this.handleCountrySelect, class: "mobile-input__prefix-dropdown" }, h("button", { key: '8eff5fdbbcb4bac4572cb07f36fb253b0332d51a', "aria-invalid": String(this.isInvalid && !this.selectedCountry), slot: "trigger", type: "button", class: "mobile-input__trigger", disabled: this.disabled, "aria-haspopup": "listbox", "aria-label": "Change country calling code" }, h("div", { key: '7c70a878c9179145e56b5d9ade8acf988350be8a', class: "mobile-input__phone-country", style: { marginRight: '1rem' } }, this.selectedCountry ? h("img", { src: this.selectedCountry?.flag, alt: this.selectedCountry?.name, class: "mobile-input__logo" }) : h("span", null, "Select")), h("wa-icon", { key: 'e0ab243aff4372c165dc8c6b5eb63a9b6c358b9c', class: "mobile-input__phone-country-caret", name: "chevron-down", "aria-hidden": "true" })), h("span", { key: '172faa233867fe4f4d2c756acf62fc3f2f68e9f2', class: "sr-only", id: this.countryStatusId, "aria-live": "polite" }, this.selectedCountry ? `Selected country ${this.selectedCountry.name} ${this.selectedCountry.phone_prefix}` : 'Select a country'), this.countries.map(country => (h("wa-dropdown-item", { value: country.id.toString() }, h("div", { class: "mobile-input__phone-country", role: "option", "aria-selected": this.selectedCountry?.id === country.id ? 'true' : 'false' }, h("img", { src: country.flag, alt: country.name, class: "mobile-input__logo" }), h("span", { class: "mobile-input__country-name" }, country.name), h("span", { class: "mobile-input__country-prefix" }, country.phone_prefix)))))), h("ir-input", { key: 'b1a06f96f3660f14cf839631f365319a8d6e7669', "aria-invalid": String(this.isInvalid && (this.value ?? '').length < 4), type: "tel", inputMode: "tel", autocomplete: "off", disabled: this.disabled, placeholder: this.placeholder, defaultValue: this.value, value: this.value, class: "phone__input", "onText-change": e => {
+                const value = e.detail;
+                this.value = value;
+                this.mobileInputChange.emit({ formattedValue: value, value, country: this.selectedCountry });
+            } }, this.selectedCountry && h("span", { key: '434d6716aed422fc334441af64d63f8a41e0618a', slot: "start" }, this.selectedCountry?.phone_prefix))), this.error ? (h("p", { id: this.errorId, class: "mobile-input__error", role: "alert" }, this.error)) : null));
+    }
+    static get watchers() { return {
+        "countryCode": ["handleCountryCodeChange"],
+        "selectedCountry": ["handleSelectedCountryChange"],
+        "value": ["handleValueChange"],
+        "aria-invalid": ["handleAriaInvalidChange"]
+    }; }
+};
+IrMobileInput.style = IrMobileInputStyle0;
+
+export { IglApplicationInfo as igl_application_info, IglDateRange as igl_date_range, IglRatePlan as igl_rate_plan, IrAirDatePicker as ir_air_date_picker, IrDateSelect as ir_date_select, IrDateView as ir_date_view, IrMobileInput as ir_mobile_input };
+
+//# sourceMappingURL=igl-application-info_7.entry.js.map

@@ -3,7 +3,8 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const slot = require('./slot-30fa3487.js');
+const ClickOutside = require('./ClickOutside-e563f721.js');
+const slot = require('./slot-3e2f24aa.js');
 
 const irAutocompleteCss = ".listbox {\n  display: block;\n  position: relative;\n  font: inherit;\n  box-shadow: var(--wa-shadow-m);\n  background: var(--wa-color-surface-raised);\n  border-color: var(--wa-color-surface-border);\n  border-radius: var(--wa-border-radius-m);\n  border-style: var(--wa-border-style);\n  border-width: var(--wa-border-width-s);\n  padding-block: 0.5em;\n  padding-inline: 0;\n  overflow: auto;\n  overscroll-behavior: none;\n\n  /* Make sure it adheres to the popup's auto size */\n  max-width: var(--auto-size-available-width);\n  max-height: var(--auto-size-available-height);\n\n  &::slotted(wa-divider) {\n    --spacing: 0.5em;\n  }\n\n}\n\n::slotted(ir-autocomplete-option) {\n  display: block;\n}\n";
 const IrAutocompleteStyle0 = irAutocompleteCss;
@@ -410,7 +411,7 @@ const IrAutocomplete = class {
     }; }
 };
 __decorate([
-    slot.ClickOutside()
+    ClickOutside.ClickOutside()
 ], IrAutocomplete.prototype, "hide", null);
 IrAutocomplete.style = IrAutocompleteStyle0;
 

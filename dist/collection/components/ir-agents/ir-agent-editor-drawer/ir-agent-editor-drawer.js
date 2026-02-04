@@ -23,7 +23,7 @@ export class IrAgentEditorDrawer {
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (h(Host, { key: '266c33e99fd3a76f2fb9420e428efafb943fc241', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'cf3f5c27e6a39feb418d7585b88c56bd8b4a6787', class: "agent__drawer", style: { '--ir-drawer-width': '80rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (h(Host, { key: '266c33e99fd3a76f2fb9420e428efafb943fc241', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'cf3f5c27e6a39feb418d7585b88c56bd8b4a6787', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>

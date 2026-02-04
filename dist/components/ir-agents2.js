@@ -83,7 +83,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
     handleUpsertAgent(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.upsertAgent(e.detail);
+        this.upsertAgent();
     }
     async init() {
         try {
@@ -125,19 +125,12 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
             console.error(error);
         }
     }
-    upsertAgent(agent) {
-        let agents = [...this.agents];
-        const idx = agents.findIndex(a => a.id === agent.id);
-        if (idx === -1) {
-            agents = [...agents, agent];
-        }
-        else {
-            agents[idx] = { ...agent };
-        }
-        this.agents = [...agents];
+    upsertAgent() {
+        this.fetchAgents();
     }
     async fetchAgents() {
-        this.agents = await this.agentsService.getExposedAgents({ property_id: calendar_data?.property ? calendar_data?.property.id : this.propertyid });
+        const agents = await this.agentsService.getExposedAgents({ property_id: calendar_data?.property ? calendar_data?.property.id : this.propertyid });
+        this.agents = agents.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     }
     handleEditAgent(agent) {
         this.selectedAgent = agent;
@@ -165,7 +158,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
     async handleToggleAgentStatus(agent) {
         try {
             await this.agentsService.handleExposedAgent({ agent });
-            this.upsertAgent(agent);
+            this.upsertAgent();
             this.toast.emit({
                 type: 'success',
                 description: '',
