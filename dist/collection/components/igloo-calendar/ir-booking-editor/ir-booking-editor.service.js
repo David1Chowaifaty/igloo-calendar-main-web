@@ -124,8 +124,15 @@ export class IRBookingEditorService {
             cost: null,
         }));
     }
-    async getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, }) {
+    async getBookedRooms({ check_in, check_out, notes, identifier, override_unit, unit, auto_check_in, room, }) {
         const rooms = [];
+        const toUnitId = (value) => {
+            if (value === null || value === undefined || value === '') {
+                return null;
+            }
+            const parsed = Number(value);
+            return Number.isFinite(parsed) ? parsed : null;
+        };
         for (const roomTypeId in booking_store.ratePlanSelections) {
             const roomtype = booking_store.ratePlanSelections[roomTypeId];
             for (const rateplanId in roomtype) {
@@ -134,12 +141,13 @@ export class IRBookingEditorService {
                     for (let i = 0; i < rateplan.reserved; i++) {
                         const { first_name, last_name } = rateplan.guest[i];
                         const days = await this.generateDailyRates(rateplan, i);
-                        rooms.push({
+                        let newRoom = {
+                            ...(room ?? {}),
                             identifier,
                             roomtype: rateplan.roomtype,
                             rateplan: rateplan.ratePlan,
                             prepayment_amount_gross: 0,
-                            unit: override_unit ? { id: unit } : rateplan.guest[i].unit ? { id: rateplan.guest[i].unit } : null,
+                            unit: override_unit ? (toUnitId(unit) !== null ? { id: toUnitId(unit) } : null) : rateplan.guest[i].unit ? { id: toUnitId(rateplan.guest[i].unit) } : null,
                             occupancy: {
                                 adult_nbr: rateplan.selected_variation.adult_nbr,
                                 children_nbr: Number(rateplan.selected_variation.child_nbr ?? 0) - Math.max(Number(rateplan.guest[i].infant_nbr ?? 0), 0),
@@ -163,7 +171,18 @@ export class IRBookingEditorService {
                                 subscribe_to_news_letter: null,
                                 cci: null,
                             },
-                        });
+                        };
+                        if (room) {
+                            const newSharingPersons = Array.isArray(newRoom.sharing_persons) ? [...newRoom.sharing_persons] : [];
+                            const mainGuestIndex = newSharingPersons.findIndex(r => r.is_main);
+                            let mainGuest = newSharingPersons[mainGuestIndex];
+                            if (mainGuest) {
+                                mainGuest = { ...mainGuest, first_name, last_name };
+                                newSharingPersons[mainGuestIndex] = { ...mainGuest };
+                                newRoom = { ...newRoom, sharing_persons: newSharingPersons };
+                            }
+                        }
+                        rooms.push(newRoom);
                     }
                 }
             }
@@ -186,7 +205,7 @@ export class IRBookingEditorService {
             const { dates } = booking_store.bookingDraft;
             const fromDate = dates.checkIn;
             const toDate = dates.checkOut;
-            const generateNewRooms = async (identifier = null, check_in = false) => {
+            const generateNewRooms = async (identifier = null, check_in = false, room = null) => {
                 return await this.getBookedRooms({
                     check_in: fromDate,
                     check_out: toDate,
@@ -195,6 +214,7 @@ export class IRBookingEditorService {
                     override_unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? true : false,
                     unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? unitId?.toString() ?? null : null,
                     auto_check_in: check_in,
+                    room: identifier ? room : null,
                 });
             };
             const modifyBookingDetails = ({ pickup_info, extra_services, is_direct, is_in_loyalty_mode, promo_key, extras, ...rest }, rooms) => {
@@ -218,9 +238,15 @@ export class IRBookingEditorService {
             const sourceOption = booking_store.bookingDraft.source;
             switch (this.mode) {
                 case 'EDIT_BOOKING': {
-                    const filteredRooms = booking.rooms.filter(r => r.identifier !== room.identifier);
-                    const newRooms = await generateNewRooms(room.identifier, room.in_out?.code === '001');
-                    newBooking = modifyBookingDetails(booking, [...filteredRooms, ...newRooms]);
+                    const rooms = [...booking.rooms];
+                    const toBeEditedRoomIndex = rooms.findIndex(r => r.identifier === room.identifier);
+                    if (toBeEditedRoomIndex === -1) {
+                        console.warn('Missing room', room.identifier);
+                        return;
+                    }
+                    const newRooms = await generateNewRooms(room.identifier, room.in_out?.code === '001', room);
+                    rooms[toBeEditedRoomIndex] = { ...newRooms[0] };
+                    newBooking = modifyBookingDetails(booking, rooms);
                     break;
                 }
                 case 'ADD_ROOM':

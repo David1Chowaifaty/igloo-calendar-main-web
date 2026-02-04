@@ -1435,7 +1435,11 @@ html {
   background-color: var(---wa-color-surface-default) !important;
   color: var(--wa-color-text-normal) !important;
 } */
-
+.truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
 .ir-page__container {
   display: flex;
   flex-direction: column;

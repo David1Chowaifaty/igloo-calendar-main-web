@@ -36,5 +36,6 @@ export declare class IglTbaBookingView {
     private handleCloseAssignment;
     private renderView;
     private canCheckIn;
+    private formatVariation;
     render(): any;
 }

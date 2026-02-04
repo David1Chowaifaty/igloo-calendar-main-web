@@ -1,0 +1,283 @@
+import Token from "../../models/Token";
+import { AgentsService } from "../../services/agents/agents.service";
+import { BookingService } from "../../services/booking-service/booking.service";
+import { Host, h } from "@stencil/core";
+import calendar_data from "../../stores/calendar-data";
+import { PropertyService } from "../../services/property.service";
+export class IrAgents {
+    propertyid;
+    ticket;
+    language = 'en';
+    agents = [];
+    selectedAgent = null;
+    isDrawerOpen = false;
+    isDeleteDialogOpen = false;
+    isLoading = true;
+    countries;
+    setupEntries;
+    toast;
+    agentsService = new AgentsService();
+    propertyService = new PropertyService();
+    bookingService = new BookingService();
+    tokenService = new Token();
+    componentWillLoad() {
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange() {
+        this.tokenService.setToken(this.ticket);
+        this.init();
+    }
+    handleUpsertAgent(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.upsertAgent(e.detail);
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            const [countries, setupEntries] = await Promise.all([
+                this.bookingService.getCountries(this.language),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD']),
+                this.propertyService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                }),
+                this.fetchAgents(),
+            ]);
+            const { agent_rate_type, agent_type, ta_payment_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.setupEntries = {
+                agent_rate_type,
+                agent_type,
+                ta_payment_method,
+            };
+            this.countries = countries;
+            this.isLoading = false;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    upsertAgent(agent) {
+        let agents = [...this.agents];
+        const idx = agents.findIndex(a => a.id === agent.id);
+        if (idx === -1) {
+            agents = [...agents, agent];
+        }
+        else {
+            agents[idx] = { ...agent };
+        }
+        this.agents = [...agents];
+    }
+    async fetchAgents() {
+        this.agents = await this.agentsService.getExposedAgents({ property_id: this.propertyid });
+    }
+    handleEditAgent(agent) {
+        this.selectedAgent = agent;
+        this.isDrawerOpen = true;
+    }
+    handleDeleteAgent(agent) {
+        this.selectedAgent = agent;
+        this.isDeleteDialogOpen = true;
+    }
+    handleDrawerClose() {
+        this.isDrawerOpen = false;
+        this.selectedAgent = null;
+    }
+    handleDeleteDialogClose() {
+        this.isDeleteDialogOpen = false;
+        this.selectedAgent = null;
+    }
+    confirmDeleteAgent() {
+        if (!this.selectedAgent) {
+            return;
+        }
+        this.agents = this.agents.filter(agent => agent.id !== this.selectedAgent?.id);
+        this.handleDeleteDialogClose();
+    }
+    async handleToggleAgentStatus(agent) {
+        try {
+            await this.agentsService.handleExposedAgent({ agent });
+            this.upsertAgent(agent);
+            this.toast.emit({
+                type: 'success',
+                description: '',
+                title: 'Saved Successfully',
+                position: 'top-right',
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    render() {
+        if (this.isLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents"), h("ir-custom-button", { onClickHandler: () => {
+                this.selectedAgent = {
+                    id: -1,
+                    name: '',
+                    code: '',
+                    address: '',
+                    city: '',
+                    country_id: null,
+                    phone: '',
+                    email: '',
+                    email_copied_upon_booking: null,
+                    contact_name: '',
+                    tax_nbr: '',
+                    notes: '',
+                    question: '',
+                    agent_rate_type_code: {
+                        code: '001',
+                    },
+                    agent_type_code: {
+                        code: '',
+                    },
+                    payment_mode: {
+                        code: '001',
+                    },
+                    contract_nbr: null,
+                    currency_id: null,
+                    due_balance: null,
+                    sort_order: null,
+                    property_id: calendar_data.property.id,
+                    provided_discount: null,
+                    is_active: true,
+                    is_send_guest_confirmation_email: false,
+                    verification_mode: 'code',
+                };
+                this.isDrawerOpen = true;
+            }, variant: "brand", "data-testid": "create-agent-button" }, "New Agent")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onEditAgent: event => this.handleEditAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
+            ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
+            : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
+    }
+    static get is() { return "ir-agents"; }
+    static get encapsulation() { return "scoped"; }
+    static get originalStyleUrls() {
+        return {
+            "$": ["ir-agents.css"]
+        };
+    }
+    static get styleUrls() {
+        return {
+            "$": ["ir-agents.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "propertyid": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "propertyid",
+                "reflect": false
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
+            }
+        };
+    }
+    static get states() {
+        return {
+            "agents": {},
+            "selectedAgent": {},
+            "isDrawerOpen": {},
+            "isDeleteDialogOpen": {},
+            "isLoading": {},
+            "countries": {},
+            "setupEntries": {}
+        };
+    }
+    static get events() {
+        return [{
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "../ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                        }
+                    }
+                }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "ticket",
+                "methodName": "handleTicketChange"
+            }];
+    }
+    static get listeners() {
+        return [{
+                "name": "upsertAgent",
+                "method": "handleUpsertAgent",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }];
+    }
+}
+//# sourceMappingURL=ir-agents.js.map

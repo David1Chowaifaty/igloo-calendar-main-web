@@ -20,6 +20,8 @@ export class IrBookingEditor {
     blockedUnit;
     unitId;
     isLoading = true;
+    isFetchingAvailability = false;
+    unavailableRatePlanIds = new Set();
     resetBookingEvt;
     loadingChanged;
     adjustBlockedUnit;
@@ -93,7 +95,7 @@ export class IrBookingEditor {
     handleCheckAvailability(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
-        this.checkBookingAvailability();
+        this.checkBookingAvailability(true);
     }
     /**
      * Initializes booking draft and guest data
@@ -138,7 +140,8 @@ export class IrBookingEditor {
         }
         setBookingDraft(draft);
     }
-    async checkBookingAvailability() {
+    async checkBookingAvailability(checkBe = false) {
+        this.isFetchingAvailability = true;
         // resetBookingStore(false);
         const { source, occupancy, dates } = booking_store.bookingDraft;
         const from_date = dates.checkIn.format('YYYY-MM-DD');
@@ -147,7 +150,7 @@ export class IrBookingEditor {
         try {
             const room_type_ids_to_update = this.bookingEditorService.isEventType('EDIT_BOOKING') ? [this.room.roomtype?.id] : [];
             const room_type_ids = this.bookingEditorService.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? this.roomTypeIds.map(r => Number(r)) : [];
-            await this.bookingService.getBookingAvailability({
+            const params = {
                 from_date,
                 to_date,
                 propertyid: calendar_data.property.id,
@@ -161,17 +164,41 @@ export class IrBookingEditor {
                 agent_id: is_in_agent_mode ? source?.tag : null,
                 is_in_agent_mode,
                 room_type_ids_to_update,
-            });
+            };
+            await this.bookingService.getBookingAvailability(params);
             if (this.mode !== 'EDIT_BOOKING') {
                 await this.assignCountryCode();
             }
             if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
                 this.bookingEditorService.updateBooking(this.room);
             }
+            if (checkBe) {
+                const beResults = await this.bookingService.getBookingAvailability({ ...params, is_backend: false, skip_store: true });
+                this.compareResults(beResults);
+            }
+            this.isFetchingAvailability = false;
         }
         catch (error) {
             console.error('Error initializing booking availability:', error);
         }
+    }
+    compareResults(beResults) {
+        const beRoomTypes = Array.isArray(beResults) ? beResults : beResults?.roomtypes ?? [];
+        const unavailableRatePlanIds = new Set();
+        const beRoomTypeMap = new Map(beRoomTypes.map(roomType => [roomType.id, roomType]));
+        for (const roomType of booking_store.roomTypes ?? []) {
+            const beRoomType = beRoomTypeMap.get(roomType.id);
+            const beRatePlanMap = new Map(beRoomType?.rateplans?.map(ratePlan => [ratePlan.id, ratePlan]) ?? []);
+            for (const ratePlan of roomType.rateplans ?? []) {
+                if (!ratePlan?.is_available_to_book)
+                    continue;
+                const beRatePlan = beRatePlanMap.get(ratePlan.id);
+                if (!beRatePlan || !beRatePlan.is_available_to_book) {
+                    unavailableRatePlanIds.add(ratePlan.id);
+                }
+            }
+        }
+        this.unavailableRatePlanIds = unavailableRatePlanIds;
     }
     async doReservation(source) {
         try {
@@ -277,7 +304,8 @@ export class IrBookingEditor {
         if (this.isLoading) {
             return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
         }
-        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h(Fragment, null, h("ir-booking-editor-header", { isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, booking_store.roomTypes?.map(roomType => (h("igl-room-type", { key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency })))))), this.step === 'confirm' && (h("ir-booking-editor-form", { onDoReservation: e => {
+        return (h(Host, null, h("div", null, h("ir-interceptor", null), this.step === 'details' && (h(Fragment, null, h("ir-booking-editor-header", { isLoading: this.isFetchingAvailability, isBlockConversion: !!this.blockedUnit?.STATUS_CODE, booking: this.booking, checkIn: this.checkIn, checkOut: this.adjustedCheckout, mode: this.mode }), h("div", { class: 'booking-editor__roomtype-container' }, !this.isFetchingAvailability &&
+            booking_store.roomTypes?.map(roomType => (h("igl-room-type", { unavailableRatePlanIds: this.unavailableRatePlanIds, key: `room-type-${roomType.id}`, id: roomType.id.toString(), roomType: roomType, bookingType: this.mode, ratePricingMode: booking_store.selects?.ratePricingMode, roomTypeId: this.room?.roomtype?.id, currency: calendar_data.property.currency })))))), this.step === 'confirm' && (h("ir-booking-editor-form", { onDoReservation: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.doReservation(e.detail);
@@ -531,7 +559,9 @@ export class IrBookingEditor {
     }
     static get states() {
         return {
-            "isLoading": {}
+            "isLoading": {},
+            "isFetchingAvailability": {},
+            "unavailableRatePlanIds": {}
         };
     }
     static get events() {

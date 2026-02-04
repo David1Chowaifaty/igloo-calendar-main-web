@@ -10,9 +10,16 @@ const IrMenuGroup = /*@__PURE__*/ proxyCustomElement(class IrMenuGroup extends H
         this.__attachShadow();
         this.openChanged = createEvent(this, "openChanged", 7);
     }
+    get el() { return this; }
     open;
     groupName;
     openChanged;
+    // componentWillLoad() {
+    //   this.el.addEventListener('mouseenter', this.handleShow);
+    // }
+    // disconnectedCallback() {
+    //   this.el.removeEventListener('mouseenter', this.handleShow);
+    // }
     handleHide = (event) => {
         event.stopImmediatePropagation();
         event.stopPropagation();
@@ -26,7 +33,7 @@ const IrMenuGroup = /*@__PURE__*/ proxyCustomElement(class IrMenuGroup extends H
         this.openChanged.emit(true);
     };
     render() {
-        return (h("wa-details", { key: 'ad0468cafd8b70a80f91792670d4113afb90ab82', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: '5816efd64865c1441ae2665e8d833bd023e1a3ef', slot: "summary", name: "summary" }), h("slot", { key: 'd3214d70ebb6c594733964d3b2b51a656800071d' })));
+        return (h("wa-details", { key: '3998a0e97d2cca860ffe233554ca4d06970ded9e', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, h("slot", { key: 'a740044929c5d3591f6f1c8d3b5fcb2bd961c84e', slot: "summary", name: "summary" }), h("slot", { key: '5630dc20a7eba9169c211d1e47bea1e7c11a4b19' })));
     }
     static get style() { return IrMenuGroupStyle0; }
 }, [1, "ir-menu-group", {

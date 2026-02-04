@@ -223,24 +223,24 @@ export class IglCalBody {
                 this.renderElement();
             }
             else {
-                const keys = Object.keys(this.selectedRooms);
-                const startDate = moment(this.selectedRooms[keys[0]].value, 'YYYY-MM-DD');
-                const endDate = moment(selectedDay.value, 'YYYY-MM-DD');
-                let cursor = startDate.clone().add(1, 'days');
-                let disabledCount = 0;
-                while (cursor.isBefore(endDate, 'day')) {
-                    const dateKey = cursor.format('YYYY-MM-DD');
-                    if (this.isCellDisabled(roomId, dateKey)) {
-                        disabledCount++;
-                    }
-                    cursor.add(1, 'days');
-                }
-                if (disabledCount >= 1) {
-                    this.selectedRooms = {};
-                    this.fromRoomId = roomId;
-                    this.renderElement();
-                    return;
-                }
+                // const keys = Object.keys(this.selectedRooms);
+                // const startDate = moment(this.selectedRooms[keys[0]].value, 'YYYY-MM-DD');
+                // const endDate = moment(selectedDay.value, 'YYYY-MM-DD');
+                // let cursor = startDate.clone().add(1, 'days');
+                // let disabledCount = 0;
+                // while (cursor.isBefore(endDate, 'day')) {
+                //   const dateKey = cursor.format('YYYY-MM-DD');
+                //   if (this.isCellDisabled(roomId, dateKey)) {
+                //     disabledCount++;
+                //   }
+                //   cursor.add(1, 'days');
+                // }
+                // if (disabledCount >= 1) {
+                //   this.selectedRooms = {};
+                //   this.fromRoomId = roomId;
+                //   this.renderElement();
+                //   return;
+                // }
                 this.selectedRooms[refKey] = { ...selectedDay, roomId };
                 this.addNewEvent(roomCategory);
                 this.selectedRooms = {};
@@ -291,10 +291,12 @@ export class IglCalBody {
             const isCurrentDate = dayInfo.day === this.today || dayInfo.day === this.highlightedDate;
             const cleaningDates = calendar_dates.cleaningTasks.has(+roomId) ? calendar_dates.cleaningTasks.get(+roomId) : null;
             const shouldBeCleaned = ['001', '003'].includes(calendar_data.cleaning_frequency?.code) ? false : cleaningDates?.has(dayInfo.value);
-            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''}`, style: !isDisabled && { '--cell-cursor': 'default' }, onClick: () => {
-                    if (isDisabled) {
-                        return;
-                    }
+            return (h("div", { class: `cellData position-relative roomCell ${isCellDisabled ? 'disabled' : ''} ${'room_' + roomId + '_' + dayInfo.day} ${isCurrentDate ? 'currentDay' : ''} ${this.dragOverElement === roomId + '_' + dayInfo.day ? 'dragOverHighlight' : ''} ${isSelected ? 'selectedDay' : ''}`,
+                // style={!isDisabled && { '--cell-cursor': 'default' }}
+                style: { '--cell-cursor': 'default' }, onClick: () => {
+                    // if (isDisabled) {
+                    //   return;
+                    // }
                     this.clickCell(Number(roomId), dayInfo, roomCategory);
                 }, "aria-label": roomName, role: "gridcell", "data-room-id": roomId, "data-date": dayInfo.value, "aria-current": isCurrentDate ? 'date' : undefined, "data-room-name": roomName, "data-dirty-room": String(shouldBeCleaned), "aria-disabled": String(isDisabled), "aria-selected": Boolean(isSelected) }));
         });
@@ -422,9 +424,9 @@ export class IglCalBody {
         return disabled;
     }
     render() {
-        return (h(Host, { key: '699d170864947646fa586732ccabb80d469ed8b6' }, h("div", { key: 'f926bf7c8cf7dc3c55b6e0ecb4262f6b22533e16', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'b10eda11b7d27b61e6589469e1bd16f82e45d3c6', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'aba68aa44883bd5d9d2a6e868830746fc36eb453' }, h("div", { key: '6b525c4d303ed697a22a41b0d7b2cf9ebcd628d9', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '83e5a9c613699a9d5553a525fc36d5f0a503c523', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '8ed7eab9bd99990665690e0484e79e02bde6e2d2', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'aec1c59af87097d87f63865bb42716f34681f8bf', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;

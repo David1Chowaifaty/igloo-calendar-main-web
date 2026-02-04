@@ -62,6 +62,7 @@ export class IrBookingDetails {
     roomService = new RoomService();
     paymentService = new PaymentService();
     token = new Token();
+    arrivalTime;
     printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
@@ -212,10 +213,10 @@ export class IrBookingDetails {
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_BED_PREFERENCE_TYPE', '_DEPARTURE_TIME', '_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD', '_ARRIVAL_TIME']),
             ]);
             this.property_id = roomResponse?.My_Result?.id;
-            const { bed_preference_type, departure_time, pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { bed_preference_type, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.departureTime = departure_time;
             this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
@@ -229,6 +230,7 @@ export class IrBookingDetails {
             //       this.paymentActions = res;
             //     });
             // }
+            this.arrivalTime = arrival_time;
             if (!locales?.entries) {
                 locales.entries = languageTexts.entries;
                 locales.direction = languageTexts.direction;
@@ -422,7 +424,7 @@ export class IrBookingDetails {
         return [
             h(Fragment, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } })))),
             h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }),
-            h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { countries: this.countries, booking: this.booking }), h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), roomsSection), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })),
+            h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("wa-card", null, h("ir-date-view", { class: "booking-details__date-view-header", slot: "header", from_date: this.booking.from_date, to_date: this.booking.to_date }), this.hasRoomAdd && this.booking.is_editable && (h(Fragment, null, h("wa-tooltip", { for: "room-add" }, "Add unit"), h("ir-custom-button", { slot: "header-actions", id: "room-add", appearance: 'plain', size: 'small', variant: 'neutral' }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' }, label: "Add unit" })))), roomsSection), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { booking: { booking_nbr: this.booking.booking_nbr, currency: this.booking.currency, extra_services: this.booking.extra_services } }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking })),
             h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();

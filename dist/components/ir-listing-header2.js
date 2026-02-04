@@ -3,36 +3,9 @@ import { B as BookingListingService, u as updateUserSelection, b as booking_list
 import { l as locales } from './locales.store.js';
 import { m as downloadFile, B as isPrivilegedUser } from './utils.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$u } from './igl-application-info2.js';
-import { d as defineCustomElement$t } from './igl-date-range2.js';
-import { d as defineCustomElement$s } from './igl-rate-plan2.js';
-import { d as defineCustomElement$r } from './igl-room-type2.js';
-import { d as defineCustomElement$q } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$p } from './ir-booking-editor2.js';
-import { d as defineCustomElement$o } from './ir-booking-editor-drawer2.js';
-import { d as defineCustomElement$n } from './ir-booking-editor-form2.js';
-import { d as defineCustomElement$m } from './ir-booking-editor-guest-form2.js';
-import { d as defineCustomElement$l } from './ir-booking-editor-header2.js';
-import { d as defineCustomElement$k } from './ir-booking-new-form2.js';
-import { d as defineCustomElement$j } from './ir-button2.js';
-import { d as defineCustomElement$i } from './ir-country-picker2.js';
-import { d as defineCustomElement$h } from './ir-custom-button2.js';
-import { d as defineCustomElement$g } from './ir-date-picker2.js';
-import { d as defineCustomElement$f } from './ir-date-select2.js';
-import { d as defineCustomElement$e } from './ir-date-view2.js';
-import { d as defineCustomElement$d } from './ir-drawer2.js';
-import { d as defineCustomElement$c } from './ir-icons2.js';
-import { d as defineCustomElement$b } from './ir-input2.js';
-import { d as defineCustomElement$a } from './ir-input-text2.js';
-import { d as defineCustomElement$9 } from './ir-interceptor2.js';
-import { d as defineCustomElement$8 } from './ir-mobile-input2.js';
-import { d as defineCustomElement$7 } from './ir-otp2.js';
-import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$5 } from './ir-picker2.js';
-import { d as defineCustomElement$4 } from './ir-picker-item2.js';
-import { d as defineCustomElement$3 } from './ir-range-picker2.js';
-import { d as defineCustomElement$2 } from './ir-spinner2.js';
-import { d as defineCustomElement$1 } from './ir-validator2.js';
+import { d as defineCustomElement$3 } from './ir-custom-button2.js';
+import { d as defineCustomElement$2 } from './ir-date-picker2.js';
+import { d as defineCustomElement$1 } from './ir-range-picker2.js';
 
 const irListingHeaderCss = ".sc-ir-listing-header-h{display:block;margin:0;padding:0;--ir-date-range-border:#cacfe7;--ir-date-range-width:242px;position:relative}h3.sc-ir-listing-header{margin:0}ir-input-text.sc-ir-listing-header{width:300px}.booking-search-field.sc-ir-listing-header{margin-left:0px;display:flex;align-items:center;gap:14px}.booking-container.sc-ir-listing-header{gap:14px}.filters-container.sc-ir-listing-header{gap:10px;justify-content:space-between}.buttons-container.sc-ir-listing-header{gap:14px;color:#104064}.booking-dates-container.sc-ir-listing-header{position:relative;box-sizing:border-box;background:white;padding:0.75rem 1rem;height:2rem;border-radius:0.21rem;border:1px solid #cacfe7;display:flex;align-items:center;gap:0.5rem;margin:0}.booking-dates-container.sc-ir-listing-header span.sc-ir-listing-header{padding:0;margin:0;display:flex;align-items:center;justify-content:center;height:2rem}.date-picker-wrapper.sc-ir-listing-header{position:relative;cursor:default;box-sizing:border-box;padding:0 0.5rem;height:2rem;display:flex;align-items:center;gap:5px;flex-shrink:0;cursor:pointer}.date-picker-wrapper.sc-ir-listing-header:hover .date-display.sc-ir-listing-header{color:var(--blue)}.date-picker-wrapper[data-option='from-date'].sc-ir-listing-header{padding-right:0;cursor:pointer}.date-display.sc-ir-listing-header{background:inherit;margin:0;padding:0;display:flex;align-items:center;font-size:0.975rem;line-height:1.45;height:2rem;color:#3b4781;white-space:nowrap;padding-right:5px;cursor:pointer}.hidden-date-picker.sc-ir-listing-header{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0}.new-booking-container.sc-ir-listing-header{position:absolute;right:10px;top:5px}.new-booking-btn.sc-ir-listing-header{all:unset;cursor:pointer;color:#104064}.new-booking-btn.sc-ir-listing-header:hover{color:#0b2538}.seperator-container.sc-ir-listing-header{margin-top:10px;justify-content:center !important;gap:14px}.seperator-container.sc-ir-listing-header span.sc-ir-listing-header{display:block;height:1px;background:var(--gray);width:45%;max-width:200px;margin:0}@media (max-width: 575.98px){.sc-ir-listing-header-h{--ir-date-range-width:100%}.flex-fill-sm-none.sc-ir-listing-header{flex:1 1 auto}.flex-fill-sm-none.sc-ir-listing-header label.sc-ir-listing-header{width:100px}.buttons-container.sc-ir-listing-header{justify-content:center !important;align-items:center !important;gap:40px}}@media (min-width: 1200px){.booking-search-field.sc-ir-listing-header{margin-left:40px;width:100%;max-width:400px}}@media (min-width: 1600px){.flex-fill-sm-none.sc-ir-listing-header{flex:0 0 auto}.booking-search-field.sc-ir-listing-header{margin-left:40px}}";
 const IrListingHeaderStyle0 = irListingHeaderCss;
@@ -95,49 +68,10 @@ const IrListingHeader = /*@__PURE__*/ proxyCustomElement(class IrListingHeader e
         await this.bookingListingService.getExposedBookings({ ...booking_listing.userSelection, start_row: 0, end_row: 20, is_to_export: false });
     }
     render() {
-        const havePrivilege = isPrivilegedUser(booking_listing.userSelection.userTypeCode);
-        return (h(Host, { key: '41c47e53e1a6460cad034c39c44ccb355fcfe239' }, h("section", { key: 'e3a260caff21ac2977998a6a5f7f8d8efa57762b', class: "d-flex align-items-center " }, h("div", { key: '50831f78b05d71bb5d0f68cd6daf33feb21562c3', class: "d-flex flex-fill flex-column flex-md-row align-items-md-center booking-container" }, h("div", { key: 'd9d3113b58f05cce1f832da28cd91239a5f10690', class: "d-flex mb-1 d-md-none align-items-center justify-content-bettween width-fill" }, h("h3", { key: 'b1a556b1c5ee32fa263a5e53e080da98a9af080e', class: "page-title" }, locales.entries?.Lcz_Bookings), h("div", { key: '0f7472bcdcffecf19b6cd23dcb3e983f277b48a5' }, !havePrivilege && (
-        // <igl-book-property-container
-        //   p={this.p}
-        //   withIrToastAndInterceptor={false}
-        //   propertyid={this.propertyId}
-        //   language={this.language}
-        //   title={locales.entries.Lcz_CreateNewBooking}
-        //   ticket={booking_listing.token}
-        // >
-        //   {/* <ir-button slot="trigger"  variant="icon" icon_name="square_plus"></ir-button> */}
-        //   <ir-custom-button id="new-booking" class={'new-booking-btn'} variant="brand" appearance="plain" slot="trigger">
-        //     <wa-icon name="plus" style={{ fontSize: '1.2rem' }}></wa-icon>
-        //   </ir-custom-button>
-        // </igl-book-property-container>
-        h("ir-booking-new-form", { key: '9f7ba718a4899a250e34f8086277599c004f2d83', propertyid: this.propertyId, language: this.language, ticket: booking_listing.token })))), h("h3", { key: '31f04a0028ca5be97f7de7eec0a9beef352ebe76', class: "d-none d-md-block page-title" }, locales.entries?.Lcz_Bookings), h("div", { key: '9600917a8224cec172fed40e8511267e10846328',
-            // onSubmit={e => {
-            //   e.preventDefault();
-            //   console.log(this.inputValue);
-            //   this.handleSearchClicked(false);
-            // }}
-            class: "booking-search-field width-fill" }, h("ir-input", { key: '745d05b28d63dc192e4e8e2a784e306ab0e41dac', class: 'flex-fill w-100', value: this.inputValue, onKeyDown: e => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    this.handleSearchClicked(false);
-                }
-            }, "onText-change": e => (this.inputValue = e.detail), size: "small", placeholder: locales.entries?.Lcz_FindBookNbrorName }, h("wa-icon", { key: '2a6e818613913f439a25e3c7c7ad89f528f28fc4', name: "magnifying-glass", slot: "start" })), h("h5", { key: '146ff115f83b1a75fe9da51374ba00ce9e9efd80', class: "m-0 font-weight-bold d-none d-sm-block" }, locales.entries?.Lcz_Or))), h("div", { key: '11e071a75472bdd3383eb8d4f78dd6ed385a4ff4', class: "d-none d-md-block" }, h("wa-tooltip", { key: '8d4513adef62c417cd6284522a215adf10670965', for: "new-booking" }, "Create new booking"), !havePrivilege && (
-        // <igl-book-property-container
-        //   p={this.p}
-        //   withIrToastAndInterceptor={false}
-        //   propertyid={this.propertyId}
-        //   language={this.language}
-        //   title={locales.entries.Lcz_CreateNewBooking}
-        //   ticket={booking_listing.token}
-        // >
-        //   <ir-custom-button id="new-booking" variant="brand" appearance="plain" slot="trigger">
-        //     <wa-icon name="plus" style={{ fontSize: '1.2rem' }}></wa-icon>
-        //   </ir-custom-button>
-        //   {/* <ir-button slot="trigger" class={'new-booking-btn'} variant="icon" icon_name="square_plus"></ir-button> */}
-        // </igl-book-property-container>
-        h("ir-booking-new-form", { key: '70376cac8873214ecf9c46fe71a68cfabe5963f5', propertyid: this.propertyId, language: this.language, ticket: booking_listing.token })))), h("section", { key: '71ef4bd42ffca53d60623043dd014f6a8445144d', class: "d-flex align-items-center justify-evenly seperator-container d-sm-none" }, h("span", { key: '4a6ea8ab7f0c0de155899c15bfeed21ec313e45d' }), h("h5", { key: 'c533fc036ee7aaa6dc45f26f107e8c8ff50792b9', class: "m-0 font-weight-bold" }, locales.entries?.Lcz_Or), h("span", { key: '332bd7cbd4bc5d0926aa3be2c2c0b20ba52a535b' })), h("section", { key: '27fd682abe768a7af62477c88718a19d42d32ef1', class: "d-flex flex-column align-items-sm-center flex-sm-row flex-sm-wrap filters-container justify-content-lg-start mt-1" }, h("wa-select", { key: 'a3ac76cbafc4488726e99c1e288f5a4cf151f50f', onchange: e => {
+        //const havePrivilege = isPrivilegedUser(booking_listing.userSelection.userTypeCode);
+        return (h(Host, { key: 'fd96662cd7976f6dc9fb59db011147c9db6ae915' }, h("section", { key: '4832bcbcf0401d99525b641e4b3d33320d54bfdc', class: "d-flex align-items-center " }, h("div", { key: '30525c85b9c1472bf8c042c4d1a55e130642f209', class: "d-flex flex-fill flex-column flex-md-row align-items-md-center booking-container" }, h("div", { key: '05b34c50af1d75f1827e1009df30596899238f2f', class: "d-flex mb-1 d-md-none align-items-center justify-content-bettween width-fill" }, h("h3", { key: '9b6466a36855d24abee2e26a0e22119b36f6c03e', class: "page-title" }, locales.entries?.Lcz_Bookings)), h("h3", { key: '20e195d7c21028eb3917c70942813f97870b15a8', class: "d-none d-md-block page-title" }, locales.entries?.Lcz_Bookings))), h("section", { key: 'd3f8d4306a21b44b10daebf379c4904de91fb601', class: "d-flex flex-column align-items-sm-center flex-sm-row flex-sm-wrap filters-container justify-content-lg-start mt-1" }, h("wa-select", { key: '410aaa3ad1b26cb53a51469f1764aef2ca6817e8', onchange: e => {
                 updateUserSelection('filter_type', e.target.value);
-            }, value: booking_listing.userSelection.filter_type?.toString(), size: "small", defaultValue: booking_listing?.types[0]?.id?.toString() }, booking_listing?.types.map(b => (h("wa-option", { key: b.id, value: b.id?.toString() }, b.name)))), h("ir-range-picker", { key: 'bd282513dff9dc5ba59ec2124be6479e0e9b303a', onDateRangeChanged: e => {
+            }, value: booking_listing.userSelection.filter_type?.toString(), size: "small", defaultValue: booking_listing?.types[0]?.id?.toString() }, booking_listing?.types.map(b => (h("wa-option", { key: b.id, value: b.id?.toString() }, b.name)))), h("ir-range-picker", { key: 'fe7ce4de593173d1553dd8858d041ed49c20085e', onDateRangeChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 const { fromDate, toDate } = e.detail;
@@ -147,13 +81,13 @@ const IrListingHeader = /*@__PURE__*/ proxyCustomElement(class IrListingHeader e
                     to_date = booking_listing.userSelection.to;
                 }
                 booking_listing.userSelection = { ...booking_listing.userSelection, to: to_date, from: fromDate.format('YYYY-MM-DD') };
-            }, allowNullDates: false, fromDate: hooks(booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: hooks(booking_listing.userSelection.to, 'YYYY-MM-DD') }), h("wa-select", { key: '8f680f499ec1d64495c9a878babee2936a9ceecd', onchange: e => {
+            }, allowNullDates: false, fromDate: hooks(booking_listing.userSelection.from, 'YYYY-MM-DD'), toDate: hooks(booking_listing.userSelection.to, 'YYYY-MM-DD') }), h("wa-select", { key: '6b52efe7daaf37ccbe65d8c157bfb33d1b7e912d', onchange: e => {
                 updateUserSelection('booking_status', e.target.value);
-            }, value: booking_listing.userSelection.booking_status, size: "small", defaultValue: booking_listing?.statuses[0]?.code }, booking_listing?.statuses.map(b => (h("wa-option", { key: b.code, value: b.code }, b.name)))), !isPrivilegedUser(booking_listing.userSelection.userTypeCode) && (h("wa-select", { key: 'f8ff0febad92a1b6a41cfec061c725f0bad7eac4', onchange: e => {
+            }, value: booking_listing.userSelection.booking_status, size: "small", defaultValue: booking_listing?.statuses[0]?.code }, booking_listing?.statuses.map(b => (h("wa-option", { key: b.code, value: b.code }, b.name)))), !isPrivilegedUser(booking_listing.userSelection.userTypeCode) && (h("wa-select", { key: 'e607881ea9330359ef1f524b3176260edb78d3a7', onchange: e => {
                 updateUserSelection('channel', e.target.value);
-            }, value: booking_listing.userSelection.channel, size: "small", defaultValue: booking_listing.userSelection.channel }, h("wa-option", { key: '4c21041ba1d3514a59e23e4ddb3a0023408f77fd', value: "" }, "All channels"), booking_listing?.channels.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name))))), h("wa-select", { key: 'a5b5ef301677ec550cc293a0000ec43edf4f9bc1', onchange: e => {
+            }, value: booking_listing.userSelection.channel, size: "small", defaultValue: booking_listing.userSelection.channel }, h("wa-option", { key: '07708887f15d0a2607ed65395f836277cb1fdeb1', value: "" }, "All channels"), booking_listing?.channels.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name))))), h("wa-select", { key: '151e3139897cc231211bb40e1ddd0e3359d0b205', onchange: e => {
                 updateUserSelection('balance_filter', e.target.value);
-            }, value: booking_listing.userSelection.balance_filter, size: "small", defaultValue: booking_listing?.balance_filter[0]?.value }, booking_listing?.balance_filter.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name)))), h("div", { key: '74ff6cd6f2ed2725a61a7e21062078e1ddfeae74', class: "d-flex flex-fill align-items-end m-0" }, h("wa-tooltip", { key: '4bad2bf86895b8146bca433170a29b174a6bf4fd', for: "search-btn" }, locales.entries?.Lcz_Search), h("ir-custom-button", { key: '644d7dfccc39433b5fd1162190c6682061b68f42', id: "search-btn", loading: this.isLoading === 'search', onClickHandler: () => this.handleSearchClicked(false), variant: "neutral", appearance: "plain" }, h("wa-icon", { key: '85e95f2319642b2dc7577ad10628623e78894798', name: "magnifying-glass", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: '904874f334838c3ae5e7fdc45afdf64578100a2e', for: "clear-btn" }, locales.entries?.Lcz_Erase), h("ir-custom-button", { key: 'fc1a62d95cec924e70416b73da2b345cee89b38f', id: "clear-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleClearUserField() }, h("wa-icon", { key: '3390305f6751ecc031227cdfea18c7282965f35d', name: "eraser", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: '1be35541e92285de7c1f2ad076e7127d5fd34639', for: "excel-btn" }, locales.entries?.Lcz_ExportToExcel), h("ir-custom-button", { key: '12e55a76c3ac281a1273ba5aa95a33187eb5b1fe', loading: this.isLoading === 'excel', id: "excel-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleSearchClicked(true) }, h("wa-icon", { key: '3fb8304fb083d12470a60a3fe3c2f0d2b596ad7a', name: "file-excel", variant: "regular", style: { fontSize: '1.2rem' } }))))));
+            }, value: booking_listing.userSelection.balance_filter, size: "small", defaultValue: booking_listing?.balance_filter[0]?.value }, booking_listing?.balance_filter.map(b => (h("wa-option", { key: b.value, value: b.value }, b.name)))), h("div", { key: '1c09900a47ba42a23bd1e52f0ab265bb8e3a129c', class: "d-flex flex-fill align-items-end m-0" }, h("wa-tooltip", { key: 'd3dfbc7f9ec458411571a82d65c6f35292a910a7', for: "search-btn" }, locales.entries?.Lcz_Search), h("ir-custom-button", { key: '671688ed983fa88a7508415bc4e033ae84189c14', id: "search-btn", loading: this.isLoading === 'search', onClickHandler: () => this.handleSearchClicked(false), variant: "neutral", appearance: "plain" }, h("wa-icon", { key: 'f1e8172cc6fc51582fbba5be936a2e89cd871afd', name: "magnifying-glass", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: '8d63137804b4ffa30ca5e04d93bdb02e76d3817b', for: "clear-btn" }, locales.entries?.Lcz_Erase), h("ir-custom-button", { key: '01c70e8ad1d0100739cef8f2d51f48a548dd81c7', id: "clear-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleClearUserField() }, h("wa-icon", { key: 'ca1367a88c27a10b0c0b77d38da99b9e14d000ca', name: "eraser", style: { fontSize: '1.2rem' } })), h("wa-tooltip", { key: 'f9cd8d7398db28db6e69a752c0cf3e37962504e7', for: "excel-btn" }, locales.entries?.Lcz_ExportToExcel), h("ir-custom-button", { key: '30e29eef6aaadbb7ccd92b8710e4f9687412b462', loading: this.isLoading === 'excel', id: "excel-btn", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleSearchClicked(true) }, h("wa-icon", { key: '4be14198c94691d2c3c5dd5e90faa207030dcdd7', name: "file-excel", variant: "regular", style: { fontSize: '1.2rem' } }))))));
     }
     static get style() { return IrListingHeaderStyle0; }
 }, [2, "ir-listing-header", {
@@ -167,159 +101,24 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-listing-header", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-air-date-picker", "ir-booking-editor", "ir-booking-editor-drawer", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-booking-new-form", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-picker", "ir-date-select", "ir-date-view", "ir-drawer", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-range-picker", "ir-spinner", "ir-validator"];
+    const components = ["ir-listing-header", "ir-custom-button", "ir-date-picker", "ir-range-picker"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-listing-header":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrListingHeader);
             }
             break;
-        case "igl-application-info":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$u();
-            }
-            break;
-        case "igl-date-range":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$t();
-            }
-            break;
-        case "igl-rate-plan":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$s();
-            }
-            break;
-        case "igl-room-type":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$r();
-            }
-            break;
-        case "ir-air-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$q();
-            }
-            break;
-        case "ir-booking-editor":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$p();
-            }
-            break;
-        case "ir-booking-editor-drawer":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$o();
-            }
-            break;
-        case "ir-booking-editor-form":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$n();
-            }
-            break;
-        case "ir-booking-editor-guest-form":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$m();
-            }
-            break;
-        case "ir-booking-editor-header":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$l();
-            }
-            break;
-        case "ir-booking-new-form":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$k();
-            }
-            break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$j();
-            }
-            break;
-        case "ir-country-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$i();
-            }
-            break;
         case "ir-custom-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$h();
-            }
-            break;
-        case "ir-date-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$g();
-            }
-            break;
-        case "ir-date-select":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$f();
-            }
-            break;
-        case "ir-date-view":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$e();
-            }
-            break;
-        case "ir-drawer":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$d();
-            }
-            break;
-        case "ir-icons":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$c();
-            }
-            break;
-        case "ir-input":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$b();
-            }
-            break;
-        case "ir-input-text":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$a();
-            }
-            break;
-        case "ir-interceptor":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$9();
-            }
-            break;
-        case "ir-mobile-input":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$8();
-            }
-            break;
-        case "ir-otp":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$7();
-            }
-            break;
-        case "ir-otp-modal":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$6();
-            }
-            break;
-        case "ir-picker":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$5();
-            }
-            break;
-        case "ir-picker-item":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-range-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-spinner":
+        case "ir-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }
             break;
-        case "ir-validator":
+        case "ir-range-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

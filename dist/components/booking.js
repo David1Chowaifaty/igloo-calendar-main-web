@@ -553,6 +553,6 @@ function createDateWithOffsetAndHour(offset, hour) {
     return new Date(Date.UTC(year, month, day, utcHour));
 }
 
-export { getSplitRole as a, buildSplitIndex as b, calculateDaysBetweenDates as c, calendar_dates as d, compareTime as e, createDateWithOffsetAndHour as f, getMyBookings as g, addCleaningTasks as h, formatName as i, getRoomStatus as j, cleanRoom as k, addRoomForCleaning as l, transformNewBLockedRooms as m, bookingStatus as n, getPrivateNote as o, transformNewBooking as t };
+export { getSplitRole as a, buildSplitIndex as b, calculateDaysBetweenDates as c, compareTime as d, createDateWithOffsetAndHour as e, calendar_dates as f, getMyBookings as g, addCleaningTasks as h, formatName as i, getRoomStatus as j, cleanRoom as k, addRoomForCleaning as l, transformNewBLockedRooms as m, bookingStatus as n, getPrivateNote as o, transformNewBooking as t };
 
 //# sourceMappingURL=booking.js.map

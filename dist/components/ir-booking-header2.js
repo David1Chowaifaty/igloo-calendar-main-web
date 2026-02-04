@@ -3,15 +3,14 @@ import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
 import { B as BookingService } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$7 } from './ir-booking-status-tag2.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-dialog2.js';
-import { d as defineCustomElement$4 } from './ir-events-log2.js';
-import { d as defineCustomElement$3 } from './ir-pms-logs2.js';
-import { d as defineCustomElement$2 } from './ir-popover2.js';
+import { d as defineCustomElement$6 } from './ir-booking-status-tag2.js';
+import { d as defineCustomElement$5 } from './ir-custom-button2.js';
+import { d as defineCustomElement$4 } from './ir-dialog2.js';
+import { d as defineCustomElement$3 } from './ir-events-log2.js';
+import { d as defineCustomElement$2 } from './ir-pms-logs2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irBookingHeaderCss = ".sc-ir-booking-header-h{display:block}.confirmed.sc-ir-booking-header{color:#fff;display:flex;align-items:center}.bg-ir-green.sc-ir-booking-header{background:#629a4c;padding:0.2rem 0.3rem}.bg-ir-red.sc-ir-booking-header{background:#ff4961;padding:0.2rem 0.3rem}.bg-ir-orange.sc-ir-booking-header{background:#ff9149;padding:0.2rem 0.3rem}";
+const irBookingHeaderCss = ".sc-ir-booking-header-h{display:block}.booking-header__row.sc-ir-booking-header{display:flex;flex-direction:column;gap:1rem;padding:0 var(--wa-space-m);flex-wrap:wrap}.booking-header__actions.sc-ir-booking-header{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;gap:0.5rem}.booking-header__label-container.sc-ir-booking-header{display:flex;align-items:center}.booking-header__status-trigger.sc-ir-booking-header{width:100%}.booking-header__status-trigger.sc-ir-booking-header::part(base){justify-content:flex-start}.booking-header__status-trigger.sc-ir-booking-header::part(label){flex:1 1 0%;text-align:start}.booking-header__stretched-btn.sc-ir-booking-header{flex:1 1 0%}.booking-header__label.sc-ir-booking-header{padding:0;margin:0}.booking-header__label-container.sc-ir-booking-header{gap:1rem}.booking-header__info.sc-ir-booking-header,.booking-header__title.sc-ir-booking-header{display:flex;flex-direction:column;gap:1rem}.booking-header__label-number.sc-ir-booking-header{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l)}.booking-header__modified.sc-ir-booking-header{padding:0;margin:0;color:var(--wa-color-danger-fill-loud);width:fit-content}.booking-header__channel-number.sc-ir-booking-header{padding:0;margin:0}.booking-header__meta.sc-ir-booking-header{display:flex;align-items:center;gap:1rem;font-size:0.875rem}@media (min-width: 640px){.booking-header__title.sc-ir-booking-header{flex-direction:row;align-items:center}}@media (min-width: 768px){.booking-header__row.sc-ir-booking-header,.booking-header__info.sc-ir-booking-header{flex-direction:row;align-items:center}.booking-header__row.sc-ir-booking-header{justify-content:space-between}}";
 const IrBookingHeaderStyle0 = irBookingHeaderCss;
 
 const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader extends HTMLElement {
@@ -97,13 +96,13 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
     render() {
         const lastManipulation = this.booking.ota_manipulations ? this.booking.ota_manipulations[this.booking.ota_manipulations.length - 1] : null;
         const showPms = calendar_data.property?.linked_pms?.findIndex(lp => lp?.is_active && lp?.bookings_integration_mode?.code === '001') !== -1;
-        return (h("div", { key: '4f3ba29d365111521d3d98d141c5dbad38e92852', class: "fluid-container px-1" }, h("div", { key: '658c59e45db43a11e94de184579a1a3c21cfd1cf', class: "d-flex flex-column p-0 mx-0 flex-lg-row align-items-md-center justify-content-between" }, h("div", { key: '230ff430f709be0d6bf8ae7b7dee9fd51773051d', class: "m-0 p-0 mb-1 mb-lg-0 mt-md-0" }, h("div", { key: '6f1d5e20553b51035319164a13ce052b48d1f230', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("p", { key: '33b646c113558b256ef9f91bcfee176034f52497', style: { color: 'black' }, class: "font-size-large m-0 p-0" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("wa-dropdown", { key: '3d736e5546eca7117d595d1739bace3b787cabc2', "onwa-hide": e => {
+        return (h("div", { key: '407622c5090c7664cce79fccf9453f22952e212d', class: "booking-header" }, h("div", { key: '0a45669a4152ee5e08d00d4501e39f844c0c4b8f', class: "booking-header__row" }, h("div", { key: 'd58833b5956d918a035b38bfc8fa27d56dc727a0', class: "booking-header__info" }, h("div", { key: '08502f757684965eccd41e6272e046f4ee3fa2b5', class: "booking-header__title" }, h("div", { key: '169f89eff6a86df2824b69c831dd6482285293de', class: "booking-header__label-container" }, this.hasMenu && (h(Fragment, { key: 'c13d2ac9bc9daf247ce5b4a66ea8b3418c98e770' }, h("wa-tooltip", { key: '6dea8c2964788c13409c1ee39441d74804051b98', for: "menu" }, "Go back"), h("ir-custom-button", { key: '38daa72b3e3731d0331e1f55b24f3c5b993984f0', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'cdccd8bfd76a1eded2d30582c923231193a5d62d', name: "arrow-left", style: { fontSize: '1.2rem' }, label: "Go back" })))), h("div", { key: 'af2fdc71a6dd1bfcc757e127fea3c0a8da50607a', class: 'booking-header__label' }, h("h4", { key: '02082a7af4697780ec8e665c480ecedbd1d1cca8', class: "booking-header__label-number" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`), h("div", { key: '71314e456ea62293249ec2363bc4661fc7465bc9', class: "booking-header__meta" }, !this.booking.is_direct && h("p", { key: '584ea38c8a9c052822ced49d541f3e3f5d5163ff', class: "booking-header__channel-number" }, this.booking.channel_booking_nbr), lastManipulation && (h(Fragment, { key: '73a466eb9d1e10162e2de9d1e25b73205db15396' }, h("p", { key: '12024a2949daa278680fef63700ea002d91108fe', id: `booking-${this.booking.booking_nbr}-modified`, class: "booking-header__modified" }, "Modified"), h("wa-tooltip", { key: '60e4b1be79783608aea85bb20f9be897bf988a99', for: `booking-${this.booking.booking_nbr}-modified` }, h("div", { key: 'a4776429fcbb8e568e10855098dc6aca87de2e10' }, h("p", { key: '81b6323c8c4a45b6e98f908a71dbdf8ca2abdd64', class: "m-0" }, "Modified by ", lastManipulation?.user, " at ", lastManipulation?.date, " ", lastManipulation?.hour, ":", lastManipulation?.minute, "."), h("p", { key: '32342207bde8f5566a3e175082acb58394db7887', class: "m-0" }, this.alertMessage)))))))), h("div", { key: 'e54fb97a85bc51d077d49f96f6018bc1f03e25ed' }, this.booking.allowed_actions.length > 0 && this.booking.is_editable ? (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
                 this.bookingStatus = e.detail.item.value;
                 this.modalEl.openModal();
-            } }, h("ir-custom-button", { key: 'b2f011ad92d921e1e2700a09866d799f44e325da', slot: "trigger",
+            } }, h("wa-button", { slot: "trigger",
             // onClickHandler={() => {
             //   if (!this.booking.is_direct) {
             //     this.modalEl.openModal();
@@ -113,29 +112,28 @@ const IrBookingHeader = /*@__PURE__*/ proxyCustomElement(class IrBookingHeader e
             // }}
             withCaret: true,
             // loading={isRequestPending('/Change_Exposed_Booking_Status')}
-            appearance: 'outlined', size: "small", variant: "brand" }, h("ir-booking-status-tag", { key: '03d656e43dd82ff500834183c4c1575a0c97aafe', slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", { key: '039e1082418728f856bdd693e7c8b4ec0435fca5' }, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))), h("p", { key: '3444c49dff94be08a3c31b892331292143cc6c04', class: "m-0 p-0" }, !this.booking.is_direct && h("span", { key: '07ac112d3366824167a5691c3cd31b7743fdb6dc', class: "mr-1 m-0" }, this.booking.channel_booking_nbr))), h("div", { key: '78f42252b54807b07a6abd0ed3912aed7c71afa0', class: "d-flex justify-content-end align-items-center", style: { gap: '1rem', flexWrap: 'wrap' } }, h("div", { key: 'b548e5122b17b9bf324257fcc0f11e79e5d23602', class: "d-flex flex-column align-items-center" }, lastManipulation && (h("ir-popover", { key: '8066d47f9a7ce82a39b437931b327146a5ba9a04', trigger: "hover", renderContentAsHtml: true, content: `<div><p>Modified by ${lastManipulation.user} at ${lastManipulation.date} ${lastManipulation.hour}:${lastManipulation.minute}.</p>
-                <p>${this.alertMessage}</p></div>` }, h("p", { key: '9704a4d9472edd1a22f4347249000f341da6d9c5', class: "mx-0 p-0 small text-danger", style: { marginTop: '0.25rem', marginBottom: '0' } }, h("b", { key: 'c1777dafa8d74239c082bdbfe8ce6f93dd40c363' }, "Modified"))))), this.booking.allowed_actions.length > 0 && this.booking.is_editable && (h("div", { key: '8f6cc1861021395b8f4425507ce14c0f31935aae', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.25rem' } })), h("ir-custom-button", { key: 'e9013fddefed30d20ad91baef7e8ef9cc46e19ee', onClickHandler: e => {
+            appearance: 'outlined', size: "small", variant: "brand", class: "booking-header__status-trigger" }, h("ir-booking-status-tag", { slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", null, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))) : (h("ir-booking-status-tag", { status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }))))), h("div", { key: '49f7d4fc8b8e4a1f21e7fe916d8463e46e589c93', class: "booking-header__actions" }, h("ir-custom-button", { key: '1dbf97e7c67a95c48b0705b9b9e16af5c16e48ba', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'events-log' });
-            }, appearance: 'outlined', size: "small", variant: "brand" }, "Events log"), showPms && (h("ir-custom-button", { key: '7a8146534898dfd947ae42702341e4df0d21075c', onClickHandler: e => {
+            }, appearance: 'outlined', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Events log"), showPms && (h("ir-custom-button", { key: 'b0bf2136e1fba34ffec5aa265265285ea9ee12d7', class: "booking-header__stretched-btn", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'pms' });
-            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: 'b64e3ed441d810ddd26d9d5e5e724e534e4fcdef' }, h("ir-custom-button", { key: '2dc4470da65b3ec7f35b2b5eb12995d00e5b83a3', id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: 'd51678708f2cee212a0d0353833da44eef188142' }, h("wa-tooltip", { key: 'cbe8bc25144bcbae2d0edb11239fe9231df7541d', for: "print" }, "Print booking"), h("ir-custom-button", { key: 'ee61e38dbfc7f11cecca16bea8deff86bf0f3d59', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '858f9fdb504a992f5010412f0349cf00a7920644', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: '5ea87d558225536f93c0e0cf190d2cf1fdb61a40' }, h("wa-tooltip", { key: '825418c6e75f406202d38d896ec5bedf9915a3fe', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: 'dc467bb1e13b9a9467c749ec8ee4a6dd8cc883bd', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '89c5fce813cfc13fc4df375203d98dd78e0077c3', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: 'c567d2102a6c65da3a71e01ce5467bd6991f2d34' }, h("wa-tooltip", { key: 'fc97ba8c510d784c33fb28f2eb4354bfe8748322', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: '037f4194b1f995c5ceb4e118af9b40a285b1755b', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: 'a7df19a10581418b88c5aa5a263a5d496ca13877', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasMenu && (h(Fragment, { key: 'ca714ce9c27740fad5a46d617425c66e7f99ed3b' }, h("wa-tooltip", { key: 'c3ab545c4935164e411f61fa0b57c2b1a892e923', for: "menu" }, "Go back"), h("ir-custom-button", { key: 'a1849f78e0c09e5160a7b11ab538eb2bd60309a5', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'bbf8b63f59d1a2b784c82d5bdd3657f4f722f9e0', name: "list", style: { fontSize: '1.2rem' }, label: "Go back" })))), this.hasCloseButton && (h("ir-custom-button", { key: 'abe3b89c11de7cdb15f5e3ae0d12d174cf47ad77', onClickHandler: e => {
+            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: 'e55b98c7b8487c824f950ba6d1053687ce1fd01d' }, h("ir-custom-button", { key: '3d798b81b4347e2a0f96a06d036214a3cc94054e', class: "booking-header__stretched-btn", id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: '638a8d0c582972ded61df76d36865677db373441' }, h("wa-tooltip", { key: '3f15f5daee8c1204e00fea037e462c35ed622211', for: "print" }, "Print booking"), h("ir-custom-button", { key: '9e2bf1310223ffc5f9d198df9a8ad868840d4c03', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: 'e601300d0a00b37fafa66a43d5df8e0f9e7e9bce', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: '91b805c15e519f076631d8332cb35b35e8fdf6f2' }, h("wa-tooltip", { key: '31181708b7ba7cc84bb3eabd3580298a8ff09d10', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: 'fac70a40337c8573be0c1110a94120488ff3a36b', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: 'eb7573820bf2d2913d7ce36a3a25ec7c1b2678d7', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: 'd7da0ab6f8c48984c6fd7ff2602ff4bb4fad8e83' }, h("wa-tooltip", { key: 'eba8608276fbcb75d8b43c773eb073043eed610b', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: 'c778f64aad0bd89384798bed6e816b6ec4f8a433', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: 'e7207ad550302d828b8276e19b77c430f24f655d', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasCloseButton && (h("ir-custom-button", { key: '09fe0ca5195428d27c2499107cae43487ef2b589', onClickHandler: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeSidebar.emit(null);
-            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: 'a4ab2edd65155beba72ca2b92f203033fcfa9fff', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: '393b19bc5c06d88c97f83b6c77fc0ef3e02447b0', onIrDialogHide: _ => {
+            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '31c40cefcafee7377526ce1f680e3618f55779d7', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: '23d346a7c35ff43ccc32003afe93c8ddacf50787', onIrDialogHide: _ => {
                 this.currentDialogStatus = null;
-            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: 'e197cd1e4e3c0e9628882983711a5cc79a793fcb', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
+            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: '18f48ebc8eec7814c07d5b063d15691fe8f78bf6', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingStatus = null;
-            } }, h("p", { key: '733b0f42e4e90d95681f7d7c7ea7db81964a78e8' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: '99362e021b7875e8b353f8f5388c0c24f2f94e0b', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: '31724f11a5d19b3ab7e6dd89d9ffa9b4cd03eae0', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: 'b443395f6aa0476e63f02a6f4b29798a4d7f9e9c', onClickHandler: e => {
+            } }, h("p", { key: 'd14a81a0d95038eb6e4da46ca7bc8b5f5f3f12b3' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: '4d15417dff01a312d723f59c10487f4d9fc2ada2', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: '92ea60f398714bc4e8e1c97a005c8d47482e88a2', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: 'ebc090345a57eb5b86d1baa042c5ada723a3b755', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateStatus();
@@ -157,7 +155,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-header", "ir-booking-status-tag", "ir-custom-button", "ir-dialog", "ir-events-log", "ir-pms-logs", "ir-popover", "ir-spinner"];
+    const components = ["ir-booking-header", "ir-booking-status-tag", "ir-custom-button", "ir-dialog", "ir-events-log", "ir-pms-logs", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-header":
             if (!customElements.get(tagName)) {
@@ -166,30 +164,25 @@ function defineCustomElement() {
             break;
         case "ir-booking-status-tag":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$6();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$4();
             }
             break;
         case "ir-events-log":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-pms-logs":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-popover":
+        case "ir-pms-logs":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

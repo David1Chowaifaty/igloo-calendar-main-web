@@ -98,6 +98,7 @@ export declare class IglooCalendar {
     private roomTypeIdsCache;
     private tasksEndDate;
     dialogEl: HTMLIrDialogElement;
+    private departureTimes;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
@@ -115,8 +116,11 @@ export declare class IglooCalendar {
     private renderModalBody;
     private setUpCalendarData;
     initializeApp(): Promise<void>;
+    private fetchSetupEntries;
     private getHousekeepingTasks;
     private handleSocketMessage;
+    private handleUpdateCalendarRate;
+    private handleSetDepartureTime;
     private handleRoomCalendarExtra;
     private handleSharingPersonsUpdated;
     private handleRoomStatusChanged;

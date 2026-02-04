@@ -83,6 +83,7 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
         this.closeModal = createEvent(this, "closeModal", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
         this.updateRoomGuests = createEvent(this, "updateRoomGuests", 7);
+        this.loadingChange = createEvent(this, "loadingChange", 7);
     }
     /**
      * The name of the room currently being displayed.
@@ -133,6 +134,7 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
     closeModal;
     resetBookingEvt;
     updateRoomGuests;
+    loadingChange;
     bookingService = new BookingService();
     componentWillLoad() {
         this.init();
@@ -186,9 +188,10 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
         tempGuests[index] = tempGuest;
         this.guests = [...tempGuests];
     }
-    async saveGuests() {
+    async saveGuests(submitter) {
         try {
             this.error = {};
+            this.loadingChange.emit(submitter);
             this.autoValidate = true;
             console.log({
                 sharedPersons: this.sharedPersons,
@@ -210,7 +213,7 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
                 })
                     .filter(Boolean),
             });
-            if (this.checkIn) {
+            if (submitter === 'save_checkin') {
                 await this.bookingService.handleExposedRoomInOut({
                     booking_nbr: this.bookingNumber,
                     room_identifier: this.identifier,
@@ -231,6 +234,9 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
                 this.error = { ...errors };
             }
         }
+        finally {
+            this.loadingChange.emit(null);
+        }
     }
     render() {
         if (this.isLoading) {
@@ -238,7 +244,8 @@ const IrRoomGuestsForm = /*@__PURE__*/ proxyCustomElement(class IrRoomGuestsForm
         }
         return (h("form", { id: `room-guests__${this.identifier}`, class: "sheet-container", style: { minWidth: '300px' }, onSubmit: e => {
                 e.preventDefault();
-                this.saveGuests();
+                const submitter = e.submitter;
+                this.saveGuests(submitter.value);
             } }, h("section", { class: 'sheet-body' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
             let isRowValid = true;
             try {

@@ -4,8 +4,17 @@ import WaPopup from '@awesome.me/webawesome/dist/components/popup/popup';
 type AutocompletePopupElement = WaPopup;
 export declare class IrAutocomplete {
     el: HTMLIrAutocompleteElement;
+    /**
+     * Emits `combobox-change` even when the selected value does not change.
+     *
+     * @default true
+     */
+    emitOnSameValue: boolean;
+    /** Whether the autocomplete dropdown is open. */
     open: boolean;
-    placement: AutocompletePopupElement["placement"];
+    /** Placement of the autocomplete dropdown relative to the input. */
+    placement: AutocompletePopupElement['placement'];
+    /** Name attribute forwarded to the underlying input element. */
     name: string;
     /** The value of the input. */
     value: string;

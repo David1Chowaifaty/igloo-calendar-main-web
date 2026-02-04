@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { P as PropertyService } from './property.service.js';
 import { T as Token } from './Token.js';
 
-const irPmsPaymentDueAlertCss = ".sc-ir-pms-payment-due-alert-h{display:block}.pms-payment-due-alert__callout-message.sc-ir-pms-payment-due-alert{width:100%;display:flex;text-align:center;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}";
+const irPmsPaymentDueAlertCss = ".sc-ir-pms-payment-due-alert-h{display:block}.pms-payment-due-alert__callout.sc-ir-pms-payment-due-alert{border-radius:0}.pms-payment-due-alert__callout-message.sc-ir-pms-payment-due-alert{width:100%;display:flex;text-align:center;flex-wrap:wrap;justify-content:center;align-items:center;gap:1rem}";
 const IrPmsPaymentDueAlertStyle0 = irPmsPaymentDueAlertCss;
 
 const IrPmsPaymentDueAlert = /*@__PURE__*/ proxyCustomElement(class IrPmsPaymentDueAlert extends HTMLElement {

@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { i as isRequestPending } from './ir-interceptor.store.js';
 import { d as defineCustomElement$a } from './ir-country-picker2.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
 import { d as defineCustomElement$8 } from './ir-drawer2.js';
@@ -63,19 +62,24 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
      */
     bookingNumber;
     closeModal;
+    isLoading;
     render() {
-        return (h("ir-drawer", { key: '9a4b252e91240f2b9d05f54e0be56b03c18f76f4', style: {
+        return (h("ir-drawer", { key: '9dcf58f631a2663c27171cb6e2fcefa935c92c26', style: {
                 '--ir-drawer-width': '60rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, label: `Room ${this.roomName}`, open: this.open, onDrawerHide: e => {
+            }, label: this.roomName ? `Room ${this.roomName}` : 'Guest Details', open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-room-guests-form", { key: '83d69002c79aa8efac7733d45e931ff5c70f1577', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language })), h("div", { key: '228636b86f50dc6d7d366516e735710679b50124', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'ee58217055c7f5c7e48c9cc94a8b10b556043dde', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: 'e84363e2fb3761c82b34ff3c72a6a1dd1ca3b3f3', loading: isRequestPending('/Handle_Exposed_Room_Guests'), size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, this.checkIn ? locales.entries?.Lcz_CheckIn ?? 'Check in' : locales?.entries?.Lcz_Save ?? 'Save'))));
+            } }, this.open && (h("ir-room-guests-form", { key: 'c09499d5449d89789ba9a5d88f3c05d5b69977bc', sharedPersons: this.sharedPersons, roomName: this.roomName, countries: this.countries, totalGuests: this.totalGuests, identifier: this.identifier, bookingNumber: this.bookingNumber, checkIn: this.checkIn, language: this.language, onLoadingChange: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isLoading = e.detail;
+            } })), h("div", { key: '9567a63d93bf3b148772c282e33e0583e60bf5e5', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '9c6b95499ad7e158d4df365e62856a08e97eaaa5', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Save'), h("ir-custom-button", { key: '3359e3cc8447fc6bc0ce8943455611cb461dc2f1', value: "save", loading: this.isLoading === 'save', size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save ?? 'Save'), this.checkIn && (h("ir-custom-button", { key: 'bbe067846434ecee60a5e315a6415237fca55366', value: "save_checkin", loading: this.isLoading === 'save_checkin', size: "medium", form: `room-guests__${this.identifier}`, type: "submit", variant: "brand" }, locales.entries?.Lcz_CheckIn ?? 'Check in')))));
     }
     static get style() { return IrRoomGuestsStyle0; }
 }, [2, "ir-room-guests", {
@@ -87,7 +91,8 @@ const IrRoomGuests = /*@__PURE__*/ proxyCustomElement(class IrRoomGuests extends
         "countries": [16],
         "checkIn": [4, "check-in"],
         "language": [1],
-        "bookingNumber": [1, "booking-number"]
+        "bookingNumber": [1, "booking-number"],
+        "isLoading": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

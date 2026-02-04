@@ -44,5 +44,6 @@ export declare class IrRoomGuests {
      */
     bookingNumber: string;
     closeModal: EventEmitter<null>;
+    isLoading: string;
     render(): any;
 }

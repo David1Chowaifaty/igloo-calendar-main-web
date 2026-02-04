@@ -3,7 +3,8 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const slot = require('./slot-30fa3487.js');
+const ClickOutside = require('./ClickOutside-e563f721.js');
+const slot = require('./slot-3e2f24aa.js');
 
 const irAutocompleteCss = ".listbox {\n  display: block;\n  position: relative;\n  font: inherit;\n  box-shadow: var(--wa-shadow-m);\n  background: var(--wa-color-surface-raised);\n  border-color: var(--wa-color-surface-border);\n  border-radius: var(--wa-border-radius-m);\n  border-style: var(--wa-border-style);\n  border-width: var(--wa-border-width-s);\n  padding-block: 0.5em;\n  padding-inline: 0;\n  overflow: auto;\n  overscroll-behavior: none;\n\n  /* Make sure it adheres to the popup's auto size */\n  max-width: var(--auto-size-available-width);\n  max-height: var(--auto-size-available-height);\n\n  &::slotted(wa-divider) {\n    --spacing: 0.5em;\n  }\n\n}\n\n::slotted(ir-autocomplete-option) {\n  display: block;\n}\n";
 const IrAutocompleteStyle0 = irAutocompleteCss;
@@ -25,8 +26,17 @@ const IrAutocomplete = class {
         this.comboboxChange = index.createEvent(this, "combobox-change", 7);
     }
     get el() { return index.getElement(this); }
+    /**
+     * Emits `combobox-change` even when the selected value does not change.
+     *
+     * @default true
+     */
+    emitOnSameValue = true;
+    /** Whether the autocomplete dropdown is open. */
     open = false;
-    placement = "bottom";
+    /** Placement of the autocomplete dropdown relative to the input. */
+    placement = 'bottom';
+    /** Name attribute forwarded to the underlying input element. */
     name;
     /** The value of the input. */
     value = '';
@@ -129,13 +139,7 @@ const IrAutocomplete = class {
     currentOption;
     listboxRef;
     inputRef;
-    SLOT_NAMES = [
-        "label",
-        "start",
-        "end",
-        "clear-icon",
-        "hint",
-    ];
+    SLOT_NAMES = ['label', 'start', 'end', 'clear-icon', 'hint'];
     slotManager = slot.createSlotManager(null, // Will be set in componentWillLoad
     this.SLOT_NAMES, () => {
         // Trigger re-render when slot state changes
@@ -305,10 +309,12 @@ const IrAutocomplete = class {
         option.selected = true;
         this.currentOption = option;
         const nextValue = this.getOptionValue(option);
-        if (nextValue !== this.value) {
+        if (this.emitOnSameValue || (!this.emitOnSameValue && nextValue !== this.value)) {
             this.value = nextValue;
             this.comboboxChange.emit(nextValue);
         }
+        // if (nextValue !== this.value && !this.emitOnSameValue) {
+        // }
         this.hide();
         requestAnimationFrame(() => this.inputRef?.focusInput());
     }
@@ -397,7 +403,7 @@ const IrAutocomplete = class {
         }
     };
     render() {
-        return (index.h(index.Host, { key: '922f42ccd8ba363715c39a65d9ba44fd000bc436' }, index.h("wa-popup", { key: '237d96f5361c4459b74c024738f4de3437b18b09', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, index.h("ir-input", { key: 'fb7553992b1ed1f0024cf06ae39eeac81449f3a6', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && index.h("slot", { key: 'fa58aacf599a67f93ba252abb3aec11c7168fbe8', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && index.h("slot", { key: '5dab3440cf83ae65f90d261ddcc820fcb59dc9ba', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && index.h("slot", { key: '1f1180b037522fad64e5d16ce54bfa4e1e6b6abd', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && index.h("slot", { key: '38cf32b9858280a0f94bcd456152660052ee451f', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && index.h("slot", { key: '0c5ef52bb4aed0ad1265b4241dcbe720bd3b62b0', name: "hint", slot: "hint" })), index.h("div", { key: '552f994fdb3db4b44794eed317ee3ebedff60f64', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, index.h("slot", { key: '808c69b58bf28dbddd440426cab46f75e739349d', onSlotchange: this.handleOptionsSlotChange })))));
+        return (index.h(index.Host, { key: 'd70d297dddb428c33ff35b3d36652add4352e424' }, index.h("wa-popup", { key: '0b0e19f0ec50b14e09ecfaeda839a8d29c6be62c', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, index.h("ir-input", { key: '36642cbc396f0f7f54a1edf2fdc33b0a3d0c3e0e', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && index.h("slot", { key: 'ea732b393dadf79f4be3c39c5e41266fb95a8588', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && index.h("slot", { key: '19723ba429113b9b7e8dbbdc1f0c9481c3dd7cbb', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && index.h("slot", { key: '6740d86fb3f15ccdc8003fcb92a922d20468d6b6', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && index.h("slot", { key: '19d820aa69d2f3e8b6bbc5b589ad39c74dc6d1cf', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && index.h("slot", { key: '00b9cc7a9b478f55b1ef998c49a1c42ffee4e757', name: "hint", slot: "hint" })), index.h("div", { key: 'ce70007ef98dcb83a6516a1394da1689acfe3c6c', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, index.h("slot", { key: '305f3ec78cf97b3092714f551c0f0c4acf0359ab', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"],
@@ -405,7 +411,7 @@ const IrAutocomplete = class {
     }; }
 };
 __decorate([
-    slot.ClickOutside()
+    ClickOutside.ClickOutside()
 ], IrAutocomplete.prototype, "hide", null);
 IrAutocomplete.style = IrAutocompleteStyle0;
 
@@ -422,7 +428,7 @@ const IrAutocompleteOption = class {
     current = false;
     selected = false;
     render() {
-        return (index.h(index.Host, { key: '1e1971cc2044e9ab75dd656b3172f5acd93bfdde', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, index.h("wa-option", { key: 'f86625c4d9c98ccf15543b7d3da077eb6cbbe174', value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, index.h("slot", { key: '8ff21f0f8ed12530f07f3a2338740ab24fcfc3ef' }), index.h("slot", { key: 'e49fce2e4fe13bdfddb029f383a9c4c4956166d4', name: "start", slot: "start" }), index.h("slot", { key: '0b6f53542fa4a5f1b0aac3dfc50416005e4f0632', name: "end", slot: "end" }))));
+        return (index.h(index.Host, { key: '46584dc3fda191d039b8946af784dcb600feca50', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, index.h("wa-option", { key: 'ef5c41f6dfe11652c0fd7f45b084a58f6d3fbd71', value: this.value, label: this.label, disabled: this.disabled, current: this.current, selected: this.selected, exportparts: "checked-icon, label, start, end" }, index.h("slot", { key: '9514e1eae581ae1910c105115e9883c4735f730d' }), index.h("slot", { key: '97f1dbcd00264f073a494ef368a67d61db0ad53c', name: "start", slot: "start" }), index.h("slot", { key: 'ca79c7a9ee380667a5c04c090ba2555c53148a39', name: "end", slot: "end" }))));
     }
 };
 IrAutocompleteOption.style = IrAutocompleteOptionStyle0;

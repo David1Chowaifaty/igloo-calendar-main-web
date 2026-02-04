@@ -14,6 +14,8 @@ export declare class IrBookingEditor {
     blockedUnit: BlockedDatePayload;
     unitId: string;
     isLoading: boolean;
+    isFetchingAvailability: boolean;
+    unavailableRatePlanIds: Set<number>;
     resetBookingEvt: EventEmitter<void>;
     loadingChanged: EventEmitter<{
         cause: string | null;
@@ -38,6 +40,7 @@ export declare class IrBookingEditor {
      */
     private initializeDraftFromBooking;
     private checkBookingAvailability;
+    private compareResults;
     private doReservation;
     private assignCountryCode;
     private fetchSetupEntriesAndInitialize;

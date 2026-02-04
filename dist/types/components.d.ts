@@ -22,6 +22,9 @@ import { Currency, RatePlan, RoomType } from "./models/property";
 import { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 import { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
+import { Agent } from "./services/agents/type";
+import { AgentSetupEntries } from "./components/ir-agents/types";
+import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
@@ -33,7 +36,7 @@ import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { Moment } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -67,7 +70,6 @@ import { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 import { Tab } from "./components/ui/ir-tabs/ir-tabs";
 import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
-import { TPositions } from "./components/ui/ir-toast/toast";
 import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 import { User } from "./models/Users";
@@ -89,6 +91,9 @@ export { Currency, RatePlan, RoomType } from "./models/property";
 export { CalendarSidebarState as CalendarSidebarState1 } from "./components/igloo-calendar/igloo-calendar";
 export { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
+export { Agent } from "./services/agents/type";
+export { AgentSetupEntries } from "./components/ir-agents/types";
+export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
@@ -100,7 +105,7 @@ export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry1, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { Moment } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -134,7 +139,6 @@ export { TIcons as TIcons1 } from "./components/ui/ir-icons/icons";
 export { Tab } from "./components/ui/ir-tabs/ir-tabs";
 export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
-export { TPositions } from "./components/ui/ir-toast/toast";
 export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
 export { User } from "./models/Users";
@@ -365,6 +369,7 @@ export namespace Components {
         "ratePricingMode": Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
         "roomTypeId": number;
         "shouldBeDisabled": boolean;
+        "unavailableRatePlanIds": Set<number>;
         "visibleInventory": IRatePlanSelection;
     }
     interface IglReallocationDialog {
@@ -377,6 +382,7 @@ export namespace Components {
         "ratePricingMode": any[];
         "roomType": RoomType;
         "roomTypeId": number | null;
+        "unavailableRatePlanIds": Set<number>;
     }
     interface IglSplitBooking {
         "booking": Booking;
@@ -443,6 +449,38 @@ export namespace Components {
     }
     interface IrActionsCell {
         "buttons": IrActionButton[];
+    }
+    interface IrAgentContract {
+        "agent"?: Agent;
+        "setupEntries": AgentSetupEntries;
+    }
+    interface IrAgentEditorDrawer {
+        "agent"?: Agent;
+        "countries": ICountry[];
+        "open": boolean;
+        "setupEntries": AgentSetupEntries;
+    }
+    interface IrAgentEditorForm {
+        "agent": Agent;
+        "countries": ICountry[];
+        "formId": string;
+        "setupEntries": AgentSetupEntries;
+    }
+    interface IrAgentProfile {
+        "agent"?: Agent;
+        "countries": ICountry[];
+        "setupEntries": AgentSetupEntries;
+    }
+    interface IrAgents {
+        "language": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrAgentsTable {
+        "agents": Agent[];
+        "countries": ICountry[];
+        "language": string;
+        "setupEntries": AgentSetupEntries;
     }
     interface IrAirDatePicker {
         /**
@@ -524,6 +562,12 @@ export namespace Components {
         "language": string;
         "propertyId": number;
     }
+    interface IrArrivalTimeDialog {
+        "arrivalTime": IEntries[];
+        "booking": Booking;
+        "closeDialog": () => Promise<void>;
+        "openDialog": () => Promise<void>;
+    }
     interface IrArrivals {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
@@ -580,6 +624,11 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Emits `combobox-change` even when the selected value does not change.
+          * @default true
+         */
+        "emitOnSameValue": boolean;
+        /**
           * Used to customize the label or icon of the Enter key on virtual keyboards.
          */
         "enterkeyhint": NativeWaInput['enterkeyhint'];
@@ -625,7 +674,13 @@ export namespace Components {
           * The minimum length of input that will be considered valid.
          */
         "minlength": NativeWaInput['minlength'];
+        /**
+          * Name attribute forwarded to the underlying input element.
+         */
         "name": string;
+        /**
+          * Whether the autocomplete dropdown is open.
+         */
         "open": boolean;
         /**
           * Adds a button to toggle the password's visibility. Only applies to password types.
@@ -647,7 +702,10 @@ export namespace Components {
           * Placeholder text to show as a hint when the input is empty.
          */
         "placeholder": NativeWaInput['placeholder'];
-        "placement": AutocompletePopupElement["placement"];
+        /**
+          * Placement of the autocomplete dropdown relative to the input.
+         */
+        "placement": AutocompletePopupElement['placement'];
         /**
           * Makes the input readonly.
          */
@@ -927,6 +985,7 @@ export namespace Components {
          */
         "checkOut": string;
         "isBlockConversion": boolean;
+        "isLoading": boolean;
         /**
           * Controls header behavior and date constraints
          */
@@ -1203,6 +1262,7 @@ export namespace Components {
           * The label to display for the input.
          */
         "label": string;
+        "placeholder": string;
         /**
           * The property-associated country, shown separately if relevant.
          */
@@ -3300,6 +3360,7 @@ export namespace Components {
         "formId": string;
     }
     interface IrReservationInformation {
+        "arrivalTime": IEntries[];
         "booking": Booking;
         "countries": ICountry[];
     }
@@ -4082,6 +4143,30 @@ export interface IrActionsCellCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrActionsCellElement;
 }
+export interface IrAgentContractCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentContractElement;
+}
+export interface IrAgentEditorDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentEditorDrawerElement;
+}
+export interface IrAgentEditorFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentEditorFormElement;
+}
+export interface IrAgentProfileCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentProfileElement;
+}
+export interface IrAgentsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentsElement;
+}
+export interface IrAgentsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrAgentsTableElement;
+}
 export interface IrAirDatePickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAirDatePickerElement;
@@ -4089,6 +4174,10 @@ export interface IrAirDatePickerCustomEvent<T> extends CustomEvent<T> {
 export interface IrApplicablePoliciesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrApplicablePoliciesElement;
+}
+export interface IrArrivalTimeDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrArrivalTimeDialogElement;
 }
 export interface IrArrivalsTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5218,6 +5307,111 @@ declare global {
         prototype: HTMLIrActionsCellElement;
         new (): HTMLIrActionsCellElement;
     };
+    interface HTMLIrAgentContractElementEventMap {
+        "agentFieldChanged": Partial<Agent>;
+    }
+    interface HTMLIrAgentContractElement extends Components.IrAgentContract, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentContractElementEventMap>(type: K, listener: (this: HTMLIrAgentContractElement, ev: IrAgentContractCustomEvent<HTMLIrAgentContractElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentContractElementEventMap>(type: K, listener: (this: HTMLIrAgentContractElement, ev: IrAgentContractCustomEvent<HTMLIrAgentContractElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentContractElement: {
+        prototype: HTMLIrAgentContractElement;
+        new (): HTMLIrAgentContractElement;
+    };
+    interface HTMLIrAgentEditorDrawerElementEventMap {
+        "agentEditorClose": void;
+    }
+    interface HTMLIrAgentEditorDrawerElement extends Components.IrAgentEditorDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentEditorDrawerElementEventMap>(type: K, listener: (this: HTMLIrAgentEditorDrawerElement, ev: IrAgentEditorDrawerCustomEvent<HTMLIrAgentEditorDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentEditorDrawerElementEventMap>(type: K, listener: (this: HTMLIrAgentEditorDrawerElement, ev: IrAgentEditorDrawerCustomEvent<HTMLIrAgentEditorDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentEditorDrawerElement: {
+        prototype: HTMLIrAgentEditorDrawerElement;
+        new (): HTMLIrAgentEditorDrawerElement;
+    };
+    interface HTMLIrAgentEditorFormElementEventMap {
+        "upsertAgent": Agent;
+        "closeDrawer": void;
+    }
+    interface HTMLIrAgentEditorFormElement extends Components.IrAgentEditorForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentEditorFormElementEventMap>(type: K, listener: (this: HTMLIrAgentEditorFormElement, ev: IrAgentEditorFormCustomEvent<HTMLIrAgentEditorFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentEditorFormElementEventMap>(type: K, listener: (this: HTMLIrAgentEditorFormElement, ev: IrAgentEditorFormCustomEvent<HTMLIrAgentEditorFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentEditorFormElement: {
+        prototype: HTMLIrAgentEditorFormElement;
+        new (): HTMLIrAgentEditorFormElement;
+    };
+    interface HTMLIrAgentProfileElementEventMap {
+        "agentFieldChanged": Partial<Agent>;
+    }
+    interface HTMLIrAgentProfileElement extends Components.IrAgentProfile, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentProfileElementEventMap>(type: K, listener: (this: HTMLIrAgentProfileElement, ev: IrAgentProfileCustomEvent<HTMLIrAgentProfileElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentProfileElementEventMap>(type: K, listener: (this: HTMLIrAgentProfileElement, ev: IrAgentProfileCustomEvent<HTMLIrAgentProfileElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentProfileElement: {
+        prototype: HTMLIrAgentProfileElement;
+        new (): HTMLIrAgentProfileElement;
+    };
+    interface HTMLIrAgentsElementEventMap {
+        "toast": IToast1;
+    }
+    interface HTMLIrAgentsElement extends Components.IrAgents, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentsElementEventMap>(type: K, listener: (this: HTMLIrAgentsElement, ev: IrAgentsCustomEvent<HTMLIrAgentsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentsElementEventMap>(type: K, listener: (this: HTMLIrAgentsElement, ev: IrAgentsCustomEvent<HTMLIrAgentsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentsElement: {
+        prototype: HTMLIrAgentsElement;
+        new (): HTMLIrAgentsElement;
+    };
+    interface HTMLIrAgentsTableElementEventMap {
+        "editAgent": Agent;
+        "deleteAgent": Agent;
+        "toggleAgentActive": Agent;
+    }
+    interface HTMLIrAgentsTableElement extends Components.IrAgentsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrAgentsTableElementEventMap>(type: K, listener: (this: HTMLIrAgentsTableElement, ev: IrAgentsTableCustomEvent<HTMLIrAgentsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrAgentsTableElementEventMap>(type: K, listener: (this: HTMLIrAgentsTableElement, ev: IrAgentsTableCustomEvent<HTMLIrAgentsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrAgentsTableElement: {
+        prototype: HTMLIrAgentsTableElement;
+        new (): HTMLIrAgentsTableElement;
+    };
     interface HTMLIrAirDatePickerElementEventMap {
         "dateChanged": {
     start: moment.Moment | null;
@@ -5257,6 +5451,23 @@ declare global {
     var HTMLIrApplicablePoliciesElement: {
         prototype: HTMLIrApplicablePoliciesElement;
         new (): HTMLIrApplicablePoliciesElement;
+    };
+    interface HTMLIrArrivalTimeDialogElementEventMap {
+        "resetBookingEvt": Booking | null;
+    }
+    interface HTMLIrArrivalTimeDialogElement extends Components.IrArrivalTimeDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrArrivalTimeDialogElementEventMap>(type: K, listener: (this: HTMLIrArrivalTimeDialogElement, ev: IrArrivalTimeDialogCustomEvent<HTMLIrArrivalTimeDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrArrivalTimeDialogElementEventMap>(type: K, listener: (this: HTMLIrArrivalTimeDialogElement, ev: IrArrivalTimeDialogCustomEvent<HTMLIrArrivalTimeDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrArrivalTimeDialogElement: {
+        prototype: HTMLIrArrivalTimeDialogElement;
+        new (): HTMLIrArrivalTimeDialogElement;
     };
     interface HTMLIrArrivalsElement extends Components.IrArrivals, HTMLStencilElement {
     }
@@ -7388,6 +7599,7 @@ declare global {
     interface HTMLIrRectifierElementEventMap {
         "loadingChanged": boolean;
         "closeDrawer": void;
+        "toast": IToast;
     }
     interface HTMLIrRectifierElement extends Components.IrRectifier, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRectifierElementEventMap>(type: K, listener: (this: HTMLIrRectifierElement, ev: IrRectifierCustomEvent<HTMLIrRectifierElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7516,6 +7728,7 @@ declare global {
         "closeModal": null;
         "resetBookingEvt": null;
         "updateRoomGuests": { identifier: string; guests: SharedPerson[] };
+        "loadingChange": string;
     }
     interface HTMLIrRoomGuestsFormElement extends Components.IrRoomGuestsForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRoomGuestsFormElementEventMap>(type: K, listener: (this: HTMLIrRoomGuestsFormElement, ev: IrRoomGuestsFormCustomEvent<HTMLIrRoomGuestsFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8113,8 +8326,15 @@ declare global {
         "igloo-calendar": HTMLIglooCalendarElement;
         "ir-accordion": HTMLIrAccordionElement;
         "ir-actions-cell": HTMLIrActionsCellElement;
+        "ir-agent-contract": HTMLIrAgentContractElement;
+        "ir-agent-editor-drawer": HTMLIrAgentEditorDrawerElement;
+        "ir-agent-editor-form": HTMLIrAgentEditorFormElement;
+        "ir-agent-profile": HTMLIrAgentProfileElement;
+        "ir-agents": HTMLIrAgentsElement;
+        "ir-agents-table": HTMLIrAgentsTableElement;
         "ir-air-date-picker": HTMLIrAirDatePickerElement;
         "ir-applicable-policies": HTMLIrApplicablePoliciesElement;
+        "ir-arrival-time-dialog": HTMLIrArrivalTimeDialogElement;
         "ir-arrivals": HTMLIrArrivalsElement;
         "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
         "ir-arrivals-table": HTMLIrArrivalsTableElement;
@@ -8624,6 +8844,7 @@ declare namespace LocalJSX {
         "ratePricingMode"?: Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
         "roomTypeId"?: number;
         "shouldBeDisabled": boolean;
+        "unavailableRatePlanIds"?: Set<number>;
         "visibleInventory": IRatePlanSelection;
     }
     interface IglReallocationDialog {
@@ -8639,6 +8860,7 @@ declare namespace LocalJSX {
         "ratePricingMode"?: any[];
         "roomType"?: RoomType;
         "roomTypeId"?: number | null;
+        "unavailableRatePlanIds"?: Set<number>;
     }
     interface IglSplitBooking {
         "booking"?: Booking;
@@ -8725,6 +8947,47 @@ declare namespace LocalJSX {
     interface IrActionsCell {
         "buttons"?: IrActionButton[];
         "onIrAction"?: (event: IrActionsCellCustomEvent<{ action: IrActionButton }>) => void;
+    }
+    interface IrAgentContract {
+        "agent"?: Agent;
+        "onAgentFieldChanged"?: (event: IrAgentContractCustomEvent<Partial<Agent>>) => void;
+        "setupEntries"?: AgentSetupEntries;
+    }
+    interface IrAgentEditorDrawer {
+        "agent"?: Agent;
+        "countries"?: ICountry[];
+        "onAgentEditorClose"?: (event: IrAgentEditorDrawerCustomEvent<void>) => void;
+        "open"?: boolean;
+        "setupEntries"?: AgentSetupEntries;
+    }
+    interface IrAgentEditorForm {
+        "agent"?: Agent;
+        "countries"?: ICountry[];
+        "formId"?: string;
+        "onCloseDrawer"?: (event: IrAgentEditorFormCustomEvent<void>) => void;
+        "onUpsertAgent"?: (event: IrAgentEditorFormCustomEvent<Agent>) => void;
+        "setupEntries"?: AgentSetupEntries;
+    }
+    interface IrAgentProfile {
+        "agent"?: Agent;
+        "countries"?: ICountry[];
+        "onAgentFieldChanged"?: (event: IrAgentProfileCustomEvent<Partial<Agent>>) => void;
+        "setupEntries"?: AgentSetupEntries;
+    }
+    interface IrAgents {
+        "language"?: string;
+        "onToast"?: (event: IrAgentsCustomEvent<IToast1>) => void;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrAgentsTable {
+        "agents"?: Agent[];
+        "countries"?: ICountry[];
+        "language"?: string;
+        "onDeleteAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
+        "onEditAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
+        "onToggleAgentActive"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
+        "setupEntries"?: AgentSetupEntries;
     }
     interface IrAirDatePicker {
         /**
@@ -8822,6 +9085,11 @@ declare namespace LocalJSX {
         "onGeneratePayment"?: (event: IrApplicablePoliciesCustomEvent<IPaymentAction>) => void;
         "propertyId"?: number;
     }
+    interface IrArrivalTimeDialog {
+        "arrivalTime"?: IEntries[];
+        "booking"?: Booking;
+        "onResetBookingEvt"?: (event: IrArrivalTimeDialogCustomEvent<Booking | null>) => void;
+    }
     interface IrArrivals {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
@@ -8881,6 +9149,11 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Emits `combobox-change` even when the selected value does not change.
+          * @default true
+         */
+        "emitOnSameValue"?: boolean;
+        /**
           * Used to customize the label or icon of the Enter key on virtual keyboards.
          */
         "enterkeyhint"?: NativeWaInput['enterkeyhint'];
@@ -8924,9 +9197,15 @@ declare namespace LocalJSX {
           * The minimum length of input that will be considered valid.
          */
         "minlength"?: NativeWaInput['minlength'];
+        /**
+          * Name attribute forwarded to the underlying input element.
+         */
         "name"?: string;
         "onCombobox-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
         "onText-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
+        /**
+          * Whether the autocomplete dropdown is open.
+         */
         "open"?: boolean;
         /**
           * Adds a button to toggle the password's visibility. Only applies to password types.
@@ -8948,7 +9227,10 @@ declare namespace LocalJSX {
           * Placeholder text to show as a hint when the input is empty.
          */
         "placeholder"?: NativeWaInput['placeholder'];
-        "placement"?: AutocompletePopupElement["placement"];
+        /**
+          * Placement of the autocomplete dropdown relative to the input.
+         */
+        "placement"?: AutocompletePopupElement['placement'];
         /**
           * Makes the input readonly.
          */
@@ -9255,6 +9537,7 @@ declare namespace LocalJSX {
          */
         "checkOut"?: string;
         "isBlockConversion"?: boolean;
+        "isLoading"?: boolean;
         /**
           * Controls header behavior and date constraints
          */
@@ -9569,6 +9852,7 @@ declare namespace LocalJSX {
           * Event emitted when a country is selected.
          */
         "onCountryChange"?: (event: IrCountryPickerCustomEvent<ICountry>) => void;
+        "placeholder"?: string;
         /**
           * The property-associated country, shown separately if relevant.
          */
@@ -11892,8 +12176,10 @@ declare namespace LocalJSX {
         "formId"?: string;
         "onCloseDrawer"?: (event: IrRectifierCustomEvent<void>) => void;
         "onLoadingChanged"?: (event: IrRectifierCustomEvent<boolean>) => void;
+        "onToast"?: (event: IrRectifierCustomEvent<IToast>) => void;
     }
     interface IrReservationInformation {
+        "arrivalTime"?: IEntries[];
         "booking"?: Booking;
         "countries"?: ICountry[];
         "onOpenSidebar"?: (event: IrReservationInformationCustomEvent<OpenSidebarEvent<any>>) => void;
@@ -12016,6 +12302,7 @@ declare namespace LocalJSX {
          */
         "language"?: string;
         "onCloseModal"?: (event: IrRoomGuestsFormCustomEvent<null>) => void;
+        "onLoadingChange"?: (event: IrRoomGuestsFormCustomEvent<string>) => void;
         "onResetBookingEvt"?: (event: IrRoomGuestsFormCustomEvent<null>) => void;
         "onUpdateRoomGuests"?: (event: IrRoomGuestsFormCustomEvent<{ identifier: string; guests: SharedPerson[] }>) => void;
         /**
@@ -12656,8 +12943,15 @@ declare namespace LocalJSX {
         "igloo-calendar": IglooCalendar;
         "ir-accordion": IrAccordion;
         "ir-actions-cell": IrActionsCell;
+        "ir-agent-contract": IrAgentContract;
+        "ir-agent-editor-drawer": IrAgentEditorDrawer;
+        "ir-agent-editor-form": IrAgentEditorForm;
+        "ir-agent-profile": IrAgentProfile;
+        "ir-agents": IrAgents;
+        "ir-agents-table": IrAgentsTable;
         "ir-air-date-picker": IrAirDatePicker;
         "ir-applicable-policies": IrApplicablePolicies;
+        "ir-arrival-time-dialog": IrArrivalTimeDialog;
         "ir-arrivals": IrArrivals;
         "ir-arrivals-filters": IrArrivalsFilters;
         "ir-arrivals-table": IrArrivalsTable;
@@ -12909,8 +13203,15 @@ declare module "@stencil/core" {
             "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
             "ir-accordion": LocalJSX.IrAccordion & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
             "ir-actions-cell": LocalJSX.IrActionsCell & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
+            "ir-agent-contract": LocalJSX.IrAgentContract & JSXBase.HTMLAttributes<HTMLIrAgentContractElement>;
+            "ir-agent-editor-drawer": LocalJSX.IrAgentEditorDrawer & JSXBase.HTMLAttributes<HTMLIrAgentEditorDrawerElement>;
+            "ir-agent-editor-form": LocalJSX.IrAgentEditorForm & JSXBase.HTMLAttributes<HTMLIrAgentEditorFormElement>;
+            "ir-agent-profile": LocalJSX.IrAgentProfile & JSXBase.HTMLAttributes<HTMLIrAgentProfileElement>;
+            "ir-agents": LocalJSX.IrAgents & JSXBase.HTMLAttributes<HTMLIrAgentsElement>;
+            "ir-agents-table": LocalJSX.IrAgentsTable & JSXBase.HTMLAttributes<HTMLIrAgentsTableElement>;
             "ir-air-date-picker": LocalJSX.IrAirDatePicker & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
             "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
+            "ir-arrival-time-dialog": LocalJSX.IrArrivalTimeDialog & JSXBase.HTMLAttributes<HTMLIrArrivalTimeDialogElement>;
             "ir-arrivals": LocalJSX.IrArrivals & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
             "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
             "ir-arrivals-table": LocalJSX.IrArrivalsTable & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;

@@ -1,0 +1,35 @@
+import { ICountry } from "../../models/IBooking";
+import type { Agent, Agents } from "../../services/agents/type";
+import { EventEmitter } from '../../stencil-public-runtime';
+import { AgentSetupEntries } from './types';
+import { IToast } from '../ui/ir-toast/toast';
+export declare class IrAgents {
+    propertyid: number;
+    ticket: string;
+    language: string;
+    agents: Agents;
+    selectedAgent: Agent | null;
+    isDrawerOpen: boolean;
+    isDeleteDialogOpen: boolean;
+    isLoading: boolean;
+    countries: ICountry[];
+    setupEntries: AgentSetupEntries;
+    toast: EventEmitter<IToast>;
+    private agentsService;
+    private propertyService;
+    private bookingService;
+    private tokenService;
+    componentWillLoad(): void;
+    handleTicketChange(): void;
+    handleUpsertAgent(e: CustomEvent<Agent>): void;
+    private init;
+    private upsertAgent;
+    private fetchAgents;
+    private handleEditAgent;
+    private handleDeleteAgent;
+    private handleDrawerClose;
+    private handleDeleteDialogClose;
+    private confirmDeleteAgent;
+    private handleToggleAgentStatus;
+    render(): any;
+}

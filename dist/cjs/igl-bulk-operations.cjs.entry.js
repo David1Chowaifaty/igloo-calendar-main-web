@@ -37,7 +37,7 @@ const IglBulkOperations = class {
         this.tabsEl.style.setProperty('--ir-tabs-top', this.titleEl?.getBoundingClientRect()?.height?.toString() + 'px');
     }
     render() {
-        return (index.h("div", { key: 'a01e090d3c6791ac28894d4a2a2b3e7ab8400063', class: 'bulk-operations-sheet-container' }, index.h("div", { key: '82e503a1ffc1718425cb20e5d370f56cea7c0aba', class: "sheet-header d-flex align-items-center" }, index.h("ir-title", { key: '4532e5753df2607fd317099e84a0261e7785c030', ref: el => (this.titleEl = el), onCloseSideBar: e => {
+        return (index.h("div", { key: '06ae1c23ca13f5205583c68dadf94cc4058be26b', class: 'bulk-operations-sheet-container' }, index.h("div", { key: '6c6edb8c1fdd4c25508929c54c9fa9ce6167c885', class: "sheet-header d-flex align-items-center" }, index.h("ir-title", { key: 'e22eedd7f9fb39214032dbc5958fd372c058d168', ref: el => (this.titleEl = el), onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 // if (this.isLoading) {
@@ -46,7 +46,7 @@ const IglBulkOperations = class {
                 this.closeModal.emit(null);
             }, class: "px-1 mb-0",
             // label={locales.entries.Lcz_BulkStopOpenSale}
-            label: 'Bulk Operations', displayContext: "sidebar" })), index.h("ir-tabs", { key: '9de08be546b7787884ea00d9668f31e8e78b9231', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (index.h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (index.h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
+            label: 'Bulk Operations', displayContext: "sidebar" })), index.h("ir-tabs", { key: 'e9404cabe1d947b75a77471870d7010a36109bea', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (index.h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (index.h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
 };
 IglBulkOperations.style = IglBulkOperationsStyle0 + IglBulkOperationsStyle1;

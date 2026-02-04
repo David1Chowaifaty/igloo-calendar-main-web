@@ -12,6 +12,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
         this.__registerHost();
         this.countryChange = createEvent(this, "countryChange", 7);
     }
+    placeholder;
     /** The input's size. */
     size;
     variant = 'default';
@@ -117,7 +118,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     render() {
         const shouldShowPropertyCountry = this.filteredCountries.length > 0 && this.propertyCountry && (!this.searching || (this.searching && this.inputValue === ''));
         if (this.variant === 'modern') {
-            return (h("ir-picker", { size: this.size, label: this.label, mode: "select", value: this.selectedCountry?.id?.toString(), "onCombobox-select": e => {
+            return (h("ir-picker", { size: this.size, label: this.label, mode: "select", placeholder: this.placeholder, value: this.selectedCountry?.id?.toString(), "onCombobox-select": e => {
                     const country = this.filteredCountries.find(c => c.id.toString() === e.detail.item.value);
                     if (!country) {
                         console.warn(`country not found`, e.detail.item);
@@ -148,6 +149,7 @@ const IrCountryPicker = /*@__PURE__*/ proxyCustomElement(class IrCountryPicker e
     }; }
     static get style() { return IrCountryPickerStyle0; }
 }, [2, "ir-country-picker", {
+        "placeholder": [1],
         "size": [513],
         "variant": [1],
         "countries": [16],

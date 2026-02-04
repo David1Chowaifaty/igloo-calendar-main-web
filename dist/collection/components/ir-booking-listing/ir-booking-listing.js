@@ -87,7 +87,7 @@ export class IrBookingListing {
             const parallelRequests = [
                 this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
                 this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
-                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT']),
+                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
             ];
             // let propertyDataIndex: number | null = null;
             let allowedPropertiesIndex = null;

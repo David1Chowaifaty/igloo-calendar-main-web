@@ -57,6 +57,7 @@ export declare class IrBookingDetails {
     private roomService;
     private paymentService;
     private token;
+    private arrivalTime;
     private printingBaseUrl;
     private modalRef;
     private paymentFolioRef;

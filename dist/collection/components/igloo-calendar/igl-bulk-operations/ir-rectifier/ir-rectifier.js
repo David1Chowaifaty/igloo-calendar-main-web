@@ -14,6 +14,7 @@ export class IrRectifier {
     showRoomTypeError = false;
     loadingChanged;
     closeDrawer;
+    toast;
     propertyService = new PropertyService();
     toDateRef;
     componentWillLoad() {
@@ -67,6 +68,11 @@ export class IrRectifier {
                 return;
             }
             await this.propertyService.exposedRectifier(result.data);
+            this.toast.emit({
+                type: 'success',
+                title: 'The update is being processed.',
+                description: '',
+            });
             this.closeDrawer.emit();
         }
         catch (error) {
@@ -78,10 +84,10 @@ export class IrRectifier {
     }
     render() {
         const roomTypes = calendar_data.property?.roomtypes ?? [];
-        return (h(Host, { key: 'b93c0c9e05770119553cbfe38c7c2ba6af370c3d' }, h("form", { key: '57c30067dc9f29e381b6b08f5b9b4c4483d82e3c', onSubmit: e => {
+        return (h(Host, { key: '91b6f0baf80fb0f55e989d5b09d53c53ff54be16' }, h("form", { key: 'cf481a3444218bb32ebc1cfc7272c2b6b437e25e', onSubmit: e => {
                 e.preventDefault();
                 this.handleSubmit();
-            }, class: "ir-rectifier__form", id: this.formId }, h("wa-callout", { key: '70b240b1ced74497b308ad3f5fb639f75c0c1a09', size: "small", appearance: "filled", variant: "warning" }, h("wa-icon", { key: 'de195d1fa7cba4219781823b467f144146dd7f2e', slot: "icon", name: "triangle-exclamation" }), "This will update the total availability of the select room types by calculating: No. of physical rooms - Booked - Blocked - Pending"), h("div", { key: '6fbbfb531624a99e7550bfd63f7d6e4bbf920823', class: "ir-rectifier__roomtypes" }, roomTypes.map(roomtype => {
+            }, class: "ir-rectifier__form", id: this.formId }, h("wa-callout", { key: '60b773de5d763804afe9f15e459f807cf0faf500', size: "small", appearance: "filled", variant: "warning" }, h("wa-icon", { key: 'b1f7d4d4487bc6c8d07a411822292313dddefe43', slot: "icon", name: "triangle-exclamation" }), "This will update the total availability of the select room types by calculating: No. of physical rooms - Booked - Blocked - Pending"), h("div", { key: 'a420963ee4dda83bf1fadb4e71b7570f33e7d037', class: "ir-rectifier__roomtypes" }, roomTypes.map(roomtype => {
             const roomTypeId = Number(roomtype?.id);
             if (!Number.isFinite(roomTypeId)) {
                 return null;
@@ -91,11 +97,11 @@ export class IrRectifier {
                     const checked = e.target.checked;
                     this.updateRoomTypeSelection(roomTypeId, checked);
                 } }, roomtype.name));
-        })), this.showRoomTypeError && h("p", { key: 'a72281e99679fc6912ada3128f95608b85683d84', class: "text-danger m-0" }, "Please select at least one room type."), h("div", { key: 'e10ef2b706d681904fcc512eada65195e44a5c8b', class: "ir-rectifier__date-range" }, h("ir-validator", { key: 'a84b025a009a6aafd13767d21219c7f7d0d61de2', value: this.form.from ?? null, schema: ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, h("ir-custom-date-picker", { key: '1eb5d07f0146d45589a034f23512adca39a47cd2', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: "From", emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
+        })), this.showRoomTypeError && h("p", { key: '3b4698ebba367246cd1771ed0696f9b758d270ff', class: "text-danger m-0" }, "Please select at least one room type."), h("div", { key: '755304a87ae6bc4df211bec919f7b58b345cff50', class: "ir-rectifier__date-range" }, h("ir-validator", { key: '38e68ff645f39fa46a3bc6d1e8adcc01288a2998', value: this.form.from ?? null, schema: ExposedRectifierParamsSchema.shape.from, autovalidate: this.autoValidate }, h("ir-custom-date-picker", { key: '52e4d72bd29a1fb918b13f640c5c66336eea933c', class: "ir-rectifier__date-picker ir-rectifier__date-picker--from", label: "Date from", emitEmptyDate: true, date: this.form.from, onDateChanged: e => {
                 const from = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ from }));
                 requestAnimationFrame(() => this.toDateRef?.openDatePicker());
-            } })), h("ir-validator", { key: '3700fa8bbdbfecf1b6a396ed8ed85f348a479cc3', value: this.form.to ?? null, schema: ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, h("ir-custom-date-picker", { key: 'a8a6c9d023622df59f142e4cb1711a7151429917', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: "To (inclusive)", emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
+            } })), h("ir-validator", { key: 'c1c077214e9f38e252d587d1d439ab5ad8254c17', value: this.form.to ?? null, schema: ExposedRectifierParamsSchema.shape.to, autovalidate: this.autoValidate }, h("ir-custom-date-picker", { key: 'a47b328ea65c2a9fd1c789ff1682056fafd92435', class: "ir-rectifier__date-picker ir-rectifier__date-picker--to", label: "To (inclusive)", emitEmptyDate: true, disabled: !this.form.from, ref: el => (this.toDateRef = el), date: this.form.to, minDate: this.form.from, onDateChanged: e => {
                 const to = e.detail.start?.format('YYYY-MM-DD') ?? null;
                 this.updateForm(this.normalizeDateRange({ to }));
             } }))))));
@@ -172,6 +178,27 @@ export class IrRectifier {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
+                }
+            }, {
+                "method": "toast",
+                "name": "toast",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "IToast",
+                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
+                    "references": {
+                        "IToast": {
+                            "location": "import",
+                            "path": "@/components/ui/ir-toast/toast",
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                        }
+                    }
                 }
             }];
     }

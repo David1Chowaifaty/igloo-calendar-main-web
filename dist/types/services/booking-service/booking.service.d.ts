@@ -1,3 +1,4 @@
+import { SetDepartureTimeProps } from './types';
 import { ExposedApplicablePolicy, ExposedBookingEvent, HandleExposedRoomGuestsRequest } from '../../models/booking.dto';
 import { BookingDetails, IBlockUnit, ICountry, IEntries, ISetupEntries } from '../../models/IBooking';
 import { Booking, ExtraService, Guest, IBookingPickupInfo, IPmsLog, RoomInOut } from '../../models/booking.dto';
@@ -32,7 +33,7 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
-export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | (string & {});
+export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_AGENT_RATE_TYPE' | '_AGENT_TYPE' | '_TA_PAYMENT_METHOD' | (string & {});
 export type GroupedTableEntries = {
     [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
 };
@@ -122,13 +123,15 @@ export declare class BookingService {
         };
         is_in_agent_mode?: boolean;
         agent_id?: string | number;
+        is_backend?: boolean;
+        skip_store?: boolean;
     }): Promise<BookingDetails>;
     calculateExclusiveTax(props: CalculateExclusiveTaxProps): Promise<any>;
     private sortRoomTypes;
     private modifyRateplans;
     private sortVariations;
     getCountries(language: string): Promise<ICountry[]>;
-    getSetupEntriesByTableName(TBL_NAME: string): Promise<IEntries[]>;
+    getSetupEntriesByTableName(TBL_NAME: TableEntries): Promise<IEntries[]>;
     fetchSetupEntries(): Promise<ISetupEntries>;
     doBookingExtraService({ booking_nbr, service, is_remove }: {
         service: ExtraService;
@@ -150,11 +153,7 @@ export declare class BookingService {
             to_date: string;
         }[];
     }): Promise<any>;
-    setDepartureTime(params: {
-        property_id: number;
-        room_identifier: string;
-        code: string;
-    }): Promise<any>;
+    setDepartureTime(props: SetDepartureTimeProps): Promise<any>;
     getUserInfo(email: string): Promise<any>;
     getExposedBooking(booking_nbr: string, language: string, withExtras?: boolean): Promise<Booking>;
     private generateDays;

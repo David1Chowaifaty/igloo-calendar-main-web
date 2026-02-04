@@ -13,8 +13,17 @@ import { Host, h } from "@stencil/core";
 import { createSlotManager } from "../../../utils/slot";
 export class IrAutocomplete {
     el;
+    /**
+     * Emits `combobox-change` even when the selected value does not change.
+     *
+     * @default true
+     */
+    emitOnSameValue = true;
+    /** Whether the autocomplete dropdown is open. */
     open = false;
-    placement = "bottom";
+    /** Placement of the autocomplete dropdown relative to the input. */
+    placement = 'bottom';
+    /** Name attribute forwarded to the underlying input element. */
     name;
     /** The value of the input. */
     value = '';
@@ -117,13 +126,7 @@ export class IrAutocomplete {
     currentOption;
     listboxRef;
     inputRef;
-    SLOT_NAMES = [
-        "label",
-        "start",
-        "end",
-        "clear-icon",
-        "hint",
-    ];
+    SLOT_NAMES = ['label', 'start', 'end', 'clear-icon', 'hint'];
     slotManager = createSlotManager(null, // Will be set in componentWillLoad
     this.SLOT_NAMES, () => {
         // Trigger re-render when slot state changes
@@ -293,10 +296,12 @@ export class IrAutocomplete {
         option.selected = true;
         this.currentOption = option;
         const nextValue = this.getOptionValue(option);
-        if (nextValue !== this.value) {
+        if (this.emitOnSameValue || (!this.emitOnSameValue && nextValue !== this.value)) {
             this.value = nextValue;
             this.comboboxChange.emit(nextValue);
         }
+        // if (nextValue !== this.value && !this.emitOnSameValue) {
+        // }
         this.hide();
         requestAnimationFrame(() => this.inputRef?.focusInput());
     }
@@ -385,7 +390,7 @@ export class IrAutocomplete {
         }
     };
     render() {
-        return (h(Host, { key: '922f42ccd8ba363715c39a65d9ba44fd000bc436' }, h("wa-popup", { key: '237d96f5361c4459b74c024738f4de3437b18b09', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: 'fb7553992b1ed1f0024cf06ae39eeac81449f3a6', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: 'fa58aacf599a67f93ba252abb3aec11c7168fbe8', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '5dab3440cf83ae65f90d261ddcc820fcb59dc9ba', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '1f1180b037522fad64e5d16ce54bfa4e1e6b6abd', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '38cf32b9858280a0f94bcd456152660052ee451f', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '0c5ef52bb4aed0ad1265b4241dcbe720bd3b62b0', name: "hint", slot: "hint" })), h("div", { key: '552f994fdb3db4b44794eed317ee3ebedff60f64', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '808c69b58bf28dbddd440426cab46f75e739349d', onSlotchange: this.handleOptionsSlotChange })))));
+        return (h(Host, { key: 'd70d297dddb428c33ff35b3d36652add4352e424' }, h("wa-popup", { key: '0b0e19f0ec50b14e09ecfaeda839a8d29c6be62c', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '36642cbc396f0f7f54a1edf2fdc33b0a3d0c3e0e', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: 'ea732b393dadf79f4be3c39c5e41266fb95a8588', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '19723ba429113b9b7e8dbbdc1f0c9481c3dd7cbb', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '6740d86fb3f15ccdc8003fcb92a922d20468d6b6', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '19d820aa69d2f3e8b6bbc5b589ad39c74dc6d1cf', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '00b9cc7a9b478f55b1ef998c49a1c42ffee4e757', name: "hint", slot: "hint" })), h("div", { key: 'ce70007ef98dcb83a6516a1394da1689acfe3c6c', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '305f3ec78cf97b3092714f551c0f0c4acf0359ab', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get is() { return "ir-autocomplete"; }
     static get encapsulation() { return "shadow"; }
@@ -401,6 +406,29 @@ export class IrAutocomplete {
     }
     static get properties() {
         return {
+            "emitOnSameValue": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [{
+                            "name": "default",
+                            "text": "true"
+                        }],
+                    "text": "Emits `combobox-change` even when the selected value does not change."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "emit-on-same-value",
+                "reflect": false,
+                "defaultValue": "true"
+            },
             "open": {
                 "type": "boolean",
                 "mutable": true,
@@ -413,7 +441,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Whether the autocomplete dropdown is open."
                 },
                 "getter": false,
                 "setter": false,
@@ -425,7 +453,7 @@ export class IrAutocomplete {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "AutocompletePopupElement[\"placement\"]",
+                    "original": "AutocompletePopupElement['placement']",
                     "resolved": "\"bottom\" | \"bottom-end\" | \"bottom-start\" | \"left\" | \"left-end\" | \"left-start\" | \"right\" | \"right-end\" | \"right-start\" | \"top\" | \"top-end\" | \"top-start\"",
                     "references": {
                         "AutocompletePopupElement": {
@@ -438,13 +466,13 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Placement of the autocomplete dropdown relative to the input."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "placement",
                 "reflect": true,
-                "defaultValue": "\"bottom\""
+                "defaultValue": "'bottom'"
             },
             "name": {
                 "type": "string",
@@ -458,7 +486,7 @@ export class IrAutocomplete {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Name attribute forwarded to the underlying input element."
                 },
                 "getter": false,
                 "setter": false,

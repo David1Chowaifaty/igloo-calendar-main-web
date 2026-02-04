@@ -55,6 +55,7 @@ export class IrRoomGuestsForm {
     closeModal;
     resetBookingEvt;
     updateRoomGuests;
+    loadingChange;
     bookingService = new BookingService();
     componentWillLoad() {
         this.init();
@@ -108,9 +109,10 @@ export class IrRoomGuestsForm {
         tempGuests[index] = tempGuest;
         this.guests = [...tempGuests];
     }
-    async saveGuests() {
+    async saveGuests(submitter) {
         try {
             this.error = {};
+            this.loadingChange.emit(submitter);
             this.autoValidate = true;
             console.log({
                 sharedPersons: this.sharedPersons,
@@ -132,7 +134,7 @@ export class IrRoomGuestsForm {
                 })
                     .filter(Boolean),
             });
-            if (this.checkIn) {
+            if (submitter === 'save_checkin') {
                 await this.bookingService.handleExposedRoomInOut({
                     booking_nbr: this.bookingNumber,
                     room_identifier: this.identifier,
@@ -153,6 +155,9 @@ export class IrRoomGuestsForm {
                 this.error = { ...errors };
             }
         }
+        finally {
+            this.loadingChange.emit(null);
+        }
     }
     render() {
         if (this.isLoading) {
@@ -160,7 +165,8 @@ export class IrRoomGuestsForm {
         }
         return (h("form", { id: `room-guests__${this.identifier}`, class: "sheet-container", style: { minWidth: '300px' }, onSubmit: e => {
                 e.preventDefault();
-                this.saveGuests();
+                const submitter = e.submitter;
+                this.saveGuests(submitter.value);
             } }, h("section", { class: 'sheet-body' }, h("div", { class: "" }, h("div", { class: "guest-grid guests-labels" }, h("p", { class: "" }, locales.entries.Lcz_MainGuest), h("p", { class: "" }), h("p", { class: " " }, locales.entries.Lcz_DOB), h("p", { class: "" }, locales.entries.Lcz_Nationality), h("p", { class: " " }, locales.entries.Lcz_Documents)), h("h5", { class: "main_guest_heading" }, locales.entries.Lcz_MainGuest), this.guests.map((guest, idx) => {
             let isRowValid = true;
             try {
@@ -433,6 +439,21 @@ export class IrRoomGuestsForm {
                             "id": "src/models/booking.dto.ts::SharedPerson"
                         }
                     }
+                }
+            }, {
+                "method": "loadingChange",
+                "name": "loadingChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
                 }
             }];
     }

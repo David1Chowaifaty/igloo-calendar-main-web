@@ -92,7 +92,7 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
         const title = this.popoverTitle || '';
         const shouldCrop = title.length > this.cropSize;
         const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '28b2c77473feda9f39c53e7bd436766b1ddd3d26', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '3ef5faaa25296e4de833b4e64555cbd06783176d', ref: el => {
+        return (h(Host, { key: '99fd2dfa8802bf76a72cc72168212fc714263d6a', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '3484dcf78c79064f28076dccbdc4a51a49fd40f7', ref: el => {
                 this.titleContainerRef = el;
                 if (el && title) {
                     setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
@@ -104,12 +104,12 @@ const IrInteractiveTitle = /*@__PURE__*/ proxyCustomElement(class IrInteractiveT
                 display: 'flex',
                 alignItems: 'center',
                 gap: '4px',
-            } }, h("span", { key: 'cfdd2cdd1b522ce156e6c1b6267fc75f9939b8c2', class: "cropped-title", style: {
+            } }, h("span", { key: 'dc694a78387929d1a0748dad8ea7da4a195d4b1d', class: "cropped-title", style: {
                 flexShrink: '1',
                 minWidth: '0',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: '508b16371ba615467bfe0037e35e42f7b22a287b', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '34f709a7605eabc2dd82cb237977062e8f0c2f01', name: "end" }))))));
+            } }, displayTitle), this.hkStatus && (h("div", { key: '21786231a2c76933bfa9439f240d8fa11c80a52c', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '70f48c85be50ec9414984d1efc59b046aaea45b0', name: "end" }))))));
     }
     static get style() { return IrInteractiveTitleStyle0; }
 }, [6, "ir-interactive-title", {

@@ -6,6 +6,7 @@ export declare class IglRoomType {
     roomTypeId: number | null;
     currency: any;
     isBookDisabled: boolean;
+    unavailableRatePlanIds: Set<number>;
     private validBookingTypes;
     render(): any;
 }

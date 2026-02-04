@@ -10,7 +10,7 @@ const IrNewBadge = /*@__PURE__*/ proxyCustomElement(class IrNewBadge extends HTM
         this.__attachShadow();
     }
     render() {
-        return (h(Host, { key: 'e44214c2c129854cd6c8a3135e58eccc871e1195' }, h("span", { key: 'b6740b6e563be91421f13002890c7aad2e2a5168', class: "new-badge" }, "new")));
+        return (h(Host, { key: '00b16c3867f2e1c365487f2d0c2a8557a5f86da7' }, h("span", { key: '610223b1b36742fc5941f5c396ce210ebc33b75d', class: "new-badge" }, "new")));
     }
     static get style() { return IrNewBadgeStyle0; }
 }, [1, "ir-new-badge"]);

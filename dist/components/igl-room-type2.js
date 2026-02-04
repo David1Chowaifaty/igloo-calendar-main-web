@@ -18,14 +18,15 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
     roomTypeId = null;
     currency;
     isBookDisabled;
+    unavailableRatePlanIds = new Set();
     validBookingTypes = ['PLUS_BOOKING', 'ADD_ROOM', 'EDIT_BOOKING', 'SPLIT_BOOKING'];
     render() {
         const isValidBookingType = this.validBookingTypes.includes(this.bookingType);
-        return (h(Host, { key: '1a3ef948095cddebb18b23d71396e0aa89b3be0c' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: 'c6f93ed219b60271f3c4968e935bc274b59ec399', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
+        return (h(Host, { key: 'c83383a92a7b5086e61a0c727b2872a3158db4d6' }, isValidBookingType && this.roomType.rateplans?.length > 0 && h("h5", { key: '177b3e410cc452622f9ccfa94a0724bf58dc81fc', class: "roomtype__name" }, this.roomType.name), this.roomType.rateplans?.map(ratePlan => {
             if (!!ratePlan.variations) {
                 let shouldBeDisabled = this.roomTypeId === this.roomType.id;
                 const visibleInventory = getVisibleInventory(this.roomType.id, ratePlan.id);
-                return (h("igl-rate-plan", { isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency, ratePlan: ratePlan, roomTypeId: this.roomType.id, bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled }));
+                return (h("igl-rate-plan", { unavailableRatePlanIds: this.unavailableRatePlanIds, isBookDisabled: this.isBookDisabled, visibleInventory: visibleInventory, key: `rate-plan-${ratePlan.id}`, ratePricingMode: this.ratePricingMode, class: isValidBookingType ? '' : '', currency: this.currency, ratePlan: ratePlan, roomTypeId: this.roomType.id, bookingType: this.bookingType, shouldBeDisabled: shouldBeDisabled }));
             }
             return null;
         })));
@@ -37,7 +38,8 @@ const IglRoomType = /*@__PURE__*/ proxyCustomElement(class IglRoomType extends H
         "ratePricingMode": [16],
         "roomTypeId": [2, "room-type-id"],
         "currency": [8],
-        "isBookDisabled": [4, "is-book-disabled"]
+        "isBookDisabled": [4, "is-book-disabled"],
+        "unavailableRatePlanIds": [16]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

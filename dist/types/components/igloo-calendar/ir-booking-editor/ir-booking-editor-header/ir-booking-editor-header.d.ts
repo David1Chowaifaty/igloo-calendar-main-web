@@ -5,6 +5,7 @@ import { ZodSchema } from 'zod';
 export declare class IrBookingEditorHeader {
     /** Booking context used for edit, add-room, and split flows */
     booking: Booking;
+    isLoading: boolean;
     isBlockConversion: boolean;
     /** Controls header behavior and date constraints */
     mode: BookingEditorMode;
@@ -12,7 +13,7 @@ export declare class IrBookingEditorHeader {
     checkIn: string;
     /** Fixed check-out date (YYYY-MM-DD), if applicable */
     checkOut: string;
-    isLoading: boolean;
+    _isLoading: boolean;
     bookings: Booking[];
     datesSchema: ZodSchema;
     guestSelected: EventEmitter<Booking>;

@@ -70,15 +70,17 @@
   border-collapse: collapse;
 }
 
-.igl-bulk-block__dates-header {
-  text-align: left;
-  font-weight: 600;
-}
-
 .igl-bulk-block__date-cell {
   padding: 0 0.5rem 0.5rem 0;
 }
 
 .igl-bulk-block__date-action-cell {
   padding-bottom: 0.5rem;
+}
+.igl-bulk-block__dates-header {
+  text-align: left;
+  font-size: 0.857rem;
+  color: var(--wa-form-control-label-color);
+  font-weight: var(--wa-form-control-label-font-weight);
+  line-height: var(--wa-form-control-label-line-height);
 }

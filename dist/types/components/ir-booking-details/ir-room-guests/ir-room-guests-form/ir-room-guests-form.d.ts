@@ -54,6 +54,7 @@ export declare class IrRoomGuestsForm {
         identifier: string;
         guests: SharedPerson[];
     }>;
+    loadingChange: EventEmitter<string>;
     private bookingService;
     componentWillLoad(): void;
     private init;

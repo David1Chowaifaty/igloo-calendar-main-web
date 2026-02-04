@@ -12,6 +12,7 @@ export class IglRatePlan {
     bookingType = 'PLUS_BOOKING';
     isBookDisabled = false;
     visibleInventory;
+    unavailableRatePlanIds = new Set();
     buttonClicked;
     bookingStepChange;
     // Determine if the form inputs should be disabled
@@ -145,7 +146,7 @@ export class IglRatePlan {
         // if (!this.visibleInventory) {
         //   return null;
         // }
-        return (h(Host, { key: '4aa1d58215d417b85ae8531841d93550b2c0b80d', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '54cdd73d0a43016f01029268ccbc21082446fc51', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '5a224ffc6083ec950931fbe2e770ae9f01fc4afa', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '69a05cc1122676614ac799fc937b54573f3bfd34' }, h("wa-tooltip", { key: '5a4545a92dae61a9f253e2946f640859220de906', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: 'f7bfa28ed68f255f383c287a31071c030a1c2ce9', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: 'b6e9352dbc29ecf1ca2059e0743190caf93c2d68', name: "circle-info", id: `rateplan-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
+        return (h(Host, { key: '1ec295c73c39f527216970d0a61f1623cf5b343b', "data-testid": `rp-${this.ratePlan.id}` }, h("div", { key: '70c2616f1951508fbe29e0ed83eb29adc2ab9f90', class: `rate-plan ${isAvailableToBook ? 'rate-plan--available' : 'rate-plan--unavailable'}` }, h("div", { key: '3fef2eb143b0892e93078c70151ff5e7997bdbee', "data-testid": 'rp_name', class: "rateplan-name-container" }, bookingType === 'BAR_BOOKING' ? (h("p", null, h("span", null, ratePlan.name.split('/')[1], " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable")))) : (h("span", null, ratePlan.short_name, " ", ratePlan.is_non_refundable && h("span", { class: "non-ref-span" }, "Non Refundable"))), isAvailableToBook && (h(Fragment, { key: '4d676fe70f29517b23f2b43c5005279d0fc9c283' }, h("wa-tooltip", { key: '613a945b4ef3609d2d75b4406ca57a8f14b72f19', for: `rateplan-${this.ratePlan.id}` }, h("span", { key: '0cb706a7ea4755b0a0354d55612c286f6a3187bd', innerHTML: this.getTooltipMessages() })), h("wa-icon", { key: '5edf3f52401dd09b527102405629e74cb6be2399', name: "circle-info", id: `rateplan-${this.ratePlan.id}` }))), this.unavailableRatePlanIds.has(this.ratePlan.id) && (h(Fragment, { key: 'b855854fb4ece7bb43919e561157cb4f74290bf4' }, h("wa-tooltip", { key: '5c451912f6dc01e63da018c014784b0be151f7fd', for: `rateplan-warning-${this.ratePlan.id}` }, "You are forcing a stop-sale restriction."), h("wa-icon", { key: 'b7c9f91fb7d054ea7e886996cdec44ccda091e60', name: "triangle-exclamation", style: { color: 'var(--wa-color-warning-fill-loud)' }, id: `rateplan-warning-${this.ratePlan.id}` })))), isAvailableToBook ? (h("div", { class: "rateplan-container" }, h("wa-select", { size: "small", disabled: disableForm, "data-testid": "adult-child-offering", onchange: evt => this.handleDataChange('adult_child_offering', evt), "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, value: this.formatVariation(selectedVariation), defaultValue: this.formatVariation(selectedVariation) }, formattedVariations?.map(variation => (h("wa-option", { value: variation, selected: this.formatVariation(selectedVariation) === variation }, variation)))), h("div", { class: "rateplan-config" }, h("div", { class: "rate-total-night-view" }, h("ir-input", { disabled: disableForm, class: "fd-rateplan__price-input", "onText-change": e => this.updateRateplanSelection({
@@ -342,6 +343,29 @@ export class IglRatePlan {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "unavailableRatePlanIds": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Set<number>",
+                    "resolved": "Set<number>",
+                    "references": {
+                        "Set": {
+                            "location": "global",
+                            "id": "global::Set"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "new Set()"
             }
         };
     }

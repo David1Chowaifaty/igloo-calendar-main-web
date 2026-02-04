@@ -15,6 +15,7 @@ export declare class IglRatePlan {
     bookingType: string;
     isBookDisabled: boolean;
     visibleInventory: IRatePlanSelection;
+    unavailableRatePlanIds: Set<number>;
     buttonClicked: EventEmitter<{
         [key: string]: any;
     }>;
