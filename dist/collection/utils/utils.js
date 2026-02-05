@@ -483,4 +483,8 @@ export function isWeekend(date, format = 'YYYY-MM-DD') {
     const d = moment(date, format);
     return d.day() === 0 || d.day() === 6;
 }
+export function getFormSubmitter(e) {
+    const submitter = e.submitter;
+    return submitter.value;
+}
 //# sourceMappingURL=utils.js.map

@@ -31,7 +31,9 @@
   min-width: 100px;
   justify-content: flex-end;
 }
-
+.agents-table__muted {
+  font-size: 0.75rem;
+}
 @media (min-width: 1024px) {
   .agents-table__action {
     min-width: 150px;

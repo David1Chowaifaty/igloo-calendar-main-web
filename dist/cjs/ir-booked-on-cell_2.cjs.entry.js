@@ -18,7 +18,7 @@ const IrBookedOnCell = class {
     label;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (index.h(index.Host, { key: '149e2b0fa92cd33b6276ddd43ad48d9c7460e925' }, this.label && index.h("p", { key: '21cef686c610f3c24546172585bce4ae4c51ab97', class: "cell-label" }, this.label, ":"), index.h("p", { key: '19f29bf0918219e7e8b386150259e230057e4776', class: "booked-on-cell__date" }, moment.hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), index.h("p", { key: 'dfa19c61990e365c364c89c26768752235f05a25', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
+        return (index.h(index.Host, { key: 'ec1991f7b97f4a39b33551ca52b5fd83ed6e9875' }, this.label && index.h("p", { key: '8325bc65692e04252bec54c4e3178738fa570741', class: "cell-label" }, this.label, ":"), index.h("p", { key: '5ec6c52ba3d82eebfd33a683c5a0e0360604e9c8', class: "booked-on-cell__date" }, moment.hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), index.h("p", { key: '541783f0cd4e9e767cc1bb50f83b3dc33450825e', class: "booked-on-cell__time" }, functions._formatTime(hour.toString(), minute.toString()))));
     }
 };
 IrBookedOnCell.style = IrBookedOnCellStyle0;
@@ -37,7 +37,7 @@ const IrStatusActivityCell = class {
     lastManipulation;
     bookingNumber;
     render() {
-        return (index.h(index.Host, { key: '46606e3b8d9a2bf7a663f92f2112800c1e0d12d1' }, index.h("ir-booking-status-tag", { key: '7b95903a0d2d6189452cb14787e41cdb246f4b7e', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: '804c906202ad29e5ed4e6b3d2978add2898d914e', class: "status-activity__modified" }, "Modified"), this.showManipulationBadge && (index.h(index.Fragment, { key: 'b615c9ef60fdcfacc2b5fbb64c5bd27f918e084d' }, index.h("wa-tooltip", { key: '1bfb4a8252f1aa139c2eaa01b017fe2b00169cc9', for: `manipulation_badge_${this.bookingNumber}` }, `Modified by ${this.lastManipulation.user} at ${this.lastManipulation.date} ${this.lastManipulation.hour}:${this.lastManipulation.minute}`), index.h("p", { key: '3dd7e7bb03c08f410699693b4944131b21b27c97', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, "Modified")))));
+        return (index.h(index.Host, { key: '4b8101d515930c875917b3a472412c55f1754e4d' }, index.h("ir-booking-status-tag", { key: '3802bf1348ad73fdf3afcc8c8b638fcaef0cd9fd', status: this.status, isRequestToCancel: this.isRequestToCancel }), this.showModifiedBadge && index.h("p", { key: '59ad0c9df8d3331a339562d38858031c1b280401', class: "status-activity__modified" }, "Modified"), this.showManipulationBadge && (index.h(index.Fragment, { key: '297ed5624597fb512e5222e98773b808f2643ee4' }, index.h("wa-tooltip", { key: '18ba92f21f5522caf246ee19f70c04d758b7cb1e', for: `manipulation_badge_${this.bookingNumber}` }, `Modified by ${this.lastManipulation.user} at ${this.lastManipulation.date} ${this.lastManipulation.hour}:${this.lastManipulation.minute}`), index.h("p", { key: '5759d11745ff4df8a0e27261c6dcdb7c24d2cbb3', class: "status-activity__manipulation", id: `manipulation_badge_${this.bookingNumber}` }, "Modified")))));
     }
 };
 IrStatusActivityCell.style = IrStatusActivityCellStyle0;

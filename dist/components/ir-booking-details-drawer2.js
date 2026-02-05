@@ -127,14 +127,14 @@ const IrBookingDetailsDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingD
         this.bookingDetailsDrawerClosed.emit();
     };
     render() {
-        return (h("ir-drawer", { key: 'd6f875ad593dc1fb86fd3cf6a11b28160fe3f07d', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
+        return (h("ir-drawer", { key: 'e45fa561c5523d560ed27a3b8624a287e9029352', onDrawerHide: this.handleClose, withoutHeader: true, open: this.open, style: {
                 '--ir-drawer-width': '80rem',
                 '--ir-drawer-background-color': '#F2F3F8',
                 '--ir-drawer-padding-left': '0',
                 '--ir-drawer-padding-right': '0',
                 '--ir-drawer-padding-top': '0',
                 '--ir-drawer-padding-bottom': '0',
-            } }, this.open && (h("ir-booking-details", { key: '9699bd8cab4cb3e9a01fc2c45b8f8d952b3c48af', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
+            } }, this.open && (h("ir-booking-details", { key: '05c6a748aaf17d8ac80908aec8c42ec56e6c5f1a', hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleClose, is_from_front_desk: true, propertyid: this.propertyId, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }))));
     }
     static get style() { return IrBookingDetailsDrawerStyle0; }
 }, [2, "ir-booking-details-drawer", {

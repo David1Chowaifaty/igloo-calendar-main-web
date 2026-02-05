@@ -3,9 +3,9 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const property_service = require('./property.service-ba17ae84.js');
+const property_service = require('./property.service-3f15ed2f.js');
 const Token = require('./Token-8fd11984.js');
-require('./utils-1ff7957f.js');
+require('./utils-e5318ed5.js');
 require('./moment-1780b03a.js');
 require('./calendar-data-0598de26.js');
 require('./index-fbf1fe1d.js');
@@ -120,11 +120,11 @@ const IrNotifications = class {
     //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
     // }
     render() {
-        return (index.h(index.Host, { key: '5780467ae163dcf0f346abf386f165d45510d760' }, index.h("div", { key: '1449f105d686ad3634c204023de377058373d0d4', style: { position: 'relative' } }, index.h("wa-tooltip", { key: '0b60529b63dcc03ef694348e99baa149c39cb536', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (index.h("wa-badge", { key: 'bf4dd91e5e2a4a7d9800a7fd29006130aabff375', pill: true, class: "header-notification-badge" }, this.notifications.length)), index.h("wa-animation", { key: '2d51bd261a67bd6dcb4cbf4f6f260d2c9eb6f999', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '0c71d0ab6b76d36fc708d30497b502f2ef45a7d9', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '6b12c765daa7b4895756ae660bb1c0025221b922', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: '59e90cfda5aa979bd4144ca5216191f98f154231', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: '2f708568b07e39e0ab236e6aad06bea1cc57b4f7', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
+        return (index.h(index.Host, { key: '0b31371d8c4ce97492b5fea24a6613f5877a2db6' }, index.h("div", { key: '6182093e8dc0084a310fdd7de7a076778f832951', style: { position: 'relative' } }, index.h("wa-tooltip", { key: 'c312d16fec34e5f65aaf681f7396bbfa93876851', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (index.h("wa-badge", { key: '6b6630ebc2bc9dc458c70ad131d4cef23ffe41d4', pill: true, class: "header-notification-badge" }, this.notifications.length)), index.h("wa-animation", { key: '7345b2654e2c1966d5e657e94d1b1849019cea09', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '7dfebe3bbe12f2262ce1ef267a46b173fcea046d', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '63cabcccd97610d149f84effbcf5e747d2613956', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: 'a9c84d8c7413b0878685c24d5764daaeb45705da', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: '5ce0bcc369c7a087636d8063011928bf029dc46e', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
             if (notification.type === 'availability_alert') {
                 return (index.h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, index.h("div", { class: "notification-item__content" }, index.h("p", { class: "notification-item__title" }, notification.message, " rooms types are not bookable for 14 consecutive nights within the next 2 months. More..."), index.h("wa-icon", { name: "angle-right" }))));
             }
-        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '20bff7b26ddf01603dc0fc24eaaa6663002f59a2', message: "All caught up!", style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: '4cb5fe7b68c42cba8262c8feff230b3edd3a711f', slot: "icon", name: "inbox" }))))));
+        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '09f70f829e6e3adbee6ee534268b4077c4a037ce', message: "All caught up!", style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: '8f888ca0e36820c366526870637eb78eea9bf421', slot: "icon", name: "inbox" }))))));
     }
     static get watchers() { return {
         "notifications": ["handleNotificationCountChange"],

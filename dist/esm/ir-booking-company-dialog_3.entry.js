@@ -1,14 +1,14 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
+import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
 import { v as v4 } from './v4-964634d6.js';
-import { B as BookingService } from './booking.service-b0bf4d6b.js';
+import { B as BookingService } from './booking.service-a49aa5b9.js';
 import './index-f100e9d2.js';
-import './utils-a9a216b5.js';
+import './utils-f0b70a36.js';
 import './moment-ab846cee.js';
 import './calendar-data-2ae53dc9.js';
 import './locales.store-cb784e95.js';
 import './axios-aa1335b8.js';
-import './booking-497905a9.js';
+import './booking-80bcb1b1.js';
 
 const irBookingCompanyDialogCss = ".sc-ir-booking-company-dialog-h{display:block}";
 const IrBookingCompanyDialogStyle0 = irBookingCompanyDialogCss;
@@ -32,17 +32,17 @@ const IrBookingCompanyDialog = class {
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '6b756190d1322367db6613cd362cc88bb2628373', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: 'f0a91c877b40ff8fd4bfc4e13d710ee8d4263cfd', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'd165e7aecb31031dcedb88316860abf23d82b59a', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'df0b47dc4303b7a8bd61729cf5027d42d2bccf18', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: '5f88613f8ebb7bd63bab2fba0bcd487bc62b246c', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'dda6435da0661ae0a8b59638b57eec9026b15e8b', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '84f101af6f2bb2e1136b98470a9edd33599f0fb5', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: '4416616fdf826ed157a3b843e4bc2860b5b6667e', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'c321c6806fd8887a0e9b8d93c7a2673c3feeb015', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '41d221b1dba513f7262232fb2820695b67f050bb', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
     }
 };
 IrBookingCompanyDialog.style = IrBookingCompanyDialogStyle0;
@@ -102,10 +102,10 @@ const IrBookingCompanyForm = class {
         }
     }
     render() {
-        return (h("form", { key: 'ba39d59007905854ceee4930fc65ebf36d9fc6bd', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '2f3c734b5262c3b3e845c3f9cd46b8785505f469', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: '927b8a7c7a25197dd1d8769e9605b2364bf81af8', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: 'e721cc80d4516aba08a602690563c981da5adf7e', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: 'a35734b3bde13b4309fda8a0298f0461b6bac65c', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '826b177f2944903eeafc5d54a3c065e348421d7e', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
 };
 IrBookingCompanyForm.style = IrBookingCompanyFormStyle0;

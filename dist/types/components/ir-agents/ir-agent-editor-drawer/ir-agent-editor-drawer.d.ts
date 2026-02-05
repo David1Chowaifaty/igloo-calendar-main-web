@@ -8,6 +8,7 @@ export declare class IrAgentEditorDrawer {
     countries: ICountry[];
     setupEntries: AgentSetupEntries;
     currentTab: 'profile' | 'contract';
+    loading: string;
     agentEditorClose: EventEmitter<void>;
     private baseId;
     private handleDrawerClose;

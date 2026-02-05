@@ -7,10 +7,11 @@ export declare class IrAgentsTable {
     setupEntries: AgentSetupEntries;
     countries: ICountry[];
     language: string;
-    editAgent: EventEmitter<Agent>;
+    upsertAgent: EventEmitter<Agent>;
     deleteAgent: EventEmitter<Agent>;
     toggleAgentActive: EventEmitter<Agent>;
     private getAgentTypeLabel;
     private getAgentPhoneNumber;
+    private createAgent;
     render(): any;
 }

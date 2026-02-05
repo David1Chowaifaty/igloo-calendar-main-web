@@ -80,7 +80,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         this.tokenService.setToken(this.ticket);
         this.init();
     }
-    handleUpsertAgent(e) {
+    handleUpsertAgentListener(e) {
         e.stopImmediatePropagation();
         e.stopPropagation();
         this.upsertAgent();
@@ -132,7 +132,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         const agents = await this.agentsService.getExposedAgents({ property_id: calendar_data?.property ? calendar_data?.property.id : this.propertyid });
         this.agents = agents.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     }
-    handleEditAgent(agent) {
+    handleUpsertAgent(agent) {
         this.selectedAgent = agent;
         this.isDrawerOpen = true;
     }
@@ -174,42 +174,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents"), h("ir-custom-button", { onClickHandler: () => {
-                this.selectedAgent = {
-                    id: -1,
-                    name: '',
-                    code: '',
-                    address: '',
-                    city: '',
-                    country_id: null,
-                    phone: '',
-                    email: '',
-                    email_copied_upon_booking: null,
-                    contact_name: '',
-                    tax_nbr: '',
-                    notes: '',
-                    question: '',
-                    agent_rate_type_code: {
-                        code: '001',
-                    },
-                    agent_type_code: {
-                        code: '',
-                    },
-                    payment_mode: {
-                        code: '001',
-                    },
-                    contract_nbr: null,
-                    currency_id: null,
-                    due_balance: null,
-                    sort_order: null,
-                    property_id: calendar_data.property.id,
-                    provided_discount: null,
-                    is_active: true,
-                    is_send_guest_confirmation_email: false,
-                    verification_mode: 'code',
-                };
-                this.isDrawerOpen = true;
-            }, variant: "brand", "data-testid": "create-agent-button" }, "New Agent")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onEditAgent: event => this.handleEditAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
+        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
             ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
             : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
     }
@@ -229,7 +194,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         "isLoading": [32],
         "countries": [32],
         "setupEntries": [32]
-    }, [[0, "upsertAgent", "handleUpsertAgent"]], {
+    }, [[0, "upsertAgent", "handleUpsertAgentListener"]], {
         "ticket": ["handleTicketChange"]
     }]);
 function defineCustomElement() {

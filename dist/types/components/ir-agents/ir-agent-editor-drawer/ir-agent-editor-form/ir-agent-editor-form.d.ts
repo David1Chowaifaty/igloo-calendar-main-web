@@ -9,6 +9,7 @@ export declare class IrAgentEditorForm {
     setupEntries: AgentSetupEntries;
     upsertAgent: EventEmitter<Agent>;
     closeDrawer: EventEmitter<void>;
+    loadingChanged: EventEmitter<string>;
     private agentService;
     handleAgentFieldChange(e: CustomEvent<Partial<Agent>>): void;
     private saveOrEditAgent;

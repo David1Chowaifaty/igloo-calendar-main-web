@@ -394,7 +394,11 @@ function isWeekend(date, format = 'YYYY-MM-DD') {
     const d = hooks(date, format);
     return d.day() === 0 || d.day() === 6;
 }
+function getFormSubmitter(e) {
+    const submitter = e.submitter;
+    return submitter.value;
+}
 
-export { manageAnchorSession as A, isPrivilegedUser as B, canCheckout as C, sleep as D, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, renderTime as u, validateEmail as v, getDaysArray as w, convertDatePrice as x, formatDate as y, checkUserAuthState as z };
+export { checkUserAuthState as A, manageAnchorSession as B, isPrivilegedUser as C, canCheckout as D, sleep as E, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, renderTime as u, validateEmail as v, getDaysArray as w, convertDatePrice as x, formatDate as y, getFormSubmitter as z };
 
 //# sourceMappingURL=utils.js.map

@@ -38,11 +38,11 @@ export declare class IrAgents {
     private tokenService;
     componentWillLoad(): void;
     handleTicketChange(): void;
-    handleUpsertAgent(e: CustomEvent<Agent>): void;
+    handleUpsertAgentListener(e: CustomEvent<Agent>): void;
     private init;
     private upsertAgent;
     private fetchAgents;
-    private handleEditAgent;
+    private handleUpsertAgent;
     private handleDeleteAgent;
     private handleDrawerClose;
     private handleDeleteDialogClose;

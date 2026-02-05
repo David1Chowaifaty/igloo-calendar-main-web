@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { z as checkUserAuthState, A as manageAnchorSession } from './utils.js';
+import { A as checkUserAuthState, B as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$2$ } from './igl-application-info2.js';
 import { d as defineCustomElement$2_ } from './igl-block-dates-view2.js';
 import { d as defineCustomElement$2Z } from './igl-blocked-date-drawer2.js';

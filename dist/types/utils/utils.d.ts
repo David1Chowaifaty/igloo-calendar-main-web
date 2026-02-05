@@ -170,4 +170,5 @@ export declare function generateTimeSlotsMilitary(from: string, to: string, step
  * @returns `true` if the parsed date is a Saturday or Sunday, otherwise `false`.
  */
 export declare function isWeekend(date: string, format?: MomentFormatSpecification): boolean;
+export declare function getFormSubmitter(e: Event): string;
 export {};

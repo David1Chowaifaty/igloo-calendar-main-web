@@ -5357,6 +5357,7 @@ declare global {
     interface HTMLIrAgentEditorFormElementEventMap {
         "upsertAgent": Agent;
         "closeDrawer": void;
+        "loadingChanged": string;
     }
     interface HTMLIrAgentEditorFormElement extends Components.IrAgentEditorForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAgentEditorFormElementEventMap>(type: K, listener: (this: HTMLIrAgentEditorFormElement, ev: IrAgentEditorFormCustomEvent<HTMLIrAgentEditorFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -5407,7 +5408,7 @@ declare global {
         new (): HTMLIrAgentsElement;
     };
     interface HTMLIrAgentsTableElementEventMap {
-        "editAgent": Agent;
+        "upsertAgent": Agent;
         "deleteAgent": Agent;
         "toggleAgentActive": Agent;
     }
@@ -8978,6 +8979,7 @@ declare namespace LocalJSX {
         "countries"?: ICountry[];
         "formId"?: string;
         "onCloseDrawer"?: (event: IrAgentEditorFormCustomEvent<void>) => void;
+        "onLoadingChanged"?: (event: IrAgentEditorFormCustomEvent<string>) => void;
         "onUpsertAgent"?: (event: IrAgentEditorFormCustomEvent<Agent>) => void;
         "setupEntries"?: AgentSetupEntries;
     }
@@ -9011,8 +9013,8 @@ declare namespace LocalJSX {
         "countries"?: ICountry[];
         "language"?: string;
         "onDeleteAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
-        "onEditAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
         "onToggleAgentActive"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
+        "onUpsertAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
         "setupEntries"?: AgentSetupEntries;
     }
     interface IrAirDatePicker {
