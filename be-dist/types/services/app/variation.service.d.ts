@@ -25,7 +25,10 @@ export default class VariationService {
         baseVariation: Variation;
         variations: Variation[];
         infants: number;
-    }): number;
+    }): {
+        amount: number;
+        gross: number;
+    };
     /**
      * Finds the appropriate variation from a list of variations based on the number of infants.
      * @param {Object} params - The input parameters.

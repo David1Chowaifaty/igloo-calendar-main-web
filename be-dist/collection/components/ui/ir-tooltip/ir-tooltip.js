@@ -67,7 +67,7 @@ export class IrTooltip {
         document.removeEventListener('click', this.handleOutsideClick, true);
     }
     render() {
-        return (h(Host, { key: 'b7890621a88625bd5e2ca91e38b8fefbb10ff9fc' }, h("button", { key: '0c4979685dbee05e750d9990275e8fe2dbd3a538', ref: el => (this.trigger = el), onMouseEnter: () => {
+        return (h(Host, { key: '4c480e28968dc6c6db67d88fdd3daff239e11ec2' }, h("button", { key: 'b13eba0ff6a4a713671220ab18b90a70f8d19e49', ref: el => (this.trigger = el), onMouseEnter: () => {
                 if (this.open_behavior === 'hover') {
                     this.toggleOpen(true);
                 }
@@ -78,7 +78,7 @@ export class IrTooltip {
                 if (this.open_behavior === 'click') {
                     this.toggleOpen(!this.open);
                 }
-            } }, h("slot", { key: '98da2d9dbe2965f942cb5597be31da15e2abcbe6', name: "tooltip-trigger" }, h("div", { key: '154f82de87ed3740a4474db72bfa79f0d012901d', class: "tooltip-container" }, h("p", { key: '243446cb59416cdf7ce4d66ee31c99f15f5bc49a', class: `tooltip-label label-${this.labelColors}` }, this.label), h("svg", { key: '99f7f58c25e89606aae1504563f444d76e38cc25', "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { key: '2fb2b0810ed19742dfcf9d871833fe2dadd2abeb', fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))))), h("div", { key: '6fba0e128624356fad1472c035841ff6e44a61bd', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, { key: '7b00dde58318191f28e200e54f99440dc997b71f' }, h("div", { key: '32076ccc8bceb4ece205caf783b75f9b327379e4', class: "tooltip-content max-w-xs rounded-lg\r\n              px-3 py-2 text-xs " }, h("div", { key: '9e30ccb7e05da41580eadf424b4283dfaad74609', innerHTML: this.message })))))));
+            } }, h("slot", { key: '246516671cfce4569ec14d5b136ca69d158b4819', name: "tooltip-trigger" }, h("div", { key: '0f1956d306d9146768cc99aeb18aa2ea30a907cb', class: "tooltip-container" }, h("p", { key: '08ec08f4d4c7305570a2948cabbbd36ca6f55fe6', class: `tooltip-label label-${this.labelColors}` }, this.label), h("svg", { key: 'c20d1b0852f385f950f27c2b80fa58da3bc6e1be', "data-toggle": "tooltip", "data-placement": "top", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "16", class: "tooltip-icon", viewBox: "0 0 512 512" }, h("path", { key: '2943b3977084f6dba0a30bebda098a3a72acb73e', fill: 'currentColor', d: "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" }))))), h("div", { key: 'eba8de34371e8b027367b6ca0eb338c805ef68cc', ref: el => (this.content = el), class: "z-50", role: "tooltip" }, this.open && (h(Fragment, { key: '8bd0832fcbd1fbee02dda37fa71bd931bba12352' }, h("div", { key: 'f43e62dcc6cbd162efba168960b90f6d0bd71609', class: "tooltip-content max-w-xs rounded-lg\r\n              px-3 py-2 text-xs " }, h("div", { key: 'c52c3411b5a1609860a14768cbe270771e126aa4', innerHTML: this.message })))))));
     }
     static get is() { return "ir-tooltip"; }
     static get encapsulation() { return "shadow"; }

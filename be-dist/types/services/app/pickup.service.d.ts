@@ -1,5 +1,6 @@
 import { TPickupFormData } from "../../models/pickup";
 export declare class PickupService {
+    calculateTotalPersons(): number;
     savePickup(params: TPickupFormData, booking_nbr: string, is_remove: boolean): Promise<void>;
     transformDefaultPickupData(data: any): {
         arrival_date: any;

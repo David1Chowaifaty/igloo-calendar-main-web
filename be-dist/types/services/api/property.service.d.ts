@@ -1,20 +1,39 @@
 import { TExposedBookingAvailability } from "../../components/ir-booking-engine/ir-booking-page/ir-availability-header/availability";
 import { Booking } from "../../models/booking.dto";
-import { AllowedPaymentMethod, ISetupEntries } from "../../models/property";
+import { AllowedPaymentMethod, IExposedProperty, ISetupEntries } from "../../models/property";
 import app_store from "../../stores/app.store";
 import { Colors } from '../app/colors.service';
 import { TGuest } from "../../models/user_form";
 import { DataStructure } from "../../models/common";
+export type PropertiesByLevel2Response = {
+    city_id: number;
+    city_perma_link: string;
+    country_code: string;
+    country_id: number;
+    country_nane: string;
+    property_id: number;
+    property_name: string;
+};
 export declare class PropertyService {
     private propertyHelpers;
     private static initialized;
     colors: Colors;
-    getExposedProperty(params: {
+    getExposedProperties(props: {
+        anames: string[];
+        language: string;
+    }): Promise<any>;
+    fetchPropertiesByLevel2(props: {
+        pool: string;
+        city_perma_links: string[];
+    }): Promise<PropertiesByLevel2Response[] | null>;
+    getExposedProperty({ sync, currency_id, ...params }: {
         id: number;
         language: string;
         aname: string | null;
         perma_link: string | null;
-    }, initTheme?: boolean): Promise<any>;
+        sync?: boolean;
+        currency_id?: string;
+    }, initTheme?: boolean): Promise<IExposedProperty>;
     getExposedNonBookableNights(params: {
         from_date: string;
         to_date: string;

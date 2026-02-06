@@ -157,7 +157,7 @@ export class IrUserProfile {
                 "mutable": false,
                 "complexType": {
                     "original": "TGuest",
-                    "resolved": "{ address?: string; id?: number; email?: string; first_name?: string; last_name?: string; country_id?: number; country_phone_prefix?: string; city?: string; dob?: string; mobile?: number; subscribe_to_news_letter?: boolean; alternative_email?: string; }",
+                    "resolved": "{ address?: string; id?: number; email?: string; country_id?: number; country_phone_prefix?: string; city?: string; dob?: string; first_name?: string; last_name?: string; mobile?: number; subscribe_to_news_letter?: boolean; alternative_email?: string; }",
                     "references": {
                         "TGuest": {
                             "location": "import",

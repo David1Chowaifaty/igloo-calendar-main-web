@@ -1,12 +1,12 @@
-import { h, Fragment } from "@stencil/core";
+import { h, Fragment, Host } from "@stencil/core";
 import localization_store from "../../stores/app.store";
 import { CommonService } from "../../services/api/common.service";
 import { PropertyService } from "../../services/api/property.service";
 import axios from "axios";
 import app_store from "../../stores/app.store";
 import moment from "moment/min/moment-with-locales";
-import localizedWords from "../../stores/localization.store";
 import Token from "../../models/Token";
+import localizedWords from "../../stores/localization.store";
 export class IrBookingWidget {
     constructor() {
         this.position = 'fixed';
@@ -21,19 +21,22 @@ export class IrBookingWidget {
             from_date: null,
             to_date: null,
         };
-        this.guests = {
+        this.linkedProperties = [];
+        this.isFetchingProperty = true;
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.token = new Token();
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
+        this.baseGuests = {
             adultCount: 2,
             childrenCount: 0,
             infants: 0,
             childrenAges: [],
         };
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.token = new Token();
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
     }
     componentWillLoad() {
         this.initApp();
+        this.guests = this.baseGuests;
         app_store.userPreferences = {
             language_id: this.language,
             currency_id: 'usd',
@@ -47,8 +50,87 @@ export class IrBookingWidget {
             document.body.appendChild(this.el);
         }
     }
+    handleCityChange(newValue) {
+        var _a;
+        const firstCityPropertyRow = (_a = this.level2Properties.properties) === null || _a === void 0 ? void 0 : _a.get(newValue)[0];
+        if (firstCityPropertyRow) {
+            this.selectedProperty = {
+                id: firstCityPropertyRow.property_id,
+            };
+        }
+        else {
+            this.selectedProperty = null;
+        }
+    }
+    async handlePropertyChange(newValue, oldValue) {
+        var _a, _b, _c, _d;
+        if (!this.isMultiPropertyMode()) {
+            return;
+        }
+        if ((newValue === null || newValue === void 0 ? void 0 : newValue.id) === (oldValue === null || oldValue === void 0 ? void 0 : oldValue.id) || !newValue) {
+            return;
+        }
+        this.isFetchingProperty = true;
+        const [property] = await Promise.all([
+            this.propertyService.getExposedProperty({
+                id: newValue.id,
+                language: this.language,
+                aname: null,
+                perma_link: null,
+            }),
+            this.propertyService.getExposedNonBookableNights({
+                porperty_id: newValue.id,
+                from_date: moment().format('YYYY-MM-DD'),
+                to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
+                perma_link: null,
+                aname: null,
+            }),
+        ]);
+        this.property = property;
+        this.selectedProperty = property;
+        this.dateModifiers = Object.assign({}, this.getDateModifiers());
+        if (((_b = (_a = this.property) === null || _a === void 0 ? void 0 : _a.adult_child_constraints) === null || _b === void 0 ? void 0 : _b.child_max_age) === 0 && this.guests.childrenCount > 0) {
+            this.guests = Object.assign(Object.assign({}, this.baseGuests), { adultCount: this.guests.adultCount });
+        }
+        if (this.hasDisabledDateInRange((_c = this.dates) === null || _c === void 0 ? void 0 : _c.from_date, (_d = this.dates) === null || _d === void 0 ? void 0 : _d.to_date, this.dateModifiers)) {
+            this.dates = {
+                from_date: null,
+                to_date: null,
+            };
+        }
+        this.isFetchingProperty = false;
+        if (this.isLoading) {
+            this.showWidget();
+        }
+    }
+    hasDisabledDateInRange(from, to, dateModifiers) {
+        var _a;
+        if (!from || !to || !dateModifiers)
+            return false;
+        const cursor = moment(from);
+        const end = moment(to);
+        while (cursor.isSameOrBefore(end, 'day')) {
+            const key = cursor.format('YYYY-MM-DD');
+            if ((_a = dateModifiers[key]) === null || _a === void 0 ? void 0 : _a.disabled) {
+                return true;
+            }
+            cursor.add(1, 'day');
+        }
+        return false;
+    }
+    get isMultiProperties() {
+        var _a;
+        return ((_a = this.linkedProperties) === null || _a === void 0 ? void 0 : _a.length) > 1;
+    }
+    get isLevel2Mode() {
+        const city_perma_links = this.parseCommaSeparated(this.l);
+        return (city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !this.isMultiProperties;
+    }
+    get isSingleProperty() {
+        const properties = this.parseCommaSeparated(this.p);
+        return properties.length === 1 && (this.p || this.propertyId);
+    }
     initApp() {
-        this.modifyContainerStyle();
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         this.resetPageFontSize();
@@ -58,53 +140,132 @@ export class IrBookingWidget {
         styleEl.innerHTML = 'html { font-size: 16px; }';
         document.head.appendChild(styleEl);
     }
+    parseCommaSeparated(value) {
+        var _a;
+        return ((_a = value === null || value === void 0 ? void 0 : value.split(',').map(v => v.trim().toLowerCase()).filter(Boolean)) !== null && _a !== void 0 ? _a : []);
+    }
     async initProperty() {
         try {
             this.isLoading = true;
             const token = await this.commonService.getBEToken();
             this.token.setToken(token);
-            const [property] = await Promise.all([
-                this.propertyService.getExposedProperty({
-                    id: this.propertyId,
-                    language: this.language,
-                    aname: this.p,
-                    perma_link: this.perma_link,
-                }),
+            const properties = this.parseCommaSeparated(this.p);
+            const city_perma_links = this.parseCommaSeparated(this.l);
+            const isSingleProperty = this.isSingleProperty;
+            const isMultiProperty = properties.length > 1;
+            const [property, linkedProperties, level2SeparationsProperties] = await Promise.all([
+                // Single property only (NOT level-2)
+                isSingleProperty
+                    ? this.propertyService.getExposedProperty({
+                        id: this.propertyId,
+                        language: this.language,
+                        aname: properties[0],
+                        perma_link: this.perma_link,
+                    })
+                    : Promise.resolve(null),
+                // Multi-property ONLY
+                isMultiProperty
+                    ? this.propertyService.getExposedProperties({
+                        anames: properties,
+                        language: this.language,
+                    })
+                    : Promise.resolve(null),
+                // Level-2 ONLY when single property
+                (city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !isMultiProperty
+                    ? this.propertyService.fetchPropertiesByLevel2({
+                        pool: this.pool,
+                        city_perma_links,
+                    })
+                    : Promise.resolve(null),
                 this.commonService.getExposedLanguage(),
-                this.propertyService.getExposedNonBookableNights({
-                    porperty_id: this.propertyId,
-                    from_date: moment().format('YYYY-MM-DD'),
-                    to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
-                    perma_link: this.perma_link,
-                    aname: this.p,
-                }),
+                // Non-bookable nights ONLY when not level-2
+                isSingleProperty
+                    ? this.propertyService.getExposedNonBookableNights({
+                        porperty_id: this.propertyId,
+                        from_date: moment().format('YYYY-MM-DD'),
+                        to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
+                        perma_link: this.perma_link,
+                        aname: properties[0],
+                    })
+                    : Promise.resolve(null),
             ]);
-            this.property = property;
+            if ((city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !isMultiProperty) {
+                this.setLevel2Properties(level2SeparationsProperties);
+            }
+            else {
+                this.linkedProperties = linkedProperties !== null && linkedProperties !== void 0 ? linkedProperties : [];
+                this.selectedProperty = this.linkedProperties.length > 0 ? this.linkedProperties[0] : property;
+            }
+            if (property) {
+                this.property = property;
+            }
+            // this.property = property;
             this.dateModifiers = this.getDateModifiers();
         }
         catch (error) {
             console.log(error);
         }
         finally {
-            this.isLoading = false;
-            this.elTimout = setTimeout(() => {
-                this.containerRef.style.opacity = '1';
-            }, this.delay);
+            if (this.isSingleProperty) {
+                this.showWidget();
+            }
         }
     }
-    handleContentContainerStyle() {
-        this.modifyContainerStyle();
+    showWidget() {
+        this.isLoading = false;
+        this.elTimout = setTimeout(() => {
+            if (!this.containerRef) {
+                return;
+            }
+            this.containerRef.style.opacity = '1';
+        }, this.delay);
     }
-    modifyContainerStyle() {
-        if (this.contentContainerStyle && this.contentContainerStyle.borderColor) {
-            this.el.style.setProperty('--ir-widget-border-color', this.contentContainerStyle.borderColor);
+    setLevel2Properties(level2SeparationsProperties) {
+        if (!level2SeparationsProperties || level2SeparationsProperties.length === 0) {
+            this.level2Properties = { cities: [], properties: new Map() };
+            return;
         }
+        const citiesMap = new Map();
+        const propertiesMap = new Map();
+        for (const row of level2SeparationsProperties) {
+            if (!citiesMap.has(row.city_perma_link)) {
+                // citiesMap.set(row.city_id, {
+                //   id: row.city_id,
+                //   name: row.city_perma_link,
+                // });
+                citiesMap.set(row.city_perma_link, row.city_perma_link);
+            }
+            const existing = propertiesMap.get(row.city_perma_link);
+            if (existing) {
+                existing.push(row);
+            }
+            else {
+                propertiesMap.set(row.city_perma_link, [row]);
+            }
+        }
+        const cities = this.parseCommaSeparated(this.l);
+        for (const city of cities) {
+            if (!propertiesMap.has(city)) {
+                propertiesMap.set(city, []);
+            }
+        }
+        this.level2Properties = {
+            cities,
+            properties: propertiesMap,
+        };
+        const firstCity = cities.find(city => { var _a; return ((_a = propertiesMap.get(city)) === null || _a === void 0 ? void 0 : _a.length) > 0; });
+        if (firstCity) {
+            this.selectedCity = firstCity;
+        }
+    }
+    isMultiPropertyMode() {
+        return this.isLevel2Mode || this.isMultiProperties;
     }
     handleBooknow() {
         if (!this.validateChildrenAges())
             return;
         let subdomainURL = `bookingmystay.com`;
-        const currentDomain = `${this.property.perma_link}.${subdomainURL}`;
+        const currentDomain = `${this.selectedProperty.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
         const fromDate = from_date ? `checkin=${moment(from_date).format('YYYY-MM-DD')}` : '';
@@ -119,87 +280,64 @@ export class IrBookingWidget {
         window.open(`https://${currentDomain}?${queryString}`, '_blank');
     }
     getDateModifiers() {
-        var _a;
-        if (!Object.keys(app_store.nonBookableNights).length) {
+        var _a, _b, _c;
+        if (!((_b = Object.keys((_a = app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights) !== null && _a !== void 0 ? _a : {})) === null || _b === void 0 ? void 0 : _b.length)) {
             return undefined;
         }
         const nights = {};
-        (_a = Object.keys(app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights)) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
+        (_c = Object.keys(app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights)) === null || _c === void 0 ? void 0 : _c.forEach(nbn => {
             nights[nbn] = {
                 disabled: true,
             };
         });
         return nights;
     }
-    renderDateTrigger() {
-        var _a, _b;
-        const from = (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date;
-        const to = (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date;
-        let fromLabel = '';
-        let toLabel = '';
-        if (from) {
-            fromLabel = moment(from).format('DD MMM YYYY');
+    validateChildrenAges() {
+        var _a;
+        if (this.guests.childrenAges.some(c => c === '')) {
+            this.error = true;
+            return false;
         }
-        if (to) {
-            toLabel = moment(to).format('DD MMM YYYY');
-        }
-        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), fromLabel && toLabel ? (h("div", null, h("p", null, h("span", null, fromLabel), h("span", null, " - "), h("span", null, toLabel)))) : (h("div", null, h("p", null, "Your dates")))));
+        (_a = this.guestPopover) === null || _a === void 0 ? void 0 : _a.forceClose();
+        return true;
     }
-    renderAdultChildTrigger() {
-        const { adultCount, childrenCount } = this.guests;
-        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 ? (h(Fragment, null, h("span", { class: "lowercase" }, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), this.property.adult_child_constraints.child_max_age > 0 && (h("span", { class: "lowercase" }, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)))) : (h("span", null, "Guests")))));
+    renderMultiWidget() {
+        var _a;
+        return (h("ir-multi-property-widget", { isFetchingProperty: this.isFetchingProperty, selectedCity: this.selectedCity, level2Properties: this.level2Properties, linkedProperties: this.linkedProperties, selectedPropertyId: (_a = this.selectedProperty) === null || _a === void 0 ? void 0 : _a.id, dateModifiers: this.dateModifiers, property: this.selectedProperty, locale: localization_store.selectedLocale, dates: this.dates, guests: this.guests, error: this.error, position: this.position, exportparts: "container, property-select, cta", onCityChange: e => {
+                this.selectedCity = e.detail;
+            }, onPropertyChange: e => {
+                const propertyId = Number(e.detail);
+                this.selectedProperty = { id: propertyId };
+            }, onDateChange: e => {
+                this.dates = e.detail;
+            }, onGuestsChange: e => (this.guests = Object.assign({}, e.detail)), onBookNow: () => this.handleBooknow() }));
     }
     disconnectedCallback() {
         if (this.elTimout) {
             clearTimeout(this.elTimout);
         }
     }
-    handlePopoverToggle(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.isGuestPopoverOpen = e.detail;
-        console.log('here');
-        if (!this.isGuestPopoverOpen) {
-            if (this.guests.childrenCount === 0) {
-                this.guestPopover.forceClose();
-            }
-            else {
-                this.validateChildrenAges();
-            }
-        }
-    }
-    validateChildrenAges() {
-        if (this.guests.childrenAges.some(c => c === '')) {
-            this.error = true;
-            return false;
-        }
-        this.guestPopover.forceClose();
-        return true;
-    }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a;
         if (this.isLoading) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "booking-widget-container", ref: el => (this.containerRef = el), style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { autoAdjust: false, allowFlip: false, class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', ref: el => (this.popover = el), onOpenChange: e => {
-                this.isPopoverOpen = e.detail;
-                if (!this.isPopoverOpen) {
-                    if (this.dates.from_date && !this.dates.to_date) {
-                        this.dates = Object.assign(Object.assign({}, this.dates), { to_date: moment(this.dates.from_date).add(1, 'days').toDate() });
-                    }
-                }
-            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: moment().add(-1, 'days'), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: ((_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date) ? moment(this.dates.from_date) : null, toDate: ((_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date) ? moment(this.dates.to_date) : null, locale: localization_store.selectedLocale, maxSpanDays: this.property.max_nights, onDateChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                const { end, start } = e.detail;
-                if (end && this.isPopoverOpen) {
-                    this.popover.toggleVisibility();
-                }
-                this.dates = {
-                    from_date: start,
-                    to_date: end,
-                };
-            } }))), h("ir-popover", { outsideEvents: "none", autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', onOpenChange: this.handlePopoverToggle.bind(this) }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", error: this.error, adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = this.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = this.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = this.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = Object.assign({}, e.detail)), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.forceClose() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
+        if (this.isLevel2Mode) {
+            if (this.position === 'block') {
+                return this.renderMultiWidget();
+            }
+            return (h("ir-popup", { sync: "width", ref: el => (this.mainWidgetPopupRef = el), distance: -45, class: "ir-multi-property-widget__popup" }, h("ir-button", { slot: "anchor", part: "anchor", size: "md", class: "ir-multi-property-widget__anchor", label: localizedWords.entries.Lcz_BookNow }), h("header", { class: "ir-multi-property-widget__header", part: "header" }, h("h5", null, localizedWords.entries.Lcz_BookNow), h("ir-button", { onButtonClick: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.mainWidgetPopupRef.close();
+                }, iconName: "xmark", variants: "icon" })), this.renderMultiWidget()));
+        }
+        return (h(Host, { "data-multi": this.isMultiProperties ? 'true' : 'false' }, h("div", { part: "container", class: "ir-widget", "data-multi": this.isMultiProperties ? 'true' : 'false', ref: el => (this.containerRef = el) }, h("div", { part: "hover", class: 'ir-widget__hover' }), this.isMultiProperties && (h("select", { part: "property-select", class: "ir-widget__property-select", onChange: e => {
+                const propertyId = e.target.value;
+                this.selectedProperty = this.linkedProperties.find(p => p.id.toString() === propertyId);
+            } }, this.linkedProperties.map(property => (h("option", { selected: this.selectedProperty.id.toString() === property.id.toString(), value: property.id }, property.name))))), h(Fragment, null, h("ir-widget-date-popup", { class: "ir-widget__date-popup", dateModifiers: this.dateModifiers, exportparts: "date-trigger", dates: this.dates, locale: localization_store.selectedLocale, maxSpanDays: (_a = this.property) === null || _a === void 0 ? void 0 : _a.max_nights, onDateChange: e => {
+                this.dates = e.detail;
+            } }), h("ir-widget-occupancy-popup", { exportparts: "guests-trigger", class: "ir-widget__guests-popup", error: this.error, guests: this.guests, property: this.property, onGuestsChange: e => (this.guests = Object.assign({}, e.detail)) })), h("button", { part: "cta", class: "ir-widget__cta", onClick: this.handleBooknow.bind(this) }, this.isMultiProperties ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", height: 24, width: 24, viewBox: "0 0 640 640" }, h("path", { fill: "currentColor", d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" }))) : (localizedWords.entries.Lcz_BookNow)))));
     }
     static get is() { return "ir-widget"; }
     static get encapsulation() { return "shadow"; }
@@ -215,6 +353,44 @@ export class IrBookingWidget {
     }
     static get properties() {
         return {
+            "pool": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "pool",
+                "reflect": false
+            },
+            "l": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "l",
+                "reflect": false
+            },
             "position": {
                 "type": "string",
                 "mutable": false,
@@ -234,29 +410,6 @@ export class IrBookingWidget {
                 "attribute": "position",
                 "reflect": true,
                 "defaultValue": "'fixed'"
-            },
-            "contentContainerStyle": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "TContainerStyle",
-                    "resolved": "{ color?: string; height?: string; width?: string; borderColor?: string; background?: string; }",
-                    "references": {
-                        "TContainerStyle": {
-                            "location": "import",
-                            "path": "./types",
-                            "id": "src/components/ir-booking-widget/types.ts::TContainerStyle"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false
             },
             "propertyId": {
                 "type": "number",
@@ -408,14 +561,22 @@ export class IrBookingWidget {
             "isLoading": {},
             "isGuestPopoverOpen": {},
             "dates": {},
-            "guests": {}
+            "level2Properties": {},
+            "selectedCity": {},
+            "guests": {},
+            "linkedProperties": {},
+            "selectedProperty": {},
+            "isFetchingProperty": {}
         };
     }
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
-                "propName": "contentContainerStyle",
-                "methodName": "handleContentContainerStyle"
+                "propName": "selectedCity",
+                "methodName": "handleCityChange"
+            }, {
+                "propName": "selectedProperty",
+                "methodName": "handlePropertyChange"
             }];
     }
 }

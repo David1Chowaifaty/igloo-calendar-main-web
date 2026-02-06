@@ -6,25 +6,25 @@ type TExposedApplicablePolicies = {
     room_type_id?: number;
     rate_plan_id?: number;
 };
-interface FetchCancelationMessageWithData {
+interface FetchCancellationMessageWithData {
     data: IExposedApplicablePolicies[];
     showCancelation?: boolean;
 }
-interface FetchCancelationMessageWithoutData {
+interface FetchCancellationMessageWithoutData {
     id: number;
     roomTypeId: number;
     bookingNbr?: string;
     showCancelation?: boolean;
     data?: null;
 }
-type FetchCancelationMessageParams = FetchCancelationMessageWithData | FetchCancelationMessageWithoutData;
+type FetchCancellationMessageParams = FetchCancellationMessageWithData | FetchCancellationMessageWithoutData;
 export type TBookingInfo = {
     statement: string;
     rp_name: string;
     rt_name: string;
 };
 export declare class PaymentService {
-    getExposedCancelationDueAmount(params: {
+    getExposedCancellationDueAmount(params: {
         booking_nbr: string;
         currency_id: number;
     }): Promise<any>;
@@ -40,7 +40,7 @@ export declare class PaymentService {
         onRedirect: (url: string) => void;
         onScriptRun: (script: string) => void;
     }): Promise<any>;
-    RequestBookingCancellation(booking_nbr: string): Promise<any>;
+    requestBookingCancellation(booking_nbr: string): Promise<any>;
     GetExposedApplicablePolicies({ params, book_date, }: {
         params: {
             booking_nbr: string;
@@ -52,15 +52,34 @@ export declare class PaymentService {
         };
         book_date: Date;
     }): Promise<TExposedApplicablePolicies>;
-    processAlicablePolicies(policies: IExposedApplicablePolicies[], book_date: Date): {
+    processApplicablePolicies(policies: IExposedApplicablePolicies[], book_date: Date): {
         amount: number;
     };
-    checkFreeCancelationZone(policies: IExposedApplicablePolicies[]): boolean;
-    getCancelationMessage(applicablePolicies: IExposedApplicablePolicies[] | null, showCancelation?: boolean, includeGuarentee?: boolean): {
+    /**
+     * Determines whether the current time falls within a "free cancellation" bracket.
+     *
+     * The method identifies which cancellation bracket (based on `due_on` date)
+     * the current time is within. A bracket is defined by a start date (`due_on`)
+     * and ends at the start of the next bracket (or continues indefinitely if it's the last one).
+     *
+     * If the current bracket has an `amount` or `gross_amount` equal to `0`,
+     * the booking is considered to be in the free cancellation period.
+     *
+     * @param {IExposedApplicablePolicies[]} policies - List of applicable policies containing cancellation brackets.
+     * @returns {boolean} Returns `true` if currently in a free cancellation bracket (amount = 0), otherwise `false`.
+     *
+     * @example
+     * const isFree = paymentService.checkFreeCancellationZone(policies);
+     * if (isFree) {
+     *   console.log('You are within the free cancellation period.');
+     * }
+     */
+    checkFreeCancellationZone(policies: IExposedApplicablePolicies[]): boolean;
+    getCancellationMessage(applicablePolicies: IExposedApplicablePolicies[] | null, showCancellation?: boolean, includeGuarantee?: boolean): {
         message: string;
         data: IExposedApplicablePolicies[];
     };
-    fetchCancelationMessage(params: FetchCancelationMessageParams): Promise<{
+    fetchCancellationMessage(params: FetchCancellationMessageParams): Promise<{
         message: string;
         data: IExposedApplicablePolicies[];
     }>;

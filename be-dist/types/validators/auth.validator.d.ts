@@ -16,14 +16,14 @@ export declare const SignUpValidtor: z.ZodObject<{
     last_name: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     email?: string;
-    password?: string;
     first_name?: string;
     last_name?: string;
+    password?: string;
 }, {
     email?: string;
-    password?: string;
     first_name?: string;
     last_name?: string;
+    password?: string;
 }>;
 export type TSignInValidator = z.infer<typeof SignInValidtor>;
 export type TSignUpValidator = z.infer<typeof SignUpValidtor>;

@@ -21,7 +21,7 @@ export class IrBookingEngine {
         this.hideGoogleSignIn = true;
         this.origin = null;
         this.view = 'default';
-        this.isLoading = false;
+        this.isLoading = true;
         this.router = new Stack();
         this.bookingListingScreenOptions = { params: null, screen: 'bookings' };
         this.version = '2.734';
@@ -30,7 +30,7 @@ export class IrBookingEngine {
         this.propertyService = new PropertyService();
         this.token = new Token();
     }
-    async componentWillLoad() {
+    componentWillLoad() {
         console.log(`version:${this.version}`);
         getUserPreference(this.language);
         if (this.property) {
@@ -40,10 +40,6 @@ export class IrBookingEngine {
         if (isAuthenticated) {
             app_store.is_signed_in = true;
             this.token.setToken(isAuthenticated.token);
-        }
-        else {
-            const token = await this.commonService.getBEToken();
-            this.token.setToken(token);
         }
         this.initializeApp();
     }
@@ -88,7 +84,7 @@ export class IrBookingEngine {
         changeLocale(((_a = this.languages.find(l => l.code.toLowerCase() === code)) === null || _a === void 0 ? void 0 : _a.direction) || 'LTR', matchLocale(code));
         updateUserPreference({ language_id: code });
     }
-    initializeApp() {
+    async initializeApp() {
         var _a;
         app_store.app_data = {
             view: this.view,
@@ -107,6 +103,10 @@ export class IrBookingEngine {
             hideGoogleSignIn: this.hideGoogleSignIn,
             stag: this.stag,
         };
+        if (!this.token.getToken()) {
+            const token = await this.commonService.getBEToken();
+            this.token.setToken(token);
+        }
         this.initRequest();
     }
     async initRequest() {
@@ -120,7 +120,7 @@ export class IrBookingEngine {
             this.commonService.getExposedLanguage(),
             this.propertyService.getExposedProperty({ id: this.propertyId, language: ((_b = app_store.userPreferences) === null || _b === void 0 ? void 0 : _b.language_id) || 'en', aname: this.p, perma_link: this.perma_link }),
             this.propertyService.getExposedNonBookableNights({
-                porperty_id: this.propertyId,
+                porperty_id: this.perma_link ? null : this.propertyId,
                 from_date: format(new Date(), 'yyyy-MM-dd'),
                 to_date: format(addYears(new Date(), 1), 'yyyy-MM-dd'),
                 perma_link: this.perma_link,

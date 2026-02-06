@@ -63,7 +63,7 @@ const IrPortal = class {
         });
     }
     render() {
-        return (h(Host, { key: '7271d3baccf16f03e8aac5a01b1f664eece957c8' }, h("slot", { key: '31854a37635cd9b2bd8451d3577d33939c26a875', name: "portal-body" })));
+        return (h(Host, { key: '3acca3a58924faabe1d272cd7fe586e049a4838c' }, h("slot", { key: '03f3c424ceb579a86debe3b0157c0074a93cecfe', name: "portal-body" })));
     }
     get hostElement() { return getElement(this); }
 };

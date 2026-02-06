@@ -2,22 +2,47 @@ import { b as booking_store, d as dateFns, n as normalize, g as getCurrencyByCod
 import { a as axios } from './axios.js';
 import { b as app_store } from './app.store.js';
 import { u as updateUserFormData, c as checkout_store } from './checkout.store.js';
+import { P as PickupService } from './pickup.service.js';
 
 class PropertyHelpers {
-    convertPickup(pickup) {
+    async convertPickup(pickup, hasDifferentCurrency) {
+        let selected_option = pickup.selected_option;
+        let total = Number(pickup.due_upon_booking);
+        let currency = app_store.property.currency;
+        if (hasDifferentCurrency) {
+            const pickupService = new PickupService();
+            const propertyService = new PropertyService();
+            const { pickup_service } = await propertyService.getExposedProperty({
+                sync: false,
+                id: app_store.property.id,
+                currency_id: app_store.property.currency.code,
+                aname: '',
+                language: 'en',
+                perma_link: '',
+            });
+            selected_option = pickup_service.allowed_options.find(o => o.id === pickup.selected_option.id);
+            total = Number(pickupService
+                .updateDue({
+                amount: selected_option.amount,
+                code: selected_option.pricing_model.code,
+                numberOfPersons: pickupService.calculateTotalPersons(),
+                number_of_vehicles: pickup.number_of_vehicles,
+            })
+                .toFixed(2));
+        }
         let res = {};
         const [hour, minute] = pickup.arrival_time.split(':');
         res = {
             booking_nbr: null,
             is_remove: false,
-            currency: pickup.currency,
+            currency,
             date: pickup.arrival_date.format('YYYY-MM-DD'),
             details: pickup.flight_details || null,
             hour: Number(hour),
             minute: Number(minute),
             nbr_of_units: pickup.number_of_vehicles,
-            selected_option: pickup.selected_option,
-            total: Number(pickup.due_upon_booking),
+            selected_option,
+            total,
         };
         return res;
     }
@@ -218,6 +243,17 @@ class Colors {
     }
 }
 
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 class PropertyService {
     constructor() {
         this.propertyHelpers = new PropertyHelpers();
@@ -260,9 +296,27 @@ class PropertyService {
             return null;
         };
     }
-    async getExposedProperty(params, initTheme = true) {
-        var _a, _b, _c, _d;
-        const { data } = await axios.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: app_store.userPreferences.currency_id, include_sales_rate_plans: true }));
+    async getExposedProperties(props) {
+        const { data } = await axios.post('/Get_Exposed_Properties', props);
+        const result = data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result.My_Result;
+    }
+    async fetchPropertiesByLevel2(props) {
+        const { data } = await axios.post('/Fetch_Properties_By_Level2', props);
+        const result = data;
+        if (result.ExceptionMsg !== '') {
+            throw new Error(result.ExceptionMsg);
+        }
+        return result.My_Result;
+    }
+    async getExposedProperty(_a, initTheme) {
+        var _b, _c, _d, _e;
+        var { sync = true, currency_id = app_store.userPreferences.currency_id } = _a, params = __rest(_a, ["sync", "currency_id"]);
+        if (initTheme === void 0) { initTheme = true; }
+        const { data } = await axios.post(`/Get_Exposed_Property`, Object.assign(Object.assign({}, params), { currency: currency_id, include_sales_rate_plans: true }));
         const result = data;
         if (result.ExceptionMsg !== '') {
             throw new Error(result.ExceptionMsg);
@@ -284,7 +338,7 @@ class PropertyService {
             });
         }
         if (!app_store.fetchedBooking) {
-            booking_store.roomTypes = [...((_b = (_a = result.My_Result) === null || _a === void 0 ? void 0 : _a.roomtypes) !== null && _b !== void 0 ? _b : [])];
+            booking_store.roomTypes = [...((_c = (_b = result.My_Result) === null || _b === void 0 ? void 0 : _b.roomtypes) !== null && _c !== void 0 ? _c : [])];
         }
         // } else {
         //   const oldBookingStoreRoomTypes = [...booking_store.roomTypes];
@@ -303,7 +357,7 @@ class PropertyService {
         //   });
         // }
         if (!app_store.fetchedBooking) {
-            booking_store.roomTypes = [...((_d = (_c = result.My_Result) === null || _c === void 0 ? void 0 : _c.roomtypes) !== null && _d !== void 0 ? _d : [])];
+            booking_store.roomTypes = [...((_e = (_d = result.My_Result) === null || _d === void 0 ? void 0 : _d.roomtypes) !== null && _e !== void 0 ? _e : [])];
         }
         if (params.aname || params.perma_link) {
             app_store.app_data = Object.assign(Object.assign({}, app_store.app_data), { property_id: result.My_Result.id });
@@ -315,7 +369,9 @@ class PropertyService {
         //   app_store.app_data.geoTimezone = data;
         // }
         app_store.app_data.displayMode = result.My_Result.be_listing_mode === 'grid' ? 'grid' : 'default';
-        app_store.property = Object.assign({}, result.My_Result);
+        if (sync) {
+            app_store.property = Object.assign({}, result.My_Result);
+        }
         app_store.app_data.property_id = result.My_Result.id;
         booking_store.tax_statement = { message: data.My_Result.tax_statement };
         if (initTheme) {
@@ -333,7 +389,7 @@ class PropertyService {
         (_a = data.My_Result) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
             nights[nbn.night] = true;
         });
-        app_store.nonBookableNights = nights;
+        app_store.nonBookableNights = Object.assign({}, nights);
         return data.My_Result;
     }
     async getExposedBookingAvailability(props) {
@@ -672,7 +728,7 @@ class PropertyService {
             }));
         }
         if (needsPropertyAvailability) {
-            availabilityCalls.push(this.getExposedBookingAvailability(Object.assign(Object.assign({}, checkAvailabilityPayload), { currency_ref: '' })).then(data => {
+            availabilityCalls.push(this.getExposedBookingAvailability(Object.assign(Object.assign({}, checkAvailabilityPayload), { currency_ref: app_store.property.currency.code })).then(data => {
                 propertyAvailability = data;
                 if (!roomTypes) {
                     roomTypes = [...data.My_Result];
@@ -714,6 +770,7 @@ class PropertyService {
             };
             // const now = moment();
             const rooms = this.filterRooms(roomTypes);
+            const pickup_info = checkout_store.pickup.location ? await this.propertyHelpers.convertPickup(checkout_store.pickup, hasDifferentCurrency) : null;
             const body = {
                 assign_units: false,
                 check_in: false,
@@ -766,7 +823,7 @@ class PropertyService {
                         value: app_store.property.currency.code,
                     },
                 ].filter(f => f !== null),
-                pickup_info: checkout_store.pickup.location ? this.propertyHelpers.convertPickup(checkout_store.pickup) : null,
+                pickup_info,
             };
             // if (f) {
             //   throw new Error('');

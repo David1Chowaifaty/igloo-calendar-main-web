@@ -1,6 +1,7 @@
 {
   "entries": [
     "components/ir-booking-engine/ir-booking-page/ir-adult-child-counter/ir-adult-child-counter.js",
+    "components/ir-booking-widget/ir-booking-widget.js",
     "components/ir-booking-cancellation/ir-booking-cancellation.js",
     "components/ir-booking-engine/ir-booking-engine.js",
     "components/ir-booking-engine/ir-booking-listing/ir-booking-listing.js",
@@ -40,7 +41,9 @@
     "components/ir-booking-engine/ir-nav/ir-user-profile/ir-user-profile.js",
     "components/ir-booking-engine/ir-nav/ir-user-profile/ir-user-avatar/ir-user-avatar.js",
     "components/ir-booking-engine/ir-privacy-policy/ir-privacy-policy.js",
-    "components/ir-booking-widget/ir-booking-widget.js",
+    "components/ir-booking-widget/ir-multi-property-widget/ir-multi-property-widget.js",
+    "components/ir-booking-widget/ir-widget-date-popup/ir-widget-date-popup.js",
+    "components/ir-booking-widget/ir-widget-occupancy-popup/ir-widget-occupancy-popup.js",
     "components/ir-google-maps/ir-google-maps.js",
     "components/ir-guest-counter/ir-guest-counter.js",
     "components/ir-home-loader/ir-home-loader.js",
@@ -66,6 +69,7 @@
     "components/ui/ir-modal/ir-modal.js",
     "components/ui/ir-phone-input/ir-phone-input.js",
     "components/ui/ir-popover/ir-popover.js",
+    "components/ui/ir-popup/ir-popup.js",
     "components/ui/ir-radio/ir-radio.js",
     "components/ui/ir-select/ir-select.js",
     "components/ui/ir-sheet/ir-sheet.js",

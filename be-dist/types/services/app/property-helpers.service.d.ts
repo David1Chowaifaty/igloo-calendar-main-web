@@ -1,6 +1,6 @@
 import { TPickupFormData } from "../../models/pickup";
 export declare class PropertyHelpers {
-    convertPickup(pickup: TPickupFormData): any;
+    convertPickup(pickup: TPickupFormData, hasDifferentCurrency: boolean): Promise<any>;
     updateBookingStore(data: any): void;
     collectRoomTypeIds(props: any): number[];
     collectRatePlanIds(props: any): number[];

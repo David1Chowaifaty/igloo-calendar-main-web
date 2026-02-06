@@ -63,11 +63,11 @@ export class IrDialog {
         removeOverlay();
     }
     render() {
-        return (h(Host, { key: '729245af3ecccbfe30cb74672ab7608b9dee7a29' }, h("div", { key: 'f91e785998afbb113d77378584df8ae5667f41d8', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '33d37d4c6957202a927fa328d3d38a4c0585cfcb', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: 'c308d6f587a1f2516b72153178a64fbd1b2a0a97', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: '0c8e211bdd0c9aedebd83d716171c118e9857cdf', name: "modal-title" })), h("div", { key: '03ddb0943c0cd8273479e9abf98a64953016571d', class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { key: '7ac09e367654346c1fb1ed84cd127c76246b4ab8', onButtonClick: e => {
+        return (h(Host, { key: 'cbf588301e2904d2e83010ee9558e557511256ad' }, h("div", { key: '4632b620ca1f1e20a2f27296e9bc54bf5327ff70', class: "backdrop", "data-state": this.isOpen ? 'opened' : 'closed', onClick: () => this.closeModal() }), this.isOpen && (h("div", { key: '056556e050f2546bac79f808c350f282ab011e32', class: "modal-container", tabIndex: -1, role: "dialog", "aria-labelledby": "dialog1Title", "aria-describedby": "dialog1Desc" }, h("div", { key: '8f7a761c133becdceb8bfe9ccddb09414ec9e193', class: 'modal-title', id: "dialog1Title" }, h("slot", { key: '592cddbe9766acba5f98a38db292361b67544b63', name: "modal-title" })), h("div", { key: 'e4a42e08387ea5473609615b7f22bca42419caf3', class: "modal-body", id: "dialog1Desc" }, this.closeButton && (h("ir-button", { key: 'ccea46e9351bc6c7dc649a03afac84999ecc21df', onButtonClick: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal();
-            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "dialog-close-btn", iconName: "xmark" })), h("slot", { key: '6e1d7564cad777aa1e77ba83eb968f54aebf9c89', name: "modal-body" })), h("div", { key: 'bacb5e5bc5556d84845ad9ec44ac639010c6d7e2', class: "modal-footer" }, h("slot", { key: '951ab46347ee17b1488b400c5312e8338b488e7a', name: "modal-footer" }))))));
+            }, variants: "icon", title: localizedWords.entries.Lcz_Close, class: "dialog-close-btn", iconName: "xmark" })), h("slot", { key: '275107af0d9a7f122841b06cce337cfabafc1c07', name: "modal-body" })), h("div", { key: '26470506108c4631ac3e0cab1e2be39d93084a6c', class: "modal-footer" }, h("slot", { key: '4bb4b89ea6abf3db1b09c12cd927b23aafb10879', name: "modal-footer" }))))));
     }
     static get is() { return "ir-dialog"; }
     static get encapsulation() { return "shadow"; }

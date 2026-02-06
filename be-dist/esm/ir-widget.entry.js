@@ -1,9 +1,10 @@
-import { r as registerInstance, h, F as Fragment, g as getElement } from './index-243eecac.js';
-import { b as app_store, f as moment, l as localizedWords } from './utils-f5a1ea53.js';
-import { T as Token, C as CommonService, P as PropertyService, a as axios } from './Token-dedfc36d.js';
+import { r as registerInstance, h, F as Fragment, H as Host, g as getElement } from './index-243eecac.js';
+import { a as app_store, e as moment } from './utils-41d5079a.js';
+import { T as Token, C as CommonService, P as PropertyService, a as axios } from './Token-b1c059dd.js';
+import { l as localizedWords } from './localization.store-375cacee.js';
 import './moment-ab846cee.js';
 
-const irBookingWidgetCss = "*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;border:0 solid #e5e7eb;box-sizing:border-box}::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;}/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/:after,:before{--tw-content:\"\"}:host,html{-webkit-text-size-adjust:100%;font-feature-settings:normal;-webkit-tap-highlight-color:transparent;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;tab-size:4}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-feature-settings:normal;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em;font-variation-settings:normal}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{font-feature-settings:inherit;color:inherit;font-family:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,fieldset,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.block{display:block}.flex{display:flex}.hidden{display:none}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.uppercase{text-transform:uppercase}.outline{outline-style:solid}.transition{transition-duration:.15s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}:host{--spread:90deg;--shimmer-color:#fff;--speed:3s;box-sizing:border-box!important;display:flex;font-size:16px!important;padding:0 1rem;pointer-events:none;width:100%}:host([position=fixed]){bottom:1rem;left:50%;position:fixed;transform:translateX(-50%);width:100%;z-index:9999999999}.popup-container{border-radius:var(--radius);box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);height:21.25rem}.hovered-container{border-radius:inherit;inset:-.05rem;overflow:hidden;pointer-events:none;position:absolute;z-index:-1}.booking-widget-container{color:#fff;display:flex;flex-direction:column;pointer-events:all;position:relative;transition:all .3s ease-in-out;width:100%;z-index:2}.booking-widget-container,.booking-widget-container:after{background-color:#374151;border-radius:var(--radius,.5rem)}.booking-widget-container:after{content:\"\";inset:0;position:absolute}.date-trigger,.guests-trigger{display:none}.book-now{background:hsla(var(--brand-600,215,87%,51%),1);border-bottom-left-radius:var(--radius,.5rem);border-bottom-right-radius:var(--radius,.5rem);cursor:pointer;font-weight:500;gap:.5rem;text-align:center;transition:all .3s ease-in-out}.book-now:hover{background:hsl(var(--brand-700,218,80%,46%))}.date-trigger ir-icons,.guests-trigger ir-icons{left:14px;position:absolute}.date-trigger{border-top-left-radius:var(--radius,.5rem);border-top-right-radius:var(--radius,.5rem)}.btn-flip{background:hsla(var(--brand-600,215,87%,51%),1);border-radius:var(--radius,.5rem);color:#fff;display:inline-block;height:3rem;letter-spacing:1px;opacity:1;outline:0;overflow:hidden;padding:0 1.875rem;position:relative;text-align:center;text-decoration:none;text-transform:uppercase;transition:all .3s;z-index:1}.btn-flip:after{background-color:hsla(var(--brand-600,215,87%,51%),1);padding:0 1.875rem;width:100%;z-index:-2}.btn-flip:after,.btn-flip:before{bottom:0;content:\"\";height:100%;left:0;position:absolute}.btn-flip:before{background-color:hsla(var(--brand-800,215,87%,51%),1);transition:all .3s;width:0;z-index:-1}.btn-flip:before:dir(ltr){border-bottom-left-radius:0;border-top-left-radius:0}.btn-flip:before:dir(rtl){border-bottom-right-radius:0;border-top-right-radius:0}.btn-flip:hover{color:#fff}.btn-flip:hover:before{width:100%}@media only screen and (min-width:640px){:host{justify-content:center;margin-inline:auto;width:-moz-fit-content;width:fit-content}.hovered-container:before{background:conic-gradient(from calc(270deg - var(--spread)*.5),transparent 0,var(--shimmer-color) var(--spread),transparent var(--spread));border-radius:inherit;content:\"\";display:none;inset:0;overflow:hidden;position:absolute}.booking-widget-container:hover .hovered-container:before{animation:rotate var(--speed) linear infinite;display:block}@keyframes rotate{0%{transform:rotate(0)}to{transform:rotate(1turn)}}.booking-widget-container{align-items:center;flex-direction:row;opacity:0;transition:opacity .3s ease-in-out;width:-moz-fit-content;width:fit-content}.date-trigger,.guests-trigger{align-items:center;border-bottom:0;cursor:pointer;display:flex;font-size:14px;gap:1rem;justify-content:center;min-width:200px;padding:.625rem 14px;padding-inline-end:1rem;position:relative;z-index:1}.guests-trigger{min-width:200px}.date-trigger{border-right:1px solid var(--ir-widget-border-color);border-top-left-radius:0;border-top-right-radius:0}.ir-popover{width:-moz-fit-content;width:fit-content}.date-trigger ir-icons,.guests-trigger ir-icons{left:auto;position:static}.btn-flip:dir(ltr){border-bottom-left-radius:0;border-top-left-radius:0}.btn-flip:dir(rtl){border-bottom-right-radius:0;border-top-right-radius:0}}@media (min-width:1200px){.popup-container{height:24.5rem}}.static{position:static}.size-4{height:1rem;width:1rem}.h-full{height:100%}.w-full{width:100%}.border-0{border-width:0}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.p-4{padding:1rem}.lowercase{text-transform:lowercase}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color)}.shadow,.shadow-none{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}@media (min-width:640px){.sm\\:w-auto{width:auto}.sm\\:border{border-width:1px}}.sr-only{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.items-center{align-items:center}.justify-center{justify-content:center}.table{display:table}.grid{display:grid}.capitalize{text-transform:capitalize}.h-5{height:1.25rem}.w-5{width:1.25rem}.resize{resize:both}@media (min-width:640px){.sm\\:block{display:block}}@media (min-width:768px){.md\\:hidden{display:none}}.pointer-events-none{pointer-events:none}.inset-y-0{bottom:0;top:0}.end-1{inset-inline-end:.25rem}.start-2{inset-inline-start:.5rem}.px-\\[0\\.3rem\\]{padding-left:.3rem;padding-right:.3rem}.ps-9{padding-inline-start:2.25rem}.pt-1{padding-top:.25rem}.text-xs{font-size:.75rem;line-height:1rem}.text-\\[\\#667085\\]{--tw-text-opacity:1;color:rgb(102 112 133/var(--tw-text-opacity,1))}";
+const irBookingWidgetCss = "*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;border:0 solid #e5e7eb;box-sizing:border-box}::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-scroll-snap-strictness:proximity;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;}/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/:after,:before{--tw-content:\"\"}:host,html{-webkit-text-size-adjust:100%;font-feature-settings:normal;-webkit-tap-highlight-color:transparent;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;tab-size:4}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-feature-settings:normal;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em;font-variation-settings:normal}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{font-feature-settings:inherit;color:inherit;font-family:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,fieldset,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.block{display:block}.flex{display:flex}.hidden{display:none}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.border{border-width:1px}.uppercase{text-transform:uppercase}.lowercase{text-transform:lowercase}.outline{outline-style:solid}.transition{transition-duration:.15s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}:host{--spread:90deg;--shimmer-color:#fff;--speed:3s;box-sizing:border-box!important;display:flex;font-size:16px!important;padding:0 1rem;pointer-events:none;width:100%;width:-moz-fit-content;width:fit-content}:host([position=fixed]){bottom:1rem;left:50%;position:fixed;transform:translateX(-50%);width:100%;z-index:9999999999}:host([data-multi=true]){margin-inline:auto}.ir-widget__hover{border-radius:inherit;inset:-.05rem;overflow:hidden;pointer-events:none;position:absolute;z-index:-1}.ir-widget{color:var(--ir-widget-foreground-color,#fff);display:flex;flex-direction:column;pointer-events:all;position:relative;transition:all .3s ease-in-out;width:100%;z-index:2}.ir-widget,.ir-widget:after{background-color:var(--ir-widget-background-color,#374151);border-radius:var(--radius,.5rem)}.ir-widget:after{content:\"\";inset:0;position:absolute}.ir-widget__popover-panel{background-color:#fff;border:0;border-radius:var(--radius);box-shadow:none;height:21.25rem;padding:1rem;width:100%}.ir-widget__cta{background:hsla(var(--brand-600,215,87%,51%),1);border-radius:var(--radius,.5rem);color:#fff;display:inline-block;height:3rem;letter-spacing:1px;opacity:1;outline:0;overflow:hidden;padding:0 1.875rem;position:relative;text-align:center;text-decoration:none;text-transform:uppercase;transition:all .3s;z-index:1}.ir-widget__cta:after{background-color:hsla(var(--brand-600,215,87%,51%),1);padding:0 1.875rem;width:100%;z-index:-2}.ir-widget__cta:after,.ir-widget__cta:before{bottom:0;content:\"\";height:100%;left:0;position:absolute}.ir-widget__cta:before{background-color:hsla(var(--brand-800,215,87%,51%),1);transition:all .3s;width:0;z-index:-1}.ir-widget__cta:before:dir(ltr){border-bottom-left-radius:0;border-top-left-radius:0}.ir-widget__cta:before:dir(rtl){border-bottom-right-radius:0;border-top-right-radius:0}.ir-widget__cta:hover{color:#fff}.ir-widget__cta:hover:before{width:100%}.ir-widget__property-select{background-color:transparent;border:0;flex:1 1 0%;margin-right:1rem;max-width:auto;outline:none;width:100%}.ir-widget__date-trigger,.ir-widget__guests-trigger,.ir-widget__property-select{align-items:center;cursor:pointer;display:flex;font-size:14px;gap:1rem;justify-content:center;min-width:200px;padding:.625rem 14px;padding-inline-end:1rem;position:relative;z-index:1}.ir-widget__date-trigger,.ir-widget__guests-trigger{display:none!important}.ir-widget__date-trigger{border-top-left-radius:var(--radius,.5rem);border-top-right-radius:var(--radius,.5rem)}.ir-widget__date-trigger ir-icons,.ir-widget__guests-trigger ir-icons{left:14px;position:absolute}.ir-widget__guests{margin:0}.ir-widget__text-lower{text-transform:lowercase}.ir-widget__icon{height:1rem;width:1rem}.ir-widget__guest-counter{height:100%}.ir-widget__date-popup,.ir-widget__guests-popup{border-inline-end:1px solid var(--ir-widget-separator-color,transparent);display:none;z-index:9999}@media only screen and (min-width:640px){:host{justify-content:center;margin-inline:auto;width:-moz-fit-content;width:fit-content}.ir-widget__date-popup,.ir-widget__guests-popup{display:flex}.ir-widget__date-trigger,.ir-widget__guests-trigger{border-bottom:0;display:flex!important}.ir-widget[data-multi=true] .ir-widget__guests-trigger{display:none!important}.ir-widget[data-multi=true] .ir-widget__date-trigger{border:0;border-left:1px solid var(--ir-widget-separator-color,transparent)}.ir-widget[data-multi=true]{width:-moz-fit-content;width:fit-content}.ir-widget[data-multi=true] .ir-widget__popover:first-of-type{display:flex}.ir-widget__hover:before{background:conic-gradient(from calc(270deg - var(--spread)*.5),transparent 0,var(--shimmer-color) var(--spread),transparent var(--spread));border-radius:inherit;content:\"\";display:none;inset:0;overflow:hidden;position:absolute}.ir-widget:hover .ir-widget__hover:before{animation:rotate var(--speed) linear infinite;display:block}@keyframes rotate{0%{transform:rotate(0)}to{transform:rotate(1turn)}}.ir-widget{align-items:center;flex-direction:row;opacity:0;transition:opacity .3s ease-in-out;width:-moz-fit-content;width:fit-content}.ir-widget__guests-trigger{min-width:200px}.ir-widget__date-trigger{border-right:1px solid var(--ir-widget-separator-color,transparent);border-top-left-radius:0;border-top-right-radius:0}.ir-widget__popover{width:-moz-fit-content;width:fit-content}.ir-widget__date-trigger ir-icons,.ir-widget__guests-trigger ir-icons{left:auto;position:static}.ir-widget__cta:dir(ltr){border-bottom-left-radius:0;border-top-left-radius:0}.ir-widget__cta:dir(rtl){border-bottom-right-radius:0;border-top-right-radius:0}.ir-widget__popover-panel{border:1px solid #e5e7eb;width:auto}}@media (min-width:1024px){.ir-widget[data-multi=true] .ir-widget__popover{display:flex}.ir-widget[data-multi=true] .ir-widget__guests-trigger{border-left:1px solid var(--ir-widget-separator-color,transparent);display:flex!important}}@media (min-width:1200px){.ir-widget__popover-panel{height:24.5rem}}.ir-widget__date-popup::part(date-trigger),.ir-widget__guests-popup::part(guests-trigger){all:unset;align-items:center;cursor:pointer;display:flex;font-size:14px;gap:.875rem;height:100%;padding:0 1rem;width:100%}.ir-widget__guests-popup{border-inline-end:0}.ir-multi-property-widget__anchor{width:100%}.ir-multi-property-widget__popup::part(body){gap:0;padding:0;width:100%}@media only screen and (min-width:640px){.ir-multi-property-widget__anchor{margin-inline:auto;max-width:22.5rem}}.ir-multi-property-widget__header{align-items:center;border-bottom:1px solid var(--gray-200,#eaecf0);display:flex;gap:1rem;justify-content:space-between;padding:.5rem 1rem}.ir-multi-property-widget__header h5{font-size:1.25rem;line-height:1.4;margin:0}.ir-widget[data-multi=true]{align-items:center;flex-direction:row;opacity:0;transition:opacity .3s ease-in-out;width:100%}.ir-widget[data-multi=true] .ir-widget__popover{display:none}.ir-widget[data-multi=true] .ir-widget__cta:dir(ltr){border-bottom-left-radius:0;border-top-left-radius:0}.ir-widget[data-multi=true] .ir-widget__cta:dir(rtl){border-bottom-right-radius:0;border-top-right-radius:0}.ir-widget[data-multi=true] .ir-widget__cta,.ir-widget[data-multi=true] .ir-widget__cta:after{padding-inline:1rem}@media (min-width:640px){.ir-widget[data-multi=true]{width:-moz-fit-content;width:fit-content}.ir-widget[data-multi=true] .ir-widget__guests-popup{display:none}}@media (min-width:768px){.ir-widget[data-multi=true] .ir-widget__guests-popup{display:flex}}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.static{position:static}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.h-5{height:1.25rem}.w-5{width:1.25rem}.sr-only{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.table{display:table}.grid{display:grid}.capitalize{text-transform:capitalize}.items-center{align-items:center}.justify-center{justify-content:center}.pointer-events-none{pointer-events:none}.inset-y-0{bottom:0;top:0}.end-1{inset-inline-end:.25rem}.start-2{inset-inline-start:.5rem}.px-\\[0\\.3rem\\]{padding-left:.3rem;padding-right:.3rem}.ps-9{padding-inline-start:2.25rem}.pt-1{padding-top:.25rem}.text-xs{font-size:.75rem;line-height:1rem}.text-\\[\\#667085\\]{--tw-text-opacity:1;color:rgb(102 112 133/var(--tw-text-opacity,1))}";
 const IrWidgetStyle0 = irBookingWidgetCss;
 
 const IrBookingWidget = class {
@@ -21,19 +22,22 @@ const IrBookingWidget = class {
             from_date: null,
             to_date: null,
         };
-        this.guests = {
+        this.linkedProperties = [];
+        this.isFetchingProperty = true;
+        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
+        this.token = new Token();
+        this.commonService = new CommonService();
+        this.propertyService = new PropertyService();
+        this.baseGuests = {
             adultCount: 2,
             childrenCount: 0,
             infants: 0,
             childrenAges: [],
         };
-        this.baseUrl = 'https://gateway.igloorooms.com/IRBE';
-        this.token = new Token();
-        this.commonService = new CommonService();
-        this.propertyService = new PropertyService();
     }
     componentWillLoad() {
         this.initApp();
+        this.guests = this.baseGuests;
         app_store.userPreferences = {
             language_id: this.language,
             currency_id: 'usd',
@@ -47,8 +51,87 @@ const IrBookingWidget = class {
             document.body.appendChild(this.el);
         }
     }
+    handleCityChange(newValue) {
+        var _a;
+        const firstCityPropertyRow = (_a = this.level2Properties.properties) === null || _a === void 0 ? void 0 : _a.get(newValue)[0];
+        if (firstCityPropertyRow) {
+            this.selectedProperty = {
+                id: firstCityPropertyRow.property_id,
+            };
+        }
+        else {
+            this.selectedProperty = null;
+        }
+    }
+    async handlePropertyChange(newValue, oldValue) {
+        var _a, _b, _c, _d;
+        if (!this.isMultiPropertyMode()) {
+            return;
+        }
+        if ((newValue === null || newValue === void 0 ? void 0 : newValue.id) === (oldValue === null || oldValue === void 0 ? void 0 : oldValue.id) || !newValue) {
+            return;
+        }
+        this.isFetchingProperty = true;
+        const [property] = await Promise.all([
+            this.propertyService.getExposedProperty({
+                id: newValue.id,
+                language: this.language,
+                aname: null,
+                perma_link: null,
+            }),
+            this.propertyService.getExposedNonBookableNights({
+                porperty_id: newValue.id,
+                from_date: moment().format('YYYY-MM-DD'),
+                to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
+                perma_link: null,
+                aname: null,
+            }),
+        ]);
+        this.property = property;
+        this.selectedProperty = property;
+        this.dateModifiers = Object.assign({}, this.getDateModifiers());
+        if (((_b = (_a = this.property) === null || _a === void 0 ? void 0 : _a.adult_child_constraints) === null || _b === void 0 ? void 0 : _b.child_max_age) === 0 && this.guests.childrenCount > 0) {
+            this.guests = Object.assign(Object.assign({}, this.baseGuests), { adultCount: this.guests.adultCount });
+        }
+        if (this.hasDisabledDateInRange((_c = this.dates) === null || _c === void 0 ? void 0 : _c.from_date, (_d = this.dates) === null || _d === void 0 ? void 0 : _d.to_date, this.dateModifiers)) {
+            this.dates = {
+                from_date: null,
+                to_date: null,
+            };
+        }
+        this.isFetchingProperty = false;
+        if (this.isLoading) {
+            this.showWidget();
+        }
+    }
+    hasDisabledDateInRange(from, to, dateModifiers) {
+        var _a;
+        if (!from || !to || !dateModifiers)
+            return false;
+        const cursor = moment(from);
+        const end = moment(to);
+        while (cursor.isSameOrBefore(end, 'day')) {
+            const key = cursor.format('YYYY-MM-DD');
+            if ((_a = dateModifiers[key]) === null || _a === void 0 ? void 0 : _a.disabled) {
+                return true;
+            }
+            cursor.add(1, 'day');
+        }
+        return false;
+    }
+    get isMultiProperties() {
+        var _a;
+        return ((_a = this.linkedProperties) === null || _a === void 0 ? void 0 : _a.length) > 1;
+    }
+    get isLevel2Mode() {
+        const city_perma_links = this.parseCommaSeparated(this.l);
+        return (city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !this.isMultiProperties;
+    }
+    get isSingleProperty() {
+        const properties = this.parseCommaSeparated(this.p);
+        return properties.length === 1 && (this.p || this.propertyId);
+    }
     initApp() {
-        this.modifyContainerStyle();
         axios.defaults.withCredentials = true;
         axios.defaults.baseURL = this.baseUrl;
         this.resetPageFontSize();
@@ -58,53 +141,132 @@ const IrBookingWidget = class {
         styleEl.innerHTML = 'html { font-size: 16px; }';
         document.head.appendChild(styleEl);
     }
+    parseCommaSeparated(value) {
+        var _a;
+        return ((_a = value === null || value === void 0 ? void 0 : value.split(',').map(v => v.trim().toLowerCase()).filter(Boolean)) !== null && _a !== void 0 ? _a : []);
+    }
     async initProperty() {
         try {
             this.isLoading = true;
             const token = await this.commonService.getBEToken();
             this.token.setToken(token);
-            const [property] = await Promise.all([
-                this.propertyService.getExposedProperty({
-                    id: this.propertyId,
-                    language: this.language,
-                    aname: this.p,
-                    perma_link: this.perma_link,
-                }),
+            const properties = this.parseCommaSeparated(this.p);
+            const city_perma_links = this.parseCommaSeparated(this.l);
+            const isSingleProperty = this.isSingleProperty;
+            const isMultiProperty = properties.length > 1;
+            const [property, linkedProperties, level2SeparationsProperties] = await Promise.all([
+                // Single property only (NOT level-2)
+                isSingleProperty
+                    ? this.propertyService.getExposedProperty({
+                        id: this.propertyId,
+                        language: this.language,
+                        aname: properties[0],
+                        perma_link: this.perma_link,
+                    })
+                    : Promise.resolve(null),
+                // Multi-property ONLY
+                isMultiProperty
+                    ? this.propertyService.getExposedProperties({
+                        anames: properties,
+                        language: this.language,
+                    })
+                    : Promise.resolve(null),
+                // Level-2 ONLY when single property
+                (city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !isMultiProperty
+                    ? this.propertyService.fetchPropertiesByLevel2({
+                        pool: this.pool,
+                        city_perma_links,
+                    })
+                    : Promise.resolve(null),
                 this.commonService.getExposedLanguage(),
-                this.propertyService.getExposedNonBookableNights({
-                    porperty_id: this.propertyId,
-                    from_date: moment().format('YYYY-MM-DD'),
-                    to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
-                    perma_link: this.perma_link,
-                    aname: this.p,
-                }),
+                // Non-bookable nights ONLY when not level-2
+                isSingleProperty
+                    ? this.propertyService.getExposedNonBookableNights({
+                        porperty_id: this.propertyId,
+                        from_date: moment().format('YYYY-MM-DD'),
+                        to_date: moment().add(1, 'years').format('YYYY-MM-DD'),
+                        perma_link: this.perma_link,
+                        aname: properties[0],
+                    })
+                    : Promise.resolve(null),
             ]);
-            this.property = property;
+            if ((city_perma_links === null || city_perma_links === void 0 ? void 0 : city_perma_links.length) > 0 && !!this.pool && !isMultiProperty) {
+                this.setLevel2Properties(level2SeparationsProperties);
+            }
+            else {
+                this.linkedProperties = linkedProperties !== null && linkedProperties !== void 0 ? linkedProperties : [];
+                this.selectedProperty = this.linkedProperties.length > 0 ? this.linkedProperties[0] : property;
+            }
+            if (property) {
+                this.property = property;
+            }
+            // this.property = property;
             this.dateModifiers = this.getDateModifiers();
         }
         catch (error) {
             console.log(error);
         }
         finally {
-            this.isLoading = false;
-            this.elTimout = setTimeout(() => {
-                this.containerRef.style.opacity = '1';
-            }, this.delay);
+            if (this.isSingleProperty) {
+                this.showWidget();
+            }
         }
     }
-    handleContentContainerStyle() {
-        this.modifyContainerStyle();
+    showWidget() {
+        this.isLoading = false;
+        this.elTimout = setTimeout(() => {
+            if (!this.containerRef) {
+                return;
+            }
+            this.containerRef.style.opacity = '1';
+        }, this.delay);
     }
-    modifyContainerStyle() {
-        if (this.contentContainerStyle && this.contentContainerStyle.borderColor) {
-            this.el.style.setProperty('--ir-widget-border-color', this.contentContainerStyle.borderColor);
+    setLevel2Properties(level2SeparationsProperties) {
+        if (!level2SeparationsProperties || level2SeparationsProperties.length === 0) {
+            this.level2Properties = { cities: [], properties: new Map() };
+            return;
         }
+        const citiesMap = new Map();
+        const propertiesMap = new Map();
+        for (const row of level2SeparationsProperties) {
+            if (!citiesMap.has(row.city_perma_link)) {
+                // citiesMap.set(row.city_id, {
+                //   id: row.city_id,
+                //   name: row.city_perma_link,
+                // });
+                citiesMap.set(row.city_perma_link, row.city_perma_link);
+            }
+            const existing = propertiesMap.get(row.city_perma_link);
+            if (existing) {
+                existing.push(row);
+            }
+            else {
+                propertiesMap.set(row.city_perma_link, [row]);
+            }
+        }
+        const cities = this.parseCommaSeparated(this.l);
+        for (const city of cities) {
+            if (!propertiesMap.has(city)) {
+                propertiesMap.set(city, []);
+            }
+        }
+        this.level2Properties = {
+            cities,
+            properties: propertiesMap,
+        };
+        const firstCity = cities.find(city => { var _a; return ((_a = propertiesMap.get(city)) === null || _a === void 0 ? void 0 : _a.length) > 0; });
+        if (firstCity) {
+            this.selectedCity = firstCity;
+        }
+    }
+    isMultiPropertyMode() {
+        return this.isLevel2Mode || this.isMultiProperties;
     }
     handleBooknow() {
         if (!this.validateChildrenAges())
             return;
         let subdomainURL = `bookingmystay.com`;
-        const currentDomain = `${this.property.perma_link}.${subdomainURL}`;
+        const currentDomain = `${this.selectedProperty.perma_link}.${subdomainURL}`;
         const { from_date, to_date } = this.dates;
         const { adultCount, childrenCount } = this.guests;
         const fromDate = from_date ? `checkin=${moment(from_date).format('YYYY-MM-DD')}` : '';
@@ -119,91 +281,69 @@ const IrBookingWidget = class {
         window.open(`https://${currentDomain}?${queryString}`, '_blank');
     }
     getDateModifiers() {
-        var _a;
-        if (!Object.keys(app_store.nonBookableNights).length) {
+        var _a, _b, _c;
+        if (!((_b = Object.keys((_a = app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights) !== null && _a !== void 0 ? _a : {})) === null || _b === void 0 ? void 0 : _b.length)) {
             return undefined;
         }
         const nights = {};
-        (_a = Object.keys(app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights)) === null || _a === void 0 ? void 0 : _a.forEach(nbn => {
+        (_c = Object.keys(app_store === null || app_store === void 0 ? void 0 : app_store.nonBookableNights)) === null || _c === void 0 ? void 0 : _c.forEach(nbn => {
             nights[nbn] = {
                 disabled: true,
             };
         });
         return nights;
     }
-    renderDateTrigger() {
-        var _a, _b;
-        const from = (_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date;
-        const to = (_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date;
-        let fromLabel = '';
-        let toLabel = '';
-        if (from) {
-            fromLabel = moment(from).format('DD MMM YYYY');
+    validateChildrenAges() {
+        var _a;
+        if (this.guests.childrenAges.some(c => c === '')) {
+            this.error = true;
+            return false;
         }
-        if (to) {
-            toLabel = moment(to).format('DD MMM YYYY');
-        }
-        return (h("div", { class: "date-trigger", slot: "trigger" }, h("ir-icons", { name: "calendar", svgClassName: "size-4" }), fromLabel && toLabel ? (h("div", null, h("p", null, h("span", null, fromLabel), h("span", null, " - "), h("span", null, toLabel)))) : (h("div", null, h("p", null, "Your dates")))));
+        (_a = this.guestPopover) === null || _a === void 0 ? void 0 : _a.forceClose();
+        return true;
     }
-    renderAdultChildTrigger() {
-        const { adultCount, childrenCount } = this.guests;
-        return (h("div", { class: "guests-trigger", slot: "trigger" }, h("ir-icons", { name: "user", svgClassName: "size-4" }), h("p", { class: 'guests' }, adultCount > 0 ? (h(Fragment, null, h("span", { class: "lowercase" }, adultCount, " ", adultCount === 1 ? localizedWords.entries.Lcz_Adult : localizedWords.entries.Lcz_Adults), this.property.adult_child_constraints.child_max_age > 0 && (h("span", { class: "lowercase" }, ", ", childrenCount, " ", childrenCount === 1 ? localizedWords.entries.Lcz_Child : localizedWords.entries.Lcz_Children)))) : (h("span", null, "Guests")))));
+    renderMultiWidget() {
+        var _a;
+        return (h("ir-multi-property-widget", { isFetchingProperty: this.isFetchingProperty, selectedCity: this.selectedCity, level2Properties: this.level2Properties, linkedProperties: this.linkedProperties, selectedPropertyId: (_a = this.selectedProperty) === null || _a === void 0 ? void 0 : _a.id, dateModifiers: this.dateModifiers, property: this.selectedProperty, locale: app_store.selectedLocale, dates: this.dates, guests: this.guests, error: this.error, position: this.position, exportparts: "container, property-select, cta", onCityChange: e => {
+                this.selectedCity = e.detail;
+            }, onPropertyChange: e => {
+                const propertyId = Number(e.detail);
+                this.selectedProperty = { id: propertyId };
+            }, onDateChange: e => {
+                this.dates = e.detail;
+            }, onGuestsChange: e => (this.guests = Object.assign({}, e.detail)), onBookNow: () => this.handleBooknow() }));
     }
     disconnectedCallback() {
         if (this.elTimout) {
             clearTimeout(this.elTimout);
         }
     }
-    handlePopoverToggle(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.isGuestPopoverOpen = e.detail;
-        console.log('here');
-        if (!this.isGuestPopoverOpen) {
-            if (this.guests.childrenCount === 0) {
-                this.guestPopover.forceClose();
-            }
-            else {
-                this.validateChildrenAges();
-            }
-        }
-    }
-    validateChildrenAges() {
-        if (this.guests.childrenAges.some(c => c === '')) {
-            this.error = true;
-            return false;
-        }
-        this.guestPopover.forceClose();
-        return true;
-    }
     render() {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a;
         if (this.isLoading) {
             return null;
         }
-        return (h(Fragment, null, h("div", { class: "booking-widget-container", ref: el => (this.containerRef = el), style: this.contentContainerStyle }, h("div", { class: 'hovered-container' }), h("ir-popover", { autoAdjust: false, allowFlip: false, class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', ref: el => (this.popover = el), onOpenChange: e => {
-                this.isPopoverOpen = e.detail;
-                if (!this.isPopoverOpen) {
-                    if (this.dates.from_date && !this.dates.to_date) {
-                        this.dates = Object.assign(Object.assign({}, this.dates), { to_date: moment(this.dates.from_date).add(1, 'days').toDate() });
-                    }
-                }
-            } }, this.renderDateTrigger(), h("div", { slot: "popover-content", class: "popup-container w-full border-0 bg-white p-4  shadow-none sm:w-auto sm:border  " }, h("ir-date-range", { dateModifiers: this.dateModifiers, minDate: moment().add(-1, 'days'), style: { '--radius': 'var(--ir-widget-radius)' }, fromDate: ((_a = this.dates) === null || _a === void 0 ? void 0 : _a.from_date) ? moment(this.dates.from_date) : null, toDate: ((_b = this.dates) === null || _b === void 0 ? void 0 : _b.to_date) ? moment(this.dates.to_date) : null, locale: app_store.selectedLocale, maxSpanDays: this.property.max_nights, onDateChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                const { end, start } = e.detail;
-                if (end && this.isPopoverOpen) {
-                    this.popover.toggleVisibility();
-                }
-                this.dates = {
-                    from_date: start,
-                    to_date: end,
-                };
-            } }))), h("ir-popover", { outsideEvents: "none", autoAdjust: false, allowFlip: false, ref: el => (this.guestPopover = el), class: 'ir-popover', showCloseButton: false, placement: this.position === 'fixed' ? 'top-start' : 'auto', onOpenChange: this.handlePopoverToggle.bind(this) }, this.renderAdultChildTrigger(), h("ir-guest-counter", { slot: "popover-content", error: this.error, adults: (_c = this.guests) === null || _c === void 0 ? void 0 : _c.adultCount, child: (_d = this.guests) === null || _d === void 0 ? void 0 : _d.childrenCount, minAdultCount: 0, maxAdultCount: (_e = this.property) === null || _e === void 0 ? void 0 : _e.adult_child_constraints.adult_max_nbr, maxChildrenCount: (_f = this.property) === null || _f === void 0 ? void 0 : _f.adult_child_constraints.child_max_nbr, childMaxAge: (_g = this.property) === null || _g === void 0 ? void 0 : _g.adult_child_constraints.child_max_age, onUpdateCounts: e => (this.guests = Object.assign({}, e.detail)), class: 'h-full', onCloseGuestCounter: () => this.guestPopover.forceClose() })), h("button", { class: "btn-flip", onClick: this.handleBooknow.bind(this) }, "Book now"))));
+        if (this.isLevel2Mode) {
+            if (this.position === 'block') {
+                return this.renderMultiWidget();
+            }
+            return (h("ir-popup", { sync: "width", ref: el => (this.mainWidgetPopupRef = el), distance: -45, class: "ir-multi-property-widget__popup" }, h("ir-button", { slot: "anchor", part: "anchor", size: "md", class: "ir-multi-property-widget__anchor", label: localizedWords.entries.Lcz_BookNow }), h("header", { class: "ir-multi-property-widget__header", part: "header" }, h("h5", null, localizedWords.entries.Lcz_BookNow), h("ir-button", { onButtonClick: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.mainWidgetPopupRef.close();
+                }, iconName: "xmark", variants: "icon" })), this.renderMultiWidget()));
+        }
+        return (h(Host, { "data-multi": this.isMultiProperties ? 'true' : 'false' }, h("div", { part: "container", class: "ir-widget", "data-multi": this.isMultiProperties ? 'true' : 'false', ref: el => (this.containerRef = el) }, h("div", { part: "hover", class: 'ir-widget__hover' }), this.isMultiProperties && (h("select", { part: "property-select", class: "ir-widget__property-select", onChange: e => {
+                const propertyId = e.target.value;
+                this.selectedProperty = this.linkedProperties.find(p => p.id.toString() === propertyId);
+            } }, this.linkedProperties.map(property => (h("option", { selected: this.selectedProperty.id.toString() === property.id.toString(), value: property.id }, property.name))))), h(Fragment, null, h("ir-widget-date-popup", { class: "ir-widget__date-popup", dateModifiers: this.dateModifiers, exportparts: "date-trigger", dates: this.dates, locale: app_store.selectedLocale, maxSpanDays: (_a = this.property) === null || _a === void 0 ? void 0 : _a.max_nights, onDateChange: e => {
+                this.dates = e.detail;
+            } }), h("ir-widget-occupancy-popup", { exportparts: "guests-trigger", class: "ir-widget__guests-popup", error: this.error, guests: this.guests, property: this.property, onGuestsChange: e => (this.guests = Object.assign({}, e.detail)) })), h("button", { part: "cta", class: "ir-widget__cta", onClick: this.handleBooknow.bind(this) }, this.isMultiProperties ? (h("svg", { xmlns: "http://www.w3.org/2000/svg", height: 24, width: 24, viewBox: "0 0 640 640" }, h("path", { fill: "currentColor", d: "M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z" }))) : (localizedWords.entries.Lcz_BookNow)))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {
-        "contentContainerStyle": ["handleContentContainerStyle"]
+        "selectedCity": ["handleCityChange"],
+        "selectedProperty": ["handlePropertyChange"]
     }; }
 };
 IrBookingWidget.style = IrWidgetStyle0;

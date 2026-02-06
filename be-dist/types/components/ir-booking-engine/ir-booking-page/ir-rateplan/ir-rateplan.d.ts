@@ -12,7 +12,7 @@ export declare class IrRateplan {
     roomTypeInventory: number;
     roomTypeId: number;
     isLoading: boolean;
-    cancelationMessage: string;
+    cancellationMessage: string;
     isRatePlanAvailable: boolean;
     animateBookingButton: EventEmitter<null>;
     private paymentService;
@@ -20,7 +20,7 @@ export declare class IrRateplan {
     handleRTICHange(newValue: number, oldValue: number): any;
     private checkAvailability;
     private handleVariationChange;
-    private fetchCancelationMessage;
+    private fetchCancellationMessage;
     render(): any;
     formatVariation(v: Variation): any;
 }

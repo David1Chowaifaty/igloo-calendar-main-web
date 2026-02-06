@@ -24,8 +24,8 @@ export default class VariationService {
      * @returns {number} The discounted amount for the selected variation, or 0 if no discounted amount is available.
      */
     calculateVariationAmount(params) {
-        var _a;
-        return ((_a = this.getVariationBasedOnInfants(params)) === null || _a === void 0 ? void 0 : _a.discounted_amount) || 0;
+        const variation = this.getVariationBasedOnInfants(params);
+        return { amount: (variation === null || variation === void 0 ? void 0 : variation.discounted_amount) || 0, gross: (variation === null || variation === void 0 ? void 0 : variation.discounted_gross_amount) || 0 };
     }
     /**
      * Finds the appropriate variation from a list of variations based on the number of infants.

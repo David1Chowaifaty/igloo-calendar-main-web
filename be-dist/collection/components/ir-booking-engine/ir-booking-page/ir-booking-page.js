@@ -78,13 +78,14 @@ export class IrBookingPage {
             return null;
         }
         // console.log(this.checkMaxAmount());
-        const { totalAmount } = calculateTotalCost();
+        const { totalAmount } = calculateTotalCost({ gross: true, infants: false });
         const isInjected = app_store.app_data.injected;
         return (h(Host, null, h("div", { class: "space-y-5 " }, isInjected && app_store.app_data.view === 'default' ? null : (h("div", { ref: el => (this.propertyGalleryRef = el) }, h("ir-property-gallery", null))), isInjected && app_store.app_data.view === 'extended' && h("p", { innerHTML: (_b = (_a = this.property) === null || _a === void 0 ? void 0 : _a.description) === null || _b === void 0 ? void 0 : _b.location_and_intro, class: "py-2" }), h("div", null, h("ir-availability-header", { ages: this.ages, ref: el => (this.availabilityHeaderRef = el), fromDate: this.fromDate, toDate: this.toDate, adultCount: this.adultCount, childrenCount: this.childrenCount })), h("section", { class: app_store.app_data.displayMode === 'default' ? 'relative justify-between gap-4 rounded-md ' : '', ref: el => (this.roomTypeSectionRef = el) }, h("div", { class: app_store.app_data.displayMode === 'default' ? ' flex-1 py-2' : 'grid-container' }, (_c = booking_store.roomTypes) === null || _c === void 0 ? void 0 : _c.map(roomType => {
             if (!roomType.is_active ||
                 (app_store.app_data.roomtype_id && roomType.id !== app_store.app_data.roomtype_id) ||
-                !roomType.rateplans.some(rp => rp.is_booking_engine_enabled) ||
-                (!!booking_store.bookingAvailabilityParams.agent && roomType.rateplans.filter(rp => rp.is_targeting_travel_agency).length === 0)) {
+                !roomType.rateplans.some(rp => rp.is_booking_engine_enabled)
+            // ||(!!booking_store.bookingAvailabilityParams.agent && roomType.rateplans.filter(rp => rp.is_targeting_travel_agency).length === 0)
+            ) {
                 return null;
             }
             return h("ir-roomtype", { display: app_store.app_data.displayMode, roomtype: roomType, key: roomType.id });

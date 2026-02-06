@@ -1,7 +1,20 @@
 import axios from "axios";
 import { renderTime } from "../../utils/utils";
 import app_store from "../../stores/app.store";
+import booking_store from "../../stores/booking";
 export class PickupService {
+    calculateTotalPersons() {
+        let count = 0;
+        Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+            return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
+                const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
+                if (r.reserved !== 0) {
+                    count += r.selected_variation.adult_nbr + r.selected_variation.child_nbr;
+                }
+            });
+        });
+        return count;
+    }
     async savePickup(params, booking_nbr, is_remove) {
         try {
             const splitTime = params.arrival_time.split(':');

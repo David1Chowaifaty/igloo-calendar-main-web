@@ -4,6 +4,7 @@ declare class Token {
     private static isInterceptorAdded;
     constructor();
     private initialize;
+    getToken(): string;
     setToken(token: string): void;
 }
 export default Token;

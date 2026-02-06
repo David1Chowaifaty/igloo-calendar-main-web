@@ -21,6 +21,7 @@ export class IrCheckoutPage {
         this.paymentService = new PaymentService();
         this.authService = new AuthService();
     }
+    // private alertRef: HTMLIrAlertDialogElement;
     async componentWillLoad() {
         var _a, _b;
         this.calculateTotalPrepaymentAmount();
@@ -49,7 +50,7 @@ export class IrCheckoutPage {
         e.stopPropagation();
         this.resetErrorState();
         if (passedBookingCutoff()) {
-            this.alertRef.openModal();
+            // this.alertRef.openModal();
             return;
         }
         if (!this.validateUserForm() || !this.validateBookingDetails() || !this.validatePickupForm() || !this.validatePayment() || this.validatePolicyAcceptance()) {
@@ -263,7 +264,7 @@ export class IrCheckoutPage {
                 e.stopImmediatePropagation();
                 this.routing.emit('booking');
                 clearCheckoutRooms();
-            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error }))), h("ir-alert-dialog", { ref: el => (this.alertRef = el) }, h("div", { slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("h1", { class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { slot: "modal-body" }, (_c = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _c === void 0 ? void 0 : _c.Lcz_BookingIsNotAvailable), h("div", { slot: "modal-footer" }, h("ir-button", { label: (_d = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _d === void 0 ? void 0 : _d.Lcz_GoBack, onButtonClick: () => {
+            }, iconName: app_store.dir === 'RTL' ? 'angle_right' : 'angle_left' }), h("p", { class: "text-2xl font-semibold" }, localizedWords.entries.Lcz_CompleteYourBooking)), !app_store.is_signed_in && !app_store.app_data.hideGoogleSignIn && (h("div", null, h("ir-quick-auth", null))), h("div", { class: 'space-y-8' }, h("div", null, h("ir-user-form", { ref: el => (this.userForm = el), class: "", errors: this.error && this.error.cause === 'user' ? this.error.issues : undefined })), h("div", null, h("ir-booking-details", { ref: el => (this.bookingDetails = el), errors: this.error && this.error.cause === 'booking-details' ? this.error.issues : undefined })), h("div", null, h("ir-pickup", { ref: el => (this.pickupForm = el), errors: this.error && this.error.cause === 'pickup' ? this.error.issues : undefined })))), h("section", { class: "w-full md:sticky  md:top-20  md:flex md:max-w-md md:justify-end" }, h("ir-booking-summary", { isBookingConfirmed: this.isBookingConfirmed, prepaymentAmount: this.prepaymentAmount, error: this.error }))), h("ir-alert-dialog", null, h("div", { slot: "modal-title", class: 'flex items-center gap-4 pb-2' }, h("h1", { class: 'text-lg font-semibold' }, (_b = (_a = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _a === void 0 ? void 0 : _a.Lcz_SomethingWentWrong) !== null && _b !== void 0 ? _b : 'Something went wrong', "!")), h("p", { slot: "modal-body" }, (_c = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _c === void 0 ? void 0 : _c.Lcz_BookingIsNotAvailable), h("div", { slot: "modal-footer" }, h("ir-button", { label: (_d = localizedWords === null || localizedWords === void 0 ? void 0 : localizedWords.entries) === null || _d === void 0 ? void 0 : _d.Lcz_GoBack, onButtonClick: () => {
                 this.routing.emit('booking');
                 clearCheckoutRooms();
             } })))));

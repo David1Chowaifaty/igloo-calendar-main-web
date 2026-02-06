@@ -32,8 +32,8 @@ class VariationService {
      * @returns {number} The discounted amount for the selected variation, or 0 if no discounted amount is available.
      */
     calculateVariationAmount(params) {
-        var _a;
-        return ((_a = this.getVariationBasedOnInfants(params)) === null || _a === void 0 ? void 0 : _a.discounted_amount) || 0;
+        const variation = this.getVariationBasedOnInfants(params);
+        return { amount: (variation === null || variation === void 0 ? void 0 : variation.discounted_amount) || 0, gross: (variation === null || variation === void 0 ? void 0 : variation.discounted_gross_amount) || 0 };
     }
     /**
      * Finds the appropriate variation from a list of variations based on the number of infants.
@@ -29396,6 +29396,6 @@ const normalize = (s) => (s || '').trim().toLowerCase();
  */
 const getCurrencyByCode = (code) => app_store.currencies.find(c => normalize(c.code) === normalize(code)) || null;
 
-export { calculateTotalCost as A, clearCheckoutRooms as B, detectCardType as C, validateBooking as D, generateCheckoutUrl as E, injectHTMLAndRunScript as F, renderPropertyLocation as G, renderTime as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getCurrencyByCode as g, getAbbreviatedWeekdays as h, injectHTML as i, getUserPreference as j, validateAgentCode as k, localizedWords as l, manageAnchorSession as m, normalize as n, matchLocale as o, passedBookingCutoff as p, checkGhs as q, checkAffiliate as r, setDefaultLocale as s, formatFullLocation as t, formatAmount as u, validateCoupon as v, calculateTotalRooms as w, getPrepaymentAmount as x, getDateDifference as y, runScriptAndRemove as z };
+export { calculateTotalCost as A, clearCheckoutRooms as B, passedBookingCutoff as C, detectCardType as D, validateBooking as E, generateCheckoutUrl as F, injectHTMLAndRunScript as G, renderPropertyLocation as H, formatImageAlt as I, updateRoomParams as J, reserveRooms as K, getVisibleInventory as L, VariationService as V, calculateInfantNumber as a, booking_store as b, cn as c, dateFns as d, modifyQueryParam as e, modifyBookingStore as f, getCurrencyByCode as g, getAbbreviatedWeekdays as h, injectHTML as i, getUserPreference as j, validateAgentCode as k, localizedWords as l, manageAnchorSession as m, normalize as n, matchLocale as o, checkGhs as p, checkAffiliate as q, renderTime as r, setDefaultLocale as s, formatFullLocation as t, formatAmount as u, validateCoupon as v, calculateTotalRooms as w, getPrepaymentAmount as x, getDateDifference as y, runScriptAndRemove as z };
 
 //# sourceMappingURL=utils.js.map

@@ -203,6 +203,10 @@ declare const icons: {
         d: string;
         viewBox: string;
     };
+    'location-dot': {
+        viewBox: string;
+        d: string;
+    };
 };
 export type TIcons = keyof typeof icons;
 export default icons;

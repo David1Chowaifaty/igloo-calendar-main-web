@@ -4,8 +4,9 @@ import localizedWords from "../../stores/localization.store";
 import { generateCheckoutUrl } from "../../utils/utils";
 import axios from "axios";
 import { isBefore, isSameDay, parseISO } from "date-fns";
+import moment from "moment";
 export class PaymentService {
-    async getExposedCancelationDueAmount(params) {
+    async getExposedCancellationDueAmount(params) {
         const { data } = await axios.post(`/Get_Exposed_Cancelation_Due_Amount`, Object.assign({}, params));
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
@@ -14,15 +15,6 @@ export class PaymentService {
         return res;
     }
     async GeneratePaymentCaller({ token, params, onRedirect, onScriptRun, }) {
-        // const resp = await fetch(`https://gateway.igloorooms.com/IRBE/Generate_Payment_Caller`, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Authorization': token,
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ ...params, callback_url: `https://${app_store.property.perma_link}.bookingmystay.com/invoice` }),
-        // });
-        // const data = await resp.json();
         const { data } = await axios.post('/Generate_Payment_Caller', Object.assign(Object.assign({}, params), { callback_url: generateCheckoutUrl(app_store.property.perma_link) }), { headers: { Authorization: token } });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
@@ -36,8 +28,16 @@ export class PaymentService {
         }
         return res;
     }
-    async RequestBookingCancellation(booking_nbr) {
-        const { data } = await axios.post(`/Request_Booking_Cancelation`, { BOOK_NBR: booking_nbr });
+    async requestBookingCancellation(booking_nbr) {
+        // const { data } = await axios.post(`/Request_Booking_Cancelation`, { BOOK_NBR: booking_nbr });
+        // if (data['ExceptionMsg'] !== '') {
+        //   throw new Error(data.ExceptionMsg);
+        // }
+        // return data['My_Result'];
+        const { data } = await axios.post(`/Change_Exposed_Booking_Status`, {
+            book_nbr: booking_nbr,
+            status: 'CANC_RA',
+        });
         if (data['ExceptionMsg'] !== '') {
             throw new Error(data.ExceptionMsg);
         }
@@ -49,35 +49,71 @@ export class PaymentService {
             throw new Error(data.ExceptionMsg);
         }
         const result = data['My_Result'];
-        return { data: result, amount: this.processAlicablePolicies(result, book_date).amount, room_type_id: params.room_type_id, rate_plan_id: params.rate_plan_id };
+        return { data: result, amount: this.processApplicablePolicies(result, book_date).amount, room_type_id: params.room_type_id, rate_plan_id: params.rate_plan_id };
     }
-    processAlicablePolicies(policies, book_date) {
+    processApplicablePolicies(policies, book_date) {
         var _a, _b, _c, _d;
-        const guarenteeAmount = ((_b = (_a = policies.find(po => po.type === 'guarantee')) === null || _a === void 0 ? void 0 : _a.brackets[0]) === null || _b === void 0 ? void 0 : _b.gross_amount) || 0;
-        let cancelation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(new Date(b.due_on), book_date) || isSameDay(new Date(b.due_on), book_date))); });
-        if (cancelation) {
-            const cancelationAmount = (_d = (_c = cancelation.brackets.find(b => isBefore(new Date(b.due_on), book_date) || isSameDay(new Date(b.due_on), book_date))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
-            return { amount: cancelationAmount > guarenteeAmount ? cancelationAmount : guarenteeAmount };
+        const guaranteeAmount = ((_b = (_a = policies.find(po => po.type === 'guarantee')) === null || _a === void 0 ? void 0 : _a.brackets[0]) === null || _b === void 0 ? void 0 : _b.gross_amount) || 0;
+        let cancellation = policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(new Date(b.due_on), book_date) || isSameDay(new Date(b.due_on), book_date))); });
+        if (cancellation) {
+            const cancellationAmount = (_d = (_c = cancellation.brackets.find(b => isBefore(new Date(b.due_on), book_date) || isSameDay(new Date(b.due_on), book_date))) === null || _c === void 0 ? void 0 : _c.gross_amount) !== null && _d !== void 0 ? _d : null;
+            return { amount: cancellationAmount > guaranteeAmount ? cancellationAmount : guaranteeAmount };
         }
-        return { amount: guarenteeAmount };
+        return { amount: guaranteeAmount };
     }
-    checkFreeCancelationZone(policies) {
-        const now = new Date();
-        let isInFreeCancelationZone = false;
-        let cancelation = policies === null || policies === void 0 ? void 0 : policies.find(po => { var _a; return po.type === 'cancelation' && ((_a = po === null || po === void 0 ? void 0 : po.brackets) === null || _a === void 0 ? void 0 : _a.some(b => isBefore(new Date(b.due_on), now) || isSameDay(new Date(b.due_on), now))); });
-        if (!cancelation) {
-            isInFreeCancelationZone = true;
+    /**
+     * Determines whether the current time falls within a "free cancellation" bracket.
+     *
+     * The method identifies which cancellation bracket (based on `due_on` date)
+     * the current time is within. A bracket is defined by a start date (`due_on`)
+     * and ends at the start of the next bracket (or continues indefinitely if it's the last one).
+     *
+     * If the current bracket has an `amount` or `gross_amount` equal to `0`,
+     * the booking is considered to be in the free cancellation period.
+     *
+     * @param {IExposedApplicablePolicies[]} policies - List of applicable policies containing cancellation brackets.
+     * @returns {boolean} Returns `true` if currently in a free cancellation bracket (amount = 0), otherwise `false`.
+     *
+     * @example
+     * const isFree = paymentService.checkFreeCancellationZone(policies);
+     * if (isFree) {
+     *   console.log('You are within the free cancellation period.');
+     * }
+     */
+    checkFreeCancellationZone(policies) {
+        var _a;
+        const cancellationPolicies = policies === null || policies === void 0 ? void 0 : policies.find(p => p.type === 'cancelation');
+        if (!cancellationPolicies || !Array.isArray(cancellationPolicies.brackets) || cancellationPolicies.brackets.length === 0) {
+            return false;
         }
-        return isInFreeCancelationZone;
+        const now = moment();
+        // Ensure brackets are in ascending order by start date
+        const brackets = [...cancellationPolicies.brackets].sort((a, b) => moment(a.due_on, 'YYYY-MM-DD').valueOf() - moment(b.due_on, 'YYYY-MM-DD').valueOf());
+        // Find the bracket where: start <= now < nextStart (or open-ended if last)
+        let currentBracket = null;
+        for (let i = 0; i < brackets.length; i++) {
+            const start = moment(brackets[i].due_on, 'YYYY-MM-DD');
+            const nextStart = i < brackets.length - 1 ? moment(brackets[i + 1].due_on, 'YYYY-MM-DD') : null;
+            if (now.isSameOrAfter(start) && (nextStart === null || now.isBefore(nextStart))) {
+                currentBracket = brackets[i];
+                break;
+            }
+        }
+        if (!currentBracket) {
+            // now is before the first bracket's start; by definition we're not inside any bracket
+            return true;
+        }
+        const amt = (_a = currentBracket.gross_amount) !== null && _a !== void 0 ? _a : 0;
+        return Number(amt) === 0;
     }
-    getCancelationMessage(applicablePolicies, showCancelation = false, includeGuarentee = true) {
+    getCancellationMessage(applicablePolicies, showCancellation = false, includeGuarantee = true) {
         var _a, _b;
-        const cancelationMessage = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
-        let message = cancelationMessage ? `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Cancelation}: </u></b>` : ''}${cancelationMessage}<br/>` : '<span></span>';
-        if (includeGuarentee) {
-            const guarenteeMessage = (_b = applicablePolicies.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
-            if (guarenteeMessage) {
-                message += `${showCancelation ? `<b><u>${localizedWords.entries.Lcz_Guarantee}: </u></b>` : ''}${guarenteeMessage}<br/>`;
+        const cancellationMessage = (_a = applicablePolicies.find(t => t.type === 'cancelation')) === null || _a === void 0 ? void 0 : _a.combined_statement;
+        let message = cancellationMessage ? `${showCancellation ? `<b><u>${localizedWords.entries.Lcz_Cancelation}: </u></b>` : ''}${cancellationMessage}<br/>` : '<span></span>';
+        if (includeGuarantee) {
+            const guaranteeMessage = (_b = applicablePolicies.find(t => t.type === 'guarantee')) === null || _b === void 0 ? void 0 : _b.combined_statement;
+            if (guaranteeMessage) {
+                message += `${showCancellation ? `<b><u>${localizedWords.entries.Lcz_Guarantee}: </u></b>` : ''}${guaranteeMessage}<br/>`;
             }
         }
         return {
@@ -85,7 +121,7 @@ export class PaymentService {
             data: applicablePolicies,
         };
     }
-    async fetchCancelationMessage(params) {
+    async fetchCancellationMessage(params) {
         var _a, _b;
         let applicablePolicies;
         if ('data' in params && params.data) {

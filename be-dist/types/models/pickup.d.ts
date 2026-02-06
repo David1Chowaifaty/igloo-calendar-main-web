@@ -259,10 +259,10 @@ export declare const PickupFormData: z.ZodObject<{
         name?: string;
         id?: number;
     };
-    arrival_time?: string;
     flight_details?: string;
     due_upon_booking?: string;
     number_of_vehicles?: number;
+    arrival_time?: string;
     arrival_date?: moment.Moment;
     selected_option?: {
         id?: number;
@@ -296,10 +296,10 @@ export declare const PickupFormData: z.ZodObject<{
         name?: string;
         id?: number;
     };
-    arrival_time?: string;
     flight_details?: string;
     due_upon_booking?: string;
     number_of_vehicles?: number;
+    arrival_time?: string;
     arrival_date?: moment.Moment;
     selected_option?: {
         id?: number;

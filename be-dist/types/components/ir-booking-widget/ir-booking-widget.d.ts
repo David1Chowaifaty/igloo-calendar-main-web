@@ -1,9 +1,14 @@
-import { TContainerStyle } from './types';
+import { PropertiesByLevel2Response } from "../../services/api/property.service";
 import { IExposedProperty } from "../../models/property";
+export type CombinedLevel2Properties = {
+    cities: string[];
+    properties: Map<string, PropertiesByLevel2Response[]>;
+};
 export declare class IrBookingWidget {
     el: HTMLIrWidgetElement;
+    pool: string;
+    l: string;
     position: 'fixed' | 'block';
-    contentContainerStyle: TContainerStyle;
     propertyId: number;
     perma_link: string;
     p: string;
@@ -20,14 +25,18 @@ export declare class IrBookingWidget {
         from_date: Date | null;
         to_date: Date | null;
     };
+    level2Properties: CombinedLevel2Properties;
+    selectedCity: string;
     guests: {
         adultCount: number;
         childrenCount: number;
         infants: number;
         childrenAges: string[];
     };
+    linkedProperties: IExposedProperty[];
+    selectedProperty: IExposedProperty;
+    isFetchingProperty: boolean;
     private baseUrl;
-    private popover;
     private token;
     private commonService;
     private propertyService;
@@ -35,19 +44,27 @@ export declare class IrBookingWidget {
     private containerRef;
     private elTimout;
     private error;
+    private baseGuests;
+    private mainWidgetPopupRef;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    handleCityChange(newValue: string): void;
+    handlePropertyChange(newValue: any, oldValue: any): Promise<void>;
+    private hasDisabledDateInRange;
+    private get isMultiProperties();
+    private get isLevel2Mode();
+    private get isSingleProperty();
     private initApp;
     private resetPageFontSize;
-    initProperty(): Promise<void>;
-    handleContentContainerStyle(): void;
-    private modifyContainerStyle;
-    handleBooknow(): void;
+    private parseCommaSeparated;
+    private initProperty;
+    private showWidget;
+    private setLevel2Properties;
+    private isMultiPropertyMode;
+    private handleBooknow;
     private getDateModifiers;
-    private renderDateTrigger;
-    private renderAdultChildTrigger;
-    disconnectedCallback(): void;
-    private handlePopoverToggle;
     private validateChildrenAges;
+    private renderMultiWidget;
+    disconnectedCallback(): void;
     render(): any;
 }

@@ -1,0 +1,100 @@
+import { a as axios } from './axios.js';
+import { b as booking_store, r as renderTime } from './utils.js';
+import { b as app_store } from './app.store.js';
+
+class PickupService {
+    calculateTotalPersons() {
+        let count = 0;
+        Object.keys(booking_store.ratePlanSelections).map(roomTypeId => {
+            return Object.keys(booking_store.ratePlanSelections[roomTypeId]).map(ratePlanId => {
+                const r = booking_store.ratePlanSelections[roomTypeId][ratePlanId];
+                if (r.reserved !== 0) {
+                    count += r.selected_variation.adult_nbr + r.selected_variation.child_nbr;
+                }
+            });
+        });
+        return count;
+    }
+    async savePickup(params, booking_nbr, is_remove) {
+        try {
+            const splitTime = params.arrival_time.split(':');
+            await axios.post(`/Do_Pickup?Ticket=${app_store.app_data.token}`, {
+                booking_nbr,
+                is_remove,
+                currency: params.currency,
+                date: params.arrival_date,
+                details: params.flight_details,
+                hour: splitTime[0],
+                minute: splitTime[1],
+                nbr_of_units: params.number_of_vehicles,
+                selected_option: params.selected_option,
+                total: +params.due_upon_booking,
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    transformDefaultPickupData(data) {
+        const arrival_time = renderTime(data.hour) + ':' + renderTime(data.minute);
+        return {
+            arrival_date: data.date,
+            arrival_time,
+            currency: data.currency,
+            due_upon_booking: data.total.toFixed(2),
+            flight_details: data.details,
+            location: data.selected_option.location.id,
+            number_of_vehicles: data.nbr_of_units,
+            selected_option: data.selected_option,
+            vehicle_type_code: data.selected_option.vehicle.code,
+        };
+    }
+    getAvailableLocations(message) {
+        var _a;
+        let locationsMap = new Map();
+        (_a = app_store.property.pickup_service.allowed_options) === null || _a === void 0 ? void 0 : _a.forEach(option => {
+            if (!locationsMap.has(option.location.id)) {
+                locationsMap.set(option.location.id, {
+                    value: message.replace('%1', option.location.description),
+                    id: option.location.id,
+                });
+            }
+        });
+        return Array.from(locationsMap.values());
+    }
+    // public getNumberOfVehicles(capacity: number, numberOfPersons: number) {
+    //   let total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
+    //   // let startNumber = total_number_of_vehicles > 1 ? total_number_of_vehicles : 1;
+    //   // let bonus_number = total_number_of_vehicles > 1 ? 2 : 3;
+    //   return Array.from({ length: total_number_of_vehicles}, (_, i) => 1 + i);
+    // }
+    getNumberOfVehicles(capacity, numberOfPersons) {
+        const total_number_of_vehicles = Math.ceil(numberOfPersons / capacity);
+        const maxVehicles = Math.min(total_number_of_vehicles, numberOfPersons);
+        const minVehicles = 1;
+        return Array.from({ length: maxVehicles - minVehicles + 1 }, (_, i) => minVehicles + i);
+    }
+    getPickUpPersonStatus(code) {
+        const getCodeDescription = app_store.property.pickup_service.allowed_pricing_models.find(model => model.code === code);
+        if (!getCodeDescription) {
+            return null;
+        }
+        return getCodeDescription.description;
+    }
+    updateDue(params) {
+        const getCodeDescription = this.getPickUpPersonStatus(params.code);
+        if (!getCodeDescription) {
+            return;
+        }
+        if (getCodeDescription === 'Person') {
+            return params.amount * params.numberOfPersons;
+        }
+        else {
+            return params.amount * params.number_of_vehicles;
+        }
+    }
+}
+
+export { PickupService as P };
+
+//# sourceMappingURL=pickup.service.js.map

@@ -4,9 +4,8 @@ export declare class IrBookingDetails {
     errors: string;
     currentRatePlan: RatePlan | null;
     isLoading: number;
-    cancelationMessage: string;
+    cancellationMessage: string;
     prepaymentAmount: number;
-    private dialogRef;
     private firstRoom;
     private paymentService;
     private variationService;
