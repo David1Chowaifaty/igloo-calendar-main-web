@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/i
 import { l as locales } from './locales.store.js';
 import { c as calculateDaysBetweenDates } from './booking.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$3 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$3 } from './ir-custom-date-range2.js';
 import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
@@ -163,14 +163,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-date-range", "ir-air-date-picker", "ir-date-select", "ir-input"];
+    const components = ["igl-date-range", "ir-custom-date-range", "ir-date-select", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-date-range":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglDateRange);
             }
             break;
-        case "ir-air-date-picker":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

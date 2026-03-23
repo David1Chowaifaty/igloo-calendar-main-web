@@ -2081,7 +2081,7 @@ const IrDatePicker = /*@__PURE__*/ proxyCustomElement(class IrDatePicker extends
         this.datePicker?.destroy?.();
     }
     render() {
-        return (h("div", { key: 'f1611a9b500bb3165cbedf0ac3fa018ba25d5800', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '7f885b83e4392cee1611661f3c017ac43df00fb0', name: "trigger" }), h("input", { key: 'afb0f12f0f30cb24d71e4f338d13e7532fd576a6', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
+        return (h("div", { key: '43c4273afc5571d1b7079c3319df33e21f5eb29c', class: `ir-date-picker-trigger ${this.triggerContainerStyle}` }, this.customPicker && h("slot", { key: '0f1926064b8ab22903fa8acabe92fdfdd356b6ad', name: "trigger" }), h("input", { key: '1ea4498fb7ea2f01145126221dba6497a1e6b6a5', type: "text", disabled: this.disabled, class: this.customPicker ? 'ir-date-picker-element' : 'form-control input-sm', ref: el => (this.pickerRef = el) })));
     }
     static get watchers() { return {
         "date": ["datePropChanged"],

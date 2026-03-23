@@ -51,6 +51,17 @@ export declare const PaymentModeSchema: z.ZodObject<{
     description?: string;
 }>;
 export type PaymentMode = z.infer<typeof PaymentModeSchema>;
+export declare const ClPostTimingSchema: z.ZodObject<{
+    code: z.ZodString;
+    description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    code?: string;
+    description?: string;
+}, {
+    code?: string;
+    description?: string;
+}>;
+export type ClPostTiming = z.infer<typeof ClPostTimingSchema>;
 export declare const AgentBaseSchema: z.ZodObject<{
     address: z.ZodString;
     agent_rate_type_code: z.ZodObject<{
@@ -105,6 +116,16 @@ export declare const AgentBaseSchema: z.ZodObject<{
     tax_nbr: z.ZodString;
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+    cl_post_timing: z.ZodObject<{
+        code: z.ZodString;
+        description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+        description?: string;
+    }, {
+        code?: string;
+        description?: string;
+    }>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -118,6 +139,10 @@ export declare const AgentBaseSchema: z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -154,6 +179,10 @@ export declare const AgentBaseSchema: z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -232,6 +261,16 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     tax_nbr: z.ZodString;
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+    cl_post_timing: z.ZodObject<{
+        code: z.ZodString;
+        description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+        description?: string;
+    }, {
+        code?: string;
+        description?: string;
+    }>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -245,6 +284,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -281,6 +324,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -317,6 +364,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -353,6 +404,10 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -432,6 +487,16 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     tax_nbr: z.ZodString;
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+    cl_post_timing: z.ZodObject<{
+        code: z.ZodString;
+        description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+        description?: string;
+    }, {
+        code?: string;
+        description?: string;
+    }>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -445,6 +510,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -481,6 +550,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -517,6 +590,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -553,6 +630,10 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     country_id?: number;
     currency_id?: any;
     city?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -633,6 +714,16 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         tax_nbr: z.ZodString;
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+        cl_post_timing: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
     }, "strip", z.ZodTypeAny, {
         name?: string;
         email?: string;
@@ -646,6 +737,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -682,6 +777,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -718,6 +817,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -754,6 +857,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -792,6 +899,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -830,6 +941,10 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         country_id?: number;
         currency_id?: any;
         city?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
         agent_rate_type_code?: {
             code?: string;
             description?: string;

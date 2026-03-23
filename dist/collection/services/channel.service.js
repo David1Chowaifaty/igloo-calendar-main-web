@@ -2,9 +2,9 @@ import calendar_data from "../stores/calendar-data";
 import channels_data from "../stores/channel.store";
 import axios from "axios";
 export class ChannelService {
-    async getExposedChannels() {
+    async getExposedChannels(property_id) {
         try {
-            const { data } = await axios.post(`/Get_Exposed_Channels`, {});
+            const { data } = await axios.post(`/Get_Exposed_Channels`, { property_id });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);
             }

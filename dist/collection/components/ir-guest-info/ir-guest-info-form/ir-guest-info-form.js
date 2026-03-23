@@ -52,7 +52,16 @@ export class IrGuestInfoForm {
                 locales.direction = fetchedLocales.direction;
             }
             this.countries = countries;
-            let _g = { ...guest, email: guest.email.replace(/\s+(?=@)/g, '').trim() };
+            let _g = {
+                ...guest,
+                email: guest.email
+                    .toLowerCase()
+                    .replace(/\s+/g, '') // remove all whitespace
+                    .replace(/[^a-z0-9@._'+\-]/g, '') // remove chars not allowed by EMAIL_REGEX
+                    .replace(/\.{2,}/g, '.') // collapse multiple dots
+                    .replace(/@\./, '@') // remove dot right after @
+                    .trim(),
+            };
             if (_g && !_g.country_phone_prefix) {
                 const country = this.countries.find(c => c.id === _g.country_id);
                 console.log({ country });
@@ -95,12 +104,10 @@ export class IrGuestInfoForm {
         return (h("form", { id: this.fromId, onSubmit: e => {
                 e.preventDefault();
                 this.editGuest();
-            }, class: "guest-form__container" }, h("ir-validator", { schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { id: 'firstName', value: this.guest?.first_name, defaultValue: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail.trim() }), label: locales.entries?.Lcz_FirstName })), h("ir-validator", { schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { value: this.guest?.last_name, required: true, defaultValue: this.guest?.last_name, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail.trim() }), label: locales.entries?.Lcz_LastName })), h("ir-validator", { schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_Email, id: "email", defaultValue: this.guest?.email, value: this.guest?.email, required: true, "onText-change": e => {
-                const email = e.detail.replace(/(?<=^[^@]*)\s+(?=[^@]*@noemail\.com$)/g, '').trim();
-                this.handleInputChange({ email });
-            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_AlternativeEmail, id: "altEmail", value: this.guest?.alternative_email, "onText-change": e => {
-                const email = e.detail.replace(/(?<=^[^@]*)\s+(?=[^@]*@noemail\.com$)/g, '').trim();
-                this.handleInputChange({ alternative_email: email });
+            }, class: "guest-form__container" }, h("ir-validator", { schema: guestInfoFormSchema.shape.first_name, value: this.guest?.first_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { id: 'firstName', value: this.guest?.first_name, defaultValue: this.guest?.first_name, required: true, "onText-change": e => this.handleInputChange({ first_name: e.detail.trim() }), label: locales.entries?.Lcz_FirstName })), h("ir-validator", { schema: guestInfoFormSchema.shape.last_name, value: this.guest?.last_name ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { value: this.guest?.last_name, required: true, defaultValue: this.guest?.last_name, id: "lastName", "onText-change": e => this.handleInputChange({ last_name: e.detail.trim() }), label: locales.entries?.Lcz_LastName })), h("ir-validator", { schema: guestInfoFormSchema.shape.email, value: this.guest?.email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_Email, id: "email", defaultValue: this.guest?.email, value: this.guest?.email, required: true, mask: "email", "onText-change": e => {
+                this.handleInputChange({ email: e.detail });
+            } })), h("ir-validator", { schema: guestInfoFormSchema.shape.alternative_email, value: this.guest?.alternative_email ?? '', autovalidate: this.autoValidate, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { label: locales.entries?.Lcz_AlternativeEmail, id: "altEmail", value: this.guest?.alternative_email, mask: "email", "onText-change": e => {
+                this.handleInputChange({ alternative_email: e.detail });
             } })), h("ir-validator", { schema: guestInfoFormSchema.shape.country_id, value: this.guest?.country_id ?? undefined, autovalidate: this.autoValidate, valueEvent: "countryChange" }, h("ir-country-picker", { size: "small", variant: "modern", country: this.countries.find(c => c.id === this.guest?.country_id), label: locales.entries?.Lcz_Country, onCountryChange: e => {
                 const country = e.detail;
                 let params = { country_id: country.id };

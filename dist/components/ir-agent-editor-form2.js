@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { E as ExposedAgentsPropsSchema, H as HandleExposedAgentPropsSchema, b as AgentSchema } from './type.js';
 import { a as axios } from './axios.js';
-import { z as getFormSubmitter } from './utils.js';
+import { B as getFormSubmitter } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-agent-contract2.js';
 import { d as defineCustomElement$7 } from './ir-agent-profile2.js';
 import { d as defineCustomElement$6 } from './ir-country-picker2.js';
@@ -59,7 +59,7 @@ const IrAgentEditorForm = /*@__PURE__*/ proxyCustomElement(class IrAgentEditorFo
         try {
             this.loadingChanged.emit(submitter);
             AgentSchema.parse(this.agent);
-            await this.agentService.handleExposedAgent({ agent: this.agent });
+            await this.agentService.handleExposedAgent({ agent: { ...this.agent, code: this.agent.code ?? '' } });
             this.upsertAgent.emit(this.agent);
             if (submitter === 'save&close') {
                 this.closeDrawer.emit();
@@ -73,12 +73,12 @@ const IrAgentEditorForm = /*@__PURE__*/ proxyCustomElement(class IrAgentEditorFo
         }
     }
     render() {
-        return (h("form", { key: 'b99a28ff19b8a9d5d124140810c280bdfb377f3b', autoComplete: this.formId,
+        return (h("form", { key: 'bf80fec23be5072d9eb2e4d02395b2f0591e9021', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '55920478d910a7a98d2644a8db36a6aede02948f', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '79508bfc9e3f2ee029d2fa4aa30072f360aa9832', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '1172867049a3f5af2c8187da7065040dabddd47e', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '1c210dd89757ed3201c672251591b8ef125ff3e0', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get style() { return IrAgentEditorFormStyle0; }
 }, [2, "ir-agent-editor-form", {

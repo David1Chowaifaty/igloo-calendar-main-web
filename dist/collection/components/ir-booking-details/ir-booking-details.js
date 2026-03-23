@@ -1,4 +1,5 @@
 import { h, Fragment } from "@stencil/core";
+import { ROOM_IN_OUT } from "../../models/booking.dto";
 import axios from "axios";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
@@ -6,9 +7,10 @@ import locales from "../../stores/locales.store";
 import { PaymentService } from "../../services/payment.service";
 import Token from "../../models/Token";
 import calendar_data from "../../stores/calendar-data";
-import moment from "moment";
+// import moment from 'moment';
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { buildSplitIndex } from "../../utils/booking";
+import { canCheckIn, canCheckout } from "../../utils/utils";
 export class IrBookingDetails {
     element;
     // Setup Data
@@ -474,25 +476,27 @@ export class IrBookingDetails {
         ];
     }
     handleRoomCheckout(room) {
-        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-            return false;
-        }
-        return room.in_out.code === '001';
+        return canCheckout({ to_date: room.to_date, inOutCode: room.in_out?.code });
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // return room.in_out.code === '001';
     }
     handleRoomCheckin(room) {
-        if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
-            return false;
-        }
-        if (!room.unit) {
-            return false;
-        }
-        if (room.in_out && room.in_out.code !== '000') {
-            return false;
-        }
-        if (moment().isSameOrAfter(moment(room.from_date, 'YYYY-MM-DD'), 'days') && moment().isBefore(moment(room.to_date, 'YYYY-MM-DD'), 'days')) {
-            return true;
-        }
-        return false;
+        return canCheckIn({ from_date: room.from_date, to_date: room.to_date, isCheckedIn: room.in_out?.code === ROOM_IN_OUT.CHECKIN });
+        // if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+        //   return false;
+        // }
+        // if (!room.unit) {
+        //   return false;
+        // }
+        // if (room.in_out && room.in_out.code !== '000') {
+        //   return false;
+        // }
+        // if (moment().isSameOrAfter(moment(room.from_date, 'YYYY-MM-DD'), 'days') && moment().isBefore(moment(room.to_date, 'YYYY-MM-DD'), 'days')) {
+        //   return true;
+        // }
+        // return false;
     }
     static get is() { return "ir-booking-details"; }
     static get encapsulation() { return "scoped"; }

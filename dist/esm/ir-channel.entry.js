@@ -2,7 +2,7 @@ import { h, r as registerInstance, g as getElement, F as Fragment, H as Host } f
 import { R as RoomService } from './room.service-29f502a3.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-79fb5c60.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { C as ChannelService } from './channel.service-99701fa8.js';
+import { C as ChannelService } from './channel.service-27383c71.js';
 import { T as Token } from './Token-030c78a9.js';
 import './calendar-data-2ae53dc9.js';
 import './index-f100e9d2.js';
@@ -119,6 +119,7 @@ const IrChannel = class {
     channelService = new ChannelService();
     token = new Token();
     irModalRef;
+    propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
@@ -143,7 +144,7 @@ const IrChannel = class {
         this.irModalRef.openModal();
     }
     async refreshChannels() {
-        await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
+        await Promise.all([this.channelService.getExposedChannels(this.propertyId), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
         if (!this.propertyid && !this.p) {
@@ -161,7 +162,7 @@ const IrChannel = class {
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.channelService.getExposedChannels(),
+                this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
             ];
@@ -172,6 +173,7 @@ const IrChannel = class {
                     is_backend: true,
                 }));
             }
+            this.propertyId = propertyId;
             const results = await Promise.all(requests);
             const languageTexts = results[results.length - 1];
             channels_data.property_id = this.propertyid;

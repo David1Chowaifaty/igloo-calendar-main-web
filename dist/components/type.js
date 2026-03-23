@@ -17,6 +17,7 @@ const CodeDescriptionSchema = z.object({
 const AgentRateTypeCodeSchema = CodeDescriptionSchema;
 const AgentTypeCodeSchema = CodeDescriptionSchema;
 const PaymentModeSchema = CodeDescriptionSchema;
+const ClPostTimingSchema = CodeDescriptionSchema;
 const AgentBaseSchema = z.object({
     address: z.string(),
     agent_rate_type_code: AgentRateTypeCodeSchema,
@@ -44,6 +45,7 @@ const AgentBaseSchema = z.object({
     tax_nbr: z.string(),
     reference: z.string().nullable().optional(),
     verification_mode: z.string().nullable().default(null),
+    cl_post_timing: ClPostTimingSchema,
 });
 const AgentSchema = AgentBaseSchema.superRefine((value, ctx) => {
     const trimmedCode = (value.code ?? '').trim();

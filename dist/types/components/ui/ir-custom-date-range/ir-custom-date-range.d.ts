@@ -37,6 +37,9 @@ export declare class IrCustomDateRange {
     incrementDate(): void;
     goToNextMonth(e: MouseEvent): void;
     goToPreviousMonth(e: MouseEvent): void;
+    handleMonthChange(e: Event, index: number): void;
+    handleYearChange(e: Event, index: number): void;
+    getYearRange(): number[];
     selectDay(day: Moment): void;
     resetHours(): void;
     handleMouseEnter(day: Moment): void;

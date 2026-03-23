@@ -45,6 +45,7 @@ export declare class IrBookingEditor {
     private assignCountryCode;
     private fetchSetupEntriesAndInitialize;
     private setOtherProperties;
+    private resolveSourceOption;
     private setSourceOptions;
     private getFilteredSourceOptions;
     private fetchSetupEntries;

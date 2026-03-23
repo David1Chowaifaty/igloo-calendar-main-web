@@ -161,4 +161,9 @@ export const ExtraServiceSchema = z.object({
     price: z.coerce.number().min(0.01),
     system_id: z.number().optional(),
 });
+export const ROOM_IN_OUT = {
+    CHECKIN: '001',
+    CHECKOUT: '002',
+    NOSHOW: '000',
+};
 //# sourceMappingURL=booking.dto.js.map

@@ -96,7 +96,7 @@ const IrSuccessLoader = /*@__PURE__*/ proxyCustomElement(class IrSuccessLoader e
         }
     }
     render() {
-        return (h(Host, { key: '1fd144af5fb38a21cc98120ed5947779d3f99b38' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (h(Host, { key: '507c634a5191db5ed58512e9d9ff4fb8431f00b1' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
-import { t as toFloat } from './utils.js';
+import { u as toFloat } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { d as defineCustomElement$3 } from './ir-button2.js';

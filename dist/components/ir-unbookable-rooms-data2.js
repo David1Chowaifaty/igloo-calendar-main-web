@@ -74,6 +74,7 @@ const IrUnbookableRoomsData = /*@__PURE__*/ proxyCustomElement(class IrUnbookabl
         }));
         const sortedEntries = groupedEntries.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) || a.propertyId - b.propertyId);
         const filteredEntries = this.mode === 'mpo' && this.propertyNameFilter ? sortedEntries.filter(item => item.name.toLowerCase().includes(this.propertyNameFilter)) : sortedEntries;
+        console.log(filteredEntries);
         return (h(Host, null, !this.isLoading && !this.errorMessage && totalIssues === 0 && (h("wa-card", { class: "unbookable-rooms__empty-state" }, h("wa-icon", { name: "check-circle", class: "unbookable-rooms__empty-state--icon" }), h("p", null, "Hooray! Nothing to report."))), totalIssues > 0 && (h("wa-card", { class: "unbookable-rooms__card-container" }, this.mode === 'mpo' && (h("ir-input", { withClear: true, class: "mb-2", "onText-change": e => this.filterProperties(e.detail), style: { maxWidth: '400px' }, placeholder: "Search properties", appearance: "filled" }, h("wa-icon", { slot: "start", name: "magnifying-glass" }))), filteredEntries.map(({ propertyId, entries }, i) => [
             h("article", { class: "property-card" }, h("wa-details", { name: "issue-card", "onwa-hide": e => {
                     e.stopImmediatePropagation();
@@ -81,7 +82,7 @@ const IrUnbookableRoomsData = /*@__PURE__*/ proxyCustomElement(class IrUnbookabl
                     if (this.mode === 'default') {
                         e.preventDefault();
                     }
-                }, open: this.mode === 'default', appearance: "plain", class: "issue__detail" }, this.mode === 'mpo' && (h("header", { slot: "summary", class: "property-card__header" }, h("span", null, this.getPropertyName(propertyId)), h("b", null, "(", entries.length, ") "))), h("div", { class: "property-card__body" }, entries.map(entry => [
+                }, open: this.mode === 'default', appearance: "plain", class: "issue__detail" }, this.mode === 'mpo' && (h("header", { slot: "summary", class: "property-card__header" }, h("span", null, entries[0].aname), h("span", null, this.getPropertyName(propertyId)), h("b", null, "(", entries.length, "/", entries[0].total_room_types_nbr, ")"))), h("div", { class: "property-card__body" }, entries.map(entry => [
                 h("div", { class: "issue" }, h("div", { class: "issue__info" }, h("span", { class: "issue__room" }, entry.room_type_name)), h("div", { class: "period-chart" }, h("span", { class: "period-chart__start" }, this.todayFormatted), h("div", { class: "period-chart__track" }, h("div", { title: "available", class: "period-chart__fill", style: {
                         width: `${this.getPeriodOffset(entry.first_night_not_bookable)}%`,
                     } }), h("div", { class: "period-chart__marker", style: {

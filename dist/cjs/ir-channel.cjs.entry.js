@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const room_service = require('./room.service-18eb6707.js');
 const channel_store = require('./channel.store-7a31c832.js');
 const locales_store = require('./locales.store-32782582.js');
-const channel_service = require('./channel.service-dec6e4f3.js');
+const channel_service = require('./channel.service-14954c72.js');
 const Token = require('./Token-8fd11984.js');
 require('./calendar-data-0598de26.js');
 require('./index-fbf1fe1d.js');
@@ -123,6 +123,7 @@ const IrChannel = class {
     channelService = new channel_service.ChannelService();
     token = new Token.Token();
     irModalRef;
+    propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
@@ -147,7 +148,7 @@ const IrChannel = class {
         this.irModalRef.openModal();
     }
     async refreshChannels() {
-        await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
+        await Promise.all([this.channelService.getExposedChannels(this.propertyId), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
         if (!this.propertyid && !this.p) {
@@ -165,7 +166,7 @@ const IrChannel = class {
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.channelService.getExposedChannels(),
+                this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
             ];
@@ -176,6 +177,7 @@ const IrChannel = class {
                     is_backend: true,
                 }));
             }
+            this.propertyId = propertyId;
             const results = await Promise.all(requests);
             const languageTexts = results[results.length - 1];
             channel_store.channels_data.property_id = this.propertyid;

@@ -5,17 +5,17 @@ import { B as BookingService, a as updateBookedByGuest, b as booking_store, s as
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
-import { I as IRBookingEditorService, d as defineCustomElement$h } from './ir-booking-editor-header2.js';
+import { I as IRBookingEditorService, d as defineCustomElement$i } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$o } from './igl-application-info2.js';
 import { d as defineCustomElement$n } from './igl-date-range2.js';
 import { d as defineCustomElement$m } from './igl-rate-plan2.js';
 import { d as defineCustomElement$l } from './igl-room-type2.js';
-import { d as defineCustomElement$k } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$j } from './ir-booking-editor-form2.js';
-import { d as defineCustomElement$i } from './ir-booking-editor-guest-form2.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-country-picker2.js';
-import { d as defineCustomElement$e } from './ir-custom-button2.js';
+import { d as defineCustomElement$k } from './ir-booking-editor-form2.js';
+import { d as defineCustomElement$j } from './ir-booking-editor-guest-form2.js';
+import { d as defineCustomElement$h } from './ir-button2.js';
+import { d as defineCustomElement$g } from './ir-country-picker2.js';
+import { d as defineCustomElement$f } from './ir-custom-button2.js';
+import { d as defineCustomElement$e } from './ir-custom-date-range2.js';
 import { d as defineCustomElement$d } from './ir-date-select2.js';
 import { d as defineCustomElement$c } from './ir-date-view2.js';
 import { d as defineCustomElement$b } from './ir-icons2.js';
@@ -137,35 +137,38 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
      * Throws if required booking data is missing.
      */
     initializeDraftFromBooking() {
-        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
-            if (!this.booking || (!this.identifier && this.bookingEditorService.isEventType('EDIT_BOOKING'))) {
-                throw new Error('Missing booking or identifier');
-            }
+        const isEdit = this.bookingEditorService.isEventType('EDIT_BOOKING');
+        const isEditOrAdd = this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM']);
+        if (isEditOrAdd && (!this.booking || (!this.identifier && isEdit))) {
+            throw new Error('Missing booking or identifier');
         }
-        if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+        if (isEdit) {
             this.room = this.bookingEditorService.getRoom(this.booking, this.identifier);
         }
-        let draft = {
-            dates: {
+        const dates = isEdit
+            ? {
+                checkIn: hooks(this.room.from_date, 'YYYY-MM-DD'),
+                checkOut: hooks(this.room.to_date, 'YYYY-MM-DD'),
+            }
+            : {
                 checkIn: this.checkIn ? hooks(this.checkIn, 'YYYY-MM-DD') : hooks(),
                 checkOut: this.checkOut ? hooks(this.checkOut, 'YYYY-MM-DD') : hooks().add(1, 'day'),
-            },
-        };
-        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
-            const source = booking_store.selects.sources.find(s => s.code === this.booking.source.code);
-            draft = {
-                ...draft,
-                source,
             };
-            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-                draft = {
-                    ...draft,
-                    occupancy: {
-                        adults: this.booking.occupancy.adult_nbr,
-                        children: this.booking.occupancy.children_nbr,
-                    },
-                };
-            }
+        const draft = {
+            dates,
+            ...(isEditOrAdd && { source: this.resolveSourceOption(booking_store.selects.sources, booking_store.selects.sources) }),
+            ...(isEdit && {
+                occupancy: {
+                    adults: calendar_data.property.adult_child_constraints.adult_max_nbr,
+                    children: calendar_data.property.adult_child_constraints.child_max_nbr,
+                },
+                defaultOccupancy: {
+                    adults: this.room.occupancy.adult_nbr,
+                    children: this.room.occupancy.children_nbr + this.room.occupancy.infant_nbr,
+                },
+            }),
+        };
+        if (isEditOrAdd) {
             updateBookedByGuest({
                 firstName: this.booking.guest.first_name,
                 lastName: this.booking.guest.last_name,
@@ -216,7 +219,7 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
         }
     }
     compareResults(beResults) {
-        const beRoomTypes = Array.isArray(beResults) ? beResults : beResults?.roomtypes ?? [];
+        const beRoomTypes = Array.isArray(beResults) ? beResults : (beResults?.roomtypes ?? []);
         const unavailableRatePlanIds = new Set();
         const beRoomTypeMap = new Map(beRoomTypes.map(roomType => [roomType.id, roomType]));
         for (const roomType of booking_store.roomTypes ?? []) {
@@ -284,21 +287,24 @@ const IrBookingEditor = /*@__PURE__*/ proxyCustomElement(class IrBookingEditor e
             ratePricingMode: setupEntries.ratePricingMode,
         });
     }
+    resolveSourceOption(bookingSource, filteredSourceOptions) {
+        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
+            if (this.booking.agent) {
+                return bookingSource.find(option => this.booking.agent?.id?.toString() === option.tag?.toString());
+            }
+            else {
+                return bookingSource.find(option => this.booking.source?.code === option.code);
+            }
+        }
+        return filteredSourceOptions.find(o => o.type !== 'LABEL');
+    }
     setSourceOptions(bookingSource) {
         const _sourceOptions = this.bookingEditorService.isEventType('BAR_BOOKING') ? this.getFilteredSourceOptions(bookingSource) : bookingSource;
         setBookingSelectOptions({
             sources: _sourceOptions,
         });
-        let sourceOption;
-        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
-            const option = bookingSource.find(option => this.booking.source?.code === option.code);
-            sourceOption = option;
-        }
-        else {
-            sourceOption = _sourceOptions.find(o => o.type !== 'LABEL');
-        }
         setBookingDraft({
-            source: sourceOption,
+            source: this.resolveSourceOption(bookingSource, _sourceOptions),
         });
     }
     getFilteredSourceOptions(sourceOptions) {
@@ -370,7 +376,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-editor", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-air-date-picker", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-select", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-editor", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-editor":
             if (!customElements.get(tagName)) {
@@ -397,37 +403,37 @@ function defineCustomElement() {
                 defineCustomElement$l();
             }
             break;
-        case "ir-air-date-picker":
+        case "ir-booking-editor-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
             break;
-        case "ir-booking-editor-form":
+        case "ir-booking-editor-guest-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }
             break;
-        case "ir-booking-editor-guest-form":
+        case "ir-booking-editor-header":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }
             break;
-        case "ir-booking-editor-header":
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }
             break;
-        case "ir-button":
+        case "ir-country-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }
             break;
-        case "ir-country-picker":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-custom-button":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }

@@ -139,14 +139,15 @@ export class IglBookingEvent {
                 else {
                     const { pool, to_date, from_date, toRoomId } = event.detail;
                     // const previousToDate = moment(to_date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD');
-                    console.log(this.findRoomType(Number(this.bookingEvent.PR_ID)), this.findRoomType(Number(toRoomId)));
-                    if ((!moment(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isSame(moment(to_date, 'YYYY-MM-DD'), 'dates') ||
-                        this.findRoomType(Number(this.bookingEvent.PR_ID)) !== this.findRoomType(Number(toRoomId))) &&
-                        // &&(calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)?.disabled ||
-                        //   (calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)?.disabled && calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)?.disabled))
-                        !this.isStretch) {
-                        this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
-                    }
+                    // if (
+                    //   (!moment(this.bookingEvent.TO_DATE, 'YYYY-MM-DD').isSame(moment(to_date, 'YYYY-MM-DD'), 'dates') ||
+                    //     this.findRoomType(Number(this.bookingEvent.PR_ID)) !== this.findRoomType(Number(toRoomId))) &&
+                    //   // &&(calendar_dates.disabled_cells.get(`${toRoomId}_${from_date}`)?.disabled ||
+                    //   //   (calendar_dates.disabled_cells.get(`${toRoomId}_${to_date}`)?.disabled && calendar_dates.disabled_cells.get(`${toRoomId}_${previousToDate}`)?.disabled))
+                    //   !this.isStretch
+                    // ) {
+                    //   this.reset('This room isn’t available for the entire selected period. Please choose different dates or a different room.');
+                    // }
                     if (this.checkIfSlotOccupied(toRoomId, from_date, to_date)) {
                         this.reset('Overlapping Dates');
                     }
@@ -876,7 +877,7 @@ export class IglBookingEvent {
         let noteNode = this.getNoteNode();
         let balanceNode = this.getBalanceNode();
         const { balance, bar, lateCheckout } = this.buildBarIds();
-        let backgroundColor = this.bookingEvent.ROOM_INFO?.calendar_extra ? this.bookingEvent.ROOM_INFO.calendar_extra?.booking_color?.color ?? legend.color : legend.color;
+        let backgroundColor = this.bookingEvent.ROOM_INFO?.calendar_extra ? (this.bookingEvent.ROOM_INFO.calendar_extra?.booking_color?.color ?? legend.color) : legend.color;
         const { foreground, stripe } = calendar_data.colorsForegrounds?.[backgroundColor] ?? {
             foreground: '',
             checkout: '',
@@ -885,12 +886,12 @@ export class IglBookingEvent {
         backgroundColor = this.bookingEvent.STATUS === 'CHECKED-OUT' ? legend.color : backgroundColor;
         const splitRole = this.computeSplitRole();
         const pending = this.bookingEvent.STATUS === 'PENDING-CONFIRMATION' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT';
-        return (h(Host, { key: '33d9d0fb645ec8a153e5cf9d2969fec73255f974', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: '9d756e80158314c4cb38daa20b2f860db4e991f8', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        return (h(Host, { key: '350273fe0bf433a914c45c2fa741401f9edefe20', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: '48a2ed0a765de456cd01cfe640e5e12bea73a1cd', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 'pending': pending,
                 'skewedLeft': !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)),
                 'skewedRight': !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)),
-                'striped-bar vertical': this.bookingEvent.STATUS === 'IN-HOUSE',
+                // 'striped-bar vertical': this.bookingEvent.STATUS === 'IN-HOUSE',
                 'striped-bar animated': isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS_CODE === '003',
                 'border border-dark ota-booking-event': !this.bookingEvent.is_direct && !isBlockUnit(this.bookingEvent.STATUS_CODE) && this.bookingEvent.STATUS !== 'TEMP-EVENT' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT',
                 [splitRole]: true,
@@ -898,8 +899,8 @@ export class IglBookingEvent {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '08ec0db257d25d817768626046092eb287a68730', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '8f82f7a7d00071416301734531bf0ad6a2883f4b', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '74863ac177b7b9b9b40e60d7f46e99dfc6b64d09', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '3f38b40f4bcc28641a53deaa0b4cb3648516a98e', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: 'fb7c76a012381beef6c0c7d0e8dcf29a8de9e099', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: 'ecb5e6bc1a708406145bd564f8357f67ba33df7a' }, h("div", { key: 'b7bc6503aa072ffd80767031425c2cceddbc783a', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '462f0a86268e7b72b3369681cbdae5abf1782d7d', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '40b1ef85b510d5974c849b5110223769cc9fd03b', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '02a47c6513022af014ca2fa6977592042c04ef87', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: 'a68ef6a53ca9b7c1f832753d34c51b3d19803715', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'f0dc5b49053fff010566f7f93688f32030e04e84', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '34ebb4886e32c806a73153669fdb3e808cfc5f23', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '059909beccc212ecade83c4e0f596f1a7408e6a0' }, h("div", { key: 'fe9f085ed8afba94b5363c04e114912f5208931c', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'de1adf4cad1ecb781816ffdc49059d1b34dfb516', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }

@@ -1125,7 +1125,7 @@ export class IrInput {
                 "mutable": false,
                 "complexType": {
                     "original": "MaskProp",
-                    "resolved": "MaskConfig<\"date\" | \"time\" | \"price\" | \"url\"> | FactoryArg",
+                    "resolved": "MaskConfig<\"email\" | \"date\" | \"time\" | \"price\" | \"url\"> | FactoryArg",
                     "references": {
                         "MaskProp": {
                             "location": "local",

@@ -1,7 +1,174 @@
 import { h as hooks } from './moment.js';
-import { z } from './index2.js';
+import { z, Z as ZodError, g as ZodIssueCode } from './index2.js';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
+
+// export const ZIdInfo = z.object({
+//   type: z.object({
+//     code: z.string().min(3),
+//     description: z.string(),
+//   }),
+//   number: z.string().min(2),
+// });
+// export const ZSharedPerson = z.object({
+//   id: z.number(),
+//   full_name: z.string().min(2),
+//   country_id: z.coerce.number().min(0),
+//   dob: z.coerce.date().transform(date => moment(date).format('YYYY-MM-DD')),
+//   id_info: ZIdInfo,
+// });
+/**
+ * ZIdInfo schema:
+ * - `type.code`: Validates a non-empty string must be at least 3 chars.
+ *   If empty string or not provided, validation is skipped.
+ * - `type.description`: Same pattern for description (but no min length).
+ * - `number`: Validates if non-empty string it should be at least 2 chars.
+ */
+const ZIdInfo = z.object({
+    type: z.object({
+        code: z
+            .union([
+            // If provided and non-empty, must have at least 3 chars
+            z.string().min(3),
+            // or it can be an empty string
+            z.literal(''),
+        ])
+            .optional(), // or undefined
+        description: z
+            .union([
+            // If provided and non-empty, no special min
+            z.string(),
+            // or it can be empty string
+            z.literal(''),
+        ])
+            .optional(),
+    }),
+    number: z
+        .union([
+        // If provided and non-empty, must have at least 2 chars
+        z.string().min(2),
+        // or it can be empty string
+        z.literal(''),
+    ])
+        .optional()
+        .nullable(),
+});
+/**
+ * ZSharedPerson schema:
+ * - `id`: Optional numeric field.
+ * - `full_name`: If provided and non-empty, must be at least 2 chars.
+ * - `country_id`: If provided, coerced to number, must be >= 0.
+ * - `dob`: If provided, coerced to Date and formatted. Otherwise skipped.
+ * - `id_info`: The nested object above; can also be omitted entirely.
+ */
+const ZSharedPerson = z.object({
+    id: z.number().optional(),
+    // full_name: z
+    //   .union([
+    //     z.string().min(2), // if provided and non-empty, must have min length 2
+    //     z.literal(''), // or it can be empty string
+    //   ])
+    //   .optional(),
+    first_name: z
+        .union([
+        z.string().min(2), // if provided and non-empty, must have min length 2
+        z.literal(''), // or it can be empty string
+    ])
+        .optional(),
+    // .nullable(),
+    last_name: z.string().optional(),
+    // .union([
+    //   z.string().min(2), // if provided and non-empty, must have min length 2
+    //   z.literal(''), // or it can be empty string
+    // ])
+    // .nullable(),
+    country_id: z.coerce
+        .number()
+        .min(0) // if provided, must be >= 0
+        .optional(),
+    dob: z
+        .string()
+        .nullable()
+        .optional()
+        .refine(value => value === undefined || hooks(value, 'DD/MM/YYYY', true).isValid() || value === '' || value === null, 'Invalid date format')
+        .transform(value => {
+        if (value === undefined || value === '' || value === null)
+            return null;
+        const isDDMMYYYY = hooks(value, 'DD/MM/YYYY', true).isValid();
+        return isDDMMYYYY ? null : hooks(value, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }),
+    id_info: ZIdInfo.optional(),
+    is_main: z.boolean().default(false),
+});
+// export const ZSharedPersons = z.array(ZSharedPerson).superRefine((data, ctx) => {
+//   for (const d of data) {
+//     validateSharedPerson(d, ctx);
+//   }
+// });
+function validateSharedPerson(data) {
+    ZSharedPerson.parse(data);
+    const hasValue = (field) => {
+        return field !== null && field !== undefined && field.trim() !== '';
+    };
+    const ctx = [];
+    if (data.is_main) {
+        if (!hasValue(data.first_name)) {
+            ctx.push({
+                path: ['first_name'],
+                code: ZodIssueCode.custom,
+                message: 'First name is required for main guest',
+            });
+        }
+        // if (!hasValue(data.last_name)) {
+        //   ctx.push({
+        //     path: ['last_name'],
+        //     code: ZodIssueCode.custom,
+        //     message: 'Last name is required for main guest',
+        //   });
+        // }
+    }
+    // For non-main guests: check if ANY field has data
+    const hasAnyFieldData = hasValue(data.first_name) ||
+        // hasValue(data.last_name) ||
+        hasValue(data.dob) ||
+        (data.country_id !== null && data.country_id !== undefined && data.country_id > 0) ||
+        hasValue(data.id_info?.number);
+    // If any field has data, then first_name and last_name become required
+    if (hasAnyFieldData) {
+        if (!hasValue(data.first_name)) {
+            ctx.push({
+                path: ['first_name'],
+                code: ZodIssueCode.custom,
+                message: 'First name is required when other guest information is provided',
+            });
+        }
+        // if (!hasValue(data.last_name)) {
+        //   ctx.push({
+        //     path: ['last_name'],
+        //     code: ZodIssueCode.custom,
+        //     message: 'Last name is required when other guest information is provided',
+        //   });
+        // }
+    }
+    if (ctx.length >= 1) {
+        throw new ZodError(ctx);
+    }
+}
+const ExtraServiceSchema = z.object({
+    booking_system_id: z.number().optional(),
+    cost: z.coerce.number().nullable(),
+    currency_id: z.number().min(1),
+    description: z.string().min(1),
+    end_date: z.string().nullable().optional().default(null),
+    start_date: z.string().nonempty(),
+    price: z.coerce.number().min(0.01),
+    system_id: z.number().optional(),
+});
+const ROOM_IN_OUT = {
+    CHECKIN: '001',
+    CHECKOUT: '002',
+    NOSHOW: '000',
+};
 
 function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
@@ -307,8 +474,11 @@ function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
     if ((!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
-    if (inOutCode === '002') {
+    if (inOutCode === ROOM_IN_OUT.CHECKOUT) {
         return false;
+    }
+    if (inOutCode === ROOM_IN_OUT.CHECKIN) {
+        return true;
     }
     return hooks().startOf('day').isSameOrAfter(hooks(to_date, 'YYYY-MM-DD').startOf('date'), 'dates');
 }
@@ -399,6 +569,6 @@ function getFormSubmitter(e) {
     return submitter.value;
 }
 
-export { checkUserAuthState as A, manageAnchorSession as B, isPrivilegedUser as C, canCheckout as D, sleep as E, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, renderTime as u, validateEmail as v, getDaysArray as w, convertDatePrice as x, formatDate as y, getFormSubmitter as z };
+export { formatDate as A, getFormSubmitter as B, checkUserAuthState as C, manageAnchorSession as D, ExtraServiceSchema as E, isPrivilegedUser as F, sleep as G, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, canCheckout as t, toFloat as u, validateEmail as v, renderTime as w, validateSharedPerson as x, getDaysArray as y, convertDatePrice as z };
 
 //# sourceMappingURL=utils.js.map

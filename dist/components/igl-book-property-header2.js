@@ -6,8 +6,8 @@ import { c as calendar_data } from './calendar-data.js';
 import { B as BookingService, b as booking_store, s as setBookingDraft } from './booking.store.js';
 import { z } from './index2.js';
 import { d as defineCustomElement$8 } from './igl-date-range2.js';
-import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-date-range2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
@@ -214,7 +214,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["igl-book-property-header", "igl-date-range", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
@@ -226,12 +226,12 @@ function defineCustomElement() {
                 defineCustomElement$8();
             }
             break;
-        case "ir-air-date-picker":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-button":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

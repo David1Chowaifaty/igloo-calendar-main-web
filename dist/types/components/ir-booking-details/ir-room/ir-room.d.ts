@@ -37,7 +37,7 @@ export declare class IrRoom {
     pressCheckIn: EventEmitter;
     pressCheckOut: EventEmitter;
     editInitiated: EventEmitter<TIglBookPropertyPayload>;
-    resetbooking: EventEmitter<null>;
+    resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     private modal;
     private bookingService;

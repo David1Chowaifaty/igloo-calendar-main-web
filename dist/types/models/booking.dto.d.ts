@@ -774,6 +774,11 @@ export type RoomInOut = {
     code: '001' | '002' | '000';
     description: string;
 };
+export declare const ROOM_IN_OUT: {
+    CHECKIN: string;
+    CHECKOUT: string;
+    NOSHOW: string;
+};
 export interface Room {
     days: Day[];
     applicable_policies: ExposedApplicablePolicy[];

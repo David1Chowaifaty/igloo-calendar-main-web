@@ -9,6 +9,12 @@ export declare const masks: {
         readonly padFractionalZeros: true;
         readonly thousandsSeparator: ",";
     };
+    readonly email: {
+        readonly mask: RegExp;
+        readonly overwrite: false;
+        readonly prepare: (value: string) => string;
+        readonly validate: (value: string) => boolean;
+    };
     readonly url: {
         readonly mask: RegExp;
         readonly overwrite: false;

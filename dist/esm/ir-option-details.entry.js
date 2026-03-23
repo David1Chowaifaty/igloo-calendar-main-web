@@ -1,6 +1,6 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
-import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
+import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';

@@ -131,6 +131,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
     channelService = new ChannelService();
     token = new Token();
     irModalRef;
+    propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
@@ -155,7 +156,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
         this.irModalRef.openModal();
     }
     async refreshChannels() {
-        await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
+        await Promise.all([this.channelService.getExposedChannels(this.propertyId), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
         if (!this.propertyid && !this.p) {
@@ -173,7 +174,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.channelService.getExposedChannels(),
+                this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
             ];
@@ -184,6 +185,7 @@ const IrChannel$1 = /*@__PURE__*/ proxyCustomElement(class IrChannel extends HTM
                     is_backend: true,
                 }));
             }
+            this.propertyId = propertyId;
             const results = await Promise.all(requests);
             const languageTexts = results[results.length - 1];
             channels_data.property_id = this.propertyid;

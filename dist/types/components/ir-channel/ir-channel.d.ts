@@ -14,6 +14,7 @@ export declare class IrChannel {
     private channelService;
     private token;
     private irModalRef;
+    propertyId: number;
     componentWillLoad(): void;
     handleConfirmClicked(e: CustomEvent): Promise<void>;
     openModal(): void;

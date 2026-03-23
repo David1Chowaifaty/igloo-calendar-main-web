@@ -205,6 +205,7 @@
     "components/printing/ir-printing-label/ir-printing-label.js",
     "components/printing/ir-printing-pickup/ir-printing-pickup.js",
     "components/printing/ir-proforma-invoice-preview/ir-proforma-invoice-preview.js",
+    "components/table-cells/booking/ir-arrival-time-cell/ir-arrival-time-cell.js",
     "components/table-cells/booking/ir-balance-cell/ir-balance-cell.js",
     "components/table-cells/booking/ir-booked-by-cell/ir-booked-by-cell.js",
     "components/table-cells/booking/ir-booked-on-cell/ir-booked-on-cell.js",

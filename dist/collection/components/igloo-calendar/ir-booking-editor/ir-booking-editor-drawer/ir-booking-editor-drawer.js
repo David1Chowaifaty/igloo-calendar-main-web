@@ -48,6 +48,9 @@ export class IrBookingEditorDrawer {
             this.token.setToken(this.ticket);
         }
         this.initializeBlockedUnitState(this.blockedUnit);
+        if (this.mode) {
+            booking_store.event_type = { type: this.mode };
+        }
     }
     handleTicketChange() {
         if (this.token) {
@@ -65,6 +68,11 @@ export class IrBookingEditorDrawer {
     }
     handleUnitChange() {
         this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    handleModeChange() {
+        if (this.mode) {
+            booking_store.event_type = { type: this.mode };
+        }
     }
     initializeBlockedUnitState(blockedUnit) {
         const allowedStatusCodes = ['002', '003', '004'];
@@ -272,7 +280,7 @@ export class IrBookingEditorDrawer {
         }
     }
     render() {
-        return (h("ir-drawer", { key: 'e5dde29ea0f9a9605795b80c5bb44824abd60aa6', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: 'af7d089ebeef656d8c0477aca8194134529f5ee0', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -283,7 +291,7 @@ export class IrBookingEditorDrawer {
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '74f6de324cf0eae0b869f165766c76404220c68c', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: 'c6b219d88dc6eb544adf20a577ea302654ddde14', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -291,7 +299,7 @@ export class IrBookingEditorDrawer {
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: '6b538caa2bc959f36b8dd68676638fb19267ca5a', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'ad39f4b96d05c974f6413f8cf79bb1d3b13b83f9', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get is() { return "ir-booking-editor-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -611,6 +619,9 @@ export class IrBookingEditorDrawer {
             }, {
                 "propName": "unitId",
                 "methodName": "handleUnitChange"
+            }, {
+                "propName": "mode",
+                "methodName": "handleModeChange"
             }];
     }
     static get listeners() {

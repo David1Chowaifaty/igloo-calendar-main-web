@@ -19,6 +19,7 @@ export class IrChannel {
     channelService = new ChannelService();
     token = new Token();
     irModalRef;
+    propertyId;
     componentWillLoad() {
         this.isLoading = true;
         if (this.ticket !== '') {
@@ -43,7 +44,7 @@ export class IrChannel {
         this.irModalRef.openModal();
     }
     async refreshChannels() {
-        const [, ,] = await Promise.all([this.channelService.getExposedChannels(), this.channelService.getExposedConnectedChannels(this.propertyid)]);
+        const [, ,] = await Promise.all([this.channelService.getExposedChannels(this.propertyId), this.channelService.getExposedConnectedChannels(this.propertyid)]);
     }
     async initializeApp() {
         if (!this.propertyid && !this.p) {
@@ -61,7 +62,7 @@ export class IrChannel {
                 propertyId = propertyData.My_Result.id;
             }
             const requests = [
-                this.channelService.getExposedChannels(),
+                this.channelService.getExposedChannels(propertyId),
                 this.channelService.getExposedConnectedChannels(propertyId),
                 this.roomService.fetchLanguage(this.language, ['_CHANNEL_FRONT']),
             ];
@@ -72,6 +73,7 @@ export class IrChannel {
                     is_backend: true,
                 }));
             }
+            this.propertyId = propertyId;
             const results = await Promise.all(requests);
             const languageTexts = results[results.length - 1];
             channels_data.property_id = this.propertyid;

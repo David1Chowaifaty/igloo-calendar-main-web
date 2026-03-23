@@ -2,6 +2,7 @@ import moment from "moment";
 import { z } from "zod";
 import calendarData from "../stores/calendar-data";
 import locales from "../stores/locales.store";
+import { ROOM_IN_OUT } from "../models/booking.dto";
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');
@@ -358,8 +359,11 @@ export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
     if ((!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
-    if (inOutCode === '002') {
+    if (inOutCode === ROOM_IN_OUT.CHECKOUT) {
         return false;
+    }
+    if (inOutCode === ROOM_IN_OUT.CHECKIN) {
+        return true;
     }
     return moment().startOf('day').isSameOrAfter(moment(to_date, 'YYYY-MM-DD').startOf('date'), 'dates');
 }

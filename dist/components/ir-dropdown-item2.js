@@ -85,7 +85,7 @@ const IrDropdownItem = /*@__PURE__*/ proxyCustomElement(class IrDropdownItem ext
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '154ed3a9584766ad4e407f59448b8d8bd2fdf34b', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '28549f0072a76c1fe18d4d61de3f7e70b49f2813', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get style() { return IrDropdownItemStyle0; }
 }, [6, "ir-dropdown-item", {

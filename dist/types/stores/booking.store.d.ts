@@ -73,6 +73,10 @@ export interface BookingDraft {
     };
     source: BookingSource;
     guest?: any;
+    defaultOccupancy?: {
+        adults: number;
+        children: number;
+    };
 }
 /**
  * Lookup datasets used by dropdowns across the booking experience.

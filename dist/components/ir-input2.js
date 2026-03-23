@@ -12,6 +12,24 @@ const masks = {
         padFractionalZeros: true,
         thousandsSeparator: ',',
     },
+    email: {
+        mask: /^\S*@?\S*$/,
+        overwrite: false,
+        prepare(value) {
+            // Remove spaces
+            return value
+                .toLowerCase()
+                .replace(/\s+/g, '') // remove all whitespace
+                .replace(/[^a-z0-9@._'+\-]/g, '') // only allow chars from EMAIL_REGEX
+                .replace(/\.{2,}/g, '.') // collapse multiple dots
+                .replace(/@\./, '@'); // no dot immediately after @;
+        },
+        validate(value) {
+            // Allow partial input while typing
+            // but restrict characters to valid email charset
+            return /^[a-zA-Z0-9._%+-]*(@?[a-zA-Z0-9.-]*)?$/.test(value);
+        },
+    },
     url: {
         mask: /^\S*$/,
         overwrite: false,

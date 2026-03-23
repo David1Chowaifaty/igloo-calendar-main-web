@@ -104,35 +104,38 @@ export class IrBookingEditor {
      * Throws if required booking data is missing.
      */
     initializeDraftFromBooking() {
-        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
-            if (!this.booking || (!this.identifier && this.bookingEditorService.isEventType('EDIT_BOOKING'))) {
-                throw new Error('Missing booking or identifier');
-            }
+        const isEdit = this.bookingEditorService.isEventType('EDIT_BOOKING');
+        const isEditOrAdd = this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM']);
+        if (isEditOrAdd && (!this.booking || (!this.identifier && isEdit))) {
+            throw new Error('Missing booking or identifier');
         }
-        if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
+        if (isEdit) {
             this.room = this.bookingEditorService.getRoom(this.booking, this.identifier);
         }
-        let draft = {
-            dates: {
+        const dates = isEdit
+            ? {
+                checkIn: moment(this.room.from_date, 'YYYY-MM-DD'),
+                checkOut: moment(this.room.to_date, 'YYYY-MM-DD'),
+            }
+            : {
                 checkIn: this.checkIn ? moment(this.checkIn, 'YYYY-MM-DD') : moment(),
                 checkOut: this.checkOut ? moment(this.checkOut, 'YYYY-MM-DD') : moment().add(1, 'day'),
-            },
-        };
-        if (this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM'])) {
-            const source = booking_store.selects.sources.find(s => s.code === this.booking.source.code);
-            draft = {
-                ...draft,
-                source,
             };
-            if (this.bookingEditorService.isEventType('EDIT_BOOKING')) {
-                draft = {
-                    ...draft,
-                    occupancy: {
-                        adults: this.booking.occupancy.adult_nbr,
-                        children: this.booking.occupancy.children_nbr,
-                    },
-                };
-            }
+        const draft = {
+            dates,
+            ...(isEditOrAdd && { source: this.resolveSourceOption(booking_store.selects.sources, booking_store.selects.sources) }),
+            ...(isEdit && {
+                occupancy: {
+                    adults: calendar_data.property.adult_child_constraints.adult_max_nbr,
+                    children: calendar_data.property.adult_child_constraints.child_max_nbr,
+                },
+                defaultOccupancy: {
+                    adults: this.room.occupancy.adult_nbr,
+                    children: this.room.occupancy.children_nbr + this.room.occupancy.infant_nbr,
+                },
+            }),
+        };
+        if (isEditOrAdd) {
             updateBookedByGuest({
                 firstName: this.booking.guest.first_name,
                 lastName: this.booking.guest.last_name,
@@ -183,7 +186,7 @@ export class IrBookingEditor {
         }
     }
     compareResults(beResults) {
-        const beRoomTypes = Array.isArray(beResults) ? beResults : beResults?.roomtypes ?? [];
+        const beRoomTypes = Array.isArray(beResults) ? beResults : (beResults?.roomtypes ?? []);
         const unavailableRatePlanIds = new Set();
         const beRoomTypeMap = new Map(beRoomTypes.map(roomType => [roomType.id, roomType]));
         for (const roomType of booking_store.roomTypes ?? []) {
@@ -251,21 +254,24 @@ export class IrBookingEditor {
             ratePricingMode: setupEntries.ratePricingMode,
         });
     }
+    resolveSourceOption(bookingSource, filteredSourceOptions) {
+        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
+            if (this.booking.agent) {
+                return bookingSource.find(option => this.booking.agent?.id?.toString() === option.tag?.toString());
+            }
+            else {
+                return bookingSource.find(option => this.booking.source?.code === option.code);
+            }
+        }
+        return filteredSourceOptions.find(o => o.type !== 'LABEL');
+    }
     setSourceOptions(bookingSource) {
         const _sourceOptions = this.bookingEditorService.isEventType('BAR_BOOKING') ? this.getFilteredSourceOptions(bookingSource) : bookingSource;
         setBookingSelectOptions({
             sources: _sourceOptions,
         });
-        let sourceOption;
-        if (this.bookingEditorService.isEventType('EDIT_BOOKING') && this.booking) {
-            const option = bookingSource.find(option => this.booking.source?.code === option.code);
-            sourceOption = option;
-        }
-        else {
-            sourceOption = _sourceOptions.find(o => o.type !== 'LABEL');
-        }
         setBookingDraft({
-            source: sourceOption,
+            source: this.resolveSourceOption(bookingSource, _sourceOptions),
         });
     }
     getFilteredSourceOptions(sourceOptions) {

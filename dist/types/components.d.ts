@@ -575,6 +575,11 @@ export namespace Components {
         "language": string;
         "propertyId": number;
     }
+    interface IrArrivalTimeCell {
+        "arrival": Booking['arrival'];
+        "arrivalTimeLabel": string;
+        "display": 'block' | 'inline';
+    }
     interface IrArrivalTimeDialog {
         "arrivalTime": IEntries[];
         "booking": Booking;
@@ -1715,6 +1720,7 @@ export namespace Components {
     }
     interface IrDateView {
         "dateOption": string;
+        "format": string;
         "from_date": string | Date | moment.Moment;
         "showDateDifference": boolean;
         "to_date": string | Date | moment.Moment;
@@ -3914,6 +3920,7 @@ export namespace Components {
     }
     interface IrUnitCell {
         "room": Room;
+        "showDeparture": boolean;
     }
     interface IrUnitStatus {
     }
@@ -5465,6 +5472,12 @@ declare global {
     var HTMLIrApplicablePoliciesElement: {
         prototype: HTMLIrApplicablePoliciesElement;
         new (): HTMLIrApplicablePoliciesElement;
+    };
+    interface HTMLIrArrivalTimeCellElement extends Components.IrArrivalTimeCell, HTMLStencilElement {
+    }
+    var HTMLIrArrivalTimeCellElement: {
+        prototype: HTMLIrArrivalTimeCellElement;
+        new (): HTMLIrArrivalTimeCellElement;
     };
     interface HTMLIrArrivalTimeDialogElementEventMap {
         "resetBookingEvt": Booking | null;
@@ -7704,7 +7717,7 @@ declare global {
         "pressCheckIn": any;
         "pressCheckOut": any;
         "editInitiated": TIglBookPropertyPayload;
-        "resetbooking": null;
+        "resetBookingEvt": null;
         "openSidebar": OpenSidebarEvent<RoomGuestsPayload1>;
     }
     interface HTMLIrRoomElement extends Components.IrRoom, HTMLStencilElement {
@@ -8348,6 +8361,7 @@ declare global {
         "ir-agents-table": HTMLIrAgentsTableElement;
         "ir-air-date-picker": HTMLIrAirDatePickerElement;
         "ir-applicable-policies": HTMLIrApplicablePoliciesElement;
+        "ir-arrival-time-cell": HTMLIrArrivalTimeCellElement;
         "ir-arrival-time-dialog": HTMLIrArrivalTimeDialogElement;
         "ir-arrivals": HTMLIrArrivalsElement;
         "ir-arrivals-filters": HTMLIrArrivalsFiltersElement;
@@ -9112,6 +9126,11 @@ declare namespace LocalJSX {
         "language"?: string;
         "onGeneratePayment"?: (event: IrApplicablePoliciesCustomEvent<IPaymentAction>) => void;
         "propertyId"?: number;
+    }
+    interface IrArrivalTimeCell {
+        "arrival"?: Booking['arrival'];
+        "arrivalTimeLabel"?: string;
+        "display"?: 'block' | 'inline';
     }
     interface IrArrivalTimeDialog {
         "arrivalTime"?: IEntries[];
@@ -10338,6 +10357,7 @@ declare namespace LocalJSX {
     }
     interface IrDateView {
         "dateOption"?: string;
+        "format"?: string;
         "from_date"?: string | Date | moment.Moment;
         "showDateDifference"?: boolean;
         "to_date"?: string | Date | moment.Moment;
@@ -12266,7 +12286,7 @@ declare namespace LocalJSX {
         "onOpenSidebar"?: (event: IrRoomCustomEvent<OpenSidebarEvent<RoomGuestsPayload1>>) => void;
         "onPressCheckIn"?: (event: IrRoomCustomEvent<any>) => void;
         "onPressCheckOut"?: (event: IrRoomCustomEvent<any>) => void;
-        "onResetbooking"?: (event: IrRoomCustomEvent<null>) => void;
+        "onResetBookingEvt"?: (event: IrRoomCustomEvent<null>) => void;
         "onToast"?: (event: IrRoomCustomEvent<IToast>) => void;
         "property_id"?: number;
         "room"?: Room;
@@ -12805,6 +12825,7 @@ declare namespace LocalJSX {
     }
     interface IrUnitCell {
         "room"?: Room;
+        "showDeparture"?: boolean;
     }
     interface IrUnitStatus {
         "onResetData"?: (event: IrUnitStatusCustomEvent<null>) => void;
@@ -12979,6 +13000,7 @@ declare namespace LocalJSX {
         "ir-agents-table": IrAgentsTable;
         "ir-air-date-picker": IrAirDatePicker;
         "ir-applicable-policies": IrApplicablePolicies;
+        "ir-arrival-time-cell": IrArrivalTimeCell;
         "ir-arrival-time-dialog": IrArrivalTimeDialog;
         "ir-arrivals": IrArrivals;
         "ir-arrivals-filters": IrArrivalsFilters;
@@ -13239,6 +13261,7 @@ declare module "@stencil/core" {
             "ir-agents-table": LocalJSX.IrAgentsTable & JSXBase.HTMLAttributes<HTMLIrAgentsTableElement>;
             "ir-air-date-picker": LocalJSX.IrAirDatePicker & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
             "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
+            "ir-arrival-time-cell": LocalJSX.IrArrivalTimeCell & JSXBase.HTMLAttributes<HTMLIrArrivalTimeCellElement>;
             "ir-arrival-time-dialog": LocalJSX.IrArrivalTimeDialog & JSXBase.HTMLAttributes<HTMLIrArrivalTimeDialogElement>;
             "ir-arrivals": LocalJSX.IrArrivals & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
             "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;

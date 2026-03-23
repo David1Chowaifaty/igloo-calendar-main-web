@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.store.js';
-import { w as getDaysArray, x as convertDatePrice, y as formatDate } from './utils.js';
+import { y as getDaysArray, z as convertDatePrice, A as formatDate } from './utils.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { d as defineCustomElement$6 } from './ir-button2.js';
@@ -196,6 +196,7 @@ const IrRoomNights = /*@__PURE__*/ proxyCustomElement(class IrRoomNights extends
                 is_direct: true,
                 pickup_info: this.bookingEvent.pickup_info,
                 extra_services: this.bookingEvent.extra_services,
+                agent: this.bookingEvent.agent,
                 booking: {
                     booking_nbr: this.bookingNumber,
                     from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),

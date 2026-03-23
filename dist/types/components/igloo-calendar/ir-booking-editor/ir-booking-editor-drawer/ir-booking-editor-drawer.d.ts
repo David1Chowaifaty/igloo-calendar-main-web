@@ -44,6 +44,7 @@ export declare class IrBookingEditorDrawer {
     handleCheckInChange(): void;
     handleCheckOutChange(): void;
     handleUnitChange(): void;
+    handleModeChange(): void;
     private initializeBlockedUnitState;
     handleBookingStepChange(e: CustomEvent): void;
     private get drawerLabel();

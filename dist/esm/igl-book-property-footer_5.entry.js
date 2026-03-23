@@ -2,15 +2,16 @@ import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } 
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
-import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, f as setBookedByGuestManualEditState } from './booking.service-a49aa5b9.js';
-import { z, v as formatAmount, M as validateEmail } from './utils-f0b70a36.js';
+import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.store-00037e32.js';
+import { z } from './index-87419685.js';
+import { f as formatAmount, D as validateEmail } from './utils-d84af687.js';
 import { I as IMask } from './index-e2caf943.js';
-import { B as BookingGuestSchema } from './types-9c473ad3.js';
+import { B as BookingGuestSchema } from './types-f16787f2.js';
 import { v as v4 } from './v4-964634d6.js';
 import './index-f100e9d2.js';
 import './axios-aa1335b8.js';
-import './booking-80bcb1b1.js';
+import './booking-4da5e4c1.js';
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{width:100% !important;background:#000}";
 const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;

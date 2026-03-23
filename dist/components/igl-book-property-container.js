@@ -14,10 +14,10 @@ import { d as defineCustomElement$p } from './igl-date-range2.js';
 import { d as defineCustomElement$o } from './igl-property-booked-by2.js';
 import { d as defineCustomElement$n } from './igl-rate-plan2.js';
 import { d as defineCustomElement$m } from './igl-room-type2.js';
-import { d as defineCustomElement$l } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$k } from './ir-button2.js';
-import { d as defineCustomElement$j } from './ir-country-picker2.js';
-import { d as defineCustomElement$i } from './ir-custom-button2.js';
+import { d as defineCustomElement$l } from './ir-button2.js';
+import { d as defineCustomElement$k } from './ir-country-picker2.js';
+import { d as defineCustomElement$j } from './ir-custom-button2.js';
+import { d as defineCustomElement$i } from './ir-custom-date-range2.js';
 import { d as defineCustomElement$h } from './ir-date-select2.js';
 import { d as defineCustomElement$g } from './ir-date-view2.js';
 import { d as defineCustomElement$f } from './ir-icons2.js';
@@ -163,7 +163,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-container", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-air-date-picker", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-select", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["igl-book-property-container", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-date-range", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-container":
             if (!customElements.get(tagName)) {
@@ -225,22 +225,22 @@ function defineCustomElement$1() {
                 defineCustomElement$m();
             }
             break;
-        case "ir-air-date-picker":
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$l();
             }
             break;
-        case "ir-button":
+        case "ir-country-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
             break;
-        case "ir-country-picker":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }
             break;
-        case "ir-custom-button":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }

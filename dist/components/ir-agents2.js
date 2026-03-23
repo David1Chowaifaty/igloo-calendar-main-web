@@ -102,7 +102,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
             }
             const [countries, setupEntries] = await Promise.all([
                 this.bookingService.getCountries(this.language),
-                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD']),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_AGENT_RATE_TYPE', '_AGENT_TYPE', '_TA_PAYMENT_METHOD', '_CL_POST_TIMING']),
                 calendar_data?.property
                     ? Promise.resolve(null)
                     : this.propertyService.getExposedProperty({
@@ -112,11 +112,12 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
                     }),
                 this.fetchAgents(),
             ]);
-            const { agent_rate_type, agent_type, ta_payment_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+            const { agent_rate_type, agent_type, ta_payment_method, cl_post_timing } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.setupEntries = {
                 agent_rate_type,
                 agent_type,
                 ta_payment_method,
+                cl_post_timing,
             };
             this.countries = countries;
             this.isLoading = false;
@@ -174,7 +175,7 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
+        return (h(Host, { "data-testid": "ir-agents" }, h("ir-toast", null), h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), h("div", { class: "ir-page__container" }, h("div", { class: "page-header__container" }, h("h3", { class: "page-title" }, "Agents/Companies")), h("ir-agents-table", { countries: this.countries, setupEntries: this.setupEntries, onToggleAgentActive: event => this.handleToggleAgentStatus(event.detail), agents: this.agents, onUpsertAgent: event => this.handleUpsertAgent(event.detail), onDeleteAgent: event => this.handleDeleteAgent(event.detail) })), h("ir-agent-editor-drawer", { setupEntries: this.setupEntries, countries: this.countries, open: this.isDrawerOpen, agent: this.selectedAgent ?? undefined, onAgentEditorClose: () => this.handleDrawerClose() }), h("ir-dialog", { label: "Delete Agent", open: this.isDeleteDialogOpen, lightDismiss: false, onIrDialogHide: () => this.handleDeleteDialogClose() }, h("span", null, this.selectedAgent
             ? `Are you sure you want to delete ${this.selectedAgent.name}? This action permanently removes the agent and cannot be undone.`
             : 'Are you sure you want to delete this agent? This action permanently removes the agent and cannot be undone.'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "danger", onClickHandler: () => this.confirmDeleteAgent() }, "Delete")))));
     }

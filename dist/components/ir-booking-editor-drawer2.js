@@ -1,21 +1,21 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { B as BookingService, d as resetReserved, k as hasAtLeastOneRoomSelected, b as booking_store } from './booking.store.js';
+import { B as BookingService, b as booking_store, d as resetReserved, k as hasAtLeastOneRoomSelected } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { g as getReleaseHoursString } from './utils.js';
-import { I as IRBookingEditorService, d as defineCustomElement$i } from './ir-booking-editor-header2.js';
+import { I as IRBookingEditorService, d as defineCustomElement$j } from './ir-booking-editor-header2.js';
 import { d as defineCustomElement$q } from './igl-application-info2.js';
 import { d as defineCustomElement$p } from './igl-date-range2.js';
 import { d as defineCustomElement$o } from './igl-rate-plan2.js';
 import { d as defineCustomElement$n } from './igl-room-type2.js';
-import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$l } from './ir-booking-editor2.js';
-import { d as defineCustomElement$k } from './ir-booking-editor-form2.js';
-import { d as defineCustomElement$j } from './ir-booking-editor-guest-form2.js';
-import { d as defineCustomElement$h } from './ir-button2.js';
-import { d as defineCustomElement$g } from './ir-country-picker2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
+import { d as defineCustomElement$m } from './ir-booking-editor2.js';
+import { d as defineCustomElement$l } from './ir-booking-editor-form2.js';
+import { d as defineCustomElement$k } from './ir-booking-editor-guest-form2.js';
+import { d as defineCustomElement$i } from './ir-button2.js';
+import { d as defineCustomElement$h } from './ir-country-picker2.js';
+import { d as defineCustomElement$g } from './ir-custom-button2.js';
+import { d as defineCustomElement$f } from './ir-custom-date-range2.js';
 import { d as defineCustomElement$e } from './ir-date-select2.js';
 import { d as defineCustomElement$d } from './ir-date-view2.js';
 import { d as defineCustomElement$c } from './ir-drawer2.js';
@@ -81,6 +81,9 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
             this.token.setToken(this.ticket);
         }
         this.initializeBlockedUnitState(this.blockedUnit);
+        if (this.mode) {
+            booking_store.event_type = { type: this.mode };
+        }
     }
     handleTicketChange() {
         if (this.token) {
@@ -98,6 +101,11 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
     }
     handleUnitChange() {
         this.initializeBlockedUnitState(this.blockedUnit);
+    }
+    handleModeChange() {
+        if (this.mode) {
+            booking_store.event_type = { type: this.mode };
+        }
     }
     initializeBlockedUnitState(blockedUnit) {
         const allowedStatusCodes = ['002', '003', '004'];
@@ -305,7 +313,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         }
     }
     render() {
-        return (h("ir-drawer", { key: 'e5dde29ea0f9a9605795b80c5bb44824abd60aa6', onDrawerHide: async (event) => {
+        return (h("ir-drawer", { key: 'af7d089ebeef656d8c0477aca8194134529f5ee0', onDrawerHide: async (event) => {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 await this.closeDrawer();
@@ -316,7 +324,7 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
                 '--ir-drawer-padding-right': 'var(--spacing)',
                 '--ir-drawer-padding-top': 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
-            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: '74f6de324cf0eae0b869f165766c76404220c68c', onLoadingChanged: e => {
+            }, class: "booking-editor__drawer", label: this.drawerLabel, open: this.open }, this.open && this.ticket && (h("ir-booking-editor", { key: 'c6b219d88dc6eb544adf20a577ea302654ddde14', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail.cause;
@@ -324,14 +332,15 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
                 this.blockedUnit = undefined;
                 this.initializeBlockedUnitState(undefined);
                 await this.closeDrawer();
-            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: '6b538caa2bc959f36b8dd68676638fb19267ca5a', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
+            }, step: this.step, blockedUnit: this.blockedUnit, language: this.language, booking: this.booking, mode: this.mode, checkIn: this.checkIn, checkOut: this.checkOut, identifier: this.roomIdentifier })), h("div", { key: 'ad39f4b96d05c974f6413f8cf79bb1d3b13b83f9', slot: "footer", class: "ir__drawer-footer" }, this.renderFooter())));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"],
         "blockedUnit": ["handleBlockedUnitChange"],
         "checkIn": ["handleCheckInChange"],
         "checkOut": ["handleCheckOutChange"],
-        "unitId": ["handleUnitChange"]
+        "unitId": ["handleUnitChange"],
+        "mode": ["handleModeChange"]
     }; }
     static get style() { return IrBookingEditorDrawerStyle0; }
 }, [2, "ir-booking-editor-drawer", {
@@ -355,13 +364,14 @@ const IrBookingEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrBookingEd
         "blockedUnit": ["handleBlockedUnitChange"],
         "checkIn": ["handleCheckInChange"],
         "checkOut": ["handleCheckOutChange"],
-        "unitId": ["handleUnitChange"]
+        "unitId": ["handleUnitChange"],
+        "mode": ["handleModeChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-editor-drawer", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-air-date-picker", "ir-booking-editor", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-button", "ir-country-picker", "ir-custom-button", "ir-date-select", "ir-date-view", "ir-drawer", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-editor-drawer", "igl-application-info", "igl-date-range", "igl-rate-plan", "igl-room-type", "ir-booking-editor", "ir-booking-editor-form", "ir-booking-editor-guest-form", "ir-booking-editor-header", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-date-view", "ir-drawer", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-editor-drawer":
             if (!customElements.get(tagName)) {
@@ -388,42 +398,42 @@ function defineCustomElement() {
                 defineCustomElement$n();
             }
             break;
-        case "ir-air-date-picker":
+        case "ir-booking-editor":
             if (!customElements.get(tagName)) {
                 defineCustomElement$m();
             }
             break;
-        case "ir-booking-editor":
+        case "ir-booking-editor-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$l();
             }
             break;
-        case "ir-booking-editor-form":
+        case "ir-booking-editor-guest-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
             break;
-        case "ir-booking-editor-guest-form":
+        case "ir-booking-editor-header":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }
             break;
-        case "ir-booking-editor-header":
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }
             break;
-        case "ir-button":
+        case "ir-country-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }
             break;
-        case "ir-country-picker":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }
             break;
-        case "ir-custom-button":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }

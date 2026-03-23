@@ -7,6 +7,7 @@ export class IrDateView {
     to_date;
     showDateDifference = true;
     dateOption = 'YYYY-MM-DD';
+    format = 'MMM DD, YYYY';
     dates;
     componentWillLoad() {
         this.initializeDates();
@@ -38,20 +39,20 @@ export class IrDateView {
             return;
         }
         if (typeof date === 'string') {
-            this.dates[key] = moment(date, this.dateOption).format('MMM DD, YYYY');
+            this.dates[key] = moment(date, this.dateOption).format(this.format);
         }
         else if (date instanceof Date) {
-            this.dates[key] = moment(date).format('MMM DD, YYYY');
+            this.dates[key] = moment(date).format(this.format);
         }
         else if (moment.isMoment(date)) {
-            this.dates[key] = date.format('MMM DD, YYYY');
+            this.dates[key] = date.format(this.format);
         }
         else {
             console.error('Unsupported date type');
         }
     }
     render() {
-        return (h(Host, { key: 'aaddac02d626f7ada0564b5f64c7f04111925a84', class: "d-flex align-items-center" }, h("span", { key: 'e1b16c620fd7e45958adad56b41aa61052b4ecb7' }, this.dates.from_date), ' ', h("svg", { key: '938bd03c3e6196f05cff91566ead7328499664a1', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '52dcc32419e3b11051b2617c40d8a5e6453366fe', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: 'e53914272da5c66ba4af3aaa56d780168b769026' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: 'a4fe541948a0f79c761b69f489008d86689df6b0', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h(Host, { key: '56fd9a25571404f5fb6241054e395fef06ad5767', class: "d-flex align-items-center" }, h("span", { key: '5f57e1558def53bd73a684b5d2da1149cc938440' }, this.dates.from_date), ' ', h("svg", { key: '695d30a71146eaefae43b2bf1d56229ba3411cb5', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '0ff1dd230c1b644bc23d78c65405ff47331aaedf', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '9cb59c4bf13d729a86445809526171844106ba33' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '61fd325b05471ceeddf18d90159a95ed2c1cc371', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
     }
     static get is() { return "ir-date-view"; }
     static get encapsulation() { return "scoped"; }
@@ -162,6 +163,26 @@ export class IrDateView {
                 "attribute": "date-option",
                 "reflect": false,
                 "defaultValue": "'YYYY-MM-DD'"
+            },
+            "format": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "format",
+                "reflect": false,
+                "defaultValue": "'MMM DD, YYYY'"
             }
         };
     }

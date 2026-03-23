@@ -4,6 +4,7 @@ export declare class IrDateView {
     to_date: string | Date | moment.Moment;
     showDateDifference: boolean;
     dateOption: string;
+    format: string;
     dates: {
         from_date: string;
         to_date: string;

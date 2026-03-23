@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { B as BookingListingService, b as booking_listing } from './booking_listing.service.js';
+import { b as booking_listing } from './booking_listing.store.js';
 import { l as locales } from './locales.store.js';
+import { B as BookingListingService } from './booking_listing.service.js';
 import { P as PaymentService } from './payment.service.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$5 } from './ir-button2.js';
