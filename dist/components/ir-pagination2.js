@@ -1,6 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
-import { d as defineCustomElement$2 } from './ir-custom-button2.js';
-import { d as defineCustomElement$1 } from './ir-select2.js';
+import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
 const irPaginationCss = ".sc-ir-pagination-h{display:block;font-family:var(--font-family, inherit);font-size:var(--font-size, 0.875rem);color:var(--text-color, #333)}.pagination-container.sc-ir-pagination{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:0.5rem 0;min-height:2.5rem}.pagination__current-page-select.sc-ir-pagination{margin-left:0.5rem;margin-right:0.5rem;max-width:70px}.pagination-container--disabled.sc-ir-pagination{opacity:0.6;pointer-events:none}.pagination-info.sc-ir-pagination{margin:0;color:var(--text-muted, #6c757d);font-size:var(--font-size-sm, 0.875rem);white-space:nowrap;padding:0}.buttons-container.sc-ir-pagination{display:flex;align-items:center;flex-wrap:wrap}.buttons-container.sc-ir-pagination ir-button.sc-ir-pagination{flex-shrink:0}.buttons-container.sc-ir-pagination ir-select.sc-ir-pagination{flex-shrink:0}.page-size-select.sc-ir-pagination{margin:0 0.5rem;min-width:5rem}@media (min-width: 768px){.pagination-container.sc-ir-pagination{flex-direction:row;align-items:center;justify-content:space-between;gap:1.25rem}.pagination-info.sc-ir-pagination{order:0}.buttons-container.sc-ir-pagination{justify-content:flex-end}}@media (max-width: 480px){.pagination-container.sc-ir-pagination{gap:0.5rem}.buttons-container.sc-ir-pagination{justify-content:center;gap:0.125rem}.pagination-info.sc-ir-pagination{text-align:center;width:100%}}@media (prefers-contrast: high){.pagination-info.sc-ir-pagination{color:var(--text-color, #000)}.pagination-container--disabled.sc-ir-pagination{opacity:0.8}}@media (prefers-reduced-motion: reduce){*.sc-ir-pagination{transition:none !important}}";
 const IrPaginationStyle0 = irPaginationCss;
@@ -180,10 +179,7 @@ const IrPagination = /*@__PURE__*/ proxyCustomElement(class IrPagination extends
         return (h("div", { class: {
                 'pagination-container': true,
                 'pagination-container--disabled': this.disabled,
-            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: "buttons-container" }, this.allowPageSizeChange && this.pageSizes && (h("ir-select", { class: "page-size-select", selectedValue: String(this.pageSize), data: this.pageSizes.map(size => ({
-                text: `${size} ${this.recordLabel}`,
-                value: String(size),
-            })), showFirstOption: false, onSelectChange: e => this.handlePageSizeChange(Number(e.detail)) })), this.pages > 1 && (h(Fragment, null, h("ir-custom-button", { "aria-label": "Go to first page", onClickHandler: () => this.handlePageChange(1, 'first'), disabled: isFirstPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angles-left", label: "Go to first page" })), h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), variant: "neutral", appearance: "plain", disabled: isFirstPage || this.disabled, "aria-label": "Go to previous page" }, h("wa-icon", { name: "angle-left", label: "Go to previous page" })), h("wa-select", { value: this.currentPage?.toString(), class: "pagination__current-page-select", onchange: e => this.handlePageChange(+e.target.value, 'direct'), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: '1' }, Array.from(Array(this.pages), (_, i) => i + 1).map(i => (h("wa-option", { value: i.toString(), key: `${this.recordLabel}-${i}` }, i)))), h("ir-custom-button", { "aria-label": "Go to next page", onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), disabled: isLastPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angle-right", label: "Go to next page" })), h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.pages, 'last'), variant: "neutral", appearance: "plain", disabled: isLastPage || this.disabled, "aria-label": "Go to last page" }, h("wa-icon", { name: "angles-right", label: "Go to last page" })))))));
+            }, role: "navigation", "aria-label": "Pagination Navigation" }, this.showTotalRecords && (h("p", { class: "pagination-info", "aria-live": "polite" }, this.renderItemRange())), h("div", { class: "buttons-container" }, this.allowPageSizeChange && this.pageSizes && (h("wa-select", { value: String(this.pageSize), class: "pagination__current-page-select", onchange: e => this.handlePageSizeChange(+e.target.value), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: String(this.pageSize) }, this.pageSizes.map(size => (h("wa-option", { value: size.toString(), key: `page-size-${this.recordLabel}-${size}` }, size))))), this.pages > 1 && (h(Fragment, null, h("ir-custom-button", { onClickHandler: () => this.handlePageChange(this.currentPage - 1, 'previous'), variant: "neutral", appearance: "plain", disabled: isFirstPage || this.disabled, "aria-label": "Go to previous page" }, h("wa-icon", { name: "angle-left", label: "Go to previous page" })), h("wa-select", { value: this.currentPage?.toString(), class: "pagination__current-page-select", onchange: e => this.handlePageChange(+e.target.value, 'direct'), "aria-label": `Current page ${this.currentPage} of ${this.pages}`, disabled: this.disabled, size: "small", defaultValue: '1' }, Array.from(Array(this.pages), (_, i) => i + 1).map(i => (h("wa-option", { value: i.toString(), key: `${this.recordLabel}-${i}` }, i)))), h("ir-custom-button", { "aria-label": "Go to next page", onClickHandler: () => this.handlePageChange(this.currentPage + 1, 'next'), disabled: isLastPage || this.disabled, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "angle-right", label: "Go to next page" })))))));
     }
     static get watchers() { return {
         "currentPage": ["validateCurrentPage"],
@@ -209,7 +205,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-pagination", "ir-custom-button", "ir-select"];
+    const components = ["ir-pagination", "ir-custom-button"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-pagination":
             if (!customElements.get(tagName)) {
@@ -217,11 +213,6 @@ function defineCustomElement() {
             }
             break;
         case "ir-custom-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$2();
-            }
-            break;
-        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

@@ -13,7 +13,10 @@ const _formatTime = (hour, minute) => {
     return hooks(`${hour}:${minute}`, 'HH:mm').format('hh:mm A');
     // return moment(`${hour}:${minute}`, 'HH:mm').format('HH:mm');
 };
+const isAgentMode = (booking) => {
+    return booking.agent && booking?.agent?.code !== '002';
+};
 
-export { _formatTime as _, _formatDate as a, _getDay as b };
+export { _formatTime as _, _formatDate as a, _getDay as b, isAgentMode as i };
 
 //# sourceMappingURL=functions.js.map

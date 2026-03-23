@@ -15058,7 +15058,7 @@ const IrQueueChart = class {
         this.chart.update();
     }
     render() {
-        return (index$1.h(index$1.Host, { key: '057f4fa68e78e01df0ae680d2b708913f8679a5c' }, index$1.h("div", { key: 'd40b3ec120607a91885a7b81d7946101899367ae', class: "chart-container" }, index$1.h("canvas", { key: '9bd4aefdda5fe006cafbe68ab5cd5301426b3f9c', ref: el => (this.canvas = el) }))));
+        return (index$1.h(index$1.Host, { key: 'df2bc213497abe6e2a554ff6a5e60f424ef01370' }, index$1.h("div", { key: 'b6ad056b1d2522435fa744476ba22a95297b839e', class: "chart-container" }, index$1.h("canvas", { key: 'ba9e3afe3081c0146b340e718e1e625362133a12', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": ["dataChanged"],

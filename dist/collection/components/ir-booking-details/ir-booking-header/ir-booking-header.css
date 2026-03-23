@@ -71,6 +71,7 @@
   gap: 1rem;
   font-size: 0.875rem;
 }
+
 /*sm*/
 @media (min-width: 640px) {
   .booking-header__title {
@@ -81,6 +82,11 @@
 
 /*md*/
 @media (min-width: 768px) {
+  .booking-header__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
   .booking-header__row,
   .booking-header__info {
     flex-direction: row;

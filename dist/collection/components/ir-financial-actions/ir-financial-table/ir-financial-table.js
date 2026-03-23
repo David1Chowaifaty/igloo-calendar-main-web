@@ -4,14 +4,14 @@ import calendar_data from "../../../stores/calendar-data";
 export class IrFinancialTable {
     financialActionsOpenSidebar;
     render() {
-        return (h("div", { key: 'f9ace2f79b91bc2727f4dab044989dc03641990f', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: 'da9bf6affd46ff351da4b84acb6f392b6f0a7c3a', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '100b22bd29094c23d6c2fe82b0458ca732693429', class: "table-header" }, h("tr", { key: 'bade0f141839474bb6d7b01a0f2945d0fc739040' }, h("th", { key: '3e94538c3eeef98139def8c5aa961038692aa5b2', class: "text-center" }, "Date"), h("th", { key: '54bc6841589f542884a9315713b3d29cdf3b7663', class: "text-center" }, "Booking"), h("th", { key: '30a8623ecfab242fc423e8a16cf5964f7f568643', class: "text-center" }, "By direct"), h("th", { key: '58dd45f70816f81b3b8e9f99ff7e0efd231b0591', class: "text-right" }, "Amount"), h("th", { key: 'cf375f7013ecc04d8d6963512e59f18085e05b19', class: "text-center" }))), h("tbody", { key: '28d489388c33a6ae774a1f128345976beeec1c9c' }, h("tr", { key: 'c009239feb8fe055ace2db7e6c1051666f82ad69', class: "ir-table-row" }, h("td", { key: '4805e2839869b0c1e89222a5e2b157ff927723ca', class: "text-center" }, "1"), h("td", { key: '69ee221e67e416bf28722a69b32e3bfdf32e3294', class: "text-center" }, h("ir-button", { key: 'b370eb3e116d0da2d3722b1b6bde2209afc56021', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
+        return (h("div", { key: '308b8368aad4f363900f7f950d81cbf40082cd82', class: "table-container h-100 p-1 m-0 mb-2 table-responsive" }, h("table", { key: '92165b8dbc4c4c135d9f35a8e05c06cd92dae4d4', class: "table", "data-testid": "hk_tasks_table" }, h("thead", { key: '7d635beddd2b93c732c499532963be610b193298', class: "table-header" }, h("tr", { key: '289351a5ec03978beb2ebf188e6df3f61d271bd4' }, h("th", { key: '58baad11b0129a39dba6f60f38815cdee554be4b', class: "text-center" }, "Date"), h("th", { key: '481cd3a580d2616277be4a261c01863aac54b4e6', class: "text-center" }, "Booking"), h("th", { key: '90ddec8e0cac0bda75f75d73c78edd5f299bc10f', class: "text-center" }, "By direct"), h("th", { key: '6fd55e71823febbc359f3923916a960143b4e0ac', class: "text-right" }, "Amount"), h("th", { key: 'f14832b7b71a6995fa7fd255685508689c660ba1', class: "text-center" }))), h("tbody", { key: '51c0ab1d97cc0d241825ca3e8758898dfe73a5de' }, h("tr", { key: '7771c32fff964d167f16be7998635d7d7dbcacb1', class: "ir-table-row" }, h("td", { key: '0c9940e4dbd34a851e92b0677a4c3bd7c2c3340a', class: "text-center" }, "1"), h("td", { key: 'e25ff9bebfca14c75def7cd1cbaaaefa669dbc67', class: "text-center" }, h("ir-button", { key: '05cea91e2ad7d2aeba1569ce89a4678335dffb4f', btn_color: "link", size: "sm", text: "31203720277", onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'booking',
                     payload: {
                         bookingNumber: 31203720277,
                     },
                 });
-            } })), h("td", { key: 'd1775eaf4c24529a341778960c8f4a83674d30d0', class: "text-center" }, "1"), h("td", { key: 'a1f62aae508296c81a7790c056620fe2045bc8c8', class: "text-right" }, "1"), h("td", { key: '2c9b78e8867a7c5e35dadaf1dabc60f571804f5f' }, h("ir-button", { key: '78e2d6f7f345c45504c0cbae8ab6cdcc2520b149', size: "sm", text: "Pay", onClickHandler: () => {
+            } })), h("td", { key: '0cfac896dfc2f52a2e92810bb86a05bd8ed1239b', class: "text-center" }, "1"), h("td", { key: '2373439a8eb453eb38e70f3a1a9c21458435a931', class: "text-right" }, "1"), h("td", { key: 'bbf2fc8a18e966963d09ff21b2da85483368e73b' }, h("ir-button", { key: '189d8f5c408e741fba55d82fe7caa4f5ff183f09', size: "sm", text: "Pay", onClickHandler: () => {
                 this.financialActionsOpenSidebar.emit({
                     type: 'payment',
                     payload: {
@@ -24,6 +24,7 @@ export class IrFinancialTable {
                             reference: '',
                         },
                         bookingNumber: 31203720277,
+                        booking: null,
                     },
                 });
             } })))))));
@@ -53,7 +54,7 @@ export class IrFinancialTable {
                 },
                 "complexType": {
                     "original": "SidebarOpenEvent",
-                    "resolved": "{ type: \"booking\"; payload: { bookingNumber: number; }; } | { type: \"payment\"; payload: { payment: Payment; bookingNumber: number; }; }",
+                    "resolved": "{ type: \"booking\"; payload: { bookingNumber: number; }; } | { type: \"payment\"; payload: { payment: Payment; bookingNumber: number; booking: Booking; }; }",
                     "references": {
                         "SidebarOpenEvent": {
                             "location": "import",

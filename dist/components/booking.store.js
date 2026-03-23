@@ -942,6 +942,7 @@ const bookedByGuestBaseData = {
     id: -1,
     email: '',
     company: '',
+    bookingCode: null,
     firstName: '',
     lastName: '',
     countryId: '',
@@ -962,6 +963,7 @@ const initialState = {
     bookedByGuest: bookedByGuestBaseData,
     bookedByGuestManuallyEdited: false,
     bookingDraft: {
+        agent: null,
         dates: {
             checkIn: hooks().startOf('day'),
             checkOut: hooks().add(1, 'day'),
@@ -1037,6 +1039,20 @@ function setBookingDraft(params) {
             ...params.occupancy,
         },
     };
+    if (params.source) {
+        setBookingDraft({ agent: resolveAgentFromBookingSource(params.source) });
+    }
+}
+/**
+ * Returns the linked travel agent if the source type is TRAVEL_AGENCY.
+ */
+function resolveAgentFromBookingSource(source) {
+    const matchedSource = calendar_data.property.allowed_booking_sources.find(s => s.id.toString() === source.id.toString());
+    if (matchedSource?.type === 'TRAVEL_AGENCY') {
+        const agent = calendar_data.property.agents?.find(a => a.id.toString() === matchedSource.tag);
+        return agent ?? null;
+    }
+    return null;
 }
 /**
  * Updates dropdown lookup datasets (sources, bed preferences, etc.).
@@ -1224,11 +1240,11 @@ function reserveRooms({ ratePlanId, roomTypeId, rooms, guest }) {
     }
     const roomType = booking_store.roomTypes?.find(r => r.id === roomTypeId);
     if (!roomType) {
-        throw new Error('Invalid room type id');
+        throw new Error(`Invalid room type id ${roomTypeId}`);
     }
-    const ratePlan = roomType.rateplans.find(r => r.id === ratePlanId);
+    const ratePlan = roomType.rateplans.find(r => r.id?.toString() === ratePlanId.toString());
     if (!ratePlan) {
-        throw new Error('Invalid rate plan');
+        throw new Error(`Invalid rate plan ${ratePlanId},${roomTypeId}:${JSON.stringify(roomType.rateplans?.map(d => d.id))}`);
     }
     let newGuest = Array.from({ length: rooms }, () => ({ first_name: '', last_name: '', unit: null, bed_preference: null, infant_nbr: null }));
     if (guest) {

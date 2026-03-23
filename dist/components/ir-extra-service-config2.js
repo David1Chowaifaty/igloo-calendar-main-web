@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$4 } from './ir-drawer2.js';
-import { d as defineCustomElement$3 } from './ir-extra-service-config-form2.js';
-import { d as defineCustomElement$2 } from './ir-input2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-extra-service-config-form2.js';
+import { d as defineCustomElement$3 } from './ir-input2.js';
+import { d as defineCustomElement$2 } from './ir-service-assignee-select2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
 const irExtraServiceConfigCss = ".sc-ir-extra-service-config-h{display:block;--ir-input-border-color:#cacfe7}.sc-ir-extra-service-config-h .input-group-text.sc-ir-extra-service-config{border-color:var(--ir-input-border-color)}.currency-ph.sc-ir-extra-service-config{padding:0;margin:0;color:#3b4781;display:flex;align-items:center;justify-content:center;padding:0 0 0 0.25rem;border-top:1px solid var(--ir-input-border-color);border-bottom:1px solid var(--ir-input-border-color);border-left:1px solid transparent;transition:border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;transition:border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.service-description-input.sc-ir-extra-service-config{height:70px !important}.service-description.sc-ir-extra-service-config .input-group-prepend.sc-ir-extra-service-config{background-color:#f4f5fa;border:1px solid var(--ir-input-border-color);border-top-left-radius:0.25rem;border-bottom-left-radius:0.25rem}.service-date-container.sc-ir-extra-service-config{padding:0;margin:0;display:flex;align-items:center;position:relative;width:100%;justify-content:center}.service-date-container.sc-ir-extra-service-config .btn-container.sc-ir-extra-service-config{position:absolute;right:5px;margin:0;display:flex;align-items:center;justify-content:center;padding:0}.service-description.sc-ir-extra-service-config .input-group-text.sc-ir-extra-service-config{height:fit-content;border:0;padding-top:0.75rem !important}.price-input-group.sc-ir-extra-service-config:focus-within .currency-ph.sc-ir-extra-service-config,.cost-input-group.sc-ir-extra-service-config:focus-within .currency-ph.sc-ir-extra-service-config{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-left:1px solid #1e9ff2}.currency-ph[data-state='error'].sc-ir-extra-service-config{border-color:var(--red, #ff4961)}.price-input.sc-ir-extra-service-config:focus{border-right-width:1px !important}.is-invalid.sc-ir-extra-service-config{background-image:none !important}.price-input.sc-ir-extra-service-config,.cost-input.sc-ir-extra-service-config{border-left:0}.row-group.sc-ir-extra-service-config{display:flex;flex-direction:column;gap:0.5rem}.extra-service-config__container.sc-ir-extra-service-config{display:flex;flex-direction:column;gap:1rem}@media (min-width: 640px){.row-group.sc-ir-extra-service-config{flex-direction:row;align-items:center;gap:0}.cost-label.sc-ir-extra-service-config{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0}.until-prepend.sc-ir-extra-service-config,.cost-input-placeholder.sc-ir-extra-service-config{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.date-from.sc-ir-extra-service-config,.price-input.sc-ir-extra-service-config{border-right-width:0 !important;border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}}.date-focused.sc-ir-extra-service-config{border-color:#1e9ff2}";
@@ -18,14 +19,16 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
         this.closeModal = createEvent(this, "closeModal", 7);
     }
     booking;
+    svcCategories = [];
     service;
+    language;
     open;
     closeModal;
     closeDialog() {
         this.closeModal.emit();
     }
     render() {
-        return (h("ir-drawer", { key: '653e1c7bb3df58081ffce650276880b0f2888734', style: {
+        return (h("ir-drawer", { key: 'affa0199c00958cc97d161ac699e68c7eb445e8f', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -36,23 +39,25 @@ const IrExtraServiceConfig = /*@__PURE__*/ proxyCustomElement(class IrExtraServi
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: 'b7b401ea6f53f968a69395258f26e73c717c3da9', onCloseModal: e => {
+            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: '8197094c25b345308717f31d898082b306694b7a', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, booking: this.booking, service: this.service })), h("div", { key: '5fd810409fbebed8efa6cab415ec236932bd163d', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '5ff62f8a2f16f637c0fbcab42c80f1f0f23904d1', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '4a5ab335b12c2a6e81430ad4f78648a8b3bb2797', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
+            }, booking: this.booking, service: this.service })), h("div", { key: 'af721eb7e45477200c09ef3b1ca18f8355e7784a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '9bc953f763e100933dae448578834a26047cdcea', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '0a92d4b4bd95563c89351f929c2be61af56062ec', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
     }
     static get style() { return IrExtraServiceConfigStyle0; }
 }, [2, "ir-extra-service-config", {
         "booking": [16],
+        "svcCategories": [16],
         "service": [16],
+        "language": [1],
         "open": [516]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-extra-service-config", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-extra-service-config-form", "ir-input", "ir-validator"];
+    const components = ["ir-extra-service-config", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-extra-service-config-form", "ir-input", "ir-service-assignee-select", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-extra-service-config":
             if (!customElements.get(tagName)) {
@@ -61,25 +66,30 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-extra-service-config-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-service-assignee-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

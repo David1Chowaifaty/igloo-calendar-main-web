@@ -3,59 +3,36 @@ import { calculateDaysBetweenDates } from "../../utils/booking";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrDateView {
+    /** Raw from-date — accepts ISO string, JS Date, or Moment */
     from_date;
+    /** Raw to-date — accepts ISO string, JS Date, or Moment */
     to_date;
+    /** Show the night-count badge after the to-date */
     showDateDifference = true;
+    /** Input format used when `from_date` / `to_date` are plain strings */
     dateOption = 'YYYY-MM-DD';
+    /** Display format for both dates */
     format = 'MMM DD, YYYY';
-    dates;
-    componentWillLoad() {
-        this.initializeDates();
-    }
-    handleFromDateChange(newVal, oldVal) {
-        if (newVal !== oldVal) {
-            this.initializeDates();
-        }
-    }
-    handleToDateChange(newVal, oldVal) {
-        if (newVal !== oldVal) {
-            this.initializeDates();
-        }
-    }
-    initializeDates() {
-        this.convertDate('from_date', this.from_date);
-        this.convertDate('to_date', this.to_date);
-        const fromDate = moment(this.dates.from_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
-        const toDate = moment(this.dates.to_date, 'MMM DD, YYYY').format('YYYY-MM-DD');
-        this.dates.date_difference = calculateDaysBetweenDates(fromDate, toDate);
-    }
-    convertDate(key, date) {
-        this.dates = this.dates || {
-            from_date: '',
-            to_date: '',
-            date_difference: 0,
-        };
-        if (!date) {
-            return;
-        }
-        if (typeof date === 'string') {
-            this.dates[key] = moment(date, this.dateOption).format(this.format);
-        }
-        else if (date instanceof Date) {
-            this.dates[key] = moment(date).format(this.format);
-        }
-        else if (moment.isMoment(date)) {
-            this.dates[key] = date.format(this.format);
-        }
-        else {
-            console.error('Unsupported date type');
-        }
+    formatDate(date) {
+        if (!date)
+            return '';
+        if (typeof date === 'string')
+            return moment(date, this.dateOption).format(this.format);
+        if (date instanceof Date)
+            return moment(date).format(this.format);
+        if (moment.isMoment(date))
+            return date.format(this.format);
+        return '';
     }
     render() {
-        return (h(Host, { key: '56fd9a25571404f5fb6241054e395fef06ad5767', class: "d-flex align-items-center" }, h("span", { key: '5f57e1558def53bd73a684b5d2da1149cc938440' }, this.dates.from_date), ' ', h("svg", { key: '695d30a71146eaefae43b2bf1d56229ba3411cb5', xmlns: "http://www.w3.org/2000/svg", class: "mx-01", height: "14", width: "14", viewBox: "0 0 512 512" }, h("path", { key: '0ff1dd230c1b644bc23d78c65405ff47331aaedf', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" })), h("span", { key: '9cb59c4bf13d729a86445809526171844106ba33' }, this.dates.to_date, ' ', this.showDateDifference && (h("span", { key: '61fd325b05471ceeddf18d90159a95ed2c1cc371', class: "mx-01" }, this.dates.date_difference, '   ', this.dates.date_difference > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        const fromStr = this.formatDate(this.from_date);
+        const toStr = this.formatDate(this.to_date);
+        const diff = calculateDaysBetweenDates(moment(fromStr, this.format).format('YYYY-MM-DD'), moment(toStr, this.format).format('YYYY-MM-DD'));
+        const nightLabel = diff === 1 ? locales.entries.Lcz_Night : locales.entries.Lcz_Nights;
+        return (h(Host, { key: '0fe3865fad3e0d6c85ccf161c14a1c040fffcada' }, h("span", { key: '9238122ccb577c318c358202c5d289b865acd97d', part: "base" }, h("span", { key: '7d8e3e73cc84bc5757a8c49afa6b2023e1edf0dc', part: "from-date" }, fromStr), h("span", { key: 'cf92c5750b89ce8efa098f77ad988da1d1831d55', part: "separator", "aria-hidden": "true" }, h("svg", { key: '5b493688bfc4244e4b64b5778fbb439ccf7103c5', xmlns: "http://www.w3.org/2000/svg", part: "separator-icon", viewBox: "0 0 512 512", "aria-hidden": "true", focusable: "false" }, h("path", { key: '89ae933ae881fd9e9e42082d52491f2813013a14', fill: "currentColor", d: "M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" }))), h("span", { key: 'fe7fb4a3073c44c9c03b392049c930f884e87e3e', part: "to-date" }, toStr), this.showDateDifference && diff > 0 && (h("span", { key: '015dc1194266e653966fc464e7e53f302def96b8', part: "night-count" }, diff, "\u00A0", nightLabel)))));
     }
     static get is() { return "ir-date-view"; }
-    static get encapsulation() { return "scoped"; }
+    static get encapsulation() { return "shadow"; }
     static get originalStyleUrls() {
         return {
             "$": ["ir-date-view.css"]
@@ -89,7 +66,7 @@ export class IrDateView {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Raw from-date \u2014 accepts ISO string, JS Date, or Moment"
                 },
                 "getter": false,
                 "setter": false,
@@ -117,7 +94,7 @@ export class IrDateView {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Raw to-date \u2014 accepts ISO string, JS Date, or Moment"
                 },
                 "getter": false,
                 "setter": false,
@@ -136,7 +113,7 @@ export class IrDateView {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Show the night-count badge after the to-date"
                 },
                 "getter": false,
                 "setter": false,
@@ -156,7 +133,7 @@ export class IrDateView {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Input format used when `from_date` / `to_date` are plain strings"
                 },
                 "getter": false,
                 "setter": false,
@@ -176,7 +153,7 @@ export class IrDateView {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Display format for both dates"
                 },
                 "getter": false,
                 "setter": false,
@@ -185,20 +162,6 @@ export class IrDateView {
                 "defaultValue": "'MMM DD, YYYY'"
             }
         };
-    }
-    static get states() {
-        return {
-            "dates": {}
-        };
-    }
-    static get watchers() {
-        return [{
-                "propName": "from_date",
-                "methodName": "handleFromDateChange"
-            }, {
-                "propName": "to_date",
-                "methodName": "handleToDateChange"
-            }];
     }
 }
 //# sourceMappingURL=ir-date-view.js.map

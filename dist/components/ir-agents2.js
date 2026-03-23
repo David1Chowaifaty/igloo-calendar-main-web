@@ -1,11 +1,12 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { A as AgentsService, d as defineCustomElement$n } from './ir-agent-editor-form2.js';
+import { A as AgentsService } from './agents.service.js';
 import { B as BookingService } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { P as PropertyService } from './property.service.js';
 import { d as defineCustomElement$p } from './ir-agent-contract2.js';
 import { d as defineCustomElement$o } from './ir-agent-editor-drawer2.js';
+import { d as defineCustomElement$n } from './ir-agent-editor-form2.js';
 import { d as defineCustomElement$m } from './ir-agent-profile2.js';
 import { d as defineCustomElement$l } from './ir-agents-table2.js';
 import { d as defineCustomElement$k } from './ir-button2.js';

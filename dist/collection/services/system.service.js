@@ -18,5 +18,12 @@ export class SystemService {
         const { data } = await axios.post('/Check_OTP_Necessity', params);
         return data;
     }
+    async getExposedCurrencies() {
+        const { data } = await axios.post('https://gateway.igloorooms.com/IRBE/Get_Exposed_Currencies', {});
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
 }
 //# sourceMappingURL=system.service.js.map

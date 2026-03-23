@@ -2,23 +2,22 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { a as arrivalsStore } from './arrivals.store.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$c } from './ir-actions-cell2.js';
-import { d as defineCustomElement$b } from './ir-balance-cell2.js';
-import { d as defineCustomElement$a } from './ir-booked-by-cell2.js';
-import { d as defineCustomElement$9 } from './ir-booking-number-cell2.js';
-import { d as defineCustomElement$8 } from './ir-custom-button2.js';
-import { d as defineCustomElement$7 } from './ir-dates-cell2.js';
-import { d as defineCustomElement$6 } from './ir-empty-state2.js';
-import { d as defineCustomElement$5 } from './ir-guest-name-cell2.js';
-import { d as defineCustomElement$4 } from './ir-pagination2.js';
-import { d as defineCustomElement$3 } from './ir-select2.js';
+import { d as defineCustomElement$b } from './ir-actions-cell2.js';
+import { d as defineCustomElement$a } from './ir-balance-cell2.js';
+import { d as defineCustomElement$9 } from './ir-booked-by-cell2.js';
+import { d as defineCustomElement$8 } from './ir-booking-number-cell2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-dates-cell2.js';
+import { d as defineCustomElement$5 } from './ir-empty-state2.js';
+import { d as defineCustomElement$4 } from './ir-guest-name-cell2.js';
+import { d as defineCustomElement$3 } from './ir-pagination2.js';
 import { d as defineCustomElement$2 } from './ir-unit-cell2.js';
 import { d as defineCustomElement$1 } from './ir-unit-tag2.js';
 
 const irArrivalsTableCss = ".sc-ir-arrivals-table-h{display:flex;flex-direction:column;border-radius:0.5rem;overflow-x:auto;min-height:60vh;max-width:1920px;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);background-color:white}.sc-ir-arrivals-table-h{box-sizing:border-box !important}.sc-ir-arrivals-table-h *.sc-ir-arrivals-table,.sc-ir-arrivals-table-h *.sc-ir-arrivals-table::before,.sc-ir-arrivals-table-h *.sc-ir-arrivals-table::after{box-sizing:inherit !important;padding:0;margin:0}[hidden].sc-ir-arrivals-table{display:none !important}.arrivals-table__actions-cell.sc-ir-arrivals-table{display:flex;min-width:100px;justify-content:flex-end}@media (min-width: 1024px){.arrivals-table__actions-cell.sc-ir-arrivals-table{min-width:150px}}";
 const IrArrivalsTableStyle0 = irArrivalsTableCss;
 
-const tableCss = ".ir-table-row.sc-ir-arrivals-table td.sc-ir-arrivals-table{padding:0.5rem 1rem !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-arrivals-table{overflow-x:auto}.table.sc-ir-arrivals-table td.sc-ir-arrivals-table{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.table.sc-ir-arrivals-table tbody.sc-ir-arrivals-table tr.sc-ir-arrivals-table:last-child>td.sc-ir-arrivals-table{border-bottom:0 !important}.table.sc-ir-arrivals-table thead.sc-ir-arrivals-table th.sc-ir-arrivals-table{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-arrivals-table thead.sc-ir-arrivals-table th.sc-ir-arrivals-table{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-arrivals-table .empty-row.sc-ir-arrivals-table{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-arrivals-table{padding:0.5rem 1rem;position:sticky;bottom:0;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-arrivals-table td.sc-ir-arrivals-table{background:#e3f3fa !important}.selected.sc-ir-arrivals-table td.sc-ir-arrivals-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-arrivals-table,.ir-table-row.sc-ir-arrivals-table{transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.sortable.sc-ir-arrivals-table{text-transform:capitalize}.sortable.sc-ir-arrivals-table:hover{color:#212529;background-color:#e2e8f0 !important;border-color:#dae0e5;cursor:pointer}.ir-table-row.sc-ir-arrivals-table:hover td.sc-ir-arrivals-table{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.sortable.sc-ir-arrivals-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-arrivals-table svg.sc-ir-arrivals-table{color:var(--blue)}.sticky-column.sc-ir-arrivals-table{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-arrivals-table,.data-table.sc-ir-arrivals-table{height:100%}";
+const tableCss = ".sc-ir-arrivals-table-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-arrivals-table td.sc-ir-arrivals-table{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-arrivals-table{overflow-x:auto}.table.sc-ir-arrivals-table td.sc-ir-arrivals-table{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-arrivals-table tbody.sc-ir-arrivals-table tr.sc-ir-arrivals-table:last-child>td.sc-ir-arrivals-table{border-bottom:0 !important}.table.sc-ir-arrivals-table thead.sc-ir-arrivals-table th.sc-ir-arrivals-table{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-arrivals-table thead.sc-ir-arrivals-table th.sc-ir-arrivals-table{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-arrivals-table .empty-row.sc-ir-arrivals-table{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-arrivals-table{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-arrivals-table td.sc-ir-arrivals-table{background:#e3f3fa !important}.selected.sc-ir-arrivals-table td.sc-ir-arrivals-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-arrivals-table,.ir-table-row.sc-ir-arrivals-table{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-arrivals-table{text-transform:capitalize}.sortable.sc-ir-arrivals-table:hover{color:#212529;background-color:#e2e8f0 !important;border-color:#dae0e5;cursor:pointer}.ir-table-row.sc-ir-arrivals-table td.sc-ir-arrivals-table{transition-duration:var(--wa-transition-fast)}.ir-table-row.sc-ir-arrivals-table:hover td.sc-ir-arrivals-table{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.sortable.sc-ir-arrivals-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-arrivals-table svg.sc-ir-arrivals-table{color:var(--blue)}.sticky-column.sc-ir-arrivals-table{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-arrivals-table,.data-table.sc-ir-arrivals-table{height:100%}";
 const IrArrivalsTableStyle1 = tableCss;
 
 const IrArrivalsTable = /*@__PURE__*/ proxyCustomElement(class IrArrivalsTable extends HTMLElement {
@@ -97,7 +96,7 @@ const IrArrivalsTable = /*@__PURE__*/ proxyCustomElement(class IrArrivalsTable e
     }
     render() {
         const { needsCheckInBookings, inHouseBookings, futureBookings, pagination } = arrivalsStore;
-        return (h(Host, { key: '67aa25f1244b37bd0e646cc586913b0da8bd0305' }, h("div", { key: '8bac124e839115eafba56f3130f033a45986fea5', class: "table--container" }, h("table", { key: 'f69534d9880fa9f4a856681e2b69be6091c7c71b', class: "table data-table" }, h("thead", { key: '48db8b4d4133dc3fcf2be21189bd3fe25531ff44' }, h("tr", { key: 'd225501d1933b705391ec7c2865c9b42642f2ade' }, h("th", { key: '82224fd5038a27b3b206ecc56694eb0ce6080701' }, h("span", { key: 'c1ada40831d60c7a7007ea9ee41ffa9f50b424d7', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: 'bc8738adbd817ac554d811ec31ddb31e01563c22' }, h("div", { key: '082dfb92963db9ae6bf66aaa2ba6083484c4a0cf' }, h("p", { key: 'e55633bc02550cc70025bd6582a0d0476c6e3589' }, "Booked by /"), h("p", { key: '327127e65c25a94383eb95a9896792aeb401742e' }, "Guest name"))), h("th", { key: '6bd3baf4344de5fdcabb8a681f9ec98944af8447' }, "Unit"), h("th", { key: 'dd1039f298159b57bb15ed9d76c00b0c7fbd5bc1' }, "Dates"), h("th", { key: '0fdd33b96e05f303f10887b660361fe49db13aaf', class: "text-center" }, "Balance", h("div", { key: 'a717f5a9eab854aebaff1b24795515bb333caa77', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '6cc284ddf2852b9048fbf07ebff2e653f8fd9065', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Click to collect"))), h("th", { key: '690fe8fc02eddec7b2e868ff63b5bddf144aa038' }))), h("tbody", { key: '64d9e0fb56aa47f1fc83282c51b9e04e8c1cd501' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: '87337d3b0f2dcccce08382d5ba0a65ca803a521f' }, h("td", { key: '1c189a0c06f4754e989aaceb05627921960fc341', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: '8c22b6127afd5e2e2be27d3cc015f79f612a7ebd' }))))))), h("ir-pagination", { key: 'da9966187e89ea85adf6ad190ee7b70d5333bab6', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
+        return (h(Host, { key: '4f556dbb668c7276bb53ede6515455e4742d8cce' }, h("div", { key: '50ebde975e43bcd59123e59aacd564dbdf0bc460', class: "table--container" }, h("table", { key: '5d041a802d69e4c721ec6803531113c1528c6160', class: "table data-table" }, h("thead", { key: '2a1ae4f9228b0f160946c8a9fd344938a0889c95' }, h("tr", { key: '6c18bf067da39e7d8f4466f15f91512f326bcbbb' }, h("th", { key: '84659ce89c48f9e7224d4ff3d92998c3253c26cc' }, h("span", { key: '4a5dd1df47bb60d09e0a9edd174fdba916c7e3bb', class: 'arrivals-table__departure__cell' }, "Booking#")), h("th", { key: 'a45bb760a12ba323614b333835939bc07d165832' }, h("div", { key: 'ccd50555366de1c8867c4b8df5226a19b11d09de' }, h("p", { key: '5f421387cc6668f85b91a43a5837ebe77e871d8c' }, "Booked by /"), h("p", { key: '4ed840cc863116b85506da04ef95b3b9a0a27356' }, "Guest name"))), h("th", { key: '8dac701365c43b354298c3084270721dc658d35e' }, "Unit"), h("th", { key: '3cd2eebe97a27cf2fc11f67058b65bb682ecffb0' }, "Dates"), h("th", { key: 'aad39df5eadbcb7f85331826bc29472886f6c097', class: "text-center" }, "Balance", h("div", { key: 'fb333025f76769130c3967a58f0870b56b060ba2', style: { width: 'fit-content', marginLeft: 'auto', marginRight: 'auto' } }, h("ir-custom-button", { key: '99f4a2b6cc9a5e4f8160d996685fb024597dd3b6', id: "balance-info", style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, "Click to collect"))), h("th", { key: 'cd8f348edb63173be792fbf53951bfbff2c6c2df' }))), h("tbody", { key: '179482e88689e4200544c278bac8f365f3b914e0' }, this.renderSection(futureBookings), this.renderSection(needsCheckInBookings, true), this.renderSection(inHouseBookings), !needsCheckInBookings.length && !inHouseBookings.length && (h("tr", { key: '5b1746977f13b689d456e6ecc2cb9ef818154bac' }, h("td", { key: '2a71ba236a26c33017116aa36cf577cf1783de7c', colSpan: 6, class: "empty-row" }, h("ir-empty-state", { key: 'e6c108a50ae532f60981966dfd3811004b850b76' }))))))), h("ir-pagination", { key: '9b16ca35f6148cb89ea2ad8710ad9ff91bd2c46d', class: "data-table--pagination", showing: pagination.showing, total: pagination.total, pages: pagination.totalPages, pageSize: pagination.pageSize, currentPage: pagination.currentPage, allowPageSizeChange: false, pageSizes: [pagination.pageSize], recordLabel: locales.entries?.Lcz_Bookings ?? 'Bookings', onPageChange: event => this.handlePageChange(event), onPageSizeChange: event => this.handlePageSizeChange(event) })));
     }
     static get style() { return IrArrivalsTableStyle0 + IrArrivalsTableStyle1; }
 }, [2, "ir-arrivals-table", {
@@ -107,7 +106,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-arrivals-table", "ir-actions-cell", "ir-balance-cell", "ir-booked-by-cell", "ir-booking-number-cell", "ir-custom-button", "ir-dates-cell", "ir-empty-state", "ir-guest-name-cell", "ir-pagination", "ir-select", "ir-unit-cell", "ir-unit-tag"];
+    const components = ["ir-arrivals-table", "ir-actions-cell", "ir-balance-cell", "ir-booked-by-cell", "ir-booking-number-cell", "ir-custom-button", "ir-dates-cell", "ir-empty-state", "ir-guest-name-cell", "ir-pagination", "ir-unit-cell", "ir-unit-tag"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-arrivals-table":
             if (!customElements.get(tagName)) {
@@ -116,50 +115,45 @@ function defineCustomElement() {
             break;
         case "ir-actions-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$b();
             }
             break;
         case "ir-balance-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$a();
             }
             break;
         case "ir-booked-by-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$9();
             }
             break;
         case "ir-booking-number-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$8();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$7();
             }
             break;
         case "ir-dates-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$6();
             }
             break;
         case "ir-empty-state":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-guest-name-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
-            }
-            break;
-        case "ir-pagination":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-select":
+        case "ir-pagination":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

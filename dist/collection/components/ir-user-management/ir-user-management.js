@@ -5,6 +5,7 @@ import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";
 import { io } from "socket.io-client";
 import locales from "../../stores/locales.store";
+import { getEntryValue } from "../../utils/utils";
 export class IrUserManagement {
     language = '';
     baseUrl;
@@ -165,7 +166,7 @@ export class IrUserManagement {
         const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
-            const value = e[`CODE_VALUE_${this.language?.toUpperCase() ?? 'EN'}`];
+            const value = getEntryValue({ entry: e, language: this.language });
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
                 this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }

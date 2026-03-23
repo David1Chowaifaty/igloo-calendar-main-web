@@ -53,6 +53,7 @@ export class IglBookingEvent {
     moveDifferenceX;
     moveDifferenceY;
     animationFrameId = null;
+    minResizeDays = 1;
     handleMouseMoveBind = this.handleMouseMove.bind(this);
     handleMouseUpBind = this.handleMouseUp.bind(this);
     handleClickOutsideBind = this.handleClickOutside.bind(this);
@@ -660,7 +661,7 @@ export class IglBookingEvent {
                 if (this.resizeSide == 'rightSide') {
                     newWidth = this.initialWidth + distanceX;
                     newWidth = Math.min(newWidth, this.initialX + this.element.offsetWidth);
-                    newWidth = Math.max(this.dayWidth - this.eventSpace, newWidth);
+                    newWidth = Math.max(this.minResizeDays * this.dayWidth - this.eventSpace, newWidth);
                     this.isShrinking = distanceX < 0;
                     if (!this.isShrinking && baseCondition) {
                         return;
@@ -678,7 +679,7 @@ export class IglBookingEvent {
                     if (this.role === 'leftSplit') {
                         return;
                     }
-                    newWidth = Math.max(this.dayWidth - this.eventSpace, this.initialWidth - distanceX);
+                    newWidth = Math.max(this.minResizeDays * this.dayWidth - this.eventSpace, this.initialWidth - distanceX);
                     let newLeft = this.initialLeft + (this.initialWidth - newWidth);
                     this.element.style.left = `${newLeft}px`;
                     this.element.style.width = `${newWidth}px`;
@@ -886,7 +887,7 @@ export class IglBookingEvent {
         backgroundColor = this.bookingEvent.STATUS === 'CHECKED-OUT' ? legend.color : backgroundColor;
         const splitRole = this.computeSplitRole();
         const pending = this.bookingEvent.STATUS === 'PENDING-CONFIRMATION' && this.bookingEvent.ID !== 'NEW_TEMP_EVENT';
-        return (h(Host, { key: '350273fe0bf433a914c45c2fa741401f9edefe20', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: '48a2ed0a765de456cd01cfe640e5e12bea73a1cd', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
+        return (h(Host, { key: '00163a91dbfa5ecf1be76749b8a7fa38421f57e0', class: `bookingEvent  ${this.isNewEvent() || this.isHighlightEventType() ? 'newEvent' : ''} ${legend.clsName} `, style: this.getPosition(), id: bar }, h("div", { key: '3502ae07f6e8215c126391b302d3e1d5c3e8fac4', "data-identifier": this.bookingEvent?.IDENTIFIER, "data-status": this.bookingEvent.STATUS, class: {
                 'bookingEventBase': true,
                 'pending': pending,
                 'skewedLeft': !this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)),
@@ -899,8 +900,8 @@ export class IglBookingEvent {
                 'backgroundColor': backgroundColor,
                 '--ir-event-bg': backgroundColor,
                 '--ir-event-bg-stripe-color': stripe,
-            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: '40b1ef85b510d5974c849b5110223769cc9fd03b', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '02a47c6513022af014ca2fa6977592042c04ef87', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: 'a68ef6a53ca9b7c1f832753d34c51b3d19803715', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: 'f0dc5b49053fff010566f7f93688f32030e04e84', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '34ebb4886e32c806a73153669fdb3e808cfc5f23', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '059909beccc212ecade83c4e0f596f1a7408e6a0' }, h("div", { key: 'fe9f085ed8afba94b5363c04e114912f5208931c', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
-            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: 'de1adf4cad1ecb781816ffdc49059d1b34dfb516', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }), isDepartureAfterHotelCheckout && h("wa-tooltip", { key: 'fc6c349795c4dce92dbabff3885d2539e385e315', for: lateCheckout }, "Departure time: ", this.bookingEvent.DEPARTURE_TIME?.description), balanceNode && h("wa-tooltip", { key: '3716091364ef843c053bba46e5ac76abb7711782', for: balance }, "Balance: ", formatAmount(calendar_data.property.currency.symbol, this.bookingEvent.BALANCE)), noteNode ? h("div", { class: "legend_circle noteIcon", style: { backgroundColor: noteNode.color } }) : null, (balanceNode || isDepartureAfterHotelCheckout) && (h("div", { key: '60561603d002d84febc6339b11dec99a28e98147', class: "balanceIcon d-flex" }, isDepartureAfterHotelCheckout && h("div", { key: '8d51dd60a286e00bcc5efa1b0f527127686e5f29', id: lateCheckout, class: "legend_circle", style: { backgroundColor: '#999999' } }), balanceNode ? h("div", { id: balance, class: "legend_circle", style: { backgroundColor: '#f34752' } }) : null)), h("div", { key: '4c49a45fb21ab78e087776b3e6b3b66a4402469f', class: `bookingEventTitle ${pending ? 'pending' : ''}`, style: !pending && { color: foreground }, onTouchStart: event => this.startDragging(event, 'move'), onMouseDown: event => this.startDragging(event, 'move') }, this.getBookedBy(), this.renderEventBookingNumber()), h(Fragment, { key: '09336d5a36419a2381df5f01459e4ee968db87c2' }, h("div", { key: '282a242b2485c95402b7380de7adc768cdef09f4', class: `bookingEventDragHandle leftSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
+            ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'leftSide'), onMouseDown: event => this.startDragging(event, 'leftSide') }), h("div", { key: '103ec37be450abf84d6aa059b2b4df30736072c3', class: `bookingEventDragHandle rightSide ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.from_date)).isBefore(new Date(this.bookingEvent.FROM_DATE)) ? 'skewedLeft' : ''}
               ${!this.isNewEvent() && moment(new Date(this.bookingEvent.defaultDates.to_date)).isAfter(new Date(this.bookingEvent.TO_DATE)) ? 'skewedRight' : ''}`, onTouchStart: event => this.startDragging(event, 'rightSide'), onMouseDown: event => this.startDragging(event, 'rightSide') })), this.showInfoPopup ? (h("igl-booking-event-hover", { is_vacation_rental: this.is_vacation_rental, countries: this.countries, currency: this.currency, class: "top", bookingEvent: this.bookingEvent, bubbleInfoTop: this.bubbleInfoTopSide, style: this.calculateHoverPosition() })) : null));
     }
     static get is() { return "igl-booking-event"; }

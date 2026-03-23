@@ -3,14 +3,16 @@ import locales from "../../../../stores/locales.store";
 import { h } from "@stencil/core";
 export class IrExtraServiceConfig {
     booking;
+    svcCategories = [];
     service;
+    language;
     open;
     closeModal;
     closeDialog() {
         this.closeModal.emit();
     }
     render() {
-        return (h("ir-drawer", { key: '653e1c7bb3df58081ffce650276880b0f2888734', style: {
+        return (h("ir-drawer", { key: 'affa0199c00958cc97d161ac699e68c7eb445e8f', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -21,11 +23,11 @@ export class IrExtraServiceConfig {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: 'b7b401ea6f53f968a69395258f26e73c717c3da9', onCloseModal: e => {
+            }, label: locales.entries.Lcz_ExtraServices }, this.open && (h("ir-extra-service-config-form", { key: '8197094c25b345308717f31d898082b306694b7a', language: this.language ?? 'en', svcCategories: this.svcCategories, onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeDialog();
-            }, booking: this.booking, service: this.service })), h("div", { key: '5fd810409fbebed8efa6cab415ec236932bd163d', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '5ff62f8a2f16f637c0fbcab42c80f1f0f23904d1', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '4a5ab335b12c2a6e81430ad4f78648a8b3bb2797', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
+            }, booking: this.booking, service: this.service })), h("div", { key: 'af721eb7e45477200c09ef3b1ca18f8355e7784a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '9bc953f763e100933dae448578834a26047cdcea', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '0a92d4b4bd95563c89351f929c2be61af56062ec', type: "submit", loading: isRequestPending('/Do_Booking_Extra_Service'), form: "extra-service-config-form", size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save))));
     }
     static get is() { return "ir-extra-service-config"; }
     static get encapsulation() { return "scoped"; }
@@ -45,13 +47,9 @@ export class IrExtraServiceConfig {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "Pick<Booking, 'from_date' | 'to_date' | 'currency' | 'booking_nbr'>",
-                    "resolved": "{ currency: Currency; from_date: string; to_date: string; booking_nbr: string; }",
+                    "original": "Booking",
+                    "resolved": "Booking",
                     "references": {
-                        "Pick": {
-                            "location": "global",
-                            "id": "global::Pick"
-                        },
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
@@ -68,12 +66,36 @@ export class IrExtraServiceConfig {
                 "getter": false,
                 "setter": false
             },
+            "svcCategories": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
+                    "references": {
+                        "IEntries": {
+                            "location": "import",
+                            "path": "@/models/property",
+                            "id": "src/models/property.ts::IEntries"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
+            },
             "service": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
                     "original": "ExtraService",
-                    "resolved": "{ system_id?: number; cost?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; id?: number; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; cl_post_timing?: { code?: string; description?: string; }; }; system_id?: number; cost?: number; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; }",
                     "references": {
                         "ExtraService": {
                             "location": "import",
@@ -90,6 +112,25 @@ export class IrExtraServiceConfig {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false
             },
             "open": {
                 "type": "boolean",

@@ -16,6 +16,11 @@ export class IrPaymentFolio {
      */
     bookingNumber;
     /**
+     * The full booking object associated with this folio.
+     * Provides contextual reservation data required by the folio form.
+     */
+    booking;
+    /**
      * The payment or folio entry being created or edited.
      * Defaults to a new empty payment object when the component
      * is used for creating a new entry.
@@ -63,7 +68,7 @@ export class IrPaymentFolio {
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: 'bc4ab32a2d23c297bc21254fcfc2adce2181364b', placement: "start", style: {
+        return (h("ir-drawer", { key: '8a7a21e4f6e3f7fea7deb504d87a3895728adefa', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -74,11 +79,11 @@ export class IrPaymentFolio {
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: '3368e7199b6750251cd713a7d07e363fd655765b', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: '15b67797374e18063f323d0868e3d85b7f2445f0', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '32134dbe505c94e41f0f032e5a597f1db1d6827c', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '8b6086b80ba7b76c75b8d8a90b7ae187cda7c1b5', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: '5f780906e1e0dd988b0829c0da1863e44428e39c', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '9fa86ae0b3cde13ae0f61d07a7e4e796a5502007', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '3163159b9729b72c1cbc210cfa73a12e15e0ca61', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'a52d414199358e3949f9e44d8ccca89faef0136c', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }
@@ -138,12 +143,35 @@ export class IrPaymentFolio {
                 "attribute": "booking-number",
                 "reflect": false
             },
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": true,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "The full booking object associated with this folio.\nProvides contextual reservation data required by the folio form."
+                },
+                "getter": false,
+                "setter": false
+            },
             "payment": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
                     "original": "Payment",
-                    "resolved": "{ system_id?: number; id: number; date: string; amount: number; currency: ICurrency; designation: string; reference: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; }",
+                    "resolved": "{ date: string; id: number; reference: string; system_id?: number; amount: number; currency: ICurrency; designation: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; }",
                     "references": {
                         "Payment": {
                             "location": "import",

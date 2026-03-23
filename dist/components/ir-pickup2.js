@@ -1,10 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$4 } from './ir-drawer2.js';
-import { d as defineCustomElement$3 } from './ir-input2.js';
-import { d as defineCustomElement$2 } from './ir-pickup-form2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-input2.js';
+import { d as defineCustomElement$3 } from './ir-pickup-form2.js';
+import { d as defineCustomElement$2 } from './ir-service-assignee-select2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
 
@@ -17,6 +18,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
     }
+    booking;
     /**
      * Pre-filled pickup information coming from the booking.
      * When provided, the pickup form initializes with this data and
@@ -53,7 +55,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: 'f99813725af12f67cf856e929952d2c322f433c4', style: {
+        return (h("ir-drawer", { key: '197916323221d206cb993aa5eef6a4256012b915', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -64,7 +66,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '58f884f88ea633521708e146916d39297aa32481', onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: '9e06508ddaaad1015d0a3477cbb8b58dd963418c', booking: this.booking, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -72,10 +74,11 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: 'd2400c57924e31bec444d35f66060e206c7617fe', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'f89af29be321066128242696817609295b19ff75', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'a07f28e0dcba55e3fafd83537c220767fb4645e3', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '6e3c5ef5e5f30bcf4fa75f6cc2ce94e5141e44eb', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '8fe2e811e77126a7e8b86c85a5e705d5d2c6b977', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'bde88b5536683e73189fb7bed61e5e214dcd94bd', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get style() { return IrPickupStyle0; }
 }, [2, "ir-pickup", {
+        "booking": [16],
         "defaultPickupData": [16],
         "numberOfPersons": [2, "number-of-persons"],
         "bookingNumber": [1, "booking-number"],
@@ -88,7 +91,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-pickup", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-pickup-form", "ir-validator"];
+    const components = ["ir-pickup", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-pickup-form", "ir-service-assignee-select", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-pickup":
             if (!customElements.get(tagName)) {
@@ -97,25 +100,30 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-pickup-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-service-assignee-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

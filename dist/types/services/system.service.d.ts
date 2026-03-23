@@ -1,3 +1,4 @@
+import { ICurrency } from "../models/property";
 export declare class SystemService {
     validateOTP(params: {
         METHOD_NAME: string;
@@ -9,4 +10,5 @@ export declare class SystemService {
     checkOTPNecessity(params: {
         METHOD_NAME: string;
     }): Promise<any>;
+    getExposedCurrencies(): Promise<ICurrency[]>;
 }

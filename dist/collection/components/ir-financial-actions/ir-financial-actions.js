@@ -42,7 +42,7 @@ export class IrFinancialActions {
             case 'booking':
                 return (h("ir-booking-details", { slot: "sidebar-body", hasPrint: true, hasReceipt: true, hasCloseButton: true, onCloseSidebar: this.handleSidebarClose, is_from_front_desk: true, propertyid: this.property_id, hasRoomEdit: true, hasRoomDelete: true, bookingNumber: this.sideBarEvent.payload.bookingNumber.toString(), ticket: this.ticket, language: this.language, hasRoomAdd: true }));
             case 'payment':
-                return (h("ir-payment-folio", { bookingNumber: this.sideBarEvent.payload?.bookingNumber?.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
+                return (h("ir-payment-folio", { booking: this.sideBarEvent.payload?.booking, bookingNumber: this.sideBarEvent.payload?.bookingNumber?.toString(), paymentEntries: this.paymentEntries, slot: "sidebar-body", payment: this.sideBarEvent.payload.payment, mode: 'new', onCloseModal: this.handleSidebarClose }));
             default:
                 return null;
         }

@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { E as ExposedAgentsPropsSchema, H as HandleExposedAgentPropsSchema, b as AgentSchema } from './type.js';
-import { a as axios } from './axios.js';
-import { B as getFormSubmitter } from './utils.js';
+import { b as AgentSchema } from './type.js';
+import { A as AgentsService } from './agents.service.js';
+import { C as getFormSubmitter } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-agent-contract2.js';
 import { d as defineCustomElement$7 } from './ir-agent-profile2.js';
 import { d as defineCustomElement$6 } from './ir-country-picker2.js';
@@ -10,25 +10,6 @@ import { d as defineCustomElement$4 } from './ir-input-text2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
-
-class AgentsService {
-    async getExposedAgents(props) {
-        const payload = ExposedAgentsPropsSchema.parse(props);
-        const { data } = await axios.post('/Get_Exposed_Agents', payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
-    async handleExposedAgent(props) {
-        const payload = HandleExposedAgentPropsSchema.parse(props);
-        const { data } = await axios.post('/Handle_Exposed_Agent', payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
-}
 
 const irAgentEditorFormCss = ".sc-ir-agent-editor-form-h{display:block}.agent-editor__content.sc-ir-agent-editor-form{display:flex;flex-direction:column;gap:1rem}.agent-editor__profile.sc-ir-agent-editor-form,.agent-editor__contract.sc-ir-agent-editor-form{flex:1 1 0%}@media (min-width: 768px){.agent-editor__content.sc-ir-agent-editor-form{flex-direction:row;gap:4rem}}";
 const IrAgentEditorFormStyle0 = irAgentEditorFormCss;
@@ -73,12 +54,12 @@ const IrAgentEditorForm = /*@__PURE__*/ proxyCustomElement(class IrAgentEditorFo
         }
     }
     render() {
-        return (h("form", { key: 'bf80fec23be5072d9eb2e4d02395b2f0591e9021', autoComplete: this.formId,
+        return (h("form", { key: '05234bb79a22ecdd29d4ecc6f054b89164d2101d', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '1172867049a3f5af2c8187da7065040dabddd47e', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '1c210dd89757ed3201c672251591b8ef125ff3e0', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '0606504d6642f7a7ebf32d9f8e16aeff8cdfe260', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '9efb59a85e26f68b969b6351c56f9cc574a1b108', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get style() { return IrAgentEditorFormStyle0; }
 }, [2, "ir-agent-editor-form", {
@@ -141,6 +122,6 @@ function defineCustomElement() {
     } });
 }
 
-export { AgentsService as A, IrAgentEditorForm as I, defineCustomElement as d };
+export { IrAgentEditorForm as I, defineCustomElement as d };
 
 //# sourceMappingURL=ir-agent-editor-form2.js.map

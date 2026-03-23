@@ -2,6 +2,7 @@ import { h as hooks } from './moment.js';
 import { z, Z as ZodError, g as ZodIssueCode } from './index2.js';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
+import { A as AgentBaseSchema } from './type.js';
 
 // export const ZIdInfo = z.object({
 //   type: z.object({
@@ -163,6 +164,22 @@ const ExtraServiceSchema = z.object({
     start_date: z.string().nonempty(),
     price: z.coerce.number().min(0.01),
     system_id: z.number().optional(),
+    category: z.object({ code: z.string().nonempty() }).nullable().optional(),
+    agent: AgentBaseSchema.extend({
+        address: z.string().nullable(),
+        agent_rate_type_code: AgentBaseSchema.shape.agent_rate_type_code.nullable(),
+        agent_type_code: AgentBaseSchema.shape.agent_type_code.nullable(),
+        city: z.string().nullable(),
+        contact_name: z.string().nullable(),
+        email: z.string().email().nullable(),
+        is_active: z.boolean().nullable(),
+        is_send_guest_confirmation_email: z.boolean().nullable(),
+        notes: z.string().nullable(),
+        payment_mode: AgentBaseSchema.shape.payment_mode.nullable(),
+        phone: z.string().nullable(),
+        tax_nbr: z.string().nullable(),
+        cl_post_timing: AgentBaseSchema.shape.cl_post_timing.nullable(),
+    }).nullable(),
 });
 const ROOM_IN_OUT = {
     CHECKIN: '001',
@@ -170,6 +187,47 @@ const ROOM_IN_OUT = {
     NOSHOW: '000',
 };
 
+const LANGUAGE_KEY_MAP = {
+    en: 'CODE_VALUE_EN',
+    ar: 'CODE_VALUE_AR',
+    de: 'CODE_VALUE_DE',
+    el: 'CODE_VALUE_EL',
+    fr: 'CODE_VALUE_FR',
+    he: 'CODE_VALUE_HE',
+    pl: 'CODE_VALUE_PL',
+    ru: 'CODE_VALUE_RU',
+    ua: 'CODE_VALUE_UA',
+};
+/**
+ * Returns the localised display string for an {@link IEntries} entry.
+ *
+ * Resolution order:
+ * 1. `CODE_VALUE_<language>` — if present and non-empty.
+ * 2. `CODE_VALUE_EN` — English fallback.
+ * 3. `CODE_NAME` — last-resort fallback when both the requested language
+ *    and English values are absent.
+ *
+ * @param entry - The `IEntries` object to translate.
+ * @param language - BCP-47-style language code (e.g. `"fr"`, `"ar"`).
+ *   Defaults to `"en"`.
+ * @returns The best available display string for the requested language.
+ *
+ * @example
+ * ```ts
+ * const label = getEntryValue({ entry: someEntry, language: 'fr' });
+ * // → "Petit-déjeuner" (falls back to "Breakfast" if French is null)
+ * ```
+ */
+function getEntryValue({ entry, language = 'en' }) {
+    const key = LANGUAGE_KEY_MAP[language] ?? 'CODE_VALUE_EN';
+    const localised = entry[key];
+    if (localised)
+        return localised;
+    const english = entry['CODE_VALUE_EN'];
+    if (english)
+        return english;
+    return entry.CODE_NAME;
+}
 function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = hooks(dateStr, 'DD MMM YYYY');
@@ -569,6 +627,6 @@ function getFormSubmitter(e) {
     return submitter.value;
 }
 
-export { formatDate as A, getFormSubmitter as B, checkUserAuthState as C, manageAnchorSession as D, ExtraServiceSchema as E, isPrivilegedUser as F, sleep as G, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, canCheckout as t, toFloat as u, validateEmail as v, renderTime as w, validateSharedPerson as x, getDaysArray as y, convertDatePrice as z };
+export { convertDatePrice as A, formatDate as B, getFormSubmitter as C, checkUserAuthState as D, ExtraServiceSchema as E, manageAnchorSession as F, isPrivilegedUser as G, sleep as H, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, canCheckout as u, validateEmail as v, getEntryValue as w, renderTime as x, validateSharedPerson as y, getDaysArray as z };
 
 //# sourceMappingURL=utils.js.map

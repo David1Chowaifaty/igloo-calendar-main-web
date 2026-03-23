@@ -1,1 +1,0 @@
-{"file":"global.variables-caf00b1d.js","mappings":"MAAa,yBAAyB,GAAG,CAAC,KAAK,EAAE,KAAK;;;;","names":[],"sources":["src/components/ir-booking-details/ir-payment-details/global.variables.ts"],"sourcesContent":["export const PAYMENT_TYPES_WITH_METHOD = ['001', '010'];\n"],"version":3}

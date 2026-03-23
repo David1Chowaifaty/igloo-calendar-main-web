@@ -5,6 +5,7 @@ import { z, ZodError } from "zod";
 import { PaymentService } from "../../../../../services/payment.service";
 import { buildPaymentTypes } from "../../../../../services/booking-service/utils";
 import { PAYMENT_TYPES_WITH_METHOD } from "../../global.variables";
+import { isAgentMode } from "../../../functions";
 const DATE_FORMAT = 'YYYY-MM-DD';
 const requiresPaymentMethodCode = (code) => {
     if (!code) {
@@ -48,6 +49,7 @@ const folioValidationSchema = folioBaseSchema.superRefine((data, ctx) => {
 });
 let folioFormInstanceCounter = 0;
 export class IrPaymentFolioForm {
+    booking;
     paymentEntries;
     bookingNumber;
     formId;
@@ -222,9 +224,15 @@ export class IrPaymentFolioForm {
         }
         return groups.map((p, idx) => (h(Fragment, null, p.map(pt => (h("wa-option", { key: pt.CODE_NAME, value: pt.CODE_NAME, label: pt.CODE_VALUE_EN }, h("div", { class: 'payment-folio__payment-type-option' }, h("span", null, pt.CODE_VALUE_EN), h("wa-badge", { variant: pt.NOTES === 'CR' ? 'success' : 'danger', style: { fontSize: 'var(--wa-font-size-s)' } }, pt.NOTES === 'CR' ? 'credit' : 'debit'))))), idx !== Object.values(this._paymentTypes).length - 1 && h("wa-divider", null))));
     }
+    hasUnassignedItems() {
+        const hasUnassignedRoom = this.booking?.rooms?.some(r => r.agent === null) ?? false;
+        const hasUnassignedPickup = this.booking?.pickup_info != null && this.booking.pickup_info.agent === null;
+        const hasUnassignedExtraService = this.booking?.extra_services?.some(s => s.agent === null) ?? false;
+        return hasUnassignedRoom || hasUnassignedPickup || hasUnassignedExtraService;
+    }
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("form", { key: '9451540b349674d6c41fac68c7603edc050d2c0a', onSubmit: e => {
+        return (h("form", { key: 'f04286525f8ba09e8d33b165caee17475fa0cfd1', onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 if (submitter?.value === 'save') {
@@ -233,17 +241,17 @@ export class IrPaymentFolioForm {
                 else if (submitter?.value === 'saveAndPrint') {
                     // this.savePayment(true);
                 }
-            }, class: "payment-folio__form", id: this.formId }, h("ir-custom-date-picker", { key: '972d0bfe9b707c742b355ac00b98b1a47dc86df4', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
+            }, class: "payment-folio__form", id: this.formId }, h("ir-custom-date-picker", { key: 'c1bfbfd35f09c9655c938b5c0588c162bc575041', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
                 this.updateFolioData({ date: evt.detail.start?.format(DATE_FORMAT) });
-            }, minDate: moment().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: '5abf23a92cd778dde9765a5edd80e8a9d0a36b19', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'c68dcc9092ee0fa840fa90e767859379ee2f119b', id: this.controlIds.transactionType, size: "small", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
+            }, minDate: moment().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: 'abf08c2bbf84d34b56da253cb34fc00f5c4372f2', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '2a0146cc1ea9ff33006a18f48e6ea9e0d8e17e7a', id: this.controlIds.transactionType, size: "small", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handleDropdownChange(event.target.value);
-            } }, h("wa-option", { key: '46f1b87a5aace77571656ab2bab0a9cf62c57443', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: '51ac7f1d2411de1fe1d4f8f6d37d124cd34605e4', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'd8d0f9a0140921286992ce08bf6e45fa99400805', id: this.controlIds.paymentMethod, size: "small", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
+            } }, h("wa-option", { key: '57d471005378d40ae98f4f67669661939b598b77', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: 'fcb12365e57b38a9d4ff302cc382fcdc0bcaa0a4', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: '522280fd7fa87b244268e72c41b745da21201d57', id: this.controlIds.paymentMethod, size: "small", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
                 this.stopEventPropagation(event);
                 this.handlePaymentMethodDropdownChange(event.target.value);
-            } }, h("wa-option", { key: '505a56c9a4863ab7d5c28d7161c0f607119f1746', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
+            } }, h("wa-option", { key: '5fe3387e0557c6d6d99d0f7c74dca8ab1de04bde', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
             return (h("wa-option", { key: pt.CODE_NAME, label: pt.CODE_VALUE_EN, value: pt.CODE_NAME }, pt.CODE_VALUE_EN));
-        })))), h("ir-validator", { key: '8c177e1583afc1fce33179d63aec8cb5b29665f5', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '0e8d368f0ccdff60a3d10f13011561b8b92a66a3', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'ab3d4d759cd605100398e468f0cfa50b29c5efb0', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'da7dada3f1f460fa95b1e8139df71b6d6dbc8867', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '5bd1aeab42e2b8ecd325402cec4a4ff48a4c7121', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
+        })))), h("ir-validator", { key: '2ac1c0e02396c096de58d4794f254135564eda02', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: 'abadcaa7e6923d0ac5b9688cd0b885a5f90db5af', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'b840834c7f6defdf2466a786264d18f4eedc571b', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: '8f1bb24d91681daf2281a7e05f3884eb8c717e6c', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: 'edafc67ec8e554e773143296823ddf24c670d07e', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) })), isAgentMode(this.booking) && this.hasUnassignedItems() && h("ir-service-assignee-select", { key: '8fbe694e8a9ad37dbfe37178bb77ec23148aeac8', agent: this.booking.agent })));
     }
     static get is() { return "ir-payment-folio-form"; }
     static get encapsulation() { return "scoped"; }
@@ -259,6 +267,29 @@ export class IrPaymentFolioForm {
     }
     static get properties() {
         return {
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": true,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
             "paymentEntries": {
                 "type": "unknown",
                 "mutable": false,
@@ -325,7 +356,7 @@ export class IrPaymentFolioForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Payment",
-                    "resolved": "{ system_id?: number; id: number; date: string; amount: number; currency: ICurrency; designation: string; reference: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; }",
+                    "resolved": "{ date: string; id: number; reference: string; system_id?: number; amount: number; currency: ICurrency; designation: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; }",
                     "references": {
                         "Payment": {
                             "location": "import",

@@ -10,6 +10,8 @@ export class IrPaymentDetails {
     paymentActions;
     propertyId;
     paymentEntries;
+    language = 'en';
+    svcCategories;
     confirmModal = false;
     toBeDeletedItem = null;
     modalMode = null;
@@ -206,12 +208,13 @@ export class IrPaymentDetails {
         }
         const { financial, currency } = this.booking;
         return [
-            h("wa-card", null, h("ir-payment-summary", { isBookingCancelled: ['003', '004'].includes(this.booking.status.code), totalCost: financial.gross_cost, balance: financial.due_amount, collected: this.booking.financial.collected + this.booking.financial.refunds, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && this.booking.is_direct && (h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking })), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
+            h("wa-card", null, h("ir-payment-summary", { isBookingCancelled: ['003', '004'].includes(this.booking.status.code), totalCost: financial.gross_cost, balance: financial.due_amount, collected: financial.collected + financial.refunds, currency: currency }), h("ir-booking-guarantee", { booking: this.booking, bookingService: this.bookingService }), !['003', '004'].includes(this.booking.status.code) && this.booking.is_direct && (h("ir-applicable-policies", { propertyId: this.propertyId, booking: this.booking })), this.shouldShowRefundButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'refund', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
             h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
+            h("ir-booking-city-ledger", { booking: this.booking, language: this.language, currencySymbol: calendar_data?.property?.currency?.symbol, svcCategories: this.svcCategories }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -310,6 +313,49 @@ export class IrPaymentDetails {
                             "location": "import",
                             "path": "../types",
                             "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
+            },
+            "svcCategories": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "IEntries[]",
+                    "resolved": "IEntries[]",
+                    "references": {
+                        "IEntries": {
+                            "location": "import",
+                            "path": "@/models/property",
+                            "id": "src/models/property.ts::IEntries"
                         }
                     }
                 },

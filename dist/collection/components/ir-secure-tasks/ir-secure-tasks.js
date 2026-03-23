@@ -60,6 +60,7 @@ export class IrSecureTasks {
         { name: 'Arrivals', value: 'arrivals' },
         { name: 'Departures', value: 'departures' },
         { name: 'Agents', value: 'agents' },
+        { name: 'CL', value: 'city-ledger' },
     ];
     handleAuthFinish(e) {
         const token = e.detail.token;
@@ -114,6 +115,8 @@ export class IrSecureTasks {
                 return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'departures':
                 return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'city-ledger':
+                return h("ir-city-ledger", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'agents':
                 return (h("div", null, h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() })));
             default:

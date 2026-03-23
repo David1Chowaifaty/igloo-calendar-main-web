@@ -5,6 +5,7 @@ import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
 import { l as lookup } from './index5.js';
 import { l as locales } from './locales.store.js';
+import { w as getEntryValue } from './utils.js';
 import { d as defineCustomElement$o } from './ir-button2.js';
 import { d as defineCustomElement$n } from './ir-custom-button2.js';
 import { d as defineCustomElement$m } from './ir-dialog2.js';
@@ -197,7 +198,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         const res = await Promise.all([this.bookingService.getSetupEntriesByTableName('_USER_TYPE'), this.bookingService.getLov()]);
         const allowedUsers = res[1]?.My_Result?.allowed_user_types;
         for (const e of res[0]) {
-            const value = e[`CODE_VALUE_${this.language?.toUpperCase() ?? 'EN'}`];
+            const value = getEntryValue({ entry: e, language: this.language });
             if (allowedUsers.find(f => f.code === e.CODE_NAME)) {
                 this.allowedUsersTypes.push({ code: e.CODE_NAME, value });
             }

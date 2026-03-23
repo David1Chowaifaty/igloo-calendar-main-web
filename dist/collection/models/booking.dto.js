@@ -1,5 +1,6 @@
 import { z, ZodError, ZodIssueCode } from "zod";
 import moment from "moment";
+import { AgentBaseSchema } from "../services/agents/type";
 // export const ZIdInfo = z.object({
 //   type: z.object({
 //     code: z.string().min(3),
@@ -160,6 +161,22 @@ export const ExtraServiceSchema = z.object({
     start_date: z.string().nonempty(),
     price: z.coerce.number().min(0.01),
     system_id: z.number().optional(),
+    category: z.object({ code: z.string().nonempty() }).nullable().optional(),
+    agent: AgentBaseSchema.extend({
+        address: z.string().nullable(),
+        agent_rate_type_code: AgentBaseSchema.shape.agent_rate_type_code.nullable(),
+        agent_type_code: AgentBaseSchema.shape.agent_type_code.nullable(),
+        city: z.string().nullable(),
+        contact_name: z.string().nullable(),
+        email: z.string().email().nullable(),
+        is_active: z.boolean().nullable(),
+        is_send_guest_confirmation_email: z.boolean().nullable(),
+        notes: z.string().nullable(),
+        payment_mode: AgentBaseSchema.shape.payment_mode.nullable(),
+        phone: z.string().nullable(),
+        tax_nbr: z.string().nullable(),
+        cl_post_timing: AgentBaseSchema.shape.cl_post_timing.nullable(),
+    }).nullable(),
 });
 export const ROOM_IN_OUT = {
     CHECKIN: '001',

@@ -285,16 +285,16 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         const allOptions = this.getAllOptions();
         let selectedOption;
         allOptions.forEach(option => {
-            const optionValue = this.getOptionValue(option);
-            option.selected = optionValue === value;
-            if (option.selected) {
+            const matches = this.getOptionValue(option) === value || this.getOptionLabel(option) === value;
+            option.selected = matches;
+            if (matches) {
                 selectedOption = option;
             }
         });
         if (selectedOption) {
             this.currentOption = selectedOption;
         }
-        else if (this.currentOption && this.getOptionValue(this.currentOption) !== value) {
+        else if (this.currentOption && this.getOptionValue(this.currentOption) !== value && this.getOptionLabel(this.currentOption) !== value) {
             this.currentOption = undefined;
         }
     }
@@ -307,13 +307,12 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         });
         option.selected = true;
         this.currentOption = option;
-        const nextValue = this.getOptionValue(option);
-        if (this.emitOnSameValue || (!this.emitOnSameValue && nextValue !== this.value)) {
-            this.value = nextValue;
-            this.comboboxChange.emit(nextValue);
+        const emitValue = this.getOptionValue(option);
+        const displayValue = this.getOptionLabel(option);
+        if (this.emitOnSameValue || (!this.emitOnSameValue && emitValue !== this.value)) {
+            this.value = displayValue;
+            this.comboboxChange.emit(emitValue);
         }
-        // if (nextValue !== this.value && !this.emitOnSameValue) {
-        // }
         this.hide();
         requestAnimationFrame(() => this.inputRef?.focusInput());
     }
@@ -402,7 +401,7 @@ const IrAutocomplete = /*@__PURE__*/ proxyCustomElement(class IrAutocomplete ext
         }
     };
     render() {
-        return (h(Host, { key: 'fcc0b3ff895edaf589d138c9fa6c4e19c3d7e00d' }, h("wa-popup", { key: 'dec06316666e924d87fc6e48f28a39e5e8734860', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '10c91197cdbfdde10c68cda2ae8d8c0851f67e59', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: 'f4e23d3d90b65793d664e5ba6ca76040a15e98ff', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '1ec9eae46fbaa4b8e64ecec65c09df90a3ada110', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '538084f2cd46ecdc084cd1b89c7d4ed5d7fbace2', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'fd3fa2d898e89cd343a989f69cf2fbb7fd629f6e', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '1587ce0a817406ea3160490ab8521341e3d4ffeb', name: "hint", slot: "hint" })), h("div", { key: '503062e23ed067f3b27cda30d3142a58d6f16833', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '81cfa653d5a63a67532d80c87eeabc6c4f39bea0', onSlotchange: this.handleOptionsSlotChange })))));
+        return (h(Host, { key: '29c7924cc2938439c5c792c5a5bfaedf7051df0f' }, h("wa-popup", { key: '7cb5370ec67e2623fa3889247d003392629b65f0', active: this.open, flip: true, shift: true, sync: "width", "auto-size": "vertical", "auto-size-padding": 10, placement: this.placement, exportparts: "popup, arrow, hover-bridge" }, h("ir-input", { key: '35f8b75c9966e7244dab99a987e50a2222f36298', slot: "anchor", ref: el => (this.inputRef = el), onKeyDown: this.handleKeydownChange, "onText-change": this.handleTextChange, name: this.name, value: this.value, type: this.type, defaultValue: this.defaultValue, size: this.size, appearance: this.appearance, pill: this.pill, label: this.label, hint: this.hint, withClear: this.withClear, placeholder: this.placeholder, readonly: this.readonly, passwordToggle: this.passwordToggle, passwordVisible: this.passwordVisible, withoutSpinButtons: this.withoutSpinButtons, form: this.form, required: this.required, pattern: this.pattern, minlength: this.minlength, maxlength: this.maxlength, min: this.min, max: this.max, step: this.step, inputClass: this.inputClass, autocapitalize: this.autocapitalize, autocorrect: this.autocorrect, autocomplete: this.autocomplete, autofocus: this.autofocus, enterkeyhint: this.enterkeyhint, spellcheck: this.spellcheck, inputmode: this.inputmode, withLabel: this.withLabel, withHint: this.withHint, mask: this.mask, returnMaskedValue: this.returnMaskedValue, disabled: this.disabled, exportparts: "base, hint, label, input, start, end, clear-button, password-toggle-button" }, this.slotManager.hasSlot('label') && h("slot", { key: 'f5fb5075c6ddc3ffb55ef271ecf745ca2dfca2ba', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '784200789f1262f24fc21697ecf8522dce92d9de', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '1218b76d23090f9f344edc6c665e9ecad7d2f5d2', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '6fc88a1f262d92bd6a4ec2834dc752697cc8181b', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '4b656c9e8b470e1d4d35a73178f90570fcea17f4', name: "hint", slot: "hint" })), h("div", { key: '3b6d644a3980068320ac3bc9d9f11c20258fdc0e', id: "listbox", ref: el => (this.listboxRef = el), role: "listbox", "aria-expanded": this.open ? 'true' : 'false', "aria-multiselectable": 'false', "aria-labelledby": "label", part: "listbox", class: "listbox", tabindex: "-1", hidden: !this.open, onKeyDown: this.handleKeydownChange }, h("slot", { key: '2f2bb132c6ff17cea3857255c23c95d36578175f', onSlotchange: this.handleOptionsSlotChange })))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"],

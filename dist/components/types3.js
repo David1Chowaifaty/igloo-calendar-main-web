@@ -1,26 +1,23 @@
-import { z } from './index2.js';
+function mapClTxToFolioRow(tx) {
+    const status = tx.IS_LOCKED
+        ? { id: 'billed', label: 'Billed', variant: 'success', description: '' }
+        : tx.IS_HOLD
+            ? { id: 'held', label: 'Held', variant: 'warning', description: '' }
+            : { id: 'unbilled', label: 'Unbilled', variant: 'neutral', description: '' };
+    return {
+        _raw: tx,
+        status,
+        type: tx.CATEGORY,
+        serviceDate: tx.SERVICE_DATE,
+        bookingNumber: tx.BOOK_NBR ? Number(tx.BOOK_NBR) : null,
+        docNumber: tx.EXTERNAL_REF,
+        description: tx.DESCRIPTION,
+        debit: tx.DEBIT,
+        credit: tx.CREDIT,
+        balance: tx.RUNNING_BALANCE,
+    };
+}
 
-const RoomsGuestsSchema = z.array(z
-    .object({
-    first_name: z.string().nonempty(),
-    last_name: z.string().nonempty(),
-    bed_preference: z.string().optional().nullable(),
-    requires_bed_preference: z.boolean().nullable(),
-})
-    .superRefine((data, ctx) => {
-    if (data.requires_bed_preference && !data.bed_preference) {
-        ctx.addIssue({
-            path: ['bed_preference'],
-            message: 'Bed preference is required',
-            code: z.ZodIssueCode.custom,
-        });
-    }
-}));
-const BookedByGuestSchema = z.object({
-    firstName: z.string().nonempty(),
-    lastName: z.string().nonempty(),
-});
-
-export { BookedByGuestSchema as B, RoomsGuestsSchema as R };
+export { mapClTxToFolioRow as m };
 
 //# sourceMappingURL=types3.js.map

@@ -8,7 +8,7 @@ export class IrPrintingExtraService {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: '609d7824addfbce9290dd79a7c35be621cabeda7', class: "ir-print-extra-services" }, h("h3", { key: '15212e075dbb9b3b35e9666759b47ba858d16cf0', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '4f8da2ec8a2cc975d80d74f501b113fd68b7d51f', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: '95c1a3adc11fe154721f1fdbbcc7da0460db3731', class: "ir-print-extra-services" }, h("h3", { key: 'd68d1754702f763416bb203f0ee7a8e9b13a523e', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '4a2b6a4c4461165463067fc47f04b4f8ee9dc26c', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }
@@ -34,7 +34,7 @@ export class IrPrintingExtraService {
                 "mutable": false,
                 "complexType": {
                     "original": "Booking['extra_services']",
-                    "resolved": "{ system_id?: number; cost?: number; description?: string; booking_system_id?: number; currency_id?: number; end_date?: string; start_date?: string; price?: number; }[]",
+                    "resolved": "{ description?: string; currency_id?: number; agent?: { name?: string; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; id?: number; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; cl_post_timing?: { code?: string; description?: string; }; }; system_id?: number; cost?: number; category?: { code?: string; }; booking_system_id?: number; end_date?: string; start_date?: string; price?: number; }[]",
                     "references": {
                         "Booking": {
                             "location": "import",

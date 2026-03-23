@@ -13,6 +13,7 @@ export class PickupService {
             await axios.post(`/Do_Pickup`, {
                 booking_nbr,
                 is_remove,
+                agent: params.agent,
                 currency: params.currency,
                 date: params.arrival_date,
                 details: params.flight_details,
@@ -30,6 +31,7 @@ export class PickupService {
     transformDefaultPickupData(data) {
         const arrival_time = data.hour && data.minute ? renderTime(data.hour) + ':' + renderTime(data.minute) : '';
         return {
+            agent: data.agent,
             arrival_date: data.date,
             arrival_time,
             currency: data.currency,

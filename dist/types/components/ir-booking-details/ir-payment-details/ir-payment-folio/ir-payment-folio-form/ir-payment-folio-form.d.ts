@@ -3,6 +3,7 @@ import { IEntries } from "../../../../../models/IBooking";
 import { FolioEntryMode, Payment, PaymentEntries } from '../../../types';
 import { Booking } from "../../../../../models/booking.dto";
 export declare class IrPaymentFolioForm {
+    booking: Booking;
     paymentEntries: PaymentEntries;
     bookingNumber: string;
     formId: string;
@@ -33,5 +34,6 @@ export declare class IrPaymentFolioForm {
     private handleDropdownChange;
     private handlePaymentMethodDropdownChange;
     private renderDropdownItems;
+    private hasUnassignedItems;
     render(): any;
 }

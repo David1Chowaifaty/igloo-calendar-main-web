@@ -1,10 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$4 } from './ir-drawer2.js';
-import { d as defineCustomElement$3 } from './ir-input2.js';
-import { d as defineCustomElement$2 } from './ir-payment-folio-form2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-drawer2.js';
+import { d as defineCustomElement$4 } from './ir-input2.js';
+import { d as defineCustomElement$3 } from './ir-payment-folio-form2.js';
+import { d as defineCustomElement$2 } from './ir-service-assignee-select2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
 
@@ -30,6 +31,11 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
      * correct reservation when saving.
      */
     bookingNumber;
+    /**
+     * The full booking object associated with this folio.
+     * Provides contextual reservation data required by the folio form.
+     */
+    booking;
     /**
      * The payment or folio entry being created or edited.
      * Defaults to a new empty payment object when the component
@@ -78,7 +84,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
     _id = `ir__folio-form-${v4()}`;
     render() {
         // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
-        return (h("ir-drawer", { key: 'bc4ab32a2d23c297bc21254fcfc2adce2181364b', placement: "start", style: {
+        return (h("ir-drawer", { key: '8a7a21e4f6e3f7fea7deb504d87a3895728adefa', placement: "start", style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -89,11 +95,11 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
                 event.stopImmediatePropagation();
                 event.stopPropagation();
                 this.closeFolio();
-            } }, this.isOpen && (h("ir-payment-folio-form", { key: '3368e7199b6750251cd713a7d07e363fd655765b', formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
+            } }, this.isOpen && (h("ir-payment-folio-form", { key: '15b67797374e18063f323d0868e3d85b7f2445f0', booking: this.booking, formId: this._id, onLoadingChanged: e => (this.isLoading = e.detail), onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeFolio();
-            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '32134dbe505c94e41f0f032e5a597f1db1d6827c', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '8b6086b80ba7b76c75b8d8a90b7ae187cda7c1b5', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: '5f780906e1e0dd988b0829c0da1863e44428e39c', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
+            }, paymentEntries: this.paymentEntries, bookingNumber: this.bookingNumber, payment: this.payment, mode: this.mode })), h("div", { key: '9fa86ae0b3cde13ae0f61d07a7e4e796a5502007', slot: "footer", class: "w-100 d-flex align-items-center", style: { gap: 'var(--wa-space-xs)' } }, h("ir-custom-button", { key: '3163159b9729b72c1cbc210cfa73a12e15e0ca61', class: "flex-fill", size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeFolio() }, "Cancel"), h("ir-custom-button", { key: 'a52d414199358e3949f9e44d8ccca89faef0136c', form: this._id, loading: this.isLoading === 'save', class: "flex-fill", size: "medium", type: "submit", value: "save",
             // appearance={isNewPayment ? 'outlined' : 'accent'}
             appearance: 'accent', variant: "brand" }, "Save"))));
     }
@@ -101,6 +107,7 @@ const IrPaymentFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentFolio ext
 }, [2, "ir-payment-folio", {
         "paymentEntries": [16],
         "bookingNumber": [1, "booking-number"],
+        "booking": [16],
         "payment": [16],
         "mode": [1],
         "isLoading": [32],
@@ -112,7 +119,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-validator"];
+    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-service-assignee-select", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-folio":
             if (!customElements.get(tagName)) {
@@ -121,25 +128,30 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-payment-folio-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-service-assignee-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

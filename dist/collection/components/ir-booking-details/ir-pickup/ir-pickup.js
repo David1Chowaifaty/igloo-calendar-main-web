@@ -2,6 +2,7 @@ import locales from "../../../stores/locales.store";
 import { h } from "@stencil/core";
 import { v4 } from "uuid";
 export class IrPickup {
+    booking;
     /**
      * Pre-filled pickup information coming from the booking.
      * When provided, the pickup form initializes with this data and
@@ -38,7 +39,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: 'f99813725af12f67cf856e929952d2c322f433c4', style: {
+        return (h("ir-drawer", { key: '197916323221d206cb993aa5eef6a4256012b915', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -49,7 +50,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: '58f884f88ea633521708e146916d39297aa32481', onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: '9e06508ddaaad1015d0a3477cbb8b58dd963418c', booking: this.booking, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -57,7 +58,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: 'd2400c57924e31bec444d35f66060e206c7617fe', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'f89af29be321066128242696817609295b19ff75', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'a07f28e0dcba55e3fafd83537c220767fb4645e3', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '6e3c5ef5e5f30bcf4fa75f6cc2ce94e5141e44eb', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '8fe2e811e77126a7e8b86c85a5e705d5d2c6b977', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: 'bde88b5536683e73189fb7bed61e5e214dcd94bd', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -73,6 +74,29 @@ export class IrPickup {
     }
     static get properties() {
         return {
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": true,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
             "defaultPickupData": {
                 "type": "unknown",
                 "mutable": false,

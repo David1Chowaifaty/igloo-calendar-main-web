@@ -3,6 +3,47 @@ import { z } from "zod";
 import calendarData from "../stores/calendar-data";
 import locales from "../stores/locales.store";
 import { ROOM_IN_OUT } from "../models/booking.dto";
+const LANGUAGE_KEY_MAP = {
+    en: 'CODE_VALUE_EN',
+    ar: 'CODE_VALUE_AR',
+    de: 'CODE_VALUE_DE',
+    el: 'CODE_VALUE_EL',
+    fr: 'CODE_VALUE_FR',
+    he: 'CODE_VALUE_HE',
+    pl: 'CODE_VALUE_PL',
+    ru: 'CODE_VALUE_RU',
+    ua: 'CODE_VALUE_UA',
+};
+/**
+ * Returns the localised display string for an {@link IEntries} entry.
+ *
+ * Resolution order:
+ * 1. `CODE_VALUE_<language>` — if present and non-empty.
+ * 2. `CODE_VALUE_EN` — English fallback.
+ * 3. `CODE_NAME` — last-resort fallback when both the requested language
+ *    and English values are absent.
+ *
+ * @param entry - The `IEntries` object to translate.
+ * @param language - BCP-47-style language code (e.g. `"fr"`, `"ar"`).
+ *   Defaults to `"en"`.
+ * @returns The best available display string for the requested language.
+ *
+ * @example
+ * ```ts
+ * const label = getEntryValue({ entry: someEntry, language: 'fr' });
+ * // → "Petit-déjeuner" (falls back to "Breakfast" if French is null)
+ * ```
+ */
+export function getEntryValue({ entry, language = 'en' }) {
+    const key = LANGUAGE_KEY_MAP[language] ?? 'CODE_VALUE_EN';
+    const localised = entry[key];
+    if (localised)
+        return localised;
+    const english = entry['CODE_VALUE_EN'];
+    if (english)
+        return english;
+    return entry.CODE_NAME;
+}
 export function convertDateToCustomFormat(dayWithWeekday, monthWithYear, format = 'D_M_YYYY') {
     const dateStr = `${dayWithWeekday.split(' ')[1]} ${monthWithYear}`;
     const date = moment(dateStr, 'DD MMM YYYY');

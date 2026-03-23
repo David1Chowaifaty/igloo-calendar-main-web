@@ -1,5 +1,12 @@
 import { Booking } from "../../../models/booking.dto";
+import { IEntries } from "../../../models/property";
 export declare class IrExtraServices {
-    booking: Pick<Booking, 'currency' | 'extra_services' | 'booking_nbr'>;
+    booking: Booking;
+    language: string;
+    svcCategories: IEntries[];
+    private isAgentMode;
+    componentWillLoad(): void;
+    handleBookingChange(): void;
+    private renderServiceList;
     render(): any;
 }

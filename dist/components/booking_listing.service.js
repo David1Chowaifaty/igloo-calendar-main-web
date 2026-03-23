@@ -1,5 +1,5 @@
 import { b as booking_listing, i as initializeUserSelection } from './booking_listing.store.js';
-import { e as extras, F as isPrivilegedUser } from './utils.js';
+import { e as extras, G as isPrivilegedUser } from './utils.js';
 import { a as axios } from './axios.js';
 
 class BookingListingService {

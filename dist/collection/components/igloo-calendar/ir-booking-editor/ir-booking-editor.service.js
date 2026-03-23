@@ -212,7 +212,7 @@ export class IRBookingEditorService {
                     identifier,
                     notes: '',
                     override_unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? true : false,
-                    unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? unitId?.toString() ?? null : null,
+                    unit: this.isEventType(['BAR_BOOKING', 'SPLIT_BOOKING']) ? (unitId?.toString() ?? null) : null,
                     auto_check_in: check_in,
                     room: identifier ? room : null,
                 });
@@ -226,6 +226,7 @@ export class IRBookingEditorService {
                     is_in_loyalty_mode,
                     promo_key,
                     extras,
+                    agent: booking.agent,
                     booking: {
                         ...rest,
                         rooms,
@@ -251,7 +252,8 @@ export class IRBookingEditorService {
                 }
                 case 'ADD_ROOM':
                 case 'SPLIT_BOOKING': {
-                    const newRooms = await generateNewRooms();
+                    const agent = booking_store.bookingDraft.roomAssignee === 'agent' ? booking.agent : null;
+                    const newRooms = (await generateNewRooms()).map(r => ({ ...r, agent }));
                     const previousRooms = booking.rooms;
                     newBooking = modifyBookingDetails(booking, [...previousRooms, ...newRooms]);
                     break;

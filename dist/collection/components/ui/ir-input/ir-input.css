@@ -1,10 +1,17 @@
-:host {
-  display: block;
-}
-
-:host([aria-invalid='true']) wa-input::part(base),
-wa-input[aria-invalid='true']::part(base) {
+wa-input[aria-invalid='true']::part(base),
+wa-textarea[aria-invalid='true']::part(base),
+wa-select[aria-invalid='true']::part(combobox) {
+  --error-width: 2px;
   border-color: var(--wa-color-danger-border-loud);
   outline-color: var(--wa-color-danger-border-loud);
-  border-width: 2px;
+
+  border-top-width: var(--error-width) !important;
+  border-left-width: var(--error-width) !important;
+  border-right-width: var(--error-width) !important;
+  border-bottom-width: var(--error-width) !important;
+}
+
+
+:host {
+  display: block;
 }

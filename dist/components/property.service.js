@@ -83,7 +83,40 @@ const FetchUnBookableRoomsSchema = z.object({
     period_to_check: z.coerce.number(),
     consecutive_period: z.coerce.number(),
 });
+const CategorySchema = z.object({
+    code: z.string(),
+    description: z.string(),
+});
+const taxationModes = {
+    INCLUSIVE: '001',
+    EXCLUSIVE: '000',
+    NOT_APPLICABLE: '002',
+};
+const TaxCategorySchema = z.object({
+    category: CategorySchema,
+    taxation_mode: CategorySchema,
+    pct: z.number(),
+    property_id: z.number().optional(),
+});
+const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
+    property_id: z.number(),
+    VAT_INCLUDED_CODE: z.string(),
+    VAT_PC: z.number(),
+    CITY_TAX_INCLUDED_CODE: z.string(),
+    CITY_TAX_PCT: z.number(),
+    SERVICE_CHARGE_INCLUDED_CODE: z.string(),
+    SERVICE_CHARGE_PCT: z.number(),
+    tax_categories: z.array(TaxCategorySchema),
+});
 class PropertyService {
+    async handleExposedPropertyTaxCategories(params) {
+        const payload = HandleExposedPropertyTaxCategoriesParamsSchema.parse(params);
+        const { data } = await axios.post('/Handle_Exposed_Property_Tax_Categories', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async getExposedProperty(params) {
         try {
             const { data } = await axios.post(`/Get_Exposed_Property`, params);
@@ -226,6 +259,6 @@ class PropertyService {
     }
 }
 
-export { ExposedRectifierParamsSchema as E, PropertyService as P };
+export { ExposedRectifierParamsSchema as E, PropertyService as P, taxationModes as t };
 
 //# sourceMappingURL=property.service.js.map

@@ -8,6 +8,50 @@
   gap: 0.75rem;
 }
 
+/* ── Shared assignment group pattern ── */
+.service-group {
+  padding: 0.125rem 0 0.25rem;
+  border-left: 3px solid transparent;
+  padding-left: 0.625rem;
+}
+
+.service-group--guest {
+  border-left-color: var(--wa-color-neutral-300, #d4d4d8);
+}
+
+.service-group--agent {
+  border-left-color: var(--wa-color-primary-500, #3b82f6);
+}
+
+.service-group__label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  /* text-transform: uppercase; */
+  color: var(--wa-color-neutral-500, #71717a);
+}
+
+.service-group__label.--agent {
+  color: var(--wa-color-primary-600, #2563eb);
+}
+
+.service-group__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--wa-color-neutral-400, #a1a1aa);
+  flex-shrink: 0;
+}
+
+.service-group--agent .service-group__dot {
+  background-color: var(--wa-color-primary-500, #3b82f6);
+}
+
 .pickup-info__summary {
   display: flex;
   flex-wrap: wrap;

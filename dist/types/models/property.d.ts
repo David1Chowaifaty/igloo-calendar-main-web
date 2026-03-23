@@ -1,3 +1,4 @@
+import { Agent } from "../services/agents/type";
 export interface RoomType {
     amenities: Amenity[];
     availabilities: any;
@@ -258,12 +259,6 @@ export interface Allowedbookingsource {
     tag: string;
     type: string;
 }
-export interface Agent {
-    code: string;
-    id: number;
-    name: string;
-    verification_mode: string;
-}
 export interface Adultchildconstraints {
     adult_max_nbr: number;
     child_max_age: number;
@@ -361,12 +356,6 @@ export interface AdultChildConstraints {
     adult_max_nbr: number;
     child_max_age: number;
     child_max_nbr: number;
-}
-export interface Agent {
-    code: string;
-    id: number;
-    name: string;
-    verification_mode: string;
 }
 export interface AllowedBookingSource {
     code: string;

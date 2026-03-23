@@ -1,0 +1,1 @@
+{"version":3,"file":"city-ledger.service.js","sourceRoot":"","sources":["../../src/services/city-ledger.service.ts"],"names":[],"mappings":"AAAA,+DAA+D;AAC/D,cAAc,qBAAqB,CAAC","sourcesContent":["// Re-export from the new location for backwards compatibility.\nexport * from './city-ledger/index';\n"]}

@@ -121,7 +121,6 @@ const IrAirDatePicker = class {
      */
     datePickerBlur;
     datePicker;
-    openDatePickerTimeout;
     componentWillLoad() {
         // Sync initial @Prop to internal state
         if (this.date) {
@@ -142,35 +141,118 @@ const IrAirDatePicker = class {
             return;
         }
         if (!this.isSameDates(newVal, oldVal)) {
-            this.datePicker?.update({ minDate: this.toValidDate(newVal) });
+            this.datePicker?.update({ minDate: this.toValidDate(newVal) ?? undefined });
         }
     }
     maxDatePropChanged(newVal, oldVal) {
         if (!this.isSameDates(newVal, oldVal)) {
-            this.datePicker?.update({ maxDate: this.toValidDate(newVal) });
+            this.datePicker?.update({ maxDate: this.toValidDate(newVal) ?? undefined });
         }
+    }
+    datesPropChanged(newDates = [], oldDates = []) {
+        if (this.areDateListsEqual(newDates, oldDates)) {
+            return;
+        }
+        this.updatePickerDates(newDates);
     }
     async clearDatePicker() {
         this.datePicker?.clear();
+    }
+    async syncSelection(options) {
+        if (Array.isArray(options?.dates) || this.range) {
+            const list = Array.isArray(options?.dates) ? options.dates : this.dates;
+            this.forceSyncPickerDates(list ?? []);
+            return;
+        }
+        const nextDate = options?.date !== undefined ? options.date : this.date;
+        this.forceSyncPickerDate(nextDate ?? null);
     }
     isSameDates(d1, d2) {
         if (!d1 && !d2)
             return true;
         if (!d1 || !d2)
             return false;
-        return moment.hooks(d1).isSame(moment.hooks(d2), 'day');
+        return moment.hooks(d1).isSame(moment.hooks(d2), this.timepicker ? 'minute' : 'day');
     }
     toValidDate(value) {
         if (!value)
             return null;
-        const d = new Date(value);
-        return isNaN(d.getTime()) ? null : d;
+        if (value instanceof Date) {
+            return isNaN(value.getTime()) ? null : value;
+        }
+        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            const parsed = moment.hooks(value, 'YYYY-MM-DD', true);
+            return parsed.isValid() ? parsed.toDate() : null;
+        }
+        const parsed = moment.hooks(value, moment.hooks.ISO_8601, true);
+        if (parsed.isValid()) {
+            return parsed.toDate();
+        }
+        const fallback = new Date(value);
+        return isNaN(fallback.getTime()) ? null : fallback;
+    }
+    toValidDates(values) {
+        if (!Array.isArray(values) || values.length === 0)
+            return [];
+        return values.map(v => this.toValidDate(v)).filter((date) => Boolean(date));
+    }
+    areDateListsEqual(first, second) {
+        if (!first?.length && !second?.length)
+            return true;
+        if (!first || !second || first.length !== second.length)
+            return false;
+        return first.every((value, index) => this.isSameDates(value, second[index]));
+    }
+    updatePickerDates(nextDates = []) {
+        if (!this.datePicker) {
+            return;
+        }
+        const validDates = this.toValidDates(nextDates);
+        this.datePicker.clear({ silent: true });
+        if (validDates.length > 0) {
+            this.datePicker.selectDate(validDates, { silent: true });
+            this.currentDate = validDates[0];
+            return;
+        }
+        this.currentDate = null;
+        this.date = null;
+    }
+    forceSyncPickerDate(nextDate) {
+        const valid = this.toValidDate(nextDate);
+        if (!this.datePicker) {
+            this.currentDate = valid;
+            this.date = valid;
+            return;
+        }
+        this.datePicker.clear({ silent: true });
+        if (!valid) {
+            this.currentDate = null;
+            this.date = null;
+            return;
+        }
+        this.datePicker.selectDate(valid, { silent: true });
+        this.currentDate = valid;
+        this.date = valid;
+    }
+    forceSyncPickerDates(nextDates = []) {
+        const validDates = this.toValidDates(nextDates);
+        if (!this.datePicker) {
+            this.currentDate = validDates[0] ?? null;
+            this.date = validDates[0] ?? null;
+            return;
+        }
+        this.datePicker.clear({ silent: true });
+        if (validDates.length > 0) {
+            this.datePicker.selectDate(validDates, { silent: true });
+        }
+        this.currentDate = validDates[0] ?? null;
+        this.date = validDates[0] ?? null;
     }
     updatePickerDate(newDate) {
         const valid = this.toValidDate(newDate);
         if (!valid) {
             // If invalid or null, just clear
-            this.datePicker?.clear();
+            this.datePicker?.clear({ silent: true });
             this.currentDate = null;
             return;
         }
@@ -178,22 +260,23 @@ const IrAirDatePicker = class {
         if (!this.isSameDates(this.currentDate, valid)) {
             this.currentDate = valid;
             if (this.forceDestroyOnUpdate) {
-                this.datePicker.destroy();
-                this.datePicker = null;
+                this.datePicker?.destroy();
+                this.datePicker = undefined;
                 this.initializeDatepicker();
             }
             else {
-                this.datePicker?.selectDate(valid);
+                this.datePicker?.selectDate(valid, { silent: true });
             }
         }
     }
     initializeDatepicker() {
         if (this.datePicker)
             return;
+        const preselectedDates = this.toValidDates(this.dates);
         this.datePicker = new en.AirDatepicker(this.el, {
             container: this.container,
             inline: true,
-            selectedDates: this.dates ? this.dates : this.currentDate ? [this.currentDate] : [],
+            selectedDates: preselectedDates.length > 0 ? preselectedDates : this.currentDate ? [this.currentDate] : [],
             multipleDates: this.multipleDates,
             range: this.range,
             dateFormat: this.dateFormat,
@@ -213,15 +296,21 @@ const IrAirDatePicker = class {
             onSelect: ({ date }) => this.handleDateSelect(date),
         });
         // this.datePicker.$datepicker.style.height = '280px';
-        this.datePicker.$datepicker?.classList.add('ir-custom-date-picker__calendar');
-        this.datePicker.$datepicker.style.borderWidth = '0px';
-        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected', 'var(--wa-color-brand-fill-loud)');
-        this.datePicker.$datepicker.style.setProperty('--adp-cell-background-color-selected-hover', 'var(--wa-color-brand-fill-loud)');
-        this.datePicker.$datepicker.style.setProperty('--adp-background-color-selected-other-month', 'var(--wa-color-brand-fill-normal)');
-        this.datePicker.$datepicker.style.setProperty('--adp-background-color-selected-other-month-focused', 'var(--wa-color-brand-fill-loud)');
-        this.datePicker.$datepicker.style.setProperty('--adp-accent-color', 'var(--wa-color-brand-fill-loud)');
-        this.datePicker.$datepicker.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
-        this.datePicker.$datepicker.style.setProperty('--adp-padding', '4px !important');
+        const datepickerEl = this.datePicker.$datepicker;
+        if (!datepickerEl) {
+            return;
+        }
+        datepickerEl.classList.add('ir-custom-date-picker__calendar');
+        datepickerEl.classList.add('custom-date-picker__calendar');
+        datepickerEl.style.borderWidth = '0px';
+        datepickerEl.style.setProperty('--adp-cell-background-color-selected', 'var(--wa-color-brand-fill-loud)');
+        datepickerEl.style.setProperty('--adp-cell-background-color-selected-hover', 'var(--wa-color-brand-fill-loud)');
+        datepickerEl.style.setProperty('--adp-background-color-selected-other-month', 'var(--wa-color-brand-fill-normal)');
+        datepickerEl.style.setProperty('--adp-background-color-selected-other-month-focused', 'var(--wa-color-brand-fill-loud)');
+        datepickerEl.style.setProperty('--adp-accent-color', 'var(--wa-color-brand-fill-loud)');
+        datepickerEl.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
+        datepickerEl.style.setProperty('--adp-padding', '0px 0px 0.5rem 0px', 'important');
+        datepickerEl.style.setProperty('--adp-border-color-inner', 'transparent', 'important');
     }
     handleDateSelect(selected) {
         const dates = Array.isArray(selected) ? selected.filter(Boolean) : selected ? [selected] : [];
@@ -248,9 +337,6 @@ const IrAirDatePicker = class {
         });
     }
     disconnectedCallback() {
-        if (this.openDatePickerTimeout) {
-            clearTimeout(this.openDatePickerTimeout);
-        }
         this.datePicker?.destroy?.();
     }
     render() {
@@ -259,7 +345,8 @@ const IrAirDatePicker = class {
     static get watchers() { return {
         "date": ["datePropChanged"],
         "minDate": ["minDatePropChanged"],
-        "maxDate": ["maxDatePropChanged"]
+        "maxDate": ["maxDatePropChanged"],
+        "dates": ["datesPropChanged"]
     }; }
 };
 IrAirDatePicker.style = IrAirDatePickerStyle0;

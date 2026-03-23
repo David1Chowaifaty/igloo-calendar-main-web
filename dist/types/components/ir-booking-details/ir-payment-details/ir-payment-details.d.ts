@@ -3,11 +3,14 @@ import { Booking, IPayment } from "../../../models/booking.dto";
 import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
 import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../types';
+import { IEntries } from "../../../models/property";
 export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
     propertyId: number;
     paymentEntries: PaymentEntries;
+    language: string;
+    svcCategories: IEntries[];
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;

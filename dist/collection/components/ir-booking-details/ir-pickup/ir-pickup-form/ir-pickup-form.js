@@ -2,15 +2,18 @@ import calendar_data from "../../../../stores/calendar-data";
 import locales from "../../../../stores/locales.store";
 import { h } from "@stencil/core";
 import { PickupService } from "../pickup.service";
+import { isAgentMode } from "../../functions";
 export class IrPickupForm {
     el;
     formId;
+    booking;
     defaultPickupData;
     numberOfPersons = 0;
     bookingNumber;
     bookingDates;
     isLoading = false;
     allowedOptionsByLocation = [];
+    assignee = 'guest';
     pickupData = {
         location: -1,
         flight_details: '',
@@ -21,6 +24,7 @@ export class IrPickupForm {
         arrival_time: '',
         arrival_date: null,
         selected_option: undefined,
+        agent: null,
     };
     vehicleCapacity = [];
     autoValidate = false;
@@ -65,6 +69,10 @@ export class IrPickupForm {
             this.vehicleCapacity = this.pickupService.getNumberOfVehicles(transformedData.selected_option.vehicle.capacity, this.numberOfPersons);
             this.allowedOptionsByLocation = calendar_data.pickup_service.allowed_options.filter(option => option.location.id === transformedData.location);
             this.pickupData = { ...transformedData };
+            this.assignee = transformedData.agent ? 'agent' : 'guest';
+        }
+        else if (isAgentMode(this.booking)) {
+            this.assignee = 'agent';
         }
         this.pickupSchema = this.pickupService.createPickupSchema(this.bookingDates.from, this.bookingDates.to, { allowRemoval: this.defaultPickupData !== null });
         // initialize canSubmit state for listeners
@@ -163,7 +171,8 @@ export class IrPickupForm {
                     return;
                 }
             }
-            await this.pickupService.savePickup(this.pickupData, this.bookingNumber, isRemoval);
+            const agent = this.assignee === 'agent' ? this.booking.agent : null;
+            await this.pickupService.savePickup({ ...this.pickupData, agent }, this.bookingNumber, isRemoval);
             this.resetBookingEvt.emit(null);
             this.closeModal.emit(null);
         }
@@ -176,21 +185,25 @@ export class IrPickupForm {
         }
     }
     render() {
-        return (h("form", { key: 'c175e6939ddfa210b94c28ac3aef31502b22b48a', id: this.formId, class: "pickup__container", onSubmit: async (e) => {
+        return (h("form", { key: 'df1dcda17093e2ef9f0ce06d1d41b85256e63269', id: this.formId, class: "pickup__container", onSubmit: async (e) => {
                 e.preventDefault();
                 await this.savePickup();
-            } }, h("ir-validator", { key: '20c4a4c267e79f525394043b59756d18f864113c', schema: this.pickupSchema.shape.location, autovalidate: this.autoValidate, value: this.pickupData.location, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '8398a556a5c9936d635e20cdba62fca6bafd85c4', size: "small", onchange: e => this.handleLocationChange(e.target.value), defaultValue: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString(), value: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString() }, h("wa-option", { key: '574c0005e914bf0ba6ff83c40f5e673369a57ec0', value: "" }, locales.entries.Lcz_Pickup_NoThankYou), this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom).map(option => (h("wa-option", { key: `pickup-location-${option.value}`, value: option.value?.toString() }, option.text))))), this.shouldRenderDetails && (h("div", { key: '9e4f9baae9efc3a04414a296cba8703e7852d697', class: "pickup__container", "data-testid": "pickup_body" }, h("ir-validator", { key: '22700ce28d985a268bee314c3aea68c4d930d844', schema: this.pickupSchema.shape.arrival_date, autovalidate: this.autoValidate, value: this.pickupData.arrival_date ?? '', valueEvent: "dateChanged", blurEvent: "datePickerBlur blur" }, h("ir-custom-date-picker", { key: '92bef29b7d98750af426e25a5936c61a6d54171b', date: this.pickupData.arrival_date, minDate: this.bookingDates.from, maxDate: this.bookingDates?.to, emitEmptyDate: true, onDateChanged: evt => {
+            } }, h("ir-validator", { key: '63934406df1b8aff2d7cdee0f3f6aad3c229b538', schema: this.pickupSchema.shape.location, autovalidate: this.autoValidate, value: this.pickupData.location, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '83c01d93a3fb71867891d210fb3847dabf143819', size: "small", onchange: e => this.handleLocationChange(e.target.value), defaultValue: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString(), value: this.pickupData.location === -1 ? '' : this.pickupData.location?.toString() }, h("wa-option", { key: '8c50e8b88828b18b030260701813aa0f1f028e35', value: "" }, locales.entries.Lcz_Pickup_NoThankYou), this.pickupService.getAvailableLocations(locales.entries.Lcz_Pickup_YesFrom).map(option => (h("wa-option", { key: `pickup-location-${option.value}`, value: option.value?.toString() }, option.text))))), this.shouldRenderDetails && (h("div", { key: '2e17a9a3659ee5fe6bf50247571e82d8025ce10f', class: "pickup__container", "data-testid": "pickup_body" }, h("ir-validator", { key: 'def2d5a7f7fd0c6cd9b5bcf6a83f06ec47c68ad7', schema: this.pickupSchema.shape.arrival_date, autovalidate: this.autoValidate, value: this.pickupData.arrival_date ?? '', valueEvent: "dateChanged", blurEvent: "datePickerBlur blur" }, h("ir-custom-date-picker", { key: '2f1375512220a54c76dccf72a014c471e5c96073', date: this.pickupData.arrival_date, minDate: this.bookingDates.from, maxDate: this.bookingDates?.to, emitEmptyDate: true, onDateChanged: evt => {
                 this.updatePickupData('arrival_date', evt.detail.start?.format('YYYY-MM-DD') ?? null);
-            }, label: locales.entries.Lcz_ArrivalDate })), h("ir-validator", { key: '35421d64c2b1c4d75e89c320f54be243126d614f', schema: this.pickupSchema.shape.arrival_time, autovalidate: this.autoValidate, value: this.pickupData.arrival_time, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '38cc67f34cbd7081500f8b6e1013ee2d8d653ce7', value: this.pickupData.arrival_time, "onText-change": e => {
+            }, label: locales.entries.Lcz_ArrivalDate })), h("ir-validator", { key: 'cb1125fb137a2f87969e227609892511bbbff3d5', schema: this.pickupSchema.shape.arrival_time, autovalidate: this.autoValidate, value: this.pickupData.arrival_time, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '06fc98a6dcb11f07911c1389f7a97ac66b941358', value: this.pickupData.arrival_time, "onText-change": e => {
                 this.updatePickupData('arrival_time', e.detail);
-            }, mask: 'time', label: locales.entries.Lcz_Time })), h("ir-validator", { key: 'fe073d81e44e4d69774a96ba9f82cdb931983415', schema: this.pickupSchema.shape.flight_details, autovalidate: this.autoValidate, value: this.pickupData.flight_details, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '466e5ddb84c734464b2151901358b685091d7a9f', "onText-change": e => this.updatePickupData('flight_details', e.detail), value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails })), h("ir-validator", { key: 'a16f9805bc04bf502a9db44519881286a1c854a6', schema: this.pickupSchema.shape.vehicle_type_code, autovalidate: this.autoValidate, value: this.pickupData.vehicle_type_code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '7ce2a35764799f3dcb252f9a0d3699bde84c6230', size: "small", onchange: e => this.handleVehicleTypeChange(e.target.value), value: this.pickupData.vehicle_type_code, defaultValue: this.pickupData.vehicle_type_code }, this.allowedOptionsByLocation.map(option => (h("wa-option", { value: option.vehicle.code, key: option.vehicle.code }, option.vehicle.description))))), h("ir-validator", { key: '323bbc1b4a43d41568974b10cfeb730ce837e1b2', schema: this.pickupSchema.shape.number_of_vehicles, autovalidate: this.autoValidate, value: this.pickupData.number_of_vehicles, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: 'bd7e8556c351af66693b9113ace99a35a2614637', size: "small", defaultValue: this.pickupData.number_of_vehicles?.toString(), value: this.pickupData.number_of_vehicles?.toString(), label: locales.entries.Lcz_NbrOfVehicles, onchange: e => {
+            }, mask: 'time', label: locales.entries.Lcz_Time })), h("ir-validator", { key: 'a2539122e95f5fef5adc0f07c550128a3f867433', schema: this.pickupSchema.shape.flight_details, autovalidate: this.autoValidate, value: this.pickupData.flight_details, valueEvent: "text-change input input-change", blurEvent: "input-blur blur" }, h("ir-input", { key: '3613e1ac813007bbf1b97a5413099e0591858580', "onText-change": e => this.updatePickupData('flight_details', e.detail), value: this.pickupData.flight_details, label: locales.entries.Lcz_FlightDetails })), h("ir-validator", { key: 'b3a1ba74501b0cf9f4e4de6ec2b2372ec8dda314', schema: this.pickupSchema.shape.vehicle_type_code, autovalidate: this.autoValidate, value: this.pickupData.vehicle_type_code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: '1ce0a9e19ec31791d10ff324181496524303b25f', size: "small", onchange: e => this.handleVehicleTypeChange(e.target.value), value: this.pickupData.vehicle_type_code, defaultValue: this.pickupData.vehicle_type_code }, this.allowedOptionsByLocation.map(option => (h("wa-option", { value: option.vehicle.code, key: option.vehicle.code }, option.vehicle.description))))), h("ir-validator", { key: '0c98ee4d8aa1058579c99ea72a0e2cd91b365398', schema: this.pickupSchema.shape.number_of_vehicles, autovalidate: this.autoValidate, value: this.pickupData.number_of_vehicles, valueEvent: "change wa-change select-change", blurEvent: "wa-hide blur" }, h("wa-select", { key: 'fc320deec8ebc1b226ebfed549ed400a271504a7', size: "small", defaultValue: this.pickupData.number_of_vehicles?.toString(), value: this.pickupData.number_of_vehicles?.toString(), label: locales.entries.Lcz_NbrOfVehicles, onchange: e => {
                 this.handleVehicleQuantityChange(Number(e.target.value));
-            } }, this.vehicleCapacity.map(i => (h("wa-option", { key: `capacity_${i}`, value: i.toString() }, i))))), h("ir-input", { key: 'ac3497ade0be6d45885098b022938b422ca0e869', mask: 'price', label: `${locales.entries.Lcz_DueUponBooking}`, "onText-change": e => {
+            } }, this.vehicleCapacity.map(i => (h("wa-option", { key: `capacity_${i}`, value: i.toString() }, i))))), h("ir-input", { key: '4ef0e81f301b4f01090b7d5c4b020a3afab49dcb', mask: 'price', label: `${locales.entries.Lcz_DueUponBooking}`, "onText-change": e => {
                 this.pickupData = {
                     ...this.pickupData,
                     due_upon_booking: e.detail,
                 };
-            }, value: this.pickupData.due_upon_booking }, h("span", { key: 'de35cc33b23a491c155a6b259ebb2b025978d096', slot: "start" }, this.pickupData.currency?.symbol))))));
+            }, value: this.pickupData.due_upon_booking }, h("span", { key: 'f1f6fed05370c23f4c20b1d6f6304027c2533b62', slot: "start" }, this.pickupData.currency?.symbol)), isAgentMode(this.booking) && (h("ir-service-assignee-select", { key: 'df2e4dca89d6cdc37579e777bd26dbe866580804', agent: this.booking.agent, assigneeType: this.assignee, onAssignmentChange: (e) => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.assignee = e.detail;
+            } }))))));
     }
     static get is() { return "ir-pickup-form"; }
     static get encapsulation() { return "scoped"; }
@@ -224,6 +237,29 @@ export class IrPickupForm {
                 "setter": false,
                 "attribute": "form-id",
                 "reflect": false
+            },
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": true,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
             },
             "defaultPickupData": {
                 "type": "unknown",
@@ -310,6 +346,7 @@ export class IrPickupForm {
         return {
             "isLoading": {},
             "allowedOptionsByLocation": {},
+            "assignee": {},
             "pickupData": {},
             "vehicleCapacity": {},
             "autoValidate": {}

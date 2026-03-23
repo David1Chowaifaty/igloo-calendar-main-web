@@ -1,0 +1,2 @@
+import{r as s,h as a,H as e}from"./p-d239357b.js";const r=".sc-ir-agent-assignment-form-h{display:block}";const t=r;const n=class{constructor(a){s(this,a)}render(){return a(e,{key:"459febfda2f7184a23cefa91a36e8da5ed2304fa"},a("slot",{key:"529443340b43144889c905b90d70985456ea5b2b"}))}};n.style=t;export{n as ir_agent_assignment_form};
+//# sourceMappingURL=p-a8aab5ce.entry.js.map
