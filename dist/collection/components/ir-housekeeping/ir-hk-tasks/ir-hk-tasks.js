@@ -134,9 +134,40 @@ export class IrHkTasks {
             }
         });
     }
+    groupTasks(tasks) {
+        const groups = new Map();
+        for (const task of tasks) {
+            const key = `${task.date}__${task.unit.id}`;
+            if (!groups.has(key)) {
+                groups.set(key, []);
+            }
+            groups.get(key).push(task);
+        }
+        const result = [];
+        for (const group of groups.values()) {
+            const cln = group.find(t => t.task_type?.code === 'CLN');
+            const t1 = group.find(t => t.task_type?.code === 'T1');
+            const t2 = group.find(t => t.task_type?.code === 'T2');
+            if (cln) {
+                const extra = [];
+                if (t1)
+                    extra.push(t1);
+                if (t2)
+                    extra.push(t2);
+                result.push({ ...cln, extra_task: extra.length > 0 ? extra : null });
+            }
+            else if (t1) {
+                result.push({ ...t1, extra_task: t2 ? [t2] : null });
+            }
+            else if (t2) {
+                result.push({ ...t2, extra_task: null });
+            }
+        }
+        return result;
+    }
     updateTasks(tasks) {
         this.buildHousekeeperNameCache();
-        updateTasksStore(tasks.map(t => ({
+        const mapped = tasks.map(t => ({
             ...t,
             id: v4(),
             housekeeper: (() => {
@@ -148,7 +179,9 @@ export class IrHkTasks {
                 this.hkNameCache[t.hkm_id] = hkName;
                 return hkName;
             })(),
-        })));
+        }));
+        console.log(this.groupTasks(mapped));
+        updateTasksStore(this.groupTasks(mapped));
     }
     async handleHeaderButtonPress(e) {
         e.stopImmediatePropagation();
@@ -184,10 +217,8 @@ export class IrHkTasks {
         this.modalCauses = { ...e.detail, cause: 'clean' };
         this.modal?.openModal();
     }
-    async handleModalConfirmation(e) {
+    async handleModalConfirmation() {
         try {
-            e.stopImmediatePropagation();
-            e.stopPropagation();
             if (hkTasksStore.selectedTasks.length === 0) {
                 return;
             }
@@ -263,24 +294,25 @@ export class IrHkTasks {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-1 d-flex flex-column", style: { gap: '1rem' } }, h("h3", null, "Housekeeping Tasks"), h("div", { class: "tasks-view ", style: { gap: '1rem' } }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
+        return (h(Host, { "data-testid": "hk_tasks_base" }, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "ir-page__container " }, h("h3", { class: "page-title" }, "Housekeeping Tasks"), h("div", { class: "tasks-view" }, h("ir-tasks-filters", { isLoading: this.isApplyFiltersLoading, onApplyFilters: e => {
                 this.applyFilters(e);
-            } }), h("div", { class: "d-flex w-100 flex-column", style: { gap: '1rem' } }, h("ir-tasks-table", { onRowSelectChange: e => {
+            } }), h("div", { class: "tasks-table-wrapper" }, h("ir-tasks-table", { onRowSelectChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 updateSelectedTasks(e.detail);
-            }, class: "flex-grow-1 w-100" })))), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: this.isCleaningLoading, onConfirmModal: this.handleModalConfirmation.bind(this), onCancelModal: () => {
+            } })))), h("ir-dialog", { ref: el => (this.modal = el), label: locales.entries.Lcz_Confirmation, lightDismiss: false }, h("span", null, this.modalCauses
+            ? this.modalCauses?.cause === 'clean'
+                ? this.modalCauses.task
+                    ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
+                    : 'Update selected unit(s) to Clean'
+                : 'Skip cleaning and reschedule for tomorrow.'
+            : 'Update selected unit(s) to Clean'), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 if (this.modalCauses) {
                     clearSelectedTasks();
                     this.modalCauses = null;
                 }
-            }, iconAvailable: true, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: this.modalCauses
-                ? this.modalCauses?.cause === 'clean'
-                    ? this.modalCauses.task
-                        ? `Update ${this.modalCauses?.task?.unit?.name} to Clean`
-                        : 'Update selected unit(s) to Clean'
-                    : 'Skip cleaning and reschedule for tomorrow.'
-                : 'Update selected unit(s) to Clean' }), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
+                this.modal.closeModal();
+            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { size: "medium", appearance: "accent", variant: "brand", loading: this.isCleaningLoading, onClickHandler: this.handleModalConfirmation.bind(this) }, locales.entries.Lcz_Confirm))), h("ir-sidebar", { open: this.isSidebarOpen, id: "editGuestInfo", onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isSidebarOpen = false;

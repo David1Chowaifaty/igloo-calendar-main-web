@@ -1,9 +1,9 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host, Fragment } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { t as toggleTaskSelection } from './hk-tasks.store.js';
-import { d as defineCustomElement$2 } from './ir-button2.js';
-import { d as defineCustomElement$1 } from './ir-icons2.js';
+import { h as housekeeping_store } from './housekeeping.store.js';
+import { d as defineCustomElement$1 } from './ir-custom-button2.js';
 
-const irTasksCardCss = "";
+const irTasksCardCss = ".sc-ir-tasks-card-h{display:block}.task-card.sc-ir-tasks-card::part(body){padding:0.5rem 0.75rem}.task-card__body.sc-ir-tasks-card{display:flex;align-items:center;gap:0.875rem;min-height:2.75rem}.task-card__unit.sc-ir-tasks-card{display:flex;flex-direction:column;gap:0.1rem;min-width:0;flex:1}.task-card__unit-name.sc-ir-tasks-card{font-weight:700;font-size:var(--wa-font-size-m);color:var(--wa-color-text-normal);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.task-card__meta.sc-ir-tasks-card{display:flex;align-items:center;gap:0.25rem;flex-wrap:nowrap}.task-card__status.sc-ir-tasks-card{font-size:var(--wa-font-size-xs);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;color:var(--wa-color-text-quiet);white-space:nowrap}.task-card__sep.sc-ir-tasks-card,.task-card__hint.sc-ir-tasks-card,.task-card__date.sc-ir-tasks-card{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);white-space:nowrap}.task-card__badges.sc-ir-tasks-card{display:flex;align-items:center;gap:0.25rem;flex-shrink:0}.task-card__guests.sc-ir-tasks-card{display:flex;gap:0.2rem;flex-shrink:0}.task-card__guest.sc-ir-tasks-card{display:flex;align-items:center;gap:0.25rem}.task-card__guest-icon.sc-ir-tasks-card{color:var(--wa-color-text-quiet);flex-shrink:0}.task-card__guest-count.sc-ir-tasks-card{font-size:var(--wa-font-size-m);font-weight:600;color:var(--wa-color-text-normal);line-height:1;min-width:1ch}.task-card__assign.sc-ir-tasks-card{display:flex;align-items:center;gap:0.375rem;flex:1;min-width:0;border-left:1px solid var(--wa-color-surface-border);padding-left:0.875rem}.task-card__assign-icon.sc-ir-tasks-card{flex-shrink:0;color:var(--wa-color-text-quiet);font-size:0.875rem}.task-card__hk-select.sc-ir-tasks-card{flex:1;min-width:0;max-width:11rem}.task-card__actions.sc-ir-tasks-card{display:flex;align-items:center;gap:0.5rem;flex-shrink:0}.task-card__clean-group.sc-ir-tasks-card{display:flex;align-items:center;gap:0.5rem}.task-card__clean-group.sc-ir-tasks-card ir-custom-button.sc-ir-tasks-card:first-child::part(base){border-radius:var(--wa-border-radius-m) 0 0 var(--wa-border-radius-m);border-right:none}.task-card__clean-group.sc-ir-tasks-card ir-custom-button.sc-ir-tasks-card:last-child::part(base){border-radius:0 var(--wa-border-radius-m) var(--wa-border-radius-m) 0}@media (max-width: 639px){.task-card__body.sc-ir-tasks-card{flex-wrap:wrap;min-height:unset;gap:0.625rem}.task-card__unit.sc-ir-tasks-card{flex:1;min-width:0;max-width:unset}.task-card__unit-name.sc-ir-tasks-card{max-width:100%}.task-card__assign.sc-ir-tasks-card{border-left:none;padding-left:0;padding-top:0.5rem;width:100%;flex:0 0 100%}.task-card__hk-select.sc-ir-tasks-card{max-width:100%}.task-card__actions.sc-ir-tasks-card{width:100%;justify-content:flex-end}}";
 const IrTasksCardStyle0 = irTasksCardCss;
 
 const IrTasksCard = /*@__PURE__*/ proxyCustomElement(class IrTasksCard extends HTMLElement {
@@ -12,26 +12,57 @@ const IrTasksCard = /*@__PURE__*/ proxyCustomElement(class IrTasksCard extends H
         this.__registerHost();
         this.cleanSelectedTask = createEvent(this, "cleanSelectedTask", 7);
         this.skipSelectedTask = createEvent(this, "skipSelectedTask", 7);
+        this.assignHousekeeper = createEvent(this, "assignHousekeeper", 7);
     }
     task;
     isCheckable;
     isSkippable;
     cleanSelectedTask;
     skipSelectedTask;
+    assignHousekeeper;
+    // private taskBadges() {
+    //   const config = [
+    //     { code: 'CLN', variant: 'danger', label: 'CL' },
+    //     { code: 'T1', variant: 'success', label: 'T1' },
+    //     { code: 'T2', variant: 'brand', label: 'T2' },
+    //   ] as const;
+    //   const presentCodes = new Set([this.task.task_type?.code, ...(this.task.extra_task?.map(et => et.task_type?.code) ?? [])]);
+    //   return config.map(({ code, variant, label }) => (
+    //     <wa-badge key={code} variant={variant} appearance="filled" style={{ opacity: presentCodes.has(code) ? '1' : '0' }}>
+    //       {label}
+    //     </wa-badge>
+    //   ));
+    // }
+    taskTypeBadge(code) {
+        const config = {
+            CLN: { variant: 'danger', label: 'CL' },
+            T1: { variant: 'success', label: 'T1' },
+            T2: { variant: 'brand', label: 'T2' },
+        };
+        const { variant, label } = config[code] ?? { variant: 'neutral', label: code };
+        return (h("wa-badge", { variant: variant, appearance: "filled" }, label));
+    }
+    get guests() {
+        return [
+            { count: this.task.adult, icon: 'person', label: 'Ad' },
+            { count: this.task.child, icon: 'child', label: 'Ch' },
+            { count: this.task.infant, icon: 'baby', label: 'In' },
+        ].filter(g => g.count > 0);
+    }
     render() {
-        const baseText = 'Mark as clean';
-        const btnText = this.task.housekeeper ? `${baseText} for ${this.task.housekeeper.slice(0, 20)}` : baseText;
-        const btnCleanAndInspectText = this.task.housekeeper ? `Clean & Inspect for ${this.task.housekeeper.slice(0, 20)}` : baseText;
-        return (h(Host, { key: '0b57d6bdb735644597b1b296e3b4fb3e5a901782', class: "card p-1 flex-fill m-0", style: { gap: '0.5rem' } }, h("div", { key: 'b84a444a28ade3e59a9b849b3200839bc373eaa7', class: "d-flex align items-center p-0 m-0 justify-content-between", style: { gap: '0.5rem' } }, h("div", { key: '8a958bbf908c6be9024a60b4e4b2e1632f68b7d8', class: "d-flex align items-center p-0 m-0", style: { gap: '0.5rem' } }, h("p", { key: '5ed060899c24cb944f7f6607a50dc807caeecbe5', class: "m-0 p-0" }, this.task.formatted_date), h("span", { key: '0d85687e1907360f80940d4b02bd6da91f188abb' }, "-"), h("p", { key: '5225406c5975dc9a6e3732b7592058afbd376d8b', class: "m-0 p-0" }, "Unit ", h("b", { key: 'd85bbb7b1ee545cfdfbf5e1a080cd17d0671335e' }, this.task.unit.name)))), h("p", { key: '76b588da9c56042c131b4b78a9a6f5d0ee11ae05', class: "m-0 p-0" }, this.task.status.description, " ", h("span", { key: '41d85935723710268ffbb2167aed6debc8f7e2cf', style: { marginLeft: '0.5rem' } }, this.task.hint)), h("p", { key: '7552495d95b99ab277deab095675cc61774f55ef', class: "m-0 p-0 d-flex align-items-center mb-1", style: { gap: '1rem' } }, h("span", { key: 'fa631cc869fca8803b748cafec4ed4e0d8318a40', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("svg", { key: '218df47f4211e2ec119b66e5526b168ab356ead4', width: "16", height: "16", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512" }, h("path", { key: '637eaa844073659dc1d08a961c234bfcef39c310', fill: "currentColor", d: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" })), h("span", { key: '39205ec79621865d60632ad5057a29713429b869' }, h("b", { key: 'b8a6b0e2bc92be4077b299cc01812183570e5d5e' }, this.task.adult), " Adults")), h("span", { key: 'c2d268a108327e721f51716dc038afcc1aadce64', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("svg", { key: 'f68d9fa32e77bad2f28212cd31834ebc569e2f15', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 320 512" }, h("path", { key: '959f110c16e9504098452a01c39f94727ad18f9e', fill: "currentColor", d: "M96 64a64 64 0 1 1 128 0A64 64 0 1 1 96 64zm48 320l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-192.2L59.1 321c-9.4 15-29.2 19.4-44.1 10S-4.5 301.9 4.9 287l39.9-63.3C69.7 184 113.2 160 160 160s90.3 24 115.2 63.6L315.1 287c9.4 15 4.9 34.7-10 44.1s-34.7 4.9-44.1-10L240 287.8 240 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96-32 0z" })), h("span", { key: '53e11fc3878d6709274925f533750868a96a84dc' }, h("b", { key: 'cf9082a466b6f4f5b895bad5b63a20ed8eb4b75d' }, this.task.child), " Children")), h("span", { key: 'f7264da337f59dd2a1caedfc1ca78f72efefe2e8', class: "m-0 p-0 d-flex align-items-center", style: { gap: '0.5rem' } }, h("svg", { key: '75097591c3828542c8bb978ff6b9cb5114829673', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-baby-icon lucide-baby" }, h("path", { key: 'b9798f8da57f4fb17aad5e4e1e1278eba48ba562', d: "M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" }), h("path", { key: 'fef094a4c57ec30c60482bcc41f0e977313b0c10', d: "M15 12h.01" }), h("path", { key: '5509ff90e70134bac19d66f0df26a70d56905174', d: "M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1" }), h("path", { key: 'eaa972af05fa141f73eb52a596a04ecdff2cba29', d: "M9 12h.01" })), h("span", { key: 'fb573dc553216987f305d030e5c8c1d6699d1c7b' }, h("b", { key: 'd9b0f1d7896fd67b9cb4de0a9f9d8aea6b564150' }, this.task.infant), " Infants"))), this.isCheckable && (h(Fragment, { key: '675996f98b2b17c7401a492ba984af1dbd4a56a7' }, h("div", { key: '12140de7979338b8b1e14e9d2e67cf0364c104be' }, h("ir-button", { key: '54acebc9e08b16520b3c99a2114743ed407bf1f6', onClickHandler: () => {
+        return (h("wa-card", { key: 'bcd6a99e50712be72073bf9bc91f9f0f6498f5a7', class: "task-card" }, h("div", { key: '7551f86e2e039758d41aa80b896f3f24536dd6df', class: "task-card__body" }, h("div", { key: '5a8e3bf4ded8d5a73bc9357ba9689c4423f1061c', class: "task-card__unit" }, h("span", { key: '11119a54a0b2ec0498a37f214b605deded9d70d7', class: "task-card__unit-name" }, this.task.unit.name), h("div", { key: 'ff1db92315bbd55150c26c0256dc93bbb057ad8a', class: "task-card__meta" }, h("span", { key: '0cbee4fd26ce939ada1e6a7cdb64419e4f95db17', class: "task-card__status" }, this.task.status.description), this.task.hint && h("span", { key: '358bd4b374f69cd9db593470577e32065f60cbe6', class: "task-card__sep" }, "\u00B7"), this.task.hint && h("span", { key: '2d87ab385fdd60a2341d097d75dcbeceae08ba6b', class: "task-card__hint" }, this.task.hint), h("span", { key: 'b9812d47b94ddc8b1b25efb489fa44ae44365e0e', class: "task-card__sep" }, "\u00B7"), h("span", { key: '07f47ef99694fe5dac33e4194ba129cb6e5c58e6', class: "task-card__date" }, this.task.formatted_date))), h("div", { key: 'b77c9d41c1ca669b7a8723c6cd251f458b615610', class: "task-card__badges" }, this.taskTypeBadge(this.task.task_type?.code), this.task.extra_task?.map(et => this.taskTypeBadge(et.task_type?.code))), this.guests.length > 0 && (h("div", { key: 'f49d8dede96d2de3da7602f2c5b144481c536b34', class: "task-card__guests" }, this.guests.map(g => (h("div", { class: "task-card__guest" }, h("wa-icon", { name: g.icon, class: "task-card__guest-icon", style: { fontSize: `${Math.min(0.75 + g.count * 0.15, 1.4)}rem` } }), h("span", { class: "task-card__guest-count" }, g.count)))))), h("div", { key: '1506697589ba8773d1f180fe02775ce6859bc012', class: "task-card__assign" }, h("wa-select", { key: '7bca214c22f2fa1876498120ac2750102c116941', label: "Housekeeper", class: "task-card__hk-select", size: "small", placeholder: "Unassigned", value: this.task.hkm_id ? String(this.task.hkm_id) : '', defaultValue: this.task.hkm_id ? String(this.task.hkm_id) : '', onchange: e => {
+                const hkm_id = Number(e.target.value);
+                this.assignHousekeeper.emit({ task: this.task, hkm_id });
+            } }, housekeeping_store.hk_criteria?.housekeepers
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(hk => (h("wa-option", { key: hk.id, value: String(hk.id) }, hk.name))))), h("div", { key: '92efe622e712c20850e7ce8e963b9b0c049b4811', class: "task-card__actions" }, this.isCheckable && (h("div", { key: 'bae7e8ccd7dadd8b03d1de85b75a4aa30ae4ab81', class: "task-card__clean-group" }, h("ir-custom-button", { key: '90505a5f1099174b72f2771a06408a63ce476484', variant: "brand", appearance: "outlined", onClickHandler: () => {
                 toggleTaskSelection(this.task);
                 this.cleanSelectedTask.emit({ task: this.task, status: '001' });
-            }, size: "sm", text: btnText, labelStyle: { textAlign: 'left !important' }, btn_styles: "text-left" })), h("div", { key: '33a5969f73569302e4588b5a7c065473b8e9b4fa' }, h("ir-button", { key: '57fc8e3acca0585ceb764722f35249afeed4ca6f', onClickHandler: () => {
+            } }, "Clean"), h("ir-custom-button", { key: '13535094fc24056fd74a3367b0c9fe0b81288b15', variant: "brand", appearance: "filled", onClickHandler: () => {
                 toggleTaskSelection(this.task);
                 this.cleanSelectedTask.emit({ task: this.task, status: '004' });
-            }, size: "sm", text: btnCleanAndInspectText, labelStyle: { textAlign: 'left !important' }, btn_styles: "text-left" })))), this.isSkippable && (h("div", { key: '9f69ce59e85abd4f6b53435aec63c85529b933f0' }, h("ir-button", { key: 'bb08c3460422e9d3037a3ba6709dedefd469fea5', onClickHandler: () => {
-                // toggleTaskSelection(this.task);
-                this.skipSelectedTask.emit(this.task);
-            }, size: "sm", text: 'Skip', labelStyle: { textAlign: 'left !important' }, btn_styles: "text-left" })))));
+            } }, "Clean & Inspect"))), this.isSkippable && (h("ir-custom-button", { key: '3885a16ea9f82cd12d6c58fdf7610efe45f4d939', variant: "neutral", appearance: "outlined", onClickHandler: () => this.skipSelectedTask.emit(this.task) }, "Skip"))))));
     }
     static get style() { return IrTasksCardStyle0; }
 }, [2, "ir-tasks-card", {
@@ -43,19 +74,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-tasks-card", "ir-button", "ir-icons"];
+    const components = ["ir-tasks-card", "ir-custom-button"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-tasks-card":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrTasksCard);
             }
             break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$2();
-            }
-            break;
-        case "ir-icons":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

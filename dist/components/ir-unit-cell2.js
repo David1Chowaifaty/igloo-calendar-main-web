@@ -12,7 +12,7 @@ const IrUnitCell = /*@__PURE__*/ proxyCustomElement(class IrUnitCell extends HTM
     room;
     showDeparture = false;
     render() {
-        return (h(Host, { key: '8a35059e687f7334d1b9e61f248d0b809dc0a138' }, h("p", { key: 'ab99369308749d12c3477c05e180f91868d36988' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: 'e2af352563fa58c5ef0ae3357b055e6a96129b55', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '03e16cc587d098d0a89b2270ef169c3506fc92f7' }, this.room?.departure_time?.description)));
+        return (h(Host, { key: '63f57e172b42a575a0289426d5cd51c8b1abdfc2' }, h("p", { key: '2d632c31ca5692e3b55427e0a6f037f64edd9e24' }, this.room.roomtype.name), this.room.unit && h("ir-unit-tag", { key: '1be3f84f7e4d5a2fe63547b7d2ed4be55a2f757b', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && h("span", { key: '14c8e8c0b039b83918a84632c9114f7276f91130' }, this.room?.departure_time?.description)));
     }
     static get style() { return IrUnitCellStyle0; }
 }, [2, "ir-unit-cell", {

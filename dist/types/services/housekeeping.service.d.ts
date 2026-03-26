@@ -1,5 +1,5 @@
 import { RoomHkStatus } from "../models/booking.dto";
-import { ArchivedTask, IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
+import { ArchivedTask, IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, OverrideHKTaskOwnershipParams, SetHKTaskLabelsParams, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
 export type HKSkipParams = {
     HK_SKIP_ID: number;
     BOOK_NBR: string;
@@ -10,6 +10,8 @@ export type HKSkipParams = {
 };
 export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
+    overrideHKTaskOwnership(params: OverrideHKTaskOwnershipParams): Promise<any>;
+    setHKTaskLabels(params: SetHKTaskLabelsParams): Promise<any>;
     getExposedHKStatusCriteria(property_id: number): Promise<IExposedHouseKeepingSetup>;
     editHkSkip(params: HKSkipParams): Promise<any>;
     getArchivedHKTasks(params: {

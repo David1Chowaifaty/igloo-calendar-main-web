@@ -3,31 +3,32 @@ import { T as Token } from './Token.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
 import { c as calendar_data } from './calendar-data.js';
-import { u as updateHKStore, h as housekeeping_store } from './housekeeping.store.js';
+import { u as updateHKStore } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { P as PropertyService } from './property.service.js';
-import { i as isRequestPending } from './ir-interceptor.store.js';
-import { d as defineCustomElement$r } from './ir-button2.js';
-import { d as defineCustomElement$q } from './ir-combobox2.js';
-import { d as defineCustomElement$p } from './ir-delete-modal2.js';
-import { d as defineCustomElement$o } from './ir-hk-team2.js';
-import { d as defineCustomElement$n } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$m } from './ir-hk-user2.js';
-import { d as defineCustomElement$l } from './ir-icon2.js';
-import { d as defineCustomElement$k } from './ir-icons2.js';
-import { d as defineCustomElement$j } from './ir-input-text2.js';
-import { d as defineCustomElement$i } from './ir-interceptor2.js';
-import { d as defineCustomElement$h } from './ir-loading-screen2.js';
-import { d as defineCustomElement$g } from './ir-modal2.js';
-import { d as defineCustomElement$f } from './ir-otp2.js';
-import { d as defineCustomElement$e } from './ir-otp-modal2.js';
-import { d as defineCustomElement$d } from './ir-password-validator2.js';
-import { d as defineCustomElement$c } from './ir-phone-input2.js';
-import { d as defineCustomElement$b } from './ir-popover2.js';
-import { d as defineCustomElement$a } from './ir-select2.js';
-import { d as defineCustomElement$9 } from './ir-sidebar2.js';
-import { d as defineCustomElement$8 } from './ir-spinner2.js';
-import { d as defineCustomElement$7 } from './ir-switch2.js';
+import { B as BookingService } from './booking.store.js';
+import { d as defineCustomElement$t } from './ir-button2.js';
+import { d as defineCustomElement$s } from './ir-combobox2.js';
+import { d as defineCustomElement$r } from './ir-custom-button2.js';
+import { d as defineCustomElement$q } from './ir-delete-modal2.js';
+import { d as defineCustomElement$p } from './ir-dialog2.js';
+import { d as defineCustomElement$o } from './ir-hk-operations-card2.js';
+import { d as defineCustomElement$n } from './ir-hk-team2.js';
+import { d as defineCustomElement$m } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$l } from './ir-hk-user2.js';
+import { d as defineCustomElement$k } from './ir-icon2.js';
+import { d as defineCustomElement$j } from './ir-icons2.js';
+import { d as defineCustomElement$i } from './ir-input2.js';
+import { d as defineCustomElement$h } from './ir-input-text2.js';
+import { d as defineCustomElement$g } from './ir-interceptor2.js';
+import { d as defineCustomElement$f } from './ir-loading-screen2.js';
+import { d as defineCustomElement$e } from './ir-otp2.js';
+import { d as defineCustomElement$d } from './ir-otp-modal2.js';
+import { d as defineCustomElement$c } from './ir-password-validator2.js';
+import { d as defineCustomElement$b } from './ir-phone-input2.js';
+import { d as defineCustomElement$a } from './ir-popover2.js';
+import { d as defineCustomElement$9 } from './ir-select2.js';
+import { d as defineCustomElement$8 } from './ir-sidebar2.js';
+import { d as defineCustomElement$7 } from './ir-spinner2.js';
 import { d as defineCustomElement$6 } from './ir-textarea2.js';
 import { d as defineCustomElement$5 } from './ir-title2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
@@ -50,13 +51,12 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
     p;
     baseUrl;
     isLoading = false;
+    frequencies = [];
     toast;
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    propertyService = new PropertyService();
+    bookingService = new BookingService();
     token = new Token();
-    modal;
-    selectedCleaningFrequency;
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
@@ -93,21 +93,19 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
                 propertyId = propertyData.My_Result.id;
             }
             updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
-            const requests = [];
-            if (calendar_data.housekeeping_enabled) {
-                requests.push(this.houseKeepingService.getExposedHKSetup(propertyId));
-            }
-            requests.push(this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']));
-            if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: propertyId,
-                    language: this.language,
-                    is_backend: true,
-                    include_sales_rate_plans: true,
-                }));
-            }
-            await Promise.all(requests);
-            this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
+            const [frequencies] = await Promise.all([
+                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
+                this.propertyid &&
+                    this.roomService.getExposedProperty({
+                        id: propertyId,
+                        language: this.language,
+                        is_backend: true,
+                        include_sales_rate_plans: true,
+                    }),
+                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup(propertyId),
+            ]);
+            this.frequencies = frequencies;
         }
         catch (error) {
             console.error(error);
@@ -116,65 +114,11 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
             this.isLoading = false;
         }
     }
-    async saveAutomaticCheckInCheckout(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            await this.roomService.SetAutomaticCheckInOut({
-                property_id: housekeeping_store.default_properties.property_id,
-                flag: e.detail === 'auto',
-            });
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    async saveCleaningFrequency(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            await this.propertyService.setExposedCleaningFrequency({
-                property_id: housekeeping_store.default_properties.property_id,
-                code: this.selectedCleaningFrequency,
-            });
-            calendar_data.cleaning_frequency = { code: this.selectedCleaningFrequency, description: '' };
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
-            this.modal.closeModal();
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        console.log(calendar_data.cleaning_frequency);
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
-                { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
-                { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.selectedCleaningFrequency = e.detail;
-                this.modal.openModal();
-            }, data: housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => ({
-                text: v.description,
-                value: v.code,
-            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onConfirmModal: this.saveCleaningFrequency.bind(this), iconAvailable: true, onCancelModal: () => {
-                this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
-            }, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'This action will reschedule all cleaning tasks. Do you want to continue?' }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "ir-page__container" }, h("h3", { class: "page-title" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -186,7 +130,8 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
         "propertyid": [2],
         "p": [1],
         "baseUrl": [1, "base-url"],
-        "isLoading": [32]
+        "isLoading": [32],
+        "frequencies": [32]
     }, [[0, "resetData", "handleResetData"]], {
         "ticket": ["ticketChanged"]
     }]);
@@ -194,7 +139,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-delete-modal", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-modal", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-textarea", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "requirement-check"];
+    const components = ["ir-housekeeping", "ir-button", "ir-combobox", "ir-custom-button", "ir-delete-modal", "ir-dialog", "ir-hk-operations-card", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -203,105 +148,115 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$t();
             }
             break;
         case "ir-combobox":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$s();
+            }
+            break;
+        case "ir-custom-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$r();
             }
             break;
         case "ir-delete-modal":
             if (!customElements.get(tagName)) {
+                defineCustomElement$q();
+            }
+            break;
+        case "ir-dialog":
+            if (!customElements.get(tagName)) {
                 defineCustomElement$p();
             }
             break;
-        case "ir-hk-team":
+        case "ir-hk-operations-card":
             if (!customElements.get(tagName)) {
                 defineCustomElement$o();
             }
             break;
-        case "ir-hk-unassigned-units":
+        case "ir-hk-team":
             if (!customElements.get(tagName)) {
                 defineCustomElement$n();
             }
             break;
-        case "ir-hk-user":
+        case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
                 defineCustomElement$m();
             }
             break;
-        case "ir-icon":
+        case "ir-hk-user":
             if (!customElements.get(tagName)) {
                 defineCustomElement$l();
             }
             break;
-        case "ir-icons":
+        case "ir-icon":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
             break;
-        case "ir-input-text":
+        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }
             break;
-        case "ir-interceptor":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }
             break;
-        case "ir-loading-screen":
+        case "ir-input-text":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }
             break;
-        case "ir-modal":
+        case "ir-interceptor":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }
             break;
-        case "ir-otp":
+        case "ir-loading-screen":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-otp-modal":
+        case "ir-otp":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
             break;
-        case "ir-password-validator":
+        case "ir-otp-modal":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }
             break;
-        case "ir-phone-input":
+        case "ir-password-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }
             break;
-        case "ir-popover":
+        case "ir-phone-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$b();
             }
             break;
-        case "ir-select":
+        case "ir-popover":
             if (!customElements.get(tagName)) {
                 defineCustomElement$a();
             }
             break;
-        case "ir-sidebar":
+        case "ir-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-spinner":
+        case "ir-sidebar":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-switch":
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

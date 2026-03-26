@@ -4,14 +4,17 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const Token = require('./Token-8fd11984.js');
-const booking_store = require('./booking.store-c297e2df.js');
-const property_service = require('./property.service-65ae49a3.js');
+const booking_service = require('./booking.service-4b732a09.js');
+const property_service = require('./property.service-aebaaf8d.js');
 const calendarData = require('./calendar-data-0598de26.js');
 require('./axios-6e678d52.js');
-require('./utils-c4e594d4.js');
+require('./index-8bb117a0.js');
+require('./utils-dc8cc4b1.js');
 require('./moment-1780b03a.js');
 require('./locales.store-32782582.js');
 require('./index-fbf1fe1d.js');
+require('./type-393ac773.js');
+require('./booking-77542ea5.js');
 
 const irTaxServiceCategoriesCss = ".sc-ir-tax-service-categories-h{display:block}.tax-page.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-xl)}.tax-page__header.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-page__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.page-title.sc-ir-tax-service-categories{margin:0}.tax-page__subtitle.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-page__meta.sc-ir-tax-service-categories{display:inline-flex;align-items:center;gap:var(--wa-space-s);color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-page__meta.sc-ir-tax-service-categories wa-badge.sc-ir-tax-service-categories{font-size:var(--wa-font-size-2xs)}.tax-page__grid.sc-ir-tax-service-categories{display:grid;gap:var(--wa-space-l)}.tax-panel.sc-ir-tax-service-categories{--spacing:var(--wa-space-l)}.tax-panel.sc-ir-tax-service-categories::part(header){padding-bottom:0}.tax-panel.sc-ir-tax-service-categories::part(body){padding-top:var(--wa-space-m)}.tax-panel__header.sc-ir-tax-service-categories{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--wa-space-m)}.tax-panel__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.tax-panel__title.sc-ir-tax-service-categories{margin:0;font-size:var(--wa-font-size-m);font-weight:var(--wa-font-weight-semibold)}.tax-panel__desc.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-panel__icon.sc-ir-tax-service-categories{font-size:1.25rem;color:var(--wa-color-text-quiet)}.tax-panel__content.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-m)}.tax-panel__content--grid.sc-ir-tax-service-categories{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--wa-space-m)}.tax-category.sc-ir-tax-service-categories{--spacing:var(--wa-space-s)}.tax-category__summary.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-category__summary-text.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-3xs)}.tax-category__hint.sc-ir-tax-service-categories{margin:0;font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.tax-category__fields.sc-ir-tax-service-categories{display:flex;gap:var(--wa-space-m);align-items:center}.tax-category__title.sc-ir-tax-service-categories{font-size:var(--wa-font-size-m);padding:0;margin:0}.tax-category__hint.sc-ir-tax-service-categories{padding:0;margin:0;font-size:var(--wa-font-size-xs)}.tax-category.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--spacing)}.tax-category__input.sc-ir-tax-service-categories::part(input){width:100px}.tax-category__fields.sc-ir-tax-service-categories{flex-direction:column;align-items:flex-start}@media (min-width: 768px){.tax-category.sc-ir-tax-service-categories .tax-category__input.sc-ir-tax-service-categories::part(select){width:150px}.tax-category__summary.sc-ir-tax-service-categories{min-width:300px;display:flex}.tax-category.sc-ir-tax-service-categories{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center;width:fit-content}.tax-category.--core.sc-ir-tax-service-categories{display:grid}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{display:grid;grid-template-columns:repeat(2, 1fr)}.tax-category__fields.sc-ir-tax-service-categories{flex-direction:row;align-items:center;flex-wrap:wrap}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{align-items:end}}@media (min-width: 1024px){.tax-category.--core.sc-ir-tax-service-categories{display:flex}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{display:flex;flex-direction:row;flex-wrap:wrap}.tax-category__summary.sc-ir-tax-service-categories{width:300px}.tax-category.--core.sc-ir-tax-service-categories{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center}}";
 const IrTaxServiceCategoriesStyle0 = irTaxServiceCategoriesCss;
@@ -29,7 +32,7 @@ const IrTaxServiceCategories = class {
     setupEntries;
     autoValidate;
     tokenService = new Token.Token();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
         if (this.ticket) {

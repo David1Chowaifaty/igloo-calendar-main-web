@@ -6,5 +6,11 @@ export declare class IrTasksCard {
     isSkippable: boolean;
     cleanSelectedTask: EventEmitter<CleanTaskEvent>;
     skipSelectedTask: EventEmitter<Task>;
+    assignHousekeeper: EventEmitter<{
+        task: Task;
+        hkm_id: number;
+    }>;
+    private taskTypeBadge;
+    private get guests();
     render(): any;
 }

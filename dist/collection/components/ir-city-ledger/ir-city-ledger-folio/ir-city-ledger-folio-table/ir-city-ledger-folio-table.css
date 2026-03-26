@@ -77,7 +77,8 @@
 /* Selected Rows Styles */
 
 .selected td {
-  background: #e3f3fa !important;
+  background: var(--wa-color-brand-fill-quiet) !important;
+  border-color: var(--wa-color-brand-fill-normal) !important;
 }
 .selected td {
   color: var(--gray-dark) !important;
@@ -99,19 +100,41 @@
 }
 .sortable {
   text-transform: capitalize;
-}
-.sortable:hover {
-  color: #212529;
-  background-color: #e2e8f0 !important;
-  border-color: #dae0e5;
   cursor: pointer;
 }
 .ir-table-row td {
   transition-duration: var(--wa-transition-fast);
 }
+.table thead th.sortable {
+  transition-property: background, border, box-shadow, color;
+  transition-duration: var(--wa-transition-fast);
+  transition-timing-function: var(--wa-transition-easing);
+}
+
+.table thead th.sortable:hover {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+.table thead th.sortable:active {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
 .ir-table-row:hover td {
   background: #e2e6ea3f !important;
   background: var(--wa-color-neutral-fill-quiet, #f1f2f3) !important;
+}
+.--clickable.ir-table-row:hover td {
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+.--clickable.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+.selected.ir-table-row:hover td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important;
+}
+.selected.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important;
 }
 .sortable:active {
   color: #212529;
@@ -119,7 +142,7 @@
   border-color: #d3d9df;
 }
 .sortable svg {
-  color: var(--blue);
+  color: var(--wa-color-brand-fill-loud);
 }
 /* .action-row {
   position: sticky;

@@ -1,9 +1,9 @@
-import { IHouseKeepers, THousekeepingTrigger } from "../../../models/housekeeping";
+import { THousekeepingTrigger } from "../../../models/housekeeping";
 export declare class IrHkTeam {
     el: HTMLElement;
     currentTrigger: THousekeepingTrigger | null;
     private deletionTimout;
-    renderAssignedUnits(hk: IHouseKeepers): any;
+    private renderAssignedUnits;
     renderCurrentTrigger(): any;
     handleCloseSideBar(e: CustomEvent): void;
     handleDeletion(user: any): void;

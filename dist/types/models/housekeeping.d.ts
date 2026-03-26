@@ -1,3 +1,65 @@
+import { z } from 'zod';
+export declare const SetHKTaskLabelsParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    t1_label: z.ZodOptional<z.ZodString>;
+    t1_freq: z.ZodOptional<z.ZodString>;
+    t2_label: z.ZodOptional<z.ZodString>;
+    t2_freq: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    t1_label?: string;
+    t1_freq?: string;
+    t2_label?: string;
+    t2_freq?: string;
+}, {
+    property_id?: number;
+    t1_label?: string;
+    t1_freq?: string;
+    t2_label?: string;
+    t2_freq?: string;
+}>;
+export type SetHKTaskLabelsParams = z.infer<typeof SetHKTaskLabelsParamsSchema>;
+export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    assignment: z.ZodObject<{
+        HK_TASK_ASSIGNMENT_ID: z.ZodNumber;
+        PR_ID: z.ZodNumber;
+        DATE: z.ZodString;
+        HK_TASK_TYPE_CODE: z.ZodString;
+        HKM_ID: z.ZodNumber;
+    }, "strip", z.ZodTypeAny, {
+        HK_TASK_ASSIGNMENT_ID?: number;
+        PR_ID?: number;
+        DATE?: string;
+        HK_TASK_TYPE_CODE?: string;
+        HKM_ID?: number;
+    }, {
+        HK_TASK_ASSIGNMENT_ID?: number;
+        PR_ID?: number;
+        DATE?: string;
+        HK_TASK_TYPE_CODE?: string;
+        HKM_ID?: number;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    assignment?: {
+        HK_TASK_ASSIGNMENT_ID?: number;
+        PR_ID?: number;
+        DATE?: string;
+        HK_TASK_TYPE_CODE?: string;
+        HKM_ID?: number;
+    };
+}, {
+    property_id?: number;
+    assignment?: {
+        HK_TASK_ASSIGNMENT_ID?: number;
+        PR_ID?: number;
+        DATE?: string;
+        HK_TASK_TYPE_CODE?: string;
+        HKM_ID?: number;
+    };
+}>;
+export type OverrideHKTaskOwnershipParams = z.infer<typeof OverrideHKTaskOwnershipParamsSchema>;
 export interface IExposedHouseKeepingSetup {
     statuses: IHKStatuses[];
     housekeepers: IHouseKeepers[];
@@ -6,6 +68,12 @@ export interface IExposedHouseKeepingSetup {
     cleaning_periods: ExposedHKSetup[];
     dusty_periods: ExposedHKSetup[];
     highlight_checkin_options: ExposedHKSetup[];
+    t1_config: HousekeepingTasksConfig;
+    t2_config: HousekeepingTasksConfig;
+}
+export interface HousekeepingTasksConfig {
+    freq: string;
+    label: string;
 }
 export interface ExposedHKSetup {
     code: string;
@@ -115,11 +183,17 @@ export interface Task {
     formatted_date: string;
     hint: string;
     hkm_id: number;
+    hk_task_type_code: string;
+    task_type: {
+        code: 'CLN' | 'T1' | 'T2';
+        description: string;
+    };
     infant: number;
     status: TaskStatus;
     unit: IUnit;
     housekeeper: string;
     booking_nbr: string | null;
+    extra_task: Task[] | null;
 }
 export type TaskStatus = {
     code: string;

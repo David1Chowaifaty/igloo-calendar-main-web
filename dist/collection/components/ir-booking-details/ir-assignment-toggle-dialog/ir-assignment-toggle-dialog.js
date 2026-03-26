@@ -20,10 +20,10 @@ export class IrAssignmentToggleDialog {
         this.dialogRef?.closeModal();
     }
     render() {
-        return (h(Host, { key: '1aa171015c9695cb93f9def9a99e4c750473b8be' }, h("ir-dialog", { key: 'cf48982591e9f0dd7d62fe1daa800b0bcd94eead', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h(Host, { key: 'b6ca310a6a1a4ed27a94a544d851af76f8671eed' }, h("ir-dialog", { key: '79448abd99be4562395b0f067b1ab53ac9fb5b92', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }, h("p", { key: '47bf49b74220e3158f3cb20c577f55e67fb6351f', class: "assignment-toggle-dialog__message" }, h("slot", { key: '4dde7588779dd11187f710f854f9b044f47d1d86', name: "message" }, this.message)), h("div", { key: 'fffea09a9d9d347ebe845dd61a7b7875d7dce239', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '5a7d15dee2cb9833182ffe5b9f72b26720b7e5b5', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close", disabled: this.loading }, this.cancelLabel), h("ir-custom-button", { key: 'b61bb69987641187db168d26d99edda5d2982d73', variant: "brand", size: "medium", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel)))));
+            } }, h("p", { key: 'd9903a88f8fca75d51ad2a507f11738f055aa537', class: "assignment-toggle-dialog__message" }, h("slot", { key: '0c13f843c29400f8d090c86c1440c80cf2cfae12', name: "message" }, this.message)), h("div", { key: '6faf6a3ea85d4dd3ed8dd4550339f38bec6b9e4f', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '5e53691ddd7a56364b402d23ff6dd51543a5ead5', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close", disabled: this.loading }, this.cancelLabel), h("ir-custom-button", { key: '5d8a3243612b84c696910ba3ab90185285f8f641', variant: "brand", size: "medium", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel)))));
     }
     static get is() { return "ir-assignment-toggle-dialog"; }
     static get encapsulation() { return "scoped"; }

@@ -1,5 +1,24 @@
+import { z } from './index2.js';
 import { u as updateHKStore } from './housekeeping.store.js';
 import { a as axios } from './axios.js';
+
+const SetHKTaskLabelsParamsSchema = z.object({
+    property_id: z.number(),
+    t1_label: z.string().optional(),
+    t1_freq: z.string().optional(),
+    t2_label: z.string().optional(),
+    t2_freq: z.string().optional(),
+});
+const OverrideHKTaskOwnershipParamsSchema = z.object({
+    property_id: z.number(),
+    assignment: z.object({
+        HK_TASK_ASSIGNMENT_ID: z.number(),
+        PR_ID: z.number(),
+        DATE: z.string(),
+        HK_TASK_TYPE_CODE: z.string(),
+        HKM_ID: z.number(),
+    }),
+});
 
 class HouseKeepingService {
     async getExposedHKSetup(property_id) {
@@ -7,6 +26,17 @@ class HouseKeepingService {
             property_id,
         });
         updateHKStore('hk_criteria', data['My_Result']);
+        return data['My_Result'];
+    }
+    async overrideHKTaskOwnership(params) {
+        const payload = OverrideHKTaskOwnershipParamsSchema.parse(params);
+        const { data } = await axios.post(`/Override_HK_Task_Ownership`, payload);
+        updateHKStore('hk_criteria', data['My_Result']);
+        return data['My_Result'];
+    }
+    async setHKTaskLabels(params) {
+        const payload = SetHKTaskLabelsParamsSchema.parse(params);
+        const { data } = await axios.post(`/Set_HK_Task_Labels`, payload);
         return data['My_Result'];
     }
     async getExposedHKStatusCriteria(property_id) {

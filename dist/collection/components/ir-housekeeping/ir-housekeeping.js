@@ -2,11 +2,10 @@ import Token from "../../models/Token";
 import { HouseKeepingService } from "../../services/housekeeping.service";
 import { RoomService } from "../../services/room.service";
 import calendar_data from "../../stores/calendar-data";
-import housekeeping_store, { updateHKStore } from "../../stores/housekeeping.store";
+import { updateHKStore } from "../../stores/housekeeping.store";
 import { Host, h } from "@stencil/core";
 import locales from "../../stores/locales.store";
-import { PropertyService } from "../../services/property.service";
-import { isRequestPending } from "../../stores/ir-interceptor.store";
+import { BookingService } from "../../services/booking-service/booking.service";
 export class IrHousekeeping {
     language = '';
     ticket = '';
@@ -14,13 +13,12 @@ export class IrHousekeeping {
     p;
     baseUrl;
     isLoading = false;
+    frequencies = [];
     toast;
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
-    propertyService = new PropertyService();
+    bookingService = new BookingService();
     token = new Token();
-    modal;
-    selectedCleaningFrequency;
     componentWillLoad() {
         if (this.baseUrl) {
             this.token.setBaseUrl(this.baseUrl);
@@ -57,21 +55,19 @@ export class IrHousekeeping {
                 propertyId = propertyData.My_Result.id;
             }
             updateHKStore('default_properties', { token: this.ticket, property_id: propertyId, language: this.language });
-            const requests = [];
-            if (calendar_data.housekeeping_enabled) {
-                requests.push(this.houseKeepingService.getExposedHKSetup(propertyId));
-            }
-            requests.push(this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']));
-            if (this.propertyid) {
-                requests.push(this.roomService.getExposedProperty({
-                    id: propertyId,
-                    language: this.language,
-                    is_backend: true,
-                    include_sales_rate_plans: true,
-                }));
-            }
-            await Promise.all(requests);
-            this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
+            const [frequencies] = await Promise.all([
+                this.bookingService.getSetupEntriesByTableName('_HK_FREQUENCY'),
+                this.roomService.fetchLanguage(this.language, ['_HK_FRONT', '_PMS_FRONT']),
+                this.propertyid &&
+                    this.roomService.getExposedProperty({
+                        id: propertyId,
+                        language: this.language,
+                        is_backend: true,
+                        include_sales_rate_plans: true,
+                    }),
+                calendar_data.housekeeping_enabled && this.houseKeepingService.getExposedHKSetup(propertyId),
+            ]);
+            this.frequencies = frequencies;
         }
         catch (error) {
             console.error(error);
@@ -80,65 +76,11 @@ export class IrHousekeeping {
             this.isLoading = false;
         }
     }
-    async saveAutomaticCheckInCheckout(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            await this.roomService.SetAutomaticCheckInOut({
-                property_id: housekeeping_store.default_properties.property_id,
-                flag: e.detail === 'auto',
-            });
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    async saveCleaningFrequency(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        try {
-            await this.propertyService.setExposedCleaningFrequency({
-                property_id: housekeeping_store.default_properties.property_id,
-                code: this.selectedCleaningFrequency,
-            });
-            calendar_data.cleaning_frequency = { code: this.selectedCleaningFrequency, description: '' };
-            this.toast.emit({
-                position: 'top-right',
-                title: 'Saved Successfully',
-                description: '',
-                type: 'success',
-            });
-            this.modal.closeModal();
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
     render() {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        console.log(calendar_data.cleaning_frequency);
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "p-1" }, h("h3", { class: "mb-2" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("div", { class: "card p-1" }, h("ir-title", { borderShown: true, label: "Operations Settings" }), h("div", { class: 'd-flex align-items-center mb-1' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CheckInOutGuestsAutomatically), h("ir-select", { showFirstOption: false, selectedValue: calendar_data.is_automatic_check_in_out ? 'auto' : 'manual', onSelectChange: e => this.saveAutomaticCheckInCheckout(e), data: [
-                { text: locales.entries.Lcz_YesAsPerPropertyPolicy, value: 'auto' },
-                { text: locales.entries.Lcz_NoIWillDoItManually, value: 'manual' },
-            ] })), h("div", { class: 'd-flex align-items-center' }, h("p", { class: "my-0 py-0 mr-1" }, locales.entries.Lcz_CleaningFrequency, ":"), h("ir-select", { showFirstOption: false, selectedValue: this.selectedCleaningFrequency, onSelectChange: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.selectedCleaningFrequency = e.detail;
-                this.modal.openModal();
-            }, data: housekeeping_store?.hk_criteria?.cleaning_frequencies.map(v => ({
-                text: v.description,
-                value: v.code,
-            })) }))), calendar_data.housekeeping_enabled && h("ir-hk-team", { class: "mb-1" }), h("ir-modal", { autoClose: false, ref: el => (this.modal = el), isLoading: isRequestPending('/Set_Exposed_Cleaning_Frequency'), onConfirmModal: this.saveCleaningFrequency.bind(this), iconAvailable: true, onCancelModal: () => {
-                this.selectedCleaningFrequency = calendar_data.cleaning_frequency?.code;
-            }, icon: "ft-alert-triangle danger h1", leftBtnText: locales.entries.Lcz_Cancel, rightBtnText: locales.entries.Lcz_Confirm, leftBtnColor: "secondary", rightBtnColor: 'primary', modalTitle: locales.entries.Lcz_Confirmation, modalBody: 'This action will reschedule all cleaning tasks. Do you want to continue?' }))));
+        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("section", { class: "ir-page__container" }, h("h3", { class: "page-title" }, locales.entries.Lcz_HouseKeepingAndCheckInSetup), h("ir-hk-operations-card", { frequencies: this.frequencies }), calendar_data.housekeeping_enabled && h("ir-hk-team", null))));
     }
     static get is() { return "ir-housekeeping"; }
     static get encapsulation() { return "scoped"; }
@@ -255,7 +197,8 @@ export class IrHousekeeping {
     }
     static get states() {
         return {
-            "isLoading": {}
+            "isLoading": {},
+            "frequencies": {}
         };
     }
     static get events() {

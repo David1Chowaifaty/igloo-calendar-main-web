@@ -35,6 +35,7 @@ export declare class IrHkTasks {
     handleSkipSelectedTask(e: CustomEvent): void;
     private init;
     private buildHousekeeperNameCache;
+    private groupTasks;
     private updateTasks;
     handleHeaderButtonPress(e: CustomEvent): Promise<void>;
     handleSelectedTaskCleaningEvent(e: CustomEvent<CleanTaskEvent>): void;

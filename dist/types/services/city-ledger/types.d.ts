@@ -71,9 +71,9 @@ export declare const MyClTxSchema: z.ZodObject<{
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
+    PR_ID?: number;
     FROM_DATE?: string;
     TO_DATE?: string;
-    PR_ID?: number;
     BOOK_NBR?: string;
     CURRENCY_ID?: number;
     BH_ID?: number;
@@ -121,9 +121,9 @@ export declare const MyClTxSchema: z.ZodObject<{
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
+    PR_ID?: number;
     FROM_DATE?: string;
     TO_DATE?: string;
-    PR_ID?: number;
     BOOK_NBR?: string;
     CURRENCY_ID?: number;
     BH_ID?: number;
@@ -255,9 +255,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
-        PR_ID?: number;
         BOOK_NBR?: string;
         CURRENCY_ID?: number;
         BH_ID?: number;
@@ -305,9 +305,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
-        PR_ID?: number;
         BOOK_NBR?: string;
         CURRENCY_ID?: number;
         BH_ID?: number;
@@ -358,9 +358,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
-        PR_ID?: number;
         BOOK_NBR?: string;
         CURRENCY_ID?: number;
         BH_ID?: number;
@@ -411,9 +411,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
+        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
-        PR_ID?: number;
         BOOK_NBR?: string;
         CURRENCY_ID?: number;
         BH_ID?: number;

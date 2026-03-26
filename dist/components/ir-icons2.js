@@ -238,16 +238,6 @@ const icons = {
         d: 'M431.2 476.5L163.5 208.8C141.1 240.2 128 278.6 128 320C128 426 214 512 320 512C361.5 512 399.9 498.9 431.2 476.5zM476.5 431.2C498.9 399.8 512 361.4 512 320C512 214 426 128 320 128C278.5 128 240.1 141.1 208.8 163.5L476.5 431.2zM64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z',
     },
 };
-const colorVariants = {
-    secondary: {
-        '--icon-button-color': '#6b6f82',
-        '--icon-button-hover-color': '#104064',
-    },
-    danger: {
-        '--icon-button-color': '#ff4961',
-        '--icon-button-hover-color': '#ff6377',
-    },
-};
 
 const irIconsCss = ".sc-ir-icons-h{display:block;box-sizing:border-box;margin:0;padding:0}.icon.sc-ir-icons{height:var(--icon-size, 1.25rem);width:var(--icon-size, 1.25rem);margin:0;padding:0}";
 const IrIconsStyle0 = irIconsCss;
@@ -304,6 +294,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrIcons as I, colorVariants as c, defineCustomElement as d };
+export { IrIcons as I, defineCustomElement as d };
 
 //# sourceMappingURL=ir-icons2.js.map

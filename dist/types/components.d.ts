@@ -82,7 +82,9 @@ import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ChargeRule } from "./components/ir-tax-service-categories/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
 import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
+import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
+import { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
 import { User } from "./models/Users";
 import { AllowedUser } from "./components/ir-user-management/types";
 export { ACPages } from "./components/ac-pages-menu/ac-pages-menu";
@@ -162,7 +164,9 @@ export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ChargeRule } from "./components/ir-tax-service-categories/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
 export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
+export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
+export { ToastOptions } from "./components/ui/ir-toasts-provider/ir-toasts-provider";
 export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export namespace Components {
@@ -2298,6 +2302,17 @@ export namespace Components {
         "propertyId": string | number;
         "ticket": string;
     }
+    interface IrHkOperationsCard {
+        "frequencies": IEntries[];
+    }
+    interface IrHkStaffTask {
+        "future": boolean;
+        "task": Task;
+    }
+    interface IrHkStaffTasks {
+    }
+    interface IrHkStaffTasksHeader {
+    }
     interface IrHkTasks {
         "baseUrl": string;
         "language": string;
@@ -4274,6 +4289,10 @@ export namespace Components {
          */
         "variant": ToastVariant;
     }
+    interface IrToastItem {
+        "duration": number;
+        "variant": ToastVariants;
+    }
     interface IrToastProvider {
         "addToast": (toast: Toast1) => Promise<string>;
         "clearAllToasts": () => Promise<void>;
@@ -4281,6 +4300,12 @@ export namespace Components {
         "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "removeToast": (id: string) => Promise<void>;
         "rtl": boolean;
+    }
+    interface IrToastsProvider {
+        /**
+          * Creates a toast and adds it to the stack. Returns the toast id.
+         */
+        "create": (message: string, options?: Partial<ToastOptions>) => Promise<string>;
     }
     interface IrTooltip {
         /**
@@ -4879,6 +4904,14 @@ export interface IrGuestInfoFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoFormElement;
 }
+export interface IrHkOperationsCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHkOperationsCardElement;
+}
+export interface IrHkStaffTaskCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrHkStaffTaskElement;
+}
 export interface IrHkTasksCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkTasksElement;
@@ -5170,6 +5203,10 @@ export interface IrTitleCustomEvent<T> extends CustomEvent<T> {
 export interface IrToastAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrToastAlertElement;
+}
+export interface IrToastItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrToastItemElement;
 }
 export interface IrUnbookableRoomsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7409,6 +7446,52 @@ declare global {
         prototype: HTMLIrHkArchiveElement;
         new (): HTMLIrHkArchiveElement;
     };
+    interface HTMLIrHkOperationsCardElementEventMap {
+        "toast": IToast;
+    }
+    interface HTMLIrHkOperationsCardElement extends Components.IrHkOperationsCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHkOperationsCardElementEventMap>(type: K, listener: (this: HTMLIrHkOperationsCardElement, ev: IrHkOperationsCardCustomEvent<HTMLIrHkOperationsCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHkOperationsCardElementEventMap>(type: K, listener: (this: HTMLIrHkOperationsCardElement, ev: IrHkOperationsCardCustomEvent<HTMLIrHkOperationsCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrHkOperationsCardElement: {
+        prototype: HTMLIrHkOperationsCardElement;
+        new (): HTMLIrHkOperationsCardElement;
+    };
+    interface HTMLIrHkStaffTaskElementEventMap {
+        "taskClick": Task;
+    }
+    interface HTMLIrHkStaffTaskElement extends Components.IrHkStaffTask, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrHkStaffTaskElementEventMap>(type: K, listener: (this: HTMLIrHkStaffTaskElement, ev: IrHkStaffTaskCustomEvent<HTMLIrHkStaffTaskElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrHkStaffTaskElementEventMap>(type: K, listener: (this: HTMLIrHkStaffTaskElement, ev: IrHkStaffTaskCustomEvent<HTMLIrHkStaffTaskElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrHkStaffTaskElement: {
+        prototype: HTMLIrHkStaffTaskElement;
+        new (): HTMLIrHkStaffTaskElement;
+    };
+    interface HTMLIrHkStaffTasksElement extends Components.IrHkStaffTasks, HTMLStencilElement {
+    }
+    var HTMLIrHkStaffTasksElement: {
+        prototype: HTMLIrHkStaffTasksElement;
+        new (): HTMLIrHkStaffTasksElement;
+    };
+    interface HTMLIrHkStaffTasksHeaderElement extends Components.IrHkStaffTasksHeader, HTMLStencilElement {
+    }
+    var HTMLIrHkStaffTasksHeaderElement: {
+        prototype: HTMLIrHkStaffTasksHeaderElement;
+        new (): HTMLIrHkStaffTasksHeaderElement;
+    };
     interface HTMLIrHkTasksElementEventMap {
         "clearSelectedHkTasks": void;
     }
@@ -8837,6 +8920,7 @@ declare global {
     interface HTMLIrTasksCardElementEventMap {
         "cleanSelectedTask": CleanTaskEvent;
         "skipSelectedTask": Task;
+        "assignHousekeeper": { task: Task; hkm_id: number };
     }
     interface HTMLIrTasksCardElement extends Components.IrTasksCard, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrTasksCardElementEventMap>(type: K, listener: (this: HTMLIrTasksCardElement, ev: IrTasksCardCustomEvent<HTMLIrTasksCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8891,6 +8975,7 @@ declare global {
         "rowSelectChange": Task[];
         "sortingChanged": { field: string; direction: 'ASC' | 'DESC' };
         "skipSelectedTask": Task;
+        "toast": IToast;
     }
     interface HTMLIrTasksTableElement extends Components.IrTasksTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrTasksTableElementEventMap>(type: K, listener: (this: HTMLIrTasksTableElement, ev: IrTasksTableCustomEvent<HTMLIrTasksTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9023,11 +9108,34 @@ declare global {
         prototype: HTMLIrToastAlertElement;
         new (): HTMLIrToastAlertElement;
     };
+    interface HTMLIrToastItemElementEventMap {
+        "irDismiss": void;
+    }
+    interface HTMLIrToastItemElement extends Components.IrToastItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrToastItemElementEventMap>(type: K, listener: (this: HTMLIrToastItemElement, ev: IrToastItemCustomEvent<HTMLIrToastItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrToastItemElementEventMap>(type: K, listener: (this: HTMLIrToastItemElement, ev: IrToastItemCustomEvent<HTMLIrToastItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrToastItemElement: {
+        prototype: HTMLIrToastItemElement;
+        new (): HTMLIrToastItemElement;
+    };
     interface HTMLIrToastProviderElement extends Components.IrToastProvider, HTMLStencilElement {
     }
     var HTMLIrToastProviderElement: {
         prototype: HTMLIrToastProviderElement;
         new (): HTMLIrToastProviderElement;
+    };
+    interface HTMLIrToastsProviderElement extends Components.IrToastsProvider, HTMLStencilElement {
+    }
+    var HTMLIrToastsProviderElement: {
+        prototype: HTMLIrToastsProviderElement;
+        new (): HTMLIrToastsProviderElement;
     };
     interface HTMLIrTooltipElement extends Components.IrTooltip, HTMLStencilElement {
     }
@@ -9349,6 +9457,10 @@ declare global {
         "ir-guest-info-form": HTMLIrGuestInfoFormElement;
         "ir-guest-name-cell": HTMLIrGuestNameCellElement;
         "ir-hk-archive": HTMLIrHkArchiveElement;
+        "ir-hk-operations-card": HTMLIrHkOperationsCardElement;
+        "ir-hk-staff-task": HTMLIrHkStaffTaskElement;
+        "ir-hk-staff-tasks": HTMLIrHkStaffTasksElement;
+        "ir-hk-staff-tasks-header": HTMLIrHkStaffTasksHeaderElement;
         "ir-hk-tasks": HTMLIrHkTasksElement;
         "ir-hk-team": HTMLIrHkTeamElement;
         "ir-hk-unassigned-units": HTMLIrHkUnassignedUnitsElement;
@@ -9471,7 +9583,9 @@ declare global {
         "ir-title": HTMLIrTitleElement;
         "ir-toast": HTMLIrToastElement;
         "ir-toast-alert": HTMLIrToastAlertElement;
+        "ir-toast-item": HTMLIrToastItemElement;
         "ir-toast-provider": HTMLIrToastProviderElement;
+        "ir-toasts-provider": HTMLIrToastsProviderElement;
         "ir-tooltip": HTMLIrTooltipElement;
         "ir-unbookable-rooms": HTMLIrUnbookableRoomsElement;
         "ir-unbookable-rooms-data": HTMLIrUnbookableRoomsDataElement;
@@ -11910,6 +12024,19 @@ declare namespace LocalJSX {
         "propertyId"?: string | number;
         "ticket"?: string;
     }
+    interface IrHkOperationsCard {
+        "frequencies"?: IEntries[];
+        "onToast"?: (event: IrHkOperationsCardCustomEvent<IToast>) => void;
+    }
+    interface IrHkStaffTask {
+        "future"?: boolean;
+        "onTaskClick"?: (event: IrHkStaffTaskCustomEvent<Task>) => void;
+        "task"?: Task;
+    }
+    interface IrHkStaffTasks {
+    }
+    interface IrHkStaffTasksHeader {
+    }
     interface IrHkTasks {
         "baseUrl"?: string;
         "language"?: string;
@@ -13893,6 +14020,7 @@ declare namespace LocalJSX {
     interface IrTasksCard {
         "isCheckable"?: boolean;
         "isSkippable"?: boolean;
+        "onAssignHousekeeper"?: (event: IrTasksCardCustomEvent<{ task: Task; hkm_id: number }>) => void;
         "onCleanSelectedTask"?: (event: IrTasksCardCustomEvent<CleanTaskEvent>) => void;
         "onSkipSelectedTask"?: (event: IrTasksCardCustomEvent<Task>) => void;
         "task"?: Task;
@@ -13909,6 +14037,7 @@ declare namespace LocalJSX {
         "onRowSelectChange"?: (event: IrTasksTableCustomEvent<Task[]>) => void;
         "onSkipSelectedTask"?: (event: IrTasksTableCustomEvent<Task>) => void;
         "onSortingChanged"?: (event: IrTasksTableCustomEvent<{ field: string; direction: 'ASC' | 'DESC' }>) => void;
+        "onToast"?: (event: IrTasksTableCustomEvent<IToast>) => void;
         "tasks"?: Task[];
     }
     interface IrTasksTablePagination {
@@ -14102,10 +14231,17 @@ declare namespace LocalJSX {
          */
         "variant"?: ToastVariant;
     }
+    interface IrToastItem {
+        "duration"?: number;
+        "onIrDismiss"?: (event: IrToastItemCustomEvent<void>) => void;
+        "variant"?: ToastVariants;
+    }
     interface IrToastProvider {
         "duration"?: number;
         "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "rtl"?: boolean;
+    }
+    interface IrToastsProvider {
     }
     interface IrTooltip {
         /**
@@ -14440,6 +14576,10 @@ declare namespace LocalJSX {
         "ir-guest-info-form": IrGuestInfoForm;
         "ir-guest-name-cell": IrGuestNameCell;
         "ir-hk-archive": IrHkArchive;
+        "ir-hk-operations-card": IrHkOperationsCard;
+        "ir-hk-staff-task": IrHkStaffTask;
+        "ir-hk-staff-tasks": IrHkStaffTasks;
+        "ir-hk-staff-tasks-header": IrHkStaffTasksHeader;
         "ir-hk-tasks": IrHkTasks;
         "ir-hk-team": IrHkTeam;
         "ir-hk-unassigned-units": IrHkUnassignedUnits;
@@ -14562,7 +14702,9 @@ declare namespace LocalJSX {
         "ir-title": IrTitle;
         "ir-toast": IrToast;
         "ir-toast-alert": IrToastAlert;
+        "ir-toast-item": IrToastItem;
         "ir-toast-provider": IrToastProvider;
+        "ir-toasts-provider": IrToastsProvider;
         "ir-tooltip": IrTooltip;
         "ir-unbookable-rooms": IrUnbookableRooms;
         "ir-unbookable-rooms-data": IrUnbookableRoomsData;
@@ -14737,6 +14879,10 @@ declare module "@stencil/core" {
             "ir-guest-info-form": LocalJSX.IrGuestInfoForm & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
             "ir-guest-name-cell": LocalJSX.IrGuestNameCell & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
             "ir-hk-archive": LocalJSX.IrHkArchive & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
+            "ir-hk-operations-card": LocalJSX.IrHkOperationsCard & JSXBase.HTMLAttributes<HTMLIrHkOperationsCardElement>;
+            "ir-hk-staff-task": LocalJSX.IrHkStaffTask & JSXBase.HTMLAttributes<HTMLIrHkStaffTaskElement>;
+            "ir-hk-staff-tasks": LocalJSX.IrHkStaffTasks & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksElement>;
+            "ir-hk-staff-tasks-header": LocalJSX.IrHkStaffTasksHeader & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksHeaderElement>;
             "ir-hk-tasks": LocalJSX.IrHkTasks & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;
             "ir-hk-team": LocalJSX.IrHkTeam & JSXBase.HTMLAttributes<HTMLIrHkTeamElement>;
             "ir-hk-unassigned-units": LocalJSX.IrHkUnassignedUnits & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsElement>;
@@ -14863,7 +15009,9 @@ declare module "@stencil/core" {
             "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
             "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
             "ir-toast-alert": LocalJSX.IrToastAlert & JSXBase.HTMLAttributes<HTMLIrToastAlertElement>;
+            "ir-toast-item": LocalJSX.IrToastItem & JSXBase.HTMLAttributes<HTMLIrToastItemElement>;
             "ir-toast-provider": LocalJSX.IrToastProvider & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
+            "ir-toasts-provider": LocalJSX.IrToastsProvider & JSXBase.HTMLAttributes<HTMLIrToastsProviderElement>;
             "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
             "ir-unbookable-rooms": LocalJSX.IrUnbookableRooms & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
             "ir-unbookable-rooms-data": LocalJSX.IrUnbookableRoomsData & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;

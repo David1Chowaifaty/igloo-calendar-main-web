@@ -43,7 +43,7 @@ export class IrCityLedgerFolioFilters {
         this.emitFilters();
     }
     render() {
-        return (h(Host, { key: '4aa28f5f1789881ab4e1c140ad6c288f4078e21d' }, h("div", { key: 'c0f1d5523b31642a2d9d99caa52a9a77003109a1', class: "filters-bar" }, h("ir-date-range-filter", { key: '7abd903de3d5df65acf5dae2d3ed40be37ca4ce0', fromDate: this.dates.from?.format('YYYY-MM-DD'), toDate: this.dates.to?.format('YYYY-MM-DD'), onDatesChanged: e => {
+        return (h(Host, { key: 'f0cf9ab6c12662c8b63a1fc1515bb48308881caf' }, h("div", { key: '313a87b9f943cb1405e04aabec9da398f474c857', class: "filters-bar" }, h("ir-date-range-filter", { key: '16525e71ed178ca1c70e28bc5292da80b1f8982b', fromDate: this.dates.from?.format('YYYY-MM-DD'), toDate: this.dates.to?.format('YYYY-MM-DD'), onDatesChanged: e => {
                 let newDates = {};
                 let dates = e.detail;
                 if (dates.from) {
@@ -54,16 +54,16 @@ export class IrCityLedgerFolioFilters {
                 }
                 this.dates = { ...this.dates, ...newDates };
                 this.emitFilters();
-            }, style: { minWidth: '230px' } }), h("wa-select", { key: 'bd8462d5a6339d0c665a205491f8280af504982c', value: this.statusFilter, onchange: e => {
+            }, style: { minWidth: '230px' } }), h("wa-select", { key: 'b5c7343d9799271095d2c7533018fb0d90aa0898', value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '118fbc691957fc5d456cd268c18cd5bad194d7f3', "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '6ba5ce98c3b44bd8bdc729aeb39199a302d88ce3', "onText-change": e => {
                 this.searchQuery = e.detail;
                 this.emitFiltersDebounced();
-            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true, style: { minWidth: '250px' } }, h("wa-icon", { key: 'd06bbba88bcd7839a674b17c4cba2244ed0033af', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("wa-dropdown", { key: '5440a2ed0cbc725224c8108a9c15c3d9e9dc0154' }, h("ir-custom-button", { key: '022e40f76d2705b3f73cc040d9fcee01324f9de9', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: '3c247f317dd205b4378ba5b72dfad1fb3324c441', name: "download", slot: "start" }), h("span", { key: '4dd6f22eef0941c48ddfd207dfe8cfbd594152e5' }, "Export")), h("wa-dropdown-item", { key: 'dd0a309a3316c1461b2f81d10f8f7f14a04412f5', value: "csv" }, h("wa-icon", { key: 'f1aabe5cc431f03600c2983997574ce41d06bc7a', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: '5f1eed1ab3a5d98b465f72ca4642e1c32cd583c1', value: "pdf" }, h("wa-icon", { key: '3cfc60e7a52ef41abd07f868d9483123e0b76752', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: '028aaf78930283d60e04a43211a013764aed033b' }), h("wa-dropdown-item", { key: '54782b1f04df782fe67b78819054c0c460f48e0d', value: "print" }, h("wa-icon", { key: '06494cdb333e94a586ee9340dc1a3b333a51e12e', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: '6eee0438b51c75f98734614baf73454787f6e0f1', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry"))));
+            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true, style: { minWidth: '250px' } }, h("wa-icon", { key: '74a54e2c1f35c24009d925a97e301b5d4f23cd5d', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("wa-dropdown", { key: '332b094b9e431839a30b4320ea0269ea247f44b0' }, h("ir-custom-button", { key: 'da9d8884b445ac77f770bfdc53d9568df5f78cfe', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: 'a136f7e52a2a67dfa2a917c00fcf78c6c8f53fda', name: "download", slot: "start" }), h("span", { key: 'c3c8548fc91f9038cecdb79c36eab4a96c6e8613' }, "Export")), h("wa-dropdown-item", { key: '177f870f63006b13b3b9fdd7846c32b92d01e55d', value: "csv" }, h("wa-icon", { key: 'eaed8edf26b190280a46b4d15be82f2b6b0b3923', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: 'b24788ddb3734ef24fd838dd3c91baa5bfbad9d4', value: "pdf" }, h("wa-icon", { key: '3f6fe5262711cbd9a3c3f814b576137b35257362', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: '16e7d19ff36824a5db0313e85cca5fc5bee09ce8' }), h("wa-dropdown-item", { key: '05ac88ce0f3b7a1728bb4c799cede5ab0fdded06', value: "print" }, h("wa-icon", { key: '18ea8af30f05c17a3259ff0f63406933f0775cb9', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: 'b7c266e82265b7f7d4df196309210652320d8205', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry"))));
     }
     static get is() { return "ir-city-ledger-folio-filters"; }
     static get encapsulation() { return "scoped"; }
