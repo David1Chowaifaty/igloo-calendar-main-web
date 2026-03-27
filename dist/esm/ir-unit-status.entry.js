@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-b4e8d599.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-67ef10ed.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import './index-87419685.js';
 import './index-f100e9d2.js';

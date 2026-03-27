@@ -8,7 +8,7 @@ export const SetHKTaskLabelsParamsSchema = z.object({
 });
 export const OverrideHKTaskOwnershipParamsSchema = z.object({
     property_id: z.number(),
-    assignment: z.array(z.object({
+    assignments: z.array(z.object({
         PR_ID: z.number(),
         DATE: z.string(),
         HK_TASK_TYPE_CODE: z.string(),

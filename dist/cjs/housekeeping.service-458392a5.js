@@ -13,7 +13,7 @@ const SetHKTaskLabelsParamsSchema = index.z.object({
 });
 const OverrideHKTaskOwnershipParamsSchema = index.z.object({
     property_id: index.z.number(),
-    assignment: index.z.array(index.z.object({
+    assignments: index.z.array(index.z.object({
         PR_ID: index.z.number(),
         DATE: index.z.string(),
         HK_TASK_TYPE_CODE: index.z.string(),
@@ -124,4 +124,4 @@ exports.getDefaultProperties = getDefaultProperties;
 exports.housekeeping_store = housekeeping_store;
 exports.updateHKStore = updateHKStore;
 
-//# sourceMappingURL=housekeeping.service-352bb9eb.js.map
+//# sourceMappingURL=housekeeping.service-458392a5.js.map
