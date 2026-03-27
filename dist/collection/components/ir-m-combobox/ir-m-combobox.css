@@ -1,0 +1,95 @@
+:host {
+  position: relative;
+  display: block;
+}
+
+/* Input wrapper and affix (prefix/suffix) positioning */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.prefix-container,
+.suffix-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ir-combobox-affix-color, #6c757d);
+  pointer-events: none;
+}
+.dropdown-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prefix-container {
+  left: 0.5rem;
+}
+
+.suffix-container {
+  right: 0.5rem;
+}
+
+/* Default sizing for slotted icons/elements */
+::slotted([slot='prefix']),
+::slotted([slot='suffix']) {
+  display: inline-flex;
+  width: var(--ir-combobox-affix-size, 1rem);
+  height: var(--ir-combobox-affix-size, 1rem);
+}
+
+/* Adjust input paddings if prefix/suffix exist */
+:host(.has-prefix) input.form-control {
+  padding-left: calc(0.75rem + var(--ir-combobox-affix-size, 1rem));
+}
+
+:host(.has-suffix) input.form-control {
+  padding-right: calc(0.75rem + var(--ir-combobox-affix-size, 1rem));
+}
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.dropdown-menu {
+  max-height: var(--ir-combobox-height, 200px);
+  overflow-y: auto;
+  min-width: 100%;
+  width: var(--ir-combobox-width, 100%) !important;
+  scroll-behavior: smooth;
+}
+
+.dropdown-item.loading,
+.dropdown-item.no-results {
+  color: #6c757d;
+  cursor: default;
+  pointer-events: none;
+}
+.dropdown-item {
+  padding: 0.5rem 1rem !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active,
+.dropdown-item.focused {
+  background-color: var(--blue, #1e9ff2) !important;
+  color: white !important;
+}
+
+/* Slot content focus styles */
+[slot='dropdown-content'] .dropdown-item.focused,
+[slot='dropdown-content'] .dropdown-item.active {
+  background-color: #1e9ff2 !important;
+  color: white !important;
+}
+
+[slot='dropdown-content'] [data-option].focused,
+[slot='dropdown-content'] [data-option].active {
+  background-color: #1e9ff2 !important;
+  color: white !important;
+}

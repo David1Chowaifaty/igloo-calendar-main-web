@@ -235,18 +235,18 @@ export declare const ChannelSalesParamsSchema: z.ZodObject<{
     is_export_to_excel: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     LIST_AC_ID: z.ZodNullable<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }, {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
@@ -263,19 +263,19 @@ export declare const ChannelSalesFilterSchema: z.ZodObject<z.objectUtil.extendSh
 }, {
     include_previous_year: z.ZodBoolean;
 }>, "strip", z.ZodTypeAny, {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
     include_previous_year?: boolean;
 }, {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
@@ -389,27 +389,27 @@ export declare const safeParseChannelReportResult: (data: unknown) => z.SafePars
     };
 }[]>;
 export declare const parseChannelSalesParams: (data: unknown) => {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 };
 export declare const safeParseChannelSalesParams: (data: unknown) => z.SafeParseReturnType<{
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];
 }, {
-    FROM_DATE?: string;
-    TO_DATE?: string;
     AC_ID?: string;
     BOOK_CASE?: string;
+    FROM_DATE?: string;
+    TO_DATE?: string;
     WINDOW?: number;
     is_export_to_excel?: boolean;
     LIST_AC_ID?: number[];

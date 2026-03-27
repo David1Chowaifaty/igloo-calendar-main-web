@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  text-align: start;
+}
+
+.dialog-body {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.dialog-body__description {
+  margin: 0;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}

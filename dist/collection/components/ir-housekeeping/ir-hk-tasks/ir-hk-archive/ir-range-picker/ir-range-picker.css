@@ -1,0 +1,106 @@
+@layer wa-utilities {
+  :host([size='small']),
+  .wa-size-s {
+    font-size: var(--wa-font-size-s);
+  }
+
+  :host([size='medium']),
+  .wa-size-m {
+    font-size: var(--wa-font-size-m);
+  }
+
+  :host([size='large']),
+  .wa-size-l {
+    font-size: var(--wa-font-size-l);
+  }
+}
+
+:host {
+  display: block;
+  --ir-range-gap: 0.5rem;
+}
+
+.range-picker__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ir-range-gap);
+  box-sizing: border-box;
+}
+.range-picker__container.focused {
+  outline: var(--wa-focus-ring);
+  outline-offset: var(--wa-focus-ring-offset);
+}
+
+.range-picker__icon--hidden,
+.range-picker__date-picker--hidden {
+  opacity: 0;
+}
+
+.range-picker__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  z-index: 1;
+  display: none;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  gap: var(--ir-range-gap);
+}
+
+.range-picker__overlay--active {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  pointer-events: auto;
+  border-radius: inherit;
+  padding-inline: 0.5rem;
+}
+.range-picker__date-picker:hover .range-picker__date-picker-button,
+.range-picker__date-picker.focused .range-picker__date-picker-button {
+  color: var(--wa-color-fill-loud, var(--wa-color-brand-50));
+}
+.range-picker__date-picker-button {
+  background: inherit;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 0.975rem;
+  line-height: 1.45;
+  height: 2rem;
+  color: #3b4781;
+  white-space: nowrap;
+  cursor: pointer;
+  padding-inline: 0.5rem;
+}
+/* Optional: additional styles for the icons if needed */
+.range-picker__calendar-icon,
+.range-picker__arrow-icon {
+  height: 14px;
+  width: 14px;
+}
+
+.range-picker__container {
+  height: var(--wa-form-control-height);
+  padding: 0 1rem !important;
+  color: var(--wa-form-control-value-color);
+  font-size: var(--wa-form-control-value-size);
+  font-family: inherit;
+  font-weight: var(--wa-form-control-value-font-weight);
+  line-height: var(--wa-form-control-value-line-height);
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  background-color: var(--wa-form-control-background-color);
+  border-color: var(--wa-form-control-border-color);
+  border-style: var(--wa-form-control-border-style);
+  border-width: var(--wa-form-control-border-width);
+  border-radius: var(--wa-form-control-border-radius);
+  transition: background-color var(--wa-transition-normal), border var(--wa-transition-normal), all var(--wa-transition-normal), outline var(--wa-transition-fast);
+  transition-timing-function: var(--wa-transition-easing);
+}

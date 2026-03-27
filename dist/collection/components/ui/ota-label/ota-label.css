@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+:host {
+  display: flex;
+  margin-bottom: 5px;
+  gap: 5px;
+}
+.label_title {
+  min-width: max-content;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+}
+.ota-message-list {
+  margin: 0 3px;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  /* list-style: circle !important; */
+}
+.ota-message-item {
+  width: 100%;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+.ota-message-item::before {
+  content: '- ';
+  margin-right: 0.25rem;
+}
+
+.ota-visibility-toggle {
+  background: white;
+  color: var(--blue);
+  padding: 0;
+  margin: 0;
+  margin-left: 3px;
+  font-size: 12px;
+  border: 0;
+}
+.ota-visibility-toggle:hover {
+  color: #355270;
+}
+.ota-message-list {
+  margin: 0 3px;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal;
+  list-style: none;
+}
+.ota-message-item {
+  width: 100%;
+  line-height: 1.5;
+  margin: 0 0 0 1.2em; /* indent for dash */
+  padding: 0;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal;
+  position: relative;
+}
+/* .ota-message-item::before {
+  content: '-';
+  position: absolute;
+  left: 0;
+} */

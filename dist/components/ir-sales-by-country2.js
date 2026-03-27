@@ -1,0 +1,321 @@
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { T as Token } from './Token.js';
+import { P as PropertyService } from './property.service.js';
+import { R as RoomService } from './room.service.js';
+import { l as locales } from './locales.store.js';
+import { h as hooks } from './moment.js';
+import { B as BookingService } from './booking.store.js';
+import { d as defineCustomElement$j } from './ir-button2.js';
+import { d as defineCustomElement$i } from './ir-checkbox2.js';
+import { d as defineCustomElement$h } from './ir-date-picker2.js';
+import { d as defineCustomElement$g } from './ir-icons2.js';
+import { d as defineCustomElement$f } from './ir-interceptor2.js';
+import { d as defineCustomElement$e } from './ir-loading-screen2.js';
+import { d as defineCustomElement$d } from './ir-otp2.js';
+import { d as defineCustomElement$c } from './ir-otp-modal2.js';
+import { d as defineCustomElement$b } from './ir-progress-indicator2.js';
+import { d as defineCustomElement$a } from './ir-range-picker2.js';
+import { d as defineCustomElement$9 } from './ir-sales-by-country-summary2.js';
+import { d as defineCustomElement$8 } from './ir-sales-filters2.js';
+import { d as defineCustomElement$7 } from './ir-sales-table2.js';
+import { d as defineCustomElement$6 } from './ir-select2.js';
+import { d as defineCustomElement$5 } from './ir-spinner2.js';
+import { d as defineCustomElement$4 } from './ir-stats-card2.js';
+import { d as defineCustomElement$3 } from './ir-toast2.js';
+import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
+import { v as v4 } from './v4.js';
+
+const irSalesByCountryCss = ".sc-ir-sales-by-country-h{display:block}";
+const IrSalesByCountryStyle0 = irSalesByCountryCss;
+
+const IrSalesByCountry = /*@__PURE__*/ proxyCustomElement(class IrSalesByCountry extends HTMLElement {
+    constructor() {
+        super();
+        this.__registerHost();
+    }
+    language = '';
+    ticket = '';
+    propertyid;
+    p;
+    isLoading = null;
+    isPageLoading = true;
+    property_id;
+    salesData;
+    salesFilters;
+    countries = new Map();
+    token = new Token();
+    roomService = new RoomService();
+    propertyService = new PropertyService();
+    bookingService = new BookingService();
+    baseFilters = {
+        FROM_DATE: hooks().add(-7, 'days').format('YYYY-MM-DD'),
+        TO_DATE: hooks().format('YYYY-MM-DD'),
+        BOOK_CASE: '001',
+        WINDOW: 7,
+        include_previous_year: false,
+    };
+    componentWillLoad() {
+        this.salesFilters = this.baseFilters;
+        if (this.ticket) {
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
+    }
+    async initializeApp() {
+        try {
+            let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            // let roomResp = null;
+            if (!propertyId) {
+                console.log(propertyId);
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                });
+                // roomResp = propertyData;
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            const requests = [this.bookingService.getCountries(this.language), this.roomService.fetchLanguage(this.language), this.getCountrySales()];
+            if (this.propertyid) {
+                requests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                }));
+            }
+            const [countries] = await Promise.all(requests);
+            const mappedCountries = new Map();
+            countries.map(country => {
+                mappedCountries.set(country.id, {
+                    flag: country.flag,
+                    name: country.name,
+                });
+            });
+            this.countries = mappedCountries;
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.isPageLoading = false;
+        }
+    }
+    async getCountrySales(isExportToExcel = false) {
+        const formatSalesData = (data) => {
+            return {
+                country: data.COUNTRY,
+                country_id: data.COUNTRY_ID,
+                nights: data.NIGHTS,
+                percentage: data.PCT,
+                revenue: data.REVENUE,
+                number_of_guests: data.Total_Guests,
+            };
+        };
+        try {
+            const { include_previous_year, ...filterParams } = this.salesFilters;
+            this.isLoading = isExportToExcel ? 'export' : 'filter';
+            const currentSales = await this.propertyService.getCountrySales({
+                AC_ID: this.property_id,
+                is_export_to_excel: isExportToExcel,
+                ...filterParams,
+            });
+            const shouldFetchPreviousYear = !isExportToExcel && include_previous_year;
+            let enrichedSales = [];
+            if (shouldFetchPreviousYear) {
+                const previousYearSales = await this.propertyService.getCountrySales({
+                    AC_ID: this.property_id,
+                    is_export_to_excel: false,
+                    ...filterParams,
+                    FROM_DATE: hooks(filterParams.FROM_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                    TO_DATE: hooks(filterParams.TO_DATE).subtract(1, 'year').format('YYYY-MM-DD'),
+                });
+                enrichedSales = currentSales.map(current => {
+                    const previous = previousYearSales.find(prev => prev.COUNTRY.toLowerCase() === current.COUNTRY.toLowerCase());
+                    return {
+                        id: v4(),
+                        ...formatSalesData(current),
+                        last_year: previous ? formatSalesData(previous) : null,
+                    };
+                });
+            }
+            else {
+                enrichedSales = currentSales.map(record => ({
+                    id: v4(),
+                    ...formatSalesData(record),
+                    last_year: null,
+                }));
+            }
+            // this.salesData = enrichedSales.sort((a, b) => {
+            //   if (a.country_id === 0) return -1;
+            //   if (b.country_id === 0) return 1;
+            //   return 0;
+            // });
+            this.salesData = [...enrichedSales];
+        }
+        catch (error) {
+            console.error('Failed to fetch sales data:', error);
+        }
+        finally {
+            this.isLoading = null;
+        }
+    }
+    render() {
+        if (this.isPageLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "p-2 d-flex flex-column", style: { gap: '1rem' } }, h("div", { class: "d-flex align-items-center justify-content-between" }, h("h3", { class: "mb-1 mb-md-0" }, "Sales by Country"), h("ir-button", { size: "sm", btn_color: "outline", isLoading: this.isLoading === 'export', text: locales.entries.Lcz_Export, onClickHandler: async (e) => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                await this.getCountrySales(true);
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-sales-by-country-summary", { salesReports: this.salesData }), h("div", { class: "d-flex flex-column flex-lg-row mt-1 ", style: { gap: '1rem' } }, h("ir-sales-filters", { isLoading: this.isLoading === 'filter', onApplyFilters: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.salesFilters = e.detail;
+                this.getCountrySales();
+            }, class: "filters-card", baseFilters: this.baseFilters }), h("ir-sales-table", { mappedCountries: this.countries, class: "card mb-0", records: this.salesData })))));
+    }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
+    static get style() { return IrSalesByCountryStyle0; }
+}, [2, "ir-sales-by-country", {
+        "language": [1],
+        "ticket": [1],
+        "propertyid": [2],
+        "p": [1],
+        "isLoading": [32],
+        "isPageLoading": [32],
+        "property_id": [32],
+        "salesData": [32],
+        "salesFilters": [32],
+        "countries": [32]
+    }, undefined, {
+        "ticket": ["ticketChanged"]
+    }]);
+function defineCustomElement() {
+    if (typeof customElements === "undefined") {
+        return;
+    }
+    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-country-summary", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    components.forEach(tagName => { switch (tagName) {
+        case "ir-sales-by-country":
+            if (!customElements.get(tagName)) {
+                customElements.define(tagName, IrSalesByCountry);
+            }
+            break;
+        case "ir-button":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-checkbox":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$h();
+            }
+            break;
+        case "ir-icons":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$g();
+            }
+            break;
+        case "ir-interceptor":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-loading-screen":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
+            }
+            break;
+        case "ir-otp":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-otp-modal":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$c();
+            }
+            break;
+        case "ir-progress-indicator":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$b();
+            }
+            break;
+        case "ir-range-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-sales-by-country-summary":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-sales-filters":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-sales-table":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-select":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-spinner":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-stats-card":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-toast":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-toast-alert":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-toast-provider":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$1();
+            }
+            break;
+    } });
+}
+
+export { IrSalesByCountry as I, defineCustomElement as d };
+
+//# sourceMappingURL=ir-sales-by-country2.js.map

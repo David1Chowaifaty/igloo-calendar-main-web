@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  width: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+.popover-trigger {
+  all: unset;
+  cursor: pointer;
+}
+.popover-trigger:hover,
+.popover-trigger:focus {
+  color: #000;
+}

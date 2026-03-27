@@ -1,0 +1,2 @@
+import{a}from"./p-bf44a732.js";class t{async authenticate(t){const{data:r}=await a.post("/Authenticate",t);if(r.ExceptionMsg!==""){throw new Error(r.ExceptionMsg)}return r["My_Result"]}async changeUserPwd(t){const{data:r}=await a.post("/Change_User_Pwd",t);if(r.ExceptionMsg?.trim()){throw new Error(r.ExceptionMsg?.trim())}return r.My_Result}}export{t as A};
+//# sourceMappingURL=p-e3393158.js.map

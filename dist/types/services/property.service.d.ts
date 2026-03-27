@@ -44,11 +44,11 @@ export declare const SetPropertyCalendarExtraParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     value: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    value?: string;
     property_id?: number;
+    value?: string;
 }, {
-    value?: string;
     property_id?: number;
+    value?: string;
 }>;
 export type SetPropertyCalendarExtraParams = z.infer<typeof SetPropertyCalendarExtraParamsSchema>;
 export interface PeakDay {
@@ -67,11 +67,11 @@ export declare const AllowedPropertiesSchema: z.ZodNullable<z.ZodArray<z.ZodObje
     id: z.ZodNumber;
     name: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    id?: number;
     name?: string;
+    id?: number;
 }, {
-    id?: number;
     name?: string;
+    id?: number;
 }>, "many">>;
 export type AllowedProperties = z.infer<typeof AllowedPropertiesSchema>;
 export declare const SetRoomCalendarExtraParamsSchema: z.ZodObject<{
@@ -79,12 +79,12 @@ export declare const SetRoomCalendarExtraParamsSchema: z.ZodObject<{
     room_identifier: z.ZodString;
     value: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    value?: string;
     property_id?: number;
+    value?: string;
     room_identifier?: string;
 }, {
-    value?: string;
     property_id?: number;
+    value?: string;
     room_identifier?: string;
 }>;
 export type SetRoomCalendarExtraParams = z.infer<typeof SetRoomCalendarExtraParamsSchema>;
@@ -156,7 +156,167 @@ export type FetchUnBookableRoomsResult = {
         phone_prefix: null;
     };
 }[];
+export declare const CategorySchema: z.ZodObject<{
+    code: z.ZodString;
+    description: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    code?: string;
+    description?: string;
+}, {
+    code?: string;
+    description?: string;
+}>;
+export type Category = z.infer<typeof CategorySchema>;
+export declare const taxationModes: {
+    INCLUSIVE: string;
+    EXCLUSIVE: string;
+    NOT_APPLICABLE: string;
+};
+export declare const TaxCategorySchema: z.ZodObject<{
+    category: z.ZodObject<{
+        code: z.ZodString;
+        description: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+        description?: string;
+    }, {
+        code?: string;
+        description?: string;
+    }>;
+    taxation_mode: z.ZodObject<{
+        code: z.ZodString;
+        description: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+        description?: string;
+    }, {
+        code?: string;
+        description?: string;
+    }>;
+    pct: z.ZodNumber;
+    property_id: z.ZodOptional<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    category?: {
+        code?: string;
+        description?: string;
+    };
+    taxation_mode?: {
+        code?: string;
+        description?: string;
+    };
+    pct?: number;
+}, {
+    property_id?: number;
+    category?: {
+        code?: string;
+        description?: string;
+    };
+    taxation_mode?: {
+        code?: string;
+        description?: string;
+    };
+    pct?: number;
+}>;
+export type TaxCategory = z.infer<typeof TaxCategorySchema>;
+export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    VAT_INCLUDED_CODE: z.ZodString;
+    VAT_PC: z.ZodNumber;
+    CITY_TAX_INCLUDED_CODE: z.ZodString;
+    CITY_TAX_PCT: z.ZodNumber;
+    SERVICE_CHARGE_INCLUDED_CODE: z.ZodString;
+    SERVICE_CHARGE_PCT: z.ZodNumber;
+    tax_categories: z.ZodArray<z.ZodObject<{
+        category: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        taxation_mode: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        pct: z.ZodNumber;
+        property_id: z.ZodOptional<z.ZodNumber>;
+    }, "strip", z.ZodTypeAny, {
+        property_id?: number;
+        category?: {
+            code?: string;
+            description?: string;
+        };
+        taxation_mode?: {
+            code?: string;
+            description?: string;
+        };
+        pct?: number;
+    }, {
+        property_id?: number;
+        category?: {
+            code?: string;
+            description?: string;
+        };
+        taxation_mode?: {
+            code?: string;
+            description?: string;
+        };
+        pct?: number;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    VAT_INCLUDED_CODE?: string;
+    VAT_PC?: number;
+    CITY_TAX_INCLUDED_CODE?: string;
+    CITY_TAX_PCT?: number;
+    SERVICE_CHARGE_INCLUDED_CODE?: string;
+    SERVICE_CHARGE_PCT?: number;
+    tax_categories?: {
+        property_id?: number;
+        category?: {
+            code?: string;
+            description?: string;
+        };
+        taxation_mode?: {
+            code?: string;
+            description?: string;
+        };
+        pct?: number;
+    }[];
+}, {
+    property_id?: number;
+    VAT_INCLUDED_CODE?: string;
+    VAT_PC?: number;
+    CITY_TAX_INCLUDED_CODE?: string;
+    CITY_TAX_PCT?: number;
+    SERVICE_CHARGE_INCLUDED_CODE?: string;
+    SERVICE_CHARGE_PCT?: number;
+    tax_categories?: {
+        property_id?: number;
+        category?: {
+            code?: string;
+            description?: string;
+        };
+        taxation_mode?: {
+            code?: string;
+            description?: string;
+        };
+        pct?: number;
+    }[];
+}>;
+export type HandleExposedPropertyTaxCategoriesParams = z.infer<typeof HandleExposedPropertyTaxCategoriesParamsSchema>;
 export declare class PropertyService {
+    handleExposedPropertyTaxCategories(params: HandleExposedPropertyTaxCategoriesParams): Promise<any>;
     getExposedProperty(params: {
         id: number | null;
         language: string;
@@ -170,8 +330,8 @@ export declare class PropertyService {
     setRoomCalendarExtra(params: SetRoomCalendarExtraParams): Promise<any>;
     getChannelSales(params: ChannelSalesParams): Promise<ChannelReportResult>;
     getExposedAllowedProperties(): Promise<{
-        id?: number;
         name?: string;
+        id?: number;
     }[]>;
     searchExposedAllowedProperties(searchTerm: string): Promise<FetchedProperty[]>;
     getCountrySales(params: CountrySalesParams): Promise<any>;

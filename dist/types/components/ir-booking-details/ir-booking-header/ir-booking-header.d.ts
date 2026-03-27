@@ -3,6 +3,15 @@ import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
 export declare class IrBookingHeader {
+    private dialogRef;
+    private invoiceDialogRef;
+    private bookingService;
+    private cityLedgerService;
+    private alertMessage;
+    private modalEl;
+    private bookingSourceEditor;
+    bookingStatus: string | null;
+    currentDialogStatus: BookingDetailsDialogEvents;
     booking: Booking;
     hasReceipt: boolean;
     hasPrint: boolean;
@@ -10,19 +19,15 @@ export declare class IrBookingHeader {
     hasMenu: boolean;
     hasCloseButton: boolean;
     hasEmail: boolean;
-    bookingStatus: string | null;
-    currentDialogStatus: BookingDetailsDialogEvents;
     toast: EventEmitter<IToast>;
     closeSidebar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<any>>;
-    private dialogRef;
-    private bookingService;
-    private alertMessage;
-    private modalEl;
     handleSelectChange(e: CustomEvent<any>): void;
     private updateStatus;
     private openDialog;
     private renderDialogBody;
+    private get initials();
+    private get avatarImage();
     render(): any;
 }

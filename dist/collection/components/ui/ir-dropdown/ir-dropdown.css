@@ -1,0 +1,29 @@
+/* Existing styles */
+
+/* New styles for the overlay dropdown */
+.dropdown-menu {
+  z-index: 1000;
+  width: 100%;
+  max-height: 300px;
+  min-width: var(--ir-dropdown-menu-min-width, 11rem) !important;
+  overflow-y: auto;
+}
+
+.dropdown.nav-item.show .dropdown-menu {
+  display: block; /* display the dropdown when the parent has the "show" class */
+}
+.caret-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-55%);
+  right: 0.25rem;
+  z-index: 99999;
+}
+.dropdown-trigger {
+  position: relative;
+}
+.caret-icon.disabled {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}

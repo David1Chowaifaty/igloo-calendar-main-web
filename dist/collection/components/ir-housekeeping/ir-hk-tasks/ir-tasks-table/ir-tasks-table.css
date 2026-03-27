@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.hk-owner-select {
+  min-width: 130px;
+}
+
+.hk-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.highlighted-unit {
+  background: #000;
+  color: white;
+  padding: 0.2rem 0.3rem;
+  border-radius: 4px;
+}
+
+.task-table-row td {
+  background: white !important;
+}
+.task-table-row:hover td {
+  background: #e2e6ea3f !important;
+}
+
+/* Sortable th inner layout */
+.th-sort-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Empty state */
+.table-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+/* Empty message (mobile) */
+.empty-msg {
+  text-align: center;
+  color: var(--wa-color-text-quiet);
+}
+
+/* Mobile date grouping */
+.mobile-date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-date-label {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--wa-color-text-normal);
+  padding: 0 0.25rem;
+}
+
+/* Mobile: show cards, hide table */
+.mobile-tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.table-container {
+  display: none;
+  min-width: 0;
+  width: 100%;
+}
+
+/* >= 640px: show table, hide cards */
+@media (min-width: 640px) {
+  .mobile-tasks-container {
+    display: none;
+  }
+
+  .table-container {
+    display: block;
+    min-width: 0;
+  }
+
+  .table--container {
+    overflow-x: auto;
+    overflow-y: visible;
+    width: 100%;
+  }
+}

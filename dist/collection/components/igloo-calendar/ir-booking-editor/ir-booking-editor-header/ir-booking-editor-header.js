@@ -1,0 +1,443 @@
+import { Fragment, Host, h } from "@stencil/core";
+import { BookedByGuestSchema } from "../types";
+import moment from "moment";
+import { BookingService } from "../../../../services/booking-service/booking.service";
+import calendar_data from "../../../../stores/calendar-data";
+import locales from "../../../../stores/locales.store";
+import booking_store, { resetAvailability, setBookingDraft } from "../../../../stores/booking.store";
+import { z } from "zod";
+import { IRBookingEditorService } from "../ir-booking-editor.service";
+export class IrBookingEditorHeader {
+    /** Booking context used for edit, add-room, and split flows */
+    booking;
+    isLoading;
+    isBlockConversion;
+    /** Controls header behavior and date constraints */
+    mode = 'PLUS_BOOKING';
+    /** Fixed check-in date (YYYY-MM-DD), if applicable */
+    checkIn;
+    /** Fixed check-out date (YYYY-MM-DD), if applicable */
+    checkOut;
+    _isLoading;
+    bookings = [];
+    datesSchema;
+    guestSelected;
+    checkAvailability;
+    bookingService = new BookingService();
+    adultsSchema = z.coerce.number().min(1);
+    bookingEditorService = new IRBookingEditorService();
+    BookedByGuestPickerSchema = z
+        .object({
+        firstName: z.string(),
+        // lastName: z.string(),
+    })
+        .superRefine((data, ctx) => {
+        if (!data.firstName) {
+            ctx.addIssue({
+                path: ['firstName'],
+                code: z.ZodIssueCode.custom,
+                message: locales.entries.Lcz_ChooseBookingNumber,
+            });
+        }
+        // if (!data.lastName) {
+        //   ctx.addIssue({
+        //     path: ['lastName'],
+        //     code: z.ZodIssueCode.custom,
+        //     message: locales.entries.Lcz_ChooseBookingNumber,
+        //   });
+        // }
+    });
+    pickerRef;
+    // =====================
+    // Handlers
+    // =====================
+    componentWillLoad() {
+        this.createDatesSchema();
+        this.bookingEditorService.setMode(this.mode);
+    }
+    handleBookingChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.createDatesSchema();
+        }
+    }
+    handleModeChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.createDatesSchema();
+            this.bookingEditorService.setMode(this.mode);
+        }
+    }
+    // private createDatesSchema() {
+    //   this.datesSchema = z.object({
+    //     checkIn: z.custom(date => {
+    //       if (!moment.isMoment(date)) {
+    //         return false;
+    //       }
+    //       if (['SPLIT_BOOKING', 'ADD_ROOM'].includes(this.mode) && !date.isSameOrBefore(this.booking.to_date)) {
+    //         return false;
+    //       }
+    //       return true;
+    //     }),
+    //     checkOut: z.custom(data => moment.isMoment(data)),
+    //   });
+    // }
+    createDatesSchema() {
+        this.datesSchema = z
+            .object({
+            checkIn: z.any(),
+            checkOut: z.any(),
+        })
+            .superRefine((data, ctx) => {
+            // ─────────────────────────────
+            // checkIn validations
+            // ─────────────────────────────
+            if (!moment.isMoment(data.checkIn)) {
+                ctx.addIssue({
+                    path: ['checkIn'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Check-in date is required',
+                });
+            }
+            if (moment.isMoment(data.checkIn) && this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && !data.checkIn.isSameOrBefore(this.booking.to_date)) {
+                ctx.addIssue({
+                    path: ['checkIn'],
+                    code: z.ZodIssueCode.custom,
+                    message: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', moment(this.booking.from_date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY')).replace('%2', moment(this.booking.to_date, 'YYYY-MM-DD').format('ddd, DD MMM YYYY'))}  `,
+                });
+            }
+            // ─────────────────────────────
+            // checkOut validations
+            // ─────────────────────────────
+            if (!moment.isMoment(data.checkOut)) {
+                ctx.addIssue({
+                    path: ['checkOut'],
+                    code: z.ZodIssueCode.custom,
+                    message: 'Check-out date is required',
+                });
+            }
+        });
+    }
+    async handleBookingSearch(value) {
+        try {
+            this._isLoading = true;
+            if (!value) {
+                this.pickerRef.clearInput();
+                return;
+            }
+            this.bookings = await this.bookingService.fetchExposedBookings(value, calendar_data.property.id, this.checkIn, this.checkOut);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this._isLoading = false;
+        }
+    }
+    handleSubmit(event) {
+        event.preventDefault();
+        this.stopEvent(event);
+        try {
+            if (this.mode === 'SPLIT_BOOKING' && !booking_store.bookedByGuest.firstName) {
+                BookedByGuestSchema.parse(booking_store.bookedByGuest);
+            }
+            this.datesSchema.parse(booking_store.bookingDraft.dates);
+            this.adultsSchema.parse(booking_store.bookingDraft?.occupancy?.adults);
+            this.checkAvailability.emit();
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    handleDateRangeChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        setBookingDraft({ dates: event.detail });
+    }
+    handleSourceChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        const value = event.target.value;
+        const source = booking_store.selects.sources.find(s => s.id === value);
+        setBookingDraft({ source });
+    }
+    handleAdultsChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        const adults = Number(event.target.value);
+        const { children } = booking_store.bookingDraft.occupancy;
+        setBookingDraft({
+            occupancy: { adults, children },
+        });
+    }
+    handleChildrenChange(event) {
+        this.stopEvent(event);
+        resetAvailability();
+        const children = Number(event.target.value);
+        const { adults } = booking_store.bookingDraft.occupancy;
+        setBookingDraft({
+            occupancy: { adults, children },
+        });
+    }
+    stopEvent(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    }
+    // =====================
+    // Computed values
+    // =====================
+    get minDate() {
+        const today = moment();
+        switch (this.mode) {
+            case 'EDIT_BOOKING':
+                return moment(this.booking.from_date, 'YYYY-MM-DD').add(-2, 'weeks').format('YYYY-MM-DD');
+            case 'ADD_ROOM':
+                return this.booking?.from_date;
+            case 'SPLIT_BOOKING':
+            default:
+                if (this.checkIn && this.isBlockConversion)
+                    return this.checkIn;
+                return today.format('YYYY-MM-DD');
+        }
+    }
+    get maxDate() {
+        // const today = moment();
+        // const next60Days = today.add(60, 'days').format('YYYY-MM-DD');
+        switch (this.mode) {
+            case 'PLUS_BOOKING':
+                if (this.checkOut && this.isBlockConversion)
+                    return this.checkOut;
+                return undefined;
+            case 'ADD_ROOM':
+            // return this.booking.to_date;
+            case 'SPLIT_BOOKING':
+            default:
+                return undefined;
+        }
+    }
+    get childrenSelectPlaceholder() {
+        const { child_max_age } = calendar_data.property.adult_child_constraints;
+        const years = child_max_age === 1 ? locales.entries.Lcz_Year : locales.entries.Lcz_Years;
+        return `${locales.entries.Lcz_ChildCaption} 0 - ${child_max_age} ${years}`;
+    }
+    async selectGuest(e) {
+        this.stopEvent(e);
+        const booking_nbr = e.detail?.item?.value;
+        const booking = await this.bookingService.getExposedBooking(booking_nbr, 'en', true);
+        this.guestSelected.emit(booking);
+    }
+    render() {
+        const { sources } = booking_store.selects;
+        const { adults, children } = booking_store.bookingDraft.occupancy;
+        const { checkIn, checkOut } = booking_store.bookingDraft.dates;
+        return (h(Host, { key: '6ec0bbbc6620611141470527c02024d8bfcc6494' }, h("form", { key: 'b8ba656ce38f8ad5649f13ccf187d029f89c99af', onSubmit: this.handleSubmit.bind(this) }, this.bookingEditorService.isEventType('SPLIT_BOOKING') && (h("ir-validator", { key: '19ee79515d03a802445ade6eefcc9d6727fdc048', value: booking_store.bookedByGuest, class: "booking-editor-header__booking-picker-validator", showErrorMessage: true, schema: this.BookedByGuestPickerSchema }, h("ir-picker", { key: 'eaf69c3609fca803ba02c0ce40edba5fdb6682ca', withClear: true, mode: "select-async", class: "booking-editor-header__booking-picker", debounce: 300, ref: el => (this.pickerRef = el), label: `${locales.entries.Lcz_Tobooking}#`,
+            // defaultValue={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
+            // value={Object.keys(this.bookedByInfoData).length > 1 ? this.bookedByInfoData.bookingNumber?.toString() : ''}
+            placeholder: locales.entries.Lcz_BookingNumber, loading: this._isLoading, "onText-change": e => this.handleBookingSearch(e.detail), "onCombobox-select": this.selectGuest.bind(this) }, this.bookings.map(b => {
+            const label = `${b.booking_nbr} ${b.guest.first_name} ${b.guest.last_name}`;
+            return (h("ir-picker-item", { value: b.booking_nbr?.toString(), label: label }, label));
+        })))), h("div", { key: '1ab6f732b209c1f3db96c1918e380921fa309279', class: "booking-editor-header__container" }, !this.bookingEditorService.isEventType(['EDIT_BOOKING', 'ADD_ROOM', 'SPLIT_BOOKING']) && (h("wa-select", { key: '6b0f3fdaa12578cc0f9cb1be81944a18c9503c98', size: "small", placeholder: locales.entries.Lcz_Source, value: booking_store.bookingDraft.source?.id?.toString(), defaultValue: booking_store.bookingDraft.source?.id, "onwa-hide": this.stopEvent.bind(this), onchange: this.handleSourceChange.bind(this) }, sources.map(option => (option.type === 'LABEL' ? h("small", null, option.description) : h("wa-option", { value: option.id?.toString() }, option.description))))), h("ir-validator", { key: '3676663dc3008bc6f84c84efffd48586ea8fb2b8', class: "booking-editor__date-validator", showErrorMessage: true, value: booking_store.bookingDraft.dates, schema: this.datesSchema, style: { position: 'relative' } }, h("igl-date-range", { key: '6c389b9c15035f1f1a43c6f645cee4dbd69b2213', class: "booking-editor__date-range", defaultData: {
+                fromDate: checkIn?.format('YYYY-MM-DD') ?? '',
+                toDate: checkOut?.format('YYYY-MM-DD') ?? '',
+            }, variant: "booking", withDateDifference: true, minDate: this.minDate, maxDate: this.maxDate, onDateRangeChange: this.handleDateRangeChange.bind(this) })), !this.bookingEditorService.isEventType('EDIT_BOOKING') && (h(Fragment, { key: 'ad536c5e1330a7eac24bf2ec920a59edf12328da' }, h("ir-validator", { key: '2ffe194cdc6d9e88dc42d25230b654b888f045ac', value: adults, schema: this.adultsSchema }, h("wa-select", { key: 'f3bb26060561b8d828391f005dda604d2d50b4ad', class: "booking-editor-header__adults-select", size: "small", placeholder: locales.entries.Lcz_AdultsCaption, value: adults?.toString(), defaultValue: adults?.toString(),
+            // onwa-hide={this.stopEvent.bind(this)}
+            onchange: this.handleAdultsChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.adult_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))), calendar_data.property.adult_child_constraints.child_max_nbr > 0 && (h("wa-select", { key: '2cb32ea1e79063d09263c993bf88a97fa4cdd869', class: "booking-editor-header__children-select", size: "small", placeholder: this.childrenSelectPlaceholder, value: children?.toString(), defaultValue: children?.toString(),
+            // onwa-hide={this.stopEvent.bind(this)}
+            onchange: this.handleChildrenChange.bind(this) }, Array.from({ length: calendar_data.property.adult_child_constraints.child_max_nbr }, (_, i) => i + 1).map(option => (h("wa-option", { value: option.toString() }, option))))))), h("ir-custom-button", { key: '12305c30f1214f7d4d50656221671098606aa356', loading: this.isLoading, type: "submit", variant: "brand" }, "Check")), booking_store.roomTypes?.length > 0 && !this.isLoading && (h("wa-callout", { key: '8c552ca2d9c1fd19ec3adc6318595dc5dc9a71d3', size: "small", variant: "neutral", appearance: "filled", class: "booking-editor-header__tax_statement" }, calendar_data.tax_statement)))));
+    }
+    static get is() { return "ir-booking-editor-header"; }
+    static get encapsulation() { return "scoped"; }
+    static get originalStyleUrls() {
+        return {
+            "$": ["ir-booking-editor-header.css"]
+        };
+    }
+    static get styleUrls() {
+        return {
+            "$": ["ir-booking-editor-header.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "booking": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Booking context used for edit, add-room, and split flows"
+                },
+                "getter": false,
+                "setter": false
+            },
+            "isLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-loading",
+                "reflect": false
+            },
+            "isBlockConversion": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-block-conversion",
+                "reflect": false
+            },
+            "mode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "BookingEditorMode",
+                    "resolved": "\"ADD_ROOM\" | \"BAR_BOOKING\" | \"EDIT_BOOKING\" | \"PLUS_BOOKING\" | \"SPLIT_BOOKING\"",
+                    "references": {
+                        "BookingEditorMode": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Controls header behavior and date constraints"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "mode",
+                "reflect": false,
+                "defaultValue": "'PLUS_BOOKING'"
+            },
+            "checkIn": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Fixed check-in date (YYYY-MM-DD), if applicable"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "check-in",
+                "reflect": false
+            },
+            "checkOut": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Fixed check-out date (YYYY-MM-DD), if applicable"
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "check-out",
+                "reflect": false
+            }
+        };
+    }
+    static get states() {
+        return {
+            "_isLoading": {},
+            "bookings": {},
+            "datesSchema": {}
+        };
+    }
+    static get events() {
+        return [{
+                "method": "guestSelected",
+                "name": "guestSelected",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "Booking",
+                    "resolved": "Booking",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                }
+            }, {
+                "method": "checkAvailability",
+                "name": "checkAvailability",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
+    }
+    static get watchers() {
+        return [{
+                "propName": "booking",
+                "methodName": "handleBookingChange"
+            }, {
+                "propName": "mode",
+                "methodName": "handleModeChange"
+            }];
+    }
+}
+//# sourceMappingURL=ir-booking-editor-header.js.map

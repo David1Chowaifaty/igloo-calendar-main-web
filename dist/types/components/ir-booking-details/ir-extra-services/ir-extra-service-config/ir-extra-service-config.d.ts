@@ -1,8 +1,11 @@
 import { Booking, ExtraService } from "../../../../models/booking.dto";
+import { IEntries } from "../../../../models/property";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrExtraServiceConfig {
-    booking: Pick<Booking, 'from_date' | 'to_date' | 'currency' | 'booking_nbr'>;
+    booking: Booking;
+    svcCategories: IEntries[];
     service: ExtraService;
+    language: string;
     open: boolean;
     closeModal: EventEmitter<null>;
     private closeDialog;

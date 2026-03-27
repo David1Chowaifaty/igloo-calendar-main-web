@@ -1,0 +1,273 @@
+:host {
+  --spacing: var(--wa-space-l);
+  display: block;
+  width: max-content;
+  color: var(--wa-color-text-normal);
+  font-size: var(--wa-font-size-s);
+  background-color: var(--wa-color-surface-default);
+  border-inline-end: 2px solid var(--wa-color-surface-border);
+}
+
+/* Legend */
+.legend_skew.pending {
+  border-width: 1px;
+  border-style: dashed;
+  border-color: var(--wa-color-success-fill-loud);
+  background-color: var(--wa-color-surface-default) !important;
+}
+.legend_skew.in-house {
+  background-color: var(--wa-color-brand-fill-quiet) !important;
+  color: var(--wa-color-brand-on-quiet) !important;
+  width: 30px;
+  transform: skew(0);
+  border-radius: 0;
+  vertical-align: middle;
+  font-size: 12px;
+  text-align: center;
+}
+
+.legendRow {
+  position: relative;
+  vertical-align: middle;
+  margin-bottom: 0.3rem;
+}
+
+.legendRow div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.legend_skew,
+.legend_skew-bordered,
+.legend_skewsplit {
+  transform: skew(-22deg);
+  width: 15px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: var(--ir-skew-background);
+}
+
+.legend_skew.striped.vertical {
+  --stripe-period: 17px;
+  --stripe-angle: 360deg;
+}
+
+.legend_skew.striped {
+  --stripe-period: 6px;
+  /* background: repeating-linear-gradient(
+    var(--stripe-angle, 45deg),
+    var(--ir-skew-background) 0,
+    var(--ir-skew-background) calc(var(--stripe-period) / 2),
+    var(--ir-event-bg-stripe-color) calc(var(--stripe-period) / 2),
+    var(--ir-event-bg-stripe-color) var(--stripe-period)
+  ); */
+}
+
+.legend_skew.split {
+  border-right: 4px solid var(--wa-color-text-normal, black);
+}
+
+.legend_skew-bordered {
+  border: 1px solid var(--wa-color-text-normal, black);
+}
+
+.legend_dirty-unit {
+  background-color: white !important;
+  border: 1px solid #e0e0e0;
+  height: 12px;
+  width: 20px;
+  position: relative;
+}
+
+.fd-legend__section-title {
+  font-family: var(--wa-font-family-heading);
+  font-weight: var(--wa-font-weight-heading);
+  line-height: var(--wa-line-height-condensed);
+  text-wrap: balance;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1rem;
+  font-size: var(--wa-font-size-m);
+  color: var(--wa-color-text-normal, black);
+}
+
+.legend_dirty-unit::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  left: 30%;
+  right: 30%;
+  background-color: #d4d0be !important;
+}
+
+.legend_circle {
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  margin: 3px 3px 3px 2px;
+}
+
+.legend_skewsplit {
+  border-right: 2px solid var(--wa-color-text-normal, black);
+}
+/* Legend Calendar */
+
+.legendCalendar .legendRow {
+  margin-bottom: 0;
+}
+
+.legendCalendar .legendRow:first-child .legendCal {
+  background-color: var(--wa-color-neutral-fill-normal);
+  color: var(--wa-color-neutral-on-normal);
+}
+
+.legendCalendar .legendRow div {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.total-availability {
+  font-size: 1em !important;
+}
+.legendCalendar .legendCal {
+  width: 80px;
+  height: 25px;
+  text-align: center;
+  display: inline-grid !important;
+  align-content: center;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.legendCalendar .legendCal .badge {
+  margin-top: 0.2rem;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.legendCalendar .legendCal.legendCal-h2 {
+  height: 40px;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.br-t {
+  border-top: 1px solid var(--wa-color-surface-border);
+}
+.br-s {
+  border-left: 1px solid var(--wa-color-surface-border);
+  border-right: 1px solid var(--wa-color-surface-border);
+}
+.br-bt {
+  border-bottom: 1px solid var(--wa-color-surface-border);
+}
+
+.hyphenLegend {
+  /* font-size: 0.9em; */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.hyphenLegend::before {
+  width: 12px;
+  height: 0.5px;
+  content: ' ';
+  background-color: var(--wa-color-text-normal, black);
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.fd-legend__title {
+  align-self: center;
+  flex: 1 1 auto;
+  font-style: inherit;
+  font-variant: inherit;
+  font-stretch: inherit;
+  font-family: inherit;
+  font-optical-sizing: inherit;
+  font-size-adjust: inherit;
+  font-kerning: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-language-override: inherit;
+  font-size: var(--wa-font-size-l);
+  font-weight: var(--wa-font-weight-heading);
+  line-height: var(--wa-line-height-condensed);
+  margin: 0px;
+  padding: 0;
+  color: var(--wa-color-text-normal, black);
+}
+.fd-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: var(--wa-color-surface-default);
+  z-index: 1;
+  padding-inline-start: var(--spacing);
+  padding-block-end: 0;
+  padding-inline-end: calc(var(--spacing) - var(--wa-form-control-padding-block));
+  padding-block-start: calc(var(--spacing) - var(--wa-form-control-padding-block));
+  border-bottom: 1px solid var(--wa-color-surface-border);
+  padding-bottom: calc(var(--spacing) / 2);
+  box-sizing: border-box;
+  background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
+}
+.fd-legend__shape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fd-legend__row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.fd-legend__row-title {
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+}
+.legendContainer {
+  padding: 0 !important;
+}
+.fd-legend__body {
+  padding: var(--spacing);
+}
+.headerCell {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dayTitle {
+  font-size: 0.8em;
+  font-weight: 600;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.dayCapacityPercent {
+  font-size: 0.75em;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.legend_rectangle {
+  height: 12px;
+  width: 20px;
+}

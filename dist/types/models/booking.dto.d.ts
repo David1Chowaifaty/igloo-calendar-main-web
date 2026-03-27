@@ -3,6 +3,7 @@ import { IAllowedOptions, ICurrency, IPickupCurrency } from './calendarData';
 import { TSourceOption } from './igl-book-property';
 import { ICountry } from './IBooking';
 import { IHouseKeepers } from './housekeeping';
+import { TaxCategory } from "../services/property.service";
 interface IDType {
     code: string;
     description: string;
@@ -106,10 +107,10 @@ export declare const ZSharedPerson: z.ZodObject<{
     }>>;
     is_main: z.ZodDefault<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
+    country_id?: number;
     id?: number;
     first_name?: string;
     last_name?: string;
-    country_id?: number;
     dob?: string;
     id_info?: {
         number?: string;
@@ -120,10 +121,10 @@ export declare const ZSharedPerson: z.ZodObject<{
     };
     is_main?: boolean;
 }, {
+    country_id?: number;
     id?: number;
     first_name?: string;
     last_name?: string;
-    country_id?: number;
     dob?: string;
     id_info?: {
         number?: string;
@@ -240,21 +241,311 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     start_date: z.ZodString;
     price: z.ZodNumber;
     system_id: z.ZodOptional<z.ZodNumber>;
+    category: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        code: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        code?: string;
+    }, {
+        code?: string;
+    }>>>;
+    agent: z.ZodNullable<z.ZodObject<z.objectUtil.extendShape<{
+        address: z.ZodString;
+        agent_rate_type_code: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        agent_type_code: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodNullable<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        city: z.ZodString;
+        code: z.ZodNullable<z.ZodUnion<[z.ZodString, z.ZodLiteral<"">]>>;
+        contact_name: z.ZodString;
+        contract_nbr: z.ZodAny;
+        country_id: z.ZodNullable<z.ZodNumber>;
+        currency_id: z.ZodAny;
+        due_balance: z.ZodAny;
+        email: z.ZodString;
+        email_copied_upon_booking: z.ZodNullable<z.ZodString>;
+        id: z.ZodDefault<z.ZodNumber>;
+        is_active: z.ZodBoolean;
+        is_send_guest_confirmation_email: z.ZodBoolean;
+        name: z.ZodString;
+        notes: z.ZodString;
+        payment_mode: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+        phone: z.ZodString;
+        property_id: z.ZodAny;
+        provided_discount: z.ZodDefault<z.ZodAny>;
+        question: z.ZodNullable<z.ZodString>;
+        sort_order: z.ZodAny;
+        tax_nbr: z.ZodString;
+        reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+        cl_post_timing: z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>;
+    }, {
+        address: z.ZodNullable<z.ZodString>;
+        agent_rate_type_code: z.ZodNullable<z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>>;
+        agent_type_code: z.ZodNullable<z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodNullable<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>>;
+        city: z.ZodNullable<z.ZodString>;
+        contact_name: z.ZodNullable<z.ZodString>;
+        email: z.ZodNullable<z.ZodString>;
+        is_active: z.ZodNullable<z.ZodBoolean>;
+        is_send_guest_confirmation_email: z.ZodNullable<z.ZodBoolean>;
+        notes: z.ZodNullable<z.ZodString>;
+        payment_mode: z.ZodNullable<z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>>;
+        phone: z.ZodNullable<z.ZodString>;
+        tax_nbr: z.ZodNullable<z.ZodString>;
+        cl_post_timing: z.ZodNullable<z.ZodObject<{
+            code: z.ZodString;
+            description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        }, "strip", z.ZodTypeAny, {
+            code?: string;
+            description?: string;
+        }, {
+            code?: string;
+            description?: string;
+        }>>;
+    }>, "strip", z.ZodTypeAny, {
+        name?: string;
+        email?: string;
+        property_id?: any;
+        code?: string;
+        address?: string;
+        agent_rate_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        agent_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        city?: string;
+        contact_name?: string;
+        contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
+        due_balance?: any;
+        email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
+        is_send_guest_confirmation_email?: boolean;
+        notes?: string;
+        payment_mode?: {
+            code?: string;
+            description?: string;
+        };
+        phone?: string;
+        provided_discount?: any;
+        question?: string;
+        sort_order?: any;
+        tax_nbr?: string;
+        reference?: string;
+        verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
+    }, {
+        name?: string;
+        email?: string;
+        property_id?: any;
+        code?: string;
+        address?: string;
+        agent_rate_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        agent_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        city?: string;
+        contact_name?: string;
+        contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
+        due_balance?: any;
+        email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
+        is_send_guest_confirmation_email?: boolean;
+        notes?: string;
+        payment_mode?: {
+            code?: string;
+            description?: string;
+        };
+        phone?: string;
+        provided_discount?: any;
+        question?: string;
+        sort_order?: any;
+        tax_nbr?: string;
+        reference?: string;
+        verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
+    }>>;
 }, "strip", z.ZodTypeAny, {
-    cost?: number;
-    system_id?: number;
     description?: string;
-    booking_system_id?: number;
     currency_id?: number;
+    agent?: {
+        name?: string;
+        email?: string;
+        property_id?: any;
+        code?: string;
+        address?: string;
+        agent_rate_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        agent_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        city?: string;
+        contact_name?: string;
+        contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
+        due_balance?: any;
+        email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
+        is_send_guest_confirmation_email?: boolean;
+        notes?: string;
+        payment_mode?: {
+            code?: string;
+            description?: string;
+        };
+        phone?: string;
+        provided_discount?: any;
+        question?: string;
+        sort_order?: any;
+        tax_nbr?: string;
+        reference?: string;
+        verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
+    };
+    system_id?: number;
+    cost?: number;
+    category?: {
+        code?: string;
+    };
+    booking_system_id?: number;
     end_date?: string;
     start_date?: string;
     price?: number;
 }, {
-    cost?: number;
-    system_id?: number;
     description?: string;
-    booking_system_id?: number;
     currency_id?: number;
+    agent?: {
+        name?: string;
+        email?: string;
+        property_id?: any;
+        code?: string;
+        address?: string;
+        agent_rate_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        agent_type_code?: {
+            code?: string;
+            description?: string;
+        };
+        city?: string;
+        contact_name?: string;
+        contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
+        due_balance?: any;
+        email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
+        is_send_guest_confirmation_email?: boolean;
+        notes?: string;
+        payment_mode?: {
+            code?: string;
+            description?: string;
+        };
+        phone?: string;
+        provided_discount?: any;
+        question?: string;
+        sort_order?: any;
+        tax_nbr?: string;
+        reference?: string;
+        verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
+    };
+    system_id?: number;
+    cost?: number;
+    category?: {
+        code?: string;
+    };
+    booking_system_id?: number;
     end_date?: string;
     start_date?: string;
     price?: number;
@@ -268,6 +559,11 @@ export interface IOtaNotes {
     statement: string;
 }
 export interface IBookingPickupInfo {
+    agent: {
+        id: number;
+        name: string;
+        code: string;
+    } | null;
     currency: IPickupCurrency;
     date: string;
     details: string;
@@ -464,6 +760,7 @@ export interface LinkedPms {
     id: number;
 }
 export interface Property {
+    tax_categories: TaxCategory[];
     address: string;
     adult_child_constraints: Adultchildconstraints;
     affiliates: any[];
@@ -780,6 +1077,11 @@ export declare const ROOM_IN_OUT: {
     NOSHOW: string;
 };
 export interface Room {
+    agent: {
+        id: number;
+        name: string;
+        code: string;
+    } | null;
     days: Day[];
     applicable_policies: ExposedApplicablePolicy[];
     from_date: string;

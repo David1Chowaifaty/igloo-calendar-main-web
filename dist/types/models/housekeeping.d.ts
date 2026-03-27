@@ -21,6 +21,7 @@ export declare const SetHKTaskLabelsParamsSchema: z.ZodObject<{
 export type SetHKTaskLabelsParams = z.infer<typeof SetHKTaskLabelsParamsSchema>;
 export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
+    is_to_remove: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
     assignments: z.ZodArray<z.ZodObject<{
         PR_ID: z.ZodNumber;
         DATE: z.ZodString;
@@ -39,6 +40,7 @@ export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
+    is_to_remove?: boolean;
     assignments?: {
         PR_ID?: number;
         DATE?: string;
@@ -47,6 +49,7 @@ export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
     }[];
 }, {
     property_id?: number;
+    is_to_remove?: boolean;
     assignments?: {
         PR_ID?: number;
         DATE?: string;

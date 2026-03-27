@@ -1,0 +1,269 @@
+:host {
+  display: block;
+  position: absolute;
+  --ota-bar-width: 2px;
+  --stripe-period: 20px;
+  --split-border-width: 5px;
+  --split-border-color: var(--wa-color-text-normal);
+}
+
+.bookingEventBase {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background-color: rgb(49, 190, 241);
+  transform: skewX(-22deg);
+  cursor: pointer;
+}
+.bookingEventBase.leftSplit {
+  border-left: var(--split-border-width) solid var(--split-border-color);
+}
+.bookingEventBase.rightSplit {
+  border-right: var(--split-border-width) solid var(--split-border-color);
+}
+.bookingEventBase.fullSplit {
+  border-right: var(--split-border-width) solid var(--split-border-color);
+  border-left: var(--split-border-width) solid var(--split-border-color);
+}
+
+.bookingEventBase.fullSplit.skewedLeft,
+.bookingEventBase.leftSplit.skewedLeft {
+  border-left: 0;
+}
+.bookingEventBase.fullSplit.skewedRight,
+.bookingEventBase.leftSplit.skewedRight {
+  border-right: 0;
+}
+.bookingEventBase.pending {
+  border-width: 2px;
+  border-style: dashed;
+  border-color: var(--wa-color-success-fill-loud);
+}
+
+.bookingEvent {
+  cursor: pointer;
+}
+
+/* OTA bar width helper */
+.ota-booking-event {
+  border-width: var(--ota-bar-width) !important;
+}
+
+/* Hidden sizing surface (note: fixed missing px) */
+.bookingEventHiddenBase {
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: calc(100% + 8px);
+}
+
+/* Shared half-tile base for skewed sides */
+.bookingEventBase.skewedLeft::before,
+.bookingEventBase.skewedRight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  height: 100%;
+  left: -4px;
+  background-color: var(--ir-event-bg);
+  border-radius: 4px;
+}
+
+/* Individual adjustments */
+.bookingEventBase.skewedLeft::before {
+  transform-origin: right;
+  transform: skewX(22deg);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.bookingEventBase.fullSplit.skewedLeft::before,
+.bookingEventBase.leftSplit.skewedLeft::before {
+  border-left: var(--split-border-width) solid var(--split-border-color) !important;
+  z-index: 2;
+  background-color: transparent;
+}
+.bookingEventBase.fullSplit.skewedRight::before,
+.bookingEventBase.leftRight.skewedRight::before {
+  border-right: var(--split-border-width) solid var(--split-border-color) !important;
+  z-index: 2;
+  background-color: transparent;
+}
+
+/* .bookingEventBase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  background-color: var(--ir-event-bg);
+  transform-origin: left;
+  left: 10px;
+  right: -4px;
+  transform: skewX(22deg);
+  border-radius: inherit;
+} */
+
+.bookingEventBase.skewedRight::before {
+  transform-origin: left;
+  transform: skewX(22deg 0deg);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Border variant on skewed halves */
+.bookingEventBase.border.skewedLeft::before {
+  border: var(--ota-bar-width) solid #424242;
+  border-right: 0;
+  border-left: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  top: calc(var(--ota-bar-width) * -1);
+  height: 20px;
+  left: -4px;
+}
+
+.bookingEventBase.border.skewedRight::before {
+  border: var(--ota-bar-width) solid #424242;
+  border-left: 0;
+  border-right: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  top: calc(var(--ota-bar-width) * -1);
+  height: 20px;
+  right: -4px;
+}
+
+.bookingEventBase.striped-bar.fullSplit.skewedLeft.vertical::after,
+.bookingEventBase.striped-bar.leftSplit.skewedLeft.vertical::after {
+  z-index: 1;
+  border-left: var(--split-border-width) solid var(--split-border-color);
+}
+.bookingEventBase.striped-bar.fullSplit.skewedRight.vertical::after,
+.bookingEventBase.striped-bar.rightSplit.skewedRight.vertical::after {
+  z-index: 1;
+  border-right: var(--split-border-width) solid var(--split-border-color);
+}
+
+.bookingEventBase.striped-bar.vertical::after {
+  --stripe-angle: 360deg;
+}
+/* Striped overlay */
+.bookingEventBase.striped-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+
+  /* clean, seamless repeating tile */
+  background: repeating-linear-gradient(
+    var(--stripe-angle, 45deg),
+    var(--ir-event-bg) 0,
+    var(--ir-event-bg) calc(var(--stripe-period) / 2),
+    var(--ir-event-bg-stripe-color) calc(var(--stripe-period) / 2),
+    var(--ir-event-bg-stripe-color) var(--stripe-period)
+  );
+  backface-visibility: hidden;
+}
+.bookingEventBase.skewedRight.striped-bar::after,
+.bookingEventBase.border.skewedRight::after {
+  right: -8px;
+}
+.bookingEventBase.skewedLeft.striped-bar::after,
+.bookingEventBase.border.skewedLeft::after {
+  left: -8px;
+}
+.bookingEventBase.striped-bar.animated::after {
+  background-size: 28.28px 28.28px;
+  backface-visibility: hidden;
+  animation: stripes 0.8s linear infinite;
+  will-change: background-position;
+}
+
+@keyframes stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 28.28px 0;
+  }
+}
+.bookingEventDragHandle {
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  opacity: 0.1;
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: skewX(-22deg);
+  border-radius: 4px;
+  /* display: none; */
+  cursor: pointer;
+}
+
+:host:hover .bookingEventDragHandle {
+  display: block;
+  opacity: 1;
+}
+
+:host.newEvent:hover .bookingEventDragHandle {
+  display: none;
+  opacity: 1;
+}
+
+.leftSide {
+  left: 0;
+}
+.rightSide {
+  right: 0;
+}
+
+/* cancel skew on side wrappers when needed */
+.leftSide.skewedLeft {
+  transform: skewX(0);
+}
+.rightSide.skewedRight {
+  transform: skewX(0);
+}
+
+.bookingEventTitle {
+  position: relative;
+  top: 2px;
+  left: 5px;
+  max-width: calc(100% - 10px);
+  color: #fff;
+  font-size: 0.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: pointer;
+}
+
+.legend_circle {
+  width: 10px;
+  height: 10px;
+  margin: 3px 3px 3px 2px;
+  border: 1px solid #fff;
+  border-radius: 100%;
+}
+
+.noteIcon {
+  position: absolute;
+  bottom: -8px;
+  left: 2px;
+}
+
+.balanceIcon {
+  position: absolute;
+  top: -8px;
+  right: 2px;
+}
+.splitBooking {
+  border-right: 2px solid #000000;
+}
+.bookingEventTitle.pending {
+  color: var(--wa-color-success-on-quiet) !important;
+}

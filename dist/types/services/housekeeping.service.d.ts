@@ -8,6 +8,22 @@ export type HKSkipParams = {
     HK_SKIP_REASON_CODE: '001';
     COMMENT: string;
 };
+export interface ConnectedHK {
+    AC_ID: number;
+    ENTRY_DATE: string;
+    ENTRY_USER_ID: number;
+    HKM_ID: number;
+    IS_ACTIVE: boolean;
+    IS_SOFT_DELETED: boolean;
+    MOBILE: string;
+    My_Ac: null;
+    My_User: null;
+    NAME: string;
+    NOTES: string;
+    OWNER_ID: number;
+    PHONE_PREFIX: string;
+    USER_ID: number;
+}
 export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
     overrideHKTaskOwnership(params: OverrideHKTaskOwnershipParams): Promise<any>;
@@ -64,4 +80,5 @@ export declare class HouseKeepingService {
         }[];
     }): Promise<void>;
     generateUserName(name: string): Promise<any>;
+    getConnectedHk(): Promise<ConnectedHK>;
 }

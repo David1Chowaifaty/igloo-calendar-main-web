@@ -46,13 +46,13 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     is_to_export: z.ZodBoolean;
     property_ids: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
 }, "strip", z.ZodTypeAny, {
-    book_nbr?: string;
-    property_id?: number;
     name?: string;
-    total_count?: number;
+    property_id?: number;
+    book_nbr?: string;
     from?: string;
     to?: string;
     property_ids?: number[];
+    total_count?: number;
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;
@@ -67,13 +67,13 @@ export declare const ExposedBookingsParamsSchema: z.ZodObject<{
     end_row?: number;
     is_to_export?: boolean;
 }, {
-    book_nbr?: string;
-    property_id?: number;
     name?: string;
-    total_count?: number;
+    property_id?: number;
+    book_nbr?: string;
     from?: string;
     to?: string;
     property_ids?: number[];
+    total_count?: number;
     channel?: string;
     balance_filter?: string;
     filter_type?: string | number;

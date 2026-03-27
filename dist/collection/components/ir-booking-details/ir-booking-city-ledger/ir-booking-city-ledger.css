@@ -1,0 +1,66 @@
+:host {
+  display: block;
+  width: 100%;
+  /* Reset cell padding to be tighter inside the card */
+  --ir-cell-padding: 0.4rem 0.75rem;
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.booking-city-ledger__card {
+  width: 100%;
+}
+
+/* ── Header title ──────────────────────────────────────────── */
+.booking-city-ledger__header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.booking-city-ledger__agent-name {
+  font-weight: 400;
+  color: var(--wa-color-neutral-600, #6b7280);
+  font-size: var(--wa-font-size-s, 0.8125rem);
+}
+
+/* ── Spinner ───────────────────────────────────────────────── */
+.booking-city-ledger__spinner-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* ── Empty / Error states ──────────────────────────────────── */
+.booking-city-ledger__empty,
+.booking-city-ledger__error {
+  margin: 0;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--wa-color-neutral-500, #6b7280);
+}
+
+.booking-city-ledger__error {
+  color: var(--wa-color-danger-600, #dc2626);
+}
+
+/* ── Table wrapper — bleed to card edges ───────────────────── */
+.booking-city-ledger__table-wrap {
+  max-width: 700px;
+  margin: 0 calc(var(--wa-card-padding, 1rem) * -1);
+  margin-bottom: calc(var(--wa-card-padding, 1rem) * -1);
+}
+
+/* ── Right-align numeric columns ───────────────────────────── */
+.text-right {
+  text-align: right !important;
+}
+
+/* ── Date column ───────────────────────────────────────────── */
+.booking-city-ledger__cell-date {
+  white-space: nowrap;
+  /* cspell:disable-next-line */
+  font-variant-numeric: tabular-nums;
+}

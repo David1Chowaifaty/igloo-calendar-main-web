@@ -127,22 +127,11 @@ export declare const AgentBaseSchema: z.ZodObject<{
         description?: string;
     }>;
 }, "strip", z.ZodTypeAny, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -151,11 +140,17 @@ export declare const AgentBaseSchema: z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -165,24 +160,18 @@ export declare const AgentBaseSchema: z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -191,11 +180,17 @@ export declare const AgentBaseSchema: z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -205,7 +200,12 @@ export declare const AgentBaseSchema: z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }>;
 export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     address: z.ZodString;
@@ -272,22 +272,11 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         description?: string;
     }>;
 }, "strip", z.ZodTypeAny, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -296,11 +285,17 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -310,24 +305,18 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -336,11 +325,17 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -350,24 +345,18 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }>, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -376,11 +365,17 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -390,24 +385,18 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -416,11 +405,17 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -430,7 +425,12 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }>;
 export type Agent = z.infer<typeof AgentSchema>;
 export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodObject<{
@@ -498,22 +498,11 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         description?: string;
     }>;
 }, "strip", z.ZodTypeAny, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -522,11 +511,17 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -536,24 +531,18 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -562,11 +551,17 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -576,24 +571,18 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }>, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -602,11 +591,17 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -616,24 +611,18 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }, {
-    code?: string;
-    notes?: string;
-    id?: number;
-    reference?: string;
-    property_id?: any;
-    address?: string;
     name?: string;
     email?: string;
-    is_active?: boolean;
-    country_id?: number;
-    currency_id?: any;
-    city?: string;
-    cl_post_timing?: {
-        code?: string;
-        description?: string;
-    };
+    property_id?: any;
+    code?: string;
+    address?: string;
     agent_rate_type_code?: {
         code?: string;
         description?: string;
@@ -642,11 +631,17 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
         code?: string;
         description?: string;
     };
+    city?: string;
     contact_name?: string;
     contract_nbr?: any;
+    country_id?: number;
+    currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
+    id?: number;
+    is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
+    notes?: string;
     payment_mode?: {
         code?: string;
         description?: string;
@@ -656,7 +651,12 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     question?: string;
     sort_order?: any;
     tax_nbr?: string;
+    reference?: string;
     verification_mode?: string;
+    cl_post_timing?: {
+        code?: string;
+        description?: string;
+    };
 }>, "many">>;
 export type Agents = z.infer<typeof AgentsSchema>;
 export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
@@ -725,22 +725,11 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             description?: string;
         }>;
     }, "strip", z.ZodTypeAny, {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -749,11 +738,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -763,24 +758,18 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     }, {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -789,11 +778,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -803,24 +798,18 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     }>, {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -829,11 +818,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -843,24 +838,18 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     }, {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -869,11 +858,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -883,26 +878,20 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     }>;
 }, "strip", z.ZodTypeAny, {
     agent?: {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -911,11 +900,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -925,26 +920,20 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     };
 }, {
     agent?: {
-        code?: string;
-        notes?: string;
-        id?: number;
-        reference?: string;
-        property_id?: any;
-        address?: string;
         name?: string;
         email?: string;
-        is_active?: boolean;
-        country_id?: number;
-        currency_id?: any;
-        city?: string;
-        cl_post_timing?: {
-            code?: string;
-            description?: string;
-        };
+        property_id?: any;
+        code?: string;
+        address?: string;
         agent_rate_type_code?: {
             code?: string;
             description?: string;
@@ -953,11 +942,17 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
             code?: string;
             description?: string;
         };
+        city?: string;
         contact_name?: string;
         contract_nbr?: any;
+        country_id?: number;
+        currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
+        id?: number;
+        is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
+        notes?: string;
         payment_mode?: {
             code?: string;
             description?: string;
@@ -967,7 +962,12 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         question?: string;
         sort_order?: any;
         tax_nbr?: string;
+        reference?: string;
         verification_mode?: string;
+        cl_post_timing?: {
+            code?: string;
+            description?: string;
+        };
     };
 }>;
 export type HandleExposedAgentProps = z.infer<typeof HandleExposedAgentPropsSchema>;

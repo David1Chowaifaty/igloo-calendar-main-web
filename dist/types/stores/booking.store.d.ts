@@ -3,6 +3,7 @@ import { ICountry, ISetupEntries } from "../models/IBooking";
 import { BookingSource, TEventType } from "../models/igl-book-property";
 import { BeddingSetup, ISmokingOption, RatePlan, RoomType, Variation } from "../models/property";
 import { Moment } from 'moment';
+import { Agent } from "../services/agents/type";
 /**
  * Shape of a single rate plan selection for a specific room type.
  */
@@ -73,6 +74,8 @@ export interface BookingDraft {
     };
     source: BookingSource;
     guest?: any;
+    agent: Agent;
+    roomAssignee?: 'agent' | 'guest';
     defaultOccupancy?: {
         adults: number;
         children: number;
@@ -96,6 +99,7 @@ export interface BookedByGuest {
     email: string;
     firstName: string;
     lastName: string;
+    bookingCode: string;
     company: string;
     countryId: string;
     phone_prefix: string;
@@ -151,6 +155,7 @@ export declare const bookedByGuestBaseData: {
     id: number;
     email: string;
     company: string;
+    bookingCode: any;
     firstName: string;
     lastName: string;
     countryId: string;
@@ -177,6 +182,10 @@ export declare function resetAvailability(): void;
  * Updates booking draft pieces (dates, occupancy, source) while keeping unrelated keys intact.
  */
 export declare function setBookingDraft(params: Partial<BookingDraft>): void;
+/**
+ * Returns the linked travel agent if the source type is TRAVEL_AGENCY.
+ */
+export declare function resolveAgentFromBookingSource(source: BookingSource): Agent | null;
 /**
  * Updates dropdown lookup datasets (sources, bed preferences, etc.).
  */

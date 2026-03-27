@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+  --ir-editor-border-color: #cacfe7;
+}
+
+.editor-wrapper {
+  border-radius: 4px;
+  border: 1px solid var(--ir-editor-border-color, #cacfe7);
+  overflow: hidden;
+  height: var(--ir-editor-height, 300px);
+}
+.editor-container {
+  min-height: 300px;
+  padding: 10px;
+}
+.editor-wrapper.error {
+  border-color: var(--red, 'red') !important;
+}
+.ql-container,
+.ql-toolbar {
+  border: 0 !important;
+}
+.ql-toolbar {
+  border-bottom: 1px solid var(--ir-editor-border-color, #cacfe7) !important;
+}

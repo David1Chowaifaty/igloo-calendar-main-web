@@ -28,6 +28,7 @@ export declare class IrRoom {
     hasCheckOut: boolean;
     collapsed: boolean;
     isLoading: boolean;
+    isToggling: boolean;
     modalReason: RoomModalReason;
     mainGuest: SharedPerson;
     isModelOpen: boolean;
@@ -40,6 +41,7 @@ export declare class IrRoom {
     resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<RoomGuestsPayload>>;
     private modal;
+    private toggleDialogRef;
     private bookingService;
     dialogRef: HTMLIrDialogElement;
     componentWillLoad(): void;
@@ -50,6 +52,7 @@ export declare class IrRoom {
     private openModal;
     private handleModalConfirmation;
     private deleteRoom;
+    private toggleRoomAgent;
     private updateDepartureTime;
     private formatVariation;
     private getSmokingLabel;
@@ -57,6 +60,6 @@ export declare class IrRoom {
     private renderModalMessage;
     private handleCheckIn;
     private getMainGuest;
-    render(): any;
     private showGuestModal;
+    render(): any;
 }
