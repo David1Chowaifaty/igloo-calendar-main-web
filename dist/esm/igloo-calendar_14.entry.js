@@ -11,7 +11,7 @@ import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
 import { T as Token } from './Token-030c78a9.js';
 import { v as v4 } from './v4-964634d6.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-80dacb87.js';
+import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-b4e8d599.js';
 import { A as AgentsService } from './agents.service-2ca2b2c5.js';
 import { P as PropertyService } from './property.service-cc248a56.js';
 import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-521d300a.js';
@@ -6875,24 +6875,23 @@ const IrHkTasks = class {
             }
             this.isCleaningLoading = true;
             if (this.modalCauses?.cause === 'skip') {
-                const { booking_nbr, date, unit } = this.modalCauses.task;
-                await this.houseKeepingService.editHkSkip({
-                    BOOK_NBR: booking_nbr,
-                    DATE: date,
-                    COMMENT: '',
-                    HK_SKIP_ID: -1,
-                    HK_SKIP_REASON_CODE: '001',
-                    PR_ID: unit.id,
+                const { booking_nbr, date, unit, extra_task } = this.modalCauses.task;
+                await this.houseKeepingService.skipHKTasks({
+                    property_id: calendar_data.property.id,
+                    tasks_to_skip: [{ unit_id: unit.id, booking_nbr, date }, ...(extra_task ?? []).map(t => ({ unit_id: t.unit.id, booking_nbr: t.booking_nbr, date: t.date }))],
                 });
             }
             else {
                 await this.houseKeepingService.executeHKAction({
-                    actions: hkTasksStore.selectedTasks.map(t => ({
+                    actions: hkTasksStore.selectedTasks
+                        .flatMap(t => [t, ...(t.extra_task ?? [])])
+                        .map(t => ({
                         description: 'Cleaned',
                         hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
                         unit_id: t.unit.id,
                         booking_nbr: t.booking_nbr,
                         status: this.modalCauses?.status ?? '001',
+                        hk_task_type_code: t.task_type.code,
                     })),
                 });
             }

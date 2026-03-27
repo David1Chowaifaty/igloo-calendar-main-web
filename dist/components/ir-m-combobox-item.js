@@ -68,7 +68,7 @@ const IrMComboboxItem$1 = /*@__PURE__*/ proxyCustomElement(class IrMComboboxItem
     };
     render() {
         // Render either provided html_content or the slotted content
-        return (h(Host, { key: 'd109ad1dc8f7f096a822cc8d6adb379998bb3643', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '6d47037a92006d20f75ae56f0d03ba9f87f1f5a9', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
     static get style() { return IrMComboboxItemStyle0; }
 }, [6, "ir-m-combobox-item", {

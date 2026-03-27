@@ -1,5 +1,5 @@
-import { r as registerInstance, h, F as Fragment, H as Host, c as createEvent } from './index-7e96440e.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-80dacb87.js';
+import { r as registerInstance, h, F as Fragment, H as Host, c as createEvent, g as getElement } from './index-7e96440e.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-b4e8d599.js';
 import { c as calendar_data } from './calendar-data-2ae53dc9.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
 import { l as locales } from './locales.store-cb784e95.js';
@@ -196,19 +196,19 @@ const IrTasksCard = class {
         ].filter(g => g.count > 0);
     }
     render() {
-        return (h("wa-card", { key: 'bcd6a99e50712be72073bf9bc91f9f0f6498f5a7', class: "task-card" }, h("div", { key: '7551f86e2e039758d41aa80b896f3f24536dd6df', class: "task-card__body" }, h("div", { key: '5a8e3bf4ded8d5a73bc9357ba9689c4423f1061c', class: "task-card__unit" }, h("span", { key: '11119a54a0b2ec0498a37f214b605deded9d70d7', class: "task-card__unit-name" }, this.task.unit.name), h("div", { key: 'ff1db92315bbd55150c26c0256dc93bbb057ad8a', class: "task-card__meta" }, h("span", { key: '0cbee4fd26ce939ada1e6a7cdb64419e4f95db17', class: "task-card__status" }, this.task.status.description), this.task.hint && h("span", { key: '358bd4b374f69cd9db593470577e32065f60cbe6', class: "task-card__sep" }, "\u00B7"), this.task.hint && h("span", { key: '2d87ab385fdd60a2341d097d75dcbeceae08ba6b', class: "task-card__hint" }, this.task.hint), h("span", { key: 'b9812d47b94ddc8b1b25efb489fa44ae44365e0e', class: "task-card__sep" }, "\u00B7"), h("span", { key: '07f47ef99694fe5dac33e4194ba129cb6e5c58e6', class: "task-card__date" }, this.task.formatted_date))), h("div", { key: 'b77c9d41c1ca669b7a8723c6cd251f458b615610', class: "task-card__badges" }, this.taskTypeBadge(this.task.task_type?.code), this.task.extra_task?.map(et => this.taskTypeBadge(et.task_type?.code))), this.guests.length > 0 && (h("div", { key: 'f49d8dede96d2de3da7602f2c5b144481c536b34', class: "task-card__guests" }, this.guests.map(g => (h("div", { class: "task-card__guest" }, h("wa-icon", { name: g.icon, class: "task-card__guest-icon", style: { fontSize: `${Math.min(0.75 + g.count * 0.15, 1.4)}rem` } }), h("span", { class: "task-card__guest-count" }, g.count)))))), h("div", { key: '1506697589ba8773d1f180fe02775ce6859bc012', class: "task-card__assign" }, h("wa-select", { key: '7bca214c22f2fa1876498120ac2750102c116941', label: "Housekeeper", class: "task-card__hk-select", size: "small", placeholder: "Unassigned", value: this.task.hkm_id ? String(this.task.hkm_id) : '', defaultValue: this.task.hkm_id ? String(this.task.hkm_id) : '', onchange: e => {
+        return (h("wa-card", { key: '68a862ccda6bc148b5adc1aa7d590e9336a01230', class: "task-card" }, h("div", { key: '3545f4d8524ca6be14b9bd383d863bbf9e4a5df6', class: "task-card__body" }, h("div", { key: '5b2f88a6f5cf539e93ca875064d3ca1db08edc0a', class: "task-card__unit" }, h("span", { key: 'c394e1715b0bde657046ac08eff34a2037e0d217', class: "task-card__unit-name" }, this.task.unit.name), h("div", { key: '14cdf7d8f0b6bea7a55bb5053ea3d027b00477ef', class: "task-card__meta" }, h("span", { key: 'dd09bf1428c9263b4fd1f000ce4beb3a76da2f7d', class: "task-card__status" }, this.task.status.description), this.task.hint && h("span", { key: 'ba451dbf79a2865a23fc425afc4c5a800e7c02ee', class: "task-card__sep" }, "\u00B7"), this.task.hint && h("span", { key: '030b7820b66bec254cb537e0be1e4d59ac48214b', class: "task-card__hint" }, this.task.hint), h("span", { key: '0746bad605e4592beb91df06cbe36c9bfb7fd21b', class: "task-card__sep" }, "\u00B7"), h("span", { key: '7e9794531160b423b83d3b6b2b0b38ec6702a4eb', class: "task-card__date" }, this.task.formatted_date))), h("div", { key: '1039f67770f589e8ed6f3cc8dcd7cc985232c27e', class: "task-card__badges" }, this.taskTypeBadge(this.task.task_type?.code), this.task.extra_task?.map(et => this.taskTypeBadge(et.task_type?.code))), this.guests.length > 0 && (h("div", { key: '1d063d038e98f006de6dcf3403dd0fc2850b8f95', class: "task-card__guests" }, this.guests.map(g => (h("div", { class: "task-card__guest" }, h("wa-icon", { name: g.icon, class: "task-card__guest-icon", style: { fontSize: `${Math.min(0.75 + g.count * 0.15, 1.4)}rem` } }), h("span", { class: "task-card__guest-count" }, g.count)))))), h("div", { key: '72139e6cb75d7614f0fc09c42399384e409db415', class: "task-card__assign" }, h("wa-select", { key: 'c1d7ae4483651b2009ffc5703e990ad07d1291e4', label: "Housekeeper", class: "task-card__hk-select", size: "small", placeholder: "Unassigned", value: this.task.hkm_id ? String(this.task.hkm_id) : '0', defaultValue: this.task.hkm_id ? String(this.task.hkm_id) : '0', onchange: e => {
                 const hkm_id = Number(e.target.value);
                 this.assignHousekeeper.emit({ task: this.task, hkm_id });
-            } }, housekeeping_store.hk_criteria?.housekeepers
+            } }, h("wa-option", { key: '85c6210feb4117c0892b0654398265a32d647f0b', value: "0" }, locales.entries.Lcz_Unassigned), housekeeping_store.hk_criteria?.housekeepers
             .slice()
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map(hk => (h("wa-option", { key: hk.id, value: String(hk.id) }, hk.name))))), h("div", { key: '92efe622e712c20850e7ce8e963b9b0c049b4811', class: "task-card__actions" }, this.isCheckable && (h("div", { key: 'bae7e8ccd7dadd8b03d1de85b75a4aa30ae4ab81', class: "task-card__clean-group" }, h("ir-custom-button", { key: '90505a5f1099174b72f2771a06408a63ce476484', variant: "brand", appearance: "outlined", onClickHandler: () => {
+            .map(hk => (h("wa-option", { key: hk.id, value: String(hk.id) }, hk.name))))), h("div", { key: '89454e525c0664308206453827edc4ecb0a53936', class: "task-card__actions" }, this.isCheckable && (h("div", { key: '8308102f7e0d5a8ee0dd505d3b28238212c7798f', class: "task-card__clean-group" }, h("ir-custom-button", { key: '7f7261f34fd17f0f2247c2a3b948998ad2375dec', variant: "brand", appearance: "outlined", onClickHandler: () => {
                 toggleTaskSelection(this.task);
                 this.cleanSelectedTask.emit({ task: this.task, status: '001' });
-            } }, "Clean"), h("ir-custom-button", { key: '13535094fc24056fd74a3367b0c9fe0b81288b15', variant: "brand", appearance: "filled", onClickHandler: () => {
+            } }, "Clean"), h("ir-custom-button", { key: '915496e771ec6f92d49e164212a8dd71c6e44545', variant: "brand", appearance: "filled", onClickHandler: () => {
                 toggleTaskSelection(this.task);
                 this.cleanSelectedTask.emit({ task: this.task, status: '004' });
-            } }, "Clean & Inspect"))), this.isSkippable && (h("ir-custom-button", { key: '3885a16ea9f82cd12d6c58fdf7610efe45f4d939', variant: "neutral", appearance: "outlined", onClickHandler: () => this.skipSelectedTask.emit(this.task) }, "Skip"))))));
+            } }, "Clean & Inspect"))), this.isSkippable && (h("ir-custom-button", { key: '923d7f35f6ff8bc46e1d243322bf76d7232565f5', variant: "neutral", appearance: "outlined", onClickHandler: () => this.skipSelectedTask.emit(this.task) }, "Skip"))))));
     }
 };
 IrTasksCard.style = IrTasksCardStyle0;
@@ -281,35 +281,41 @@ const IrTasksHeader = class {
         registerInstance(this, hostRef);
         this.headerButtonPress = createEvent(this, "headerButtonPress", 7);
     }
-    cleanInspectAnimationRef;
-    cleanedAnimationRef;
+    get el() { return getElement(this); }
     headerButtonPress;
-    handleCleanedButtonAnimation(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        requestAnimationFrame(() => {
-            if (this.cleanedAnimationRef) {
-                this.cleanedAnimationRef.play = true;
+    cleanAndInspectEl;
+    cleanEl;
+    prevSelectedCount = 0;
+    componentDidRender() {
+        const count = hkTasksStore.selectedTasks.length;
+        if (count > this.prevSelectedCount) {
+            if (!this.cleanAndInspectEl) {
+                this.cleanAndInspectEl = this.el.querySelector('#cleanInspectAnimation');
             }
-            if (this.cleanInspectAnimationRef) {
-                this.cleanInspectAnimationRef.play = true;
+            if (!this.cleanEl) {
+                this.cleanEl = this.el.querySelector('#cleanAnimation');
             }
-        });
+            if (this.cleanAndInspectEl)
+                this.cleanAndInspectEl.play = true;
+            if (this.cleanEl)
+                this.cleanEl.play = true;
+        }
+        this.prevSelectedCount = count;
     }
     render() {
-        return (h(Host, { key: '68d7b2216703d310cd306a4e7d8801725fce5319' }, h("div", { key: 'f9bf5a6decc1eaf9c1b8e3b0ea6bd6bb13cc8cb2', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '80b57d5f4c5549ee56831881d70885f982a28d6d', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: '05ee91ce78e0cf768d5ef5b9808422dd9d784940', name: "magnifying-glass", slot: "start" }))), h("div", { key: '629c881360d9919f1b53ff7f2c202a9feea086c9', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: '037fbac46373498dd904eaa7b5a5612f50499eef', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+        return (h(Host, { key: 'ac6125f62b939b79ec8b17b2b504f630f85456cd' }, h("div", { key: '52be48caa2ce6c5d910413c19dcef6d58831ef7d', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '50786e98f1430751a652d9cc4f5c121a7000a9d5', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: 'eba0e2e91f9ae8a7b6be33ad1cf70980225931d3', name: "magnifying-glass", slot: "start" }))), h("div", { key: '713e49f4ec459ca5cc892bdb30e4e1afb6743c8e', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: 'b6cafd124bc5f6fbe10bf94ccaf6572e9367e74a', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            } }, h("wa-icon", { key: '6f5ea8e1f105fd6fecfa48657f3f9b5c5ca38721', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: '1f68597d810044bd09c53d736b83d6e7ccb62fe5', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+            } }, h("wa-icon", { key: 'aaa8b0900826200d20bd7f44c294613df57d0fb2', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: 'ffa8c967f9cc06cd6f960611993333021a59787e', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '4f99a75ccb720e11d2f4bde06b8450f41f34495b', class: "clean-button", iterations: 1, ref: el => (this.cleanInspectAnimationRef = el), name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '96b8cce67459ede76ee4ef708caae2347b5fbf25', appearance: "filled", variant: "brand", onClickHandler: e => {
+            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '16b0a77f5d8ef914dfea35085ae53e59dc3dc971', iterations: 1, id: "cleanInspectAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '4896aa448386bed8f3e7187a7b431f75879cbac0', appearance: "filled", variant: "brand", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'clean-inspect' });
-            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: '92973872f7331f13ec28ad7d534dbcf158e87428', class: "clean-button", iterations: 1, ref: el => (this.cleanedAnimationRef = el), name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '3a1f5a10be1d572ac15c15fa1833b88ebae8c0ac', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
+            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: '6fd1743f40a95ad094dd7424896a4df4bb2ecf1c', iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '310584b210ae9a40793b375aba84ff8fbfd290dc', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
@@ -333,6 +339,7 @@ const IrTasksTable = class {
         this.skipSelectedTask = createEvent(this, "skipSelectedTask", 7);
         this.toast = createEvent(this, "toast", 7);
     }
+    get el() { return getElement(this); }
     tasks = [];
     pendingChange = null;
     selectRevertKey = 0;
@@ -379,7 +386,6 @@ const IrTasksTable = class {
      */
     toggleSelection(task) {
         toggleTaskSelection(task);
-        this.animateCleanedButton.emit(null);
         this.emitSelectedTasks();
     }
     emitSelectedTasks() {
@@ -438,15 +444,17 @@ const IrTasksTable = class {
         }
         const { task, hkmId } = this.pendingChange;
         try {
-            await this.houseKeepingService.overrideHKTaskOwnership({
-                property_id: calendar_data.property.id,
-                assignment: {
-                    HK_TASK_ASSIGNMENT_ID: Number(task.id),
+            const buildAssignment = (task) => {
+                return {
                     PR_ID: task.unit.id,
                     DATE: task.date,
-                    HK_TASK_TYPE_CODE: task.hk_task_type_code,
-                    HKM_ID: hkmId,
-                },
+                    HK_TASK_TYPE_CODE: task.task_type.code,
+                    HKM_ID: hkmId === 0 ? null : hkmId,
+                };
+            };
+            await this.houseKeepingService.overrideHKTaskOwnership({
+                property_id: calendar_data.property.id,
+                assignment: [buildAssignment(task), ...(task.extra_task ?? []).map(buildAssignment)],
             });
             // Update the task locally in the store
             const updatedTasks = hkTasksStore.tasks.map(t => (t.id === task.id ? { ...t, hkm_id: hkmId, housekeeper: hkmId ? this.getHousekeeperName(hkmId) : null } : t));
@@ -467,11 +475,11 @@ const IrTasksTable = class {
         const mobileTasks = getMobileTasks();
         const housekeepers = housekeeping_store?.hk_criteria?.housekeepers ?? [];
         const pendingHkName = this.pendingChange ? this.getHousekeeperName(this.pendingChange.hkmId) : '';
-        return (h(Host, { key: 'e54a0888b240a0e05ee1de065382e667dabaa41a' }, h("section", { key: '32d76bad994b474801acd6d19807646bb182cf49', class: "mobile-tasks-container" }, h("wa-card", { key: 'd5d1a4cfbccc27fe49ab1f079d11abab8e4ca09e' }, h("ir-tasks-header", { key: 'c0f692efaf3746bf030d27fd2159a47db69ee557' })), mobileTasks?.length === 0 && h("p", { key: 'aa369ea6c5c2460687cce2742ff739d6eaf4faa8', class: "empty-msg" }, locales.entries.Lcz_NoTasksFound), mobileTasks.map(task => {
+        return (h(Host, { key: '789fc15ec36dd4a7e8f9c38132ec3cda52939211' }, h("section", { key: 'd215d59b720c990e67cc78fdf22ff3028b07d589', class: "mobile-tasks-container" }, h("wa-card", { key: 'bf7024cb83ce4b2f60f5ee0165ce92db556fc450' }, h("ir-tasks-header", { key: '5fa18ef089d3ec0a6594096e633a8f237e3a74d2' })), mobileTasks?.length === 0 && h("p", { key: '90535c447b16c2904b28bbb3cf6ed7e78c0e1891', class: "empty-msg" }, locales.entries.Lcz_NoTasksFound), mobileTasks.map(task => {
             const isCheckable = this.isCheckable(task);
             const isSkippable = this.isSkippable(task);
             return h("ir-tasks-card", { task: task, isSkippable: isSkippable, key: task.id, isCheckable: isCheckable });
-        }), h("ir-tasks-table-pagination", { key: 'e66d9389a7ec3d33afee282f5815dbd9917d6baf' })), h("wa-card", { key: 'b558a42616b8a34fa45666d1271b3ad0ce6936bc', class: "table-container" }, h("ir-tasks-header", { key: '990775b377a905e51375cf2ef9053e8293c53641' }), h("div", { key: '88a2d9854f9a1d73c494319dfc6bbaf74f54cee8', class: "table--container" }, h("table", { key: '895799d96fc21cfeed903ff92b69f2c55c4c399f', class: "table data-table", "data-testid": "hk_tasks_table" }, h("thead", { key: 'fe48519d545e1700ccae057b6449f6e8ab4cc985', class: "table-header" }, h("tr", { key: '2e3af5222b1d858ace9188a0033cdf83f575e8a6' }, h("th", { key: '9ac77e01cfccaf50061564d18a2a6ad3aac4c9f6', class: 'task-row' }, h("wa-checkbox", { key: '549e8270d24bb3d7221da2f09b3e7fdb1711a5b8', indeterminate: hkTasksStore.selectedTasks.length > 0 && hkTasksStore.selectedTasks.length < getCheckableTasks().length, checked: this.allSelected, defaultChecked: this.allSelected, onchange: () => this.toggleSelectAll() })), h("th", { key: 'a22631e62a172cb9194a4f3d75c4b8bd6b69c42a', class: "" }, locales.entries.Lcz_Period), h("th", { key: '2c4ee2a0137970202bc36ee9f7d868dd792420ac', class: "" }, this.tasks.length > 1 && this.tasks.length + ' ', locales.entries.Lcz_Unit), h("th", { key: '3caccd9f77b8dff1fb25ad7f44a1168b179da34a', class: "sortable", onClick: () => this.handleSort('status') }, h("div", { key: '5f1d1fd5ec56271899301d1368f01fe4c97e4824', class: "th-sort-inner" }, h("span", { key: '29de8728128b351c6e630e3956b526ec661d3381' }, locales.entries.Lcz_Status), h("svg", { key: '2dd94a629ffdc0aa422407aac86d09edee23ebfe', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'dbdcd8a385d4940991e35ae3f75cf550e9791c1c', d: "m21 16-4 4-4-4" }), h("path", { key: 'c104e8df3f991b05ad8dfc3ca0b854e6c01a505d', d: "M17 20V4" }), h("path", { key: '50c1794407ac37a6f92817e4c7d62e9b44821ff0', d: "m3 8 4-4 4 4" }), h("path", { key: 'dd7eff1335f82bf082420fc4d5043c69a67a566c', d: "M7 4v16" })))), h("th", { key: 'ba41c289dc91ab21bcb1ec06e417ae17e5a21637', class: " text-left" }, locales.entries.Lcz_Hint), h("th", { key: 'a29658690b9c3fe511733b3fde3b43df928886ed', class: " text-left" }, "Tasks"), h("th", { key: 'd843b90cd668eb565a5e04eaa335fbf7f2597884', class: "text-left" }, locales.entries.Lcz_A, "d"), h("th", { key: 'fab781016ce1f552694630b516fedf5c788a65f4', class: "text-left" }, locales.entries.Lcz_C, "h"), h("th", { key: '603e7fab6980fce8791e9cccbcd995d1efd8f380', class: "text-left text-left" }, locales.entries.Lcz_I, "n"), haveManyHousekeepers && (h("th", { key: 'c8f34d9c3d0a7aee19c95a162788a11a16b51ef6', class: "sortable", onClick: () => this.handleSort('housekeeper') }, h("div", { key: '6766764bac5c6fe8f0de01b3c44ab3ad2cec42db', class: "th-sort-inner" }, h("span", { key: '5a1977189dfef72dc28a9cd522824865f44f7dfb' }, locales.entries.Lcz_Housekeeper), h("svg", { key: 'b8111c7ed28e2bd9ca928bf62e9e6b5616965b32', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'cd34647236deb560cf9f75994b401bd744ad8d48', d: "m21 16-4 4-4-4" }), h("path", { key: '493e6b0b454a54a657c699e81eb8e508e6143b8c', d: "M17 20V4" }), h("path", { key: '13cf98ad8b97134f07ed017a8f177e695980cd50', d: "m3 8 4-4 4 4" }), h("path", { key: '298114ddb442deaa774a12c9c67ce1e709be4c92', d: "M7 4v16" }))))), h("th", { key: '532fa18cd9755b758068e97d0f8d94f28455bee3' }))), h("tbody", { key: '80aab7d2edc0d56a9b2c8130a973c6ed9995986d' }, tasks.length === 0 && (h("tr", { key: '58098f6029a45bba3a6f9d948e032122be93f255', class: "ir-table-row" }, h("td", { key: 'c76b304febe3842782c6622c864c3cb5928ca1a1', colSpan: 9 }, h("div", { key: '4ff54999c0420bd1ec9b688c5775b07c702b0cc7', class: "table-empty-state" }, h("span", { key: '062a0ecc8b7a7c8412993cd918d74495bf6857e9' }, locales.entries.Lcz_NoTasksFound))))), tasks?.map(task => {
+        }), h("ir-tasks-table-pagination", { key: 'e8bf9f3627e7d07a526582f8d63ee66bb412fbba' })), h("wa-card", { key: '992d043476eda61350f18eee3fc105bbb0cef76a', class: "table-container" }, h("ir-tasks-header", { key: '8732d2e5bad8c6f8a9fc8ff7686fa491184edf6e' }), h("div", { key: 'b321e0c8d2f498258c8c17a8741117ca62bec73b', class: "table--container" }, h("table", { key: 'cdf786891abae31b964e917c044ce1e663bf93f3', class: "table data-table", "data-testid": "hk_tasks_table" }, h("thead", { key: '80f055eb7618acce6fc09104a2d7059b9bbbef95', class: "table-header" }, h("tr", { key: 'c559b2fae552cccef6a4d638bd0f85dbe77d1fb6' }, h("th", { key: 'f3a6b4ae086ff7e552d5055394cd06c7e960a9a8', class: 'task-row' }, h("wa-checkbox", { key: '63d262d4b77667657865200e8faef0bf8527e153', indeterminate: hkTasksStore.selectedTasks.length > 0 && hkTasksStore.selectedTasks.length < getCheckableTasks().length, checked: this.allSelected, defaultChecked: this.allSelected, onchange: () => this.toggleSelectAll() })), h("th", { key: '3398728d6075764f6376374df8e77a106c9f1181', class: "" }, locales.entries.Lcz_Period), h("th", { key: '4a49e5b83fce616521dde739334e146eb52a71ef', class: "" }, this.tasks.length > 1 && this.tasks.length + ' ', locales.entries.Lcz_Unit), h("th", { key: '80869bb6f7434e6aa9f49b6ec824e638446a0fb2', class: "sortable", onClick: () => this.handleSort('status') }, h("div", { key: 'a06a6c9d5ecbabbcea98e8ed149356c930d144eb', class: "th-sort-inner" }, h("span", { key: 'bc883f34b1e1b5f7232a7720d24673ec5a98f1ce' }, locales.entries.Lcz_Status), h("svg", { key: 'c36158c6358b6a46f765e0b1b132f5a426ae6111', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: '286c5af937a9801aab5b13822738085b6aa5d9a3', d: "m21 16-4 4-4-4" }), h("path", { key: '531c335f3c50151c662ee7b976507b01d38e52f4', d: "M17 20V4" }), h("path", { key: 'f390e607397b7857521b74f26f1ce76423030347', d: "m3 8 4-4 4 4" }), h("path", { key: '445292f36e636e2b26abbd2b3fd83a18723439f6', d: "M7 4v16" })))), h("th", { key: '993d66643c32036ff6585e43a7f5a2862b1209fc', class: " text-left" }, locales.entries.Lcz_Hint), h("th", { key: '8f423f0b73abb116695845211ca5e08366e80dd0', class: " text-left" }, "Tasks"), h("th", { key: '42ef9c899f553aa205c9fc4a4157586c1390a25c', class: "text-left" }, locales.entries.Lcz_A, "d"), h("th", { key: '9824d126a63a2f346bd82214d3def9af1e66b284', class: "text-left" }, locales.entries.Lcz_C, "h"), h("th", { key: '89627a9a5bc6d91f9fabf1ee483c000e12681241', class: "text-left text-left" }, locales.entries.Lcz_I, "n"), haveManyHousekeepers && (h("th", { key: 'f2cb1cf62b3c141a12a9fda7fbef2eaef7d90a68', class: "sortable", onClick: () => this.handleSort('housekeeper') }, h("div", { key: 'e98ae7756d8d34f185f59715fc716cadc2c07c90', class: "th-sort-inner" }, h("span", { key: 'a7c8240178a959a8a8ad9fd9d3cdc182c52615a9' }, locales.entries.Lcz_Housekeeper), h("svg", { key: '9563586eb6d9b7059cceaa15aee91d58766a0d10', xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", class: "lucide lucide-arrow-up-down" }, h("path", { key: 'e811c0eb50efe80921df1ae65604b1c4c072ce04', d: "m21 16-4 4-4-4" }), h("path", { key: '3ff2f853086255e33b177e311fd60a7a0c720b7d', d: "M17 20V4" }), h("path", { key: '78ffbcecae0075d37c336ae305ab2dafbf0ebd65', d: "m3 8 4-4 4 4" }), h("path", { key: '5ddadfb1661659ee57b65d99f9bb6d572fee6de6', d: "M7 4v16" }))))), h("th", { key: '4738051cf4728ecfcab84fced619f197217f0d4c' }))), h("tbody", { key: '5e575eee1aabae19902b0f44dd28d43f39872711' }, tasks.length === 0 && (h("tr", { key: '9b7a7f7d02862c3c6860e2bad5f601aaa333c980', class: "ir-table-row" }, h("td", { key: '3c47dd6e2f37135cacca35c725efc6b751ce11ee', colSpan: 9 }, h("div", { key: '37f359c41580505b13754ccd316e22c9f97a57b0', class: "table-empty-state" }, h("span", { key: '873e763871b6ba578a61b8d329fe563c4b251cc7' }, locales.entries.Lcz_NoTasksFound))))), tasks?.map(task => {
             const isSelected = hkTasksStore.selectedTasks.some(t => t.id === task.id);
             const isCheckable = this.isCheckable(task);
             return (h("tr", { "data-date": task.date, "data-testid": `hk_task_row`, "data-assigned": task.housekeeper ? 'true' : 'false', style: isCheckable && { cursor: 'pointer' }, onClick: () => {
@@ -496,11 +504,11 @@ const IrTasksTable = class {
                 }, variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.skipSelectedTask.emit(task);
                 } }, "Skip")))));
-        })))), h("div", { key: 'c88e3ddaee3cfece85d980a436d53e7eec900a0c', class: "data-table--pagination " }, h("ir-tasks-table-pagination", { key: '61f47f49c04cdda40c884d28a3d5fc3f1d35f5d9' }))), h("ir-dialog", { key: 'cd7bb115f0b146e66ba91933aef9d95067aa6c92', ref: el => (this.dialog = el), label: locales.entries.Lcz_Confirmation, lightDismiss: false }, h("span", { key: '62d7c1fa428e6cd2a769617876d3043fafbebdd3' }, locales.entries.Lcz_Assign, " ", h("strong", { key: '46b09abe2a6aa20de082d09617a2098a7df99fbb' }, this.pendingChange?.task?.unit?.name), " ", 'to', " ", h("strong", { key: '165761b22700348b9ade3a3779817980ad1182a1' }, pendingHkName), "?"), h("div", { key: '05c4b069e5493a93e8bd4bd17b1a4e6a389c2057', slot: "footer", class: "hk-dialog-footer" }, h("ir-custom-button", { key: '8d22b6b787d3359f472c429f595b6c69fb267b10', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => {
+        })))), h("div", { key: 'aef4dcb2effb03b4f2a46dde5cb8e8f7f87c5bcf', class: "data-table--pagination " }, h("ir-tasks-table-pagination", { key: '3bd18125e651db3d8a264c933d7869f54f54c011' }))), h("ir-dialog", { key: 'be488bd77cfed95f476fd6894d6073312e10cb77', ref: el => (this.dialog = el), label: locales.entries.Lcz_Confirmation, lightDismiss: false }, h("span", { key: '9d01a502e3e932a659dce840040a28f5a0d68859' }, locales.entries.Lcz_Assign, " ", h("strong", { key: 'a04cb93d7dd29bb37a33d00154f6fe2260bb9341' }, this.pendingChange?.task?.unit?.name), " ", 'to', " ", h("strong", { key: '177aa767a76d2d07490906dea45bc0c08769af84' }, pendingHkName), "?"), h("div", { key: '45921c78666fd2a46c7240334968623533bacf10', slot: "footer", class: "hk-dialog-footer" }, h("ir-custom-button", { key: 'dcb5c53d95b599c641c863d492cd4850ade7ccc1', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => {
                 this.pendingChange = null;
                 this.selectRevertKey++;
                 this.dialog.closeModal();
-            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '404b46ef446289b9025c062d98b4c038ac53642a', size: "medium", appearance: "accent", variant: "brand", loading: isRequestPending('/Override_HK_Task_Ownership'), onClickHandler: () => this.confirmOwnershipChange() }, locales.entries.Lcz_Confirm)))));
+            } }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'fc9b566adf88e1d0e4619706d510ddc0a942d2ad', size: "medium", appearance: "accent", variant: "brand", loading: isRequestPending('/Override_HK_Task_Ownership'), onClickHandler: () => this.confirmOwnershipChange() }, locales.entries.Lcz_Confirm)))));
     }
     static get watchers() { return {
         "tasks": ["handleTasksChange"]
@@ -521,7 +529,7 @@ const IrTasksTablePagination = class {
         const start = totalTasks === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const end = Math.min(currentPage * pageSize, totalTasks);
         const pageSizes = hkTasksStore.pagination.tasksList[0] > totalTasks ? hkTasksStore.pagination.tasksList.slice(0, 1) : hkTasksStore.pagination.tasksList;
-        return (h(Host, { key: '00591432cb32b455b7607b31dfeb67678cca1556' }, shouldLoadMore() && h("ir-button", { key: '19681bc03e4f27244ff689f45f983586e1f62a43', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '103b1a7550ca52dd01c53b6b6a437dd83d7e1a27', showing: {
+        return (h(Host, { key: '909b64b13ac3de37cd96da09057d4213022cbcd4' }, shouldLoadMore() && h("ir-button", { key: 'bb80566d7c849ffd5cccc2ae186068a53de4a267', size: "sm", class: "tasks-load-more", text: "Load more", onClickHandler: () => loadMoreTasks(mobileCurrentPage + 1) }), h("ir-pagination", { key: '5b5a5cdba10908f4fc35aedf0f7e3b1029f6ab28', showing: {
                 from: start,
                 to: end,
             }, class: "tasks-pagination", total: totalTasks, pages: totalPages, pageSize: pageSize, currentPage: currentPage, pageSizes: pageSizes, onPageChange: e => updateCurrentPage(e.detail.currentPage), onPageSizeChange: e => updatePageSize(e.detail.pageSize), showTotalRecords: true, recordLabel: "tasks" })));

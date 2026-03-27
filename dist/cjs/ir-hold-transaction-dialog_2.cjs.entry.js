@@ -122,7 +122,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (index.h("div", { key: 'ec73acd046c8e9d597b79355faad4f1e878ab20a', onDblClick: () => {
+        return (index.h("div", { key: '3684922d6a4848af893a014b8985946a159601af', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

@@ -84,6 +84,7 @@ const IglHousekeepingDialog = /*@__PURE__*/ proxyCustomElement(class IglHousekee
                             unit_id: this.selectedRoom?.id,
                             booking_nbr: this.bookingNumber,
                             status: status,
+                            hk_task_type_code: 'CLN',
                         },
                     ],
                 });
@@ -95,7 +96,7 @@ const IglHousekeepingDialog = /*@__PURE__*/ proxyCustomElement(class IglHousekee
         }
     }
     render() {
-        return (h("ir-dialog", { key: '40bc07889c9238b99ac8d8a7541da0366ac98fbd', ref: el => (this.dialogRef = el), open: this.open, label: "Housekeeping Update", onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: 'aa2a51f1f8da78da8ca13d1b030e6f0dfb741fe5', style: { margin: '0' } }, `${this.selectedRoom?.name} is currently marked as ${this.getStatusLabel()}.`), h("div", { key: 'aff13647a66e3fff60907c40bef09b338bdc9785', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '2376e498c16b73fb128e516f7c24cee5f6c1ac1c', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'f4bc01ccea31648b7ae3f5c294c95c673ee999a1', value: "hk-toggle-clean-dirty", size: "medium", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '7220ded7e10b2caf5528d0cc45bec94d7be42196', value: "hk-clean-inspect", size: "medium", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
+        return (h("ir-dialog", { key: '4eca53f7c4d9085e48fb46e099dc72ca749a6e71', ref: el => (this.dialogRef = el), open: this.open, label: "Housekeeping Update", onIrDialogAfterHide: () => this.irAfterClose.emit() }, h("p", { key: 'd77e12d20e458ab30c343e15a985d4549ab84e35', style: { margin: '0' } }, `${this.selectedRoom?.name} is currently marked as ${this.getStatusLabel()}.`), h("div", { key: 'ddb6430bc6183c66d0de104f3093a90f0788dde6', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '895a9432011831ae7441bab44f285b782e77cd26', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'b9b0d7540e0c00d8fcdd32b4f7d0083079649997', value: "hk-toggle-clean-dirty", size: "medium", variant: "brand", appearance: "outlined", loading: this.isLoading === 'hk-toggle-clean-dirty', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '002' ? '001' : '002') }, this.middleButtonLabel()), h("ir-custom-button", { key: '32103715199ee2d8c7788ccded7bcd02289b49bf', value: "hk-clean-inspect", size: "medium", variant: "brand", appearance: "accent", loading: this.isLoading === 'hk-clean-inspect', onClickHandler: e => this.updateHousekeeping(e, this.selectedRoom.hk_status === '004' ? '001' : '004') }, this.rightButtonLabel()))));
     }
     static get style() { return IglHousekeepingDialogStyle0; }
 }, [2, "igl-housekeeping-dialog", {

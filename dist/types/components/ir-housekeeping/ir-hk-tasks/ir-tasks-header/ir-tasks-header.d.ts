@@ -1,10 +1,12 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 export declare class IrTasksHeader {
-    private cleanInspectAnimationRef;
-    private cleanedAnimationRef;
+    el: HTMLIrTasksHeaderElement;
     headerButtonPress: EventEmitter<{
         name: 'cleaned' | 'export' | 'archive' | 'clean-inspect';
     }>;
-    handleCleanedButtonAnimation(e: CustomEvent): void;
+    private cleanAndInspectEl;
+    private cleanEl;
+    private prevSelectedCount;
+    componentDidRender(): void;
     render(): any;
 }

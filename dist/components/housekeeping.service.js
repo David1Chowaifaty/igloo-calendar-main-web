@@ -11,13 +11,21 @@ const SetHKTaskLabelsParamsSchema = z.object({
 });
 const OverrideHKTaskOwnershipParamsSchema = z.object({
     property_id: z.number(),
-    assignment: z.object({
-        HK_TASK_ASSIGNMENT_ID: z.number(),
+    assignment: z.array(z.object({
         PR_ID: z.number(),
         DATE: z.string(),
         HK_TASK_TYPE_CODE: z.string(),
-        HKM_ID: z.number(),
-    }),
+        HKM_ID: z.number().nullable(),
+    })),
+});
+const SkipHKTasksParamsSchema = z.object({
+    property_id: z.number(),
+    tasks_to_skip: z.array(z.object({
+        unit_id: z.number(),
+        booking_nbr: z.string(),
+        date: z.string(),
+        reason_code: z.string().optional().default('001'),
+    })),
 });
 
 class HouseKeepingService {
@@ -31,7 +39,6 @@ class HouseKeepingService {
     async overrideHKTaskOwnership(params) {
         const payload = OverrideHKTaskOwnershipParamsSchema.parse(params);
         const { data } = await axios.post(`/Override_HK_Task_Ownership`, payload);
-        updateHKStore('hk_criteria', data['My_Result']);
         return data['My_Result'];
     }
     async setHKTaskLabels(params) {
@@ -44,8 +51,9 @@ class HouseKeepingService {
         updateHKStore('hk_tasks', data['My_Result']);
         return data['My_Result'];
     }
-    async editHkSkip(params) {
-        const { data } = await axios.post(`/Edit_Hk_skip`, params);
+    async skipHKTasks(params) {
+        const payload = SkipHKTasksParamsSchema.parse(params);
+        const { data } = await axios.post(`/Skip_HK_Tasks`, payload);
         return data;
     }
     async getArchivedHKTasks(params) {

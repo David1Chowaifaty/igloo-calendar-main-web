@@ -13,42 +13,48 @@ const IrTasksHeader = /*@__PURE__*/ proxyCustomElement(class IrTasksHeader exten
         this.__registerHost();
         this.headerButtonPress = createEvent(this, "headerButtonPress", 7);
     }
-    cleanInspectAnimationRef;
-    cleanedAnimationRef;
+    get el() { return this; }
     headerButtonPress;
-    handleCleanedButtonAnimation(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        requestAnimationFrame(() => {
-            if (this.cleanedAnimationRef) {
-                this.cleanedAnimationRef.play = true;
+    cleanAndInspectEl;
+    cleanEl;
+    prevSelectedCount = 0;
+    componentDidRender() {
+        const count = hkTasksStore.selectedTasks.length;
+        if (count > this.prevSelectedCount) {
+            if (!this.cleanAndInspectEl) {
+                this.cleanAndInspectEl = this.el.querySelector('#cleanInspectAnimation');
             }
-            if (this.cleanInspectAnimationRef) {
-                this.cleanInspectAnimationRef.play = true;
+            if (!this.cleanEl) {
+                this.cleanEl = this.el.querySelector('#cleanAnimation');
             }
-        });
+            if (this.cleanAndInspectEl)
+                this.cleanAndInspectEl.play = true;
+            if (this.cleanEl)
+                this.cleanEl.play = true;
+        }
+        this.prevSelectedCount = count;
     }
     render() {
-        return (h(Host, { key: '68d7b2216703d310cd306a4e7d8801725fce5319' }, h("div", { key: 'f9bf5a6decc1eaf9c1b8e3b0ea6bd6bb13cc8cb2', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '80b57d5f4c5549ee56831881d70885f982a28d6d', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: '05ee91ce78e0cf768d5ef5b9808422dd9d784940', name: "magnifying-glass", slot: "start" }))), h("div", { key: '629c881360d9919f1b53ff7f2c202a9feea086c9', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: '037fbac46373498dd904eaa7b5a5612f50499eef', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+        return (h(Host, { key: 'ac6125f62b939b79ec8b17b2b504f630f85456cd' }, h("div", { key: '52be48caa2ce6c5d910413c19dcef6d58831ef7d', class: "search-filter-container", style: { gap: '1rem' } }, h("ir-input", { key: '50786e98f1430751a652d9cc4f5c121a7000a9d5', placeholder: "Search unit", class: "search-filter-input", value: hkTasksStore.searchField, "onText-change": e => updateSearchField(e.detail) }, h("wa-icon", { key: 'eba0e2e91f9ae8a7b6be33ad1cf70980225931d3', name: "magnifying-glass", slot: "start" }))), h("div", { key: '713e49f4ec459ca5cc892bdb30e4e1afb6743c8e', class: "action-buttons", style: { gap: '1rem' } }, h("ir-custom-button", { key: 'b6cafd124bc5f6fbe10bf94ccaf6572e9367e74a', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'export' });
-            } }, h("wa-icon", { key: '6f5ea8e1f105fd6fecfa48657f3f9b5c5ca38721', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: '1f68597d810044bd09c53d736b83d6e7ccb62fe5', appearance: "outlined", variant: "neutral", onClickHandler: e => {
+            } }, h("wa-icon", { key: 'aaa8b0900826200d20bd7f44c294613df57d0fb2', slot: "end", name: "file-excel" }), locales.entries.Lcz_Export), h("ir-custom-button", { key: 'ffa8c967f9cc06cd6f960611993333021a59787e', appearance: "outlined", variant: "neutral", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'archive' });
-            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '4f99a75ccb720e11d2f4bde06b8450f41f34495b', class: "clean-button", iterations: 1, ref: el => (this.cleanInspectAnimationRef = el), name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '96b8cce67459ede76ee4ef708caae2347b5fbf25', appearance: "filled", variant: "brand", onClickHandler: e => {
+            } }, locales.entries.Lcz_Archives), h("wa-animation", { key: '16b0a77f5d8ef914dfea35085ae53e59dc3dc971', iterations: 1, id: "cleanInspectAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '4896aa448386bed8f3e7187a7b431f75879cbac0', appearance: "filled", variant: "brand", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'clean-inspect' });
-            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: '92973872f7331f13ec28ad7d534dbcf158e87428', class: "clean-button", iterations: 1, ref: el => (this.cleanedAnimationRef = el), name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '3a1f5a10be1d572ac15c15fa1833b88ebae8c0ac', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
+            }, disabled: !(hkTasksStore.selectedTasks.length > 0) }, "Clean & Inspect")), h("wa-animation", { key: '6fd1743f40a95ad094dd7424896a4df4bb2ecf1c', iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, h("ir-custom-button", { key: '310584b210ae9a40793b375aba84ff8fbfd290dc', disabled: !(hkTasksStore.selectedTasks.length > 0), onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.headerButtonPress.emit({ name: 'cleaned' });
             }, variant: "brand" }, "Cleaned")))));
     }
     static get style() { return IrTasksHeaderStyle0; }
-}, [2, "ir-tasks-header", undefined, [[16, "animateCleanedButton", "handleCleanedButtonAnimation"]]]);
+}, [2, "ir-tasks-header"]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;

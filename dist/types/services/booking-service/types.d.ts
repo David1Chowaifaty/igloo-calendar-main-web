@@ -84,8 +84,8 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
     property_id?: number;
     currency_id?: number;
     language?: string;
-    room_identifier?: string;
     booking_nbr?: string;
+    room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
     is_preserve_history?: boolean;
@@ -93,8 +93,8 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
     property_id?: number;
     currency_id?: number;
     language?: string;
-    room_identifier?: string;
     booking_nbr?: string;
+    room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
     is_preserve_history?: boolean;
@@ -106,12 +106,12 @@ export declare const HandleExposedRoomInOutPropsSchema: z.ZodObject<{
     status: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     status?: string;
-    room_identifier?: string;
     booking_nbr?: string;
+    room_identifier?: string;
 }, {
     status?: string;
-    room_identifier?: string;
     booking_nbr?: string;
+    room_identifier?: string;
 }>;
 export type HandleExposedRoomInOutProps = z.infer<typeof HandleExposedRoomInOutPropsSchema> & {
     status: RoomInOut['code'];

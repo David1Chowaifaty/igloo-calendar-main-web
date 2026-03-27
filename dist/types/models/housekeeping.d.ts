@@ -21,43 +21,38 @@ export declare const SetHKTaskLabelsParamsSchema: z.ZodObject<{
 export type SetHKTaskLabelsParams = z.infer<typeof SetHKTaskLabelsParamsSchema>;
 export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
-    assignment: z.ZodObject<{
-        HK_TASK_ASSIGNMENT_ID: z.ZodNumber;
+    assignment: z.ZodArray<z.ZodObject<{
         PR_ID: z.ZodNumber;
         DATE: z.ZodString;
         HK_TASK_TYPE_CODE: z.ZodString;
-        HKM_ID: z.ZodNumber;
+        HKM_ID: z.ZodNullable<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
-        HK_TASK_ASSIGNMENT_ID?: number;
         PR_ID?: number;
         DATE?: string;
         HK_TASK_TYPE_CODE?: string;
         HKM_ID?: number;
     }, {
-        HK_TASK_ASSIGNMENT_ID?: number;
         PR_ID?: number;
         DATE?: string;
         HK_TASK_TYPE_CODE?: string;
         HKM_ID?: number;
-    }>;
+    }>, "many">;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     assignment?: {
-        HK_TASK_ASSIGNMENT_ID?: number;
         PR_ID?: number;
         DATE?: string;
         HK_TASK_TYPE_CODE?: string;
         HKM_ID?: number;
-    };
+    }[];
 }, {
     property_id?: number;
     assignment?: {
-        HK_TASK_ASSIGNMENT_ID?: number;
         PR_ID?: number;
         DATE?: string;
         HK_TASK_TYPE_CODE?: string;
         HKM_ID?: number;
-    };
+    }[];
 }>;
 export type OverrideHKTaskOwnershipParams = z.infer<typeof OverrideHKTaskOwnershipParamsSchema>;
 export interface IExposedHouseKeepingSetup {
@@ -183,7 +178,6 @@ export interface Task {
     formatted_date: string;
     hint: string;
     hkm_id: number;
-    hk_task_type_code: string;
     task_type: {
         code: 'CLN' | 'T1' | 'T2';
         description: string;
@@ -204,3 +198,39 @@ export type CleanTaskEvent = {
     task: Task;
     status?: '001' | '004';
 };
+export declare const SkipHKTasksParamsSchema: z.ZodObject<{
+    property_id: z.ZodNumber;
+    tasks_to_skip: z.ZodArray<z.ZodObject<{
+        unit_id: z.ZodNumber;
+        booking_nbr: z.ZodString;
+        date: z.ZodString;
+        reason_code: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    }, "strip", z.ZodTypeAny, {
+        date?: string;
+        unit_id?: number;
+        booking_nbr?: string;
+        reason_code?: string;
+    }, {
+        date?: string;
+        unit_id?: number;
+        booking_nbr?: string;
+        reason_code?: string;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    property_id?: number;
+    tasks_to_skip?: {
+        date?: string;
+        unit_id?: number;
+        booking_nbr?: string;
+        reason_code?: string;
+    }[];
+}, {
+    property_id?: number;
+    tasks_to_skip?: {
+        date?: string;
+        unit_id?: number;
+        booking_nbr?: string;
+        reason_code?: string;
+    }[];
+}>;
+export type SkipHKTasksParams = z.infer<typeof SkipHKTasksParamsSchema>;

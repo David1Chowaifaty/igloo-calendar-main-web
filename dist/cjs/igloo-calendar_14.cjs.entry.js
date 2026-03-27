@@ -15,7 +15,7 @@ const calendarData = require('./calendar-data-0598de26.js');
 const unassigned_dates_store = require('./unassigned_dates.store-4a879984.js');
 const Token = require('./Token-8fd11984.js');
 const v4 = require('./v4-9b297151.js');
-const housekeeping_service = require('./housekeeping.service-cde4a23d.js');
+const housekeeping_service = require('./housekeeping.service-352bb9eb.js');
 const agents_service = require('./agents.service-0d65fa76.js');
 const property_service = require('./property.service-aebaaf8d.js');
 const arrivals_store = require('./arrivals.store-de8361e9.js');
@@ -6879,24 +6879,23 @@ const IrHkTasks = class {
             }
             this.isCleaningLoading = true;
             if (this.modalCauses?.cause === 'skip') {
-                const { booking_nbr, date, unit } = this.modalCauses.task;
-                await this.houseKeepingService.editHkSkip({
-                    BOOK_NBR: booking_nbr,
-                    DATE: date,
-                    COMMENT: '',
-                    HK_SKIP_ID: -1,
-                    HK_SKIP_REASON_CODE: '001',
-                    PR_ID: unit.id,
+                const { booking_nbr, date, unit, extra_task } = this.modalCauses.task;
+                await this.houseKeepingService.skipHKTasks({
+                    property_id: calendarData.calendar_data.property.id,
+                    tasks_to_skip: [{ unit_id: unit.id, booking_nbr, date }, ...(extra_task ?? []).map(t => ({ unit_id: t.unit.id, booking_nbr: t.booking_nbr, date: t.date }))],
                 });
             }
             else {
                 await this.houseKeepingService.executeHKAction({
-                    actions: hkTasks_store.hkTasksStore.selectedTasks.map(t => ({
+                    actions: hkTasks_store.hkTasksStore.selectedTasks
+                        .flatMap(t => [t, ...(t.extra_task ?? [])])
+                        .map(t => ({
                         description: 'Cleaned',
                         hkm_id: t.hkm_id === 0 ? null : t.hkm_id,
                         unit_id: t.unit.id,
                         booking_nbr: t.booking_nbr,
                         status: this.modalCauses?.status ?? '001',
+                        hk_task_type_code: t.task_type.code,
                     })),
                 });
             }

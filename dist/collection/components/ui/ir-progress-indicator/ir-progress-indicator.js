@@ -13,7 +13,7 @@ export class IrProgressIndicator {
      */
     color = 'primary';
     render() {
-        return (h(Host, { key: '6a886dfc4bca8d9b01791eaca814de0e0797e407', class: "progress-main" }, h("span", { key: '13993655739fa2677ce02782f470152c93e0ebe5', class: "progress-totle" }, this.percentage), h("div", { key: '7ce49606abe40abd936499780b4e1d4e3cdb8e74', class: "progress-line" }, h("div", { key: 'fadefb867251f94034406f91be938b54b637d5eb', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (h(Host, { key: '91f1fdeb703824d0b766dcf53d506d7f6202c828', class: "progress-main" }, h("span", { key: '791999c1c1149c8405038b896c4328cd58b1547d', class: "progress-totle" }, this.percentage), h("div", { key: '9ecc067c2b8024ae57ede1c868e58214d6db3fe9', class: "progress-line" }, h("div", { key: '2f273afa8a33a56b186a78a26a4c9a28c1cd6cd6', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
     static get is() { return "ir-progress-indicator"; }
     static get encapsulation() { return "scoped"; }

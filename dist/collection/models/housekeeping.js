@@ -8,12 +8,20 @@ export const SetHKTaskLabelsParamsSchema = z.object({
 });
 export const OverrideHKTaskOwnershipParamsSchema = z.object({
     property_id: z.number(),
-    assignment: z.object({
-        HK_TASK_ASSIGNMENT_ID: z.number(),
+    assignment: z.array(z.object({
         PR_ID: z.number(),
         DATE: z.string(),
         HK_TASK_TYPE_CODE: z.string(),
-        HKM_ID: z.number(),
-    }),
+        HKM_ID: z.number().nullable(),
+    })),
+});
+export const SkipHKTasksParamsSchema = z.object({
+    property_id: z.number(),
+    tasks_to_skip: z.array(z.object({
+        unit_id: z.number(),
+        booking_nbr: z.string(),
+        date: z.string(),
+        reason_code: z.string().optional().default('001'),
+    })),
 });
 //# sourceMappingURL=housekeeping.js.map

@@ -1,4 +1,4 @@
-import { OverrideHKTaskOwnershipParamsSchema, SetHKTaskLabelsParamsSchema, } from "../models/housekeeping";
+import { OverrideHKTaskOwnershipParamsSchema, SetHKTaskLabelsParamsSchema, SkipHKTasksParamsSchema, } from "../models/housekeeping";
 import { updateHKStore } from "../stores/housekeeping.store";
 import axios from "axios";
 export class HouseKeepingService {
@@ -12,7 +12,6 @@ export class HouseKeepingService {
     async overrideHKTaskOwnership(params) {
         const payload = OverrideHKTaskOwnershipParamsSchema.parse(params);
         const { data } = await axios.post(`/Override_HK_Task_Ownership`, payload);
-        updateHKStore('hk_criteria', data['My_Result']);
         return data['My_Result'];
     }
     async setHKTaskLabels(params) {
@@ -25,8 +24,9 @@ export class HouseKeepingService {
         updateHKStore('hk_tasks', data['My_Result']);
         return data['My_Result'];
     }
-    async editHkSkip(params) {
-        const { data } = await axios.post(`/Edit_Hk_skip`, params);
+    async skipHKTasks(params) {
+        const payload = SkipHKTasksParamsSchema.parse(params);
+        const { data } = await axios.post(`/Skip_HK_Tasks`, payload);
         return data;
     }
     async getArchivedHKTasks(params) {

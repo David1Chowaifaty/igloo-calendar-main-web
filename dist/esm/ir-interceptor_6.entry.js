@@ -265,7 +265,7 @@ const IrInterceptor = class {
         this.baseOTPUrl = null;
     }
     render() {
-        return (h(Host, { key: '0d152f6433348ef6005ee9acf753863ab4342f8e' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: '2292738e3692d75615d2641efdd54e9037318ede', class: "loadingScreenContainer" }, h("div", { key: 'bf5906a289149fe0a3cc0378e54d8efb9753f6c2', class: "loaderContainer" }, h("ir-spinner", { key: '875bbbf7d7441e6c43c35c4d178ca42d0fd3b046' })))), this.showModal && (h("ir-otp-modal", { key: 'f6d8d204450db5ec6154f4a59bf53c4d83c0f553', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
+        return (h(Host, { key: '230d0eb2e72d9f471c9f4cdcff6cb9644a12b8d4' }, this.isLoading && !this.isPageLoadingStopped && (h("div", { key: 'b8dad1d0c1a02242691addcb0df861719516f674', class: "loadingScreenContainer" }, h("div", { key: 'f56de4b2a7ea113dc3d60b2980c0a9be46aa6aa2', class: "loaderContainer" }, h("ir-spinner", { key: 'fbaf0ba10885242438da3522102bf11342f6543b' })))), this.showModal && (h("ir-otp-modal", { key: 'b7ba276f90442ea704e9035dd71623c088a2b2bc', email: this.email, baseOTPUrl: this.baseOTPUrl, requestUrl: this.requestUrl, ref: el => (this.otpModal = el), onOtpFinished: this.handleOtpFinished.bind(this) }))));
     }
 };
 IrInterceptor.style = IrInterceptorStyle0;
@@ -504,7 +504,7 @@ const IrOtp = class {
         this.emitChanges();
     }
     render() {
-        return (h(Host, { key: '950944873d37ce2c481f525e54113327bfdbe276', class: "otp-input-container" }, h("div", { key: '50f1654b72aedc00546f5118de3ce94b5e71fc93', class: "otp-input-wrapper" }, Array(this.length)
+        return (h(Host, { key: 'ed26f270fe90c2001427cc00ec4166425fb6cd4a', class: "otp-input-container" }, h("div", { key: 'c6dbb3690188e92232e6a220a09cdabd2e833218', class: "otp-input-wrapper" }, Array(this.length)
             .fill(null)
             .map((_, index) => (h("input", { ref: el => (this.inputRefs[index] = el), type: this.type, inputmode: this.numbersOnly ? 'numeric' : 'text', class: "otp-digit form-control input-sm", maxlength: "1", placeholder: this.placeholder, disabled: this.disabled, autocomplete: "one-time-code", value: this.otpValues[index], onInput: e => this.handleInput(e, index), onKeyDown: e => this.handleKeyDown(e, index), onPaste: e => this.handlePaste(e, index), onFocus: this.handleFocus, "aria-label": `Digit ${index + 1} of ${this.length}` }))))));
     }
@@ -685,7 +685,7 @@ const IrOtpModal = class {
         this.clearTimer();
     }
     render() {
-        return (h(Host, { key: '047e99aaca7b39b939a1d73dbe98153b6cf217b4' }, h("dialog", { key: '3c870bd4dd74b709adc0a48554b354067c932b27', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '8f95792076c6e5e711259c64389bdfc25e5f9e1b', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
+        return (h(Host, { key: 'eccf2bf83d35a18bf9445426b5df39acaaf4e561' }, h("dialog", { key: '33c2b15f466e845ff57221918ea1fbb266825fa1', ref: el => (this.dialogRef = el), class: "otp-modal", "aria-modal": "true" }, h("form", { key: '1262c88584d459c366bfb87ad6739695e74cee84', method: "dialog", class: "otp-modal-content" }, this.isInitializing || !locales.entries ? (h("div", { class: 'd-flex align-items-center justify-content-center modal-loading-container' }, h("ir-spinner", null))) : (h(Fragment, null, h("header", { class: "otp-modal-header" }, h("h5", { class: "otp-modal-title" }, locales.entries.Lcz_VerifyYourIdentity)), h("section", { class: "otp-modal-body d-flex align-items-center flex-column" }, h("p", { class: "verification-message text-truncate" }, locales.entries.Lcz_WeSentYuoVerificationCode, " ", this.email), h("ir-otp", { autoFocus: true, length: this.otpLength, defaultValue: this.otp, onOtpComplete: this.handleOtpComplete }), this.error && h("p", { class: "text-danger small mt-1 p-0 mb-0" }, this.error), this.showResend && (h(Fragment, null, this.timer > 0 ? (h("p", { class: "small mt-1" }, locales.entries.Lcz_ResendCode, " 00:", String(this.timer).padStart(2, '0'))) : (h("ir-button", { class: "mt-1", btn_color: "link", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resendOtp();

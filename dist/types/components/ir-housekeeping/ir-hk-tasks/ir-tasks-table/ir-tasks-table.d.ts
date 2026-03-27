@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Task } from "../../../../models/housekeeping";
 import { IToast } from "../../../ui/ir-toast/toast";
 export declare class IrTasksTable {
+    el: HTMLIrTasksTableElement;
     tasks: Task[];
     pendingChange: {
         task: Task;
