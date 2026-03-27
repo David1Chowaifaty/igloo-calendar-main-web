@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { Booking, IBookingPickupInfo } from "../../../models/booking.dto";
+import { IBookingPickupInfo } from "../../../models/booking.dto";
 export declare class IrPickup {
-    booking: Booking;
     /**
      * Pre-filled pickup information coming from the booking.
      * When provided, the pickup form initializes with this data and

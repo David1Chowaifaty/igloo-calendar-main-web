@@ -1,6 +1,0 @@
-:host {
-  display: block;
-}
-.billing__drawer::part(footer) {
-  display: none;
-}

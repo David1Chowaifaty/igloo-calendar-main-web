@@ -33,7 +33,7 @@ export interface IBookingParams {
         value: string;
     }[] | null;
 }
-export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_AGENT_RATE_TYPE' | '_AGENT_TYPE' | '_TA_PAYMENT_METHOD' | '_VAT_INCLUDED' | '_CITY_TAX_INCLUDED' | '_SERVICE_CHARGE_INCLUDED' | '_TAXATION_STRATEGY' | '_SVC_CATEGORY' | '_VAT_INCLUDED' | '_CL_TX_TYPE' | '_FD_TYPE' | '_FD_STATUS' | '_CL_POST_TIMING' | (string & {});
+export type TableEntries = '_CALENDAR_BLOCKED_TILL' | '_DEPARTURE_TIME' | '_ARRIVAL_TIME' | '_RATE_PRICING_MODE' | '_BED_PREFERENCE_TYPE' | '_PAY_TYPE' | '_PAY_TYPE_GROUP' | '_PAY_METHOD' | '_AGENT_RATE_TYPE' | '_AGENT_TYPE' | '_TA_PAYMENT_METHOD' | '_CL_POST_TIMING' | (string & {});
 export type GroupedTableEntries = {
     [K in TableEntries as K extends `_${infer Rest}` ? Lowercase<Rest> : never]: IEntries[];
 };

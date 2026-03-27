@@ -1,0 +1,321 @@
+import { r as registerInstance, a as createEvent, h, F as Fragment } from './index-7b3961ed.js';
+import { c as calendar_data } from './calendar-data-cdc01d0d.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { z, g as ZodError } from './index-40c31d5b.js';
+import { P as PaymentService } from './payment.service-02495a82.js';
+import { Z as ZIEntrySchema } from './IBooking-9fbd40d1.js';
+import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-caf00b1d.js';
+import './index-17663a35.js';
+import './index-5ba472df.js';
+
+/**
+ * Builds a grouped payment types record from raw entries and groups.
+ *
+ * @param paymentEntries - The flat list of all available payment  entries.
+ * @returns A record where each key is a group CODE_NAME and the value is the
+ *          ordered array of payment type entries belonging to that group.
+ *
+ * @example
+ * const result = buildPaymentTypes(paymentEntries);
+ * // {
+ * //   PAYMENTS: [ { CODE_NAME: "001", CODE_VALUE_EN: "Cash", ... }, ... ],
+ * //   ADJUSTMENTS: [ ... ],
+ * //   ...
+ * // }
+ */
+function buildPaymentTypes(paymentEntries) {
+    try {
+        const { groups, types } = z
+            .object({
+            types: ZIEntrySchema.array().min(1),
+            groups: ZIEntrySchema.array().min(1),
+            methods: ZIEntrySchema.array().min(1),
+        })
+            .parse(paymentEntries);
+        const items = [...types];
+        const byCodes = (codes) => codes.map(code => items.find(i => i.CODE_NAME === code)).filter((x) => Boolean(x));
+        const extractGroupCodes = (code) => {
+            const paymentGroup = groups.find(pt => pt.CODE_NAME === code);
+            return paymentGroup ? paymentGroup.CODE_VALUE_EN.split(',') : [];
+        };
+        let rec = {};
+        groups.forEach(group => {
+            // if (group.CODE_NAME === 'PAYMENTS') {
+            //   rec[group.CODE_NAME] = methods.map(entry => ({
+            //     ...entry,
+            //     CODE_VALUE_EN: `Payment: ${entry.CODE_VALUE_EN}`,
+            //   })) as IEntries[];
+            // } else if (group.CODE_NAME === 'REFUND') {
+            //   rec[group.CODE_NAME] = methods.map(entry => ({
+            //     ...entry,
+            //     CODE_VALUE_EN: `Refund: ${entry.CODE_VALUE_EN}`,
+            //   })) as IEntries[];
+            rec[group.CODE_NAME] = byCodes(extractGroupCodes(group.CODE_NAME));
+        });
+        return rec;
+    }
+    catch (error) {
+        console.log(error);
+        return {};
+    }
+}
+
+const irPaymentFolioFormCss = ".sc-ir-payment-folio-form-h{display:block;--payment-type-badge-bg:#ff4961;text-align:start}.payment-type-badge.sc-ir-payment-folio-form{background:var(--payment-type-badge-bg);color:white;padding:0.2rem 0.3rem !important;font-size:12px;border-radius:4px;margin:0;text-transform:capitalize}.credit-badge.sc-ir-payment-folio-form{--payment-type-badge-bg:#629a4c}.debit-badge.sc-ir-payment-folio-form{--payment-type-badge-bg:#ff4961}.dropdown-item-payment.sc-ir-payment-folio-form{display:flex;align-items:center;gap:1rem;box-sizing:border-box;justify-content:space-between}.input-group-text.sc-ir-payment-folio-form{border-color:#cacfe7 !important}.payment-folio__payment-type-option.sc-ir-payment-folio-form{display:flex;align-items:center;justify-content:space-between}.payment-folio__form.sc-ir-payment-folio-form{display:grid;gap:var(--wa-space-m, 1rem)}";
+
+const DATE_FORMAT = 'YYYY-MM-DD';
+const requiresPaymentMethodCode = (code) => {
+    if (!code) {
+        return false;
+    }
+    return PAYMENT_TYPES_WITH_METHOD.includes(code);
+};
+const paymentTypeSchema = z.object({
+    code: z.string().min(3).max(4),
+    description: z.string(),
+    operation: z.union([z.literal('CR'), z.literal('DB')]),
+});
+const paymentMethodSchema = z.object({
+    code: z.string().min(3).max(4),
+    description: z.string(),
+    operation: z.string().optional().nullable(),
+});
+const folioBaseSchema = z.object({
+    id: z.number().nullable().optional(),
+    system_id: z.number().nullable().optional(),
+    date: z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/)
+        .refine(dateStr => {
+        const date = hooks(dateStr, DATE_FORMAT, true);
+        return date.isValid();
+    }, { message: `Invalid date` }),
+    amount: z.coerce.number().min(0),
+    reference: z.string().optional().nullable(),
+    payment_type: paymentTypeSchema,
+    payment_method: paymentMethodSchema.nullable().optional(),
+});
+const folioValidationSchema = folioBaseSchema.superRefine((data, ctx) => {
+    if (requiresPaymentMethodCode(data.payment_type?.code) && !data.payment_method?.code) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['payment_method'],
+            message: 'Payment method is required for this transaction type.',
+        });
+    }
+});
+let folioFormInstanceCounter = 0;
+const IrPaymentFolioForm = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.closeModal = createEvent(this, "closeModal", 7);
+        this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
+        this.resetExposedCancellationDueAmount = createEvent(this, "resetExposedCancellationDueAmount", 7);
+        this.loadingChanged = createEvent(this, "loadingChanged", 7);
+    }
+    paymentEntries;
+    bookingNumber;
+    formId;
+    payment = {
+        date: hooks().format(DATE_FORMAT),
+        amount: 0,
+        designation: undefined,
+        currency: null,
+        reference: null,
+        id: -1,
+    };
+    mode;
+    isLoading = null;
+    errors = {};
+    autoValidate = false;
+    folioData;
+    _paymentTypes = {};
+    closeModal;
+    resetBookingEvt;
+    resetExposedCancellationDueAmount;
+    loadingChanged;
+    today = hooks().format(DATE_FORMAT);
+    paymentService = new PaymentService();
+    componentId = `ir-payment-folio-form-${++folioFormInstanceCounter}`;
+    controlIds = {
+        date: `${this.componentId}-date`,
+        transactionType: `${this.componentId}-transaction-type`,
+        paymentMethod: `${this.componentId}-payment-method`,
+        amount: `${this.componentId}-amount`,
+        reference: `${this.componentId}-reference`,
+    };
+    componentWillLoad() {
+        if (this.payment) {
+            this.folioData = { ...this.payment };
+        }
+        this.syncPaymentTypes();
+    }
+    handlePaymentChange(newValue, oldValue) {
+        if (newValue !== oldValue && newValue) {
+            this.folioData = { ...newValue };
+            this.syncPaymentTypes();
+        }
+    }
+    handlePaymentEntriesChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.syncPaymentTypes();
+        }
+    }
+    updateFolioData(params) {
+        this.folioData = { ...(this.folioData ?? {}), ...params };
+    }
+    requiresPaymentMethod(code) {
+        return requiresPaymentMethodCode(code);
+    }
+    getDefaultPaymentMethod() {
+        const method = this.paymentEntries?.methods?.[0];
+        if (!method) {
+            return null;
+        }
+        return {
+            code: method.CODE_NAME,
+            description: method.CODE_VALUE_EN,
+            operation: method.NOTES,
+        };
+    }
+    stopEventPropagation(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+    }
+    syncPaymentTypes() {
+        if (!this.paymentEntries) {
+            this._paymentTypes = {};
+            return;
+        }
+        const mappedTypes = buildPaymentTypes(this.paymentEntries);
+        if (this.mode === 'payment-action' && this.payment?.payment_type?.code === '001') {
+            const { PAYMENTS, CANCELLATION } = mappedTypes;
+            this._paymentTypes = { PAYMENTS, CANCELLATION };
+            return;
+        }
+        this._paymentTypes = mappedTypes;
+    }
+    async savePayment(print = false) {
+        try {
+            this.isLoading = print ? 'save-print' : 'save';
+            this.loadingChanged.emit(this.isLoading);
+            this.autoValidate = true;
+            this.errors = {};
+            const parsedData = folioValidationSchema.parse({ ...(this.folioData ?? {}), amount: this.folioData?.amount ?? undefined });
+            const { payment_type, payment_method, ...rest } = parsedData;
+            const payload = {
+                ...rest,
+                payment_type: payment_type,
+                payment_method: payment_method ? payment_method : undefined,
+                id: rest.id ?? this.payment?.id ?? -1,
+                date: rest.date ?? this.payment?.date ?? this.today,
+                system_id: rest.system_id ?? this.payment?.system_id ?? undefined,
+                amount: rest.amount ?? 0,
+                currency: calendar_data.currency,
+                reference: rest.reference ?? '',
+                designation: payment_type?.description || '',
+            };
+            await this.paymentService.AddPayment(payload, this.bookingNumber);
+            this.resetBookingEvt.emit(null);
+            this.resetExposedCancellationDueAmount.emit({ booking_nbr: this.bookingNumber });
+            this.closeModal.emit();
+        }
+        catch (error) {
+            const err = {};
+            if (error instanceof ZodError) {
+                error.issues.forEach(e => {
+                    const field = e.path[0]?.toString();
+                    if (field) {
+                        err[field] = true;
+                    }
+                });
+            }
+            console.error('Failed to save payment folio entry', error);
+            this.errors = err;
+        }
+        finally {
+            this.isLoading = null;
+            this.loadingChanged.emit(null);
+        }
+    }
+    handleDropdownChange(value) {
+        this.updateFolioData({ designation: value });
+        if (!value) {
+            this.updateFolioData({
+                payment_type: null,
+                payment_method: null,
+            });
+            return;
+        }
+        const selectedType = this.paymentEntries?.types?.find(pt => pt.CODE_NAME === value);
+        if (!selectedType) {
+            console.warn(`Invalid payment type ${value}`);
+            this.updateFolioData({
+                payment_type: null,
+                payment_method: null,
+            });
+            return;
+        }
+        this.updateFolioData({
+            payment_type: {
+                code: selectedType.CODE_NAME,
+                description: selectedType.CODE_VALUE_EN,
+                operation: selectedType.NOTES,
+            },
+            payment_method: this.requiresPaymentMethod(selectedType.CODE_NAME) ? null : this.getDefaultPaymentMethod(),
+        });
+    }
+    handlePaymentMethodDropdownChange(value) {
+        const payment_method = this.paymentEntries?.methods?.find(pt => pt.CODE_NAME === value);
+        if (!payment_method) {
+            console.warn(`Invalid payment method ${value}`);
+            this.updateFolioData({ payment_method: null });
+            return;
+        }
+        this.updateFolioData({
+            payment_method: {
+                code: payment_method.CODE_NAME,
+                description: payment_method.CODE_VALUE_EN,
+                operation: payment_method.NOTES,
+            },
+        });
+    }
+    renderDropdownItems() {
+        const groups = Object.values(this._paymentTypes ?? {});
+        if (!groups.length) {
+            return null;
+        }
+        return groups.map((p, idx) => (h(Fragment, null, p.map(pt => (h("wa-option", { key: pt.CODE_NAME, value: pt.CODE_NAME, label: pt.CODE_VALUE_EN }, h("div", { class: 'payment-folio__payment-type-option' }, h("span", null, pt.CODE_VALUE_EN), h("wa-badge", { variant: pt.NOTES === 'CR' ? 'success' : 'danger', style: { fontSize: 'var(--wa-font-size-s)' } }, pt.NOTES === 'CR' ? 'credit' : 'debit'))))), idx !== Object.values(this._paymentTypes).length - 1 && h("wa-divider", null))));
+    }
+    render() {
+        // const isNewPayment = this.folioData?.payment_type?.code === '001' && this.folioData.id === -1;
+        return (h("form", { key: '9451540b349674d6c41fac68c7603edc050d2c0a', onSubmit: e => {
+                e.preventDefault();
+                const submitter = e.submitter;
+                if (submitter?.value === 'save') {
+                    this.savePayment();
+                }
+                else if (submitter?.value === 'saveAndPrint') {
+                    // this.savePayment(true);
+                }
+            }, class: "payment-folio__form", id: this.formId }, h("ir-custom-date-picker", { key: '972d0bfe9b707c742b355ac00b98b1a47dc86df4', id: this.controlIds.date, label: "Date", "aria-invalid": this.errors?.date && !this.folioData?.date ? 'true' : 'false', "data-testid": "pickup_date", onDateChanged: evt => {
+                this.updateFolioData({ date: evt.detail.start?.format(DATE_FORMAT) });
+            }, minDate: hooks().add(-2, 'months').format('YYYY-MM-DD'), emitEmptyDate: true, maxDate: this.today, date: this.folioData?.date }), h("ir-validator", { key: '5abf23a92cd778dde9765a5edd80e8a9d0a36b19', value: this.folioData?.payment_type?.code, autovalidate: this.autoValidate, schema: paymentTypeSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'c68dcc9092ee0fa840fa90e767859379ee2f119b', id: this.controlIds.transactionType, size: "small", "onwa-hide": event => this.stopEventPropagation(event), "onwa-show": event => this.stopEventPropagation(event), placeholder: "Select...", label: "Transaction type", defaultValue: this.folioData?.payment_type?.code, value: this.folioData?.payment_type?.code, disabled: this.mode === 'payment-action', onchange: event => {
+                this.stopEventPropagation(event);
+                this.handleDropdownChange(event.target.value);
+            } }, h("wa-option", { key: '46f1b87a5aace77571656ab2bab0a9cf62c57443', value: "" }, "Select..."), this.renderDropdownItems())), this.requiresPaymentMethod(this.folioData?.payment_type?.code) && (h("ir-validator", { key: '51ac7f1d2411de1fe1d4f8f6d37d124cd34605e4', value: this.folioData?.payment_method?.code ?? '', autovalidate: this.autoValidate, schema: paymentMethodSchema.shape.code, valueEvent: "change wa-change select-change", blurEvent: "wa-hide" }, h("wa-select", { key: 'd8d0f9a0140921286992ce08bf6e45fa99400805', id: this.controlIds.paymentMethod, size: "small", label: `${this.folioData.payment_type?.code === '001' ? 'Payment' : 'Refund'} method`, "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), defaultValue: this.folioData?.payment_method?.code, value: this.folioData?.payment_method?.code ?? '', onchange: event => {
+                this.stopEventPropagation(event);
+                this.handlePaymentMethodDropdownChange(event.target.value);
+            } }, h("wa-option", { key: '505a56c9a4863ab7d5c28d7161c0f607119f1746', value: "" }, "Select..."), this.paymentEntries?.methods?.map(pt => {
+            return (h("wa-option", { key: pt.CODE_NAME, label: pt.CODE_VALUE_EN, value: pt.CODE_NAME }, pt.CODE_VALUE_EN));
+        })))), h("ir-validator", { key: '8c177e1583afc1fce33179d63aec8cb5b29665f5', value: this.folioData?.amount?.toString() ?? undefined, autovalidate: this.autoValidate, schema: folioBaseSchema.shape.amount, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '0e8d368f0ccdff60a3d10f13011561b8b92a66a3', id: this.controlIds.amount, "aria-invalid": String(!!this.errors?.amount), value: this.folioData?.amount?.toString() ?? '', label: "Amount", mask: "price", min: 0, "onText-change": e => this.updateFolioData({ amount: !e.detail ? undefined : Number(e.detail) }) }, h("span", { key: 'ab3d4d759cd605100398e468f0cfa50b29c5efb0', slot: "start" }, calendar_data.currency.symbol))), h("ir-validator", { key: 'da7dada3f1f460fa95b1e8139df71b6d6dbc8867', value: this.folioData?.reference ?? '', autovalidate: this.autoValidate, schema: folioBaseSchema.shape.reference, valueEvent: "text-change input input-change", blurEvent: "input-blur" }, h("ir-input", { key: '5bd1aeab42e2b8ecd325402cec4a4ff48a4c7121', id: this.controlIds.reference, value: this.folioData?.reference ?? '', label: "Reference", maxlength: 50, "onText-change": e => this.updateFolioData({ reference: e.detail ?? '' }) }))));
+    }
+    static get watchers() { return {
+        "payment": ["handlePaymentChange"],
+        "paymentEntries": ["handlePaymentEntriesChange"]
+    }; }
+};
+IrPaymentFolioForm.style = irPaymentFolioFormCss;
+
+export { IrPaymentFolioForm as ir_payment_folio_form };
+
+//# sourceMappingURL=ir-payment-folio-form.entry.js.map

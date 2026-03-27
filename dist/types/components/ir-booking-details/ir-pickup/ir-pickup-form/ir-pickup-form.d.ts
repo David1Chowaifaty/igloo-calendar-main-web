@@ -1,11 +1,10 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { IAllowedOptions } from "../../../../models/calendarData";
-import { Booking, IBookingPickupInfo } from "../../../../models/booking.dto";
+import { IBookingPickupInfo } from "../../../../models/booking.dto";
 import { TPickupData } from '../types';
 export declare class IrPickupForm {
     el: HTMLElement;
     formId: string;
-    booking: Booking;
     defaultPickupData: IBookingPickupInfo | null;
     numberOfPersons: number;
     bookingNumber: string;
@@ -15,7 +14,6 @@ export declare class IrPickupForm {
     };
     isLoading: boolean;
     allowedOptionsByLocation: IAllowedOptions[];
-    assignee: 'agent' | 'guest';
     pickupData: TPickupData;
     vehicleCapacity: number[];
     autoValidate: boolean;

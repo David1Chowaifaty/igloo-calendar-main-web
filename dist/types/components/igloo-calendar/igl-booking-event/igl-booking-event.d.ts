@@ -55,7 +55,6 @@ export declare class IglBookingEvent {
     private moveDifferenceX;
     private moveDifferenceY;
     private animationFrameId;
-    private minResizeDays;
     private handleMouseMoveBind;
     private handleMouseUpBind;
     private handleClickOutsideBind;

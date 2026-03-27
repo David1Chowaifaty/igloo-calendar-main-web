@@ -1,6 +1,0 @@
-:host {
-  display: block;
-}
-.booking-editor__drawer::part(dialog) {
-  overflow: hidden;
-}

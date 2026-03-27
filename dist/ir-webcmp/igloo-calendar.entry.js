@@ -1,0 +1,1444 @@
+import { r as registerInstance, a as createEvent, i as getElement, h, e as Host, F as Fragment } from './index-7b3961ed.js';
+import { R as RoomService } from './room.service-1f08b13d.js';
+import { B as BookingService } from './booking.service-cc6e87c3.js';
+import { p as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, q as getNextDay, r as addTwoMonthToDate, t as convertDMYToISO, u as computeEndDate } from './utils-7eaed9ad.js';
+import { l as lookup } from './index-471004ea.js';
+import { E as EventsService } from './events.service-f42277a2.js';
+import { h as hooks } from './moment-ab846cee.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-30d5cdef.js';
+import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-2b94eb2b.js';
+import { l as locales } from './locales.store-daef23cc.js';
+import { c as calendar_data } from './calendar-data-cdc01d0d.js';
+import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-559f69e4.js';
+import { T as Token } from './Token-add81d36.js';
+import { v as v4 } from './index-05b40732.js';
+import { H as HouseKeepingService } from './housekeeping.service-0ce1e0a7.js';
+import { h as housekeeping_store } from './housekeeping.store-9565c156.js';
+import './index-5ba472df.js';
+import './index-40c31d5b.js';
+import './IBooking-9fbd40d1.js';
+import './index-17663a35.js';
+
+class BatchingQueue {
+    queue = [];
+    isProcessing = false;
+    flushTimer = null;
+    options;
+    processor;
+    constructor(processor, options) {
+        this.processor = processor;
+        this.options = {
+            maxQueueSize: 10000,
+            onError: error => console.error('Queue processing error:', error),
+            onBatchProcessed: () => { },
+            ...options,
+        };
+    }
+    /**
+     * Add a single item to the queue
+     */
+    offer(data) {
+        if (this.queue.length >= this.options.maxQueueSize) {
+            return false; // Queue is full
+        }
+        const item = {
+            data,
+            timestamp: Date.now(),
+            id: this.generateId(),
+        };
+        this.queue.push(item);
+        this.scheduleFlush();
+        return true;
+    }
+    /**
+     * Add multiple items to the queue
+     */
+    offerAll(items) {
+        let added = 0;
+        for (const item of items) {
+            if (this.offer(item)) {
+                added++;
+            }
+            else {
+                break; // Queue is full
+            }
+        }
+        return added;
+    }
+    /**
+     * Get current queue size
+     */
+    size() {
+        return this.queue.length;
+    }
+    /**
+     * Check if queue is empty
+     */
+    isEmpty() {
+        return this.queue.length === 0;
+    }
+    /**
+     * Force flush the current queue
+     */
+    async flush() {
+        if (this.flushTimer) {
+            clearTimeout(this.flushTimer);
+            this.flushTimer = null;
+        }
+        await this.processBatch();
+    }
+    /**
+     * Clear all items from the queue
+     */
+    clear() {
+        this.queue = [];
+        if (this.flushTimer) {
+            clearTimeout(this.flushTimer);
+            this.flushTimer = null;
+        }
+    }
+    /**
+     * Shutdown the queue and process remaining items
+     */
+    async shutdown() {
+        await this.flush();
+    }
+    scheduleFlush() {
+        // If we've reached batch size, process immediately
+        if (this.queue.length >= this.options.batchSize) {
+            this.processBatch();
+            return;
+        }
+        // If no timer is set, schedule one
+        if (!this.flushTimer) {
+            this.flushTimer = setTimeout(() => {
+                this.processBatch();
+            }, this.options.flushInterval);
+        }
+    }
+    async processBatch() {
+        if (this.isProcessing || this.queue.length === 0) {
+            return;
+        }
+        this.isProcessing = true;
+        try {
+            // Extract batch to process
+            const batchSize = Math.min(this.options.batchSize, this.queue.length);
+            const batch = this.queue.splice(0, batchSize);
+            const data = batch.map(item => item.data);
+            const startTime = Date.now();
+            // Process the batch
+            await this.processor(data);
+            const processingTime = Date.now() - startTime;
+            this.options.onBatchProcessed(batchSize, processingTime);
+            // Clear the timer since we've processed
+            if (this.flushTimer) {
+                clearTimeout(this.flushTimer);
+                this.flushTimer = null;
+            }
+            // If there are more items, schedule next batch
+            if (this.queue.length > 0) {
+                this.scheduleFlush();
+            }
+        }
+        catch (error) {
+            this.options.onError(error);
+        }
+        finally {
+            this.isProcessing = false;
+        }
+    }
+    generateId() {
+        return v4();
+    }
+}
+
+const iglooCalendarCss = ".sc-igloo-calendar-h{display:block;position:relative;background-color:#ffffff;height:100%;text-align:center}.igl-calendar.sc-igloo-calendar{display:grid;grid-template-columns:1fr;height:100%}.calendarScrollContainer.sc-igloo-calendar{width:100%;height:100%;overflow:auto;position:relative;white-space:nowrap}.showToBeAssigned.sc-igloo-calendar,.showLegend.sc-igloo-calendar{grid-template-columns:350px 1fr}.showLegend.sc-igloo-calendar{grid-template-columns:auto 1fr}#calendarContainer.sc-igloo-calendar{position:absolute}.legendContainer.sc-igloo-calendar,.tobeAssignedContainer.sc-igloo-calendar{display:none;height:100%;overflow-y:auto;padding-left:0.5em !important;padding-right:0.5em !important}.tobeAssignedContainer.sc-igloo-calendar,.legendContainer.sc-igloo-calendar{padding-left:0em !important;padding-right:0em !important}.showToBeAssigned.sc-igloo-calendar .tobeAssignedContainer.sc-igloo-calendar{display:block}.showLegend.sc-igloo-calendar .legendContainer.sc-igloo-calendar{display:block}.tobeBooked.sc-igloo-calendar{padding-top:8px;padding-bottom:8px;text-align:left}";
+
+const IglooCalendar = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.dragOverHighlightElement = createEvent(this, "dragOverHighlightElement", 7);
+        this.moveBookingTo = createEvent(this, "moveBookingTo", 7);
+        this.calculateUnassignedDates = createEvent(this, "calculateUnassignedDates", 7);
+        this.reduceAvailableUnitEvent = createEvent(this, "reduceAvailableUnitEvent", 7);
+        this.revertBooking = createEvent(this, "revertBooking", 7);
+        this.openCalendarSidebar = createEvent(this, "openCalendarSidebar", 7);
+        this.showRoomNightsDialog = createEvent(this, "showRoomNightsDialog", 7);
+    }
+    propertyid;
+    from_date;
+    to_date;
+    language;
+    loadingMessage;
+    currencyName;
+    ticket = '';
+    p;
+    baseUrl;
+    get element() { return getElement(this); }
+    calendarData = new Object();
+    property_id;
+    days = new Array();
+    scrollViewDragging = false;
+    dialogData = null;
+    bookingItem = null;
+    editBookingItem = null;
+    showLegend = false;
+    showPaymentDetails = false;
+    showToBeAssigned = false;
+    unassignedDates = {};
+    roomNightsData = null;
+    renderAgain = false;
+    showBookProperty = false;
+    highlightedDate;
+    calDates;
+    isAuthenticated = false;
+    calendarSidebarState;
+    invoiceState = null;
+    dragOverHighlightElement;
+    moveBookingTo;
+    calculateUnassignedDates;
+    reduceAvailableUnitEvent;
+    revertBooking;
+    openCalendarSidebar;
+    showRoomNightsDialog;
+    bookingService = new BookingService();
+    roomService = new RoomService();
+    eventsService = new EventsService();
+    toBeAssignedService = new ToBeAssignedService();
+    housekeepingService = new HouseKeepingService();
+    // private auth = new Auth();
+    countries = [];
+    visibleCalendarCells = { x: [], y: [] };
+    scrollContainer;
+    today = '';
+    reachedEndOfCalendar = false;
+    socket;
+    token = new Token();
+    calendarModalEl;
+    salesQueue = new BatchingQueue(this.processSalesBatch.bind(this), {
+        batchSize: 50,
+        flushInterval: 1000,
+        maxQueueSize: 5000,
+        onError: e => console.error('Batch Sales Update Error:', e),
+    });
+    availabilityQueue = new BatchingQueue(this.processAvailabilityBatch.bind(this), {
+        batchSize: 50,
+        flushInterval: 1000,
+        maxQueueSize: 5000,
+        onError: e => console.error('Batch Availability Update Error:', e),
+    });
+    roomTypeIdsCache = new Map();
+    tasksEndDate;
+    dialogEl;
+    departureTimes;
+    componentWillLoad() {
+        if (this.baseUrl) {
+            this.token.setBaseUrl(this.baseUrl);
+        }
+        this.init();
+    }
+    componentDidLoad() {
+        this.scrollToElement(this.today);
+    }
+    async handleDeleteEvent(ev) {
+        try {
+            ev.stopImmediatePropagation();
+            ev.preventDefault();
+            await this.eventsService.deleteEvent(ev.detail);
+        }
+        catch (error) {
+            //toastr.error(error);
+        }
+    }
+    async handleCalendarSidebarEvents(ev) {
+        console.log('hit 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥');
+        ev.stopImmediatePropagation();
+        ev.stopPropagation();
+        this.calendarSidebarState = ev.detail;
+    }
+    scrollPageToRoom(event) {
+        let targetScrollClass = event.detail.refClass;
+        this.scrollContainer = this.scrollContainer || this.element.querySelector('.calendarScrollContainer');
+        const topLeftCell = this.element.querySelector('.topLeftCell');
+        const gotoRoom = this.element.querySelector('.' + targetScrollClass);
+        if (gotoRoom) {
+            this.scrollContainer.scrollTo({ top: 0 });
+            const gotoRect = gotoRoom.getBoundingClientRect();
+            const containerRect = this.scrollContainer.getBoundingClientRect();
+            const topLeftCellRect = topLeftCell.getBoundingClientRect();
+            this.scrollContainer.scrollTo({
+                top: gotoRect.top - containerRect.top - topLeftCellRect.height - gotoRect.height,
+            });
+        }
+    }
+    handleShowDialog(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.dialogData = event.detail;
+        if (!['checkin', 'reallocate', 'checkout'].includes(this.dialogData.reason)) {
+            this.calendarModalEl?.openModal();
+        }
+        if (this.dialogData.reason === 'checkin') {
+            this.openCalendarSidebar.emit({ type: 'room-guests', payload: this.dialogData.sidebarPayload });
+        }
+    }
+    handleShowRoomNightsDialog(event) {
+        this.roomNightsData = event.detail;
+    }
+    handleBookingDatasChange(event) {
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        let bookings = [...this.calendarData.bookingEvents];
+        bookings = bookings.filter(bookingEvent => bookingEvent.ID !== 'NEW_TEMP_EVENT');
+        bookings.push(...event.detail.filter(ev => ev.STATUS === 'PENDING-CONFIRMATION'));
+        this.updateBookingEventsDateRange(event.detail);
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: bookings,
+        };
+    }
+    handleUpdateBookingEvent(e) {
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        const newBookingEvent = e.detail;
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (newBookingEvent.ID === event.ID) {
+                    return newBookingEvent;
+                }
+                return event;
+            }),
+        };
+    }
+    showBookingPopupEventDataHandler(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        this.onOptionSelect(event);
+        //console.log("show booking event", event);
+    }
+    updateEventDataHandler(event) {
+        let bookedData = this.calendarData.bookingEvents.find(bookedEvent => bookedEvent.id === event.detail.id);
+        if (bookedData && event.detail && event.detail.data) {
+            Object.entries(event.detail.data).forEach(([key, value]) => {
+                bookedData[key] = value;
+            });
+        }
+    }
+    dragOverEventDataHandler(event) {
+        if (event.detail.id === 'CALCULATE_DRAG_OVER_BOUNDS') {
+            let topLeftCell = document.querySelector('igl-cal-header .topLeftCell');
+            let containerDays = document.querySelectorAll('.headersContainer .headerCell');
+            let containerRooms = document.querySelectorAll('.bodyContainer .roomRow .roomTitle');
+            this.visibleCalendarCells = { x: [], y: [] };
+            containerDays.forEach(element => {
+                const htmlElement = element;
+                this.visibleCalendarCells.x.push({
+                    left: htmlElement.offsetLeft + topLeftCell.offsetWidth,
+                    width: htmlElement.offsetWidth,
+                    id: htmlElement.getAttribute('data-day'),
+                });
+            });
+            containerRooms.forEach(element => {
+                const htmlElement = element;
+                this.visibleCalendarCells.y.push({
+                    top: htmlElement.offsetTop,
+                    height: htmlElement.offsetHeight,
+                    id: htmlElement.getAttribute('data-room'),
+                });
+            });
+            this.highlightDragOver(true, event.detail.data);
+        }
+        else if (event.detail.id === 'DRAG_OVER') {
+            this.highlightDragOver(true, event.detail.data);
+        }
+        else if (event.detail.id === 'DRAG_OVER_END') {
+            this.highlightDragOver(false, event.detail.data);
+        }
+        else if (event.detail.id === 'STRETCH_OVER_END') {
+            this.highlightDragOver(false, event.detail.data);
+        }
+    }
+    ticketChanged(newValue, oldValue) {
+        if (newValue === oldValue) {
+            return;
+        }
+        this.token.setToken(this.ticket);
+        this.initializeApp();
+    }
+    init() {
+        this.calDates = {
+            from: this.from_date,
+            to: this.to_date,
+        };
+        if (this.ticket !== '') {
+            this.token.setToken(this.ticket);
+            this.initializeApp();
+        }
+        this.calDates = {
+            from: this.from_date,
+            to: this.to_date,
+        };
+        handleUnAssignedDatesChange('unassigned_dates', newValue => {
+            if (Object.keys(newValue).length === 0 && this.highlightedDate !== '') {
+                this.highlightedDate = '';
+            }
+        });
+    }
+    renderModalBody() {
+        switch (this.dialogData?.reason) {
+            case 'checkin': {
+                const unitName = this.dialogData.roomName;
+                if (unitName) {
+                    return `Are you sure you want to check in unit ${unitName}?`;
+                }
+                return `Are you sure you want to check in this unit?`;
+            }
+            case 'checkout': {
+                return 'Are you sure you want to Check Out this unit?';
+            }
+            case 'reallocate':
+                return this.dialogData?.description || '';
+            case 'stretch':
+                return 'Warning ';
+            default:
+                return 'Unknown modal content';
+        }
+    }
+    setUpCalendarData(roomResp, bookingResp) {
+        this.calendarData.currency = roomResp['My_Result'].currency;
+        this.calendarData.allowedBookingSources = roomResp['My_Result'].allowed_booking_sources;
+        this.calendarData.adultChildConstraints = roomResp['My_Result'].adult_child_constraints;
+        this.calendarData.legendData = this.getLegendData(roomResp);
+        this.calendarData.is_vacation_rental = roomResp['My_Result'].is_vacation_rental;
+        this.calendarData.from_date = bookingResp.My_Params_Get_Rooming_Data.FROM;
+        this.calendarData.to_date = bookingResp.My_Params_Get_Rooming_Data.TO;
+        this.calendarData.startingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.FROM).getTime();
+        this.calendarData.endingDate = new Date(bookingResp.My_Params_Get_Rooming_Data.TO).getTime();
+        this.calendarData.formattedLegendData = formatLegendColors(this.calendarData.legendData);
+        let bookings = bookingResp.myBookings || [];
+        bookings = bookings.filter(bookingEvent => {
+            const toDate = hooks(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+            const fromDate = hooks(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+            return !toDate.isSame(fromDate);
+        });
+        this.calendarData.bookingEvents = bookings;
+        this.calendarData.toBeAssignedEvents = [];
+    }
+    async initializeApp() {
+        try {
+            let propertyId = this.propertyid;
+            if (!this.propertyid && !this.p) {
+                throw new Error('Property ID or username is required');
+            }
+            let roomResp = null;
+            if (!propertyId) {
+                console.log(propertyId);
+                const propertyData = await this.roomService.getExposedProperty({
+                    id: 0,
+                    aname: this.p,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                    include_sales_rate_plans: true,
+                });
+                roomResp = propertyData;
+                propertyId = propertyData.My_Result.id;
+            }
+            this.property_id = propertyId;
+            const requests = [
+                this.bookingService.getCalendarData(propertyId, this.from_date, this.to_date),
+                this.bookingService.getCountries(this.language),
+                this.roomService.fetchLanguage(this.language),
+                this.housekeepingService.getExposedHKSetup(this.property_id),
+            ];
+            this.fetchSetupEntries();
+            if (this.propertyid) {
+                requests.push(this.roomService.getExposedProperty({
+                    id: this.propertyid,
+                    language: this.language,
+                    is_backend: true,
+                    include_units_hk_status: true,
+                    include_sales_rate_plans: true,
+                }));
+            }
+            const results = await Promise.all(requests);
+            // this.tasksEndDate=housekeeping_store?.hk_criteria?.cleaning_periods[housekeeping_store?.hk_criteria?.cleaning_periods.length - 1].code
+            this.tasksEndDate = hooks().add(30, 'days').format('YYYY-MM-DD');
+            this.getHousekeepingTasks({
+                from_date: hooks().format('YYYY-MM-DD'),
+                to_date: this.tasksEndDate,
+            });
+            if (!roomResp) {
+                roomResp = results[results.length - 1];
+            }
+            const [bookingResp, countries] = results;
+            calendar_dates.days = bookingResp.days;
+            calendar_dates.months = bookingResp.months;
+            this.setRoomsData(roomResp);
+            this.countries = countries;
+            this.setUpCalendarData(roomResp, bookingResp);
+            let paymentMethods = roomResp['My_Result']['allowed_payment_methods'];
+            this.showPaymentDetails = paymentMethods.some(item => item.code === '001' || item.code === '004');
+            this.updateBookingEventsDateRange(this.calendarData.bookingEvents);
+            this.updateBookingEventsDateRange(this.calendarData.toBeAssignedEvents);
+            this.today = this.transformDateForScroll(new Date());
+            let startingDay = new Date(this.calendarData.startingDate);
+            startingDay.setHours(0, 0, 0, 0);
+            this.days = bookingResp.days;
+            this.calendarData.days = this.days;
+            this.calendarData.monthsInfo = bookingResp.months;
+            calendar_dates.fromDate = this.calendarData.from_date;
+            calendar_dates.toDate = this.calendarData.to_date;
+            setTimeout(() => {
+                this.scrollToElement(this.today);
+            }, 200);
+            if (!this.calendarData.is_vacation_rental) {
+                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, this.from_date, this.to_date);
+                this.unassignedDates = { fromDate: this.from_date, toDate: this.to_date, data: { ...this.unassignedDates, ...data } };
+                this.calendarData = { ...this.calendarData, unassignedDates: data };
+                addUnassignedDates(data);
+            }
+            this.socket = lookup('https://realtime.igloorooms.com/');
+            this.socket.on('MSG', async (msg) => {
+                await this.handleSocketMessage(msg);
+            });
+        }
+        catch (error) {
+            console.error('Initializing Calendar Error', error);
+        }
+    }
+    async fetchSetupEntries() {
+        const d = await this.bookingService.getSetupEntriesByTableName('_DEPARTURE_TIME');
+        this.departureTimes = d;
+    }
+    async getHousekeepingTasks({ from_date, to_date }) {
+        const { tasks } = await this.housekeepingService.getHkTasks({
+            property_id: this.property_id,
+            from_date,
+            to_date,
+            housekeepers: [],
+            cleaning_frequency: (calendar_data.cleaning_frequency ?? housekeeping_store?.hk_criteria?.cleaning_frequencies[0])?.code,
+            dusty_window: housekeeping_store?.hk_criteria?.dusty_periods[0]?.code,
+            highlight_window: housekeeping_store?.hk_criteria?.highlight_checkin_options[0]?.code,
+        });
+        addCleaningTasks(tasks);
+    }
+    async handleSocketMessage(msg) {
+        const msgAsObject = JSON.parse(msg);
+        if (!msgAsObject) {
+            return;
+        }
+        const { REASON, KEY, PAYLOAD } = msgAsObject;
+        if (KEY.toString() !== this.property_id.toString()) {
+            return;
+        }
+        let result;
+        if (['DELETE_CALENDAR_POOL', 'GET_UNASSIGNED_DATES'].includes(REASON)) {
+            result = PAYLOAD;
+        }
+        else {
+            result = JSON.parse(PAYLOAD);
+        }
+        console.log({ [REASON]: result });
+        const reasonHandlers = {
+            DORESERVATION: this.handleDoReservation,
+            BLOCK_EXPOSED_UNIT: this.handleBlockExposedUnit,
+            ASSIGN_EXPOSED_ROOM: this.handleAssignExposedRoom,
+            REALLOCATE_EXPOSED_ROOM_BLOCK: this.handleReallocateExposedRoomBlock,
+            DELETE_CALENDAR_POOL: this.handleDeleteCalendarPool,
+            GET_UNASSIGNED_DATES: this.handleGetUnassignedDates,
+            UPDATE_CALENDAR_AVAILABILITY: r => this.availabilityQueue.offer(r),
+            CHANGE_IN_DUE_AMOUNT: this.handleChangeInDueAmount,
+            CHANGE_IN_BOOK_STATUS: this.handleChangeInBookStatus,
+            NON_TECHNICAL_CHANGE_IN_BOOKING: this.handleNonTechnicalChangeInBooking,
+            ROOM_STATUS_CHANGED: this.handleRoomStatusChanged,
+            UNIT_HK_STATUS_CHANGED: this.handleUnitHKStatusChanged,
+            SHARING_PERSONS_UPDATED: this.handleSharingPersonsUpdated,
+            ROOM_TYPE_CLOSE: r => this.salesQueue.offer({ ...r, is_available_to_book: false }),
+            ROOM_TYPE_OPEN: r => this.salesQueue.offer({ ...r, is_available_to_book: true }),
+            HK_SKIP: this.handleHkSkip,
+            SET_ROOM_CALENDAR_EXTRA: this.handleRoomCalendarExtra,
+            UPDATE_CALENDAR_RATE: this.handleUpdateCalendarRate,
+            SET_DEPARTURE_TIME: this.handleSetDepartureTime,
+        };
+        const handler = reasonHandlers[REASON];
+        if (handler) {
+            await handler.call(this, result);
+        }
+        else {
+            console.warn(`Unhandled REASON: ${REASON}`);
+        }
+    }
+    handleUpdateCalendarRate(result) {
+        this.salesQueue.offer({ ...result, night: result.date, is_available_to_book: !result.is_closed });
+    }
+    handleSetDepartureTime(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: [
+                ...this.calendarData.bookingEvents.map(e => {
+                    if (e.IDENTIFIER === result.room_identifier) {
+                        const departure_time = this.departureTimes.find(d => d.CODE_NAME === result.code);
+                        return {
+                            ...e,
+                            DEPARTURE_TIME: {
+                                code: result.code,
+                                description: departure_time.CODE_VALUE_EN,
+                            },
+                        };
+                    }
+                    return e;
+                }),
+            ],
+        };
+    }
+    handleRoomCalendarExtra(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: [
+                ...this.calendarData.bookingEvents.map(e => {
+                    if (e.IDENTIFIER === result.room_identifier) {
+                        const newValue = result.value ? JSON.parse(result.value) : null;
+                        const calendar_extra = newValue ? (e.ROOM_INFO.calendar ? { ...e.ROOM_INFO.calendar, ...newValue } : newValue) : null;
+                        return {
+                            ...e,
+                            ROOM_INFO: {
+                                ...e.ROOM_INFO,
+                                calendar_extra,
+                            },
+                        };
+                    }
+                    return e;
+                }),
+            ],
+        };
+    }
+    handleSharingPersonsUpdated(result) {
+        console.log('sharing persons updated', result);
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: [
+                ...this.calendarData.bookingEvents.map(e => {
+                    if (e.IDENTIFIER === result.identifier) {
+                        const mainGuest = result.guests?.find(p => p.is_main);
+                        return { ...e, NAME: formatName(mainGuest.first_name, mainGuest.last_name), ROOM_INFO: { ...e.ROOM_INFO, sharing_persons: result.guests } };
+                    }
+                    return e;
+                }),
+            ],
+        };
+    }
+    handleRoomStatusChanged(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: [
+                ...this.calendarData.bookingEvents.map(e => {
+                    if (e.IDENTIFIER === result.room_identifier) {
+                        const STATUS = getRoomStatus({
+                            from_date: e.FROM_DATE,
+                            to_date: e.TO_DATE,
+                            in_out: { ...e.ROOM_INFO.in_out, code: result.status },
+                            status_code: e.BASE_STATUS_CODE,
+                        });
+                        return {
+                            ...e,
+                            ROOM_INFO: { ...e.ROOM_INFO, in_out: { ...e.ROOM_INFO.in_out, code: result.status } },
+                            CHECKIN: result.status === '001',
+                            CHECKOUT: result.status === '002',
+                            STATUS,
+                        };
+                    }
+                    return e;
+                }),
+            ],
+        };
+    }
+    handleHkSkip(result) {
+        cleanRoom({ date: result.DATE, unitId: result.PR_ID });
+    }
+    handleUnitHKStatusChanged(result) {
+        console.log('hk unit change', result);
+        const updatedRooms = [...this.calendarData.roomsInfo];
+        const changedRoomTypeIdx = updatedRooms.findIndex((roomType) => roomType.id === result.ROOM_CATEGORY_ID);
+        if (changedRoomTypeIdx !== -1) {
+            const changedRoomType = { ...updatedRooms[changedRoomTypeIdx] };
+            const changedPhysicalRoomIdx = changedRoomType.physicalrooms.findIndex(room => room.id === result.PR_ID);
+            if (changedPhysicalRoomIdx !== -1) {
+                const updatedPhysicalRooms = [...changedRoomType.physicalrooms];
+                const targetPhysicalRoom = { ...updatedPhysicalRooms[changedPhysicalRoomIdx] };
+                targetPhysicalRoom.hk_status = result.HKS_CODE;
+                updatedPhysicalRooms[changedPhysicalRoomIdx] = targetPhysicalRoom;
+                changedRoomType.physicalrooms = updatedPhysicalRooms;
+                updatedRooms[changedRoomTypeIdx] = changedRoomType;
+                this.calendarData = {
+                    ...this.calendarData,
+                    roomsInfo: updatedRooms,
+                };
+            }
+        }
+        const roomPayload = { date: hooks().format('YYYY-MM-DD'), unitId: result.PR_ID };
+        if (result.HKS_CODE === '002') {
+            addRoomForCleaning(roomPayload);
+        }
+        else {
+            cleanRoom(roomPayload);
+        }
+    }
+    async handleDoReservation(result) {
+        const transformedBooking = transformNewBooking(result);
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleBlockExposedUnit(result) {
+        const transformedBooking = [await transformNewBLockedRooms(result)];
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleAssignExposedRoom(result) {
+        console.log(result);
+        const transformedBooking = transformNewBooking(result);
+        this.AddOrUpdateRoomBookings(transformedBooking);
+    }
+    async handleReallocateExposedRoomBlock(result) {
+        await this.handleBlockExposedUnit(result);
+    }
+    async handleDeleteCalendarPool(result) {
+        console.log('delete calendar pool');
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: this.calendarData.bookingEvents.filter(e => e.POOL !== result),
+        };
+    }
+    async handleGetUnassignedDates(result) {
+        const parsedResult = this.parseDateRange(result);
+        if (!this.calendarData.is_vacation_rental &&
+            new Date(parsedResult.FROM_DATE).getTime() >= this.calendarData.startingDate &&
+            new Date(parsedResult.TO_DATE).getTime() <= this.calendarData.endingDate) {
+            const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
+            addUnassignedDates(data);
+            this.unassignedDates = {
+                fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                data,
+            };
+            if (Object.keys(data).length === 0) {
+                removeUnassignedDates(dateToFormattedString(new Date(parsedResult.FROM_DATE)), dateToFormattedString(new Date(parsedResult.TO_DATE)));
+                this.reduceAvailableUnitEvent.emit({
+                    fromDate: dateToFormattedString(new Date(parsedResult.FROM_DATE)),
+                    toDate: dateToFormattedString(new Date(parsedResult.TO_DATE)),
+                });
+            }
+        }
+    }
+    parseDateRange(str) {
+        const result = {};
+        const pairs = str.split('|');
+        pairs.forEach(pair => {
+            const res = pair.split(':');
+            result[res[0]] = res[1];
+        });
+        return result;
+    }
+    handleChangeInDueAmount(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (result.pools.includes(event.ID)) {
+                    return { ...event, BALANCE: result.due_amount };
+                }
+                return event;
+            }),
+        };
+    }
+    handleChangeInBookStatus(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (result.pools.includes(event.ID)) {
+                    return {
+                        ...event,
+                        STATUS: event.STATUS !== 'IN-HOUSE' ? bookingStatus[result.status_code] : result.status_code === '001' ? bookingStatus[result.status_code] : 'IN-HOUSE',
+                    };
+                }
+                return event;
+            }),
+        };
+    }
+    handleNonTechnicalChangeInBooking(result) {
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: this.calendarData.bookingEvents.map(event => {
+                if (event.BOOKING_NUMBER === result.booking_nbr) {
+                    return { ...event, PRIVATE_NOTE: getPrivateNote(result.extras) };
+                }
+                return event;
+            }),
+        };
+    }
+    checkBookingAvailability(data) {
+        return this.calendarData.bookingEvents.some(booking => booking.ID === data.ID || (booking.FROM_DATE === data.FROM_DATE && booking.TO_DATE === data.TO_DATE && booking.PR_ID === data.PR_ID));
+    }
+    updateBookingEventsDateRange(eventData) {
+        eventData.forEach(bookingEvent => {
+            bookingEvent.legendData = this.calendarData.formattedLegendData;
+            bookingEvent.defaultDateRange = {};
+            bookingEvent.defaultDateRange.fromDate = new Date(bookingEvent.FROM_DATE + 'T00:00:00');
+            bookingEvent.defaultDateRange.fromDateStr = this.getDateStr(bookingEvent.defaultDateRange.fromDate);
+            bookingEvent.defaultDateRange.fromDateTimeStamp = bookingEvent.defaultDateRange.fromDate.getTime();
+            bookingEvent.defaultDateRange.toDate = new Date(bookingEvent.TO_DATE + 'T00:00:00');
+            bookingEvent.defaultDateRange.toDateStr = this.getDateStr(bookingEvent.defaultDateRange.toDate);
+            bookingEvent.defaultDateRange.toDateTimeStamp = bookingEvent.defaultDateRange.toDate.getTime();
+            bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
+            bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
+            if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
+                // if (calendar_data.checkin_enabled) {
+                bookingEvent.STATUS = getRoomStatus({
+                    in_out: bookingEvent.ROOM_INFO?.in_out,
+                    from_date: bookingEvent.FROM_DATE,
+                    to_date: bookingEvent.TO_DATE,
+                    status_code: bookingEvent.BASE_STATUS_CODE,
+                });
+                // } else {
+                //   const toDate = moment(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+                //   const fromDate = moment(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+                //   if (bookingEvent.STATUS !== 'PENDING') {
+                //     if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+                //       bookingEvent.STATUS = bookingStatus['000'];
+                //     } else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+                //       bookingEvent.STATUS = bookingStatus['000'];
+                //     } else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+                //       bookingEvent.STATUS = bookingStatus['000'];
+                //     } else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+                //       bookingEvent.STATUS = bookingStatus['003'];
+                //     }
+                //   }
+                // }
+            }
+        });
+    }
+    /**
+     *
+     *private updateBookingEventsDateRange(eventData) {
+      const now = moment();
+      eventData.forEach(bookingEvent => {
+        bookingEvent.legendData = this.calendarData.formattedLegendData;
+        bookingEvent.defaultDateRange = {};
+        bookingEvent.defaultDateRange.fromDate = new Date(bookingEvent.FROM_DATE + 'T00:00:00');
+        bookingEvent.defaultDateRange.fromDateStr = this.getDateStr(bookingEvent.defaultDateRange.fromDate);
+        bookingEvent.defaultDateRange.fromDateTimeStamp = bookingEvent.defaultDateRange.fromDate.getTime();
+  
+        bookingEvent.defaultDateRange.toDate = new Date(bookingEvent.TO_DATE + 'T00:00:00');
+        bookingEvent.defaultDateRange.toDateStr = this.getDateStr(bookingEvent.defaultDateRange.toDate);
+        bookingEvent.defaultDateRange.toDateTimeStamp = bookingEvent.defaultDateRange.toDate.getTime();
+  
+        bookingEvent.defaultDateRange.dateDifference = bookingEvent.NO_OF_DAYS;
+        bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
+        if (!isBlockUnit(bookingEvent.STATUS_CODE)) {
+          const toDate = moment(bookingEvent.TO_DATE, 'YYYY-MM-DD');
+          const fromDate = moment(bookingEvent.FROM_DATE, 'YYYY-MM-DD');
+          if (bookingEvent.STATUS !== 'PENDING') {
+            if (fromDate.isSame(now, 'day') && now.hour() >= 12) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if (now.isAfter(fromDate, 'day') && now.isBefore(toDate, 'day')) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if (toDate.isSame(now, 'day') && now.hour() < 12) {
+              bookingEvent.STATUS = bookingStatus['000'];
+            } else if ((toDate.isSame(now, 'day') && now.hour() >= 12) || toDate.isBefore(now, 'day')) {
+              bookingEvent.STATUS = bookingStatus['003'];
+            }
+          }
+        }
+      });
+    }
+     */
+    processSalesBatch(batch) {
+        const days = [...calendar_dates.days];
+        const disabled_cells = new Map(calendar_dates.disabled_cells);
+        for (const sale of batch) {
+            // 1) find the day index
+            const dayIdx = days.findIndex(d => d.value === sale.night);
+            if (dayIdx === -1) {
+                console.warn(`Couldn't find day ${sale.night}`);
+                continue;
+            }
+            // 2) check cache entry
+            let entry = this.roomTypeIdsCache.get(sale.rate_plan_id);
+            if (entry === 'skip') {
+                // previously determined no matching room type for this rate_plan_id
+                continue;
+            }
+            // 3) if not cached, look it up and cache it
+            if (!entry) {
+                const rtIdx = days[dayIdx].rate.findIndex(rt => rt.rateplans.some(rp => rp.id === sale.rate_plan_id));
+                if (rtIdx === -1) {
+                    this.roomTypeIdsCache.set(sale.rate_plan_id, 'skip');
+                    console.warn(`Couldn't find room type for rate plan ${sale.rate_plan_id}`);
+                    continue;
+                }
+                const roomType = days[dayIdx].rate[rtIdx];
+                const rpIdx = roomType.rateplans.findIndex(rp => rp.id === sale.rate_plan_id);
+                entry = { id: rtIdx, index: rpIdx };
+                this.roomTypeIdsCache.set(sale.rate_plan_id, entry);
+            }
+            // 4) apply cached indices
+            const { id: roomTypeIdx, index: ratePlanIdx } = entry;
+            const roomType = days[dayIdx].rate[roomTypeIdx];
+            // 5) update that specific rateplan
+            const updatedRateplans = roomType.rateplans.map((rp, i) => (i === ratePlanIdx ? { ...rp, is_available_to_book: sale.is_available_to_book } : rp));
+            const is_available_to_book = updatedRateplans.some(rp => rp.is_available_to_book);
+            days[dayIdx].rate[roomTypeIdx] = {
+                ...roomType,
+                rateplans: updatedRateplans,
+                // overall room availability = true if any rateplan is bookable
+                is_available_to_book,
+            };
+            //update the disabled cells
+            for (const room of roomType.physicalrooms) {
+                const key = `${room.id}_${days[dayIdx].value}`;
+                disabled_cells.set(key, { disabled: !is_available_to_book, reason: 'stop_sale' });
+            }
+        }
+        // 6) write back to the store
+        calendar_dates['disabled_cells'] = new Map(disabled_cells);
+        calendar_dates.days = days;
+    }
+    processAvailabilityBatch(batch) {
+        let days = [...calendar_dates.days];
+        const disabled_cells = new Map(calendar_dates.disabled_cells);
+        for (const queue of batch) {
+            //find the selected day
+            const index = days.findIndex(day => day.value === queue.date);
+            if (index === -1) {
+                console.warn(`Couldn't find day ${queue.date}`);
+                return;
+            }
+            //find room_type_id
+            const room_type_index = days[index].rate.findIndex(room => room.id === queue.room_type_id);
+            if (room_type_index === -1) {
+                console.warn(`Couldn't find room type ${queue.room_type_id}`);
+                return;
+            }
+            const room_type = days[index].rate[room_type_index];
+            //update the availability
+            room_type.exposed_inventory.rts = queue.availability;
+            // if (queue.availability === 0) {
+            const isClosed = room_type.rateplans.every(rp => !rp.is_available_to_book);
+            for (const room of room_type.physicalrooms) {
+                const key = `${room.id}_${queue.date}`;
+                disabled_cells.set(key, { disabled: queue.availability === 0, reason: isClosed ? 'stop_sale' : 'inventory' });
+            }
+            // }
+        }
+        calendar_dates['disabled_cells'] = new Map(disabled_cells);
+        calendar_dates.days = [...days];
+    }
+    setRoomsData(roomServiceResp) {
+        let roomsData = new Array();
+        if (roomServiceResp.My_Result?.roomtypes?.length) {
+            roomsData = roomServiceResp.My_Result.roomtypes;
+            roomServiceResp.My_Result.roomtypes.forEach(roomCategory => {
+                roomCategory.expanded = true;
+            });
+        }
+        calendar_data.roomsInfo = roomsData;
+        this.calendarData.roomsInfo = roomsData;
+    }
+    getLegendData(aData) {
+        return aData['My_Result'].calendar_legends;
+    }
+    getDateStr(date, locale = 'default') {
+        return date.getDate() + ' ' + date.toLocaleString(locale, { month: 'short' }) + ' ' + date.getFullYear();
+    }
+    scrollToElement(goToDate) {
+        this.scrollContainer = this.scrollContainer || this.element.querySelector('.calendarScrollContainer');
+        const topLeftCell = this.element.querySelector('.topLeftCell');
+        const gotoDay = this.element.querySelector('.day-' + goToDate);
+        if (gotoDay) {
+            this.scrollContainer.scrollTo({ left: 0 });
+            const gotoRect = gotoDay.getBoundingClientRect();
+            const containerRect = this.scrollContainer.getBoundingClientRect();
+            const topLeftCellRect = topLeftCell.getBoundingClientRect();
+            this.scrollContainer.scrollTo({
+                left: gotoRect.left - containerRect.left - topLeftCellRect.width - gotoRect.width,
+            });
+        }
+    }
+    AddOrUpdateRoomBookings(data, pool = undefined) {
+        let bookings = [...this.calendarData.bookingEvents];
+        data.forEach(d => {
+            if (!this.checkBookingAvailability(d)) {
+                bookings = bookings.filter(booking => booking.ID !== d.ID);
+            }
+        });
+        this.updateBookingEventsDateRange(data);
+        if (pool) {
+            bookings = bookings.filter(booking => booking.POOL === pool);
+        }
+        data.forEach(d => {
+            if (!bookings.some(booking => booking.ID === d.ID)) {
+                bookings.push(d);
+            }
+        });
+        this.calendarData = {
+            ...this.calendarData,
+            bookingEvents: bookings,
+        };
+        const isDateInBetweenTheLastPeriodDate = (d) => {
+            const endDate = hooks(this.tasksEndDate, 'YYYY-MM-DD');
+            // return moment(d.FROM_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate) || moment(d.TO_DATE, 'YYYY-MM-DD').isBetween(moment(), endDate);
+            return hooks(d.FROM_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date') || hooks(d.TO_DATE, 'YYYY-MM-DD').isSameOrBefore(endDate, 'date');
+        };
+        if (data.some(isDateInBetweenTheLastPeriodDate)) {
+            this.getHousekeepingTasks({
+                from_date: hooks().format('YYYY-MM-DD'),
+                to_date: this.tasksEndDate,
+            });
+        }
+    }
+    transformDateForScroll(date) {
+        return hooks(date).format('D_M_YYYY');
+    }
+    shouldRenderCalendarView() {
+        // console.log("rendering...")
+        return this.calendarData && this.calendarData.days && this.calendarData.days.length;
+    }
+    onOptionSelect(event) {
+        const opt = event.detail;
+        const calendarElement = this.element.querySelector('#iglooCalendar');
+        switch (opt.key) {
+            case 'showAssigned':
+                calendarElement.classList.remove('showLegend');
+                calendarElement.classList.remove('showToBeAssigned');
+                calendarElement.classList.toggle('showToBeAssigned');
+                this.showLegend = false;
+                this.showToBeAssigned = true;
+                break;
+            case 'showLegend':
+                calendarElement.classList.remove('showToBeAssigned');
+                calendarElement.classList.remove('showLegend');
+                calendarElement.classList.toggle('showLegend');
+                this.showLegend = !this.showLegend;
+                this.showToBeAssigned = false;
+                break;
+            case 'calendar':
+                let dt = new Date();
+                if (opt.data.start !== undefined && opt.data.end !== undefined) {
+                    dt = opt.data.start.toDate();
+                    this.handleDateSearch(opt.data);
+                }
+                else {
+                    //scroll to unassigned dates
+                    dt = new Date(opt.data);
+                    dt.setDate(dt.getDate() + 1);
+                    if (!opt?.noScroll) {
+                        this.scrollToElement(dt.getDate() + '_' + (dt.getMonth() + 1) + '_' + dt.getFullYear());
+                    }
+                }
+                this.highlightedDate = this.transformDateForScroll(dt);
+                break;
+            case 'search':
+                break;
+            case 'bulk':
+                this.calendarSidebarState = {
+                    type: 'bulk-blocks',
+                    payload: null,
+                };
+                break;
+            case 'add':
+                //console.log('data:', opt.data);
+                if (opt.data.event_type !== 'EDIT_BOOKING') {
+                    this.bookingItem = opt.data;
+                }
+                else {
+                    this.editBookingItem = opt.data;
+                }
+                break;
+            case 'gotoToday':
+                this.scrollToElement(this.today);
+                break;
+            case 'closeSideMenu':
+                this.closeSideMenu();
+                this.highlightedDate = '';
+                this.showBookProperty = false;
+                break;
+        }
+    }
+    async addDatesToCalendar(fromDate, toDate) {
+        const [results] = await Promise.all([this.bookingService.getCalendarData(this.property_id, fromDate, toDate)]);
+        const newBookings = results.myBookings || [];
+        this.updateBookingEventsDateRange(newBookings);
+        if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
+            this.calendarData.startingDate = new Date(fromDate).getTime();
+            this.calendarData.from_date = fromDate;
+            calendar_dates.fromDate = this.calendarData.from_date;
+            this.days = [...results.days, ...this.days];
+            let newMonths = [...results.months];
+            if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
+                this.calendarData.monthsInfo[0].daysCount = this.calendarData.monthsInfo[0].daysCount + results.months[results.months.length - 1].daysCount;
+                newMonths.pop();
+            }
+            let bookings = JSON.parse(JSON.stringify(newBookings));
+            bookings = bookings.filter(newBooking => {
+                const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
+                if (existingBookingIndex !== -1) {
+                    this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE = newBooking.FROM_DATE;
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
+                    return false;
+                }
+                return true;
+            });
+            calendar_dates.days = this.days;
+            this.calendarData = {
+                ...this.calendarData,
+                days: this.days,
+                monthsInfo: [...newMonths, ...this.calendarData.monthsInfo],
+                bookingEvents: [...this.calendarData.bookingEvents, ...bookings],
+            };
+            if (Math.abs(hooks().diff(hooks(fromDate, 'YYYY-MM-DD'), 'days')) <= 10) {
+                const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
+                this.calendarData.unassignedDates = { ...this.calendarData.unassignedDates, ...data };
+                this.unassignedDates = {
+                    fromDate,
+                    toDate,
+                    data,
+                };
+                addUnassignedDates(data);
+            }
+        }
+        else {
+            this.calendarData.endingDate = new Date(toDate).getTime();
+            this.calendarData.to_date = toDate;
+            calendar_dates.toDate = this.calendarData.to_date;
+            let newMonths = [...results.months];
+            this.days = [...this.days, ...results.days];
+            if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
+                this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].daysCount =
+                    this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].daysCount + results.months[0].daysCount;
+                newMonths.shift();
+            }
+            let bookings = JSON.parse(JSON.stringify(newBookings));
+            bookings = bookings.filter(newBooking => {
+                const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
+                if (existingBookingIndex !== -1) {
+                    this.calendarData.bookingEvents[existingBookingIndex].TO_DATE = newBooking.TO_DATE;
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
+                    return false;
+                }
+                return true;
+            });
+            calendar_dates.days = this.days;
+            //calendar_dates.months = bookingResp.months;
+            this.calendarData = {
+                ...this.calendarData,
+                days: this.days,
+                monthsInfo: [...this.calendarData.monthsInfo, ...newMonths],
+                bookingEvents: [...this.calendarData.bookingEvents, ...bookings],
+            };
+            const data = await this.toBeAssignedService.getUnassignedDates(this.property_id, fromDate, toDate);
+            this.calendarData.unassignedDates = { ...this.calendarData.unassignedDates, ...data };
+            this.unassignedDates = {
+                fromDate,
+                toDate,
+                data,
+            };
+            addUnassignedDates(data);
+        }
+    }
+    async handleDateSearch(dates) {
+        const startDate = hooks(dates.start).toDate();
+        const defaultFromDate = hooks(this.calDates.from).toDate();
+        const endDate = dates.end.toDate();
+        const defaultToDate = this.calendarData.endingDate;
+        if (startDate.getTime() < new Date(this.calDates.from).getTime()) {
+            await this.addDatesToCalendar(hooks(startDate).add(-1, 'days').format('YYYY-MM-DD'), hooks(defaultFromDate).add(-1, 'days').format('YYYY-MM-DD'));
+            this.calDates = { ...this.calDates, from: dates.start.add(-1, 'days').format('YYYY-MM-DD') };
+            this.scrollToElement(this.transformDateForScroll(startDate));
+        }
+        else if (startDate.getTime() > defaultFromDate.getTime() && startDate.getTime() < defaultToDate && endDate.getTime() < defaultToDate) {
+            this.scrollToElement(this.transformDateForScroll(startDate));
+        }
+        else if (startDate.getTime() > defaultToDate) {
+            const nextDay = getNextDay(new Date(this.calendarData.endingDate));
+            await this.addDatesToCalendar(nextDay, hooks(endDate).add(2, 'months').format('YYYY-MM-DD'));
+            this.scrollToElement(this.transformDateForScroll(startDate));
+        }
+    }
+    closeSideMenu() {
+        // const calendarElement = this.element.querySelector('#iglooCalendar');
+        // calendarElement.classList.remove('showToBeAssigned');
+        // calendarElement.classList.remove('showLegend');
+        this.showLegend = false;
+        this.showToBeAssigned = false;
+    }
+    scrollViewDragPos = { top: 0, left: 0, x: 0, y: 0 };
+    dragScrollContent(event) {
+        this.scrollViewDragging = false;
+        let isPreventPageScroll = event && event.target ? this.hasAncestorWithClass(event.target, 'preventPageScroll') : false;
+        if (!isPreventPageScroll && event.buttons === 1) {
+            this.scrollViewDragPos = {
+                left: this.scrollContainer.scrollLeft,
+                top: this.scrollContainer.scrollTop,
+                x: event.clientX,
+                y: event.clientY,
+            };
+            document.addEventListener('mousemove', this.onScrollContentMoveHandler);
+            document.addEventListener('mouseup', this.onScrollContentMoveEndHandler);
+        }
+    }
+    onScrollContentMoveHandler = (event) => {
+        if (event.buttons !== 1) {
+            return;
+        }
+        const dx = event.clientX - this.scrollViewDragPos.x;
+        const dy = event.clientY - this.scrollViewDragPos.y;
+        this.scrollContainer.scrollTop = this.scrollViewDragPos.top - dy;
+        this.scrollContainer.scrollLeft = this.scrollViewDragPos.left - dx;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            this.scrollViewDragging = true;
+        }
+    };
+    onScrollContentMoveEndHandler = () => {
+        document.removeEventListener('mousemove', this.onScrollContentMoveHandler);
+        document.removeEventListener('mouseup', this.onScrollContentMoveEndHandler);
+    };
+    calendarScrolling() {
+        if (this.scrollContainer) {
+            if (this.highlightedDate) {
+                const highlightedElement = document.querySelector(`.day-${this.highlightedDate}`);
+                if (highlightedElement) {
+                    const { left, right } = highlightedElement.getBoundingClientRect();
+                    const isVisible = left >= 0 && right <= window.innerWidth;
+                    if (!isVisible) {
+                        this.highlightedDate = '';
+                    }
+                }
+            }
+            const containerRect = this.scrollContainer.getBoundingClientRect();
+            let leftSideMenuSize = 170;
+            let maxWidth = containerRect.width - leftSideMenuSize;
+            let leftX = containerRect.x + leftSideMenuSize;
+            let rightX = containerRect.x + containerRect.width;
+            let cells = Array.from(this.element.querySelectorAll('.monthCell'));
+            if (cells.length) {
+                cells.map(async (monthContainer) => {
+                    let monthRect = monthContainer.getBoundingClientRect();
+                    if (cells.indexOf(monthContainer) === cells.length - 1) {
+                        if (monthRect.x + monthRect.width <= rightX && !this.reachedEndOfCalendar) {
+                            this.reachedEndOfCalendar = true;
+                            //await this.addNextTwoMonthsToCalendar();
+                            const nextTwoMonths = addTwoMonthToDate(new Date(this.calendarData.endingDate));
+                            const nextDay = getNextDay(new Date(this.calendarData.endingDate));
+                            await this.addDatesToCalendar(nextDay, nextTwoMonths);
+                            this.reachedEndOfCalendar = false;
+                        }
+                    }
+                    if (monthRect.x + monthRect.width < leftX) {
+                        // item end is scrolled outside view, in -x
+                    }
+                    else if (monthRect.x > rightX) {
+                        // item is outside scrollview, in +x
+                    }
+                    else {
+                        let titleElement = monthContainer.querySelector('.monthTitle');
+                        let marginLeft = 0;
+                        let monthWidth = monthRect.width;
+                        if (monthRect.x < leftX) {
+                            marginLeft = Math.abs(monthRect.x) - leftX;
+                            marginLeft = monthRect.x < 0 ? Math.abs(monthRect.x) + leftX : Math.abs(marginLeft);
+                            monthWidth = monthRect.x + monthRect.width > rightX ? maxWidth : monthRect.x + monthRect.width - leftX;
+                        }
+                        else {
+                            monthWidth = maxWidth - monthWidth > monthWidth ? monthWidth : maxWidth - monthRect.x + leftX;
+                        }
+                        titleElement.style.marginLeft = marginLeft + 'px';
+                        titleElement.style.width = monthWidth + 'px';
+                    }
+                });
+            }
+        }
+    }
+    hasAncestorWithClass(element, className) {
+        let currentElement = element;
+        while (currentElement !== null) {
+            if (currentElement.matches(`.${className}`)) {
+                return true;
+            }
+            currentElement = currentElement.parentElement;
+        }
+        return false;
+    }
+    async highlightDragOver(hightLightElement, currentPosition) {
+        let xElement, yElement;
+        if (currentPosition) {
+            xElement = this.visibleCalendarCells.x.find(pos => pos.left < currentPosition.x && currentPosition.x <= pos.left + pos.width);
+            yElement = this.visibleCalendarCells.y.find(pos => pos.top < currentPosition.y && currentPosition.y <= pos.top + pos.height);
+        }
+        // console.log(hightLightElement+":::"+yElement.id+"_"+xElement.id);
+        if (hightLightElement && xElement && yElement) {
+            this.dragOverHighlightElement.emit({
+                dragOverElement: yElement.id + '_' + xElement.id,
+            });
+        }
+        else {
+            this.dragOverHighlightElement.emit({ dragOverElement: '' });
+        }
+        if (!hightLightElement) {
+            this.moveBookingTo.emit({
+                bookingId: currentPosition.id,
+                fromRoomId: currentPosition.fromRoomId,
+                toRoomId: (yElement && yElement.id) || 'revert',
+                moveToDay: (xElement && xElement.id) || 'revert',
+                pool: currentPosition.pool,
+                from_date: convertDMYToISO(xElement && xElement.id),
+                to_date: computeEndDate(xElement && xElement.id, currentPosition.nbOfDays),
+            });
+        }
+    }
+    handleModalConfirm() {
+        // Helper to reset modal state
+        const resetModalState = () => {
+            this.dialogData = null;
+        };
+        try {
+            switch (this.dialogData?.reason) {
+                case 'checkin':
+                case 'checkout': {
+                    const { bookingNumber, roomIdentifier } = this.dialogData;
+                    const status = this.dialogData.reason === 'checkin' ? '001' : '002';
+                    this.bookingService.handleExposedRoomInOut({ booking_nbr: bookingNumber, room_identifier: roomIdentifier, status }).finally(resetModalState);
+                    if (this.dialogData.reason === 'checkin') {
+                        this.openCalendarSidebar.emit({ type: 'room-guests', payload: this.dialogData.sidebarPayload });
+                    }
+                    break;
+                }
+                case 'stretch':
+                    const { reason, ...rest } = this.dialogData;
+                    this.showRoomNightsDialog.emit(rest);
+                    break;
+                case 'reallocate': {
+                    if (!this.dialogData) {
+                        console.warn('No dialog data available for reallocation.');
+                        return;
+                    }
+                    const { pool, toRoomId, from_date, to_date } = this.dialogData;
+                    // Handle room reallocation
+                    this.eventsService
+                        .reallocateEvent(pool, toRoomId, from_date, to_date)
+                        .then(resetModalState)
+                        .catch(() => {
+                        console.error('Reallocation failed. Reverting booking.');
+                        this.revertBooking.emit(pool);
+                    })
+                        .finally(resetModalState);
+                    break;
+                }
+                default:
+                    resetModalState();
+                    break;
+            }
+        }
+        catch (error) {
+            console.error('Error handling modal confirm:', error);
+            resetModalState();
+        }
+    }
+    handleModalCancel() {
+        if (this.dialogData?.reason === 'reallocate' || this.dialogData?.reason === 'stretch') {
+            this.revertBooking.emit(this.dialogData.pool);
+        }
+        this.dialogData = null;
+    }
+    handleRoomNightsDialogClose(e) {
+        if (e.detail.type === 'cancel') {
+            this.revertBooking.emit(this.roomNightsData.pool);
+        }
+        this.roomNightsData = null;
+    }
+    handleSideBarToggle(e) {
+        if (e.detail) {
+            this.calendarSidebarState = null;
+            if (this.editBookingItem) {
+                this.editBookingItem = null;
+            }
+            if (this.roomNightsData) {
+                this.revertBooking.emit(this.roomNightsData.pool);
+                this.roomNightsData = null;
+            }
+            if (this.dialogData?.reason === 'reallocate') {
+                this.revertBooking.emit(this.dialogData.pool);
+                this.dialogData = null;
+            }
+        }
+    }
+    handleCloseBookingWindow() {
+        this.bookingItem = null;
+    }
+    get isSidebarOpen() {
+        // 1) Always open when editing a booking
+        if (this.editBookingItem && this.editBookingItem.event_type === 'EDIT_BOOKING') {
+            return false;
+        }
+        // 2) Open when room nights dialog is showing in the sidebar
+        if (this.roomNightsData) {
+            return true;
+        }
+        // 3) Open for sidebar-based flows (but not room-guests, which uses <ir-room-guests>)
+        if (this.calendarSidebarState) {
+            const type = this.calendarSidebarState.type;
+            // return type === 'split' || type === 'bulk-blocks';
+            return type === 'split';
+        }
+        // 4) Default: closed
+        return false;
+    }
+    handleInvoiceClose(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        this.invoiceState = null;
+    }
+    handleCheckoutDialogClosed(event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        if (this.dialogData?.reason !== 'checkout') {
+            return;
+        }
+        const { reason } = event.detail;
+        if (reason === 'openInvoice') {
+            this.invoiceState = {
+                booking: this.dialogData.booking,
+                identifier: this.dialogData.roomIdentifier,
+            };
+        }
+        this.dialogData = null;
+    }
+    render() {
+        // if (!this.isAuthenticated) {
+        //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
+        // }
+        // console.log(this.bookingItem);
+        return (h(Host, { key: '4b5f1c44ddff6fd16da2726cdbb1cc912c0fceae' }, h("ir-toast", { key: '213c24ff7d42e7ca7a641bf46341e922a3533f62' }), h("ir-interceptor", { key: '5f89bc4e24d90f4cbf353a81a099bcaf2525df59' }), h("div", { key: '7a6e609b35fd0d6e182f8a3f0d52e5ef08a343c3', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legends", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("ir-sidebar", { key: '24a884a3deba8374c93d53e036bd7c1f9ad58028', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
+                width: this.calendarSidebarState?.type === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
+                background: this.editBookingItem ? '#F2F3F8' : 'white',
+            } }, this.roomNightsData && (h("ir-room-nights", { key: '0c0ec1b723a0af64a88bf218d0f3bfe82fd96c06', slot: "sidebar-body", pool: this.roomNightsData.pool, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this), language: this.language, bookingNumber: this.roomNightsData.bookingNumber, identifier: this.roomNightsData.identifier, toDate: this.roomNightsData.to_date, fromDate: this.roomNightsData.from_date, defaultDates: this.roomNightsData.defaultDates, ticket: this.ticket, propertyId: this.property_id })), this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: '9ff24f139ae0317e20e2cf36a3d71fef2c2a93d0', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }))), h("ir-booking-details-drawer", { key: '16b4dc4c1a81848958eb7ae9427bb4e8ed7e783e', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: 'eef00a19f4606cfc18cdc697a8982effcbe02b05', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("ir-reallocation-drawer", { key: '3962fcce72a68f617ddc7993bf3ac32b2165a011', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: 'cf1c7001829a9dded1a6c3759a87364cef7f7c09', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: '8fee7542a20bf8c08b14f24f9602cf1f381dad27', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: 'da906251b7ee709918df9592a4e56c941114219f', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: '2c35c0f3cbafaae0055b3a10cd76673c25b93153', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: '36cd156c7eaed2dbd9e377d7b8fc2a4d14fae38c', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
+                ENTRY_DATE: this.bookingItem?.ENTRY_DATE,
+                ENTRY_HOUR: this.bookingItem?.ENTRY_HOUR,
+                ENTRY_MINUTE: this.bookingItem?.ENTRY_MINUTE,
+                OPTIONAL_REASON: this.bookingItem?.OPTIONAL_REASON,
+                OUT_OF_SERVICE: this.bookingItem?.OUT_OF_SERVICE,
+                RELEASE_AFTER_HOURS: this.bookingItem?.RELEASE_AFTER_HOURS,
+                STATUS_CODE: this.bookingItem?.STATUS_CODE,
+            }, checkOut: this.bookingItem?.TO_DATE }), h("igl-bulk-operations-drawer", { key: 'a7a7047309f8bcd3649ca6533a3cb7e707544995', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), h("igl-blocked-date-drawer", { key: '53baa751084d896a1e31605011e4b28224bca97b', onBlockedDateDrawerClosed: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.bookingItem = null;
+            }, unitId: this.bookingItem?.PR_ID, fromDate: this.bookingItem?.FROM_DATE, toDate: this.bookingItem?.TO_DATE, label: this.bookingItem?.BLOCK_DATES_TITLE?.trim(), open: this.bookingItem?.event_type === 'BLOCK_DATES' })));
+    }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"]
+    }; }
+};
+IglooCalendar.style = iglooCalendarCss;
+
+export { IglooCalendar as igloo_calendar };
+
+//# sourceMappingURL=igloo-calendar.entry.js.map

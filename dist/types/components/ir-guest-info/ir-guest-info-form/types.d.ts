@@ -9,21 +9,21 @@ export declare const guestInfoFormSchema: z.ZodObject<{
     country_phone_prefix: z.ZodString;
     notes: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    email?: string;
-    country_id?: number;
     notes?: string;
+    email?: string;
     mobile?: string;
     first_name?: string;
     last_name?: string;
+    country_id?: number;
     alternative_email?: string;
     country_phone_prefix?: string;
 }, {
-    email?: string;
-    country_id?: number;
     notes?: string;
+    email?: string;
     mobile?: string;
     first_name?: string;
     last_name?: string;
+    country_id?: number;
     alternative_email?: string;
     country_phone_prefix?: string;
 }>;

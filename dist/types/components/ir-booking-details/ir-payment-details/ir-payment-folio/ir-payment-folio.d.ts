@@ -1,6 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { FolioEntryMode, Payment, PaymentEntries } from '../../types';
-import { Booking } from "../../../../models/booking.dto";
 export declare class IrPaymentFolio {
     /**
      * The list of existing payment or folio entries associated with the booking.
@@ -14,11 +13,6 @@ export declare class IrPaymentFolio {
      * correct reservation when saving.
      */
     bookingNumber: string;
-    /**
-     * The full booking object associated with this folio.
-     * Provides contextual reservation data required by the folio form.
-     */
-    booking: Booking;
     /**
      * The payment or folio entry being created or edited.
      * Defaults to a new empty payment object when the component

@@ -1,0 +1,31 @@
+import { r as registerInstance, i as getElement, h, e as Host } from './index-7b3961ed.js';
+import { h as formatAmount } from './utils-7eaed9ad.js';
+import { c as calendar_data } from './calendar-data-cdc01d0d.js';
+import './moment-ab846cee.js';
+import './index-40c31d5b.js';
+import './locales.store-daef23cc.js';
+import './index-17663a35.js';
+
+const irRevenueRowCss = ".sc-ir-revenue-row-h{--ir-border:#e5e7eb}.ir-revenue-row__accordion.sc-ir-revenue-row::part(base),.ir-revenue-row.sc-ir-revenue-row{border:0;border-radius:0;border-bottom:1px solid var(--ir-border, #e5e7eb);background:#fff;padding:0}.ir-revenue-row__header.sc-ir-revenue-row{display:flex;align-items:center;justify-content:space-between;padding:var(--ir-space-4, 1rem);border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:0;padding:0;cursor:pointer;text-align:left;width:100%;justify-content:space-between;padding:0.5rem;color:rgb(83, 83, 83)}.ir-revenue-row__title.sc-ir-revenue-row{padding:0}.ir-revenue-row__header-left.sc-ir-revenue-row{display:flex;align-items:center;gap:0.5rem}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger):hover{background:#f4f5fa}.ir-revenue-row__group.sc-ir-revenue-row{margin:0}.ir-revenue-row__badge.sc-ir-revenue-row{background:lightgray;border-radius:0.25rem;font-size:0.75rem;padding:0 0.5rem;margin-left:0.375rem}.ir-revenue-row__total.sc-ir-revenue-row{font-weight:700;margin:0}.ir-revenue-row__accordion.sc-ir-revenue-row::part(content){padding:0.25rem 1rem}.ir-revenue-row__detail.sc-ir-revenue-row{display:block;border-bottom:1px solid var(--ir-border, #e5e7eb)}.ir-revenue-row__detail.sc-ir-revenue-row:last-child{border-bottom:none}@media (min-width: 1024px){.ir-revenue-row__header-left.sc-ir-revenue-row{width:40vw}.ir-revenue-row__accordion.sc-ir-revenue-row::part(trigger),.ir-revenue-row__title.sc-ir-revenue-row{justify-content:flex-start}}";
+
+let accId = 0;
+const IrRevenueRow = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    get host() { return getElement(this); }
+    /** Array of payments for this method group */
+    payments = [];
+    /** Group display name (e.g., "Credit Card") */
+    groupName;
+    contentId = `ir-rr-content-${++accId}`;
+    render() {
+        const total = this.payments.reduce((prev, curr) => prev + curr.amount, 0);
+        return (h(Host, { key: '1bc904c686cc3cc09169a46b2ffcaeb0b496f426' }, h("ir-accordion", { key: 'bb20fa30ba3898a6a74303c4be3903de78e4f43b', class: "ir-revenue-row__accordion" }, h("div", { key: 'a6df26dc5e7bbb1a92b400057d873ad1aee3b479', slot: "trigger", class: "ir-revenue-row__title" }, h("div", { key: '188c8941e73f80423e7762a7ee8e557ab2d8a820', class: "ir-revenue-row__header-left" }, h("p", { key: '98e1d06105c367e815d78f46f58a8909b74563fb', class: "ir-revenue-row__group" }, this.groupName, ' ', h("span", { key: '567ac23adb3e7b90782d55acf2320907c829aff1', class: "ir-revenue-row__badge", "aria-label": `${this.payments.length} transactions` }, this.payments.length))), h("p", { key: '6ca98bbe92a858ed1ff54fed01e3295c75aee77d', class: "ir-revenue-row__total" }, formatAmount(calendar_data.currency.symbol, total))), h("div", { key: 'e68a40047a7365dab16f11b784b6f9d4c70e0cc0', class: "ir-revenue-row__details", id: this.contentId }, h("div", { key: '0e69bd661283b3f9d314635d3dd001ee829afeff', class: "ir-revenue-row__details-inner" }, this.payments.map(payment => (h("ir-revenue-row-details", { class: "ir-revenue-row__detail", id: payment.id, payment: payment, key: payment.id }))))))));
+    }
+};
+IrRevenueRow.style = irRevenueRowCss;
+
+export { IrRevenueRow as ir_revenue_row };
+
+//# sourceMappingURL=ir-revenue-row.entry.js.map

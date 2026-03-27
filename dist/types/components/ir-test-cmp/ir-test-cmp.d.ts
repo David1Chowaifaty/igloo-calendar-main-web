@@ -1,6 +1,29 @@
+import { Moment } from 'moment';
+import { ComboboxOption } from '../ir-m-combobox/types';
 export declare class IrTestCmp {
-    el: HTMLElement;
-    private get provider();
-    private toast;
+    dates: {
+        fromDate: Moment;
+        toDate: Moment;
+    };
+    selectedStaticOption: ComboboxOption;
+    selectedCountry: ComboboxOption;
+    selectedCustomOption: ComboboxOption;
+    countryOptions: ComboboxOption[];
+    customOptions: ComboboxOption[];
+    isLoadingCountries: boolean;
+    isLoadingCustom: boolean;
+    private customComboboxRef;
+    private staticOptions;
+    private handleStaticOptionChange;
+    private handleCountryChange;
+    private handleCustomOptionChange;
+    private handleCountrySearch;
+    private handleCustomSearch;
+    private handleCustomOptionClick;
+    notificationCount: number;
+    isMobileMenuOpen: boolean;
+    private toggleMobileMenu;
+    private pages;
+    showMegaMenu: boolean;
     render(): any;
 }

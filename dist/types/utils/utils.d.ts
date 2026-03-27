@@ -1,31 +1,5 @@
 import { MomentFormatSpecification } from 'moment';
-import IBooking, { ICountry, IEntries, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
-/** Supported language codes that map to `CODE_VALUE_*` fields on {@link IEntries}. */
-export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';
-/**
- * Returns the localised display string for an {@link IEntries} entry.
- *
- * Resolution order:
- * 1. `CODE_VALUE_<language>` — if present and non-empty.
- * 2. `CODE_VALUE_EN` — English fallback.
- * 3. `CODE_NAME` — last-resort fallback when both the requested language
- *    and English values are absent.
- *
- * @param entry - The `IEntries` object to translate.
- * @param language - BCP-47-style language code (e.g. `"fr"`, `"ar"`).
- *   Defaults to `"en"`.
- * @returns The best available display string for the requested language.
- *
- * @example
- * ```ts
- * const label = getEntryValue({ entry: someEntry, language: 'fr' });
- * // → "Petit-déjeuner" (falls back to "Breakfast" if French is null)
- * ```
- */
-export declare function getEntryValue({ entry, language }: {
-    entry: IEntries;
-    language?: string;
-}): string;
+import IBooking, { ICountry, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 export declare function convertDateToCustomFormat(dayWithWeekday: string, monthWithYear: string, format?: string): string;
 export declare function convertDateToTime(dayWithWeekday: string, monthWithYear: string): number;
 export interface SelectOption {

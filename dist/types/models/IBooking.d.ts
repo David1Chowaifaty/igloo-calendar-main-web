@@ -76,6 +76,7 @@ export declare const ZIEntrySchema: z.ZodObject<{
     OWNER_ID: z.ZodNullable<z.ZodNumber>;
     TBL_NAME: z.ZodString;
 }, "strip", z.ZodTypeAny, {
+    NOTES?: string;
     CODE_NAME?: string;
     CODE_VALUE_AR?: string;
     CODE_VALUE_DE?: string;
@@ -95,10 +96,10 @@ export declare const ZIEntrySchema: z.ZodObject<{
     ISSYSTEM?: boolean;
     ISUPDATEABLE?: boolean;
     ISVISIBLE?: boolean;
-    NOTES?: string;
     OWNER_ID?: number;
     TBL_NAME?: string;
 }, {
+    NOTES?: string;
     CODE_NAME?: string;
     CODE_VALUE_AR?: string;
     CODE_VALUE_DE?: string;
@@ -118,7 +119,6 @@ export declare const ZIEntrySchema: z.ZodObject<{
     ISSYSTEM?: boolean;
     ISUPDATEABLE?: boolean;
     ISVISIBLE?: boolean;
-    NOTES?: string;
     OWNER_ID?: number;
     TBL_NAME?: string;
 }>;

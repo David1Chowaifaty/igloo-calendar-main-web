@@ -108,25 +108,16 @@ export declare class IrAirDatePicker {
      * Emitted when the date picker loses focus or is closed.
      */
     datePickerBlur: EventEmitter<void>;
-    private datePicker?;
+    private datePicker;
+    private openDatePickerTimeout?;
     componentWillLoad(): void;
     componentDidLoad(): void;
     datePropChanged(newDate: string | Date | null, oldDate: string | Date | null): void;
     minDatePropChanged(newVal: string | Date, oldVal: string | Date): void;
     maxDatePropChanged(newVal: string | Date, oldVal: string | Date): void;
-    datesPropChanged(newDates?: string[], oldDates?: string[]): void;
     clearDatePicker(): Promise<void>;
-    syncSelection(options?: {
-        date?: string | Date | null;
-        dates?: (string | Date)[] | null;
-    }): Promise<void>;
     private isSameDates;
     private toValidDate;
-    private toValidDates;
-    private areDateListsEqual;
-    private updatePickerDates;
-    private forceSyncPickerDate;
-    private forceSyncPickerDates;
     private updatePickerDate;
     private initializeDatepicker;
     private handleDateSelect;

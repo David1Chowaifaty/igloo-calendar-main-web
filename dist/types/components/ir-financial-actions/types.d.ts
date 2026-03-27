@@ -1,4 +1,3 @@
-import { Booking } from "../../models/booking.dto";
 import { Payment } from '../ir-booking-details/types';
 export type SidebarOpenEvent = {
     type: 'booking';
@@ -10,7 +9,6 @@ export type SidebarOpenEvent = {
     payload: {
         payment: Payment;
         bookingNumber: number;
-        booking: Booking;
     };
 };
 export type DailyFinancialActionsFilter = {
