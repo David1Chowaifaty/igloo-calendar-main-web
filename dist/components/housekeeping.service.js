@@ -9,6 +9,9 @@ const SetHKTaskLabelsParamsSchema = z.object({
     t2_label: z.string().optional(),
     t2_freq: z.string().optional(),
 });
+const ResolveHKIssueParamsSchema = z.object({
+    issue_id: z.number().min(0),
+});
 const OverrideHKTaskOwnershipParamsSchema = z.object({
     property_id: z.number(),
     is_to_remove: z.boolean().optional().default(false),
@@ -38,6 +41,14 @@ class HouseKeepingService {
             throw new Error(data.ExceptionMsg);
         }
         updateHKStore('hk_criteria', data['My_Result']);
+        return data['My_Result'];
+    }
+    async resolveHKIssue(params) {
+        const payload = ResolveHKIssueParamsSchema.parse(params);
+        const { data } = await axios.post('/Resolve_HK_Issue', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
         return data['My_Result'];
     }
     async overrideHKTaskOwnership(params) {
@@ -140,6 +151,18 @@ class HouseKeepingService {
             throw new Error(data.ExceptionMsg);
         }
         return data.My_Result;
+    }
+    async getHkIssues(params) {
+        try {
+            const { data } = await axios.post('/Get_HK_Issues', params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'] ?? [];
+        }
+        catch {
+            return [];
+        }
     }
     async getConnectedHk() {
         const { data } = await axios.post('/Get_Connected_HK', {});

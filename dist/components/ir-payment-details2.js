@@ -5,14 +5,14 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$k } from './ir-applicable-policies2.js';
-import { d as defineCustomElement$j } from './ir-booking-city-ledger2.js';
-import { d as defineCustomElement$i } from './ir-booking-guarantee2.js';
-import { d as defineCustomElement$h } from './ir-button2.js';
-import { d as defineCustomElement$g } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$f } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$e } from './ir-custom-button2.js';
-import { d as defineCustomElement$d } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$k } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$j } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$i } from './ir-booking-city-ledger2.js';
+import { d as defineCustomElement$h } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$g } from './ir-button2.js';
+import { d as defineCustomElement$f } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$e } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$d } from './ir-custom-button2.js';
 import { d as defineCustomElement$c } from './ir-date-select2.js';
 import { d as defineCustomElement$b } from './ir-dialog2.js';
 import { d as defineCustomElement$a } from './ir-drawer2.js';
@@ -273,49 +273,49 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-applicable-policies", "ir-booking-city-ledger", "ir-booking-guarantee", "ir-button", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-spinner", "ir-validator"];
+    const components = ["ir-payment-details", "ir-air-date-picker", "ir-applicable-policies", "ir-booking-city-ledger", "ir-booking-guarantee", "ir-button", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrPaymentDetails);
             }
             break;
-        case "ir-applicable-policies":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }
             break;
-        case "ir-booking-city-ledger":
+        case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
                 defineCustomElement$j();
             }
             break;
-        case "ir-booking-guarantee":
+        case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
                 defineCustomElement$i();
             }
             break;
-        case "ir-button":
+        case "ir-booking-guarantee":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }
             break;
-        case "ir-city-ledger-transaction-drawer":
+        case "ir-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }
             break;
-        case "ir-city-ledger-transaction-form":
+        case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-custom-button":
+        case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }

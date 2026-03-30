@@ -70,9 +70,9 @@ export class IrArrivalTimeDialog {
         }
     }
     render() {
-        return (h("ir-dialog", { key: 'd3421ab9ebe94c2e6cbb843ff40bef50e665a35d', label: "Edit Arrival Time", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '667b6a6f31d487d878bd41892bb917d003d5d72a', label: "Edit Arrival Time", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-select", { key: 'b4e9f3d7b5de3e0d4668306dbc14bd0fdea5c12b', size: "small", value: this.selectedArrivalTime, defaultValue: this.selectedArrivalTime, onchange: e => this.updateArrivalTime(e.target.value) }, this.arrivalTime.map(time => (h("wa-option", { value: time.CODE_NAME, selected: time.CODE_NAME === this.selectedArrivalTime }, time.CODE_VALUE_EN)))), h("div", { key: '7ce63fbbc1421c9863f2c5709bc89fc5df94b0a5', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '137c661fe6f4e57f21284e3f49ab3a256d14c295', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeDialog() }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '2979d91b3b5a892e83a58c6101a0a5af6e5d6249', size: "medium", variant: "brand", onClickHandler: () => this.saveArrivalTime(), loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-select", { key: 'fda684fc3a9ec2c43a1fee1d67165cd1c3019f5e', size: "small", value: this.selectedArrivalTime, defaultValue: this.selectedArrivalTime, onchange: e => this.updateArrivalTime(e.target.value) }, this.arrivalTime.map(time => (h("wa-option", { value: time.CODE_NAME, selected: time.CODE_NAME === this.selectedArrivalTime }, time.CODE_VALUE_EN)))), h("div", { key: 'bc387a9991b47800f84da61bc40662539a0ec0ef', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'e15ffc90bfcdc4227e190b429d3148b5f7e20f63', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => this.closeDialog() }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '28b745c54c07e96ea9430b7305419a5655b66f8a', size: "medium", variant: "brand", onClickHandler: () => this.saveArrivalTime(), loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
     static get is() { return "ir-arrival-time-dialog"; }
     static get encapsulation() { return "scoped"; }

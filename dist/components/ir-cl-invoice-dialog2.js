@@ -1,9 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService, F as FD_TYPES } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$7 } from './ir-cl-invoice-form2.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$6 } from './ir-cl-invoice-form2.js';
+import { d as defineCustomElement$5 } from './ir-custom-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$3 } from './ir-date-select2.js';
 import { d as defineCustomElement$2 } from './ir-dialog2.js';
@@ -84,7 +84,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
         }
     }
     render() {
-        return (h(Host, { key: 'cec5004f35ca19ddff1e3b1c09ad52802387eb8c' }, h("ir-dialog", { key: 'da41d839b1a3d7562edcf5041c0533ebdf67dcbd', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: 'ddcb1a195dbf58e320858a1f85c884c7eddf83ec', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.error && h("p", { key: '770e80791151115466b0583c17b50b73c61ad5bc', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'f35dcea94c2f2593b0377c18a4f5f14c0f4ceee6', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'dc6b006aa4a1b6d6fd589c754d094637edac4166', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'a95e3bcee70110d6d3edc94e9b4d42df2b371a08', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: '10075cd4736a9ab82a2742c788c05bff716a9fad' }, h("ir-dialog", { key: '03d8b092372c7721ade2390124bc04bf2968ff13', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '779c5ae918becf94c12b4ae28731154db9c1110e', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.error && h("p", { key: '33de293b2475d86e8d91eb3268c030436cd9e314', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '377dafd31c43c880d3240f51044ac57cf8a59594', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'c96bce119f9f1092909a371ce0f58eea9a8ce0a7', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '3d880d4551a31ad0b2de947441ba55486343dd3f', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
     }
     static get style() { return IrClInvoiceDialogStyle0; }
 }, [2, "ir-cl-invoice-dialog", {
@@ -103,24 +103,24 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-custom-button", "ir-custom-date-range", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-input"];
+    const components = ["ir-cl-invoice-dialog", "ir-air-date-picker", "ir-cl-invoice-form", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-cl-invoice-dialog":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrClInvoiceDialog);
             }
             break;
-        case "ir-cl-invoice-form":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-button":
+        case "ir-cl-invoice-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

@@ -1,0 +1,105 @@
+:host {
+  display: block;
+  text-align: start;
+}
+
+.detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ── Inline meta row ── */
+.meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  /* padding: 0.5rem 0.75rem; */
+  background: var(--wa-color-neutral-surface);
+  border: 1px solid var(--wa-color-neutral-stroke-loud);
+  border-radius: 6px;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--wa-color-neutral-on-quiet);
+}
+
+.meta-item wa-icon {
+  font-size: 0.85rem;
+  color: var(--wa-color-neutral-fill-loud);
+  flex-shrink: 0;
+}
+
+.meta-label {
+  color: var(--wa-color-neutral-fill-loud);
+  font-weight: 500;
+}
+
+.meta-value {
+  font-weight: 600;
+}
+
+.meta-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--wa-color-neutral-stroke-loud);
+  flex-shrink: 0;
+}
+
+/* ── Description ── */
+.description-block {
+  padding: 0.625rem 0.75rem;
+  background: color-mix(in srgb, var(--wa-color-warning-fill-loud) 8%, transparent);
+  border-inline-start: 3px solid var(--wa-color-warning-fill-loud);
+  border-radius: 4px;
+}
+
+.description-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--wa-color-neutral-fill-loud);
+}
+
+.description-label wa-icon {
+  font-size: 0.78rem;
+}
+
+.description-text {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  color: var(--wa-color-neutral-on-quiet);
+  white-space: pre-wrap;
+}
+
+/* ── Error banner ── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in srgb, var(--wa-color-danger-fill-loud) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--wa-color-danger-fill-loud) 25%, transparent);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--wa-color-danger-fill-loud);
+}
+
+/* ── Dialog footer ── */
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}

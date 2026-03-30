@@ -1,8 +1,20 @@
-import { h } from "@stencil/core";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { ClickOutside } from "../../../decorators/ClickOutside";
 import locales from "../../../stores/locales.store";
 import { calculateDaysBetweenDates } from "../../../utils/booking";
+import { h } from "@stencil/core";
 import moment from "moment";
 export class IglDateRange {
+    el;
     size = 'small';
     defaultData;
     disabled = false;
@@ -13,14 +25,19 @@ export class IglDateRange {
     variant = 'default';
     hint;
     renderAgain = false;
+    isActive = false;
     dateSelectEvent;
     dateRangeChange;
     toast;
     totalNights = 0;
+    static instanceCounter = 0;
+    popupId;
     fromDate = moment().toDate();
     toDate = moment().add(1, 'day').toDate();
     isInvalid;
     componentWillLoad() {
+        IglDateRange.instanceCounter += 1;
+        this.popupId = `igl-date-range-popup-${IglDateRange.instanceCounter}`;
         this.initializeDates();
     }
     handleDataChange(newValue, oldValue) {
@@ -49,77 +66,61 @@ export class IglDateRange {
     handleDateSelectEvent(key, data = '') {
         this.dateSelectEvent.emit({ key, data });
     }
-    handleDateChange(evt) {
+    handleCustomDateChange(evt) {
         const { start, end } = evt.detail;
-        this.fromDate = start.toDate();
-        this.toDate = end.toDate();
+        if (!start || !end)
+            return;
+        this.fromDate = start;
+        this.toDate = end;
         this.calculateTotalNights();
+        const startMoment = moment(start);
+        const endMoment = moment(end);
         this.handleDateSelectEvent('selectedDateRange', {
-            fromDate: this.fromDate.getTime(),
-            toDate: this.toDate.getTime(),
-            fromDateStr: start.format('DD MMM YYYY'),
-            toDateStr: end.format('DD MMM YYYY'),
+            fromDate: start.getTime(),
+            toDate: end.getTime(),
+            fromDateStr: startMoment.format('DD MMM YYYY'),
+            toDateStr: endMoment.format('DD MMM YYYY'),
             dateDifference: this.totalNights,
         });
-        this.dateRangeChange.emit({
-            checkIn: start,
-            checkOut: end,
-        });
+        this.dateRangeChange.emit({ checkIn: startMoment, checkOut: endMoment });
+        this.closeDatePicker();
         this.renderAgain = !this.renderAgain;
     }
-    // private renderDateSummary(showNights: boolean) {
-    //   const fromDateDisplay = moment(this.fromDate).format('MMM DD, YYYY');
-    //   const toDateDisplay = moment(this.toDate).format('MMM DD, YYYY');
-    //   const shouldRenderNights = showNights && this.totalNights > 0;
-    //   return (
-    //     <div
-    //       class={{
-    //         'date-range-display': true,
-    //         'date-range-display--disabled': this.disabled,
-    //       }}
-    //     >
-    //       <wa-icon variant="regular" name="calendar"></wa-icon>
-    //       <span class="date-range-date">{fromDateDisplay}</span>
-    //       <wa-icon name="arrow-right"></wa-icon>
-    //       <span class="date-range-date">{toDateDisplay}</span>
-    //       {shouldRenderNights && (
-    //         <span class="date-range-nights">{this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)}</span>
-    //       )}
-    //     </div>
-    //   );
-    // }
-    get dates() {
-        const fromDate = moment(this.fromDate).format('YYYY-MM-DD');
-        const toDate = moment(this.toDate).format('YYYY-MM-DD');
-        return [fromDate, toDate];
+    async openDatePicker() {
+        this.isActive = true;
+    }
+    async closeDatePicker() {
+        this.isActive = false;
+    }
+    togglePicker() {
+        this.isActive ? this.closeDatePicker() : this.openDatePicker();
+    }
+    handleKeyDown(event) {
+        switch (event.key) {
+            case 'Enter':
+            case ' ':
+                event.preventDefault();
+                this.togglePicker();
+                break;
+            case 'Escape':
+                if (this.isActive) {
+                    event.preventDefault();
+                    this.closeDatePicker();
+                }
+                break;
+        }
     }
     handleAriaInvalidChange(newValue) {
         this.isInvalid = newValue;
     }
+    get label() {
+        const from = moment(this.fromDate).format('MMM DD, YYYY');
+        const to = moment(this.toDate).format('MMM DD, YYYY');
+        return `${from} → ${to}`;
+    }
     render() {
         const showNights = this.variant === 'booking' && this.withDateDifference;
-        return (
-        // <Host size={this.size}>
-        //   <div class={`date-range-shell ${this.disabled ? 'disabled' : ''} ${this.variant === 'booking' ? 'picker' : ''}`}>
-        //     <ir-date-range
-        //       maxDate={this.maxDate}
-        //       class={'date-range-input'}
-        //       disabled={this.disabled}
-        //       fromDate={this.fromDate}
-        //       toDate={this.toDate}
-        //       minDate={this.minDate}
-        //       autoApply
-        //       data-state={this.disabled ? 'disabled' : 'active'}
-        //       onDateRangeChange={evt => {
-        //         this.handleDateChange(evt);
-        //       }}
-        //     ></ir-date-range>
-        //     {this.renderDateSummary(showNights)}
-        //   </div>
-        // </Host>
-        h("ir-date-select", { key: '446ce72976e36aba4e4e21611037fa61b3fae0a4', disabled: this.disabled, class: "custom-picker", minDate: this.minDate, "aria-invalid": this.isInvalid, maxDate: this.maxDate, onDateChanged: e => this.handleDateChange(e), range: true, exportparts: "base,anchor,combobox,body,input-base,input-hint,input-label,input-input,input-start,input-end,input-clear-button,input-password-toggle-button",
-            // hint={this.hint}
-            dates: this.dates }, h("wa-icon", { key: '6a1f4e46130ea291e5c0cdc33bc01eed08de5dfd', slot: "start", variant: "regular", name: "calendar" }), showNights && (h("span", { key: 'aab037039b756682970f29c97ab10991988f7388', slot: "end", class: "date-range-nights" }, this.totalNights + (this.totalNights > 1 ? ` ${locales.entries.Lcz_Nights}` : ` ${locales.entries.Lcz_Night}`)))));
+        return (h("wa-popup", { key: '4b7ff0a84b5fa5dce6db8ae896684cfc7fe79a90', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "igl-date-range__popup" }, h("div", { key: 'ea86000b818a0780ce61e1e1e38cb3a4b41d246c', slot: "anchor", part: "anchor", class: "igl-date-range__trigger" }, h("div", { key: 'd3887b927bd66e1bca8f1f9f05895975a5a2d4a6', part: "combobox", class: "igl-date-range__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date range", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("ir-input", { key: 'fb99158cbc2cec477c2356d6717afabd428ecc8a', disabled: this.disabled, class: "igl-date-range__input", readonly: true, value: this.label, "aria-invalid": this.isInvalid, "aria-expanded": String(this.isActive), "aria-disabled": this.disabled ? 'true' : undefined }, h("wa-icon", { key: 'd3701f6efb59a9b168fed6f66dcbf36ad33b7d25', slot: "start", variant: "regular", name: "calendar" }), showNights && this.totalNights > 0 && (h("span", { key: 'e6e1a54aac673d2b144559e1c48348e6e88f2888', slot: "end", class: "igl-date-range__nights" }, this.totalNights, " ", this.totalNights > 1 ? locales.entries.Lcz_Nights : locales.entries.Lcz_Night))))), h("div", { key: '59191d5ae697bfc88088152cb641e9114d33c04a', part: "body", id: this.popupId, class: "igl-date-range__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date range selection dialog" }, h("ir-custom-date-range", { key: '0633e43d67709da5383c50351e0b419f8683180b', style: { '--cal-button-size': '35px' }, fromDate: moment(this.fromDate), toDate: moment(this.toDate), minDate: this.minDate ? moment(this.minDate) : undefined, maxDate: this.maxDate ? moment(this.maxDate) : undefined, onDateChange: e => this.handleCustomDateChange(e) }))));
     }
     static get is() { return "igl-date-range"; }
     static get encapsulation() { return "shadow"; }
@@ -313,6 +314,7 @@ export class IglDateRange {
     static get states() {
         return {
             "renderAgain": {},
+            "isActive": {},
             "fromDate": {},
             "toDate": {},
             "isInvalid": {}
@@ -378,6 +380,45 @@ export class IglDateRange {
                 }
             }];
     }
+    static get methods() {
+        return {
+            "openDatePicker": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            },
+            "closeDatePicker": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            }
+        };
+    }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "defaultData",
@@ -388,4 +429,7 @@ export class IglDateRange {
             }];
     }
 }
+__decorate([
+    ClickOutside()
+], IglDateRange.prototype, "closeDatePicker", null);
 //# sourceMappingURL=igl-date-range.js.map

@@ -54,13 +54,13 @@ export declare const UnblockUnitByPeriodPropsSchema: z.ZodObject<{
     from_date: z.ZodOptional<z.ZodString>;
     to_date: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
+    unit_id?: number;
     from_date?: string;
     to_date?: string;
-    unit_id?: number;
 }, {
+    unit_id?: number;
     from_date?: string;
     to_date?: string;
-    unit_id?: number;
 }>;
 export type UnblockUnitByPeriodProps = z.infer<typeof UnblockUnitByPeriodPropsSchema>;
 export declare const GetNextValuePropsSchema: z.ZodObject<{
@@ -83,8 +83,8 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
+    language?: string;
     room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
@@ -92,8 +92,8 @@ export declare const GetExposedApplicablePoliciesPropsSchema: z.ZodObject<{
 }, {
     property_id?: number;
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
+    language?: string;
     room_identifier?: string;
     rate_plan_id?: number;
     room_type_id?: number;
@@ -122,12 +122,12 @@ export declare const GetPenaltyStatementPropsSchema: z.ZodObject<{
     language: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
+    language?: string;
 }, {
     currency_id?: number;
-    language?: string;
     booking_nbr?: string;
+    language?: string;
 }>;
 export type GetPenaltyStatementProps = z.infer<typeof GetPenaltyStatementPropsSchema>;
 export declare const SetExposedRestrictionPerRoomTypePropsSchema: z.ZodObject<{

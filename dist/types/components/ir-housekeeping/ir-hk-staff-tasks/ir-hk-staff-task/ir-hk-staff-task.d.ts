@@ -4,6 +4,7 @@ export declare class IrHkStaffTask {
     task: Task;
     future: boolean;
     taskClick: EventEmitter<Task>;
+    private badgeVariant;
     private unitNameSizeClass;
     private get guests();
     render(): any;

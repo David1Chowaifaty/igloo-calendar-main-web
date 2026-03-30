@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$5 } from './ir-custom-button2.js';
-import { d as defineCustomElement$4 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
@@ -36,7 +36,7 @@ const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(clas
         });
     }
     render() {
-        return (h("section", { key: '412923609635e4f2841591b7f047cee4aa279bba', class: "fiscal-filters", "aria-label": "Fiscal document filters" }, h("div", { key: 'c5fcea9aaf2846f5de9c2a18e7b950fe9e91bf63', class: "fiscal-filters__left" }, h("ir-date-range-filter", { key: 'ae015f5f712146241046080d95e0fd765f42bf93', class: "fiscal-filters__dates", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) }), h("wa-select", { key: 'd3e93282a5b5a5240465ef23a99ed84890fed818', value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Status" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("ir-input", { key: '0ff833f04e689fb3015657408eba5df917b751a8', placeholder: "Search", class: "fiscal-filters__search" }, h("wa-icon", { key: '471ccf37650619e945ffd8813de42f4228d0c11b', name: "magnifying-glass", slot: "start" })), h("wa-switch", { key: 'ffe438b101cd074e327d90e862f6b92d5fb8c723', id: "tax-switch", checked: this.filters.taxableOnly, onchange: event => this.updateFilters({ taxableOnly: event.target.checked }) }, "Taxes"))));
+        return (h("section", { key: 'd711426607170e7bc45558ea4cc2dba0d04bf33b', class: "fiscal-filters", "aria-label": "Fiscal document filters" }, h("div", { key: '38649168cc56663769804fe40c3b506a9a727895', class: "fiscal-filters__left" }, h("ir-date-range-filter", { key: 'dfb34ba087c9521a342ca6d34d9c09a92f26b16e', class: "fiscal-filters__dates", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) }), h("wa-select", { key: 'd77caaa88c1f6ed6b1a564a520c70e5b9589f3a3', value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Status" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("ir-input", { key: 'b6c59116420fe22a213fe107863e1c8941d4c8e5', placeholder: "Search", class: "fiscal-filters__search" }, h("wa-icon", { key: '684abd02ec0d9c27df2b8af890c13b6f71e33677', name: "magnifying-glass", slot: "start" })), h("wa-switch", { key: '18a63457f7e82f436ac490a1bb281ef68e4d874f', id: "tax-switch", checked: this.filters.taxableOnly, onchange: event => this.updateFilters({ taxableOnly: event.target.checked }) }, "Taxes"))));
     }
     static get style() { return IrCityLedgerFiscalDocumentsFiltersStyle0; }
 }, [2, "ir-city-ledger-fiscal-documents-filters", {
@@ -46,19 +46,19 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-fiscal-documents-filters", "ir-custom-button", "ir-custom-date-range", "ir-date-range-filter", "ir-date-select", "ir-input"];
+    const components = ["ir-city-ledger-fiscal-documents-filters", "ir-air-date-picker", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-fiscal-documents-filters":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerFiscalDocumentsFilters);
             }
             break;
-        case "ir-custom-button":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

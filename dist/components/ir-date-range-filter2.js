@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$4 } from './ir-custom-button2.js';
-import { d as defineCustomElement$3 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$4 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$3 } from './ir-custom-button2.js';
 import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
@@ -84,7 +84,7 @@ const IrDateRangeFilter = /*@__PURE__*/ proxyCustomElement(class IrDateRangeFilt
     render() {
         const fromLabel = this.dates?.from ? this.dates.from.format('MMM D, YYYY') : null;
         const toLabel = this.dates?.to ? this.dates.to.format('MMM D, YYYY') : null;
-        return (h("div", { key: '2a1c27a2ef8e1681d0849a75f6c1652abe3d9db9', class: "date-ranger-filters__dates", role: "group", "aria-labelledby": `${this.groupId}-label` }, h("span", { key: '3a63ea60ab4078c4540a01d8a5c5e88e3922fcfb', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector"), h("wa-icon", { key: '13553ee6d49b4b3af8f320a65d8f3a0af69cf4d0', name: "calendar", variant: "regular", class: "date-ranger-filters__cal-icon" }), h("ir-date-select", { key: '653e362999ca185994414a80f284b4e40ee9d705', "data-type": "from", ref: el => (this.fromDateSelectRef = el), date: this.dates?.from?.format('YYYY-MM-DD'), placeholder: "From", "aria-label": "Start date", class: "date-ranger-filters__date-select --from", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '2c686e63051304b1a7013e034fc999cefab8839d', slot: "trigger", class: "date-range-filters__date-select-trigger", "aria-label": fromLabel ?? 'Select start date' }, fromLabel ?? h("span", { key: '20d46d24c0b74fb94d0dc3b0997edbf16f46f0d2', class: "date-range-filters__placeholder" }, "From")), this.showQuickActions && (h("div", { key: '8d12166284e9b86bc2212192d3684e6a2ded3068', class: "date-ranger-filters__quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set start date to ${action.label}`, onClickHandler: () => this.selectDate(action.getDate(), 'from') }, action.label)))))), h("span", { key: '1e2e41d6ef4310e1ecaed504afc0618fc5b0c8b2', class: "date-ranger-filters__arrow", "aria-hidden": "true" }, "\u2192"), h("ir-date-select", { key: 'edb880350db83a9401b2928672ba13508dae0113', "data-type": "to", date: this.dates?.to?.format('YYYY-MM-DD'), minDate: this.dates?.from?.format('YYYY-MM-DD'), placeholder: "To", "aria-label": "End date", ref: el => (this.toDateSelectRef = el), class: "date-ranger-filters__date-select --to", onDateChanged: evt => this.selectDate(evt.detail.start, 'to'), onDatePickerFocus: e => {
+        return (h("div", { key: 'b9ab312389bd42d8fdc1794d8318f1494d0c120e', class: "date-ranger-filters__dates", role: "group", "aria-labelledby": `${this.groupId}-label` }, h("span", { key: '526a67c8367dcdcd0618fa4e99458dc42cd342a1', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector"), h("wa-icon", { key: 'e844769fac0dcd4e0de23a74ebf07170e48e1dda', name: "calendar", variant: "regular", class: "date-ranger-filters__cal-icon" }), h("ir-date-select", { key: '80bc4aea8523c344d75445a4e1eb4ab002ef68de', "data-type": "from", ref: el => (this.fromDateSelectRef = el), date: this.dates?.from?.format('YYYY-MM-DD'), placeholder: "From", "aria-label": "Start date", class: "date-ranger-filters__date-select --from", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '81e96718e17d2da8229e637b9968a7b00e668d78', slot: "trigger", class: "date-range-filters__date-select-trigger", "aria-label": fromLabel ?? 'Select start date' }, fromLabel ?? h("span", { key: '295dc479df7aa74ebe89cb5281caa72f23a0820f', class: "date-range-filters__placeholder" }, "From")), this.showQuickActions && (h("div", { key: 'b71956feda210b49395069aca1794676b69d0e9c', class: "date-ranger-filters__quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set start date to ${action.label}`, onClickHandler: () => this.selectDate(action.getDate(), 'from') }, action.label)))))), h("span", { key: '57df1b1e768448e4b6e42dac92e4f3ea7347063b', class: "date-ranger-filters__arrow", "aria-hidden": "true" }, "\u2192"), h("ir-date-select", { key: '9967744fffd37135fb508e61b6850466b87605f6', "data-type": "to", date: this.dates?.to?.format('YYYY-MM-DD'), minDate: this.dates?.from?.format('YYYY-MM-DD'), placeholder: "To", "aria-label": "End date", ref: el => (this.toDateSelectRef = el), class: "date-ranger-filters__date-select --to", onDateChanged: evt => this.selectDate(evt.detail.start, 'to'), onDatePickerFocus: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.dates?.from) {
@@ -95,7 +95,7 @@ const IrDateRangeFilter = /*@__PURE__*/ proxyCustomElement(class IrDateRangeFilt
                         this.fromDateSelectRef.openDatePicker();
                     });
                 }
-            } }, h("button", { key: 'bae4b2ee84f10fef6341d081a64177358959898c', slot: "trigger", class: "date-range-filters__date-select-trigger", "aria-label": toLabel ?? 'Select end date' }, toLabel ?? h("span", { key: '70679d5ca6358d6cb92107a4a2836085e1a5df32', class: "date-range-filters__placeholder" }, "To")), this.showQuickActions && (h("div", { key: '91476ba60c186d67fc6d4011ae8016a5b40a43f9', class: "date-ranger-filters__quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, onClickHandler: () => this.selectDate(action.getDate(), 'to') }, action.label)))))), h("span", { key: '181c287e89902d8b5cb4d8b69cd77912e3f17ba0', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage)));
+            } }, h("button", { key: '182fc50dacae34c8f05166f4d0cf314c6bfe9da8', slot: "trigger", class: "date-range-filters__date-select-trigger", "aria-label": toLabel ?? 'Select end date' }, toLabel ?? h("span", { key: '7d04c759a78c397644a1a38fd71f6e666de5e165', class: "date-range-filters__placeholder" }, "To")), this.showQuickActions && (h("div", { key: '6f69884f35b681d0ca40281c10173b15a29bd7ab', class: "date-ranger-filters__quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, onClickHandler: () => this.selectDate(action.getDate(), 'to') }, action.label)))))), h("span", { key: '02d56f19bdaeb47d5fe84cfe0f7bf7e823bcef67', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage)));
     }
     static get watchers() { return {
         "fromDate": ["onFromDateChange"],
@@ -118,19 +118,19 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-date-range-filter", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-input"];
+    const components = ["ir-date-range-filter", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-input"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-date-range-filter":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrDateRangeFilter);
             }
             break;
-        case "ir-custom-button":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

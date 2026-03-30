@@ -9,7 +9,7 @@ const IrAgentAssignmentForm$1 = /*@__PURE__*/ proxyCustomElement(class IrAgentAs
         this.__registerHost();
     }
     render() {
-        return (h(Host, { key: 'cf3f84f91e3e888c7a93136e36c1e86e2aa83698' }, h("slot", { key: '26819a0fb7466335fa151f3b18296456d76124b2' })));
+        return (h(Host, { key: '8b62c9f7a21dd5dc162646c69ed4fd341fdb8016' }, h("slot", { key: '1215f9878e0e5cecb74905c062ad48bff6893655' })));
     }
     static get style() { return IrAgentAssignmentFormStyle0; }
 }, [6, "ir-agent-assignment-form"]);

@@ -1,107 +1,66 @@
 import { Host, h } from "@stencil/core";
+/**
+ * Module-level counter — survives HMR but is reset on full page reload.
+ * Guarantees each instance gets a stable, unique DOM id without needing
+ * @Element or lifecycle hooks.
+ */
+let titleIdCounter = 0;
+/**
+ * @component ir-interactive-title
+ *
+ * Renders a room/category name inside a flex row that:
+ *  - Truncates via CSS `text-overflow: ellipsis` when the text overflows.
+ *  - Shows a `<wa-tooltip>` with the full title on hover when the title
+ *    exceeds `cropSize` characters (lightweight proxy for overflow detection).
+ *  - Optionally renders a trailing `.hk-dot` container (via `slot[name="end"]`)
+ *    for housekeeping status icons or alert badges.
+ *
+ * The `.hk-dot` participates in the flex layout (`flex-shrink: 0`) so the
+ * title span is guaranteed to truncate *before* reaching the icons — no JS
+ * width measurement needed.
+ *
+ * @slot end - Icon(s) placed after the title (broom, alert, etc.).
+ *             Only rendered when `hkStatus` is `true`.
+ *
+ * @cssvar --ir-popover-left   Horizontal padding of the `.hk-dot` overlay.
+ * @cssvar --ir-interactive-hk-bg  Background fill of `.hk-dot` (used for
+ *                                  hover highlight from the parent row).
+ * @cssvar --dot-color          Icon colour inside `.hk-dot`.
+ */
 export class IrInteractiveTitle {
-    el;
     /**
-     * The full title string that may be cropped in the UI.
+     * The full title string. When its length exceeds `cropSize` the tooltip
+     * is activated so the user can read the complete text on hover.
      */
     popoverTitle = '';
     /**
-     * CSS offset for the left position of the popover.
-     * Used as a CSS variable `--ir-popover-left`.
+     * Horizontal padding of the `.hk-dot` slot container, forwarded as the
+     * `--ir-popover-left` CSS custom property on the host element.
+     * @default '10px'
      */
     irPopoverLeft = '10px';
     /**
-     * Whether to show the housekeeping (HK) status dot.
+     * When `true`, renders the `.hk-dot` container and the `slot[name="end"]`
+     * inside it. Must be `true` whenever slot content is provided, otherwise
+     * the slotted nodes are silently discarded by the browser.
      */
     hkStatus = false;
     /**
-     * The number of characters to display before cropping the title with ellipsis.
+     * Character-count threshold above which the full-title tooltip is shown.
+     * Acts as a fast approximation of visual overflow; the browser independently
+     * applies `text-overflow: ellipsis` via CSS regardless of this value.
+     * @default 20
      */
     cropSize = 20;
     /**
-     * The message shown when hovering over the broom svg if provided.
-     * @requires hkStatus to be true
+     * Unique DOM id assigned once at instantiation time to the inner `<span>`.
+     * `<wa-tooltip for="…">` references this id to anchor the tooltip.
+     * Declared `readonly` — must never be reassigned after construction.
      */
-    broomTooltip;
-    /**
-     * Reference to track if we've initialized popover for current render
-     */
-    lastRenderedTitle = '';
-    titleContainerRef;
-    popoverInstance;
-    /**
-     * Initialize popover with overflow detection
-     */
-    initializePopoverIfNeeded(titleContainer, title) {
-        // Only initialize if title changed or first time
-        if (this.lastRenderedTitle === title && this.popoverInstance) {
-            return;
-        }
-        this.disposePopover();
-        const tempSpan = document.createElement('span');
-        tempSpan.style.visibility = 'hidden';
-        tempSpan.style.position = 'absolute';
-        tempSpan.style.whiteSpace = 'nowrap';
-        tempSpan.textContent = title;
-        document.body.appendChild(tempSpan);
-        const textWidth = tempSpan.offsetWidth;
-        document.body.removeChild(tempSpan);
-        const containerWidth = titleContainer.clientWidth;
-        const iconWidth = this.hkStatus ? 20 : 0;
-        const willOverflow = textWidth + iconWidth > containerWidth;
-        if (willOverflow && typeof $ !== 'undefined') {
-            try {
-                this.popoverInstance = $(titleContainer).popover({
-                    trigger: 'hover',
-                    content: title,
-                    placement: 'top',
-                    html: false,
-                    sanitize: true,
-                    delay: { show: 300, hide: 100 },
-                });
-            }
-            catch (error) {
-                console.error('Failed to initialize popover:', error);
-            }
-        }
-        this.lastRenderedTitle = title;
-    }
-    disposePopover() {
-        if (this.popoverInstance && typeof $ !== 'undefined') {
-            try {
-                $(this.titleContainerRef).popover('dispose');
-                this.popoverInstance = null;
-            }
-            catch (error) {
-                console.error('Failed to dispose popover:', error);
-            }
-        }
-    }
-    disconnectedCallback() {
-        this.disposePopover();
-    }
+    titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        const shouldCrop = title.length > this.cropSize;
-        const displayTitle = shouldCrop ? title.slice(0, this.cropSize) + '...' : title;
-        return (h(Host, { key: '351ee152e5686d6ec17a12175dc869242de890c2', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ae70e872bb9702e6f0f60837136c4bece9bacb73', ref: el => {
-                this.titleContainerRef = el;
-                if (el && title) {
-                    setTimeout(() => this.initializePopoverIfNeeded(el, title), 0);
-                }
-            }, class: "popover-title", style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-            } }, h("span", { key: '26f0d00908576077ac9ca509ff0cef775247b0ec', class: "cropped-title", style: {
-                flexShrink: '1',
-                minWidth: '0',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-            } }, displayTitle), this.hkStatus && (h("div", { key: 'c914b4a24369b0718f562eafbced7d0e02166134', title: this.broomTooltip, class: "hk-dot", style: { flexShrink: '0' } }, h("slot", { key: '38672d4038082313d3be5871d6743e87996c04f0', name: "end" }))))));
+        return (h(Host, { key: '034b37cdc6af708b02be5968d9a2fc3362c21145', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '4c4f07dc843fac60ea6d1a6c350d04977c5384ba', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: 'afd6f40694c0668b4a56ca8a2e9b659911a58db1', for: this.titleId, placement: "top" }, title)), h("span", { key: 'f0c62eb9c11e7fe2a4d717ff3cbcb0a182a96841', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '8642ad96ae126881ca4ccf0f1ceee7633faacc32', class: "hk-dot" }, h("slot", { key: '3e57239b84f647cc8b42a1d8d25178ec00106233', name: "end" }))))));
     }
     static get is() { return "ir-interactive-title"; }
     static get encapsulation() { return "scoped"; }
@@ -129,7 +88,7 @@ export class IrInteractiveTitle {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The full title string that may be cropped in the UI."
+                    "text": "The full title string. When its length exceeds `cropSize` the tooltip\nis activated so the user can read the complete text on hover."
                 },
                 "getter": false,
                 "setter": false,
@@ -148,8 +107,11 @@ export class IrInteractiveTitle {
                 "required": false,
                 "optional": false,
                 "docs": {
-                    "tags": [],
-                    "text": "CSS offset for the left position of the popover.\nUsed as a CSS variable `--ir-popover-left`."
+                    "tags": [{
+                            "name": "default",
+                            "text": "'10px'"
+                        }],
+                    "text": "Horizontal padding of the `.hk-dot` slot container, forwarded as the\n`--ir-popover-left` CSS custom property on the host element."
                 },
                 "getter": false,
                 "setter": false,
@@ -169,7 +131,7 @@ export class IrInteractiveTitle {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether to show the housekeeping (HK) status dot."
+                    "text": "When `true`, renders the `.hk-dot` container and the `slot[name=\"end\"]`\ninside it. Must be `true` whenever slot content is provided, otherwise\nthe slotted nodes are silently discarded by the browser."
                 },
                 "getter": false,
                 "setter": false,
@@ -188,39 +150,19 @@ export class IrInteractiveTitle {
                 "required": false,
                 "optional": false,
                 "docs": {
-                    "tags": [],
-                    "text": "The number of characters to display before cropping the title with ellipsis."
+                    "tags": [{
+                            "name": "default",
+                            "text": "20"
+                        }],
+                    "text": "Character-count threshold above which the full-title tooltip is shown.\nActs as a fast approximation of visual overflow; the browser independently\napplies `text-overflow: ellipsis` via CSS regardless of this value."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "crop-size",
                 "reflect": false,
                 "defaultValue": "20"
-            },
-            "broomTooltip": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [{
-                            "name": "requires",
-                            "text": "hkStatus to be true"
-                        }],
-                    "text": "The message shown when hovering over the broom svg if provided."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "broom-tooltip",
-                "reflect": false
             }
         };
     }
-    static get elementRef() { return "el"; }
 }
 //# sourceMappingURL=ir-interactive-title.js.map

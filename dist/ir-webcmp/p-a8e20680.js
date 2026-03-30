@@ -1,2 +1,0 @@
-function e(e){const i=e.IS_LOCKED?{id:"billed",label:"Billed",variant:"success",description:""}:e.IS_HOLD?{id:"held",label:"Held",variant:"warning",description:""}:{id:"unbilled",label:"Unbilled",variant:"neutral",description:""};return{_raw:e,status:i,type:e.CATEGORY,serviceDate:e.SERVICE_DATE,bookingNumber:e.BOOK_NBR?Number(e.BOOK_NBR):null,docNumber:e.EXTERNAL_REF,description:e.DESCRIPTION,debit:e.DEBIT,credit:e.CREDIT,balance:e.RUNNING_BALANCE}}export{e as m};
-//# sourceMappingURL=p-a8e20680.js.map

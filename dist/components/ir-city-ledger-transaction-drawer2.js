@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$8 } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$8 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$7 } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-drawer2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
@@ -35,15 +35,15 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: 'd0d26473a3a489d4f213495ba9b9965f06b7fbfd', open: this.open, label: this.drawerLabel, onDrawerHide: event => {
+        return (h("ir-drawer", { key: 'cc55b5fa56a970bbc134174468af8faf889eb86b', open: this.open, label: this.drawerLabel, onDrawerHide: event => {
                 this.stopEventPropagation(event);
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: 'a4fcf16c507a0686f20dbda480a61854bb9292ee', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, onTransactionSaved: () => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '464b94ac0fa6c86d9e7ab343cbdf2b88eb35e5ec', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, onTransactionSaved: () => {
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
-            } })), h("div", { key: '8fe07b6de29ce5f511cfe7d041a88ecc629fab06', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '1f0a9ab6d45474bdaa380793abcf9e0eae1ad930', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: '9ed2144f191464b5c2a71e12696bef9fb5ceee41', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn" }, "Save"))));
+            } })), h("div", { key: '2b83358f8ffd4d084c28a10658d289fba14c591a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '79e7938f5c19bbe48e950a2234425d276278d885', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'db47199428405c6f204091a39d84c81fdda06701', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn" }, "Save"))));
     }
     static get style() { return IrCityLedgerTransactionDrawerStyle0; }
 }, [2, "ir-city-ledger-transaction-drawer", {
@@ -62,24 +62,24 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-drawer", "ir-air-date-picker", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerTransactionDrawer);
             }
             break;
-        case "ir-city-ledger-transaction-form":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-custom-button":
+        case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

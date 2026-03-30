@@ -1,8 +1,10 @@
 import { Property } from "../models/booking.dto";
 import { CalendarDataDetails } from "../models/calendarData";
+import { HKIssue } from "../models/housekeeping";
 type CalendarStore = CalendarDataDetails & {
     roomHistory: Record<string, boolean>;
     property: Property;
+    unitIssues: Map<HKIssue['unit']['id'], HKIssue> | null;
     housekeeping_enabled: boolean;
     checkin_enabled: boolean;
     checkin_checkout_hours: {

@@ -19,6 +19,14 @@ export declare const SetHKTaskLabelsParamsSchema: z.ZodObject<{
     t2_freq?: string;
 }>;
 export type SetHKTaskLabelsParams = z.infer<typeof SetHKTaskLabelsParamsSchema>;
+export declare const ResolveHKIssueParamsSchema: z.ZodObject<{
+    issue_id: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    issue_id?: number;
+}, {
+    issue_id?: number;
+}>;
+export type ResolveHKIssueParams = z.infer<typeof ResolveHKIssueParamsSchema>;
 export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
     property_id: z.ZodNumber;
     is_to_remove: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
@@ -171,6 +179,18 @@ export interface ArchivedTask {
     date: string;
     house_keeper: string;
     unit: string;
+}
+export interface HKIssue {
+    date: string;
+    description: string;
+    hka_id: number;
+    housekeeper_name: string;
+    id: number;
+    unit: Unit;
+}
+export interface Unit {
+    id: number;
+    name: string;
 }
 export interface Task {
     id: string;

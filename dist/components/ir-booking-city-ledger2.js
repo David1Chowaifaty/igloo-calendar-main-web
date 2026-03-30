@@ -2,10 +2,10 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { C as CityLedgerService } from './index6.js';
 import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$9 } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$8 } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$9 } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$8 } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$7 } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-drawer2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
@@ -122,29 +122,29 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-city-ledger", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-custom-date-range", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrBookingCityLedger);
             }
             break;
-        case "ir-city-ledger-transaction-drawer":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-city-ledger-transaction-form":
+        case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-custom-button":
+        case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

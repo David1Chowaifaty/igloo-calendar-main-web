@@ -1,13 +1,42 @@
+import { Task } from "../../../models/housekeeping";
 import { ConnectedHK } from "../../../services/housekeeping.service";
+type TaskDateGroup = {
+    date: string;
+    formattedDate: string;
+    isFuture: boolean;
+    tasks: Task[];
+};
 export declare class IrHkStaffTasks {
+    el: HTMLElement;
     ticket: string;
-    private tasks;
+    baseurl: string;
+    language: string;
     private tokenService;
     private houseKeepingService;
+    private fromDate;
+    private toDate;
+    private confirmDialog;
+    private socket;
+    /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
+    activeLanguage: string;
+    selectedTask: Task | null;
     connectedHk: ConnectedHK;
     isLoading: boolean;
+    isConfirmLoading: boolean;
+    tasksByDate: TaskDateGroup[];
+    anythingToReportString: any;
     componentWillLoad(): void;
-    handleTicketChange(newValue: string, oldValue: string): void;
-    private init;
+    handleLanguageChange(newLang: string): void;
+    private applyLanguage;
+    handleTicketChange(newValue: string, oldValue: string): Promise<void>;
+    private groupTasks;
+    private groupByDate;
+    /** Fetches HK data and populates tasksByDate. Does NOT touch isLoading. */
+    private loadTasks;
+    private connectSocket;
+    disconnectedCallback(): void;
+    private handleConfirm;
+    private refreshTasks;
     render(): any;
 }
+export {};

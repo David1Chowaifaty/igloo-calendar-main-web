@@ -1,5 +1,5 @@
 import { RoomHkStatus } from "../models/booking.dto";
-import { ArchivedTask, IExposedHouseKeepingSetup, IInspectionMode, IPropertyHousekeepingAssignment, OverrideHKTaskOwnershipParams, SetHKTaskLabelsParams, SkipHKTasksParams, THKUser, TPendingHkSetupParams } from "../models/housekeeping";
+import { type ArchivedTask, type HKIssue, type IExposedHouseKeepingSetup, type IInspectionMode, type THKUser, type IPropertyHousekeepingAssignment, type OverrideHKTaskOwnershipParams, type SetHKTaskLabelsParams, type SkipHKTasksParams, type ResolveHKIssueParams, type TPendingHkSetupParams } from "../models/housekeeping";
 export type HKSkipParams = {
     HK_SKIP_ID: number;
     BOOK_NBR: string;
@@ -26,6 +26,7 @@ export interface ConnectedHK {
 }
 export declare class HouseKeepingService {
     getExposedHKSetup(property_id: number): Promise<IExposedHouseKeepingSetup>;
+    resolveHKIssue(params: ResolveHKIssueParams): Promise<any>;
     overrideHKTaskOwnership(params: OverrideHKTaskOwnershipParams): Promise<any>;
     setHKTaskLabels(params: SetHKTaskLabelsParams): Promise<any>;
     getExposedHKStatusCriteria(property_id: number): Promise<IExposedHouseKeepingSetup>;
@@ -77,8 +78,13 @@ export declare class HouseKeepingService {
             booking_nbr?: string | number;
             status: '001' | '004';
             hk_task_type_code: string;
+            comment?: string;
         }[];
     }): Promise<void>;
     generateUserName(name: string): Promise<any>;
+    getHkIssues(params: {
+        unit_id?: number;
+        property_id: number;
+    }): Promise<HKIssue[]>;
     getConnectedHk(): Promise<ConnectedHK>;
 }

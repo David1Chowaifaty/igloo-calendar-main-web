@@ -115,11 +115,13 @@ export declare class IglooCalendar {
     private init;
     private renderModalBody;
     private setUpCalendarData;
-    initializeApp(): Promise<void>;
+    private initializeApp;
+    private getHkIssues;
     private fetchSetupEntries;
     private getHousekeepingTasks;
     private handleSocketMessage;
     private handleUpdateCalendarRate;
+    private handleHKIssue;
     private handleSetDepartureTime;
     private handleRoomCalendarExtra;
     private handleSharingPersonsUpdated;

@@ -6,6 +6,7 @@ export type DateRangeChangeEvent = {
     checkOut: Moment;
 };
 export declare class IglDateRange {
+    el: HTMLIglDateRangeElement;
     size: 'small' | 'medium' | 'large';
     defaultData: {
         [key: string]: any;
@@ -18,12 +19,15 @@ export declare class IglDateRange {
     variant: 'booking' | 'default';
     hint: string;
     renderAgain: boolean;
+    isActive: boolean;
     dateSelectEvent: EventEmitter<{
         [key: string]: any;
     }>;
     dateRangeChange: EventEmitter<DateRangeChangeEvent>;
     toast: EventEmitter<IToast>;
     private totalNights;
+    private static instanceCounter;
+    private popupId;
     fromDate: Date;
     toDate: Date;
     isInvalid: string;
@@ -32,8 +36,12 @@ export declare class IglDateRange {
     private initializeDates;
     private calculateTotalNights;
     private handleDateSelectEvent;
-    private handleDateChange;
-    private get dates();
+    private handleCustomDateChange;
+    openDatePicker(): Promise<void>;
+    closeDatePicker(): Promise<void>;
+    private togglePicker;
+    private handleKeyDown;
     handleAriaInvalidChange(newValue: any): void;
+    private get label();
     render(): any;
 }

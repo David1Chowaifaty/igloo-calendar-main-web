@@ -3,9 +3,10 @@ import { h as hooks } from './moment.js';
 import { f as calendar_dates, d as compareTime, e as createDateWithOffsetAndHour } from './booking.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$c } from './igl-block-dates-view2.js';
-import { d as defineCustomElement$b } from './igl-booking-event2.js';
-import { d as defineCustomElement$a } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$d } from './igl-block-dates-view2.js';
+import { d as defineCustomElement$c } from './igl-booking-event2.js';
+import { d as defineCustomElement$b } from './igl-booking-event-hover2.js';
+import { d as defineCustomElement$a } from './igl-hk-issues-dialog2.js';
 import { d as defineCustomElement$9 } from './igl-housekeeping-dialog2.js';
 import { d as defineCustomElement$8 } from './ir-custom-button2.js';
 import { d as defineCustomElement$7 } from './ir-date-view2.js';
@@ -16,7 +17,7 @@ import { d as defineCustomElement$3 } from './ir-icons2.js';
 import { d as defineCustomElement$2 } from './ir-interactive-title2.js';
 import { d as defineCustomElement$1 } from './ir-label2.js';
 
-const iglCalBodyCss = ".sc-igl-cal-body-h{display:block;color:var(--wa-color-text-normal)}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.cellData.sc-igl-cal-body{background-color:var(--wa-color-surface-default)}.cellData[data-dirty-room='true'].sc-igl-cal-body::after{content:'';position:absolute;bottom:0;height:100%;left:30%;right:30%;background-color:#d4d0be !important}.cellData.disabled.sc-igl-cal-body{background:var(--wa-color-neutral-fill-quiet);cursor:var(--cell-cursor, not-allowed);transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:var(--wa-color-neutral-fill-quiet)}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover[data-hk-enabled='false']{background:var(--wa-color-surface-default);cursor:default}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid var(--wa-color-surface-border);border-left:1px solid var(--wa-color-surface-border);vertical-align:top}.triangle-button.sc-igl-cal-body{--size:10px;position:absolute;right:-6px;top:-1px;width:0;height:0;padding:0;border:none;background:transparent;cursor:pointer;width:0;height:0;border-left:var(--size) solid transparent;border-right:var(--size) solid transparent;border-bottom:var(--size) solid var(--wa-color-surface-border);transform:rotate(45deg)}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid var(--wa-color-surface-border)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:var(--wa-color-surface-default);border-inline-end:1px solid var(--wa-color-surface-border);width:170px;z-index:1;border-inline-start:0px}.currentDay.sc-igl-cal-body{background-color:var(--wa-color-brand-fill-quiet)}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none;position:relative}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}.roomTitle[data-room-has-today-checkin='true'].sc-igl-cal-body{--ir-interactive-hk-bg:var(--wa-color-brand-fill-quiet);color:var(--wa-color-brand-on-quiet);background-color:var(--wa-color-brand-fill-quiet) !important}";
+const iglCalBodyCss = ".sc-igl-cal-body-h{display:block;color:var(--wa-color-text-normal)}.bodyContainer.sc-igl-cal-body{position:relative}.roomRow.sc-igl-cal-body{width:max-content}.roomRow.sc-igl-cal-body:first-child{margin-top:80px}.categoryName.sc-igl-cal-body{font-weight:bold;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.hk_issue_btn.sc-igl-cal-body::part(base){height:auto;width:fit-content;padding:0.25rem}.cellData.sc-igl-cal-body{background-color:var(--wa-color-surface-default)}.cellData[data-dirty-room='true'].sc-igl-cal-body::after{content:'';position:absolute;bottom:0;height:100%;left:30%;right:30%;background-color:#d4d0be !important}.cellData.disabled.sc-igl-cal-body{background:var(--wa-color-neutral-fill-quiet);cursor:var(--cell-cursor, not-allowed);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body{cursor:pointer;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover{background:var(--wa-color-neutral-fill-quiet)}.roomRow.sc-igl-cal-body .room.sc-igl-cal-body:hover[data-hk-enabled='false']{background:var(--wa-color-surface-default);cursor:default}.cellData.sc-igl-cal-body{width:58px;height:30px;display:inline-grid;border-top:1px solid var(--wa-color-surface-border);border-left:1px solid var(--wa-color-surface-border);vertical-align:top}.triangle-button.sc-igl-cal-body{--size:10px;position:absolute;right:-6px;top:-1px;width:0;height:0;padding:0;border:none;background:transparent;cursor:pointer;width:0;height:0;border-left:var(--size) solid transparent;border-right:var(--size) solid transparent;border-bottom:var(--size) solid var(--wa-color-surface-border);transform:rotate(45deg)}.cellData.sc-igl-cal-body:nth-child(2){border-left:0px}.cellData.sc-igl-cal-body:last-child{border-right:1px solid var(--wa-color-surface-border)}.roomHeaderCell.sc-igl-cal-body{position:-webkit-sticky;position:sticky;left:0;background:var(--wa-color-surface-default);border-inline-end:1px solid var(--wa-color-surface-border);width:170px;z-index:1;border-inline-start:0px}.currentDay.sc-igl-cal-body{background-color:var(--wa-color-brand-fill-quiet)}.dragOverHighlight.sc-igl-cal-body{background-color:#f5f5dc !important}.selectedDay.sc-igl-cal-body{background-color:#f9f9c9 !important}.categoryTitle.sc-igl-cal-body{grid-template-columns:1fr 20px;padding-left:10px;cursor:pointer;height:40px;font-size:0.9em}.categoryTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.sc-igl-cal-body{padding-left:20px;font-size:0.9em;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}.roomTitle.sc-igl-cal-body>.sc-igl-cal-body:nth-child(1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.roomTitle.pl10.sc-igl-cal-body{padding-left:10px}.categoryPriceColumn.sc-igl-cal-body{align-items:center;height:40px;-webkit-user-select:none;user-select:none;position:relative}.bookingEventsContainer.sc-igl-cal-body{position:absolute;top:0;left:0}.roomTitle[data-room-has-today-checkin='true'].sc-igl-cal-body{--ir-interactive-hk-bg:var(--wa-color-brand-fill-quiet);color:var(--wa-color-brand-on-quiet);background-color:var(--wa-color-brand-fill-quiet) !important}";
 const IglCalBodyStyle0 = iglCalBodyCss;
 
 const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTMLElement {
@@ -39,6 +40,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
     renderAgain = false;
     selectedRoom = null;
     selectedRooms = {};
+    issue = null;
     addBookingDatasEvent;
     showBookingPopup;
     scrollPageToRoom;
@@ -340,6 +342,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
      * @param {RoomCategory} roomType - The category containing room details.
      */
     getUnitsByRoomtype(roomType) {
+        console.log(calendar_data.unitIssues);
         const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomType);
         // Check accordion is expanded.
         if (!roomType.expanded) {
@@ -353,6 +356,7 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
             const name = haveSingleRooms ? this.getCategoryName(roomType) : this.getRoomName(room);
             const roomId = this.getRoomId(room);
             const roomHasTodayCheckin = this.roomHasTodayCheckin(roomId);
+            // const hasHousekeepingOrIssue = room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id));
             return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomType) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
                     if (!calendar_data.housekeeping_enabled) {
                         return;
@@ -365,7 +369,11 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': 'var(--wa-color-neutral-fill-quiet)' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: name }, room.hk_status !== '001' && (h("div", { slot: "end", class: "d-flex align-items-center", style: { gap: '0.5rem' } }, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
+                }, style: room.hk_status === '003' && { '--dot-color': 'var(--wa-color-neutral-fill-quiet)' }, hkStatus: calendar_data.housekeeping_enabled && (room.hk_status !== '001' || calendar_data.unitIssues?.has(room.id)), popoverTitle: name }, (room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id))) && (h("div", { slot: "end", class: "d-flex align-items-center", style: { gap: '0.5rem' } }, calendar_data.unitIssues.has(room.id) && (h("wa-button", { appearance: "plain", variant: "danger", class: "hk_issue_btn", onClick: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.issue = calendar_data.unitIssues.get(Number(room.id));
+                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), room.hk_status !== '001' && (h(Fragment, null, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
         });
     }
     getRoomRows() {
@@ -446,13 +454,17 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         return disabled;
     }
     render() {
-        return (h(Host, { key: 'cf1b43347a868301020223d42bc1c2988795f6c8' }, h("div", { key: 'f6930369bbda1320bd4f338ab60cd7ca57cc3742', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '03321127d0222dd348288d0612a82354493bc550', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '335e06208dfab0da709bb540dfff62951e02857e' }, h("div", { key: 'd777633cea8ddcd13c93bab1e9d4e7147c5fca74', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'fc8a6f857cebd018b598aae078693d7f0a299d17', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '991c694171c0f10bb983e793e4ae505ccf41443b', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'f664a6a32b0749d4d11d3bfbf5dc44e274dedaae', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null })));
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '2a68d724d349e98e8dafff098048785f679c1c94', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.issue = null;
+            } })));
     }
     static get watchers() { return {
         "calendarData": ["handleCalendarDataChange"],
@@ -471,7 +483,8 @@ const IglCalBody = /*@__PURE__*/ proxyCustomElement(class IglCalBody extends HTM
         "dragOverElement": [32],
         "renderAgain": [32],
         "selectedRoom": [32],
-        "selectedRooms": [32]
+        "selectedRooms": [32],
+        "issue": [32]
     }, [[8, "dragOverHighlightElement", "dragOverHighlightElementHandler"], [8, "gotoRoomEvent", "gotoRoom"], [8, "addToBeAssignedEvent", "addToBeAssignedEvents"], [8, "closeBookingWindow", "closeWindow"]], {
         "calendarData": ["handleCalendarDataChange"],
         "today": ["handleTodayChange"]
@@ -480,7 +493,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "igl-housekeeping-dialog", "ir-custom-button", "ir-date-view", "ir-dialog", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-interactive-title", "ir-label"];
+    const components = ["igl-cal-body", "igl-block-dates-view", "igl-booking-event", "igl-booking-event-hover", "igl-hk-issues-dialog", "igl-housekeeping-dialog", "ir-custom-button", "ir-date-view", "ir-dialog", "ir-dropdown", "ir-dropdown-item", "ir-icons", "ir-interactive-title", "ir-label"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-cal-body":
             if (!customElements.get(tagName)) {
@@ -489,15 +502,20 @@ function defineCustomElement() {
             break;
         case "igl-block-dates-view":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "igl-booking-event":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "igl-booking-event-hover":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$b();
+            }
+            break;
+        case "igl-hk-issues-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$a();
             }

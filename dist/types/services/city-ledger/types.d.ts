@@ -68,10 +68,10 @@ export declare const MyClTxSchema: z.ZodObject<{
     VAT_AMOUNT: z.ZodNumber;
     VAT_PERCENT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
+    PR_ID?: number;
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
-    PR_ID?: number;
     FROM_DATE?: string;
     TO_DATE?: string;
     BOOK_NBR?: string;
@@ -118,10 +118,10 @@ export declare const MyClTxSchema: z.ZodObject<{
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
 }, {
+    PR_ID?: number;
     ENTRY_DATE?: string;
     ENTRY_USER_ID?: number;
     OWNER_ID?: number;
-    PR_ID?: number;
     FROM_DATE?: string;
     TO_DATE?: string;
     BOOK_NBR?: string;
@@ -252,10 +252,10 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         VAT_AMOUNT: z.ZodNumber;
         VAT_PERCENT: z.ZodNumber;
     }, "strip", z.ZodTypeAny, {
+        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
-        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
         BOOK_NBR?: string;
@@ -302,10 +302,10 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
     }, {
+        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
-        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
         BOOK_NBR?: string;
@@ -355,10 +355,10 @@ export declare const FetchCLResultSchema: z.ZodObject<{
     TOTAL_COUNT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     My_Cl_tx?: {
+        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
-        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
         BOOK_NBR?: string;
@@ -408,10 +408,10 @@ export declare const FetchCLResultSchema: z.ZodObject<{
     TOTAL_COUNT?: number;
 }, {
     My_Cl_tx?: {
+        PR_ID?: number;
         ENTRY_DATE?: string;
         ENTRY_USER_ID?: number;
         OWNER_ID?: number;
-        PR_ID?: number;
         FROM_DATE?: string;
         TO_DATE?: string;
         BOOK_NBR?: string;

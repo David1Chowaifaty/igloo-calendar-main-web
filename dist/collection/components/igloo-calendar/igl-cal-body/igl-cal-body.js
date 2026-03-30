@@ -17,6 +17,7 @@ export class IglCalBody {
     renderAgain = false;
     selectedRoom = null;
     selectedRooms = {};
+    issue = null;
     addBookingDatasEvent;
     showBookingPopup;
     scrollPageToRoom;
@@ -318,6 +319,7 @@ export class IglCalBody {
      * @param {RoomCategory} roomType - The category containing room details.
      */
     getUnitsByRoomtype(roomType) {
+        console.log(calendar_data.unitIssues);
         const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomType);
         // Check accordion is expanded.
         if (!roomType.expanded) {
@@ -331,6 +333,7 @@ export class IglCalBody {
             const name = haveSingleRooms ? this.getCategoryName(roomType) : this.getRoomName(room);
             const roomId = this.getRoomId(room);
             const roomHasTodayCheckin = this.roomHasTodayCheckin(roomId);
+            // const hasHousekeepingOrIssue = room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id));
             return (h("div", { class: "roomRow", "data-room-has-today-checkin": String(roomHasTodayCheckin) }, h("div", { class: `cellData room text-left align-items-center roomHeaderCell  roomTitle ${this.getTotalPhysicalRooms(roomType) <= 1 ? 'pl10' : ''} ${'room_' + roomId}`, "data-room-name": name, "data-hk-enabled": String(calendar_data.housekeeping_enabled), "data-room": roomId, "data-room-has-today-checkin": String(roomHasTodayCheckin), "data-category-has-today-checkin": String(hasRoomWithTodayCheckin), onClick: () => {
                     if (!calendar_data.housekeeping_enabled) {
                         return;
@@ -343,7 +346,11 @@ export class IglCalBody {
                 } }, h("ir-interactive-title", { ref: el => {
                     if (el)
                         this.interactiveTitle[room.id] = el;
-                }, style: room.hk_status === '003' && { '--dot-color': 'var(--wa-color-neutral-fill-quiet)' }, hkStatus: calendar_data.housekeeping_enabled && room.hk_status !== '001', popoverTitle: name }, room.hk_status !== '001' && (h("div", { slot: "end", class: "d-flex align-items-center", style: { gap: '0.5rem' } }, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
+                }, style: room.hk_status === '003' && { '--dot-color': 'var(--wa-color-neutral-fill-quiet)' }, hkStatus: calendar_data.housekeeping_enabled && (room.hk_status !== '001' || calendar_data.unitIssues?.has(room.id)), popoverTitle: name }, (room.hk_status !== '001' || calendar_data.unitIssues.has(Number(room.id))) && (h("div", { slot: "end", class: "d-flex align-items-center", style: { gap: '0.5rem' } }, calendar_data.unitIssues.has(room.id) && (h("wa-button", { appearance: "plain", variant: "danger", class: "hk_issue_btn", onClick: e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.issue = calendar_data.unitIssues.get(Number(room.id));
+                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), room.hk_status !== '001' && (h(Fragment, null, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
         });
     }
     getRoomRows() {
@@ -424,13 +431,17 @@ export class IglCalBody {
         return disabled;
     }
     render() {
-        return (h(Host, { key: 'cf1b43347a868301020223d42bc1c2988795f6c8' }, h("div", { key: 'f6930369bbda1320bd4f338ab60cd7ca57cc3742', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '03321127d0222dd348288d0612a82354493bc550', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '335e06208dfab0da709bb540dfff62951e02857e' }, h("div", { key: 'd777633cea8ddcd13c93bab1e9d4e7147c5fca74', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'fc8a6f857cebd018b598aae078693d7f0a299d17', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: '991c694171c0f10bb983e793e4ae505ccf41443b', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: 'f664a6a32b0749d4d11d3bfbf5dc44e274dedaae', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null })));
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '2a68d724d349e98e8dafff098048785f679c1c94', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.issue = null;
+            } })));
     }
     static get is() { return "igl-cal-body"; }
     static get encapsulation() { return "scoped"; }
@@ -610,7 +621,8 @@ export class IglCalBody {
             "dragOverElement": {},
             "renderAgain": {},
             "selectedRoom": {},
-            "selectedRooms": {}
+            "selectedRooms": {},
+            "issue": {}
         };
     }
     static get events() {

@@ -1,10 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$g } from './ir-city-ledger-folio-filters2.js';
-import { d as defineCustomElement$f } from './ir-city-ledger-folio-table2.js';
-import { d as defineCustomElement$e } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$d } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$c } from './ir-custom-button2.js';
-import { d as defineCustomElement$b } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$g } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$f } from './ir-city-ledger-folio-filters2.js';
+import { d as defineCustomElement$e } from './ir-city-ledger-folio-table2.js';
+import { d as defineCustomElement$d } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$c } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$b } from './ir-custom-button2.js';
 import { d as defineCustomElement$a } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$9 } from './ir-date-select2.js';
 import { d as defineCustomElement$8 } from './ir-dialog2.js';
@@ -35,7 +35,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     filters = {};
     folioSummaryUpdate;
     render() {
-        return (h(Host, { key: 'ca63f1ef01f8399af946e406e2b3315b3290a86e' }, h("ir-city-ledger-folio-filters", { key: '1ac8b84083efa013369fde251420c0450fd06fad', onFiltersChange: e => (this.filters = e.detail), onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: '612ccf56f88b7300d109889da64b44eb2799a99e', agentId: this.agentId, propertyId: this.propertyId, currencySymbol: this.currencySymbol, currencies: this.currencies, filters: this.filters, onFolioSummaryLoaded: e => this.folioSummaryUpdate.emit(e.detail), onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: '5b0d76f5d1a256e404ea2076c017a3039b0d6c0a', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, agentId: this.agentId, onTransactionSaved: () => { }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
+        return (h(Host, { key: '7eeb9e6df8f01e1a90f8a4024540dfcc81009a92' }, h("ir-city-ledger-folio-filters", { key: '7107455ae943e918a1e8cb4df530f06afcd427b4', onFiltersChange: e => (this.filters = e.detail), onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: 'ffd744cd767dd3e05161f959bbefa02911ae9d95', agentId: this.agentId, propertyId: this.propertyId, currencySymbol: this.currencySymbol, currencies: this.currencies, filters: this.filters, onFolioSummaryLoaded: e => this.folioSummaryUpdate.emit(e.detail), onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: '887d8221bc33fe2e822499f9f536a43f3627b2f3', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, agentId: this.agentId, onTransactionSaved: () => { }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
     }
     static get style() { return IrCityLedgerFolioStyle0; }
 }, [2, "ir-city-ledger-folio", {
@@ -52,39 +52,39 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-folio", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-custom-date-range", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-folio", "ir-air-date-picker", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-folio":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerFolio);
             }
             break;
-        case "ir-city-ledger-folio-filters":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }
             break;
-        case "ir-city-ledger-folio-table":
+        case "ir-city-ledger-folio-filters":
             if (!customElements.get(tagName)) {
                 defineCustomElement$f();
             }
             break;
-        case "ir-city-ledger-transaction-drawer":
+        case "ir-city-ledger-folio-table":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
             break;
-        case "ir-city-ledger-transaction-form":
+        case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }
             break;
-        case "ir-custom-button":
+        case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$b();
             }

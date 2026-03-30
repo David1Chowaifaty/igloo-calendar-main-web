@@ -6,6 +6,9 @@ export const SetHKTaskLabelsParamsSchema = z.object({
     t2_label: z.string().optional(),
     t2_freq: z.string().optional(),
 });
+export const ResolveHKIssueParamsSchema = z.object({
+    issue_id: z.number().min(0),
+});
 export const OverrideHKTaskOwnershipParamsSchema = z.object({
     property_id: z.number(),
     is_to_remove: z.boolean().optional().default(false),

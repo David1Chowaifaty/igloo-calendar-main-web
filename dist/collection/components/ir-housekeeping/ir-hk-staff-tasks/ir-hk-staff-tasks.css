@@ -2,6 +2,7 @@
   display: block;
   background: white;
   height: 100%;
+  min-height: 100vh;
 }
 
 .tasks__container {
@@ -51,4 +52,15 @@
   .tasks-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.tasks__empty {
+  color: var(--wa-color-text-quiet);
+  text-align: center;
+  padding: 2rem 0;
+  margin: 0;
+}
+
+.hk-staff-tasks__dialog::part(title) {
+  text-align: start;
 }

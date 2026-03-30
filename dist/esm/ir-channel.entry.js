@@ -1,10 +1,10 @@
 import { h, r as registerInstance, g as getElement, F as Fragment, H as Host } from './index-7e96440e.js';
-import { R as RoomService } from './room.service-29f502a3.js';
+import { R as RoomService } from './room.service-e5d266c2.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, r as resetStore, c as channels_data } from './channel.store-79fb5c60.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { C as ChannelService } from './channel.service-27383c71.js';
+import { C as ChannelService } from './channel.service-1532093b.js';
 import { T as Token } from './Token-030c78a9.js';
-import './calendar-data-2ae53dc9.js';
+import './calendar-data-b1f645da.js';
 import './index-f100e9d2.js';
 import './axios-aa1335b8.js';
 

@@ -92,8 +92,6 @@ export declare class IrDateSelect {
     triggerContainerStyle: string;
     isActive: boolean;
     currentDate: Moment;
-    selectedStart: Moment | null;
-    selectedEnd: Moment | null;
     private slotManagerHasSlot;
     isValid: string;
     datePickerFocus: EventEmitter<void>;
@@ -108,7 +106,6 @@ export declare class IrDateSelect {
     private slotManager;
     airDatePickerRef: HTMLIrAirDatePickerElement;
     componentWillLoad(): void;
-    handleDatePropChange(newVal: string | Date | null): void;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     handleAriaInvalidChange(newVal: string, oldVal: string): void;

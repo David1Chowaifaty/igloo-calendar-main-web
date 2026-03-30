@@ -1,4 +1,4 @@
-import { OverrideHKTaskOwnershipParamsSchema, SetHKTaskLabelsParamsSchema, SkipHKTasksParamsSchema, } from "../models/housekeeping";
+import { OverrideHKTaskOwnershipParamsSchema, SkipHKTasksParamsSchema, ResolveHKIssueParamsSchema, SetHKTaskLabelsParamsSchema, } from "../models/housekeeping";
 import { updateHKStore } from "../stores/housekeeping.store";
 import axios from "axios";
 export class HouseKeepingService {
@@ -10,6 +10,14 @@ export class HouseKeepingService {
             throw new Error(data.ExceptionMsg);
         }
         updateHKStore('hk_criteria', data['My_Result']);
+        return data['My_Result'];
+    }
+    async resolveHKIssue(params) {
+        const payload = ResolveHKIssueParamsSchema.parse(params);
+        const { data } = await axios.post('/Resolve_HK_Issue', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
         return data['My_Result'];
     }
     async overrideHKTaskOwnership(params) {
@@ -112,6 +120,18 @@ export class HouseKeepingService {
             throw new Error(data.ExceptionMsg);
         }
         return data.My_Result;
+    }
+    async getHkIssues(params) {
+        try {
+            const { data } = await axios.post('/Get_HK_Issues', params);
+            if (data.ExceptionMsg !== '') {
+                throw new Error(data.ExceptionMsg);
+            }
+            return data['My_Result'] ?? [];
+        }
+        catch {
+            return [];
+        }
     }
     async getConnectedHk() {
         const { data } = await axios.post('/Get_Connected_HK', {});

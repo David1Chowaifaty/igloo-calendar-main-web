@@ -6,7 +6,7 @@ import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { z } from './index2.js';
 import { w as getEntryValue } from './utils.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$4 } from './ir-date-select2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
@@ -540,14 +540,14 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-form", "ir-custom-date-range", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-form", "ir-air-date-picker", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerTransactionForm);
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

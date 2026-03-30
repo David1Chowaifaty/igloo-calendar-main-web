@@ -1,6 +1,7 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { PhysicalRoom, RoomType } from "../../../models/booking.dto";
 import { ICountry } from "../../../models/IBooking";
+import { HKIssue } from "../../../models/housekeeping";
 export type RoomCategory = RoomType & {
     expanded: boolean;
 };
@@ -21,6 +22,7 @@ export declare class IglCalBody {
     selectedRooms: {
         [key: string]: any;
     };
+    issue: HKIssue | null;
     addBookingDatasEvent: EventEmitter<any[]>;
     showBookingPopup: EventEmitter;
     scrollPageToRoom: EventEmitter;

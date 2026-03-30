@@ -74,7 +74,7 @@ const IrSwitch = class {
         this.checkChange.emit(this.checked);
     }
     render() {
-        return (h(Host, { key: '4d1cb45ffa424d5d7e2487c79367bcf009ce65ad' }, h("button", { key: '8836e75ec47482c07d058b2411c246b7e63bea4d', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: '219347b3430fb4a4a1ad762b5a89f1758d4316af', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: 'c25e13edbb09f77ca38ead1f0cc93ddeb6e6f8c7', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
+        return (h(Host, { key: '86c8b0b88e8182788092af39ce2ea318926fe258' }, h("button", { key: '150f35d3534633e6337bc3bb3c014ef56326cda2', disabled: this.disabled, ref: el => (this.switchRoot = el), type: "button", id: this.switchId || this._id, onClick: this.handleCheckChange.bind(this), role: "switch", "data-state": this.checked ? 'checked' : 'unchecked', value: 'on', class: "SwitchRoot" }, h("span", { key: 'ecc25ac62da21afef39af2c6037523297afa58ec', class: "SwitchThumb", "data-state": this.checked ? 'checked' : 'unchecked' })), h("input", { key: 'f75a4652149cee614e6a728b597bc5c46095accd', type: "checkbox", checked: this.checked, "aria-hidden": "true", tabIndex: -1, value: 'on', class: "hidden-input" })));
     }
 };
 IrSwitch.style = IrSwitchStyle0;

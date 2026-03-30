@@ -9,7 +9,7 @@ const IrAgentAssignmentDialog$1 = /*@__PURE__*/ proxyCustomElement(class IrAgent
         this.__registerHost();
     }
     render() {
-        return (h(Host, { key: '84801c36fbf160511d9dff9efe4836074b23b06c' }, h("slot", { key: 'a48d5252539b132f59c4a4378f4f6716d5fd55fb' })));
+        return (h(Host, { key: '721fe2fea98553ab78d15d8ef9ba17ba482a2d7f' }, h("slot", { key: 'c59f32c23e562139cadddc5d6f17730f53830852' })));
     }
     static get style() { return IrAgentAssignmentDialogStyle0; }
 }, [6, "ir-agent-assignment-dialog"]);
