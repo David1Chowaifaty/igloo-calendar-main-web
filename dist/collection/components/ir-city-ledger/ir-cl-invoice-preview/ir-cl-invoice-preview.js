@@ -4,6 +4,7 @@ import { CityLedgerService } from "../../../services/city-ledger/index";
 import { PropertyService } from "../../../services/property.service";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
+import { groupData } from "./utils";
 const DATE_DISPLAY = 'MMM DD, YYYY';
 export class IrClInvoicePreview {
     propertyId;
@@ -79,7 +80,7 @@ export class IrClInvoicePreview {
     renderHeader() {
         const p = this.property;
         const logo = p?.space_theme?.logo;
-        return (h("header", { class: "invoice-header" }, h("div", { class: "invoice-header__property" }, logo && h("img", { class: "invoice-header__logo", src: logo, alt: p?.name }), h("div", { class: "invoice-header__property-info" }, h("h1", { class: "invoice-header__property-name" }, p?.name), p?.address && h("p", { class: "invoice-header__address" }, p.address), p?.city && h("p", { class: "invoice-header__address" }, p.city?.name), p?.country && h("p", { class: "invoice-header__address" }, p.country?.name), p?.phone && h("p", { class: "invoice-header__contact" }, p.phone), this.primaryContact?.email && h("p", { class: "invoice-header__contact" }, this.primaryContact.email), p?.tax_nbr && h("p", { class: "invoice-header__tax-nbr" }, "Tax Reg: ", p.tax_nbr))), h("div", { class: "invoice-header__meta" }, h("h2", { class: "invoice-header__title" }, "INVOICE"), this.documentNumber && (h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Document #"), h("span", { class: "invoice-header__meta-value" }, this.documentNumber))), h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Date"), h("span", { class: "invoice-header__meta-value" }, moment().format(DATE_DISPLAY))), (this.fromDate || this.toDate) && (h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Period"), h("span", { class: "invoice-header__meta-value" }, this.fromDate ? moment(this.fromDate).format(DATE_DISPLAY) : '—', " \u2013", ' ', this.toDate ? moment(this.toDate).format(DATE_DISPLAY) : '—'))))));
+        return (h("header", { class: "invoice-header" }, h("div", { class: "invoice-header__property" }, logo && h("img", { class: "invoice-header__logo", src: logo, alt: p?.name }), h("div", { class: "invoice-header__property-info" }, h("h1", { class: "invoice-header__property-name" }, p?.name), p?.address && h("p", { class: "invoice-header__address" }, p.address), p?.city && h("p", { class: "invoice-header__address" }, p.city?.name), p?.country && h("p", { class: "invoice-header__address" }, p.country?.name), p?.phone && h("p", { class: "invoice-header__contact" }, p.phone), this.primaryContact?.email && h("p", { class: "invoice-header__contact" }, this.primaryContact.email), p?.tax_nbr && h("p", { class: "invoice-header__tax-nbr" }, "Tax Reg: ", p.tax_nbr))), h("div", { class: "invoice-header__meta" }, h("h2", { class: "invoice-header__title" }, "INVOICE"), this.documentNumber && (h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Document #"), h("span", { class: "invoice-header__meta-value" }, this.documentNumber))), h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Date"), h("span", { class: "invoice-header__meta-value" }, moment().format(DATE_DISPLAY))), (this.fromDate || this.toDate) && (h("div", { class: "invoice-header__meta-row" }, h("span", { class: "invoice-header__meta-label" }, "Period"), h("span", { class: "invoice-header__meta-value" }, this.fromDate ? moment(this.fromDate).format(DATE_DISPLAY) : '—', " \u2013 ", this.toDate ? moment(this.toDate).format(DATE_DISPLAY) : '—'))))));
     }
     renderBillTo() {
         if (!this.agentName)
@@ -87,7 +88,25 @@ export class IrClInvoicePreview {
         return (h("section", { class: "invoice-bill-to" }, h("p", { class: "invoice-bill-to__label" }, "Bill To"), h("p", { class: "invoice-bill-to__name" }, this.agentName)));
     }
     renderLineItems() {
-        return (h("section", { class: "invoice-items" }, h("table", { class: "invoice-items__table" }, h("thead", null, h("tr", null, h("th", { class: "invoice-items__th" }, "#"), h("th", { class: "invoice-items__th" }, "Description"), h("th", { class: "invoice-items__th" }, "Guest"), h("th", { class: "invoice-items__th" }, "Booking"), h("th", { class: "invoice-items__th" }, "Stay"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Charges"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Payments"))), h("tbody", null, this.transactions.length === 0 ? (h("tr", null, h("td", { class: "invoice-items__empty", colSpan: 7 }, "No transactions found for this document."))) : (this.transactions.map((tx, i) => (h("tr", { key: tx.CL_TX_ID, class: "invoice-items__row" }, h("td", { class: "invoice-items__td invoice-items__td--index" }, i + 1), h("td", { class: "invoice-items__td" }, tx.DESCRIPTION || '—'), h("td", { class: "invoice-items__td" }, tx.GUEST_FIRST_NAME, " ", tx.GUEST_LAST_NAME), h("td", { class: "invoice-items__td invoice-items__td--booking" }, tx.BOOK_NBR), h("td", { class: "invoice-items__td invoice-items__td--dates" }, tx.FROM_DATE ? moment(tx.FROM_DATE).format(DATE_DISPLAY) : '—', tx.TO_DATE ? ` – ${moment(tx.TO_DATE).format(DATE_DISPLAY)}` : ''), h("td", { class: "invoice-items__td invoice-items__td--num" }, tx.DEBIT ? this.renderMoney(tx.DEBIT) : '—'), h("td", { class: "invoice-items__td invoice-items__td--num" }, tx.CREDIT ? this.renderMoney(tx.CREDIT) : '—')))))))));
+        console.log(groupData(this.transactions ?? []));
+        return (h("section", { class: "invoice-items" }, h("table", { class: "invoice-items__table" }, h("thead", null, h("tr", null, h("th", { class: "invoice-items__th" }, "Date"), h("th", { class: "invoice-items__th" }, "Description"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Net Price"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "VAT"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "VAT Amount"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "City Tax"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "City Tax Amount"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Total"))), h("tbody", null, this.transactions.length === 0 ? (h("tr", null, h("td", { class: "invoice-items__empty", colSpan: 7 }, "No transactions found for this document."))) : (
+        // this.transactions.map((tx, i) => (
+        //   <tr key={tx.CL_TX_ID} class="invoice-items__row">
+        //     <td class="invoice-items__td invoice-items__td--index">{i + 1}</td>
+        //     <td class="invoice-items__td">{tx.DESCRIPTION || '—'}</td>
+        //     <td class="invoice-items__td">
+        //       {tx.GUEST_FIRST_NAME} {tx.GUEST_LAST_NAME}
+        //     </td>
+        //     <td class="invoice-items__td invoice-items__td--booking">{tx.BOOK_NBR}</td>
+        //     <td class="invoice-items__td invoice-items__td--dates">
+        //       {tx.FROM_DATE ? moment(tx.FROM_DATE).format(DATE_DISPLAY) : '—'}
+        //       {tx.TO_DATE ? ` – ${moment(tx.TO_DATE).format(DATE_DISPLAY)}` : ''}
+        //     </td>
+        //     <td class="invoice-items__td invoice-items__td--num">{tx.DEBIT ? this.renderMoney(tx.DEBIT) : '—'}</td>
+        //     <td class="invoice-items__td invoice-items__td--num">{tx.CREDIT ? this.renderMoney(tx.CREDIT) : '—'}</td>
+        //   </tr>
+        // ))
+        groupData(this.transactions).map(level1 => (h("tr", { key: level1.PR_ID, class: "invoice-items__row" }, level1.subRows.length > 1 && h("td", { colSpan: 8 }, level1.PR_ID)))))))));
     }
     renderTotals() {
         const t = this.totals;
