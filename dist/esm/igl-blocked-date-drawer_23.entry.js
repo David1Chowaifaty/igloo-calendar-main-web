@@ -1,22 +1,22 @@
 import { r as registerInstance, c as createEvent, h, g as getElement, F as Fragment, H as Host } from './index-7e96440e.js';
-import { B as BookingService, r as resetBookingStore } from './booking.service-c1f176cb.js';
-import { p as getReleaseHoursString, i as isBlockUnit, w as checkMealPlan, f as formatAmount, x as isWeekend, d as dateToFormattedString, y as getDaysArray, z as convertDatePrice, A as formatDate } from './utils-065217ce.js';
-import { l as buildSplitIndex, m as getSplitRole, c as calculateDaysBetweenDates, t as transformNewBooking, a as calendar_dates, n as compareTime, o as createDateWithOffsetAndHour } from './booking-172b824e.js';
+import { B as BookingService, r as resetBookingStore } from './booking.service-92fce193.js';
+import { o as getReleaseHoursString, i as isBlockUnit, w as checkMealPlan, f as formatAmount, x as isWeekend, b as dateToFormattedString, y as getDaysArray, z as convertDatePrice, A as formatDate } from './utils-f1720d73.js';
+import { l as buildSplitIndex, m as getSplitRole, c as calculateDaysBetweenDates, t as transformNewBooking, a as calendar_dates, n as compareTime, o as createDateWithOffsetAndHour } from './booking-bee6ebd1.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-d9c70271.js';
+import { E as EventsService } from './events.service-8f7c224c.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-b8f1b238.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-06f1c858.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-6de7154f.js';
-import { H as HouseKeepingService } from './housekeeping.service-1c340564.js';
-import { P as PropertyService, E as ExposedRectifierParamsSchema } from './property.service-202d9fd1.js';
-import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
-import { z, Z as ZodError } from './index-87419685.js';
+import { H as HouseKeepingService } from './housekeeping.service-1c014a1d.js';
+import { P as PropertyService, E as ExposedRectifierParamsSchema } from './property.service-9a751a38.js';
+import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
+import { z, Z as ZodError } from './index-bdcc1750.js';
 import { I as IMask } from './index-e2caf943.js';
 import { v as v4 } from './v4-964634d6.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
-import './type-f926f853.js';
+import './type-e5e37818.js';
 
 const iglBlockedDateDrawerCss = ".sc-igl-blocked-date-drawer-h{display:block;text-align:start}";
 const IglBlockedDateDrawerStyle0 = iglBlockedDateDrawerCss;
@@ -1401,7 +1401,6 @@ const IglCalBody = class {
      * @param {RoomCategory} roomType - The category containing room details.
      */
     getUnitsByRoomtype(roomType) {
-        console.log(calendar_data.unitIssues);
         const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomType);
         // Check accordion is expanded.
         if (!roomType.expanded) {
@@ -1513,13 +1512,13 @@ const IglCalBody = class {
         return disabled;
     }
     render() {
-        return (h(Host, { key: '335e06208dfab0da709bb540dfff62951e02857e' }, h("div", { key: 'd777633cea8ddcd13c93bab1e9d4e7147c5fca74', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'fc8a6f857cebd018b598aae078693d7f0a299d17', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: 'cbe2afc6eaa61964abb8ee239eed1dcdbb3f9510' }, h("div", { key: 'd3c30f05e75ab2077161822d06d936100e41ced1', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: '9ebed06c328e1bb4d8b390d52ba004627ccd5947', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'f664a6a32b0749d4d11d3bfbf5dc44e274dedaae', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '91e4ad720ab1e0f76549d795da54850e2940ba87', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '2a68d724d349e98e8dafff098048785f679c1c94', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '2659ccd3950b299b1debac5c81f5e2f66227d1c5', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issue = null;

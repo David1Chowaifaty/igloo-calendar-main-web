@@ -1,19 +1,19 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement, F as Fragment } from './index-7e96440e.js';
-import { V as VariationService, B as BookingService, b as booking_store, n as updateRoomGuest, u as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, o as updateRoomParams } from './booking.service-c1f176cb.js';
+import { V as VariationService, B as BookingService, b as booking_store, n as updateRoomGuest, u as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, o as updateRoomParams } from './booking.service-92fce193.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-b1f645da.js';
-import { f as formatAmount } from './utils-065217ce.js';
-import { G as GuestCredentials } from './types-f16787f2.js';
-import { z } from './index-87419685.js';
+import { f as formatAmount } from './utils-f1720d73.js';
+import { G as GuestCredentials } from './types-00896d3e.js';
+import { z } from './index-bdcc1750.js';
 import { v as v4 } from './v4-964634d6.js';
 import { C as ClickOutside } from './ClickOutside-e1255f85.js';
-import { c as calculateDaysBetweenDates } from './booking-172b824e.js';
+import { c as calculateDaysBetweenDates } from './booking-bee6ebd1.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { m as moment$1 } from './moment-with-locales-ca51a4f5.js';
 import { c as commonjsGlobal, a as commonjsRequire } from './_commonjsHelpers-c9e3b764.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
-import './type-f926f853.js';
+import './type-e5e37818.js';
 
 const iglApplicationInfoCss = ".sc-igl-application-info-h{color:var(--wa-color-text-normal);font-family:var(--wa-font-family-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;text-align:start;display:flex;flex-direction:column;gap:0.5rem;margin-top:1.5rem}.fd-application-info__header.sc-igl-application-info{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}.fd-application-info__variation.sc-igl-application-info{padding:0;margin:0}.fd-application-info__form.sc-igl-application-info{display:flex;flex-direction:column;gap:1rem}.fd-application-info__price-inline.sc-igl-application-info,.fd-application-info__details.sc-igl-application-info{display:none}.fd-application-info__footer.sc-igl-application-info,.fd-application-info__rateplan.sc-igl-application-info{display:flex;align-items:center;gap:1rem}.fd-application-info__footer.sc-igl-application-info{justify-content:space-between}.fd-application-info__rateplan-name.sc-igl-application-info{font-size:var(--wa-font-size-m);margin:0;padding:0}.fd-application-info__non-refundable.sc-igl-application-info{color:var(--wa-color-success-fill-loud);margin-inline-start:0.5rem}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-l)}.fd-application-info__infant.sc-igl-application-info{display:flex;flex-direction:column;gap:0.875rem}.fd-application-info__infant-label.sc-igl-application-info{margin:0;padding:0;color:var(--wa-color-danger-fill-loud)}.fd-application-info__price.sc-igl-application-info{margin:0;padding:0;display:flex;flex-direction:column}@media (min-width: 768px){.fd-application-info__infant.sc-igl-application-info{flex-direction:row;align-items:center}.fd-application-info__infant.sc-igl-application-info .fd-application-info__select.sc-igl-application-info{max-width:100px}.fd-application-info__roomtype-title.sc-igl-application-info{font-size:var(--wa-font-size-m)}.fd-application-info__header.sc-igl-application-info{justify-content:flex-start;align-items:center;gap:0.5rem}.fd-application-info__form.sc-igl-application-info{flex-direction:row}.fd-application-info__price-inline.sc-igl-application-info{display:flex;flex-direction:column;padding:0;margin:0;align-items:flex-end}.fd-application-info__details.sc-igl-application-info{display:flex;align-items:center;gap:0.5rem}.fd-application-info__price.sc-igl-application-info,.fd-application-info__footer.sc-igl-application-info{display:none}}";
 const IglApplicationInfoStyle0 = iglApplicationInfoCss;

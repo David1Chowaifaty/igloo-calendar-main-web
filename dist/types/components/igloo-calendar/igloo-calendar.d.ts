@@ -121,7 +121,8 @@ export declare class IglooCalendar {
     private getHousekeepingTasks;
     private handleSocketMessage;
     private handleUpdateCalendarRate;
-    private handleHKIssue;
+    private handleHKIssueFound;
+    private handleHKIssueFixed;
     private handleSetDepartureTime;
     private handleRoomCalendarExtra;
     private handleSharingPersonsUpdated;

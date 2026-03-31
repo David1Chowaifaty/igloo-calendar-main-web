@@ -1405,7 +1405,6 @@ const IglCalBody = class {
      * @param {RoomCategory} roomType - The category containing room details.
      */
     getUnitsByRoomtype(roomType) {
-        console.log(calendarData.calendar_data.unitIssues);
         const hasRoomWithTodayCheckin = this.categoryHasRoomWithTodayCheckin(roomType);
         // Check accordion is expanded.
         if (!roomType.expanded) {
@@ -1517,13 +1516,13 @@ const IglCalBody = class {
         return disabled;
     }
     render() {
-        return (index.h(index.Host, { key: '335e06208dfab0da709bb540dfff62951e02857e' }, index.h("div", { key: 'd777633cea8ddcd13c93bab1e9d4e7147c5fca74', class: "bodyContainer" }, this.getRoomRows(), index.h("div", { key: 'fc8a6f857cebd018b598aae078693d7f0a299d17', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (index.h(index.Host, { key: 'cbe2afc6eaa61964abb8ee239eed1dcdbb3f9510' }, index.h("div", { key: 'd3c30f05e75ab2077161822d06d936100e41ced1', class: "bodyContainer" }, this.getRoomRows(), index.h("div", { key: '9ebed06c328e1bb4d8b390d52ba004627ccd5947', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (index.h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), index.h("igl-housekeeping-dialog", { key: 'f664a6a32b0749d4d11d3bfbf5dc44e274dedaae', onIrAfterClose: e => {
+        }))), index.h("igl-housekeeping-dialog", { key: '91e4ad720ab1e0f76549d795da54850e2940ba87', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), index.h("igl-hk-issues-dialog", { key: '2a68d724d349e98e8dafff098048785f679c1c94', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), index.h("igl-hk-issues-dialog", { key: '2659ccd3950b299b1debac5c81f5e2f66227d1c5', open: this.issue !== null, issue: this.issue, propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issue = null;

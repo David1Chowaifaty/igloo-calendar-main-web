@@ -1,0 +1,156 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-35d81173.js');
+const OverflowLock = require('./OverflowLock-80aac0f6.js');
+
+const irDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}";
+const IrDialogStyle0 = irDialogCss;
+
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+const IrDialog = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.irDialogShow = index.createEvent(this, "irDialogShow", 7);
+        this.irDialogHide = index.createEvent(this, "irDialogHide", 7);
+        this.irDialogAfterShow = index.createEvent(this, "irDialogAfterShow", 7);
+        this.irDialogAfterHide = index.createEvent(this, "irDialogAfterHide", 7);
+    }
+    get el() { return index.getElement(this); }
+    /**
+     * The dialog's label as displayed in the header.
+     * You should always include a relevant label, as it is required for proper accessibility.
+     * If you need to display HTML, use the label slot instead.
+     */
+    label;
+    /**
+     * Indicates whether or not the dialog is open.
+     * Toggle this attribute to show and hide the dialog.
+     */
+    open;
+    /**
+     * Disables the header.
+     * This will also remove the default close button.
+     */
+    withoutHeader;
+    /**
+     * When enabled, the dialog will be closed when the user clicks outside of it.
+     */
+    lightDismiss = true;
+    /**
+     * Emitted when the dialog opens.
+     */
+    irDialogShow;
+    /**
+     * Emitted when the dialog is requested to close.
+     * Calling event.preventDefault() will prevent the dialog from closing.
+     * You can inspect event.detail.source to see which element caused the dialog to close.
+     * If the source is the dialog element itself, the user has pressed Escape or the dialog has been closed programmatically.
+     * Avoid using this unless closing the dialog will result in destructive behavior such as data loss.
+     */
+    irDialogHide;
+    /**
+     * Emitted after the dialog opens and all animations are complete.
+     */
+    irDialogAfterShow;
+    /**
+     * Emitted after the dialog closes and all animations are complete.
+     */
+    irDialogAfterHide;
+    slotState = new Map();
+    slotObserver;
+    SLOT_NAMES = ['label', 'header-actions', 'footer'];
+    componentWillLoad() {
+        this.updateSlotState();
+    }
+    componentDidLoad() {
+        this.setupSlotListeners();
+    }
+    disconnectedCallback() {
+        this.removeSlotListeners();
+    }
+    async openModal() {
+        this.open = true;
+    }
+    async closeModal() {
+        this.open = false;
+    }
+    handleWaHide(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        if (!e.detail) {
+            return;
+        }
+        this.open = false;
+        this.irDialogHide.emit(e.detail);
+    }
+    handleWaShow(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.open = true;
+        this.irDialogShow.emit();
+    }
+    handleWaAfterHide(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.irDialogAfterHide.emit();
+    }
+    handleWaAfterShow(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.irDialogAfterShow.emit();
+    }
+    setupSlotListeners() {
+        // Listen to slotchange events on the host element
+        this.el.addEventListener('slotchange', this.handleSlotChange);
+        // Also use MutationObserver as a fallback for browsers that don't fire slotchange reliably
+        this.slotObserver = new MutationObserver(this.handleSlotChange);
+        this.slotObserver.observe(this.el, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['slot'],
+        });
+    }
+    removeSlotListeners() {
+        this.el.removeEventListener('slotchange', this.handleSlotChange);
+        this.slotObserver?.disconnect();
+    }
+    handleSlotChange = () => {
+        this.updateSlotState();
+    };
+    updateSlotState() {
+        const newState = new Map();
+        this.SLOT_NAMES.forEach(name => {
+            newState.set(name, this.hasSlot(name));
+        });
+        this.slotState = newState;
+    }
+    hasSlot(name) {
+        return !!this.el.querySelector(`[slot="${name}"]`);
+    }
+    render() {
+        return (index.h("wa-dialog", { key: '1f9d1e46e169445faa6a1cffa0765c3c0de21ec6', "onwa-hide": this.handleWaHide.bind(this), "onwa-show": this.handleWaShow.bind(this), "onwa-after-hide": this.handleWaAfterHide.bind(this), "onwa-after-show": this.handleWaAfterShow.bind(this), label: this.label, id: "dialog-overview", open: this.open, style: { '--width': 'var(--ir-dialog-width,31rem)' }, "without-header": this.withoutHeader, lightDismiss: this.lightDismiss, exportparts: "dialog, header, header-actions, title, close-button, close-button__base, body, footer" }, this.slotState.get('header-actions') && index.h("slot", { key: '88c295b319303acb38d4eda1738242d0047acdae', name: "header-actions", slot: "header-actions" }), this.slotState.get('label') && index.h("slot", { key: 'a8e9be34ee1d034f4a3ec0ebda1b12bdf536d1bd', name: "label", slot: "label" }), index.h("slot", { key: 'e0f4d119c6ba5080ee23ece8a88fe51cef81c358' }), this.slotState.get('footer') && index.h("slot", { key: '63ae25164fb2f840b1e19c70f0f9d161162d9fb3', name: "footer", slot: "footer" })));
+    }
+};
+__decorate([
+    OverflowLock.OverflowRelease()
+], IrDialog.prototype, "handleWaHide", null);
+__decorate([
+    OverflowLock.OverflowAdd()
+], IrDialog.prototype, "handleWaShow", null);
+IrDialog.style = IrDialogStyle0;
+
+exports.ir_dialog = IrDialog;
+
+//# sourceMappingURL=ir-dialog.cjs.entry.js.map
