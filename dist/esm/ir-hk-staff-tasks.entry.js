@@ -1,6 +1,6 @@
 import { r as registerInstance, g as getElement, h, H as Host } from './index-7e96440e.js';
 import { T as Token } from './Token-030c78a9.js';
-import { H as HouseKeepingService } from './housekeeping.service-1c014a1d.js';
+import { H as HouseKeepingService } from './housekeeping.service-bcba5d10.js';
 import { m as moment } from './moment-with-locales-ca51a4f5.js';
 import { l as lookup } from './index-7ee206df.js';
 import { v as v4 } from './v4-964634d6.js';
@@ -62,6 +62,7 @@ const IrHkStaffTasks = class {
     toDate = moment().add(3, 'days').locale('en').format('YYYY-MM-DD');
     confirmDialog;
     socket;
+    hkOverrideTimer = null;
     /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
     activeLanguage = 'en';
     selectedTask = null;
@@ -210,11 +211,34 @@ const IrHkStaffTasks = class {
                     await this.refreshTasks();
                 }
             }
+            else if (REASON === 'HK_TASK_OVERRIDE') {
+                const result = JSON.parse(PAYLOAD);
+                // Relevant if assigned to us (HKM_ID matches) or removed from someone (HKM_ID null — could be us)
+                const affectsUs = result.HKM_ID === this.connectedHk.HKM_ID || result.HKM_ID === null;
+                // Only refresh if the date falls within our displayed window
+                const inRange = result.DATE >= this.fromDate && result.DATE <= this.toDate;
+                if (affectsUs && inRange) {
+                    this.scheduleTaskRefresh();
+                }
+            }
         });
     }
     disconnectedCallback() {
+        if (this.hkOverrideTimer !== null) {
+            clearTimeout(this.hkOverrideTimer);
+            this.hkOverrideTimer = null;
+        }
         this.socket?.disconnect();
         this.socket = null;
+    }
+    scheduleTaskRefresh() {
+        if (this.hkOverrideTimer !== null) {
+            clearTimeout(this.hkOverrideTimer);
+        }
+        this.hkOverrideTimer = setTimeout(async () => {
+            this.hkOverrideTimer = null;
+            await this.refreshTasks();
+        }, 300);
     }
     async handleConfirm() {
         if (!this.selectedTask) {

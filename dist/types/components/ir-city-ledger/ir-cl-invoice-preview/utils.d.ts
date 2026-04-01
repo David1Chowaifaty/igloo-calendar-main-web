@@ -8,6 +8,13 @@ export interface BookingGroup {
 export interface UnitGroup {
     PR_ID: Row['PR_ID'];
     subRows: Row[];
+    occupancy: number;
+    GUEST_FIRST_NAME: string;
+    GUEST_LAST_NAME: string;
+    FROM_DATE: string;
+    TO_DATE: string;
+    ROOM_CATEGORY_ID: number;
+    ROOM_TYPE_ID: number;
 }
 /**
  * Groups a flat array of transaction rows into a two-level hierarchy,

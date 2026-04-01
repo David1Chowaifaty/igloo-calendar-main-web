@@ -14,6 +14,9 @@ export declare class IrClInvoicePreview {
     private tokenService;
     private propertyService;
     private cityLedgerService;
+    private prIdDict;
+    private roomTypesDict;
+    private rateplanDict;
     componentWillLoad(): Promise<void>;
     private fetchData;
     private get totals();
@@ -22,6 +25,12 @@ export declare class IrClInvoicePreview {
     private renderMoney;
     private renderHeader;
     private renderBillTo;
+    private renderTxRow;
+    private buildDicts;
+    private getRoomNameFromPrID;
+    private renderUnitGroup;
+    private renderBookingGroup;
+    private renderTopLevelItem;
     private renderLineItems;
     private renderTotals;
     render(): any;

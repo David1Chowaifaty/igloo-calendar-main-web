@@ -20,11 +20,11 @@ export declare const SetHKTaskLabelsParamsSchema: z.ZodObject<{
 }>;
 export type SetHKTaskLabelsParams = z.infer<typeof SetHKTaskLabelsParamsSchema>;
 export declare const ResolveHKIssueParamsSchema: z.ZodObject<{
-    issue_id: z.ZodNumber;
+    issue_ids: z.ZodArray<z.ZodNumber, "many">;
 }, "strip", z.ZodTypeAny, {
-    issue_id?: number;
+    issue_ids?: number[];
 }, {
-    issue_id?: number;
+    issue_ids?: number[];
 }>;
 export type ResolveHKIssueParams = z.infer<typeof ResolveHKIssueParamsSchema>;
 export declare const OverrideHKTaskOwnershipParamsSchema: z.ZodObject<{
@@ -187,6 +187,8 @@ export interface HKIssue {
     housekeeper_name: string;
     id: number;
     unit: Unit;
+    hour: number | null;
+    minute: number | null;
 }
 export interface Unit {
     id: number;

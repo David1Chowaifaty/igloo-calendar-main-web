@@ -5,14 +5,19 @@ export declare class IglHkIssuesDialog {
     unitId: number;
     unitName: string;
     propertyId: number;
-    issue: HKIssue;
+    issues: HKIssue[];
     irAfterClose: EventEmitter<void>;
     error: string | null;
     isResolving: boolean;
+    selectedIds: Set<number>;
     private dialogRef;
     private houseKeepingService;
     handleOpenChange(isOpen: boolean): Promise<void>;
+    handleIssuesChange(newIssues: HKIssue[] | null): void;
+    private toggleIssue;
     private handleResolve;
+    private getInitials;
+    private renderTicket;
     private renderContent;
     render(): any;
 }

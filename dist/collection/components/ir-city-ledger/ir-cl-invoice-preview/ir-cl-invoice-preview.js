@@ -2,9 +2,10 @@ import { formatAmount } from "../../../utils/utils";
 import Token from "../../../models/Token";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import { PropertyService } from "../../../services/property.service";
-import { Host, h } from "@stencil/core";
+import { Fragment, Host, h } from "@stencil/core";
 import moment from "moment";
 import { groupData } from "./utils";
+import calendar_data from "../../../stores/calendar-data";
 const DATE_DISPLAY = 'MMM DD, YYYY';
 export class IrClInvoicePreview {
     propertyId;
@@ -22,6 +23,9 @@ export class IrClInvoicePreview {
     tokenService = new Token();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
+    prIdDict;
+    roomTypesDict;
+    rateplanDict;
     componentWillLoad() {
         if (!this.ticket) {
             this.error = 'Authentication ticket is required.';
@@ -50,6 +54,10 @@ export class IrClInvoicePreview {
                 }),
             ]);
             this.property = propertyData?.My_Result ?? null;
+            const { physicalRoomsMap, ratePlansMap, roomTypesMap } = this.buildDicts();
+            this.prIdDict = new Map(physicalRoomsMap);
+            this.roomTypesDict = new Map(roomTypesMap);
+            this.rateplanDict = new Map(ratePlansMap);
             this.transactions = clResult?.My_Cl_tx ?? [];
         }
         catch (e) {
@@ -87,26 +95,51 @@ export class IrClInvoicePreview {
             return null;
         return (h("section", { class: "invoice-bill-to" }, h("p", { class: "invoice-bill-to__label" }, "Bill To"), h("p", { class: "invoice-bill-to__name" }, this.agentName)));
     }
+    renderTxRow(tx, indent = 0) {
+        const cls = indent > 0 ? `invoice-items__row--indent-${indent}` : undefined;
+        return (h("tr", { key: String(tx.CL_TX_ID), class: cls }, h("td", { class: "invoice-items__td invoice-items__td--date" }, moment(tx.FROM_DATE, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("td", { class: "invoice-items__td invoice-items__td--desc-cell" }, h("span", { class: "invoice-items__td--desc" }, tx.DESCRIPTION)), h("td", { class: "invoice-items__td invoice-items__td--num" }, formatAmount(this.currencySymbol, tx.NET_AMOUNT)), h("td", { class: "invoice-items__td invoice-items__td--pct invoice-items__td--num" }, tx.VAT_PERCENT, "%"), h("td", { class: "invoice-items__td invoice-items__td--num" }, formatAmount(this.currencySymbol, tx.VAT_AMOUNT)), h("td", { class: "invoice-items__td invoice-items__td--pct invoice-items__td--num" }, tx.CITY_TAX_PERCENT > 0 ? tx.CITY_TAX_PERCENT + '%' : ''), h("td", { class: "invoice-items__td invoice-items__td--num" }, tx.CITY_TAX_PERCENT > 0 ? formatAmount(this.currencySymbol, tx.CITY_TAX_AMOUNT) : ''), h("td", { class: "invoice-items__td invoice-items__td--num" }, formatAmount(this.currencySymbol, tx.TOTAL_AMOUNT))));
+    }
+    buildDicts() {
+        const physicalRoomsMap = new Map();
+        const roomTypesMap = new Map();
+        const ratePlansMap = new Map();
+        for (const roomtype of calendar_data.property.roomtypes) {
+            roomTypesMap.set(roomtype.id, roomtype);
+            for (const room of roomtype.physicalrooms ?? []) {
+                physicalRoomsMap.set(room.id, room);
+            }
+            for (const ratePlan of roomtype.rateplans ?? []) {
+                ratePlansMap.set(ratePlan.id, ratePlan);
+            }
+        }
+        return { physicalRoomsMap, roomTypesMap, ratePlansMap };
+    }
+    getRoomNameFromPrID(pr_id) {
+        return this.prIdDict.get(pr_id);
+    }
+    renderUnitGroup(group) {
+        const roomName = this.getRoomNameFromPrID(group.PR_ID)?.name ?? '';
+        const description = `${this.roomTypesDict.get(group.ROOM_CATEGORY_ID).name} - ${this.rateplanDict.get(group.ROOM_TYPE_ID).short_name}`;
+        return (h(Fragment, null, h("tr", { key: `unit-hdr-${group.PR_ID}`, class: "invoice-items__unit-row" }, h("td", { colSpan: 8 }, h("span", null, `${roomName} - ${group.GUEST_FIRST_NAME} ${group.GUEST_LAST_NAME} (${group.occupancy} pax)`, h("span", { innerHTML: "&nbsp&nbsp&nbsp&nbsp" }), moment(group.FROM_DATE, 'YYYY-MM-DD').format('MMM, DD YYYY'), " - ", moment(group.TO_DATE, 'YYYY-MM-DD').format('MMM, DD YYYY')))), group.subRows.map(tx => this.renderTxRow({ ...tx, DESCRIPTION: description }, 2))));
+    }
+    renderBookingGroup(group) {
+        return (h(Fragment, null, group.subRows.length > 1 && (h("tr", { key: `booking-hdr-${group.BOOK_NBR}`, class: "invoice-items__booking-row" }, h("td", { colSpan: 8 }, ' ', h("span", { style: { fontSize: '1rem', fontWeight: 'bold' } }, "#", group.BOOK_NBR)))), group.subRows.map(item => {
+            const asAny = item;
+            if ('subRows' in asAny && !('BOOK_NBR' in asAny)) {
+                return this.renderUnitGroup(asAny);
+            }
+            return this.renderTxRow(asAny, 1);
+        })));
+    }
+    renderTopLevelItem(item) {
+        const asAny = item;
+        if ('subRows' in asAny && 'BOOK_NBR' in asAny) {
+            return this.renderBookingGroup(asAny);
+        }
+        return this.renderTxRow(asAny);
+    }
     renderLineItems() {
-        console.log(groupData(this.transactions ?? []));
-        return (h("section", { class: "invoice-items" }, h("table", { class: "invoice-items__table" }, h("thead", null, h("tr", null, h("th", { class: "invoice-items__th" }, "Date"), h("th", { class: "invoice-items__th" }, "Description"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Net Price"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "VAT"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "VAT Amount"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "City Tax"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "City Tax Amount"), h("th", { class: "invoice-items__th invoice-items__th--num" }, "Total"))), h("tbody", null, this.transactions.length === 0 ? (h("tr", null, h("td", { class: "invoice-items__empty", colSpan: 7 }, "No transactions found for this document."))) : (
-        // this.transactions.map((tx, i) => (
-        //   <tr key={tx.CL_TX_ID} class="invoice-items__row">
-        //     <td class="invoice-items__td invoice-items__td--index">{i + 1}</td>
-        //     <td class="invoice-items__td">{tx.DESCRIPTION || '—'}</td>
-        //     <td class="invoice-items__td">
-        //       {tx.GUEST_FIRST_NAME} {tx.GUEST_LAST_NAME}
-        //     </td>
-        //     <td class="invoice-items__td invoice-items__td--booking">{tx.BOOK_NBR}</td>
-        //     <td class="invoice-items__td invoice-items__td--dates">
-        //       {tx.FROM_DATE ? moment(tx.FROM_DATE).format(DATE_DISPLAY) : '—'}
-        //       {tx.TO_DATE ? ` – ${moment(tx.TO_DATE).format(DATE_DISPLAY)}` : ''}
-        //     </td>
-        //     <td class="invoice-items__td invoice-items__td--num">{tx.DEBIT ? this.renderMoney(tx.DEBIT) : '—'}</td>
-        //     <td class="invoice-items__td invoice-items__td--num">{tx.CREDIT ? this.renderMoney(tx.CREDIT) : '—'}</td>
-        //   </tr>
-        // ))
-        groupData(this.transactions).map(level1 => (h("tr", { key: level1.PR_ID, class: "invoice-items__row" }, level1.subRows.length > 1 && h("td", { colSpan: 8 }, level1.PR_ID)))))))));
+        return (h("section", { class: "invoice-items" }, h("table", { class: "invoice-items__table" }, h("thead", null, h("tr", null, h("th", { class: "invoice-items__th invoice-items__th--nowrap" }, "Date"), h("th", { class: "invoice-items__th", style: { width: '100%' } }, "Description"), h("th", { class: "invoice-items__th invoice-items__th--num invoice-items__th--nowrap" }, "Net Price"), h("th", { class: "invoice-items__th invoice-items__th--nowrap" }, "VAT"), h("th", { class: "invoice-items__th invoice-items__th--num invoice-items__th--nowrap" }, "VAT Amount"), h("th", { class: "invoice-items__th invoice-items__th--nowrap" }, "City", h("br", null), " Tax"), h("th", { class: "invoice-items__th invoice-items__th--num invoice-items__th--nowrap" }, "City Tax", h("br", null), " Amount"), h("th", { class: "invoice-items__th invoice-items__th--num invoice-items__th--nowrap" }, "Total"))), h("tbody", null, this.transactions.length === 0 ? (h("tr", null, h("td", { class: "invoice-items__empty", colSpan: 8 }, "No transactions found for this document."))) : (groupData(this.transactions).map(item => this.renderTopLevelItem(item)))))));
     }
     renderTotals() {
         const t = this.totals;

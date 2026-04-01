@@ -22,7 +22,7 @@ export declare class IglCalBody {
     selectedRooms: {
         [key: string]: any;
     };
-    issue: HKIssue | null;
+    issues: HKIssue[] | null;
     addBookingDatasEvent: EventEmitter<any[]>;
     showBookingPopup: EventEmitter;
     scrollPageToRoom: EventEmitter;

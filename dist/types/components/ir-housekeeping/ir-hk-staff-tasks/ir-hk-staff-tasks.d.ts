@@ -17,6 +17,7 @@ export declare class IrHkStaffTasks {
     private toDate;
     private confirmDialog;
     private socket;
+    private hkOverrideTimer;
     /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
     activeLanguage: string;
     selectedTask: Task | null;
@@ -35,6 +36,7 @@ export declare class IrHkStaffTasks {
     private loadTasks;
     private connectSocket;
     disconnectedCallback(): void;
+    private scheduleTaskRefresh;
     private handleConfirm;
     private refreshTasks;
     render(): any;

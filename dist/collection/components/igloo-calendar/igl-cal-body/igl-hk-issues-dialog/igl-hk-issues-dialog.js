@@ -6,10 +6,11 @@ export class IglHkIssuesDialog {
     unitId;
     unitName;
     propertyId;
-    issue;
+    issues;
     irAfterClose;
     error = null;
     isResolving = false;
+    selectedIds = new Set();
     dialogRef;
     houseKeepingService = new HouseKeepingService();
     async handleOpenChange(isOpen) {
@@ -21,13 +22,30 @@ export class IglHkIssuesDialog {
             this.dialogRef?.closeModal();
         }
     }
+    handleIssuesChange(newIssues) {
+        this.selectedIds = new Set();
+        if (newIssues?.length === 1) {
+            this.selectedIds = new Set([newIssues[0].id]);
+        }
+    }
+    toggleIssue(id) {
+        const next = new Set(this.selectedIds);
+        if (next.has(id)) {
+            next.delete(id);
+        }
+        else {
+            next.add(id);
+        }
+        this.selectedIds = next;
+    }
     handleResolve = async () => {
-        if (!this.issue || this.isResolving)
+        if (!this.selectedIds.size || this.isResolving)
             return;
         this.isResolving = true;
         this.error = null;
         try {
-            await this.houseKeepingService.resolveHKIssue({ issue_id: this.issue.id });
+            const payload = Array.from(this.selectedIds);
+            await this.houseKeepingService.resolveHKIssue({ issue_ids: payload });
             this.dialogRef?.closeModal();
         }
         catch (e) {
@@ -37,13 +55,32 @@ export class IglHkIssuesDialog {
             this.isResolving = false;
         }
     };
+    getInitials(name) {
+        return (name ?? '')
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    }
+    renderTicket(issue) {
+        const isMultiple = this.issues.length > 1;
+        const isSelected = this.selectedIds.has(issue.id);
+        const initials = this.getInitials(issue.housekeeper_name);
+        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-avatar" }, initials), h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, moment(issue.date).format('MMM D, YYYY')), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
+                e.stopPropagation();
+                this.toggleIssue(issue.id);
+            } }))))));
+    }
     renderContent() {
-        if (!this.issue || !this.open)
+        if (!this.issues?.length || !this.open)
             return null;
-        return (h("div", { class: "detail-body" }, h("div", { class: "meta-row" }, h("span", { class: "meta-item" }, h("wa-icon", { name: "door-open" }), h("span", { class: "meta-value" }, this.issue.unit.name)), h("span", { class: "meta-divider" }), h("span", { class: "meta-item" }, h("wa-icon", { name: "user" }), h("span", { class: "meta-value" }, this.issue.housekeeper_name)), h("span", { class: "meta-divider" }), h("span", { class: "meta-item" }, h("wa-icon", { name: "calendar-days" }), h("span", { class: "meta-value" }, moment(this.issue.date).format('MMM D, YYYY')))), h("wa-callout", { variant: "warning", size: "small" }, h("strong", null, "Reported Issue"), h("p", { class: "description-text" }, this.issue.description || 'No description provided.')), this.error && (h("div", { class: "error-banner", role: "alert" }, h("wa-icon", { name: "circle-exclamation" }), this.error))));
+        return (h("div", { class: "dialog-body" }, h("div", { class: "tickets-list" }, this.issues.map(issue => this.renderTicket(issue))), this.error && (h("div", { class: "error-banner", role: "alert" }, h("wa-icon", { name: "circle-exclamation" }), this.error))));
     }
     render() {
-        return (h("ir-dialog", { key: '84cad1ba34cc6a918fd51bcedfcbca772721e9f4', ref: el => (this.dialogRef = el), label: `Issue #${this.issue?.id}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: '8dc5c714519e3257af5dc114962b9daf01f78aa1', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '01313028be4070155cfde7ef2a8d48fe0e51abd7', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: 'f350253218172eee7ce9268857602c3de25b8c8d', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: this.isResolving || !this.issue, loading: this.isResolving }, "Mark as Resolved"))));
+        const count = this.issues?.length ?? 0;
+        const selectedCount = this.selectedIds.size;
+        return (h("ir-dialog", { key: '411f379567b9dc4d55bc62a82ba286cd06daa7f6', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'} — ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: 'e6824c1ad8b97f86ea9d0e8ce4d4430dd32f031f', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '88b9052d2eeeb3ee7fcbc7381b2939f27589fde8', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '9857b39240a0e5d5a312412fb27567053e3d2c64', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
     }
     static get is() { return "igl-hk-issues-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -136,12 +173,12 @@ export class IglHkIssuesDialog {
                 "attribute": "property-id",
                 "reflect": false
             },
-            "issue": {
+            "issues": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "HKIssue",
-                    "resolved": "HKIssue",
+                    "original": "HKIssue[]",
+                    "resolved": "HKIssue[]",
                     "references": {
                         "HKIssue": {
                             "location": "import",
@@ -164,7 +201,8 @@ export class IglHkIssuesDialog {
     static get states() {
         return {
             "error": {},
-            "isResolving": {}
+            "isResolving": {},
+            "selectedIds": {}
         };
     }
     static get events() {
@@ -189,6 +227,9 @@ export class IglHkIssuesDialog {
         return [{
                 "propName": "open",
                 "methodName": "handleOpenChange"
+            }, {
+                "propName": "issues",
+                "methodName": "handleIssuesChange"
             }];
     }
 }

@@ -364,7 +364,7 @@ export namespace Components {
         "withDateDifference": boolean;
     }
     interface IglHkIssuesDialog {
-        "issue": HKIssue;
+        "issues": HKIssue[];
         "open": boolean;
         "propertyId": number;
         "unitId": number;
@@ -9938,7 +9938,7 @@ declare namespace LocalJSX {
         "withDateDifference"?: boolean;
     }
     interface IglHkIssuesDialog {
-        "issue"?: HKIssue;
+        "issues"?: HKIssue[];
         "onIrAfterClose"?: (event: IglHkIssuesDialogCustomEvent<void>) => void;
         "open"?: boolean;
         "propertyId"?: number;

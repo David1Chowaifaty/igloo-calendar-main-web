@@ -87,23 +87,14 @@ export const groupData = (rows) => {
      * @returns {Array} Sorted mixed array of plain rows and unit-group objects.
      */
     const groupByUnit = bookingRows => {
-        // Count how many rows share each PR_ID so we know which ones to group
-        const prIdCount = new Map();
+        const unitStandalone = []; // rows with no PR_ID — rendered flat
+        const unitMap = new Map(); // PR_ID → all rows that share it (1 or more)
         for (const row of bookingRows) {
-            if (!row.PR_ID)
-                continue; // skip 0 / null — those are never grouped
-            prIdCount.set(row.PR_ID, (prIdCount.get(row.PR_ID) ?? 0) + 1);
-        }
-        const unitStandalone = []; // rows that won't be grouped (unique PR_ID or no PR_ID)
-        const unitMap = new Map(); // PR_ID → rows that share it (only those with count > 1)
-        for (const row of bookingRows) {
-            const isGroupable = row.PR_ID && prIdCount.get(row.PR_ID) > 1;
-            if (!isGroupable) {
-                // PR_ID is missing, zero, or unique within this booking → render flat
+            if (!row.PR_ID) {
+                // No PR_ID → keep flat
                 unitStandalone.push(row);
             }
             else {
-                // Multiple rows share this PR_ID → collect them into a unit group
                 if (!unitMap.has(row.PR_ID)) {
                     unitMap.set(row.PR_ID, []);
                 }
@@ -113,9 +104,19 @@ export const groupData = (rows) => {
         // Build the unit-group objects from the collected buckets
         const unitGroups = [];
         for (const [prId, subRows] of unitMap.entries()) {
+            const sorted = sortByOldestDate(subRows);
+            const first = sorted[0];
+            const last = sorted[sorted.length - 1];
             unitGroups.push({
-                PR_ID: prId, // identifier for this unit/room group
-                subRows: sortByOldestDate(subRows), // sort the leaf rows inside the unit oldest-first
+                PR_ID: prId,
+                subRows: sorted,
+                occupancy: (first.ADULTS_NBR ?? 0) + (first.CHILD_NBR ?? 0) + (first.INFANT_NBR ?? 0),
+                GUEST_FIRST_NAME: first.GUEST_FIRST_NAME ?? '',
+                GUEST_LAST_NAME: first.GUEST_LAST_NAME ?? '',
+                FROM_DATE: first.FROM_DATE ?? '',
+                TO_DATE: last.TO_DATE ?? '',
+                ROOM_CATEGORY_ID: first.ROOM_CATEGORY_ID ?? 0,
+                ROOM_TYPE_ID: first.ROOM_TYPE_ID ?? 0,
             });
         }
         // Merge flat rows and unit groups into one array, then sort the whole
