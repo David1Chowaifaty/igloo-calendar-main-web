@@ -1431,7 +1431,7 @@ const IglCalBody = class {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.issues = calendar_data.unitIssues.get(Number(room.id));
-                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), room.hk_status !== '001' && (h(Fragment, null, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
+                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), h("div", { style: { visibility: room.hk_status !== '001' ? 'visible' : 'hidden' } }, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } })))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
         });
     }
     getRoomRows() {
@@ -1512,13 +1512,13 @@ const IglCalBody = class {
         return disabled;
     }
     render() {
-        return (h(Host, { key: '34d06e39d843f1ef90906dd98845af3a409d1903' }, h("div", { key: '01324fb1db72a6a663969d85e193c90958491dbf', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'cf69f10e2b0832b2beba85565a8ead9c942bbf49', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '5722d533e3534438289e270c9244546f380a3445' }, h("div", { key: '7a42302033253f2e8a9399d18a1477cef66b4928', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'cbb33a0738f545f401291dffa31071cffe75c4b3', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'e9125c15606d3818432c88eb64cc8505cd621bd0', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '9d2bc5eb34a1b08e12202d7ce78c1872e55a26ce', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'bdb9269cceb6d20a1dbc63a15559930b4f16adc0', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '79c210a6ce6ea904553fda3382dc59b1a43237e7', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;
@@ -1817,7 +1817,7 @@ const IglHkIssuesDialog = class {
         const isMultiple = this.issues.length > 1;
         const isSelected = this.selectedIds.has(issue.id);
         const initials = this.getInitials(issue.housekeeper_name);
-        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-avatar" }, initials), h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, hooks(issue.date).format('MMM D, YYYY')), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
+        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-avatar" }, initials), h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, hooks(issue.date).format('MMM D, YYYY'), issue.hour != null && issue.minute != null && ` ${String(issue.hour).padStart(2, '0')}:${String(issue.minute).padStart(2, '0')}`), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
                 e.stopPropagation();
                 this.toggleIssue(issue.id);
             } }))))));
@@ -1830,7 +1830,7 @@ const IglHkIssuesDialog = class {
     render() {
         const count = this.issues?.length ?? 0;
         const selectedCount = this.selectedIds.size;
-        return (h("ir-dialog", { key: '411f379567b9dc4d55bc62a82ba286cd06daa7f6', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'} — ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: 'e6824c1ad8b97f86ea9d0e8ce4d4430dd32f031f', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: '88b9052d2eeeb3ee7fcbc7381b2939f27589fde8', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '9857b39240a0e5d5a312412fb27567053e3d2c64', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
+        return (h("ir-dialog", { key: '8c61dc7958025b0a6390b7e2ee1d87b1609d770d', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'} — ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: 'cd190b021ed1213cf34f201ce981cfecd5ab0437', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: 'f1a350f2182f2fe1748853aca26f6f2e049f13f9', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: 'ccf028144318436cce0ee489729d42ec04cda967', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"],

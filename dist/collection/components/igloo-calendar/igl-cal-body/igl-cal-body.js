@@ -349,7 +349,7 @@ export class IglCalBody {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.issues = calendar_data.unitIssues.get(Number(room.id));
-                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), room.hk_status !== '001' && (h(Fragment, null, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } }))))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
+                } }, h("wa-animation", { name: "heartBeat", easing: "ease-in-out", duration: 1400, play: true }, h("wa-icon", { name: "triangle-exclamation", style: { color: 'var(--wa-color-danger-fill-loud)', fontSize: '1.1rem' } })))), h("div", { style: { visibility: room.hk_status !== '001' ? 'visible' : 'hidden' } }, room.hk_status !== '003' && h("wa-tooltip", { for: `${room.id}_hk_status_icon` }, room.hk_status === '002' ? 'This unit is dirty' : 'Inspected'), h("wa-icon", { id: `${room.id}_hk_status_icon`, name: room.hk_status === '004' ? 'check' : 'broom', style: room.hk_status === '004' && { color: 'var(--wa-color-success-fill-loud)' } })))))), this.getGeneralUnitsDayCells(this.getRoomId(room), roomType, name)));
         });
     }
     getRoomRows() {
@@ -430,13 +430,13 @@ export class IglCalBody {
         return disabled;
     }
     render() {
-        return (h(Host, { key: '34d06e39d843f1ef90906dd98845af3a409d1903' }, h("div", { key: '01324fb1db72a6a663969d85e193c90958491dbf', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'cf69f10e2b0832b2beba85565a8ead9c942bbf49', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
+        return (h(Host, { key: '5722d533e3534438289e270c9244546f380a3445' }, h("div", { key: '7a42302033253f2e8a9399d18a1477cef66b4928', class: "bodyContainer" }, this.getRoomRows(), h("div", { key: 'cbb33a0738f545f401291dffa31071cffe75c4b3', class: "bookingEventsContainer preventPageScroll" }, this.getBookingData()?.map(bookingEvent => {
             return (h("igl-booking-event", { "data-testid": `booking_${bookingEvent.BOOKING_NUMBER}`, "data-room-name": bookingEvent.roomsInfo?.find(r => r.id === bookingEvent.RATE_TYPE)?.physicalrooms.find(r => r.id === bookingEvent.PR_ID)?.name, language: this.language, is_vacation_rental: this.calendarData.is_vacation_rental, countries: this.countries, currency: this.currency, "data-component-id": bookingEvent.ID, bookingEvent: bookingEvent, allBookingEvents: this.getBookingData() }));
-        }))), h("igl-housekeeping-dialog", { key: 'e9125c15606d3818432c88eb64cc8505cd621bd0', onIrAfterClose: e => {
+        }))), h("igl-housekeeping-dialog", { key: '9d2bc5eb34a1b08e12202d7ce78c1872e55a26ce', onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.selectedRoom = null;
-            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: 'bdb9269cceb6d20a1dbc63a15559930b4f16adc0', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
+            }, bookingNumber: this.selectedRoom ? this.bookingMap.get(this.selectedRoom?.id) : undefined, selectedRoom: this.selectedRoom, open: this.selectedRoom !== null }), h("igl-hk-issues-dialog", { key: '79c210a6ce6ea904553fda3382dc59b1a43237e7', open: this.issues !== null, issues: this.issues, unitName: this.issues?.length > 0 ? this.issues[0]?.unit?.name : '', propertyId: this.propertyId, onIrAfterClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.issues = null;
