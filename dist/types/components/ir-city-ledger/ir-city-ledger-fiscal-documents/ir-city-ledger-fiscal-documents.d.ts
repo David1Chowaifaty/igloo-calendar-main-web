@@ -8,7 +8,9 @@ export declare class IrCityLedgerFiscalDocuments {
     private filters;
     private fiscalDocuments;
     private isLoading;
+    private hasFetched;
     private cityLedgerService;
+    handleAgentIdChange(): void;
     private get filteredDocuments();
     private fetchFiscalDocuments;
     render(): any;

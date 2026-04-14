@@ -29,6 +29,9 @@
 }
 
 @media (min-width: 890px) {
+  .booking-details__info-column {
+    min-width: 0;
+  }
   .booking-details__booking-info {
     grid-template-columns: repeat(2, 1fr);
   }

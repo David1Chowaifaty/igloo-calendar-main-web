@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-7e96440e.js';
-import { C as CityLedgerService } from './index-c9eb04f3.js';
+import { C as CityLedgerService } from './index-4a761ff2.js';
 import './axios-aa1335b8.js';
 import './moment-ab846cee.js';
-import './index-bdcc1750.js';
+import './index-87419685.js';
 
 const irHoldTransactionDialogCss = ".sc-ir-hold-transaction-dialog-h{display:contents}.hold-dialog__body.sc-ir-hold-transaction-dialog{display:flex;flex-direction:column;gap:0.875rem;font-size:0.875rem}.hold-dialog__details.sc-ir-hold-transaction-dialog{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog{display:flex;justify-content:space-between;padding:0.5rem 0.75rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog:last-child{border-bottom:0}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:first-child{color:var(--wa-color-text-quiet, #6b7280)}.hold-dialog__detail-row.sc-ir-hold-transaction-dialog span.sc-ir-hold-transaction-dialog:last-child{font-weight:500}";
 const IrHoldTransactionDialogStyle0 = irHoldTransactionDialogCss;
@@ -46,7 +46,7 @@ const IrHoldTransactionDialog = class {
     }
     render() {
         const isHeld = this.row?.status?.label === 'Held';
-        return (h(Host, { key: '42928ccba7a763fe022b1b35a76baa97f9b9eea5' }, h("ir-dialog", { key: '5f9b6248fb11c5896e74f6e2c99be13ac8f3f3c6', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, h("div", { key: '1f7f29ee12685ea49a8c5cc58a2fee5dcbab96a5', class: "hold-dialog__body" }, isHeld ? (h("p", null, "Revert this transaction back to ", h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (h("p", null, "Place this transaction on ", h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), h("div", { key: 'ca435d9437c92d2feac55a79060f415bda8e9f47', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '9fa8e2105090958c05ad07fe398294ffaf9b0d38', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '07a0f48638e055a9bb00bf5edec6153a6783a38e', size: "medium", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
+        return (h(Host, { key: '5538320ea65b3476f6aa731b95ea64090c8e166a' }, h("ir-dialog", { key: '66b38c9a68670bde68ffafa5cd8585ac58a7ddfb', label: isHeld ? 'Revert Transaction' : 'Hold Transaction', ref: el => (this.dialogRef = el) }, h("div", { key: 'be966c788e72dcf38c955898e6b98b3714228311', class: "hold-dialog__body" }, isHeld ? (h("p", null, "Revert this transaction back to ", h("strong", null, "Unbilled"), " status? It will re-enter the billing queue.")) : (h("p", null, "Place this transaction on ", h("strong", null, "Hold"), "? It will be excluded from invoicing until released."))), h("div", { key: '6cd812878979ee42a4830f0e80b325b22b607933', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '062dbf598d6c8cf8b68b607736279a02279bfd4e', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '521e2ea9aca93880b97d7dc1328a8399799943e1', size: "medium", loading: this.isLoading, onClickHandler: () => this.handleConfirm(), appearance: "accent", variant: "brand" }, "Confirm")))));
     }
 };
 IrHoldTransactionDialog.style = IrHoldTransactionDialogStyle0;
@@ -118,7 +118,7 @@ const IrInputCell = class {
         this.slotState = newState;
     }
     render() {
-        return (h("div", { key: '6c2e3a0ff5be650b893f508f1c27008942cd8fb5', onDblClick: () => {
+        return (h("div", { key: 'b8d275d2358e3980da8a501d9e691b07c4040b7b', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

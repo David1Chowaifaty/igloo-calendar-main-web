@@ -1,17 +1,26 @@
 import moment from "moment";
 import { z } from "zod";
-export const TRANSACTION_TYPES = { OB: 'OPENING_BALANCE', PAY: 'PAYMENT', DB: 'MANUAL_CHARGE', ADJ: 'ADJUSTMENT', CN: 'CREDIT_NOTE', DN: 'DEBIT_NOTE' };
+import { ClTxTypeCode } from "../../../../../types/enums";
+export const TRANSACTION_TYPES = {
+    [ClTxTypeCode.OpeningBalance]: 'Opening Balance',
+    [ClTxTypeCode.Payment]: 'Payment',
+    [ClTxTypeCode.StandardChargeDebit]: 'Manual Charge',
+    [ClTxTypeCode.Adjustment]: 'Adjustment',
+    [ClTxTypeCode.CreditNote]: 'Credit Note',
+    [ClTxTypeCode.DebitNote]: 'Debit Note',
+};
 export const TRANSACTION_TYPE_RATES = {
-    OB: 'CR|DB',
-    PAY: 'CR',
-    DB: 'DB',
-    ADJ: 'CR|DB',
-    CN: 'CR',
-    DN: 'DB',
+    [ClTxTypeCode.OpeningBalance]: 'CR|DB',
+    [ClTxTypeCode.Payment]: 'CR',
+    [ClTxTypeCode.StandardChargeDebit]: 'DB',
+    [ClTxTypeCode.Adjustment]: 'CR|DB',
+    [ClTxTypeCode.CreditNote]: 'CR',
+    [ClTxTypeCode.DebitNote]: 'DB',
 };
 export const ENTRY_TYPES = ['CR', 'DB'];
 export const LINK_TYPES = ['INVOICE', 'BOOKING', 'NONE'];
 export const ADJUSTMENT_REASONS = ['ROUNDING_DIFFERENCE', 'GOODWILL_CREDIT', 'PRICE_MATCH', 'COMMISSION_CORRECTION', 'DISCOUNT_CORRECTION'];
+export const CREDIT_NOTE_MODES = ['cancel-invoice', 'goodwill'];
 const DATE_FORMAT = 'YYYY-MM-DD';
 const dateSchema = z
     .string()
@@ -29,7 +38,7 @@ const commonFieldsSchema = z.object({
     notes: z.string().max(500).optional(),
 });
 const openingBalanceSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('OB'),
+    transactionType: z.literal(ClTxTypeCode.OpeningBalance),
     entryType: z.enum(ENTRY_TYPES),
     isCutover: z.boolean(),
 });
@@ -44,7 +53,7 @@ const paymentMethodSchema = z.object({
     operation: z.string().optional().nullable(),
 });
 const paymentSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('PAY'),
+    transactionType: z.literal(ClTxTypeCode.Payment),
     payment_type: paymentTypeSchema.nullable().optional(),
     payment_method: paymentMethodSchema.nullable().optional(),
     designation: z.string().optional(),
@@ -52,41 +61,49 @@ const paymentSchema = commonFieldsSchema.extend({
     onAccount: z.boolean(),
 });
 const manualChargeSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('DB'),
+    transactionType: z.literal(ClTxTypeCode.StandardChargeDebit),
     serviceCategoryId: z.string().optional(),
 });
 const adjustmentSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('ADJ'),
+    transactionType: z.literal(ClTxTypeCode.Adjustment),
     entryType: z.enum(ENTRY_TYPES),
     linkType: z.enum(LINK_TYPES),
     linkedId: z.string().optional(),
     reason: z.enum(ADJUSTMENT_REASONS).optional(),
 });
 const creditNoteSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('CN'),
-    invoiceId: z.string().min(1, 'Invoice is required for credit note.'),
+    transactionType: z.literal(ClTxTypeCode.CreditNote),
+    creditNoteMode: z.enum(CREDIT_NOTE_MODES),
+    invoiceId: z.string().optional(),
     generatesFiscalDocument: z.literal(true),
 });
 const debitNoteSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('DN'),
+    transactionType: z.literal(ClTxTypeCode.DebitNote),
     invoiceId: z.string().min(1, 'Invoice is required for debit note.'),
     generatesFiscalDocument: z.literal(true),
 });
 export const cityLedgerTransactionSchema = z
     .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema])
     .superRefine((data, ctx) => {
-    if (data.transactionType === 'PAY' && data.onAccount && data.invoiceId) {
+    if (data.transactionType === ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             path: ['invoiceId'],
             message: 'Invoice must be empty when payment is marked as on account.',
         });
     }
-    if (data.transactionType === 'ADJ' && data.linkType === 'NONE' && data.linkedId) {
+    if (data.transactionType === ClTxTypeCode.Adjustment && data.linkType === 'NONE' && data.linkedId) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             path: ['linkedId'],
             message: 'linkedId must be empty when link type is NONE.',
+        });
+    }
+    if (data.transactionType === ClTxTypeCode.CreditNote && data.creditNoteMode === 'cancel-invoice' && !data.invoiceId) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['invoiceId'],
+            message: 'Invoice is required when cancelling an invoice.',
         });
     }
 });
@@ -94,30 +111,35 @@ export const DATE_INPUT_FORMAT = DATE_FORMAT;
 const todayDate = () => moment().format(DATE_FORMAT);
 const conditionalDefaultsByType = (transactionType) => {
     switch (transactionType) {
-        case 'OB':
+        case ClTxTypeCode.OpeningBalance:
             return {
                 entryType: '',
                 isCutover: false,
             };
-        case 'PAY':
+        case ClTxTypeCode.Payment:
             return {
                 payment_method: null,
                 designation: undefined,
                 invoiceId: undefined,
-                onAccount: false,
+                onAccount: true,
             };
-        case 'DB':
+        case ClTxTypeCode.StandardChargeDebit:
             return {
                 serviceCategoryId: undefined,
             };
-        case 'ADJ':
+        case ClTxTypeCode.Adjustment:
             return {
                 entryType: '',
                 linkType: 'NONE',
                 linkedId: undefined,
             };
-        case 'CN':
-        case 'DN':
+        case ClTxTypeCode.CreditNote:
+            return {
+                invoiceId: undefined,
+                generatesFiscalDocument: true,
+                creditNoteMode: 'cancel-invoice',
+            };
+        case ClTxTypeCode.DebitNote:
             return {
                 invoiceId: undefined,
                 generatesFiscalDocument: true,
@@ -126,7 +148,7 @@ const conditionalDefaultsByType = (transactionType) => {
             return {};
     }
 };
-export const createInitialTransactionFormDraft = (transactionType = 'OB') => ({
+export const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.OpeningBalance) => ({
     transactionType,
     date: todayDate(),
     amount: '',
@@ -144,7 +166,7 @@ export const createInitialTransactionFormDraft = (transactionType = 'OB') => ({
     linkType: 'NONE',
     linkedId: undefined,
     reason: '',
-    generatesFiscalDocument: transactionType === 'CN' || transactionType === 'DN',
+    generatesFiscalDocument: transactionType === ClTxTypeCode.CreditNote || transactionType === ClTxTypeCode.DebitNote,
     ...conditionalDefaultsByType(transactionType),
 });
 export const resetDraftForTransactionType = (nextType, current) => ({
@@ -164,13 +186,13 @@ export const buildTransactionPayloadInput = (draft) => {
         reference: draft.reference || undefined,
     };
     switch (draft.transactionType) {
-        case 'OB':
+        case ClTxTypeCode.OpeningBalance:
             return {
                 ...basePayload,
                 entryType: draft.entryType,
                 isCutover: draft.isCutover,
             };
-        case 'PAY':
+        case ClTxTypeCode.Payment:
             return {
                 ...basePayload,
                 payment_method: draft.payment_method,
@@ -178,12 +200,12 @@ export const buildTransactionPayloadInput = (draft) => {
                 invoiceId: draft.onAccount ? undefined : draft.invoiceId,
                 onAccount: draft.onAccount,
             };
-        case 'DB':
+        case ClTxTypeCode.StandardChargeDebit:
             return {
                 ...basePayload,
                 serviceCategoryId: draft.serviceCategoryId,
             };
-        case 'ADJ':
+        case ClTxTypeCode.Adjustment:
             return {
                 ...basePayload,
                 entryType: draft.entryType,
@@ -191,8 +213,14 @@ export const buildTransactionPayloadInput = (draft) => {
                 linkedId: draft.linkType === 'NONE' ? undefined : draft.linkedId,
                 reason: draft.reason || undefined,
             };
-        case 'CN':
-        case 'DN':
+        case ClTxTypeCode.CreditNote:
+            return {
+                ...basePayload,
+                creditNoteMode: draft.creditNoteMode ?? 'cancel-invoice',
+                invoiceId: draft.creditNoteMode === 'goodwill' ? undefined : draft.invoiceId,
+                generatesFiscalDocument: true,
+            };
+        case ClTxTypeCode.DebitNote:
             return {
                 ...basePayload,
                 invoiceId: draft.invoiceId,
@@ -204,7 +232,7 @@ export const buildTransactionPayloadInput = (draft) => {
 };
 export const validateCityLedgerTransaction = (draft) => cityLedgerTransactionSchema.safeParse(buildTransactionPayloadInput(draft));
 // ── Individual field schemas for ir-validator ────────────────────────────────
-export const transactionTypeFieldSchema = z.enum(Object.keys(TRANSACTION_TYPES));
+export const transactionTypeFieldSchema = z.enum(Object.values(ClTxTypeCode));
 export const dateFieldSchema = dateSchema;
 export const amountFieldSchema = z.coerce.number().gt(0, 'Amount must be greater than 0.');
 export const taxIdFieldSchema = z.string().min(1, 'Tax selection is required.');
@@ -215,24 +243,4 @@ export const invoiceIdRequiredFieldSchema = z.string().min(1, 'Invoice is requir
 export const serviceCategoryFieldSchema = z.string().min(1, 'Service category is required.');
 export const linkTypeFieldSchema = z.enum(LINK_TYPES);
 export const reasonFieldSchema = z.enum(ADJUSTMENT_REASONS);
-export const exampleSubmissionPayload = {
-    transactionType: 'PAY',
-    date: todayDate(),
-    amount: 150.5,
-    taxId: 'N/A',
-    reference: 'Manual receipt #A-1298',
-    payment_type: {
-        code: '001',
-        description: 'Cash',
-        operation: 'CR',
-    },
-    payment_method: {
-        code: '001',
-        description: 'Cash',
-        operation: 'CR',
-    },
-    designation: 'Cash',
-    onAccount: false,
-    invoiceId: 'INV-2026-00048',
-};
 //# sourceMappingURL=ir-city-ledger-transaction-form.schema.js.map

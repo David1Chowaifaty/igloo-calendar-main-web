@@ -52,7 +52,7 @@ export class IrToastAlert {
         }
     }
     render() {
-        return (h("div", { key: 'f99f524bce1cb7141758011822fa3de29116da78', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: '64206faa6c009555624d2d46a4a8885b7134101a', variant: this.calloutVariant }, this.getIcon(), h("div", { key: '53882c437f4bbeb78cfa2246a6e6cdffe7d3a958', class: "toast__body" }, this.label && h("h3", { key: '89a4728c1df74147cc025d2058aacf5afcd55e23', class: "toast__title" }, this.label), this.description && h("p", { key: 'd54162ae40d449170b06c43012390a3976fac6a3', class: "toast__description" }, this.description)))));
+        return (h("div", { key: 'cd66476418e7870e6ce2f7b9f3978132eb4e86b8', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: 'f0caf7d1878e55e316283632c4f5c2d19aa285fe', variant: this.calloutVariant }, this.getIcon(), h("div", { key: '117c53c83ed4e22a6071402668394057924c89ab', class: "toast__body" }, this.label && h("h3", { key: '0ec6b97230e28be4d4220bcd915fcd6b064af11a', class: "toast__title" }, this.label), this.description && h("p", { key: 'e5cc392a3e62428ac6b4b7a2655d8a3fae6ebb22', class: "toast__description" }, this.description)))));
     }
     static get is() { return "ir-toast-alert"; }
     static get encapsulation() { return "shadow"; }

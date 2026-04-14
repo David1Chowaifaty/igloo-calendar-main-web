@@ -9,7 +9,7 @@ export class IrCityLedgerTransactionDrawer {
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
-    currencySymbol = '$';
+    saveDisabled = false;
     closeDrawer;
     transactionSaved;
     stopEventPropagation(event) {
@@ -17,15 +17,26 @@ export class IrCityLedgerTransactionDrawer {
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: 'cc55b5fa56a970bbc134174468af8faf889eb86b', open: this.open, label: this.drawerLabel, onDrawerHide: event => {
+        return (h("ir-drawer", { key: '2e0f505c09aab4f6026bc1c3c878842281c3b613', open: this.open, style: {
+                '--ir-drawer-width': '40rem',
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            }, label: this.drawerLabel, onDrawerHide: event => {
                 this.stopEventPropagation(event);
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '464b94ac0fa6c86d9e7ab343cbdf2b88eb35e5ec', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, onTransactionSaved: () => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: 'd4111c655ae40f14e45a169f6f4346d31406121f', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, onTransactionSaved: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
-            } })), h("div", { key: '2b83358f8ffd4d084c28a10658d289fba14c591a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '79e7938f5c19bbe48e950a2234425d276278d885', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'db47199428405c6f204091a39d84c81fdda06701', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn" }, "Save"))));
+            }, onSubmitDisabledChange: (e) => {
+                this.saveDisabled = e.detail;
+            } })), h("div", { key: 'c5cb35dd1ab6f7ec0ae5bf127cb4ccc6f77baaad', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '25f17079555753d6815dd2196e248ae2a5654fd5', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'b38e903be7862a3e4925ac5488d55220ab2507d8', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
     }
     static get is() { return "ir-city-ledger-transaction-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -242,27 +253,12 @@ export class IrCityLedgerTransactionDrawer {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
-            },
-            "currencySymbol": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "currency-symbol",
-                "reflect": false,
-                "defaultValue": "'$'"
             }
+        };
+    }
+    static get states() {
+        return {
+            "saveDisabled": {}
         };
     }
     static get events() {

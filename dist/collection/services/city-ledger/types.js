@@ -9,6 +9,31 @@ export const CLAgencyContextSchema = z.object({
     AGENCY_ID: z.number(),
     CURRENCY_ID: z.number(),
 });
+export const FiscalDocumentSchema = z.object({
+    AGENCY_ID: z.number().nullable().optional(),
+    AGENCY_NAME: z.string().nullable().optional(),
+    CREDIT: z.number().nullable().optional(),
+    CREDIT_DISPLAY: z.string().nullable().optional(),
+    CURRENCY_CODE: z.string().nullable().optional(),
+    CURRENCY_ID: z.number().nullable().optional(),
+    DEBIT: z.number().nullable().optional(),
+    DEBIT_DISPLAY: z.string().nullable().optional(),
+    DOC_NUMBER: z.string().nullable().optional(),
+    EXTERNAL_REF: z.string().nullable().optional(),
+    FD_ID: z.number().nullable().optional(),
+    FD_STATUS_CODE: z.string().nullable().optional(),
+    FD_STATUS_NAME: z.string().nullable().optional(),
+    FD_TYPE_CODE: z.string().nullable().optional(),
+    FD_TYPE_NAME: z.string().nullable().optional(),
+    ISSUE_DATE: z.string().nullable().optional(),
+    ISSUE_DATE_DISPLAY: z.string().nullable().optional(),
+    IS_PRINTED: z.boolean().nullable().optional(),
+    NET_AMOUNT: z.number().nullable().optional(),
+    NET_AMOUNT_DISPLAY: z.string().nullable().optional(),
+    TAX_AMOUNT: z.number().nullable().optional(),
+    TAX_AMOUNT_DISPLAY: z.string().nullable().optional(),
+    TOTAL_AMOUNT: z.number().nullable().optional(),
+});
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
 // ---------------------------------------------------------------------------
@@ -51,12 +76,13 @@ export const MyClTxSchema = z.object({
     IS_LOCKED: z.boolean(),
     My_Bh: z.any().nullable(),
     My_Currency: z.any().nullable(),
-    My_Fd: z.any().nullable(),
+    My_Fd: FiscalDocumentSchema.nullable(),
     My_Pr: z.any().nullable(),
     My_Room_category: z.any().nullable(),
     RUNNING_BALANCE: z.number().nullable(),
     My_Room_type: z.any().nullable(),
     My_Travel_agency: z.null(),
+    DOC_NUMBER: z.string().nullable().optional().default(null),
     NET_AMOUNT: z.number(),
     OWNER_ID: z.number(),
     PAY_METHOD_CODE: z.union([z.string(), z.null()]),
@@ -70,13 +96,14 @@ export const MyClTxSchema = z.object({
 });
 export const FetchCLParamsSchema = z.object({
     AGENCY_ID: z.number(),
-    START_DATE: z.string(),
-    END_DATE: z.string(),
+    START_DATE: z.string().optional().nullable().default(null),
+    END_DATE: z.string().optional().nullable().default(null),
     START_ROW: z.number().default(0),
     END_ROW: z.number().default(20),
     SEARCH_QUERY: z.string().nullable().optional().default(null),
     IS_LOCKED: z.boolean().optional().nullable().default(null),
     IS_HOLD: z.boolean().optional().nullable().default(null),
+    IS_CHECKED_OUT_ONLY: z.boolean().optional().nullable().default(null),
 });
 export const FetchCLResultSchema = z.object({
     My_Cl_tx: z.array(MyClTxSchema),
@@ -90,7 +117,7 @@ export const ToggleCLTxHoldParamsSchema = z.object({
     IS_HOLD: z.boolean(),
 });
 export const IssueManualCLTxParamsSchema = z.object({
-    CL_TX_ID: z.number(),
+    CL_TX_ID: z.number().optional().default(-1),
     AGENCY_ID: z.number(),
     SERVICE_DATE: z.string(),
     // CATEGORY: z.string(),
@@ -107,6 +134,8 @@ export const IssueManualCLTxParamsSchema = z.object({
     VAT_INCLUDED_CODE: z.enum(['001', '002', '']).default(''),
     // VAT percentage (used only when VAT is included)
     VAT_PCT: z.number().optional().nullable().default(null),
+    //Booking number system id.
+    BH_ID: z.number().optional().nullable().default(null),
     IS_DELETE: z.boolean().optional().default(false),
 });
 export const AllocateCLCreditParamsSchema = z.object({
@@ -145,9 +174,10 @@ export const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
 });
 export const GetFiscalDocumentsParamsSchema = z.object({
     DOC_NUMBER: z.string().optional().default(''),
-    FROM_DATE: z.string(),
-    END_DATE: z.string().optional(),
-    FD_TYPE_CODE: z.string().optional().nullable().default(null),
+    FROM_DATE: z.string().optional().nullable(),
+    END_DATE: z.string().optional().nullable(),
+    LIST_FD_TYPE_CODE: z.array(z.string()).optional().nullable().default(null),
+    FD_STATUS_CODE: z.string().optional().nullable().default(null),
     AGENCY_ID: z.number(),
 });
 export const IssueInvoiceFromDraftParamsSchema = z.object({

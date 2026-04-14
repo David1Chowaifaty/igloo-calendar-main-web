@@ -5,13 +5,18 @@ import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { f as formatAmount } from './utils.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$k } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$j } from './ir-applicable-policies2.js';
-import { d as defineCustomElement$i } from './ir-booking-city-ledger2.js';
-import { d as defineCustomElement$h } from './ir-booking-guarantee2.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$e } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$p } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$o } from './ir-applicable-policies2.js';
+import { d as defineCustomElement$n } from './ir-booking-city-ledger2.js';
+import { d as defineCustomElement$m } from './ir-booking-guarantee2.js';
+import { d as defineCustomElement$l } from './ir-button2.js';
+import { d as defineCustomElement$k } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$j } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$i } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$h } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$g } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$f } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$e } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$d } from './ir-custom-button2.js';
 import { d as defineCustomElement$c } from './ir-date-select2.js';
 import { d as defineCustomElement$b } from './ir-dialog2.js';
@@ -149,7 +154,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
             });
             return;
         }
-        const _number = await this.bookingService.getNextValue({ starter: 'RC' });
+        const _number = await this.bookingService.getNextValue({ starter: `RC-${calendar_data.property.aname}` });
         this.openPrintScreen.emit({
             mode: 'receipt',
             payload: {
@@ -246,8 +251,8 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                 } }, `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
-            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
-            h("ir-booking-city-ledger", { booking: this.booking, language: this.language, currencySymbol: calendar_data?.property?.currency?.symbol, svcCategories: this.svcCategories }),
+            h("ir-payments-folio", { booking: this.booking, payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
+            h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -273,7 +278,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-details", "ir-air-date-picker", "ir-applicable-policies", "ir-booking-city-ledger", "ir-booking-guarantee", "ir-button", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-spinner", "ir-validator"];
+    const components = ["ir-payment-details", "ir-air-date-picker", "ir-applicable-policies", "ir-booking-city-ledger", "ir-booking-guarantee", "ir-button", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-label", "ir-payment-item", "ir-payment-summary", "ir-payments-folio", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-details":
             if (!customElements.get(tagName)) {
@@ -282,35 +287,60 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$p();
             }
             break;
         case "ir-applicable-policies":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$o();
             }
             break;
         case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$n();
             }
             break;
         case "ir-booking-guarantee":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$m();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$l();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$k();
             }
             break;
         case "ir-city-ledger-transaction-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-cl-adjustment-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-cl-credit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$h();
+            }
+            break;
+        case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$g();
+            }
+            break;
+        case "ir-cl-opening-balance-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }

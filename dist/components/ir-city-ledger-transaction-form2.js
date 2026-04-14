@@ -4,249 +4,18 @@ import { B as BookingService } from './booking.store.js';
 import { b as buildPaymentTypes } from './utils2.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { z } from './index2.js';
-import { w as getEntryValue } from './utils.js';
-import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
+import { c as createInitialTransactionFormDraft, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
+import { C as ClTxTypeCode, F as FdStatus, a as FdTypes } from './enums.js';
+import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$9 } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$8 } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$7 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$6 } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$5 } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$4 } from './ir-date-select2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
-
-const TRANSACTION_TYPES = { OB: 'OPENING_BALANCE', PAY: 'PAYMENT', DB: 'MANUAL_CHARGE', ADJ: 'ADJUSTMENT', CN: 'CREDIT_NOTE', DN: 'DEBIT_NOTE' };
-const TRANSACTION_TYPE_RATES = {
-    OB: 'CR|DB',
-    PAY: 'CR',
-    DB: 'DB',
-    ADJ: 'CR|DB',
-    CN: 'CR',
-    DN: 'DB',
-};
-const ENTRY_TYPES = ['CR', 'DB'];
-const LINK_TYPES = ['INVOICE', 'BOOKING', 'NONE'];
-const ADJUSTMENT_REASONS = ['ROUNDING_DIFFERENCE', 'GOODWILL_CREDIT', 'PRICE_MATCH', 'COMMISSION_CORRECTION', 'DISCOUNT_CORRECTION'];
-const DATE_FORMAT = 'YYYY-MM-DD';
-const dateSchema = z
-    .string()
-    .refine(value => hooks(value, DATE_FORMAT, true).isValid(), 'Date must be in YYYY-MM-DD format.')
-    .refine(value => {
-    const valueDate = hooks(value, DATE_FORMAT, true).startOf('day');
-    const minimumAllowedDate = hooks().startOf('day').subtract(12, 'months');
-    return !valueDate.isBefore(minimumAllowedDate);
-}, 'Date cannot be older than 12 months from today.');
-const commonFieldsSchema = z.object({
-    date: dateSchema,
-    amount: z.coerce.number().gt(0, 'Amount must be greater than 0.'),
-    taxId: z.string().min(1, 'Tax selection is required.'),
-    reference: z.string().optional(),
-    notes: z.string().max(500).optional(),
-});
-const openingBalanceSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('OB'),
-    entryType: z.enum(ENTRY_TYPES),
-    isCutover: z.boolean(),
-});
-const paymentTypeSchema = z.object({
-    code: z.string().min(3).max(4),
-    description: z.string(),
-    operation: z.enum(ENTRY_TYPES),
-});
-const paymentMethodSchema = z.object({
-    code: z.string().min(3).max(4),
-    description: z.string(),
-    operation: z.string().optional().nullable(),
-});
-const paymentSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('PAY'),
-    payment_type: paymentTypeSchema.nullable().optional(),
-    payment_method: paymentMethodSchema.nullable().optional(),
-    designation: z.string().optional(),
-    invoiceId: z.string().optional(),
-    onAccount: z.boolean(),
-});
-const manualChargeSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('DB'),
-    serviceCategoryId: z.string().optional(),
-});
-const adjustmentSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('ADJ'),
-    entryType: z.enum(ENTRY_TYPES),
-    linkType: z.enum(LINK_TYPES),
-    linkedId: z.string().optional(),
-    reason: z.enum(ADJUSTMENT_REASONS).optional(),
-});
-const creditNoteSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('CN'),
-    invoiceId: z.string().min(1, 'Invoice is required for credit note.'),
-    generatesFiscalDocument: z.literal(true),
-});
-const debitNoteSchema = commonFieldsSchema.extend({
-    transactionType: z.literal('DN'),
-    invoiceId: z.string().min(1, 'Invoice is required for debit note.'),
-    generatesFiscalDocument: z.literal(true),
-});
-const cityLedgerTransactionSchema = z
-    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema])
-    .superRefine((data, ctx) => {
-    if (data.transactionType === 'PAY' && data.onAccount && data.invoiceId) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['invoiceId'],
-            message: 'Invoice must be empty when payment is marked as on account.',
-        });
-    }
-    if (data.transactionType === 'ADJ' && data.linkType === 'NONE' && data.linkedId) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['linkedId'],
-            message: 'linkedId must be empty when link type is NONE.',
-        });
-    }
-});
-const DATE_INPUT_FORMAT = DATE_FORMAT;
-const todayDate = () => hooks().format(DATE_FORMAT);
-const conditionalDefaultsByType = (transactionType) => {
-    switch (transactionType) {
-        case 'OB':
-            return {
-                entryType: '',
-                isCutover: false,
-            };
-        case 'PAY':
-            return {
-                payment_method: null,
-                designation: undefined,
-                invoiceId: undefined,
-                onAccount: false,
-            };
-        case 'DB':
-            return {
-                serviceCategoryId: undefined,
-            };
-        case 'ADJ':
-            return {
-                entryType: '',
-                linkType: 'NONE',
-                linkedId: undefined,
-            };
-        case 'CN':
-        case 'DN':
-            return {
-                invoiceId: undefined,
-                generatesFiscalDocument: true,
-            };
-        default:
-            return {};
-    }
-};
-const createInitialTransactionFormDraft = (transactionType = 'OB') => ({
-    transactionType,
-    date: todayDate(),
-    amount: '',
-    taxId: 'N/A',
-    reference: '',
-    notes: '',
-    entryType: '',
-    isCutover: false,
-    payment_type: null,
-    payment_method: null,
-    designation: undefined,
-    invoiceId: undefined,
-    onAccount: false,
-    serviceCategoryId: undefined,
-    linkType: 'NONE',
-    linkedId: undefined,
-    reason: '',
-    generatesFiscalDocument: transactionType === 'CN' || transactionType === 'DN',
-    ...conditionalDefaultsByType(transactionType),
-});
-const resetDraftForTransactionType = (nextType, current) => ({
-    ...createInitialTransactionFormDraft(nextType),
-    transactionType: nextType,
-    date: current.date || todayDate(),
-    amount: current.amount,
-    taxId: current.taxId || 'N/A',
-    reference: current.reference || '',
-});
-const buildTransactionPayloadInput = (draft) => {
-    const basePayload = {
-        transactionType: draft.transactionType,
-        date: draft.date,
-        amount: draft.amount,
-        taxId: draft.taxId,
-        reference: draft.reference || undefined,
-    };
-    switch (draft.transactionType) {
-        case 'OB':
-            return {
-                ...basePayload,
-                entryType: draft.entryType,
-                isCutover: draft.isCutover,
-            };
-        case 'PAY':
-            return {
-                ...basePayload,
-                payment_method: draft.payment_method,
-                designation: draft.designation,
-                invoiceId: draft.onAccount ? undefined : draft.invoiceId,
-                onAccount: draft.onAccount,
-            };
-        case 'DB':
-            return {
-                ...basePayload,
-                serviceCategoryId: draft.serviceCategoryId,
-            };
-        case 'ADJ':
-            return {
-                ...basePayload,
-                entryType: draft.entryType,
-                linkType: draft.linkType,
-                linkedId: draft.linkType === 'NONE' ? undefined : draft.linkedId,
-                reason: draft.reason || undefined,
-            };
-        case 'CN':
-        case 'DN':
-            return {
-                ...basePayload,
-                invoiceId: draft.invoiceId,
-                generatesFiscalDocument: true,
-            };
-        default:
-            return basePayload;
-    }
-};
-const validateCityLedgerTransaction = (draft) => cityLedgerTransactionSchema.safeParse(buildTransactionPayloadInput(draft));
-// ── Individual field schemas for ir-validator ────────────────────────────────
-const transactionTypeFieldSchema = z.enum(Object.keys(TRANSACTION_TYPES));
-const dateFieldSchema = dateSchema;
-const amountFieldSchema = z.coerce.number().gt(0, 'Amount must be greater than 0.');
-const taxIdFieldSchema = z.string().min(1, 'Tax selection is required.');
-const entryTypeFieldSchema = z.enum(ENTRY_TYPES);
-z.string().min(1, 'Payment type is required.');
-const paymentMethodCodeFieldSchema = z.string().min(1, 'Payment method is required.');
-const invoiceIdRequiredFieldSchema = z.string().min(1, 'Invoice is required.');
-z.string().min(1, 'Service category is required.');
-const linkTypeFieldSchema = z.enum(LINK_TYPES);
-z.enum(ADJUSTMENT_REASONS);
-({
-    transactionType: 'PAY',
-    date: todayDate(),
-    amount: 150.5,
-    taxId: 'N/A',
-    reference: 'Manual receipt #A-1298',
-    payment_type: {
-        code: '001',
-        description: 'Cash',
-        operation: 'CR',
-    },
-    payment_method: {
-        code: '001',
-        description: 'Cash',
-        operation: 'CR',
-    },
-    designation: 'Cash',
-    onAccount: false,
-    invoiceId: 'INV-2026-00048',
-});
 
 const irCityLedgerTransactionFormCss = ".sc-ir-city-ledger-transaction-form-h{display:block;height:100%}.transaction-form.sc-ir-city-ledger-transaction-form{display:grid;gap:0.9rem}.transaction-form__field.sc-ir-city-ledger-transaction-form{display:grid;gap:0.35rem}.transaction-form__field--full-width.sc-ir-city-ledger-transaction-form,.transaction-form__field--full-width.sc-ir-city-ledger-transaction-form wa-radio-group.sc-ir-city-ledger-transaction-form{width:100%}.transaction-form__field--full-width.sc-ir-city-ledger-transaction-form wa-radio-group.sc-ir-city-ledger-transaction-form wa-radio.sc-ir-city-ledger-transaction-form{flex:1}.transaction-form__field__entry-type.--credit.sc-ir-city-ledger-transaction-form:state(checked){background-color:var(--wa-color-success-fill-quiet);color:var(--wa-color-success-on-quiet);border-color:var(--wa-color-success-border-loud)}.transaction-form__field__entry-type.--debit.sc-ir-city-ledger-transaction-form:state(checked){background-color:var(--wa-color-danger-fill-quiet);color:var(--wa-color-danger-on-quiet);border-color:var(--wa-color-danger-border-loud)}.amount-tax-group.sc-ir-city-ledger-transaction-form{display:flex;flex-direction:column;gap:0.35rem}.amount-tax-group__label.sc-ir-city-ledger-transaction-form{font-size:var(--wa-input-label-font-size-small, 0.875rem);font-weight:var(--wa-font-weight-semibold, 500);color:var(--wa-color-text-normal)}.amount-tax-group__required.sc-ir-city-ledger-transaction-form{color:var(--wa-color-danger-fill-loud)}.amount-tax-group__row.sc-ir-city-ledger-transaction-form{display:flex;align-items:stretch}.amount-tax-group__amount.sc-ir-city-ledger-transaction-form{flex:1;min-width:0}.amount-tax-group.sc-ir-city-ledger-transaction-form ir-input.sc-ir-city-ledger-transaction-form::part(label){display:none}.amount-tax-group.sc-ir-city-ledger-transaction-form ir-input.sc-ir-city-ledger-transaction-form::part(base){border-top-right-radius:0;border-bottom-right-radius:0;border-right:none}.amount-tax-group.sc-ir-city-ledger-transaction-form wa-select.sc-ir-city-ledger-transaction-form{flex-shrink:0;min-width:8.5rem}.amount-tax-group.sc-ir-city-ledger-transaction-form wa-select.sc-ir-city-ledger-transaction-form::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}.tx-option.sc-ir-city-ledger-transaction-form{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;width:100%}.tx-option__badges.sc-ir-city-ledger-transaction-form{display:flex;align-items:center;gap:0.25rem}.transaction-form__switch.sc-ir-city-ledger-transaction-form{padding:0.15rem 0}.transaction-form__error.sc-ir-city-ledger-transaction-form{margin:0;font-size:0.75rem;color:var(--wa-color-danger-fill-loud)}.transaction-form__fiscal-note.sc-ir-city-ledger-transaction-form{display:flex;align-items:center;gap:0.45rem;font-size:0.875rem;color:var(--wa-color-neutral-fill-loud)}.transaction-form__payment-type-option.sc-ir-city-ledger-transaction-form{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.payment-section.sc-ir-city-ledger-transaction-form{display:flex;flex-direction:column;gap:0.75rem;border-radius:0.625rem}.payment-section__title.sc-ir-city-ledger-transaction-form{margin:0;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--wa-color-text-quiet, #6b7280)}.payment-type-pill.sc-ir-city-ledger-transaction-form{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;background:var(--wa-color-success-fill-quiet, #f0fdf4);border:1px solid var(--wa-color-success-border-quiet, #bbf7d0);border-radius:0.5rem;font-size:0.8125rem}.payment-type-pill__name.sc-ir-city-ledger-transaction-form{font-weight:500;color:var(--wa-color-text-normal, #111827);flex:1}.payment-section.sc-ir-city-ledger-transaction-form wa-radio-group.sc-ir-city-ledger-transaction-form{width:100%}.payment-section.sc-ir-city-ledger-transaction-form wa-radio-group.sc-ir-city-ledger-transaction-form wa-radio.sc-ir-city-ledger-transaction-form{flex:1}.payment-invoice-select.sc-ir-city-ledger-transaction-form{animation:slide-in 0.18s ease}@keyframes slide-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.transaction-form__hint.sc-ir-city-ledger-transaction-form{margin:0;font-size:0.75rem;color:var(--wa-color-text-quiet, #6b7280)}.transaction-form__textarea-label.sc-ir-city-ledger-transaction-form{font-size:0.875rem;font-weight:500;color:var(--wa-color-text-normal, #111827)}.transaction-form__notes.sc-ir-city-ledger-transaction-form{width:100%;box-sizing:border-box;padding:0.5rem 0.75rem;border:1px solid var(--wa-color-neutral-border-quiet, #d1d5db);border-radius:0.375rem;font-size:0.875rem;font-family:inherit;color:var(--wa-color-text-normal, #111827);background:var(--wa-color-surface-default, #fff);resize:vertical;min-height:4.5rem;outline:none;transition:border-color 0.15s ease,\n    box-shadow 0.15s ease}.transaction-form__notes.sc-ir-city-ledger-transaction-form:focus{border-color:var(--wa-color-brand-border-loud, #2563eb);box-shadow:0 0 0 2px var(--wa-color-brand-fill-quiet, #eff6ff)}.transaction-form__notes.sc-ir-city-ledger-transaction-form::placeholder{color:var(--wa-color-text-quiet, #9ca3af)}";
 const IrCityLedgerTransactionFormStyle0 = irCityLedgerTransactionFormCss;
@@ -257,6 +26,8 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         this.__registerHost();
         this.transactionSaved = createEvent(this, "transactionSaved", 7);
         this.transactionValidationFailed = createEvent(this, "transactionValidationFailed", 7);
+        this.submitDisabledChange = createEvent(this, "submitDisabledChange", 7);
+        this.clFiscalDocumentPreview = createEvent(this, "clFiscalDocumentPreview", 7);
     }
     formId = 'city-ledger-transaction-form';
     agentId = null;
@@ -265,7 +36,6 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
-    currencySymbol = '$';
     language = 'en';
     formData = createInitialTransactionFormDraft();
     paymentEntries = {
@@ -276,8 +46,11 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     paymentTypeGroups = {};
     isLoading = true;
     isSubmitting = false;
+    fiscalDocuments = [];
     transactionSaved;
     transactionValidationFailed;
+    submitDisabledChange;
+    clFiscalDocumentPreview;
     bookingService = new BookingService();
     cityLedgerService = new CityLedgerService();
     clTxTypes;
@@ -289,13 +62,49 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         this.formData = resetDraftForTransactionType(newType, this.formData);
     }
     updateFormData(patch) {
-        this.formData = {
-            ...this.formData,
-            ...patch,
-        };
+        this.formData = { ...this.formData, ...patch };
+    }
+    get isSubmitDisabled() {
+        return this.formData.transactionType === ClTxTypeCode.DebitNote && !this.isLoading && this.fiscalDocuments.length === 0;
     }
     handleTransactionTypeChange(nextType) {
         this.formData = resetDraftForTransactionType(nextType, this.formData);
+        if (nextType === ClTxTypeCode.Payment || nextType === ClTxTypeCode.CreditNote || nextType === ClTxTypeCode.DebitNote) {
+            this.fetchFiscalDocumentsForType(nextType);
+        }
+        else {
+            this.submitDisabledChange.emit(false);
+        }
+    }
+    async fetchFiscalDocumentsForType(type) {
+        try {
+            this.isLoading = true;
+            const LIST_FD_TYPE_CODE = [FdTypes.Invoice];
+            if (type === ClTxTypeCode.Payment) {
+                LIST_FD_TYPE_CODE.push(FdTypes.DebitNote);
+            }
+            this.fiscalDocuments = await this.cityLedgerService.getFiscalDocuments({
+                AGENCY_ID: this.agentId,
+                FROM_DATE: null,
+                END_DATE: null,
+                LIST_FD_TYPE_CODE,
+                FD_STATUS_CODE: type === ClTxTypeCode.Payment ? FdStatus.Sent : FdStatus.Paid,
+            });
+            if (type === ClTxTypeCode.CreditNote && this.fiscalDocuments.length === 0 && this.formData.creditNoteMode === 'cancel-invoice') {
+                this.updateFormData({ creditNoteMode: 'goodwill', invoiceId: undefined });
+            }
+            if (type === ClTxTypeCode.Payment && this.fiscalDocuments.length === 0) {
+                this.updateFormData({ onAccount: true, invoiceId: undefined });
+            }
+        }
+        catch (error) {
+            console.error('Failed to fetch fiscal documents', error);
+            this.fiscalDocuments = [];
+        }
+        finally {
+            this.isLoading = false;
+            this.submitDisabledChange.emit(this.isSubmitDisabled);
+        }
     }
     async fetchPaymentEntries() {
         try {
@@ -319,56 +128,37 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             this.isLoading = false;
         }
     }
-    stopEventPropagation(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-    }
-    handlePaymentMethodDropdownChange(value) {
-        const paymentMethod = this.paymentEntries?.methods?.find(pm => pm.CODE_NAME === value);
-        if (!paymentMethod) {
-            this.updateFormData({ payment_method: null });
-            return;
-        }
-        this.updateFormData({
-            payment_method: {
-                code: paymentMethod.CODE_NAME,
-                description: paymentMethod.CODE_VALUE_EN,
-                operation: paymentMethod.NOTES,
-            },
-        });
-    }
     buildParams(payload) {
         const amount = payload.amount;
         let credit = 0;
         let debit = 0;
         let payMethodCode = '';
         switch (payload.transactionType) {
-            case 'OB':
-            case 'ADJ':
+            case ClTxTypeCode.OpeningBalance:
+            case ClTxTypeCode.Adjustment:
                 if (payload.entryType === 'CR')
                     credit = amount;
                 else
                     debit = amount;
                 break;
-            case 'PAY':
-            case 'CN':
+            case ClTxTypeCode.Payment:
+            case ClTxTypeCode.CreditNote:
                 credit = amount;
                 break;
-            case 'DB':
-            case 'DN':
+            case ClTxTypeCode.StandardChargeDebit:
+            case ClTxTypeCode.DebitNote:
                 debit = amount;
                 break;
         }
-        if (payload.transactionType === 'PAY') {
+        if (payload.transactionType === ClTxTypeCode.Payment) {
             payMethodCode = payload.payment_method?.code ?? '';
         }
-        const noTaxTransaction = payload.transactionType === 'OB' || payload.transactionType === 'PAY';
+        const noTaxTransaction = payload.transactionType === ClTxTypeCode.OpeningBalance || payload.transactionType === ClTxTypeCode.Payment;
         const hasVat = !noTaxTransaction && payload.taxId !== 'N/A';
         return {
             CL_TX_ID: -1,
             AGENCY_ID: this.agentId,
             SERVICE_DATE: payload.date,
-            // CATEGORY: payload.transactionType,
             CL_TX_TYPE_CODE: payload.transactionType,
             DESCRIPTION: payload.reference ?? payload.transactionType,
             DEBIT: debit,
@@ -389,7 +179,15 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
         try {
             this.isSubmitting = true;
-            await this.cityLedgerService.issueManualCLTx(this.buildParams(validation.data));
+            const result = await this.cityLedgerService.issueManualCLTx(this.buildParams(validation.data));
+            if (result?.My_Fd?.FD_TYPE_CODE && result.My_Fd.DOC_NUMBER) {
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: result.My_Fd.FD_TYPE_CODE,
+                    documentNumber: result.My_Fd.DOC_NUMBER,
+                    agentId: this.agentId,
+                    agentName: result.My_Fd.AGENCY_NAME ?? '',
+                });
+            }
             this.transactionSaved.emit();
         }
         catch (error) {
@@ -399,111 +197,43 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             this.isSubmitting = false;
         }
     };
-    get linkedIdOptions() {
-        if (this.formData.linkType === 'BOOKING') {
-            return this.bookingOptions;
-        }
-        if (this.formData.linkType === 'INVOICE') {
-            return this.unpaidInvoiceOptions;
-        }
-        return [];
-    }
-    renderCommonFields(withTaxes = true) {
-        const minAllowedDate = hooks().subtract(1, 'months').format(DATE_INPUT_FORMAT);
-        return (h(Fragment, null, h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: "Transaction Type", size: "small", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, onchange: event => {
+    renderTransactionTypeField() {
+        return (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: "Transaction Type", size: "small", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, onchange: event => {
                 const value = event.target.value;
                 this.handleTransactionTypeChange(value);
             } }, this.clTxTypes.map(type => {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
             const label = type.CODE_VALUE_EN;
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
-        })))), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: "Date", date: this.formData.date, minDate: minAllowedDate, emitEmptyDate: true, onDateChanged: event => {
+        })))));
+    }
+    renderCommonFields(withTaxes = true) {
+        const minAllowedDate = hooks().subtract(12, 'months').format(DATE_INPUT_FORMAT);
+        return (h(Fragment, null, this.renderTransactionTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: "Date", date: this.formData.date, minDate: minAllowedDate, emitEmptyDate: true, onDateChanged: event => {
                 this.updateFormData({
                     date: event.detail.start ? event.detail.start.format(DATE_INPUT_FORMAT) : '',
                 });
             } }))), withTaxes ? (h("div", { class: "amount-tax-group" }, h("span", { class: "amount-tax-group__label" }, "Amount (including taxes)"), h("div", { class: "amount-tax-group__row" }, h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount (including taxes)", mask: "price", value: this.formData.amount, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
-            } }, h("span", { slot: "start" }, this.currencySymbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, onchange: event => {
+            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
             } }, h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable"), this.taxOptions.map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label)))))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
-            } }, h("span", { slot: "start" }, this.currencySymbol)))))));
+            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))));
     }
-    renderEntryTypeField() {
-        return (h("div", { class: "transaction-form__field transaction-form__field--full-width" }, h("ir-validator", { schema: entryTypeFieldSchema, value: this.formData.entryType ?? '', valueEvent: "change" }, h("wa-radio-group", { label: "Entry Type", orientation: "horizontal", size: "small", value: this.formData.entryType ?? '', onchange: event => {
-                this.updateFormData({ entryType: event.target.value });
-            } }, h("wa-radio", { value: "CR", appearance: "button", class: "transaction-form__field__entry-type --credit" }, "Credit"), h("wa-radio", { value: "DB", appearance: "button", class: "transaction-form__field__entry-type --debit" }, "Debit")))));
-    }
-    renderOpeningBalanceFields() {
-        return h(Fragment, null, this.renderEntryTypeField());
-    }
-    renderPaymentFields() {
-        const isOnAccount = this.formData.onAccount;
-        return (h(Fragment, null, h("div", { class: "payment-section" }, h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: paymentMethodCodeFieldSchema, value: this.formData.payment_method?.code ?? '', valueEvent: "change" }, h("wa-select", { size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.formData.payment_method?.code ?? '', "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), onchange: event => {
-                this.stopEventPropagation(event);
-                this.handlePaymentMethodDropdownChange(event.target.value);
-            } }, h("wa-option", { value: "" }, "Select method\u2026"), this.paymentEntries?.methods?.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language })))))))), h("div", { class: "payment-section" }, h("wa-radio-group", { label: "Apply to", size: "small", orientation: "horizontal", value: isOnAccount ? 'on-account' : 'apply-to-invoice', onchange: e => {
-                const val = e.target.value;
-                this.updateFormData({ onAccount: val === 'on-account', invoiceId: val === 'on-account' ? undefined : this.formData.invoiceId });
-            } }, h("wa-radio", { appearance: "button", value: "on-account" }, "On Account"), h("wa-radio", { appearance: "button", value: "apply-to-invoice" }, "Close Invoices")), !isOnAccount && (h("div", { class: "transaction-form__field payment-invoice-select" }, h("wa-select", { label: "Outstanding Invoice", size: "small", placeholder: "Search invoices\u2026", value: this.formData.invoiceId ?? '', "onwa-show": event => this.stopEventPropagation(event), "onwa-hide": event => this.stopEventPropagation(event), onchange: event => {
-                this.stopEventPropagation(event);
-                this.updateFormData({ invoiceId: event.target.value || undefined });
-            } }, h("wa-option", { value: "" }, "No invoice linked"), this.unpaidInvoiceOptions.length === 0 && (h("wa-option", { value: "", disabled: true }, "No outstanding invoices")), this.unpaidInvoiceOptions.map(invoice => (h("wa-option", { key: invoice.id, value: invoice.id }, invoice.label)))))))));
-    }
-    renderManualChargeFields() {
-        return null;
-        // return (
-        //   <div class="transaction-form__field">
-        //     <ir-validator schema={serviceCategoryFieldSchema} value={this.formData.serviceCategoryId ?? ''} valueEvent="change">
-        //       <wa-select
-        //         label="Service Category"
-        //         size="small"
-        //         value={this.formData.serviceCategoryId ?? ''}
-        //         required
-        //         onchange={event => {
-        //           this.updateFormData({ serviceCategoryId: (event.target as HTMLSelectElement).value || undefined });
-        //         }}
-        //       >
-        //         <wa-option value="">Select a service category</wa-option>
-        //         {this.serviceCategoryOptions.map(category => (
-        //           <wa-option key={category.id} value={category.id}>
-        //             {category.label}
-        //           </wa-option>
-        //         ))}
-        //       </wa-select>
-        //     </ir-validator>
-        //   </div>
-        // );
-    }
-    renderAdjustmentFields() {
-        return (h(Fragment, null, this.renderEntryTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: linkTypeFieldSchema, value: this.formData.linkType ?? 'NONE', valueEvent: "change" }, h("wa-select", { label: "Link Type", size: "small", value: this.formData.linkType ?? 'NONE', onchange: event => {
-                const linkType = event.target.value;
-                this.updateFormData({
-                    linkType,
-                    linkedId: linkType === 'NONE' ? undefined : this.formData.linkedId,
-                });
-            } }, LINK_TYPES.map(linkType => (h("wa-option", { key: linkType, value: linkType }, linkType)))))), this.formData.linkType !== 'NONE' && (h("div", { class: "transaction-form__field" }, h("wa-select", { label: "Linked Record", size: "small", value: this.formData.linkedId ?? '', onchange: event => {
-                this.updateFormData({ linkedId: event.target.value || undefined });
-            } }, h("wa-option", { value: "" }, "No linked record"), this.linkedIdOptions.map(option => (h("wa-option", { key: option.id, value: option.id }, option.label))))))));
-    }
-    renderFiscalNoteFields() {
-        return (h(Fragment, null, h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: invoiceIdRequiredFieldSchema, value: this.formData.invoiceId ?? '', valueEvent: "change" }, h("wa-select", { label: "Invoice", size: "small", required: true, value: this.formData.invoiceId ?? '', onchange: event => {
-                this.updateFormData({ invoiceId: event.target.value || undefined });
-            } }, h("wa-option", { value: "" }, "Select invoice"), this.unpaidInvoiceOptions.map(invoice => (h("wa-option", { key: invoice.id, value: invoice.id }, invoice.label))))))));
-    }
-    renderConditionalFields() {
+    renderTypeFields() {
+        const onFieldChange = (e) => this.updateFormData(e.detail);
         switch (this.formData.transactionType) {
-            case 'OB':
-                return this.renderOpeningBalanceFields();
-            case 'PAY':
-                return this.renderPaymentFields();
-            case 'DB':
-                return this.renderManualChargeFields();
-            case 'ADJ':
-                return this.renderAdjustmentFields();
-            case 'CN':
-            case 'DN':
-                return this.renderFiscalNoteFields();
+            case ClTxTypeCode.OpeningBalance:
+                return h("ir-cl-opening-balance-fields", { entryType: this.formData.entryType, onFieldChange: onFieldChange });
+            case ClTxTypeCode.Payment:
+                return (h("ir-cl-payment-fields", { paymentMethodCode: this.formData.payment_method?.code ?? '', isOnAccount: this.formData.onAccount, invoiceId: this.formData.invoiceId, paymentMethods: this.paymentEntries?.methods ?? [], unpaidInvoiceOptions: this.unpaidInvoiceOptions, noInvoices: this.fiscalDocuments.length === 0, language: this.language, onFieldChange: onFieldChange }));
+            case ClTxTypeCode.Adjustment:
+                return (h("ir-cl-adjustment-fields", { entryType: this.formData.entryType, linkType: this.formData.linkType, linkedId: this.formData.linkedId, bookingOptions: this.bookingOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, onFieldChange: onFieldChange }));
+            case ClTxTypeCode.CreditNote:
+                return (h("ir-cl-credit-note-fields", { creditNoteMode: this.formData.creditNoteMode, invoiceId: this.formData.invoiceId, fiscalDocuments: this.fiscalDocuments, isFetchingFiscalDocs: this.isLoading, onFieldChange: onFieldChange }));
+            case ClTxTypeCode.DebitNote:
+                return h("ir-cl-debit-note-fields", { invoiceId: this.formData.invoiceId, fiscalDocuments: this.fiscalDocuments, onFieldChange: onFieldChange });
             default:
                 return null;
         }
@@ -512,7 +242,12 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         if (this.isLoading) {
             return (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null)));
         }
-        return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(!['OB', 'PAY'].includes(this.formData.transactionType)), this.renderConditionalFields(), h("ir-input", { label: "Reference" })));
+        if (this.isSubmitDisabled) {
+            return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderTransactionTypeField(), this.renderTypeFields()));
+        }
+        return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== ClTxTypeCode.OpeningBalance && this.formData.transactionType !== ClTxTypeCode.Payment), this.renderTypeFields(), h("ir-input", { label: "Reference", value: this.formData.reference, "onText-change": (event) => {
+                this.updateFormData({ reference: event.detail ?? '' });
+            } })));
     }
     static get watchers() { return {
         "initialTransactionType": ["handleInitialTransactionTypeChange"]
@@ -526,13 +261,13 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         "unpaidInvoiceOptions": [16],
         "bookingOptions": [16],
         "serviceCategoryOptions": [16],
-        "currencySymbol": [1, "currency-symbol"],
         "language": [1],
         "formData": [32],
         "paymentEntries": [32],
         "paymentTypeGroups": [32],
         "isLoading": [32],
-        "isSubmitting": [32]
+        "isSubmitting": [32],
+        "fiscalDocuments": [32]
     }, undefined, {
         "initialTransactionType": ["handleInitialTransactionTypeChange"]
     }]);
@@ -540,7 +275,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-form", "ir-air-date-picker", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-form", "ir-air-date-picker", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
@@ -548,6 +283,31 @@ function defineCustomElement() {
             }
             break;
         case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-cl-adjustment-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-cl-credit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-cl-opening-balance-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
+            }
+            break;
+        case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

@@ -6855,7 +6855,7 @@ function getAbbreviatedWeekdays(locale) {
     return weekdays;
 }
 
-const irCustomDateRangeCss = ".date-picker{width:100%;display:flex;flex-direction:column;gap:20px;position:relative;z-index:999;background:var(--backgroud, white);color:var(--gray-800, #1d2939);box-sizing:border-box;padding:0}.navigation-buttons:dir(rtl) svg{transform:rotate(180deg)}.month-navigation span{line-height:0;color:var(--gray-800, #1d2939);font-size:16px}.current-date{color:hsl(var(--brand-600, 215, 87%, 51%))}.day-button:hover::after{content:'';border-radius:var(--radius, 0.5rem);background:var(--gray-200, #eaecf0);position:absolute;inset:0;z-index:-1}.navigation-buttons{box-sizing:border-box;border:0;background:var(--backgroud, white);display:flex;align-items:center;justify-content:center;height:var(--cal-button-size, 30px);width:var(--cal-button-size, 40px);margin:0;padding:0;border-radius:var(--radius, 0.5rem);cursor:pointer;color:var(--gray-800, #1d2939)}.navigation-buttons:hover{background:var(--gray-200, #eaecf0)}.day-button:focus-visible{outline-color:hsl(var(--brand-600, 215, 87%, 51%))}.day-button:disabled,.day-button[aria-unavailable='true']{opacity:0.3;cursor:default}.day-button:disabled .day,.day-button[aria-unavailable='true'] .day{text-decoration:line-through}.day-button:disabled:hover::after .day-button[aria-unavailable='true']:hover::after{content:none}.day-button .day,.price{margin:0;padding:0}.day-button .price{font-size:10px;color:var(--gray-600)}.month-navigation{display:flex;align-items:center;box-sizing:border-box}.month-navigation span{padding:0;margin-left:auto;margin-right:auto}.month-year-label{font-size:16px;font-weight:600;color:var(--gray-800, #1d2939);margin-left:auto;margin-right:auto}.margin-right{margin-right:0}.margin-left{margin-left:0}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 30px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 30px)}.weekday-name{font-weight:400;text-align:center;color:var(--gray-800, #1d2939);}table{border-collapse:collapse;box-sizing:border-box}td,th{padding:0;border:none}th{width:var(--cal-button-size, 40px);height:var(--cal-button-size, 40px);font-size:0.875rem;line-height:1.25rem;margin:0 !important;box-sizing:border-box}td{text-align:center;margin:0;box-sizing:border-box}.day-button{box-sizing:border-box;background:none;border:0;cursor:pointer;font-size:0.875rem;padding:0;margin:0;width:var(--cal-button-size, 100%);height:var(--cal-button-size, 40px);position:relative;border-radius:var(--radius, 0.5rem);margin:0;color:var(--gray-800)}.month-navigation{position:relative}.navigation-buttons{position:absolute}.button-next-main:dir(ltr),.button-next:dir(ltr){right:0}.button-next-main:dir(rtl),.button-next:dir(rtl){left:0}.previous-month:dir(ltr){left:0}.previous-month:dir(rtl){right:0}.month-container{display:flex;align-items:center;font-size:0.875rem;line-height:1.25rem;box-sizing:border-box}.month-container span{flex:1;text-align:center}.day-range-end,.day-range-start,.day-range-end .current-date,.day-range-start .current-date{color:white}.day-range-end .price,.day-range-start .price{color:var(--gray-200, #eaecf0)}.day-range-end::after,.day-range-start::after,.day-button:hover.day-range-end::after,.day-button:hover.day-range-start::after{content:'';background:hsl(var(--brand-600, 215, 87%, 51%));position:absolute;inset:0;border-radius:var(--radius, 0.5rem);z-index:-1}.day-range-start:dir(ltr)::after,.day-button:hover.day-range-start:dir(ltr)::after{border-top-right-radius:0px;border-bottom-right-radius:0px}.day-range-end:dir(ltr)::after,.day-button:hover.day-range-end:dir(ltr)::after{border-top-left-radius:0px;border-bottom-left-radius:0px}.day-range-start:dir(rtl)::after,.day-button:hover.day-range-start:dir(rtl)::after{border-top-left-radius:0px;border-bottom-left-radius:0px}.day-range-end:dir(rtl)::after,.day-button:hover.day-range-end:dir(rtl)::after{border-top-right-radius:0px;border-bottom-right-radius:0px}.day-button:hover.highlight::after{border-radius:var(--radius, 0.5rem)}.highlight::after{content:'';border-radius:0;background:var(--gray-100, #f2f4f7);position:absolute;inset:0;z-index:-1}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0}.button-next-main{display:none}@media only screen and (min-width: 640px){.date-picker{flex-direction:row}.button-next-main{display:flex}.button-next{display:none}}@media only screen and (min-width: 740px){.date-picker{gap:40px}.day-button,th,.navigation-buttons{width:var(--cal-button-size, 38px);height:var(--cal-button-size, 38px)}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 38px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 38px)}.margin-right:dir(rtl){margin-left:var(--cal-button-size, 38px)}.margin-right:dir(ltr){margin-right:var(--cal-button-size, 38px)}.margin-left:dir(ltr){margin-left:var(--cal-button-size, 38px)}.margin-left:dir(rtl){margin-right:var(--cal-button-size, 38px)}}@media only screen and (min-width: 1200px){.day-button,th,.navigation-buttons{width:var(--cal-button-size, 45px);height:var(--cal-button-size, 45px)}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 45px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 45px)}.margin-right:dir(rtl){margin-left:var(--cal-button-size, 45px)}.margin-right:dir(ltr){margin-right:var(--cal-button-size, 45px)}.margin-left:dir(ltr){margin-left:var(--cal-button-size, 45px)}.margin-left:dir(rtl){margin-right:var(--cal-button-size, 45px)}}";
+const irCustomDateRangeCss = ".date-picker{width:100%;display:flex;flex-direction:column;gap:20px;position:relative;z-index:999;background:var(--wa-color-surface-default, white);color:var(--wa-color-text-normal, #1d2939);box-sizing:border-box;padding:0}.month-container{display:flex;align-items:center;font-size:0.875rem;line-height:1.25rem;box-sizing:border-box}.month-container span{flex:1;text-align:center}table{border-collapse:collapse;box-sizing:border-box}td,th{padding:0;border:none}th{width:var(--cal-button-size, 40px);height:var(--cal-button-size, 40px);font-size:0.875rem;line-height:1.25rem;margin:0 !important;box-sizing:border-box}td{text-align:center;margin:0;box-sizing:border-box}.weekday-name{font-weight:400;text-align:center;color:var(--wa-color-text-normal, #1d2939)}.month-navigation{display:flex;align-items:center;box-sizing:border-box;position:relative}.month-navigation span{padding:0;margin-left:auto;margin-right:auto;line-height:0;color:var(--wa-color-text-normal, #1d2939);font-size:16px}.month-year-label{font-size:16px;font-weight:600;color:var(--wa-color-text-normal, #1d2939);margin-left:auto;margin-right:auto}.navigation-buttons{box-sizing:border-box;border:0;display:flex;align-items:center;justify-content:center;position:absolute;height:var(--cal-button-size, 30px);width:var(--cal-button-size, 40px);margin:0;padding:0;border-radius:var(--radius, 0.5rem);cursor:pointer;color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:transparent;border-color:transparent;transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.navigation-buttons:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet))}.navigation-buttons:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active))}.navigation-buttons:dir(rtl) svg{transform:rotate(180deg)}.button-next-main{display:none}.button-next-main:dir(ltr),.button-next:dir(ltr){right:0}.button-next-main:dir(rtl),.button-next:dir(rtl){left:0}.previous-month:dir(ltr){left:0}.previous-month:dir(rtl){right:0}.margin-right{margin-right:0}.margin-left{margin-left:0}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 30px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 30px)}.day-button{box-sizing:border-box;background:none;border:0;cursor:pointer;font-size:0.875rem;padding:0;margin:0;width:var(--cal-button-size, 100%);height:var(--cal-button-size, 40px);position:relative;border-radius:var(--radius, 0.5rem);color:var(--gray-800);transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.day-button .day,.price{margin:0;padding:0}.day-button .price{font-size:10px;color:var(--gray-600)}.day-button:hover::after{content:'';border-radius:var(--radius, 0.5rem);color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet));position:absolute;inset:0;z-index:-1}.day-button:active::after{content:'';border-radius:var(--radius, 0.5rem);color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active));position:absolute;inset:0;z-index:-1}.day-button:focus-visible{outline-color:hsl(var(--brand-600, 215, 87%, 51%))}.day-button:disabled,.day-button[aria-unavailable='true']{opacity:0.5;cursor:not-allowed}.day-button:disabled:hover::after,.day-button:disabled:active::after,.day-button[aria-unavailable='true']:hover::after,.day-button[aria-unavailable='true']:active::after{content:unset}.day-range-end,.day-range-start,.day-range-end .current-date,.day-range-start .current-date{color:white}.day-range-end .price,.day-range-start .price{color:var(--gray-200, #eaecf0)}.day-range-end::after,.day-range-start::after,.day-button:hover.day-range-end::after,.day-button:hover.day-range-start::after{content:'';background:var(--wa-color-brand-fill-loud, hsl(var(--brand-600, 215, 87%, 51%)));color:var(--wa-color-brand-on-loud);position:absolute;inset:0;border-radius:var(--radius, 0.5rem);z-index:-1}.day-button:hover.day-range-end::after,.day-button:hover.day-range-start::after{background-color:color-mix(in oklab, var(--wa-color-fill-loud, var(--wa-color-brand-fill-loud)), var(--wa-color-mix-hover))}.day-range-start:dir(ltr)::after,.day-button:hover.day-range-start:dir(ltr)::after{border-top-right-radius:0px;border-bottom-right-radius:0px}.day-range-end:dir(ltr)::after,.day-button:hover.day-range-end:dir(ltr)::after{border-top-left-radius:0px;border-bottom-left-radius:0px}.day-range-start:dir(rtl)::after,.day-button:hover.day-range-start:dir(rtl)::after{border-top-left-radius:0px;border-bottom-left-radius:0px}.day-range-end:dir(rtl)::after,.day-button:hover.day-range-end:dir(rtl)::after{border-top-right-radius:0px;border-bottom-right-radius:0px}.highlight::after{content:'';border-radius:0;background:var(--wa-color-neutral-fill-quiet, #f2f4f7);position:absolute;inset:0;z-index:-1}.day-button:hover.highlight::after{border-radius:var(--radius, 0.5rem)}.highlight:not(:disabled):not([aria-unavailable='true']):hover::after{color:var(--wa-color-on-normal, var(--wa-color-neutral-on-normal));background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-neutral-fill-normal)), var(--wa-color-mix-hover))}.highlight:not(:disabled):not([aria-unavailable='true']):active::after{color:var(--wa-color-on-normal, var(--wa-color-neutral-on-normal));background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-neutral-fill-normal)), var(--wa-color-mix-active))}.current-date{color:var(--wa-color-brand, hsl(var(--brand-600, 215, 87%, 51%)))}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0}@media only screen and (min-width: 640px){.date-picker{flex-direction:row}.button-next-main{display:flex}.button-next{display:none}}@media only screen and (min-width: 740px){.date-picker{gap:40px}.day-button,th,.navigation-buttons{width:var(--cal-button-size, 38px);height:var(--cal-button-size, 38px)}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 38px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 38px)}.margin-right:dir(rtl){margin-left:var(--cal-button-size, 38px)}.margin-right:dir(ltr){margin-right:var(--cal-button-size, 38px)}.margin-left:dir(ltr){margin-left:var(--cal-button-size, 38px)}.margin-left:dir(rtl){margin-right:var(--cal-button-size, 38px)}}@media only screen and (min-width: 1200px){.day-button,th,.navigation-buttons{width:var(--cal-button-size, 45px);height:var(--cal-button-size, 45px)}.margin-horizontal:dir(ltr){margin-left:var(--cal-button-size, 45px)}.margin-horizontal:dir(rtl){margin-right:var(--cal-button-size, 45px)}.margin-right:dir(rtl){margin-left:var(--cal-button-size, 45px)}.margin-right:dir(ltr){margin-right:var(--cal-button-size, 45px)}.margin-left:dir(ltr){margin-left:var(--cal-button-size, 45px)}.margin-left:dir(rtl){margin-right:var(--cal-button-size, 45px)}}";
 const IrCustomDateRangeStyle0 = irCustomDateRangeCss;
 
 const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRange extends HTMLElement {
@@ -6865,19 +6865,37 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
         this.__attachShadow();
         this.dateChange = createEvent(this, "dateChange", 7);
     }
+    /** The currently selected check-in date. */
     fromDate = null;
+    /** The currently selected check-out date. */
     toDate = null;
+    /** The earliest selectable date. Defaults to 24 years in the past. */
     minDate = moment$1().add(-24, 'years');
+    /** The latest selectable date. Defaults to 24 years in the future. */
     maxDate = moment$1().add(24, 'years');
+    /**
+     * An optional map of `YYYY-MM-DD` → `IDateModifierOptions` used to
+     * mark specific dates as unavailable or attach pricing data.
+     */
     dateModifiers;
+    /** Maximum number of nights that can be selected in one span. */
     maxSpanDays = 90;
+    /** When `true`, displays a price line inside each day button (requires `dateModifiers`). */
     showPrice = false;
+    /**
+     * BCP-47 locale tag used to localise day names and month formatting.
+     * @reflect
+     */
     locale = 'en';
     selectedDates = { start: moment$1(), end: moment$1() };
     displayedDaysArr = [];
     hoveredDate = null;
-    dateChange;
     weekdays = [];
+    /**
+     * Emits the selected start and end dates as native `Date` objects.
+     * `end` is `null` when the user has only picked the first date.
+     */
+    dateChange;
     componentWillLoad() {
         this.weekdays = getAbbreviatedWeekdays(this.locale);
         this.resetHours();
@@ -6886,17 +6904,20 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
         const nextMonth = currentMonth.clone().add(1, 'month');
         this.displayedDaysArr = [this.getMonthDays(currentMonth), this.getMonthDays(nextMonth)];
     }
+    /** Re-localises weekday names when the locale changes. */
     handleLocale(newValue, oldLocale) {
         if (newValue !== oldLocale) {
             moment$1.locale(newValue);
             this.weekdays = getAbbreviatedWeekdays(newValue);
         }
     }
+    /** Syncs the internal selection start when `fromDate` prop changes. */
     handleFromDateChange(newValue, oldValue) {
         if (!(newValue ?? moment$1()).isSame(oldValue ?? moment$1(), 'days')) {
             this.selectedDates = { ...this.selectedDates, start: newValue };
         }
     }
+    /** Syncs the internal selection end when `toDate` prop changes. */
     handleToDateChange(newValue, oldValue) {
         if (!(newValue ?? moment$1()).isSame(oldValue ?? moment$1(), 'days')) {
             this.selectedDates = { ...this.selectedDates, end: newValue };
@@ -6913,29 +6934,10 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
         }
         return { month, days };
     }
-    handleKeyDown = (e) => {
-        if (e.key === 'ArrowLeft') {
-            this.decrementDate();
-        }
-        else if (e.key === 'ArrowRight') {
-            this.incrementDate();
-        }
-    };
-    decrementDate() {
-        if (this.selectedDates.start && this.selectedDates.end) {
-            this.selectedDates = { start: this.selectedDates.start.clone().add(-1, 'days'), end: this.selectedDates.end.clone() };
-        }
-    }
-    incrementDate() {
-        if (this.selectedDates.start && this.selectedDates.end) {
-            this.selectedDates = { start: this.selectedDates.start.clone(), end: this.selectedDates.end.clone().add(1, 'days') };
-        }
-    }
     goToNextMonth(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        const currentSecondMonth = this.displayedDaysArr[1].month;
-        const newSecondMonth = currentSecondMonth.clone().add(1, 'months');
+        const newSecondMonth = this.displayedDaysArr[1].month.clone().add(1, 'months');
         if (newSecondMonth.endOf('month').isBefore(this.minDate) || newSecondMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
@@ -6944,46 +6946,43 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
     goToPreviousMonth(e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
-        const currentFirstMonth = this.displayedDaysArr[0].month;
-        const newFirstMonth = currentFirstMonth.clone().add(-1, 'month');
+        const newFirstMonth = this.displayedDaysArr[0].month.clone().add(-1, 'month');
         if (newFirstMonth.endOf('month').isBefore(this.minDate) || newFirstMonth.startOf('month').isAfter(this.maxDate)) {
             return;
         }
         this.displayedDaysArr = [this.getMonthDays(newFirstMonth), this.displayedDaysArr[0]];
     }
-    handleMonthChange(e, index) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        const newMonth = parseInt(e.target.value);
-        const current = this.displayedDaysArr[index].month.clone().month(newMonth);
-        if (index === 0) {
-            this.displayedDaysArr = [this.getMonthDays(current), this.getMonthDays(current.clone().add(1, 'month'))];
-        }
-        else {
-            this.displayedDaysArr = [this.getMonthDays(current.clone().subtract(1, 'month')), this.getMonthDays(current)];
-        }
-    }
-    handleYearChange(e, index) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        const newYear = parseInt(e.target.value);
-        const current = this.displayedDaysArr[index].month.clone().year(newYear);
-        if (index === 0) {
-            this.displayedDaysArr = [this.getMonthDays(current), this.getMonthDays(current.clone().add(1, 'month'))];
-        }
-        else {
-            this.displayedDaysArr = [this.getMonthDays(current.clone().subtract(1, 'month')), this.getMonthDays(current)];
-        }
-    }
-    getYearRange() {
-        const start = this.minDate.year();
-        const end = this.maxDate.year();
-        const years = [];
-        for (let y = start; y <= end; y++) {
-            years.push(y);
-        }
-        return years;
-    }
+    // private handleMonthChange(e: Event, index: number) {
+    //   e.stopPropagation();
+    //   e.stopImmediatePropagation();
+    //   const newMonth = parseInt((e.target as HTMLSelectElement).value);
+    //   const current = this.displayedDaysArr[index].month.clone().month(newMonth);
+    //   if (index === 0) {
+    //     this.displayedDaysArr = [this.getMonthDays(current), this.getMonthDays(current.clone().add(1, 'month'))];
+    //   } else {
+    //     this.displayedDaysArr = [this.getMonthDays(current.clone().subtract(1, 'month')), this.getMonthDays(current)];
+    //   }
+    // }
+    // private handleYearChange(e: Event, index: number) {
+    //   e.stopPropagation();
+    //   e.stopImmediatePropagation();
+    //   const newYear = parseInt((e.target as HTMLSelectElement).value);
+    //   const current = this.displayedDaysArr[index].month.clone().year(newYear);
+    //   if (index === 0) {
+    //     this.displayedDaysArr = [this.getMonthDays(current), this.getMonthDays(current.clone().add(1, 'month'))];
+    //   } else {
+    //     this.displayedDaysArr = [this.getMonthDays(current.clone().subtract(1, 'month')), this.getMonthDays(current)];
+    //   }
+    // }
+    // private getYearRange(): number[] {
+    //   const start = this.minDate.year();
+    //   const end = this.maxDate.year();
+    //   const years: number[] = [];
+    //   for (let y = start; y <= end; y++) {
+    //     years.push(y);
+    //   }
+    //   return years;
+    // }
     selectDay(day) {
         let isDateDisabled = false;
         if (this.dateModifiers) {
@@ -7018,7 +7017,6 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
                 }
             }
         }
-        // Convert Moment to Date for the event emission
         const startDate = this.selectedDates.start ? this.selectedDates.start.toDate() : null;
         const endDate = this.selectedDates.end ? this.selectedDates.end.toDate() : null;
         this.dateChange.emit({ start: startDate, end: endDate });
@@ -7053,50 +7051,31 @@ const IrCustomDateRange = /*@__PURE__*/ proxyCustomElement(class IrCustomDateRan
         }
         return false;
     }
-    getMonthStyles(index) {
-        if (index === 0) {
-            if (!this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate)) {
-                return 'margin-horizontal';
-            }
-            return 'margin-right';
-        }
-        else {
-            if (!this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate)) {
-                return 'margin-right margin-left';
-            }
-            return 'margin-left';
-        }
-    }
     checkDatePresence(day) {
         if (!this.dateModifiers) {
             return;
         }
-        const formatedDate = day.format('YYYY-MM-DD');
-        const result = this.dateModifiers[formatedDate];
-        if (result) {
-            return result;
-        }
-        return;
+        return this.dateModifiers[day.format('YYYY-MM-DD')];
     }
     render() {
         const maxSpanDays = this.selectedDates.start ? this.selectedDates.start.clone().add(this.maxSpanDays, 'days') : null;
-        return (h("div", { key: 'f3f0ce0bc84ac47488c4bfa747cce6db5e3d3b27', class: 'date-picker' }, this.displayedDaysArr.map((month, index) => (h("table", { class: "calendar ", role: "grid" }, h("thead", null, h("tr", { class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { class: "month-year-label" }, month.month.locale(this.locale ?? 'en').format('MMMM YYYY')), index === 0 && (h("button", { name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { slot: "icon", class: "sr-only" }, "next month"), h("svg", { slot: "icon", xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only " }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { class: "days-grid" }, month.days
-            .reduce((acc, day, index) => {
-            const weekIndex = Math.floor(index / 7);
+        return (h("div", { key: '13e783ec27fd18433c58d54f04c4247966eb556c', part: "base", class: "date-picker" }, this.displayedDaysArr.map((month, index) => (h("table", { part: "calendar", class: "calendar", role: "grid" }, h("thead", null, h("tr", { part: "calendar-header", class: "calendar-header" }, h("th", { colSpan: 7 }, h("div", { part: "month-navigation", class: "month-navigation" }, index === 0 && this.displayedDaysArr[0].month.clone().startOf('month').isAfter(this.minDate) && (h("button", { part: "nav-prev", name: "previous month", class: "navigation-buttons previous-month", type: "button", onClick: this.goToPreviousMonth.bind(this) }, h("p", { class: "sr-only" }, "previous month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" })))), h("span", { part: "month-label", class: "month-year-label" }, month.month.locale(this.locale ?? 'en').format('MMMM YYYY')), index === 0 && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" })))), index === 1 && this.displayedDaysArr[1].month.clone().endOf('month').isBefore(this.maxDate) && (h("button", { part: "nav-next", name: "next month", class: "navigation-buttons button-next-main", type: "button", onClick: this.goToNextMonth.bind(this) }, h("p", { class: "sr-only" }, "next month"), h("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16", width: "25.6", viewBox: "0 0 320 512" }, h("path", { fill: "currentColor", d: "M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" }))))))), h("tr", { part: "weekday-row", class: "weekday-header", role: "row" }, this.weekdays.map(weekday => (h("th", { part: "weekday", class: "weekday-name", key: weekday }, weekday.replace('.', '')))))), h("tbody", { part: "days-grid", class: "days-grid" }, month.days
+            .reduce((acc, day, i) => {
+            const weekIndex = Math.floor(i / 7);
             if (!acc[weekIndex]) {
                 acc[weekIndex] = [];
             }
             acc[weekIndex].push(day);
             return acc;
         }, [])
-            .map(week => (h("tr", { class: "week-row", role: "row" }, week.map((day) => {
+            .map(week => (h("tr", { part: "week-row", class: "week-row", role: "row" }, week.map((day) => {
             const checkedDate = this.checkDatePresence(day);
             const isDaySelected = this.isDaySelected(day);
             const isDaySameEnd = day.isSame(this.selectedDates.end, 'day');
             const isDaySameStart = day.isSame(this.selectedDates.start, 'day');
             const isDayAfterMaxDate = day.isAfter(this.maxDate, 'day');
             const isDayBeforeMinDate = day.isBefore(this.minDate, 'day');
-            return (h("td", { class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month.month, 'month') && (h("button", { disabled: isDayBeforeMinDate || isDayAfterMaxDate || (this.selectedDates.start && maxSpanDays && day.isAfter(maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
+            return (h("td", { part: "day-cell", class: "day-cell", key: day.format('YYYY-MM-DD'), role: "gridcell" }, day.isSame(month.month, 'month') && (h("button", { part: "day-button", disabled: isDayBeforeMinDate || isDayAfterMaxDate || (this.selectedDates.start && maxSpanDays && day.isAfter(maxSpanDays) && !this.selectedDates.end), onMouseEnter: () => this.handleMouseEnter(day), onMouseLeave: () => this.handleMouseLeave(), onClick: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.selectDay(day);

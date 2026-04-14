@@ -1,7 +1,8 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import { IPayment } from "../../../../models/booking.dto";
+import { Booking, IPayment } from "../../../../models/booking.dto";
 export declare class IrPaymentsFolio {
     payments: IPayment[];
+    booking: Booking;
     addPayment: EventEmitter<void>;
     editPayment: EventEmitter<IPayment>;
     deletePayment: EventEmitter<IPayment>;

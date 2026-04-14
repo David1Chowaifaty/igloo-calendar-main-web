@@ -15,10 +15,11 @@ export class IrCityLedgerFiscalDocumentsTable {
     agentId = null;
     fromDate = null;
     toDate = null;
-    previewRow = null;
+    hasFetched = false;
+    clFiscalDocumentPreview;
+    fetchRequested;
     columnHelper = createColumnHelper();
     cityLedgerService = new CityLedgerService();
-    previewDialogRef;
     getStatusVariant(code) {
         const map = {
             PAID: 'success',
@@ -33,7 +34,12 @@ export class IrCityLedgerFiscalDocumentsTable {
     handleAction(action, row) {
         switch (action) {
             case 'view':
-                console.log('view', row);
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: row.FD_TYPE_CODE,
+                    documentNumber: row.DOC_NUMBER,
+                    agentId: this.agentId,
+                    agentName: row.AGENCY_NAME,
+                });
                 break;
             case 'print':
                 console.log('print', row);
@@ -62,8 +68,12 @@ export class IrCityLedgerFiscalDocumentsTable {
                 });
                 break;
             case 'preview':
-                this.previewRow = row;
-                this.previewDialogRef?.openDialog();
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: row.FD_TYPE_CODE,
+                    documentNumber: row.DOC_NUMBER,
+                    agentId: this.agentId,
+                    agentName: row.AGENCY_NAME,
+                });
                 break;
             case 'convert-to-invoice':
                 console.log('convert-to-invoice', row);
@@ -161,23 +171,24 @@ export class IrCityLedgerFiscalDocumentsTable {
         return h("span", null, formatAmount(this.getSymbol(currencyId), value));
     }
     render() {
+        if (!this.hasFetched) {
+            const hasDate = !!(this.fromDate || this.toDate);
+            return (h(Host, null, h("div", { class: "fiscal-table__date-prompt" }, h("div", { class: "fiscal-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "fiscal-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Documents")))));
+        }
         const table = useTable({
             data: this.rows,
             columns: this.columns,
             getCoreRowModel: getCoreRowModel(),
             getSortedRowModel: getSortedRowModel(),
         });
-        return (h(Host, { key: '40839fb6cd2e2672a5b0d9c4c82389b7009db5d8' }, h("ir-preview-screen-dialog", { key: '322e644ecf73d15a17249660cdb04b5a18677c36', ref: el => (this.previewDialogRef = el), label: this.previewRow ? `Invoice Preview — ${this.previewRow.DOC_NUMBER}` : 'Invoice Preview', action: "print", onOpenChanged: e => {
-                if (!e.detail)
-                    this.previewRow = null;
-            } }, this.previewRow && (h("ir-cl-invoice-preview", { key: '98d5794e02d49b6dbd263599056e4ffa465ec338', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.previewRow.AGENCY_NAME, documentNumber: this.previewRow.DOC_NUMBER, fromDate: this.fromDate, toDate: this.toDate }))), h("div", { key: 'a18071fc65d4c412aca249c9f950c53d1a2afd17', class: "table--container" }, h("table", { key: 'd9ac67af8d13397d5d90d12ee2fc31ca63ff883d', class: "table data-table" }, h("thead", { key: 'cd6f41046dba915dcc26c0c145cd3a32c333ede0' }, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
+        return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table data-table" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'fiscal-table__heading--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(header.column.id),
                 'fiscal-table__heading--actions': header.column.id === 'actions',
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", { key: '9a0ff5b77ce78dd9c73f846a9862dde110d2874a' }, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'fiscal-table__cell': true,
                 'fiscal-table__cell--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", { key: 'af48edb9533a60bc9d22c159e3106f2b9712def3' }, h("td", { key: '17a1cc7a37824f01e33f4656036dc75b80b25e41', class: "empty-row", colSpan: this.columns.length }, this.isLoading ? (h("ir-spinner", null)) : this.hasDates ? ('No fiscal documents match the current filters.') : ('Please select a From and To date to view fiscal documents.')))))))));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.'))))))));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }
@@ -198,7 +209,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocument[]",
-                    "resolved": "FiscalDocument[]",
+                    "resolved": "{ AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; }[]",
                     "references": {
                         "FiscalDocument": {
                             "location": "import",
@@ -418,13 +429,67 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "attribute": "to-date",
                 "reflect": false,
                 "defaultValue": "null"
+            },
+            "hasFetched": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "has-fetched",
+                "reflect": false,
+                "defaultValue": "false"
             }
         };
     }
-    static get states() {
-        return {
-            "previewRow": {}
-        };
+    static get events() {
+        return [{
+                "method": "clFiscalDocumentPreview",
+                "name": "clFiscalDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "ClFiscalDocumentPreviewRequest",
+                    "resolved": "ClFiscalDocumentPreviewRequest",
+                    "references": {
+                        "ClFiscalDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "../ir-cl-fiscal-document-preview/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                        }
+                    }
+                }
+            }, {
+                "method": "fetchRequested",
+                "name": "fetchRequested",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
     }
 }
 //# sourceMappingURL=ir-city-ledger-fiscal-documents-table.js.map

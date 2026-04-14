@@ -7,7 +7,7 @@ import { d as defineCustomElement$3 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
-const irCityLedgerFolioFiltersCss = ".sc-ir-city-ledger-folio-filters-h{display:block}.filters-bar.sc-ir-city-ledger-folio-filters{display:flex;align-items:stretch;border-radius:0.625rem;gap:0.5rem}.filters-bar__section.sc-ir-city-ledger-folio-filters{display:flex;align-items:center}.filters-bar__section--dates.sc-ir-city-ledger-folio-filters{gap:0.125rem;padding-inline:0.75rem 0.375rem;flex-shrink:0}.filters-bar__cal-icon.sc-ir-city-ledger-folio-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0;margin-inline-end:0.25rem}.filters-bar__date-picker.sc-ir-city-ledger-folio-filters::part(input-base){border:none !important;border-radius:0 !important;background:transparent !important;box-shadow:none !important;padding-inline:0.25rem;height:2rem;min-width:82px;font-size:0.8125rem}.filters-bar__date-picker--from.sc-ir-city-ledger-folio-filters{z-index:2}.filters-bar__date-picker--to[open].sc-ir-city-ledger-folio-filters{z-index:3}.filters-bar__quick-actions.sc-ir-city-ledger-folio-filters{display:flex;flex-direction:column;gap:0.5rem;padding-inline-start:1rem}.filters-bar__quick-action-btn.sc-ir-city-ledger-folio-filters{font-size:0.8125rem}.filters-bar__date-arrow.sc-ir-city-ledger-folio-filters{color:var(--wa-color-text-quiet, #9ca3af);font-size:0.75rem;user-select:none;flex-shrink:0;padding-inline:0.125rem}.filters-bar__section--status.sc-ir-city-ledger-folio-filters{gap:0.125rem;padding-inline:0.5rem;flex-shrink:0}.filters-bar__pill.sc-ir-city-ledger-folio-filters{display:inline-flex;align-items:center;padding:0.25rem 0.625rem;border:none;background:transparent;border-radius:0.375rem;font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);cursor:pointer;white-space:nowrap;transition:background 0.1s ease,\n    color 0.1s ease;line-height:1;font-family:inherit}.filters-bar__pill--active.sc-ir-city-ledger-folio-filters{background:var(--wa-color-neutral-fill-quiet, #f3f4f6);color:var(--wa-color-text-normal, #111827)}.filters-bar__pill.sc-ir-city-ledger-folio-filters:hover:not(.filters-bar__pill--active){background:var(--wa-color-neutral-fill-quiet, #f9fafb);color:var(--wa-color-text-normal, #374151)}.filters-bar__section--search.sc-ir-city-ledger-folio-filters{flex:1;min-width:0;gap:0.5rem;padding-inline:0.75rem}.filters-bar__search-icon.sc-ir-city-ledger-folio-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}.filters-bar__search-input.sc-ir-city-ledger-folio-filters{flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:0.8125rem;color:var(--wa-color-text-normal, #111827);font-family:inherit;height:2rem;-webkit-appearance:none;appearance:none}.filters-bar__search-input.sc-ir-city-ledger-folio-filters::placeholder{color:var(--wa-color-text-quiet, #9ca3af)}.filters-bar__search-input.sc-ir-city-ledger-folio-filters::-webkit-search-cancel-button{display:none}.filters-bar__icon-btn.sc-ir-city-ledger-folio-filters{display:inline-flex;align-items:center;justify-content:center;width:1.375rem;height:1.375rem;border:none;background:transparent;border-radius:50%;color:var(--wa-color-text-quiet, #9ca3af);cursor:pointer;padding:0;flex-shrink:0;transition:background 0.1s ease,\n    color 0.1s ease;font-size:0.6875rem;font-family:inherit}.filters-bar__icon-btn.sc-ir-city-ledger-folio-filters:hover{background:var(--wa-color-neutral-fill-quiet, #f3f4f6);color:var(--wa-color-text-normal, #374151)}.filters-bar__section--export.sc-ir-city-ledger-folio-filters{padding-inline:0.375rem;flex-shrink:0}.filters-bar__export-btn.sc-ir-city-ledger-folio-filters{display:inline-flex;align-items:center;gap:0.375rem;padding:0.375rem 0.625rem;border:none;background:transparent;border-radius:0.375rem;font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);cursor:pointer;white-space:nowrap;transition:background 0.1s ease,\n    color 0.1s ease;font-family:inherit;height:calc(100% - 0.5rem);align-self:center}.filters-bar__export-btn.sc-ir-city-ledger-folio-filters:hover{background:var(--wa-color-neutral-fill-quiet, #f3f4f6);color:var(--wa-color-text-normal, #374151)}.filters-bar__export-chevron.sc-ir-city-ledger-folio-filters{font-size:0.6875rem;opacity:0.6}@media (max-width: 767px){.filters-bar.sc-ir-city-ledger-folio-filters{flex-direction:column;align-items:stretch}.filters-bar__sep.sc-ir-city-ledger-folio-filters{width:100%;height:1px;align-self:auto}.filters-bar__section.sc-ir-city-ledger-folio-filters{padding-inline:0.875rem;min-height:2.5rem}.filters-bar__section--status.sc-ir-city-ledger-folio-filters{flex-wrap:wrap;padding-block:0.375rem}.filters-bar__section--search.sc-ir-city-ledger-folio-filters{padding-inline:0.875rem}.filters-bar__section--export.sc-ir-city-ledger-folio-filters{padding-inline:0.875rem;padding-block:0.375rem}.filters-bar__export-btn.sc-ir-city-ledger-folio-filters{height:auto;padding-block:0.375rem}.filters-bar__date-picker.sc-ir-city-ledger-folio-filters::part(input-base){min-width:70px}}";
+const irCityLedgerFolioFiltersCss = ".sc-ir-city-ledger-folio-filters-h{display:block}.filters-bar.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem}.filters-bar__dates.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;flex-shrink:0;min-width:280px}.filters-bar__date_picker.sc-ir-city-ledger-folio-filters{width:100%}.filters-bar__search-group.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;gap:0.5rem;flex:1;min-width:0}.filters-bar__status-select.sc-ir-city-ledger-folio-filters{flex-shrink:0;min-width:130px}.filters-bar__search-input.sc-ir-city-ledger-folio-filters{flex:1;min-width:0;max-width:400px}.filters-bar__search-icon.sc-ir-city-ledger-folio-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}.filters-bar__actions.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;gap:0.5rem;flex-shrink:0}@media (max-width: 767px){.filters-bar.sc-ir-city-ledger-folio-filters{flex-direction:column;align-items:stretch;gap:0.625rem}.filters-bar__dates.sc-ir-city-ledger-folio-filters{width:100%;min-width:0}.filters-bar__search-group.sc-ir-city-ledger-folio-filters{width:100}.filters-bar__status-select.sc-ir-city-ledger-folio-filters{min-width:110px;flex-shrink:0}.filters-bar__actions.sc-ir-city-ledger-folio-filters{width:100%;justify-content:flex-end}}";
 const IrCityLedgerFolioFiltersStyle0 = irCityLedgerFolioFiltersCss;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
@@ -26,15 +26,17 @@ const IrCityLedgerFolioFilters = /*@__PURE__*/ proxyCustomElement(class IrCityLe
         this.__registerHost();
         this.filtersChange = createEvent(this, "filtersChange", 7);
         this.addEntry = createEvent(this, "addEntry", 7);
+        this.applyFilters = createEvent(this, "applyFilters", 7);
     }
     dates = {
-        from: hooks().subtract(30, 'days'),
-        to: hooks(),
+        from: undefined,
+        to: undefined,
     };
     statusFilter = 'all';
     searchQuery = '';
     filtersChange;
     addEntry;
+    applyFilters;
     componentDidLoad() {
         this.emitFilters();
     }
@@ -44,12 +46,10 @@ const IrCityLedgerFolioFilters = /*@__PURE__*/ proxyCustomElement(class IrCityLe
         { value: 'held', label: 'Held' },
         { value: 'unbilled', label: 'Unbilled' },
     ];
-    toDateSelectRef;
-    fromDateSelectRef;
     emitFilters() {
         this.filtersChange.emit({
-            fromDate: this.dates?.from?.format('YYYY-MM-DD'),
-            toDate: this.dates?.to?.format('YYYY-MM-DD'),
+            fromDate: this.dates.from?.format('YYYY-MM-DD'),
+            toDate: this.dates.to?.format('YYYY-MM-DD'),
             status: this.statusFilter,
             search: this.searchQuery,
         });
@@ -58,27 +58,28 @@ const IrCityLedgerFolioFilters = /*@__PURE__*/ proxyCustomElement(class IrCityLe
         this.emitFilters();
     }
     render() {
-        return (h(Host, { key: '26844a6c2bb33b92b869ee67fc3830fe74b93b1d' }, h("div", { key: 'd2cbeca8ba947fa46c59d8537cf8a222dde0555e', class: "filters-bar" }, h("ir-date-range-filter", { key: '1681bc1561249e99815441f4ee360c21b89fb47a', fromDate: this.dates.from?.format('YYYY-MM-DD'), toDate: this.dates.to?.format('YYYY-MM-DD'), onDatesChanged: e => {
-                let newDates = {};
-                let dates = e.detail;
-                if (dates.from) {
-                    newDates = { ...newDates, from: hooks(dates.from, 'YYYY-MM-DD') };
-                }
-                if (dates.to) {
-                    newDates = { ...newDates, to: hooks(dates.to, 'YYYY-MM-DD') };
-                }
-                this.dates = { ...this.dates, ...newDates };
+        return (h(Host, { key: '068b5e8c4389a748117278499c80f856d2d5efeb' }, h("div", { key: '518207f7affc4ff1be6bcf024e6b0a563479dcde', class: "filters-bar" }, h("div", { key: 'd3c6bd7b7c8c970ca893d8fd54ef333cee1e7a46', class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '0dc2d9f39b13d8890ca1a4bcb95aaba0e01d72bc', maxDate: hooks().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+                const { from, to } = e.detail;
+                this.dates = {
+                    from: from ? hooks(from, 'YYYY-MM-DD') : null,
+                    to: to ? hooks(to, 'YYYY-MM-DD') : null,
+                };
                 this.emitFilters();
-            }, style: { minWidth: '230px' } }), h("wa-select", { key: '019646eac6edd2a1eadb61c9ad8bc4fa843aebe9', value: this.statusFilter, onchange: e => {
+            } })), h("div", { key: '87f0cc652d8362d9e3d8bc78d5e3d32750f139d2', class: "filters-bar__search-group" }, h("wa-select", { key: '862aeeb3df828cf692bf9cab49cc98e3c720336d', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '2959e59e0bab63af8470d8509e18606d470611f0', "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '949f69496381c0c016864cd0c88fde5c5c4b072e', class: "filters-bar__search-input", "onText-change": e => {
                 this.searchQuery = e.detail;
                 this.emitFiltersDebounced();
-            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true, style: { minWidth: '250px' } }, h("wa-icon", { key: '64ebb61844f2470b2c0bc7c98f8805309b671d4b', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("wa-dropdown", { key: '2a1a55f9f6a432edcb444be808ccb470a6eedc9f' }, h("ir-custom-button", { key: '855d5b3069ddae7e7be7834f26e4621388085055', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: '135d92a55081860426ace4525d49ecc54f3c9e4d', name: "download", slot: "start" }), h("span", { key: 'a2c7f628e08b553830893c8a2f56531b7d519f1d' }, "Export")), h("wa-dropdown-item", { key: '2709e424482886a1492fc97b16282a06f9c22228', value: "csv" }, h("wa-icon", { key: '1ea879ac30eeac775bf3030e0df700ae75728d2d', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: '99f6e415abecc979cf78e511a9fa22f8f736e43f', value: "pdf" }, h("wa-icon", { key: 'cce65efb5c2561b275a7848f207e107b5a5d78d9', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: 'e8c1b4e85b3ecca3e71d98653880df13dc176c89' }), h("wa-dropdown-item", { key: '0347e1108f22304f002fdcfe8ece1de3957490c3', value: "print" }, h("wa-icon", { key: 'f79f86f4c2f797eb27e17cd42d018ac772b00632', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: '6d1b216f52a004aa3d9cd49a0d236c878c85e7ab', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry"))));
+            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '4edacf2122f7feaaa7ba18da286c40055b4aba62', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '34b3eb1ff52121b558516100d2b72d8c407560e2', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit({
+                fromDate: this.dates.from?.format('YYYY-MM-DD'),
+                toDate: this.dates.to?.format('YYYY-MM-DD'),
+                status: this.statusFilter,
+                search: this.searchQuery,
+            }) }, h("wa-icon", { key: '760f1e7e9f1438e0a4b26fe5359121aa7a0a2a42', name: "magnifying-glass" }))), h("div", { key: '6e0cde9e968be15b0af950b0a7606e7dae16c292', class: "filters-bar__actions" }, h("wa-dropdown", { key: '681b5f43fe338d9f0c7ce389c9cd74d6e7945aec' }, h("ir-custom-button", { key: '35b59ff162043bf4110ad206f4016d5af86e7917', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: 'f2ea556356248247cf2b19c496cdddf11713686d', name: "download", slot: "start" }), h("span", { key: '8971be882246da231ac4490e295321bf8b88bfc0' }, "Export")), h("wa-dropdown-item", { key: '4dadc29d9fb559aa1f02fd30a0fc64eaeff119c5', value: "csv" }, h("wa-icon", { key: '1ea1398fc81dc42e3502b36bfd311ecb8f031978', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: '7f86efd0644c1690a7eaf43fa55f2b7b301758d4', value: "pdf" }, h("wa-icon", { key: '180fc2719385409b59428587252599b0610ec94e', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: '585d960deaf716178f8a76835c2c9ec95dbe8b6d' }), h("wa-dropdown-item", { key: '3147803db2601fc6962f6b9fc7a2b5dc610017c6', value: "print" }, h("wa-icon", { key: '7b7e9542c53ef8cb3a0fdf4a67d13bddbd05ffd4', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: '43f15ff2de9052f103c6b694bdc816257ee3652c', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
     static get style() { return IrCityLedgerFolioFiltersStyle0; }
 }, [2, "ir-city-ledger-folio-filters", {

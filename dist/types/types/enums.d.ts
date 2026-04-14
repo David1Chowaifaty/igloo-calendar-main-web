@@ -1,0 +1,37 @@
+export declare const ClTxTypeCode: {
+    readonly Payment: "PAY";
+    readonly OpeningBalance: "OB";
+    readonly Adjustment: "ADJ";
+    readonly CreditNote: "CN";
+    readonly DebitNote: "DN";
+    readonly StandardChargeDebit: "DB";
+};
+export declare const FdTypes: {
+    readonly Draft: "DFT";
+    readonly Invoice: "INV";
+    readonly CreditNote: "CN";
+    readonly DebitNote: "DN";
+    readonly Receipt: "REC";
+};
+export declare const PayMethodCode: {
+    readonly Cash: "001";
+    readonly OTAVirtualCard: "002";
+    readonly Online: "003";
+    readonly ManualCard: "004";
+    readonly MoneyTransfer: "005";
+    readonly BankDeposit: "006";
+    readonly BankTransfer: "007";
+    readonly BankCheck: "008";
+    readonly BankCash: "009";
+};
+export declare const VatIncludedCodes: {
+    readonly NotApplicable: "002";
+    readonly Inclusive: "001";
+    readonly Exclusive: "000";
+};
+export declare const FdStatus: {
+    readonly Sent: "SENT";
+    readonly Viewed: "VIEWED";
+    readonly Paid: "PAID";
+    readonly Partial: "PARTIAL";
+};

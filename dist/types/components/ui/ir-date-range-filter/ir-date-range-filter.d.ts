@@ -9,28 +9,56 @@ export interface QuickDatePreset {
     getDate: () => Moment;
 }
 export declare class IrDateRangeFilter {
-    /** Quick date preset buttons */
+    /** Configurable quick-date preset buttons shown alongside each calendar. */
     quickDates: QuickDatePreset[];
-    /** Controlled start date (YYYY-MM-DD) */
+    /** Controlled start date in YYYY-MM-DD format. */
     fromDate?: string;
-    /** Controlled end date (YYYY-MM-DD) */
+    /** Controlled end date in YYYY-MM-DD format. */
     toDate?: string;
+    /** Size variant passed through to inner form controls. */
     size: string;
-    /** Show quick action buttons */
+    /** Whether to show the quick-action preset buttons in each calendar popup. */
     showQuickActions: boolean;
+    /** Earliest selectable date in YYYY-MM-DD format. */
+    minDate?: string;
+    /** Latest selectable date in YYYY-MM-DD format. */
+    maxDate?: string;
     dates: DateRange;
     liveMessage: string;
+    /** Fired whenever either date changes. Payload contains ISO date strings or null. */
     datesChanged: EventEmitter<{
         from: string | null;
         to: string | null;
     }>;
+    /** Fired when the user explicitly clears a date field. */
+    dateCleared: EventEmitter<{
+        field: 'from' | 'to';
+    }>;
     private groupId;
-    toDateSelectRef: HTMLIrDateSelectElement;
-    fromDateSelectRef: HTMLIrDateSelectElement;
+    private toDateSelectRef;
+    private fromDateSelectRef;
+    private hasControlledFromDate;
+    private hasControlledToDate;
     componentWillLoad(): void;
-    onFromDateChange(newValue: string): void;
-    onToDateChange(newValue: string): void;
+    onFromDateChange(newValue?: string | null): void;
+    onToDateChange(newValue?: string | null): void;
+    /** Updates one side of the date range and emits the change. */
     private selectDate;
+    /** Clears one side of the date range. */
+    private clearDate;
+    private syncInitialDates;
+    private syncControlledDates;
+    private parseDate;
     private emitChange;
+    /**
+     * Caps the from-picker's max date at the to-date (or the global maxDate),
+     * whichever is earlier.
+     */
+    private getFromMaxDate;
+    /**
+     * Floors the to-picker's min date at the from-date (or the global minDate),
+     * whichever is later.
+     */
+    private getToMinDate;
     render(): any;
 }

@@ -8,6 +8,10 @@
   gap: 0.75rem;
 }
 
+.create-invoice-dialog__no-results {
+  margin: 0;
+}
+
 .create-invoice-dialog__error {
   margin: 0;
   font-size: 0.8125rem;

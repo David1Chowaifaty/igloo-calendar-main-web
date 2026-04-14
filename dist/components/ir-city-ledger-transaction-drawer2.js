@@ -1,6 +1,11 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$8 } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$7 } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$d } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$c } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$b } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$a } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$9 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$8 } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$7 } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-drawer2.js';
@@ -27,7 +32,7 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
-    currencySymbol = '$';
+    saveDisabled = false;
     closeDrawer;
     transactionSaved;
     stopEventPropagation(event) {
@@ -35,15 +40,26 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: 'cc55b5fa56a970bbc134174468af8faf889eb86b', open: this.open, label: this.drawerLabel, onDrawerHide: event => {
+        return (h("ir-drawer", { key: '2e0f505c09aab4f6026bc1c3c878842281c3b613', open: this.open, style: {
+                '--ir-drawer-width': '40rem',
+                '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
+                '--ir-drawer-padding-left': 'var(--spacing)',
+                '--ir-drawer-padding-right': 'var(--spacing)',
+                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-bottom': 'var(--spacing)',
+            }, label: this.drawerLabel, onDrawerHide: event => {
                 this.stopEventPropagation(event);
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '464b94ac0fa6c86d9e7ab343cbdf2b88eb35e5ec', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencySymbol: this.currencySymbol, onTransactionSaved: () => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: 'd4111c655ae40f14e45a169f6f4346d31406121f', formId: this.formId, agentId: this.agentId, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, onTransactionSaved: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
-            } })), h("div", { key: '2b83358f8ffd4d084c28a10658d289fba14c591a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '79e7938f5c19bbe48e950a2234425d276278d885', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'db47199428405c6f204091a39d84c81fdda06701', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn" }, "Save"))));
+            }, onSubmitDisabledChange: (e) => {
+                this.saveDisabled = e.detail;
+            } })), h("div", { key: 'c5cb35dd1ab6f7ec0ae5bf127cb4ccc6f77baaad', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '25f17079555753d6815dd2196e248ae2a5654fd5', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'b38e903be7862a3e4925ac5488d55220ab2507d8', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
     }
     static get style() { return IrCityLedgerTransactionDrawerStyle0; }
 }, [2, "ir-city-ledger-transaction-drawer", {
@@ -56,13 +72,13 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         "unpaidInvoiceOptions": [16],
         "bookingOptions": [16],
         "serviceCategoryOptions": [16],
-        "currencySymbol": [1, "currency-symbol"]
+        "saveDisabled": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-drawer", "ir-air-date-picker", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-drawer", "ir-air-date-picker", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
@@ -71,10 +87,35 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$d();
             }
             break;
         case "ir-city-ledger-transaction-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$c();
+            }
+            break;
+        case "ir-cl-adjustment-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$b();
+            }
+            break;
+        case "ir-cl-credit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-cl-opening-balance-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

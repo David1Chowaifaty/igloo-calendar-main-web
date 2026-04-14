@@ -1,3 +1,5 @@
+import { EventEmitter } from '../../../../stencil-public-runtime';
+import type { ClFiscalDocumentPreviewRequest } from '../ir-cl-fiscal-document-preview/types';
 import { type FiscalDocument } from '../../../../services/city-ledger';
 import type { ICurrency } from "../../../../models/property";
 export declare class IrCityLedgerFiscalDocumentsTable {
@@ -12,10 +14,11 @@ export declare class IrCityLedgerFiscalDocumentsTable {
     agentId: number | null;
     fromDate: string | null;
     toDate: string | null;
-    private previewRow;
+    hasFetched: boolean;
+    clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
+    fetchRequested: EventEmitter<void>;
     private columnHelper;
     private cityLedgerService;
-    private previewDialogRef;
     private getStatusVariant;
     private handleAction;
     private get columns();

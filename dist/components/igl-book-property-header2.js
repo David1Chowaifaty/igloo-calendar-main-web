@@ -5,9 +5,9 @@ import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { B as BookingService, b as booking_store, s as setBookingDraft } from './booking.store.js';
 import { z } from './index2.js';
-import { d as defineCustomElement$7 } from './igl-date-range2.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-custom-date-range2.js';
+import { d as defineCustomElement$5 } from './ir-date-range2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-picker2.js';
 import { d as defineCustomElement$2 } from './ir-picker-item2.js';
@@ -188,7 +188,7 @@ const IglBookPropertyHeader = /*@__PURE__*/ proxyCustomElement(class IglBookProp
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '3a59b12c4b2144e3419743b4d2c7040da1b32a3f' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: 'c3bd11e889fcbdefd21157be0a086580a83c22d4', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("igl-date-range", { key: 'f065663c42ac0ff0c54956172de25675543e9d2c', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '01d5c6ce88495b70573bdccab24808e0d2e61cd6', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '14dfade77080fdc52216f6f109a6ba473f9684ec', class: "text-right message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: 'ee654ae3bbc73267d9f15fc44548462d89cc515c' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: 'ea6fb0c05aef67ccd12b07268c5f07429d55f8ce', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("ir-date-range", { key: '07804a482fd8ecf49da5e55fadc81ea5378f80a1', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '2f4cbb03f0aa98dd437afca3b83610ae8a46707e', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '8621cbb6436d954bfaaa51f660223eb29dea8a7d', class: "text-right message-label" }, calendar_data.tax_statement)));
     }
     static get style() { return IglBookPropertyHeaderStyle0; }
 }, [2, "igl-book-property-header", {
@@ -213,24 +213,24 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-header", "igl-date-range", "ir-custom-button", "ir-custom-date-range", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
+    const components = ["igl-book-property-header", "ir-custom-button", "ir-custom-date-range", "ir-date-range", "ir-input", "ir-picker", "ir-picker-item", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-header":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglBookPropertyHeader);
             }
             break;
-        case "igl-date-range":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-button":
+        case "ir-custom-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-range":
+        case "ir-date-range":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

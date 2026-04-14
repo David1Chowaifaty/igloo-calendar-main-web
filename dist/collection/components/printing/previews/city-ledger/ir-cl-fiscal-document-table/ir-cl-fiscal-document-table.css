@@ -1,0 +1,129 @@
+:host {
+  display: block;
+}
+
+/* ─── Line items ────────────────────────────────────────────────────────── */
+
+.invoice-items {
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.invoice-items__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  table-layout: auto;
+}
+
+.invoice-items__th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.invoice-items__th--num {
+  text-align: right;
+}
+
+.invoice-items__th--nowrap {
+  white-space: nowrap;
+}
+
+.invoice-items__row:hover {
+  background: #f9fafb;
+}
+
+.invoice-items__td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.invoice-items__td--date {
+  color: #6b7280;
+}
+
+.invoice-items__td--desc-cell {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.invoice-items__td--pct {
+  color: #6b7280;
+}
+
+.invoice-items__td--num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.invoice-items__td--num-primary,
+.invoice-items__th--num-primary {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #111827;
+}
+
+.invoice-items__empty {
+  padding: 2rem;
+  text-align: center;
+  color: #9ca3af;
+}
+
+/* ─── Grouping header rows ──────────────────────────────────────────────── */
+
+.invoice-items__booking-row td {
+  padding: 0.5rem 0.75rem;
+  background: #f3f4f6;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.invoice-items__unit-row td {
+  padding: 0.375rem 0.75rem 0.375rem 1.75rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* ─── Indented data rows ────────────────────────────────────────────────── */
+
+.invoice-items__row--indent-1 td:first-child {
+  padding-left: 1.75rem;
+}
+
+.invoice-items__row--indent-2 td:first-child {
+  padding-left: 3rem;
+}
+
+@media print {
+  .invoice-items {
+    overflow-x: visible;
+  }
+
+  .invoice-items__table {
+    font-size: 0.75rem;
+  }
+
+  .invoice-items__th,
+  .invoice-items__td {
+    padding: 0.35rem 0.5rem;
+  }
+}

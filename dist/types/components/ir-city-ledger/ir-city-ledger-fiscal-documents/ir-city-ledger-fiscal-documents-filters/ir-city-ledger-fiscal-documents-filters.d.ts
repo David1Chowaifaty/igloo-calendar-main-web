@@ -3,6 +3,7 @@ import type { FiscalDocumentFilters } from '../types';
 export declare class IrCityLedgerFiscalDocumentsFilters {
     filters: FiscalDocumentFilters;
     filtersChange: EventEmitter<FiscalDocumentFilters>;
+    applyFilters: EventEmitter<FiscalDocumentFilters>;
     private typeOptions;
     private updateFilters;
     render(): any;

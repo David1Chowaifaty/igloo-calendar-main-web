@@ -2,9 +2,15 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { C as CityLedgerService } from './index6.js';
 import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$9 } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$8 } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$7 } from './ir-city-ledger-transaction-form2.js';
+import { c as calendar_data } from './calendar-data.js';
+import { d as defineCustomElement$e } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$d } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$c } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$b } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$a } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$9 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$8 } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$7 } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-drawer2.js';
@@ -12,7 +18,7 @@ import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;--ir-cell-padding:0.4rem 0.75rem}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem;font-weight:600}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem}.booking-city-ledger__empty.sc-ir-booking-city-ledger,.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem 0;text-align:center;font-size:0.875rem;color:var(--wa-color-neutral-500, #6b7280)}.booking-city-ledger__error.sc-ir-booking-city-ledger{color:var(--wa-color-danger-600, #dc2626)}.booking-city-ledger__table-wrap.sc-ir-booking-city-ledger{max-width:700px;margin:0 calc(var(--wa-card-padding, 1rem) * -1);margin-bottom:calc(var(--wa-card-padding, 1rem) * -1)}.text-right.sc-ir-booking-city-ledger{text-align:right !important}.booking-city-ledger__cell-date.sc-ir-booking-city-ledger{white-space:nowrap;font-variant-numeric:tabular-nums}";
+const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;--ir-cell-padding:0.4rem 0.75rem}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem;font-weight:600}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem}.booking-city-ledger__empty.sc-ir-booking-city-ledger,.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem 0;text-align:center;font-size:0.875rem;color:var(--wa-color-neutral-500, #6b7280)}.booking-city-ledger__error.sc-ir-booking-city-ledger{color:var(--wa-color-danger-600, #dc2626)}.booking-city-ledger__table-wrap.sc-ir-booking-city-ledger{max-width:700px;margin:0 calc(var(--wa-card-padding, 1rem) * -1);margin-bottom:calc(var(--wa-card-padding, 1rem) * -1)}.text-right.sc-ir-booking-city-ledger{text-align:right !important}.is-debit.sc-ir-booking-city-ledger{color:var(--wa-color-danger-fill-loud) !important;font-weight:700}.is-credit.sc-ir-booking-city-ledger{color:var(--wa-color-success-fill-loud) !important;font-weight:700}.booking-city-ledger__cell-date.sc-ir-booking-city-ledger{white-space:nowrap;font-variant-numeric:tabular-nums}";
 const IrBookingCityLedgerStyle0 = irBookingCityLedgerCss;
 
 const tableCss = ".sc-ir-booking-city-ledger-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-booking-city-ledger{overflow-x:auto}.table.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-booking-city-ledger tbody.sc-ir-booking-city-ledger tr.sc-ir-booking-city-ledger:last-child>td.sc-ir-booking-city-ledger{border-bottom:0 !important}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sc-ir-booking-city-ledger{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sc-ir-booking-city-ledger{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-booking-city-ledger .empty-row.sc-ir-booking-city-ledger{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-booking-city-ledger{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-booking-city-ledger,.ir-table-row.sc-ir-booking-city-ledger{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-booking-city-ledger{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{transition-duration:var(--wa-transition-fast)}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-booking-city-ledger:active td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-booking-city-ledger:active td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-booking-city-ledger:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-booking-city-ledger svg.sc-ir-booking-city-ledger{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-booking-city-ledger{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-booking-city-ledger,.data-table.sc-ir-booking-city-ledger{height:100%}";
@@ -28,8 +34,6 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
     booking;
     /** Active language code. */
     language = 'en';
-    /** Currency symbol used in the transaction drawer. */
-    currencySymbol = '$';
     /** Service-category entries used to populate the transaction form. */
     svcCategories = [];
     isLoading = false;
@@ -85,19 +89,19 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
     formatAmount(value) {
         if (!value)
             return '—';
-        return `${this.currencySymbol}${value.toFixed(2)}`;
+        return `${calendar_data.property?.currency?.symbol}${value.toFixed(2)}`;
     }
     renderTable() {
         if (this.folioRows.length === 0) {
             return h("p", { class: "booking-city-ledger__empty" }, "No city ledger entries for this period.");
         }
-        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Debit"), h("th", { class: "text-right" }, "Credit"))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, hooks(row.serviceDate).format('MMM DD, YYYY')), h("td", null, row.description || '—'), h("td", { class: "text-right" }, row.debit ? this.formatAmount(row.debit) : '—'), h("td", { class: "text-right" }, row.credit ? this.formatAmount(row.credit) : '—'))))))));
+        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Debit"), h("th", { class: "text-right" }, "Credit"))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, hooks(row.serviceDate).format('MMM DD, YYYY')), h("td", null, row.description || '—'), h("td", { class: "text-right is-debit" }, row.debit ? this.formatAmount(row.debit) : '—'), h("td", { class: "text-right is-credit" }, row.credit ? this.formatAmount(row.credit) : '—'))))))));
     }
     render() {
         if (!this.booking?.agent) {
             return h(Host, null);
         }
-        return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " City Ledger")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => (this.drawerOpen = true) }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: "New Folio Entry", agentId: this.booking.agent.id, currencySymbol: this.currencySymbol, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => (this.drawerOpen = false), onTransactionSaved: async () => {
+        return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " Agent Folio")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => (this.drawerOpen = true) }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: "New Folio Entry", agentId: this.booking.agent.id, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => (this.drawerOpen = false), onTransactionSaved: async () => {
                 this.drawerOpen = false;
                 await this.fetchCityLedger();
             } })));
@@ -109,7 +113,6 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
 }, [2, "ir-booking-city-ledger", {
         "booking": [16],
         "language": [1],
-        "currencySymbol": [1, "currency-symbol"],
         "svcCategories": [16],
         "isLoading": [32],
         "folioRows": [32],
@@ -122,7 +125,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
@@ -131,15 +134,40 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$e();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$d();
             }
             break;
         case "ir-city-ledger-transaction-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$c();
+            }
+            break;
+        case "ir-cl-adjustment-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$b();
+            }
+            break;
+        case "ir-cl-credit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-cl-opening-balance-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

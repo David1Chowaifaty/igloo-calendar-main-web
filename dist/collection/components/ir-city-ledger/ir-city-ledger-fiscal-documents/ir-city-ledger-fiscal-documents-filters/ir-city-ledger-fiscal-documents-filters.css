@@ -16,7 +16,7 @@
   width: 100%;
 }
 .fiscal-filters__dates {
-  min-width: 230px;
+  min-width: 280px;
 }
 /*sm*/
 @media (min-width: 640px) {

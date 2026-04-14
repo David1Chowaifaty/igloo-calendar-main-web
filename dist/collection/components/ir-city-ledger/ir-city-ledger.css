@@ -35,10 +35,19 @@
   color: var(--wa-color-text-quiet, #6b7280);
 }
 
-.city-ledger__no-agent-icon {
-  font-size: 2.5rem;
-  opacity: 0.25;
-  margin-bottom: 0.25rem;
+/* .city-ledger__no-agent-icon {
+} */
+.city-ledger__no-agent-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.875rem;
+  background: var(--wa-color-brand-fill-quiet, #eff6ff);
+  color: var(--wa-color-brand-fill-loud, #2563eb);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .city-ledger__no-agent-title {

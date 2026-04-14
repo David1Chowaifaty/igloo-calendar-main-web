@@ -16,7 +16,6 @@ export declare class IglHkIssuesDialog {
     handleIssuesChange(newIssues: HKIssue[] | null): void;
     private toggleIssue;
     private handleResolve;
-    private getInitials;
     private renderTicket;
     private renderContent;
     render(): any;

@@ -1,13 +1,4 @@
 :host {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  flex-direction: column;
-  box-sizing: border-box;
-  color: var(--wa-color-neutral-60);
-}
-:host {
   box-sizing: border-box !important;
 }
 
@@ -18,9 +9,36 @@
   padding: 0;
   margin: 0;
 }
+
+[hidden] {
+  display: none !important;
+}
+
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
+  align-items: center;
+}
 ::slotted([slot='icon']) {
   font-size: 2rem;
 }
-[hidden] {
-  display: none !important;
+.icon_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.875rem;
+  background: var(--wa-color-brand-fill-quiet, #eff6ff);
+  color: var(--wa-color-brand-fill-loud, #2563eb);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.message {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--wa-color-text-normal, #111827);
 }

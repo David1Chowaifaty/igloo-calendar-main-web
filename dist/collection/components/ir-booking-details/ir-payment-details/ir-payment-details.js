@@ -116,7 +116,7 @@ export class IrPaymentDetails {
             });
             return;
         }
-        const _number = await this.bookingService.getNextValue({ starter: 'RC' });
+        const _number = await this.bookingService.getNextValue({ starter: `RC-${calendar_data.property.aname}` });
         this.openPrintScreen.emit({
             mode: 'receipt',
             payload: {
@@ -213,8 +213,8 @@ export class IrPaymentDetails {
                 } }, `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
-            h("ir-payments-folio", { payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
-            h("ir-booking-city-ledger", { booking: this.booking, language: this.language, currencySymbol: calendar_data?.property?.currency?.symbol, svcCategories: this.svcCategories }),
+            h("ir-payments-folio", { booking: this.booking, payments: financial.payments || [], onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
+            h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
                     e.stopPropagation();

@@ -2,185 +2,68 @@ import { formatAmount } from "../../../../utils/utils";
 import { flexRender, useTable } from "../../../../utils/useTable";
 import { Fragment, Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getExpandedRowModel, getGroupedRowModel, getSortedRowModel } from "@tanstack/table-core";
-import { v4 } from "uuid";
 import moment from "moment";
-import { CityLedgerService } from "../../../../services/city-ledger/index";
-import { mapClTxToFolioRow } from "../types";
-import calendar_data from "../../../../stores/calendar-data";
 const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
 const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
 export class IrCityLedgerFolioTable {
     // ─── Props ───────────────────────────────────────────────────────────────
     agentId = null;
-    propertyId;
-    currencySymbol = '$';
-    currencies = [];
-    filters = {};
-    // ─── State ───────────────────────────────────────────────────────────────
-    tableState = {};
     data = [];
     isLoading = false;
     startingBalance = 0;
-    selectedRowIds = new Set();
-    holdTargetRow = null;
+    closingBalance = 0;
     totalCount = 0;
     pageIndex = 0;
     pageSize = 25;
-    closingBalance = 0;
+    fromDate = '';
+    toDate = '';
+    hasFetched = false;
+    currencySymbol = '$';
+    currencies = [];
+    // ─── State ───────────────────────────────────────────────────────────────
+    tableState = {};
+    selectedRowIds = new Set();
+    holdTargetRow = null;
     // ─── Events ──────────────────────────────────────────────────────────────
-    folioSummaryLoaded;
+    pageChange;
     generateInvoice;
+    fetchRequested;
     // ─── Private fields ──────────────────────────────────────────────────────
     columnHelper = createColumnHelper();
     pageSizes = [25, 50, 100];
-    cityLedgerService = new CityLedgerService();
     holdDialogRef;
-    // ─── Watchers ────────────────────────────────────────────────────────────
-    async handleAgentIdChange(newValue, oldValue) {
-        if (newValue === oldValue)
-            return;
-        this.clearData();
-        if (newValue && this.filters?.fromDate && this.filters?.toDate) {
-            await this.fetchFolioData();
-        }
-    }
-    async handleFiltersChange(newFilters) {
-        if (!this.agentId || !newFilters?.fromDate || !newFilters?.toDate)
-            return;
-        this.pageIndex = 0;
-        await this.fetchFolioData();
-    }
     // ─── Utilities ───────────────────────────────────────────────────────────
-    /** Single source of truth for date formatting throughout this component. */
     formatDate(date) {
         if (!date)
             return '';
         const m = moment(date, [DATE_INPUT_FORMAT, moment.ISO_8601], true);
         return m.isValid() ? m.format(DATE_DISPLAY_FORMAT) : date;
     }
-    clearData() {
-        this.data = [];
-        this.startingBalance = 0;
-        this.selectedRowIds = new Set();
-        this.pageIndex = 0;
-        this.totalCount = 0;
-        this.closingBalance = 0;
-    }
-    // ─── Data ─────────────────────────────────────────────────────────────────
-    sortFolioRows(rows) {
-        const roomRows = rows.filter(r => r.docNumber !== null);
-        const standaloneRows = rows.filter(r => r.docNumber === null);
-        // Group room rows by (bookingNumber, docNumber)
-        const groups = new Map();
-        for (const row of roomRows) {
-            const key = `${row.bookingNumber}__${row.docNumber}`;
-            if (!groups.has(key))
-                groups.set(key, []);
-            groups.get(key).push(row);
-        }
-        // Sort rows within each group by SERVICE_DATE ascending
-        for (const group of groups.values()) {
-            group.sort((a, b) => a.serviceDate.localeCompare(b.serviceDate));
-        }
-        // Build slots — each slot has an anchor date and its rows
-        const slots = [];
-        for (const row of standaloneRows) {
-            slots.push({ anchorDate: row.serviceDate, rows: [row] });
-        }
-        for (const group of groups.values()) {
-            slots.push({ anchorDate: group[0].serviceDate, rows: group });
-        }
-        slots.sort((a, b) => a.anchorDate.localeCompare(b.anchorDate));
-        return slots.flatMap(slot => slot.rows);
-    }
-    async fetchFolioData() {
-        try {
-            this.isLoading = true;
-            const startRow = this.pageIndex * this.pageSize;
-            const currencyId = calendar_data?.property?.currency?.id;
-            const statusParams = (() => {
-                switch (this.filters?.status) {
-                    case 'billed':
-                        return { IS_LOCKED: true, IS_HOLD: null };
-                    case 'held':
-                        return { IS_LOCKED: null, IS_HOLD: true };
-                    case 'unbilled':
-                        return { IS_LOCKED: false, IS_HOLD: false };
-                    default:
-                        return { IS_LOCKED: null, IS_HOLD: null };
-                }
-            })();
-            const [result, statement] = await Promise.all([
-                this.cityLedgerService.fetchCL({
-                    AGENCY_ID: this.agentId,
-                    START_DATE: this.filters?.fromDate,
-                    END_DATE: this.filters?.toDate,
-                    START_ROW: startRow,
-                    END_ROW: startRow + this.pageSize - 1,
-                    SEARCH_QUERY: this.filters?.search || null,
-                    ...statusParams,
-                }),
-                this.cityLedgerService.getCLStatement({
-                    AGENCY_ID: this.agentId,
-                    CURRENCY_ID: currencyId,
-                    START_DATE: this.filters?.fromDate,
-                    END_DATE: this.filters?.toDate,
-                }),
-            ]);
-            const txList = result?.My_Cl_tx ?? [];
-            this.totalCount = result?.TOTAL_COUNT ?? 0;
-            const startingBal = statement?.STARTING_BALANCE ?? 0;
-            this.startingBalance = startingBal;
-            this.closingBalance = statement?.ENDING_BALANCE ?? 0;
-            let totalDebits = 0;
-            let totalCredits = 0;
-            let unbilledCount = 0;
-            const mappedRows = txList.map((tx) => {
-                const mapped = mapClTxToFolioRow(tx);
-                totalDebits += tx.DEBIT || 0;
-                totalCredits += tx.CREDIT || 0;
-                if (mapped.status.label === 'Unbilled')
-                    unbilledCount++;
-                return { ...mapped, _rowId: v4() };
-            });
-            // Sort before computing running balances so the balance column is correct
-            const sortedRows = this.sortFolioRows(mappedRows);
-            // let running = startingBal;
-            // for (const row of sortedRows) {
-            //   running += (row.debit || 0) - (row.credit || 0);
-            //   row.balance = running;
-            // }
-            this.data = sortedRows;
-            this.selectedRowIds = new Set();
-            this.folioSummaryLoaded.emit({
-                startingBalance: startingBal,
-                totalDebits,
-                totalCredits,
-                currentBalance: this.closingBalance,
-                unbilledCount,
-            });
-        }
-        catch (error) {
-            console.error('Failed to fetch city ledger folio', error);
-            this.data = [];
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
     // ─── Selection ────────────────────────────────────────────────────────────
     get selectedUnbilledRows() {
         return this.data.filter(row => this.selectedRowIds.has(row._rowId) && row.status?.label === 'Unbilled');
     }
     handleHoldToggled(rowId, newIsHold) {
-        this.data = this.data.map(row => {
+        // Note: optimistic local update — parent will re-fetch on next search
+        const updatedData = this.data.map(row => {
             if (row._rowId !== rowId)
                 return row;
             const updatedRaw = { ...row._raw, IS_HOLD: newIsHold };
             const status = newIsHold ? { id: 'held', label: 'Held', variant: 'warning', description: '' } : { id: 'unbilled', label: 'Unbilled', variant: 'neutral', description: '' };
             return { ...row, _raw: updatedRaw, status };
         });
+        // Trigger re-render by reassigning (Stencil tracks Prop changes via reference)
+        // Since data is a Prop we can't mutate it — we use a local state for optimistic UI
+        this._localDataOverride = updatedData;
         this.holdTargetRow = null;
+    }
+    // Local override for optimistic hold/revert updates
+    _localDataOverride = null;
+    onDataChange() {
+        this._localDataOverride = null;
+    }
+    get displayData() {
+        return this._localDataOverride ?? this.data;
     }
     // ─── Currency helpers ─────────────────────────────────────────────────────
     getSymbol(currencyId) {
@@ -331,10 +214,10 @@ export class IrCityLedgerFolioTable {
         }))))));
     }
     renderStartingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.filters?.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance))));
     }
     renderEndingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.filters?.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, h("strong", null, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance))))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, h("strong", null, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance))))));
     }
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
@@ -358,11 +241,15 @@ export class IrCityLedgerFolioTable {
         if (!this.agentId) {
             return (h(Host, null, h("div", { class: "folio-table__empty-state" }, h("wa-icon", { name: "building-columns", style: { fontSize: '2.5rem', opacity: '0.3' } }), h("p", null, "Select an agent to view the folio ledger."))));
         }
+        if (!this.hasFetched) {
+            const hasDate = !!(this.fromDate || this.toDate);
+            return (h(Host, null, h("div", { class: "folio-table__date-prompt" }, h("div", { class: "folio-table__date-prompt-icon" }, h("wa-icon", { name: "calendar-days" })), h("p", { class: "folio-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Transactions")))));
+        }
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "folio-table__loading" }, h("ir-spinner", null))));
         }
         const table = useTable({
-            data: this.data,
+            data: this.displayData,
             columns: this.columns,
             state: this.tableState,
             enableGrouping: false,
@@ -373,19 +260,18 @@ export class IrCityLedgerFolioTable {
             getExpandedRowModel: getExpandedRowModel(),
         });
         const total = this.totalCount;
-        const pageSize = this.pageSize;
-        const pageCount = Math.ceil(total / pageSize);
-        const showingFrom = total ? this.pageIndex * pageSize + 1 : 0;
-        const showingTo = total ? Math.min(this.pageIndex * pageSize + this.data.length, total) : 0;
+        const pageCount = Math.ceil(total / this.pageSize);
+        const showingFrom = total ? this.pageIndex * this.pageSize + 1 : 0;
+        const showingTo = total ? Math.min(this.pageIndex * this.pageSize + this.displayData.length, total) : 0;
         const hasUnbilledSelected = this.selectedUnbilledRows.length > 0;
-        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), h("ir-custom-button", { size: "small", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, this.renderStartingBalanceRow(), this.renderDataRows(table), this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: async (event) => {
-                this.pageIndex = event.detail.currentPage - 1;
-                await this.fetchFolioData();
-            }, onPageSizeChange: async (event) => {
+        console.log(this.pageIndex);
+        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), h("ir-custom-button", { size: "small", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, this.renderStartingBalanceRow(), this.renderDataRows(table), this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
+                event.stopPropagation();
+                this.pageChange.emit({ pageIndex: event.detail.currentPage - 1, pageSize: this.pageSize });
+            }, onPageSizeChange: (event) => {
+                event.stopPropagation();
                 if (event.detail.pageSize) {
-                    this.pageSize = event.detail.pageSize;
-                    this.pageIndex = 0;
-                    await this.fetchFolioData();
+                    this.pageChange.emit({ pageIndex: 0, pageSize: event.detail.pageSize });
                 }
             } }), h("ir-hold-transaction-dialog", { row: this.holdTargetRow, currencySymbol: this.currencySymbol, ref: el => (this.holdDialogRef = el), onHoldToggled: e => this.handleHoldToggled(e.detail.rowId, e.detail.newIsHold) })));
     }
@@ -423,7 +309,51 @@ export class IrCityLedgerFolioTable {
                 "reflect": false,
                 "defaultValue": "null"
             },
-            "propertyId": {
+            "data": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "FolioRow[]",
+                    "resolved": "FolioRow[]",
+                    "references": {
+                        "FolioRow": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
+            },
+            "isLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-loading",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "startingBalance": {
                 "type": "number",
                 "mutable": false,
                 "complexType": {
@@ -439,8 +369,149 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "attribute": "starting-balance",
+                "reflect": false,
+                "defaultValue": "0"
+            },
+            "closingBalance": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "closing-balance",
+                "reflect": false,
+                "defaultValue": "0"
+            },
+            "totalCount": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "total-count",
+                "reflect": false,
+                "defaultValue": "0"
+            },
+            "pageIndex": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "page-index",
+                "reflect": false,
+                "defaultValue": "0"
+            },
+            "pageSize": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "page-size",
+                "reflect": false,
+                "defaultValue": "25"
+            },
+            "fromDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "from-date",
+                "reflect": false,
+                "defaultValue": "''"
+            },
+            "toDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "to-date",
+                "reflect": false,
+                "defaultValue": "''"
+            },
+            "hasFetched": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "has-fetched",
+                "reflect": false,
+                "defaultValue": "false"
             },
             "currencySymbol": {
                 "type": "string",
@@ -485,51 +556,21 @@ export class IrCityLedgerFolioTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
-            },
-            "filters": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "FolioFilters",
-                    "resolved": "FolioFilters",
-                    "references": {
-                        "FolioFilters": {
-                            "location": "import",
-                            "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "{}"
             }
         };
     }
     static get states() {
         return {
             "tableState": {},
-            "data": {},
-            "isLoading": {},
-            "startingBalance": {},
             "selectedRowIds": {},
             "holdTargetRow": {},
-            "totalCount": {},
-            "pageIndex": {},
-            "pageSize": {},
-            "closingBalance": {}
+            "_localDataOverride": {}
         };
     }
     static get events() {
         return [{
-                "method": "folioSummaryLoaded",
-                "name": "folioSummaryLoaded",
+                "method": "pageChange",
+                "name": "pageChange",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,
@@ -538,15 +579,9 @@ export class IrCityLedgerFolioTable {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "FolioSummary",
-                    "resolved": "FolioSummary",
-                    "references": {
-                        "FolioSummary": {
-                            "location": "import",
-                            "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioSummary"
-                        }
-                    }
+                    "original": "{ pageIndex: number; pageSize: number }",
+                    "resolved": "{ pageIndex: number; pageSize: number; }",
+                    "references": {}
                 }
             }, {
                 "method": "generateInvoice",
@@ -569,15 +604,27 @@ export class IrCityLedgerFolioTable {
                         }
                     }
                 }
+            }, {
+                "method": "fetchRequested",
+                "name": "fetchRequested",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
             }];
     }
     static get watchers() {
         return [{
-                "propName": "agentId",
-                "methodName": "handleAgentIdChange"
-            }, {
-                "propName": "filters",
-                "methodName": "handleFiltersChange"
+                "propName": "data",
+                "methodName": "onDataChange"
             }];
     }
 }

@@ -3,17 +3,16 @@ import { Moment } from 'moment';
 import type { FolioFilters } from '../types';
 export declare class IrCityLedgerFolioFilters {
     dates: {
-        from: Moment;
-        to: Moment;
+        from: Moment | null;
+        to: Moment | null;
     };
     statusFilter: string;
     searchQuery: string;
     filtersChange: EventEmitter<FolioFilters>;
     addEntry: EventEmitter<void>;
+    applyFilters: EventEmitter<FolioFilters>;
     componentDidLoad(): void;
     private statuses;
-    toDateSelectRef: HTMLIrDateSelectElement;
-    fromDateSelectRef: HTMLIrDateSelectElement;
     private emitFilters;
     private emitFiltersDebounced;
     render(): any;

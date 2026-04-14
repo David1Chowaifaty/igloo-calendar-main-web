@@ -1,22 +1,26 @@
 import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 import { h as housekeeping_store } from './housekeeping.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$h } from './ir-button2.js';
-import { d as defineCustomElement$g } from './ir-combobox2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-delete-modal2.js';
-import { d as defineCustomElement$d } from './ir-hk-unassigned-units2.js';
-import { d as defineCustomElement$c } from './ir-hk-user2.js';
+import { d as defineCustomElement$l } from './ir-button2.js';
+import { d as defineCustomElement$k } from './ir-custom-button2.js';
+import { d as defineCustomElement$j } from './ir-dialog2.js';
+import { d as defineCustomElement$i } from './ir-drawer2.js';
+import { d as defineCustomElement$h } from './ir-hk-delete-dialog2.js';
+import { d as defineCustomElement$g } from './ir-hk-unassigned-units2.js';
+import { d as defineCustomElement$f } from './ir-hk-unassigned-units-drawer2.js';
+import { d as defineCustomElement$e } from './ir-hk-unassigned-units-drawer-form2.js';
+import { d as defineCustomElement$d } from './ir-hk-user-drawer2.js';
+import { d as defineCustomElement$c } from './ir-hk-user-drawer-form2.js';
 import { d as defineCustomElement$b } from './ir-icon2.js';
 import { d as defineCustomElement$a } from './ir-icons2.js';
-import { d as defineCustomElement$9 } from './ir-input-text2.js';
-import { d as defineCustomElement$8 } from './ir-password-validator2.js';
-import { d as defineCustomElement$7 } from './ir-phone-input2.js';
+import { d as defineCustomElement$9 } from './ir-input2.js';
+import { d as defineCustomElement$8 } from './ir-mobile-input2.js';
+import { d as defineCustomElement$7 } from './ir-password-validator2.js';
 import { d as defineCustomElement$6 } from './ir-popover2.js';
 import { d as defineCustomElement$5 } from './ir-select2.js';
-import { d as defineCustomElement$4 } from './ir-sidebar2.js';
-import { d as defineCustomElement$3 } from './ir-textarea2.js';
-import { d as defineCustomElement$2 } from './ir-title2.js';
+import { d as defineCustomElement$4 } from './ir-spinner2.js';
+import { d as defineCustomElement$3 } from './ir-title2.js';
+import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
 
 const irHkTeamCss = ".icons-container.sc-ir-hk-team{display:flex;align-items:center;justify-content:end}.text-center.sc-ir-hk-team{text-align:center !important}.hk-team-header.sc-ir-hk-team{display:flex;flex-direction:column;gap:0.25rem}.hk-team-header__top.sc-ir-hk-team{display:flex;flex-direction:column;gap:0.5rem}.hk-team-header__title.sc-ir-hk-team{margin:0;font-size:var(--wa-font-size-m);font-weight:var(--wa-font-weight-heading);color:var(--wa-color-text-normal)}.hk-team-header__stats.sc-ir-hk-team{display:flex;align-items:center;flex-wrap:wrap;gap:0.75rem}.hk-team-header__stat.sc-ir-hk-team{margin:0;font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.hk-team-header__stat--bold.sc-ir-hk-team{font-weight:600;color:var(--wa-color-text-normal)}.hk-team-header__unassigned-btn.sc-ir-hk-team::part(base){height:auto;padding:0.125rem 0.5rem}.hk-team-header__hint.sc-ir-hk-team{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}@media (min-width: 640px){.hk-team-header__top.sc-ir-hk-team{flex-direction:row;align-items:center;justify-content:space-between}}";
@@ -43,8 +47,8 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
         switch (this.currentTrigger?.type) {
             case 'unassigned_units':
                 return h("ir-hk-unassigned-units", { slot: "sidebar-body", user: this.currentTrigger.user });
-            case 'user':
-                return h("ir-hk-user", { slot: "sidebar-body", user: this.currentTrigger.user, isEdit: this.currentTrigger.isEdit });
+            // case 'user':
+            //   return <ir-hk-user slot="sidebar-body" user={this.currentTrigger.user} isEdit={this.currentTrigger.isEdit}></ir-hk-user>;
             default:
                 return null;
         }
@@ -57,7 +61,7 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
     handleDeletion(user) {
         this.currentTrigger = { type: 'delete', user };
         this.deletionTimout = setTimeout(() => {
-            const modal = this.el.querySelector('ir-delete-modal');
+            const modal = this.el.querySelector('ir-hk-delete-dialog');
             if (!modal)
                 return;
             modal.openModal();
@@ -84,9 +88,7 @@ const IrHkTeam = /*@__PURE__*/ proxyCustomElement(class IrHkTeam extends HTMLEle
                     isEdit: true,
                     user,
                 };
-            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } })), h("ir-custom-button", { onClickHandler: () => this.handleDeletion(hk), variant: "danger", appearance: "plain" }, h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })))))))))), h("ir-sidebar", { showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
-                '--sidebar-width': this.currentTrigger ? (this.currentTrigger.type === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), this.currentTrigger?.type === 'delete' && h("ir-delete-modal", { user: this.currentTrigger.user })));
+            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } })), h("ir-custom-button", { onClickHandler: () => this.handleDeletion(hk), variant: "danger", appearance: "plain" }, h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })))))))))), h("ir-hk-user-drawer", { open: this.currentTrigger?.type === 'user', user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), h("ir-hk-unassigned-units-drawer", { open: this.currentTrigger?.type === 'unassigned_units', user: this.currentTrigger?.user }), this.currentTrigger?.type === 'delete' && h("ir-hk-delete-dialog", { user: this.currentTrigger.user })));
     }
     static get style() { return IrHkTeamStyle0 + IrHkTeamStyle1; }
 }, [2, "ir-hk-team", {
@@ -96,7 +98,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-hk-team", "ir-button", "ir-combobox", "ir-custom-button", "ir-delete-modal", "ir-hk-unassigned-units", "ir-hk-user", "ir-icon", "ir-icons", "ir-input-text", "ir-password-validator", "ir-phone-input", "ir-popover", "ir-select", "ir-sidebar", "ir-textarea", "ir-title", "requirement-check"];
+    const components = ["ir-hk-team", "ir-button", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-hk-delete-dialog", "ir-hk-unassigned-units", "ir-hk-unassigned-units-drawer", "ir-hk-unassigned-units-drawer-form", "ir-hk-user-drawer", "ir-hk-user-drawer-form", "ir-icon", "ir-icons", "ir-input", "ir-mobile-input", "ir-password-validator", "ir-popover", "ir-select", "ir-spinner", "ir-title", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-hk-team":
             if (!customElements.get(tagName)) {
@@ -105,30 +107,50 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
-            }
-            break;
-        case "ir-combobox":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$l();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$k();
             }
             break;
-        case "ir-delete-modal":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-hk-delete-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$h();
             }
             break;
         case "ir-hk-unassigned-units":
             if (!customElements.get(tagName)) {
+                defineCustomElement$g();
+            }
+            break;
+        case "ir-hk-unassigned-units-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-hk-unassigned-units-drawer-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
+            }
+            break;
+        case "ir-hk-user-drawer":
+            if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }
             break;
-        case "ir-hk-user":
+        case "ir-hk-user-drawer-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }
@@ -143,17 +165,17 @@ function defineCustomElement() {
                 defineCustomElement$a();
             }
             break;
-        case "ir-input-text":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-password-validator":
+        case "ir-mobile-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-phone-input":
+        case "ir-password-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
@@ -168,17 +190,17 @@ function defineCustomElement() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-sidebar":
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-textarea":
+        case "ir-title":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-title":
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

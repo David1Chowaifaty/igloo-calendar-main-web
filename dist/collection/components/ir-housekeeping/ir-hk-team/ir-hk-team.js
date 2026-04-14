@@ -15,8 +15,8 @@ export class IrHkTeam {
         switch (this.currentTrigger?.type) {
             case 'unassigned_units':
                 return h("ir-hk-unassigned-units", { slot: "sidebar-body", user: this.currentTrigger.user });
-            case 'user':
-                return h("ir-hk-user", { slot: "sidebar-body", user: this.currentTrigger.user, isEdit: this.currentTrigger.isEdit });
+            // case 'user':
+            //   return <ir-hk-user slot="sidebar-body" user={this.currentTrigger.user} isEdit={this.currentTrigger.isEdit}></ir-hk-user>;
             default:
                 return null;
         }
@@ -29,7 +29,7 @@ export class IrHkTeam {
     handleDeletion(user) {
         this.currentTrigger = { type: 'delete', user };
         this.deletionTimout = setTimeout(() => {
-            const modal = this.el.querySelector('ir-delete-modal');
+            const modal = this.el.querySelector('ir-hk-delete-dialog');
             if (!modal)
                 return;
             modal.openModal();
@@ -56,9 +56,7 @@ export class IrHkTeam {
                     isEdit: true,
                     user,
                 };
-            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } })), h("ir-custom-button", { onClickHandler: () => this.handleDeletion(hk), variant: "danger", appearance: "plain" }, h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })))))))))), h("ir-sidebar", { showCloseButton: false, open: this.currentTrigger !== null && this.currentTrigger.type !== 'delete', onIrSidebarToggle: () => (this.currentTrigger = null), style: {
-                '--sidebar-width': this.currentTrigger ? (this.currentTrigger.type === 'unassigned_units' ? 'max-content' : '40rem') : 'max-content',
-            } }, this.renderCurrentTrigger()), this.currentTrigger?.type === 'delete' && h("ir-delete-modal", { user: this.currentTrigger.user })));
+            }, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "edit", style: { fontSize: '1.2rem' } })), h("ir-custom-button", { onClickHandler: () => this.handleDeletion(hk), variant: "danger", appearance: "plain" }, h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })))))))))), h("ir-hk-user-drawer", { open: this.currentTrigger?.type === 'user', user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), h("ir-hk-unassigned-units-drawer", { open: this.currentTrigger?.type === 'unassigned_units', user: this.currentTrigger?.user }), this.currentTrigger?.type === 'delete' && h("ir-hk-delete-dialog", { user: this.currentTrigger.user })));
     }
     static get is() { return "ir-hk-team"; }
     static get encapsulation() { return "scoped"; }

@@ -1,0 +1,242 @@
+import { h as hooks } from './moment.js';
+import { z } from './index2.js';
+import { C as ClTxTypeCode } from './enums.js';
+
+const TRANSACTION_TYPE_RATES = {
+    [ClTxTypeCode.OpeningBalance]: 'CR|DB',
+    [ClTxTypeCode.Payment]: 'CR',
+    [ClTxTypeCode.StandardChargeDebit]: 'DB',
+    [ClTxTypeCode.Adjustment]: 'CR|DB',
+    [ClTxTypeCode.CreditNote]: 'CR',
+    [ClTxTypeCode.DebitNote]: 'DB',
+};
+const ENTRY_TYPES = ['CR', 'DB'];
+const LINK_TYPES = ['INVOICE', 'BOOKING', 'NONE'];
+const ADJUSTMENT_REASONS = ['ROUNDING_DIFFERENCE', 'GOODWILL_CREDIT', 'PRICE_MATCH', 'COMMISSION_CORRECTION', 'DISCOUNT_CORRECTION'];
+const CREDIT_NOTE_MODES = ['cancel-invoice', 'goodwill'];
+const DATE_FORMAT = 'YYYY-MM-DD';
+const dateSchema = z
+    .string()
+    .refine(value => hooks(value, DATE_FORMAT, true).isValid(), 'Date must be in YYYY-MM-DD format.')
+    .refine(value => {
+    const valueDate = hooks(value, DATE_FORMAT, true).startOf('day');
+    const minimumAllowedDate = hooks().startOf('day').subtract(12, 'months');
+    return !valueDate.isBefore(minimumAllowedDate);
+}, 'Date cannot be older than 12 months from today.');
+const commonFieldsSchema = z.object({
+    date: dateSchema,
+    amount: z.coerce.number().gt(0, 'Amount must be greater than 0.'),
+    taxId: z.string().min(1, 'Tax selection is required.'),
+    reference: z.string().optional(),
+    notes: z.string().max(500).optional(),
+});
+const openingBalanceSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.OpeningBalance),
+    entryType: z.enum(ENTRY_TYPES),
+    isCutover: z.boolean(),
+});
+const paymentTypeSchema = z.object({
+    code: z.string().min(3).max(4),
+    description: z.string(),
+    operation: z.enum(ENTRY_TYPES),
+});
+const paymentMethodSchema = z.object({
+    code: z.string().min(3).max(4),
+    description: z.string(),
+    operation: z.string().optional().nullable(),
+});
+const paymentSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.Payment),
+    payment_type: paymentTypeSchema.nullable().optional(),
+    payment_method: paymentMethodSchema.nullable().optional(),
+    designation: z.string().optional(),
+    invoiceId: z.string().optional(),
+    onAccount: z.boolean(),
+});
+const manualChargeSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.StandardChargeDebit),
+    serviceCategoryId: z.string().optional(),
+});
+const adjustmentSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.Adjustment),
+    entryType: z.enum(ENTRY_TYPES),
+    linkType: z.enum(LINK_TYPES),
+    linkedId: z.string().optional(),
+    reason: z.enum(ADJUSTMENT_REASONS).optional(),
+});
+const creditNoteSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.CreditNote),
+    creditNoteMode: z.enum(CREDIT_NOTE_MODES),
+    invoiceId: z.string().optional(),
+    generatesFiscalDocument: z.literal(true),
+});
+const debitNoteSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.DebitNote),
+    invoiceId: z.string().min(1, 'Invoice is required for debit note.'),
+    generatesFiscalDocument: z.literal(true),
+});
+const cityLedgerTransactionSchema = z
+    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema])
+    .superRefine((data, ctx) => {
+    if (data.transactionType === ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['invoiceId'],
+            message: 'Invoice must be empty when payment is marked as on account.',
+        });
+    }
+    if (data.transactionType === ClTxTypeCode.Adjustment && data.linkType === 'NONE' && data.linkedId) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['linkedId'],
+            message: 'linkedId must be empty when link type is NONE.',
+        });
+    }
+    if (data.transactionType === ClTxTypeCode.CreditNote && data.creditNoteMode === 'cancel-invoice' && !data.invoiceId) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['invoiceId'],
+            message: 'Invoice is required when cancelling an invoice.',
+        });
+    }
+});
+const DATE_INPUT_FORMAT = DATE_FORMAT;
+const todayDate = () => hooks().format(DATE_FORMAT);
+const conditionalDefaultsByType = (transactionType) => {
+    switch (transactionType) {
+        case ClTxTypeCode.OpeningBalance:
+            return {
+                entryType: '',
+                isCutover: false,
+            };
+        case ClTxTypeCode.Payment:
+            return {
+                payment_method: null,
+                designation: undefined,
+                invoiceId: undefined,
+                onAccount: true,
+            };
+        case ClTxTypeCode.StandardChargeDebit:
+            return {
+                serviceCategoryId: undefined,
+            };
+        case ClTxTypeCode.Adjustment:
+            return {
+                entryType: '',
+                linkType: 'NONE',
+                linkedId: undefined,
+            };
+        case ClTxTypeCode.CreditNote:
+            return {
+                invoiceId: undefined,
+                generatesFiscalDocument: true,
+                creditNoteMode: 'cancel-invoice',
+            };
+        case ClTxTypeCode.DebitNote:
+            return {
+                invoiceId: undefined,
+                generatesFiscalDocument: true,
+            };
+        default:
+            return {};
+    }
+};
+const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.OpeningBalance) => ({
+    transactionType,
+    date: todayDate(),
+    amount: '',
+    taxId: 'N/A',
+    reference: '',
+    notes: '',
+    entryType: '',
+    isCutover: false,
+    payment_type: null,
+    payment_method: null,
+    designation: undefined,
+    invoiceId: undefined,
+    onAccount: false,
+    serviceCategoryId: undefined,
+    linkType: 'NONE',
+    linkedId: undefined,
+    reason: '',
+    generatesFiscalDocument: transactionType === ClTxTypeCode.CreditNote || transactionType === ClTxTypeCode.DebitNote,
+    ...conditionalDefaultsByType(transactionType),
+});
+const resetDraftForTransactionType = (nextType, current) => ({
+    ...createInitialTransactionFormDraft(nextType),
+    transactionType: nextType,
+    date: current.date || todayDate(),
+    amount: current.amount,
+    taxId: current.taxId || 'N/A',
+    reference: current.reference || '',
+});
+const buildTransactionPayloadInput = (draft) => {
+    const basePayload = {
+        transactionType: draft.transactionType,
+        date: draft.date,
+        amount: draft.amount,
+        taxId: draft.taxId,
+        reference: draft.reference || undefined,
+    };
+    switch (draft.transactionType) {
+        case ClTxTypeCode.OpeningBalance:
+            return {
+                ...basePayload,
+                entryType: draft.entryType,
+                isCutover: draft.isCutover,
+            };
+        case ClTxTypeCode.Payment:
+            return {
+                ...basePayload,
+                payment_method: draft.payment_method,
+                designation: draft.designation,
+                invoiceId: draft.onAccount ? undefined : draft.invoiceId,
+                onAccount: draft.onAccount,
+            };
+        case ClTxTypeCode.StandardChargeDebit:
+            return {
+                ...basePayload,
+                serviceCategoryId: draft.serviceCategoryId,
+            };
+        case ClTxTypeCode.Adjustment:
+            return {
+                ...basePayload,
+                entryType: draft.entryType,
+                linkType: draft.linkType,
+                linkedId: draft.linkType === 'NONE' ? undefined : draft.linkedId,
+                reason: draft.reason || undefined,
+            };
+        case ClTxTypeCode.CreditNote:
+            return {
+                ...basePayload,
+                creditNoteMode: draft.creditNoteMode ?? 'cancel-invoice',
+                invoiceId: draft.creditNoteMode === 'goodwill' ? undefined : draft.invoiceId,
+                generatesFiscalDocument: true,
+            };
+        case ClTxTypeCode.DebitNote:
+            return {
+                ...basePayload,
+                invoiceId: draft.invoiceId,
+                generatesFiscalDocument: true,
+            };
+        default:
+            return basePayload;
+    }
+};
+const validateCityLedgerTransaction = (draft) => cityLedgerTransactionSchema.safeParse(buildTransactionPayloadInput(draft));
+// ── Individual field schemas for ir-validator ────────────────────────────────
+const transactionTypeFieldSchema = z.enum(Object.values(ClTxTypeCode));
+const dateFieldSchema = dateSchema;
+const amountFieldSchema = z.coerce.number().gt(0, 'Amount must be greater than 0.');
+const taxIdFieldSchema = z.string().min(1, 'Tax selection is required.');
+const entryTypeFieldSchema = z.enum(ENTRY_TYPES);
+z.string().min(1, 'Payment type is required.');
+const paymentMethodCodeFieldSchema = z.string().min(1, 'Payment method is required.');
+const invoiceIdRequiredFieldSchema = z.string().min(1, 'Invoice is required.');
+z.string().min(1, 'Service category is required.');
+const linkTypeFieldSchema = z.enum(LINK_TYPES);
+z.enum(ADJUSTMENT_REASONS);
+
+export { DATE_INPUT_FORMAT as D, LINK_TYPES as L, TRANSACTION_TYPE_RATES as T, amountFieldSchema as a, taxIdFieldSchema as b, createInitialTransactionFormDraft as c, dateFieldSchema as d, entryTypeFieldSchema as e, invoiceIdRequiredFieldSchema as i, linkTypeFieldSchema as l, paymentMethodCodeFieldSchema as p, resetDraftForTransactionType as r, transactionTypeFieldSchema as t, validateCityLedgerTransaction as v };
+
+//# sourceMappingURL=ir-city-ledger-transaction-form.schema.js.map

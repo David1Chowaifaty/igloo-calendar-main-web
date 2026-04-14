@@ -58,6 +58,16 @@
   text-align: right !important;
 }
 
+/* ── Debit / Credit colours (match ir-payment-item) ───────── */
+.is-debit {
+  color: var(--wa-color-danger-fill-loud) !important;
+  font-weight: 700;
+}
+.is-credit {
+  color: var(--wa-color-success-fill-loud) !important;
+  font-weight: 700;
+}
+
 /* ── Date column ───────────────────────────────────────────── */
 .booking-city-ledger__cell-date {
   white-space: nowrap;

@@ -19,6 +19,7 @@
 }
 .tax-page__header {
   display: flex;
+  gap: var(--wa-space-l, 1.5rem);
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;

@@ -54,12 +54,12 @@ const IrAgentEditorForm = /*@__PURE__*/ proxyCustomElement(class IrAgentEditorFo
         }
     }
     render() {
-        return (h("form", { key: 'c4ef5c2dcbfa6cc420c4a2486ad0793722b88b15', autoComplete: this.formId,
+        return (h("form", { key: '07e0c4441b0f1619769e06e6602fc3bdcb57ec4c', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '6d3a2e2a552f1bbf730f43bfeb0067b002256447', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'bbd0083d1c98b148705413585012a31c5079b2b6', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '506e39f85b910e84cad6d96b06df5596c955833e', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'ab58df93f89734c91680cfb33fdacbb3c73f980a', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get style() { return IrAgentEditorFormStyle0; }
 }, [2, "ir-agent-editor-form", {

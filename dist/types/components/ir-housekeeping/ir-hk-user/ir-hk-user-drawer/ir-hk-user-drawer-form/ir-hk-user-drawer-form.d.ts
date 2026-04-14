@@ -1,0 +1,33 @@
+import { ICountry } from "../../../../../models/IBooking";
+import { THKUser } from "../../../../../models/housekeeping";
+import { EventEmitter } from '../../../../../stencil-public-runtime';
+export declare class IrHkUserDrawerForm {
+    isEdit: boolean;
+    user: THKUser | null;
+    formId: string;
+    isPageLoading: boolean;
+    autoValidate: boolean;
+    showPasswordValidation: boolean;
+    isChangingPassword: boolean;
+    confirmPassword: string;
+    countries: ICountry[];
+    countryCode: string;
+    userInfo: THKUser;
+    resetData: EventEmitter<null>;
+    closeSideBar: EventEmitter<null>;
+    loadingChanged: EventEmitter<boolean>;
+    private housekeepingService;
+    private bookingService;
+    private usernameSchema;
+    private passwordSchema;
+    private fullSchema;
+    componentWillLoad(): void;
+    private init;
+    private buildSchemas;
+    private updateUserField;
+    private addUser;
+    private cancelPasswordChange;
+    private handleNameBlur;
+    private renderPasswordChangeView;
+    render(): any;
+}

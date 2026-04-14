@@ -8,6 +8,7 @@ export declare class IrClInvoiceDialog {
     currencyId: number | null;
     isLoading: boolean;
     error: string | null;
+    noResults: boolean;
     invoiceIssued: EventEmitter<unknown>;
     private dialogRef;
     private formRef;

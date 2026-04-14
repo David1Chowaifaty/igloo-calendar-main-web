@@ -18,19 +18,19 @@
   margin-top: 1.5rem;
 }
 @media (min-width: 768px) {
-  .booking-editor__date-range {
+  /* .booking-editor__date-range {
     min-width: auto;
     width: max-content;
-  }
-  .booking-editor__date-range > .end::slotted(*) {
+  } */
+  /* .booking-editor__date-range > .end::slotted(*) {
     margin: 0;
-  }
-  .booking-editor__date-range::part(input-input) {
+  } */
+  /* .booking-editor__date-range::part(input-input) {
     box-sizing: border-box;
     padding: 0;
     width: 170px;
     min-width: auto;
-  }
+  } */
   .booking-editor__date-range::part(input-end) {
     margin: 0;
   }

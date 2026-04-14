@@ -55,19 +55,19 @@ export class IglHkIssuesDialog {
             this.isResolving = false;
         }
     };
-    getInitials(name) {
-        return (name ?? '')
-            .split(' ')
-            .map(n => n[0])
-            .join('')
-            .toUpperCase()
-            .slice(0, 2);
-    }
+    // private getInitials(name: string): string {
+    //   return (name ?? '')
+    //     .split(' ')
+    //     .map(n => n[0])
+    //     .join('')
+    //     .toUpperCase()
+    //     .slice(0, 2);
+    // }
     renderTicket(issue) {
         const isMultiple = this.issues.length > 1;
         const isSelected = this.selectedIds.has(issue.id);
-        const initials = this.getInitials(issue.housekeeper_name);
-        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-avatar" }, initials), h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, moment(issue.date).format('MMM D, YYYY'), issue.hour != null && issue.minute != null && ` ${String(issue.hour).padStart(2, '0')}:${String(issue.minute).padStart(2, '0')}`), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
+        // const initials = this.getInitials(issue.housekeeper_name);
+        return (h("div", { class: `ticket ${isSelected ? 'ticket--selected' : ''}`, key: issue.id, onClick: () => isMultiple && this.toggleIssue(issue.id) }, h("p", { class: "ticket-description" }, issue.description || 'No description provided.'), h("div", { class: "ticket-footer-row" }, h("div", { class: "ticket-reporter" }, h("span", { class: "ticket-reporter-name" }, issue.housekeeper_name)), h("div", { class: 'ticket-meta' }, h("span", { class: "ticket-date" }, moment(issue.date).format('MMM D, YYYY'), issue.hour != null && issue.minute != null && (h("span", { class: "ticket-time" }, String(issue.hour).padStart(2, '0'), ":", String(issue.minute).padStart(2, '0')))), isMultiple && (h("wa-checkbox", { checked: isSelected, defaultChecked: isSelected, onchange: (e) => {
                 e.stopPropagation();
                 this.toggleIssue(issue.id);
             } }))))));
@@ -80,7 +80,7 @@ export class IglHkIssuesDialog {
     render() {
         const count = this.issues?.length ?? 0;
         const selectedCount = this.selectedIds.size;
-        return (h("ir-dialog", { key: '8c61dc7958025b0a6390b7e2ee1d87b1609d770d', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'} — ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: 'cd190b021ed1213cf34f201ce981cfecd5ab0437', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: 'f1a350f2182f2fe1748853aca26f6f2e049f13f9', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: 'ccf028144318436cce0ee489729d42ec04cda967', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
+        return (h("ir-dialog", { key: '3386235e47a4f4e2b21da63b644e1f66d9e0362d', ref: el => (this.dialogRef = el), label: `Reported ${count > 1 ? 'Issues' : 'Issue'}: ${this.unitName}`, onIrDialogAfterHide: () => this.irAfterClose.emit() }, this.renderContent(), h("div", { key: 'be548bcc217b32d4a73156b40aff4d2672a6cd37', slot: "footer", class: "dialog-footer" }, h("ir-custom-button", { key: 'a53eb52c509c3b11999cb798810601d80ff67b3c', variant: "neutral", size: "medium", appearance: "filled", onClickHandler: () => this.dialogRef?.closeModal(), disabled: this.isResolving }, "Close"), h("ir-custom-button", { key: '38833c8c28716e9eb6cd296ee63208714cc1aa0a', variant: "brand", size: "medium", appearance: "accent", onClickHandler: this.handleResolve, disabled: selectedCount === 0, loading: this.isResolving }, "Mark as Resolved"))));
     }
     static get is() { return "igl-hk-issues-dialog"; }
     static get encapsulation() { return "scoped"; }

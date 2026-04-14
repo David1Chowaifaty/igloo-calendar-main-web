@@ -1,6 +1,6 @@
 import { a as axios } from './axios.js';
 import { h as hooks } from './moment.js';
-import { s as stringType, e as enumType, o as objectType, n as numberType, u as unionType, d as nullType, b as booleanType, f as anyType, a as arrayType } from './index2.js';
+import { s as stringType, e as enumType, o as objectType, n as numberType, b as booleanType, u as unionType, d as nullType, f as anyType, a as arrayType } from './index2.js';
 
 // ---------------------------------------------------------------------------
 // Shared / Base types
@@ -10,6 +10,31 @@ const RelEntitySchema = enumType(['TBL_BSAD', 'TBL_BSP']);
 const CLAgencyContextSchema = objectType({
     AGENCY_ID: numberType(),
     CURRENCY_ID: numberType(),
+});
+const FiscalDocumentSchema = objectType({
+    AGENCY_ID: numberType().nullable().optional(),
+    AGENCY_NAME: stringType().nullable().optional(),
+    CREDIT: numberType().nullable().optional(),
+    CREDIT_DISPLAY: stringType().nullable().optional(),
+    CURRENCY_CODE: stringType().nullable().optional(),
+    CURRENCY_ID: numberType().nullable().optional(),
+    DEBIT: numberType().nullable().optional(),
+    DEBIT_DISPLAY: stringType().nullable().optional(),
+    DOC_NUMBER: stringType().nullable().optional(),
+    EXTERNAL_REF: stringType().nullable().optional(),
+    FD_ID: numberType().nullable().optional(),
+    FD_STATUS_CODE: stringType().nullable().optional(),
+    FD_STATUS_NAME: stringType().nullable().optional(),
+    FD_TYPE_CODE: stringType().nullable().optional(),
+    FD_TYPE_NAME: stringType().nullable().optional(),
+    ISSUE_DATE: stringType().nullable().optional(),
+    ISSUE_DATE_DISPLAY: stringType().nullable().optional(),
+    IS_PRINTED: booleanType().nullable().optional(),
+    NET_AMOUNT: numberType().nullable().optional(),
+    NET_AMOUNT_DISPLAY: stringType().nullable().optional(),
+    TAX_AMOUNT: numberType().nullable().optional(),
+    TAX_AMOUNT_DISPLAY: stringType().nullable().optional(),
+    TOTAL_AMOUNT: numberType().nullable().optional(),
 });
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
@@ -53,12 +78,13 @@ const MyClTxSchema = objectType({
     IS_LOCKED: booleanType(),
     My_Bh: anyType().nullable(),
     My_Currency: anyType().nullable(),
-    My_Fd: anyType().nullable(),
+    My_Fd: FiscalDocumentSchema.nullable(),
     My_Pr: anyType().nullable(),
     My_Room_category: anyType().nullable(),
     RUNNING_BALANCE: numberType().nullable(),
     My_Room_type: anyType().nullable(),
     My_Travel_agency: nullType(),
+    DOC_NUMBER: stringType().nullable().optional().default(null),
     NET_AMOUNT: numberType(),
     OWNER_ID: numberType(),
     PAY_METHOD_CODE: unionType([stringType(), nullType()]),
@@ -72,13 +98,14 @@ const MyClTxSchema = objectType({
 });
 const FetchCLParamsSchema = objectType({
     AGENCY_ID: numberType(),
-    START_DATE: stringType(),
-    END_DATE: stringType(),
+    START_DATE: stringType().optional().nullable().default(null),
+    END_DATE: stringType().optional().nullable().default(null),
     START_ROW: numberType().default(0),
     END_ROW: numberType().default(20),
     SEARCH_QUERY: stringType().nullable().optional().default(null),
     IS_LOCKED: booleanType().optional().nullable().default(null),
     IS_HOLD: booleanType().optional().nullable().default(null),
+    IS_CHECKED_OUT_ONLY: booleanType().optional().nullable().default(null),
 });
 objectType({
     My_Cl_tx: arrayType(MyClTxSchema),
@@ -92,7 +119,7 @@ const ToggleCLTxHoldParamsSchema = objectType({
     IS_HOLD: booleanType(),
 });
 const IssueManualCLTxParamsSchema = objectType({
-    CL_TX_ID: numberType(),
+    CL_TX_ID: numberType().optional().default(-1),
     AGENCY_ID: numberType(),
     SERVICE_DATE: stringType(),
     // CATEGORY: z.string(),
@@ -109,6 +136,8 @@ const IssueManualCLTxParamsSchema = objectType({
     VAT_INCLUDED_CODE: enumType(['001', '002', '']).default(''),
     // VAT percentage (used only when VAT is included)
     VAT_PCT: numberType().optional().nullable().default(null),
+    //Booking number system id.
+    BH_ID: numberType().optional().nullable().default(null),
     IS_DELETE: booleanType().optional().default(false),
 });
 const AllocateCLCreditParamsSchema = objectType({
@@ -147,9 +176,10 @@ const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
 });
 const GetFiscalDocumentsParamsSchema = objectType({
     DOC_NUMBER: stringType().optional().default(''),
-    FROM_DATE: stringType(),
-    END_DATE: stringType().optional(),
-    FD_TYPE_CODE: stringType().optional().nullable().default(null),
+    FROM_DATE: stringType().optional().nullable(),
+    END_DATE: stringType().optional().nullable(),
+    LIST_FD_TYPE_CODE: arrayType(stringType()).optional().nullable().default(null),
+    FD_STATUS_CODE: stringType().optional().nullable().default(null),
     AGENCY_ID: numberType(),
 });
 const IssueInvoiceFromDraftParamsSchema = objectType({

@@ -13,13 +13,14 @@ import moment from "moment";
 import { Debounce } from "../../../../decorators/debounce";
 export class IrCityLedgerFolioFilters {
     dates = {
-        from: moment().subtract(30, 'days'),
-        to: moment(),
+        from: undefined,
+        to: undefined,
     };
     statusFilter = 'all';
     searchQuery = '';
     filtersChange;
     addEntry;
+    applyFilters;
     componentDidLoad() {
         this.emitFilters();
     }
@@ -29,12 +30,10 @@ export class IrCityLedgerFolioFilters {
         { value: 'held', label: 'Held' },
         { value: 'unbilled', label: 'Unbilled' },
     ];
-    toDateSelectRef;
-    fromDateSelectRef;
     emitFilters() {
         this.filtersChange.emit({
-            fromDate: this.dates?.from?.format('YYYY-MM-DD'),
-            toDate: this.dates?.to?.format('YYYY-MM-DD'),
+            fromDate: this.dates.from?.format('YYYY-MM-DD'),
+            toDate: this.dates.to?.format('YYYY-MM-DD'),
             status: this.statusFilter,
             search: this.searchQuery,
         });
@@ -43,27 +42,28 @@ export class IrCityLedgerFolioFilters {
         this.emitFilters();
     }
     render() {
-        return (h(Host, { key: '26844a6c2bb33b92b869ee67fc3830fe74b93b1d' }, h("div", { key: 'd2cbeca8ba947fa46c59d8537cf8a222dde0555e', class: "filters-bar" }, h("ir-date-range-filter", { key: '1681bc1561249e99815441f4ee360c21b89fb47a', fromDate: this.dates.from?.format('YYYY-MM-DD'), toDate: this.dates.to?.format('YYYY-MM-DD'), onDatesChanged: e => {
-                let newDates = {};
-                let dates = e.detail;
-                if (dates.from) {
-                    newDates = { ...newDates, from: moment(dates.from, 'YYYY-MM-DD') };
-                }
-                if (dates.to) {
-                    newDates = { ...newDates, to: moment(dates.to, 'YYYY-MM-DD') };
-                }
-                this.dates = { ...this.dates, ...newDates };
+        return (h(Host, { key: '068b5e8c4389a748117278499c80f856d2d5efeb' }, h("div", { key: '518207f7affc4ff1be6bcf024e6b0a563479dcde', class: "filters-bar" }, h("div", { key: 'd3c6bd7b7c8c970ca893d8fd54ef333cee1e7a46', class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '0dc2d9f39b13d8890ca1a4bcb95aaba0e01d72bc', maxDate: moment().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+                const { from, to } = e.detail;
+                this.dates = {
+                    from: from ? moment(from, 'YYYY-MM-DD') : null,
+                    to: to ? moment(to, 'YYYY-MM-DD') : null,
+                };
                 this.emitFilters();
-            }, style: { minWidth: '230px' } }), h("wa-select", { key: '019646eac6edd2a1eadb61c9ad8bc4fa843aebe9', value: this.statusFilter, onchange: e => {
+            } })), h("div", { key: '87f0cc652d8362d9e3d8bc78d5e3d32750f139d2', class: "filters-bar__search-group" }, h("wa-select", { key: '862aeeb3df828cf692bf9cab49cc98e3c720336d', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '2959e59e0bab63af8470d8509e18606d470611f0', "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '949f69496381c0c016864cd0c88fde5c5c4b072e', class: "filters-bar__search-input", "onText-change": e => {
                 this.searchQuery = e.detail;
                 this.emitFiltersDebounced();
-            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true, style: { minWidth: '250px' } }, h("wa-icon", { key: '64ebb61844f2470b2c0bc7c98f8805309b671d4b', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("wa-dropdown", { key: '2a1a55f9f6a432edcb444be808ccb470a6eedc9f' }, h("ir-custom-button", { key: '855d5b3069ddae7e7be7834f26e4621388085055', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: '135d92a55081860426ace4525d49ecc54f3c9e4d', name: "download", slot: "start" }), h("span", { key: 'a2c7f628e08b553830893c8a2f56531b7d519f1d' }, "Export")), h("wa-dropdown-item", { key: '2709e424482886a1492fc97b16282a06f9c22228', value: "csv" }, h("wa-icon", { key: '1ea879ac30eeac775bf3030e0df700ae75728d2d', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: '99f6e415abecc979cf78e511a9fa22f8f736e43f', value: "pdf" }, h("wa-icon", { key: 'cce65efb5c2561b275a7848f207e107b5a5d78d9', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: 'e8c1b4e85b3ecca3e71d98653880df13dc176c89' }), h("wa-dropdown-item", { key: '0347e1108f22304f002fdcfe8ece1de3957490c3', value: "print" }, h("wa-icon", { key: 'f79f86f4c2f797eb27e17cd42d018ac772b00632', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: '6d1b216f52a004aa3d9cd49a0d236c878c85e7ab', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry"))));
+            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '4edacf2122f7feaaa7ba18da286c40055b4aba62', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '34b3eb1ff52121b558516100d2b72d8c407560e2', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit({
+                fromDate: this.dates.from?.format('YYYY-MM-DD'),
+                toDate: this.dates.to?.format('YYYY-MM-DD'),
+                status: this.statusFilter,
+                search: this.searchQuery,
+            }) }, h("wa-icon", { key: '760f1e7e9f1438e0a4b26fe5359121aa7a0a2a42', name: "magnifying-glass" }))), h("div", { key: '6e0cde9e968be15b0af950b0a7606e7dae16c292', class: "filters-bar__actions" }, h("wa-dropdown", { key: '681b5f43fe338d9f0c7ce389c9cd74d6e7945aec' }, h("ir-custom-button", { key: '35b59ff162043bf4110ad206f4016d5af86e7917', slot: "trigger", appearance: "outlined", withCaret: true }, h("wa-icon", { key: 'f2ea556356248247cf2b19c496cdddf11713686d', name: "download", slot: "start" }), h("span", { key: '8971be882246da231ac4490e295321bf8b88bfc0' }, "Export")), h("wa-dropdown-item", { key: '4dadc29d9fb559aa1f02fd30a0fc64eaeff119c5', value: "csv" }, h("wa-icon", { key: '1ea1398fc81dc42e3502b36bfd311ecb8f031978', slot: "icon", name: "file-csv" }), "Export as CSV"), h("wa-dropdown-item", { key: '7f86efd0644c1690a7eaf43fa55f2b7b301758d4', value: "pdf" }, h("wa-icon", { key: '180fc2719385409b59428587252599b0610ec94e', slot: "icon", name: "file-pdf" }), "Export as PDF"), h("wa-divider", { key: '585d960deaf716178f8a76835c2c9ec95dbe8b6d' }), h("wa-dropdown-item", { key: '3147803db2601fc6962f6b9fc7a2b5dc610017c6', value: "print" }, h("wa-icon", { key: '7b7e9542c53ef8cb3a0fdf4a67d13bddbd05ffd4', slot: "icon", name: "print" }), "Print Folio")), h("ir-custom-button", { key: '43f15ff2de9052f103c6b694bdc816257ee3652c', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
     static get is() { return "ir-city-ledger-folio-filters"; }
     static get encapsulation() { return "scoped"; }
@@ -120,6 +120,27 @@ export class IrCityLedgerFolioFilters {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
+                }
+            }, {
+                "method": "applyFilters",
+                "name": "applyFilters",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "FolioFilters",
+                    "resolved": "FolioFilters",
+                    "references": {
+                        "FolioFilters": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters"
+                        }
+                    }
                 }
             }];
     }

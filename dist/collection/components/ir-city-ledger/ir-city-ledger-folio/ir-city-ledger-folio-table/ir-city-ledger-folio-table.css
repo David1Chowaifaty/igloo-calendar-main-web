@@ -280,6 +280,46 @@
   font-size: 0.875rem;
 }
 
+/* Date prompt state */
+.folio-table__date-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.folio-table__date-prompt-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.875rem;
+  background: var(--wa-color-brand-fill-quiet, #eff6ff);
+  color: var(--wa-color-brand-fill-loud, #2563eb);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.folio-table__date-prompt-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--wa-color-text-normal, #111827);
+}
+
+.folio-table__date-prompt-subtitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--wa-color-text-subtle, #6b7280);
+  max-width: 28rem;
+  line-height: 1.5;
+}
+
 .folio-table__no-results {
   text-align: center;
   color: var(--wa-color-text-quiet, #9ca3af);

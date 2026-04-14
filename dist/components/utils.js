@@ -513,7 +513,7 @@ function checkUserAuthState() {
  * @returns True if check-in is allowed; otherwise, false.
  */
 function canCheckIn({ from_date, to_date, isCheckedIn }) {
-    if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) {
+    if (!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out || !calendar_data.property.is_frontdesk_enabled) {
         return false;
     }
     if (isCheckedIn) {

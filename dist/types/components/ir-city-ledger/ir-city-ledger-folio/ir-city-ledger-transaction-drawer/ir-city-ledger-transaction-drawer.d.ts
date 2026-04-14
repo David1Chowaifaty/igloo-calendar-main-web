@@ -10,7 +10,7 @@ export declare class IrCityLedgerTransactionDrawer {
     unpaidInvoiceOptions: LinkedOption[];
     bookingOptions: LinkedOption[];
     serviceCategoryOptions: ServiceCategoryOption[];
-    currencySymbol: string;
+    saveDisabled: boolean;
     closeDrawer: EventEmitter<void>;
     transactionSaved: EventEmitter<void>;
     private stopEventPropagation;

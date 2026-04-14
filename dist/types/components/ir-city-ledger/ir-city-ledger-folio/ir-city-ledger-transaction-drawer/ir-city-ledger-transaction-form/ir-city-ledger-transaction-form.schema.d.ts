@@ -1,14 +1,8 @@
 import { z } from 'zod';
-export declare const TRANSACTION_TYPES: {
-    readonly OB: "OPENING_BALANCE";
-    readonly PAY: "PAYMENT";
-    readonly DB: "MANUAL_CHARGE";
-    readonly ADJ: "ADJUSTMENT";
-    readonly CN: "CREDIT_NOTE";
-    readonly DN: "DEBIT_NOTE";
-};
-export declare const TRANSACTION_TYPE_RATES: Record<string, 'CR' | 'DB' | 'CR|DB'>;
-export type TransactionType = keyof typeof TRANSACTION_TYPES;
+import { ClTxTypeCode } from "../../../../../types/enums";
+export type TransactionType = (typeof ClTxTypeCode)[keyof typeof ClTxTypeCode];
+export declare const TRANSACTION_TYPES: Record<TransactionType, string>;
+export declare const TRANSACTION_TYPE_RATES: Record<TransactionType, 'CR' | 'DB' | 'CR|DB'>;
 export declare const ENTRY_TYPES: readonly ["CR", "DB"];
 export type EntryType = (typeof ENTRY_TYPES)[number];
 export interface PaymentTypeOption {
@@ -37,6 +31,8 @@ export interface ServiceCategoryOption {
     id: string;
     label: string;
 }
+export declare const CREDIT_NOTE_MODES: readonly ["cancel-invoice", "goodwill"];
+export type CreditNoteMode = (typeof CREDIT_NOTE_MODES)[number];
 export interface CityLedgerTransactionFormDraft {
     transactionType: TransactionType;
     date: string;
@@ -56,6 +52,7 @@ export interface CityLedgerTransactionFormDraft {
     linkedId?: string;
     reason?: AdjustmentReason | '';
     generatesFiscalDocument?: boolean;
+    creditNoteMode?: CreditNoteMode;
 }
 export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminatedUnion<"transactionType", [z.ZodObject<z.objectUtil.extendShape<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
@@ -74,7 +71,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 }, {
     date?: string;
@@ -83,7 +80,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 }>, z.ZodObject<z.objectUtil.extendShape<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
@@ -100,11 +97,11 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     }, "strip", z.ZodTypeAny, {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     }, {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     }>>>;
     payment_method: z.ZodOptional<z.ZodNullable<z.ZodObject<{
         code: z.ZodString;
@@ -131,7 +128,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -151,7 +148,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -207,7 +204,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 }, {
@@ -218,7 +215,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 }>, z.ZodObject<z.objectUtil.extendShape<{
@@ -229,7 +226,8 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     notes: z.ZodOptional<z.ZodString>;
 }, {
     transactionType: z.ZodLiteral<"CN">;
-    invoiceId: z.ZodString;
+    creditNoteMode: z.ZodEnum<["cancel-invoice", "goodwill"]>;
+    invoiceId: z.ZodOptional<z.ZodString>;
     generatesFiscalDocument: z.ZodLiteral<true>;
 }>, "strip", z.ZodTypeAny, {
     date?: string;
@@ -239,6 +237,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 }, {
     date?: string;
@@ -248,6 +247,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 }>, z.ZodObject<z.objectUtil.extendShape<{
     date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
@@ -284,7 +284,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 } | {
     date?: string;
@@ -295,7 +295,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -322,7 +322,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 } | {
@@ -333,6 +333,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 } | {
     date?: string;
@@ -350,7 +351,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 } | {
     date?: string;
@@ -361,7 +362,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -388,7 +389,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 } | {
@@ -399,6 +400,7 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 } | {
     date?: string;
@@ -422,7 +424,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 } | {
     date?: string;
@@ -433,7 +435,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -460,7 +462,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 } | {
@@ -471,6 +473,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 } | {
     date?: string;
@@ -488,7 +491,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     amount?: number;
     taxId?: string;
     transactionType?: "OB";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     isCutover?: boolean;
 } | {
     date?: string;
@@ -499,7 +502,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     payment_type?: {
         code?: string;
         description?: string;
-        operation?: "CR" | "DB";
+        operation?: "DB" | "CR";
     };
     payment_method?: {
         code?: string;
@@ -526,7 +529,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     reason?: "ROUNDING_DIFFERENCE" | "GOODWILL_CREDIT" | "PRICE_MATCH" | "COMMISSION_CORRECTION" | "DISCOUNT_CORRECTION";
     taxId?: string;
     transactionType?: "ADJ";
-    entryType?: "CR" | "DB";
+    entryType?: "DB" | "CR";
     linkType?: "NONE" | "INVOICE" | "BOOKING";
     linkedId?: string;
 } | {
@@ -537,6 +540,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     taxId?: string;
     transactionType?: "CN";
     invoiceId?: string;
+    creditNoteMode?: "cancel-invoice" | "goodwill";
     generatesFiscalDocument?: true;
 } | {
     date?: string;
@@ -548,7 +552,7 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     invoiceId?: string;
     generatesFiscalDocument?: true;
 }>;
-export declare const transactionTypeFieldSchema: z.ZodEnum<[string, ...string[]]>;
+export declare const transactionTypeFieldSchema: z.ZodEnum<[TransactionType, ...TransactionType[]]>;
 export declare const dateFieldSchema: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
 export declare const amountFieldSchema: z.ZodNumber;
 export declare const taxIdFieldSchema: z.ZodString;
@@ -559,4 +563,3 @@ export declare const invoiceIdRequiredFieldSchema: z.ZodString;
 export declare const serviceCategoryFieldSchema: z.ZodString;
 export declare const linkTypeFieldSchema: z.ZodEnum<["INVOICE", "BOOKING", "NONE"]>;
 export declare const reasonFieldSchema: z.ZodEnum<["ROUNDING_DIFFERENCE", "GOODWILL_CREDIT", "PRICE_MATCH", "COMMISSION_CORRECTION", "DISCOUNT_CORRECTION"]>;
-export declare const exampleSubmissionPayload: CityLedgerTransactionPayload;

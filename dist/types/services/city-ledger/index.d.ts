@@ -1,11 +1,11 @@
-import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type FiscalDocuments } from './types';
+import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type FiscalDocuments, MyClTx } from './types';
 export * from './types';
 export declare class CityLedgerService {
     fetchCL(params: FetchCLParams): Promise<FetchCLResult>;
     toggleCLTxHold(params: ToggleCLTxHoldParams): Promise<any>;
     handleCityLedgerTransaction(params: Record<string, unknown>): Promise<any>;
     syncBookingToCityLedger(params: SyncBookingToCityLedgerParams): Promise<any>;
-    issueManualCLTx(params: IssueManualCLTxParams): Promise<any>;
+    issueManualCLTx(params: IssueManualCLTxParams): Promise<MyClTx>;
     allocateCLCredit(params: AllocateCLCreditParams): Promise<any>;
     getCLAccountBalance(params: GetCLAccountBalanceParams): Promise<CLAccountBalance>;
     getCLUnallocatedTransactions(params: GetCLUnallocatedTransactionsParams): Promise<any>;

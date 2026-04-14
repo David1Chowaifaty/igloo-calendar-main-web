@@ -6,8 +6,6 @@ export declare class IrBookingCityLedger {
     booking: Booking;
     /** Active language code. */
     language: string;
-    /** Currency symbol used in the transaction drawer. */
-    currencySymbol: string;
     /** Service-category entries used to populate the transaction form. */
     svcCategories: IEntries[];
     private isLoading;

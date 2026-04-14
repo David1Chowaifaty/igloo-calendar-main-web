@@ -2,14 +2,13 @@ import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import moment from "moment";
+import calendar_data from "../../../stores/calendar-data";
 export class IrBookingCityLedger {
     cityLedgerService = new CityLedgerService();
     /** Booking object; component is hidden when booking.agent is null. */
     booking;
     /** Active language code. */
     language = 'en';
-    /** Currency symbol used in the transaction drawer. */
-    currencySymbol = '$';
     /** Service-category entries used to populate the transaction form. */
     svcCategories = [];
     isLoading = false;
@@ -65,19 +64,19 @@ export class IrBookingCityLedger {
     formatAmount(value) {
         if (!value)
             return '—';
-        return `${this.currencySymbol}${value.toFixed(2)}`;
+        return `${calendar_data.property?.currency?.symbol}${value.toFixed(2)}`;
     }
     renderTable() {
         if (this.folioRows.length === 0) {
             return h("p", { class: "booking-city-ledger__empty" }, "No city ledger entries for this period.");
         }
-        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Debit"), h("th", { class: "text-right" }, "Credit"))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, moment(row.serviceDate).format('MMM DD, YYYY')), h("td", null, row.description || '—'), h("td", { class: "text-right" }, row.debit ? this.formatAmount(row.debit) : '—'), h("td", { class: "text-right" }, row.credit ? this.formatAmount(row.credit) : '—'))))))));
+        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Debit"), h("th", { class: "text-right" }, "Credit"))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, moment(row.serviceDate).format('MMM DD, YYYY')), h("td", null, row.description || '—'), h("td", { class: "text-right is-debit" }, row.debit ? this.formatAmount(row.debit) : '—'), h("td", { class: "text-right is-credit" }, row.credit ? this.formatAmount(row.credit) : '—'))))))));
     }
     render() {
         if (!this.booking?.agent) {
             return h(Host, null);
         }
-        return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " City Ledger")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => (this.drawerOpen = true) }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: "New Folio Entry", agentId: this.booking.agent.id, currencySymbol: this.currencySymbol, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => (this.drawerOpen = false), onTransactionSaved: async () => {
+        return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " Agent Folio")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => (this.drawerOpen = true) }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: "New Folio Entry", agentId: this.booking.agent.id, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => (this.drawerOpen = false), onTransactionSaved: async () => {
                 this.drawerOpen = false;
                 await this.fetchCityLedger();
             } })));
@@ -138,26 +137,6 @@ export class IrBookingCityLedger {
                 "attribute": "language",
                 "reflect": false,
                 "defaultValue": "'en'"
-            },
-            "currencySymbol": {
-                "type": "string",
-                "mutable": false,
-                "complexType": {
-                    "original": "string",
-                    "resolved": "string",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": "Currency symbol used in the transaction drawer."
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "currency-symbol",
-                "reflect": false,
-                "defaultValue": "'$'"
             },
             "svcCategories": {
                 "type": "unknown",

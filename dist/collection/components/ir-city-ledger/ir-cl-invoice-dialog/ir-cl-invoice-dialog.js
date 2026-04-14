@@ -10,12 +10,14 @@ export class IrClInvoiceDialog {
     currencyId = null;
     isLoading = false;
     error = null;
+    noResults = false;
     invoiceIssued;
     dialogRef;
     formRef;
     cityLedgerService = new CityLedgerService();
     async openModal() {
         this.error = null;
+        this.noResults = false;
         this.dialogRef.openModal();
     }
     async closeModal() {
@@ -24,6 +26,7 @@ export class IrClInvoiceDialog {
     async handleSubmit() {
         this.isLoading = true;
         this.error = null;
+        this.noResults = false;
         try {
             if (this.mode === 'booking') {
                 const result = await this.cityLedgerService.issueFiscalDocument({
@@ -38,16 +41,24 @@ export class IrClInvoiceDialog {
                 this.dialogRef.closeModal();
             }
             else {
-                const { fromDate, toDate } = await this.formRef.getValues();
+                const { fromDate, toDate, is_checked_out_only } = await this.formRef.getValues();
                 const clResult = await this.cityLedgerService.fetchCL({
                     AGENCY_ID: this.agentId,
                     START_DATE: fromDate,
                     END_DATE: toDate,
                     START_ROW: 1,
                     END_ROW: 999999,
+                    IS_CHECKED_OUT_ONLY: is_checked_out_only,
+                    IS_HOLD: false,
+                    IS_LOCKED: false,
                 });
-                const targetCategories = ['ACM', 'TRF', 'GEN'];
-                const listClTxIds = [...new Set(clResult.My_Cl_tx.filter(tx => targetCategories.includes(tx.CATEGORY)).map(tx => tx.CL_TX_ID))];
+                // const targetCategories = ['ACM', 'TRF', 'GEN'];
+                // const listClTxIds = [...new Set(clResult.My_Cl_tx.filter(tx => targetCategories.includes(tx.CATEGORY) && !tx.DOC_NUMBER).map(tx => tx.CL_TX_ID))];
+                if (!clResult.My_Cl_tx?.length) {
+                    this.noResults = true;
+                    return;
+                }
+                const listClTxIds = [...new Set(clResult.My_Cl_tx.map(tx => tx.CL_TX_ID))];
                 const result = await this.cityLedgerService.issueFiscalDocument({
                     AGENCY_ID: this.agentId,
                     CURRENCY_ID: calendar_data?.property?.currency?.id,
@@ -68,7 +79,7 @@ export class IrClInvoiceDialog {
         }
     }
     render() {
-        return (h(Host, { key: '10075cd4736a9ab82a2742c788c05bff716a9fad' }, h("ir-dialog", { key: '03d8b092372c7721ade2390124bc04bf2968ff13', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '779c5ae918becf94c12b4ae28731154db9c1110e', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.error && h("p", { key: '33de293b2475d86e8d91eb3268c030436cd9e314', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '377dafd31c43c880d3240f51044ac57cf8a59594', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'c96bce119f9f1092909a371ce0f58eea9a8ce0a7', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '3d880d4551a31ad0b2de947441ba55486343dd3f', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: '1ed69c3a1e2b09d00185a5120ce4fcc62bf2bf70' }, h("ir-dialog", { key: '9f15ef2da892380daea221923f7bdd0fdb0282e9', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: 'a95a804808d5e5fe715c10837d80bdd135729cc9', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '69d7eb1c9c33bec0bff4d8e80842cae13feb134a', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '2cd7aea230637f146d3a9762d372b2d7584cfe5d', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '8917e84a0a7ce140992d38a76d42b02e0b61a217', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '7e2cc69784022e5515b94716a920acba74c16c52', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '044d91b7b1677170b7a60f6512c0302ca4ad0f7a', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '499b8016dc9cecd46c680a086e28eae490d15a37', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -209,7 +220,8 @@ export class IrClInvoiceDialog {
     static get states() {
         return {
             "isLoading": {},
-            "error": {}
+            "error": {},
+            "noResults": {}
         };
     }
     static get events() {
