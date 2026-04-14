@@ -3,11 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-1db770e0.js');
+const booking_service = require('./booking.service-7907eeef.js');
 const utils = require('./utils-f4749fef.js');
 const booking = require('./booking-a03b0b1d.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-64cabe13.js');
+const events_service = require('./events.service-e0985844.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const toBeAssigned_service = require('./toBeAssigned.service-da6bbe0c.js');
@@ -68,7 +68,7 @@ const IglBlockedDateDrawer = class {
         BLOCKED_TILL_MINUTE: null,
     };
     blockedDateDrawerClosed;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     async handleBlockDate() {
         try {
             this.isLoading = true;
@@ -161,7 +161,7 @@ const IglBookingEvent = class {
     isStretch = false;
     /*Services */
     eventsService = new events_service.EventsService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /* Resize props */
     resizeSide = '';
     isDragging = false;
@@ -2215,7 +2215,7 @@ const IglSplitBooking = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -2251,7 +2251,7 @@ const IglSplitBooking = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -3304,7 +3304,7 @@ const IrReallocationForm = class {
     errors;
     mealPlanOptions = null;
     closeModal;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     eventsService = new events_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
@@ -3326,7 +3326,7 @@ const IrReallocationForm = class {
     }
     async checkBookingAvailability() {
         this.isLoading = true;
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
         try {
@@ -3612,7 +3612,7 @@ const IrRoomNights = class {
     isInputFocused = -1;
     dates = { from_date: new Date(), to_date: new Date() };
     closeRoomNightsDialog;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();

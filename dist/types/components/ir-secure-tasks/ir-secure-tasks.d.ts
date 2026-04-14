@@ -1,5 +1,6 @@
-export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents';
+export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents' | 'channels' | 'tax-services' | 'payment-options';
 export declare class IrSecureTasks {
+    el: HTMLElement;
     propertyid: number;
     p: string;
     bookingNumber: string;
@@ -7,15 +8,26 @@ export declare class IrSecureTasks {
     isAuthenticated: boolean;
     currentPage: SecureScreens;
     inputValue: string;
+    canScrollLeft: boolean;
+    canScrollRight: boolean;
     private token;
     private dates;
+    private tabsTrackRef;
+    private resizeObserver;
     componentWillLoad(): void;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
     handlePChange(): void;
-    handleTicketChange(newValue: any, oldValue: any): void;
+    handleTicketChange(newValue: string, oldValue: string): void;
     private generateDates;
-    private routes;
+    private updateScrollState;
+    private scrollTabs;
+    private readonly validPages;
+    private isValidPage;
+    private navigateTo;
+    private routeGroups;
     private handleAuthFinish;
-    render(): any;
     private logout;
+    render(): any;
     renderPage(): any;
 }

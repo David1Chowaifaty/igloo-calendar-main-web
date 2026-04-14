@@ -2,6 +2,7 @@ import Token from "../../models/Token";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrSecureTasks {
+    el;
     propertyid;
     p;
     bookingNumber;
@@ -9,21 +10,39 @@ export class IrSecureTasks {
     isAuthenticated = false;
     currentPage = 'front';
     inputValue;
+    canScrollLeft = false;
+    canScrollRight = true;
     token = new Token();
     dates = {};
+    tabsTrackRef;
+    resizeObserver;
     componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         this.generateDates();
         if (this.ticket) {
             this.isAuthenticated = true;
             this.token.setToken(this.ticket);
-            this.propertyid = this.propertyid;
         }
         if (isAuthenticated) {
             this.isAuthenticated = true;
             this.token.setToken(isAuthenticated.token);
         }
         this.inputValue = this.p;
+        const pageParam = new URLSearchParams(window.location.search).get('page');
+        if (pageParam && this.isValidPage(pageParam)) {
+            this.currentPage = pageParam;
+        }
+    }
+    componentDidLoad() {
+        if (this.tabsTrackRef) {
+            this.tabsTrackRef.addEventListener('scroll', () => this.updateScrollState(), { passive: true });
+            this.resizeObserver = new ResizeObserver(() => this.updateScrollState());
+            this.resizeObserver.observe(this.tabsTrackRef);
+            this.updateScrollState();
+        }
+    }
+    disconnectedCallback() {
+        this.resizeObserver?.disconnect();
     }
     handlePChange() {
         this.inputValue = this.p;
@@ -32,35 +51,84 @@ export class IrSecureTasks {
         if (newValue !== oldValue) {
             this.isAuthenticated = true;
             this.token.setToken(this.ticket);
-            this.propertyid = this.propertyid;
         }
     }
     generateDates() {
-        var today = new Date();
+        const today = new Date();
         today.setDate(today.getDate() - 1);
-        var _FROM_DATE = today.toISOString().substring(0, 10);
+        const _FROM_DATE = today.toISOString().substring(0, 10);
         today.setDate(today.getDate() + 60);
-        var _TO_DATE = today.toISOString().substring(0, 10);
-        this.dates = {
-            from_date: _FROM_DATE,
-            to_date: _TO_DATE,
-        };
+        const _TO_DATE = today.toISOString().substring(0, 10);
+        this.dates = { from_date: _FROM_DATE, to_date: _TO_DATE };
     }
-    routes = [
-        { name: 'Housekeepers', value: 'hk' },
-        { name: 'Tasks', value: 'tasks' },
-        { name: 'Front', value: 'front' },
-        { name: 'Users', value: 'users' },
-        { name: 'Sales By Country', value: 'country-sales' },
-        { name: 'Daily Occupancy', value: 'daily-occupancy' },
-        { name: 'Daily Revenue', value: 'daily-revenue' },
-        { name: 'Email logs', value: 'email-logs' },
-        { name: 'Booking Listing', value: 'booking-listing' },
-        { name: 'Sales by Channel', value: 'channel-sales' },
-        { name: 'Arrivals', value: 'arrivals' },
-        { name: 'Departures', value: 'departures' },
-        { name: 'Agents', value: 'agents' },
-        { name: 'CL', value: 'city-ledger' },
+    updateScrollState() {
+        if (!this.tabsTrackRef)
+            return;
+        const { scrollLeft, scrollWidth, clientWidth } = this.tabsTrackRef;
+        this.canScrollLeft = scrollLeft > 2;
+        this.canScrollRight = scrollLeft + clientWidth < scrollWidth - 2;
+    }
+    scrollTabs(dir) {
+        this.tabsTrackRef?.scrollBy({ left: dir === 'left' ? -240 : 240, behavior: 'smooth' });
+    }
+    validPages = new Set([
+        'hk',
+        'tasks',
+        'daily-revenue',
+        'arrivals',
+        'departures',
+        'front',
+        'users',
+        'email-logs',
+        'country-sales',
+        'daily-occupancy',
+        'booking-listing',
+        'channel-sales',
+        'city-ledger',
+        'agents',
+        'channels',
+        'tax-services',
+        'payment-options',
+    ]);
+    isValidPage(value) {
+        return this.validPages.has(value);
+    }
+    navigateTo(page) {
+        this.currentPage = page;
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', page);
+        window.history.pushState({}, '', url);
+    }
+    routeGroups = [
+        {
+            routes: [
+                { name: 'Front Desk', value: 'front' },
+                { name: 'Arrivals', value: 'arrivals' },
+                { name: 'Departures', value: 'departures' },
+                { name: 'Tasks', value: 'tasks' },
+                { name: 'Housekeeping', value: 'hk' },
+            ],
+        },
+        {
+            routes: [
+                { name: 'Daily Revenue', value: 'daily-revenue' },
+                { name: 'Occupancy', value: 'daily-occupancy' },
+                { name: 'Country Sales', value: 'country-sales' },
+                { name: 'Channel Sales', value: 'channel-sales' },
+                { name: 'Booking Listing', value: 'booking-listing' },
+                { name: 'Email Logs', value: 'email-logs' },
+            ],
+        },
+        {
+            routes: [
+                { name: 'Users', value: 'users' },
+                { name: 'Agents', value: 'agents' },
+                { name: 'City Ledger', value: 'city-ledger' },
+                { name: 'Channels', value: 'channels' },
+                { name: 'Tax & Services', value: 'tax-services' },
+                { name: 'Payment Options', value: 'payment-options' },
+            ],
+        },
     ];
     handleAuthFinish(e) {
         const token = e.detail.token;
@@ -68,10 +136,14 @@ export class IrSecureTasks {
         this.isAuthenticated = true;
         manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
     }
+    logout() {
+        sessionStorage.removeItem('backend_anchor');
+        window.location.reload();
+    }
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
-        return (h("div", { class: 'ir-page__container p-0' }, h("section", { class: "secure-header" }, h("div", { class: "secure-header__top" }, h("form", { class: "secure-header__aname", onSubmit: e => {
+        return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, h("form", { class: "secure-header__aname-form", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
                     const url = new URL(window.location.href);
@@ -79,46 +151,49 @@ export class IrSecureTasks {
                     window.history.pushState({}, '', url);
                 }
                 this.logout();
-            } }, h("label", { class: "secure-header__label", htmlFor: "aname-input" }, "AName"), h("div", { class: "secure-header__aname-input" }, h("ir-input", { id: "aname-input", type: "text", value: this.inputValue, "onText-change": e => (this.inputValue = e.detail), placeholder: "AName", "aria-label": "AName" }), h("ir-custom-button", { variant: "brand", type: "submit", id: "button-save" }, "Save"))), h("ir-custom-button", { variant: "danger", onClick: () => {
-                this.logout();
-            } }, "Logout")), h("nav", { class: "secure-header__tabs", "aria-label": "Secure screens navigation" }, h("ul", { class: "secure-tabs" }, this.routes.map(route => (h("li", { key: route.name, class: "secure-tabs__item" }, h("button", { type: "button", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-current": this.currentPage === route.value ? 'page' : undefined, onClick: () => {
-                this.currentPage = route.value;
-            } }, route.name))))))), this.renderPage()));
-    }
-    logout() {
-        sessionStorage.removeItem('backend_anchor');
-        window.location.reload();
+            } }, h("ir-input", { class: "secure-header__aname-input", size: "small", pill: true, value: this.inputValue, placeholder: "Property", "aria-label": "Property AName", "onText-change": e => (this.inputValue = e.detail) }, h("wa-icon", { slot: "start", name: "building", "aria-hidden": "true" }), h("button", { slot: "end", class: "secure-header__aname-save", type: "submit", "aria-label": "Save property" }, h("wa-icon", { name: "arrow-right" })))), h("div", { class: "secure-header__sep", role: "separator" }), h("wa-tooltip", { for: "secure-logout-btn", placement: "bottom" }, "Sign out"), h("wa-button", { id: "secure-logout-btn", size: "small", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Sign out", onClick: () => this.logout() }, h("wa-icon", { name: "arrow-right-from-bracket" })))), h("nav", { class: "secure-header__tabbar", "aria-label": "Secure screens navigation" }, h("wa-button", { class: `secure-header__scroll-btn${this.canScrollLeft ? '' : ' secure-header__scroll-btn--hidden'}`, size: "small", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs left", tabIndex: -1, onClick: () => this.scrollTabs('left') }, h("wa-icon", { name: "chevron-left" })), h("div", { class: "secure-tabs-track", ref: el => {
+                this.tabsTrackRef = el;
+            } }, h("ul", { class: "secure-tabs", role: "tablist" }, this.routeGroups.map((group, gi) => [
+            gi > 0 && h("li", { class: "secure-tabs__sep", role: "none", "aria-hidden": "true" }),
+            ...group.routes.map(route => (h("li", { key: route.value, class: "secure-tabs__item", role: "none" }, h("button", { type: "button", role: "tab", class: { 'secure-tabs__btn': true, 'active': this.currentPage === route.value }, "aria-selected": this.currentPage === route.value ? 'true' : 'false', onClick: () => this.navigateTo(route.value) }, route.name)))),
+        ]))), h("wa-button", { class: `secure-header__scroll-btn${this.canScrollRight ? '' : ' secure-header__scroll-btn--hidden'}`, size: "small", appearance: "plain", variant: "neutral", pill: true, "aria-label": "Scroll tabs right", tabIndex: -1, onClick: () => this.scrollTabs('right') }, h("wa-icon", { name: "chevron-right" })))), h("div", { class: "ir-page__container", style: { padding: '0' } }, this.renderPage())));
     }
     renderPage() {
         switch (this.currentPage) {
-            case 'tasks':
-                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'front':
                 return (h("div", { style: { flex: '1 1 0%', display: 'block', background: 'red' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
-            case 'hk':
-                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
-            case 'users':
-                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
-            case 'country-sales':
-                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
-            case 'daily-occupancy':
-                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
-            case 'daily-revenue':
-                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
-            case 'email-logs':
-                return h("ir-booking-email-logs", { ticket: this.token.getToken() });
-            case 'booking-listing':
-                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
-            case 'channel-sales':
-                return h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
             case 'arrivals':
                 return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'departures':
                 return h("ir-departures", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'tasks':
+                return h("ir-hk-tasks", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'hk':
+                return h("ir-housekeeping", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'daily-revenue':
+                return h("ir-daily-revenue", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'daily-occupancy':
+                return h("ir-monthly-bookings-report", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'country-sales':
+                return h("ir-sales-by-country", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'channel-sales':
+                return h("ir-sales-by-channel", { language: "en", propertyid: this.propertyid.toString(), ticket: this.token.getToken() });
+            case 'booking-listing':
+                return h("ir-booking-listing", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
+            case 'email-logs':
+                return h("ir-booking-email-logs", { ticket: this.token.getToken() });
+            case 'users':
+                return h("ir-user-management", { userTypeCode: 5, p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'agents':
+                return h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'city-ledger':
                 return h("ir-city-ledger", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
-            case 'agents':
-                return (h("div", null, h("ir-agents", { style: { gap: '1.5rem' }, p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() })));
+            case 'channels':
+                return h("ir-channel", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'tax-services':
+                return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
+            case 'payment-options':
+                return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }
@@ -218,9 +293,12 @@ export class IrSecureTasks {
         return {
             "isAuthenticated": {},
             "currentPage": {},
-            "inputValue": {}
+            "inputValue": {},
+            "canScrollLeft": {},
+            "canScrollRight": {}
         };
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
                 "propName": "p",
