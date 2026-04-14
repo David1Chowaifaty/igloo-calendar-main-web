@@ -16,6 +16,9 @@
   padding: var(--wa-space-l);
   position: relative;
   height: 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 .tax-page__header {
   display: flex;
