@@ -86,7 +86,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 await this.cityLedgerService.deleteDraftFiscalDocument({ FD_ID: row.FD_ID });
             }
             else if (action === 'convert-to-invoice') {
-                console.log('convert-to-invoice', row);
+                await this.cityLedgerService.issueInvoiceFromDraft({ FD_ID: row.FD_ID });
             }
             this.fetchRequested.emit();
         }
