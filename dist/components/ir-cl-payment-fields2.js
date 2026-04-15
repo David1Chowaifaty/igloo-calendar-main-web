@@ -37,19 +37,10 @@ const IrClPaymentFields = /*@__PURE__*/ proxyCustomElement(class IrClPaymentFiel
         this.fieldChange.emit({ payment_method });
     }
     render() {
-        return (h(Fragment, { key: '492c6055bf1fc76c315b86f0da9990035598d099' }, h("div", { key: 'a97fa9090edfb196230963957f64118ef97885f1', class: "payment-section" }, h("div", { key: 'a7ea8ddc424479f423802221123f58b128936e22', class: "field" }, h("ir-validator", { key: 'afd79016f1cabde0ca2506ce9b08729ebb614c82', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '092e24c3e2a719a03cfbbaa23a7d8ba62f7bdb8f', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
+        return (h(Fragment, { key: '5cc29584daee0f94c6a72ed0b15871582e48ae5a' }, h("div", { key: '606972f60bb17ba8c81a8156a0eed010fb48232c', class: "payment-section" }, h("div", { key: '7a1ba12ca3011213bd8a3f7d8aa7c15b1267b763', class: "field" }, h("ir-validator", { key: 'a7635cd190b4a07c261d0a7fe9e1edea39b9d61c', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '7e1ec3a2ac0b5f3fede95009c8d3e63218108eee', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
                 this.stopPropagation(e);
                 this.handlePaymentMethodChange(e.target.value);
-            } }, h("wa-option", { key: '30faff9d1c22f3247115d7edf87f71c2a7594012', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language })))))))), h("div", { key: 'f0d793a2253f4ae28a5af97778abb4129fe05071', class: "payment-section" }, h("wa-radio-group", { key: '5cab7f2af65be9723e792674c0bff529836b26f4', label: "Apply to", size: "small", orientation: "horizontal", value: this.isOnAccount ? 'on-account' : 'apply-to-invoice', onchange: e => {
-                const val = e.target.value;
-                this.fieldChange.emit({
-                    onAccount: val === 'on-account',
-                    invoiceId: val === 'on-account' ? undefined : this.invoiceId,
-                });
-            } }, h("wa-radio", { key: '4660d41398b4b0ceadcb6a2391e2c2da37f039d2', appearance: "button", value: "on-account" }, "On Account"), h("wa-radio", { key: 'e957811d788038db220d6cdfa799ac855b5c876d', appearance: "button", value: "apply-to-invoice", disabled: this.noInvoices }, "Allocate to Invoices")), !this.isOnAccount && (h("div", { key: '9005ec3c3a12904a0e07dc68357d2c4419b97d82', class: "field invoice-select" }, h("wa-select", { key: '9df6f0e132ef16b4fa06f13300251e0ef8cc960f', label: "Outstanding Invoices", size: "small", placeholder: "Search invoices\u2026", value: this.invoiceId ?? '', "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
-                this.stopPropagation(e);
-                this.fieldChange.emit({ invoiceId: e.target.value || undefined });
-            } }, h("wa-option", { key: '619ac353e7c329a9c0fe0f4820424ed58abad7aa', value: "" }, "No invoice linked"), this.unpaidInvoiceOptions.length === 0 && (h("wa-option", { key: '12f892143e91196baccdb603718eaacffc6d4fa7', value: "", disabled: true }, "No outstanding invoices")), this.unpaidInvoiceOptions.map(invoice => (h("wa-option", { key: invoice.id, value: invoice.id }, invoice.label)))))))));
+            } }, h("wa-option", { key: 'ddb9d5721a9bf5e5967bd012866e150c9aedf374', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language }))))))))));
     }
     static get style() { return IrClPaymentFieldsStyle0; }
 }, [2, "ir-cl-payment-fields", {

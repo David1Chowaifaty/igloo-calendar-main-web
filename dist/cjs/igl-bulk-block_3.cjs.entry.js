@@ -3,15 +3,15 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-7907eeef.js');
+const booking_service = require('./booking.service-4abeb0a0.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking = require('./booking-a03b0b1d.js');
+const booking = require('./booking-414ee8d7.js');
 require('./axios-6e678d52.js');
-require('./utils-f4749fef.js');
-require('./type-393ac773.js');
+require('./utils-f786503d.js');
+require('./type-976db45d.js');
 require('./index-fbf1fe1d.js');
 
 class ReloadInterceptor {
@@ -203,10 +203,10 @@ const IglBulkBlock = class {
         }, 100);
     }
     render() {
-        return (index.h("form", { key: 'e8724267ac883036e9eee7c91b3ce91b5d0ff7ed', id: this.formId, class: "igl-bulk-block__form", onSubmit: e => {
+        return (index.h("form", { key: 'a2107138b1992797b86399d8301f3f52e8b3861f', id: this.formId, class: "igl-bulk-block__form", onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, index.h("wa-radio-group", { key: '6bb678f410c213c504f2af58f947968d85e0006d', size: "small", label: "Block or unblock a unit", orientation: "horizontal", name: "action" }, index.h("wa-radio", { key: '90ea0a91de5255d810f8e09d5935c8f86addec25', style: { flex: '1 1 0%' }, appearance: "button", value: "block" }, "Block"), index.h("wa-radio", { key: '6d04f085ec47ab6c2d5061c5c1c0f41953e55775', style: { flex: '1 1 0%' }, appearance: "button", value: "unblock" }, "Unblock")), index.h("div", { key: '7c1171ea052f3b038e8bdb4ee38b19fbd3361b15' }, this.errors === 'rooms' && (index.h("p", { key: '09d0713439bd540d6a6e667e318cc8bf568171a0', class: "igl-bulk-block__error" }, calendarData.calendar_data.is_vacation_rental ? locales_store.locales.entries.Lcz_PlzSelectOneListing : locales_store.locales.entries.Lcz_PlzSelectOneUnit)), index.h("wa-radio-group", { key: 'e8cb3c2af546136b3877797a0f7029325eb451a3', name: "unit", ref: el => (this.unitSections = el), onchange: e => {
+            } }, index.h("wa-radio-group", { key: '1b21bf2423b5c62db13a36e5f74541c8095945ae', size: "small", label: "Block or unblock a unit", orientation: "horizontal", name: "action" }, index.h("wa-radio", { key: '3aa3eb8b29585fe08a4e1a07035629d8acbe6604', style: { flex: '1 1 0%' }, appearance: "button", value: "block" }, "Block"), index.h("wa-radio", { key: '274d37d90c5c238b52f6abc50f7d0b4baa112ca0', style: { flex: '1 1 0%' }, appearance: "button", value: "unblock" }, "Unblock")), index.h("div", { key: 'a06277624d534abc28b66f8acf2900e48184ac9c' }, this.errors === 'rooms' && (index.h("p", { key: '6af05d145f9a68ee4c7325e613cce5ac189102f8', class: "igl-bulk-block__error" }, calendarData.calendar_data.is_vacation_rental ? locales_store.locales.entries.Lcz_PlzSelectOneListing : locales_store.locales.entries.Lcz_PlzSelectOneUnit)), index.h("wa-radio-group", { key: '9d12844bb0eba3d1f2873dc2bf9956987e5e11a9', name: "unit", ref: el => (this.unitSections = el), onchange: e => {
                 const [roomtypeId, unitId] = e.target.value?.toString().split('-');
                 this.selectedUnit = {
                     roomtype_id: roomtypeId,
@@ -217,9 +217,9 @@ const IglBulkBlock = class {
                 const rowStyle = j === roomType.physicalrooms.length - 1 ? 'igl-bulk-block__unit-row--last' : '';
                 return (index.h("div", { key: `physicalRoom-${room.id}-${j}`, class: `igl-bulk-block__unit-row ${rowStyle}` }, index.h("div", { class: "igl-bulk-block__unit-choice" }, index.h("wa-radio", { value: `${roomType.id}-${room.id}`, "data-roomtype": roomType.id, checked: this.selectedUnit?.unit_id === room.id }, room.name))));
             })));
-        }))), index.h("table", { key: 'ec805335f789c99570583f644b1bc1ebd9bbd16c', class: "igl-bulk-block__dates-table", ref: el => (this.datesSections = el) }, index.h("thead", { key: '15539603c19abe07db962b3fb759b7d8d95ae484' }, index.h("tr", { key: 'abf9ff20fcdd3085861d426be479f6c709f58a73' }, index.h("td", { key: 'e99a1e4ec7e859fcc66916a1ec2d3b56ee4ac217', class: "igl-bulk-block__dates-header" }, locales_store.locales.entries.Lcz_From), index.h("td", { key: '2706f871129c863a6d7a6b059e5c441527946000', class: "igl-bulk-block__dates-header" }, locales_store.locales.entries.Lcz_ToExclusive), index.h("td", { key: 'ab8f852c53df0e5f44db2179cf19b2907363716c' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (index.h("ir-custom-button", { key: '58d980f2992912af97198c16845a6060453fe894', appearance: "plain", variant: "neutral", onClickHandler: () => {
+        }))), index.h("table", { key: '677824e70cca9da2ef6f18fcbb4f206aa4cd8b92', class: "igl-bulk-block__dates-table", ref: el => (this.datesSections = el) }, index.h("thead", { key: '5e235305896e2481b78958e29d3a09799b501aed' }, index.h("tr", { key: 'fe0499d4161a3a476c25ab9394e313fb8e83fd80' }, index.h("td", { key: 'e5535c57608082268bcf5832ad9b3ad54ddc60c7', class: "igl-bulk-block__dates-header" }, locales_store.locales.entries.Lcz_From), index.h("td", { key: '4f7f6fbf235852737d8c5de2f26a77a75fbe3ed1', class: "igl-bulk-block__dates-header" }, locales_store.locales.entries.Lcz_ToExclusive), index.h("td", { key: '4a8b551a96510ad6c160245117a6014b00574205' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (index.h("ir-custom-button", { key: '6bf76fd2c7d2741e8d09dce9b590476e98c727b8', appearance: "plain", variant: "neutral", onClickHandler: () => {
                 this.addDateRow();
-            } }, index.h("wa-icon", { key: '01d75d2531580dc82d48e769b511580c2ce1e04d', name: "plus", style: { fontSize: '1.2rem' } })))))), index.h("tbody", { key: '4b6028a4057ed94569de10932822a5560e6a34c0' }, this.dates.map((d, i) => {
+            } }, index.h("wa-icon", { key: 'f97adff00aabb11549cc5fca23338405474a4e16', name: "plus", style: { fontSize: '1.2rem' } })))))), index.h("tbody", { key: '5eaca615fd02becace4025618918ef636262a7f1' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
@@ -514,10 +514,10 @@ const IglBulkStopSale = class {
         }, 100);
     }
     render() {
-        return (index.h("form", { key: '0f9f99bc17eade940ce1ae8c97fdf343e921c74e', id: this.formId, class: 'bulk-sheet-container', onSubmit: e => {
+        return (index.h("form", { key: '4a2d1efb70e49d831681a19eaaeb18aeab1b6252', id: this.formId, class: 'bulk-sheet-container', onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, index.h("div", { key: '14884823d004cc47c8f444b4d3623cdff9cec074', class: "sheet-body px-1" }, index.h("div", { key: 'cef8af42c60c34809e99189a2564bb979ab39269', class: "text-muted text-left py-0 my-0" }, index.h("p", { key: 'bdc2f0fb66908dd7395f982894775c5070d82d8b' }, "Select the types to stop or open sales for all related rate plans")), index.h("div", { key: 'b648c600f37c12673874a193d4063c068f814ac6' }, this.errors === 'rooms' && (index.h("p", { key: '45b57748be45bdec45236e7558872575c2ece7e6', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendarData.calendar_data.is_vacation_rental ? locales_store.locales.entries.Lcz_PlzSelectOneListing : locales_store.locales.entries.Lcz_PlzSelectOneUnit)), index.h("table", { key: '6f317ed742feac961b44709c51bab60bc9ee7fab', ref: el => (this.unitSections = el) }, index.h("thead", { key: '469f5d3af10f668e1d43ac5dbc2cf79319308f28' }, index.h("tr", { key: 'c0e4a4e6c0e7d1b3a0474364161de808c15522f3' }, index.h("th", { key: 'a16dab05a2c552c5874a939c9fe1cff5960008fa', class: "sr-only" }, "choice"), index.h("th", { key: '0bbd4a2bb21bf4901db299da343e588293afe9ad', class: "sr-only" }, "room type"))), index.h("tbody", { key: '365012a0fabff042e1d23a700903977a04c1b3bb' }, calendarData.calendar_data.roomsInfo.map((roomType, i) => {
+            } }, index.h("div", { key: 'b7e93d19c9c041b532c74527115020056e44d98c', class: "sheet-body px-1" }, index.h("div", { key: 'a6564d253b03813c3daad8f7e76eb9184f1b71fc', class: "text-muted text-left py-0 my-0" }, index.h("p", { key: 'a4e6996ef40af4394d32a1a361ebe3e1e50faff3' }, "Select the types to stop or open sales for all related rate plans")), index.h("div", { key: '1536007425a947869fda9528b0779b5e402bd3db' }, this.errors === 'rooms' && (index.h("p", { key: 'f7883e1344139a827bd04c08ccb63864fb6d0ec4', class: 'text-danger text-left smaller p-0 ', style: { 'margin-bottom': '0.5rem' } }, calendarData.calendar_data.is_vacation_rental ? locales_store.locales.entries.Lcz_PlzSelectOneListing : locales_store.locales.entries.Lcz_PlzSelectOneUnit)), index.h("table", { key: '3d7cb2f987f1b13f3de7c6a5e3b02ae90e49bb33', ref: el => (this.unitSections = el) }, index.h("thead", { key: '885c7cf40fee99dc1f1df322c56cb865810c052b' }, index.h("tr", { key: '348e6781567d6af23463a33de5236155717875d1' }, index.h("th", { key: 'be517fe0187f54df155fd4c6d2b887a6bf837f49', class: "sr-only" }, "choice"), index.h("th", { key: '3ea0dd01918cd19a6fbbc2966ade7d223ea9cb82', class: "sr-only" }, "room type"))), index.h("tbody", { key: '9d54f07becfef755935d016fb9fe5537404d64d6' }, calendarData.calendar_data.roomsInfo.map((roomType, i) => {
             const row_style = i === calendarData.calendar_data.roomsInfo.length - 1 ? '' : 'pb-1';
             return (index.h("tr", { key: roomType.id }, index.h("td", { class: `choice-row ${row_style}` }, index.h("div", { class: 'd-flex justify-content-end' }, index.h("wa-select", { onchange: e => {
                     const { value } = e.target;
@@ -530,13 +530,13 @@ const IglBulkStopSale = class {
                     }
                     this.selectedRoomTypes = rest;
                 }, size: "small", placeholder: `${locales_store.locales.entries.Lcz_Select}...` }, index.h("wa-option", { value: "open" }, locales_store.locales.entries.Lcz_Open), index.h("wa-option", { value: "closed" }, locales_store.locales.entries.Lcz_StopSale)))), index.h("td", { class: `pl-1 text-left ${row_style}` }, roomType.name)));
-        })))), index.h("p", { key: 'b7298dbfadb481a100137bc46dceb93ca343eb53', class: "text-left mt-2 text-muted" }, "Included days"), this.errors === 'weekdays' && index.h("p", { key: '9d8669e77c083d8219ef70595811ca0551296602', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), index.h("ir-weekday-selector", { key: 'be771fd6fd31d35d2f1050afc4c2dc377304e706', ref: el => (this.weekdaysSections = el), weekdays: Array.from(this.selectedWeekdays), onWeekdayChange: e => {
+        })))), index.h("p", { key: '59c4aaa64b5b2fd04e3ab7d60f0a1a059fc0dd20', class: "text-left mt-2 text-muted" }, "Included days"), this.errors === 'weekdays' && index.h("p", { key: '0f4c0801c8846c393668a7ee14c7a737d94322d4', class: 'text-danger text-left smaller m-0 p-0' }, "Please select at least one day"), index.h("ir-weekday-selector", { key: '818d575a2c36d6a4b7148ea30122ccfd54605979', ref: el => (this.weekdaysSections = el), weekdays: Array.from(this.selectedWeekdays), onWeekdayChange: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.selectedWeekdays = new Set(e.detail);
-            } }), index.h("table", { key: '9c6eb4406f06f10475a850be8c8ad47866ba3e9e', class: "mt-1", ref: el => (this.datesSections = el) }, index.h("thead", { key: '8db69c0acd9891973a4a11515c3832f640d651d6' }, index.h("tr", { key: '66b43d06596151ce79beeeed82b31253901d3788' }, index.h("td", { key: '335dbf87df1b1e6eb450de4ca7ae4202515d0626', class: "text-left bulk-stop-sale__date-label" }, locales_store.locales.entries.Lcz_From), index.h("td", { key: '3d0ed9903f4a91aadcd71ca74eff92ef42ebdbee', class: "text-left bulk-stop-sale__date-label" }, locales_store.locales.entries.Lcz_ToExclusive), index.h("td", { key: '44d52164bce517aeb6846bf90465f1bacfa71dd9' }, this.dates.length !== this.maxDatesLength && (index.h("ir-custom-button", { key: 'd415b6c074ad8fee530301315573708e288c52c9', appearance: "plain", variant: "neutral", onClickHandler: () => {
+            } }), index.h("table", { key: '467f233f7ad82f9fd2208f009fc17077ddb89670', class: "mt-1", ref: el => (this.datesSections = el) }, index.h("thead", { key: 'acbeb1a117f15899dc912b71228d83eb2dba0d58' }, index.h("tr", { key: 'e6cada88203040ebb037878dc2218b1a1969b21d' }, index.h("td", { key: '1a328746f5e1f5c9449f85e28e12d6db36d50848', class: "text-left bulk-stop-sale__date-label" }, locales_store.locales.entries.Lcz_From), index.h("td", { key: '8aa20f8ffc92d6eed66999f3bb2c2d2e8cd19612', class: "text-left bulk-stop-sale__date-label" }, locales_store.locales.entries.Lcz_ToExclusive), index.h("td", { key: 'ff6dadd0970928f47914baac2c5d86d1f8ab9373' }, this.dates.length !== this.maxDatesLength && (index.h("ir-custom-button", { key: '54508f84592936e307c7b9516073275d83e6f4f8', appearance: "plain", variant: "neutral", onClickHandler: () => {
                 this.addDateRow();
-            } }, index.h("wa-icon", { key: '1d044552056175ae88a7722a02fd73cd9ece26fc', name: "plus", style: { fontSize: '1.2rem' } })))))), index.h("tbody", { key: '892305e67dd6c32fc2b58a14f893e0de7d15441b' }, this.dates.map((d, i) => {
+            } }, index.h("wa-icon", { key: 'a31c797ccbc6a99bed3b58c876d6c67673c815c6', name: "plus", style: { fontSize: '1.2rem' } })))))), index.h("tbody", { key: 'd15bd5e5c1bf848e99bbbc8fe7d7fdc852afd84e' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
@@ -653,7 +653,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: 'dd104cc4f778b4db98d7468294073dbd80a363cb', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '5e7a2f8ce4fb60aee061725d914c1b74147655f1', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

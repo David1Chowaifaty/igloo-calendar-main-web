@@ -37,7 +37,7 @@ export const FiscalDocumentSchema = z.object({
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
 // ---------------------------------------------------------------------------
-export const MyClTxSchema = z.object({
+export const ClTxSchema = z.object({
     BH_ID: z.number(),
     BSA_REF: z.union([z.null(), z.string()]),
     CATEGORY: CategorySchema,
@@ -93,6 +93,8 @@ export const MyClTxSchema = z.object({
     TRAVEL_AGENCY_ID: z.number(),
     VAT_AMOUNT: z.number(),
     VAT_PERCENT: z.number(),
+    BALANCE_BEFORE_TX: z.number().nullable(),
+    BALANCE_AFTER_TX: z.number().nullable(),
 });
 export const FetchCLParamsSchema = z.object({
     AGENCY_ID: z.number(),
@@ -106,7 +108,7 @@ export const FetchCLParamsSchema = z.object({
     IS_CHECKED_OUT_ONLY: z.boolean().optional().nullable().default(null),
 });
 export const FetchCLResultSchema = z.object({
-    My_Cl_tx: z.array(MyClTxSchema),
+    My_Cl_tx: z.array(ClTxSchema),
     TOTAL_COUNT: z.number(),
 });
 // ---------------------------------------------------------------------------

@@ -1,8 +1,8 @@
-import { type MyClTx } from "../../../../services/city-ledger/index";
+import { type ClTx } from "../../../../services/city-ledger/index";
 import type { IProperty } from "../../../../models/property";
 export interface ClFiscalDocumentData {
     property: IProperty;
-    transactions: MyClTx[];
+    transactions: ClTx[];
 }
 export declare class ClFiscalDocumentService {
     private tokenService;

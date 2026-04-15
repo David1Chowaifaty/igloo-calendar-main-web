@@ -42,9 +42,11 @@ import { FiscalDocument } from "./services/city-ledger";
 import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 import { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
+import { FolioRow as FolioRow1 } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
 import { FiscalDocuments } from "./services/city-ledger/types";
-import { MyClTx } from "./services/city-ledger/index";
+import { ClTx } from "./services/city-ledger/index";
 import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -128,9 +130,11 @@ export { FiscalDocument } from "./services/city-ledger";
 export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 export { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
+export { FolioRow as FolioRow1 } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
 export { FiscalDocuments } from "./services/city-ledger/types";
-export { MyClTx } from "./services/city-ledger/index";
+export { ClTx } from "./services/city-ledger/index";
 export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -1434,7 +1438,7 @@ export namespace Components {
         "toDate": string | null;
     }
     interface IrCityLedgerFolio {
-        "agentId": number | null;
+        "agent": Agent | null;
         "currencies": ICurrency[];
         "propertyId": number;
         "serviceCategoryOptions": ServiceCategoryOption[];
@@ -1457,13 +1461,35 @@ export namespace Components {
         "toDate": string;
         "totalCount": number;
     }
+    interface IrCityLedgerStatements {
+        "agentId": number | null;
+        "agentName": string;
+        "currencies": ICurrency[];
+        "currencySymbol": string;
+        "propertyId": number;
+        "ticket": string;
+    }
+    interface IrCityLedgerStatementsFilter {
+    }
+    interface IrCityLedgerStatementsTable {
+        "currencies": ICurrency[];
+        "currencySymbol": string;
+        "endingBalance": number;
+        "fromDate": string | null;
+        "hasFetched": boolean;
+        "isLoading": boolean;
+        "rows": FolioRow[];
+        "startingBalance": number;
+        "toDate": string | null;
+    }
     interface IrCityLedgerToolbar {
         "agentId": number | null;
         "currencySymbol": string;
         "refresh": () => Promise<void>;
     }
     interface IrCityLedgerTransactionDrawer {
-        "agentId": number | null;
+        "agent": Agent | null;
+        "booking": Booking | null;
         "bookingOptions": LinkedOption[];
         "drawerLabel": string;
         "formId": string;
@@ -1474,7 +1500,8 @@ export namespace Components {
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
-        "agentId": number | null;
+        "agent": Agent | null;
+        "booking": Booking | null;
         "bookingOptions": LinkedOption[];
         "formId": string;
         "initialTransactionType": TransactionType;
@@ -1525,7 +1552,7 @@ export namespace Components {
           * Optional document reference number shown in the meta block.
          */
         "documentNumber"?: string;
-        "documentType": 'invoice' | 'receipt' | 'creditnote' | 'debitnote';
+        "documentType": 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
         /**
           * Property whose branding and details appear on the right side.
          */
@@ -1541,7 +1568,7 @@ export namespace Components {
           * When true all monetary amounts are negated — used for credit notes.
          */
         "invertAmounts": boolean;
-        "transactions": MyClTx[];
+        "transactions": ClTx[];
     }
     interface IrClInvoiceCityTaxAmountCell {
         "amount": number;
@@ -1612,6 +1639,16 @@ export namespace Components {
         "documentNumber": string;
         "propertyId": number;
         "ticket": string;
+    }
+    interface IrClStatementPreview {
+        "agentId": number;
+        "agentName": string;
+        "baseurl": string;
+        "currencyId": number;
+        "fromDate": string;
+        "propertyId": number;
+        "ticket": string;
+        "toDate": string;
     }
     interface IrCollapsableRow {
         "row": Row<any>;
@@ -4960,6 +4997,10 @@ export interface IrCityLedgerFolioTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerFolioTableElement;
 }
+export interface IrCityLedgerStatementsFilterCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCityLedgerStatementsFilterElement;
+}
 export interface IrCityLedgerToolbarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerToolbarElement;
@@ -7012,6 +7053,37 @@ declare global {
         prototype: HTMLIrCityLedgerFolioTableElement;
         new (): HTMLIrCityLedgerFolioTableElement;
     };
+    interface HTMLIrCityLedgerStatementsElement extends Components.IrCityLedgerStatements, HTMLStencilElement {
+    }
+    var HTMLIrCityLedgerStatementsElement: {
+        prototype: HTMLIrCityLedgerStatementsElement;
+        new (): HTMLIrCityLedgerStatementsElement;
+    };
+    interface HTMLIrCityLedgerStatementsFilterElementEventMap {
+        "filtersChange": StatementFilters;
+        "createStatement": StatementFilters;
+        "printStatement": StatementFilters;
+    }
+    interface HTMLIrCityLedgerStatementsFilterElement extends Components.IrCityLedgerStatementsFilter, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCityLedgerStatementsFilterElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsFilterElement, ev: IrCityLedgerStatementsFilterCustomEvent<HTMLIrCityLedgerStatementsFilterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCityLedgerStatementsFilterElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsFilterElement, ev: IrCityLedgerStatementsFilterCustomEvent<HTMLIrCityLedgerStatementsFilterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrCityLedgerStatementsFilterElement: {
+        prototype: HTMLIrCityLedgerStatementsFilterElement;
+        new (): HTMLIrCityLedgerStatementsFilterElement;
+    };
+    interface HTMLIrCityLedgerStatementsTableElement extends Components.IrCityLedgerStatementsTable, HTMLStencilElement {
+    }
+    var HTMLIrCityLedgerStatementsTableElement: {
+        prototype: HTMLIrCityLedgerStatementsTableElement;
+        new (): HTMLIrCityLedgerStatementsTableElement;
+    };
     interface HTMLIrCityLedgerToolbarElementEventMap {
         "createInvoice": void;
     }
@@ -7264,6 +7336,12 @@ declare global {
     var HTMLIrClReceiptPreviewElement: {
         prototype: HTMLIrClReceiptPreviewElement;
         new (): HTMLIrClReceiptPreviewElement;
+    };
+    interface HTMLIrClStatementPreviewElement extends Components.IrClStatementPreview, HTMLStencilElement {
+    }
+    var HTMLIrClStatementPreviewElement: {
+        prototype: HTMLIrClStatementPreviewElement;
+        new (): HTMLIrClStatementPreviewElement;
     };
     interface HTMLIrCollapsableRowElement extends Components.IrCollapsableRow, HTMLStencilElement {
     }
@@ -9945,6 +10023,9 @@ declare global {
         "ir-city-ledger-folio": HTMLIrCityLedgerFolioElement;
         "ir-city-ledger-folio-filters": HTMLIrCityLedgerFolioFiltersElement;
         "ir-city-ledger-folio-table": HTMLIrCityLedgerFolioTableElement;
+        "ir-city-ledger-statements": HTMLIrCityLedgerStatementsElement;
+        "ir-city-ledger-statements-filter": HTMLIrCityLedgerStatementsFilterElement;
+        "ir-city-ledger-statements-table": HTMLIrCityLedgerStatementsTableElement;
         "ir-city-ledger-toolbar": HTMLIrCityLedgerToolbarElement;
         "ir-city-ledger-transaction-drawer": HTMLIrCityLedgerTransactionDrawerElement;
         "ir-city-ledger-transaction-form": HTMLIrCityLedgerTransactionFormElement;
@@ -9970,6 +10051,7 @@ declare global {
         "ir-cl-opening-balance-fields": HTMLIrClOpeningBalanceFieldsElement;
         "ir-cl-payment-fields": HTMLIrClPaymentFieldsElement;
         "ir-cl-receipt-preview": HTMLIrClReceiptPreviewElement;
+        "ir-cl-statement-preview": HTMLIrClStatementPreviewElement;
         "ir-collapsable-row": HTMLIrCollapsableRowElement;
         "ir-column-autocomplete": HTMLIrColumnAutocompleteElement;
         "ir-combobox": HTMLIrComboboxElement;
@@ -11603,7 +11685,7 @@ declare namespace LocalJSX {
         "toDate"?: string | null;
     }
     interface IrCityLedgerFolio {
-        "agentId"?: number | null;
+        "agent"?: Agent | null;
         "currencies"?: ICurrency[];
         "onFolioSummaryUpdate"?: (event: IrCityLedgerFolioCustomEvent<FolioSummary>) => void;
         "propertyId"?: number;
@@ -11633,13 +11715,38 @@ declare namespace LocalJSX {
         "toDate"?: string;
         "totalCount"?: number;
     }
+    interface IrCityLedgerStatements {
+        "agentId"?: number | null;
+        "agentName"?: string;
+        "currencies"?: ICurrency[];
+        "currencySymbol"?: string;
+        "propertyId"?: number;
+        "ticket"?: string;
+    }
+    interface IrCityLedgerStatementsFilter {
+        "onCreateStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
+        "onFiltersChange"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
+        "onPrintStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
+    }
+    interface IrCityLedgerStatementsTable {
+        "currencies"?: ICurrency[];
+        "currencySymbol"?: string;
+        "endingBalance"?: number;
+        "fromDate"?: string | null;
+        "hasFetched"?: boolean;
+        "isLoading"?: boolean;
+        "rows"?: FolioRow[];
+        "startingBalance"?: number;
+        "toDate"?: string | null;
+    }
     interface IrCityLedgerToolbar {
         "agentId"?: number | null;
         "currencySymbol"?: string;
         "onCreateInvoice"?: (event: IrCityLedgerToolbarCustomEvent<void>) => void;
     }
     interface IrCityLedgerTransactionDrawer {
-        "agentId"?: number | null;
+        "agent"?: Agent | null;
+        "booking"?: Booking | null;
         "bookingOptions"?: LinkedOption[];
         "drawerLabel"?: string;
         "formId"?: string;
@@ -11652,7 +11759,8 @@ declare namespace LocalJSX {
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
-        "agentId"?: number | null;
+        "agent"?: Agent | null;
+        "booking"?: Booking | null;
         "bookingOptions"?: LinkedOption[];
         "formId"?: string;
         "initialTransactionType"?: TransactionType;
@@ -11710,7 +11818,7 @@ declare namespace LocalJSX {
           * Optional document reference number shown in the meta block.
          */
         "documentNumber"?: string;
-        "documentType"?: 'invoice' | 'receipt' | 'creditnote' | 'debitnote';
+        "documentType"?: 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
         /**
           * Property whose branding and details appear on the right side.
          */
@@ -11726,7 +11834,7 @@ declare namespace LocalJSX {
           * When true all monetary amounts are negated — used for credit notes.
          */
         "invertAmounts"?: boolean;
-        "transactions"?: MyClTx[];
+        "transactions"?: ClTx[];
     }
     interface IrClInvoiceCityTaxAmountCell {
         "amount"?: number;
@@ -11797,6 +11905,16 @@ declare namespace LocalJSX {
         "documentNumber"?: string;
         "propertyId"?: number;
         "ticket"?: string;
+    }
+    interface IrClStatementPreview {
+        "agentId"?: number;
+        "agentName"?: string;
+        "baseurl"?: string;
+        "currencyId"?: number;
+        "fromDate"?: string;
+        "propertyId"?: number;
+        "ticket"?: string;
+        "toDate"?: string;
     }
     interface IrCollapsableRow {
         "row"?: Row<any>;
@@ -15289,6 +15407,9 @@ declare namespace LocalJSX {
         "ir-city-ledger-folio": IrCityLedgerFolio;
         "ir-city-ledger-folio-filters": IrCityLedgerFolioFilters;
         "ir-city-ledger-folio-table": IrCityLedgerFolioTable;
+        "ir-city-ledger-statements": IrCityLedgerStatements;
+        "ir-city-ledger-statements-filter": IrCityLedgerStatementsFilter;
+        "ir-city-ledger-statements-table": IrCityLedgerStatementsTable;
         "ir-city-ledger-toolbar": IrCityLedgerToolbar;
         "ir-city-ledger-transaction-drawer": IrCityLedgerTransactionDrawer;
         "ir-city-ledger-transaction-form": IrCityLedgerTransactionForm;
@@ -15314,6 +15435,7 @@ declare namespace LocalJSX {
         "ir-cl-opening-balance-fields": IrClOpeningBalanceFields;
         "ir-cl-payment-fields": IrClPaymentFields;
         "ir-cl-receipt-preview": IrClReceiptPreview;
+        "ir-cl-statement-preview": IrClStatementPreview;
         "ir-collapsable-row": IrCollapsableRow;
         "ir-column-autocomplete": IrColumnAutocomplete;
         "ir-combobox": IrCombobox;
@@ -15615,6 +15737,9 @@ declare module "@stencil/core" {
             "ir-city-ledger-folio": LocalJSX.IrCityLedgerFolio & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioElement>;
             "ir-city-ledger-folio-filters": LocalJSX.IrCityLedgerFolioFilters & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioFiltersElement>;
             "ir-city-ledger-folio-table": LocalJSX.IrCityLedgerFolioTable & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioTableElement>;
+            "ir-city-ledger-statements": LocalJSX.IrCityLedgerStatements & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsElement>;
+            "ir-city-ledger-statements-filter": LocalJSX.IrCityLedgerStatementsFilter & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsFilterElement>;
+            "ir-city-ledger-statements-table": LocalJSX.IrCityLedgerStatementsTable & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsTableElement>;
             "ir-city-ledger-toolbar": LocalJSX.IrCityLedgerToolbar & JSXBase.HTMLAttributes<HTMLIrCityLedgerToolbarElement>;
             "ir-city-ledger-transaction-drawer": LocalJSX.IrCityLedgerTransactionDrawer & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionDrawerElement>;
             "ir-city-ledger-transaction-form": LocalJSX.IrCityLedgerTransactionForm & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionFormElement>;
@@ -15640,6 +15765,7 @@ declare module "@stencil/core" {
             "ir-cl-opening-balance-fields": LocalJSX.IrClOpeningBalanceFields & JSXBase.HTMLAttributes<HTMLIrClOpeningBalanceFieldsElement>;
             "ir-cl-payment-fields": LocalJSX.IrClPaymentFields & JSXBase.HTMLAttributes<HTMLIrClPaymentFieldsElement>;
             "ir-cl-receipt-preview": LocalJSX.IrClReceiptPreview & JSXBase.HTMLAttributes<HTMLIrClReceiptPreviewElement>;
+            "ir-cl-statement-preview": LocalJSX.IrClStatementPreview & JSXBase.HTMLAttributes<HTMLIrClStatementPreviewElement>;
             "ir-collapsable-row": LocalJSX.IrCollapsableRow & JSXBase.HTMLAttributes<HTMLIrCollapsableRowElement>;
             "ir-column-autocomplete": LocalJSX.IrColumnAutocomplete & JSXBase.HTMLAttributes<HTMLIrColumnAutocompleteElement>;
             "ir-combobox": LocalJSX.IrCombobox & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;

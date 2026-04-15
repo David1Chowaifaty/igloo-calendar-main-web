@@ -12,7 +12,7 @@ const IrAgentAssignmentForm = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '1671336cb1afc2a7acdbc64c7e22a94064afbdff' }, index.h("slot", { key: '7fbbd0343c96d6ea944fa46f9c61d734b65ae4e0' })));
+        return (index.h(index.Host, { key: 'cf708d3bc598d94c5147d947cee0d834c404a0a2' }, index.h("slot", { key: 'd9227020c8ab2c33d219893f38f058e37bda1da5' })));
     }
 };
 IrAgentAssignmentForm.style = IrAgentAssignmentFormStyle0;

@@ -35,7 +35,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         this.__registerHost();
         this.folioSummaryUpdate = createEvent(this, "folioSummaryUpdate", 7);
     }
-    agentId = null;
+    agent = null;
     propertyId;
     taxOptions = [];
     serviceCategoryOptions = [];
@@ -88,7 +88,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     //   return slots.flatMap(slot => slot.rows);
     // }
     async fetchFolioData() {
-        if (!this.agentId || (!this.filters?.fromDate && !this.filters?.toDate))
+        if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
             return;
         const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
         const effectiveTo = this.filters.toDate ? this.filters.toDate : hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
@@ -110,7 +110,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
             })();
             const [result, statement] = await Promise.all([
                 this.cityLedgerService.fetchCL({
-                    AGENCY_ID: this.agentId,
+                    AGENCY_ID: this.agent?.id,
                     START_DATE: effectiveFrom,
                     END_DATE: effectiveTo,
                     START_ROW: startRow,
@@ -119,7 +119,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                     ...statusParams,
                 }),
                 this.cityLedgerService.getCLStatement({
-                    AGENCY_ID: this.agentId,
+                    AGENCY_ID: this.agent?.id,
                     CURRENCY_ID: currencyId,
                     START_DATE: effectiveFrom,
                     END_DATE: effectiveTo,
@@ -160,18 +160,18 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         }
     }
     render() {
-        return (h(Host, { key: '57f77679bac4a3c9fe517fd849daf32334060f4e' }, h("ir-city-ledger-folio-filters", { key: '607d9b3c8a78409ee71622e1d25c27aef9cfdd24', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '6bb2cc06286ebb64c261f8287b147fb3936029de' }, h("ir-city-ledger-folio-filters", { key: '2ff948f31761e0aa7d56bcee3d299b3545db97a6', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: 'd83165bc3b9897471fc930c01053df4d88c93997', agentId: this.agentId, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            }, onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: '943d08c1edfa2faa421473ea8bde360af60ac69d', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
             }, onFetchRequested: async () => {
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: '49e6a72d517deda05f26a3053356c10c352c8e30', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agentId: this.agentId, onTransactionSaved: () => {
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'bde7b4afcf09ba7ddb1128785c37c9e77a7fc699', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
     }
@@ -180,7 +180,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     }; }
     static get style() { return IrCityLedgerFolioStyle0; }
 }, [2, "ir-city-ledger-folio", {
-        "agentId": [2, "agent-id"],
+        "agent": [16],
         "propertyId": [2, "property-id"],
         "taxOptions": [16],
         "serviceCategoryOptions": [16],

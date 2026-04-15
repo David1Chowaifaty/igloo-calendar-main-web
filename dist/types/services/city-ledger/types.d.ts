@@ -91,7 +91,7 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     TOTAL_AMOUNT?: number;
 }>;
 export type FiscalDocument = z.infer<typeof FiscalDocumentSchema>;
-export declare const MyClTxSchema: z.ZodObject<{
+export declare const ClTxSchema: z.ZodObject<{
     BH_ID: z.ZodNumber;
     BSA_REF: z.ZodUnion<[z.ZodNull, z.ZodString]>;
     CATEGORY: z.ZodNullable<z.ZodString>;
@@ -214,6 +214,8 @@ export declare const MyClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID: z.ZodNumber;
     VAT_AMOUNT: z.ZodNumber;
     VAT_PERCENT: z.ZodNumber;
+    BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
+    BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     PR_ID?: number;
     ENTRY_DATE?: string;
@@ -289,6 +291,8 @@ export declare const MyClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
+    BALANCE_BEFORE_TX?: number;
+    BALANCE_AFTER_TX?: number;
 }, {
     PR_ID?: number;
     ENTRY_DATE?: string;
@@ -364,9 +368,11 @@ export declare const MyClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
+    BALANCE_BEFORE_TX?: number;
+    BALANCE_AFTER_TX?: number;
 }>;
 /** City-ledger transaction row returned by the API. */
-export type MyClTx = z.infer<typeof MyClTxSchema>;
+export type ClTx = z.infer<typeof ClTxSchema>;
 export declare const FetchCLParamsSchema: z.ZodObject<{
     AGENCY_ID: z.ZodNumber;
     START_DATE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
@@ -524,6 +530,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID: z.ZodNumber;
         VAT_AMOUNT: z.ZodNumber;
         VAT_PERCENT: z.ZodNumber;
+        BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
+        BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         PR_ID?: number;
         ENTRY_DATE?: string;
@@ -599,6 +607,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }, {
         PR_ID?: number;
         ENTRY_DATE?: string;
@@ -674,6 +684,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }>, "many">;
     TOTAL_COUNT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
@@ -752,6 +764,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }[];
     TOTAL_COUNT?: number;
 }, {
@@ -830,6 +844,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }[];
     TOTAL_COUNT?: number;
 }>;
@@ -1008,7 +1024,11 @@ export type GetCLStatementParams = z.infer<typeof GetCLStatementParamsSchema>;
 /** City-ledger statement data with running balances. */
 export type CLStatements = {
     ENDING_BALANCE: number;
-    My_Rows: any[];
+    My_Rows: {
+        Cl_tx: ClTx;
+        DOC_NUMBER: string | null;
+        RUNNING_BALANCE: number;
+    }[];
     STARTING_BALANCE: number;
 };
 export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.extendShape<{

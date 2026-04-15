@@ -5,16 +5,16 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-35d81173.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-337ee2a2.js');
-const booking = require('./booking-a03b0b1d.js');
-const booking_service = require('./booking.service-7907eeef.js');
+const booking = require('./booking-414ee8d7.js');
+const booking_service = require('./booking.service-4abeb0a0.js');
 const room_service = require('./room.service-f9117e70.js');
 const locales_store = require('./locales.store-32782582.js');
-const utils = require('./utils-f4749fef.js');
+const utils = require('./utils-f786503d.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-70bc3b4b.js');
 require('./index-8bb117a0.js');
-require('./type-393ac773.js');
+require('./type-976db45d.js');
 
 const BeLogoFooter = ({ width, height, ...props }) => {
     return (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },

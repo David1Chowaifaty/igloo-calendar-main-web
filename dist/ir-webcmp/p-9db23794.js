@@ -1,0 +1,2 @@
+import{a as t}from"./p-bf44a732.js";import{E as s,H as a}from"./p-0cb37344.js";class e{async getExposedAgents(a){const e=s.parse(a);const{data:o}=await t.post("/Get_Exposed_Agents",e);if(o.ExceptionMsg!==""){throw new Error(o.ExceptionMsg)}return o.My_Result}async handleExposedAgent(s){const e=a.parse(s);const{data:o}=await t.post("/Handle_Exposed_Agent",e);if(o.ExceptionMsg!==""){throw new Error(o.ExceptionMsg)}return o.My_Result}}export{e as A};
+//# sourceMappingURL=p-9db23794.js.map

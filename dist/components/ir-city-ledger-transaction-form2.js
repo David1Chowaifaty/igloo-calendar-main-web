@@ -30,13 +30,14 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         this.clFiscalDocumentPreview = createEvent(this, "clFiscalDocumentPreview", 7);
     }
     formId = 'city-ledger-transaction-form';
-    agentId = null;
+    agent = null;
     initialTransactionType = 'OB';
     taxOptions = [];
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
     language = 'en';
+    booking = null;
     formData = createInitialTransactionFormDraft();
     paymentEntries = {
         types: [],
@@ -54,12 +55,19 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     bookingService = new BookingService();
     cityLedgerService = new CityLedgerService();
     clTxTypes;
+    get resolvedInitialType() {
+        const obHidden = this.agent?.has_opening_balance || this.booking !== null;
+        if (this.initialTransactionType === ClTxTypeCode.OpeningBalance && obHidden) {
+            return ClTxTypeCode.StandardChargeDebit;
+        }
+        return this.initialTransactionType;
+    }
     componentWillLoad() {
-        this.formData = createInitialTransactionFormDraft(this.initialTransactionType);
+        this.formData = createInitialTransactionFormDraft(this.resolvedInitialType);
         this.fetchPaymentEntries();
     }
-    handleInitialTransactionTypeChange(newType) {
-        this.formData = resetDraftForTransactionType(newType, this.formData);
+    handleInitialTransactionTypeChange(_newType) {
+        this.formData = resetDraftForTransactionType(this.resolvedInitialType, this.formData);
     }
     updateFormData(patch) {
         this.formData = { ...this.formData, ...patch };
@@ -84,7 +92,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 LIST_FD_TYPE_CODE.push(FdTypes.DebitNote);
             }
             this.fiscalDocuments = await this.cityLedgerService.getFiscalDocuments({
-                AGENCY_ID: this.agentId,
+                AGENCY_ID: this.agent?.id,
                 FROM_DATE: null,
                 END_DATE: null,
                 LIST_FD_TYPE_CODE,
@@ -157,7 +165,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         const hasVat = !noTaxTransaction && payload.taxId !== 'N/A';
         return {
             CL_TX_ID: -1,
-            AGENCY_ID: this.agentId,
+            AGENCY_ID: this.agent.id,
             SERVICE_DATE: payload.date,
             CL_TX_TYPE_CODE: payload.transactionType,
             DESCRIPTION: payload.reference ?? payload.transactionType,
@@ -184,7 +192,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 this.clFiscalDocumentPreview.emit({
                     fdTypeCode: result.My_Fd.FD_TYPE_CODE,
                     documentNumber: result.My_Fd.DOC_NUMBER,
-                    agentId: this.agentId,
+                    agentId: this.agent.id,
                     agentName: result.My_Fd.AGENCY_NAME ?? '',
                 });
             }
@@ -204,6 +212,9 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             } }, this.clTxTypes.map(type => {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
             const label = type.CODE_VALUE_EN;
+            if (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null)) {
+                return null;
+            }
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
         })))));
     }
@@ -255,13 +266,14 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     static get style() { return IrCityLedgerTransactionFormStyle0; }
 }, [2, "ir-city-ledger-transaction-form", {
         "formId": [1, "form-id"],
-        "agentId": [2, "agent-id"],
+        "agent": [16],
         "initialTransactionType": [1, "initial-transaction-type"],
         "taxOptions": [16],
         "unpaidInvoiceOptions": [16],
         "bookingOptions": [16],
         "serviceCategoryOptions": [16],
         "language": [1],
+        "booking": [16],
         "formData": [32],
         "paymentEntries": [32],
         "paymentTypeGroups": [32],

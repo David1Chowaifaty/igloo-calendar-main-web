@@ -1,6 +1,6 @@
 import type { IProperty } from "../../../../../models/property";
 export declare class IrClDocumentHeader {
-    documentType: 'invoice' | 'receipt' | 'creditnote' | 'debitnote';
+    documentType: 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
     /** Property whose branding and details appear on the right side. */
     property: IProperty;
     /** Optional document reference number shown in the meta block. */

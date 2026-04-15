@@ -38,6 +38,7 @@ export const AgentBaseSchema = z.object({
     tax_nbr: z.string(),
     reference: z.string().nullable().optional(),
     verification_mode: z.string().nullable().default(null),
+    has_opening_balance: z.boolean().optional().default(false),
     cl_post_timing: ClPostTimingSchema,
 });
 export const AgentSchema = AgentBaseSchema.superRefine((value, ctx) => {

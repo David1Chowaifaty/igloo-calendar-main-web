@@ -328,6 +328,7 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             tax_nbr?: string;
             reference?: string;
             verification_mode?: string;
+            has_opening_balance?: boolean;
             cl_post_timing?: {
                 code?: string;
                 description?: string;
@@ -381,6 +382,7 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             tax_nbr?: string;
             reference?: string;
             verification_mode?: string;
+            has_opening_balance?: boolean;
             cl_post_timing?: {
                 code?: string;
                 description?: string;
@@ -439,6 +441,7 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             tax_nbr?: string;
             reference?: string;
             verification_mode?: string;
+            has_opening_balance?: boolean;
             cl_post_timing?: {
                 code?: string;
                 description?: string;
@@ -496,6 +499,7 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             tax_nbr?: string;
             reference?: string;
             verification_mode?: string;
+            has_opening_balance?: boolean;
             cl_post_timing?: {
                 code?: string;
                 description?: string;

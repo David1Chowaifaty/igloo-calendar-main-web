@@ -1,5 +1,5 @@
-import { MyClTx } from "../../../../../services/city-ledger/types";
-type Row = MyClTx;
+import { ClTx } from "../../../../../services/city-ledger/types";
+type Row = ClTx;
 export type GroupedItem = Row | BookingGroup | UnitGroup;
 export interface BookingGroup {
     BOOK_NBR: Row['BOOK_NBR'];
@@ -39,5 +39,5 @@ export interface UnitGroup {
  * @param  rows - Raw transaction rows from the API.
  * @returns {Array} Grouped and sorted rows ready for rendering.
  */
-export declare const groupData: (rows: MyClTx[]) => UnitGroup[];
+export declare const groupData: (rows: ClTx[]) => UnitGroup[];
 export {};

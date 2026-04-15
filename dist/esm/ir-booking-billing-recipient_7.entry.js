@@ -1,17 +1,17 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-7e96440e.js';
 import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
 import { v as v4 } from './v4-964634d6.js';
-import { B as BookingService } from './booking.service-81c0b4b4.js';
-import { f as formatAmount } from './utils-fb79c44c.js';
+import { B as BookingService } from './booking.service-28d7df85.js';
+import { f as formatAmount } from './utils-2b5db733.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-196622a8.js';
 import './index-f100e9d2.js';
 import './index-87419685.js';
 import './axios-aa1335b8.js';
-import './booking-60a231c5.js';
+import './booking-bf2d7cb1.js';
 import './locales.store-cb784e95.js';
 import './calendar-data-b1f645da.js';
-import './type-f926f853.js';
+import './type-aa154c49.js';
 
 const irBookingBillingRecipientCss = ".sc-ir-booking-billing-recipient-h{display:block;padding:0 !important;box-sizing:border-box}.billing-recipient__room.sc-ir-booking-billing-recipient::part(label){display:flex;align-items:center;gap:var(--wa-space-xl);width:100%}.billing-recipient__guest-name.sc-ir-booking-billing-recipient{font-weight:500}.billing-recipient__room-details.sc-ir-booking-billing-recipient{display:flex;gap:6px;align-items:center;font-size:0.875rem;color:var(--wa-color-neutral-600)}.billing-recipient__roomtype.sc-ir-booking-billing-recipient{font-weight:600}";
 const IrBookingBillingRecipientStyle0 = irBookingBillingRecipientCss;
@@ -74,7 +74,7 @@ const IrBookingBillingRecipient = class {
         this.rooms = rooms;
     }
     render() {
-        return (h(Host, { key: '20453deb6baa33866976404e70ff66ddc4331e96' }, h("wa-radio-group", { key: '64c6adc699ee6cbfc4b1d2ea8fde4fd7bb9a97e9', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: '697dd2b4f3d9ef10565831c3790a8f40ce4db785', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), !this.booking.agent && (h("wa-radio", { key: 'e22d98700a6771a9618c69b55ab1bcceea725ab4', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name'))), h("ir-booking-company-dialog", { key: '5da04881ee260fe1423180bc7d791bc97d25b2bf', onCompanyFormClosed: () => {
+        return (h(Host, { key: '4df4aecb8336ce6c7465bd320c706e578896e833' }, h("wa-radio-group", { key: 'd67c90422e444352ed3e71da338adaf14dc053fb', defaultValue: this.initialValue, onchange: e => this.handleRecipientChange(e.target.value), label: "Bill to", orientation: "vertical", name: `${this.booking?.booking_nbr}-bill-to`, value: this.selectedRecipient, size: "small" }, h("wa-radio", { key: 'e74a75de4ac7bb1341833f8080c7c190d563c9c0', appearance: "button", value: 'guest' }, this.booking?.guest.first_name, " ", this.booking.guest.last_name), this.rooms.map((r, idx) => (h("wa-radio", { appearance: "button", class: "billing-recipient__room", value: `room__${r.guest.first_name} ${r.guest.last_name}`, key: r.guest?.id ?? `guest_${idx}` }, h("span", { class: "billing-recipient__guest-name" }, r.guest.first_name, " ", r.guest.last_name)))), !this.booking.agent && (h("wa-radio", { key: '746441d66beecc4702dcab30e517fd009130e57f', appearance: "button", value: "company" }, this.booking.company_name ? this.booking.company_name : 'Use company name'))), h("ir-booking-company-dialog", { key: '22f9a05bc92ad565dc770878ca387ef2375daae4', onCompanyFormClosed: () => {
                 if (this.selectedRecipient === 'company' && !this.booking.company_name) {
                     this.handleRecipientChange(this.initialValue);
                 }
@@ -119,17 +119,17 @@ const IrBookingCompanyDialog = class {
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: '41d0bb5bd2444f222655dc4d7d1103ff21e118dc', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '62107ab85b19e42b0476024802130da1ec5d76b2', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'ef3f808cbee26ef8f8dba4ec1275b55138c0804a', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '50a856454106a3072a27810909f3f0668e7aef94', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: 'fcea9da7d04d9cf8ca90bef94bb70fae7ce11593', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'b542e6b9f27bf68f082c3523d5a0b53b11da4f4c', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '4cb24dc3d4bd81729c5c0583d864a8523cfe8f8d', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: '16f65b958c1048ff4e46a974c5dce6a05bcb6820', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'b2c0e5fa0100810eba908b3aab4fddd20ac0add7', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '76e311bfa0822c49d8911e00c4e089fa528d9ea9', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
     }
 };
 IrBookingCompanyDialog.style = IrBookingCompanyDialogStyle0;
@@ -189,10 +189,10 @@ const IrBookingCompanyForm = class {
         }
     }
     render() {
-        return (h("form", { key: '19eb5a2e533a4e5496d8e515cfa98fb763376358', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '33ab620d494e5c7d27148c164c19b3f68725ad53', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveCompany();
-            }, class: "booking-company__form" }, h("ir-input", { key: '004212138494eda86ac80860992d651180766bcd', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '0d96008f4f72af25b3905fec8b572edb1540635c', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
+            }, class: "booking-company__form" }, h("ir-input", { key: '9f851f22a53d25ce71adfccae22568d2b0769ab7', value: this.formData.company_name, "onText-change": e => this.updateGuest({ company_name: e.detail }), label: "Name", autofocus: true, placeholder: "XYZ LTD" }), h("ir-input", { key: '8810980ce28fe29aa54899052567a496e18317fc', value: this.formData.company_tax_nbr, "onText-change": e => this.updateGuest({ company_tax_nbr: e.detail }), label: "Tax ID", placeholder: "VAT 123456" })));
     }
 };
 IrBookingCompanyForm.style = IrBookingCompanyFormStyle0;
@@ -284,7 +284,7 @@ const IrPrintRoom = class {
     render() {
         const { room, booking, property, currency, idx } = this;
         const haveMultipleRooms = property.roomtypes?.find(rt => rt.id === room?.roomtype?.id)?.physicalrooms?.length > 1;
-        return (h("section", { key: 'ac59dd3ad0afb2a324dde58d51db49d08dc47b92', class: "ir-print-room" }, h("header", { key: 'e9fb00bb636a8e7cf6150117ca8f1e6ddd4a8666', class: "ir-print-room__header" }, h("p", { key: 'f06bc28945708a97f6cda158073f20f31d7aaae5', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && h("p", { key: 'cc2597e8a7542d39ceef2f1eb0eba0d1f9e5e470', class: "ir-print-room__unit" }, "(unit ", room.unit.name, ")"), h("p", { key: 'c6f5d9301c62d4cfa16cddb1892a2caa5fb0edb9', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), h("div", { key: 'fc6a4845578f6013b10fdd986137a1889a0b87f4', class: "ir-print-room__body" }, h("div", { key: '37ad02b48fdb13e8cc013a5ece189e7e35619e4e', class: "ir-print-room__details" }, h("div", { key: 'f8dd78d330d965d98c64e764f4eb3d4f1f37f7ec', class: "ir-print-room__row" }, h("ir-printing-label", { key: 'ce6c0b2bff0bab54e42dad3ef864c10eea24b337', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), h("ir-printing-label", { key: '6f6df6962e2f65832a48c4b1dc4dc77a200887a4', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), h("div", { key: 'd84c7ed4ea0e37642dab3cb7552ce8b4a0e5a3d6', class: "ir-print-room__row" }, h("div", { key: '09d735110f81d2ddd735ecc2030e349b0599263c', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), h("span", { key: '32b1eb843a67dd9006d269768ed08c1e4ca96ce2', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && h("p", { key: '5a4ca49e95b7bee774d2ba822580902895e6275a', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), h("ir-printing-label", { key: '87b4e75af2ed31c91bd2c010fe5f27a09d3e9a42', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (h("div", { key: '689ca78bdca26f30213be50b555a6b8422a7e303', class: "ir-print-room__policies" }, h("ir-printing-label", { key: 'faeaab606531425d08415147bcb37b135cda3fb1', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), h("ir-printing-label", { key: '53bafb09082d03ea36235149973d4a219830065f', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), h("aside", { key: 'd795dad5bd3495f2d67e18ffe6540ad2c1dcd3fc', class: "ir-print-room__totals" }, h("ir-printing-label", { key: '09dedce498ccc37c9dffa6b46af188484c435447', label: "Total:", content: formatAmount(currency, room?.total) }), this.renderTaxSection(), h("ir-printing-label", { key: 'b282dc6feabaf23474060162c8e417392f63b996', label: "Grand total:", content: formatAmount(currency, room?.gross_total) }), booking?.is_direct && h("ir-printing-label", { key: 'fcd1a7fa5a53c13bd9adc32cbecc50ba87af2fbb', label: "Due upon booking:", content: formatAmount(currency, Number(room?.gross_guarantee)) }))), h("div", { key: '1f126682d299843c8f4cb5ed4905c2bb9094cbbb', class: {
+        return (h("section", { key: '939f1f6558ddbf90115a00ac6132c89d3d34e594', class: "ir-print-room" }, h("header", { key: '4d0342fa2d15540488a51586ffab7dc7ba55d95f', class: "ir-print-room__header" }, h("p", { key: '5034c785bcab94d53ea10000cb0fa2c333db19b3', class: "ir-print-room__room-type" }, room?.roomtype?.name), haveMultipleRooms && room?.unit && h("p", { key: '4de8c1c4f2169976ca381eca497b0fff42c80e82', class: "ir-print-room__unit" }, "(unit ", room.unit.name, ")"), h("p", { key: '3014f100c1e9adea8b092f0666af6fbf93c7ea1c', class: "ir-print-room__rate-plan" }, room?.rateplan?.short_name || room?.rateplan?.name)), h("div", { key: '105ef4088ced066617dc6e8238df3e7f28018a5e', class: "ir-print-room__body" }, h("div", { key: '0988f8f6ee4cd81ee205a71d683193809bfba9f3', class: "ir-print-room__details" }, h("div", { key: 'a609f6e27ef9ad28f6a476929532152db930b1a2', class: "ir-print-room__row" }, h("ir-printing-label", { key: '322257367d3ed022413daecb5a269db663ae8f9e', label: "Guest Name:", content: this.formatGuestName(room?.sharing_persons?.find(p => p.is_main) ?? room?.guest) }), h("ir-printing-label", { key: 'ed2fcfa417f5a3e7161c179a6fcd1f9ece64bed8', "as-html": true, content: this.formatGuestAvailability(room?.occupancy) })), h("div", { key: '7e15357160a5afdafeaf92a0230421f666ba99f2', class: "ir-print-room__row" }, h("div", { key: '1c93f7e50169b60126e03dbfee3714c59d92dd77', class: "ir-print-room__dates" }, this.formatBookingDates(room?.from_date), h("span", { key: 'f212b2ee536299d2057f18ad16315e980b41e73f', class: "ir-print-room__date-separator" }, "\u2192"), this.formatBookingDates(room?.to_date)), room?.departure_time?.description && h("p", { key: '7937cf7b3a88def5816f7f933ce10d1bac2826e1', class: "ir-print-room__departure-time" }, "(Expected departure time: ", room.departure_time.description, ")")), h("ir-printing-label", { key: 'c9ea42b054f6f52d9c8db52e80927351348bb32e', label: "Smoking options:", display: "inline", content: this.getSmokingLabel() }), booking?.is_direct && (h("div", { key: 'aa6dc08a3e2c2dce0358d32dd1d6b1683c667c7b', class: "ir-print-room__policies" }, h("ir-printing-label", { key: 'cc077eabde4c0da47311df9dc2ce33d4084744de', label: "Cancellation:", display: "inline", asHtml: true, content: room?.rateplan?.cancelation?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') }), h("ir-printing-label", { key: 'd4de84a1ba9bf60528055e08dc0c6d90ab357fa5', label: "Guarantee:", display: "inline", asHtml: true, content: (room?.rateplan?.guarantee ?? '')?.replace('<u>', '')?.replace('</u>', '')?.replace('<b>', '<b style="font-weight:bold">') })))), h("aside", { key: '2fce4f8bf7c01a2d1ed67bb0826458f651209638', class: "ir-print-room__totals" }, h("ir-printing-label", { key: '6b2e42a174ae9651f5e11867b18ff49bb6b1a5c5', label: "Total:", content: formatAmount(currency, room?.total) }), this.renderTaxSection(), h("ir-printing-label", { key: '6cf562861ebf4afc73f3d5884e6b406637b5d2df', label: "Grand total:", content: formatAmount(currency, room?.gross_total) }), booking?.is_direct && h("ir-printing-label", { key: 'd9c983bd0032d0166ac54b7aed591b22e33f3534', label: "Due upon booking:", content: formatAmount(currency, Number(room?.gross_guarantee)) }))), h("div", { key: '229f3d01bea60167f57187cb8ad8085ff39db16b', class: {
                 'ir-print-room__daily-amounts': true,
                 'ir-print-room__daily-amounts--with-divider': idx < booking?.rooms?.length - 1,
             } }, room?.days?.map(d => (h("div", { class: "room_amount_container", key: d.date }, h("p", { class: "room_amount date" }, this.formatDate(d.date)), h("p", { class: "room_amount amount", style: { paddingRight: '0.375rem' } }, formatAmount(currency, d.amount))))))));
@@ -305,7 +305,7 @@ const IrPrintingExtraService = class {
     currency;
     invocableKeys;
     render() {
-        return (h("section", { key: 'd7bc6fa33cb067f17a0f6088fea432ba4ab600e4', class: "ir-print-extra-services" }, h("h3", { key: 'c927dfd75f8b2cbba4d69530a14224a34b52b3e6', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '48cad020acc76b937739b60f6394aa4d7a92bfac', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
+        return (h("section", { key: 'e49984a1c4d04b5e76fa474bddd779500ac71e98', class: "ir-print-extra-services" }, h("h3", { key: 'f96269e7cb7eb8f4134b0c3f46248621746ec8e9', class: "ir-print-extra-services__title" }, "Extra services"), h("div", { key: '5f8c75b93ecd3896a22c9208870197eba2565ee5', class: "ir-print-extra-services__list" }, this.extraServices?.map(service => {
             if (!this.invocableKeys.has(service.system_id)) {
                 return null;
             }

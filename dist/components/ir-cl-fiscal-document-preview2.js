@@ -79,7 +79,7 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
         }
     }
     render() {
-        return (h(Host, { key: '5a275fed93b82a0f5a1f477dcbab55b5b0c78b2f' }, h("ir-preview-screen-dialog", { key: '499706502326b06c4d0f6a24fb8f597befe38e19', open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: '6cec4e3747f3086d86fea7e9f97a5fdfbbb144c3' }, h("ir-preview-screen-dialog", { key: '42bcfd54b496893da7fe274fbdac6766c8020e7d', open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
             } }, this.renderPreview())));

@@ -2,6 +2,7 @@ import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
 import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
+export type ClPanels = 'folio' | 'fiscal-documents' | 'create-statement';
 export declare class IrCityLedger {
     el: HTMLElement;
     ticket: string;
@@ -11,10 +12,10 @@ export declare class IrCityLedger {
     propertyid: number;
     agentId: number | null;
     resolvedPropertyId: number | null;
-    currentTab: string;
+    currentTab: ClPanels;
     isLoading: boolean;
     agents: Agent[];
-    selectedAgentId: number | null;
+    selectedAgent: Agent | null;
     taxOptions: TaxOption[];
     serviceCategoryOptions: ServiceCategoryOption[];
     currencySymbol: string;

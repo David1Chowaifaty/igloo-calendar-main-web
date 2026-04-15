@@ -302,6 +302,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         tax_nbr: z.ZodString;
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
+        has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
         cl_post_timing: z.ZodObject<{
             code: z.ZodString;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -398,6 +399,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         tax_nbr?: string;
         reference?: string;
         verification_mode?: string;
+        has_opening_balance?: boolean;
         cl_post_timing?: {
             code?: string;
             description?: string;
@@ -438,6 +440,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         tax_nbr?: string;
         reference?: string;
         verification_mode?: string;
+        has_opening_balance?: boolean;
         cl_post_timing?: {
             code?: string;
             description?: string;
@@ -482,6 +485,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         tax_nbr?: string;
         reference?: string;
         verification_mode?: string;
+        has_opening_balance?: boolean;
         cl_post_timing?: {
             code?: string;
             description?: string;
@@ -535,6 +539,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         tax_nbr?: string;
         reference?: string;
         verification_mode?: string;
+        has_opening_balance?: boolean;
         cl_post_timing?: {
             code?: string;
             description?: string;

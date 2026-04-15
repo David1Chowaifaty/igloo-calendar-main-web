@@ -2,6 +2,20 @@
   display: block;
 }
 
+@media print {
+  .invoice__meta-label {
+    color: #374151;
+  }
+
+  .section-heading {
+    color: #374151;
+  }
+
+  .property-overview__location {
+    color: #374151;
+  }
+}
+
 .invoice__title {
   margin: 0 0 0.5rem;
   font-size: 1.75rem;

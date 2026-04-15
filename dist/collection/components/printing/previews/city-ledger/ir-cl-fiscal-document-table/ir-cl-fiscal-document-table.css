@@ -126,4 +126,18 @@
   .invoice-items__td {
     padding: 0.35rem 0.5rem;
   }
+
+  .invoice-items__th {
+    color: #374151;
+  }
+
+  .invoice-items__td--date,
+  .invoice-items__td--pct,
+  .invoice-items__td--num {
+    color: #374151;
+  }
+
+  .invoice-items__unit-row td {
+    color: #374151;
+  }
 }

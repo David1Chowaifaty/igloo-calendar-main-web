@@ -39,7 +39,7 @@ const FiscalDocumentSchema = objectType({
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
 // ---------------------------------------------------------------------------
-const MyClTxSchema = objectType({
+const ClTxSchema = objectType({
     BH_ID: numberType(),
     BSA_REF: unionType([nullType(), stringType()]),
     CATEGORY: CategorySchema,
@@ -95,6 +95,8 @@ const MyClTxSchema = objectType({
     TRAVEL_AGENCY_ID: numberType(),
     VAT_AMOUNT: numberType(),
     VAT_PERCENT: numberType(),
+    BALANCE_BEFORE_TX: numberType().nullable(),
+    BALANCE_AFTER_TX: numberType().nullable(),
 });
 const FetchCLParamsSchema = objectType({
     AGENCY_ID: numberType(),
@@ -108,7 +110,7 @@ const FetchCLParamsSchema = objectType({
     IS_CHECKED_OUT_ONLY: booleanType().optional().nullable().default(null),
 });
 objectType({
-    My_Cl_tx: arrayType(MyClTxSchema),
+    My_Cl_tx: arrayType(ClTxSchema),
     TOTAL_COUNT: numberType(),
 });
 // ---------------------------------------------------------------------------

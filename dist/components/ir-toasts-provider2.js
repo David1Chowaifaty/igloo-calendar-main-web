@@ -140,7 +140,7 @@ const IrToastsProvider = /*@__PURE__*/ proxyCustomElement(class IrToastsProvider
         this.positionCache.clear();
     }
     render() {
-        return h(Host, { key: 'a3627bf9b9a83dda94c094f83722c5eb7bdc1909' });
+        return h(Host, { key: 'b90ae064e878b5a774c24e9f7baafcd4c316655b' });
     }
     static get style() { return IrToastsProviderStyle0; }
 }, [1, "ir-toasts-provider", {

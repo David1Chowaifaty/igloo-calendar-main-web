@@ -1,6 +1,6 @@
-import type { MyClTx } from "../../../../../services/city-ledger/index";
+import type { ClTx } from "../../../../../services/city-ledger/index";
 export declare class IrClFiscalDocumentTable {
-    transactions: MyClTx[];
+    transactions: ClTx[];
     currencySymbol: string;
     /** When true all monetary amounts are negated — used for credit notes. */
     invertAmounts: boolean;

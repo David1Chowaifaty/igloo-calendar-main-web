@@ -1,7 +1,7 @@
-import type { MyClTx } from "../../../services/city-ledger/index";
+import type { ClTx } from "../../../services/city-ledger/index";
 export interface FolioRow {
     _rowId: string;
-    _raw: MyClTx;
+    _raw: ClTx;
     status: {
         id: string;
         label: string;
@@ -17,7 +17,7 @@ export interface FolioRow {
     credit: number;
     balance: number;
 }
-export declare function mapClTxToFolioRow(tx: MyClTx): Omit<FolioRow, '_rowId'>;
+export declare function mapClTxToFolioRow(tx: ClTx): Omit<FolioRow, '_rowId'>;
 export interface FolioFilters {
     fromDate?: string;
     toDate?: string;
