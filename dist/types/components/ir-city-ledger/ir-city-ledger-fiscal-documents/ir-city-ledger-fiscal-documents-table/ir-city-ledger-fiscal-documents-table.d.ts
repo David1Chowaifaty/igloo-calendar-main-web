@@ -17,10 +17,13 @@ export declare class IrCityLedgerFiscalDocumentsTable {
     hasFetched: boolean;
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     fetchRequested: EventEmitter<void>;
+    private pendingAction;
+    private isConfirming;
     private columnHelper;
     private cityLedgerService;
     private getStatusVariant;
     private handleAction;
+    private confirmPendingAction;
     private get columns();
     private getSymbol;
     private renderMoney;

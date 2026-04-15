@@ -1,4 +1,4 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as ClFiscalDocumentService } from './cl-fiscal-document.service.js';
 import { d as defineCustomElement$b } from './ir-cl-document-header2.js';
 import { d as defineCustomElement$a } from './ir-cl-fiscal-document-table2.js';
@@ -20,6 +20,7 @@ const IrClDebitNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClDebitNot
         super();
         this.__registerHost();
         this.__attachShadow();
+        this.clPreviewReady = createEvent(this, "clPreviewReady", 7);
     }
     propertyId;
     ticket;
@@ -31,7 +32,9 @@ const IrClDebitNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClDebitNot
     error = null;
     property = null;
     transactions = [];
+    clPreviewReady;
     dataService = new ClFiscalDocumentService();
+    hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
             this.error = 'Authentication ticket is required.';
@@ -39,6 +42,14 @@ const IrClDebitNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClDebitNot
         }
         this.dataService.init(this.baseurl, this.ticket);
         return this.fetchData();
+    }
+    componentDidRender() {
+        if (!this.isLoading && !this.error && !this.hasEmitted) {
+            this.hasEmitted = true;
+            requestAnimationFrame(() => {
+                this.clPreviewReady.emit();
+            });
+        }
     }
     async fetchData() {
         this.isLoading = true;

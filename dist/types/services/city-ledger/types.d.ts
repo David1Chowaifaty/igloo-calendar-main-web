@@ -41,6 +41,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     TAX_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     TAX_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
+    BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     AGENCY_ID?: number;
     CURRENCY_ID?: number;
@@ -65,6 +67,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     TAX_AMOUNT?: number;
     TAX_AMOUNT_DISPLAY?: string;
     TOTAL_AMOUNT?: number;
+    BALANCE_BEFORE_TX?: number;
+    BALANCE_AFTER_TX?: number;
 }, {
     AGENCY_ID?: number;
     CURRENCY_ID?: number;
@@ -89,6 +93,8 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     TAX_AMOUNT?: number;
     TAX_AMOUNT_DISPLAY?: string;
     TOTAL_AMOUNT?: number;
+    BALANCE_BEFORE_TX?: number;
+    BALANCE_AFTER_TX?: number;
 }>;
 export type FiscalDocument = z.infer<typeof FiscalDocumentSchema>;
 export declare const ClTxSchema: z.ZodObject<{
@@ -149,6 +155,8 @@ export declare const ClTxSchema: z.ZodObject<{
         TAX_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         TAX_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
+        BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
@@ -173,6 +181,8 @@ export declare const ClTxSchema: z.ZodObject<{
         TAX_AMOUNT?: number;
         TAX_AMOUNT_DISPLAY?: string;
         TOTAL_AMOUNT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }, {
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
@@ -197,6 +207,8 @@ export declare const ClTxSchema: z.ZodObject<{
         TAX_AMOUNT?: number;
         TAX_AMOUNT_DISPLAY?: string;
         TOTAL_AMOUNT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     }>>;
     My_Pr: z.ZodNullable<z.ZodAny>;
     My_Room_category: z.ZodNullable<z.ZodAny>;
@@ -214,8 +226,6 @@ export declare const ClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID: z.ZodNumber;
     VAT_AMOUNT: z.ZodNumber;
     VAT_PERCENT: z.ZodNumber;
-    BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
-    BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     PR_ID?: number;
     ENTRY_DATE?: string;
@@ -279,6 +289,8 @@ export declare const ClTxSchema: z.ZodObject<{
         TAX_AMOUNT?: number;
         TAX_AMOUNT_DISPLAY?: string;
         TOTAL_AMOUNT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     };
     My_Pr?: any;
     My_Room_category?: any;
@@ -291,8 +303,6 @@ export declare const ClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
-    BALANCE_BEFORE_TX?: number;
-    BALANCE_AFTER_TX?: number;
 }, {
     PR_ID?: number;
     ENTRY_DATE?: string;
@@ -356,6 +366,8 @@ export declare const ClTxSchema: z.ZodObject<{
         TAX_AMOUNT?: number;
         TAX_AMOUNT_DISPLAY?: string;
         TOTAL_AMOUNT?: number;
+        BALANCE_BEFORE_TX?: number;
+        BALANCE_AFTER_TX?: number;
     };
     My_Pr?: any;
     My_Room_category?: any;
@@ -368,8 +380,6 @@ export declare const ClTxSchema: z.ZodObject<{
     TRAVEL_AGENCY_ID?: number;
     VAT_AMOUNT?: number;
     VAT_PERCENT?: number;
-    BALANCE_BEFORE_TX?: number;
-    BALANCE_AFTER_TX?: number;
 }>;
 /** City-ledger transaction row returned by the API. */
 export type ClTx = z.infer<typeof ClTxSchema>;
@@ -465,6 +475,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             TAX_AMOUNT_DISPLAY: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
+            BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
         }, "strip", z.ZodTypeAny, {
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
@@ -489,6 +501,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         }, {
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
@@ -513,6 +527,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         }>>;
         My_Pr: z.ZodNullable<z.ZodAny>;
         My_Room_category: z.ZodNullable<z.ZodAny>;
@@ -530,8 +546,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID: z.ZodNumber;
         VAT_AMOUNT: z.ZodNumber;
         VAT_PERCENT: z.ZodNumber;
-        BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
-        BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
     }, "strip", z.ZodTypeAny, {
         PR_ID?: number;
         ENTRY_DATE?: string;
@@ -595,6 +609,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         };
         My_Pr?: any;
         My_Room_category?: any;
@@ -607,8 +623,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
-        BALANCE_BEFORE_TX?: number;
-        BALANCE_AFTER_TX?: number;
     }, {
         PR_ID?: number;
         ENTRY_DATE?: string;
@@ -672,6 +686,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         };
         My_Pr?: any;
         My_Room_category?: any;
@@ -684,8 +700,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
-        BALANCE_BEFORE_TX?: number;
-        BALANCE_AFTER_TX?: number;
     }>, "many">;
     TOTAL_COUNT: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
@@ -752,6 +766,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         };
         My_Pr?: any;
         My_Room_category?: any;
@@ -764,8 +780,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
-        BALANCE_BEFORE_TX?: number;
-        BALANCE_AFTER_TX?: number;
     }[];
     TOTAL_COUNT?: number;
 }, {
@@ -832,6 +846,8 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TAX_AMOUNT?: number;
             TAX_AMOUNT_DISPLAY?: string;
             TOTAL_AMOUNT?: number;
+            BALANCE_BEFORE_TX?: number;
+            BALANCE_AFTER_TX?: number;
         };
         My_Pr?: any;
         My_Room_category?: any;
@@ -844,8 +860,6 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         TRAVEL_AGENCY_ID?: number;
         VAT_AMOUNT?: number;
         VAT_PERCENT?: number;
-        BALANCE_BEFORE_TX?: number;
-        BALANCE_AFTER_TX?: number;
     }[];
     TOTAL_COUNT?: number;
 }>;
@@ -1064,23 +1078,23 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.e
 export type IssueFiscalDocumentParams = z.infer<typeof IssueFiscalDocumentParamsSchema>;
 export declare const GetFiscalDocumentsParamsSchema: z.ZodObject<{
     DOC_NUMBER: z.ZodDefault<z.ZodOptional<z.ZodString>>;
-    FROM_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    START_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     END_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     LIST_FD_TYPE_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
     FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     AGENCY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
-    FROM_DATE?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
     FD_STATUS_CODE?: string;
+    START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
 }, {
-    FROM_DATE?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
     FD_STATUS_CODE?: string;
+    START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
 }>;

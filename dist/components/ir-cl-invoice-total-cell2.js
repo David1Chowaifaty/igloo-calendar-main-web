@@ -12,7 +12,7 @@ const IrClInvoiceTotalCell = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceT
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: '65c2a55a03c3d53a11a3f4949d674720590cfe04' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '8a48c2a9763d321ad4d97dbbc914dc130f69e07b' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get style() { return IrClInvoiceTotalCellStyle0; }
 }, [2, "ir-cl-invoice-total-cell", {

@@ -18,6 +18,8 @@ export class IrCityLedgerFiscalDocumentsTable {
     hasFetched = false;
     clFiscalDocumentPreview;
     fetchRequested;
+    pendingAction = null;
+    isConfirming = false;
     columnHelper = createColumnHelper();
     cityLedgerService = new CityLedgerService();
     getStatusVariant(code) {
@@ -34,6 +36,7 @@ export class IrCityLedgerFiscalDocumentsTable {
     handleAction(action, row) {
         switch (action) {
             case 'view':
+            case 'preview':
                 this.clFiscalDocumentPreview.emit({
                     fdTypeCode: row.FD_TYPE_CODE,
                     documentNumber: row.DOC_NUMBER,
@@ -42,6 +45,13 @@ export class IrCityLedgerFiscalDocumentsTable {
                 });
                 break;
             case 'print':
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: row.FD_TYPE_CODE,
+                    documentNumber: row.DOC_NUMBER,
+                    agentId: this.agentId,
+                    agentName: row.AGENCY_NAME,
+                    autoPrint: true,
+                });
                 console.log('print', row);
                 break;
             case 'download':
@@ -57,27 +67,32 @@ export class IrCityLedgerFiscalDocumentsTable {
                 console.log('mark-paid', row);
                 break;
             case 'void':
-                console.log('void', row);
-                this.cityLedgerService.voidInvoiceByCreditNote({
-                    FD_ID: row.FD_ID,
-                });
-                break;
             case 'delete-draft':
-                this.cityLedgerService.deleteDraftFiscalDocument({
-                    FD_ID: row.FD_ID,
-                });
-                break;
-            case 'preview':
-                this.clFiscalDocumentPreview.emit({
-                    fdTypeCode: row.FD_TYPE_CODE,
-                    documentNumber: row.DOC_NUMBER,
-                    agentId: this.agentId,
-                    agentName: row.AGENCY_NAME,
-                });
-                break;
             case 'convert-to-invoice':
-                console.log('convert-to-invoice', row);
+                this.pendingAction = { action: action, row };
                 break;
+        }
+    }
+    async confirmPendingAction() {
+        if (!this.pendingAction)
+            return;
+        const { action, row } = this.pendingAction;
+        this.isConfirming = true;
+        try {
+            if (action === 'void') {
+                await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
+            }
+            else if (action === 'delete-draft') {
+                await this.cityLedgerService.deleteDraftFiscalDocument({ FD_ID: row.FD_ID });
+            }
+            else if (action === 'convert-to-invoice') {
+                console.log('convert-to-invoice', row);
+            }
+            this.fetchRequested.emit();
+        }
+        finally {
+            this.isConfirming = false;
+            this.pendingAction = null;
         }
     }
     get columns() {
@@ -135,8 +150,8 @@ export class IrCityLedgerFiscalDocumentsTable {
                 cell: info => {
                     const row = info.row.original;
                     const isDraft = row.FD_TYPE_CODE === FD_TYPES.Draft;
-                    const isPaid = row.FD_STATUS_CODE === 'INV';
-                    const isInvoice = row.FD_TYPE_CODE === FD_TYPES.Invoice;
+                    // const isPaid = row.FD_STATUS_CODE === 'INV';
+                    // const isInvoice = row.FD_TYPE_CODE === FD_TYPES.Invoice;
                     return (h("wa-dropdown", { "onwa-select": (e) => {
                             this.handleAction(e.detail.item.value, row);
                         } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
@@ -148,12 +163,12 @@ export class IrCityLedgerFiscalDocumentsTable {
                         : [
                             h("wa-dropdown-item", { value: "view" }, "View Document"),
                             h("wa-dropdown-item", { value: "print" }, "Print"),
-                            h("wa-dropdown-item", { value: "download" }, "Download PDF"),
-                            (!isPaid || !isInvoice) && h("wa-divider", null),
-                            !isPaid && h("wa-dropdown-item", { value: "send-reminder" }, "Send Reminder"),
-                            !isPaid && isInvoice && h("wa-dropdown-item", { value: "apply-payment" }, "Apply Payment"),
-                            !isPaid && h("wa-dropdown-item", { value: "mark-paid" }, "Mark as Paid"),
-                            h("wa-divider", null),
+                            // <wa-dropdown-item value="download">Download PDF</wa-dropdown-item>,
+                            // (!isPaid || !isInvoice) && <wa-divider></wa-divider>,
+                            // !isPaid && <wa-dropdown-item value="send-reminder">Send Reminder</wa-dropdown-item>,
+                            // !isPaid && isInvoice && <wa-dropdown-item value="apply-payment">Apply Payment</wa-dropdown-item>,
+                            // !isPaid && <wa-dropdown-item value="mark-paid">Mark as Paid</wa-dropdown-item>,
+                            // <wa-divider></wa-divider>,
                             h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void")),
                         ]));
                 },
@@ -188,7 +203,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 'fiscal-table__cell': true,
                 'fiscal-table__cell--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.'))))))));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: () => this.confirmPendingAction(), onCancelled: () => (this.pendingAction = null) })));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }
@@ -209,7 +224,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "mutable": false,
                 "complexType": {
                     "original": "FiscalDocument[]",
-                    "resolved": "{ AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; }[]",
+                    "resolved": "{ AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }[]",
                     "references": {
                         "FiscalDocument": {
                             "location": "import",
@@ -450,6 +465,12 @@ export class IrCityLedgerFiscalDocumentsTable {
                 "reflect": false,
                 "defaultValue": "false"
             }
+        };
+    }
+    static get states() {
+        return {
+            "pendingAction": {},
+            "isConfirming": {}
         };
     }
     static get events() {

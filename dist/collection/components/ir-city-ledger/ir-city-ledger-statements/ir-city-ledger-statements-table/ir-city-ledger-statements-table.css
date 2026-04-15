@@ -172,7 +172,7 @@
 
 /* #region numeric alignment */
 .cell--align-end {
-  text-align: right;
+  text-align: right !important;
 }
 /* #endregion */
 

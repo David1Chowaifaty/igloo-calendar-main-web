@@ -5,51 +5,52 @@ import { B as BookingService } from './booking.store.js';
 import { P as PropertyService } from './property.service.js';
 import { c as calendar_data } from './calendar-data.js';
 import { S as SystemService, d as defineCustomElement$9 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$Z } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$Y } from './ir-autocomplete2.js';
-import { d as defineCustomElement$X } from './ir-autocomplete-option2.js';
-import { d as defineCustomElement$W } from './ir-button2.js';
-import { d as defineCustomElement$V } from './ir-city-ledger-fiscal-documents2.js';
-import { d as defineCustomElement$U } from './ir-city-ledger-fiscal-documents-filters2.js';
-import { d as defineCustomElement$T } from './ir-city-ledger-fiscal-documents-table2.js';
-import { d as defineCustomElement$S } from './ir-city-ledger-folio2.js';
-import { d as defineCustomElement$R } from './ir-city-ledger-folio-filters2.js';
-import { d as defineCustomElement$Q } from './ir-city-ledger-folio-table2.js';
-import { d as defineCustomElement$P } from './ir-city-ledger-steatments.js';
-import { d as defineCustomElement$O } from './ir-city-ledger-statements-filter2.js';
-import { d as defineCustomElement$N } from './ir-city-ledger-statements-table2.js';
-import { d as defineCustomElement$M } from './ir-city-ledger-toolbar2.js';
-import { d as defineCustomElement$L } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$K } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$J } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$I } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$H } from './ir-cl-credit-note-preview2.js';
-import { d as defineCustomElement$G } from './ir-cl-debit-note-fields2.js';
-import { d as defineCustomElement$F } from './ir-cl-debit-note-preview2.js';
-import { d as defineCustomElement$E } from './ir-cl-document-header2.js';
-import { d as defineCustomElement$D } from './ir-cl-fiscal-document-preview2.js';
-import { d as defineCustomElement$C } from './ir-cl-fiscal-document-table2.js';
-import { d as defineCustomElement$B } from './ir-cl-invoice-city-tax-amount-cell2.js';
-import { d as defineCustomElement$A } from './ir-cl-invoice-city-tax-pct-cell2.js';
-import { d as defineCustomElement$z } from './ir-cl-invoice-date-cell2.js';
-import { d as defineCustomElement$y } from './ir-cl-invoice-description-cell2.js';
-import { d as defineCustomElement$x } from './ir-cl-invoice-dialog2.js';
-import { d as defineCustomElement$w } from './ir-cl-invoice-form2.js';
-import { d as defineCustomElement$v } from './ir-cl-invoice-net-price-cell2.js';
-import { d as defineCustomElement$u } from './ir-cl-invoice-preview2.js';
-import { d as defineCustomElement$t } from './ir-cl-invoice-total-cell2.js';
-import { d as defineCustomElement$s } from './ir-cl-invoice-vat-amount-cell2.js';
-import { d as defineCustomElement$r } from './ir-cl-invoice-vat-pct-cell2.js';
-import { d as defineCustomElement$q } from './ir-cl-opening-balance-fields2.js';
-import { d as defineCustomElement$p } from './ir-cl-payment-fields2.js';
-import { d as defineCustomElement$o } from './ir-cl-receipt-preview2.js';
-import { d as defineCustomElement$n } from './ir-cl-statement-preview2.js';
-import { d as defineCustomElement$m } from './ir-custom-button2.js';
-import { d as defineCustomElement$l } from './ir-date-range-filter2.js';
-import { d as defineCustomElement$k } from './ir-date-select2.js';
-import { d as defineCustomElement$j } from './ir-dialog2.js';
-import { d as defineCustomElement$i } from './ir-drawer2.js';
-import { d as defineCustomElement$h } from './ir-empty-state2.js';
+import { d as defineCustomElement$_ } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$Z } from './ir-autocomplete2.js';
+import { d as defineCustomElement$Y } from './ir-autocomplete-option2.js';
+import { d as defineCustomElement$X } from './ir-button2.js';
+import { d as defineCustomElement$W } from './ir-city-ledger-fiscal-documents2.js';
+import { d as defineCustomElement$V } from './ir-city-ledger-fiscal-documents-filters2.js';
+import { d as defineCustomElement$U } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$T } from './ir-city-ledger-folio2.js';
+import { d as defineCustomElement$S } from './ir-city-ledger-folio-filters2.js';
+import { d as defineCustomElement$R } from './ir-city-ledger-folio-table2.js';
+import { d as defineCustomElement$Q } from './ir-city-ledger-steatments.js';
+import { d as defineCustomElement$P } from './ir-city-ledger-statements-filter2.js';
+import { d as defineCustomElement$O } from './ir-city-ledger-statements-table2.js';
+import { d as defineCustomElement$N } from './ir-city-ledger-toolbar2.js';
+import { d as defineCustomElement$M } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$L } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$K } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$J } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$I } from './ir-cl-credit-note-preview2.js';
+import { d as defineCustomElement$H } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$G } from './ir-cl-debit-note-preview2.js';
+import { d as defineCustomElement$F } from './ir-cl-document-header2.js';
+import { d as defineCustomElement$E } from './ir-cl-fiscal-document-preview2.js';
+import { d as defineCustomElement$D } from './ir-cl-fiscal-document-table2.js';
+import { d as defineCustomElement$C } from './ir-cl-invoice-city-tax-amount-cell2.js';
+import { d as defineCustomElement$B } from './ir-cl-invoice-city-tax-pct-cell2.js';
+import { d as defineCustomElement$A } from './ir-cl-invoice-date-cell2.js';
+import { d as defineCustomElement$z } from './ir-cl-invoice-description-cell2.js';
+import { d as defineCustomElement$y } from './ir-cl-invoice-dialog2.js';
+import { d as defineCustomElement$x } from './ir-cl-invoice-form2.js';
+import { d as defineCustomElement$w } from './ir-cl-invoice-net-price-cell2.js';
+import { d as defineCustomElement$v } from './ir-cl-invoice-preview2.js';
+import { d as defineCustomElement$u } from './ir-cl-invoice-total-cell2.js';
+import { d as defineCustomElement$t } from './ir-cl-invoice-vat-amount-cell2.js';
+import { d as defineCustomElement$s } from './ir-cl-invoice-vat-pct-cell2.js';
+import { d as defineCustomElement$r } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$q } from './ir-cl-payment-fields2.js';
+import { d as defineCustomElement$p } from './ir-cl-receipt-preview2.js';
+import { d as defineCustomElement$o } from './ir-cl-statement-preview2.js';
+import { d as defineCustomElement$n } from './ir-custom-button2.js';
+import { d as defineCustomElement$m } from './ir-date-range-filter2.js';
+import { d as defineCustomElement$l } from './ir-date-select2.js';
+import { d as defineCustomElement$k } from './ir-dialog2.js';
+import { d as defineCustomElement$j } from './ir-drawer2.js';
+import { d as defineCustomElement$i } from './ir-empty-state2.js';
+import { d as defineCustomElement$h } from './ir-fd-confirm-dialog2.js';
 import { d as defineCustomElement$g } from './ir-hold-transaction-dialog2.js';
 import { d as defineCustomElement$f } from './ir-icons2.js';
 import { d as defineCustomElement$e } from './ir-input2.js';
@@ -243,7 +244,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger", "ir-air-date-picker", "ir-autocomplete", "ir-autocomplete-option", "ir-button", "ir-city-ledger-fiscal-documents", "ir-city-ledger-fiscal-documents-filters", "ir-city-ledger-fiscal-documents-table", "ir-city-ledger-folio", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-statements", "ir-city-ledger-statements-filter", "ir-city-ledger-statements-table", "ir-city-ledger-toolbar", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-credit-note-preview", "ir-cl-debit-note-fields", "ir-cl-debit-note-preview", "ir-cl-document-header", "ir-cl-fiscal-document-preview", "ir-cl-fiscal-document-table", "ir-cl-invoice-city-tax-amount-cell", "ir-cl-invoice-city-tax-pct-cell", "ir-cl-invoice-date-cell", "ir-cl-invoice-description-cell", "ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-cl-invoice-net-price-cell", "ir-cl-invoice-preview", "ir-cl-invoice-total-cell", "ir-cl-invoice-vat-amount-cell", "ir-cl-invoice-vat-pct-cell", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-cl-receipt-preview", "ir-cl-statement-preview", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-hold-transaction-dialog", "ir-icons", "ir-input", "ir-input-cell", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-page", "ir-pagination", "ir-preview-screen-dialog", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["ir-city-ledger", "ir-air-date-picker", "ir-autocomplete", "ir-autocomplete-option", "ir-button", "ir-city-ledger-fiscal-documents", "ir-city-ledger-fiscal-documents-filters", "ir-city-ledger-fiscal-documents-table", "ir-city-ledger-folio", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-statements", "ir-city-ledger-statements-filter", "ir-city-ledger-statements-table", "ir-city-ledger-toolbar", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-credit-note-preview", "ir-cl-debit-note-fields", "ir-cl-debit-note-preview", "ir-cl-document-header", "ir-cl-fiscal-document-preview", "ir-cl-fiscal-document-table", "ir-cl-invoice-city-tax-amount-cell", "ir-cl-invoice-city-tax-pct-cell", "ir-cl-invoice-date-cell", "ir-cl-invoice-description-cell", "ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-cl-invoice-net-price-cell", "ir-cl-invoice-preview", "ir-cl-invoice-total-cell", "ir-cl-invoice-vat-amount-cell", "ir-cl-invoice-vat-pct-cell", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-cl-receipt-preview", "ir-cl-statement-preview", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-hold-transaction-dialog", "ir-icons", "ir-input", "ir-input-cell", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-page", "ir-pagination", "ir-preview-screen-dialog", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger":
             if (!customElements.get(tagName)) {
@@ -252,225 +253,230 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Z();
+                defineCustomElement$_();
             }
             break;
         case "ir-autocomplete":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Y();
+                defineCustomElement$Z();
             }
             break;
         case "ir-autocomplete-option":
             if (!customElements.get(tagName)) {
-                defineCustomElement$X();
+                defineCustomElement$Y();
             }
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$W();
+                defineCustomElement$X();
             }
             break;
         case "ir-city-ledger-fiscal-documents":
             if (!customElements.get(tagName)) {
-                defineCustomElement$V();
+                defineCustomElement$W();
             }
             break;
         case "ir-city-ledger-fiscal-documents-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$U();
+                defineCustomElement$V();
             }
             break;
         case "ir-city-ledger-fiscal-documents-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$T();
+                defineCustomElement$U();
             }
             break;
         case "ir-city-ledger-folio":
             if (!customElements.get(tagName)) {
-                defineCustomElement$S();
+                defineCustomElement$T();
             }
             break;
         case "ir-city-ledger-folio-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$R();
+                defineCustomElement$S();
             }
             break;
         case "ir-city-ledger-folio-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$Q();
+                defineCustomElement$R();
             }
             break;
         case "ir-city-ledger-statements":
             if (!customElements.get(tagName)) {
-                defineCustomElement$P();
+                defineCustomElement$Q();
             }
             break;
         case "ir-city-ledger-statements-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$O();
+                defineCustomElement$P();
             }
             break;
         case "ir-city-ledger-statements-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$N();
+                defineCustomElement$O();
             }
             break;
         case "ir-city-ledger-toolbar":
             if (!customElements.get(tagName)) {
-                defineCustomElement$M();
+                defineCustomElement$N();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$L();
+                defineCustomElement$M();
             }
             break;
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$K();
+                defineCustomElement$L();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$J();
+                defineCustomElement$K();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$I();
+                defineCustomElement$J();
             }
             break;
         case "ir-cl-credit-note-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$H();
+                defineCustomElement$I();
             }
             break;
         case "ir-cl-debit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$G();
+                defineCustomElement$H();
             }
             break;
         case "ir-cl-debit-note-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$F();
+                defineCustomElement$G();
             }
             break;
         case "ir-cl-document-header":
             if (!customElements.get(tagName)) {
-                defineCustomElement$E();
+                defineCustomElement$F();
             }
             break;
         case "ir-cl-fiscal-document-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$D();
+                defineCustomElement$E();
             }
             break;
         case "ir-cl-fiscal-document-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$C();
+                defineCustomElement$D();
             }
             break;
         case "ir-cl-invoice-city-tax-amount-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$B();
+                defineCustomElement$C();
             }
             break;
         case "ir-cl-invoice-city-tax-pct-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$A();
+                defineCustomElement$B();
             }
             break;
         case "ir-cl-invoice-date-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$z();
+                defineCustomElement$A();
             }
             break;
         case "ir-cl-invoice-description-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$y();
+                defineCustomElement$z();
             }
             break;
         case "ir-cl-invoice-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$x();
+                defineCustomElement$y();
             }
             break;
         case "ir-cl-invoice-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$x();
             }
             break;
         case "ir-cl-invoice-net-price-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$w();
             }
             break;
         case "ir-cl-invoice-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$v();
             }
             break;
         case "ir-cl-invoice-total-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$u();
             }
             break;
         case "ir-cl-invoice-vat-amount-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
+                defineCustomElement$t();
             }
             break;
         case "ir-cl-invoice-vat-pct-cell":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$s();
             }
             break;
         case "ir-cl-opening-balance-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$r();
             }
             break;
         case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$q();
             }
             break;
         case "ir-cl-receipt-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$p();
             }
             break;
         case "ir-cl-statement-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$n();
+                defineCustomElement$o();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$n();
             }
             break;
         case "ir-date-range-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-date-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-empty-state":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-fd-confirm-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$h();
             }

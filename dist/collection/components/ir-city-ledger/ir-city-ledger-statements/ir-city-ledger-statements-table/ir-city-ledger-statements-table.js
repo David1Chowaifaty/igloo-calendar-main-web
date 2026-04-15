@@ -23,50 +23,65 @@ export class IrCityLedgerStatementsTable {
         const m = moment(date, [DATE_INPUT_FORMAT, moment.ISO_8601], true);
         return m.isValid() ? m.format(DATE_DISPLAY_FORMAT) : date;
     }
-    getSymbol(row) {
-        const match = this.currencies.find(c => c.id === row._raw?.CURRENCY_ID);
+    getSymbol(currencyId) {
+        if (!currencyId)
+            return this.currencySymbol;
+        const match = this.currencies.find(c => c.id === currencyId);
         return match?.symbol ?? this.currencySymbol;
     }
-    renderMoney(value, row) {
+    renderMoney(value, currencyId) {
         if (!value)
             return h("span", { class: "stmt-table__cell--zero" }, "\u2014");
-        return h("span", null, formatAmount(this.getSymbol(row), value));
+        return h("span", null, formatAmount(this.getSymbol(currencyId), value));
+    }
+    get runningBalances() {
+        let balance = this.startingBalance;
+        return this.rows.map(doc => {
+            balance += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+            return balance;
+        });
     }
     get columns() {
+        const balances = this.runningBalances;
         return [
-            this.columnHelper.accessor('serviceDate', {
+            this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
+                id: 'date',
                 header: 'Date',
-                cell: info => this.formatDate(info.getValue()),
+                cell: info => info.getValue() || this.formatDate(info.row.original.ISSUE_DATE),
             }),
-            this.columnHelper.accessor('docNumber', {
+            this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
                 cell: info => h("span", { class: "stmt-table__doc-number" }, info.getValue() ?? '—'),
             }),
-            this.columnHelper.accessor('type', {
+            this.columnHelper.accessor('FD_TYPE_NAME', {
+                id: 'type',
                 header: 'Type',
                 cell: info => info.getValue() ?? '—',
             }),
-            this.columnHelper.accessor('debit', {
+            this.columnHelper.accessor('DEBIT', {
+                id: 'debit',
                 header: 'Debit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original),
+                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
             }),
-            this.columnHelper.accessor('credit', {
+            this.columnHelper.accessor('CREDIT', {
+                id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original),
+                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
             }),
-            this.columnHelper.accessor('balance', {
+            this.columnHelper.display({
+                id: 'balance',
                 header: 'Balance',
-                cell: info => this.renderMoney(info.getValue(), info.row.original),
+                cell: info => this.renderMoney(balances[info.row.index], info.row.original.CURRENCY_ID),
             }),
         ];
     }
     renderStartingBalanceRow() {
         const bal = this.startingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", { class: "cell--align-end" }, bal >= 0 ? formatAmount(this.currencySymbol, bal) : ''), h("td", { class: "cell--align-end" }, bal < 0 ? formatAmount(this.currencySymbol, bal) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
     }
     renderEndingBalanceRow() {
         const bal = this.endingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }, bal >= 0 ? formatAmount(this.currencySymbol, Math.abs(bal)) : ''), h("td", { class: "cell--align-end" }, bal < 0 ? formatAmount(this.currencySymbol, Math.abs(bal)) : ''), h("td", { class: "cell--align-end" }, h("strong", null, bal < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(bal))))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, h("strong", null, formatAmount(this.currencySymbol, Math.abs(bal))))));
     }
     render() {
         if (!this.hasFetched) {
@@ -82,7 +97,7 @@ export class IrCityLedgerStatementsTable {
             getSortedRowModel: getSortedRowModel(),
         });
         const colCount = this.columns.length;
-        return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table data-table" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: { 'cell--align-end': NUMERIC_COLS.has(header.column.id) } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, this.renderStartingBalanceRow(), table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { class: "empty-row", colSpan: colCount }, "No transactions in this period."))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+        return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table data-table" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: { 'cell--align-end': NUMERIC_COLS.has(header.column.id) } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, this.renderStartingBalanceRow(), table.getRowModel().rows.length === 0 ? (h("tr", null, h("td", { class: "empty-row", colSpan: colCount }, "No fiscal documents in this period."))) : (table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'stmt-table__cell': true,
                 'cell--align-end': NUMERIC_COLS.has(cell.column.id),
             } }, flexRender(cell.column.columnDef.cell, cell.getContext())))))))), this.renderEndingBalanceRow())))));
@@ -105,13 +120,13 @@ export class IrCityLedgerStatementsTable {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "FolioRow[]",
-                    "resolved": "FolioRow[]",
+                    "original": "FiscalDocument[]",
+                    "resolved": "{ AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }[]",
                     "references": {
-                        "FolioRow": {
+                        "FiscalDocument": {
                             "location": "import",
-                            "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "path": "@/services/city-ledger",
+                            "id": "src/services/city-ledger/index.ts::FiscalDocument"
                         }
                     }
                 },

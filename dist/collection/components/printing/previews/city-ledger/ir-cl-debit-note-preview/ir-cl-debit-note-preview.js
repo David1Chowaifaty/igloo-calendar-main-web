@@ -11,7 +11,9 @@ export class IrClDebitNotePreview {
     error = null;
     property = null;
     transactions = [];
+    clPreviewReady;
     dataService = new ClFiscalDocumentService();
+    hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
             this.error = 'Authentication ticket is required.';
@@ -19,6 +21,14 @@ export class IrClDebitNotePreview {
         }
         this.dataService.init(this.baseurl, this.ticket);
         return this.fetchData();
+    }
+    componentDidRender() {
+        if (!this.isLoading && !this.error && !this.hasEmitted) {
+            this.hasEmitted = true;
+            requestAnimationFrame(() => {
+                this.clPreviewReady.emit();
+            });
+        }
     }
     async fetchData() {
         this.isLoading = true;
@@ -184,6 +194,24 @@ export class IrClDebitNotePreview {
             "property": {},
             "transactions": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "clPreviewReady",
+                "name": "clPreviewReady",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
     }
 }
 //# sourceMappingURL=ir-cl-debit-note-preview.js.map

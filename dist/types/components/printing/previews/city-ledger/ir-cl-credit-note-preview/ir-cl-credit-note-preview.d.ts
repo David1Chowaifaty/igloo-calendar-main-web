@@ -1,3 +1,4 @@
+import { EventEmitter } from '../../../../../stencil-public-runtime';
 export declare class IrClCreditNotePreview {
     propertyId: number;
     ticket: string;
@@ -9,8 +10,11 @@ export declare class IrClCreditNotePreview {
     private error;
     private property;
     private transactions;
+    clPreviewReady: EventEmitter<void>;
     private dataService;
+    private hasEmitted;
     componentWillLoad(): Promise<void>;
+    componentDidRender(): void;
     private fetchData;
     render(): any;
 }

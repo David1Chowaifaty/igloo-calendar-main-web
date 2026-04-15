@@ -43,10 +43,9 @@ import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-c
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 import { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
-import { FolioRow as FolioRow1 } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
 import { FiscalDocuments } from "./services/city-ledger/types";
-import { ClTx } from "./services/city-ledger/index";
 import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -63,6 +62,7 @@ import { Element } from "./stencil-public-runtime";
 import { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
+import { FdConfirmAction } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 import { ConnectedHK } from "./services/housekeeping.service";
@@ -131,10 +131,9 @@ export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-c
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 export { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
-export { FolioRow as FolioRow1 } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
 export { FiscalDocuments } from "./services/city-ledger/types";
-export { ClTx } from "./services/city-ledger/index";
 export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -151,6 +150,7 @@ export { Element } from "./stencil-public-runtime";
 export { NativeDrawer } from "./components/ir-drawer/ir-drawer";
 export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
+export { FdConfirmAction } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
 export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
 export { ConnectedHK } from "./services/housekeeping.service";
@@ -1478,7 +1478,7 @@ export namespace Components {
         "fromDate": string | null;
         "hasFetched": boolean;
         "isLoading": boolean;
-        "rows": FolioRow[];
+        "rows": FiscalDocument[];
         "startingBalance": number;
         "toDate": string | null;
     }
@@ -2343,6 +2343,12 @@ export namespace Components {
         "booking": Booking;
         "language": string;
         "svcCategories": IEntries[];
+    }
+    interface IrFdConfirmDialog {
+        "action": FdConfirmAction | null;
+        "docNumber": string;
+        "isConfirming": boolean;
+        "open": boolean;
     }
     interface IrFiltersPanel {
         /**
@@ -5021,13 +5027,25 @@ export interface IrClCreditNoteFieldsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClCreditNoteFieldsElement;
 }
+export interface IrClCreditNotePreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClCreditNotePreviewElement;
+}
 export interface IrClDebitNoteFieldsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClDebitNoteFieldsElement;
 }
+export interface IrClDebitNotePreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClDebitNotePreviewElement;
+}
 export interface IrClInvoiceDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClInvoiceDialogElement;
+}
+export interface IrClInvoicePreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClInvoicePreviewElement;
 }
 export interface IrClOpeningBalanceFieldsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5036,6 +5054,14 @@ export interface IrClOpeningBalanceFieldsCustomEvent<T> extends CustomEvent<T> {
 export interface IrClPaymentFieldsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClPaymentFieldsElement;
+}
+export interface IrClReceiptPreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClReceiptPreviewElement;
+}
+export interface IrClStatementPreviewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClStatementPreviewElement;
 }
 export interface IrColumnAutocompleteCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5116,6 +5142,10 @@ export interface IrExtraServiceConfigCustomEvent<T> extends CustomEvent<T> {
 export interface IrExtraServiceConfigFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrExtraServiceConfigFormElement;
+}
+export interface IrFdConfirmDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFdConfirmDialogElement;
 }
 export interface IrFiltersPanelCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7173,7 +7203,18 @@ declare global {
         prototype: HTMLIrClCreditNoteFieldsElement;
         new (): HTMLIrClCreditNoteFieldsElement;
     };
+    interface HTMLIrClCreditNotePreviewElementEventMap {
+        "clPreviewReady": void;
+    }
     interface HTMLIrClCreditNotePreviewElement extends Components.IrClCreditNotePreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClCreditNotePreviewElementEventMap>(type: K, listener: (this: HTMLIrClCreditNotePreviewElement, ev: IrClCreditNotePreviewCustomEvent<HTMLIrClCreditNotePreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClCreditNotePreviewElementEventMap>(type: K, listener: (this: HTMLIrClCreditNotePreviewElement, ev: IrClCreditNotePreviewCustomEvent<HTMLIrClCreditNotePreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrClCreditNotePreviewElement: {
         prototype: HTMLIrClCreditNotePreviewElement;
@@ -7196,7 +7237,18 @@ declare global {
         prototype: HTMLIrClDebitNoteFieldsElement;
         new (): HTMLIrClDebitNoteFieldsElement;
     };
+    interface HTMLIrClDebitNotePreviewElementEventMap {
+        "clPreviewReady": void;
+    }
     interface HTMLIrClDebitNotePreviewElement extends Components.IrClDebitNotePreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClDebitNotePreviewElementEventMap>(type: K, listener: (this: HTMLIrClDebitNotePreviewElement, ev: IrClDebitNotePreviewCustomEvent<HTMLIrClDebitNotePreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClDebitNotePreviewElementEventMap>(type: K, listener: (this: HTMLIrClDebitNotePreviewElement, ev: IrClDebitNotePreviewCustomEvent<HTMLIrClDebitNotePreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrClDebitNotePreviewElement: {
         prototype: HTMLIrClDebitNotePreviewElement;
@@ -7273,7 +7325,18 @@ declare global {
         prototype: HTMLIrClInvoiceNetPriceCellElement;
         new (): HTMLIrClInvoiceNetPriceCellElement;
     };
+    interface HTMLIrClInvoicePreviewElementEventMap {
+        "clPreviewReady": void;
+    }
     interface HTMLIrClInvoicePreviewElement extends Components.IrClInvoicePreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClInvoicePreviewElementEventMap>(type: K, listener: (this: HTMLIrClInvoicePreviewElement, ev: IrClInvoicePreviewCustomEvent<HTMLIrClInvoicePreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClInvoicePreviewElementEventMap>(type: K, listener: (this: HTMLIrClInvoicePreviewElement, ev: IrClInvoicePreviewCustomEvent<HTMLIrClInvoicePreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrClInvoicePreviewElement: {
         prototype: HTMLIrClInvoicePreviewElement;
@@ -7331,13 +7394,35 @@ declare global {
         prototype: HTMLIrClPaymentFieldsElement;
         new (): HTMLIrClPaymentFieldsElement;
     };
+    interface HTMLIrClReceiptPreviewElementEventMap {
+        "clPreviewReady": void;
+    }
     interface HTMLIrClReceiptPreviewElement extends Components.IrClReceiptPreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClReceiptPreviewElementEventMap>(type: K, listener: (this: HTMLIrClReceiptPreviewElement, ev: IrClReceiptPreviewCustomEvent<HTMLIrClReceiptPreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClReceiptPreviewElementEventMap>(type: K, listener: (this: HTMLIrClReceiptPreviewElement, ev: IrClReceiptPreviewCustomEvent<HTMLIrClReceiptPreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrClReceiptPreviewElement: {
         prototype: HTMLIrClReceiptPreviewElement;
         new (): HTMLIrClReceiptPreviewElement;
     };
+    interface HTMLIrClStatementPreviewElementEventMap {
+        "clPreviewReady": void;
+    }
     interface HTMLIrClStatementPreviewElement extends Components.IrClStatementPreview, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClStatementPreviewElementEventMap>(type: K, listener: (this: HTMLIrClStatementPreviewElement, ev: IrClStatementPreviewCustomEvent<HTMLIrClStatementPreviewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClStatementPreviewElementEventMap>(type: K, listener: (this: HTMLIrClStatementPreviewElement, ev: IrClStatementPreviewCustomEvent<HTMLIrClStatementPreviewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrClStatementPreviewElement: {
         prototype: HTMLIrClStatementPreviewElement;
@@ -7806,6 +7891,24 @@ declare global {
     var HTMLIrExtraServicesElement: {
         prototype: HTMLIrExtraServicesElement;
         new (): HTMLIrExtraServicesElement;
+    };
+    interface HTMLIrFdConfirmDialogElementEventMap {
+        "confirmed": void;
+        "cancelled": void;
+    }
+    interface HTMLIrFdConfirmDialogElement extends Components.IrFdConfirmDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFdConfirmDialogElementEventMap>(type: K, listener: (this: HTMLIrFdConfirmDialogElement, ev: IrFdConfirmDialogCustomEvent<HTMLIrFdConfirmDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFdConfirmDialogElementEventMap>(type: K, listener: (this: HTMLIrFdConfirmDialogElement, ev: IrFdConfirmDialogCustomEvent<HTMLIrFdConfirmDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFdConfirmDialogElement: {
+        prototype: HTMLIrFdConfirmDialogElement;
+        new (): HTMLIrFdConfirmDialogElement;
     };
     interface HTMLIrFiltersPanelElementEventMap {
         "irFilterToggle": { collapsed: boolean };
@@ -10082,6 +10185,7 @@ declare global {
         "ir-extra-service-config": HTMLIrExtraServiceConfigElement;
         "ir-extra-service-config-form": HTMLIrExtraServiceConfigFormElement;
         "ir-extra-services": HTMLIrExtraServicesElement;
+        "ir-fd-confirm-dialog": HTMLIrFdConfirmDialogElement;
         "ir-filters-panel": HTMLIrFiltersPanelElement;
         "ir-financial-actions": HTMLIrFinancialActionsElement;
         "ir-financial-filters": HTMLIrFinancialFiltersElement;
@@ -11735,7 +11839,7 @@ declare namespace LocalJSX {
         "fromDate"?: string | null;
         "hasFetched"?: boolean;
         "isLoading"?: boolean;
-        "rows"?: FolioRow[];
+        "rows"?: FiscalDocument[];
         "startingBalance"?: number;
         "toDate"?: string | null;
     }
@@ -11793,6 +11897,7 @@ declare namespace LocalJSX {
         "agentName"?: string;
         "baseurl"?: string;
         "documentNumber"?: string;
+        "onClPreviewReady"?: (event: IrClCreditNotePreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
@@ -11806,6 +11911,7 @@ declare namespace LocalJSX {
         "agentName"?: string;
         "baseurl"?: string;
         "documentNumber"?: string;
+        "onClPreviewReady"?: (event: IrClDebitNotePreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
@@ -11870,6 +11976,7 @@ declare namespace LocalJSX {
         "agentName"?: string;
         "baseurl"?: string;
         "documentNumber"?: string;
+        "onClPreviewReady"?: (event: IrClInvoicePreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
@@ -11903,6 +12010,7 @@ declare namespace LocalJSX {
         "agentName"?: string;
         "baseurl"?: string;
         "documentNumber"?: string;
+        "onClPreviewReady"?: (event: IrClReceiptPreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
@@ -11912,6 +12020,7 @@ declare namespace LocalJSX {
         "baseurl"?: string;
         "currencyId"?: number;
         "fromDate"?: string;
+        "onClPreviewReady"?: (event: IrClStatementPreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
         "toDate"?: string;
@@ -12706,6 +12815,14 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "language"?: string;
         "svcCategories"?: IEntries[];
+    }
+    interface IrFdConfirmDialog {
+        "action"?: FdConfirmAction | null;
+        "docNumber"?: string;
+        "isConfirming"?: boolean;
+        "onCancelled"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
+        "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
+        "open"?: boolean;
     }
     interface IrFiltersPanel {
         /**
@@ -15466,6 +15583,7 @@ declare namespace LocalJSX {
         "ir-extra-service-config": IrExtraServiceConfig;
         "ir-extra-service-config-form": IrExtraServiceConfigForm;
         "ir-extra-services": IrExtraServices;
+        "ir-fd-confirm-dialog": IrFdConfirmDialog;
         "ir-filters-panel": IrFiltersPanel;
         "ir-financial-actions": IrFinancialActions;
         "ir-financial-filters": IrFinancialFilters;
@@ -15828,6 +15946,7 @@ declare module "@stencil/core" {
             "ir-extra-service-config": LocalJSX.IrExtraServiceConfig & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigElement>;
             "ir-extra-service-config-form": LocalJSX.IrExtraServiceConfigForm & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigFormElement>;
             "ir-extra-services": LocalJSX.IrExtraServices & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
+            "ir-fd-confirm-dialog": LocalJSX.IrFdConfirmDialog & JSXBase.HTMLAttributes<HTMLIrFdConfirmDialogElement>;
             "ir-filters-panel": LocalJSX.IrFiltersPanel & JSXBase.HTMLAttributes<HTMLIrFiltersPanelElement>;
             "ir-financial-actions": LocalJSX.IrFinancialActions & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
             "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;

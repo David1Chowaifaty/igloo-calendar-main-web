@@ -1,7 +1,7 @@
 import type { ICurrency } from "../../../../models/property";
-import type { FolioRow } from "../../ir-city-ledger-folio/types";
+import type { FiscalDocument } from "../../../../services/city-ledger/index";
 export declare class IrCityLedgerStatementsTable {
-    rows: FolioRow[];
+    rows: FiscalDocument[];
     startingBalance: number;
     endingBalance: number;
     currencySymbol: string;
@@ -14,6 +14,7 @@ export declare class IrCityLedgerStatementsTable {
     private formatDate;
     private getSymbol;
     private renderMoney;
+    private get runningBalances();
     private get columns();
     private renderStartingBalanceRow;
     private renderEndingBalanceRow;

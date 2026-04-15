@@ -93,7 +93,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             }
             this.fiscalDocuments = await this.cityLedgerService.getFiscalDocuments({
                 AGENCY_ID: this.agent?.id,
-                FROM_DATE: null,
+                START_DATE: null,
                 END_DATE: null,
                 LIST_FD_TYPE_CODE,
                 FD_STATUS_CODE: type === ClTxTypeCode.Payment ? FdStatus.Sent : FdStatus.Paid,
@@ -174,6 +174,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             CURRENCY_ID: calendar_data?.property?.currency?.id,
             PAY_METHOD_CODE: payMethodCode,
             EXTERNAL_REF: payload.reference ?? '',
+            BH_ID: this.booking?.system_id ?? null,
             VAT_INCLUDED_CODE: (noTaxTransaction ? '' : hasVat ? '001' : '002'),
             VAT_PCT: noTaxTransaction ? null : hasVat ? Number(payload.taxId) : 0,
         };

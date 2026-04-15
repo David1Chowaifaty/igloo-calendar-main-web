@@ -35,6 +35,8 @@ const FiscalDocumentSchema = objectType({
     TAX_AMOUNT: numberType().nullable().optional(),
     TAX_AMOUNT_DISPLAY: stringType().nullable().optional(),
     TOTAL_AMOUNT: numberType().nullable().optional(),
+    BALANCE_BEFORE_TX: numberType().nullable(),
+    BALANCE_AFTER_TX: numberType().nullable(),
 });
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
@@ -95,8 +97,6 @@ const ClTxSchema = objectType({
     TRAVEL_AGENCY_ID: numberType(),
     VAT_AMOUNT: numberType(),
     VAT_PERCENT: numberType(),
-    BALANCE_BEFORE_TX: numberType().nullable(),
-    BALANCE_AFTER_TX: numberType().nullable(),
 });
 const FetchCLParamsSchema = objectType({
     AGENCY_ID: numberType(),
@@ -178,7 +178,7 @@ const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
 });
 const GetFiscalDocumentsParamsSchema = objectType({
     DOC_NUMBER: stringType().optional().default(''),
-    FROM_DATE: stringType().optional().nullable(),
+    START_DATE: stringType().optional().nullable(),
     END_DATE: stringType().optional().nullable(),
     LIST_FD_TYPE_CODE: arrayType(stringType()).optional().nullable().default(null),
     FD_STATUS_CODE: stringType().optional().nullable().default(null),

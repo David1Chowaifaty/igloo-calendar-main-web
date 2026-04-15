@@ -1,8 +1,8 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
+import { a as FdTypes } from './enums.js';
 import { d as defineCustomElement$c } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$b } from './ir-city-ledger-statements-filter2.js';
 import { d as defineCustomElement$a } from './ir-city-ledger-statements-table2.js';
@@ -15,7 +15,6 @@ import { d as defineCustomElement$4 } from './ir-dialog2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
-import { v as v4 } from './v4.js';
 
 const irCityLedgerStatementsCss = ".sc-ir-city-ledger-statements-h{display:block}.cl-statements.sc-ir-city-ledger-statements{display:flex;flex-direction:column;gap:1rem}";
 const IrCityLedgerStatementsStyle0 = irCityLedgerStatementsCss;
@@ -53,14 +52,22 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             return;
         this.isLoading = true;
         try {
-            const result = await this.cityLedgerService.getCLStatement({
-                AGENCY_ID: this.agentId,
-                CURRENCY_ID: currencyId,
-                START_DATE: filters.fromDate,
-                END_DATE: filters.toDate,
-            });
+            const [result, fiscalDocuments] = await Promise.all([
+                this.cityLedgerService.getCLStatement({
+                    AGENCY_ID: this.agentId,
+                    CURRENCY_ID: currencyId,
+                    START_DATE: filters.fromDate,
+                    END_DATE: filters.toDate,
+                }),
+                this.cityLedgerService.getFiscalDocuments({
+                    AGENCY_ID: this.agentId,
+                    START_DATE: filters.fromDate,
+                    END_DATE: filters.toDate,
+                    LIST_FD_TYPE_CODE: [FdTypes.CreditNote, FdTypes.DebitNote, FdTypes.Invoice, FdTypes.Receipt],
+                }),
+            ]);
             this.statement = result ?? null;
-            this.rows = (result?.My_Rows ?? []).map(r => ({ ...mapClTxToFolioRow(r.Cl_tx), _rowId: v4() }));
+            this.rows = fiscalDocuments ?? [];
         }
         catch (err) {
             console.error('[ir-city-ledger-statements] getCLStatement error:', err);
@@ -77,13 +84,13 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     }
     render() {
         const currencyId = calendar_data?.property?.currency?.id;
-        return (h(Host, { key: '23904979507be3f03de7e5cf321a67683e019df1' }, h("section", { key: '8c303f29a4dc1f0dc6df149e8584b7a375c4531f', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '2131dad6e8c8e97c0bcb5d93ddb56b10a35600c5', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: 'efdf877b04c50a27dd5afc7bc5505b1b21d880a6' }, h("section", { key: '8c6603bbbdae60c6b6e3c5f767003d77c1227eab', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'fa07ae850859fc8fb553cb7ac5d712c36d1be434', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '805a314d7c075277cf9c79430b3569d95e9b9c16', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: 'ec3927175071faef9798ae940a845158ba6636d1', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '2e08de5e03985e4342bdeff5c1c85d5402d891c4', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '5c142138f03f9eb8d66a58f41a96e358d3370765', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.printFilters = null;
-            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: 'f462722b3cd1b11374592fa45e6013a56b743486', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
+            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: '01728f62c9ea68ed7e9dae730f0d91e9f92a227a', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]

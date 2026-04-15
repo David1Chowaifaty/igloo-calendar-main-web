@@ -1,88 +1,131 @@
-:host {
-  display: block;
-}
+/**
+ * cl-print-table.css
+ *
+ * Shared table classes for city-ledger print preview components.
+ * @import this file in any preview CSS that renders a table.
+ * Edit once here — all components update automatically.
+ */
 
-/* ─── Line items ────────────────────────────────────────────────────────── */
+/* ── Table ───────────────────────────────────────────────────────────────── */
 
-.invoice-items {
-  margin-bottom: 1.5rem;
-  overflow-x: auto;
-}
-
-.invoice-items__table {
+.cl-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.8125rem;
   table-layout: auto;
 }
 
-.invoice-items__th {
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.cl-th {
   padding: 0.5rem 0.75rem;
   text-align: left;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #6b7280;
-  background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  /* letter-spacing: 0.06em; */
+  text-transform: capitalize;
+  color: #374151;
+  border-top: 2px solid #111827;
+  border-bottom: 1px solid #111827;
+  white-space: nowrap;
 }
 
-.invoice-items__th--num {
+.cl-th--num {
   text-align: right;
 }
 
-.invoice-items__th--nowrap {
-  white-space: nowrap;
-}
+/* ── Body cell ───────────────────────────────────────────────────────────── */
 
-.invoice-items__row:hover {
-  background: #f9fafb;
-}
-
-.invoice-items__td {
-  padding: 0.5rem 0.75rem;
+.cl-td {
+  padding: 0.45rem 0.75rem;
   border-bottom: 1px solid #f3f4f6;
   color: #374151;
   vertical-align: middle;
+}
+
+.cl-td--num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-.invoice-items__td--date {
+.cl-td--muted {
   color: #6b7280;
 }
+
+.cl-td--bold {
+  font-weight: 700;
+  color: #111827;
+}
+
+.cl-td--nowrap {
+  white-space: nowrap;
+}
+
+.cl-td--empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 1.5rem 0.75rem;
+  font-style: italic;
+}
+
+/* ── Balance / summary rows ──────────────────────────────────────────────── */
+
+.cl-balance-row td {
+  background: #f3f4f6;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #111827;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* ── Print ───────────────────────────────────────────────────────────────── */
+
+@media print {
+  .cl-table {
+    font-size: 0.75rem;
+  }
+
+  .cl-th,
+  .cl-td {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .cl-td--muted,
+  .cl-td--empty {
+    color: #374151;
+  }
+
+  .cl-balance-row td {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .cl-balance-row {
+    page-break-inside: avoid;
+  }
+}
+
+
+:host {
+  display: block;
+}
+
+.invoice-items {
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+/* ── Component-specific cell overrides ───────────────────────────────────── */
 
 .invoice-items__td--desc-cell {
   white-space: normal;
   word-break: break-word;
 }
 
-.invoice-items__td--pct {
-  color: #6b7280;
-}
-
-.invoice-items__td--num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  font-weight: 500;
-  color: #6b7280;
-}
-
-.invoice-items__td--num-primary,
-.invoice-items__th--num-primary {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  color: #111827;
-}
-
-.invoice-items__empty {
-  padding: 2rem;
-  text-align: center;
-  color: #9ca3af;
-}
-
-/* ─── Grouping header rows ──────────────────────────────────────────────── */
+/* ── Grouping header rows ────────────────────────────────────────────────── */
 
 .invoice-items__booking-row td {
   padding: 0.5rem 0.75rem;
@@ -103,7 +146,7 @@
   color: #6b7280;
 }
 
-/* ─── Indented data rows ────────────────────────────────────────────────── */
+/* ── Indented rows ───────────────────────────────────────────────────────── */
 
 .invoice-items__row--indent-1 td:first-child {
   padding-left: 1.75rem;
@@ -116,25 +159,6 @@
 @media print {
   .invoice-items {
     overflow-x: visible;
-  }
-
-  .invoice-items__table {
-    font-size: 0.75rem;
-  }
-
-  .invoice-items__th,
-  .invoice-items__td {
-    padding: 0.35rem 0.5rem;
-  }
-
-  .invoice-items__th {
-    color: #374151;
-  }
-
-  .invoice-items__td--date,
-  .invoice-items__td--pct,
-  .invoice-items__td--num {
-    color: #374151;
   }
 
   .invoice-items__unit-row td {

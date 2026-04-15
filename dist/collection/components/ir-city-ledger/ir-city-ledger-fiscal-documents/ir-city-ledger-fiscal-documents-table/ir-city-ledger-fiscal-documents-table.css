@@ -175,8 +175,9 @@
   border-right: 0;
 }
 
-.fiscal-table__heading--numeric {
-  text-align: right;
+.fiscal-table__heading--numeric,
+.fiscal-table__cell--numeric {
+  text-align: right !important;
 }
 /* #endregion */
 
@@ -281,3 +282,4 @@
   color: var(--wa-color-text-normal, #111827);
 }
 /* #endregion */
+

@@ -1,6 +1,7 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as ClFiscalDocumentService } from './cl-fiscal-document.service.js';
 import { f as formatAmount } from './utils.js';
+import { C as CityLedgerService } from './index6.js';
 import { B as BookingService } from './booking.store.js';
 import { d as defineCustomElement$2 } from './ir-cl-document-header2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
@@ -13,6 +14,7 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
         super();
         this.__registerHost();
         this.__attachShadow();
+        this.clPreviewReady = createEvent(this, "clPreviewReady", 7);
     }
     propertyId;
     ticket;
@@ -25,8 +27,12 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
     error = null;
     property = null;
     paymentMethods = [];
+    document = null;
+    clPreviewReady;
+    hasEmitted = false;
     dataService = new ClFiscalDocumentService();
     bookingService = new BookingService();
+    cityLedgerService = new CityLedgerService();
     componentWillLoad() {
         if (!this.ticket) {
             this.error = 'Authentication ticket is required.';
@@ -39,10 +45,15 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
         this.isLoading = true;
         this.error = null;
         try {
-            const [{ property, transactions }, paymentMethods] = await Promise.all([
+            const [{ property, transactions }, paymentMethods, documents] = await Promise.all([
                 this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber),
                 this.bookingService.getSetupEntriesByTableName('_PAY_METHOD'),
+                this.cityLedgerService.getFiscalDocuments({
+                    AGENCY_ID: this.agentId,
+                    DOC_NUMBER: this.documentNumber,
+                }),
             ]);
+            this.document = documents[0];
             this.property = property;
             this.ClEntry = transactions[0];
             this.paymentMethods = paymentMethods;
@@ -52,6 +63,14 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
         }
         finally {
             this.isLoading = false;
+        }
+    }
+    componentDidRender() {
+        if (!this.isLoading && !this.error && !this.hasEmitted) {
+            this.hasEmitted = true;
+            requestAnimationFrame(() => {
+                this.clPreviewReady.emit();
+            });
         }
     }
     getPaymentMethodLabel(code) {
@@ -76,7 +95,7 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
         }
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Payment Details"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Amount Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Method"), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Reference"), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance Before Payment"), h("span", { class: "receipt-row__value" }, fmt(tx.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance After Payment"), h("span", { class: "receipt-row__value" }, fmt(tx.BALANCE_AFTER_TX)))))))));
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Payment Details"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Amount Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Method"), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Reference"), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance Before Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance After Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
     }
     static get style() { return IrClReceiptPreviewStyle0; }
 }, [1, "ir-cl-receipt-preview", {
@@ -90,7 +109,8 @@ const IrClReceiptPreview = /*@__PURE__*/ proxyCustomElement(class IrClReceiptPre
         "ClEntry": [32],
         "error": [32],
         "property": [32],
-        "paymentMethods": [32]
+        "paymentMethods": [32],
+        "document": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

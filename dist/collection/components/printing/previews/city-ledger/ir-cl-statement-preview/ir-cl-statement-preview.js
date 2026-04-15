@@ -4,6 +4,7 @@ import { PropertyService } from "../../../../../services/property.service";
 import { formatAmount } from "../../../../../utils/utils";
 import Token from "../../../../../models/Token";
 import moment from "moment";
+import { FdTypes } from "../../../../../types/enums";
 const DATE_DISPLAY = 'MMM DD, YYYY';
 export class IrClStatementPreview {
     propertyId;
@@ -18,9 +19,12 @@ export class IrClStatementPreview {
     error = null;
     property = null;
     statement = null;
+    fiscalDocuments = [];
+    clPreviewReady;
     tokenService = new Token();
     propertyService = new PropertyService();
     cityLedgerService = new CityLedgerService();
+    hasEmitted = false;
     componentWillLoad() {
         if (!this.ticket) {
             this.error = 'Authentication ticket is required.';
@@ -31,11 +35,19 @@ export class IrClStatementPreview {
         this.tokenService.setToken(this.ticket);
         return this.fetchData();
     }
+    componentDidRender() {
+        if (!this.isLoading && !this.error && !this.hasEmitted) {
+            this.hasEmitted = true;
+            requestAnimationFrame(() => {
+                this.clPreviewReady.emit();
+            });
+        }
+    }
     async fetchData() {
         this.isLoading = true;
         this.error = null;
         try {
-            const [propertyData, statement] = await Promise.all([
+            const [propertyData, statement, fiscalDocuments] = await Promise.all([
                 this.propertyService.getExposedProperty({ id: this.propertyId, language: 'en' }),
                 this.cityLedgerService.getCLStatement({
                     AGENCY_ID: this.agentId,
@@ -43,9 +55,16 @@ export class IrClStatementPreview {
                     START_DATE: this.fromDate,
                     END_DATE: this.toDate,
                 }),
+                this.cityLedgerService.getFiscalDocuments({
+                    AGENCY_ID: this.agentId,
+                    START_DATE: this.fromDate,
+                    END_DATE: this.toDate,
+                    LIST_FD_TYPE_CODE: [FdTypes.CreditNote, FdTypes.DebitNote, FdTypes.Invoice, FdTypes.Receipt],
+                }),
             ]);
             this.property = propertyData?.My_Result ?? null;
             this.statement = statement;
+            this.fiscalDocuments = fiscalDocuments ?? [];
         }
         catch (e) {
             this.error = e?.message ?? 'Failed to load statement data.';
@@ -67,15 +86,16 @@ export class IrClStatementPreview {
         if (!this.statement) {
             return (h(Host, null, h("div", { class: "document-state document-state--error" }, "No statement data found.")));
         }
-        const { STARTING_BALANCE, ENDING_BALANCE, My_Rows } = this.statement;
+        const { STARTING_BALANCE, ENDING_BALANCE } = this.statement;
         const currency = this.property?.currency?.symbol ?? '$';
         const fmt = (v) => (v != null ? formatAmount(currency, v) : '—');
-        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "stmt-table" }, h("thead", null, h("tr", null, h("th", { class: "stmt-th stmt-th--date" }, "Date"), h("th", { class: "stmt-th" }, "Description"), h("th", { class: "stmt-th" }, "Document #"), h("th", { class: "stmt-th stmt-th--num" }, "Debit"), h("th", { class: "stmt-th stmt-th--num" }, "Credit"), h("th", { class: "stmt-th stmt-th--num" }, "Balance"))), h("tbody", null, h("tr", { class: "stmt-row stmt-row--balance" }, h("td", { class: "stmt-td", colSpan: 3 }, "Opening Balance \u2014 ", moment(this.fromDate).format(DATE_DISPLAY)), h("td", { class: "stmt-td" }), h("td", { class: "stmt-td" }), h("td", { class: "stmt-td stmt-td--num stmt-td--bold" }, fmt(STARTING_BALANCE))), My_Rows?.map(row => {
-            const tx = row?.Cl_tx;
-            if (!tx)
-                return null;
-            return (h("tr", { class: "stmt-row" }, h("td", { class: "stmt-td stmt-td--date" }, tx.SERVICE_DATE ? moment(tx.SERVICE_DATE).format(DATE_DISPLAY) : '—'), h("td", { class: "stmt-td" }, tx.DESCRIPTION || '—'), h("td", { class: "stmt-td stmt-td--doc" }, row.DOC_NUMBER || '—'), h("td", { class: "stmt-td stmt-td--num" }, tx.DEBIT ? fmt(tx.DEBIT) : '—'), h("td", { class: "stmt-td stmt-td--num" }, tx.CREDIT ? fmt(tx.CREDIT) : '—'), h("td", { class: "stmt-td stmt-td--num" }, fmt(row.RUNNING_BALANCE))));
-        }), h("tr", { class: "stmt-row stmt-row--balance" }, h("td", { class: "stmt-td", colSpan: 3 }, "Closing Balance \u2014 ", moment(this.toDate).format(DATE_DISPLAY)), h("td", { class: "stmt-td" }), h("td", { class: "stmt-td" }), h("td", { class: "stmt-td stmt-td--num stmt-td--bold" }, fmt(ENDING_BALANCE))))))));
+        return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '1.75rem' }, property: this.property, agentName: this.agentName, documentType: "statement" }), h("table", { class: "cl-table" }, h("thead", null, h("tr", null, h("th", { class: "cl-th" }, "Date"), h("th", { class: "cl-th" }, "Document #"), h("th", { class: "cl-th" }, "Type"), h("th", { class: "cl-th cl-th--num" }, "Debit"), h("th", { class: "cl-th cl-th--num" }, "Credit"), h("th", { class: "cl-th cl-th--num" }, "Balance"))), h("tbody", null, h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, "Opening Balance \u2014 ", moment(this.fromDate).format(DATE_DISPLAY)), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(STARTING_BALANCE))), (() => {
+            let running = STARTING_BALANCE;
+            return this.fiscalDocuments.map(doc => {
+                running += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+                return (h("tr", null, h("td", { class: "cl-td cl-td--nowrap" }, doc.ISSUE_DATE_DISPLAY || (doc.ISSUE_DATE ? moment(doc.ISSUE_DATE).format(DATE_DISPLAY) : '—')), h("td", { class: "cl-td" }, doc.DOC_NUMBER || '—'), h("td", { class: "cl-td" }, doc.FD_TYPE_NAME || '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.DEBIT ? fmt(doc.DEBIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--muted" }, doc.CREDIT ? fmt(doc.CREDIT) : '—'), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(running))));
+            });
+        })(), this.fiscalDocuments.length === 0 && (h("tr", null, h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, "No fiscal documents found for this period."))), h("tr", { class: "cl-balance-row" }, h("td", { class: "cl-td", colSpan: 3 }, "Closing Balance \u2014 ", moment(this.toDate).format(DATE_DISPLAY)), h("td", { class: "cl-td" }), h("td", { class: "cl-td" }), h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
     }
     static get is() { return "ir-cl-statement-preview"; }
     static get encapsulation() { return "shadow"; }
@@ -250,8 +270,27 @@ export class IrClStatementPreview {
             "isLoading": {},
             "error": {},
             "property": {},
-            "statement": {}
+            "statement": {},
+            "fiscalDocuments": {}
         };
+    }
+    static get events() {
+        return [{
+                "method": "clPreviewReady",
+                "name": "clPreviewReady",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
+            }];
     }
 }
 //# sourceMappingURL=ir-cl-statement-preview.js.map

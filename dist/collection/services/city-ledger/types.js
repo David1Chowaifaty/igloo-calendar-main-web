@@ -33,6 +33,8 @@ export const FiscalDocumentSchema = z.object({
     TAX_AMOUNT: z.number().nullable().optional(),
     TAX_AMOUNT_DISPLAY: z.string().nullable().optional(),
     TOTAL_AMOUNT: z.number().nullable().optional(),
+    BALANCE_BEFORE_TX: z.number().nullable(),
+    BALANCE_AFTER_TX: z.number().nullable(),
 });
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
@@ -93,8 +95,6 @@ export const ClTxSchema = z.object({
     TRAVEL_AGENCY_ID: z.number(),
     VAT_AMOUNT: z.number(),
     VAT_PERCENT: z.number(),
-    BALANCE_BEFORE_TX: z.number().nullable(),
-    BALANCE_AFTER_TX: z.number().nullable(),
 });
 export const FetchCLParamsSchema = z.object({
     AGENCY_ID: z.number(),
@@ -176,7 +176,7 @@ export const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
 });
 export const GetFiscalDocumentsParamsSchema = z.object({
     DOC_NUMBER: z.string().optional().default(''),
-    FROM_DATE: z.string().optional().nullable(),
+    START_DATE: z.string().optional().nullable(),
     END_DATE: z.string().optional().nullable(),
     LIST_FD_TYPE_CODE: z.array(z.string()).optional().nullable().default(null),
     FD_STATUS_CODE: z.string().optional().nullable().default(null),
