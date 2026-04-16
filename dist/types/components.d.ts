@@ -37,9 +37,9 @@ import { SplitIndex } from "./utils/booking";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
-import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 import { FiscalDocument } from "./services/city-ledger";
+import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 import { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
@@ -125,9 +125,9 @@ export { SplitIndex } from "./utils/booking";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
-export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 export { FiscalDocument } from "./services/city-ledger";
+export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 export { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
@@ -4984,10 +4984,6 @@ export interface IrCheckoutDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCheckoutDialogElement;
 }
-export interface IrCityLedgerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrCityLedgerElement;
-}
 export interface IrCityLedgerFiscalDocumentsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerFiscalDocumentsFiltersElement;
@@ -6989,18 +6985,7 @@ declare global {
         prototype: HTMLIrCheckoutDialogElement;
         new (): HTMLIrCheckoutDialogElement;
     };
-    interface HTMLIrCityLedgerElementEventMap {
-        "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
-    }
     interface HTMLIrCityLedgerElement extends Components.IrCityLedger, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerElement, ev: IrCityLedgerCustomEvent<HTMLIrCityLedgerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerElement, ev: IrCityLedgerCustomEvent<HTMLIrCityLedgerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCityLedgerElement: {
         prototype: HTMLIrCityLedgerElement;
@@ -7329,6 +7314,7 @@ declare global {
     };
     interface HTMLIrClInvoiceDialogElementEventMap {
         "invoiceIssued": FiscalDocument;
+        "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
     }
     interface HTMLIrClInvoiceDialogElement extends Components.IrClInvoiceDialog, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrClInvoiceDialogElementEventMap>(type: K, listener: (this: HTMLIrClInvoiceDialogElement, ev: IrClInvoiceDialogCustomEvent<HTMLIrClInvoiceDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11787,7 +11773,6 @@ declare namespace LocalJSX {
         "agentId"?: number | null;
         "baseurl"?: string;
         "language"?: string;
-        "onClFiscalDocumentPreview"?: (event: IrCityLedgerCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
@@ -11996,6 +11981,7 @@ declare namespace LocalJSX {
         "currencyId"?: number | null;
         "endDate"?: string | null;
         "mode"?: 'booking' | 'default';
+        "onClFiscalDocumentPreview"?: (event: IrClInvoiceDialogCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onInvoiceIssued"?: (event: IrClInvoiceDialogCustomEvent<FiscalDocument>) => void;
         "startDate"?: string | null;
     }

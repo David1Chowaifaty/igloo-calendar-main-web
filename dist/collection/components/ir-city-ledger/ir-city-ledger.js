@@ -26,7 +26,6 @@ export class IrCityLedger {
     statementTo = null;
     showStatementPreview = false;
     folioSummary = null;
-    clFiscalDocumentPreview;
     panels = [
         { id: 'folio', label: 'Folio' },
         { id: 'fiscal-documents', label: 'Fiscal Documents' },
@@ -138,17 +137,8 @@ export class IrCityLedger {
                 this.folioSummary = null;
             } }, this.agents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (h("div", { class: "city-ledger__content" }, h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                 this.currentTab = e.detail.name.toString();
-            }, active: this.currentTab }, this.panels.map(panel => (h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, this.currentTab === 'fiscal-documents' && (h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, this.currentTab === 'create-statement' && (h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async (e) => {
+            }, active: this.currentTab }, this.panels.map(panel => (h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, this.currentTab === 'fiscal-documents' && (h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, this.currentTab === 'create-statement' && (h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
                 await this.toolbarRef?.refresh();
-                const doc = e.detail;
-                this.clFiscalDocumentPreview.emit({
-                    fdTypeCode: doc.FD_TYPE_CODE,
-                    documentNumber: doc.DOC_NUMBER,
-                    agentId: doc.AGENCY_ID ?? this.selectedAgent?.id,
-                    agentName: doc.AGENCY_NAME ?? this.selectedAgent?.name ?? '',
-                    fdId: doc.FD_ID,
-                    externalRef: doc.EXTERNAL_REF,
-                });
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
     }
     static get is() { return "ir-city-ledger"; }
@@ -298,30 +288,6 @@ export class IrCityLedger {
             "showStatementPreview": {},
             "folioSummary": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "clFiscalDocumentPreview",
-                "name": "clFiscalDocumentPreview",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "ClFiscalDocumentPreviewRequest",
-                    "resolved": "ClFiscalDocumentPreviewRequest",
-                    "references": {
-                        "ClFiscalDocumentPreviewRequest": {
-                            "location": "import",
-                            "path": "./ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
-                        }
-                    }
-                }
-            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {

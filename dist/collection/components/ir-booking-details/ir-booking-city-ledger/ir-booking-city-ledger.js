@@ -3,8 +3,10 @@ import { CityLedgerService } from "../../../services/city-ledger/index";
 import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
+import Token from "../../../models/Token";
 export class IrBookingCityLedger {
     cityLedgerService = new CityLedgerService();
+    tokenService = new Token();
     /** Booking object; component is hidden when booking.agent is null. */
     booking;
     /** Active language code. */
@@ -79,7 +81,7 @@ export class IrBookingCityLedger {
         return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " Agent Folio")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => (this.drawerOpen = true) }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: "New Folio Entry", agent: this.booking.agent, booking: this.booking, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => (this.drawerOpen = false), onTransactionSaved: async () => {
                 this.drawerOpen = false;
                 await this.fetchCityLedger();
-            } })));
+            } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id })));
     }
     static get is() { return "ir-booking-city-ledger"; }
     static get encapsulation() { return "scoped"; }

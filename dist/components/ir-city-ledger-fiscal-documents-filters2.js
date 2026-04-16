@@ -1,15 +1,26 @@
-import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
 import { a as FdTypes } from './enums.js';
+import { D as Debounce } from './debounce.js';
 import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$2 } from './ir-date-select2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
-const irCityLedgerFiscalDocumentsFiltersCss = ".sc-ir-city-ledger-fiscal-documents-filters-h{display:block}.fiscal-filters.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}.fiscal-filters__dates.sc-ir-city-ledger-fiscal-documents-filters,.fiscal-filters__search.sc-ir-city-ledger-fiscal-documents-filters{width:100%}.fiscal-filters__dates.sc-ir-city-ledger-fiscal-documents-filters{min-width:280px}@media (min-width: 640px){.fiscal-filters__dates.sc-ir-city-ledger-fiscal-documents-filters,.fiscal-filters__search.sc-ir-city-ledger-fiscal-documents-filters{width:fit-content}.fiscal-filters__left.sc-ir-city-ledger-fiscal-documents-filters{align-items:center}.fiscal-filters__search.sc-ir-city-ledger-fiscal-documents-filters{min-width:300px}}.fiscal-filters__left.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-wrap:wrap;gap:0.75rem}.fiscal-filters__field.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-direction:column;gap:0.375rem}.fiscal-filters__label.sc-ir-city-ledger-fiscal-documents-filters{font-size:0.75rem;color:var(--wa-color-text-quiet);font-weight:600}.fiscal-filters__input.sc-ir-city-ledger-fiscal-documents-filters{height:2.125rem;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);border-radius:0.375rem;background-color:var(--wa-color-surface-default);color:var(--wa-color-text-normal);padding:0 0.625rem;font-size:0.875rem}.fiscal-filters__input.sc-ir-city-ledger-fiscal-documents-filters:focus-visible{outline:2px solid var(--wa-color-brand-border-normal);outline-offset:1px}.fiscal-filters__tax-switch.sc-ir-city-ledger-fiscal-documents-filters{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--wa-color-text-normal);font-weight:600;min-height:2.125rem;white-space:nowrap}.fiscal-filters__right.sc-ir-city-ledger-fiscal-documents-filters{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem}.fiscal-filters__meta.sc-ir-city-ledger-fiscal-documents-filters,.fiscal-filters__active.sc-ir-city-ledger-fiscal-documents-filters{font-size:0.8125rem;color:var(--wa-color-text-quiet);font-weight:600}.fiscal-filters__chips.sc-ir-city-ledger-fiscal-documents-filters{display:inline-flex;align-items:center;flex-wrap:wrap;gap:0.375rem}.fiscal-filters__chip.sc-ir-city-ledger-fiscal-documents-filters{height:1.875rem;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);border-radius:999px;padding:0 0.625rem;background-color:var(--wa-color-surface-default);color:var(--wa-color-text-normal);font-size:0.8125rem;font-weight:600;line-height:1;cursor:pointer}.fiscal-filters__chip.sc-ir-city-ledger-fiscal-documents-filters:hover{background-color:var(--wa-color-neutral-fill-quiet, #f1f2f3)}.fiscal-filters__chip--active.sc-ir-city-ledger-fiscal-documents-filters{border-color:var(--wa-color-brand-border-normal);color:var(--wa-color-brand-fill-loud);background-color:color-mix(in oklab, var(--wa-color-brand-fill-quiet) 40%, white)}@media (max-width: 1100px){.fiscal-filters__left.sc-ir-city-ledger-fiscal-documents-filters{grid-template-columns:repeat(2, minmax(180px, 1fr))}}@media (max-width: 768px){.fiscal-filters__left.sc-ir-city-ledger-fiscal-documents-filters{width:100%;grid-template-columns:1fr}.fiscal-filters__right.sc-ir-city-ledger-fiscal-documents-filters{width:100%}}";
+const irCityLedgerFiscalDocumentsFiltersCss = ".sc-ir-city-ledger-fiscal-documents-filters-h{display:block}.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-direction:column;align-items:stretch;gap:0.625rem}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{display:flex;align-items:center;width:100%}.filters-bar__date_picker.sc-ir-city-ledger-fiscal-documents-filters{width:100%}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;width:100%}.filters-bar__type-group.sc-ir-city-ledger-fiscal-documents-filters{display:flex;align-items:center;gap:0.5rem;width:100%}.filters-bar__status-select.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0}.filters-bar__tax-switch.sc-ir-city-ledger-fiscal-documents-filters{flex-shrink:0;white-space:nowrap}.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0}.filters-bar__search-icon.sc-ir-city-ledger-fiscal-documents-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}@media (min-width: 640px){.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center;gap:0.5rem}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{width:100%;flex-shrink:0;min-width:0}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{flex:1;flex-wrap:nowrap;min-width:0;width:auto}.filters-bar__type-group.sc-ir-city-ledger-fiscal-documents-filters{width:auto;flex-shrink:0}.filters-bar__status-select.sc-ir-city-ledger-fiscal-documents-filters{flex:none;min-width:160px}.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0;max-width:400px}}@media (min-width: 768px){.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{min-width:160px;max-width:400px}}@media (min-width: 1024px){.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{flex-wrap:nowrap}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{width:auto;flex-shrink:0;min-width:280px}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{flex:1;width:auto}}";
 const IrCityLedgerFiscalDocumentsFiltersStyle0 = irCityLedgerFiscalDocumentsFiltersCss;
 
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 const today = hooks();
 const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFiscalDocumentsFilters extends HTMLElement {
     constructor() {
@@ -25,6 +36,7 @@ const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(clas
         taxableOnly: false,
         type: 'all',
     };
+    docNumber = '';
     filtersChange;
     applyFilters;
     typeOptions = [
@@ -35,18 +47,25 @@ const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(clas
         { label: 'Debit Notes', value: FdTypes.DebitNote },
     ];
     updateFilters(patch) {
-        this.filtersChange.emit({
-            ...this.filters,
-            ...patch,
-        });
+        this.filtersChange.emit({ ...this.filters, ...patch });
+    }
+    emitSearchDebounced(value) {
+        this.updateFilters({ docNumber: value });
     }
     render() {
-        return (h("section", { key: '228adfe9dc1570380eb07c2fccc2f62e8ea272a3', class: "fiscal-filters", "aria-label": "Fiscal document filters" }, h("div", { key: 'c0a7c7f2d040e59cbf58041232c5b94d76df7ac2', class: "fiscal-filters__left" }, h("ir-date-range-filter", { key: '2d3a3a4f100f9ab8332d83e9575891ec5db32ded', maxDate: today.format('YYYY-MM-DD'), class: "fiscal-filters__dates", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) }), h("wa-select", { key: '8147dace3a071922b450d2eb2ec12878861dc933', value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Status" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("ir-input", { key: '7bb4a04d8b52879f7d23b82a151e48c3680f9672', placeholder: "Search", class: "fiscal-filters__search" }, h("wa-icon", { key: '0df8ca3170b22f100995fd40a1685398974b63b4', name: "magnifying-glass", slot: "start" })), h("wa-switch", { key: '83ff5b941812a29391f10b57e80dfba95b7d21d0', id: "tax-switch", checked: this.filters.taxableOnly, onchange: event => this.updateFilters({ taxableOnly: event.target.checked }) }, "Taxes"), h("ir-custom-button", { key: '10a60ec00709d43d0c66cd96399ca008090e244f', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit(this.filters) }, h("wa-icon", { key: '131c342a8d092aa91f618b8edd109be79e67aa23', name: "magnifying-glass" })))));
+        return (h(Host, { key: 'b0de5e2627b316c190d057de5483ba7275c79b5f' }, h("div", { key: '713cfa5814648d6eb1d6fe1c0506a3502d070b83', class: "filters-bar" }, h("div", { key: '2c6a90a7dbcda56946ecf1644c7bea41eba6c2ba', class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'd19b06811b65257e1aeff538e468ac12a455aefb', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: '2d35b8b9c2bf272a77d740b29fd60a825a1379f5', class: "filters-bar__search-group" }, h("div", { key: '6cece02f0de5207d79be974754bbd4c654d82d54', class: "filters-bar__type-group" }, h("wa-select", { key: '6533bc635de7efa89f4875fa0bd3f1a57905d9df', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: '6d83807d2b3e8c3ea98150b41444b7b0209e58e3', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes only")), h("ir-input", { key: 'f7160e31d8203d09ebbe4fb58a4d65763a5708fd', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
+                this.docNumber = e.detail;
+                this.emitSearchDebounced(e.detail);
+            }, withClear: true }, h("wa-icon", { key: '81fe55df55109f02e001d2b7dc11152b9ad33674', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '4b8796601e610a2879dbe8f9e5929c47e9f63af8', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit(this.filters) }, h("wa-icon", { key: '3380054bcf00fcccf08f1bf21aca9badfdc09ba0', name: "magnifying-glass" }))))));
     }
     static get style() { return IrCityLedgerFiscalDocumentsFiltersStyle0; }
 }, [2, "ir-city-ledger-fiscal-documents-filters", {
-        "filters": [16]
+        "filters": [16],
+        "docNumber": [32]
     }]);
+__decorate([
+    Debounce(300)
+], IrCityLedgerFiscalDocumentsFilters.prototype, "emitSearchDebounced", null);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;

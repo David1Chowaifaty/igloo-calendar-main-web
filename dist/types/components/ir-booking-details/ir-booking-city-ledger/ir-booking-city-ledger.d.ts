@@ -2,6 +2,7 @@ import { Booking } from "../../../models/booking.dto";
 import { IEntries } from "../../../models/IBooking";
 export declare class IrBookingCityLedger {
     private cityLedgerService;
+    private tokenService;
     /** Booking object; component is hidden when booking.agent is null. */
     booking: Booking;
     /** Active language code. */

@@ -3,14 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-d07cd065.js');
+const booking_service = require('./booking.service-dab68001.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking = require('./booking-c08b5e0f.js');
+const booking = require('./booking-b7d0d9cb.js');
 require('./axios-6e678d52.js');
-require('./utils-d597c37f.js');
+require('./utils-592483b3.js');
 require('./type-976db45d.js');
 require('./index-fbf1fe1d.js');
 
@@ -653,7 +653,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '0ed52f69c7dd78a11084ad473a02144d7d30e1f8', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '980c089939c90d5ecb55dd9c02f9c2665b7fed58', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

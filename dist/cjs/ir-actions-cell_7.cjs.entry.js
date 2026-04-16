@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
-const utils = require('./utils-d597c37f.js');
+const utils = require('./utils-592483b3.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./index-fbf1fe1d.js');
@@ -96,7 +96,7 @@ const IrBalanceCell = class {
     removeBalance;
     payBookingBalance;
     render() {
-        return (index.h(index.Host, { key: '66fd6bfd17fd579e9dee5b77ac8cade7429f1f8f' }, this.label && index.h("p", { key: '2c7f61241b4c88630aec2a2aa3e28a622028b043', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: '66043a84f6964b3bb35acedbc980ffc5b92f00a1', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (index.h(index.Host, { key: '443a69b40d2e37d7469ed25b548163d03ae8eb1d' }, this.label && index.h("p", { key: '0fb61c120ba03d59e4ca7324c90e7ca28a8cfe4d', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: '741aff0171ee46415f9a3ccdc69c53a1037ed718', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -199,7 +199,7 @@ const IrBookedByCell = class {
         const loyaltyBadgeId = `loyalty-badge-${this.guest.id}_${this.cellId ?? this.identifier}`;
         const couponBadgeId = `coupon-badge-${this.guest.id}_${this.cellId ?? this.identifier}`;
         const guest = `${this.guest.first_name} ${this.guest.last_name}`;
-        return (index.h(index.Host, { key: 'fda2700175278534bfb1d08a48ab550052246888' }, this.label && index.h("p", { key: '71350aae7bbf784262c0f8bbd0a6666d9c2d54bd', class: "cell-label" }, this.label, ":"), index.h("div", { key: 'ddc8f49c0c03da8cc87784fbf4593db82be5043c', class: "booked-by-source__container" }, this.clickableGuest ? (index.h("button", { class: "booked-by-cell__button", onClick: this.handleGuestClick.bind(this) }, guest)) : (index.h("p", null, guest)), this.showRepeatGuestBadge && (index.h(index.Fragment, { key: '5bfd259b2cf28fb3b61d6339b8c95d4cf5e498be' }, index.h("wa-tooltip", { key: 'a2fba9d436723f96d198ad47fb62e3f55060c58c', for: repeatGuestBadgeId }, `${locales_store.locales.entries.Lcz_BookingsNbr}`.replace('%1', this.guest.nbr_confirmed_bookings.toString())), index.h("wa-icon", { key: 'b518b064a117726951d6d8cfb77157a767c709b4', name: "heart", style: { color: '#FB0AAD' }, id: repeatGuestBadgeId }))), this.showPersons && (index.h("p", { key: '64c3b22cf2b8c63b33524320cfeba16c05c08824' }, this.totalPersons, locales_store.locales.entries.Lcz_P)), this.showPrivateNoteDot && index.h("span", { key: 'c640a4954b9b3ba610f96ce9bd5ce4e6b888ab14', class: "booked-by-source__private-note" })), index.h("div", { key: '13b0e7a2370f2a817bbf04788863bac664dc7516', class: "booked-by-source__container" }, this.showLoyaltyIcon && (index.h(index.Fragment, { key: 'e6919ffc083681eeaa5af36789acd496d966398a' }, index.h("wa-tooltip", { key: 'db49e36f7d616422218617eb0c19abd798c6aa76', for: loyaltyBadgeId }, locales_store.locales.entries.Lcz_LoyaltyDiscountApplied), index.h("wa-icon", { key: 'af189a42dac72c30f2beddd9f319f0b1d3fb9f8e', name: "heart", variant: "regular", style: { color: '#fc6c85' }, id: loyaltyBadgeId }))), this.showPromoIcon && (index.h(index.Fragment, { key: '2fc1daa526577d006978be5bf985c06ac6c40c07' }, index.h("wa-tooltip", { key: 'a1ded80e2014b2d4c03386738a136ef01ee99310', for: couponBadgeId }, locales_store.locales.entries.Lcz_Coupon, ": ", this.promoKey), index.h("wa-icon", { key: 'f3840dd31cc46048dbc554a1e472c1631bfa1e85', id: couponBadgeId, name: "ticket" }))))));
+        return (index.h(index.Host, { key: '8797e0ecda5f2fa1e435ef2909efa82816c7a1e3' }, this.label && index.h("p", { key: 'ce0e9f948f913f769d6a6bd7c177b038644e299f', class: "cell-label" }, this.label, ":"), index.h("div", { key: '036e2fd0ff880f7adec94016e8a805614f084366', class: "booked-by-source__container" }, this.clickableGuest ? (index.h("button", { class: "booked-by-cell__button", onClick: this.handleGuestClick.bind(this) }, guest)) : (index.h("p", null, guest)), this.showRepeatGuestBadge && (index.h(index.Fragment, { key: '26577c71590e953f9d7e92a219d6ba9490ba5acd' }, index.h("wa-tooltip", { key: '0849da43779f191356aefee90f3a36407785d4b1', for: repeatGuestBadgeId }, `${locales_store.locales.entries.Lcz_BookingsNbr}`.replace('%1', this.guest.nbr_confirmed_bookings.toString())), index.h("wa-icon", { key: 'c449f5ed6afc6c4908c4d1a91da53e8d4038f713', name: "heart", style: { color: '#FB0AAD' }, id: repeatGuestBadgeId }))), this.showPersons && (index.h("p", { key: '6e516092d6de807010c734abac8ef3fcef4a0f1f' }, this.totalPersons, locales_store.locales.entries.Lcz_P)), this.showPrivateNoteDot && index.h("span", { key: 'fbd5f0f0b4853ad3b9bed90baa96fb2825071b8a', class: "booked-by-source__private-note" })), index.h("div", { key: 'aef3078d56c024584677cc4fa4173ee91651458a', class: "booked-by-source__container" }, this.showLoyaltyIcon && (index.h(index.Fragment, { key: 'f9cc58e76ade0045f4044a9ae760ca54a7f41e5e' }, index.h("wa-tooltip", { key: '114c150292d72012e820a01a224e52338e3a3b1a', for: loyaltyBadgeId }, locales_store.locales.entries.Lcz_LoyaltyDiscountApplied), index.h("wa-icon", { key: '74c0a00fd5d3ea77525f9ed9773cddc2e72fb459', name: "heart", variant: "regular", style: { color: '#fc6c85' }, id: loyaltyBadgeId }))), this.showPromoIcon && (index.h(index.Fragment, { key: 'b34d7b69b6492fd6898e45ceeb2b1d6d2445845b' }, index.h("wa-tooltip", { key: '2754ce960cf99e4494513e06b1899f1c3d3b2373', for: couponBadgeId }, locales_store.locales.entries.Lcz_Coupon, ": ", this.promoKey), index.h("wa-icon", { key: '7fd154dd6c0b2bd27bd2891cbc51a1910500aee2', id: couponBadgeId, name: "ticket" }))))));
     }
 };
 IrBookedByCell.style = IrBookedByCellStyle0;
@@ -224,7 +224,7 @@ const IrBookingNumberCell = class {
     channelBookingNumber;
     openBookingDetails;
     render() {
-        return (index.h(index.Host, { key: 'be286ba45f84a6c9e60e0022983efb2cafb01415' }, this.channelBookingNumber && index.h("wa-tooltip", { key: '70c5b4ac5d92af00ba5e189b185f829c8128987e', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), index.h("img", { key: '1c4b2f3afcf84026435f576870978db7ccf1cf4c', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), index.h("div", { key: '929a97e9449263dd81681fca0b2b4845b3b75a85', class: "booking-nbr-cell__container" }, index.h("div", { key: 'ece102b09f6b0f90c26fc42b479480311a15d2de', style: { width: 'fit-content' } }, index.h("button", { key: '5254c577ca60396062d890e0dc56331e77a40afb', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), index.h("p", { key: 'a50e48e28601b6454d555f3b06d24caad658b170', class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
+        return (index.h(index.Host, { key: '9c3e18e9a96c6491a4ae10d632d4cad347a563c0' }, this.channelBookingNumber && index.h("wa-tooltip", { key: 'd6de6bcaea25fdc15d55608302bf9009d867ffce', for: `source-logo__${this.bookingNumber}` }, this.origin.Label), index.h("img", { key: '4cea9868624922ae715456eb627527a1435bd314', class: "booked-by-source__logo", id: `source-logo__${this.bookingNumber}`, src: this.origin.Icon, alt: this.origin.Label }), index.h("div", { key: '31add786c9382894ea4ad2432cd00eb478656152', class: "booking-nbr-cell__container" }, index.h("div", { key: '5a43a4f3cce97c90ec944d0a7175663718ac5af4', style: { width: 'fit-content' } }, index.h("button", { key: 'fc96d14f1076418a4e4ed1d8a1fd684e89b9ac9d', class: "booking-nbr-cell__button", onClick: () => this.openBookingDetails.emit(this.bookingNumber) }, this.bookingNumber)), index.h("p", { key: '71cb823d5eb96ef3a83b023dbfacce64f8b06c83', class: "booking-nbr-cell__channel_nbr" }, this.channelBookingNumber ? this.channelBookingNumber : this.origin.Label))));
     }
 };
 IrBookingNumberCell.style = IrBookingNumberCellStyle0;
@@ -247,7 +247,7 @@ const IrDatesCell = class {
         return moment.hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY');
     }
     render() {
-        return (index.h(index.Host, { key: '4e7b9830586023aeab3562904ca337fbfcc8f415' }, index.h("div", { key: '3df4915862a74867ee4484683f18df34d1e4c969', class: "date-cell__container" }, this.checkInLabel && index.h("span", { key: '89f88b46a30cf8b5db6b62c781c96504e62b765c', class: "date-cell__label" }, this.checkInLabel, ": "), index.h("p", { key: 'd5fa8cb0cce9bc0921727ea692d7ca112600d566', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), index.h("div", { key: '3a12b90e4ca128d36b183cd6d5dc57c58ae08906', class: "date-cell__container" }, this.checkoutLabel && index.h("span", { key: '4f63905ab8acd0e80cea7e5b5b78ffee6e6be465', class: "date-cell__label" }, this.checkoutLabel, ": "), index.h("p", { key: 'a390b41516c044816358cdc7cbeb34bf4a6a12fc', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
+        return (index.h(index.Host, { key: '74241fbb023d43d76b86ba12e01a766fd19fe73a' }, index.h("div", { key: '58e2c417541e6279fb38bd56f25ced5bf86b2dca', class: "date-cell__container" }, this.checkInLabel && index.h("span", { key: 'f403c87e18aab5d13c76f82c8159ac0592712966', class: "date-cell__label" }, this.checkInLabel, ": "), index.h("p", { key: '82b041d704dd6e4719e521cdeb5ae398fa45bc24', style: { fontWeight: this.overdueCheckin ? 'bold' : 'auto' } }, this.formatDate(this.checkIn))), index.h("div", { key: '5834ba877445f2a21e361b76d55d2f02692377ba', class: "date-cell__container" }, this.checkoutLabel && index.h("span", { key: '9006e08a180b4ab10d59a9721da2ba78a02e3105', class: "date-cell__label" }, this.checkoutLabel, ": "), index.h("p", { key: '5907fde2d67b651b95c3adaceebaae1b961ac09d', style: { fontWeight: this.overdueCheckout ? 'bold' : 'auto' } }, this.formatDate(this.checkOut)))));
     }
 };
 IrDatesCell.style = IrDatesCellStyle0;
@@ -261,7 +261,7 @@ const IrGuestNameCell = class {
     }
     name;
     render() {
-        return (index.h(index.Host, { key: '4220a8eb4d540251654bb9ccb84067609b5ee499' }, this.name.first_name, " ", this.name.last_name));
+        return (index.h(index.Host, { key: '0eabd992839ccf46689d6f3056e7c851dabd5f7d' }, this.name.first_name, " ", this.name.last_name));
     }
 };
 IrGuestNameCell.style = IrGuestNameCellStyle0;
@@ -276,7 +276,7 @@ const IrUnitCell = class {
     room;
     showDeparture = false;
     render() {
-        return (index.h(index.Host, { key: '20a5f372dced2d2088efd0479cfd061fd77cd3d7' }, index.h("p", { key: '312d2ea46072057d240f5db9df8d6ba0e9d8df32' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: '837875fe515870d519b3d6762e6eb1132b45557c', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: 'f7a82eb816e0b13f5129921f71c22862616d20b0' }, this.room?.departure_time?.description)));
+        return (index.h(index.Host, { key: '06d86d4b61ca77b333998801373d3dadbb3e54bf' }, index.h("p", { key: 'fbeeace6237cdf0f5e536a57c96a3da8b83aef8e' }, this.room.roomtype.name), this.room.unit && index.h("ir-unit-tag", { key: '23e92d54f9264755b62e214c3b042d5b06a700a2', unit: this.room.unit.name }), this.showDeparture && this.room?.departure_time?.description && index.h("span", { key: 'f5924f4a3ad747168f20f6b902df1047ee7c0aaa' }, this.room?.departure_time?.description)));
     }
 };
 IrUnitCell.style = IrUnitCellStyle0;

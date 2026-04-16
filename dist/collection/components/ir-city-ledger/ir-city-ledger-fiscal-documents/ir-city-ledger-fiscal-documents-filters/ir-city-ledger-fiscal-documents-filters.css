@@ -2,142 +2,140 @@
   display: block;
 }
 
-/* #region wrapper */
-.fiscal-filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-/* #endregion */
-.fiscal-filters__dates,
-.fiscal-filters__search {
-  width: 100%;
-}
-.fiscal-filters__dates {
-  min-width: 280px;
-}
-/*sm*/
-@media (min-width: 640px) {
-  .fiscal-filters__dates,
-  .fiscal-filters__search {
-    width: fit-content;
-  }
-  .fiscal-filters__left {
-    align-items: center;
-  }
-  .fiscal-filters__search {
-    min-width: 300px;
-  }
-}
-/* #region left-controls */
-.fiscal-filters__left {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.fiscal-filters__field {
+/* ═══════════════════════════════════════════════
+   Filter bar — mobile-first layout
+   Default : single column, full-width rows
+   md      : two rows  (dates + search | actions)
+   lg      : single flex row
+   ═══════════════════════════════════════════════ */
+.filters-bar {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  align-items: stretch;
+  gap: 0.625rem;
 }
 
-.fiscal-filters__label {
-  font-size: 0.75rem;
-  color: var(--wa-color-text-quiet);
-  font-weight: 600;
-}
-
-.fiscal-filters__input {
-  height: 2.125rem;
-  border: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
-  border-radius: 0.375rem;
-  background-color: var(--wa-color-surface-default);
-  color: var(--wa-color-text-normal);
-  padding: 0 0.625rem;
-  font-size: 0.875rem;
-}
-
-.fiscal-filters__input:focus-visible {
-  outline: 2px solid var(--wa-color-brand-border-normal);
-  outline-offset: 1px;
-}
-
-.fiscal-filters__tax-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--wa-color-text-normal);
-  font-weight: 600;
-  min-height: 2.125rem;
-  white-space: nowrap;
-}
-/* #endregion */
-
-/* #region right-controls */
-.fiscal-filters__right {
+/* ── Date range ─────────────────────────────────── */
+.filters-bar__dates {
   display: flex;
   align-items: center;
+  width: 100%;
+}
+
+.filters-bar__date_picker {
+  width: 100%;
+}
+
+/* ── Type + Search group ────────────────────────── */
+.filters-bar__search-group {
+  display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.fiscal-filters__meta,
-.fiscal-filters__active {
-  font-size: 0.8125rem;
-  color: var(--wa-color-text-quiet);
-  font-weight: 600;
-}
-
-.fiscal-filters__chips {
-  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.375rem;
+  gap: 0.5rem;
+  width: 100%;
 }
 
-.fiscal-filters__chip {
-  height: 1.875rem;
-  border: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
-  border-radius: 999px;
-  padding: 0 0.625rem;
-  background-color: var(--wa-color-surface-default);
-  color: var(--wa-color-text-normal);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1;
-  cursor: pointer;
+/* mobile: type-group takes its own row; search+button share the next */
+.filters-bar__type-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
 }
 
-.fiscal-filters__chip:hover {
-  background-color: var(--wa-color-neutral-fill-quiet, #f1f2f3);
+.filters-bar__status-select {
+  flex: 1;
+  min-width: 0;
 }
 
-.fiscal-filters__chip--active {
-  border-color: var(--wa-color-brand-border-normal);
-  color: var(--wa-color-brand-fill-loud);
-  background-color: color-mix(in oklab, var(--wa-color-brand-fill-quiet) 40%, white);
+.filters-bar__tax-switch {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
-/* #endregion */
 
-/* #region responsive */
-@media (max-width: 1100px) {
-  .fiscal-filters__left {
-    grid-template-columns: repeat(2, minmax(180px, 1fr));
+.filters-bar__search-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.filters-bar__search-icon {
+  font-size: 0.875rem;
+  color: var(--wa-color-text-quiet, #9ca3af);
+  flex-shrink: 0;
+}
+
+/*sm — 640px: date picker on row 1; search-group + actions share row 2 */
+@media (min-width: 640px) {
+  .filters-bar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
   }
-}
 
-@media (max-width: 768px) {
-  .fiscal-filters__left {
+  .filters-bar__dates {
     width: 100%;
-    grid-template-columns: 1fr;
+    flex-shrink: 0;
+    min-width: 0;
   }
 
-  .fiscal-filters__right {
-    width: 100%;
+  .filters-bar__search-group {
+    flex: 1;
+    flex-wrap: nowrap;
+    min-width: 0;
+    width: auto;
+  }
+
+  /* type-group shrinks back to content width on sm+ */
+  .filters-bar__type-group {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  /* wider than folio's status-select to fit "All Document Types" */
+  .filters-bar__status-select {
+    flex: none;
+    min-width: 160px;
+  }
+
+  .filters-bar__search-input {
+    flex: 1;
+    min-width: 0;
+    max-width: 400px;
+  }
+
+}
+
+/*md — 768px */
+@media (min-width: 768px) {
+  .filters-bar__search-input {
+    min-width: 160px;
+    max-width: 400px;
   }
 }
-/* #endregion */
+
+/*lg — 1024px: all three groups in one row */
+@media (min-width: 1024px) {
+  .filters-bar {
+    flex-wrap: nowrap;
+  }
+
+  .filters-bar__dates {
+    width: auto;
+    flex-shrink: 0;
+    min-width: 280px;
+  }
+
+  .filters-bar__search-group {
+    flex: 1;
+    width: auto;
+  }
+}
+
+/*xl*/
+@media (min-width: 1280px) {
+}
+
+/*2xl*/
+@media (min-width: 1536px) {
+}

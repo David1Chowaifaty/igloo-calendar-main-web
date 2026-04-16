@@ -82,10 +82,10 @@ export class IrClFiscalDocumentPreview {
         }
     }
     render() {
-        return (h(Host, { key: '374e00366e8cf22e5690894f80c2b493cdbcfe5a' }, h("ir-preview-screen-dialog", { key: '53c083e404f9f90ebef89fe1c3392796038bbdbc', open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: 'd4d66f02222c6a28cd5ecc741577cf40ba094e5d' }, h("ir-preview-screen-dialog", { key: '8467d618b8ed09a4f5153db93b4cd59cd0c30eec', open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '0e916e9e9d80a8f9b2c4d8c14c2c3e301e178835', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent", slot: "header-actions" }, "Convert to invoice")), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '15b21762b3f9bdf92eedb1c4bda94cf69733efce', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'bed4fd4f34d4983105546ff49d87fcd2d668cb71', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent", slot: "header-actions" }, "Convert to invoice")), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '7181ad16f631900155493f21bf4bf74293dc4639', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
     static get is() { return "ir-cl-fiscal-document-preview"; }
     static get properties() {

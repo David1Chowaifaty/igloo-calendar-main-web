@@ -25,17 +25,17 @@ const IrClAdjustmentFields = /*@__PURE__*/ proxyCustomElement(class IrClAdjustme
         return [];
     }
     render() {
-        return (h(Fragment, { key: 'e99008a0f1fcfdac3e367b2780e86763f76ecec3' }, h("div", { key: '2b920def4476c32efe5c3f91a87bf3670dd6eb7f', class: "field field--full-width" }, h("ir-validator", { key: 'ef1420892ddad3ff3c693efb06fa878a156af9b3', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: '212c5ec5c34f40ed1fbb612e62569b431104aa33', label: "Entry Type", orientation: "horizontal", size: "small", value: this.entryType, onchange: event => {
+        return (h(Fragment, { key: '5b313e2c29dc54425656fd4184c406bda26b3291' }, h("div", { key: 'afc22441e1d1d901d409109385c514cff190660a', class: "field field--full-width" }, h("ir-validator", { key: 'a60391e5f2d153029554ee37329a25944354ffd2', schema: entryTypeFieldSchema, value: this.entryType, valueEvent: "change" }, h("wa-radio-group", { key: 'c62b0b39b782ed7ac38585effc398b1ace1e59d3', label: "Entry Type", orientation: "horizontal", size: "small", value: this.entryType, onchange: event => {
                 this.fieldChange.emit({ entryType: event.target.value });
-            } }, h("wa-radio", { key: '9577bf83d16da5d179920fa4aad6c1c02e217f78', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: 'c6ca3ec310551d84191ab39d6ced7583334ce528', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit")))), h("div", { key: '38bf5cda3e61c80d7cad69463b0e4c9bc111e24a', class: "field" }, h("ir-validator", { key: 'c14f33d4d3fd13679bd7d3c897fe65874a7ce479', schema: linkTypeFieldSchema, value: this.linkType, valueEvent: "change" }, h("wa-select", { key: 'b3421057f25e25b36264c3c4bb9ddc1a4da6d275', label: "Link Type", size: "small", value: this.linkType, onchange: event => {
+            } }, h("wa-radio", { key: '2a3bd0090de36a478cecf665ebad2058d36cb847', value: "CR", appearance: "button", class: "entry-type --credit" }, "Credit"), h("wa-radio", { key: '5a52a219b0e607470897688b259ae67d7275b801', value: "DB", appearance: "button", class: "entry-type --debit" }, "Debit")))), h("div", { key: 'c248e59d8fc0941d189e8ccab4928616d4692e2c', class: "field" }, h("ir-validator", { key: 'a52b45e79df95b344f636dbcddd1d98cf9353c41', schema: linkTypeFieldSchema, value: this.linkType, valueEvent: "change" }, h("wa-select", { key: 'fdd876a82ed9c000a31a59b8fcfd499058ed2337', label: "Link Type", size: "small", value: this.linkType, onchange: event => {
                 const linkType = event.target.value;
                 this.fieldChange.emit({
                     linkType,
                     linkedId: linkType === 'NONE' ? undefined : this.linkedId,
                 });
-            } }, LINK_TYPES.map(lt => (h("wa-option", { key: lt, value: lt }, lt)))))), this.linkType !== 'NONE' && (h("div", { key: 'ed4e2483a7992d50c4049e46cd3c08bb2f92da3a', class: "field" }, h("wa-select", { key: 'baedc8d36d8ed567f102cbc920f4cce0302b0658', label: "Linked Record", size: "small", value: this.linkedId ?? '', onchange: event => {
+            } }, LINK_TYPES.map(lt => (h("wa-option", { key: lt, value: lt }, lt)))))), this.linkType !== 'NONE' && (h("div", { key: '9a88c323d1d8c481237565cfabed8ab6cec66ba4', class: "field" }, h("wa-select", { key: '41d84182ce114a2304c0ebb21dd2ebe8ed6e2986', label: "Linked Record", size: "small", value: this.linkedId ?? '', onchange: event => {
                 this.fieldChange.emit({ linkedId: event.target.value || undefined });
-            } }, h("wa-option", { key: '96455865b26d4b8636788401547183b262034388', value: "" }, "No linked record"), this.linkedIdOptions.map(option => (h("wa-option", { key: option.id, value: option.id }, option.label))))))));
+            } }, h("wa-option", { key: 'c8fe10a4bacb98a378b706ded3b4f4436bb1770a', value: "" }, "No linked record"), this.linkedIdOptions.map(option => (h("wa-option", { key: option.id, value: option.id }, option.label))))))));
     }
     static get style() { return IrClAdjustmentFieldsStyle0; }
 }, [2, "ir-cl-adjustment-fields", {

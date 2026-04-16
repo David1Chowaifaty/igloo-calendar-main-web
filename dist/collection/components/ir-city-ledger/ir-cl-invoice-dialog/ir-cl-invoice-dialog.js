@@ -13,6 +13,7 @@ export class IrClInvoiceDialog {
     error = null;
     noResults = false;
     invoiceIssued;
+    clFiscalDocumentPreview;
     dialogRef;
     formRef;
     cityLedgerService = new CityLedgerService();
@@ -68,7 +69,16 @@ export class IrClInvoiceDialog {
                     LIST_CL_TX_ID: listClTxIds,
                     FD_TYPE_CODE: FdTypes.Draft,
                 });
-                this.invoiceIssued.emit(result);
+                const doc = result;
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: doc.FD_TYPE_CODE,
+                    documentNumber: doc.DOC_NUMBER,
+                    agentId: doc.AGENCY_ID ?? this.agentId,
+                    agentName: doc.AGENCY_NAME,
+                    fdId: doc.FD_ID,
+                    externalRef: doc.EXTERNAL_REF,
+                });
+                this.invoiceIssued.emit(doc);
                 this.dialogRef.closeModal();
             }
         }
@@ -80,7 +90,7 @@ export class IrClInvoiceDialog {
         }
     }
     render() {
-        return (h(Host, { key: 'f08354589d28e65ea47865be727b44730ec92866' }, h("ir-dialog", { key: 'a57a10d6cc58657d34bda349dc8fb62563d7c528', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: 'fc6cee6fc5672a5de230e4b237ef6969dc10e73f', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '7320b5b39c18f690d85b2d0f28ce218fb66b3bca', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '713740030085b8214097149d043b41fbee970390', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '1032b5d42e0795991d9edbaf5844b43a6999cad6', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '7f7503876a4ee022f7d7ff982b8fa9b32b8197ba', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'e5aa0320fe03305147c3cab45932363286383ff5', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '731bd7d0ceac82f2b2af113169c059c2712aead0', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: '43008dbc65b2b101fc589760da09b9444be07bf5' }, h("ir-dialog", { key: '64282f5b60b1835846c7cb7fbef05339bb9d5023', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '49388183ea084970392acad4309fa9064e921a83', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'be008a5aad3b5a8e3b90af82cd808b51ada2be64', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '1871c35f47b859ca6841fd49fb1bd2ffa64c3024', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'd432b235c3ddbb8c63750c4dc73e1547ccfb7ada', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '127d02bf1cdb0640361406be0a34ba4f770b1f32', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '63f40f200c2eab9de8ebeed1eec6bbaecd90d838', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '14cb8c99bfa0873f612bc3a883a563a1bb66b9f7', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -244,6 +254,27 @@ export class IrClInvoiceDialog {
                             "location": "import",
                             "path": "@/services/city-ledger",
                             "id": "src/services/city-ledger/index.ts::FiscalDocument"
+                        }
+                    }
+                }
+            }, {
+                "method": "clFiscalDocumentPreview",
+                "name": "clFiscalDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "ClFiscalDocumentPreviewRequest",
+                    "resolved": "ClFiscalDocumentPreviewRequest",
+                    "references": {
+                        "ClFiscalDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
                         }
                     }
                 }

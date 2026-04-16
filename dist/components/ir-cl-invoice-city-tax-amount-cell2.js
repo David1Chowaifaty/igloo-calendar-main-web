@@ -13,7 +13,7 @@ const IrClInvoiceCityTaxAmountCell = /*@__PURE__*/ proxyCustomElement(class IrCl
     amount;
     cityTaxPercent;
     render() {
-        return h(Host, { key: '79ac87d246bb560cf9070d20a25557733505909c' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
+        return h(Host, { key: '9cc9c4027387ce1f428d96d152544165b267d890' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
     }
     static get style() { return IrClInvoiceCityTaxAmountCellStyle0; }
 }, [2, "ir-cl-invoice-city-tax-amount-cell", {

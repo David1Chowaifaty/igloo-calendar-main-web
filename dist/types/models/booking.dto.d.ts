@@ -236,7 +236,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     booking_system_id: z.ZodOptional<z.ZodNumber>;
     cost: z.ZodNullable<z.ZodNumber>;
     currency_id: z.ZodNumber;
-    description: z.ZodOptional<z.ZodString>;
+    description: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     end_date: z.ZodDefault<z.ZodOptional<z.ZodNullable<z.ZodString>>>;
     start_date: z.ZodString;
     price: z.ZodNumber;

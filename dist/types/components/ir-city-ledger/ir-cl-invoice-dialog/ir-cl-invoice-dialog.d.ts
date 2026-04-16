@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { type FiscalDocument } from "../../../services/city-ledger/index";
+import { ClFiscalDocumentPreviewRequest } from '../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types';
 export declare class IrClInvoiceDialog {
     agentId: number | null;
     mode: 'booking' | 'default';
@@ -11,6 +12,7 @@ export declare class IrClInvoiceDialog {
     error: string | null;
     noResults: boolean;
     invoiceIssued: EventEmitter<FiscalDocument>;
+    clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     private dialogRef;
     private formRef;
     private cityLedgerService;

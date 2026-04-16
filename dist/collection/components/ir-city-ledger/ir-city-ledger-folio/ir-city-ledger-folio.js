@@ -130,18 +130,18 @@ export class IrCityLedgerFolio {
         }
     }
     render() {
-        return (h(Host, { key: '02f36dbea320839d70b32ecb3b3182b59ca9d838' }, h("ir-city-ledger-folio-filters", { key: '0939bac7767cf9e925f8dec1d1ec7bf4e40b09ef', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '2985d9f87e79bf76d77636b96c1adbf5b4f45e4f' }, h("ir-city-ledger-folio-filters", { key: 'c22408746ee376558914be190bf1340fd0e3725d', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: '0e22a5e71e57af4c2b5746ba6181799dad87bc48', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            }, onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: 'ed42c2b3caa14abd4cb048051a26c4ed629c7998', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
             }, onFetchRequested: async () => {
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: '91f08418fafa4ca2cf165fd9a551520f1f6aeb8c', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'c82aeebc83a5efcfb7e6397a511183be981bf24d', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
     }

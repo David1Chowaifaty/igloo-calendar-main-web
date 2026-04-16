@@ -64,13 +64,13 @@ export class IrCityLedgerStatements {
     }
     render() {
         const currencyId = calendar_data?.property?.currency?.id;
-        return (h(Host, { key: '11aa002fbc29c13bbfb808c8e7bd079b81bb79e9' }, h("section", { key: 'aa84c4b94dec0f02d0d25035292518692c860d6d', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '67972e1a14a4ec1c94aba3a40500e153f146c439', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: '879f856d09ed51cc211907b47656be01182a07e7' }, h("section", { key: '4e1d6787cf459d31783744db8413cb8dde5c9a6f', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'a6b426f9b03b2d82ea397ecdc42e9316a8d9e71b', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '57a8dfe39b3490033d3d356b640e9f7639eb454d', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: 'd6ef8811bfe9bcdcc1aa358d499bae7a4550ddbd', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '6d8eb1efb9fb4805c682dad42e66fb1d57833e67', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '17d62f7f762bde1d0279045a22fa9fa4e70fab1a', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.printFilters = null;
-            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: '5c57548a37194914ddf7f5e5a94851fda8f8a686', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
+            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: 'b255747f6ec76433c5521f59636179f85bdeee0f', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
     }
     static get is() { return "ir-city-ledger-statements"; }
     static get encapsulation() { return "scoped"; }
