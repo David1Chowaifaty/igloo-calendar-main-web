@@ -1,3 +1,4 @@
+import { FdTypes } from "../../types/enums";
 import * as z from 'zod';
 export declare const CategorySchema: z.ZodNullable<z.ZodString>;
 /** Optional transaction category code. */
@@ -1081,19 +1082,19 @@ export declare const GetFiscalDocumentsParamsSchema: z.ZodObject<{
     START_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     END_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     LIST_FD_TYPE_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
-    FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
+    FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
     AGENCY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
-    FD_STATUS_CODE?: string;
+    FD_STATUS_CODE?: string[];
     START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
 }, {
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
-    FD_STATUS_CODE?: string;
+    FD_STATUS_CODE?: string[];
     START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
@@ -1134,11 +1135,4 @@ export declare const DeleteDraftFiscalDocumentParamsSchema: z.ZodObject<{
 /** Payload for deleting a draft fiscal document. */
 export type DeleteDraftFiscalDocumentParams = z.infer<typeof DeleteDraftFiscalDocumentParamsSchema>;
 export type FiscalDocuments = FiscalDocument[];
-export declare const FD_TYPES: {
-    readonly Draft: "DFT";
-    readonly Invoice: "INV";
-    readonly CreditNote: "CN";
-    readonly DebitNote: "DN";
-    readonly Receipt: "REC";
-};
-export type FdType = (typeof FD_TYPES)[keyof typeof FD_TYPES];
+export type FdType = (typeof FdTypes)[keyof typeof FdTypes];

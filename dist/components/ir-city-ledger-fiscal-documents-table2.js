@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel } from './useTable.js';
-import { C as CityLedgerService, F as FD_TYPES } from './index6.js';
+import { C as CityLedgerService } from './index6.js';
+import { a as FdTypes } from './enums.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-fd-confirm-dialog2.js';
@@ -55,6 +56,8 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     documentNumber: row.DOC_NUMBER,
                     agentId: this.agentId,
                     agentName: row.AGENCY_NAME,
+                    fdId: row.FD_ID,
+                    externalRef: row.EXTERNAL_REF,
                 });
                 break;
             case 'print':
@@ -63,7 +66,9 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     documentNumber: row.DOC_NUMBER,
                     agentId: this.agentId,
                     agentName: row.AGENCY_NAME,
+                    fdId: row.FD_ID,
                     autoPrint: true,
+                    externalRef: row.EXTERNAL_REF,
                 });
                 console.log('print', row);
                 break;
@@ -162,7 +167,7 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                 header: 'Actions',
                 cell: info => {
                     const row = info.row.original;
-                    const isDraft = row.FD_TYPE_CODE === FD_TYPES.Draft;
+                    const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
                     // const isPaid = row.FD_STATUS_CODE === 'INV';
                     // const isInvoice = row.FD_TYPE_CODE === FD_TYPES.Invoice;
                     return (h("wa-dropdown", { "onwa-select": (e) => {

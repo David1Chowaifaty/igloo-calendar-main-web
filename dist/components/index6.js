@@ -181,7 +181,7 @@ const GetFiscalDocumentsParamsSchema = objectType({
     START_DATE: stringType().optional().nullable(),
     END_DATE: stringType().optional().nullable(),
     LIST_FD_TYPE_CODE: arrayType(stringType()).optional().nullable().default(null),
-    FD_STATUS_CODE: stringType().optional().nullable().default(null),
+    FD_STATUS_CODE: arrayType(stringType()).optional().nullable().default(null),
     AGENCY_ID: numberType(),
 });
 const IssueInvoiceFromDraftParamsSchema = objectType({
@@ -195,13 +195,6 @@ const VoidInvoiceByCreditNoteParamsSchema = objectType({
 const DeleteDraftFiscalDocumentParamsSchema = objectType({
     FD_ID: numberType(),
 });
-const FD_TYPES = {
-    Draft: 'DFT',
-    Invoice: 'INV',
-    CreditNote: 'CN',
-    DebitNote: 'DN',
-    Receipt: 'REC',
-};
 
 class CityLedgerService {
     async fetchCL(params) {
@@ -324,6 +317,6 @@ class CityLedgerService {
     }
 }
 
-export { CityLedgerService as C, FD_TYPES as F };
+export { CityLedgerService as C };
 
 //# sourceMappingURL=index6.js.map

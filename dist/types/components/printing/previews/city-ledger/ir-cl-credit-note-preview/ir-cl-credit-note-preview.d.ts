@@ -6,6 +6,7 @@ export declare class IrClCreditNotePreview {
     agentId: number;
     agentName: string;
     documentNumber: string;
+    externalRef: string;
     private isLoading;
     private error;
     private property;

@@ -1,4 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
+import { type FiscalDocument } from "../../../services/city-ledger/index";
 export declare class IrClInvoiceDialog {
     agentId: number | null;
     mode: 'booking' | 'default';
@@ -9,7 +10,7 @@ export declare class IrClInvoiceDialog {
     isLoading: boolean;
     error: string | null;
     noResults: boolean;
-    invoiceIssued: EventEmitter<unknown>;
+    invoiceIssued: EventEmitter<FiscalDocument>;
     private dialogRef;
     private formRef;
     private cityLedgerService;

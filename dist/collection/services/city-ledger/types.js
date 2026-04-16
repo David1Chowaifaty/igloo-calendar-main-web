@@ -179,7 +179,7 @@ export const GetFiscalDocumentsParamsSchema = z.object({
     START_DATE: z.string().optional().nullable(),
     END_DATE: z.string().optional().nullable(),
     LIST_FD_TYPE_CODE: z.array(z.string()).optional().nullable().default(null),
-    FD_STATUS_CODE: z.string().optional().nullable().default(null),
+    FD_STATUS_CODE: z.array(z.string()).optional().nullable().default(null),
     AGENCY_ID: z.number(),
 });
 export const IssueInvoiceFromDraftParamsSchema = z.object({
@@ -193,11 +193,4 @@ export const VoidInvoiceByCreditNoteParamsSchema = z.object({
 export const DeleteDraftFiscalDocumentParamsSchema = z.object({
     FD_ID: z.number(),
 });
-export const FD_TYPES = {
-    Draft: 'DFT',
-    Invoice: 'INV',
-    CreditNote: 'CN',
-    DebitNote: 'DN',
-    Receipt: 'REC',
-};
 //# sourceMappingURL=types.js.map

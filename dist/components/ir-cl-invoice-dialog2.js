@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { C as CityLedgerService, F as FD_TYPES } from './index6.js';
+import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
+import { a as FdTypes } from './enums.js';
 import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-cl-invoice-form2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
@@ -51,7 +52,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
                     START_DATE: this.startDate,
                     END_DATE: this.endDate,
                     BOOKING_NBR: this.bookingNbr,
-                    FD_TYPE_CODE: FD_TYPES.Draft,
+                    FD_TYPE_CODE: FdTypes.Draft,
                 });
                 this.invoiceIssued.emit(result);
                 this.dialogRef.closeModal();
@@ -81,7 +82,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
                     START_DATE: fromDate,
                     END_DATE: toDate,
                     LIST_CL_TX_ID: listClTxIds,
-                    FD_TYPE_CODE: FD_TYPES.Draft,
+                    FD_TYPE_CODE: FdTypes.Draft,
                 });
                 this.invoiceIssued.emit(result);
                 this.dialogRef.closeModal();
@@ -95,7 +96,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
         }
     }
     render() {
-        return (h(Host, { key: '584b250ffb7190d3446a23748d74cb5baad9845a' }, h("ir-dialog", { key: 'f13ed158cbc9f19801546eba8dbf80a9711ce36c', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '9ca0ed62fc9bb4d0dd48df8322ef21163ab66cbc', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '3624fff1421366a74b3d93e4d0788df632c46b16', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'bd049c802c34b107967fb7409424f134a6f77dc8', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'c7bfd6fa487498017a49ccb434ee966210e8de77', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'df32af9d241098c3ec76de33c1d131662e2b84df', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '0ae3be4d0f02b82b17880c6fdd56acd3ea2cde28', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '61083099272f810405eb816bb4fe2530a723e364', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: 'f08354589d28e65ea47865be727b44730ec92866' }, h("ir-dialog", { key: 'a57a10d6cc58657d34bda349dc8fb62563d7c528', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: 'fc6cee6fc5672a5de230e4b237ef6969dc10e73f', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '7320b5b39c18f690d85b2d0f28ce218fb66b3bca', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '713740030085b8214097149d043b41fbee970390', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '1032b5d42e0795991d9edbaf5844b43a6999cad6', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '7f7503876a4ee022f7d7ff982b8fa9b32b8197ba', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'e5aa0320fe03305147c3cab45932363286383ff5', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '731bd7d0ceac82f2b2af113169c059c2712aead0', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
     }
     static get style() { return IrClInvoiceDialogStyle0; }
 }, [2, "ir-cl-invoice-dialog", {

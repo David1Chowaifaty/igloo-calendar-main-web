@@ -28,6 +28,7 @@ const IrClCreditNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClCreditN
     agentId;
     agentName;
     documentNumber;
+    externalRef;
     isLoading = false;
     error = null;
     property = null;
@@ -55,7 +56,7 @@ const IrClCreditNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClCreditN
         this.isLoading = true;
         this.error = null;
         try {
-            const { property, transactions } = await this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber);
+            const { property, transactions } = await this.dataService.fetchData(this.propertyId, this.agentId, this.externalRef);
             this.property = property;
             this.transactions = transactions;
         }
@@ -86,6 +87,7 @@ const IrClCreditNotePreview = /*@__PURE__*/ proxyCustomElement(class IrClCreditN
         "agentId": [2, "agent-id"],
         "agentName": [1, "agent-name"],
         "documentNumber": [1, "document-number"],
+        "externalRef": [1, "external-ref"],
         "isLoading": [32],
         "error": [32],
         "property": [32],

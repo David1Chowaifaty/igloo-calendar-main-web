@@ -22,11 +22,11 @@ export class IrMenuDrawer {
         this.menuOpenChanged.emit(this.open);
     }
     render() {
-        return (h("ir-drawer", { key: 'a939ae1dd3656a9fd2fb52a1e13d42e348a53841', class: "menu__drawer", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '23e0edac3deaf3f4cc9d756564d7780313e964de', class: "menu__drawer", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, h("slot", { key: '4bd903cd7d19c5875c0b39dd85125d422fecfea8', name: "label", slot: "label" }), h("slot", { key: 'e05c94c61a86a3e235762daad9e3e049efa2235d' }), h("slot", { key: '00f66fe48b076c74054d8a68aae378d2f106a3b6', name: "footer", slot: "footer" })));
+            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, h("slot", { key: 'df792e360dbe1c1a00b165b86bb61850249af1ab', name: "label", slot: "label" }), h("slot", { key: 'e5d117ef67b413d07adf8e7e1db296228c6f35f0' }), h("slot", { key: '8a3daf06e00fec14c534aa6ada7b5e195633b10f', name: "footer", slot: "footer" })));
     }
     static get is() { return "ir-menu-drawer"; }
     static get encapsulation() { return "shadow"; }

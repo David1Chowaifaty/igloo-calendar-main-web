@@ -2828,7 +2828,7 @@ const IrInteractiveTitle = class {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (h(Host, { key: '3b23184a8dc042b6d22b3b54ddc022a7eed7148f', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'e784f6614afa218f7ed16b586f6436fc35e631db', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: 'bd48a13c8134ad5dbe882d11b332d2565a053aa8', for: this.titleId, placement: "top" }, title)), h("span", { key: '7c859528dbba8f0d1b037f102342e52c173aabf1', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '6ee260a81e22f8ccc5a5ff858b2045fa0edc6b74', class: "hk-dot" }, h("slot", { key: '2ebe3e124f31571e3e1a5c576255ed6813c83f48', name: "end" }))))));
+        return (h(Host, { key: 'd6725b74d20834cf2181d259dbc853b895cd789c', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: '27dace908925c766ac55acd181bf02b77efde8e9', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: '5e473833e31e308198c3b13329ff8daab7fbb117', for: this.titleId, placement: "top" }, title)), h("span", { key: '35f1db3d384b9e07132912dd3b62bf1393969ae8', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '18ebbf90ea0a6bcf37b97989ab938026114e7dda', class: "hk-dot" }, h("slot", { key: 'ad3f38fa9c087287b2285ac964d101750833ba77', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -2971,13 +2971,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '2a2428a9beda83ef91d5529815c1df134a55e29d', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: '905e42b3eb0e7ee360dcb1aed2cac36c10e646bb', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: 'f6e8e8db7a49779e0a84f065ca6be7f3b4747cac', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: 'a148922103c0600dfab2c81183cd02e19eb6c3c8', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'df0a378dcd98c17c2b254ba30657e5746db59fbd', class: `ir-alert-header` }, h("p", { key: '886d4aeaa711ffa2cb334c13fd9feb8c57d86028' }, this.modalTitle))), h("div", { key: 'c9605496828a25b6b897c33063bb832da5fce7d6', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '06df246c657e2ae04525582df07857fef464f2ce' }, this.modalBody)), h("div", { key: 'b89d8df9fbd4a02214aa8d963872533543020c06', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '78174fe2a427ee2d734f68127e6a1acaf410718e', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '4969ab87853a4ce3bed9842096e386f88a1406c2', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '38713eac7a91ac823d1e2724025e4f6f158d5589', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: 'edd25f0336904030770f4c252f6b4ea5d412c6aa', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '0f0801a429dfeb312ddda44b92113edcfe13e9ad', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '9e2d78a9bde72308b6bb60bbded1d01599b2143b', class: `ir-alert-header` }, h("p", { key: '2a172bdb9152c7885d4d85bd71ff5da0e4022f45' }, this.modalTitle))), h("div", { key: '7bb97d93c002d2b565ae4c60843bfa45cd44d726', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '06da6d5f5734e259bdd6d5a7f24d019f72b0861c' }, this.modalBody)), h("div", { key: '4b0f3945392e223eb34fea2244a7ac9e7270a3ce', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '932d87474409d8cb2a91fe7ec2eaf5ed3780c9ed', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '7b0f3d900f4d4dc76fe8f5e5daa7a5dbc47aae76', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: 'da6ba4cbc53e019630213624694076d2e58972b9', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -2991,7 +2991,7 @@ const IrNewBadge = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '9f189011e31b4b133ba0c2d404a3ed46dc614b2c' }, h("span", { key: 'ebbc109416762ff6bed96ac9ab0a96969a0bbe70', class: "new-badge" }, "new")));
+        return (h(Host, { key: '94037787ac3049b436e279471e3ca2e537593b5e' }, h("span", { key: 'd5d157528db97552920eb4a995ef467d2028bcf5', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = IrNewBadgeStyle0;
@@ -3157,13 +3157,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: 'd3e05070511f7d9565c7d0ea20787a4ec376881e', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: 'ff2424d234a0c872ce382e660cbfce35588670b8', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '4dda5af945abb7d7be725d9a63ebb1a34d27ba92', class: `input-group-text 
+        return (h("fieldset", { key: '09eb809900273d33efcdb154156e9043b4f99b21', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '84aa1191520efd1e03e07312103623bd4ce923c6', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '31fb877879dfdfe2ffa937f49636b382ee049336', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '43d35ef849abfb8b7c2535a1f11812b9f070dd02', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '222304956d7cc523cbe6701e75339ca5fc01c1c5', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'a73477f5d1756dd820d62cc1a11c9b9c2bcddc8c' }, h("span", { key: 'd674e93b66b0133ecba71325cf02f383b471edd6', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'de2d2a8ccc071b376942b1c4612ef50894e85f4b', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: '16632f4ce874dde5e474d68aec813688c0468735', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'd95a07d94e2625eb54e4f95bc0801d4ace40e7a3', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '6c8130ba46ce550194c790e80ddef15f5d28ae15' }, h("span", { key: '21146339f1b2010f9adbf5d4e3d9c6d60a6800ce', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'dc01ebe3c9470299e10e9a9def6e7d6bb711bac2', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -3246,9 +3246,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h("div", { key: 'da2b63331d72b128f10066618b7db9d60f128c9e', class: "input-group" }, h("label", { key: '11d325366c41798453463e41e6f2364f562fb325', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '9731b256dee521110debb33030e15f04c74a18b4' }, this.label), h("input", { key: '4acdce02ba375efd93a3a9108f93f2769256b69e', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (h("div", { key: 'd3789442b8015adc86b92224e19a058825534e1b', class: "input-group" }, h("label", { key: 'b1dd34fb71dd815ce6c99c0747c9b821335878ea', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: 'c19a57c97427712138dba63b4ae0a6aba1be0077' }, this.label), h("input", { key: 'e249bbc094dd4771541afc30edc152b18e2eac20', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: 'a501668832eeaadcdd666b5db57fdefffeabce5b', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: '77cbe2d12f4230313c7693dfcf20a6075ee5fe9d', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -3271,11 +3271,11 @@ const IrReallocationDrawer = class {
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: 'f145cdda205e3e2782f320552ddc727a757dd9b6', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '4056db628797b1d88687e73c477b4c39f28005a1', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '4c2871d38395f433a2f84e22299604c54ccf600e', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '01fe89739f41a51661ae4f2c52c35ede87ae23f7', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'cf5b504ed34aabd0e27a339d96635c0a1555d7fc', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '08ee9ca3eb8bf52322fb54a921cd1544c54b7f30', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: '5f18e89feac508978f96b84c61197e0a948b009e', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '06a5c5a4397e91203aa573ed36d80b961621b3d6', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'cf771f7e7ada3eeee41b1fea7e5e38366b80ec19', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'bac0336a72c7cdd5d803b042394113be01af7ae4', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
 };
 IrReallocationDrawer.style = IrReallocationDrawerStyle0;
@@ -3884,7 +3884,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (h(Host, { key: 'f39a77d64e8da09a7415dceb2085c847b37e0dee' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (h(Host, { key: '1cd7bf7daf564ed7767742b237907659a2d9a8e1' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

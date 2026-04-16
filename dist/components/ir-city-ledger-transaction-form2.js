@@ -96,7 +96,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 START_DATE: null,
                 END_DATE: null,
                 LIST_FD_TYPE_CODE,
-                FD_STATUS_CODE: type === ClTxTypeCode.Payment ? FdStatus.Sent : FdStatus.Paid,
+                FD_STATUS_CODE: type === ClTxTypeCode.Payment ? [FdStatus.Sent, FdStatus.Issued] : [FdStatus.Paid, FdStatus.Issued],
             });
             if (type === ClTxTypeCode.CreditNote && this.fiscalDocuments.length === 0 && this.formData.creditNoteMode === 'cancel-invoice') {
                 this.updateFormData({ creditNoteMode: 'goodwill', invoiceId: undefined });
@@ -195,6 +195,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                     documentNumber: result.My_Fd.DOC_NUMBER,
                     agentId: this.agent.id,
                     agentName: result.My_Fd.AGENCY_NAME ?? '',
+                    externalRef: result.My_Fd.EXTERNAL_REF,
                 });
             }
             this.transactionSaved.emit();
@@ -221,7 +222,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     }
     renderCommonFields(withTaxes = true) {
         const minAllowedDate = hooks().subtract(12, 'months').format(DATE_INPUT_FORMAT);
-        return (h(Fragment, null, this.renderTransactionTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: "Date", date: this.formData.date, minDate: minAllowedDate, emitEmptyDate: true, onDateChanged: event => {
+        return (h(Fragment, null, this.renderTransactionTypeField(), h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: dateFieldSchema, value: this.formData.date, valueEvent: "DateChanged" }, h("ir-date-select", { label: "Date", date: this.formData.date, minDate: minAllowedDate, maxDate: hooks().format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: event => {
                 this.updateFormData({
                     date: event.detail.start ? event.detail.start.format(DATE_INPUT_FORMAT) : '',
                 });

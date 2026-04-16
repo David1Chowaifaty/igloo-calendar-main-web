@@ -18,6 +18,8 @@ const FdStatus = {
     Viewed: 'VIEWED',
     Paid: 'PAID',
     Partial: 'PARTIAL',
+    Issued: 'ISSUED',
+    Voided: 'VOIDED',
 };
 
 export { ClTxTypeCode as C, FdStatus as F, FdTypes as a };

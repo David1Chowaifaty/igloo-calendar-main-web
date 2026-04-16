@@ -7,6 +7,7 @@ export class IrClCreditNotePreview {
     agentId;
     agentName;
     documentNumber;
+    externalRef;
     isLoading = false;
     error = null;
     property = null;
@@ -34,7 +35,7 @@ export class IrClCreditNotePreview {
         this.isLoading = true;
         this.error = null;
         try {
-            const { property, transactions } = await this.dataService.fetchData(this.propertyId, this.agentId, this.documentNumber);
+            const { property, transactions } = await this.dataService.fetchData(this.propertyId, this.agentId, this.externalRef);
             this.property = property;
             this.transactions = transactions;
         }
@@ -183,6 +184,25 @@ export class IrClCreditNotePreview {
                 "getter": false,
                 "setter": false,
                 "attribute": "document-number",
+                "reflect": false
+            },
+            "externalRef": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "external-ref",
                 "reflect": false
             }
         };

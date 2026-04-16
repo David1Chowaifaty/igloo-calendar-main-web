@@ -1,7 +1,9 @@
+import { EventEmitter } from '../../stencil-public-runtime';
 import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
 import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
+import { ClFiscalDocumentPreviewRequest } from './ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types';
 export type ClPanels = 'folio' | 'fiscal-documents' | 'create-statement';
 export declare class IrCityLedger {
     el: HTMLElement;
@@ -23,6 +25,7 @@ export declare class IrCityLedger {
     statementTo: Moment | null;
     showStatementPreview: boolean;
     folioSummary: FolioSummary | null;
+    clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     private panels;
     private tokenService;
     private agentsService;

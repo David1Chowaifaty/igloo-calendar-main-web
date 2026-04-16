@@ -34,4 +34,6 @@ export declare const FdStatus: {
     readonly Viewed: "VIEWED";
     readonly Paid: "PAID";
     readonly Partial: "PARTIAL";
+    readonly Issued: "ISSUED";
+    readonly Voided: "VOIDED";
 };
