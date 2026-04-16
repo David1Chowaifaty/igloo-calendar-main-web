@@ -1,15 +1,15 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, g as getElement } from './index-7e96440e.js';
-import { V as VariationService, B as BookingService, b as booking_store, n as updateRoomGuest, u as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, o as updateRoomParams } from './booking.service-28d7df85.js';
+import { V as VariationService, B as BookingService, b as booking_store, n as updateRoomGuest, u as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, o as updateRoomParams } from './booking.service-d0257568.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-b1f645da.js';
-import { f as formatAmount } from './utils-2b5db733.js';
+import { f as formatAmount } from './utils-10b07e46.js';
 import { G as GuestCredentials } from './types-f16787f2.js';
 import { z } from './index-87419685.js';
 import { v as v4 } from './v4-964634d6.js';
 import { m as moment$1 } from './moment-with-locales-ca51a4f5.js';
 import { c as commonjsGlobal, a as commonjsRequire } from './_commonjsHelpers-c9e3b764.js';
 import { C as ClickOutside } from './ClickOutside-e1255f85.js';
-import { c as calculateDaysBetweenDates } from './booking-bf2d7cb1.js';
+import { c as calculateDaysBetweenDates } from './booking-39d48b06.js';
 import { h as hooks } from './moment-ab846cee.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';

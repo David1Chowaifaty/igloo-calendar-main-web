@@ -1,14 +1,14 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment } from './index-7e96440e.js';
 import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
 import { v as v4 } from './v4-964634d6.js';
-import { B as BookingService } from './booking.service-28d7df85.js';
-import { f as formatAmount } from './utils-2b5db733.js';
+import { B as BookingService } from './booking.service-d0257568.js';
+import { f as formatAmount } from './utils-10b07e46.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { _ as _formatTime } from './functions-196622a8.js';
 import './index-f100e9d2.js';
 import './index-87419685.js';
 import './axios-aa1335b8.js';
-import './booking-bf2d7cb1.js';
+import './booking-39d48b06.js';
 import './locales.store-cb784e95.js';
 import './calendar-data-b1f645da.js';
 import './type-aa154c49.js';

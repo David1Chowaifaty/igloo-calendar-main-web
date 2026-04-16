@@ -156,7 +156,7 @@ export const ExtraServiceSchema = z.object({
     booking_system_id: z.number().optional(),
     cost: z.coerce.number().nullable(),
     currency_id: z.number().min(1),
-    description: z.string().min(1),
+    description: z.string().optional(),
     end_date: z.string().nullable().optional().default(null),
     start_date: z.string().nonempty(),
     price: z.coerce.number().min(0.01),
