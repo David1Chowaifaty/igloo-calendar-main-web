@@ -31,13 +31,13 @@ export declare class IrRoomNights {
     private bookingService;
     componentWillLoad(): void;
     isButtonDisabled(): boolean;
-    init(): Promise<void>;
+    private init;
     private handleInput;
-    fetchBookingAvailability(from_date: string, to_date: string, rate_plan_id: number): Promise<number>;
+    private fetchBookingAvailability;
     private renderInputField;
     private renderReadOnlyField;
     private renderRateFields;
-    renderDates(): any;
-    handleRoomConfirmation(): Promise<void>;
+    private renderDates;
+    private handleRoomConfirmation;
     render(): any;
 }
