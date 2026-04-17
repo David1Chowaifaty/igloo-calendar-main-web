@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AllocateCLCreditParamsSchema, CLAgencyContextSchema, GetCLAgingReportParamsSchema, GetCLStatementParamsSchema, IssueManualCLTxParamsSchema, SyncBookingToCityLedgerParamsSchema, ToggleCLTxHoldParamsSchema, TransferCLTransactionsParamsSchema, IssueFiscalDocumentParamsSchema, VoidInvoiceByCreditNoteParamsSchema, GetFiscalDocumentsParamsSchema, IssueInvoiceFromDraftParamsSchema, DeleteDraftFiscalDocumentParamsSchema, FetchCLParamsSchema, } from "./types";
+import { downloadFile } from "../../utils/utils";
 export * from './types';
 export class CityLedgerService {
     async fetchCL(params) {
@@ -7,6 +8,9 @@ export class CityLedgerService {
         const { data } = await axios.post('/Fetch_CL', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
+        if (payload.is_export_to_excel && data.My_Params_Fetch_CL.Link_excel) {
+            downloadFile(data.My_Params_Fetch_CL.Link_excel);
+        }
         return data.My_Result;
     }
     async toggleCLTxHold(params) {

@@ -4,14 +4,28 @@ export class IrClInvoiceForm {
     fromDate = '';
     toDate = '';
     scope = 'UNBILLED';
+    dateError = false;
+    onDateChange() {
+        if (this.fromDate && this.toDate) {
+            this.dateError = false;
+        }
+    }
+    async validate() {
+        if (!this.fromDate || !this.toDate) {
+            this.dateError = true;
+            return false;
+        }
+        this.dateError = false;
+        return true;
+    }
     async getValues() {
         return { fromDate: this.fromDate, toDate: this.toDate, scope: this.scope, is_checked_out_only: this.scope === 'UNBILLED_CHECKED_OUT' };
     }
     render() {
-        return (h(Host, { key: '8ee4381e580e29b50b5d0e1998757e1e0db9b268' }, h("wa-callout", { key: 'b5e9a53da52acb72fc753bed14447492ac17865d' }, h("wa-icon", { key: '630f190044a2cb95117233e0f775cf35d78816e4', slot: "icon", name: "circle-info" }), h("div", { key: '7a7887b0d1e389a7a0c018cfcbe0d150fab74ebc', class: "invoice-form__scope-text" }, h("span", { key: 'd3cc434465ea74e1cd11b8b0364ceb2719678dcf', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: '95874a71d4d455bdc058323a2273caff8dc88479', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges and adjustments."))), h("div", { key: '40c545860f215a68ab1bc6b947de1aeef8b5dcc9', class: "invoice-form__field" }, h("ir-date-range-filter", { key: '5d544377d447020572b263719665a4e1b1eff5df', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+        return (h(Host, { key: '832c67ccd657160fc21cdd46218fb0d1ccf5485e' }, h("wa-callout", { key: '931c5bb317816bfc17f1136a2889d480b5b6c5e2' }, h("wa-icon", { key: '086dfc3ca1970068a525b34a91ac96b594a5a22b', slot: "icon", name: "circle-info" }), h("div", { key: 'c2aaeade7c3fcc25bb7ee16af20d5244049f5ec8', class: "invoice-form__scope-text" }, h("span", { key: '4747d2644e7384d3ded12d2760ca8333b13a61f3', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: 'faaf13ff220463fbe4d7021fe90960b5d0772ad0', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges and adjustments."))), h("div", { key: '2b956178f16f86b26e404099f161e01d86b02f79', class: `invoice-form__field${this.dateError ? ' invoice-form__date-error' : ''}` }, h("ir-date-range-filter", { key: '63dc126091c2b6ce20a6868d09f5c0f28165dc29', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? '';
                 this.toDate = e.detail.to ?? '';
-            } })), h("div", { key: '707d8ee906be29aa7b20764ce90bf12f33ecc698', class: "invoice-form__field" }, h("wa-checkbox", { key: '58e4137cf6042a2a7cea6bad9c4fea0bb285c177', checked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
+            } })), h("div", { key: '0739b43f847c647f48f0b0bdfef2e4eb2b077936', class: "invoice-form__field" }, h("wa-checkbox", { key: 'ea92a900bf6705828c20eec94cef17d46332ce78', checked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
                 this.scope = e.target.checked ? 'UNBILLED_CHECKED_OUT' : 'UNBILLED';
             } }, "Include checked-out bookings only"))));
     }
@@ -31,11 +45,29 @@ export class IrClInvoiceForm {
         return {
             "fromDate": {},
             "toDate": {},
-            "scope": {}
+            "scope": {},
+            "dateError": {}
         };
     }
     static get methods() {
         return {
+            "validate": {
+                "complexType": {
+                    "signature": "() => Promise<boolean>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<boolean>"
+                },
+                "docs": {
+                    "text": "",
+                    "tags": []
+                }
+            },
             "getValues": {
                 "complexType": {
                     "signature": "() => Promise<CreateInvoiceFormValues>",
@@ -59,6 +91,15 @@ export class IrClInvoiceForm {
                 }
             }
         };
+    }
+    static get watchers() {
+        return [{
+                "propName": "fromDate",
+                "methodName": "onDateChange"
+            }, {
+                "propName": "toDate",
+                "methodName": "onDateChange"
+            }];
     }
 }
 //# sourceMappingURL=ir-cl-invoice-form.js.map

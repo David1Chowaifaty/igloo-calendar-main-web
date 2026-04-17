@@ -1,6 +1,7 @@
 import { a as axios } from './axios.js';
 import { h as hooks } from './moment.js';
 import { s as stringType, e as enumType, o as objectType, n as numberType, b as booleanType, u as unionType, d as nullType, f as anyType, a as arrayType } from './index2.js';
+import { m as downloadFile } from './utils.js';
 
 // ---------------------------------------------------------------------------
 // Shared / Base types
@@ -108,6 +109,7 @@ const FetchCLParamsSchema = objectType({
     IS_LOCKED: booleanType().optional().nullable().default(null),
     IS_HOLD: booleanType().optional().nullable().default(null),
     IS_CHECKED_OUT_ONLY: booleanType().optional().nullable().default(null),
+    is_export_to_excel: booleanType().optional().nullable().default(null),
 });
 objectType({
     My_Cl_tx: arrayType(ClTxSchema),
@@ -202,6 +204,9 @@ class CityLedgerService {
         const { data } = await axios.post('/Fetch_CL', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
+        if (payload.is_export_to_excel && data.My_Params_Fetch_CL.Link_excel) {
+            downloadFile(data.My_Params_Fetch_CL.Link_excel);
+        }
         return data.My_Result;
     }
     async toggleCLTxHold(params) {

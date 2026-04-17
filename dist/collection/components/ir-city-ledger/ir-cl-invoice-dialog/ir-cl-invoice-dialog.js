@@ -43,6 +43,11 @@ export class IrClInvoiceDialog {
                 this.dialogRef.closeModal();
             }
             else {
+                const isValid = await this.formRef.validate();
+                if (!isValid) {
+                    this.isLoading = false;
+                    return;
+                }
                 const { fromDate, toDate, is_checked_out_only } = await this.formRef.getValues();
                 const clResult = await this.cityLedgerService.fetchCL({
                     AGENCY_ID: this.agentId,
@@ -90,7 +95,7 @@ export class IrClInvoiceDialog {
         }
     }
     render() {
-        return (h(Host, { key: '43008dbc65b2b101fc589760da09b9444be07bf5' }, h("ir-dialog", { key: '64282f5b60b1835846c7cb7fbef05339bb9d5023', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '49388183ea084970392acad4309fa9064e921a83', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'be008a5aad3b5a8e3b90af82cd808b51ada2be64', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '1871c35f47b859ca6841fd49fb1bd2ffa64c3024', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'd432b235c3ddbb8c63750c4dc73e1547ccfb7ada', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '127d02bf1cdb0640361406be0a34ba4f770b1f32', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '63f40f200c2eab9de8ebeed1eec6bbaecd90d838', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '14cb8c99bfa0873f612bc3a883a563a1bb66b9f7', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: '60ecd4e96bdcafa4819cdc06b0aa277388d9314e' }, h("ir-dialog", { key: 'fac26c3a284f0647ce757778b77ba96bf9833b09', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '87bc743f162e173786ee22f4bf84ca601b7ad560', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '6a8f590ff8eb4546b600a48be3e72749eb6fdc54', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '9a53493e0c36dd4eb2b7609718ba4e59aaba1d46', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '3d23e4664fdf2e2223c53769c0ab43b0542a96ef', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '41296f65d9071bc201033ddb7470c4500e11b5b5', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '002d746fed112877e839c381a749eb1c5df056e7', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '51438c5374d0aab369cc43eb8ae625a70cad29f4', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }

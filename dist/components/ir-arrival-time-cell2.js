@@ -13,7 +13,7 @@ const IrArrivalTimeCell = /*@__PURE__*/ proxyCustomElement(class IrArrivalTimeCe
     arrival;
     arrivalTimeLabel;
     render() {
-        return (h(Host, { key: '1a003be6bae2b22c71aab54bf514f72f27ba84a5' }, h("div", { key: '7e36abf3f0071275624c11a7c5f78b94ba44d3ff', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: 'b4ed11d5d0ac0eee23ca076fbd0ae132c932283d', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: 'e3b8453fcf86b0ba371b1df56d2ba3937b9cf33c' }, this.arrival?.description))));
+        return (h(Host, { key: 'd3b300ba17cf78c4089303fe2336d65a2dd25e82' }, h("div", { key: '6e2ab82214420303bd830381936de5a71ec45440', class: "arrival-time-cell__container" }, this.arrivalTimeLabel && h("span", { key: '53e6b202683b5d2a06ccedf9807b53c775512dd5', class: "arrival-time-cell__label" }, this.arrivalTimeLabel, ": "), h("p", { key: '57739ac4e65cdb384f800cde7bb81472bc9ef65b' }, this.arrival?.description))));
     }
     static get style() { return IrArrivalTimeCellStyle0; }
 }, [1, "ir-arrival-time-cell", {

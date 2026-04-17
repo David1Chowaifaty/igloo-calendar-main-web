@@ -45,14 +45,14 @@ const IrUserFormPanelDrawer = /*@__PURE__*/ proxyCustomElement(class IrUserFormP
     closeSideBar;
     render() {
         const formId = `user-form-${this.user?.id}`;
-        return (h("ir-drawer", { key: '774f76f2ef6482d62eb58b49f7ee357e4180b66f', onDrawerHide: e => {
+        return (h("ir-drawer", { key: '38d2ab4cc3138ceea5e09ae6b9e8b175c621df14', onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     return;
                 }
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? this.user.username : 'Create New User', open: this.open }, this.open && (h("ir-user-form-panel", { key: '21887acbbb1e618959d5f12aac5b7edd317d643c', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), h("div", { key: '91f2ab69b6ea3443a5af2166c0f4056cb71115ae', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'f8b0d64e5905a522079e5e59910591e279cb7a97', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "medium" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: '5e8cbcdbc64ecb6762d8f6a219b8375e669c4ff4', form: formId, loading: isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "medium", class: "flex-fill", type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save))));
+            }, label: this.isEdit ? this.user.username : 'Create New User', open: this.open }, this.open && (h("ir-user-form-panel", { key: 'c9fcfe341b5531fe2d9c613336d2df686a6b7b46', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), h("div", { key: '112fe96ee511b1caca7bb1f261d93f1ec41ee9a1', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '4946a5b920ff2c4d267a5ba0bee8f7de616fa9a0', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "medium" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: 'bfa4f2333f12d8a1c983650c0b86d4b459e853d5', form: formId, loading: isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "medium", class: "flex-fill", type: "submit", variant: "brand" }, locales?.entries?.Lcz_Save))));
     }
     static get style() { return IrUserFormPanelDrawerStyle0; }
 }, [2, "ir-user-form-panel-drawer", {

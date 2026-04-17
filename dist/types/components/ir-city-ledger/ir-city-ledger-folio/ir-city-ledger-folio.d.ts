@@ -1,6 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
-import { type FolioFilters, type FolioRow, type FolioSummary } from './types';
+import { type FolioSummary } from './types';
 import type { ICurrency } from "../../../models/property";
 import { Agent } from "../../../services/agents/type";
 export declare class IrCityLedgerFolio {
@@ -9,20 +9,22 @@ export declare class IrCityLedgerFolio {
     taxOptions: TaxOption[];
     serviceCategoryOptions: ServiceCategoryOption[];
     currencies: ICurrency[];
-    isTransactionOpen: boolean;
-    filters: FolioFilters;
-    data: FolioRow[];
-    isLoading: boolean;
-    hasFetched: boolean;
-    startingBalance: number;
-    closingBalance: number;
-    totalCount: number;
-    pageIndex: number;
-    pageSize: number;
+    private isTransactionOpen;
+    private filters;
+    private data;
+    private isLoading;
+    private hasFetched;
+    private startingBalance;
+    private closingBalance;
+    private totalCount;
+    private pageIndex;
+    private pageSize;
+    private isFetchingExcel;
     folioSummaryUpdate: EventEmitter<FolioSummary>;
     private cityLedgerService;
     handleAgentIdChange(newValue: number | null, oldValue: number | null): void;
     private clearData;
+    private fetchCl;
     private fetchFolioData;
     render(): any;
 }

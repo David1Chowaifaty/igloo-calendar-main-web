@@ -394,7 +394,9 @@ export declare const FetchCLParamsSchema: z.ZodObject<{
     IS_LOCKED: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodBoolean>>>;
     IS_HOLD: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodBoolean>>>;
     IS_CHECKED_OUT_ONLY: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodBoolean>>>;
+    is_export_to_excel: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodBoolean>>>;
 }, "strip", z.ZodTypeAny, {
+    is_export_to_excel?: boolean;
     AGENCY_ID?: number;
     IS_HOLD?: boolean;
     IS_LOCKED?: boolean;
@@ -405,6 +407,7 @@ export declare const FetchCLParamsSchema: z.ZodObject<{
     SEARCH_QUERY?: string;
     IS_CHECKED_OUT_ONLY?: boolean;
 }, {
+    is_export_to_excel?: boolean;
     AGENCY_ID?: number;
     IS_HOLD?: boolean;
     IS_LOCKED?: boolean;

@@ -9,6 +9,9 @@ export declare class IrClInvoiceForm {
     fromDate: string;
     toDate: string;
     scope: InvoiceScope;
+    dateError: boolean;
+    onDateChange(): void;
+    validate(): Promise<boolean>;
     getValues(): Promise<CreateInvoiceFormValues>;
     render(): any;
 }

@@ -1445,6 +1445,7 @@ export namespace Components {
         "taxOptions": TaxOption[];
     }
     interface IrCityLedgerFolioFilters {
+        "isExporting": boolean;
     }
     interface IrCityLedgerFolioTable {
         "agentId": number | null;
@@ -1597,6 +1598,7 @@ export namespace Components {
     }
     interface IrClInvoiceForm {
         "getValues": () => Promise<CreateInvoiceFormValues>;
+        "validate": () => Promise<boolean>;
     }
     interface IrClInvoiceNetPriceCell {
         "amount": number;
@@ -7054,6 +7056,7 @@ declare global {
         "filtersChange": FolioFilters;
         "addEntry": void;
         "applyFilters": FolioFilters;
+        "exportFolio": void;
     }
     interface HTMLIrCityLedgerFolioFiltersElement extends Components.IrCityLedgerFolioFilters, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFolioFiltersElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFolioFiltersElement, ev: IrCityLedgerFolioFiltersCustomEvent<HTMLIrCityLedgerFolioFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11814,8 +11817,10 @@ declare namespace LocalJSX {
         "taxOptions"?: TaxOption[];
     }
     interface IrCityLedgerFolioFilters {
+        "isExporting"?: boolean;
         "onAddEntry"?: (event: IrCityLedgerFolioFiltersCustomEvent<void>) => void;
         "onApplyFilters"?: (event: IrCityLedgerFolioFiltersCustomEvent<FolioFilters>) => void;
+        "onExportFolio"?: (event: IrCityLedgerFolioFiltersCustomEvent<void>) => void;
         "onFiltersChange"?: (event: IrCityLedgerFolioFiltersCustomEvent<FolioFilters>) => void;
     }
     interface IrCityLedgerFolioTable {

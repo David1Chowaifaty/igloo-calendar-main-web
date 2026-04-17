@@ -50,6 +50,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     totalCount = 0;
     pageIndex = 0;
     pageSize = 25;
+    isFetchingExcel = false;
     folioSummaryUpdate;
     cityLedgerService = new CityLedgerService();
     handleAgentIdChange(newValue, oldValue) {
@@ -87,15 +88,14 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     //   slots.sort((a, b) => a.anchorDate.localeCompare(b.anchorDate));
     //   return slots.flatMap(slot => slot.rows);
     // }
-    async fetchFolioData() {
-        if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
-            return;
-        const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
-        const effectiveTo = this.filters.toDate ? this.filters.toDate : hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
+    async fetchCl(withExport = false) {
         try {
-            this.isLoading = true;
+            this.isFetchingExcel = withExport;
+            if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
+                return;
+            const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
+            const effectiveTo = this.filters.toDate ? this.filters.toDate : hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
             const startRow = this.pageIndex * this.pageSize;
-            const currencyId = calendar_data?.property?.currency?.id;
             const statusParams = (() => {
                 switch (this.filters?.status) {
                     case 'billed':
@@ -108,16 +108,33 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                         return { IS_LOCKED: null, IS_HOLD: null };
                 }
             })();
+            return await this.cityLedgerService.fetchCL({
+                AGENCY_ID: this.agent?.id,
+                START_DATE: effectiveFrom,
+                END_DATE: effectiveTo,
+                START_ROW: startRow,
+                END_ROW: startRow + this.pageSize - 1,
+                SEARCH_QUERY: this.filters.search || null,
+                ...statusParams,
+                is_export_to_excel: withExport,
+            });
+        }
+        catch (error) {
+        }
+        finally {
+            this.isFetchingExcel = false;
+        }
+    }
+    async fetchFolioData() {
+        if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
+            return;
+        const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
+        const effectiveTo = this.filters.toDate ? this.filters.toDate : hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
+        try {
+            this.isLoading = true;
+            const currencyId = calendar_data?.property?.currency?.id;
             const [result, statement] = await Promise.all([
-                this.cityLedgerService.fetchCL({
-                    AGENCY_ID: this.agent?.id,
-                    START_DATE: effectiveFrom,
-                    END_DATE: effectiveTo,
-                    START_ROW: startRow,
-                    END_ROW: startRow + this.pageSize - 1,
-                    SEARCH_QUERY: this.filters.search || null,
-                    ...statusParams,
-                }),
+                this.fetchCl(),
                 this.cityLedgerService.getCLStatement({
                     AGENCY_ID: this.agent?.id,
                     CURRENCY_ID: currencyId,
@@ -160,18 +177,20 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         }
     }
     render() {
-        return (h(Host, { key: '2985d9f87e79bf76d77636b96c1adbf5b4f45e4f' }, h("ir-city-ledger-folio-filters", { key: 'c22408746ee376558914be190bf1340fd0e3725d', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '857337fb3ab7a67cf240671fb7d1f3b48c952c0a' }, h("ir-city-ledger-folio-filters", { key: 'a981dcc1331328fd03170ec42adc454d80a53c15', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onAddEntry: () => (this.isTransactionOpen = true) }), h("ir-city-ledger-folio-table", { key: 'ed42c2b3caa14abd4cb048051a26c4ed629c7998', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            }, onAddEntry: () => (this.isTransactionOpen = true), isExporting: this.isFetchingExcel, onExportFolio: () => {
+                this.fetchCl(true);
+            } }), h("ir-city-ledger-folio-table", { key: '82a6bf7e4605e2b3b4dc4267e9795d56cb097907', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
             }, onFetchRequested: async () => {
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'c82aeebc83a5efcfb7e6397a511183be981bf24d', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'f22c051c60ba802872ac699faff40991ffe695cc', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
     }
@@ -194,7 +213,8 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         "closingBalance": [32],
         "totalCount": [32],
         "pageIndex": [32],
-        "pageSize": [32]
+        "pageSize": [32],
+        "isFetchingExcel": [32]
     }, undefined, {
         "agentId": ["handleAgentIdChange"]
     }]);
