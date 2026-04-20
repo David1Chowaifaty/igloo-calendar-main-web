@@ -13,7 +13,7 @@ const booking_service = require('./booking.service-dab68001.js');
 const property_service = require('./property.service-dfa42519.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const system_service = require('./system.service-101141de.js');
-const utils = require('./utils-e8c772f6.js');
+const utils = require('./utils-dc6ee341.js');
 const debounce = require('./debounce-1b63fe86.js');
 const utils$1 = require('./utils-592483b3.js');
 const useTable = require('./useTable-206847ef.js');
@@ -1491,7 +1491,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
                     const row = info.row.original;
                     const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
                     // const isPaid = row.FD_STATUS_CODE === 'INV';
-                    // const isInvoice = row.FD_TYPE_CODE === FD_TYPES.Invoice;
+                    const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
                     return (index.h("wa-dropdown", { "onwa-select": (e) => {
                             this.handleAction(e.detail.item.value, row);
                         } }, index.h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, index.h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
@@ -1509,7 +1509,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
                             // !isPaid && isInvoice && <wa-dropdown-item value="apply-payment">Apply Payment</wa-dropdown-item>,
                             // !isPaid && <wa-dropdown-item value="mark-paid">Mark as Paid</wa-dropdown-item>,
                             // <wa-divider></wa-divider>,
-                            index.h("wa-dropdown-item", { value: "void" }, index.h("span", { class: "fiscal-table__action-danger" }, "Void")),
+                            isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (index.h("wa-dropdown-item", { value: "void" }, index.h("span", { class: "fiscal-table__action-danger" }, "Void with credit note"))),
                         ]));
                 },
                 enableSorting: false,

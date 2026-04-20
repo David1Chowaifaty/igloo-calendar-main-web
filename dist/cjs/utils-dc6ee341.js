@@ -112,7 +112,7 @@ const FetchCLParamsSchema = index.objectType({
     IS_LOCKED: index.booleanType().optional().nullable().default(null),
     IS_HOLD: index.booleanType().optional().nullable().default(null),
     IS_CHECKED_OUT_ONLY: index.booleanType().optional().nullable().default(null),
-    is_export_to_excel: index.booleanType().optional().nullable().default(null),
+    is_export_to_excel: index.booleanType().optional().nullable().default(false),
 });
 index.objectType({
     My_Cl_tx: index.arrayType(ClTxSchema),
@@ -401,4 +401,4 @@ exports.CityLedgerService = CityLedgerService;
 exports.buildPaymentTypes = buildPaymentTypes;
 exports.mapClTxToFolioRow = mapClTxToFolioRow;
 
-//# sourceMappingURL=utils-e8c772f6.js.map
+//# sourceMappingURL=utils-dc6ee341.js.map

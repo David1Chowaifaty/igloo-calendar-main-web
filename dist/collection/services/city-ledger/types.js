@@ -106,7 +106,7 @@ export const FetchCLParamsSchema = z.object({
     IS_LOCKED: z.boolean().optional().nullable().default(null),
     IS_HOLD: z.boolean().optional().nullable().default(null),
     IS_CHECKED_OUT_ONLY: z.boolean().optional().nullable().default(null),
-    is_export_to_excel: z.boolean().optional().nullable().default(null),
+    is_export_to_excel: z.boolean().optional().nullable().default(false),
 });
 export const FetchCLResultSchema = z.object({
     My_Cl_tx: z.array(ClTxSchema),

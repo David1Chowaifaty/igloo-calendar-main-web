@@ -9,7 +9,7 @@ import { B as BookingService } from './booking.service-550f8a44.js';
 import { P as PropertyService } from './property.service-eec79fb8.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { S as SystemService } from './system.service-4455d4dc.js';
-import { C as CityLedgerService, m as mapClTxToFolioRow, b as buildPaymentTypes } from './utils-b3bba575.js';
+import { C as CityLedgerService, m as mapClTxToFolioRow, b as buildPaymentTypes } from './utils-c917bf00.js';
 import { D as Debounce } from './debounce-542065c2.js';
 import { f as formatAmount, g as getEntryValue } from './utils-dce64dc4.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable-b8c70fc7.js';
@@ -1487,7 +1487,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
                     const row = info.row.original;
                     const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
                     // const isPaid = row.FD_STATUS_CODE === 'INV';
-                    // const isInvoice = row.FD_TYPE_CODE === FD_TYPES.Invoice;
+                    const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
                     return (h("wa-dropdown", { "onwa-select": (e) => {
                             this.handleAction(e.detail.item.value, row);
                         } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
@@ -1505,7 +1505,7 @@ const IrCityLedgerFiscalDocumentsTable = class {
                             // !isPaid && isInvoice && <wa-dropdown-item value="apply-payment">Apply Payment</wa-dropdown-item>,
                             // !isPaid && <wa-dropdown-item value="mark-paid">Mark as Paid</wa-dropdown-item>,
                             // <wa-divider></wa-divider>,
-                            h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void")),
+                            isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit note"))),
                         ]));
                 },
                 enableSorting: false,
