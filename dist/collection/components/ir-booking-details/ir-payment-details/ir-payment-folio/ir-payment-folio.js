@@ -171,7 +171,7 @@ export class IrPaymentFolio {
                 "mutable": false,
                 "complexType": {
                     "original": "Payment",
-                    "resolved": "{ date: string; id: number; reference: string; system_id?: number; amount: number; currency: ICurrency; designation: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; }",
+                    "resolved": "{ date: string; id: number; reference: string; system_id?: number; amount: number; currency: ICurrency; designation: string; book_nbr?: string; payment_gateway_code?: number; payment_type?: PaymentType; payment_method?: PaymentType; receipt_nbr?: string; is_receipt_issued?: boolean; is_city_ledger?: boolean; }",
                     "references": {
                         "Payment": {
                             "location": "import",
