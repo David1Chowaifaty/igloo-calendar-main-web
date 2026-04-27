@@ -1,25 +1,15 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { a as FdTypes } from './enums.js';
 import { C as CityLedgerService } from './index6.js';
-import { d as defineCustomElement$j } from './ir-cl-credit-note-preview2.js';
-import { d as defineCustomElement$i } from './ir-cl-debit-note-preview2.js';
-import { d as defineCustomElement$h } from './ir-cl-document-header2.js';
-import { d as defineCustomElement$g } from './ir-cl-fiscal-document-table2.js';
-import { d as defineCustomElement$f } from './ir-cl-invoice-city-tax-amount-cell2.js';
-import { d as defineCustomElement$e } from './ir-cl-invoice-city-tax-pct-cell2.js';
-import { d as defineCustomElement$d } from './ir-cl-invoice-date-cell2.js';
-import { d as defineCustomElement$c } from './ir-cl-invoice-description-cell2.js';
-import { d as defineCustomElement$b } from './ir-cl-invoice-net-price-cell2.js';
-import { d as defineCustomElement$a } from './ir-cl-invoice-preview2.js';
-import { d as defineCustomElement$9 } from './ir-cl-invoice-total-cell2.js';
-import { d as defineCustomElement$8 } from './ir-cl-invoice-vat-amount-cell2.js';
-import { d as defineCustomElement$7 } from './ir-cl-invoice-vat-pct-cell2.js';
-import { d as defineCustomElement$6 } from './ir-cl-receipt-preview2.js';
-import { d as defineCustomElement$5 } from './ir-custom-button2.js';
-import { d as defineCustomElement$4 } from './ir-dialog2.js';
-import { d as defineCustomElement$3 } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
+import { d as defineCustomElement$5 } from './ir-dialog2.js';
+import { d as defineCustomElement$4 } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$3 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$2 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
+
+const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}";
+const IrClFiscalDocumentPreviewStyle0 = irClFiscalDocumentPreviewCss;
 
 const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFiscalDocumentPreview extends HTMLElement {
     constructor() {
@@ -32,10 +22,17 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
     request = null;
     showConvertDialog = false;
     isConverting = false;
+    isFetching = false;
     documentConverted;
     cityLedgerService = new CityLedgerService();
-    handlePreviewRequest(event) {
-        this.request = { ...event.detail };
+    async handlePreviewRequest(event) {
+        this.request = { ...event.detail, url: null };
+        this.isFetching = true;
+        const url = await this.cityLedgerService.printClFiscalDocument({
+            doc_number: this.request.documentNumber,
+        });
+        this.request = { ...this.request, url };
+        this.isFetching = false;
         // if (event.detail.autoPrint) {
         //   window.print();
         // }
@@ -43,21 +40,22 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
     getDialogLabel() {
         if (!this.request)
             return 'Preview';
-        return `${this.getTypeLabel(this.request.fdTypeCode)} — ${this.request.documentNumber}`;
+        return `${this.getTypeLabel(this.request.fdTypeCode)} #${this.request.documentNumber}`;
     }
     getTypeLabel(fdTypeCode) {
         switch (fdTypeCode) {
             case FdTypes.Invoice:
+                return 'Invoice';
             case FdTypes.Draft:
-                return 'Invoice Preview';
+                return 'Draft Invoice';
             case FdTypes.CreditNote:
-                return 'Credit Note Preview';
+                return 'Credit Note';
             case FdTypes.DebitNote:
-                return 'Debit Note Preview';
+                return 'Debit Note';
             case FdTypes.Receipt:
-                return 'Receipt Preview';
+                return 'Receipt';
             default:
-                return 'Document Preview';
+                return 'Document';
         }
     }
     handleClPreviewReady(event) {
@@ -65,6 +63,19 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
         if (this.request?.autoPrint) {
             window.print();
         }
+    }
+    async handleDownload() {
+        if (!this.request?.url)
+            return;
+        const blob = await fetch(this.request.url).then(r => r.blob());
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = `${this.request.documentNumber}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(objectUrl);
     }
     async handleConvertConfirm() {
         if (!this.request)
@@ -83,134 +94,75 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
     renderPreview() {
         if (!this.request)
             return null;
-        const { fdTypeCode, documentNumber, agentId, agentName, externalRef } = this.request;
-        const commonProps = {
-            ticket: this.ticket,
-            propertyId: this.propertyId,
-            agentId,
-            agentName,
-            documentNumber,
-            externalRef,
-        };
-        switch (fdTypeCode) {
-            case FdTypes.Invoice:
-            case FdTypes.Draft:
-                return h("ir-cl-invoice-preview", { ...commonProps });
-            case FdTypes.CreditNote:
-                return h("ir-cl-credit-note-preview", { ...commonProps });
-            case FdTypes.DebitNote:
-                return h("ir-cl-debit-note-preview", { ...commonProps });
-            case FdTypes.Receipt:
-                return h("ir-cl-receipt-preview", { ...commonProps });
-            default:
-                return h("ir-cl-invoice-preview", { ...commonProps });
+        // const { fdTypeCode, documentNumber, agentId, agentName, externalRef } = this.request;
+        // const commonProps = {
+        //   ticket: this.ticket,
+        //   propertyId: this.propertyId,
+        //   agentId,
+        //   agentName,
+        //   documentNumber,
+        //   externalRef,
+        // };
+        // switch (fdTypeCode) {
+        //   case FdTypes.Invoice:
+        //   case FdTypes.Draft:
+        //     return <ir-cl-invoice-preview {...commonProps}></ir-cl-invoice-preview>;
+        //   case FdTypes.CreditNote:
+        //     return <ir-cl-credit-note-preview {...commonProps}></ir-cl-credit-note-preview>;
+        //   case FdTypes.DebitNote:
+        //     return <ir-cl-debit-note-preview {...commonProps}></ir-cl-debit-note-preview>;
+        //   case FdTypes.Receipt:
+        //     return <ir-cl-receipt-preview {...commonProps}></ir-cl-receipt-preview>;
+        //   default:
+        //     return <ir-cl-invoice-preview {...commonProps}></ir-cl-invoice-preview>;
+        // }
+        if (this.isFetching) {
+            return (h("div", { class: "preview-loading" }, h("ir-spinner", null)));
         }
+        return (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.request?.url })));
     }
     render() {
-        return (h(Host, { key: 'd4d66f02222c6a28cd5ecc741577cf40ba094e5d' }, h("ir-preview-screen-dialog", { key: '8467d618b8ed09a4f5153db93b4cd59cd0c30eec', open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: '2d4f898843a19722a513b3eaca82a46503d6c51a' }, h("ir-preview-screen-dialog", { key: '51461eac53c665fa73ccabf35240c39c3aa4cdac', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'bed4fd4f34d4983105546ff49d87fcd2d668cb71', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent", slot: "header-actions" }, "Convert to invoice")), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '7181ad16f631900155493f21bf4bf74293dc4639', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, h("div", { key: '4cd7a5d2d8ef6164e223e70505e3edd6b5e14cb8', slot: "header-actions" }, this.request?.url && (h("ir-custom-button", { key: 'fb8e7d05ac87d1ee867bee00d0ced1861da6d70c', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '520a3e7263427e9dbddc66108fc948179bab6af9', name: "download", label: "Download PDF" }))), this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'e9b6bbf9b780428464ca0815b587359944149ee0', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '3c24f83ac90be90c0456202613ea5d04772bea02', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
+    static get style() { return IrClFiscalDocumentPreviewStyle0; }
 }, [0, "ir-cl-fiscal-document-preview", {
         "ticket": [1],
         "propertyId": [2, "property-id"],
         "request": [32],
         "showConvertDialog": [32],
-        "isConverting": [32]
+        "isConverting": [32],
+        "isFetching": [32]
     }, [[8, "clFiscalDocumentPreview", "handlePreviewRequest"], [0, "clPreviewReady", "handleClPreviewReady"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-cl-fiscal-document-preview", "ir-cl-credit-note-preview", "ir-cl-debit-note-preview", "ir-cl-document-header", "ir-cl-fiscal-document-table", "ir-cl-invoice-city-tax-amount-cell", "ir-cl-invoice-city-tax-pct-cell", "ir-cl-invoice-date-cell", "ir-cl-invoice-description-cell", "ir-cl-invoice-net-price-cell", "ir-cl-invoice-preview", "ir-cl-invoice-total-cell", "ir-cl-invoice-vat-amount-cell", "ir-cl-invoice-vat-pct-cell", "ir-cl-receipt-preview", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-preview-screen-dialog", "ir-spinner"];
+    const components = ["ir-cl-fiscal-document-preview", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-cl-fiscal-document-preview":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrClFiscalDocumentPreview);
             }
             break;
-        case "ir-cl-credit-note-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$j();
-            }
-            break;
-        case "ir-cl-debit-note-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$i();
-            }
-            break;
-        case "ir-cl-document-header":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$h();
-            }
-            break;
-        case "ir-cl-fiscal-document-table":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$g();
-            }
-            break;
-        case "ir-cl-invoice-city-tax-amount-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$f();
-            }
-            break;
-        case "ir-cl-invoice-city-tax-pct-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$e();
-            }
-            break;
-        case "ir-cl-invoice-date-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$d();
-            }
-            break;
-        case "ir-cl-invoice-description-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$c();
-            }
-            break;
-        case "ir-cl-invoice-net-price-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$b();
-            }
-            break;
-        case "ir-cl-invoice-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$a();
-            }
-            break;
-        case "ir-cl-invoice-total-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$9();
-            }
-            break;
-        case "ir-cl-invoice-vat-amount-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$8();
-            }
-            break;
-        case "ir-cl-invoice-vat-pct-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$7();
-            }
-            break;
-        case "ir-cl-receipt-preview":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-button":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-dialog":
+        case "ir-fd-confirm-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }
             break;
-        case "ir-fd-confirm-dialog":
+        case "ir-pdf-viewer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

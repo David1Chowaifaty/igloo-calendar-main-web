@@ -155,6 +155,17 @@ function validateSharedPerson(data) {
         throw new ZodError(ctx);
     }
 }
+const ChargesSchema = z.object({
+    city_tax_amount: z.number(),
+    city_tax_percent: z.number(),
+    net_amount: z.number(),
+    service_charge_amount: z.number(),
+    service_charge_percent: z.number(),
+    tax_amount: z.number(),
+    total_amount: z.number(),
+    vat_amount: z.number(),
+    vat_percent: z.number(),
+});
 const ExtraServiceSchema = z.object({
     booking_system_id: z.number().optional(),
     cost: z.coerce.number().nullable(),
@@ -180,6 +191,7 @@ const ExtraServiceSchema = z.object({
         tax_nbr: z.string().nullable(),
         cl_post_timing: AgentBaseSchema.shape.cl_post_timing.nullable(),
     }).nullable(),
+    charges: ChargesSchema.optional(),
 });
 const ROOM_IN_OUT = {
     CHECKIN: '001',

@@ -84,13 +84,13 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     }
     render() {
         const currencyId = calendar_data?.property?.currency?.id;
-        return (h(Host, { key: '0ba61b83185a349a59b4e056f4db8052b6d85d85' }, h("section", { key: '5304b154a20582d769484d41d28d786fb6c383a6', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '81fdc59b1f8b1a8cbda0157a8cb7a9106c2cdfb3', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: '670eed168e74255d449f55263d0fd206e5414341' }, h("section", { key: '7186a8d568d55da02b5222fc5877aea139da2d10', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '5d3feab22a65233561af9e213c497c2b5a35dc61', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'f415c1c4b985ef8d9c5bb3a7643b1aa98a99798c', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '7cdfb5d496428cbe1962bc127e57895422c0feea', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '75ef2d53fbac5d9f3c8681c4b0cbdcdfba30bf4d', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '3736dc7e14514175ab77107b036f4adb271c883b', open: this.printFilters !== null, label: this.getPrintLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.printFilters = null;
-            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: '1c181d25401cbf32fd793c25c39417267ed39692', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
+            } }, this.printFilters && this.agentId && currencyId && (h("ir-cl-statement-preview", { key: '176bbf716193261c2c97fbfc130edd4d4f2034b4', ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, agentName: this.agentName, fromDate: this.printFilters.fromDate, toDate: this.printFilters.toDate, currencyId: currencyId })))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]

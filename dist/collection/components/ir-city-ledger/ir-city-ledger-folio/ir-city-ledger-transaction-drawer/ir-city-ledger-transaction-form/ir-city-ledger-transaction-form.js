@@ -5,12 +5,11 @@ import { buildPaymentTypes } from "../../../../../services/booking-service/utils
 import { CityLedgerService } from "../../../../../services/city-ledger/index";
 import calendar_data from "../../../../../stores/calendar-data";
 import { DATE_INPUT_FORMAT, TRANSACTION_TYPE_RATES, amountFieldSchema, createInitialTransactionFormDraft, dateFieldSchema, resetDraftForTransactionType, taxIdFieldSchema, transactionTypeFieldSchema, validateCityLedgerTransaction, } from "./ir-city-ledger-transaction-form.schema";
-import { ClTxTypeCode, FdStatus, FdTypes } from "../../../../../types/enums";
+import { ClTxTypeCode, FdStatus, FdTypes, VatIncludedCodes } from "../../../../../types/enums";
 export class IrCityLedgerTransactionForm {
     formId = 'city-ledger-transaction-form';
     agent = null;
     initialTransactionType = 'OB';
-    taxOptions = [];
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
@@ -30,6 +29,7 @@ export class IrCityLedgerTransactionForm {
     transactionValidationFailed;
     submitDisabledChange;
     clFiscalDocumentPreview;
+    taxOptions = [];
     bookingService = new BookingService();
     cityLedgerService = new CityLedgerService();
     clTxTypes;
@@ -40,9 +40,18 @@ export class IrCityLedgerTransactionForm {
         }
         return this.initialTransactionType;
     }
+    getUniqueTaxValues() {
+        let taxes = new Set();
+        calendar_data?.property.tax_categories?.forEach(t => {
+            if (t.taxation_mode.code === VatIncludedCodes.Inclusive)
+                taxes.add(t.pct);
+        });
+        this.taxOptions = Array.from(taxes).map(t => ({ id: t.toString(), label: `${t}%` }));
+    }
     componentWillLoad() {
         this.formData = createInitialTransactionFormDraft(this.resolvedInitialType);
         this.fetchPaymentEntries();
+        this.getUniqueTaxValues();
     }
     handleInitialTransactionTypeChange(_newType) {
         this.formData = resetDraftForTransactionType(this.resolvedInitialType, this.formData);
@@ -129,10 +138,12 @@ export class IrCityLedgerTransactionForm {
                 break;
             case ClTxTypeCode.Payment:
             case ClTxTypeCode.CreditNote:
+            case ClTxTypeCode.Discount:
                 credit = amount;
                 break;
             case ClTxTypeCode.StandardChargeDebit:
             case ClTxTypeCode.DebitNote:
+            case ClTxTypeCode.CancellationPenalty:
                 debit = amount;
                 break;
         }
@@ -193,6 +204,9 @@ export class IrCityLedgerTransactionForm {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
             const label = type.CODE_VALUE_EN;
             if (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null)) {
+                return null;
+            }
+            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) && !this.booking) {
                 return null;
             }
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
@@ -303,7 +317,7 @@ export class IrCityLedgerTransactionForm {
                 "mutable": false,
                 "complexType": {
                     "original": "TransactionType",
-                    "resolved": "\"ADJ\" | \"CN\" | \"DB\" | \"DN\" | \"OB\" | \"PAY\"",
+                    "resolved": "\"ADJ\" | \"CN\" | \"CPN\" | \"DB\" | \"DN\" | \"DSC\" | \"OB\" | \"PAY\"",
                     "references": {
                         "TransactionType": {
                             "location": "import",
@@ -323,30 +337,6 @@ export class IrCityLedgerTransactionForm {
                 "attribute": "initial-transaction-type",
                 "reflect": false,
                 "defaultValue": "'OB'"
-            },
-            "taxOptions": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "TaxOption[]",
-                    "resolved": "TaxOption[]",
-                    "references": {
-                        "TaxOption": {
-                            "location": "import",
-                            "path": "./ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TaxOption"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "[]"
             },
             "unpaidInvoiceOptions": {
                 "type": "unknown",

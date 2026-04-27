@@ -4,14 +4,13 @@ import type { IEntries } from "../../../../../models/IBooking";
 import type { PaymentEntries } from "../../../../ir-booking-details/types";
 import type { FiscalDocuments } from "../../../../../services/city-ledger/types";
 import type { ClFiscalDocumentPreviewRequest } from '../../../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types';
-import { type CityLedgerTransactionFormDraft, type LinkedOption, type ServiceCategoryOption, type TaxOption, type TransactionType } from './ir-city-ledger-transaction-form.schema';
+import { type CityLedgerTransactionFormDraft, type LinkedOption, type ServiceCategoryOption, type TransactionType } from './ir-city-ledger-transaction-form.schema';
 import { Agent } from "../../../../../services/agents/type";
 import { Booking } from "../../../../../models/booking.dto";
 export declare class IrCityLedgerTransactionForm {
     formId: string;
     agent: Agent | null;
     initialTransactionType: TransactionType;
-    taxOptions: TaxOption[];
     unpaidInvoiceOptions: LinkedOption[];
     bookingOptions: LinkedOption[];
     serviceCategoryOptions: ServiceCategoryOption[];
@@ -27,10 +26,12 @@ export declare class IrCityLedgerTransactionForm {
     transactionValidationFailed: EventEmitter<ZodIssue[]>;
     submitDisabledChange: EventEmitter<boolean>;
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
+    private taxOptions;
     private bookingService;
     private cityLedgerService;
     private clTxTypes;
     private get resolvedInitialType();
+    private getUniqueTaxValues;
     componentWillLoad(): void;
     handleInitialTransactionTypeChange(_newType: TransactionType): void;
     private updateFormData;

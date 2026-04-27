@@ -1139,3 +1139,14 @@ export declare const DeleteDraftFiscalDocumentParamsSchema: z.ZodObject<{
 export type DeleteDraftFiscalDocumentParams = z.infer<typeof DeleteDraftFiscalDocumentParamsSchema>;
 export type FiscalDocuments = FiscalDocument[];
 export type FdType = (typeof FdTypes)[keyof typeof FdTypes];
+export declare const PrintClFiscalDocumentParamsSchema: z.ZodObject<{
+    doc_number: z.ZodString;
+    lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    lang?: string;
+    doc_number?: string;
+}, {
+    lang?: string;
+    doc_number?: string;
+}>;
+export type PrintClFiscalDocumentParams = z.infer<typeof PrintClFiscalDocumentParamsSchema>;

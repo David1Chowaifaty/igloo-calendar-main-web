@@ -1,14 +1,6 @@
 import moment from "moment";
 import { z } from "zod";
 import { ClTxTypeCode } from "../../../../../types/enums";
-export const TRANSACTION_TYPES = {
-    [ClTxTypeCode.OpeningBalance]: 'Opening Balance',
-    [ClTxTypeCode.Payment]: 'Payment',
-    [ClTxTypeCode.StandardChargeDebit]: 'Manual Charge',
-    [ClTxTypeCode.Adjustment]: 'Adjustment',
-    [ClTxTypeCode.CreditNote]: 'Credit Note',
-    [ClTxTypeCode.DebitNote]: 'Debit Note',
-};
 export const TRANSACTION_TYPE_RATES = {
     [ClTxTypeCode.OpeningBalance]: 'CR|DB',
     [ClTxTypeCode.Payment]: 'CR',
@@ -16,6 +8,8 @@ export const TRANSACTION_TYPE_RATES = {
     [ClTxTypeCode.Adjustment]: 'CR|DB',
     [ClTxTypeCode.CreditNote]: 'CR',
     [ClTxTypeCode.DebitNote]: 'DB',
+    [ClTxTypeCode.Discount]: 'CR',
+    [ClTxTypeCode.CancellationPenalty]: 'DB',
 };
 export const ENTRY_TYPES = ['CR', 'DB'];
 export const LINK_TYPES = ['INVOICE', 'BOOKING', 'NONE'];
@@ -82,8 +76,14 @@ const debitNoteSchema = commonFieldsSchema.extend({
     invoiceId: z.string().min(1, 'Invoice is required for debit note.'),
     generatesFiscalDocument: z.literal(true),
 });
+const discountSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.Discount),
+});
+const cancellationPenaltySchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.CancellationPenalty),
+});
 export const cityLedgerTransactionSchema = z
-    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema])
+    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema, discountSchema, cancellationPenaltySchema])
     .superRefine((data, ctx) => {
     if (data.transactionType === ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
         ctx.addIssue({

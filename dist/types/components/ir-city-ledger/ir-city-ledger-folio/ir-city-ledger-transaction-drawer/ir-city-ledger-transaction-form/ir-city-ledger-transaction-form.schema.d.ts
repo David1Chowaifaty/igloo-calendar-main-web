@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { ClTxTypeCode } from "../../../../../types/enums";
 export type TransactionType = (typeof ClTxTypeCode)[keyof typeof ClTxTypeCode];
-export declare const TRANSACTION_TYPES: Record<TransactionType, string>;
 export declare const TRANSACTION_TYPE_RATES: Record<TransactionType, 'CR' | 'DB' | 'CR|DB'>;
 export declare const ENTRY_TYPES: readonly ["CR", "DB"];
 export type EntryType = (typeof ENTRY_TYPES)[number];
@@ -277,6 +276,50 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
+}>, z.ZodObject<z.objectUtil.extendShape<{
+    date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
+    amount: z.ZodNumber;
+    taxId: z.ZodString;
+    reference: z.ZodOptional<z.ZodString>;
+    notes: z.ZodOptional<z.ZodString>;
+}, {
+    transactionType: z.ZodLiteral<"DSC">;
+}>, "strip", z.ZodTypeAny, {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+}, {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+}>, z.ZodObject<z.objectUtil.extendShape<{
+    date: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;
+    amount: z.ZodNumber;
+    taxId: z.ZodString;
+    reference: z.ZodOptional<z.ZodString>;
+    notes: z.ZodOptional<z.ZodString>;
+}, {
+    transactionType: z.ZodLiteral<"CPN">;
+}>, "strip", z.ZodTypeAny, {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
+}, {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
 }>]>, {
     date?: string;
     notes?: string;
@@ -344,6 +387,20 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
 }, {
     date?: string;
     notes?: string;
@@ -411,6 +468,20 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
 }>;
 export type CityLedgerTransactionPayload = z.infer<typeof cityLedgerTransactionSchema>;
 export declare const DATE_INPUT_FORMAT = "YYYY-MM-DD";
@@ -484,6 +555,20 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
 }, {
     date?: string;
     notes?: string;
@@ -551,6 +636,20 @@ export declare const validateCityLedgerTransaction: (draft: CityLedgerTransactio
     transactionType?: "DN";
     invoiceId?: string;
     generatesFiscalDocument?: true;
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "DSC";
+} | {
+    date?: string;
+    notes?: string;
+    reference?: string;
+    amount?: number;
+    taxId?: string;
+    transactionType?: "CPN";
 }>;
 export declare const transactionTypeFieldSchema: z.ZodEnum<[TransactionType, ...TransactionType[]]>;
 export declare const dateFieldSchema: z.ZodEffects<z.ZodEffects<z.ZodString, string, string>, string, string>;

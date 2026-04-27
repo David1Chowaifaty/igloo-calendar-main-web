@@ -29,7 +29,6 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
     agent = null;
     booking = null;
     initialTransactionType = 'OB';
-    taxOptions = [];
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
@@ -41,7 +40,7 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: 'b01729e5b914d84c81a5702ff2b5095dac16f818', open: this.open, style: {
+        return (h("ir-drawer", { key: '58e53d0d61e37fcba001531cc8f35c47624a3d25', open: this.open, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -53,14 +52,14 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: 'cadca37c3fd1a1e185f273eba88ef7a0ee5dfaee', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, taxOptions: this.taxOptions, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, onTransactionSaved: e => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '51cd87625aec621da07dc1ca50520d92c48d15f2', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, onTransactionSaved: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
             }, onSubmitDisabledChange: (e) => {
                 this.saveDisabled = e.detail;
-            } })), h("div", { key: '478ebaed39d1a31b3f89d4cae1eda196183c35be', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'a79cffb07a039dfefd9539875f5276fa24db9fdf', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: '9e8f2294cd01229d86a8ce24a32d188925bf5c0b', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
+            } })), h("div", { key: '6298e754331fc99a8330b49cfec3993ad4a9eae4', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '0ec36da5b9e6100eae4fddf954f37e67f080a00c', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'ccc6a138a4a09a591afc820c69ea96f3c53002b5', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
     }
     static get style() { return IrCityLedgerTransactionDrawerStyle0; }
 }, [2, "ir-city-ledger-transaction-drawer", {
@@ -70,7 +69,6 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         "agent": [16],
         "booking": [16],
         "initialTransactionType": [1, "initial-transaction-type"],
-        "taxOptions": [16],
         "unpaidInvoiceOptions": [16],
         "bookingOptions": [16],
         "serviceCategoryOptions": [16],

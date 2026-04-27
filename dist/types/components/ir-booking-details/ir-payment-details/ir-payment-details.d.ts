@@ -11,6 +11,7 @@ export declare class IrPaymentDetails {
     paymentEntries: PaymentEntries;
     language: string;
     svcCategories: IEntries[];
+    isAddPaymentDisabled: boolean;
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;

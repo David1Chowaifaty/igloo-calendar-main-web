@@ -197,6 +197,10 @@ const VoidInvoiceByCreditNoteParamsSchema = objectType({
 const DeleteDraftFiscalDocumentParamsSchema = objectType({
     FD_ID: numberType(),
 });
+const PrintClFiscalDocumentParamsSchema = objectType({
+    doc_number: stringType(),
+    lang: stringType().optional().default('en'),
+});
 
 class CityLedgerService {
     async fetchCL(params) {
@@ -207,6 +211,13 @@ class CityLedgerService {
         if (payload.is_export_to_excel && data.My_Params_Fetch_CL.Link_excel) {
             downloadFile(data.My_Params_Fetch_CL.Link_excel);
         }
+        return data.My_Result;
+    }
+    async printClFiscalDocument(params) {
+        const payload = PrintClFiscalDocumentParamsSchema.parse(params);
+        const { data } = await axios.post('/Print_CL_Fiscal_Document', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
         return data.My_Result;
     }
     async toggleCLTxHold(params) {

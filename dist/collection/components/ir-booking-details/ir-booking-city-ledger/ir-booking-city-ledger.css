@@ -1,13 +1,18 @@
 :host {
   display: block;
   width: 100%;
-  /* Reset cell padding to be tighter inside the card */
+  min-width: 0;
   --ir-cell-padding: 0.4rem 0.75rem;
 }
 
 /* ── Card ──────────────────────────────────────────────────── */
 .booking-city-ledger__card {
   width: 100%;
+}
+
+.booking-city-ledger__card::part(body) {
+  overflow-x: auto;
+  padding: 0;
 }
 
 /* ── Header title ──────────────────────────────────────────── */
@@ -29,14 +34,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem var(--wa-card-padding, 1rem);
 }
 
 /* ── Empty / Error states ──────────────────────────────────── */
 .booking-city-ledger__empty,
 .booking-city-ledger__error {
   margin: 0;
-  padding: 1rem 0;
+  padding: 1rem var(--wa-card-padding, 1rem);
   text-align: center;
   font-size: 0.875rem;
   color: var(--wa-color-neutral-500, #6b7280);
@@ -46,11 +51,9 @@
   color: var(--wa-color-danger-600, #dc2626);
 }
 
-/* ── Table wrapper — bleed to card edges ───────────────────── */
+/* ── Table wrapper ─────────────────────────────────────────── */
 .booking-city-ledger__table-wrap {
-  max-width: 700px;
-  margin: 0 calc(var(--wa-card-padding, 1rem) * -1);
-  margin-bottom: calc(var(--wa-card-padding, 1rem) * -1);
+  min-width: 100%;
 }
 
 /* ── Right-align numeric columns ───────────────────────────── */

@@ -3,6 +3,7 @@ import { Booking, IPayment } from "../../../../models/booking.dto";
 export declare class IrPaymentsFolio {
     payments: IPayment[];
     booking: Booking;
+    isAddPaymentDisabled: boolean;
     addPayment: EventEmitter<void>;
     editPayment: EventEmitter<IPayment>;
     deletePayment: EventEmitter<IPayment>;

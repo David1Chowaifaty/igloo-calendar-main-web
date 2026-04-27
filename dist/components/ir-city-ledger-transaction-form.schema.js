@@ -9,6 +9,8 @@ const TRANSACTION_TYPE_RATES = {
     [ClTxTypeCode.Adjustment]: 'CR|DB',
     [ClTxTypeCode.CreditNote]: 'CR',
     [ClTxTypeCode.DebitNote]: 'DB',
+    [ClTxTypeCode.Discount]: 'CR',
+    [ClTxTypeCode.CancellationPenalty]: 'DB',
 };
 const ENTRY_TYPES = ['CR', 'DB'];
 const LINK_TYPES = ['INVOICE', 'BOOKING', 'NONE'];
@@ -75,8 +77,14 @@ const debitNoteSchema = commonFieldsSchema.extend({
     invoiceId: z.string().min(1, 'Invoice is required for debit note.'),
     generatesFiscalDocument: z.literal(true),
 });
+const discountSchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.Discount),
+});
+const cancellationPenaltySchema = commonFieldsSchema.extend({
+    transactionType: z.literal(ClTxTypeCode.CancellationPenalty),
+});
 const cityLedgerTransactionSchema = z
-    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema])
+    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema, discountSchema, cancellationPenaltySchema])
     .superRefine((data, ctx) => {
     if (data.transactionType === ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
         ctx.addIssue({
@@ -234,9 +242,9 @@ z.string().min(1, 'Payment type is required.');
 const paymentMethodCodeFieldSchema = z.string().min(1, 'Payment method is required.');
 const invoiceIdRequiredFieldSchema = z.string().min(1, 'Invoice is required.');
 z.string().min(1, 'Service category is required.');
-const linkTypeFieldSchema = z.enum(LINK_TYPES);
+z.enum(LINK_TYPES);
 z.enum(ADJUSTMENT_REASONS);
 
-export { DATE_INPUT_FORMAT as D, LINK_TYPES as L, TRANSACTION_TYPE_RATES as T, amountFieldSchema as a, taxIdFieldSchema as b, createInitialTransactionFormDraft as c, dateFieldSchema as d, entryTypeFieldSchema as e, invoiceIdRequiredFieldSchema as i, linkTypeFieldSchema as l, paymentMethodCodeFieldSchema as p, resetDraftForTransactionType as r, transactionTypeFieldSchema as t, validateCityLedgerTransaction as v };
+export { DATE_INPUT_FORMAT as D, TRANSACTION_TYPE_RATES as T, amountFieldSchema as a, taxIdFieldSchema as b, createInitialTransactionFormDraft as c, dateFieldSchema as d, entryTypeFieldSchema as e, invoiceIdRequiredFieldSchema as i, paymentMethodCodeFieldSchema as p, resetDraftForTransactionType as r, transactionTypeFieldSchema as t, validateCityLedgerTransaction as v };
 
 //# sourceMappingURL=ir-city-ledger-transaction-form.schema.js.map

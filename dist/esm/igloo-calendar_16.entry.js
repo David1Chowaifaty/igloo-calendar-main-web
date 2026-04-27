@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
-import { B as BookingService } from './booking.service-550f8a44.js';
-import { q as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, r as getNextDay, t as addTwoMonthToDate, u as convertDMYToISO, v as computeEndDate, n as isPrivilegedUser, b as downloadFile, g as getEntryValue } from './utils-dce64dc4.js';
+import { B as BookingService } from './booking.service-3f74ffdc.js';
+import { q as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, r as getNextDay, t as addTwoMonthToDate, u as convertDMYToISO, v as computeEndDate, n as isPrivilegedUser, b as downloadFile, g as getEntryValue } from './utils-5592b0f5.js';
 import { l as lookup } from './index-7ee206df.js';
-import { E as EventsService } from './events.service-c5da193b.js';
+import { E as EventsService } from './events.service-10481bd0.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-5fd5f217.js';
-import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-f4f5e3ba.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-a2f15874.js';
+import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-2623f6bb.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
@@ -14,15 +14,15 @@ import { T as Token } from './Token-030c78a9.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-0e645d86.js';
 import { A as AgentsService } from './agents.service-22c5e67c.js';
-import { P as PropertyService } from './property.service-eec79fb8.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-867a4c1a.js';
+import { P as PropertyService } from './property.service-5b81f32a.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-6ba62cea.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-56273d9e.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-cb4f333b.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-3aa12093.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-71114781.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-adca01f9.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-7c962578.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
-import { U as UserService } from './user.service-61c9b919.js';
+import { U as UserService } from './user.service-9c94b8f1.js';
 import './index-87419685.js';
 import './index-f100e9d2.js';
 import './type-aa154c49.js';
@@ -1857,7 +1857,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '1f6e42df7a17208c5b29a0bbb80857eb9c95b4ff', class: "p-1" }, h("ir-interceptor", { key: '4c70e56189703407d44bd23f75c9cb4c53cdf14a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '77547a2599fe69237fd2abf3fa962ddb03188baa' }), h("div", { key: 'f263f7cde9033e9fc91ce7ce717069446ebdc6db', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'bd6b1c1123dfad84d8315fec7568372c93f00fe2', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'cb9d5e01d7d168a95033bf91a63c495b3ab16086', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '9b4cdff272cc257184e40c1428e69875209aaea1', class: "p-1" }, h("ir-interceptor", { key: '24dad58be2d129297269ed9e3a8ecb82e733a4a8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '357a18f25fac276e75a708913c3dfea03ff24def' }), h("div", { key: '09991fc52651bee1f4c0d8b992361450cd24978a', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'fe6845ba1c64372a6180487baa6d102d579dda44', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'b60d4652d29fe58338a7ed55be6015a75b4a0013', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1865,7 +1865,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: 'bc0b629d6fb3d2d7d6c5750ccb19422fd1decb97' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '28fbba7d78822ce88933156d7b381ad73869978e' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -2447,7 +2447,14 @@ const IrDailyRevenue = class {
     groupedPayment;
     previousDateGroupedPayments;
     isLoading;
-    filters = { date: hooks().format('YYYY-MM-DD'), users: null };
+    filters = {
+        date: hooks().format('YYYY-MM-DD'),
+        from_date: null,
+        to_date: null,
+        // from_date: moment().add(-1, 'days').format('YYYY-MM-DD'),
+        // to_date: moment().format('YYYY-MM-DD'),
+        users: null,
+    };
     sideBarEvent;
     tokenService = new Token();
     roomService = new RoomService();
@@ -2582,14 +2589,16 @@ const IrDailyRevenue = class {
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const requests = [
                 this.propertyService.getDailyRevenueReport({
-                    date: this.filters.date,
+                    from_date: this.filters.date ? this.filters.date : this.filters.from_date,
+                    to_date: this.filters.date ? this.filters.date : this.filters.to_date,
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel && !excludeYesterday) {
+            if (!isExportToExcel && !excludeYesterday && this.filters.date) {
                 requests.push(this.propertyService.getDailyRevenueReport({
-                    date: hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    from_date: hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    to_date: hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }));
@@ -2621,7 +2630,7 @@ const IrDailyRevenue = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));

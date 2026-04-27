@@ -4,40 +4,27 @@ import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$w } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$v } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$u } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$t } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$s } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$r } from './ir-cl-credit-note-preview2.js';
-import { d as defineCustomElement$q } from './ir-cl-debit-note-fields2.js';
-import { d as defineCustomElement$p } from './ir-cl-debit-note-preview2.js';
-import { d as defineCustomElement$o } from './ir-cl-document-header2.js';
-import { d as defineCustomElement$n } from './ir-cl-fiscal-document-preview2.js';
-import { d as defineCustomElement$m } from './ir-cl-fiscal-document-table2.js';
-import { d as defineCustomElement$l } from './ir-cl-invoice-city-tax-amount-cell2.js';
-import { d as defineCustomElement$k } from './ir-cl-invoice-city-tax-pct-cell2.js';
-import { d as defineCustomElement$j } from './ir-cl-invoice-date-cell2.js';
-import { d as defineCustomElement$i } from './ir-cl-invoice-description-cell2.js';
-import { d as defineCustomElement$h } from './ir-cl-invoice-net-price-cell2.js';
-import { d as defineCustomElement$g } from './ir-cl-invoice-preview2.js';
-import { d as defineCustomElement$f } from './ir-cl-invoice-total-cell2.js';
-import { d as defineCustomElement$e } from './ir-cl-invoice-vat-amount-cell2.js';
-import { d as defineCustomElement$d } from './ir-cl-invoice-vat-pct-cell2.js';
+import { d as defineCustomElement$j } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$i } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$h } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$g } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$f } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$e } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$d } from './ir-cl-fiscal-document-preview2.js';
 import { d as defineCustomElement$c } from './ir-cl-opening-balance-fields2.js';
 import { d as defineCustomElement$b } from './ir-cl-payment-fields2.js';
-import { d as defineCustomElement$a } from './ir-cl-receipt-preview2.js';
-import { d as defineCustomElement$9 } from './ir-custom-button2.js';
-import { d as defineCustomElement$8 } from './ir-date-select2.js';
-import { d as defineCustomElement$7 } from './ir-dialog2.js';
-import { d as defineCustomElement$6 } from './ir-drawer2.js';
-import { d as defineCustomElement$5 } from './ir-fd-confirm-dialog2.js';
-import { d as defineCustomElement$4 } from './ir-input2.js';
+import { d as defineCustomElement$a } from './ir-custom-button2.js';
+import { d as defineCustomElement$9 } from './ir-date-select2.js';
+import { d as defineCustomElement$8 } from './ir-dialog2.js';
+import { d as defineCustomElement$7 } from './ir-drawer2.js';
+import { d as defineCustomElement$6 } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$5 } from './ir-input2.js';
+import { d as defineCustomElement$4 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$3 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;--ir-cell-padding:0.4rem 0.75rem}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem;font-weight:600}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem}.booking-city-ledger__empty.sc-ir-booking-city-ledger,.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem 0;text-align:center;font-size:0.875rem;color:var(--wa-color-neutral-500, #6b7280)}.booking-city-ledger__error.sc-ir-booking-city-ledger{color:var(--wa-color-danger-600, #dc2626)}.booking-city-ledger__table-wrap.sc-ir-booking-city-ledger{max-width:700px;margin:0 calc(var(--wa-card-padding, 1rem) * -1);margin-bottom:calc(var(--wa-card-padding, 1rem) * -1)}.text-right.sc-ir-booking-city-ledger{text-align:right !important}.is-debit.sc-ir-booking-city-ledger{color:var(--wa-color-danger-fill-loud) !important;font-weight:700}.is-credit.sc-ir-booking-city-ledger{color:var(--wa-color-success-fill-loud) !important;font-weight:700}.booking-city-ledger__cell-date.sc-ir-booking-city-ledger{white-space:nowrap;font-variant-numeric:tabular-nums}";
+const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;min-width:0;--ir-cell-padding:0.4rem 0.75rem}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__card.sc-ir-booking-city-ledger::part(body){overflow-x:auto;padding:0}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem;font-weight:600}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem var(--wa-card-padding, 1rem)}.booking-city-ledger__empty.sc-ir-booking-city-ledger,.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem var(--wa-card-padding, 1rem);text-align:center;font-size:0.875rem;color:var(--wa-color-neutral-500, #6b7280)}.booking-city-ledger__error.sc-ir-booking-city-ledger{color:var(--wa-color-danger-600, #dc2626)}.booking-city-ledger__table-wrap.sc-ir-booking-city-ledger{min-width:100%}.text-right.sc-ir-booking-city-ledger{text-align:right !important}.is-debit.sc-ir-booking-city-ledger{color:var(--wa-color-danger-fill-loud) !important;font-weight:700}.is-credit.sc-ir-booking-city-ledger{color:var(--wa-color-success-fill-loud) !important;font-weight:700}.booking-city-ledger__cell-date.sc-ir-booking-city-ledger{white-space:nowrap;font-variant-numeric:tabular-nums}";
 const IrBookingCityLedgerStyle0 = irBookingCityLedgerCss;
 
 const tableCss = ".sc-ir-booking-city-ledger-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-booking-city-ledger{overflow-x:auto}.table.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-booking-city-ledger tbody.sc-ir-booking-city-ledger tr.sc-ir-booking-city-ledger:last-child>td.sc-ir-booking-city-ledger{border-bottom:0 !important}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sc-ir-booking-city-ledger{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sc-ir-booking-city-ledger{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-booking-city-ledger .empty-row.sc-ir-booking-city-ledger{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-booking-city-ledger{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-booking-city-ledger,.ir-table-row.sc-ir-booking-city-ledger{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-booking-city-ledger{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-booking-city-ledger td.sc-ir-booking-city-ledger{transition-duration:var(--wa-transition-fast)}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-booking-city-ledger thead.sc-ir-booking-city-ledger th.sortable.sc-ir-booking-city-ledger:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-booking-city-ledger:active td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-booking-city-ledger:hover td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-booking-city-ledger:active td.sc-ir-booking-city-ledger{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-booking-city-ledger:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-booking-city-ledger svg.sc-ir-booking-city-ledger{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-booking-city-ledger{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-booking-city-ledger,.data-table.sc-ir-booking-city-ledger{height:100%}";
@@ -145,7 +132,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-credit-note-preview", "ir-cl-debit-note-fields", "ir-cl-debit-note-preview", "ir-cl-document-header", "ir-cl-fiscal-document-preview", "ir-cl-fiscal-document-table", "ir-cl-invoice-city-tax-amount-cell", "ir-cl-invoice-city-tax-pct-cell", "ir-cl-invoice-date-cell", "ir-cl-invoice-description-cell", "ir-cl-invoice-net-price-cell", "ir-cl-invoice-preview", "ir-cl-invoice-total-cell", "ir-cl-invoice-vat-amount-cell", "ir-cl-invoice-vat-pct-cell", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-cl-receipt-preview", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-fd-confirm-dialog", "ir-input", "ir-preview-screen-dialog", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-fiscal-document-preview", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-fd-confirm-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
@@ -154,100 +141,35 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$w();
+                defineCustomElement$j();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$v();
+                defineCustomElement$i();
             }
             break;
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$u();
+                defineCustomElement$h();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$t();
+                defineCustomElement$g();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$s();
-            }
-            break;
-        case "ir-cl-credit-note-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$f();
             }
             break;
         case "ir-cl-debit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
-            }
-            break;
-        case "ir-cl-debit-note-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$p();
-            }
-            break;
-        case "ir-cl-document-header":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$o();
-            }
-            break;
-        case "ir-cl-fiscal-document-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$n();
-            }
-            break;
-        case "ir-cl-fiscal-document-table":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$m();
-            }
-            break;
-        case "ir-cl-invoice-city-tax-amount-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$l();
-            }
-            break;
-        case "ir-cl-invoice-city-tax-pct-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$k();
-            }
-            break;
-        case "ir-cl-invoice-date-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$j();
-            }
-            break;
-        case "ir-cl-invoice-description-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$i();
-            }
-            break;
-        case "ir-cl-invoice-net-price-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$h();
-            }
-            break;
-        case "ir-cl-invoice-preview":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$g();
-            }
-            break;
-        case "ir-cl-invoice-total-cell":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$f();
-            }
-            break;
-        case "ir-cl-invoice-vat-amount-cell":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$e();
             }
             break;
-        case "ir-cl-invoice-vat-pct-cell":
+        case "ir-cl-fiscal-document-preview":
             if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }
@@ -262,37 +184,37 @@ function defineCustomElement() {
                 defineCustomElement$b();
             }
             break;
-        case "ir-cl-receipt-preview":
+        case "ir-custom-button":
             if (!customElements.get(tagName)) {
                 defineCustomElement$a();
             }
             break;
-        case "ir-custom-button":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }
             break;
-        case "ir-date-select":
+        case "ir-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
             break;
-        case "ir-dialog":
+        case "ir-drawer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }
             break;
-        case "ir-drawer":
+        case "ir-fd-confirm-dialog":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }
             break;
-        case "ir-fd-confirm-dialog":
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }
             break;
-        case "ir-input":
+        case "ir-pdf-viewer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

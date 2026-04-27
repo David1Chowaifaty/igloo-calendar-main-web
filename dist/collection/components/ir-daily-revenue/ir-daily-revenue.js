@@ -16,7 +16,14 @@ export class IrDailyRevenue {
     groupedPayment;
     previousDateGroupedPayments;
     isLoading;
-    filters = { date: moment().format('YYYY-MM-DD'), users: null };
+    filters = {
+        date: moment().format('YYYY-MM-DD'),
+        from_date: null,
+        to_date: null,
+        // from_date: moment().add(-1, 'days').format('YYYY-MM-DD'),
+        // to_date: moment().format('YYYY-MM-DD'),
+        users: null,
+    };
     sideBarEvent;
     tokenService = new Token();
     roomService = new RoomService();
@@ -151,14 +158,16 @@ export class IrDailyRevenue {
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const requests = [
                 this.propertyService.getDailyRevenueReport({
-                    date: this.filters.date,
+                    from_date: this.filters.date ? this.filters.date : this.filters.from_date,
+                    to_date: this.filters.date ? this.filters.date : this.filters.to_date,
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel && !excludeYesterday) {
+            if (!isExportToExcel && !excludeYesterday && this.filters.date) {
                 requests.push(this.propertyService.getDailyRevenueReport({
-                    date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    from_date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    to_date: moment(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }));
@@ -190,7 +199,7 @@ export class IrDailyRevenue {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));

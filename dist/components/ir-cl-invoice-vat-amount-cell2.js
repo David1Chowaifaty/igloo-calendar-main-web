@@ -12,7 +12,7 @@ const IrClInvoiceVatAmountCell = /*@__PURE__*/ proxyCustomElement(class IrClInvo
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: 'c3b40ecaa2f24f8b41a02ddec20b1cd981810255' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '4c671fb7ea90c653c1731d4c7bb12bf7858ec1b7' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get style() { return IrClInvoiceVatAmountCellStyle0; }
 }, [2, "ir-cl-invoice-vat-amount-cell", {

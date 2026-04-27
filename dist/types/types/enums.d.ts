@@ -5,6 +5,8 @@ export declare const ClTxTypeCode: {
     readonly CreditNote: "CN";
     readonly DebitNote: "DN";
     readonly StandardChargeDebit: "DB";
+    readonly Discount: "DSC";
+    readonly CancellationPenalty: "CPN";
 };
 export declare const FdTypes: {
     readonly Draft: "DFT";
@@ -28,6 +30,11 @@ export declare const VatIncludedCodes: {
     readonly NotApplicable: "002";
     readonly Inclusive: "001";
     readonly Exclusive: "000";
+};
+export declare const ChargeSource: {
+    readonly ACCOMMODATION: 0;
+    readonly PICKUP: 1;
+    readonly EXTRA_SERVICE: 2;
 };
 export declare const FdStatus: {
     readonly Sent: "SENT";

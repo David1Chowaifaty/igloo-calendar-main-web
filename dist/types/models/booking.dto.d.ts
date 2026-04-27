@@ -186,14 +186,75 @@ export type BypassedOtaRevisions = {
     date: string;
     revision_type: string;
 };
+export declare const ChargesSchema: z.ZodObject<{
+    city_tax_amount: z.ZodNumber;
+    city_tax_percent: z.ZodNumber;
+    net_amount: z.ZodNumber;
+    service_charge_amount: z.ZodNumber;
+    service_charge_percent: z.ZodNumber;
+    tax_amount: z.ZodNumber;
+    total_amount: z.ZodNumber;
+    vat_amount: z.ZodNumber;
+    vat_percent: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    city_tax_amount?: number;
+    city_tax_percent?: number;
+    net_amount?: number;
+    service_charge_amount?: number;
+    service_charge_percent?: number;
+    tax_amount?: number;
+    total_amount?: number;
+    vat_amount?: number;
+    vat_percent?: number;
+}, {
+    city_tax_amount?: number;
+    city_tax_percent?: number;
+    net_amount?: number;
+    service_charge_amount?: number;
+    service_charge_percent?: number;
+    tax_amount?: number;
+    total_amount?: number;
+    vat_amount?: number;
+    vat_percent?: number;
+}>;
+export type Charges = z.infer<typeof ChargesSchema>;
+export interface FinancialSnapshotEntry {
+    bh_financial_detail_id: number;
+    /** Charge source (0: Accommodation, 1: Pickup, 2: Extra Service) */
+    charge_source: number;
+    city_tax_amount: number;
+    city_tax_percent: number;
+    credit: number;
+    currency_id: number;
+    debit: number;
+    description: string;
+    net_amount: number;
+    rate_plan_id: number;
+    rel_entity: string;
+    room_identifier: string;
+    rel_entity_key: string;
+    room_type_id: null;
+    service_date: string;
+    tax_amount: number;
+    total_amount: number;
+    vat_amount: number;
+    vat_percent: number;
+}
 export interface Booking {
+    charges: Charges;
     agent: {
         code: string;
         id: number;
         name: string;
         verification_mode: null;
     } | null;
+    agent_financial: IFinancial;
+    guest_financial: IFinancial;
     events: ExposedBookingEvent[];
+    financial_snapshot?: {
+        entries: FinancialSnapshotEntry[];
+        total_debit: number;
+    };
     company_name: string | null;
     company_tax_nbr: string | null;
     ota_manipulations: OTAManipulations[];
@@ -446,6 +507,37 @@ export declare const ExtraServiceSchema: z.ZodObject<{
             description?: string;
         };
     }>>;
+    charges: z.ZodOptional<z.ZodObject<{
+        city_tax_amount: z.ZodNumber;
+        city_tax_percent: z.ZodNumber;
+        net_amount: z.ZodNumber;
+        service_charge_amount: z.ZodNumber;
+        service_charge_percent: z.ZodNumber;
+        tax_amount: z.ZodNumber;
+        total_amount: z.ZodNumber;
+        vat_amount: z.ZodNumber;
+        vat_percent: z.ZodNumber;
+    }, "strip", z.ZodTypeAny, {
+        city_tax_amount?: number;
+        city_tax_percent?: number;
+        net_amount?: number;
+        service_charge_amount?: number;
+        service_charge_percent?: number;
+        tax_amount?: number;
+        total_amount?: number;
+        vat_amount?: number;
+        vat_percent?: number;
+    }, {
+        city_tax_amount?: number;
+        city_tax_percent?: number;
+        net_amount?: number;
+        service_charge_amount?: number;
+        service_charge_percent?: number;
+        tax_amount?: number;
+        total_amount?: number;
+        vat_amount?: number;
+        vat_percent?: number;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     description?: string;
     currency_id?: number;
@@ -492,6 +584,17 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
     };
     system_id?: number;
+    charges?: {
+        city_tax_amount?: number;
+        city_tax_percent?: number;
+        net_amount?: number;
+        service_charge_amount?: number;
+        service_charge_percent?: number;
+        tax_amount?: number;
+        total_amount?: number;
+        vat_amount?: number;
+        vat_percent?: number;
+    };
     cost?: number;
     category?: {
         code?: string;
@@ -546,6 +649,17 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
     };
     system_id?: number;
+    charges?: {
+        city_tax_amount?: number;
+        city_tax_percent?: number;
+        net_amount?: number;
+        service_charge_amount?: number;
+        service_charge_percent?: number;
+        tax_amount?: number;
+        total_amount?: number;
+        vat_amount?: number;
+        vat_percent?: number;
+    };
     cost?: number;
     category?: {
         code?: string;
@@ -577,6 +691,7 @@ export interface IBookingPickupInfo {
     nbr_of_units: number;
     selected_option: IAllowedOptions;
     total: number;
+    charges: Charges;
 }
 export interface IAllowedActions {
     code: string;
@@ -1083,6 +1198,7 @@ export declare const ROOM_IN_OUT: {
     NOSHOW: string;
 };
 export interface Room {
+    charges: Charges;
     agent: {
         id: number;
         name: string;
@@ -1154,6 +1270,7 @@ export interface Day {
     amount: number;
     date: string;
     cost: number | null;
+    charges?: Charges;
 }
 export interface RatePlan {
     cancelation: string | null;

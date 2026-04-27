@@ -194,4 +194,8 @@ export const VoidInvoiceByCreditNoteParamsSchema = z.object({
 export const DeleteDraftFiscalDocumentParamsSchema = z.object({
     FD_ID: z.number(),
 });
+export const PrintClFiscalDocumentParamsSchema = z.object({
+    doc_number: z.string(),
+    lang: z.string().optional().default('en'),
+});
 //# sourceMappingURL=types.js.map

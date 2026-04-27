@@ -65,7 +65,7 @@ export class IrRevenueTable {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'bad8fb195c7c796f86b8f49c3bea08f27c60c8c3', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: 'bba788ccd4523136f8ee3ceaf07a099b993a390a', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
@@ -147,7 +147,7 @@ export class IrRevenueTable {
                 "mutable": false,
                 "complexType": {
                     "original": "DailyPaymentFilter",
-                    "resolved": "{ date: string; users: string; }",
+                    "resolved": "{ from_date?: string; to_date?: string; date?: string; users: string; }",
                     "references": {
                         "DailyPaymentFilter": {
                             "location": "import",

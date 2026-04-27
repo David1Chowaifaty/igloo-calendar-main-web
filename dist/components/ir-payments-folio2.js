@@ -18,6 +18,7 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
     }
     payments = [];
     booking;
+    isAddPaymentDisabled = false;
     addPayment;
     editPayment;
     deletePayment;
@@ -62,12 +63,13 @@ const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio e
         return h("ir-empty-state", null);
     }
     render() {
-        return (h("wa-card", { key: 'eab92e32261499f02490d19cc8ed759d635aa707', class: " payments-container" }, h("div", { key: '59b454f624a049bd4ca33fe47d6aa6c1f39fd9fe', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '9ee3a92cdc3d53c04664c7391a26c377fdedc301', class: "font-size-large p-0 m-0" }, this.booking?.agent ? 'Guest Folio' : 'Folio'), h(HelpDocButton, { key: 'e2fb15903a3839f31ac06e8801863c7e50e9a3b2', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: '236dc0546edbc8c841bf13c2c9cbb6a17742a0ea', for: "create-payment" }, "Add Payment"), h("ir-custom-button", { key: 'd5a4645e66b05f4c51aa145f3ab056730c943138', slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: 'dd63889e80fafc6ffb566bb75bbb777b4a55e869', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
+        return (h("wa-card", { key: '4ceda5ee216690da9c11fe852d9eeef7b690301d', class: " payments-container" }, h("div", { key: 'ffa46cc8de2224688c168ecd03fc8be93e0133f8', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: 'd3fcc41b0f16067009915c7e5cf618394b12f7d6', class: "font-size-large p-0 m-0" }, this.booking?.agent ? 'Guest Folio' : 'Folio'), h(HelpDocButton, { key: 'b227466d6cd3b38b72fc225f863050a6b9a88b72', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), h("wa-tooltip", { key: '7690055d4e3bd2baa0a4343398698025e63890b5', for: "create-payment" }, "New Folio Entry"), h("ir-custom-button", { key: '171115e5b7851aafc71e13c9125da47add3da151', disabled: this.isAddPaymentDisabled, slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: '3f3dfc2418163080daab3c3d41b7a064e6e21e2f', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
     }
     static get style() { return IrPaymentsFolioStyle0; }
 }, [2, "ir-payments-folio", {
         "payments": [16],
-        "booking": [16]
+        "booking": [16],
+        "isAddPaymentDisabled": [4, "is-add-payment-disabled"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

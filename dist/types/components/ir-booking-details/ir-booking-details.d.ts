@@ -145,5 +145,6 @@ export declare class IrBookingDetails {
     private handleDeleteFinish;
     private resetBooking;
     private handleModalConfirm;
+    private isAllServicesAgentOwned;
     render(): any;
 }

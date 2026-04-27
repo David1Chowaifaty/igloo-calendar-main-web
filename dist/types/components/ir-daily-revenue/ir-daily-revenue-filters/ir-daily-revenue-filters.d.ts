@@ -14,5 +14,6 @@ export declare class IrDailyRevenueFilters {
     private applyFiltersEvt;
     private resetFilters;
     private updateFilter;
+    private getLast30Days;
     render(): any;
 }

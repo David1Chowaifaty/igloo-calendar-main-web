@@ -7,7 +7,6 @@ import calendar_data from "../../../stores/calendar-data";
 export class IrCityLedgerFolio {
     agent = null;
     propertyId;
-    taxOptions = [];
     serviceCategoryOptions = [];
     currencies = [];
     isTransactionOpen = false;
@@ -147,20 +146,20 @@ export class IrCityLedgerFolio {
         }
     }
     render() {
-        return (h(Host, { key: '857337fb3ab7a67cf240671fb7d1f3b48c952c0a' }, h("ir-city-ledger-folio-filters", { key: 'a981dcc1331328fd03170ec42adc454d80a53c15', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '2fd8fc1d0513b47936d7ec75c08d202e2d162bac' }, h("ir-city-ledger-folio-filters", { key: '6c3bc8608ee77675dca5111873468b64e28cd6ae', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
             }, onAddEntry: () => (this.isTransactionOpen = true), isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '82a6bf7e4605e2b3b4dc4267e9795d56cb097907', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: '402e093a4715ef59b6d2e14ca3a2788768531ee7', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
             }, onFetchRequested: async () => {
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'f22c051c60ba802872ac699faff40991ffe695cc', open: this.isTransactionOpen, taxOptions: this.taxOptions, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'c19c8bcc4186e5fd7d94b3dda233b3b9d27cfcf1', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
     }
@@ -220,30 +219,6 @@ export class IrCityLedgerFolio {
                 "setter": false,
                 "attribute": "property-id",
                 "reflect": false
-            },
-            "taxOptions": {
-                "type": "unknown",
-                "mutable": false,
-                "complexType": {
-                    "original": "TaxOption[]",
-                    "resolved": "TaxOption[]",
-                    "references": {
-                        "TaxOption": {
-                            "location": "import",
-                            "path": "./ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TaxOption"
-                        }
-                    }
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "defaultValue": "[]"
             },
             "serviceCategoryOptions": {
                 "type": "unknown",

@@ -211,7 +211,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
         const guestRooms = rooms.filter(r => r.agent === null || r.agent === undefined);
         const agentRooms = rooms.filter(r => r.agent !== null && r.agent !== undefined);
         const agentName = this.booking.agent?.name ?? 'Agent';
-        return (h(Fragment, null, h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No guest rooms") : this.renderRoomPool(guestRooms))), h("wa-divider", null), h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No agent rooms") : this.renderRoomPool(agentRooms)))));
+        return (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No agent rooms") : this.renderRoomPool(agentRooms))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestRooms.length === 0 ? h("p", { class: "service-group__empty" }, "No guest rooms") : this.renderRoomPool(guestRooms)))));
     }
     render() {
         if (!this.booking) {

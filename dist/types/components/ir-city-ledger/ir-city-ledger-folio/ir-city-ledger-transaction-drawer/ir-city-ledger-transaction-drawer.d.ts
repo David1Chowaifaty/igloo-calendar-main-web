@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import type { LinkedOption, ServiceCategoryOption, TaxOption, TransactionType } from './ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
+import type { LinkedOption, ServiceCategoryOption, TransactionType } from './ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import { Agent } from "../../../../services/agents/type";
 import { Booking } from "../../../../models/booking.dto";
 export declare class IrCityLedgerTransactionDrawer {
@@ -9,7 +9,6 @@ export declare class IrCityLedgerTransactionDrawer {
     agent: Agent | null;
     booking: Booking | null;
     initialTransactionType: TransactionType;
-    taxOptions: TaxOption[];
     unpaidInvoiceOptions: LinkedOption[];
     bookingOptions: LinkedOption[];
     serviceCategoryOptions: ServiceCategoryOption[];

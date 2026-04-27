@@ -1,11 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$5 } from './ir-drawer2.js';
-import { d as defineCustomElement$4 } from './ir-input2.js';
-import { d as defineCustomElement$3 } from './ir-payment-folio-form2.js';
-import { d as defineCustomElement$2 } from './ir-service-assignee-select2.js';
+import { d as defineCustomElement$6 } from './ir-custom-button2.js';
+import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$4 } from './ir-drawer2.js';
+import { d as defineCustomElement$3 } from './ir-input2.js';
+import { d as defineCustomElement$2 } from './ir-payment-folio-form2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
 
@@ -119,7 +118,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-service-assignee-select", "ir-validator"];
+    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-folio":
             if (!customElements.get(tagName)) {
@@ -128,30 +127,25 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$6();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$5();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$4();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
-            }
-            break;
-        case "ir-payment-folio-form":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }
             break;
-        case "ir-service-assignee-select":
+        case "ir-payment-folio-form":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

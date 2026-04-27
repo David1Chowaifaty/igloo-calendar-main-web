@@ -18,15 +18,15 @@ const IrClCreditNoteFields = /*@__PURE__*/ proxyCustomElement(class IrClCreditNo
     fieldChange;
     render() {
         const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '823f3c938a9f12abb3e5c132b0facd4a893dfb9f' }, h("div", { key: '5ba6dd88cca15ce1f50caffe4f5b8cdd16dd6685', class: "field field--full-width" }, h("wa-radio-group", { key: '6e4b7fb2c8fa402c26ef78729308c817657e6625', label: "Credit Note Type", orientation: "horizontal", size: "small", value: this.creditNoteMode, onchange: e => {
+        return (h(Fragment, { key: 'e6b8511a91364aecc7d21ada76af6ec315938d35' }, h("div", { key: 'fd9e4eb791cb6cdc9fa23fddc315e1ec270e431d', class: "field field--full-width" }, h("wa-radio-group", { key: 'f9495103a3bfe9a05200aca4822012b3f1cab6af', label: "Credit Note Type", orientation: "horizontal", size: "small", value: this.creditNoteMode, onchange: e => {
                 const val = e.target.value;
                 this.fieldChange.emit({
                     creditNoteMode: val,
                     invoiceId: val === 'goodwill' ? undefined : this.invoiceId,
                 });
-            } }, h("wa-radio", { key: '0bc9aebeb8663162c03d41869a3e42ebccca5335', value: "cancel-invoice", appearance: "button", disabled: noInvoices || this.isFetchingFiscalDocs }, "Cancel invoice and unlock all items"), h("wa-radio", { key: 'e45df26e912461c967bb8528facc763f436f2214', value: "goodwill", appearance: "button" }, "Goodwill credit"))), this.creditNoteMode === 'cancel-invoice' && (h("div", { key: 'f478dc32e1ece38a9c315f604948231eb0ace19f', class: "field" }, h("ir-validator", { key: '7267c10f2422a35ac70fcfaed40f8e7906f2938b', schema: invoiceIdRequiredFieldSchema, value: this.invoiceId ?? '', valueEvent: "change" }, h("wa-select", { key: '8819a940197e90ee43bb89d030b07bd63e0cb0a1', label: "Invoice", size: "small", required: true, value: this.invoiceId ?? '', onchange: event => {
+            } }, h("wa-radio", { key: '11b5648320f8afad0b6381a0d2502a221bb6800b', value: "cancel-invoice", appearance: "button", disabled: noInvoices || this.isFetchingFiscalDocs }, "Cancel invoice and unlock all items"), h("wa-radio", { key: '6f1b5f311e3458505b8e615b41ad353a0d03f486', value: "goodwill", appearance: "button" }, "Goodwill credit"))), this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '6ca944ddd0faccf61ac589ac755ec16bc2cb48a8', class: "field" }, h("ir-validator", { key: '0f51741b015688c9fcd2ad2e34d24861171b653e', schema: invoiceIdRequiredFieldSchema, value: this.invoiceId ?? '', valueEvent: "change" }, h("wa-select", { key: 'ab037a7a0e53d97e330bf99ee3c88688e7c743cf', label: "Invoice", size: "small", required: true, value: this.invoiceId ?? '', onchange: event => {
                 this.fieldChange.emit({ invoiceId: event.target.value || undefined });
-            } }, h("wa-option", { key: '1bb0eb7aea64a200cb221bea6ced8b7d10bbf301', value: "" }, "Select invoice"), this.fiscalDocuments.map(doc => (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID) }, doc.DOC_NUMBER, " \u2014 ", doc.FD_TYPE_NAME)))))))));
+            } }, h("wa-option", { key: '6979e57cf7ebf94c577b125cc5762edb459a0bc2', value: "" }, "Select invoice"), this.fiscalDocuments.map(doc => (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID) }, doc.DOC_NUMBER, " \u2014 ", doc.FD_TYPE_NAME)))))))));
     }
     static get style() { return IrClCreditNoteFieldsStyle0; }
 }, [2, "ir-cl-credit-note-fields", {

@@ -210,6 +210,7 @@
     "components/ir-password-validator/requirement-check/requirement-check.js",
     "components/ir-payment-option/ir-payment-option.js",
     "components/ir-payment-option/ir-option-details/ir-option-details.js",
+    "components/ir-pdf-viewer/ir-pdf-viewer.js",
     "components/ir-preview-screen-dialog/ir-preview-screen-dialog.js",
     "components/ir-queue-manager/ir-queue-manager.js",
     "components/ir-queue-manager/ir-queue-chart/ir-queue-chart.js",

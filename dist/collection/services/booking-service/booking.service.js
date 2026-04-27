@@ -468,6 +468,7 @@ export class BookingService {
                 booking_nbr,
                 language,
                 extras: withExtras ? extras : null,
+                is_get_financial_snapshot: true,
             });
             if (data.ExceptionMsg !== '') {
                 throw new Error(data.ExceptionMsg);

@@ -250,6 +250,7 @@ export declare const InvoiceSchema: z.ZodObject<{
         id?: number;
     };
     booking_nbr?: string;
+    total_amount?: any;
     target?: any;
     nbr?: string;
     remark?: string;
@@ -282,7 +283,6 @@ export declare const InvoiceSchema: z.ZodObject<{
         nbr?: string;
     };
     pdf_url?: any;
-    total_amount?: any;
 }, {
     user?: string;
     status?: {
@@ -297,6 +297,7 @@ export declare const InvoiceSchema: z.ZodObject<{
         id?: number;
     };
     booking_nbr?: string;
+    total_amount?: any;
     target?: any;
     nbr?: string;
     remark?: string;
@@ -329,7 +330,6 @@ export declare const InvoiceSchema: z.ZodObject<{
         nbr?: string;
     };
     pdf_url?: any;
-    total_amount?: any;
 }>;
 export type Invoice = z.infer<typeof InvoiceSchema>;
 /**
@@ -632,6 +632,7 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        total_amount?: any;
         target?: any;
         nbr?: string;
         remark?: string;
@@ -664,7 +665,6 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             nbr?: string;
         };
         pdf_url?: any;
-        total_amount?: any;
     }, {
         user?: string;
         status?: {
@@ -679,6 +679,7 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        total_amount?: any;
         target?: any;
         nbr?: string;
         remark?: string;
@@ -711,7 +712,6 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             nbr?: string;
         };
         pdf_url?: any;
-        total_amount?: any;
     }>, "many">>;
 }, "strip", z.ZodTypeAny, {
     invoiceable_items?: {
@@ -747,6 +747,7 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        total_amount?: any;
         target?: any;
         nbr?: string;
         remark?: string;
@@ -779,7 +780,6 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             nbr?: string;
         };
         pdf_url?: any;
-        total_amount?: any;
     }[];
 }, {
     invoiceable_items?: {
@@ -815,6 +815,7 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             id?: number;
         };
         booking_nbr?: string;
+        total_amount?: any;
         target?: any;
         nbr?: string;
         remark?: string;
@@ -847,7 +848,6 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             nbr?: string;
         };
         pdf_url?: any;
-        total_amount?: any;
     }[];
 }>;
 export type BookingInvoiceInfo = z.infer<typeof BookingInvoiceInfoSchema>;

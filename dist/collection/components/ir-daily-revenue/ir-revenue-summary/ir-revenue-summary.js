@@ -2,6 +2,7 @@ import { Host, h } from "@stencil/core";
 import { formatAmount } from "../../../utils/utils";
 import calendar_data from "../../../stores/calendar-data";
 export class IrRevenueSummary {
+    filters;
     groupedPayments = new Map();
     previousDateGroupedPayments = new Map();
     paymentEntries;
@@ -43,7 +44,7 @@ export class IrRevenueSummary {
         const previousDatePaymentsTotal = this.calculateTotalPayments(this.previousDateGroupedPayments);
         const previousDateRefundAmount = this.calculateTotalRefunds(this.previousDateGroupedPayments);
         const previousDateTotalAmount = previousDatePaymentsTotal + previousDateRefundAmount;
-        return (h(Host, { key: 'f4fba162d896f29916ca166292b456c04437732b' }, h("div", { key: '3e193bddf9fc5de5be00ab063318e5c937636da1', class: "ir-revenue-summary__mobile" }, h("ir-stats-card", { key: 'b65b55062c66432f7dd80b4c19bd6c99dd920e99', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, h("p", { key: '7607c4f199b023ab2213bfb80b841f6c1aeb789b', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: 'd631360716595d1caece9f166a8a0b481cb2548c', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, h("p", { key: '43a8de7b1f8a1caea65ba898d4e578bbe5f0df48', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount)))), h("div", { key: '78d01fab3299786dfc991a848052a006b7c35175', class: "ir-revenue-summary__tablet" }, h("ir-stats-card", { key: '7efbd1e6ea5b89a84deb734cde2d858da5ca69d1', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` }, h("p", { key: '0e2ea81d46115ffdda47e95594272fc0513bf64d', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: 'c3ce6b48be73713b2c707d1fab79939dc3dad605', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` }, h("p", { key: 'ec8d4a1bc4bb9644bbaa049acbb8705f53829a63', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount))), h("ir-stats-card", { key: '5b4c91b3a7276979e2d3b7206d0aafdcf0b5f550', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: formatAmount(calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` }))));
+        return (h(Host, { key: '02df75f9611e6e6b5fed305530f92bf56e49bd0e' }, h("div", { key: '79bf7cfb78e5459f223b9cbfc1fe960a6f1adcea', class: "ir-revenue-summary__mobile" }, h("ir-stats-card", { key: 'c21a19acb83f1d1fc893561aef163e1410b15f66', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments" }, h("p", { key: '1bce1cff14edb30687fe1ebe4740e94c0fdca158', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: 'c3fbbb3093f23a69a8d1be5d16a7743968d529ac', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds" }, h("p", { key: 'c0c0eadc30f3a9b15a27c802213e1ed4dbe7224a', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount)))), h("div", { key: '8ad73c46314b217e38f3aaedb804d903ba7857b5', class: "ir-revenue-summary__tablet" }, h("ir-stats-card", { key: 'cdcc72b6beb60da599665db9cdbba9554a0bd5c2', icon: 'arrow-trend-up', value: formatAmount(calendar_data.currency.symbol, paymentsTotal), cardTitle: "Payments", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDatePaymentsTotal)}` : '' }, h("p", { key: 'a351c0a59d19fbff10dc7f32d21a89fe0b2af0e4', class: "stats-card__payments-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, paymentsTotal))), h("ir-stats-card", { key: '655d36c9484f79420d8ded4d46cc1695df2178e4', value: "123$", class: "refunds-card", icon: 'arrow-trend-down', cardTitle: "Refunds", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateRefundAmount)}` : '' }, h("p", { key: 'e09c1c1164c2fe6a3d66c66086cf89e69f7ddf93', class: "stats-card__refund-value", slot: "value" }, formatAmount(calendar_data.currency.symbol, refundAmount))), h("ir-stats-card", { key: 'a4a81b715c7d26e77cfe85493baa7451f9291d24', icon: this.getTrendIcon(totalAmount, previousDateTotalAmount), value: formatAmount(calendar_data.currency.symbol, totalAmount), cardTitle: "Difference", subtitle: this.filters?.date ? `Previous day  ${formatAmount(calendar_data.currency.symbol, previousDateTotalAmount)}` : '' }))));
     }
     static get is() { return "ir-revenue-summary"; }
     static get encapsulation() { return "scoped"; }
@@ -59,6 +60,29 @@ export class IrRevenueSummary {
     }
     static get properties() {
         return {
+            "filters": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "DailyPaymentFilter",
+                    "resolved": "{ from_date?: string; to_date?: string; date?: string; users: string; }",
+                    "references": {
+                        "DailyPaymentFilter": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-daily-revenue/types.ts::DailyPaymentFilter"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
             "groupedPayments": {
                 "type": "unknown",
                 "mutable": false,

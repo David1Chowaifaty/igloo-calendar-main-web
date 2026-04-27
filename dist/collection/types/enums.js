@@ -5,6 +5,8 @@ export const ClTxTypeCode = {
     CreditNote: 'CN',
     DebitNote: 'DN',
     StandardChargeDebit: 'DB',
+    Discount: 'DSC',
+    CancellationPenalty: 'CPN',
 };
 export const FdTypes = {
     Draft: 'DFT',
@@ -28,6 +30,11 @@ export const VatIncludedCodes = {
     NotApplicable: '002',
     Inclusive: '001',
     Exclusive: '000',
+};
+export const ChargeSource = {
+    ACCOMMODATION: 0,
+    PICKUP: 1,
+    EXTRA_SERVICE: 2,
 };
 export const FdStatus = {
     Sent: 'SENT',

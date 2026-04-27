@@ -5,6 +5,8 @@ const ClTxTypeCode = {
     CreditNote: 'CN',
     DebitNote: 'DN',
     StandardChargeDebit: 'DB',
+    Discount: 'DSC',
+    CancellationPenalty: 'CPN',
 };
 const FdTypes = {
     Draft: 'DFT',
@@ -12,6 +14,11 @@ const FdTypes = {
     CreditNote: 'CN',
     DebitNote: 'DN',
     Receipt: 'REC',
+};
+const VatIncludedCodes = {
+    NotApplicable: '002',
+    Inclusive: '001',
+    Exclusive: '000',
 };
 const FdStatus = {
     Sent: 'SENT',
@@ -22,6 +29,6 @@ const FdStatus = {
     Voided: 'VOIDED',
 };
 
-export { ClTxTypeCode as C, FdStatus as F, FdTypes as a };
+export { ClTxTypeCode as C, FdStatus as F, VatIncludedCodes as V, FdTypes as a };
 
 //# sourceMappingURL=enums.js.map

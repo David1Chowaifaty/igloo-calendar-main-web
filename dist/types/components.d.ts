@@ -40,7 +40,7 @@ import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-che
 import { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 import { FiscalDocument } from "./services/city-ledger";
 import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
-import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
+import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 import { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
@@ -128,7 +128,7 @@ export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-che
 export { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 export { FiscalDocument } from "./services/city-ledger";
 export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
-export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TaxOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
+export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 export { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
@@ -1442,7 +1442,6 @@ export namespace Components {
         "currencies": ICurrency[];
         "propertyId": number;
         "serviceCategoryOptions": ServiceCategoryOption[];
-        "taxOptions": TaxOption[];
     }
     interface IrCityLedgerFolioFilters {
         "isExporting": boolean;
@@ -1497,7 +1496,6 @@ export namespace Components {
         "initialTransactionType": TransactionType;
         "open": boolean;
         "serviceCategoryOptions": ServiceCategoryOption[];
-        "taxOptions": TaxOption[];
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
@@ -1508,7 +1506,6 @@ export namespace Components {
         "initialTransactionType": TransactionType;
         "language": string;
         "serviceCategoryOptions": ServiceCategoryOption[];
-        "taxOptions": TaxOption[];
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrClAdjustmentFields {
@@ -3419,6 +3416,7 @@ export namespace Components {
     }
     interface IrPaymentDetails {
         "booking": Booking;
+        "isAddPaymentDisabled": boolean;
         "language": string;
         "paymentActions": IPaymentAction[];
         "paymentEntries": PaymentEntries1;
@@ -3483,7 +3481,18 @@ export namespace Components {
     }
     interface IrPaymentsFolio {
         "booking": Booking;
+        "isAddPaymentDisabled": boolean;
         "payments": IPayment[];
+    }
+    interface IrPdfViewer {
+        /**
+          * URL of the PDF to display
+         */
+        "src": string;
+        /**
+          * Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load.
+         */
+        "workerSrc"?: string;
     }
     interface IrPhoneInput {
         /**
@@ -4003,6 +4012,7 @@ export namespace Components {
         "payment": FolioPayment;
     }
     interface IrRevenueSummary {
+        "filters": DailyPaymentFilter;
         "groupedPayments": GroupedFolioPayment;
         "paymentEntries": PaymentEntries;
         "previousDateGroupedPayments": GroupedFolioPayment;
@@ -8962,6 +8972,12 @@ declare global {
         prototype: HTMLIrPaymentsFolioElement;
         new (): HTMLIrPaymentsFolioElement;
     };
+    interface HTMLIrPdfViewerElement extends Components.IrPdfViewer, HTMLStencilElement {
+    }
+    var HTMLIrPdfViewerElement: {
+        prototype: HTMLIrPdfViewerElement;
+        new (): HTMLIrPdfViewerElement;
+    };
     interface HTMLIrPhoneInputElementEventMap {
         "textChange": { phone_prefix: string; mobile: string };
     }
@@ -10276,6 +10292,7 @@ declare global {
         "ir-payment-option": HTMLIrPaymentOptionElement;
         "ir-payment-summary": HTMLIrPaymentSummaryElement;
         "ir-payments-folio": HTMLIrPaymentsFolioElement;
+        "ir-pdf-viewer": HTMLIrPdfViewerElement;
         "ir-phone-input": HTMLIrPhoneInputElement;
         "ir-picker": HTMLIrPickerElement;
         "ir-picker-item": HTMLIrPickerItemElement;
@@ -11814,7 +11831,6 @@ declare namespace LocalJSX {
         "onFolioSummaryUpdate"?: (event: IrCityLedgerFolioCustomEvent<FolioSummary>) => void;
         "propertyId"?: number;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
-        "taxOptions"?: TaxOption[];
     }
     interface IrCityLedgerFolioFilters {
         "isExporting"?: boolean;
@@ -11881,7 +11897,6 @@ declare namespace LocalJSX {
         "onTransactionSaved"?: (event: IrCityLedgerTransactionDrawerCustomEvent<void>) => void;
         "open"?: boolean;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
-        "taxOptions"?: TaxOption[];
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
@@ -11896,7 +11911,6 @@ declare namespace LocalJSX {
         "onTransactionSaved"?: (event: IrCityLedgerTransactionFormCustomEvent<void>) => void;
         "onTransactionValidationFailed"?: (event: IrCityLedgerTransactionFormCustomEvent<ZodIssue[]>) => void;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
-        "taxOptions"?: TaxOption[];
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrClAdjustmentFields {
@@ -14030,6 +14044,7 @@ declare namespace LocalJSX {
     }
     interface IrPaymentDetails {
         "booking"?: Booking;
+        "isAddPaymentDisabled"?: boolean;
         "language"?: string;
         "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
@@ -14103,11 +14118,22 @@ declare namespace LocalJSX {
     }
     interface IrPaymentsFolio {
         "booking"?: Booking;
+        "isAddPaymentDisabled"?: boolean;
         "onAddPayment"?: (event: IrPaymentsFolioCustomEvent<void>) => void;
         "onDeletePayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onEditPayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onIssueReceipt"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "payments"?: IPayment[];
+    }
+    interface IrPdfViewer {
+        /**
+          * URL of the PDF to display
+         */
+        "src"?: string;
+        /**
+          * Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load.
+         */
+        "workerSrc"?: string;
     }
     interface IrPhoneInput {
         /**
@@ -14679,6 +14705,7 @@ declare namespace LocalJSX {
         "payment"?: FolioPayment;
     }
     interface IrRevenueSummary {
+        "filters"?: DailyPaymentFilter;
         "groupedPayments"?: GroupedFolioPayment;
         "paymentEntries"?: PaymentEntries;
         "previousDateGroupedPayments"?: GroupedFolioPayment;
@@ -15679,6 +15706,7 @@ declare namespace LocalJSX {
         "ir-payment-option": IrPaymentOption;
         "ir-payment-summary": IrPaymentSummary;
         "ir-payments-folio": IrPaymentsFolio;
+        "ir-pdf-viewer": IrPdfViewer;
         "ir-phone-input": IrPhoneInput;
         "ir-picker": IrPicker;
         "ir-picker-item": IrPickerItem;
@@ -16058,6 +16086,7 @@ declare module "@stencil/core" {
             "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
             "ir-payment-summary": LocalJSX.IrPaymentSummary & JSXBase.HTMLAttributes<HTMLIrPaymentSummaryElement>;
             "ir-payments-folio": LocalJSX.IrPaymentsFolio & JSXBase.HTMLAttributes<HTMLIrPaymentsFolioElement>;
+            "ir-pdf-viewer": LocalJSX.IrPdfViewer & JSXBase.HTMLAttributes<HTMLIrPdfViewerElement>;
             "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
             "ir-picker": LocalJSX.IrPicker & JSXBase.HTMLAttributes<HTMLIrPickerElement>;
             "ir-picker-item": LocalJSX.IrPickerItem & JSXBase.HTMLAttributes<HTMLIrPickerItemElement>;

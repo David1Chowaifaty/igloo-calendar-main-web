@@ -335,6 +335,17 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             };
         };
         system_id?: number;
+        charges?: {
+            city_tax_amount?: number;
+            city_tax_percent?: number;
+            net_amount?: number;
+            service_charge_amount?: number;
+            service_charge_percent?: number;
+            tax_amount?: number;
+            total_amount?: number;
+            vat_amount?: number;
+            vat_percent?: number;
+        };
         cost?: number;
         category?: {
             code?: string;
@@ -389,6 +400,17 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             };
         };
         system_id?: number;
+        charges?: {
+            city_tax_amount?: number;
+            city_tax_percent?: number;
+            net_amount?: number;
+            service_charge_amount?: number;
+            service_charge_percent?: number;
+            tax_amount?: number;
+            total_amount?: number;
+            vat_amount?: number;
+            vat_percent?: number;
+        };
         cost?: number;
         category?: {
             code?: string;
@@ -448,6 +470,17 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             };
         };
         system_id?: number;
+        charges?: {
+            city_tax_amount?: number;
+            city_tax_percent?: number;
+            net_amount?: number;
+            service_charge_amount?: number;
+            service_charge_percent?: number;
+            tax_amount?: number;
+            total_amount?: number;
+            vat_amount?: number;
+            vat_percent?: number;
+        };
         cost?: number;
         category?: {
             code?: string;
@@ -506,6 +539,17 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
             };
         };
         system_id?: number;
+        charges?: {
+            city_tax_amount?: number;
+            city_tax_percent?: number;
+            net_amount?: number;
+            service_charge_amount?: number;
+            service_charge_percent?: number;
+            tax_amount?: number;
+            total_amount?: number;
+            vat_amount?: number;
+            vat_percent?: number;
+        };
         cost?: number;
         category?: {
             code?: string;

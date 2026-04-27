@@ -4,13 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const room_service = require('./room.service-f9117e70.js');
-const booking_service = require('./booking.service-dab68001.js');
-const utils = require('./utils-592483b3.js');
+const booking_service = require('./booking.service-ddf55a59.js');
+const utils = require('./utils-84a08269.js');
 const index$1 = require('./index-84e84862.js');
-const events_service = require('./events.service-9b4c407f.js');
+const events_service = require('./events.service-b693e50f.js');
 const moment = require('./moment-1780b03a.js');
-const toBeAssigned_service = require('./toBeAssigned.service-a194ee12.js');
-const booking = require('./booking-b7d0d9cb.js');
+const toBeAssigned_service = require('./toBeAssigned.service-267f3e25.js');
+const booking = require('./booking-2f7ad424.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const unassigned_dates_store = require('./unassigned_dates.store-4a879984.js');
@@ -18,15 +18,15 @@ const Token = require('./Token-8fd11984.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const agents_service = require('./agents.service-cfc67db1.js');
-const property_service = require('./property.service-dfa42519.js');
-const arrivals_store = require('./arrivals.store-68bfd65a.js');
+const property_service = require('./property.service-7021c784.js');
+const arrivals_store = require('./arrivals.store-52665d09.js');
 const axios = require('./axios-6e678d52.js');
-const booking_listing_service = require('./booking_listing.service-ef43d67b.js');
+const booking_listing_service = require('./booking_listing.service-1da8f99d.js');
 const channel_service = require('./channel.service-4e2bcfbc.js');
-const departures_store = require('./departures.store-fb6c6ca3.js');
+const departures_store = require('./departures.store-d5e1a741.js');
 const hkTasks_store = require('./hk-tasks.store-3e893ff1.js');
 const paymentOption_store = require('./payment-option.store-2e20e9a2.js');
-const user_service = require('./user.service-24df7b9e.js');
+const user_service = require('./user.service-21cd2f5b.js');
 require('./index-8bb117a0.js');
 require('./index-fbf1fe1d.js');
 require('./type-976db45d.js');
@@ -1861,7 +1861,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '1f6e42df7a17208c5b29a0bbb80857eb9c95b4ff', class: "p-1" }, index.h("ir-interceptor", { key: '4c70e56189703407d44bd23f75c9cb4c53cdf14a', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '77547a2599fe69237fd2abf3fa962ddb03188baa' }), index.h("div", { key: 'f263f7cde9033e9fc91ce7ce717069446ebdc6db', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'bd6b1c1123dfad84d8315fec7568372c93f00fe2', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: 'cb9d5e01d7d168a95033bf91a63c495b3ab16086', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '9b4cdff272cc257184e40c1428e69875209aaea1', class: "p-1" }, index.h("ir-interceptor", { key: '24dad58be2d129297269ed9e3a8ecb82e733a4a8', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '357a18f25fac276e75a708913c3dfea03ff24def' }), index.h("div", { key: '09991fc52651bee1f4c0d8b992361450cd24978a', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'fe6845ba1c64372a6180487baa6d102d579dda44', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: 'b60d4652d29fe58338a7ed55be6015a75b4a0013', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1869,7 +1869,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: 'bc0b629d6fb3d2d7d6c5750ccb19422fd1decb97' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '28fbba7d78822ce88933156d7b381ad73869978e' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -2451,7 +2451,14 @@ const IrDailyRevenue = class {
     groupedPayment;
     previousDateGroupedPayments;
     isLoading;
-    filters = { date: moment.hooks().format('YYYY-MM-DD'), users: null };
+    filters = {
+        date: moment.hooks().format('YYYY-MM-DD'),
+        from_date: null,
+        to_date: null,
+        // from_date: moment().add(-1, 'days').format('YYYY-MM-DD'),
+        // to_date: moment().format('YYYY-MM-DD'),
+        users: null,
+    };
     sideBarEvent;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
@@ -2586,14 +2593,16 @@ const IrDailyRevenue = class {
             this.isLoading = isExportToExcel ? 'export' : 'filter';
             const requests = [
                 this.propertyService.getDailyRevenueReport({
-                    date: this.filters.date,
+                    from_date: this.filters.date ? this.filters.date : this.filters.from_date,
+                    to_date: this.filters.date ? this.filters.date : this.filters.to_date,
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }),
             ];
-            if (!isExportToExcel && !excludeYesterday) {
+            if (!isExportToExcel && !excludeYesterday && this.filters.date) {
                 requests.push(this.propertyService.getDailyRevenueReport({
-                    date: moment.hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    from_date: moment.hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
+                    to_date: moment.hooks(this.filters.date, 'YYYY-MM-DD').add(-1, 'days').format('YYYY-MM-DD'),
                     property_id: this.property_id?.toString(),
                     is_export_to_excel: isExportToExcel,
                 }));
@@ -2625,7 +2634,7 @@ const IrDailyRevenue = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 await this.getPaymentReports(true);
-            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("ir-revenue-summary", { previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), index.h("div", { class: "daily-revenue__meta" }, index.h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), index.h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), index.h("ir-sidebar", { sidebarStyles: {
+            }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), index.h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), index.h("div", { class: "daily-revenue__meta" }, index.h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), index.h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), index.h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));

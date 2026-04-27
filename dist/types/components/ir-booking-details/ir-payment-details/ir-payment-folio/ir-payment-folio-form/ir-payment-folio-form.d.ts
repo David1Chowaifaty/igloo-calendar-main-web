@@ -34,6 +34,5 @@ export declare class IrPaymentFolioForm {
     private handleDropdownChange;
     private handlePaymentMethodDropdownChange;
     private renderDropdownItems;
-    private hasUnassignedItems;
     render(): any;
 }

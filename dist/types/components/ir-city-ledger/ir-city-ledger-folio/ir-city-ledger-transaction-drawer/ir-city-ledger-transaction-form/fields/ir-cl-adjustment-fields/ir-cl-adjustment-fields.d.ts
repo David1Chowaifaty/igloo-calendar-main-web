@@ -7,6 +7,5 @@ export declare class IrClAdjustmentFields {
     bookingOptions: LinkedOption[];
     unpaidInvoiceOptions: LinkedOption[];
     fieldChange: EventEmitter<Partial<CityLedgerTransactionFormDraft>>;
-    private get linkedIdOptions();
     render(): any;
 }

@@ -1,6 +1,6 @@
 import { r as registerInstance, h } from './index-7e96440e.js';
-import { s as setDeparturesSearchTerm, d as departuresStore, a as setDeparturesReferenceDate } from './departures.store-71114781.js';
-import './utils-dce64dc4.js';
+import { s as setDeparturesSearchTerm, d as departuresStore, a as setDeparturesReferenceDate } from './departures.store-adca01f9.js';
+import './utils-5592b0f5.js';
 import './moment-ab846cee.js';
 import './index-87419685.js';
 import './calendar-data-b1f645da.js';
@@ -19,11 +19,11 @@ const IrDeparturesFilter = class {
         setDeparturesSearchTerm(event.detail ?? '');
     };
     render() {
-        return (h("div", { key: '475bf541b0405b8939d7392c80663fdc94a4b13a', class: "departures-filters__container" }, h("ir-custom-date-picker", { key: 'b9793bdbc71fd002b14772815f99f2af2f4a1f8c', onDateChanged: e => {
+        return (h("div", { key: 'cd2cef3536d3d3f99827d197103de1e5a628fb04', class: "departures-filters__container" }, h("ir-custom-date-picker", { key: '9fbc5e2f467ef6250d0a1d520dc8c68c9cae2bed', onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 setDeparturesReferenceDate(e.detail.start.format('YYYY-MM-DD'));
-            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: '7e12e23edd0f0ee376a244b8468b8866aa81230c', name: "calendar", slot: "start" })), h("ir-input", { key: '0f489460775dc4658f75086cb06b886227c30fe2', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: '6f6356b4ca1aa90b46f430ba4f7d467ee0b86ffb', name: "magnifying-glass", slot: "start" }))));
+            }, date: departuresStore.today, class: "departures-filters__date-picker" }, h("wa-icon", { key: 'ee64e47e82b1a06fa09890a18e1b9dfa0fb6c361', name: "calendar", slot: "start" })), h("ir-input", { key: '099c6c490d402990de67f3b7adfa5384c7d8a323', withClear: true, class: "departures-filters__search-bar", placeholder: "Search guests or bookings", value: departuresStore.searchTerm, "onText-change": this.handleSearchChange }, h("wa-icon", { key: 'd9d54b8689af74efbf9c16cba66c8b48999051e1', name: "magnifying-glass", slot: "start" }))));
     }
 };
 IrDeparturesFilter.style = IrDeparturesFilterStyle0;

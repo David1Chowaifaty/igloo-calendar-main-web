@@ -36,7 +36,6 @@ export declare class IrCityLedger {
     handleTicketChange(newValue: string, oldValue: string): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;
     handleAgentIdChange(newId: number | null, oldId: number | null): void;
-    private getUniqueTaxValues;
     private applyAgentIdProp;
     private init;
     render(): any;

@@ -5,7 +5,7 @@ import { b as buildPaymentTypes } from './utils2.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as createInitialTransactionFormDraft, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
-import { C as ClTxTypeCode, F as FdStatus, a as FdTypes } from './enums.js';
+import { C as ClTxTypeCode, V as VatIncludedCodes, F as FdStatus, a as FdTypes } from './enums.js';
 import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$9 } from './ir-cl-adjustment-fields2.js';
 import { d as defineCustomElement$8 } from './ir-cl-credit-note-fields2.js';
@@ -32,7 +32,6 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     formId = 'city-ledger-transaction-form';
     agent = null;
     initialTransactionType = 'OB';
-    taxOptions = [];
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
@@ -52,6 +51,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     transactionValidationFailed;
     submitDisabledChange;
     clFiscalDocumentPreview;
+    taxOptions = [];
     bookingService = new BookingService();
     cityLedgerService = new CityLedgerService();
     clTxTypes;
@@ -62,9 +62,18 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
         return this.initialTransactionType;
     }
+    getUniqueTaxValues() {
+        let taxes = new Set();
+        calendar_data?.property.tax_categories?.forEach(t => {
+            if (t.taxation_mode.code === VatIncludedCodes.Inclusive)
+                taxes.add(t.pct);
+        });
+        this.taxOptions = Array.from(taxes).map(t => ({ id: t.toString(), label: `${t}%` }));
+    }
     componentWillLoad() {
         this.formData = createInitialTransactionFormDraft(this.resolvedInitialType);
         this.fetchPaymentEntries();
+        this.getUniqueTaxValues();
     }
     handleInitialTransactionTypeChange(_newType) {
         this.formData = resetDraftForTransactionType(this.resolvedInitialType, this.formData);
@@ -151,10 +160,12 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 break;
             case ClTxTypeCode.Payment:
             case ClTxTypeCode.CreditNote:
+            case ClTxTypeCode.Discount:
                 credit = amount;
                 break;
             case ClTxTypeCode.StandardChargeDebit:
             case ClTxTypeCode.DebitNote:
+            case ClTxTypeCode.CancellationPenalty:
                 debit = amount;
                 break;
         }
@@ -217,6 +228,9 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             if (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null)) {
                 return null;
             }
+            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) && !this.booking) {
+                return null;
+            }
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
         })))));
     }
@@ -270,7 +284,6 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         "formId": [1, "form-id"],
         "agent": [16],
         "initialTransactionType": [1, "initial-transaction-type"],
-        "taxOptions": [16],
         "unpaidInvoiceOptions": [16],
         "bookingOptions": [16],
         "serviceCategoryOptions": [16],
