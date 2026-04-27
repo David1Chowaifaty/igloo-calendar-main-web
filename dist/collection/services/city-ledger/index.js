@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AllocateCLCreditParamsSchema, CLAgencyContextSchema, GetCLAgingReportParamsSchema, GetCLStatementParamsSchema, IssueManualCLTxParamsSchema, SyncBookingToCityLedgerParamsSchema, ToggleCLTxHoldParamsSchema, TransferCLTransactionsParamsSchema, IssueFiscalDocumentParamsSchema, VoidInvoiceByCreditNoteParamsSchema, GetFiscalDocumentsParamsSchema, IssueInvoiceFromDraftParamsSchema, DeleteDraftFiscalDocumentParamsSchema, FetchCLParamsSchema, PrintClFiscalDocumentParamsSchema, } from "./types";
+import { AllocateCLCreditParamsSchema, CLAgencyContextSchema, GetCLAgingReportParamsSchema, GetCLStatementParamsSchema, IssueManualCLTxParamsSchema, SyncBookingToCityLedgerParamsSchema, ToggleCLTxHoldParamsSchema, TransferCLTransactionsParamsSchema, IssueFiscalDocumentParamsSchema, VoidInvoiceByCreditNoteParamsSchema, GetFiscalDocumentsParamsSchema, IssueInvoiceFromDraftParamsSchema, DeleteDraftFiscalDocumentParamsSchema, FetchCLParamsSchema, PrintClFiscalDocumentParamsSchema, PrintClStatementParamsSchema, } from "./types";
 import { downloadFile } from "../../utils/utils";
 export * from './types';
 export class CityLedgerService {
@@ -16,6 +16,13 @@ export class CityLedgerService {
     async printClFiscalDocument(params) {
         const payload = PrintClFiscalDocumentParamsSchema.parse(params);
         const { data } = await axios.post('/Print_CL_Fiscal_Document', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
+        return data.My_Result;
+    }
+    async printClStatement(params) {
+        const payload = PrintClStatementParamsSchema.parse(params);
+        const { data } = await axios.post('/Print_CL_Statement', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
         return data.My_Result;

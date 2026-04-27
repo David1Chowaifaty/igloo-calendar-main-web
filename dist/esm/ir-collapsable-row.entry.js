@@ -24,7 +24,7 @@ const IrCollapsableRow = class {
     };
     render() {
         return [
-            h("tr", { key: 'c047771a2f40467401173bfb2862630f134beee6' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
+            h("tr", { key: 'd5583d4d6d611c93ead728ee81156d036c01ae53' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
                     'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                     'text-center': cell.column.id === 'actions',
                     'sticky-column': cell.column.id === 'status',

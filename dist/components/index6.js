@@ -201,6 +201,12 @@ const PrintClFiscalDocumentParamsSchema = objectType({
     doc_number: stringType(),
     lang: stringType().optional().default('en'),
 });
+const PrintClStatementParamsSchema = objectType({
+    agency_id: stringType(),
+    from_date: stringType(),
+    to_date: stringType(),
+    lang: stringType().optional().default('en'),
+});
 
 class CityLedgerService {
     async fetchCL(params) {
@@ -216,6 +222,13 @@ class CityLedgerService {
     async printClFiscalDocument(params) {
         const payload = PrintClFiscalDocumentParamsSchema.parse(params);
         const { data } = await axios.post('/Print_CL_Fiscal_Document', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
+        return data.My_Result;
+    }
+    async printClStatement(params) {
+        const payload = PrintClStatementParamsSchema.parse(params);
+        const { data } = await axios.post('/Print_CL_Statement', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
         return data.My_Result;

@@ -1150,3 +1150,20 @@ export declare const PrintClFiscalDocumentParamsSchema: z.ZodObject<{
     doc_number?: string;
 }>;
 export type PrintClFiscalDocumentParams = z.infer<typeof PrintClFiscalDocumentParamsSchema>;
+export declare const PrintClStatementParamsSchema: z.ZodObject<{
+    agency_id: z.ZodString;
+    from_date: z.ZodString;
+    to_date: z.ZodString;
+    lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    from_date?: string;
+    to_date?: string;
+    lang?: string;
+    agency_id?: string;
+}, {
+    from_date?: string;
+    to_date?: string;
+    lang?: string;
+    agency_id?: string;
+}>;
+export type PrintClStatementParams = z.infer<typeof PrintClStatementParamsSchema>;

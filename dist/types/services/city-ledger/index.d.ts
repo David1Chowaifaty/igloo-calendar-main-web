@@ -1,8 +1,9 @@
-import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type FiscalDocuments, type ClTx, type FiscalDocument } from './types';
+import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type PrintClStatementParams, type FiscalDocuments, type ClTx, type FiscalDocument } from './types';
 export * from './types';
 export declare class CityLedgerService {
     fetchCL(params: FetchCLParams): Promise<FetchCLResult>;
     printClFiscalDocument(params: PrintClFiscalDocumentParams): Promise<string>;
+    printClStatement(params: PrintClStatementParams): Promise<string>;
     toggleCLTxHold(params: ToggleCLTxHoldParams): Promise<any>;
     handleCityLedgerTransaction(params: Record<string, unknown>): Promise<any>;
     syncBookingToCityLedger(params: SyncBookingToCityLedgerParams): Promise<any>;

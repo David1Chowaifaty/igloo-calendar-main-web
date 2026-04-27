@@ -1,0 +1,2 @@
+const e={Payment:"PAY",OpeningBalance:"OB",Adjustment:"ADJ",CreditNote:"CN",DebitNote:"DN",StandardChargeDebit:"DB",Discount:"DSC",CancellationPenalty:"CPN"};const t={Draft:"DFT",Invoice:"INV",CreditNote:"CN",DebitNote:"DN",Receipt:"REC"};const a={NotApplicable:"002",Inclusive:"001",Exclusive:"000"};const i={Sent:"SENT",Viewed:"VIEWED",Paid:"PAID",Partial:"PARTIAL",Issued:"ISSUED",Voided:"VOIDED"};export{e as C,t as F,a as V,i as a};
+//# sourceMappingURL=p-3fb96788.js.map

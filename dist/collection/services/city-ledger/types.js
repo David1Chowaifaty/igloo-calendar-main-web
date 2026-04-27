@@ -198,4 +198,10 @@ export const PrintClFiscalDocumentParamsSchema = z.object({
     doc_number: z.string(),
     lang: z.string().optional().default('en'),
 });
+export const PrintClStatementParamsSchema = z.object({
+    agency_id: z.string(),
+    from_date: z.string(),
+    to_date: z.string(),
+    lang: z.string().optional().default('en'),
+});
 //# sourceMappingURL=types.js.map
