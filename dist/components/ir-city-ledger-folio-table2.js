@@ -2,6 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Fragment, Host } from 
 import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable.js';
 import { h as hooks } from './moment.js';
+import { a as actionableClTypes } from './city-ledger.service.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
 import { d as defineCustomElement$6 } from './ir-dialog2.js';
 import { d as defineCustomElement$5 } from './ir-hold-transaction-dialog2.js';
@@ -23,6 +24,21 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         this.generateInvoice = createEvent(this, "generateInvoice", 7);
         this.fetchRequested = createEvent(this, "fetchRequested", 7);
         this.editEntry = createEvent(this, "editEntry", 7);
+        this.deleteEntry = createEvent(this, "deleteEntry", 7);
+    }
+    handleAction(value, row) {
+        switch (value) {
+            case 'hold-transaction':
+                this.holdTargetRow = row;
+                this.holdDialogRef.openModal();
+                break;
+            case 'edit-transaction':
+                this.editEntry.emit(row._raw);
+                break;
+            case 'delete-transaction':
+                this.deleteEntry.emit(row._raw);
+                break;
+        }
     }
     // ─── Props ───────────────────────────────────────────────────────────────
     agentId = null;
@@ -47,6 +63,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     generateInvoice;
     fetchRequested;
     editEntry;
+    deleteEntry;
     // ─── Private fields ──────────────────────────────────────────────────────
     columnHelper = createColumnHelper();
     pageSizes = [25, 50, 100];
@@ -97,11 +114,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             size: 200,
             cell: info => {
                 const value = info.getValue();
-                const rowId = `status_${info.row.original._rowId}`;
-                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, value === 'Billed' && h("wa-icon", { name: "lock" })), value !== 'Billed' && (h(Fragment, null, h("wa-tooltip", { for: rowId }, value === 'Held' ? 'Revert to Unbilled' : 'Hold entry'), h("wa-button", { onClick: () => {
-                        this.holdTargetRow = info.row.original;
-                        this.holdDialogRef.openModal();
-                    }, id: rowId, appearance: "plain", variant: "neutral", size: "small" }, h("wa-icon", { name: "ban", style: { color: value === 'Held' ? 'var(--wa-color-danger-fill-loud)' : 'var(--wa-color-neutral-fill-normal)' } }))))));
+                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, value === 'Billed' && h("wa-icon", { name: "lock" }))));
             },
             enableGrouping: true,
             enableSorting: false,
@@ -181,7 +194,12 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
                 const row = info.row.original;
                 if (row._raw.IS_LOCKED)
                     return null;
-                return (h("wa-button", { appearance: "plain", variant: "neutral", size: "small", onClick: () => this.editEntry.emit(row._raw) }, h("wa-icon", { name: "pencil", style: { fontSize: '0.875rem' } })));
+                return (h("wa-dropdown", { "onwa-hide": e => {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                    }, "onwa-select": (e) => {
+                        this.handleAction(e.detail.item.value, row);
+                    } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
             },
             enableSorting: false,
             enableGrouping: false,
@@ -246,10 +264,10 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         }))))));
     }
     renderStartingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--start" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.fromDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? formatAmount(this.currencySymbol, this.startingBalance) : ''), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, this.startingBalance)), h("td", null)));
     }
     renderEndingBalanceRow() {
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, h("strong", null, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance))))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", { class: "sticky-column" }), h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", null, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", null), h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), h("td", { class: "cell--align-end" }, h("strong", null, this.closingBalance < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.closingBalance)))), h("td", null)));
     }
     renderDataRows(table) {
         const rows = table.getRowModel().rows;

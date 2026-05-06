@@ -10,6 +10,8 @@ export declare class IrCityLedgerFolio {
     currencies: ICurrency[];
     private isTransactionOpen;
     private editingTransaction;
+    private deleteTarget;
+    private isDeleting;
     private filters;
     private data;
     private isLoading;
@@ -22,6 +24,7 @@ export declare class IrCityLedgerFolio {
     private isFetchingExcel;
     folioSummaryUpdate: EventEmitter<FolioSummary>;
     private cityLedgerService;
+    private handleDelete;
     handleAgentIdChange(newValue: number | null, oldValue: number | null): void;
     private clearData;
     private fetchCl;

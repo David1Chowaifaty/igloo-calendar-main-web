@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-b670b6b3.js');
+const booking_service = require('./booking.service-c70d8aa0.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
@@ -112,7 +112,7 @@ const IrPhoneInput = class {
     /** Internal: input focus state for floating label. */
     hasFocus = false;
     // private cmp_countries: ICountry[] = [];
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /** Internal: ids for label/input pairing (a11y). */
     inputId = `ir-phone-input-${Math.random().toString(36).slice(2)}`;
     labelId = `ir-phone-input-label-${Math.random().toString(36).slice(2)}`;

@@ -12,7 +12,7 @@ const IrClInvoiceNetPriceCell = /*@__PURE__*/ proxyCustomElement(class IrClInvoi
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: '069a9d0c52c41b2dd0b1d93441fb29716d33e7a7' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '38efe1e99d38d61056013c03ac35fefbfba69fd2' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get style() { return IrClInvoiceNetPriceCellStyle0; }
 }, [2, "ir-cl-invoice-net-price-cell", {

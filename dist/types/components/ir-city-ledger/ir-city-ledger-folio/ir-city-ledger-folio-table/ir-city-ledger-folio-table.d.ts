@@ -2,6 +2,7 @@ import { EventEmitter } from '../../../../stencil-public-runtime';
 import { type FolioRow } from '../types';
 import type { ICurrency } from "../../../../models/property";
 export declare class IrCityLedgerFolioTable {
+    private handleAction;
     agentId: number | null;
     data: FolioRow[];
     isLoading: boolean;
@@ -25,6 +26,7 @@ export declare class IrCityLedgerFolioTable {
     generateInvoice: EventEmitter<FolioRow[]>;
     fetchRequested: EventEmitter<void>;
     editEntry: EventEmitter<FolioRow['_raw']>;
+    deleteEntry: EventEmitter<FolioRow['_raw']>;
     private columnHelper;
     private pageSizes;
     private holdDialogRef;

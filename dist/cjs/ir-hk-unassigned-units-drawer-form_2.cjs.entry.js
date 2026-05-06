@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking_store = require('./booking.store-b670b6b3.js');
+const booking_service = require('./booking.service-c70d8aa0.js');
 const user_service = require('./user.service-567655c1.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-8bb117a0.js');
@@ -120,10 +120,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (index.h("form", { key: 'd78115a6628c6a6b8ac28ebd615f207642713f73', id: this.formId, onSubmit: e => {
+        return (index.h("form", { key: 'd7098c9a29bf8964df11054f94f90ecf34054eb2', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, index.h("table", { key: '7d8da1126fd6ba1ab7a78a18a6b9385d2446f5a4' }, index.h("thead", { key: '17332283ceefb3928753dd51c7fa0aab2e9a88a4' }, index.h("th", { key: '04cc52c934d56ec5be475d3c6f7552df28804cf8', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '107cdd4600286ff204d553770f3125fa2baeb207', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: '4e1fac97add65c3d89b2d4c648319db6db1adc6b', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '33b9ebdc3a58878276cc53b1217c9645909c98fd' }, this.renderRooms()))));
+            } }, index.h("table", { key: 'f6a558e2c67cd160c215755a686fd40ee673cda9' }, index.h("thead", { key: 'e7d1e218efe20474ad7357208bb75fdf700c470d' }, index.h("th", { key: '85108a83d608bd1ca509a11358fe8de69c5a51c8', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: 'e0074078925ce7f62dc809a45d99d24f1ed05147', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: 'e3bb7b9d719d2590acbf5def60c2ab365857e124', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: 'a0ceb67a656ade7b847f7370df9b68c2a5bbfd1c' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = IrHkUnassignedUnitsDrawerFormStyle0;
@@ -165,7 +165,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     usernameSchema;
     passwordSchema;

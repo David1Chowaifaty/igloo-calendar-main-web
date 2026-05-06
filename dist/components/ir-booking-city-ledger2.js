@@ -4,9 +4,7 @@ import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
-import { C as ClTxTypeCode } from './enums.js';
-import './locales.store.js';
-import './utils.js';
+import { a as actionableClTypes } from './city-ledger.service.js';
 import { d as defineCustomElement$j } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$i } from './ir-city-ledger-transaction-drawer2.js';
 import { d as defineCustomElement$h } from './ir-city-ledger-transaction-form2.js';
@@ -26,8 +24,6 @@ import { d as defineCustomElement$4 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$3 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
-
-const actionableClTypes = [ClTxTypeCode.Adjustment, ClTxTypeCode.CancellationPenalty, ClTxTypeCode.Discount, ClTxTypeCode.StandardChargeDebit];
 
 const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;min-width:0;--ir-cell-padding:0.4rem 0.75rem}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__card.sc-ir-booking-city-ledger::part(body){overflow-x:auto;padding:0}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem var(--wa-card-padding, 1rem)}.booking-city-ledger__empty.sc-ir-booking-city-ledger,.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem var(--wa-card-padding, 1rem);text-align:center;font-size:0.875rem;color:var(--wa-color-neutral-500, #6b7280)}.booking-city-ledger__error.sc-ir-booking-city-ledger{color:var(--wa-color-danger-600, #dc2626)}.booking-city-ledger__table-wrap.sc-ir-booking-city-ledger{min-width:100%}.text-right.sc-ir-booking-city-ledger{text-align:right !important}.is-debit.sc-ir-booking-city-ledger{color:var(--wa-color-danger-fill-loud) !important;font-weight:700}.is-credit.sc-ir-booking-city-ledger{color:var(--wa-color-success-fill-loud) !important;font-weight:700}.booking-city-ledger__cell-date.sc-ir-booking-city-ledger{white-space:nowrap;font-variant-numeric:tabular-nums}";
 const IrBookingCityLedgerStyle0 = irBookingCityLedgerCss;
@@ -139,7 +135,7 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
         if (this.folioRows.length === 0) {
             return h("p", { class: "booking-city-ledger__empty" }, "No city ledger entries for this period.");
         }
-        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Amount"), h("th", null))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, hooks(row.serviceDate).format('MMM DD, YYYY')), h("td", { style: { width: '100%' } }, row.description || '—'), h("td", { class: "text-right " }, row.debit !== null && h("span", { class: 'is-debit' }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: 'is-credit' }, row.credit ? this.formatAmount(row.credit) : '')), h("td", null, row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.includes(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", null, "Description"), h("th", { class: "text-right" }, "Amount"), h("th", null))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, hooks(row.serviceDate).format('MMM DD, YYYY')), h("td", { style: { width: '100%' } }, row.description || '—'), h("td", { class: "text-right " }, row.debit !== null && h("span", { class: 'is-debit' }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: 'is-credit' }, row.credit ? this.formatAmount(row.credit) : '')), h("td", null, row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {

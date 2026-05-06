@@ -7116,6 +7116,7 @@ declare global {
         "generateInvoice": FolioRow[];
         "fetchRequested": void;
         "editEntry": FolioRow['_raw'];
+        "deleteEntry": FolioRow['_raw'];
     }
     interface HTMLIrCityLedgerFolioTableElement extends Components.IrCityLedgerFolioTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFolioTableElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFolioTableElement, ev: IrCityLedgerFolioTableCustomEvent<HTMLIrCityLedgerFolioTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11899,6 +11900,7 @@ declare namespace LocalJSX {
         "fromDate"?: string;
         "hasFetched"?: boolean;
         "isLoading"?: boolean;
+        "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow['_raw']>) => void;
         "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow['_raw']>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFolioTableCustomEvent<void>) => void;
         "onGenerateInvoice"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow[]>) => void;
