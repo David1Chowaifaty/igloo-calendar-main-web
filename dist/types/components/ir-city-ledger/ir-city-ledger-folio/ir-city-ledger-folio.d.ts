@@ -9,6 +9,7 @@ export declare class IrCityLedgerFolio {
     serviceCategoryOptions: ServiceCategoryOption[];
     currencies: ICurrency[];
     private isTransactionOpen;
+    private editingTransaction;
     private filters;
     private data;
     private isLoading;

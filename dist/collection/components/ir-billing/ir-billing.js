@@ -1,146 +1,52 @@
-import { Fragment, h } from "@stencil/core";
-import { BookingService } from "../../services/booking-service/booking.service";
-import { downloadFile, formatAmount } from "../../utils/utils";
-import moment from "moment";
-import { isRequestPending } from "../../stores/ir-interceptor.store";
-import { v4 } from "uuid";
-import calendar_data from "../../stores/calendar-data";
+import { AgentsService } from "../../services/agents/agents.service";
+import { Host, h } from "@stencil/core";
+import { isAgentMode } from "../ir-booking-details/functions";
 export class IrBilling {
+    isAgentMode = false;
+    agentsService = new AgentsService();
     booking;
-    isOpen = null;
-    isLoading = 'page';
-    invoiceInfo;
-    selectedInvoice = null;
+    agent;
+    async handleBookingChange() {
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
+        }
+    }
+    currentTab = 'agent';
+    resolvedAgent;
     billingClose;
-    bookingService = new BookingService();
-    _id = `issue_invoice__btn_${v4()}`;
-    componentWillLoad() {
-        this.init();
-    }
-    async handleInvoiceCreation(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        this.invoiceInfo = { ...e.detail };
-    }
-    async init() {
-        try {
-            this.isLoading = 'page';
-            this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-        }
-        catch (error) {
-            console.error(error);
-        }
-        finally {
-            this.isLoading = null;
+    async componentWillLoad() {
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
         }
     }
-    async voidInvoice(e) {
-        this.isLoading = 'void';
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.bookingService.voidInvoice({
-            invoice_nbr: this.selectedInvoice,
-            property_id: calendar_data.property.id,
-            reason: '',
-        });
-        this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-        this.isLoading = null;
-        this.selectedInvoice = null;
-    }
-    get invoices() {
-        const _invoices = [];
-        for (const invoice of this.invoiceInfo.invoices) {
-            if (invoice.status.code === 'VALID') {
-                _invoices.push(invoice);
-            }
-            else {
-                _invoices.push({ ...invoice, status: { code: 'VALID', description: '' } });
-                _invoices.push({ ...invoice, date: invoice.credit_note.date });
-            }
+    async resolveAgent() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
         }
-        return _invoices.sort((a, b) => {
-            const aDate = moment(a.date ?? a.credit_note?.date, 'YYYY-MM-DD');
-            const bDate = moment(b.date ?? b.credit_note?.date, 'YYYY-MM-DD');
-            return aDate.diff(bDate); // ASC order
-        });
-    }
-    async printInvoice({ invoice, autoDownload, mode = 'invoice' }) {
-        try {
-            const { My_Result } = await this.bookingService.printInvoice({
-                property_id: calendar_data.property.id,
-                invoice_nbr: invoice.nbr,
-                mode,
-            });
-            if (!My_Result) {
-                return;
-            }
-            if (autoDownload) {
-                downloadFile(My_Result);
-                return;
-            }
-            window.open(My_Result);
-        }
-        catch (error) {
-            console.error(error);
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
         }
     }
     render() {
-        if (this.isLoading === 'page') {
-            return (h("div", { class: "drawer__loader-container" }, h("ir-spinner", null)));
+        if (this.isAgentMode) {
+            return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                    this.currentTab = e.detail.name.toString();
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest" }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
         }
-        // const canIssueInvoice = !moment().isBefore(moment(this.booking.from_date, 'YYYY-MM-DD'), 'dates');
-        return (h(Fragment, null, h("div", { class: "billing__container" }, h("section", null, h("div", { class: "billing__section-title-row" }, h("h4", { class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { variant: "brand", id: this._id, onClickHandler: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
-            const isValid = invoice.status.code === 'VALID';
-            return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
-                ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
-                : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY')), h("td", null, h("p", { class: "billing__invoice-nbr" }, h("b", null, isValid ? 'Invoice' : 'Credit note', ":"), " ", isValid ? invoice.nbr : invoice.credit_note.nbr), !isValid && h("p", { class: "billing__invoice-nbr --secondary" }, invoice.nbr)), h("td", { class: "billing__price-col" }, h("span", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(invoice.currency.symbol, invoice.total_amount))), h("td", null, h("div", { class: "billing__actions-row" }, h("wa-dropdown", { "onwa-hide": e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                }, "onwa-select": async (e) => {
-                    switch (e.detail.item.value) {
-                        case 'print':
-                            this.printInvoice({ invoice, autoDownload: true, mode: isValid ? 'invoice' : 'creditnote' });
-                            break;
-                        case 'view-print':
-                            this.printInvoice({ invoice, mode: isValid ? 'invoice' : 'creditnote' });
-                            break;
-                        case 'void':
-                            this.selectedInvoice = invoice.nbr;
-                            break;
-                    }
-                } }, h("h3", null, "Issued by: ", invoice.credit_note ? invoice.credit_note.user : invoice.user), h("wa-divider", null), h("wa-dropdown-item", { value: "view-print" }, "Open PDF", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isValid && !invoice.credit_note && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
-        })))), h("div", { class: "billing__cards" }, this.invoices?.map(invoice => {
-            const isValid = invoice.status.code === 'VALID';
-            return (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isValid ? 'Invoice' : 'Credit note', ":", isValid ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, isValid ? '' : invoice.nbr)), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${invoice.system_id}` }, "Open PDF"), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ invoice, mode: isValid ? 'invoice' : 'creditnote' }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', isValid ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY') : moment(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), isValid && !invoice.credit_note && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
-                    this.selectedInvoice = invoice.nbr;
-                }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
-        })), this.invoiceInfo.invoices?.length === 0 && h("ir-empty-state", { style: { width: '100%', height: '40vh' } }))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.isOpen = null;
-            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-            }, onIrDialogAfterHide: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.selectedInvoice = null;
-            } }, h("p", null, "Void invoice ", this.selectedInvoice, " by generating a credit note?"), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { loading: this.isLoading === 'void', onClickHandler: this.voidInvoice.bind(this), size: "medium", variant: "danger" }, "Confirm")))));
+        return h("ir-guest-billing", { booking: this.booking });
     }
     static get is() { return "ir-billing"; }
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-billing.css", "../../common/table.css"]
+            "$": ["ir-billing.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-billing.css", "../../common/table.css"]
+            "$": ["ir-billing.css"]
         };
     }
     static get properties() {
@@ -167,15 +73,36 @@ export class IrBilling {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "agent": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Agent",
+                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "references": {
+                        "Agent": {
+                            "location": "import",
+                            "path": "@/services/agents/type",
+                            "id": "src/services/agents/type.ts::Agent"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
             }
         };
     }
     static get states() {
         return {
-            "isOpen": {},
-            "isLoading": {},
-            "invoiceInfo": {},
-            "selectedInvoice": {}
+            "currentTab": {},
+            "resolvedAgent": {}
         };
     }
     static get events() {
@@ -196,13 +123,10 @@ export class IrBilling {
                 }
             }];
     }
-    static get listeners() {
+    static get watchers() {
         return [{
-                "name": "invoiceCreated",
-                "method": "handleInvoiceCreation",
-                "target": undefined,
-                "capture": false,
-                "passive": false
+                "propName": "booking",
+                "methodName": "handleBookingChange"
             }];
     }
 }

@@ -1,13 +1,17 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$j } from './ir-billing2.js';
-import { d as defineCustomElement$i } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$h } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$g } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$d } from './ir-dialog2.js';
-import { d as defineCustomElement$c } from './ir-drawer2.js';
-import { d as defineCustomElement$b } from './ir-empty-state2.js';
+import { d as defineCustomElement$n } from './ir-agent-billing2.js';
+import { d as defineCustomElement$m } from './ir-billing2.js';
+import { d as defineCustomElement$l } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$k } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$j } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$i } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$h } from './ir-custom-button2.js';
+import { d as defineCustomElement$g } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$f } from './ir-dialog2.js';
+import { d as defineCustomElement$e } from './ir-drawer2.js';
+import { d as defineCustomElement$d } from './ir-empty-state2.js';
+import { d as defineCustomElement$c } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$b } from './ir-guest-billing2.js';
 import { d as defineCustomElement$a } from './ir-input2.js';
 import { d as defineCustomElement$9 } from './ir-invoice2.js';
 import { d as defineCustomElement$8 } from './ir-invoice-form2.js';
@@ -46,6 +50,7 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
      * @type {Booking}
      */
     booking;
+    agent;
     /**
      * Emitted when the billing drawer has been closed.
      *
@@ -55,76 +60,97 @@ const IrBillingDrawer = /*@__PURE__*/ proxyCustomElement(class IrBillingDrawer e
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '118b38634ec8432034d40dd9632f3455e0e874b9', style: {
-                '--ir-drawer-width': '50rem',
+        return (h("ir-drawer", { key: '801a6a9f10b368743767874843d92a70b6bf4d60', style: {
+                '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
-                '--ir-drawer-padding-left': 'var(--spacing)',
-                '--ir-drawer-padding-right': 'var(--spacing)',
-                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-left': '0',
+                '--ir-drawer-padding-right': '0',
+                '--ir-drawer-padding-top': this.agent ? '0' : 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
             }, class: "billing__drawer", onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '693b6f289a801e3b6bbe6a7c51aa84bd11b00531', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: 'e4cb76a8526ee537e326f39ba609cadd58e60e44', booking: this.booking, agent: this.agent })));
     }
     static get style() { return IrBillingDrawerStyle0; }
 }, [2, "ir-billing-drawer", {
         "open": [516],
-        "booking": [16]
+        "booking": [16],
+        "agent": [16]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-billing-drawer", "ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
+    const components = ["ir-billing-drawer", "ir-agent-billing", "ir-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-city-ledger-fiscal-documents-table", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-guest-billing", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-billing-drawer":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrBillingDrawer);
             }
             break;
+        case "ir-agent-billing":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$n();
+            }
+            break;
         case "ir-billing":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$m();
             }
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$l();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$k();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-city-ledger-fiscal-documents-table":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$h();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$g();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$e();
             }
             break;
         case "ir-empty-state":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-fd-confirm-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$c();
+            }
+            break;
+        case "ir-guest-billing":
             if (!customElements.get(tagName)) {
                 defineCustomElement$b();
             }

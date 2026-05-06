@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const v4 = require('./v4-9b297151.js');
-const type = require('./type-976db45d.js');
-const agents_service = require('./agents.service-cfc67db1.js');
-const utils = require('./utils-84a08269.js');
+const type = require('./type-87fd01b8.js');
+const agents_service = require('./agents.service-3088231b.js');
+const utils = require('./utils-e4cb6b2d.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
@@ -44,7 +44,7 @@ const IrAgentEditorDrawer = class {
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (index.h(index.Host, { key: '314a2b9f797d8676f01d0f95600482c25b97014a', "data-testid": "agent-editor-drawer" }, index.h("ir-drawer", { key: '7ff79677be92604431798f65858af9cda5e3ba6a', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (index.h(index.Host, { key: '4c7042db3590b5f133a882524619a934415a22e8', "data-testid": "agent-editor-drawer" }, index.h("ir-drawer", { key: '8bb460783bfd0877bba63ea823bac746066d8629', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>
@@ -55,7 +55,7 @@ const IrAgentEditorDrawer = class {
         //     {this.currentTab === 'contract' && <ir-agent-contract formId={formId} agent={this.agent}></ir-agent-contract>}
         //   </wa-tab-panel>
         // </wa-tab-group>
-        index.h("ir-agent-editor-form", { key: '3718c6f2056e35c003c8bec2a3b79eca5c059e03', onCloseDrawer: e => {
+        index.h("ir-agent-editor-form", { key: 'cc5c6d3d1456bd9230bdc87cb8ed96c8456a4d38', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.agentEditorClose.emit();
@@ -63,7 +63,7 @@ const IrAgentEditorDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), index.h("div", { key: '79c362c02ab1fa49cac1639bef407f677fee5b4f', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, index.h("ir-custom-button", { key: 'a1391b9ad72325a23f874d708b86c7502ef1cf0b', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), index.h("ir-custom-button", { key: '42b63dd87b93f0eeab3cba07024d4d43fc85f940', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (index.h("ir-custom-button", { key: '57442f6d141f23984744ad3074fb8f218f522f21', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
+            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), index.h("div", { key: '685a90dba7014f51e13331c4d4163c87e5299c04', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, index.h("ir-custom-button", { key: '3bf803a4fc77dc9543681223ebc34df750d5f382', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), index.h("ir-custom-button", { key: '794f081272bc56774812a700c8094d9ccac90e9b', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (index.h("ir-custom-button", { key: '73c0d17208c47f1bc20c22dbf12ce81b0a24d88e', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
     }
 };
 IrAgentEditorDrawer.style = IrAgentEditorDrawerStyle0;
@@ -110,12 +110,12 @@ const IrAgentEditorForm = class {
         }
     }
     render() {
-        return (index.h("form", { key: 'b74b706bb3a9138b6f875a48d406c08d6b6a8fb1', autoComplete: this.formId,
+        return (index.h("form", { key: '5c16b67e988772a0957e9d307dd9efdc07edb7c4', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(utils.getFormSubmitter(e));
-            }, class: "agent-editor__content" }, index.h("ir-agent-profile", { key: '8008cf97e8c6012ab566478fb7cabbca655955f4', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), index.h("ir-agent-contract", { key: 'a4e081213846b2008ee2787e6c694e23e6321ca9', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, index.h("ir-agent-profile", { key: 'e1175f9c157cc482821d192ad66bdf432df59c64', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), index.h("ir-agent-contract", { key: '59264fe4b43d3eeccd7d3c9a9e06b19c07184c25', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
 };
 IrAgentEditorForm.style = IrAgentEditorFormStyle0;
@@ -197,11 +197,11 @@ const IrAgentsTable = class {
         });
     };
     render() {
-        return (index.h(index.Host, { key: 'ba4a94706f93842cbb08dd55c0c3a33a9575877f' }, index.h("div", { key: '6f10cbe4cf97840d878b5e35e86f5c19eaf25d92', class: "table--container" }, index.h("table", { key: '926ce57dc23f930a3cb6f75fb6d83c67e307369e', class: "table" }, index.h("thead", { key: 'a747c33469479a3a96a0d5a1b07fb5f494c3437e' }, index.h("tr", { key: '626f129171237bfdb87dc641837ba57c1a1e59bb' }, index.h("th", { key: '8f5667a7ea77911abd757bcc341cbe3f9826790a', class: "agents-table__header" }, "Name"), index.h("th", { key: '89c335b14f3283f304980da977d08e63f6c4b6fc', class: "agents-table__header" }, "Type"), index.h("th", { key: '94662f35770961a8ad36d6b0989ff9d175c4d807', class: "agents-table__header" }, "Email"), index.h("th", { key: 'a2a9d7acb1fcceaccbe7c8e0b922727075a4b41a', class: "agents-table__header" }, "Phone"), index.h("th", { key: 'a6d517e8d95cdcace9393f0f0fff7fa9dc0b98eb', class: "agents-table__header" }, "Active"), index.h("th", { key: '98d5b442a6e28d0c9e585b0ee3c4dabdf38ff483', class: "agents-table__header " }, index.h("div", { key: 'c3b871c2ffb783118397f71e6cba373db7d97093', class: "agents-table__action" }, index.h("wa-tooltip", { key: 'bea070d61edb81ced3f4908ddfc5128f0c73feff', for: "create-agent-button" }, "New Agent"), index.h("ir-custom-button", { key: '124ed87bf677091edd4edac0eb49aaf48fb1def2', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, index.h("wa-icon", { key: 'dbb222fffa1749e961c74cabdf4b468ea7c790b8', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), index.h("tbody", { key: '633d46668f935cdc2cca867d568617d3dba46492' }, this.agents.map(agent => {
+        return (index.h(index.Host, { key: 'f954583ef2ead5d22e80d3cf29aff4f369619eea' }, index.h("div", { key: '26a570733e41138eb8a46d464bcc1d58a6e34a94', class: "table--container" }, index.h("table", { key: 'ae0df825ad04600484741ca2b8bab62356320e8a', class: "table" }, index.h("thead", { key: 'fa93bc7808f52cfe3274d99376f21aa86851c1df' }, index.h("tr", { key: '54dc7a9114e469b960c6756fc8e39b37ab7ac0b7' }, index.h("th", { key: '58ba5782499412e28dab7deb743eb2fea47a7a5e', class: "agents-table__header" }, "Name"), index.h("th", { key: '6c5e5ae3bd653b04a5c2e2e46210d44cac60b123', class: "agents-table__header" }, "Type"), index.h("th", { key: '9188faff2a2edeff01a99566e03a587927a0e3e7', class: "agents-table__header" }, "Email"), index.h("th", { key: '09f43c0b786094b0886f409e76d82e4c2979ba94', class: "agents-table__header" }, "Phone"), index.h("th", { key: '4a57d48d1508012ff8a0db61c9857a521daeab4b', class: "agents-table__header" }, "Active"), index.h("th", { key: '57a7e412a321cb9753ca18ea434dace3eb2deeb6', class: "agents-table__header " }, index.h("div", { key: 'ca49cb85b734e4a0f3c0d26af9d828ea8519899e', class: "agents-table__action" }, index.h("wa-tooltip", { key: 'ff69e03c806418ef2ae02e02ba306888f82fa96d', for: "create-agent-button" }, "New Agent"), index.h("ir-custom-button", { key: '5c317e6fbb0a62640feccf520c0fcef17f80ca4a', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, index.h("wa-icon", { key: '9ab22d657197d76f68578c3eb5c07c7f6e9ae017', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), index.h("tbody", { key: '9efa74620c9a025ed78c3c950b64f12e2da05057' }, this.agents.map(agent => {
             // const status = this.getStatusLabel(agent);
             const typeLabel = this.getAgentTypeLabel(agent);
             return (index.h("tr", { class: "ir-table-row", key: agent.id }, index.h("td", { class: "agents-table__name" }, index.h("div", { class: "d-flex flex-column" }, index.h("p", null, agent.name), index.h("p", { class: "agents-table__muted" }, agent.reference))), index.h("td", null, index.h("div", { class: "d-flex flex-column" }, index.h("p", null, typeLabel), index.h("p", { class: "agents-table__muted" }, agent.code))), index.h("td", null, agent.email || 'N/A'), index.h("td", null, this.getAgentPhoneNumber(agent) || 'N/A'), index.h("td", null, index.h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), index.h("td", null, index.h("div", { class: "agents-table__action" }, index.h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, index.h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.agents?.length === 0 && (index.h("tr", { key: '73a6f3a9e20b4f788f2a1f119a69ab91b2ac1065', class: "empty-row" }, index.h("td", { key: 'f906c5e4c979ec43b028866e6cddce98f6afebea', colSpan: 6 }, index.h("ir-empty-state", { key: '413a88d65e4e061c1d39668bc06e92750c99ea87' })))))))));
+        }), this.agents?.length === 0 && (index.h("tr", { key: 'e3c19eb025e590d558f0048a2eff6ffb42fdf1d9', class: "empty-row" }, index.h("td", { key: 'ed2ec3aa31c726c3859d9cad6edc7baef6c74435', colSpan: 6 }, index.h("ir-empty-state", { key: '380254f898b253a5c7147a939cbc3946479188d5' })))))))));
     }
 };
 IrAgentsTable.style = IrAgentsTableStyle0 + IrAgentsTableStyle1;

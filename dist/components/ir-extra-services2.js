@@ -1,4 +1,5 @@
 import { proxyCustomElement, HTMLElement, h, Fragment, Host } from '@stencil/core/internal/client';
+import { A as AgentsService } from './agents.service.js';
 import { l as locales } from './locales.store.js';
 import { i as isAgentMode } from './functions.js';
 import { d as defineCustomElement$6 } from './ir-assignment-toggle-dialog2.js';
@@ -16,20 +17,32 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
         super();
         this.__registerHost();
     }
+    agentsService = new AgentsService();
     booking;
+    agent;
     language;
     svcCategories;
     isAgentMode = false;
-    componentWillLoad() {
+    resolvedAgent;
+    async componentWillLoad() {
         if (this.booking) {
-            this.isAgentMode = isAgentMode(this.booking);
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
         }
     }
     handleBookingChange() {
-        this.isAgentMode = isAgentMode(this.booking);
+        this.isAgentMode = isAgentMode(this.resolvedAgent);
+    }
+    async resolveAgent() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
     }
     renderServiceList(services) {
-        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== services.length - 1 && h("wa-divider", null))));
+        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.resolvedAgent }), index !== services.length - 1 && h("wa-divider", null))));
     }
     render() {
         const services = this.booking.extra_services ?? [];
@@ -47,8 +60,10 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
     static get style() { return IrExtraServicesStyle0; }
 }, [2, "ir-extra-services", {
         "booking": [16],
+        "agent": [16],
         "language": [1],
-        "svcCategories": [16]
+        "svcCategories": [16],
+        "resolvedAgent": [32]
     }, undefined, {
         "booking": ["handleBookingChange"]
     }]);

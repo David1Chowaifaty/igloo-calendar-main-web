@@ -1,17 +1,8 @@
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
-        r = Reflect.decorate(decorators, target, key, desc);
-    else
-        for (var i = decorators.length - 1; i >= 0; i--)
-            if (d = decorators[i])
-                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-import { Debounce } from "../../../decorators/debounce";
 import Token from "../../../models/Token";
 import { BookingListingService } from "../../../services/booking_listing.service";
 import { Host, h } from "@stencil/core";
+import { Subject } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, filter, from, of, switchMap, tap } from "rxjs";
 export class IrPmsSearch {
     propertyid;
     ticket;
@@ -20,6 +11,8 @@ export class IrPmsSearch {
     isLoading;
     tokenService = new Token();
     bookingListingService = new BookingListingService();
+    search$ = new Subject();
+    subscription;
     comboboxSelect;
     autoCompleteRef;
     componentWillLoad() {
@@ -28,9 +21,43 @@ export class IrPmsSearch {
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
         }
+        this.subscription = this.search$
+            .pipe(debounceTime(500), distinctUntilChanged(), filter(value => value.length >= 2), tap(() => {
+            this.isLoading = true;
+            this.autoCompleteRef?.hide();
+        }), switchMap(value => {
+            const isNumber = /^(?:-?\d+|.{3}-.*)$/.test(value);
+            return from(this.bookingListingService.getExposedBookings({
+                book_nbr: isNumber ? value : null,
+                name: isNumber ? null : value,
+                property_id: this.propertyid,
+                filter_type: 1,
+                from: null,
+                to: null,
+                balance_filter: '0',
+                start_row: 0,
+                end_row: 20,
+                total_count: 0,
+                booking_status: '',
+                affiliate_id: 0,
+                is_mpo_managed: false,
+                is_mpo_used: false,
+                is_for_mobile: false,
+                is_combined_view: false,
+                is_to_export: false,
+                property_ids: null,
+                channel: '',
+            }, { skipStore: true })).pipe(catchError(() => of([])));
+        }))
+            .subscribe(bookings => {
+            this.bookings = bookings;
+            this.isLoading = false;
+            this.autoCompleteRef?.show();
+        });
     }
     disconnectedCallback() {
         document.removeEventListener('keydown', this.focusInput);
+        this.subscription?.unsubscribe();
     }
     handleTicketChange(newValue, oldValue) {
         console.log(this.ticket);
@@ -59,40 +86,16 @@ export class IrPmsSearch {
             this.autoCompleteRef.focusInput();
         }
     };
-    async fetchBookings(event) {
-        // throw new Error('Method not implemented.');
+    fetchBookings(event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
         const value = event.detail;
-        this.autoCompleteRef.hide();
         if (!value) {
+            this.bookings = [];
+            this.autoCompleteRef?.hide();
             return;
         }
-        const isNumber = /^(?:-?\d+|.{3}-.*)$/.test(value);
-        this.isLoading = true;
-        this.bookings = await this.bookingListingService.getExposedBookings({
-            book_nbr: isNumber ? value : null,
-            name: isNumber ? null : value,
-            property_id: this.propertyid,
-            filter_type: 1,
-            from: '2026-01-01',
-            to: '2026-01-08',
-            balance_filter: '0',
-            start_row: 0,
-            end_row: 20,
-            total_count: 0,
-            booking_status: '',
-            affiliate_id: 0,
-            is_mpo_managed: false,
-            is_mpo_used: false,
-            is_for_mobile: false,
-            is_combined_view: false,
-            is_to_export: false,
-            property_ids: null,
-            channel: '',
-        }, { skipStore: true });
-        this.autoCompleteRef.show();
-        this.isLoading = false;
+        this.search$.next(value);
     }
     handleComboboxSelect(event) {
         event.stopImmediatePropagation();
@@ -105,7 +108,7 @@ export class IrPmsSearch {
         });
     }
     render() {
-        return (h(Host, { key: '73d42dd355b39d0784b6be99b70ccb019940399f' }, h("ir-autocomplete", { key: '7fe16c4787508789ae1cf42d6377f3f9cfadf53f', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: 'c5f7469b85cd7138fb23eda746cca9044562c874', name: "magnifying-glass", slot: "start" }), h("div", { key: '2b3653c98dbaca4356d0bc1cefb8597f4645d922', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: '23ed8a0a14e8a4de483773e2089978c54b8ef40d' }), this.shortcutHint && h("span", { key: 'f6c375a1c5859540e7c8a75358988cb4bd0f27f6' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: '4f21140e0274ac33e86ac49f8c64dbcfa2772ec6', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '96232588b98dd975d4bd2bfbb974200c87576d9c', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '34adbcbc53d0c772b6169d71269b44caa27612be', class: "pms-search__empty-content" }, h("div", { key: 'c8ebffbdc5894d2ea32d984325f60146e6690640', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
+        return (h(Host, { key: '22ead7187b18f0acb3a4fc7887b3998e8929482e' }, h("ir-autocomplete", { key: 'c3912294513397b69761f67a1b08fd65f8abeca9', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '51b93af692f32adf13ff67d0647c7198d38d3978', name: "magnifying-glass", slot: "start" }), h("div", { key: '4e858b9d8a58962081940fa7d516f346baf813d5', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'a0a11f7f14803ced1c3613c56ec36dea0f3712d1' }), this.shortcutHint && h("span", { key: 'a6fccc60287193f03efc9d7e40c8d6d315ac748a' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: 'fdafebab377b4770cdb953eff15c0f36ff0cc19a', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: 'e3a1ce5ef34bd502fc6e3ebb79a7454eb67ba72b', name: "circle-info", "aria-hidden": "true" }), h("div", { key: 'f29184647a6e9dc6a975d4bbc1d36275bb5d8aba', class: "pms-search__empty-content" }, h("div", { key: 'b17594950ee1ef734762fbc5f2fe436194ccc394', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
             const label = `${b.booking_nbr}  ${b.guest.first_name} ${b.guest.last_name}`;
             return (h("ir-autocomplete-option", { class: "pms-search__autocomplete-option", value: b.booking_nbr, label: label }, h("img", { slot: "start", class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), h("div", { class: "pms-search__option" }, h("p", { class: "pms-search__option-bookings" }, h("span", { class: "pms-search__option-booking" }, b.booking_nbr), b.channel_booking_nbr && h("span", { class: "pms-search__option-channel-booking" }, b.channel_booking_nbr)), h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), h("ir-booking-status-tag", { slot: "end", class: "pms-search__option-status", status: b.status })));
         }))));
@@ -202,7 +205,4 @@ export class IrPmsSearch {
             }];
     }
 }
-__decorate([
-    Debounce(300)
-], IrPmsSearch.prototype, "fetchBookings", null);
 //# sourceMappingURL=ir-pms-search.js.map

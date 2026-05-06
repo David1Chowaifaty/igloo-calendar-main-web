@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, Room, SharedPerson } from "../../../models/booking.dto";
+import { Agent } from "../../../services/agents/type";
 import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
 import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
@@ -26,6 +27,7 @@ export declare class IrRoom {
     hasRoomAdd: boolean;
     hasCheckIn: boolean;
     hasCheckOut: boolean;
+    agent: Agent;
     collapsed: boolean;
     isLoading: boolean;
     isToggling: boolean;

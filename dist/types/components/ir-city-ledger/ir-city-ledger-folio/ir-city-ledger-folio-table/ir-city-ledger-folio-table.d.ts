@@ -24,6 +24,7 @@ export declare class IrCityLedgerFolioTable {
     }>;
     generateInvoice: EventEmitter<FolioRow[]>;
     fetchRequested: EventEmitter<void>;
+    editEntry: EventEmitter<FolioRow['_raw']>;
     private columnHelper;
     private pageSizes;
     private holdDialogRef;

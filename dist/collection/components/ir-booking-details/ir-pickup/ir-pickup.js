@@ -24,6 +24,7 @@ export class IrPickup {
      * Determines allowed pickup dates and validation rules.
      */
     bookingDates;
+    agent;
     /**
      * Controls whether the pickup drawer/modal is open.
      * When true, the drawer becomes visible and initializes the form.
@@ -39,7 +40,7 @@ export class IrPickup {
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '795bcf3caf89f9dde7a89bd3e34d6c530afa7838', style: {
+        return (h("ir-drawer", { key: 'f593970c3dba86863d9f7cd8fa206e1e91573e4e', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -50,7 +51,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: 'e8d121c9100da475159de6a005daa0b2c138e3e2', booking: this.booking, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: 'a1407660fdd6bbaef2d12c4051d6ced5ecca31ee', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -58,7 +59,7 @@ export class IrPickup {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: 'b15647a55aab07a567964534634dc476c931fac3', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '6f145160a09e7346ec66d93e48c496ce9b15e7f4', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '4dd0987ec10f79ca2f1ab483d8be636cb27d5cde', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '8c8352f543a1843c4588bc5b540f8fc2ed216b2a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'ae89ae2d37885db8a6e8464ba4784f0bab94b078', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '9cee898a5e47d7f39a48b0bc9f1acc2a6ace2400', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get is() { return "ir-pickup"; }
     static get encapsulation() { return "scoped"; }
@@ -172,6 +173,29 @@ export class IrPickup {
                 "docs": {
                     "tags": [],
                     "text": "The date range of the booking (check-in and check-out).\nDetermines allowed pickup dates and validation rules."
+                },
+                "getter": false,
+                "setter": false
+            },
+            "agent": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Agent",
+                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "references": {
+                        "Agent": {
+                            "location": "import",
+                            "path": "@/services/agents/type",
+                            "id": "src/services/agents/type.ts::Agent"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
                 },
                 "getter": false,
                 "setter": false

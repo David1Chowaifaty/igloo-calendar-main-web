@@ -73,20 +73,20 @@ export class IrTaxInput {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (h(Host, { key: '03e367046c438a6e2e3fb7c35b339f229f88d24e', class: "ir-tax-input" }, h("ir-validator", { key: '76fa1aef07e16d708c91a9c52ce84afe56659c11', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? 40, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: '3deddb079c1b2abcd1a025be98ee0fc6b5671764', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (h(Host, { key: '7d3514db5b92ad34e07266884be92d64463cd702', class: "ir-tax-input" }, h("ir-validator", { key: '8a6963f3fe60dc0a896a47d4e2c4f7ef1ec131d0', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? 40, schema: this.isTaxInputDisabled ? z.number().nullable() : z.coerce.number().min(0).max(30) }, h("ir-input", { key: 'fa0429212f8ac01c0f89b224b83002e4d76c4faf', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
             }, onChange: () => {
-                this.taxChange.emit(this.tax);
+                this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode: this.tax?.mode ?? this.chargeRule?.mode ?? '' });
             }, part: "input", label: this.label, class: "ir-tax-input__percentage", size: "small", placeholder: this.placeholder, "onText-change": e => {
                 const inputValue = `${e.detail ?? ''}`.trim();
                 const value = inputValue === '' ? null : Number(inputValue);
                 this.updateTaxField({ value });
-            } }, h("span", { key: '25129e5eb04ddbca19fde0ceb16ab5f12c014490', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: 'af3b8eccd71e01706cec5bf91022ee8727c89c13', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '5f3b748d04e133788c0f705dc2034f4774f1ec25', part: "select", class: "ir-tax-input__select", size: "small", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
+            } }, h("span", { key: '12bf783ab584b940dbd47435720982dd709c272f', slot: "end", class: "ir-tax-input__percentage-symbol" }, "%"))), h("ir-validator", { key: '78b139c2533cecf5e84985ce2b5bbc24f6a33122', form: "tax-service-categories__form", class: "ir-tax-input__select-wrapper", schema: taxSetupSchema, value: this.tax?.mode || '' }, h("wa-select", { key: '3359713c2f12e4cc65e2b5b5f7745806d57e1b66', part: "select", class: "ir-tax-input__select", size: "small", value: this.tax?.mode, defaultValue: this.tax?.mode, onchange: e => {
                 const mode = e.target.value.toString();
                 this.updateTaxField({ mode });
-                this.taxChange.emit(this.tax);
+                this.taxChange.emit({ value: this.tax?.value ?? this.chargeRule?.value ?? null, mode });
             }, placeholder: "Select..." }, this.setupEntries.map(entry => (h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, getEntryValue({ entry, language: this.language }))))))));
     }
     static get is() { return "ir-tax-input"; }

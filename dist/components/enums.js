@@ -14,6 +14,12 @@ const FdTypes = {
     CreditNote: 'CN',
     DebitNote: 'DN',
     Receipt: 'REC',
+    Proforma: 'PRF',
+};
+const InvoiceableItemReason = {
+    AlreadyInvoiced: '001',
+    NotCheckedOutYet: '002',
+    PickupCancellationPolicy: '003',
 };
 const VatIncludedCodes = {
     NotApplicable: '002',
@@ -29,6 +35,6 @@ const FdStatus = {
     Voided: 'VOIDED',
 };
 
-export { ClTxTypeCode as C, FdStatus as F, VatIncludedCodes as V, FdTypes as a };
+export { ClTxTypeCode as C, FdTypes as F, InvoiceableItemReason as I, VatIncludedCodes as V, FdStatus as a };
 
 //# sourceMappingURL=enums.js.map

@@ -7,6 +7,14 @@ export declare const ExposedAgentsPropsSchema: z.ZodObject<{
     property_id?: number;
 }>;
 export type ExposedAgentsProps = z.infer<typeof ExposedAgentsPropsSchema>;
+export declare const ExposedAgentPropsSchema: z.ZodObject<{
+    id: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    id?: number;
+}, {
+    id?: number;
+}>;
+export type ExposedAgentProps = z.infer<typeof ExposedAgentPropsSchema>;
 export declare const CodeDescriptionSchema: z.ZodObject<{
     code: z.ZodString;
     description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -132,6 +140,7 @@ export declare const AgentBaseSchema: z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -148,7 +157,6 @@ export declare const AgentBaseSchema: z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -173,6 +181,7 @@ export declare const AgentBaseSchema: z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -189,7 +198,6 @@ export declare const AgentBaseSchema: z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -280,6 +288,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -296,7 +305,6 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -321,6 +329,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -337,7 +346,6 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -362,6 +370,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -378,7 +387,6 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -403,6 +411,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -419,7 +428,6 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -511,6 +519,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -527,7 +536,6 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -552,6 +560,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -568,7 +577,6 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -593,6 +601,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -609,7 +618,6 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -634,6 +642,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     email?: string;
     property_id?: any;
     code?: string;
+    id?: number;
     address?: string;
     agent_rate_type_code?: {
         code?: string;
@@ -650,7 +659,6 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     currency_id?: any;
     due_balance?: any;
     email_copied_upon_booking?: string;
-    id?: number;
     is_active?: boolean;
     is_send_guest_confirmation_email?: boolean;
     notes?: string;
@@ -743,6 +751,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -759,7 +768,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -784,6 +792,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -800,7 +809,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -825,6 +833,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -841,7 +850,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -866,6 +874,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -882,7 +891,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -909,6 +917,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -925,7 +934,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -952,6 +960,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -968,7 +977,6 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;

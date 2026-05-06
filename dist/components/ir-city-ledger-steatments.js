@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
-import { a as FdTypes } from './enums.js';
+import { F as FdTypes } from './enums.js';
 import { d as defineCustomElement$b } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$a } from './ir-city-ledger-statements-filter2.js';
 import { d as defineCustomElement$9 } from './ir-city-ledger-statements-table2.js';
@@ -121,15 +121,15 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         return `Statement - ${hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '7ac4b3bfdfb04d3e758266bd2bc27a045573d857' }, h("section", { key: '5e23d88e33a737d5f4259435633ca9fe5ce6e277', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '925b7be27df1d8117989d2728135023729456407', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: 'ab3996582a3cc7b84fd2b76d21194d64f7e8dbb6' }, h("section", { key: 'e5d68fee2be8bc256f661bbabc0f45788b797b54', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '9c554a1abdbc334aa45fc13493e3db6dd551c251', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'd2243c85a53f45d2438331aa1c6454c29561eb60', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '1554ebb4ded7f9d3da44dd0d4ebb5fc5a785116c', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '6209f8902ae6a0ce4712081cd42515031749aa0b', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: 'f12911c305251bb330df9cb67feb30b6f024eb25', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: '38e8960559fd4321dc98221ff3b5ace1ff4640d7', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '3311f8c9663dd3dba771765888aeaf7047763ecc', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'f8395a599556f4274cb7cc19e46a3c20dac6a354', name: "download", label: "Download PDF" })))), this.printFilters && (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
+            } }, h("div", { key: '09ca8aca5bf58256168a54147114f9e561825fbc', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '9c0cc0cebb0ff3f724783d5d3da3989b1822cfb2', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '3e9f4cd84569065f5e51d222f6e996420b75f66e', name: "download", label: "Download PDF" })))), this.printFilters && (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"],

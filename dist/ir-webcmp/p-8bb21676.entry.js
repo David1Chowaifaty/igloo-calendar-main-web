@@ -1,2 +1,0 @@
-import{r as e,h as s,H as a}from"./p-d239357b.js";const c=".sc-ir-agent-assignment-dialog-h{display:block}";const t=c;const n=class{constructor(s){e(this,s)}render(){return s(a,{key:"55a9287d98006b9ea33b1eebdc75412524cf1ac1"},s("slot",{key:"922c86e3991491edaf554ae88d76ca9517e28c8e"}))}};n.style=t;export{n as ir_agent_assignment_dialog};
-//# sourceMappingURL=p-8bb21676.entry.js.map

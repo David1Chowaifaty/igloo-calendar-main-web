@@ -1,3 +1,4 @@
+import { Agent } from "../../../../services/agents/type";
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { IAllowedOptions } from "../../../../models/calendarData";
 import { Booking, IBookingPickupInfo } from "../../../../models/booking.dto";
@@ -6,6 +7,7 @@ export declare class IrPickupForm {
     el: HTMLElement;
     formId: string;
     booking: Booking;
+    agent: Agent;
     defaultPickupData: IBookingPickupInfo | null;
     numberOfPersons: number;
     bookingNumber: string;
@@ -14,6 +16,7 @@ export declare class IrPickupForm {
         to: string;
     };
     isLoading: boolean;
+    resolvedAgent: Agent;
     allowedOptionsByLocation: IAllowedOptions[];
     assignee: 'agent' | 'guest';
     pickupData: TPickupData;
@@ -24,13 +27,14 @@ export declare class IrPickupForm {
     loadingChange: EventEmitter<boolean>;
     resetBookingEvt: EventEmitter<null>;
     private pickupService;
+    private agentsService;
     private pickupSchema;
     private get shouldRenderDetails();
     private get isRemovalRequest();
     private get canSubmitPickup();
     private lastCanSubmit;
     handleSubmitPickupChange(): void;
-    componentWillLoad(): void;
+    componentWillLoad(): Promise<void>;
     private handleLocationChange;
     private handleVehicleQuantityChange;
     private handleVehicleTypeChange;

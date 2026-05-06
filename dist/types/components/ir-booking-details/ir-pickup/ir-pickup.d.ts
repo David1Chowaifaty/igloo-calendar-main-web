@@ -1,3 +1,4 @@
+import { Agent } from "../../../services/agents/type";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IBookingPickupInfo } from "../../../models/booking.dto";
 export declare class IrPickup {
@@ -26,6 +27,7 @@ export declare class IrPickup {
         from: string;
         to: string;
     };
+    agent: Agent;
     /**
      * Controls whether the pickup drawer/modal is open.
      * When true, the drawer becomes visible and initializes the form.

@@ -1,9 +1,11 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Booking, ExtraService } from "../../../../models/booking.dto";
 import { IEntries } from "../../../../models/property";
+import { Agent } from "../../../../services/agents/type";
 export declare class IrExtraService {
     service: ExtraService;
     booking: Booking;
+    agent: Agent;
     bookingNumber: string;
     currencySymbol: string;
     language: string;

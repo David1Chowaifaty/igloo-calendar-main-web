@@ -13,9 +13,13 @@ export declare class IrBookingCityLedger {
     private folioRows;
     private drawerOpen;
     private error;
+    private deleteTarget;
+    private isDeleting;
+    private editingRow;
     componentWillLoad(): void;
     handleBookingChange(newVal: Booking, oldVal: Booking): void;
     private fetchCityLedger;
+    private handleDelete;
     private get serviceCategoryOptions();
     private get bookingOptions();
     private formatAmount;

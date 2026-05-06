@@ -7,6 +7,7 @@ import type { ClFiscalDocumentPreviewRequest } from '../../../ir-city-ledger-fis
 import { type CityLedgerTransactionFormDraft, type LinkedOption, type ServiceCategoryOption, type TransactionType } from './ir-city-ledger-transaction-form.schema';
 import { Agent } from "../../../../../services/agents/type";
 import { Booking } from "../../../../../models/booking.dto";
+import type { ClTx } from "../../../../../services/city-ledger/index";
 export declare class IrCityLedgerTransactionForm {
     formId: string;
     agent: Agent | null;
@@ -16,6 +17,7 @@ export declare class IrCityLedgerTransactionForm {
     serviceCategoryOptions: ServiceCategoryOption[];
     language: string;
     booking: Booking | null;
+    transaction: ClTx | null;
     formData: CityLedgerTransactionFormDraft;
     paymentEntries: PaymentEntries;
     paymentTypeGroups: Record<string, IEntries[]>;
@@ -33,6 +35,7 @@ export declare class IrCityLedgerTransactionForm {
     private get resolvedInitialType();
     private getUniqueTaxValues;
     componentWillLoad(): void;
+    handleTransactionChange(newTx: ClTx | null): void;
     handleInitialTransactionTypeChange(_newType: TransactionType): void;
     private updateFormData;
     private get isSubmitDisabled();

@@ -243,4 +243,57 @@ export const invoiceIdRequiredFieldSchema = z.string().min(1, 'Invoice is requir
 export const serviceCategoryFieldSchema = z.string().min(1, 'Service category is required.');
 export const linkTypeFieldSchema = z.enum(LINK_TYPES);
 export const reasonFieldSchema = z.enum(ADJUSTMENT_REASONS);
+// ── Hydrate form draft from an existing ClTx row (edit mode) ─────────────────
+export function hydrateFormDraftFromTx(tx) {
+    const transactionType = (tx.CL_TX_TYPE_CODE ?? ClTxTypeCode.StandardChargeDebit);
+    const amount = tx.DEBIT > 0 ? tx.DEBIT : tx.CREDIT;
+    const entryType = tx.CREDIT > 0 && tx.DEBIT === 0 ? 'CR' : tx.DEBIT > 0 && tx.CREDIT === 0 ? 'DB' : '';
+    const taxId = tx.VAT_PERCENT > 0 ? String(tx.VAT_PERCENT) : 'N/A';
+    const base = {
+        ...createInitialTransactionFormDraft(transactionType),
+        transactionType,
+        date: tx.SERVICE_DATE ?? '',
+        amount: amount > 0 ? String(amount) : '',
+        taxId,
+        reference: tx.EXTERNAL_REF ?? '',
+        notes: '',
+        entryType,
+    };
+    switch (transactionType) {
+        case ClTxTypeCode.Payment:
+            return {
+                ...base,
+                payment_method: tx.PAY_METHOD_CODE ? { code: tx.PAY_METHOD_CODE, description: tx.PAY_METHOD_CODE } : null,
+                invoiceId: tx.FD_ID ? String(tx.FD_ID) : undefined,
+                onAccount: !tx.FD_ID,
+            };
+        case ClTxTypeCode.StandardChargeDebit:
+            return {
+                ...base,
+                serviceCategoryId: tx.CATEGORY ?? undefined,
+            };
+        case ClTxTypeCode.Adjustment:
+            return {
+                ...base,
+                entryType,
+                linkType: tx.FD_ID ? 'INVOICE' : tx.BH_ID ? 'BOOKING' : 'NONE',
+                linkedId: tx.FD_ID ? String(tx.FD_ID) : tx.BH_ID ? String(tx.BH_ID) : undefined,
+            };
+        case ClTxTypeCode.CreditNote:
+            return {
+                ...base,
+                invoiceId: tx.FD_ID ? String(tx.FD_ID) : undefined,
+                creditNoteMode: tx.FD_ID ? 'cancel-invoice' : 'goodwill',
+                generatesFiscalDocument: true,
+            };
+        case ClTxTypeCode.DebitNote:
+            return {
+                ...base,
+                invoiceId: tx.FD_ID ? String(tx.FD_ID) : undefined,
+                generatesFiscalDocument: true,
+            };
+        default:
+            return base;
+    }
+}
 //# sourceMappingURL=ir-city-ledger-transaction-form.schema.js.map

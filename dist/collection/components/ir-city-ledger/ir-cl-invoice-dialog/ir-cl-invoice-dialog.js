@@ -12,6 +12,7 @@ export class IrClInvoiceDialog {
     isLoading = false;
     error = null;
     noResults = false;
+    isProforma = false;
     invoiceIssued;
     clFiscalDocumentPreview;
     dialogRef;
@@ -20,6 +21,7 @@ export class IrClInvoiceDialog {
     async openModal() {
         this.error = null;
         this.noResults = false;
+        this.isProforma = false;
         this.dialogRef.openModal();
     }
     async closeModal() {
@@ -30,6 +32,10 @@ export class IrClInvoiceDialog {
         this.error = null;
         this.noResults = false;
         try {
+            if (this.isProforma) {
+                await this.handleProforma();
+                return;
+            }
             if (this.mode === 'booking') {
                 const result = await this.cityLedgerService.issueFiscalDocument({
                     AGENCY_ID: this.agentId,
@@ -94,8 +100,53 @@ export class IrClInvoiceDialog {
             this.isLoading = false;
         }
     }
+    async handleProforma() {
+        try {
+            let fromDate;
+            let toDate;
+            let bookingNbr = null;
+            if (this.mode === 'booking') {
+                fromDate = this.startDate;
+                toDate = this.endDate;
+                bookingNbr = this.bookingNbr != null ? String(this.bookingNbr) : null;
+            }
+            else {
+                const isValid = await this.formRef.validate();
+                if (!isValid) {
+                    this.isLoading = false;
+                    return;
+                }
+                const values = await this.formRef.getValues();
+                fromDate = values.fromDate;
+                toDate = values.toDate;
+            }
+            const url = await this.cityLedgerService.printClProforma({
+                agency_id: String(this.agentId),
+                from_date: fromDate,
+                to_date: toDate,
+                booking_nbr: bookingNbr,
+            });
+            if (url) {
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: FdTypes.Proforma,
+                    documentNumber: '',
+                    agentId: this.agentId,
+                    agentName: '',
+                    externalRef: '',
+                    url,
+                });
+            }
+            this.dialogRef.closeModal();
+        }
+        catch (err) {
+            this.error = err instanceof Error ? err.message : 'Failed to generate pro-forma.';
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
     render() {
-        return (h(Host, { key: '5945a071f5126d08b598a99c7fe3ebb05e5311e7' }, h("ir-dialog", { key: 'cf83933c5b8e5077e114ed53258d6fedb1e48a0f', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '7f5b70e7a27def6e94d619fe6dca7e6161d0e022', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'b1eda46fc9164721908df41b570eacb058c8e45c', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '5107b63b19d85aa2581beb07fa810b4c65709ac8', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '58216f608ccaf82251efb2da0e84bc639254be07', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '819939b7b48069bd6e0d2a1ce7e083a0d298609a', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '3cc154831089e18fef49b938bf68fd3ab8f5a991', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '7e26fd927ab9a4426325122a5a554219637e3d30', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: 'bd6e7c1de01d4e68b464905e6db8a082a6c9eb46' }, h("ir-dialog", { key: '854bf83e749ec160a0d7e7da833a84b6fbe171fc', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '86b37f4640eab0c702e1897b373f39924bc65b26', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'd870ee740e35a472d7f46a430af4221c0d52d6f6', checked: this.isProforma, onchange: e => (this.isProforma = e.target.checked) }, "Pro-forma")), h("div", { key: 'f52c4639376364b0fac90a349174a383806f0ab1', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a pro-forma for booking #${this.bookingNbr}?` : `Issue a draft invoice for booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '541552222d83ffb2d7d18dae3a4c546085b34ca9', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'b01b67d4e5c07ecf15f1ab8a9be394681dc59ab8', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'b1944d75c520f948b7c64392be87cfb19712ee89', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'efaaaa9c92033390c028b0ae039cf2c830330480', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'dc2f20c040efba1cebeddce732ca5ff9e33ee544', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'a2b4def134463137948e2139e310e6a14830fcaf', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -237,7 +288,8 @@ export class IrClInvoiceDialog {
         return {
             "isLoading": {},
             "error": {},
-            "noResults": {}
+            "noResults": {},
+            "isProforma": {}
         };
     }
     static get events() {
@@ -253,7 +305,7 @@ export class IrClInvoiceDialog {
                 },
                 "complexType": {
                     "original": "FiscalDocument",
-                    "resolved": "{ AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }",
+                    "resolved": "{ FROM_DATE?: string; TO_DATE?: string; BOOK_NBR?: string; AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }",
                     "references": {
                         "FiscalDocument": {
                             "location": "import",

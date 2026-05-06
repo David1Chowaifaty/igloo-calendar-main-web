@@ -6,16 +6,16 @@ const index = require('./index-35d81173.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking_service = require('./booking.service-ddf55a59.js');
-const user_service = require('./user.service-21cd2f5b.js');
+const booking_store = require('./booking.store-b670b6b3.js');
+const user_service = require('./user.service-567655c1.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-8bb117a0.js');
 require('./index-fbf1fe1d.js');
 require('./axios-6e678d52.js');
-require('./utils-84a08269.js');
+require('./utils-e4cb6b2d.js');
 require('./moment-1780b03a.js');
-require('./type-976db45d.js');
-require('./booking-2f7ad424.js');
+require('./type-87fd01b8.js');
+require('./booking-77b72280.js');
 
 const irHkUnassignedUnitsDrawerFormCss = ".sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}";
 const IrHkUnassignedUnitsDrawerFormStyle0 = irHkUnassignedUnitsDrawerFormCss;
@@ -120,10 +120,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (index.h("form", { key: '35a5bd2dac6cf64120884581adb4065c9be7ba16', id: this.formId, onSubmit: e => {
+        return (index.h("form", { key: 'd78115a6628c6a6b8ac28ebd615f207642713f73', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, index.h("table", { key: '9b60ccd2d0ad4905520e8a2513e6d68d9181c45d' }, index.h("thead", { key: '14cacbef118ca1f2c544b9a88bbc6d2a4694bbe8' }, index.h("th", { key: '3f6187006b59f22af50b7cee44f2ef91f1a427b3', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: 'd0ea1ad8470885811923d647be53165c4e754e15', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: 'e8faf847cb6a92f2060e64bec11e4badd42b91e6', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '79a0b493942dfb6a639705a99d4207c288f3e7ab' }, this.renderRooms()))));
+            } }, index.h("table", { key: '7d8da1126fd6ba1ab7a78a18a6b9385d2446f5a4' }, index.h("thead", { key: '17332283ceefb3928753dd51c7fa0aab2e9a88a4' }, index.h("th", { key: '04cc52c934d56ec5be475d3c6f7552df28804cf8', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '107cdd4600286ff204d553770f3125fa2baeb207', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: '4e1fac97add65c3d89b2d4c648319db6db1adc6b', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '33b9ebdc3a58878276cc53b1217c9645909c98fd' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = IrHkUnassignedUnitsDrawerFormStyle0;
@@ -165,7 +165,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     usernameSchema;
     passwordSchema;

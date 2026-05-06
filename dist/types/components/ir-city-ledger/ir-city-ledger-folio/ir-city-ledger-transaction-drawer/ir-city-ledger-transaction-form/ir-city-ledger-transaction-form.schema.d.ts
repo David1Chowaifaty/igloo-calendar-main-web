@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ClTxTypeCode } from "../../../../../types/enums";
+import type { ClTx } from "../../../../../services/city-ledger/index";
 export type TransactionType = (typeof ClTxTypeCode)[keyof typeof ClTxTypeCode];
 export declare const TRANSACTION_TYPE_RATES: Record<TransactionType, 'CR' | 'DB' | 'CR|DB'>;
 export declare const ENTRY_TYPES: readonly ["CR", "DB"];
@@ -662,3 +663,4 @@ export declare const invoiceIdRequiredFieldSchema: z.ZodString;
 export declare const serviceCategoryFieldSchema: z.ZodString;
 export declare const linkTypeFieldSchema: z.ZodEnum<["INVOICE", "BOOKING", "NONE"]>;
 export declare const reasonFieldSchema: z.ZodEnum<["ROUNDING_DIFFERENCE", "GOODWILL_CREDIT", "PRICE_MATCH", "COMMISSION_CORRECTION", "DISCOUNT_CORRECTION"]>;
+export declare function hydrateFormDraftFromTx(tx: ClTx): CityLedgerTransactionFormDraft;

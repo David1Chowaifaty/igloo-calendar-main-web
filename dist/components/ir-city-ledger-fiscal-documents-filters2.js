@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
-import { a as FdTypes } from './enums.js';
+import { F as FdTypes } from './enums.js';
 import { D as Debounce } from './debounce.js';
 import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
@@ -35,6 +35,7 @@ const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(clas
         docNumber: '',
         taxableOnly: false,
         type: 'all',
+        proformaOnly: false,
     };
     docNumber = '';
     filtersChange;
@@ -53,10 +54,14 @@ const IrCityLedgerFiscalDocumentsFilters = /*@__PURE__*/ proxyCustomElement(clas
         this.updateFilters({ docNumber: value });
     }
     render() {
-        return (h(Host, { key: 'de5ba78a939a1e3cbe15040454d1aca48f648b02' }, h("div", { key: '64f6063e4b304495952ecb4e9adaa363650507b0', class: "filters-bar" }, h("div", { key: '1e7bfe6d8c3b1dadbb328a3398566e9ee004b3a8', class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'b22eb264178cd8c68e05e5ce9a9064e0f4ab1421', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: '32b1c0b8bf65d9e8ab74dacce4e71d618a42eb7d', class: "filters-bar__search-group" }, h("div", { key: 'f7fcab0742ea1d8b3baab2be4819f2fb12b30653', class: "filters-bar__type-group" }, h("wa-select", { key: 'eb5f5da958f34c3bbc4a917618e749d24ea8f92c', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: '495838bb5d7a6f76d03bdd94480c9b3617044199', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes only")), h("ir-input", { key: '7f886ba8ad7bcdf085d41b3702587e5e11f00ded', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
+        return (h(Host, { key: '4d1fd97d81c9b44777920a6c8ed6cdc4ed9eee37' }, h("div", { key: '364ab2532286940670da97fadbd793bb180d8008', class: "filters-bar" }, h("div", { key: '6cbb8aea2a6f215d51dce454b4a19647754502d9', class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '2933c56a3f98a93731adf3c88b17c5570f39156c', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: 'f1201503feb768aa80147690953c4152c09f3d77', class: "filters-bar__search-group" }, h("div", { key: 'fb7c94db8b5d10351e222ed42739112d988a21eb', class: "filters-bar__type-group" }, h("wa-select", { key: '2969f350074efe1fc260828651abb9394c2993eb', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: '9d4fe079cfef7bec45f8a8cafd028b8efcaab0ab', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes only"), h("wa-switch", { key: '72b718b11d42b2ac4281bdbb16fe069394db4955', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
+                const updated = { ...this.filters, proformaOnly: e.target.checked };
+                this.filtersChange.emit(updated);
+                this.applyFilters.emit(updated);
+            } }, "Pro-forma")), h("ir-input", { key: 'dbbe08d5916759deb4a76edb93886ee72bff667d', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
                 this.docNumber = e.detail;
                 this.emitSearchDebounced(e.detail);
-            }, withClear: true }, h("wa-icon", { key: 'fc51549c0d2012eafc959a115b2bcfc0993a8e16', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: 'dc1b41ecdc125bc800e2a445b78bfa6fd4bd37e7', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit(this.filters) }, h("wa-icon", { key: '6a19c006990cf214e6b6668762fe02d78500860d', name: "magnifying-glass" }))))));
+            }, withClear: true }, h("wa-icon", { key: '73bddd44f0804dcc63bcf103e0b43fe281ecf0f2', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '14bc065ba24ca656e3213dfcca7f16a6db17527c', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit(this.filters) }, h("wa-icon", { key: '8f6523375c2e61ec3676c8d7db9ff3dc8361557a', name: "magnifying-glass" }))))));
     }
     static get style() { return IrCityLedgerFiscalDocumentsFiltersStyle0; }
 }, [2, "ir-city-ledger-fiscal-documents-filters", {

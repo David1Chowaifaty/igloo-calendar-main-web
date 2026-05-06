@@ -1,5 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { u as canCheckout, l as canCheckIn, R as ROOM_IN_OUT } from './utils.js';
+import { A as AgentsService } from './agents.service.js';
 import { b as buildSplitIndex } from './booking.js';
 import { i as isAgentMode } from './functions.js';
 import { d as defineCustomElement$o } from './ir-assignment-toggle-dialog2.js';
@@ -36,11 +37,22 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
         this.__registerHost();
         this.roomDeleteFinished = createEvent(this, "roomDeleteFinished", 7);
     }
+    agentsService = new AgentsService();
     /**
      * The booking object containing reservation details,
      * including rooms, status, currency, and edit permissions.
      */
     booking;
+    agent;
+    resolvedAgent;
+    async componentWillLoad() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
+    }
     /**
      * Available bed preference options for the booking rooms.
      * Used to populate bed selection inside each room component.
@@ -184,7 +196,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
     renderRoomItem(room, bookingIndex, includeDepartureTime = true) {
         const showCheckin = this.handleRoomCheckin(room);
         const showCheckout = this.handleRoomCheckout(room);
-        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
+        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, agent: this.resolvedAgent, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
     }
     renderRoomPool(rooms) {
         if (!rooms.length) {
@@ -205,7 +217,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
         if (!rooms.length) {
             return null;
         }
-        if (!isAgentMode(this.booking)) {
+        if (!isAgentMode(this.resolvedAgent)) {
             return this.renderRoomPool(rooms);
         }
         const guestRooms = rooms.filter(r => r.agent === null || r.agent === undefined);
@@ -222,6 +234,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
     static get style() { return IrBookingRoomsStyle0; }
 }, [2, "ir-booking-rooms", {
         "booking": [16],
+        "agent": [16],
         "bedPreference": [16],
         "departureTime": [16],
         "hasRoomAdd": [4, "has-room-add"],
@@ -231,7 +244,8 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
         "legendData": [16],
         "propertyId": [2, "property-id"],
         "roomsInfo": [16],
-        "splitIndex": [16]
+        "splitIndex": [16],
+        "resolvedAgent": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

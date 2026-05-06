@@ -44,7 +44,13 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
     BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
     BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
+    FROM_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    TO_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    BOOK_NBR: z.ZodOptional<z.ZodNullable<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
+    FROM_DATE?: string;
+    TO_DATE?: string;
+    BOOK_NBR?: string;
     AGENCY_ID?: number;
     CURRENCY_ID?: number;
     AGENCY_NAME?: string;
@@ -71,6 +77,9 @@ export declare const FiscalDocumentSchema: z.ZodObject<{
     BALANCE_BEFORE_TX?: number;
     BALANCE_AFTER_TX?: number;
 }, {
+    FROM_DATE?: string;
+    TO_DATE?: string;
+    BOOK_NBR?: string;
     AGENCY_ID?: number;
     CURRENCY_ID?: number;
     AGENCY_NAME?: string;
@@ -158,7 +167,13 @@ export declare const ClTxSchema: z.ZodObject<{
         TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
         BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
         BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
+        FROM_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        TO_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        BOOK_NBR: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
+        FROM_DATE?: string;
+        TO_DATE?: string;
+        BOOK_NBR?: string;
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
         AGENCY_NAME?: string;
@@ -185,6 +200,9 @@ export declare const ClTxSchema: z.ZodObject<{
         BALANCE_BEFORE_TX?: number;
         BALANCE_AFTER_TX?: number;
     }, {
+        FROM_DATE?: string;
+        TO_DATE?: string;
+        BOOK_NBR?: string;
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
         AGENCY_NAME?: string;
@@ -267,6 +285,9 @@ export declare const ClTxSchema: z.ZodObject<{
     My_Bh?: any;
     My_Currency?: any;
     My_Fd?: {
+        FROM_DATE?: string;
+        TO_DATE?: string;
+        BOOK_NBR?: string;
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
         AGENCY_NAME?: string;
@@ -344,6 +365,9 @@ export declare const ClTxSchema: z.ZodObject<{
     My_Bh?: any;
     My_Currency?: any;
     My_Fd?: {
+        FROM_DATE?: string;
+        TO_DATE?: string;
+        BOOK_NBR?: string;
         AGENCY_ID?: number;
         CURRENCY_ID?: number;
         AGENCY_NAME?: string;
@@ -481,7 +505,13 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             TOTAL_AMOUNT: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             BALANCE_BEFORE_TX: z.ZodNullable<z.ZodNumber>;
             BALANCE_AFTER_TX: z.ZodNullable<z.ZodNumber>;
+            FROM_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            TO_DATE: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            BOOK_NBR: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -508,6 +538,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
             BALANCE_BEFORE_TX?: number;
             BALANCE_AFTER_TX?: number;
         }, {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -590,6 +623,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Bh?: any;
         My_Currency?: any;
         My_Fd?: {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -667,6 +703,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Bh?: any;
         My_Currency?: any;
         My_Fd?: {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -747,6 +786,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Bh?: any;
         My_Currency?: any;
         My_Fd?: {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -827,6 +869,9 @@ export declare const FetchCLResultSchema: z.ZodObject<{
         My_Bh?: any;
         My_Currency?: any;
         My_Fd?: {
+            FROM_DATE?: string;
+            TO_DATE?: string;
+            BOOK_NBR?: string;
             AGENCY_ID?: number;
             CURRENCY_ID?: number;
             AGENCY_NAME?: string;
@@ -1084,10 +1129,12 @@ export declare const GetFiscalDocumentsParamsSchema: z.ZodObject<{
     DOC_NUMBER: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     START_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     END_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
+    BOOK_NBR: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     LIST_FD_TYPE_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
     FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
     AGENCY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
+    BOOK_NBR?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
     FD_STATUS_CODE?: string[];
@@ -1095,6 +1142,7 @@ export declare const GetFiscalDocumentsParamsSchema: z.ZodObject<{
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
 }, {
+    BOOK_NBR?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
     FD_STATUS_CODE?: string[];
@@ -1167,3 +1215,23 @@ export declare const PrintClStatementParamsSchema: z.ZodObject<{
     agency_id?: string;
 }>;
 export type PrintClStatementParams = z.infer<typeof PrintClStatementParamsSchema>;
+export declare const PrintClProformaParamsSchema: z.ZodObject<{
+    agency_id: z.ZodString;
+    from_date: z.ZodString;
+    to_date: z.ZodString;
+    lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    booking_nbr: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
+}, "strip", z.ZodTypeAny, {
+    booking_nbr?: string;
+    from_date?: string;
+    to_date?: string;
+    lang?: string;
+    agency_id?: string;
+}, {
+    booking_nbr?: string;
+    from_date?: string;
+    to_date?: string;
+    lang?: string;
+    agency_id?: string;
+}>;
+export type PrintClProformaParams = z.infer<typeof PrintClProformaParamsSchema>;

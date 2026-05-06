@@ -3,6 +3,9 @@ import { z } from "zod";
 export const ExposedAgentsPropsSchema = z.object({
     property_id: z.coerce.number(),
 });
+export const ExposedAgentPropsSchema = z.object({
+    id: z.coerce.number(),
+});
 export const CodeDescriptionSchema = z.object({
     code: z.string(),
     description: z.string().nullable().optional(),

@@ -3,13 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const utils = require('./utils-84a08269.js');
+const utils = require('./utils-e4cb6b2d.js');
 require('./moment-1780b03a.js');
 require('./index-8bb117a0.js');
 require('./calendar-data-70bc3b4b.js');
 require('./index-fbf1fe1d.js');
 require('./locales.store-32782582.js');
-require('./type-976db45d.js');
+require('./type-87fd01b8.js');
 
 const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:auto}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
 const IrSidebarStyle0 = irSidebarCss;
@@ -122,12 +122,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            index.h("div", { key: 'ff46aa25830d21662a7aef9ea22af9a36fa8d5ce', class: `backdrop ${className}`, onClick: () => {
+            index.h("div", { key: 'aa482acd13ce64df5dad968672b3400d6c381bbd', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            index.h("div", { key: '54bbe16c240d23825370227af78cc855af6ec719', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: '2a6d144503c8410c3228c294bd17a3e2f2cfc5bd', class: 'sidebar-title' }, index.h("p", { key: 'd20fcd39eb17e0d4b4385aa5da43932241b1afa1', class: 'p-0 m-0' }, this.label), index.h("div", { key: 'a1d9936f1b4b6f4e83a9fff76535c3557f876e33', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: '1e59b8c67b9757bd15af911852803a627093827e', class: "", onIconClickHandler: () => {
+            index.h("div", { key: '6c575f9a3bf76a7a1d6520223b28d933f4a3c296', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (index.h("div", { key: 'da6e23f429ad8daf86921f6d70ded3811c99aace', class: 'sidebar-title' }, index.h("p", { key: '0e34ceb94b883ec45fcb0065fd471e6c7a992673', class: 'p-0 m-0' }, this.label), index.h("div", { key: '11ea03c598a30c0027172ed619a3a1125f3d38ce', class: 'p-0 m-0 sidebar-icon-container' }, index.h("ir-icon", { key: 'a00dec8fbd5ced0f7b464a2809db967e3f61c561', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, index.h("svg", { key: 'bd9471701af070d6a0b5116455a4183a2fbc49b5', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: '6d42db105f2d2106df41c1ff9e3a5268d6c990e8', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: '966d423b6415c88792a94ccced62447ffe663324', name: "sidebar-body" })),
+                } }, index.h("svg", { key: '432beb2a8e87fe5ce029993123c43410bbd79bf2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, index.h("path", { key: 'aef34148c55397140fa6360f92c012d51080cbfa', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), index.h("slot", { key: '6b5b5d54934d20bb5f82a4e40086be2cc888f49f', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

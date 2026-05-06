@@ -12,7 +12,7 @@ export const _formatTime = (hour, minute) => {
     return moment(`${hour}:${minute}`, 'HH:mm').format('hh:mm A');
     // return moment(`${hour}:${minute}`, 'HH:mm').format('HH:mm');
 };
-export const isAgentMode = (booking) => {
-    return booking.agent && booking?.agent?.code !== '002';
+export const isAgentMode = (agent) => {
+    return agent && agent.payment_mode.code !== '002';
 };
 //# sourceMappingURL=functions.js.map

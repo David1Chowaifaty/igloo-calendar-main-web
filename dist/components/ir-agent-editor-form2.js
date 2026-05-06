@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { b as AgentSchema } from './type.js';
+import { c as AgentSchema } from './type.js';
 import { A as AgentsService } from './agents.service.js';
 import { C as getFormSubmitter } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-agent-contract2.js';
@@ -54,12 +54,12 @@ const IrAgentEditorForm = /*@__PURE__*/ proxyCustomElement(class IrAgentEditorFo
         }
     }
     render() {
-        return (h("form", { key: 'b74b706bb3a9138b6f875a48d406c08d6b6a8fb1', autoComplete: this.formId,
+        return (h("form", { key: '5c16b67e988772a0957e9d307dd9efdc07edb7c4', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '8008cf97e8c6012ab566478fb7cabbca655955f4', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'a4e081213846b2008ee2787e6c694e23e6321ca9', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: 'e1175f9c157cc482821d192ad66bdf432df59c64', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: '59264fe4b43d3eeccd7d3c9a9e06b19c07184c25', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get style() { return IrAgentEditorFormStyle0; }
 }, [2, "ir-agent-editor-form", {

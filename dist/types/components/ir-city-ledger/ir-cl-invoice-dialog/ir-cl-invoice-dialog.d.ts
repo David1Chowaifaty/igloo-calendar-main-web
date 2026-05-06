@@ -11,6 +11,7 @@ export declare class IrClInvoiceDialog {
     isLoading: boolean;
     error: string | null;
     noResults: boolean;
+    isProforma: boolean;
     invoiceIssued: EventEmitter<FiscalDocument>;
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     private dialogRef;
@@ -19,5 +20,6 @@ export declare class IrClInvoiceDialog {
     openModal(): Promise<void>;
     closeModal(): Promise<void>;
     private handleSubmit;
+    private handleProforma;
     render(): any;
 }

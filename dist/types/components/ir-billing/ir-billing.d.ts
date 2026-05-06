@@ -1,20 +1,17 @@
 import { Booking } from "../../models/booking.dto";
+import { Agent } from "../../services/agents/type";
 import { EventEmitter } from '../../stencil-public-runtime';
-import { BookingInvoiceInfo } from '../ir-invoice/types';
+export type BillingPanels = 'agent' | 'guest';
 export declare class IrBilling {
+    private isAgentMode;
+    private agentsService;
     booking: Booking;
-    isOpen: 'invoice';
-    isLoading: 'page' | 'void';
-    invoiceInfo: BookingInvoiceInfo;
-    selectedInvoice: string;
+    agent: Agent;
+    handleBookingChange(): Promise<void>;
+    currentTab: BillingPanels;
+    resolvedAgent: Agent;
     billingClose: EventEmitter<void>;
-    private bookingService;
-    private _id;
-    componentWillLoad(): void;
-    handleInvoiceCreation(e: CustomEvent): Promise<void>;
-    private init;
-    private voidInvoice;
-    private get invoices();
-    private printInvoice;
+    componentWillLoad(): Promise<void>;
+    private resolveAgent;
     render(): any;
 }

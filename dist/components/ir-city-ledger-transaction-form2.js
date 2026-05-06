@@ -4,8 +4,8 @@ import { B as BookingService } from './booking.store.js';
 import { b as buildPaymentTypes } from './utils2.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { c as createInitialTransactionFormDraft, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
-import { C as ClTxTypeCode, V as VatIncludedCodes, F as FdStatus, a as FdTypes } from './enums.js';
+import { c as createInitialTransactionFormDraft, h as hydrateFormDraftFromTx, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
+import { C as ClTxTypeCode, V as VatIncludedCodes, a as FdStatus, F as FdTypes } from './enums.js';
 import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$9 } from './ir-cl-adjustment-fields2.js';
 import { d as defineCustomElement$8 } from './ir-cl-credit-note-fields2.js';
@@ -37,6 +37,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     serviceCategoryOptions = [];
     language = 'en';
     booking = null;
+    transaction = null;
     formData = createInitialTransactionFormDraft();
     paymentEntries = {
         types: [],
@@ -71,12 +72,17 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         this.taxOptions = Array.from(taxes).map(t => ({ id: t.toString(), label: `${t}%` }));
     }
     componentWillLoad() {
-        this.formData = createInitialTransactionFormDraft(this.resolvedInitialType);
+        this.formData = this.transaction ? hydrateFormDraftFromTx(this.transaction) : createInitialTransactionFormDraft(this.resolvedInitialType);
         this.fetchPaymentEntries();
         this.getUniqueTaxValues();
     }
+    handleTransactionChange(newTx) {
+        this.formData = newTx ? hydrateFormDraftFromTx(newTx) : createInitialTransactionFormDraft(this.resolvedInitialType);
+    }
     handleInitialTransactionTypeChange(_newType) {
-        this.formData = resetDraftForTransactionType(this.resolvedInitialType, this.formData);
+        if (!this.transaction) {
+            this.formData = resetDraftForTransactionType(this.resolvedInitialType, this.formData);
+        }
     }
     updateFormData(patch) {
         this.formData = { ...this.formData, ...patch };
@@ -175,7 +181,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         const noTaxTransaction = payload.transactionType === ClTxTypeCode.OpeningBalance || payload.transactionType === ClTxTypeCode.Payment;
         const hasVat = !noTaxTransaction && payload.taxId !== 'N/A';
         return {
-            CL_TX_ID: -1,
+            CL_TX_ID: this.transaction?.CL_TX_ID ?? -1,
             AGENCY_ID: this.agent.id,
             SERVICE_DATE: payload.date,
             CL_TX_TYPE_CODE: payload.transactionType,
@@ -219,7 +225,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
     };
     renderTransactionTypeField() {
-        return (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: "Transaction Type", size: "small", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, onchange: event => {
+        return (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: transactionTypeFieldSchema, value: this.formData.transactionType, valueEvent: "change" }, h("wa-select", { label: "Transaction Type", size: "small", defaultValue: this.formData.transactionType, value: this.formData.transactionType, required: true, disabled: this.transaction !== null, onchange: event => {
                 const value = event.target.value;
                 this.handleTransactionTypeChange(value);
             } }, this.clTxTypes.map(type => {
@@ -272,11 +278,13 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         if (this.isSubmitDisabled) {
             return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderTransactionTypeField(), this.renderTypeFields()));
         }
-        return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== ClTxTypeCode.OpeningBalance && this.formData.transactionType !== ClTxTypeCode.Payment), this.renderTypeFields(), h("ir-input", { label: "Reference", value: this.formData.reference, "onText-change": (event) => {
+        return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== ClTxTypeCode.OpeningBalance &&
+            ![ClTxTypeCode.Payment, ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), h("ir-input", { label: "Reference", value: this.formData.reference, "onText-change": (event) => {
                 this.updateFormData({ reference: event.detail ?? '' });
             } })));
     }
     static get watchers() { return {
+        "transaction": ["handleTransactionChange"],
         "initialTransactionType": ["handleInitialTransactionTypeChange"]
     }; }
     static get style() { return IrCityLedgerTransactionFormStyle0; }
@@ -289,6 +297,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         "serviceCategoryOptions": [16],
         "language": [1],
         "booking": [16],
+        "transaction": [16],
         "formData": [32],
         "paymentEntries": [32],
         "paymentTypeGroups": [32],
@@ -296,6 +305,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         "isSubmitting": [32],
         "fiscalDocuments": [32]
     }, undefined, {
+        "transaction": ["handleTransactionChange"],
         "initialTransactionType": ["handleInitialTransactionTypeChange"]
     }]);
 function defineCustomElement() {

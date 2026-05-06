@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel } from './useTable.js';
 import { C as CityLedgerService } from './index6.js';
-import { F as FdStatus, a as FdTypes } from './enums.js';
+import { F as FdTypes, a as FdStatus } from './enums.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-fd-confirm-dialog2.js';
@@ -48,6 +48,7 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
         return map[code?.toUpperCase()] ?? 'neutral';
     }
     handleAction(action, row) {
+        console.log('here', action);
         switch (action) {
             case 'view':
             case 'preview':
@@ -58,6 +59,9 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     agentName: row.AGENCY_NAME,
                     fdId: row.FD_ID,
                     externalRef: row.EXTERNAL_REF,
+                    fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
+                    toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
+                    bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
                 });
                 break;
             case 'print':
@@ -69,8 +73,10 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     fdId: row.FD_ID,
                     autoPrint: true,
                     externalRef: row.EXTERNAL_REF,
+                    fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
+                    toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
+                    bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
                 });
-                console.log('print', row);
                 break;
             case 'download':
                 console.log('download', row);
@@ -170,7 +176,10 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
                     // const isPaid = row.FD_STATUS_CODE === 'INV';
                     const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
-                    return (h("wa-dropdown", { "onwa-select": (e) => {
+                    return (h("wa-dropdown", { "onwa-hide": e => {
+                            e.stopImmediatePropagation();
+                            e.stopPropagation();
+                        }, "onwa-select": (e) => {
                             this.handleAction(e.detail.item.value, row);
                         } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
                         ? [

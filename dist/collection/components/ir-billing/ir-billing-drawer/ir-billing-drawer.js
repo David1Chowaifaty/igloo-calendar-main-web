@@ -18,6 +18,7 @@ export class IrBillingDrawer {
      * @type {Booking}
      */
     booking;
+    agent;
     /**
      * Emitted when the billing drawer has been closed.
      *
@@ -27,18 +28,18 @@ export class IrBillingDrawer {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '118b38634ec8432034d40dd9632f3455e0e874b9', style: {
-                '--ir-drawer-width': '50rem',
+        return (h("ir-drawer", { key: '801a6a9f10b368743767874843d92a70b6bf4d60', style: {
+                '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
-                '--ir-drawer-padding-left': 'var(--spacing)',
-                '--ir-drawer-padding-right': 'var(--spacing)',
-                '--ir-drawer-padding-top': 'var(--spacing)',
+                '--ir-drawer-padding-left': '0',
+                '--ir-drawer-padding-right': '0',
+                '--ir-drawer-padding-top': this.agent ? '0' : 'var(--spacing)',
                 '--ir-drawer-padding-bottom': 'var(--spacing)',
             }, class: "billing__drawer", onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '693b6f289a801e3b6bbe6a7c51aa84bd11b00531', booking: this.booking })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: 'e4cb76a8526ee537e326f39ba609cadd58e60e44', booking: this.booking, agent: this.agent })));
     }
     static get is() { return "ir-billing-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -98,6 +99,29 @@ export class IrBillingDrawer {
                             "text": "{Booking}"
                         }],
                     "text": "The booking object containing reservation and guest details\nthat will be used to populate the billing view."
+                },
+                "getter": false,
+                "setter": false
+            },
+            "agent": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Agent",
+                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "references": {
+                        "Agent": {
+                            "location": "import",
+                            "path": "@/services/agents/type",
+                            "id": "src/services/agents/type.ts::Agent"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
                 },
                 "getter": false,
                 "setter": false

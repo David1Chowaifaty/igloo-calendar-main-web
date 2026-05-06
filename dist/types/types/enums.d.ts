@@ -14,6 +14,12 @@ export declare const FdTypes: {
     readonly CreditNote: "CN";
     readonly DebitNote: "DN";
     readonly Receipt: "REC";
+    readonly Proforma: "PRF";
+};
+export declare const InvoiceableItemReason: {
+    readonly AlreadyInvoiced: "001";
+    readonly NotCheckedOutYet: "002";
+    readonly PickupCancellationPolicy: "003";
 };
 export declare const PayMethodCode: {
     readonly Cash: "001";

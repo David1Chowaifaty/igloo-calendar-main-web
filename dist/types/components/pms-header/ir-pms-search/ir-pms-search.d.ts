@@ -9,6 +9,8 @@ export declare class IrPmsSearch {
     isLoading: boolean;
     private tokenService;
     private bookingListingService;
+    private search$;
+    private subscription;
     comboboxSelect: EventEmitter<IrComboboxSelectEventDetail>;
     autoCompleteRef: HTMLIrAutocompleteElement;
     componentWillLoad(): void;

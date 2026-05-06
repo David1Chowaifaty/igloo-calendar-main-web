@@ -1,5 +1,6 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { Booking, IPayment } from "../../../models/booking.dto";
+import { Agent } from "../../../services/agents/type";
 import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
 import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../types';
@@ -11,7 +12,8 @@ export declare class IrPaymentDetails {
     paymentEntries: PaymentEntries;
     language: string;
     svcCategories: IEntries[];
-    isAddPaymentDisabled: boolean;
+    isAllServicesAgentOwned: boolean;
+    agent: Agent;
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;

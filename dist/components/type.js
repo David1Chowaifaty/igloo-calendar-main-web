@@ -10,6 +10,9 @@ const AgentsTypes = {
 const ExposedAgentsPropsSchema = z.object({
     property_id: z.coerce.number(),
 });
+const ExposedAgentPropsSchema = z.object({
+    id: z.coerce.number(),
+});
 const CodeDescriptionSchema = z.object({
     code: z.string(),
     description: z.string().nullable().optional(),
@@ -102,6 +105,6 @@ const HandleExposedAgentPropsSchema = z.object({
     agent: AgentSchema,
 });
 
-export { AgentBaseSchema as A, ExposedAgentsPropsSchema as E, HandleExposedAgentPropsSchema as H, AgentsTypes as a, AgentSchema as b };
+export { AgentBaseSchema as A, ExposedAgentsPropsSchema as E, HandleExposedAgentPropsSchema as H, ExposedAgentPropsSchema as a, AgentsTypes as b, AgentSchema as c };
 
 //# sourceMappingURL=type.js.map

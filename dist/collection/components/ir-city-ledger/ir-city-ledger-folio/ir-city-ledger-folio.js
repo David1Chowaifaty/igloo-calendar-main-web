@@ -10,6 +10,7 @@ export class IrCityLedgerFolio {
     serviceCategoryOptions = [];
     currencies = [];
     isTransactionOpen = false;
+    editingTransaction = null;
     filters = {};
     data = [];
     isLoading = false;
@@ -146,22 +147,31 @@ export class IrCityLedgerFolio {
         }
     }
     render() {
-        return (h(Host, { key: '2fd8fc1d0513b47936d7ec75c08d202e2d162bac' }, h("ir-city-ledger-folio-filters", { key: '6c3bc8608ee77675dca5111873468b64e28cd6ae', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '1699c939172b542e53a74167e910b521a6809bd4' }, h("ir-city-ledger-folio-filters", { key: '4b2f7a04f247e8df6dcb5a3282c3cdd965153481', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onAddEntry: () => (this.isTransactionOpen = true), isExporting: this.isFetchingExcel, onExportFolio: () => {
+            }, onAddEntry: () => {
+                this.editingTransaction = null;
+                this.isTransactionOpen = true;
+            }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '402e093a4715ef59b6d2e14ca3a2788768531ee7', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: '812398fdbfc07daf89b994921e18a1996a0ba82c', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
             }, onFetchRequested: async () => {
                 this.pageIndex = 0;
                 await this.fetchFolioData();
-            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail) }), h("ir-city-ledger-transaction-drawer", { key: 'c19c8bcc4186e5fd7d94b3dda233b3b9d27cfcf1', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, onTransactionSaved: () => {
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail), onEditEntry: e => {
+                this.editingTransaction = e.detail;
+                this.isTransactionOpen = true;
+            } }), h("ir-city-ledger-transaction-drawer", { key: 'cf74a271f3d5e1d4afc326bbcfc4bbb7aeb7ad73', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
-            }, onCloseDrawer: () => (this.isTransactionOpen = false) })));
+            }, onCloseDrawer: () => {
+                this.isTransactionOpen = false;
+                this.editingTransaction = null;
+            } })));
     }
     static get is() { return "ir-city-ledger-folio"; }
     static get encapsulation() { return "scoped"; }
@@ -182,7 +192,7 @@ export class IrCityLedgerFolio {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; id?: number; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
@@ -273,6 +283,7 @@ export class IrCityLedgerFolio {
     static get states() {
         return {
             "isTransactionOpen": {},
+            "editingTransaction": {},
             "filters": {},
             "data": {},
             "isLoading": {},

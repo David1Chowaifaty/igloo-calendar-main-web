@@ -1,4 +1,5 @@
 import { Booking } from "../../../models/booking.dto";
+import { Agent } from "../../../services/agents/type";
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrBillingDrawer {
     /**
@@ -19,6 +20,7 @@ export declare class IrBillingDrawer {
      * @type {Booking}
      */
     booking: Booking;
+    agent: Agent;
     /**
      * Emitted when the billing drawer has been closed.
      *

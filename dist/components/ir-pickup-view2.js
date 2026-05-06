@@ -1,6 +1,7 @@
 import { proxyCustomElement, HTMLElement, h, Host, Fragment } from '@stencil/core/internal/client';
 import { c as calendar_data } from './calendar-data.js';
 import { l as locales } from './locales.store.js';
+import { A as AgentsService } from './agents.service.js';
 import { i as isAgentMode, _ as _formatTime } from './functions.js';
 import { h as hooks } from './moment.js';
 import { d as defineCustomElement$3 } from './ir-custom-button2.js';
@@ -15,16 +16,29 @@ const IrPickupView = /*@__PURE__*/ proxyCustomElement(class IrPickupView extends
         super();
         this.__registerHost();
     }
+    agentsService = new AgentsService();
     booking;
+    agent;
+    resolvedAgent;
+    async componentWillLoad() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
+    }
     render() {
         if (!calendar_data.pickup_service.is_enabled || !this.booking.is_editable) {
             return null;
         }
-        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_Pickup), h("wa-tooltip", { for: "pickup" }, this.booking.pickup_info ? 'Edit' : 'Add', " pickup"), h("ir-custom-button", { slot: "header-actions", id: "pickup", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "edit", style: { fontSize: '1rem' } })), this.booking.pickup_info ? (h(Fragment, null, isAgentMode(this.booking) && (h("p", { class: `service-group__label ${isAgentMode(this.booking) ? (this.booking?.pickup_info?.agent ? '--agent' : '') : ''}` }, h("span", null, "Bill to"), this.booking.pickup_info.agent ? this.booking.pickup_info.agent.name : 'Guest')), h("div", { class: `pickup-info${isAgentMode(this.booking) ? (this.booking.pickup_info.agent ? ' service-group service-group--agent' : ' service-group service-group--guest') : ''}` }, h("div", { class: "pickup-info__summary" }, h("div", null, h("p", { class: "pickup-info__datetime" }, hooks(this.booking.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'), this.booking.pickup_info.hour && this.booking.pickup_info.minute && (h("span", null, " \u2022 ", _formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString()))))), h("p", { class: "pickup-info__due" }, h("strong", null, this.booking.pickup_info.currency.symbol, this.booking.pickup_info.total))), h("div", { class: "pickup-info__details" }, h("ir-label", { display: "inline", labelText: `${locales.entries.Lcz_FlightDetails}:`, content: this.booking.pickup_info.details }), h("p", { class: "pickup-info__line" }, h("span", { class: "pickup-info__label" }, "Vehicle:"), h("span", null, this.booking.pickup_info.selected_option.vehicle.description)), h("p", { class: "pickup-info__line" }, h("span", { class: "pickup-info__label" }, locales.entries.Lcz_NbrOfVehicles, ":"), h("strong", null, this.booking.pickup_info.nbr_of_units))), h("p", { class: "pickup-info__note" }, calendar_data.pickup_service.pickup_instruction.description, calendar_data.pickup_service.pickup_cancelation_prepayment.description)))) : (h("ir-empty-state", null)))));
+        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_Pickup), h("wa-tooltip", { for: "pickup" }, this.booking.pickup_info ? 'Edit' : 'Add', " pickup"), h("ir-custom-button", { slot: "header-actions", id: "pickup", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "edit", style: { fontSize: '1rem' } })), this.booking.pickup_info ? (h(Fragment, null, isAgentMode(this.resolvedAgent) && (h("p", { class: `service-group__label ${isAgentMode(this.resolvedAgent) ? (this.booking?.pickup_info?.agent ? '--agent' : '') : ''}` }, h("span", null, "Bill to"), this.booking.pickup_info.agent ? this.booking.pickup_info.agent.name : 'Guest')), h("div", { class: `pickup-info${isAgentMode(this.resolvedAgent) ? (this.booking.pickup_info.agent ? ' service-group service-group--agent' : ' service-group service-group--guest') : ''}` }, h("div", { class: "pickup-info__summary" }, h("div", null, h("p", { class: "pickup-info__datetime" }, hooks(this.booking.pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'), this.booking.pickup_info.hour && this.booking.pickup_info.minute && (h("span", null, " \u2022 ", _formatTime(this.booking.pickup_info.hour.toString(), this.booking.pickup_info.minute.toString()))))), h("p", { class: "pickup-info__due" }, h("strong", null, this.booking.pickup_info.currency.symbol, this.booking.pickup_info.total))), h("div", { class: "pickup-info__details" }, h("ir-label", { display: "inline", labelText: `${locales.entries.Lcz_FlightDetails}:`, content: this.booking.pickup_info.details }), h("p", { class: "pickup-info__line" }, h("span", { class: "pickup-info__label" }, "Vehicle:"), h("span", null, this.booking.pickup_info.selected_option.vehicle.description)), h("p", { class: "pickup-info__line" }, h("span", { class: "pickup-info__label" }, locales.entries.Lcz_NbrOfVehicles, ":"), h("strong", null, this.booking.pickup_info.nbr_of_units))), h("p", { class: "pickup-info__note" }, calendar_data.pickup_service.pickup_instruction.description, calendar_data.pickup_service.pickup_cancelation_prepayment.description)))) : (h("ir-empty-state", null)))));
     }
     static get style() { return IrPickupViewStyle0; }
 }, [2, "ir-pickup-view", {
-        "booking": [16]
+        "booking": [16],
+        "agent": [16],
+        "resolvedAgent": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

@@ -1,21 +1,34 @@
+import { AgentsService } from "../../../services/agents/agents.service";
 import { Fragment, Host, h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
 import { isAgentMode } from "../functions";
 export class IrExtraServices {
+    agentsService = new AgentsService();
     booking;
+    agent;
     language;
     svcCategories;
     isAgentMode = false;
-    componentWillLoad() {
+    resolvedAgent;
+    async componentWillLoad() {
         if (this.booking) {
-            this.isAgentMode = isAgentMode(this.booking);
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
         }
     }
     handleBookingChange() {
-        this.isAgentMode = isAgentMode(this.booking);
+        this.isAgentMode = isAgentMode(this.resolvedAgent);
+    }
+    async resolveAgent() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
     }
     renderServiceList(services) {
-        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service }), index !== services.length - 1 && h("wa-divider", null))));
+        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.resolvedAgent }), index !== services.length - 1 && h("wa-divider", null))));
     }
     render() {
         const services = this.booking.extra_services ?? [];
@@ -52,6 +65,29 @@ export class IrExtraServices {
                             "location": "import",
                             "path": "@/models/booking.dto",
                             "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "agent": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Agent",
+                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "references": {
+                        "Agent": {
+                            "location": "import",
+                            "path": "@/services/agents/type",
+                            "id": "src/services/agents/type.ts::Agent"
                         }
                     }
                 },
@@ -106,6 +142,11 @@ export class IrExtraServices {
                 "getter": false,
                 "setter": false
             }
+        };
+    }
+    static get states() {
+        return {
+            "resolvedAgent": {}
         };
     }
     static get watchers() {

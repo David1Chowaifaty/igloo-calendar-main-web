@@ -8,14 +8,16 @@ import Token from "../../models/Token";
 import calendar_data from "../../stores/calendar-data";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { buildSplitIndex } from "../../utils/booking";
+import { AgentsService } from "../../services/agents/agents.service";
 export class IrBookingDetails {
     bookingService = new BookingService();
     roomService = new RoomService();
     paymentService = new PaymentService();
+    agentService = new AgentsService();
     token = new Token();
     arrivalTime;
     svcCategories;
-    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing?id=%2';
+    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2';
     // private printingBaseUrl = 'http://localhost:5863/%1/printing?id=%2';
     modalRef;
     paymentFolioRef;
@@ -42,6 +44,8 @@ export class IrBookingDetails {
     sidebarState = null;
     splitIndex;
     statusData = [];
+    agent;
+    isLoading = true;
     /**
      * Booking number used to fetch booking details.
      */
@@ -260,6 +264,7 @@ export class IrBookingDetails {
     }
     async initializeApp() {
         try {
+            this.isLoading = true;
             const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
@@ -275,6 +280,9 @@ export class IrBookingDetails {
                     '_SVC_CATEGORY',
                 ]),
             ]);
+            if (bookingDetails.agent) {
+                this.agent = await this.agentService.getExposedAgent({ id: bookingDetails.agent.id });
+            }
             this.property_id = roomResponse?.My_Result?.id;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
@@ -311,6 +319,9 @@ export class IrBookingDetails {
         }
         catch (error) {
             console.error('Error initializing app:', error);
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     async openPrintingScreen(options, version = 'new') {
@@ -379,10 +390,10 @@ export class IrBookingDetails {
         return allRoomsHaveAgent && pickupHasAgent && allExtrasHaveAgent;
     }
     render() {
-        if (!this.booking) {
+        if (this.isLoading) {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
-        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, onRoomDeleteFinished: this.handleDeleteFinish }), h("ir-pickup-view", { booking: this.booking }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, svcCategories: this.svcCategories, isAddPaymentDisabled: this.isAllServicesAgentOwned() })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
+        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, onRoomDeleteFinished: this.handleDeleteFinish }), h("ir-pickup-view", { booking: this.booking, agent: this.agent }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: this.isAllServicesAgentOwned() })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalRef.closeModal();
@@ -391,20 +402,20 @@ export class IrBookingDetails {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.handleModalConfirm();
-            }, size: "medium", variant: "brand" }, locales.entries.Lcz_Confirm))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, svcCategories: this.svcCategories, language: this.language, booking: this.booking, slot: "sidebar-body", onCloseModal: e => {
+            }, size: "medium", variant: "brand" }, locales.entries.Lcz_Confirm))), h("ir-room-guests", { open: this.sidebarState === 'room-guest', countries: this.countries, language: this.language, identifier: this.sidebarPayload?.identifier, bookingNumber: this.booking.booking_nbr, roomName: this.sidebarPayload?.roomName, totalGuests: this.sidebarPayload?.totalGuests, sharedPersons: this.sidebarPayload?.sharing_persons, slot: "sidebar-body", checkIn: this.sidebarPayload?.checkin, onCloseModal: () => (this.sidebarState = null) }), h("ir-extra-service-config", { open: this.sidebarState === 'extra_service', service: this.selectedService, svcCategories: this.svcCategories, language: this.language, booking: this.booking, agent: this.agent, slot: "sidebar-body", onCloseModal: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.sidebarState = null;
                 if (this.selectedService) {
                     this.selectedService = null;
                 }
-            } }), h("ir-pickup", { booking: this.booking, open: this.sidebarState === 'pickup', bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: () => {
+            } }), h("ir-pickup", { booking: this.booking, agent: this.agent, open: this.sidebarState === 'pickup', bookingDates: { from: this.booking.from_date, to: this.booking.to_date }, defaultPickupData: this.booking.pickup_info, bookingNumber: this.booking.booking_nbr, numberOfPersons: this.booking.occupancy.adult_nbr + this.booking.occupancy.children_nbr, onCloseModal: () => {
                 this.sidebarState = null;
             } }), h("ir-billing-drawer", { open: this.sidebarState === 'invoice', onBillingClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.sidebarState = null;
-            }, booking: this.booking }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
+            }, booking: this.booking, agent: this.agent }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
                 this.sidebarState = null;
             }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }), h("ir-booking-editor-drawer", { roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, booking: this.booking, ticket: this.ticket, open: this.bookingItem !== null, roomIdentifier: this.bookingItem?.IDENTIFIER, language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, checkOut: this.bookingItem?.TO_DATE })));
     }
@@ -765,7 +776,9 @@ export class IrBookingDetails {
             "sidebarPayload": {},
             "sidebarState": {},
             "splitIndex": {},
-            "statusData": {}
+            "statusData": {},
+            "agent": {},
+            "isLoading": {}
         };
     }
     static get events() {

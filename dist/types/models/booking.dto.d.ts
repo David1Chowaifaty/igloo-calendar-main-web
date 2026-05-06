@@ -107,8 +107,8 @@ export declare const ZSharedPerson: z.ZodObject<{
     }>>;
     is_main: z.ZodDefault<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
-    country_id?: number;
     id?: number;
+    country_id?: number;
     first_name?: string;
     last_name?: string;
     dob?: string;
@@ -121,8 +121,8 @@ export declare const ZSharedPerson: z.ZodObject<{
     };
     is_main?: boolean;
 }, {
-    country_id?: number;
     id?: number;
+    country_id?: number;
     first_name?: string;
     last_name?: string;
     dob?: string;
@@ -429,6 +429,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -445,7 +446,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -470,6 +470,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -486,7 +487,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -546,6 +546,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -562,7 +563,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -611,6 +611,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         email?: string;
         property_id?: any;
         code?: string;
+        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -627,7 +628,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         currency_id?: any;
         due_balance?: any;
         email_copied_upon_booking?: string;
-        id?: number;
         is_active?: boolean;
         is_send_guest_confirmation_email?: boolean;
         notes?: string;
@@ -708,7 +708,6 @@ export interface IFinancial {
     gross_cost: number;
     refunds: number;
     invoice_nbr: string;
-    gross_total_with_extras: number;
 }
 export interface IPayment {
     system_id?: number;

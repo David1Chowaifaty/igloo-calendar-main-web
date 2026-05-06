@@ -40,6 +40,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
      * Determines allowed pickup dates and validation rules.
      */
     bookingDates;
+    agent;
     /**
      * Controls whether the pickup drawer/modal is open.
      * When true, the drawer becomes visible and initializes the form.
@@ -55,7 +56,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
     closeModal;
     _id = `pickup-form-${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '795bcf3caf89f9dde7a89bd3e34d6c530afa7838', style: {
+        return (h("ir-drawer", { key: 'f593970c3dba86863d9f7cd8fa206e1e91573e4e', style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -66,7 +67,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && (h("ir-pickup-form", { key: 'e8d121c9100da475159de6a005daa0b2c138e3e2', booking: this.booking, onCanSubmitPickupChange: e => {
+            } }, this.open && (h("ir-pickup-form", { key: 'a1407660fdd6bbaef2d12c4051d6ced5ecca31ee', booking: this.booking, agent: this.agent, onCanSubmitPickupChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.canSubmitPickup = e.detail;
@@ -74,7 +75,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            }, formId: this._id })), h("div", { key: 'b15647a55aab07a567964534634dc476c931fac3', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '6f145160a09e7346ec66d93e48c496ce9b15e7f4', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '4dd0987ec10f79ca2f1ab483d8be636cb27d5cde', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
+            }, formId: this._id })), h("div", { key: '8c8352f543a1843c4588bc5b540f8fc2ed216b2a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'ae89ae2d37885db8a6e8464ba4784f0bab94b078', class: `flex-fill`, size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, locales.entries.Lcz_Cancel), this.canSubmitPickup && (h("ir-custom-button", { key: '9cee898a5e47d7f39a48b0bc9f1acc2a6ace2400', type: "submit", loading: this.isLoading, form: this._id, size: "medium", class: `flex-fill`, variant: "brand" }, locales.entries.Lcz_Save)))));
     }
     static get style() { return IrPickupStyle0; }
 }, [2, "ir-pickup", {
@@ -83,6 +84,7 @@ const IrPickup = /*@__PURE__*/ proxyCustomElement(class IrPickup extends HTMLEle
         "numberOfPersons": [2, "number-of-persons"],
         "bookingNumber": [1, "booking-number"],
         "bookingDates": [16],
+        "agent": [16],
         "open": [516],
         "isLoading": [32],
         "canSubmitPickup": [32]

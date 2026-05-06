@@ -4,17 +4,17 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const moment = require('./moment-1780b03a.js');
-const functions = require('./functions-337ee2a2.js');
-const booking = require('./booking-2f7ad424.js');
-const booking_service = require('./booking.service-ddf55a59.js');
+const functions = require('./functions-9552a026.js');
+const booking = require('./booking-77b72280.js');
+const booking_store = require('./booking.store-b670b6b3.js');
 const room_service = require('./room.service-f9117e70.js');
 const locales_store = require('./locales.store-32782582.js');
-const utils = require('./utils-84a08269.js');
+const utils = require('./utils-e4cb6b2d.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-70bc3b4b.js');
 require('./index-8bb117a0.js');
-require('./type-976db45d.js');
+require('./type-87fd01b8.js');
 
 const BeLogoFooter = ({ width, height, ...props }) => {
     return (index.h("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 707 146", width: width || 200, height: height || 70, ...props },
@@ -53,7 +53,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() token: string;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;

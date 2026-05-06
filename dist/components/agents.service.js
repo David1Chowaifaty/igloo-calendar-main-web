@@ -1,10 +1,18 @@
 import { a as axios } from './axios.js';
-import { E as ExposedAgentsPropsSchema, H as HandleExposedAgentPropsSchema } from './type.js';
+import { E as ExposedAgentsPropsSchema, a as ExposedAgentPropsSchema, H as HandleExposedAgentPropsSchema } from './type.js';
 
 class AgentsService {
     async getExposedAgents(props) {
         const payload = ExposedAgentsPropsSchema.parse(props);
         const { data } = await axios.post('/Get_Exposed_Agents', payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+    async getExposedAgent(props) {
+        const payload = ExposedAgentPropsSchema.parse(props);
+        const { data } = await axios.post('/Get_Exposed_Agent', payload);
         if (data.ExceptionMsg !== '') {
             throw new Error(data.ExceptionMsg);
         }

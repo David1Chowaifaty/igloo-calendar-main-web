@@ -488,6 +488,9 @@ export namespace Components {
     }
     interface IrAgentAssignmentForm {
     }
+    interface IrAgentBilling {
+        "booking": Booking;
+    }
     interface IrAgentContract {
         "agent"?: Agent;
         "setupEntries": AgentSetupEntries;
@@ -852,9 +855,11 @@ export namespace Components {
         "statusCode": string;
     }
     interface IrBilling {
+        "agent": Agent;
         "booking": Booking;
     }
     interface IrBillingDrawer {
+        "agent": Agent;
         /**
           * The booking object containing reservation and guest details that will be used to populate the billing view.
           * @type {Booking}
@@ -1112,6 +1117,7 @@ export namespace Components {
         "unitId": string;
     }
     interface IrBookingEditorForm {
+        "agent": Agent;
         "booking": Booking;
         "mode": BookingEditorMode;
         "room": Room;
@@ -1152,6 +1158,7 @@ export namespace Components {
         "bookingService": BookingService;
     }
     interface IrBookingHeader {
+        "agent": Agent;
         "booking": Booking;
         "hasCloseButton": boolean;
         "hasDelete": boolean;
@@ -1203,6 +1210,7 @@ export namespace Components {
         "token": string;
     }
     interface IrBookingRooms {
+        "agent": Agent;
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
          */
@@ -1395,13 +1403,7 @@ export namespace Components {
         "checkboxes": checkboxes[];
     }
     interface IrCheckoutDialog {
-        /**
-          * Booking data for the current room checkout action.
-         */
         "booking": Booking;
-        /**
-          * Unique identifier of the room being checked out.
-         */
         "identifier": string;
         "open": boolean;
     }
@@ -1496,6 +1498,7 @@ export namespace Components {
         "initialTransactionType": TransactionType;
         "open": boolean;
         "serviceCategoryOptions": ServiceCategoryOption[];
+        "transaction": ClTx | null;
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
@@ -1506,6 +1509,7 @@ export namespace Components {
         "initialTransactionType": TransactionType;
         "language": string;
         "serviceCategoryOptions": ServiceCategoryOption[];
+        "transaction": ClTx | null;
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrClAdjustmentFields {
@@ -2319,6 +2323,7 @@ export namespace Components {
         "bookingNumber": string;
     }
     interface IrExtraService {
+        "agent": Agent;
         "booking": Booking;
         "bookingNumber": string;
         "currencySymbol": string;
@@ -2327,6 +2332,7 @@ export namespace Components {
         "svcCategories": IEntries[];
     }
     interface IrExtraServiceConfig {
+        "agent": Agent;
         "booking": Booking;
         "language": string;
         "open": boolean;
@@ -2334,12 +2340,14 @@ export namespace Components {
         "svcCategories": IEntries[];
     }
     interface IrExtraServiceConfigForm {
+        "agent": Agent;
         "booking": Booking;
         "language": string;
         "service": ExtraService;
         "svcCategories": IEntries[];
     }
     interface IrExtraServices {
+        "agent": Agent;
         "booking": Booking;
         "language": string;
         "svcCategories": IEntries[];
@@ -2448,6 +2456,9 @@ export namespace Components {
     interface IrFinancialSummary {
     }
     interface IrFinancialTable {
+    }
+    interface IrGuestBilling {
+        "booking": Booking;
     }
     interface IrGuestInfo {
         "booking_nbr": string;
@@ -3415,8 +3426,9 @@ export namespace Components {
         "paymentAction": IPaymentAction[];
     }
     interface IrPaymentDetails {
+        "agent": Agent;
         "booking": Booking;
-        "isAddPaymentDisabled": boolean;
+        "isAllServicesAgentOwned": boolean;
         "language": string;
         "paymentActions": IPaymentAction[];
         "paymentEntries": PaymentEntries1;
@@ -3473,9 +3485,12 @@ export namespace Components {
         "ticket": string;
     }
     interface IrPaymentSummary {
+        "agent": Agent;
         "balance": number;
+        "booking": Booking;
         "collected": number;
         "currency": Currency;
+        "isAllServicesAgentOwned": boolean;
         "isBookingCancelled": boolean;
         "totalCost": number;
     }
@@ -3595,6 +3610,7 @@ export namespace Components {
         "value": string;
     }
     interface IrPickup {
+        "agent": Agent;
         "booking": Booking;
         /**
           * The date range of the booking (check-in and check-out). Determines allowed pickup dates and validation rules.
@@ -3618,6 +3634,7 @@ export namespace Components {
         "open": boolean;
     }
     interface IrPickupForm {
+        "agent": Agent;
         "booking": Booking;
         "bookingDates": { from: string; to: string };
         "bookingNumber": string;
@@ -3626,6 +3643,7 @@ export namespace Components {
         "numberOfPersons": number;
     }
     interface IrPickupView {
+        "agent": Agent;
         "booking": Booking;
     }
     interface IrPmsLogs {
@@ -4023,6 +4041,7 @@ export namespace Components {
         "payments": GroupedFolioPayment;
     }
     interface IrRoom {
+        "agent": Agent;
         "bedPreferences": IEntries[];
         "booking": Booking;
         "bookingIndex": number;
@@ -5176,6 +5195,10 @@ export interface IrFinancialTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFinancialTableElement;
 }
+export interface IrGuestBillingCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrGuestBillingElement;
+}
 export interface IrGuestInfoCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGuestInfoElement;
@@ -6170,6 +6193,12 @@ declare global {
         prototype: HTMLIrAgentAssignmentFormElement;
         new (): HTMLIrAgentAssignmentFormElement;
     };
+    interface HTMLIrAgentBillingElement extends Components.IrAgentBilling, HTMLStencilElement {
+    }
+    var HTMLIrAgentBillingElement: {
+        prototype: HTMLIrAgentBillingElement;
+        new (): HTMLIrAgentBillingElement;
+    };
     interface HTMLIrAgentContractElementEventMap {
         "agentFieldChanged": Partial<Agent>;
     }
@@ -7086,6 +7115,7 @@ declare global {
         "pageChange": { pageIndex: number; pageSize: number };
         "generateInvoice": FolioRow[];
         "fetchRequested": void;
+        "editEntry": FolioRow['_raw'];
     }
     interface HTMLIrCityLedgerFolioTableElement extends Components.IrCityLedgerFolioTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFolioTableElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFolioTableElement, ev: IrCityLedgerFolioTableCustomEvent<HTMLIrCityLedgerFolioTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8004,6 +8034,23 @@ declare global {
     var HTMLIrFinancialTableElement: {
         prototype: HTMLIrFinancialTableElement;
         new (): HTMLIrFinancialTableElement;
+    };
+    interface HTMLIrGuestBillingElementEventMap {
+        "billingClose": void;
+    }
+    interface HTMLIrGuestBillingElement extends Components.IrGuestBilling, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrGuestBillingElementEventMap>(type: K, listener: (this: HTMLIrGuestBillingElement, ev: IrGuestBillingCustomEvent<HTMLIrGuestBillingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrGuestBillingElementEventMap>(type: K, listener: (this: HTMLIrGuestBillingElement, ev: IrGuestBillingCustomEvent<HTMLIrGuestBillingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrGuestBillingElement: {
+        prototype: HTMLIrGuestBillingElement;
+        new (): HTMLIrGuestBillingElement;
     };
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
@@ -10098,6 +10145,7 @@ declare global {
         "ir-actions-cell": HTMLIrActionsCellElement;
         "ir-agent-assignment-dialog": HTMLIrAgentAssignmentDialogElement;
         "ir-agent-assignment-form": HTMLIrAgentAssignmentFormElement;
+        "ir-agent-billing": HTMLIrAgentBillingElement;
         "ir-agent-contract": HTMLIrAgentContractElement;
         "ir-agent-editor-drawer": HTMLIrAgentEditorDrawerElement;
         "ir-agent-editor-form": HTMLIrAgentEditorFormElement;
@@ -10227,6 +10275,7 @@ declare global {
         "ir-financial-filters": HTMLIrFinancialFiltersElement;
         "ir-financial-summary": HTMLIrFinancialSummaryElement;
         "ir-financial-table": HTMLIrFinancialTableElement;
+        "ir-guest-billing": HTMLIrGuestBillingElement;
         "ir-guest-info": HTMLIrGuestInfoElement;
         "ir-guest-info-drawer": HTMLIrGuestInfoDrawerElement;
         "ir-guest-info-form": HTMLIrGuestInfoFormElement;
@@ -10782,6 +10831,9 @@ declare namespace LocalJSX {
     }
     interface IrAgentAssignmentForm {
     }
+    interface IrAgentBilling {
+        "booking"?: Booking;
+    }
     interface IrAgentContract {
         "agent"?: Agent;
         "onAgentFieldChanged"?: (event: IrAgentContractCustomEvent<Partial<Agent>>) => void;
@@ -11175,10 +11227,12 @@ declare namespace LocalJSX {
         "statusCode": string;
     }
     interface IrBilling {
+        "agent"?: Agent;
         "booking"?: Booking;
         "onBillingClose"?: (event: IrBillingCustomEvent<void>) => void;
     }
     interface IrBillingDrawer {
+        "agent"?: Agent;
         /**
           * The booking object containing reservation and guest details that will be used to populate the billing view.
           * @type {Booking}
@@ -11471,6 +11525,7 @@ declare namespace LocalJSX {
         "unitId"?: string;
     }
     interface IrBookingEditorForm {
+        "agent"?: Agent;
         "booking"?: Booking;
         "mode"?: BookingEditorMode;
         "onDoReservation"?: (event: IrBookingEditorFormCustomEvent<string>) => void;
@@ -11514,6 +11569,7 @@ declare namespace LocalJSX {
         "bookingService"?: BookingService;
     }
     interface IrBookingHeader {
+        "agent"?: Agent;
         "booking"?: Booking;
         "hasCloseButton"?: boolean;
         "hasDelete"?: boolean;
@@ -11574,6 +11630,7 @@ declare namespace LocalJSX {
         "token"?: string;
     }
     interface IrBookingRooms {
+        "agent"?: Agent;
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
          */
@@ -11778,13 +11835,7 @@ declare namespace LocalJSX {
         "onCheckboxesChange"?: (event: IrCheckboxesCustomEvent<checkboxes[]>) => void;
     }
     interface IrCheckoutDialog {
-        /**
-          * Booking data for the current room checkout action.
-         */
         "booking"?: Booking;
-        /**
-          * Unique identifier of the room being checked out.
-         */
         "identifier"?: string;
         "onCheckoutDialogClosed"?: (event: IrCheckoutDialogCustomEvent<CheckoutDialogCloseEvent>) => void;
         "open"?: boolean;
@@ -11848,6 +11899,7 @@ declare namespace LocalJSX {
         "fromDate"?: string;
         "hasFetched"?: boolean;
         "isLoading"?: boolean;
+        "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow['_raw']>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFolioTableCustomEvent<void>) => void;
         "onGenerateInvoice"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow[]>) => void;
         "onPageChange"?: (event: IrCityLedgerFolioTableCustomEvent<{ pageIndex: number; pageSize: number }>) => void;
@@ -11897,6 +11949,7 @@ declare namespace LocalJSX {
         "onTransactionSaved"?: (event: IrCityLedgerTransactionDrawerCustomEvent<void>) => void;
         "open"?: boolean;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
+        "transaction"?: ClTx | null;
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
@@ -11911,6 +11964,7 @@ declare namespace LocalJSX {
         "onTransactionSaved"?: (event: IrCityLedgerTransactionFormCustomEvent<void>) => void;
         "onTransactionValidationFailed"?: (event: IrCityLedgerTransactionFormCustomEvent<ZodIssue[]>) => void;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
+        "transaction"?: ClTx | null;
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrClAdjustmentFields {
@@ -12825,6 +12879,7 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
     }
     interface IrExtraService {
+        "agent"?: Agent;
         "booking"?: Booking;
         "bookingNumber"?: string;
         "currencySymbol"?: string;
@@ -12835,6 +12890,7 @@ declare namespace LocalJSX {
         "svcCategories"?: IEntries[];
     }
     interface IrExtraServiceConfig {
+        "agent"?: Agent;
         "booking"?: Booking;
         "language"?: string;
         "onCloseModal"?: (event: IrExtraServiceConfigCustomEvent<null>) => void;
@@ -12843,6 +12899,7 @@ declare namespace LocalJSX {
         "svcCategories"?: IEntries[];
     }
     interface IrExtraServiceConfigForm {
+        "agent"?: Agent;
         "booking"?: Booking;
         "language"?: string;
         "onCloseModal"?: (event: IrExtraServiceConfigFormCustomEvent<null>) => void;
@@ -12851,6 +12908,7 @@ declare namespace LocalJSX {
         "svcCategories"?: IEntries[];
     }
     interface IrExtraServices {
+        "agent"?: Agent;
         "booking"?: Booking;
         "language"?: string;
         "svcCategories"?: IEntries[];
@@ -12966,6 +13024,10 @@ declare namespace LocalJSX {
     }
     interface IrFinancialTable {
         "onFinancialActionsOpenSidebar"?: (event: IrFinancialTableCustomEvent<SidebarOpenEvent>) => void;
+    }
+    interface IrGuestBilling {
+        "booking"?: Booking;
+        "onBillingClose"?: (event: IrGuestBillingCustomEvent<void>) => void;
     }
     interface IrGuestInfo {
         "booking_nbr"?: string;
@@ -14043,8 +14105,9 @@ declare namespace LocalJSX {
         "paymentAction"?: IPaymentAction[];
     }
     interface IrPaymentDetails {
+        "agent"?: Agent;
         "booking"?: Booking;
-        "isAddPaymentDisabled"?: boolean;
+        "isAllServicesAgentOwned"?: boolean;
         "language"?: string;
         "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
@@ -14110,9 +14173,12 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrPaymentSummary {
+        "agent"?: Agent;
         "balance"?: number;
+        "booking"?: Booking;
         "collected"?: number;
         "currency"?: Currency;
+        "isAllServicesAgentOwned"?: boolean;
         "isBookingCancelled"?: boolean;
         "totalCost"?: number;
     }
@@ -14252,6 +14318,7 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface IrPickup {
+        "agent"?: Agent;
         "booking": Booking;
         /**
           * The date range of the booking (check-in and check-out). Determines allowed pickup dates and validation rules.
@@ -14279,6 +14346,7 @@ declare namespace LocalJSX {
         "open"?: boolean;
     }
     interface IrPickupForm {
+        "agent"?: Agent;
         "booking": Booking;
         "bookingDates"?: { from: string; to: string };
         "bookingNumber"?: string;
@@ -14291,6 +14359,7 @@ declare namespace LocalJSX {
         "onResetBookingEvt"?: (event: IrPickupFormCustomEvent<null>) => void;
     }
     interface IrPickupView {
+        "agent"?: Agent;
         "booking"?: Booking;
     }
     interface IrPmsLogs {
@@ -14716,6 +14785,7 @@ declare namespace LocalJSX {
         "payments"?: GroupedFolioPayment;
     }
     interface IrRoom {
+        "agent"?: Agent;
         "bedPreferences"?: IEntries[];
         "booking"?: Booking;
         "bookingIndex"?: number;
@@ -15512,6 +15582,7 @@ declare namespace LocalJSX {
         "ir-actions-cell": IrActionsCell;
         "ir-agent-assignment-dialog": IrAgentAssignmentDialog;
         "ir-agent-assignment-form": IrAgentAssignmentForm;
+        "ir-agent-billing": IrAgentBilling;
         "ir-agent-contract": IrAgentContract;
         "ir-agent-editor-drawer": IrAgentEditorDrawer;
         "ir-agent-editor-form": IrAgentEditorForm;
@@ -15641,6 +15712,7 @@ declare namespace LocalJSX {
         "ir-financial-filters": IrFinancialFilters;
         "ir-financial-summary": IrFinancialSummary;
         "ir-financial-table": IrFinancialTable;
+        "ir-guest-billing": IrGuestBilling;
         "ir-guest-info": IrGuestInfo;
         "ir-guest-info-drawer": IrGuestInfoDrawer;
         "ir-guest-info-form": IrGuestInfoForm;
@@ -15838,6 +15910,7 @@ declare module "@stencil/core" {
             "ir-actions-cell": LocalJSX.IrActionsCell & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
             "ir-agent-assignment-dialog": LocalJSX.IrAgentAssignmentDialog & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentDialogElement>;
             "ir-agent-assignment-form": LocalJSX.IrAgentAssignmentForm & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentFormElement>;
+            "ir-agent-billing": LocalJSX.IrAgentBilling & JSXBase.HTMLAttributes<HTMLIrAgentBillingElement>;
             "ir-agent-contract": LocalJSX.IrAgentContract & JSXBase.HTMLAttributes<HTMLIrAgentContractElement>;
             "ir-agent-editor-drawer": LocalJSX.IrAgentEditorDrawer & JSXBase.HTMLAttributes<HTMLIrAgentEditorDrawerElement>;
             "ir-agent-editor-form": LocalJSX.IrAgentEditorForm & JSXBase.HTMLAttributes<HTMLIrAgentEditorFormElement>;
@@ -16005,6 +16078,7 @@ declare module "@stencil/core" {
             "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
             "ir-financial-summary": LocalJSX.IrFinancialSummary & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
             "ir-financial-table": LocalJSX.IrFinancialTable & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
+            "ir-guest-billing": LocalJSX.IrGuestBilling & JSXBase.HTMLAttributes<HTMLIrGuestBillingElement>;
             "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
             "ir-guest-info-drawer": LocalJSX.IrGuestInfoDrawer & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
             "ir-guest-info-form": LocalJSX.IrGuestInfoForm & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;

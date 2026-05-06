@@ -1,16 +1,20 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { BookingEditorMode } from '../types';
 import { Room, Booking } from "../../../../models/booking.dto";
+import { Agent } from "../../../../services/agents/type";
 import { ExposedGuests } from "../../../../services/booking-service/types";
 export declare class IrBookingEditorForm {
     mode: BookingEditorMode;
     room: Room;
     booking: Booking;
+    agent: Agent;
     guests: ExposedGuests;
     totalCost: number;
     assignee: 'agent' | 'guest';
+    resolvedAgent: Agent;
     doReservation: EventEmitter<string>;
     private bookingService;
+    private agentsService;
     private bookingEditorService;
     private totalRooms;
     pickerEl: HTMLIrPickerElement;

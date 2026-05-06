@@ -38,6 +38,9 @@ const FiscalDocumentSchema = objectType({
     TOTAL_AMOUNT: numberType().nullable().optional(),
     BALANCE_BEFORE_TX: numberType().nullable(),
     BALANCE_AFTER_TX: numberType().nullable(),
+    FROM_DATE: stringType().nullable().optional(),
+    TO_DATE: stringType().nullable().optional(),
+    BOOK_NBR: stringType().nullable().optional(),
 });
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
@@ -182,6 +185,7 @@ const GetFiscalDocumentsParamsSchema = objectType({
     DOC_NUMBER: stringType().optional().default(''),
     START_DATE: stringType().optional().nullable(),
     END_DATE: stringType().optional().nullable(),
+    BOOK_NBR: stringType().optional().nullable(),
     LIST_FD_TYPE_CODE: arrayType(stringType()).optional().nullable().default(null),
     FD_STATUS_CODE: arrayType(stringType()).optional().nullable().default(null),
     AGENCY_ID: numberType(),
@@ -207,6 +211,13 @@ const PrintClStatementParamsSchema = objectType({
     to_date: stringType(),
     lang: stringType().optional().default('en'),
 });
+const PrintClProformaParamsSchema = objectType({
+    agency_id: stringType(),
+    from_date: stringType(),
+    to_date: stringType(),
+    lang: stringType().optional().default('en'),
+    booking_nbr: stringType().optional().nullable().default(null),
+});
 
 class CityLedgerService {
     async fetchCL(params) {
@@ -222,6 +233,13 @@ class CityLedgerService {
     async printClFiscalDocument(params) {
         const payload = PrintClFiscalDocumentParamsSchema.parse(params);
         const { data } = await axios.post('/Print_CL_Fiscal_Document', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
+        return data.My_Result;
+    }
+    async printClProforma(params) {
+        const payload = PrintClProformaParamsSchema.parse(params);
+        const { data } = await axios.post('/Print_CL_Proforma', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
         return data.My_Result;

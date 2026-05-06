@@ -14,6 +14,12 @@ export const FdTypes = {
     CreditNote: 'CN',
     DebitNote: 'DN',
     Receipt: 'REC',
+    Proforma: 'PRF',
+};
+export const InvoiceableItemReason = {
+    AlreadyInvoiced: '001',
+    NotCheckedOutYet: '002',
+    PickupCancellationPolicy: '003',
 };
 export const PayMethodCode = {
     Cash: '001',

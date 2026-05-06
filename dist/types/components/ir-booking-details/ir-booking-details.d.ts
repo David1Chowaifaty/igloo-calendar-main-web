@@ -6,10 +6,12 @@ import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
+import { Agent } from "../../services/agents/type";
 export declare class IrBookingDetails {
     private bookingService;
     private roomService;
     private paymentService;
+    private agentService;
     private token;
     private arrivalTime;
     private svcCategories;
@@ -43,6 +45,8 @@ export declare class IrBookingDetails {
     sidebarState: BookingDetailsSidebarEvents | null;
     splitIndex: SplitIndex;
     statusData: any[];
+    agent: Agent;
+    isLoading: boolean;
     /**
      * Booking number used to fetch booking details.
      */

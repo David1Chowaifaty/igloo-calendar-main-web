@@ -35,6 +35,9 @@ export const FiscalDocumentSchema = z.object({
     TOTAL_AMOUNT: z.number().nullable().optional(),
     BALANCE_BEFORE_TX: z.number().nullable(),
     BALANCE_AFTER_TX: z.number().nullable(),
+    FROM_DATE: z.string().nullable().optional(),
+    TO_DATE: z.string().nullable().optional(),
+    BOOK_NBR: z.string().nullable().optional(),
 });
 // ---------------------------------------------------------------------------
 // Transaction record & fetch
@@ -179,6 +182,7 @@ export const GetFiscalDocumentsParamsSchema = z.object({
     DOC_NUMBER: z.string().optional().default(''),
     START_DATE: z.string().optional().nullable(),
     END_DATE: z.string().optional().nullable(),
+    BOOK_NBR: z.string().optional().nullable(),
     LIST_FD_TYPE_CODE: z.array(z.string()).optional().nullable().default(null),
     FD_STATUS_CODE: z.array(z.string()).optional().nullable().default(null),
     AGENCY_ID: z.number(),
@@ -203,5 +207,12 @@ export const PrintClStatementParamsSchema = z.object({
     from_date: z.string(),
     to_date: z.string(),
     lang: z.string().optional().default('en'),
+});
+export const PrintClProformaParamsSchema = z.object({
+    agency_id: z.string(),
+    from_date: z.string(),
+    to_date: z.string(),
+    lang: z.string().optional().default('en'),
+    booking_nbr: z.string().optional().nullable().default(null),
 });
 //# sourceMappingURL=types.js.map

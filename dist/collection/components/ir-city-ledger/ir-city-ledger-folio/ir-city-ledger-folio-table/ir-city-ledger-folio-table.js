@@ -28,6 +28,7 @@ export class IrCityLedgerFolioTable {
     pageChange;
     generateInvoice;
     fetchRequested;
+    editEntry;
     // ─── Private fields ──────────────────────────────────────────────────────
     columnHelper = createColumnHelper();
     pageSizes = [25, 50, 100];
@@ -154,6 +155,19 @@ export class IrCityLedgerFolioTable {
             enableSorting: false,
             enableGrouping: false,
         }),
+        this.columnHelper.display({
+            id: 'actions',
+            header: '',
+            size: 48,
+            cell: info => {
+                const row = info.row.original;
+                if (row._raw.IS_LOCKED)
+                    return null;
+                return (h("wa-button", { appearance: "plain", variant: "neutral", size: "small", onClick: () => this.editEntry.emit(row._raw) }, h("wa-icon", { name: "pencil", style: { fontSize: '0.875rem' } })));
+            },
+            enableSorting: false,
+            enableGrouping: false,
+        }),
     ];
     // ─── Table state ─────────────────────────────────────────────────────────
     onTableStateChange = (updater) => {
@@ -222,7 +236,7 @@ export class IrCityLedgerFolioTable {
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
         if (rows.length === 0) {
-            return (h("tr", null, h("td", { colSpan: this.columns.length, class: "folio-table__no-results" }, "No entries match the current filters.")));
+            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "folio-table__no-results" }, "No entries match the current filters.")));
         }
         return rows.map(row => {
             const isSelected = this.selectedRowIds.has(row.original._rowId);
@@ -617,6 +631,27 @@ export class IrCityLedgerFolioTable {
                     "original": "void",
                     "resolved": "void",
                     "references": {}
+                }
+            }, {
+                "method": "editEntry",
+                "name": "editEntry",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "FolioRow['_raw']",
+                    "resolved": "{ PR_ID?: number; ENTRY_DATE?: string; ENTRY_USER_ID?: number; OWNER_ID?: number; FROM_DATE?: string; TO_DATE?: string; BOOK_NBR?: string; CURRENCY_ID?: number; CREDIT?: number; DEBIT?: number; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; NET_AMOUNT?: number; TAX_AMOUNT?: number; TOTAL_AMOUNT?: number; BH_ID?: number; BSA_REF?: string; CATEGORY?: string; AGENT_BOOKING_NBR?: string; ADULTS_NBR?: number; CHILD_NBR?: number; INFANT_NBR?: number; GUEST_FIRST_NAME?: string; GUEST_LAST_NAME?: string; ROOM_CATEGORY_ID?: number; ROOM_TYPE_ID?: number; RATE_PLAN_ID?: number; SERVICE_DATE?: string; CITY_TAX_AMOUNT?: number; CITY_TAX_PERCENT?: number; CL_TX_ID?: number; CL_TX_TYPE_CODE?: string; DESCRIPTION?: string; IS_HOLD?: boolean; IS_LOCKED?: boolean; My_Bh?: any; My_Currency?: any; My_Fd?: { FROM_DATE?: string; TO_DATE?: string; BOOK_NBR?: string; AGENCY_ID?: number; CURRENCY_ID?: number; AGENCY_NAME?: string; CREDIT?: number; CREDIT_DISPLAY?: string; CURRENCY_CODE?: string; DEBIT?: number; DEBIT_DISPLAY?: string; DOC_NUMBER?: string; EXTERNAL_REF?: string; FD_ID?: number; FD_STATUS_CODE?: string; FD_STATUS_NAME?: string; FD_TYPE_CODE?: string; FD_TYPE_NAME?: string; ISSUE_DATE?: string; ISSUE_DATE_DISPLAY?: string; IS_PRINTED?: boolean; NET_AMOUNT?: number; NET_AMOUNT_DISPLAY?: string; TAX_AMOUNT?: number; TAX_AMOUNT_DISPLAY?: string; TOTAL_AMOUNT?: number; BALANCE_BEFORE_TX?: number; BALANCE_AFTER_TX?: number; }; My_Pr?: any; My_Room_category?: any; RUNNING_BALANCE?: number; My_Room_type?: any; My_Travel_agency?: null; PAY_METHOD_CODE?: string; REL_ENTITY?: \"TBL_BSAD\" | \"TBL_BSP\"; REL_ENTITY_KEY?: number; TRAVEL_AGENCY_ID?: number; VAT_AMOUNT?: number; VAT_PERCENT?: number; }",
+                    "references": {
+                        "FolioRow": {
+                            "location": "import",
+                            "path": "../types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                        }
+                    }
                 }
             }];
     }

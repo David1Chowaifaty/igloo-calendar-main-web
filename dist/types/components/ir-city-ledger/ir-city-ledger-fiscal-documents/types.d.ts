@@ -6,4 +6,5 @@ export interface FiscalDocumentFilters {
     docNumber: string;
     taxableOnly: boolean;
     type: FiscalFilterType;
+    proformaOnly: boolean;
 }

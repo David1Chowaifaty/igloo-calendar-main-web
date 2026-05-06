@@ -6,4 +6,8 @@ export interface ClFiscalDocumentPreviewRequest {
     fdId?: number;
     autoPrint?: boolean;
     externalRef: string;
+    url?: string;
+    fromDate?: string | null;
+    toDate?: string | null;
+    bookingNbr?: string | null;
 }

@@ -1,11 +1,14 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService } from './booking.store.js';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$3 } from './ir-custom-button2.js';
-import { d as defineCustomElement$2 } from './ir-dialog2.js';
+import { I as InvoiceableItemReason } from './enums.js';
+import { h as hooks } from './moment.js';
+import { d as defineCustomElement$4 } from './ir-custom-button2.js';
+import { d as defineCustomElement$3 } from './ir-dialog2.js';
+import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irCheckoutDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}:host{display:block}";
+const irCheckoutDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}:host{display:block}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px}.early-checkout{display:grid;gap:1rem;width:100%;min-width:0;overflow-x:clip}.early-checkout ir-input,.early-checkout wa-callout,.early-checkout wa-card{min-width:0;max-width:100%}.ec-summary::part(message){display:flex;flex-direction:column;gap:0.5rem}.ec-summary__row{display:flex;justify-content:space-between;align-items:center}.ec-summary__label{font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.ec-summary__value{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-normal, #111827)}.ec-summary__value--accent{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}.ec-section{display:grid;gap:0.35rem}.ec-section__title{margin:0;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--wa-color-text-quiet, #6b7280)}.ec-nights{border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.ec-nights__row{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-nights__date{color:var(--wa-color-text-quiet, #6b7280)}.ec-nights__amount{font-weight:500;font-variant-numeric:tabular-nums;color:var(--wa-color-text-normal, #111827)}.ec-nights__subtotal{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;font-weight:600;color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-penalty__badge{margin:0;font-size:0.75rem;font-weight:500;color:var(--wa-color-warning-on-quiet, #92400e)}.ec-penalty__badge--waived{color:var(--wa-color-success-on-quiet, #065f46)}.ec-penalty__hint{margin:0;font-size:0.75rem;color:var(--wa-color-text-quiet, #6b7280)}.ir-dialog__footer{display:flex;flex-wrap:wrap;gap:0.5rem;width:100%}.ir-dialog__footer>*{flex:1}@media (min-width: 640px){.ir-dialog__footer{flex-wrap:nowrap;justify-content:flex-end}.ir-dialog__footer>*{flex:0 0 auto}}";
 const IrCheckoutDialogStyle0 = irCheckoutDialogCss;
 
 const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog extends HTMLElement {
@@ -16,20 +19,27 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         this.checkoutDialogClosed = createEvent(this, "checkoutDialogClosed", 7);
     }
     open;
-    /**
-     * Booking data for the current room checkout action.
-     */
     booking;
-    /**
-     * Unique identifier of the room being checked out.
-     */
     identifier;
     isLoading = 'page';
     buttons = new Set();
     invoiceInfo;
     room;
+    isEarlyCheckout = false;
+    remainingDays = [];
+    penaltyAmount = 0;
     checkoutDialogClosed;
     bookingService = new BookingService();
+    initialPenaltyStr = '0.00';
+    get remainingTotal() {
+        return this.remainingDays.reduce((sum, d) => sum + d.amount, 0);
+    }
+    get currencySymbol() {
+        return this.booking?.currency?.symbol ?? '$';
+    }
+    formatAmount(amount) {
+        return `${this.currencySymbol}${amount.toFixed(2)}`;
+    }
     async checkoutRoom({ e, source }) {
         try {
             e.stopImmediatePropagation();
@@ -61,6 +71,7 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
             this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
             this.setupButtons();
             this.room = this.booking.rooms.find(r => r.identifier === this.identifier);
+            this.detectEarlyCheckout();
         }
         catch (error) {
         }
@@ -68,34 +79,50 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
             this.isLoading = null;
         }
     }
+    detectEarlyCheckout() {
+        const today = hooks().startOf('day');
+        const toDate = hooks(this.room.to_date, 'YYYY-MM-DD');
+        this.isEarlyCheckout = today.isBefore(toDate, 'day');
+        if (this.isEarlyCheckout) {
+            const todayStr = today.format('YYYY-MM-DD');
+            this.remainingDays = (this.room.days ?? []).filter(d => d.date >= todayStr);
+            const total = this.remainingTotal;
+            this.penaltyAmount = total;
+            this.initialPenaltyStr = total.toFixed(2);
+        }
+    }
     setupButtons() {
-        const toBeInvoicedRooms = this.invoiceInfo.invoiceable_items.filter(item => item.type === 'BSA' && item.reason?.code !== '001');
-        //check if all rooms are invoiced
-        const allRoomInvoiced = toBeInvoicedRooms.length === 0;
-        if (allRoomInvoiced) {
+        const toBeInvoiced = this.invoiceInfo.invoiceable_items.filter(item => ![InvoiceableItemReason.AlreadyInvoiced, InvoiceableItemReason.PickupCancellationPolicy].includes(item.reason.code));
+        const toBeInvoicedRooms = toBeInvoiced.filter(item => item.type === 'BSA');
+        if (toBeInvoiced.length === 0) {
             this.buttons.add('checkout');
             return;
         }
-        //invoice and checkout : if some rooms are not invoiced
+        const allRoomInvoiced = toBeInvoicedRooms.length === 0;
         this.buttons.add('invoice_checkout');
-        //checkout without invoice :available except for last room in a booking
-        if (toBeInvoicedRooms.length > 1) {
+        if (!allRoomInvoiced && toBeInvoicedRooms.length > 1) {
             this.buttons.add('checkout_without_invoice');
         }
     }
+    renderEarlyCheckoutContent() {
+        const unitName = this.room?.unit?.name ?? this.room?.identifier;
+        const remainingCount = this.remainingDays.length;
+        const total = this.remainingTotal;
+        return (h("div", { class: "early-checkout" }, h("wa-callout", { class: "ec-summary", size: "small", appearance: "filled", variant: "neutral" }, h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Unit"), h("span", { class: "ec-summary__value" }, unitName)), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Original departure"), h("span", { class: "ec-summary__value" }, hooks(this.room.to_date, 'YYYY-MM-DD').format('ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Checking out"), h("span", { class: "ec-summary__value" }, hooks().format('ddd, MMM D, YYYY'))), h("div", { class: "ec-summary__row" }, h("span", { class: "ec-summary__label" }, "Nights reclaimed"), h("span", { class: "ec-summary__value ec-summary__value--accent" }, remainingCount, " ", remainingCount === 1 ? 'night' : 'nights'))), h("div", { class: "ec-section" }, h("p", { class: "ec-section__title" }, "Reclaimed Nights"), h("div", { class: "ec-nights" }, this.remainingDays.map(day => (h("div", { key: day.date, class: "ec-nights__row" }, h("span", { class: "ec-nights__date" }, hooks(day.date, 'YYYY-MM-DD').format('ddd, MMM D')), h("span", { class: "ec-nights__amount" }, this.formatAmount(day.amount))))), h("div", { class: "ec-nights__subtotal" }, h("span", null, "Subtotal"), h("span", null, this.formatAmount(total))))), h("div", { class: "ec-section" }, h("ir-input", { label: "Cancellation Penalty", mask: "price", value: this.initialPenaltyStr, defaultValue: this.initialPenaltyStr, min: 0, max: total, hint: "Pre-filled from reclaimed nights. Modify to apply a discount or waive entirely.", "onText-change": (e) => {
+                const val = parseFloat(e.detail);
+                this.penaltyAmount = isNaN(val) ? 0 : val;
+            } }, h("span", { slot: "start" }, this.currencySymbol)))));
+    }
     render() {
-        return (h("ir-dialog", { key: 'dc8cfc2ff6bfba37c05c726f5da8b35416441dd0', open: this.open, label: "Alert", style: { '--ir-dialog-width': 'fit-content' }, onIrDialogHide: e => {
+        const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
+        return (h("ir-dialog", { key: 'abcf548b7a7ab1e0e39a30598c2907f25e416804', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), h("div", { key: '5f9162c2e29f0884848d91ed3ede41c1c33afd61', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '160a7bf506e54f872e1a3f009c94a44fe91a837f' }, h("ir-custom-button", { key: '96fdc91646451e411d03de719141188197291b83', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '810c03fdb56dfd3e6e7800b16b85fde8905b047a', size: "medium",
-            // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, "Checkout")), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: 'e68a3a3c0498b19e535e209c608db49ee73a53ab', loading: this.isLoading === 'skipCheckout', size: "medium",
-            // loading={this.isLoading}
-            onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '25959e041399e0fed9d661595729206ff121179a', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), h("div", { key: 'bb5ee016ea27a61687d4a6e70ea93310f8b404c4', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'd86441502c943f37a11d5e9b9d01b580bb377fa9' }, h("ir-custom-button", { key: '6f0cc9621e261c04ceb564636f8aea9f886c84e7', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '7237fecf3d8d9d547df80bc69242520b7da4ad55', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: 'f65f55f5e08e2a67252ec8bf383942865acff4b8', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '20c10de7a5a637bd4558da30b1392ebb74de1b83', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, "Checkout & invoice"))))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check-Out & Invoice' : 'Checkout & invoice'))))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
@@ -108,7 +135,10 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         "isLoading": [32],
         "buttons": [32],
         "invoiceInfo": [32],
-        "room": [32]
+        "room": [32],
+        "isEarlyCheckout": [32],
+        "remainingDays": [32],
+        "penaltyAmount": [32]
     }, undefined, {
         "open": ["handleOpenChange"]
     }]);
@@ -116,7 +146,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-checkout-dialog", "ir-custom-button", "ir-dialog", "ir-spinner"];
+    const components = ["ir-checkout-dialog", "ir-custom-button", "ir-dialog", "ir-input", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-checkout-dialog":
             if (!customElements.get(tagName)) {
@@ -125,10 +155,15 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

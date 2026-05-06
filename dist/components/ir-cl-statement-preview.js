@@ -4,7 +4,7 @@ import { P as PropertyService } from './property.service.js';
 import { f as formatAmount } from './utils.js';
 import { T as Token } from './Token.js';
 import { h as hooks } from './moment.js';
-import { a as FdTypes } from './enums.js';
+import { F as FdTypes } from './enums.js';
 import { d as defineCustomElement$3 } from './ir-cl-document-header2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 

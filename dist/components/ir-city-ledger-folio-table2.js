@@ -22,6 +22,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         this.pageChange = createEvent(this, "pageChange", 7);
         this.generateInvoice = createEvent(this, "generateInvoice", 7);
         this.fetchRequested = createEvent(this, "fetchRequested", 7);
+        this.editEntry = createEvent(this, "editEntry", 7);
     }
     // ─── Props ───────────────────────────────────────────────────────────────
     agentId = null;
@@ -45,6 +46,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     pageChange;
     generateInvoice;
     fetchRequested;
+    editEntry;
     // ─── Private fields ──────────────────────────────────────────────────────
     columnHelper = createColumnHelper();
     pageSizes = [25, 50, 100];
@@ -171,6 +173,19 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             enableSorting: false,
             enableGrouping: false,
         }),
+        this.columnHelper.display({
+            id: 'actions',
+            header: '',
+            size: 48,
+            cell: info => {
+                const row = info.row.original;
+                if (row._raw.IS_LOCKED)
+                    return null;
+                return (h("wa-button", { appearance: "plain", variant: "neutral", size: "small", onClick: () => this.editEntry.emit(row._raw) }, h("wa-icon", { name: "pencil", style: { fontSize: '0.875rem' } })));
+            },
+            enableSorting: false,
+            enableGrouping: false,
+        }),
     ];
     // ─── Table state ─────────────────────────────────────────────────────────
     onTableStateChange = (updater) => {
@@ -239,7 +254,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
         if (rows.length === 0) {
-            return (h("tr", null, h("td", { colSpan: this.columns.length, class: "folio-table__no-results" }, "No entries match the current filters.")));
+            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "folio-table__no-results" }, "No entries match the current filters.")));
         }
         return rows.map(row => {
             const isSelected = this.selectedRowIds.has(row.original._rowId);

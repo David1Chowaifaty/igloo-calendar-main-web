@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { a as FdTypes } from './enums.js';
+import { F as FdTypes } from './enums.js';
 import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-cl-invoice-form2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
@@ -10,7 +10,7 @@ import { d as defineCustomElement$3 } from './ir-date-select2.js';
 import { d as defineCustomElement$2 } from './ir-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-input2.js';
 
-const irClInvoiceDialogCss = ".sc-ir-cl-invoice-dialog-h{display:contents}.create-invoice-dialog__body.sc-ir-cl-invoice-dialog{display:flex;flex-direction:column;gap:0.75rem}.create-invoice-dialog__no-results.sc-ir-cl-invoice-dialog{margin:0}.create-invoice-dialog__error.sc-ir-cl-invoice-dialog{margin:0;font-size:0.8125rem;color:var(--wa-color-danger-500, #ef4444)}.create-invoice-dialog__footer.sc-ir-cl-invoice-dialog{display:flex;justify-content:flex-end;gap:0.5rem}";
+const irClInvoiceDialogCss = ".sc-ir-cl-invoice-dialog-h{display:contents}.create-invoice-dialog__body.sc-ir-cl-invoice-dialog{display:flex;flex-direction:column;gap:0.75rem}.cl-invoice-dialog__header-actions.sc-ir-cl-invoice-dialog{display:flex;align-items:center}.create-invoice-dialog__no-results.sc-ir-cl-invoice-dialog{margin:0}.create-invoice-dialog__error.sc-ir-cl-invoice-dialog{margin:0;font-size:0.8125rem;color:var(--wa-color-danger-500, #ef4444)}.create-invoice-dialog__footer.sc-ir-cl-invoice-dialog{display:flex;justify-content:flex-end;gap:0.5rem}";
 const IrClInvoiceDialogStyle0 = irClInvoiceDialogCss;
 
 const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDialog extends HTMLElement {
@@ -29,6 +29,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
     isLoading = false;
     error = null;
     noResults = false;
+    isProforma = false;
     invoiceIssued;
     clFiscalDocumentPreview;
     dialogRef;
@@ -37,6 +38,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
     async openModal() {
         this.error = null;
         this.noResults = false;
+        this.isProforma = false;
         this.dialogRef.openModal();
     }
     async closeModal() {
@@ -47,6 +49,10 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
         this.error = null;
         this.noResults = false;
         try {
+            if (this.isProforma) {
+                await this.handleProforma();
+                return;
+            }
             if (this.mode === 'booking') {
                 const result = await this.cityLedgerService.issueFiscalDocument({
                     AGENCY_ID: this.agentId,
@@ -111,8 +117,53 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
             this.isLoading = false;
         }
     }
+    async handleProforma() {
+        try {
+            let fromDate;
+            let toDate;
+            let bookingNbr = null;
+            if (this.mode === 'booking') {
+                fromDate = this.startDate;
+                toDate = this.endDate;
+                bookingNbr = this.bookingNbr != null ? String(this.bookingNbr) : null;
+            }
+            else {
+                const isValid = await this.formRef.validate();
+                if (!isValid) {
+                    this.isLoading = false;
+                    return;
+                }
+                const values = await this.formRef.getValues();
+                fromDate = values.fromDate;
+                toDate = values.toDate;
+            }
+            const url = await this.cityLedgerService.printClProforma({
+                agency_id: String(this.agentId),
+                from_date: fromDate,
+                to_date: toDate,
+                booking_nbr: bookingNbr,
+            });
+            if (url) {
+                this.clFiscalDocumentPreview.emit({
+                    fdTypeCode: FdTypes.Proforma,
+                    documentNumber: '',
+                    agentId: this.agentId,
+                    agentName: '',
+                    externalRef: '',
+                    url,
+                });
+            }
+            this.dialogRef.closeModal();
+        }
+        catch (err) {
+            this.error = err instanceof Error ? err.message : 'Failed to generate pro-forma.';
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
     render() {
-        return (h(Host, { key: '5945a071f5126d08b598a99c7fe3ebb05e5311e7' }, h("ir-dialog", { key: 'cf83933c5b8e5077e114ed53258d6fedb1e48a0f', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '7f5b70e7a27def6e94d619fe6dca7e6161d0e022', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, "Issue a draft invoice for booking #", this.bookingNbr, " to the agent?")) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'b1eda46fc9164721908df41b570eacb058c8e45c', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '5107b63b19d85aa2581beb07fa810b4c65709ac8', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '58216f608ccaf82251efb2da0e84bc639254be07', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: '819939b7b48069bd6e0d2a1ce7e083a0d298609a', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '3cc154831089e18fef49b938bf68fd3ab8f5a991', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '7e26fd927ab9a4426325122a5a554219637e3d30', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, "Show draft")))));
+        return (h(Host, { key: 'bd6e7c1de01d4e68b464905e6db8a082a6c9eb46' }, h("ir-dialog", { key: '854bf83e749ec160a0d7e7da833a84b6fbe171fc', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '86b37f4640eab0c702e1897b373f39924bc65b26', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'd870ee740e35a472d7f46a430af4221c0d52d6f6', checked: this.isProforma, onchange: e => (this.isProforma = e.target.checked) }, "Pro-forma")), h("div", { key: 'f52c4639376364b0fac90a349174a383806f0ab1', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a pro-forma for booking #${this.bookingNbr}?` : `Issue a draft invoice for booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '541552222d83ffb2d7d18dae3a4c546085b34ca9', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'b01b67d4e5c07ecf15f1ab8a9be394681dc59ab8', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'b1944d75c520f948b7c64392be87cfb19712ee89', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'efaaaa9c92033390c028b0ae039cf2c830330480', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: 'dc2f20c040efba1cebeddce732ca5ff9e33ee544', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'a2b4def134463137948e2139e310e6a14830fcaf', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get style() { return IrClInvoiceDialogStyle0; }
 }, [2, "ir-cl-invoice-dialog", {
@@ -125,6 +176,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
         "isLoading": [32],
         "error": [32],
         "noResults": [32],
+        "isProforma": [32],
         "openModal": [64],
         "closeModal": [64]
     }]);

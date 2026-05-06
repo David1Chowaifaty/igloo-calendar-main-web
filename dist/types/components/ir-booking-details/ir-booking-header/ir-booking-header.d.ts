@@ -2,6 +2,7 @@ import { IToast } from "../../ui/ir-toast/toast";
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
+import { Agent } from "../../../services/agents/type";
 export declare class IrBookingHeader {
     private dialogRef;
     private invoiceDialogRef;
@@ -14,6 +15,7 @@ export declare class IrBookingHeader {
     currentDialogStatus: BookingDetailsDialogEvents;
     booking: Booking;
     hasReceipt: boolean;
+    agent: Agent;
     hasPrint: boolean;
     hasDelete: boolean;
     hasMenu: boolean;
