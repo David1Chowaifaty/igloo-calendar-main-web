@@ -218,6 +218,9 @@ const PrintClProformaParamsSchema = objectType({
     lang: stringType().optional().default('en'),
     booking_nbr: stringType().optional().nullable().default(null),
 });
+const GetClProformaLinkParamsSchema = objectType({
+    FD_ID: numberType(),
+});
 
 class CityLedgerService {
     async fetchCL(params) {
@@ -233,6 +236,13 @@ class CityLedgerService {
     async printClFiscalDocument(params) {
         const payload = PrintClFiscalDocumentParamsSchema.parse(params);
         const { data } = await axios.post('/Print_CL_Fiscal_Document', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
+        return data.My_Result;
+    }
+    async getClProformaLink(params) {
+        const payload = GetClProformaLinkParamsSchema.parse(params);
+        const { data } = await axios.post('/Get_CL_Proforma_Link', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
         return data.My_Result;

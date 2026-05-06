@@ -35,11 +35,8 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
         try {
             let url;
             if (event.detail.fdTypeCode === FdTypes.Proforma) {
-                url = await this.cityLedgerService.printClProforma({
-                    agency_id: String(event.detail.agentId),
-                    from_date: event.detail.fromDate ?? '',
-                    to_date: event.detail.toDate ?? '',
-                    booking_nbr: event.detail.bookingNbr ?? null,
+                url = await this.cityLedgerService.getClProformaLink({
+                    FD_ID: this.request.fdId,
                 });
             }
             else {
@@ -144,10 +141,10 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
         return (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.request?.url })));
     }
     render() {
-        return (h(Host, { key: 'b68130f48b84fb7ca02dc0e1249bd1c684045a52' }, h("ir-preview-screen-dialog", { key: '003291451685330960941404825e95cd37601f21', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: 'b133c9049c8feb9c8c1b5deded0a254335e41c8a' }, h("ir-preview-screen-dialog", { key: '041d230c10d3dff2ff71fe8f1fda90055d0e76f1', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, h("div", { key: '45fa676b4562953d54800d16faf5d03566a026a5', slot: "header-actions" }, this.request?.url && (h("ir-custom-button", { key: 'a2d63384affcaf829a35e799e13aecfbaa16dd04', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '4672ba882f5f28948196f867eac0c789f6da9a73', name: "download", label: "Download PDF" }))), this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'e9ce44caaba7675cdac36715e36e5a0cf1cd3e4e', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: 'b04c94422d86c96f7428d14d1fecdb4fb91bd5ba', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, h("div", { key: 'a4c9392e1ee7bb2a8f67681bf63b459ae259a2c7', slot: "header-actions" }, this.request?.url && (h("ir-custom-button", { key: '353c43a953ffd8b2c8133083e03c35c9b2f561c1', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '4240561c915711ebe6baeed526c368d366b936b4', name: "download", label: "Download PDF" }))), this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '22c22a262108ba17174156458c365b07b3bf72bd', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '36dae7705bac4ce40c3b54894871968541c860ca', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
     static get style() { return IrClFiscalDocumentPreviewStyle0; }
 }, [0, "ir-cl-fiscal-document-preview", {

@@ -1,8 +1,9 @@
-import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type PrintClStatementParams, type PrintClProformaParams, type FiscalDocuments, type ClTx, type FiscalDocument } from './types';
+import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type PrintClStatementParams, type PrintClProformaParams, type FiscalDocuments, type ClTx, type FiscalDocument, type GetClProformaLinkParams } from './types';
 export * from './types';
 export declare class CityLedgerService {
     fetchCL(params: FetchCLParams): Promise<FetchCLResult>;
     printClFiscalDocument(params: PrintClFiscalDocumentParams): Promise<string>;
+    getClProformaLink(params: GetClProformaLinkParams): Promise<string>;
     printClProforma(params: PrintClProformaParams): Promise<string>;
     printClStatement(params: PrintClStatementParams): Promise<string>;
     toggleCLTxHold(params: ToggleCLTxHoldParams): Promise<any>;

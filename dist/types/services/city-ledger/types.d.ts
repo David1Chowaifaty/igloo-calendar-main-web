@@ -1235,3 +1235,11 @@ export declare const PrintClProformaParamsSchema: z.ZodObject<{
     agency_id?: string;
 }>;
 export type PrintClProformaParams = z.infer<typeof PrintClProformaParamsSchema>;
+export declare const GetClProformaLinkParamsSchema: z.ZodObject<{
+    FD_ID: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    FD_ID?: number;
+}, {
+    FD_ID?: number;
+}>;
+export type GetClProformaLinkParams = z.infer<typeof GetClProformaLinkParamsSchema>;

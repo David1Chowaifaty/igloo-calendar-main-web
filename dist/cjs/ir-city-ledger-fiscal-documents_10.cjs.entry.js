@@ -1,0 +1,1111 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const index = require('./index-35d81173.js');
+const index$1 = require('./index-56efbd42.js');
+const enums = require('./enums-d462d3a9.js');
+const moment = require('./moment-1780b03a.js');
+const debounce = require('./debounce-1b63fe86.js');
+const cityLedger_service = require('./city-ledger.service-0b7b94ca.js');
+const calendarData = require('./calendar-data-70bc3b4b.js');
+const v4 = require('./v4-9b297151.js');
+const utils = require('./utils-e4cb6b2d.js');
+const useTable = require('./useTable-206847ef.js');
+require('./axios-6e678d52.js');
+require('./index-8bb117a0.js');
+require('./locales.store-32782582.js');
+require('./index-fbf1fe1d.js');
+require('./type-87fd01b8.js');
+
+const irCityLedgerFiscalDocumentsCss = ".sc-ir-city-ledger-fiscal-documents-h{display:block}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}";
+const IrCityLedgerFiscalDocumentsStyle0 = irCityLedgerFiscalDocumentsCss;
+
+const IrCityLedgerFiscalDocuments = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    agentId = null;
+    currencySymbol = '$';
+    currencies = [];
+    ticket;
+    propertyId;
+    filters = {
+        fromDate: undefined,
+        toDate: undefined,
+        docNumber: '',
+        taxableOnly: false,
+        type: 'all',
+        proformaOnly: false,
+    };
+    fiscalDocuments = [];
+    isLoading = false;
+    hasFetched = false;
+    cityLedgerService = new index$1.CityLedgerService();
+    handleAgentIdChange() {
+        this.fiscalDocuments = [];
+        this.hasFetched = false;
+    }
+    get filteredDocuments() {
+        return this.fiscalDocuments;
+    }
+    async fetchFiscalDocuments(filters) {
+        if (!this.agentId || (!filters.fromDate && !filters.toDate))
+            return;
+        this.isLoading = true;
+        const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : moment.hooks(filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
+        const effectiveTo = filters.toDate ? this.filters.toDate : moment.hooks(filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
+        try {
+            const result = await this.cityLedgerService.getFiscalDocuments({
+                AGENCY_ID: this.agentId,
+                START_DATE: effectiveFrom,
+                END_DATE: effectiveTo,
+                DOC_NUMBER: filters.docNumber || '',
+                LIST_FD_TYPE_CODE: filters.proformaOnly
+                    ? [enums.FdTypes.Proforma]
+                    : filters.type === 'all'
+                        ? [enums.FdTypes.Invoice, enums.FdTypes.Receipt, enums.FdTypes.CreditNote, enums.FdTypes.DebitNote, enums.FdTypes.Draft]
+                        : [filters.type],
+            });
+            this.fiscalDocuments = result ?? [];
+        }
+        catch (err) {
+            console.error('[ir-city-ledger-fiscal-documents] getFiscalDocuments error:', err);
+        }
+        finally {
+            this.isLoading = false;
+            this.hasFetched = true;
+        }
+    }
+    render() {
+        return (index.h(index.Host, { key: 'c6498fbaa022c4a523fadb4b8ba118df04ec3d42' }, index.h("section", { key: '02081e7906dcaaab4e3bbd7d8074ee06d39e54c0', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, index.h("ir-city-ledger-fiscal-documents-filters", { key: '09e076dd998cc1c9fa92fe2106e28e874e19280e', filters: this.filters, onFiltersChange: event => {
+                this.filters = event.detail;
+            }, onApplyFilters: event => {
+                this.filters = event.detail;
+                this.fetchFiscalDocuments(event.detail);
+            } }), index.h("ir-city-ledger-fiscal-documents-table", { key: '0a9f063038c73c169c8d0a830122417286df8104', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+    }
+    static get watchers() { return {
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedgerFiscalDocuments.style = IrCityLedgerFiscalDocumentsStyle0;
+
+const irCityLedgerFiscalDocumentsFiltersCss = ".sc-ir-city-ledger-fiscal-documents-filters-h{display:block}.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-direction:column;align-items:stretch;gap:0.625rem}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{display:flex;align-items:center;width:100%}.filters-bar__date_picker.sc-ir-city-ledger-fiscal-documents-filters{width:100%}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;width:100%}.filters-bar__type-group.sc-ir-city-ledger-fiscal-documents-filters{display:flex;align-items:center;gap:0.5rem;width:100%}.filters-bar__status-select.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0}.filters-bar__tax-switch.sc-ir-city-ledger-fiscal-documents-filters{flex-shrink:0;white-space:nowrap}.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0}.filters-bar__search-icon.sc-ir-city-ledger-fiscal-documents-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}@media (min-width: 640px){.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{flex-direction:row;flex-wrap:wrap;align-items:center;gap:0.5rem}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{width:100%;flex-shrink:0;min-width:0}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{flex:1;flex-wrap:nowrap;min-width:0;width:auto}.filters-bar__type-group.sc-ir-city-ledger-fiscal-documents-filters{width:auto;flex-shrink:0}.filters-bar__status-select.sc-ir-city-ledger-fiscal-documents-filters{flex:none;min-width:160px}.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{flex:1;min-width:0;max-width:400px}}@media (min-width: 768px){.filters-bar__search-input.sc-ir-city-ledger-fiscal-documents-filters{min-width:160px;max-width:400px}}@media (min-width: 1024px){.filters-bar.sc-ir-city-ledger-fiscal-documents-filters{flex-wrap:nowrap}.filters-bar__dates.sc-ir-city-ledger-fiscal-documents-filters{width:auto;flex-shrink:0;min-width:280px}.filters-bar__search-group.sc-ir-city-ledger-fiscal-documents-filters{flex:1;width:auto}}";
+const IrCityLedgerFiscalDocumentsFiltersStyle0 = irCityLedgerFiscalDocumentsFiltersCss;
+
+var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+const today = moment.hooks();
+const IrCityLedgerFiscalDocumentsFilters = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.filtersChange = index.createEvent(this, "filtersChange", 7);
+        this.applyFilters = index.createEvent(this, "applyFilters", 7);
+    }
+    filters = {
+        fromDate: undefined,
+        toDate: undefined,
+        docNumber: '',
+        taxableOnly: false,
+        type: 'all',
+        proformaOnly: false,
+    };
+    docNumber = '';
+    filtersChange;
+    applyFilters;
+    typeOptions = [
+        { label: 'All Document Types', value: 'all' },
+        { label: 'Invoices', value: enums.FdTypes.Invoice },
+        { label: 'Receipts', value: enums.FdTypes.Receipt },
+        { label: 'Credit Notes', value: enums.FdTypes.CreditNote },
+        { label: 'Debit Notes', value: enums.FdTypes.DebitNote },
+    ];
+    updateFilters(patch) {
+        this.filtersChange.emit({ ...this.filters, ...patch });
+    }
+    emitSearchDebounced(value) {
+        this.updateFilters({ docNumber: value });
+    }
+    render() {
+        return (index.h(index.Host, { key: '4d1fd97d81c9b44777920a6c8ed6cdc4ed9eee37' }, index.h("div", { key: '364ab2532286940670da97fadbd793bb180d8008', class: "filters-bar" }, index.h("div", { key: '6cbb8aea2a6f215d51dce454b4a19647754502d9', class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: '2933c56a3f98a93731adf3c88b17c5570f39156c', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), index.h("div", { key: 'f1201503feb768aa80147690953c4152c09f3d77', class: "filters-bar__search-group" }, index.h("div", { key: 'fb7c94db8b5d10351e222ed42739112d988a21eb', class: "filters-bar__type-group" }, index.h("wa-select", { key: '2969f350074efe1fc260828651abb9394c2993eb', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (index.h("wa-option", { value: option.value, key: option.value }, option.label)))), index.h("wa-switch", { key: '9d4fe079cfef7bec45f8a8cafd028b8efcaab0ab', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes only"), index.h("wa-switch", { key: '72b718b11d42b2ac4281bdbb16fe069394db4955', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
+                const updated = { ...this.filters, proformaOnly: e.target.checked };
+                this.filtersChange.emit(updated);
+                this.applyFilters.emit(updated);
+            } }, "Pro-forma")), index.h("ir-input", { key: 'dbbe08d5916759deb4a76edb93886ee72bff667d', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
+                this.docNumber = e.detail;
+                this.emitSearchDebounced(e.detail);
+            }, withClear: true }, index.h("wa-icon", { key: '73bddd44f0804dcc63bcf103e0b43fe281ecf0f2', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '14bc065ba24ca656e3213dfcca7f16a6db17527c', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit(this.filters) }, index.h("wa-icon", { key: '8f6523375c2e61ec3676c8d7db9ff3dc8361557a', name: "magnifying-glass" }))))));
+    }
+};
+__decorate$1([
+    debounce.Debounce(300)
+], IrCityLedgerFiscalDocumentsFilters.prototype, "emitSearchDebounced", null);
+IrCityLedgerFiscalDocumentsFilters.style = IrCityLedgerFiscalDocumentsFiltersStyle0;
+
+const irCityLedgerFolioCss = ".sc-ir-city-ledger-folio-h{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}";
+const IrCityLedgerFolioStyle0 = irCityLedgerFolioCss;
+
+const IrCityLedgerFolio = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.folioSummaryUpdate = index.createEvent(this, "folioSummaryUpdate", 7);
+    }
+    agent = null;
+    propertyId;
+    serviceCategoryOptions = [];
+    currencies = [];
+    isTransactionOpen = false;
+    editingTransaction = null;
+    deleteTarget = null;
+    isDeleting = false;
+    filters = {};
+    data = [];
+    isLoading = false;
+    hasFetched = false;
+    startingBalance = 0;
+    closingBalance = 0;
+    totalCount = 0;
+    pageIndex = 0;
+    pageSize = 25;
+    isFetchingExcel = false;
+    folioSummaryUpdate;
+    cityLedgerService = new index$1.CityLedgerService();
+    async handleDelete() {
+        const tx = this.deleteTarget;
+        if (!tx)
+            return;
+        this.isDeleting = true;
+        try {
+            await this.cityLedgerService.issueManualCLTx({
+                CL_TX_ID: tx.CL_TX_ID,
+                AGENCY_ID: this.agent.id,
+                SERVICE_DATE: tx.SERVICE_DATE,
+                CL_TX_TYPE_CODE: tx.CL_TX_TYPE_CODE ?? '',
+                DESCRIPTION: tx.DESCRIPTION,
+                DEBIT: tx.DEBIT,
+                CREDIT: tx.CREDIT,
+                CURRENCY_ID: tx.CURRENCY_ID,
+                PAY_METHOD_CODE: tx.PAY_METHOD_CODE ?? '',
+                EXTERNAL_REF: tx.EXTERNAL_REF ?? '',
+                IS_DELETE: true,
+            });
+            this.deleteTarget = null;
+            await this.fetchFolioData();
+        }
+        catch (error) {
+            console.error('Failed to delete city ledger entry', error);
+        }
+        finally {
+            this.isDeleting = false;
+        }
+    }
+    handleAgentIdChange(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this.clearData();
+        }
+    }
+    clearData() {
+        this.data = [];
+        this.hasFetched = false;
+        this.startingBalance = 0;
+        this.closingBalance = 0;
+        this.totalCount = 0;
+        this.pageIndex = 0;
+    }
+    // private sortFolioRows(rows: FolioRow[]): FolioRow[] {
+    //   const roomRows = rows.filter(r => r.docNumber !== null);
+    //   const standaloneRows = rows.filter(r => r.docNumber === null);
+    //   const groups = new Map<string, FolioRow[]>();
+    //   for (const row of roomRows) {
+    //     const key = `${row.bookingNumber}__${row.docNumber}`;
+    //     if (!groups.has(key)) groups.set(key, []);
+    //     groups.get(key)!.push(row);
+    //   }
+    //   for (const group of groups.values()) {
+    //     group.sort((a, b) => a.serviceDate.localeCompare(b.serviceDate));
+    //   }
+    //   const slots: { anchorDate: string; rows: FolioRow[] }[] = [];
+    //   for (const row of standaloneRows) {
+    //     slots.push({ anchorDate: row.serviceDate, rows: [row] });
+    //   }
+    //   for (const group of groups.values()) {
+    //     slots.push({ anchorDate: group[0].serviceDate, rows: group });
+    //   }
+    //   slots.sort((a, b) => a.anchorDate.localeCompare(b.anchorDate));
+    //   return slots.flatMap(slot => slot.rows);
+    // }
+    async fetchCl(withExport = false) {
+        try {
+            this.isFetchingExcel = withExport;
+            if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
+                return;
+            const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : moment.hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
+            const effectiveTo = this.filters.toDate ? this.filters.toDate : moment.hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
+            const startRow = this.pageIndex * this.pageSize;
+            const statusParams = (() => {
+                switch (this.filters?.status) {
+                    case 'billed':
+                        return { IS_LOCKED: true, IS_HOLD: null };
+                    case 'held':
+                        return { IS_LOCKED: null, IS_HOLD: true };
+                    case 'unbilled':
+                        return { IS_LOCKED: false, IS_HOLD: false };
+                    default:
+                        return { IS_LOCKED: null, IS_HOLD: null };
+                }
+            })();
+            return await this.cityLedgerService.fetchCL({
+                AGENCY_ID: this.agent?.id,
+                START_DATE: effectiveFrom,
+                END_DATE: effectiveTo,
+                START_ROW: startRow,
+                END_ROW: startRow + this.pageSize - 1,
+                SEARCH_QUERY: this.filters.search || null,
+                ...statusParams,
+                is_export_to_excel: withExport,
+            });
+        }
+        catch (error) {
+        }
+        finally {
+            this.isFetchingExcel = false;
+        }
+    }
+    async fetchFolioData() {
+        if (!this.agent?.id || (!this.filters?.fromDate && !this.filters?.toDate))
+            return;
+        const effectiveFrom = this.filters.fromDate ? this.filters.fromDate : moment.hooks(this.filters.toDate).subtract(5, 'years').format('YYYY-MM-DD');
+        const effectiveTo = this.filters.toDate ? this.filters.toDate : moment.hooks(this.filters.fromDate).add(5, 'years').format('YYYY-MM-DD');
+        try {
+            this.isLoading = true;
+            const currencyId = calendarData.calendar_data?.property?.currency?.id;
+            const [result, statement] = await Promise.all([
+                this.fetchCl(),
+                this.cityLedgerService.getCLStatement({
+                    AGENCY_ID: this.agent?.id,
+                    CURRENCY_ID: currencyId,
+                    START_DATE: effectiveFrom,
+                    END_DATE: effectiveTo,
+                }),
+            ]);
+            const txList = result?.My_Cl_tx ?? [];
+            this.totalCount = result?.TOTAL_COUNT ?? 0;
+            const startingBal = statement?.STARTING_BALANCE ?? 0;
+            this.startingBalance = startingBal;
+            this.closingBalance = statement?.ENDING_BALANCE ?? 0;
+            let totalDebits = 0;
+            let totalCredits = 0;
+            let unbilledCount = 0;
+            const mappedRows = txList.map((tx) => {
+                const mapped = cityLedger_service.mapClTxToFolioRow(tx);
+                totalDebits += tx.DEBIT || 0;
+                totalCredits += tx.CREDIT || 0;
+                if (mapped.status.label === 'Unbilled')
+                    unbilledCount++;
+                return { ...mapped, _rowId: v4.v4() };
+            });
+            this.data = mappedRows;
+            this.folioSummaryUpdate.emit({
+                startingBalance: startingBal,
+                totalDebits,
+                totalCredits,
+                currentBalance: this.closingBalance,
+                unbilledCount,
+            });
+        }
+        catch (error) {
+            console.error('Failed to fetch city ledger folio', error);
+            this.data = [];
+        }
+        finally {
+            this.isLoading = false;
+            this.hasFetched = true;
+        }
+    }
+    render() {
+        return (index.h(index.Host, { key: '7b5aaab088bd941f4de40e06e46d6a386f037364' }, index.h("ir-city-ledger-folio-filters", { key: 'c7ff6fa30202ee133e1b5f47d044d2d608e4f72b', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+                this.filters = e.detail;
+                this.pageIndex = 0;
+                await this.fetchFolioData();
+            }, onAddEntry: () => {
+                this.editingTransaction = null;
+                this.isTransactionOpen = true;
+            }, isExporting: this.isFetchingExcel, onExportFolio: () => {
+                this.fetchCl(true);
+            } }), index.h("ir-city-ledger-folio-table", { key: '96a89fbc44f697c7b94192f2d203da61252ebe77', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendarData.calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+                this.pageIndex = e.detail.pageIndex;
+                this.pageSize = e.detail.pageSize;
+                await this.fetchFolioData();
+            }, onFetchRequested: async () => {
+                this.pageIndex = 0;
+                await this.fetchFolioData();
+            }, onGenerateInvoice: e => console.log('Generate invoice for', e.detail), onEditEntry: e => {
+                this.editingTransaction = e.detail;
+                this.isTransactionOpen = true;
+            }, onDeleteEntry: e => {
+                this.deleteTarget = e.detail;
+            } }), index.h("ir-dialog", { key: '6dc1bc7ff583e39a0a9615aa5fe958c279f415eb', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                if (!this.isDeleting)
+                    this.deleteTarget = null;
+            } }, index.h("p", { key: 'f013debfb762db0fec262278ec72b53e6533d1a6' }, "Are you sure you want to delete this entry? This action cannot be undone."), index.h("div", { key: '6d62c6ab911e69d45069f891dc3a38edc8e20356', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: '474fd3577cacd11a7c5d87253f6113830dcf0887', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), index.h("ir-custom-button", { key: 'e048ec2fe90284b7aa4eb5049dfa0deefd4b7bd0', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), index.h("ir-city-ledger-transaction-drawer", { key: '372c7c3f77dd6946c09a20d81bb1ed2af99f5ff9', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+                this.fetchFolioData();
+            }, onCloseDrawer: () => {
+                this.isTransactionOpen = false;
+                this.editingTransaction = null;
+            } })));
+    }
+    static get watchers() { return {
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedgerFolio.style = IrCityLedgerFolioStyle0;
+
+const irCityLedgerFolioFiltersCss = ".sc-ir-city-ledger-folio-filters-h{display:block}.filters-bar.sc-ir-city-ledger-folio-filters{display:flex;flex-direction:column;align-items:stretch;gap:0.625rem}.filters-bar__dates.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;width:100%}.filters-bar__date_picker.sc-ir-city-ledger-folio-filters{width:100%}.filters-bar__search-group.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;gap:0.5rem;width:100%}.filters-bar__status-select.sc-ir-city-ledger-folio-filters{flex-shrink:0;min-width:110px}.filters-bar__search-input.sc-ir-city-ledger-folio-filters{flex:1;min-width:0}.filters-bar__search-icon.sc-ir-city-ledger-folio-filters{font-size:0.875rem;color:var(--wa-color-text-quiet, #9ca3af);flex-shrink:0}.filters-bar__actions.sc-ir-city-ledger-folio-filters{display:flex;align-items:center;gap:0.5rem;width:100%;justify-content:flex-end}@media (min-width: 640px){.filters-bar.sc-ir-city-ledger-folio-filters{flex-direction:row;flex-wrap:wrap;align-items:center;gap:0.5rem}.filters-bar__dates.sc-ir-city-ledger-folio-filters{width:100%;flex-shrink:0;min-width:0}.filters-bar__search-group.sc-ir-city-ledger-folio-filters{flex:1;min-width:0;width:auto}.filters-bar__status-select.sc-ir-city-ledger-folio-filters{min-width:130px;flex-shrink:0}.filters-bar__search-input.sc-ir-city-ledger-folio-filters{flex:1;min-width:0;max-width:400px}.filters-bar__actions.sc-ir-city-ledger-folio-filters{flex-shrink:0;width:auto;justify-content:flex-end}}@media (min-width: 768px){.filters-bar__search-input.sc-ir-city-ledger-folio-filters{min-width:160px;max-width:none;max-width:400px}}@media (min-width: 1024px){.filters-bar.sc-ir-city-ledger-folio-filters{flex-wrap:nowrap}.filters-bar__dates.sc-ir-city-ledger-folio-filters{width:auto;flex-shrink:0;min-width:280px}.filters-bar__search-group.sc-ir-city-ledger-folio-filters{flex:1;width:auto}.filters-bar__actions.sc-ir-city-ledger-folio-filters{width:auto;flex-shrink:0}}";
+const IrCityLedgerFolioFiltersStyle0 = irCityLedgerFolioFiltersCss;
+
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+        r = Reflect.decorate(decorators, target, key, desc);
+    else
+        for (var i = decorators.length - 1; i >= 0; i--)
+            if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+const IrCityLedgerFolioFilters = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.filtersChange = index.createEvent(this, "filtersChange", 7);
+        this.addEntry = index.createEvent(this, "addEntry", 7);
+        this.applyFilters = index.createEvent(this, "applyFilters", 7);
+        this.exportFolio = index.createEvent(this, "exportFolio", 7);
+    }
+    isExporting;
+    dates = {
+        from: undefined,
+        to: undefined,
+    };
+    statusFilter = 'all';
+    searchQuery = '';
+    filtersChange;
+    addEntry;
+    applyFilters;
+    exportFolio;
+    componentDidLoad() {
+        this.emitFilters();
+    }
+    statuses = [
+        { value: 'all', label: 'All entries' },
+        { value: 'billed', label: 'Billed' },
+        { value: 'held', label: 'Held' },
+        { value: 'unbilled', label: 'Unbilled' },
+    ];
+    emitFilters() {
+        this.filtersChange.emit({
+            fromDate: this.dates.from?.format('YYYY-MM-DD'),
+            toDate: this.dates.to?.format('YYYY-MM-DD'),
+            status: this.statusFilter,
+            search: this.searchQuery,
+        });
+    }
+    emitFiltersDebounced() {
+        this.emitFilters();
+    }
+    render() {
+        return (index.h(index.Host, { key: '766252d7696ca6f6438fbb6270ac12aadec6e7a6' }, index.h("div", { key: '77264cc6736265726e4f224484f166192db34874', class: "filters-bar" }, index.h("div", { key: '0f7723dd9bcc6a3c0da316a5b6263fb0f9924687', class: "filters-bar__dates" }, index.h("ir-date-range-filter", { key: 'fd78f1959cb14934ee561050208d3bfb11791e12', maxDate: moment.hooks().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+                const { from, to } = e.detail;
+                this.dates = {
+                    from: from ? moment.hooks(from, 'YYYY-MM-DD') : null,
+                    to: to ? moment.hooks(to, 'YYYY-MM-DD') : null,
+                };
+                this.emitFilters();
+            } })), index.h("div", { key: 'd584a4f537e81d370da4e24d85587aa625f9b9d2', class: "filters-bar__search-group" }, index.h("wa-select", { key: 'cc969542b0b0d22792c141c79dc9a8548afa7c12', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
+                this.statusFilter = e.target.value?.toString();
+                this.emitFilters();
+            }, "onwa-clear": () => {
+                this.statusFilter = 'all';
+                this.emitFilters();
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (index.h("wa-option", { value: s.value, label: s.label }, s.label)))), index.h("ir-input", { key: 'd2477942331c578e180a3e5b97545117597517c6', class: "filters-bar__search-input", "onText-change": e => {
+                this.searchQuery = e.detail;
+                this.emitFiltersDebounced();
+            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, index.h("wa-icon", { key: '3b0cfdf7577df1474373f5153472964a7cc4d6c4', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), index.h("ir-custom-button", { key: '669dfa9a09ea4993a01cc4f8594594dfead9aaeb', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit({
+                fromDate: this.dates.from?.format('YYYY-MM-DD'),
+                toDate: this.dates.to?.format('YYYY-MM-DD'),
+                status: this.statusFilter,
+                search: this.searchQuery,
+            }) }, index.h("wa-icon", { key: '133c45e490b96302cdf579da29519fc821e741d7', name: "magnifying-glass" }))), index.h("div", { key: 'd38417157260ccc37868e37ea198ddd75ed4fa6b', class: "filters-bar__actions" }, index.h("ir-custom-button", { key: '23b770175981101b0934887db8bed865f14383c8', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, index.h("wa-icon", { key: '56bf1708feae16a293d98bade8fce6ee2b09bd71', name: "download", slot: "start" }), index.h("span", { key: '1f2b9775227428392f34ac5dc0af22a8815a2b68' }, "Export")), index.h("ir-custom-button", { key: '49b177294d7074453c639200d9ce618276950788', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
+    }
+};
+__decorate([
+    debounce.Debounce(300)
+], IrCityLedgerFolioFilters.prototype, "emitFiltersDebounced", null);
+IrCityLedgerFolioFilters.style = IrCityLedgerFolioFiltersStyle0;
+
+const irCityLedgerFolioTableCss = ".sc-ir-city-ledger-folio-table-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-city-ledger-folio-table{overflow-x:auto}.table.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table tr.sc-ir-city-ledger-folio-table:last-child>td.sc-ir-city-ledger-folio-table{border-bottom:0 !important}.table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sc-ir-city-ledger-folio-table{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sc-ir-city-ledger-folio-table{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-city-ledger-folio-table .empty-row.sc-ir-city-ledger-folio-table{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-city-ledger-folio-table{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-city-ledger-folio-table,.ir-table-row.sc-ir-city-ledger-folio-table{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-city-ledger-folio-table{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{transition-duration:var(--wa-transition-fast)}.table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sortable.sc-ir-city-ledger-folio-table{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sortable.sc-ir-city-ledger-folio-table:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sortable.sc-ir-city-ledger-folio-table:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-city-ledger-folio-table:hover td.sc-ir-city-ledger-folio-table{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-city-ledger-folio-table:hover td.sc-ir-city-ledger-folio-table{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-city-ledger-folio-table:active td.sc-ir-city-ledger-folio-table{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-city-ledger-folio-table:hover td.sc-ir-city-ledger-folio-table{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-city-ledger-folio-table:active td.sc-ir-city-ledger-folio-table{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-city-ledger-folio-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-city-ledger-folio-table svg.sc-ir-city-ledger-folio-table{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-city-ledger-folio-table{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-city-ledger-folio-table,.data-table.sc-ir-city-ledger-folio-table{height:100%}.sc-ir-city-ledger-folio-table-h{display:flex;flex-direction:column;border-radius:0.75rem;overflow:hidden;min-height:60dvh;max-width:1920px;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);background-color:var(--wa-color-surface-default, #fff);box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.05),\n    0 1px 2px -1px rgb(0 0 0 / 0.05)}.booking_heading.sc-ir-city-ledger-folio-table .heading_container.sc-ir-city-ledger-folio-table{display:flex;align-items:center;justify-content:space-between;width:100%;gap:0.5rem}.booking_heading.sc-ir-city-ledger-folio-table .heading_container--between.sc-ir-city-ledger-folio-table{justify-content:space-between}.booking_heading.sc-ir-city-ledger-folio-table .heading_container--end.sc-ir-city-ledger-folio-table{justify-content:flex-end}.data-table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table td.grouped-cell.sc-ir-city-ledger-folio-table{padding-top:0 !important;padding-bottom:0 !important}.data-table--pagination.sc-ir-city-ledger-folio-table{margin-top:auto !important}.header-button.sc-ir-city-ledger-folio-table::part(start){display:none}.header-button.sc-ir-city-ledger-folio-table::part(base){justify-content:space-between;color:var(--wa-color-text-subtle, #6b7280);height:auto !important;width:auto !important;padding:0.25rem;border-radius:0.25rem;transition:color 0.15s ease,\n    background-color 0.15s ease}.header-button.sc-ir-city-ledger-folio-table:hover::part(base){color:var(--wa-color-text-normal);background-color:var(--wa-color-neutral-fill-quiet, #f3f4f6)}.input-column.sc-ir-city-ledger-folio-table{padding:0 !important}.data-table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table td.input-column.sc-ir-city-ledger-folio-table{--input-width:150px;padding:0 !important;width:var(--input-width);max-width:var(--input-width);box-sizing:border-box}.group-expander.sc-ir-city-ledger-folio-table{height:100%}.group-expander.sc-ir-city-ledger-folio-table::part(base){font-size:1rem;height:100%;align-items:center;width:auto}.data-table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sc-ir-city-ledger-folio-table,.data-table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{border-right:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb) !important}.data-table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table:last-child,.data-table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sc-ir-city-ledger-folio-table:last-child{border-right:0 !important}.data-table.sc-ir-city-ledger-folio-table thead.sc-ir-city-ledger-folio-table th.sticky-column.sc-ir-city-ledger-folio-table,.data-table.sc-ir-city-ledger-folio-table tbody.sc-ir-city-ledger-folio-table td.sticky-column.sc-ir-city-ledger-folio-table{border-right:0 !important}.sticky-column.sc-ir-city-ledger-folio-table::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background-color:var(--wa-color-neutral-border-quiet, #e5e7eb);pointer-events:none}.folio-table__empty-state.sc-ir-city-ledger-folio-table,.folio-table__loading.sc-ir-city-ledger-folio-table{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;flex:1;min-height:200px;color:var(--wa-color-text-subtle, #6b7280);font-size:0.875rem}.folio-table__date-prompt.sc-ir-city-ledger-folio-table{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;flex:1;padding:3rem 2rem;text-align:center}.folio-table__date-prompt-icon.sc-ir-city-ledger-folio-table{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.folio-table__date-prompt-title.sc-ir-city-ledger-folio-table{margin:0;font-size:0.9375rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.folio-table__date-prompt-subtitle.sc-ir-city-ledger-folio-table{margin:0;font-size:0.8125rem;color:var(--wa-color-text-subtle, #6b7280);max-width:28rem;line-height:1.5}.folio-table__no-results.sc-ir-city-ledger-folio-table{text-align:center;color:var(--wa-color-text-quiet, #9ca3af);font-size:0.875rem;padding:2rem 1rem}.folio-table__select-col.sc-ir-city-ledger-folio-table{width:40px !important;max-width:40px !important;min-width:40px !important;text-align:center !important;padding-inline:0.5rem !important}.folio-table__checkbox.sc-ir-city-ledger-folio-table{cursor:pointer;width:1rem;height:1rem;accent-color:var(--wa-color-brand-fill-loud)}.folio-table__row--selected.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{background-color:var(--wa-color-brand-fill-quiet, #eff6ff) !important}.folio-table__invoice-bar.sc-ir-city-ledger-folio-table{display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);border-bottom:1px solid var(--wa-color-brand-border-quiet, #bfdbfe);font-size:0.875rem;flex-wrap:wrap}.folio-table__invoice-bar-text.sc-ir-city-ledger-folio-table{display:flex;align-items:center;color:var(--wa-color-brand-on-quiet);font-weight:500;flex:1}.folio-table__balance.sc-ir-city-ledger-folio-table{font-variant-numeric:tabular-nums;font-weight:500;display:block;text-align:right;padding:var(--ir-cell-padding, 0.5rem 1rem)}.folio-table__balance--negative.sc-ir-city-ledger-folio-table{color:var(--wa-color-danger-fill-loud, #dc2626)}.balance-row__label.sc-ir-city-ledger-folio-table{display:flex;align-items:center;font-size:0.8125rem}.cell--align-end.sc-ir-city-ledger-folio-table{text-align:right !important}.cell--align-center.sc-ir-city-ledger-folio-table{text-align:center}.folio-table__status-cell.sc-ir-city-ledger-folio-table{display:flex;align-items:center;justify-content:space-between}.folio-table__col-label.sc-ir-city-ledger-folio-table{display:flex;align-items:center;gap:0.5rem}.folio-table__col-label--end.sc-ir-city-ledger-folio-table{justify-content:flex-end}.folio-table__col-label--center.sc-ir-city-ledger-folio-table{justify-content:center}.folio-table__description.sc-ir-city-ledger-folio-table{display:block;width:100%}.balance-row.sc-ir-city-ledger-folio-table td.sc-ir-city-ledger-folio-table{background:var(--wa-color-brand-fill-quiet) !important;color:var(--wa-color-brand-on-quiet) !important;border-color:var(--wa-color-brand-border-quiet) !important;font-weight:600;font-size:0.875rem;padding:0.75rem 1rem !important}.balance-row.sc-ir-city-ledger-folio-table td.sticky-column.sc-ir-city-ledger-folio-table{background:var(--wa-color-brand-fill-quiet) !important}";
+const IrCityLedgerFolioTableStyle0 = irCityLedgerFolioTableCss;
+
+const DATE_DISPLAY_FORMAT$1 = 'MMM DD, YYYY';
+const DATE_INPUT_FORMAT$1 = 'YYYY-MM-DD';
+const IrCityLedgerFolioTable = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.pageChange = index.createEvent(this, "pageChange", 7);
+        this.generateInvoice = index.createEvent(this, "generateInvoice", 7);
+        this.fetchRequested = index.createEvent(this, "fetchRequested", 7);
+        this.editEntry = index.createEvent(this, "editEntry", 7);
+        this.deleteEntry = index.createEvent(this, "deleteEntry", 7);
+    }
+    handleAction(value, row) {
+        switch (value) {
+            case 'hold-transaction':
+                this.holdTargetRow = row;
+                this.holdDialogRef.openModal();
+                break;
+            case 'edit-transaction':
+                this.editEntry.emit(row._raw);
+                break;
+            case 'delete-transaction':
+                this.deleteEntry.emit(row._raw);
+                break;
+        }
+    }
+    // ─── Props ───────────────────────────────────────────────────────────────
+    agentId = null;
+    data = [];
+    isLoading = false;
+    startingBalance = 0;
+    closingBalance = 0;
+    totalCount = 0;
+    pageIndex = 0;
+    pageSize = 25;
+    fromDate = '';
+    toDate = '';
+    hasFetched = false;
+    currencySymbol = '$';
+    currencies = [];
+    // ─── State ───────────────────────────────────────────────────────────────
+    tableState = {};
+    selectedRowIds = new Set();
+    holdTargetRow = null;
+    // ─── Events ──────────────────────────────────────────────────────────────
+    pageChange;
+    generateInvoice;
+    fetchRequested;
+    editEntry;
+    deleteEntry;
+    // ─── Private fields ──────────────────────────────────────────────────────
+    columnHelper = useTable.createColumnHelper();
+    pageSizes = [25, 50, 100];
+    holdDialogRef;
+    // ─── Utilities ───────────────────────────────────────────────────────────
+    formatDate(date) {
+        if (!date)
+            return '';
+        const m = moment.hooks(date, [DATE_INPUT_FORMAT$1, moment.hooks.ISO_8601], true);
+        return m.isValid() ? m.format(DATE_DISPLAY_FORMAT$1) : date;
+    }
+    // ─── Selection ────────────────────────────────────────────────────────────
+    get selectedUnbilledRows() {
+        return this.data.filter(row => this.selectedRowIds.has(row._rowId) && row.status?.label === 'Unbilled');
+    }
+    handleHoldToggled(rowId, newIsHold) {
+        // Note: optimistic local update — parent will re-fetch on next search
+        const updatedData = this.data.map(row => {
+            if (row._rowId !== rowId)
+                return row;
+            const updatedRaw = { ...row._raw, IS_HOLD: newIsHold };
+            const status = newIsHold ? { id: 'held', label: 'Held', variant: 'warning', description: '' } : { id: 'unbilled', label: 'Unbilled', variant: 'neutral', description: '' };
+            return { ...row, _raw: updatedRaw, status };
+        });
+        // Trigger re-render by reassigning (Stencil tracks Prop changes via reference)
+        // Since data is a Prop we can't mutate it — we use a local state for optimistic UI
+        this._localDataOverride = updatedData;
+        this.holdTargetRow = null;
+    }
+    // Local override for optimistic hold/revert updates
+    _localDataOverride = null;
+    onDataChange() {
+        this._localDataOverride = null;
+    }
+    get displayData() {
+        return this._localDataOverride ?? this.data;
+    }
+    // ─── Currency helpers ─────────────────────────────────────────────────────
+    getSymbol(currencyId) {
+        const match = this.currencies.find(c => c.id === currencyId);
+        return match?.symbol ?? this.currencySymbol;
+    }
+    // ─── Column definitions ──────────────────────────────────────────────────
+    columns = [
+        this.columnHelper.accessor(row => row.status.label, {
+            id: 'status',
+            header: 'Status',
+            size: 200,
+            cell: info => {
+                const value = info.getValue();
+                return (index.h("div", { class: "folio-table__status-cell" }, index.h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, value === 'Billed' && index.h("wa-icon", { name: "lock" }))));
+            },
+            enableGrouping: true,
+            enableSorting: false,
+        }),
+        this.columnHelper.accessor('serviceDate', {
+            header: 'Service Date',
+            cell: info => this.formatDate(info.getValue()),
+            aggregatedCell: info => this.formatDate(info.getValue()),
+            enableGrouping: true,
+            aggregationFn: (columnId, leafRows) => {
+                if (!leafRows.length)
+                    return undefined;
+                const dates = leafRows
+                    .map(row => row.getValue(columnId))
+                    .filter(Boolean)
+                    .map(date => new Date(date));
+                if (!dates.length)
+                    return undefined;
+                const latest = new Date(Math.max(...dates.map(d => d.getTime())));
+                return latest.toISOString().split('T')[0];
+            },
+        }),
+        this.columnHelper.accessor('bookingNumber', {
+            header: 'Booking #',
+            cell: info => (info.getValue() ? String(info.getValue()) : null),
+            enableGrouping: true,
+            enableSorting: false,
+        }),
+        this.columnHelper.accessor('description', {
+            header: 'Description',
+            cell: info => index.h("span", { class: "folio-table__description" }, info.getValue()),
+            enableSorting: false,
+            enableGrouping: true,
+        }),
+        this.columnHelper.accessor('docNumber', {
+            header: 'Fiscal Doc',
+            cell: info => index.h("span", null, info.getValue()),
+            enableSorting: false,
+            enableGrouping: true,
+        }),
+        this.columnHelper.accessor('debit', {
+            header: 'Debit',
+            cell: info => {
+                const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
+                return (index.h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, index.h("span", { slot: "start" }, symbol), index.h("span", null, info.getValue() ? utils.formatAmount(symbol, info.getValue()) : '')));
+            },
+            aggregatedCell: info => index.h("span", { style: { padding: 'var(--ir-cell-padding)' } }, utils.formatAmount(this.currencySymbol, Number(info.getValue()))),
+            aggregationFn: 'sum',
+            enableGrouping: false,
+            enableSorting: false,
+        }),
+        this.columnHelper.accessor('credit', {
+            header: 'Credit',
+            cell: info => {
+                const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
+                return (index.h("ir-input-cell", { mask: 'price', disabled: true, value: info.getValue().toString() }, index.h("span", { slot: "start" }, symbol), index.h("span", null, info.getValue() ? utils.formatAmount(symbol, info.getValue()) : '')));
+            },
+            aggregatedCell: info => index.h("span", { style: { padding: 'var(--ir-cell-padding)' } }, utils.formatAmount(this.currencySymbol, Number(info.getValue()))),
+            aggregationFn: 'sum',
+            enableSorting: false,
+            enableGrouping: false,
+        }),
+        this.columnHelper.accessor('balance', {
+            header: 'Balance',
+            cell: info => {
+                const symbol = this.getSymbol(info.row.original._raw.CURRENCY_ID);
+                return (index.h("ir-input-cell", { disabled: true, mask: 'price', value: info.getValue().toString() }, index.h("span", { slot: "start" }, symbol), index.h("span", null, info.getValue() ? utils.formatAmount(symbol, +info.getValue()) : '')));
+            },
+            enableSorting: false,
+            enableGrouping: false,
+        }),
+        this.columnHelper.display({
+            id: 'actions',
+            header: '',
+            size: 48,
+            cell: info => {
+                const row = info.row.original;
+                if (row._raw.IS_LOCKED)
+                    return null;
+                return (index.h("wa-dropdown", { "onwa-hide": e => {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                    }, "onwa-select": (e) => {
+                        this.handleAction(e.detail.item.value, row);
+                    } }, index.h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, index.h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), index.h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), cityLedger_service.actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && index.h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), index.h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
+            },
+            enableSorting: false,
+            enableGrouping: false,
+        }),
+    ];
+    // ─── Table state ─────────────────────────────────────────────────────────
+    onTableStateChange = (updater) => {
+        const nextState = typeof updater === 'function' ? updater(this.tableState) : updater;
+        if (JSON.stringify(this.tableState) === JSON.stringify(nextState))
+            return;
+        this.tableState = nextState;
+    };
+    renderCell = (cell) => {
+        if (cell.getIsGrouped()) {
+            return (index.h("wa-button", { appearance: "plain", size: "small", class: "group-expander", onClick: () => cell.row.toggleExpanded() }, index.h("wa-icon", { style: { fontSize: '0.875rem' }, slot: "start", name: cell.row.getIsExpanded() ? 'chevron-down' : 'chevron-up' }), useTable.flexRender(cell.column.columnDef.cell, cell.getContext()), " ", index.h("span", { slot: "end" }, "(", cell.row.subRows.length, ")")));
+        }
+        if (cell.getIsAggregated()) {
+            return useTable.flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, cell.getContext());
+        }
+        if (cell.getIsPlaceholder())
+            return null;
+        return useTable.flexRender(cell.column.columnDef.cell, cell.getContext());
+    };
+    // ─── Render helpers ──────────────────────────────────────────────────────
+    renderTableHead(table) {
+        return (index.h("thead", null, table.getHeaderGroups().map(headerGroup => (index.h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => {
+            const canSort = header.column.getCanSort();
+            const canGroup = header.column.getCanGroup();
+            const isGrouped = header.column.getIsGrouped();
+            const sortDirection = header.column.getIsSorted();
+            const isNumericCol = ['debit', 'credit', 'balance'].includes(header.column.id);
+            return (index.h("th", { key: header.id, class: {
+                    'booking_heading': !header.isPlaceholder,
+                    'cell--align-end': isNumericCol,
+                    'cell--align-center': header.column.id === 'select',
+                    'sticky-column': header.column.id === 'status',
+                    'folio-table__select-col': header.column.id === 'select',
+                }, style: header.column.id === 'bookingNumber' ? { paddingInline: '0' } : undefined }, !header.isPlaceholder && (index.h("div", { class: {
+                    'heading_container': true,
+                    'heading_container--between': canSort || canGroup,
+                    'heading_container--end': isNumericCol,
+                } }, index.h("div", { class: {
+                    'folio-table__col-label': true,
+                    'folio-table__col-label--end': isNumericCol,
+                    'folio-table__col-label--center': header.column.id === 'select',
+                } }, index.h("span", null, useTable.flexRender(header.column.columnDef.header, header.getContext())), isGrouped && index.h("wa-icon", { style: { fontSize: '0.875rem', color: 'var(--wa-color-brand-fill-loud)' }, name: "object-group" }), sortDirection && (index.h("wa-icon", { style: { fontSize: '0.875rem', color: 'var(--wa-color-brand-fill-loud)' }, name: sortDirection === 'desc' ? 'arrow-up' : 'arrow-down' }))), (canSort || canGroup) && (index.h("wa-dropdown", { "onwa-select": e => {
+                    switch (e.detail.item.value) {
+                        case 'order-asc':
+                            header.column.toggleSorting(true);
+                            break;
+                        case 'order-desc':
+                            header.column.toggleSorting(false);
+                            break;
+                        case 'order-clear':
+                            header.column.clearSorting();
+                            break;
+                        case 'group':
+                            header.column.toggleGrouping();
+                            break;
+                    }
+                }, style: { fontWeight: '400' } }, index.h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "header-button" }, index.h("wa-icon", { name: "ellipsis-vertical" })), canSort && (index.h(index.Fragment, null, sortDirection !== 'desc' && (index.h("wa-dropdown-item", { value: "order-asc" }, index.h("wa-icon", { slot: "icon", name: "arrow-up" }), "Sort Ascending")), sortDirection !== 'asc' && (index.h("wa-dropdown-item", { value: "order-desc" }, index.h("wa-icon", { slot: "icon", name: "arrow-down" }), "Sort Descending")), sortDirection && (index.h("wa-dropdown-item", { value: "order-clear" }, index.h("wa-icon", { slot: "icon", name: "up-down" }), "Clear Sort")))), canGroup && (index.h("wa-dropdown-item", { value: "group" }, index.h("wa-icon", { slot: "icon", name: isGrouped ? 'object-ungroup' : 'object-group' }), isGrouped ? 'UnGroup' : 'Group'))))))));
+        }))))));
+    }
+    renderStartingBalanceRow() {
+        return (index.h("tr", { class: "ir-table-row balance-row balance-row--start" }, index.h("td", { class: "sticky-column" }), index.h("td", null, this.formatDate(this.fromDate)), index.h("td", null), index.h("td", null, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), index.h("td", null), index.h("td", { class: "cell--align-end" }, this.startingBalance >= 0 ? utils.formatAmount(this.currencySymbol, this.startingBalance) : ''), index.h("td", { class: "cell--align-end" }, this.startingBalance < 0 ? utils.formatAmount(this.currencySymbol, this.startingBalance) : ''), index.h("td", { class: "cell--align-end" }, utils.formatAmount(this.currencySymbol, this.startingBalance)), index.h("td", null)));
+    }
+    renderEndingBalanceRow() {
+        return (index.h("tr", { class: "ir-table-row balance-row balance-row--end" }, index.h("td", { class: "sticky-column" }), index.h("td", null, this.formatDate(this.toDate)), index.h("td", null), index.h("td", null, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), index.h("td", null), index.h("td", { class: "cell--align-end" }, this.closingBalance >= 0 ? utils.formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), index.h("td", { class: "cell--align-end" }, this.closingBalance < 0 ? utils.formatAmount(this.currencySymbol, Math.abs(this.closingBalance)) : ''), index.h("td", { class: "cell--align-end" }, index.h("strong", null, this.closingBalance < 0 ? '-' : '', utils.formatAmount(this.currencySymbol, Math.abs(this.closingBalance)))), index.h("td", null)));
+    }
+    renderDataRows(table) {
+        const rows = table.getRowModel().rows;
+        if (rows.length === 0) {
+            return (index.h("tr", null, index.h("td", { colSpan: this.columns.length + 1, class: "folio-table__no-results" }, "No entries match the current filters.")));
+        }
+        return rows.map(row => {
+            const isSelected = this.selectedRowIds.has(row.original._rowId);
+            return (index.h("tr", { key: row.id, class: { 'ir-table-row': true, 'folio-table__row--selected': isSelected } }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: {
+                    'cell--align-end': ['debit', 'credit', 'balance'].includes(cell.column.id),
+                    'cell--align-center': cell.column.id === 'select',
+                    'sticky-column': cell.column.id === 'status',
+                    'input-column': ['debit', 'credit', 'balance'].includes(cell.column.id),
+                    'grouped-cell': cell.getIsGrouped(),
+                    'folio-table__select-col': cell.column.id === 'select',
+                } }, this.renderCell(cell))))));
+        });
+    }
+    // ─── Render ───────────────────────────────────────────────────────────────
+    render() {
+        if (!this.agentId) {
+            return (index.h(index.Host, null, index.h("div", { class: "folio-table__empty-state" }, index.h("wa-icon", { name: "building-columns", style: { fontSize: '2.5rem', opacity: '0.3' } }), index.h("p", null, "Select an agent to view the folio ledger."))));
+        }
+        if (!this.hasFetched) {
+            const hasDate = !!(this.fromDate || this.toDate);
+            return (index.h(index.Host, null, index.h("div", { class: "folio-table__date-prompt" }, index.h("div", { class: "folio-table__date-prompt-icon" }, index.h("wa-icon", { name: "calendar-days" })), index.h("p", { class: "folio-table__date-prompt-title" }, "Select a date range to get started"), hasDate && (index.h("wa-animation", { play: true, iterations: 1, id: "cleanAnimation", class: "clean-button", name: "rubberBand", easing: "ease-in-out", duration: 800 }, index.h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.fetchRequested.emit() }, index.h("wa-icon", { slot: "start", name: "magnifying-glass" }), "Load Transactions"))))));
+        }
+        if (this.isLoading) {
+            return (index.h(index.Host, null, index.h("div", { class: "folio-table__loading" }, index.h("ir-spinner", null))));
+        }
+        const table = useTable.useTable({
+            data: this.displayData,
+            columns: this.columns,
+            state: this.tableState,
+            enableGrouping: false,
+            onStateChange: this.onTableStateChange,
+            getCoreRowModel: useTable.getCoreRowModel(),
+            getSortedRowModel: useTable.getSortedRowModel(),
+            getGroupedRowModel: useTable.getGroupedRowModel(),
+            getExpandedRowModel: useTable.getExpandedRowModel(),
+        });
+        const total = this.totalCount;
+        const pageCount = Math.ceil(total / this.pageSize);
+        const showingFrom = total ? this.pageIndex * this.pageSize + 1 : 0;
+        const showingTo = total ? Math.min(this.pageIndex * this.pageSize + this.displayData.length, total) : 0;
+        const hasUnbilledSelected = this.selectedUnbilledRows.length > 0;
+        return (index.h(index.Host, null, hasUnbilledSelected && (index.h("div", { class: "folio-table__invoice-bar" }, index.h("span", { class: "folio-table__invoice-bar-text" }, index.h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), index.h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, index.h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), index.h("ir-custom-button", { size: "small", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), index.h("div", { class: "table--container" }, index.h("table", { class: "table data-table" }, this.renderTableHead(table), index.h("tbody", null, this.renderStartingBalanceRow(), this.renderDataRows(table), this.renderEndingBalanceRow()))), index.h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
+                event.stopPropagation();
+                this.pageChange.emit({ pageIndex: event.detail.currentPage - 1, pageSize: this.pageSize });
+            }, onPageSizeChange: (event) => {
+                event.stopPropagation();
+                if (event.detail.pageSize) {
+                    this.pageChange.emit({ pageIndex: 0, pageSize: event.detail.pageSize });
+                }
+            } }), index.h("ir-hold-transaction-dialog", { row: this.holdTargetRow, currencySymbol: this.currencySymbol, ref: el => (this.holdDialogRef = el), onHoldToggled: e => this.handleHoldToggled(e.detail.rowId, e.detail.newIsHold) })));
+    }
+    static get watchers() { return {
+        "data": ["onDataChange"]
+    }; }
+};
+IrCityLedgerFolioTable.style = IrCityLedgerFolioTableStyle0;
+
+const irCityLedgerStatementsCss = ".sc-ir-city-ledger-statements-h{display:block}.cl-statements.sc-ir-city-ledger-statements{display:flex;flex-direction:column;gap:1rem}.preview-loading.sc-ir-city-ledger-statements{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body.sc-ir-city-ledger-statements{display:flex;justify-content:center;padding:1.5rem;min-height:100%}";
+const IrCityLedgerStatementsStyle0 = irCityLedgerStatementsCss;
+
+const IrCityLedgerStatements = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    agentId = null;
+    agentName = '';
+    currencySymbol = '$';
+    currencies = [];
+    ticket;
+    propertyId;
+    filters = { fromDate: null, toDate: null };
+    statement = null;
+    rows = [];
+    isLoading = false;
+    hasFetched = false;
+    printFilters = null;
+    isFetchingPdf = false;
+    pdfUrl = null;
+    cityLedgerService = new index$1.CityLedgerService();
+    handleAgentIdChange() {
+        this.statement = null;
+        this.rows = [];
+        this.hasFetched = false;
+        this.filters = { fromDate: null, toDate: null };
+        this.printFilters = null;
+        this.pdfUrl = null;
+    }
+    async handlePrintFiltersChange(next) {
+        if (!next?.fromDate || !next?.toDate || !this.agentId) {
+            this.pdfUrl = null;
+            return;
+        }
+        this.isFetchingPdf = true;
+        try {
+            const url = await this.cityLedgerService.printClStatement({
+                agency_id: String(this.agentId),
+                from_date: next.fromDate,
+                to_date: next.toDate,
+            });
+            this.pdfUrl = url;
+        }
+        catch (err) {
+            console.error('[ir-city-ledger-statements] printClStatement error:', err);
+        }
+        finally {
+            this.isFetchingPdf = false;
+        }
+    }
+    async handleDownload() {
+        if (!this.pdfUrl)
+            return;
+        const blob = await fetch(this.pdfUrl).then(r => r.blob());
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        const from = this.printFilters?.fromDate ?? '';
+        const to = this.printFilters?.toDate ?? '';
+        a.download = `Statement_${from}_${to}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(objectUrl);
+    }
+    async fetchStatement(filters) {
+        if (!this.agentId || !filters.fromDate || !filters.toDate)
+            return;
+        const currencyId = calendarData.calendar_data?.property?.currency?.id;
+        if (!currencyId)
+            return;
+        this.isLoading = true;
+        try {
+            const [result, fiscalDocuments] = await Promise.all([
+                this.cityLedgerService.getCLStatement({
+                    AGENCY_ID: this.agentId,
+                    CURRENCY_ID: currencyId,
+                    START_DATE: filters.fromDate,
+                    END_DATE: filters.toDate,
+                }),
+                this.cityLedgerService.getFiscalDocuments({
+                    AGENCY_ID: this.agentId,
+                    START_DATE: filters.fromDate,
+                    END_DATE: filters.toDate,
+                    LIST_FD_TYPE_CODE: [enums.FdTypes.CreditNote, enums.FdTypes.DebitNote, enums.FdTypes.Invoice, enums.FdTypes.Receipt],
+                }),
+            ]);
+            this.statement = result ?? null;
+            this.rows = fiscalDocuments ?? [];
+        }
+        catch (err) {
+            console.error('[ir-city-ledger-statements] getCLStatement error:', err);
+        }
+        finally {
+            this.isLoading = false;
+            this.hasFetched = true;
+        }
+    }
+    getPrintLabel() {
+        if (!this.printFilters?.fromDate || !this.printFilters?.toDate)
+            return 'Statement Preview';
+        return `Statement - ${moment.hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${moment.hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
+    }
+    render() {
+        return (index.h(index.Host, { key: '56a0082aa5b17d71056d59cc0eba400d57eed611' }, index.h("section", { key: 'a26d01576966d660851b0ec62904b279a5757f09', class: "cl-statements", "aria-label": "City ledger statements" }, index.h("ir-city-ledger-statements-filter", { key: '937be37e53997e437429ca6873971625ebc5c703', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+                this.filters = e.detail;
+                this.fetchStatement(e.detail);
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), index.h("ir-city-ledger-statements-table", { key: 'd4a5a127347c390f1d7d25dad530a0277106fb50', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), index.h("ir-preview-screen-dialog", { key: '4ca754ecaba82f517d7747331032069dfb0eeae2', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+                if (!e.detail) {
+                    this.printFilters = null;
+                    this.pdfUrl = null;
+                }
+            } }, index.h("div", { key: '5e9e33b894e23801a2b1029c676b3e0e55ccd910', slot: "header-actions" }, this.pdfUrl && (index.h("ir-custom-button", { key: '37b893705b54e3ea9ac8baf279a81a522ec198e5', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, index.h("wa-icon", { key: 'ccecbf0adcb6edad73f5fa98cdc60146dc6b5ed4', name: "download", label: "Download PDF" })))), this.printFilters && (this.isFetchingPdf ? (index.h("div", { class: "preview-loading" }, index.h("ir-spinner", null))) : (index.h("div", { class: "preview-body" }, index.h("ir-pdf-viewer", { src: this.pdfUrl })))))));
+    }
+    static get watchers() { return {
+        "agentId": ["handleAgentIdChange"],
+        "printFilters": ["handlePrintFiltersChange"]
+    }; }
+};
+IrCityLedgerStatements.style = IrCityLedgerStatementsStyle0;
+
+const irCityLedgerStatementsFilterCss = ".sc-ir-city-ledger-statements-filter-h{display:block}.stmt-filters.sc-ir-city-ledger-statements-filter{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}.stmt-filters__left.sc-ir-city-ledger-statements-filter{display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem}.stmt-filters__date-picker.sc-ir-city-ledger-statements-filter{width:100%;min-width:280px}.stmt-filters__right.sc-ir-city-ledger-statements-filter{display:flex;align-items:center;gap:0.5rem}";
+const IrCityLedgerStatementsFilterStyle0 = irCityLedgerStatementsFilterCss;
+
+const IrCityLedgerStatementsFilter = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.filtersChange = index.createEvent(this, "filtersChange", 7);
+        this.createStatement = index.createEvent(this, "createStatement", 7);
+        this.printStatement = index.createEvent(this, "printStatement", 7);
+    }
+    fromDate = null;
+    toDate = null;
+    filtersChange;
+    createStatement;
+    printStatement;
+    render() {
+        const canCreate = !!(this.fromDate && this.toDate);
+        return (index.h(index.Host, { key: 'ffe66918b2aa73adacdc637b25b41a83c35688af' }, index.h("div", { key: '28183dc368f3dce1b7339f067f03639400b7c8d9', class: "stmt-filters" }, index.h("div", { key: '3fc5de850844434df0c075a9bc03aaac7a7c2deb', class: "stmt-filters__left" }, index.h("ir-date-range-filter", { key: '6fa282ddefa908e0428a97379d2ee2d2390de3b4', class: "stmt-filters__date-picker", maxDate: moment.hooks().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
+                this.fromDate = e.detail.from ?? null;
+                this.toDate = e.detail.to ?? null;
+                this.filtersChange.emit({ fromDate: this.fromDate, toDate: this.toDate });
+            } })), index.h("div", { key: '96c5c8d3cc5320678728063f17b3de663d34b664', class: "stmt-filters__right" }, index.h("ir-custom-button", { key: '7805025a5e8fb4177c5861a1ef250efb6660fdea', variant: "brand", disabled: !canCreate, onClickHandler: () => {
+                if (canCreate) {
+                    this.createStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
+                }
+            } }, "Create Statement"), index.h("ir-custom-button", { key: '656d3d70f3eca3ba813291640e70ede4c473791b', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
+                if (canCreate) {
+                    this.printStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
+                }
+            } }, "Print")))));
+    }
+};
+IrCityLedgerStatementsFilter.style = IrCityLedgerStatementsFilterStyle0;
+
+const irCityLedgerStatementsTableCss = ".sc-ir-city-ledger-statements-table-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-city-ledger-statements-table{overflow-x:auto}.table.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-city-ledger-statements-table tbody.sc-ir-city-ledger-statements-table tr.sc-ir-city-ledger-statements-table:last-child>td.sc-ir-city-ledger-statements-table{border-bottom:0 !important}.table.sc-ir-city-ledger-statements-table thead.sc-ir-city-ledger-statements-table th.sc-ir-city-ledger-statements-table{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-city-ledger-statements-table thead.sc-ir-city-ledger-statements-table th.sc-ir-city-ledger-statements-table{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-city-ledger-statements-table .empty-row.sc-ir-city-ledger-statements-table{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-city-ledger-statements-table{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-city-ledger-statements-table,.ir-table-row.sc-ir-city-ledger-statements-table{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-city-ledger-statements-table{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{transition-duration:var(--wa-transition-fast)}.table.sc-ir-city-ledger-statements-table thead.sc-ir-city-ledger-statements-table th.sortable.sc-ir-city-ledger-statements-table{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-city-ledger-statements-table thead.sc-ir-city-ledger-statements-table th.sortable.sc-ir-city-ledger-statements-table:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-city-ledger-statements-table thead.sc-ir-city-ledger-statements-table th.sortable.sc-ir-city-ledger-statements-table:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-city-ledger-statements-table:hover td.sc-ir-city-ledger-statements-table{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-city-ledger-statements-table:hover td.sc-ir-city-ledger-statements-table{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-city-ledger-statements-table:active td.sc-ir-city-ledger-statements-table{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-city-ledger-statements-table:hover td.sc-ir-city-ledger-statements-table{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-city-ledger-statements-table:active td.sc-ir-city-ledger-statements-table{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-city-ledger-statements-table:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-city-ledger-statements-table svg.sc-ir-city-ledger-statements-table{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-city-ledger-statements-table{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-city-ledger-statements-table,.data-table.sc-ir-city-ledger-statements-table{height:100%}.sc-ir-city-ledger-statements-table-h{display:flex;flex-direction:column;border-radius:0.5rem;overflow-x:auto;min-height:60dvh;max-width:1920px;border:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);background-color:white}.cell--align-end.sc-ir-city-ledger-statements-table{text-align:right !important}.stmt-table__doc-number.sc-ir-city-ledger-statements-table{font-variant-numeric:tabular-nums}.stmt-table__cell--zero.sc-ir-city-ledger-statements-table{color:var(--wa-color-text-quiet, #9ca3af)}.balance-row__label.sc-ir-city-ledger-statements-table{display:flex;align-items:center;font-size:0.8125rem}.balance-row.sc-ir-city-ledger-statements-table td.sc-ir-city-ledger-statements-table{background:var(--wa-color-brand-fill-quiet) !important;color:var(--wa-color-brand-on-quiet) !important;border-color:var(--wa-color-brand-border-quiet) !important;font-weight:600;font-size:0.875rem;padding:0.75rem 1rem !important}.stmt-table__loading.sc-ir-city-ledger-statements-table{display:flex;align-items:center;justify-content:center;flex:1;padding:3rem 2rem}.stmt-table__date-prompt.sc-ir-city-ledger-statements-table{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;flex:1;padding:3rem 2rem;text-align:center}.stmt-table__date-prompt-icon.sc-ir-city-ledger-statements-table{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.stmt-table__date-prompt-title.sc-ir-city-ledger-statements-table{margin:0;font-size:0.9375rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}";
+const IrCityLedgerStatementsTableStyle0 = irCityLedgerStatementsTableCss;
+
+const NUMERIC_COLS = new Set(['debit', 'credit', 'balance']);
+const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
+const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
+const IrCityLedgerStatementsTable = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    rows = [];
+    startingBalance = 0;
+    endingBalance = 0;
+    currencySymbol = '$';
+    currencies = [];
+    isLoading = false;
+    hasFetched = false;
+    fromDate = null;
+    toDate = null;
+    columnHelper = useTable.createColumnHelper();
+    formatDate(date) {
+        if (!date)
+            return '';
+        const m = moment.hooks(date, [DATE_INPUT_FORMAT, moment.hooks.ISO_8601], true);
+        return m.isValid() ? m.format(DATE_DISPLAY_FORMAT) : date;
+    }
+    getSymbol(currencyId) {
+        if (!currencyId)
+            return this.currencySymbol;
+        const match = this.currencies.find(c => c.id === currencyId);
+        return match?.symbol ?? this.currencySymbol;
+    }
+    renderMoney(value, currencyId) {
+        if (!value)
+            return index.h("span", { class: "stmt-table__cell--zero" }, "\u2014");
+        return index.h("span", null, utils.formatAmount(this.getSymbol(currencyId), value));
+    }
+    get runningBalances() {
+        let balance = this.startingBalance;
+        return this.rows.map(doc => {
+            balance += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+            return balance;
+        });
+    }
+    get columns() {
+        const balances = this.runningBalances;
+        return [
+            this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
+                id: 'date',
+                header: 'Date',
+                cell: info => info.getValue() || this.formatDate(info.row.original.ISSUE_DATE),
+            }),
+            this.columnHelper.accessor('DOC_NUMBER', {
+                header: 'Doc Number',
+                cell: info => index.h("span", { class: "stmt-table__doc-number" }, info.getValue() ?? '—'),
+            }),
+            this.columnHelper.accessor('FD_TYPE_NAME', {
+                id: 'type',
+                header: 'Type',
+                cell: info => info.getValue() ?? '—',
+            }),
+            this.columnHelper.accessor('DEBIT', {
+                id: 'debit',
+                header: 'Debit',
+                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+            }),
+            this.columnHelper.accessor('CREDIT', {
+                id: 'credit',
+                header: 'Credit',
+                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+            }),
+            this.columnHelper.display({
+                id: 'balance',
+                header: 'Balance',
+                cell: info => this.renderMoney(balances[info.row.index], info.row.original.CURRENCY_ID),
+            }),
+        ];
+    }
+    renderStartingBalanceRow() {
+        const bal = this.startingBalance;
+        return (index.h("tr", { class: "ir-table-row balance-row balance-row--start" }, index.h("td", null, this.formatDate(this.fromDate)), index.h("td", null), index.h("td", { class: "balance-row__label" }, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Starting Balance"), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }, utils.formatAmount(this.currencySymbol, bal))));
+    }
+    renderEndingBalanceRow() {
+        const bal = this.endingBalance;
+        return (index.h("tr", { class: "ir-table-row balance-row balance-row--end" }, index.h("td", null, this.formatDate(this.toDate)), index.h("td", null), index.h("td", { class: "balance-row__label" }, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }, index.h("strong", null, utils.formatAmount(this.currencySymbol, Math.abs(bal))))));
+    }
+    render() {
+        if (!this.hasFetched) {
+            return (index.h(index.Host, null, index.h("div", { class: "stmt-table__date-prompt" }, index.h("div", { class: "stmt-table__date-prompt-icon" }, index.h("wa-icon", { name: "calendar-days" })), index.h("p", { class: "stmt-table__date-prompt-title" }, "Select a date range and click \"Create Statement\""))));
+        }
+        if (this.isLoading) {
+            return (index.h(index.Host, null, index.h("div", { class: "stmt-table__loading" }, index.h("ir-spinner", null))));
+        }
+        const table = useTable.useTable({
+            data: this.rows,
+            columns: this.columns,
+            getCoreRowModel: useTable.getCoreRowModel(),
+            getSortedRowModel: useTable.getSortedRowModel(),
+        });
+        const colCount = this.columns.length;
+        return (index.h(index.Host, null, index.h("div", { class: "table--container" }, index.h("table", { class: "table data-table" }, index.h("thead", null, table.getHeaderGroups().map(headerGroup => (index.h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (index.h("th", { key: header.id, class: { 'cell--align-end': NUMERIC_COLS.has(header.column.id) } }, useTable.flexRender(header.column.columnDef.header, header.getContext())))))))), index.h("tbody", null, this.renderStartingBalanceRow(), table.getRowModel().rows.length === 0 ? (index.h("tr", null, index.h("td", { class: "empty-row", colSpan: colCount }, "No fiscal documents in this period."))) : (table.getRowModel().rows.map(row => (index.h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (index.h("td", { key: cell.id, class: {
+                'stmt-table__cell': true,
+                'cell--align-end': NUMERIC_COLS.has(cell.column.id),
+            } }, useTable.flexRender(cell.column.columnDef.cell, cell.getContext())))))))), this.renderEndingBalanceRow())))));
+    }
+};
+IrCityLedgerStatementsTable.style = IrCityLedgerStatementsTableStyle0;
+
+const irCityLedgerToolbarCss = ".sc-ir-city-ledger-toolbar-h{display:block}.toolbar.sc-ir-city-ledger-toolbar{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:0.75rem 1rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.625rem;background:var(--wa-color-surface-default, #fff)}.toolbar__stats.sc-ir-city-ledger-toolbar{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}.toolbar__stats-placeholder.sc-ir-city-ledger-toolbar{flex:1}.toolbar__stat.sc-ir-city-ledger-toolbar{display:flex;flex-direction:column;gap:0.125rem}.toolbar__stat-label.sc-ir-city-ledger-toolbar{font-size:0.6875rem;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--wa-color-text-quiet, #6b7280);white-space:nowrap}.toolbar__stat-value.sc-ir-city-ledger-toolbar{font-size:1rem;font-weight:700;color:var(--wa-color-text-normal, #111827);font-variant-numeric:tabular-nums;white-space:nowrap}.toolbar__stat-value--negative.sc-ir-city-ledger-toolbar{color:var(--wa-color-danger-fill-loud, #dc2626)}.toolbar__stats-sep.sc-ir-city-ledger-toolbar{width:1px;height:2rem;background:var(--wa-color-neutral-border-quiet, #e5e7eb);flex-shrink:0}.toolbar__actions.sc-ir-city-ledger-toolbar{display:flex;align-items:center;gap:0.5rem;margin-inline-start:auto;flex-shrink:0}";
+const IrCityLedgerToolbarStyle0 = irCityLedgerToolbarCss;
+
+const IrCityLedgerToolbar = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+        this.createInvoice = index.createEvent(this, "createInvoice", 7);
+    }
+    agentId = null;
+    currencySymbol = '$';
+    accountOverview = null;
+    createInvoice;
+    cityLedgerService = new index$1.CityLedgerService();
+    componentWillLoad() {
+        if (this.agentId)
+            this.fetchOverview();
+    }
+    async handleAgentIdChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        this.accountOverview = null;
+        if (newValue)
+            await this.fetchOverview();
+    }
+    async refresh() {
+        await this.fetchOverview();
+    }
+    async fetchOverview() {
+        if (!this.agentId)
+            return;
+        this.accountOverview = await this.cityLedgerService.getCLAccountOverview({
+            AGENCY_ID: this.agentId,
+            CURRENCY_ID: calendarData.calendar_data?.property?.currency?.id,
+        });
+    }
+    render() {
+        return (index.h(index.Host, { key: '50ec22678e8f320a01b86a1a3df8b185215e999f' }, index.h("div", { key: '5818c09a26bb5f3a8b8fc5d0e17ea577d2247ab4', class: "toolbar" }, this.accountOverview ? (index.h("div", { class: "toolbar__stats" }, index.h("div", { class: "toolbar__stat" }, index.h("span", { class: "toolbar__stat-label" }, "Net Balance"), index.h("span", { class: {
+                'toolbar__stat-value': true,
+                'toolbar__stat-value--negative': this.accountOverview.ACCOUNT_NET_BALANCE < 0,
+            } }, this.accountOverview.ACCOUNT_NET_BALANCE < 0 ? '-' : '', utils.formatAmount(this.currencySymbol, Math.abs(this.accountOverview.ACCOUNT_NET_BALANCE)))), index.h("div", { class: "toolbar__stats-sep" }), index.h("div", { class: "toolbar__stat" }, index.h("span", { class: "toolbar__stat-label" }, "Due Invoiced"), index.h("span", { class: "toolbar__stat-value" }, utils.formatAmount(this.currencySymbol, this.accountOverview.TOTAL_DUE_INVOICED))), index.h("div", { class: "toolbar__stats-sep" }), index.h("div", { class: "toolbar__stat" }, index.h("span", { class: "toolbar__stat-label" }, "Uninvoiced"), index.h("span", { class: "toolbar__stat-value" }, utils.formatAmount(this.currencySymbol, this.accountOverview.TOTAL_UNINVOICED))))) : (index.h("div", { class: "toolbar__stats-placeholder" })), index.h("div", { key: 'ed4890d408c92a97103c9389d2ae78ca4e0c2fd1', class: "toolbar__actions" }, index.h("ir-custom-button", { key: 'ac88ab9aef7456d2d09ff69563e80a551da5b96d', variant: "brand", onClickHandler: () => this.createInvoice.emit() }, "Create Invoice")))));
+    }
+    static get watchers() { return {
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedgerToolbar.style = IrCityLedgerToolbarStyle0;
+
+const irPageCss = ".sc-ir-page-h{display:block;height:100%}.page-title.sc-ir-page{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}.ir-page__container.sc-ir-page{display:flex;flex-direction:column;gap:var(--wa-space-l, 1.5rem);padding:var(--wa-space-l);position:relative;height:100%;width:100%;max-width:none;margin:0}.tax-page__header.sc-ir-page{display:flex;gap:var(--wa-space-l, 1.5rem);flex-wrap:wrap;align-items:center;justify-content:space-between}";
+const IrPageStyle0 = irPageCss;
+
+const IrPage = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    label;
+    description;
+    render() {
+        return (index.h(index.Host, { key: '6457ddc7ce35a47984b70a4d01b1705730801a48' }, index.h("ir-interceptor", { key: 'b9c90e0c43ed890724c89dcd3e59da610115e57d' }), index.h("ir-toast", { key: '3593bdc1717e5ec15172fffd59ba5d13d151873a' }), index.h("main", { key: '7e790a31918b70ffd03717c88a2b2e51440f6670', class: "ir-page__container" }, index.h("header", { key: 'c6cf265af4d335e2152adea8c4472e0b90f4bb9c', class: "tax-page__header" }, index.h("slot", { key: 'f9ec4d7bf8388976195ceb29e48566c7d826f0ec', name: "heading" }, index.h("div", { key: '7619b868fbef6048fdead1a74eac080927051818', class: "tax-page__heading" }, index.h("h3", { key: 'b2570e6b1de5467fe7018a919d14d01a1a88e926', class: "page-title" }, this.label), this.description && index.h("p", { key: 'c9ea0c618d3981e1f4ad8d17debe753f213d9d5d', class: "tax-page__subtitle" }, this.description))), index.h("slot", { key: '066a86ded0d7abb52868796c6097c7878cb13ca3', name: "page-header" })), index.h("slot", { key: '47ba436943071f13159a5129ded89431219e1a66' }))));
+    }
+};
+IrPage.style = IrPageStyle0;
+
+exports.ir_city_ledger_fiscal_documents = IrCityLedgerFiscalDocuments;
+exports.ir_city_ledger_fiscal_documents_filters = IrCityLedgerFiscalDocumentsFilters;
+exports.ir_city_ledger_folio = IrCityLedgerFolio;
+exports.ir_city_ledger_folio_filters = IrCityLedgerFolioFilters;
+exports.ir_city_ledger_folio_table = IrCityLedgerFolioTable;
+exports.ir_city_ledger_statements = IrCityLedgerStatements;
+exports.ir_city_ledger_statements_filter = IrCityLedgerStatementsFilter;
+exports.ir_city_ledger_statements_table = IrCityLedgerStatementsTable;
+exports.ir_city_ledger_toolbar = IrCityLedgerToolbar;
+exports.ir_page = IrPage;
+
+//# sourceMappingURL=ir-city-ledger-fiscal-documents_10.cjs.entry.js.map

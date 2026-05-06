@@ -215,4 +215,7 @@ export const PrintClProformaParamsSchema = z.object({
     lang: z.string().optional().default('en'),
     booking_nbr: z.string().optional().nullable().default(null),
 });
+export const GetClProformaLinkParamsSchema = z.object({
+    FD_ID: z.number(),
+});
 //# sourceMappingURL=types.js.map
