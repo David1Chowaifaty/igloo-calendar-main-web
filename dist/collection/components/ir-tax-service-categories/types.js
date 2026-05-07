@@ -1,4 +1,9 @@
 import { z } from "zod";
+export var TaxationStrategy;
+(function (TaxationStrategy) {
+    TaxationStrategy["Normal"] = "000";
+    TaxationStrategy["Cumulative"] = "001";
+})(TaxationStrategy || (TaxationStrategy = {}));
 /**
  * Charge rule (VAT, City Tax, Service Charge)
  */
@@ -13,6 +18,6 @@ export const TaxAndChargeSetupSchema = z.object({
     vat: ChargeRuleSchema,
     cityTax: ChargeRuleSchema.nullable(),
     serviceCharge: ChargeRuleSchema.nullable(),
-    serviceChargeCalculation: z.string().nullable(),
+    taxationStrategy: z.nativeEnum(TaxationStrategy).nullable(),
 });
 //# sourceMappingURL=types.js.map

@@ -1,5 +1,9 @@
 import { IEntries } from "../../models/property";
 import { z } from 'zod';
+export declare enum TaxationStrategy {
+    Normal = "000",
+    Cumulative = "001"
+}
 /**
  * Charge rule (VAT, City Tax, Service Charge)
  */
@@ -48,7 +52,7 @@ export declare const TaxAndChargeSetupSchema: z.ZodObject<{
         value?: number;
         mode?: string;
     }>>;
-    serviceChargeCalculation: z.ZodNullable<z.ZodString>;
+    taxationStrategy: z.ZodNullable<z.ZodNativeEnum<typeof TaxationStrategy>>;
 }, "strip", z.ZodTypeAny, {
     vat?: {
         value?: number;
@@ -62,7 +66,7 @@ export declare const TaxAndChargeSetupSchema: z.ZodObject<{
         value?: number;
         mode?: string;
     };
-    serviceChargeCalculation?: string;
+    taxationStrategy?: TaxationStrategy;
 }, {
     vat?: {
         value?: number;
@@ -76,7 +80,7 @@ export declare const TaxAndChargeSetupSchema: z.ZodObject<{
         value?: number;
         mode?: string;
     };
-    serviceChargeCalculation?: string;
+    taxationStrategy?: TaxationStrategy;
 }>;
 export type TaxAndChargeSetup = z.infer<typeof TaxAndChargeSetupSchema>;
 export type TaxesSetupEntries = {

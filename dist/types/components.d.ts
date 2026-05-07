@@ -857,6 +857,7 @@ export namespace Components {
     interface IrBilling {
         "agent": Agent;
         "booking": Booking;
+        "isAllServicesAgentOwned": boolean;
     }
     interface IrBillingDrawer {
         "agent": Agent;
@@ -865,6 +866,7 @@ export namespace Components {
           * @type {Booking}
          */
         "booking": Booking;
+        "isAllServicesAgentOwned": boolean;
         /**
           * Controls whether the billing drawer is open or closed.  When `true`, the drawer becomes visible. When `false`, it is hidden.  This prop is reflected to the host element.
           * @type {boolean}
@@ -11230,6 +11232,7 @@ declare namespace LocalJSX {
     interface IrBilling {
         "agent"?: Agent;
         "booking"?: Booking;
+        "isAllServicesAgentOwned"?: boolean;
         "onBillingClose"?: (event: IrBillingCustomEvent<void>) => void;
     }
     interface IrBillingDrawer {
@@ -11239,6 +11242,7 @@ declare namespace LocalJSX {
           * @type {Booking}
          */
         "booking"?: Booking;
+        "isAllServicesAgentOwned"?: boolean;
         /**
           * Emitted when the billing drawer has been closed.  Listen to this event to respond to drawer close actions.
           * @event billingClose

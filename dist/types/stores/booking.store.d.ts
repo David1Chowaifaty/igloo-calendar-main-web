@@ -99,7 +99,7 @@ export interface BookedByGuest {
     email: string;
     firstName: string;
     lastName: string;
-    bookingCode: string;
+    agent_booking_nbr: string;
     company: string;
     countryId: string;
     phone_prefix: string;
@@ -155,7 +155,7 @@ export declare const bookedByGuestBaseData: {
     id: number;
     email: string;
     company: string;
-    bookingCode: any;
+    agent_booking_nbr: any;
     firstName: string;
     lastName: string;
     countryId: string;

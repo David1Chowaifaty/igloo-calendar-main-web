@@ -4,10 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const room_service = require('./room.service-f9117e70.js');
-const booking_store = require('./booking.store-b670b6b3.js');
+const booking_store = require('./booking.store-f12d3959.js');
 const utils = require('./utils-e4cb6b2d.js');
 const index$1 = require('./index-84e84862.js');
-const events_service = require('./events.service-58fc13c6.js');
+const events_service = require('./events.service-350704c6.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-d2faed5c.js');
 const booking = require('./booking-77b72280.js');
@@ -18,7 +18,7 @@ const Token = require('./Token-8fd11984.js');
 const v4 = require('./v4-9b297151.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const agents_service = require('./agents.service-3088231b.js');
-const property_service = require('./property.service-e5844362.js');
+const property_service = require('./property.service-83b97bd9.js');
 const arrivals_store = require('./arrivals.store-971971e3.js');
 const axios = require('./axios-6e678d52.js');
 const booking_listing_service = require('./booking_listing.service-bb11814f.js');
@@ -27,8 +27,8 @@ const system_service = require('./system.service-101141de.js');
 const departures_store = require('./departures.store-32f39171.js');
 const hkTasks_store = require('./hk-tasks.store-3e893ff1.js');
 const paymentOption_store = require('./payment-option.store-2e20e9a2.js');
+const index$2 = require('./index-8bb117a0.js');
 const user_service = require('./user.service-567655c1.js');
-require('./index-8bb117a0.js');
 require('./index-fbf1fe1d.js');
 require('./type-87fd01b8.js');
 
@@ -1862,7 +1862,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: 'b703274a891f4e9fa46a5275a9a87bbe92f0bfcd', class: "p-1" }, index.h("ir-interceptor", { key: 'b216df672b2567e9105924fdcc4829d1f7f24db7', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'afaf271e3525cafef994ec1d85574b3656fcd11c' }), index.h("div", { key: 'd1e20473b36f52225d96d1f28541c0c0c9a7b8d4', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'c2efc84d1e08baa05132b3a776ba0455a5143ca0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '438574de981c47c9ab8b8d2e09e1dfe2d9ebe19d', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '6fd0dba8d1d16b4c3d238f554ec7e405d1b49ec5', class: "p-1" }, index.h("ir-interceptor", { key: 'c6119a8383e19738816ec42f0d0a9fcb3c1cbc27', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '2efcff1c4d5a91ba5694201938bee5123e277954' }), index.h("div", { key: 'e2931f930a2dc3aec998676b84a3ff3c13e32585', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: 'b9762581198d635c5edcbf01eb58a4edc0f23fd0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '2209170c5be09ce0286636b66cf41156de47ac0e', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1870,7 +1870,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: 'dcac1054457d997c4bb7d2799b45e96277b3661b' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '2dbabd0a288f724606b32dee09166eb729252b03' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -4104,7 +4104,29 @@ const IrSalesByCountry = class {
 };
 IrSalesByCountry.style = IrSalesByCountryStyle0;
 
-const irTaxServiceCategoriesCss = ".sc-ir-tax-service-categories-h{display:block}.tax-page.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-xl)}.tax-page__header.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-page__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.page-title.sc-ir-tax-service-categories{margin:0}.tax-page__subtitle.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-page__meta.sc-ir-tax-service-categories{display:inline-flex;align-items:center;gap:var(--wa-space-s);color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-page__meta.sc-ir-tax-service-categories wa-badge.sc-ir-tax-service-categories{font-size:var(--wa-font-size-2xs)}.tax-page__grid.sc-ir-tax-service-categories{display:grid;gap:var(--wa-space-l)}.tax-panel.sc-ir-tax-service-categories{--spacing:var(--wa-space-l)}.tax-panel.sc-ir-tax-service-categories::part(header){padding-bottom:0}.tax-panel.sc-ir-tax-service-categories::part(body){padding-top:var(--wa-space-m)}.tax-panel__header.sc-ir-tax-service-categories{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--wa-space-m)}.tax-panel__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.tax-panel__title.sc-ir-tax-service-categories{margin:0;font-size:var(--wa-font-size-m);font-weight:var(--wa-font-weight-semibold)}.tax-panel__desc.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-panel__icon.sc-ir-tax-service-categories{font-size:1.25rem;color:var(--wa-color-text-quiet)}.tax-panel__content.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-m)}.tax-panel__content--grid.sc-ir-tax-service-categories{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--wa-space-m)}.tax-category.sc-ir-tax-service-categories{--spacing:var(--wa-space-s)}.tax-category__summary.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-category__summary-text.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-3xs)}.tax-category__hint.sc-ir-tax-service-categories{margin:0;font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.tax-category__fields.sc-ir-tax-service-categories{display:flex;gap:var(--wa-space-m);align-items:center}.tax-category__title.sc-ir-tax-service-categories{font-size:var(--wa-font-size-m);padding:0;margin:0}.tax-category__hint.sc-ir-tax-service-categories{padding:0;margin:0;font-size:var(--wa-font-size-xs)}.tax-category.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--spacing)}.tax-category__input.sc-ir-tax-service-categories::part(input){width:100px}.tax-category__fields.sc-ir-tax-service-categories{flex-direction:column;align-items:flex-start}@media (min-width: 768px){.tax-category.sc-ir-tax-service-categories .tax-category__input.sc-ir-tax-service-categories::part(select){width:150px}.tax-category__summary.sc-ir-tax-service-categories{min-width:250px;display:flex}.tax-category.sc-ir-tax-service-categories{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center;width:fit-content}.tax-category.--core.sc-ir-tax-service-categories{display:grid}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{display:grid;grid-template-columns:repeat(2, 1fr)}.tax-category__fields.sc-ir-tax-service-categories{flex-direction:row;align-items:center;flex-wrap:wrap}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{align-items:end}}@media (min-width: 1024px){.tax-category.--core.sc-ir-tax-service-categories{display:flex}.tax-category.--core.sc-ir-tax-service-categories .tax-category__fields.sc-ir-tax-service-categories{display:flex;flex-direction:row;flex-wrap:wrap}.tax-category__summary.sc-ir-tax-service-categories{width:300px}.tax-category.--core.sc-ir-tax-service-categories{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center}}";
+var TaxationStrategy;
+(function (TaxationStrategy) {
+    TaxationStrategy["Normal"] = "000";
+    TaxationStrategy["Cumulative"] = "001";
+})(TaxationStrategy || (TaxationStrategy = {}));
+/**
+ * Charge rule (VAT, City Tax, Service Charge)
+ */
+const ChargeRuleSchema = index$2.z.object({
+    value: index$2.z.number().nullable(),
+    mode: index$2.z.string().min(1),
+});
+/**
+ * Main setup schema
+ */
+index$2.z.object({
+    vat: ChargeRuleSchema,
+    cityTax: ChargeRuleSchema.nullable(),
+    serviceCharge: ChargeRuleSchema.nullable(),
+    taxationStrategy: index$2.z.nativeEnum(TaxationStrategy).nullable(),
+});
+
+const irTaxServiceCategoriesCss = ".sc-ir-tax-service-categories-h{display:block}.tax-page.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-xl)}.tax-page__header.sc-ir-tax-service-categories{display:flex;align-items:center;justify-content:space-between;gap:var(--wa-space-m)}.tax-page__heading.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-2xs)}.page-title.sc-ir-tax-service-categories{margin:0}.tax-page__subtitle.sc-ir-tax-service-categories{margin:0;color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.tax-grid__header.sc-ir-tax-service-categories{display:none}.tax-grid__col-label.sc-ir-tax-service-categories{font-size:var(--wa-font-size-xs);font-weight:600;color:var(--wa-color-text-quiet);text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}.tax-grid__row.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-m);padding:var(--wa-space-m) 0}.tax-grid__name.sc-ir-tax-service-categories{display:flex;flex-direction:column;gap:var(--wa-space-3xs)}.tax-grid__title.sc-ir-tax-service-categories{font-size:var(--wa-font-size-m);margin:0;padding:0}.tax-grid__hint.sc-ir-tax-service-categories{margin:0;padding:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.tax-grid__cell[data-label].sc-ir-tax-service-categories::before{content:attr(data-label);display:block;font-size:var(--wa-font-size-xs);font-weight:600;color:var(--wa-color-text-quiet);margin-bottom:var(--wa-space-2xs)}.tax-grid__cell.sc-ir-tax-service-categories:empty{display:none}ir-tax-input.sc-ir-tax-service-categories::part(input){width:8ch}@media (min-width: 768px){.tax-grid.sc-ir-tax-service-categories{display:grid;grid-template-columns:minmax(auto, 320px) repeat(3, auto) auto;column-gap:var(--wa-space-m);align-items:center}.tax-grid__header.sc-ir-tax-service-categories,.tax-grid__row.sc-ir-tax-service-categories{display:contents}.tax-grid__divider.sc-ir-tax-service-categories{grid-column:1 / -1}.tax-grid__col-label.sc-ir-tax-service-categories{padding-bottom:0}.tax-grid__name.sc-ir-tax-service-categories,.tax-grid__cell.sc-ir-tax-service-categories{padding-bottom:var(--wa-space-s);align-self:center}.tax-grid__cell.sc-ir-tax-service-categories:empty{display:block}.tax-grid__cell[data-label].sc-ir-tax-service-categories::before{display:none}.ir-tax-input.sc-ir-tax-service-categories,.tax-grid__cell.sc-ir-tax-service-categories{width:fit-content}}";
 const IrTaxServiceCategoriesStyle0 = irTaxServiceCategoriesCss;
 
 const IrTaxServiceCategories = class {
@@ -4116,6 +4138,7 @@ const IrTaxServiceCategories = class {
     language = 'en';
     propertyid;
     isLoading;
+    isSaving;
     chargeCategoryRules = new Map();
     setupEntries;
     autoValidate;
@@ -4129,114 +4152,170 @@ const IrTaxServiceCategories = class {
         }
     }
     handleTicketChange(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
+        if (newValue !== oldValue)
+            this.reinit();
+    }
+    handlePChange(newValue, oldValue) {
+        if (newValue !== oldValue && this.ticket)
+            this.reinit();
+    }
+    handlePropertyIdChange(newValue, oldValue) {
+        if (newValue !== oldValue && this.ticket)
+            this.reinit();
+    }
+    /** Re-authenticates and re-fetches configuration when a watched prop changes. */
+    reinit() {
         this.tokenService.setToken(this.ticket);
         this.init();
     }
-    handlePChange(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
-    handlePropertyIdChange(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
+    /** Fetches setup entries and property data, then builds the initial charge rules map. */
     async init() {
         this.isLoading = true;
-        const [, tableEntries] = await Promise.all([
-            this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
-            this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
-        ]);
-        this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
-        const initialChargeCategoryRules = new Map();
-        initialChargeCategoryRules.set('ACC', this.createEmptyCategorySetup('ACC'));
-        (this.setupEntries?.svc_category ?? []).forEach(c => {
-            initialChargeCategoryRules.set(c.CODE_NAME, this.createEmptyCategorySetup(c.CODE_NAME));
-        });
-        this.chargeCategoryRules = initialChargeCategoryRules;
-        this.isLoading = false;
+        try {
+            const [, tableEntries] = await Promise.all([
+                this.propertyService.getExposedProperty({ id: this.propertyid, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_VAT_INCLUDED', '_SVC_CATEGORY', '_CITY_TAX_INCLUDED', '_SERVICE_CHARGE_INCLUDED']),
+            ]);
+            this.setupEntries = this.bookingService.groupEntryTablesResult(tableEntries);
+            this.chargeCategoryRules = this.buildInitialRules();
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.isLoading = false;
+        }
     }
-    createEmptyCategorySetup(code) {
+    /**
+     * Strips non-alphanumeric characters and lowercases a string for fuzzy matching
+     * against tax names from the property data.
+     */
+    normalizeTaxName(s) {
+        return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+    /**
+     * Finds a tax entry by keyword from the property's taxes array.
+     * Returns undefined when no match is found — the caller should treat that as Not Applicable.
+     */
+    findTax(keyword) {
+        const taxes = calendarData.calendar_data.property?.taxes ?? [];
+        return taxes.find(t => this.normalizeTaxName(t.name).includes(this.normalizeTaxName(keyword)));
+    }
+    /**
+     * Converts a property tax entry to a ChargeRule.
+     * Returns `{ mode: '002', value: null }` (Not Applicable) when the tax is absent from the property data.
+     */
+    toChargeRule(tax) {
+        if (!tax)
+            return { mode: '002', value: null };
+        return { mode: tax.is_exlusive ? '000' : '001', value: tax.pct };
+    }
+    /**
+     * Builds the initial charge rules map from property taxes and saved tax categories.
+     * ACC (Accommodation) is seeded from the property's taxes array; service categories
+     * are seeded from saved `tax_categories` or default to Not Applicable when absent.
+     */
+    buildInitialRules() {
+        const taxCategories = calendarData.calendar_data.property?.tax_categories ?? [];
+        const savedStrategy = calendarData.calendar_data.property?.taxation_strategy?.code;
+        const accSetup = {
+            vat: this.toChargeRule(this.findTax('vat')),
+            cityTax: this.toChargeRule(this.findTax('city')),
+            serviceCharge: this.toChargeRule(this.findTax('service')),
+            taxationStrategy: savedStrategy ?? TaxationStrategy.Normal,
+        };
+        const rules = new Map();
+        rules.set('ACC', accSetup);
+        (this.setupEntries?.svc_category ?? []).forEach(c => {
+            const match = taxCategories.find(tc => tc.category.code === c.CODE_NAME);
+            rules.set(c.CODE_NAME, match ? { vat: { mode: match.taxation_mode.code, value: match.pct }, cityTax: null, serviceCharge: null, taxationStrategy: null } : this.createEmptyCategorySetup());
+        });
+        return rules;
+    }
+    /** Returns a default setup for a service category with all fields set to Not Applicable. */
+    createEmptyCategorySetup() {
         return {
-            vat: {
-                mode: code !== 'ACC' ? '001' : null,
-                value: null,
-            },
+            vat: { mode: '002', value: null },
             cityTax: null,
             serviceCharge: null,
-            serviceChargeCalculation: null,
+            taxationStrategy: null,
         };
     }
+    /** Returns true when a charge rule has no percentage value set. */
     isChargeRuleEmpty(rule) {
         return !rule || rule.value === null || rule.value === undefined;
     }
+    /**
+     * Resolves the effective numeric value of a charge rule for payload submission.
+     * Mode '002' (Not Applicable) always resolves to 0.
+     */
+    resolveChargeValue(rule) {
+        if (!rule)
+            return null;
+        return rule.mode === '002' ? 0 : rule.value;
+    }
+    /** Updates the taxation strategy (Normal / Cumulative) for the ACC category. */
+    handleTaxationStrategyChange(value) {
+        const next = new Map(this.chargeCategoryRules);
+        next.set('ACC', { ...next.get('ACC'), taxationStrategy: value });
+        this.chargeCategoryRules = next;
+    }
+    /**
+     * Updates a single charge field on a category.
+     * When the ACC VAT changes, the new percentage is propagated to any service category
+     * that still has an empty (unset) VAT value.
+     */
     handleChargeRuleChange(categoryCode, field, nextRule) {
-        const nextCategoryRules = new Map(this.chargeCategoryRules);
-        const currentCategorySetup = nextCategoryRules.get(categoryCode);
-        nextCategoryRules.set(categoryCode, {
-            ...currentCategorySetup,
-            [field]: nextRule,
-        });
+        const next = new Map(this.chargeCategoryRules);
+        next.set(categoryCode, { ...next.get(categoryCode), [field]: nextRule });
         if (categoryCode === 'ACC' && field === 'vat') {
-            nextCategoryRules.set('ACC', { ...nextCategoryRules.get('ACC') });
             (this.setupEntries?.svc_category ?? []).forEach(category => {
-                const categorySetup = nextCategoryRules.get(category.CODE_NAME);
+                const categorySetup = next.get(category.CODE_NAME);
                 if (this.isChargeRuleEmpty(categorySetup?.vat)) {
-                    nextCategoryRules.set(category.CODE_NAME, { ...categorySetup, vat: { ...categorySetup.vat, value: nextRule.value } });
+                    next.set(category.CODE_NAME, { ...categorySetup, vat: { ...categorySetup.vat, value: nextRule.value } });
                 }
             });
         }
-        this.chargeCategoryRules = nextCategoryRules;
+        this.chargeCategoryRules = next;
     }
+    /** Assembles the API payload from the current charge rules state. */
     buildPayload() {
         const accSetup = this.chargeCategoryRules.get('ACC');
         const tax_categories = (this.setupEntries?.svc_category ?? []).map(category => {
             const setup = this.chargeCategoryRules.get(category.CODE_NAME);
             const taxMode = (this.setupEntries?.vat_included ?? []).find(v => v.CODE_NAME === setup?.vat?.mode);
             return {
-                category: {
-                    code: category.CODE_NAME,
-                    description: category.CODE_VALUE_EN,
-                },
-                taxation_mode: {
-                    code: setup?.vat?.mode ?? '',
-                    description: taxMode?.CODE_VALUE_EN ?? '',
-                },
-                pct: setup?.vat?.value ?? 0,
+                category: { code: category.CODE_NAME, description: category.CODE_VALUE_EN },
+                taxation_mode: { code: setup?.vat?.mode ?? '', description: taxMode?.CODE_VALUE_EN ?? '' },
+                pct: this.resolveChargeValue(setup?.vat) ?? 0,
             };
         });
         return {
-            property_id: calendarData.calendar_data.property.id,
+            property_id: this.propertyid,
             VAT_INCLUDED_CODE: accSetup?.vat?.mode ?? null,
-            VAT_PC: accSetup?.vat?.value ?? null,
+            VAT_PC: this.resolveChargeValue(accSetup?.vat) ?? null,
             CITY_TAX_INCLUDED_CODE: accSetup?.cityTax?.mode ?? null,
-            CITY_TAX_PCT: accSetup?.cityTax?.value ?? null,
+            CITY_TAX_PCT: this.resolveChargeValue(accSetup?.cityTax) ?? null,
             SERVICE_CHARGE_INCLUDED_CODE: accSetup?.serviceCharge?.mode ?? null,
-            SERVICE_CHARGE_PCT: accSetup?.serviceCharge?.value ?? null,
+            SERVICE_CHARGE_PCT: this.resolveChargeValue(accSetup?.serviceCharge) ?? null,
             tax_categories,
+            TAXATION_STRATEGY: this.chargeCategoryRules.get('ACC').taxationStrategy,
         };
     }
+    /** Validates and submits the tax configuration to the API. */
     async handleSubmit(e) {
         e.preventDefault();
         this.autoValidate = true;
         try {
+            this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
         }
         catch (error) {
             console.error(error);
+        }
+        finally {
+            this.isSaving = false;
         }
     }
     render() {
@@ -4245,13 +4324,14 @@ const IrTaxServiceCategories = class {
         }
         const accSetup = this.chargeCategoryRules.get('ACC');
         const filteredVat = (this.setupEntries?.vat_included ?? []).filter(v => v.CODE_NAME !== '000');
-        return (index.h(index.Host, { "data-testid": "ir-agents" }, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Get_Rooms_To_Check_in'] }), index.h("div", { class: "ir-page__container tax-page" }, index.h("div", { class: "tax-page__header" }, index.h("div", { class: "tax-page__heading" }, index.h("h3", { class: "page-title" }, "Tax & Service Categories"), index.h("p", { class: "tax-page__subtitle" }, "Define taxes and service charges for room rates, cancellations, and on-property services.")), index.h("ir-custom-button", { type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save")), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", null, index.h("div", { class: "tax-category --core" }, index.h("div", { class: "tax-category__summary" }, index.h("div", { class: "tax-category__summary-text" }, index.h("p", { class: "tax-category__title" }, "Accommodation"), index.h("p", { class: "tax-category__hint" }, "Room-related charges applied to reservations and cancellations"))), index.h("div", { class: "tax-category__fields" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), class: "tax-category__input", label: "VAT", chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] }), index.h("ir-tax-input", { autoValidate: this.autoValidate, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), class: "tax-category__input", label: "City Tax", chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] }), index.h("ir-tax-input", { autoValidate: this.autoValidate, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), class: "tax-category__input --service-charge", label: "Service charge", chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] }), index.h("wa-radio-group", { size: "small", orientation: "horizontal", value: "normal" }, index.h("wa-radio", { appearance: "button", value: "normal" }, "Normal"), index.h("wa-radio", { appearance: "button", value: "cumulative" }, "Cumulative")))), index.h("wa-divider", null), (this.setupEntries?.svc_category ?? []).map((category, index$1) => {
+        const categories = this.setupEntries?.svc_category ?? [];
+        return (index.h(index.Host, { "data-testid": "ir-tax-service-categories" }, index.h("ir-toast", null), index.h("ir-interceptor", { handledEndpoints: ['/Handle_Exposed_Property_Tax_Categories'] }), index.h("div", { class: "ir-page__container tax-page" }, index.h("div", { class: "tax-page__header" }, index.h("div", { class: "tax-page__heading" }, index.h("h3", { class: "page-title" }, "Tax & Service Categories"), index.h("p", { class: "tax-page__subtitle" }, "Define taxes and service charges for room rates, cancellations, and on-property services.")), index.h("ir-custom-button", { type: "submit", form: "tax-service-categories__form", style: { width: '100px' }, variant: "brand" }, "Save")), index.h("form", { id: "tax-service-categories__form", onSubmit: e => this.handleSubmit(e) }, index.h("wa-card", null, index.h("div", { class: "tax-grid" }, index.h("div", { class: "tax-grid__header", "aria-hidden": "true" }, index.h("div", null), index.h("div", { class: "tax-grid__col-label" }, "VAT"), index.h("div", { class: "tax-grid__col-label" }, "City Tax"), index.h("div", { class: "tax-grid__col-label" }, "Service Charge"), index.h("div", { class: "tax-grid__col-label" }, "Taxation Strategy")), index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, "Accommodation"), index.h("p", { class: "tax-grid__hint" }, "Room-related charges applied to reservations and cancellations")), index.h("div", { class: "tax-grid__cell", "data-label": "VAT" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'vat', e.detail), chargeRule: accSetup?.vat, setupEntries: this.setupEntries?.vat_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "City Tax" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'cityTax', e.detail), chargeRule: accSetup?.cityTax, setupEntries: this.setupEntries?.city_tax_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Service Charge" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange('ACC', 'serviceCharge', e.detail), chargeRule: accSetup?.serviceCharge, setupEntries: this.setupEntries?.service_charge_included ?? [] })), index.h("div", { class: "tax-grid__cell", "data-label": "Taxation Strategy" }, index.h("wa-radio-group", { size: "small", orientation: "horizontal", value: accSetup?.taxationStrategy ?? TaxationStrategy.Normal, "onwa-change": (e) => this.handleTaxationStrategyChange(e.detail.value) }, index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Normal }, "Normal"), index.h("wa-radio", { appearance: "button", value: TaxationStrategy.Cumulative }, "Cumulative")))), categories.map(category => {
             const categorySetup = this.chargeCategoryRules.get(category.CODE_NAME);
             return [
-                index.h("div", { class: "tax-category" }, index.h("div", { class: "tax-category__summary" }, index.h("div", { class: "tax-category__summary-text" }, index.h("p", { class: "tax-category__title" }, category.CODE_VALUE_EN), category.NOTES && index.h("p", { class: "tax-category__hint" }, category.NOTES))), index.h("div", { class: "tax-category__fields" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, class: "tax-category__input", onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat ?? [] }))),
-                index$1 < (this.setupEntries?.svc_category?.length ?? 0) - 1 && index.h("wa-divider", null),
+                index.h("div", { class: "tax-grid__divider" }, index.h("wa-divider", null)),
+                index.h("div", { class: "tax-grid__row" }, index.h("div", { class: "tax-grid__name" }, index.h("p", { class: "tax-grid__title" }, category.CODE_VALUE_EN), category.NOTES && index.h("p", { class: "tax-grid__hint" }, category.NOTES)), index.h("div", { class: "tax-grid__cell", "data-label": "VAT" }, index.h("ir-tax-input", { autoValidate: this.autoValidate, language: this.language, onTaxChange: e => this.handleChargeRuleChange(category.CODE_NAME, 'vat', e.detail), chargeRule: categorySetup?.vat, setupEntries: filteredVat })), index.h("div", { class: "tax-grid__cell" }), index.h("div", { class: "tax-grid__cell" }), index.h("div", { class: "tax-grid__cell" })),
             ];
-        }))))));
+        })))))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"],

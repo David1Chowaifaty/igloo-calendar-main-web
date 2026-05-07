@@ -5,6 +5,7 @@ export class IrBilling {
     isAgentMode = false;
     agentsService = new AgentsService();
     booking;
+    isAllServicesAgentOwned;
     agent;
     async handleBookingChange() {
         if (this.booking) {
@@ -33,7 +34,7 @@ export class IrBilling {
         if (this.isAgentMode) {
             return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest" }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
@@ -73,6 +74,25 @@ export class IrBilling {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "isAllServicesAgentOwned": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-all-services-agent-owned",
+                "reflect": false
             },
             "agent": {
                 "type": "unknown",

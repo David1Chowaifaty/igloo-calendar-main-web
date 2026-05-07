@@ -1,13 +1,18 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { A as AgentsService } from './agents.service.js';
 import { i as isAgentMode } from './functions.js';
-import { d as defineCustomElement$m } from './ir-agent-billing2.js';
-import { d as defineCustomElement$l } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$k } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$j } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$i } from './ir-city-ledger-fiscal-documents-table2.js';
-import { d as defineCustomElement$h } from './ir-custom-button2.js';
-import { d as defineCustomElement$g } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$r } from './ir-agent-billing2.js';
+import { d as defineCustomElement$q } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$p } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$o } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$n } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$m } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$l } from './ir-cl-invoice-dialog2.js';
+import { d as defineCustomElement$k } from './ir-cl-invoice-form2.js';
+import { d as defineCustomElement$j } from './ir-custom-button2.js';
+import { d as defineCustomElement$i } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$h } from './ir-date-range-filter2.js';
+import { d as defineCustomElement$g } from './ir-date-select2.js';
 import { d as defineCustomElement$f } from './ir-dialog2.js';
 import { d as defineCustomElement$e } from './ir-drawer2.js';
 import { d as defineCustomElement$d } from './ir-empty-state2.js';
@@ -36,6 +41,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
     isAgentMode = false;
     agentsService = new AgentsService();
     booking;
+    isAllServicesAgentOwned;
     agent;
     async handleBookingChange() {
         if (this.booking) {
@@ -64,7 +70,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         if (this.isAgentMode) {
             return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest" }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
@@ -74,6 +80,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
     static get style() { return IrBillingStyle0; }
 }, [2, "ir-billing", {
         "booking": [16],
+        "isAllServicesAgentOwned": [4, "is-all-services-agent-owned"],
         "agent": [16],
         "currentTab": [32],
         "resolvedAgent": [32]
@@ -84,7 +91,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-billing", "ir-agent-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-city-ledger-fiscal-documents-table", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-guest-billing", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
+    const components = ["ir-billing", "ir-agent-billing", "ir-air-date-picker", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-city-ledger-fiscal-documents-table", "ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-custom-button", "ir-custom-date-picker", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-guest-billing", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-billing":
             if (!customElements.get(tagName)) {
@@ -93,35 +100,60 @@ function defineCustomElement() {
             break;
         case "ir-agent-billing":
             if (!customElements.get(tagName)) {
-                defineCustomElement$m();
+                defineCustomElement$r();
+            }
+            break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$q();
             }
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$p();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$o();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$n();
             }
             break;
         case "ir-city-ledger-fiscal-documents-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$m();
+            }
+            break;
+        case "ir-cl-invoice-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$l();
+            }
+            break;
+        case "ir-cl-invoice-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$k();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$j();
             }
             break;
         case "ir-custom-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-date-range-filter":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$h();
+            }
+            break;
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$g();
             }

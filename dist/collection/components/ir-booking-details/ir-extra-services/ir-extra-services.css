@@ -14,7 +14,7 @@
 }
 
 .service-group--agent {
-  border-left-color: var(--wa-color-primary-500, #3b82f6);
+  border-left-color: var(--wa-color-brand-fill-loud, #3b82f6);
 }
 
 /* ── Section label ── */

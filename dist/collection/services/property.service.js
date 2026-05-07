@@ -65,6 +65,7 @@ export const HandleExposedPropertyTaxCategoriesParamsSchema = z.object({
     SERVICE_CHARGE_INCLUDED_CODE: z.string(),
     SERVICE_CHARGE_PCT: z.number(),
     tax_categories: z.array(TaxCategorySchema),
+    TAXATION_STRATEGY: z.string(),
 });
 export class PropertyService {
     async handleExposedPropertyTaxCategories(params) {

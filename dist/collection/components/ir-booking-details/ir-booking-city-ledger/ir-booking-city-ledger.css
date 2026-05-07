@@ -76,3 +76,17 @@
   /* cspell:disable-next-line */
   font-variant-numeric: tabular-nums;
 }
+
+/*lg*/
+@media (min-width: 1024px) {
+}
+/*xl*/
+@media (min-width: 1280px) {
+  /* ── Description column ────────────────────────────────────── */
+  .booking-city-ledger__cell-desc {
+    /* width: 45%; */
+    width: 100%;
+    white-space: normal !important;
+    word-break: break-word;
+  }
+}

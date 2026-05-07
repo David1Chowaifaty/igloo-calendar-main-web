@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const Token = require('./Token-8fd11984.js');
-const property_service = require('./property.service-e5844362.js');
+const property_service = require('./property.service-83b97bd9.js');
 require('./axios-6e678d52.js');
 require('./index-8bb117a0.js');
 require('./calendar-data-70bc3b4b.js');

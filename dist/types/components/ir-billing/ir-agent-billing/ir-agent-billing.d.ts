@@ -4,6 +4,7 @@ export declare class IrAgentBilling {
     private fiscalDocuments;
     private isLoading;
     private hasFetched;
+    private invoiceDialogRef;
     private cityLedgerService;
     private tokenService;
     componentWillLoad(): Promise<void>;

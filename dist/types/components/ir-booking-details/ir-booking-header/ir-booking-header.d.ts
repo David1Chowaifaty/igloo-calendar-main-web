@@ -5,9 +5,7 @@ import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
 import { Agent } from "../../../services/agents/type";
 export declare class IrBookingHeader {
     private dialogRef;
-    private invoiceDialogRef;
     private bookingService;
-    private cityLedgerService;
     private alertMessage;
     private modalEl;
     private bookingSourceEditor;

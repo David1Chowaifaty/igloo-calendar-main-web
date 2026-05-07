@@ -158,12 +158,13 @@ export class IrCityLedgerTransactionForm {
         }
         const noTaxTransaction = payload.transactionType === ClTxTypeCode.OpeningBalance || payload.transactionType === ClTxTypeCode.Payment;
         const hasVat = !noTaxTransaction && payload.taxId !== 'N/A';
+        const typeLabel = this.clTxTypes.find(c => c.CODE_NAME === payload.transactionType)?.CODE_VALUE_EN ?? payload.transactionType;
         return {
             CL_TX_ID: this.transaction?.CL_TX_ID ?? -1,
             AGENCY_ID: this.agent.id,
             SERVICE_DATE: payload.date,
             CL_TX_TYPE_CODE: payload.transactionType,
-            DESCRIPTION: payload.reference ?? payload.transactionType,
+            DESCRIPTION: payload.reference ? `${typeLabel}: ${payload.reference}` : typeLabel,
             DEBIT: debit,
             CREDIT: credit,
             CURRENCY_ID: calendar_data?.property?.currency?.id,

@@ -119,9 +119,9 @@
     gap: 1rem;
   }
 
-  .payment-item__payment-item:hover {
+  /* .payment-item__payment-item:hover {
     background: var(--wa-color-neutral-fill-quiet, #f1f2f3);
-  }
+  } */
   .payment-item__payment-item .payment-item__payment-actions {
     display: inline-flex;
   }

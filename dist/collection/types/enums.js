@@ -8,6 +8,10 @@ export const ClTxTypeCode = {
     Discount: 'DSC',
     CancellationPenalty: 'CPN',
 };
+export const TaxationStrategies = {
+    Normal: '000',
+    Cumulative: '001',
+};
 export const FdTypes = {
     Draft: 'DFT',
     Invoice: 'INV',

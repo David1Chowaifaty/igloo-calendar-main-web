@@ -8,7 +8,7 @@ export const bookedByGuestBaseData = {
     id: -1,
     email: '',
     company: '',
-    bookingCode: null,
+    agent_booking_nbr: null,
     firstName: '',
     lastName: '',
     countryId: '',

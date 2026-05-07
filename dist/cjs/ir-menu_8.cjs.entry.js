@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const property_service = require('./property.service-e5844362.js');
+const property_service = require('./property.service-83b97bd9.js');
 const Token = require('./Token-8fd11984.js');
 const booking_listing_service = require('./booking_listing.service-bb11814f.js');
 const axios = require('./axios-6e678d52.js');
@@ -134,7 +134,7 @@ const IrMenu = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '774a5c329739cd7a65c65a1647e17e091cfd68cb' }, index.h("slot", { key: '47b72945aebb53ba7d03ce454f18b2113ff0fb2a', onSlotchange: this.handleSlotChange })));
+        return (index.h(index.Host, { key: '6d23129b491b21802049a14080dca96200e98999' }, index.h("slot", { key: '89b1bfe2858518ff442f85b70d61f744d4a865dd', onSlotchange: this.handleSlotChange })));
     }
     static get watchers() { return {
         "selectedHref": ["handleSelectedHrefChange"]
@@ -172,11 +172,11 @@ const IrMenuDrawer = class {
         this.menuOpenChanged.emit(this.open);
     }
     render() {
-        return (index.h("ir-drawer", { key: '27db4bccfc7fad2b6da2625376580d18dcb00a67', class: "menu__drawer", open: this.open, onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: '770b9f410a447ef41ce6323a2ad4534254d5cddd', class: "menu__drawer", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, index.h("slot", { key: '144589ac13c309439a168e1b7a0666534f1d81f5', name: "label", slot: "label" }), index.h("slot", { key: 'e50e80f760144041c94f4fb5cec9ecd89b4d84da' }), index.h("slot", { key: '533208bc08647037f92be84a01ced7cf7b29f487', name: "footer", slot: "footer" })));
+            }, style: { '--ir-drawer-width': '25rem' }, placement: "start" }, index.h("slot", { key: '15cb88511f6c28fbe3f45cc9347ba46c2c0f4292', name: "label", slot: "label" }), index.h("slot", { key: '81b69a7d36f074c53918d08c9fa98f7fb2335a21' }), index.h("slot", { key: 'ea95eff25c08540a97e0a7e4160504473abe83e4', name: "footer", slot: "footer" })));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
@@ -215,7 +215,7 @@ const IrMenuGroup = class {
         this.openChanged.emit(true);
     };
     render() {
-        return (index.h("wa-details", { key: '590df52628a82952cce7df96bfa215f8db0dc575', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, index.h("slot", { key: 'a3344403201df2d5d952b89b47292c6be6536ab9', slot: "summary", name: "summary" }), index.h("slot", { key: '5c5aaf23af1e4f8ac8e91fe29873f869768a64a4' })));
+        return (index.h("wa-details", { key: 'e556c2859028746ec5e02612949a934c4c232409', class: "menu-group__details", open: this.open, appearance: "plain", name: this.groupName, "onwa-hide": this.handleHide, "onwa-show": this.handleShow }, index.h("slot", { key: '5af85fc8bdbb22d885f92b1e14a6e883a1d2326e', slot: "summary", name: "summary" }), index.h("slot", { key: 'bd088ff21a25d4e300c0061539eda3db6a6193d1' })));
     }
 };
 IrMenuGroup.style = IrMenuGroupStyle0;
@@ -236,8 +236,8 @@ const IrMenuItem = class {
             'menu-item__link--selected': !!this.selected,
             'menu-item__link--clickable': !!this.href,
         };
-        const content = (index.h(index.Fragment, { key: 'ed7529a4c8c83ffe7fbf84247ca69f42528d8905' }, index.h("span", { key: '5e999c80386bedb3a2cbf0ca4f47f17fb87f1f51', class: "menu-item__icon" }, index.h("slot", { key: '5b68efe047214ec17e76799ea08a4e6be238422b', name: "icon" })), index.h("span", { key: 'fed159f1a2132c0ade25bd0ee400bbeadb930719', class: "menu-item__label" }, index.h("slot", { key: 'a54a749096f99001b4ff0f28114bf6b0fabddc43' })), this.badge ? (index.h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
-        return (index.h(index.Host, { key: '1055bd8c65b0613424e196de264210b0c022f777' }, this.href ? (index.h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (index.h("div", { class: contentClass }, content))));
+        const content = (index.h(index.Fragment, { key: 'ef5ed369d0090a218bb22a80e315784d1d10cedf' }, index.h("span", { key: 'e2f8cbe8dfc0049dcc38fbab9638cc3b26389cb2', class: "menu-item__icon" }, index.h("slot", { key: 'd5ebb6b5206765287ca3b6a3e27aae025cd44ad4', name: "icon" })), index.h("span", { key: '96931c0712018af473be9436e4227177dcc13e51', class: "menu-item__label" }, index.h("slot", { key: 'e9aaceaef51e7859db355ec2b3028b8b795c34c3' })), this.badge ? (index.h("wa-badge", { variant: "danger", class: "menu-item__badge", appearance: "accent" }, this.badge)) : null));
+        return (index.h(index.Host, { key: '7711e2d91802f2c70861effc1c4d3f0ffa5fc74d' }, this.href ? (index.h("a", { class: contentClass, href: this.href, "aria-current": this.selected ? 'page' : undefined }, content)) : (index.h("div", { class: contentClass }, content))));
     }
 };
 IrMenuItem.style = IrMenuItemStyle0;
@@ -350,11 +350,11 @@ const IrNotifications = class {
     //   this.notifications = this.notifications.filter(n => n.id !== notification.id);
     // }
     render() {
-        return (index.h(index.Host, { key: '0b1a8b590e4dcb17b8503a012ce8724581b0f0a6' }, index.h("div", { key: 'a9e42e7d694301340dbe466011e7f653ab5cc09c', style: { position: 'relative' } }, index.h("wa-tooltip", { key: '4f11c90ede78301585d82e3a4c160f2ce659fb14', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (index.h("wa-badge", { key: '68446507f6503b9221e541595d29bf54d5e379e6', pill: true, class: "header-notification-badge" }, this.notifications.length)), index.h("wa-animation", { key: 'f60f63a72005257970c2dd4267342209100be505', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: '5824c120d9efd1e7c95f1dcd781c2469c31c97d8', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '3575e83e3e3cb67a27d911958451adc3d84b7636', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: 'cf310f9052cc98a591998d3025b9b8f330c03085', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: 'c9c4fa0d41afc5eeb9a4962650fc75564aa740c1', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
+        return (index.h(index.Host, { key: '22a37352781629a492d1eb26267e212a8fdccafb' }, index.h("div", { key: '3cb05b2b8369482062e6d4bb1567b034a4d7ae6b', style: { position: 'relative' } }, index.h("wa-tooltip", { key: 'f6338fa6e4a7a079d417ff9971f2a711d7538325', for: "notifications-button" }, "Notifications"), this.notifications?.length > 0 && (index.h("wa-badge", { key: '703d30a06def5dfb704489c09a2db9badd08413e', pill: true, class: "header-notification-badge" }, this.notifications.length)), index.h("wa-animation", { key: '0d721c373cc1bc1507a8f4992a8fd96140b7012e', duration: 1200, iterations: 1, keyframes: this.bellKeyframes, ref: el => (this.animationRef = el) }, index.h("ir-custom-button", { key: 'ddde14ac35667eb7ef1b186a11e8080da2c72fc8', id: "notifications-button", size: "small", appearance: "plain", ref: el => (this.buttonRef = el) }, index.h("wa-icon", { key: '74774ac48dcda9c2d6de77ea9cfeee47d0a14048', class: "notification__bell-icon", name: "bell", style: { fontSize: '1.4rem' } })))), index.h("wa-popover", { key: '06549a5d3f1f3fe9e30d010c5b77d7e21cab3fd0', distance: 15, class: "notification__popover", for: "notifications-button" }, index.h("p", { key: '0b73030855071d1c4b088707f66c4daeaf7296f7', class: "notification__popover-title" }, "Notifications"), this.notifications.map(notification => {
             if (notification.type === 'availability_alert') {
                 return (index.h("a", { href: "AcAvailabilityAlert.aspx", class: "notification-item" }, index.h("div", { class: "notification-item__content" }, index.h("p", { class: "notification-item__title" }, notification.message, " rooms types are not bookable for 14 consecutive nights within the next 2 months. More..."), index.h("wa-icon", { name: "angle-right" }))));
             }
-        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '8e33be207ae874698b1e0d9b4967f3710a008095', message: "All caught up!", style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: '55d1f55ad38043fb8df0262515165bbce04b8dcc', slot: "icon", name: "inbox" }))))));
+        }), this.notifications?.length === 0 && (index.h("ir-empty-state", { key: '5ee594915621259a104b30a57bc5f404cede7255', message: "All caught up!", style: { width: '250px', height: '150px' } }, index.h("wa-icon", { key: 'c874fa735345f7deb89de81b70d950ccd1d57187', slot: "icon", name: "inbox" }))))));
     }
     static get watchers() { return {
         "notifications": ["handleNotificationCountChange"],
@@ -1896,7 +1896,7 @@ const IrPmsSearch = class {
         });
     }
     render() {
-        return (index.h(index.Host, { key: '14ed39486a1c903f89e17add252f9f010bc1d43a' }, index.h("ir-autocomplete", { key: 'fd0fc8534d1866c639be45afe580b6f2c6ec25a8', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: '603e8a5307979e940b30f8045efeb456d799da6f', name: "magnifying-glass", slot: "start" }), index.h("div", { key: 'ef4d105c68a79ea15a90afae0af8771949114c7c', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: '5c453f2da62950813a3435fbce429a64c66ccb85' }), this.shortcutHint && index.h("span", { key: 'fadf8321c65c56336f295f47c27a270381533a94' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (index.h("div", { key: 'd40a6bf73226662a8d043855dc5fcdbb85c58a54', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: '307c3480344635f8c521225ae80170026e69f305', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: 'ae536ac06e916cc3609537313f329b67909e9b12', class: "pms-search__empty-content" }, index.h("div", { key: '1a9094f8baaedbdd532af8e9c6c13d7859d4599a', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
+        return (index.h(index.Host, { key: '808660a1398c471017035e00706bf2ebc5aa2def' }, index.h("ir-autocomplete", { key: '68322c384ffa2605769daea22b535eb33259758c', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, index.h("wa-icon", { key: 'f074bc1d486aa2e5c5e0695630ae2d85999fae8e', name: "magnifying-glass", slot: "start" }), index.h("div", { key: '7daef614ab2a9f2294940ff44a733a69ab67921a', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && index.h("wa-spinner", { key: 'b5f242a0c41365b058b601e8edecda1deb8f4e11' }), this.shortcutHint && index.h("span", { key: '227bd8ffa65e6c0ec2e9a54684e61933cf95a8f2' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (index.h("div", { key: 'ba9704dad873b6a5cfea82b15c17c4b68d46dfc3', class: "pms-search__empty", role: "status", "aria-live": "polite" }, index.h("wa-icon", { key: '495e006c250e71e9c91af5cf0c09c9acf7b85832', name: "circle-info", "aria-hidden": "true" }), index.h("div", { key: '2654bf2c4683b93e8851a0b9b8fd30d638395361', class: "pms-search__empty-content" }, index.h("div", { key: '9c6eb720263b003149a366130812f5a13a863a3f', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
             const label = `${b.booking_nbr}  ${b.guest.first_name} ${b.guest.last_name}`;
             return (index.h("ir-autocomplete-option", { class: "pms-search__autocomplete-option", value: b.booking_nbr, label: label }, index.h("img", { slot: "start", class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), index.h("div", { class: "pms-search__option" }, index.h("p", { class: "pms-search__option-bookings" }, index.h("span", { class: "pms-search__option-booking" }, b.booking_nbr), b.channel_booking_nbr && index.h("span", { class: "pms-search__option-channel-booking" }, b.channel_booking_nbr)), index.h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), index.h("ir-booking-status-tag", { slot: "end", class: "pms-search__option-status", status: b.status })));
         }))));
@@ -2171,7 +2171,7 @@ const IrPropertySwitcher = class {
             } }, index.h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? 'Select property')));
     }
     render() {
-        return (index.h(index.Host, { key: '5e09ebe4018d20bf3d418f90e5ee2deafa195cb0' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("wa-dropdown", { key: '1726965a72d38a4e18af5e8fbea68f7081200dcc', "onwa-show": () => {
+        return (index.h(index.Host, { key: 'ea09ed6a8292087d12c07912214d9e45efdb30e2' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (index.h("wa-dropdown", { key: '725b7af488dc8a9a57bca38fcebac619dbbee14d', "onwa-show": () => {
                 this.ensureLinkedPropertiesLoaded();
             }, "onwa-hide": e => {
                 e.stopPropagation();
@@ -2180,7 +2180,7 @@ const IrPropertySwitcher = class {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.handleDropdownSelect(Number(e.detail.item.value));
-            } }, index.h("wa-button", { key: 'a3042b3283ceb1bc1649b66c85f5574b1d80c6d8', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, index.h("p", { key: '114e9e7b8acc4f75803dbea957048f2d2e444a8e', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (index.h("wa-dropdown-item", { key: '588bdf2fde6f248d3e02b1c8ff517379445ed41a', disabled: true, class: "property-switcher__dropdown-loader" }, index.h("wa-spinner", { key: '64c8f5b7e9827bcc8cd839ec7441d39427e881d2' }))), this.propertyState.linked?.map(property => (index.h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (index.h("div", { key: '104dcb074393645858f126998427030bc3f58fd1' }, this.trigger(), index.h("ir-dialog", { key: '78c0e94ddcf5ec27b963a9f4b83b1342f0e4ba7b',
+            } }, index.h("wa-button", { key: 'a406390218f079f9dc850badf6d3be198bcd086c', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, index.h("p", { key: 'f729112362e646f6f53717b2ea6078e9c7135fab', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (index.h("wa-dropdown-item", { key: '166b15e88baba089415378464c5bef4d08d16d36', disabled: true, class: "property-switcher__dropdown-loader" }, index.h("wa-spinner", { key: 'd61482cb4c29498545621dd09c617e07bbd72cd2' }))), this.propertyState.linked?.map(property => (index.h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (index.h("div", { key: '8562648a2939bb5639da6ce8c7b2bd42e7fda43f' }, this.trigger(), index.h("ir-dialog", { key: '8975c2a23ca4792e037b7dc7acca2d0253b35c28',
             // withoutHeader
             open: this.open, label: "Search", class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();

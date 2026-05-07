@@ -7,6 +7,7 @@ export class IrAgentBilling {
     fiscalDocuments = [];
     isLoading = false;
     hasFetched = false;
+    invoiceDialogRef;
     cityLedgerService = new CityLedgerService();
     tokenService = new Token();
     async componentWillLoad() {
@@ -42,7 +43,11 @@ export class IrAgentBilling {
         }
     }
     render() {
-        return (h(Host, { key: '3b1c974bad469f76c43a3176c17b8162a2ff8a63' }, h("div", { key: '16afad274c4491573df024dc9ca7b35aed1210b4', class: "billing__container" }, h("div", { key: 'd5638ab2905415fd61999cfd3cd4323df7dba9a2', class: "billing__section-title-row" }, h("h4", { key: '9ef1c8c5b0d0a499978de9e4547a00da2c4f95a4', class: "billing__section-title" }, "Issued documents")), h("ir-city-ledger-fiscal-documents-table", { key: 'fad801cc7e86011e02c5e51290e5d931678af0b4', class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() }))));
+        return (h(Host, { key: '1949cf11af7eaa118bef733056712c5c2f8c43c0' }, h("div", { key: '1b84599c60c7d140e23a8d1202b237d37e2a441d', class: "billing__container" }, h("div", { key: '77826aa59d5ca3c9234dedb4d39be261eac26347', class: "billing__section-title-row" }, h("h4", { key: 'f645c1330cc04fea3221195c0c6042cee559fb5b', class: "billing__section-title" }, "Issued documents"), h("ir-custom-button", { key: '706c5e8b0b802a21b4ad2cf69d548657464a8bb8', onClickHandler: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.invoiceDialogRef.openModal();
+            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { key: 'cf12222f95ae6f04f83fde21f3ba347609b9ad51', class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { key: '945219a28a4192ded02f01e4a9afe33a6dc146ea', mode: "booking", agentId: this.booking.agent?.id, bookingNbr: +this.booking.booking_nbr, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, ref: el => (this.invoiceDialogRef = el) })));
     }
     static get is() { return "ir-agent-billing"; }
     static get encapsulation() { return "scoped"; }

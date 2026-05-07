@@ -21,6 +21,7 @@ export declare class IrBillingDrawer {
      */
     booking: Booking;
     agent: Agent;
+    isAllServicesAgentOwned: boolean;
     /**
      * Emitted when the billing drawer has been closed.
      *

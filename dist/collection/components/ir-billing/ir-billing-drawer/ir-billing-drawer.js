@@ -19,6 +19,7 @@ export class IrBillingDrawer {
      */
     booking;
     agent;
+    isAllServicesAgentOwned;
     /**
      * Emitted when the billing drawer has been closed.
      *
@@ -28,7 +29,7 @@ export class IrBillingDrawer {
      */
     billingClose;
     render() {
-        return (h("ir-drawer", { key: '801a6a9f10b368743767874843d92a70b6bf4d60', style: {
+        return (h("ir-drawer", { key: '2c55e4bbd9e6ad61f4fad109327124c29d42a385', style: {
                 '--ir-drawer-width': '70rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': '0',
@@ -39,7 +40,7 @@ export class IrBillingDrawer {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: 'e4cb76a8526ee537e326f39ba609cadd58e60e44', booking: this.booking, agent: this.agent })));
+            }, open: this.open, label: "Billing" }, this.open && h("ir-billing", { key: '6e95cc3fb607e8da69e905bfe9c14f8adbdcedc5', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
     }
     static get is() { return "ir-billing-drawer"; }
     static get encapsulation() { return "scoped"; }
@@ -125,6 +126,25 @@ export class IrBillingDrawer {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "isAllServicesAgentOwned": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-all-services-agent-owned",
+                "reflect": false
             }
         };
     }

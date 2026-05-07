@@ -8,6 +8,10 @@ export declare const ClTxTypeCode: {
     readonly Discount: "DSC";
     readonly CancellationPenalty: "CPN";
 };
+export declare const TaxationStrategies: {
+    readonly Normal: "000";
+    readonly Cumulative: "001";
+};
 export declare const FdTypes: {
     readonly Draft: "DFT";
     readonly Invoice: "INV";

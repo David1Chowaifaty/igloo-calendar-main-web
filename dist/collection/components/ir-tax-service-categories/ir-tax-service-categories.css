@@ -10,7 +10,6 @@
 
 .tax-page__header {
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: space-between;
   gap: var(--wa-space-m);
@@ -30,187 +29,109 @@
   margin: 0;
   color: var(--wa-color-text-quiet);
   font-size: var(--wa-font-size-s);
-  /* max-width: 64ch; */
 }
 
-.tax-page__meta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--wa-space-s);
+/* ── Grid (mobile-first: stacked cards) ─────────────────── */
+
+.tax-grid__header {
+  display: none;
+}
+
+.tax-grid__col-label {
+  font-size: var(--wa-font-size-xs);
+  font-weight: 600;
   color: var(--wa-color-text-quiet);
-  font-size: var(--wa-font-size-s);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
-.tax-page__meta wa-badge {
-  font-size: var(--wa-font-size-2xs);
-}
-
-.tax-page__grid {
-  display: grid;
-  gap: var(--wa-space-l);
-}
-
-.tax-panel {
-  --spacing: var(--wa-space-l);
-}
-
-.tax-panel::part(header) {
-  padding-bottom: 0;
-}
-
-.tax-panel::part(body) {
-  padding-top: var(--wa-space-m);
-}
-
-.tax-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--wa-space-m);
-}
-
-.tax-panel__heading {
-  display: flex;
-  flex-direction: column;
-  gap: var(--wa-space-2xs);
-}
-
-.tax-panel__title {
-  margin: 0;
-  font-size: var(--wa-font-size-m);
-  font-weight: var(--wa-font-weight-semibold);
-}
-
-.tax-panel__desc {
-  margin: 0;
-  color: var(--wa-color-text-quiet);
-  font-size: var(--wa-font-size-s);
-}
-
-.tax-panel__icon {
-  font-size: 1.25rem;
-  color: var(--wa-color-text-quiet);
-}
-
-.tax-panel__content {
+.tax-grid__row {
   display: flex;
   flex-direction: column;
   gap: var(--wa-space-m);
+  padding: var(--wa-space-m) 0;
 }
 
-.tax-panel__content--grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--wa-space-m);
-}
-
-.tax-category {
-  --spacing: var(--wa-space-s);
-}
-
-.tax-category__summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--wa-space-m);
-}
-
-.tax-category__summary-text {
+.tax-grid__name {
   display: flex;
   flex-direction: column;
   gap: var(--wa-space-3xs);
 }
 
-.tax-category__hint {
+.tax-grid__title {
+  font-size: var(--wa-font-size-m);
   margin: 0;
-  font-size: var(--wa-font-size-s);
+  padding: 0;
+}
+
+.tax-grid__hint {
+  margin: 0;
+  padding: 0;
+  font-size: var(--wa-font-size-xs);
   color: var(--wa-color-text-quiet);
 }
 
-.tax-category__fields {
-  display: flex;
-  gap: var(--wa-space-m);
-  align-items: center;
-}
-
-.tax-category__title {
-  font-size: var(--wa-font-size-m);
-  padding: 0;
-  margin: 0;
-}
-
-.tax-category__hint {
-  padding: 0;
-  margin: 0;
+.tax-grid__cell[data-label]::before {
+  content: attr(data-label);
+  display: block;
   font-size: var(--wa-font-size-xs);
-}
-.tax-category {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing);
-}
-.tax-category__input::part(input) {
-  width: 100px;
-}
-.tax-category__fields {
-  flex-direction: column;
-  align-items: flex-start;
-  /* flex-wrap: wrap; */
+  font-weight: 600;
+  color: var(--wa-color-text-quiet);
+  margin-bottom: var(--wa-space-2xs);
 }
 
-/*md*/
-@media (min-width: 768px) {
-  .tax-category .tax-category__input::part(select) {
-    width: 150px;
-  }
-  .tax-category__summary {
-    min-width: 250px;
-    display: flex;
-  }
-  .tax-category {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    width: fit-content;
-  }
-  /* .tax-category.--core .tax-category__input {
-    width: fit-content;
-  } */
-  .tax-category.--core {
-    display: grid;
-  }
-  .tax-category.--core .tax-category__fields {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .tax-category__fields {
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .tax-category.--core .tax-category__fields {
-    align-items: end;
-  }
+.tax-grid__cell:empty {
+  display: none;
 }
-/*lg*/
-@media (min-width: 1024px) {
-  .tax-category.--core {
-    display: flex;
-  }
-  .tax-category.--core .tax-category__fields {
-    display: flex;
-    flex-direction: row;
-    /* align-items: center; */
-    flex-wrap: wrap;
-  }
-  .tax-category__summary {
-    width: 300px;
-  }
-  .tax-category.--core {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+
+ir-tax-input::part(input) {
+  width: 8ch;
+}
+
+/* ── Grid (desktop: shared-column table layout) ──────────── */
+
+@media (min-width: 768px) {
+  .tax-grid {
+    display: grid;
+    /* name | vat | city-tax | service-charge | taxation-strategy */
+    grid-template-columns: minmax(auto, 320px) repeat(3, auto) auto;
+    column-gap: var(--wa-space-m);
     align-items: center;
   }
+
+  .tax-grid__header,
+  .tax-grid__row {
+    display: contents;
+  }
+
+  .tax-grid__divider {
+    grid-column: 1 / -1;
+  }
+
+  /* Bottom-only padding keeps rows flush — no extra space above the first row */
+  .tax-grid__col-label {
+    padding-bottom: 0;
+  }
+
+  .tax-grid__name,
+  .tax-grid__cell {
+    padding-bottom: var(--wa-space-s);
+    align-self: center;
+  }
+
+  .tax-grid__cell:empty {
+    display: block;
+  }
+
+  .tax-grid__cell[data-label]::before {
+    display: none;
+  }
+  .ir-tax-input,
+  .tax-grid__cell {
+    width: fit-content;
+  }
+  /* ir-tax-input::part(select) {
+    width: 140px;
+  } */
 }

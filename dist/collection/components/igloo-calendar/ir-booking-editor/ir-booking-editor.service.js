@@ -273,6 +273,7 @@ export class IRBookingEditorService {
                         agent: isAgent ? { id: sourceOption.tag } : null,
                         is_email_client: bookedByGuest.emailGuest,
                         booking: {
+                            agent_booking_nbr: bookedByGuest.agent_booking_nbr,
                             company_name: bookedByGuest.company ?? null,
                             from_date: moment(fromDate).format('YYYY-MM-DD'),
                             to_date: moment(toDate).format('YYYY-MM-DD'),

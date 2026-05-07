@@ -10,7 +10,7 @@ const IrClInvoiceDescriptionCell = /*@__PURE__*/ proxyCustomElement(class IrClIn
     }
     description;
     render() {
-        return (h(Host, { key: 'af742e350b12711c5467a295b5f688a087c24800' }, h("span", { key: 'fadb3b757b2086dc580e0ed28ef20c04281e3394', class: "desc" }, this.description)));
+        return (h(Host, { key: '3320935a236fbf0659082979524c6a9d055fa7eb' }, h("span", { key: 'c7f0fb498b116c9f2d6bc5fe8588d23d90481b61', class: "desc" }, this.description)));
     }
     static get style() { return IrClInvoiceDescriptionCellStyle0; }
 }, [2, "ir-cl-invoice-description-cell", {

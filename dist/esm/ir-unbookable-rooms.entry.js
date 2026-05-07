@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
 import { T as Token } from './Token-030c78a9.js';
-import { P as PropertyService } from './property.service-55b9401c.js';
+import { P as PropertyService } from './property.service-9617d01c.js';
 import './axios-aa1335b8.js';
 import './index-87419685.js';
 import './calendar-data-b1f645da.js';

@@ -274,6 +274,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
         };
         pct?: number;
     }>, "many">;
+    TAXATION_STRATEGY: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     property_id?: number;
     VAT_INCLUDED_CODE?: string;
@@ -294,6 +295,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
         };
         pct?: number;
     }[];
+    TAXATION_STRATEGY?: string;
 }, {
     property_id?: number;
     VAT_INCLUDED_CODE?: string;
@@ -314,6 +316,7 @@ export declare const HandleExposedPropertyTaxCategoriesParamsSchema: z.ZodObject
         };
         pct?: number;
     }[];
+    TAXATION_STRATEGY?: string;
 }>;
 export type HandleExposedPropertyTaxCategoriesParams = z.infer<typeof HandleExposedPropertyTaxCategoriesParamsSchema>;
 export declare class PropertyService {
