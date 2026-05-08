@@ -242,6 +242,7 @@ export interface FinancialSnapshotEntry {
 }
 export interface Booking {
     charges: Charges;
+    agent_booking_nbr: string;
     agent: {
         code: string;
         id: number;

@@ -112,7 +112,7 @@ export declare function convertDatePrice(date: string): string;
 export declare function getDaysArray(date1: string, date2: string): any[];
 export declare function renderTime(time: number): string;
 export declare function validateEmail(email: string): boolean;
-export declare function formatAmount(currency: string, amount: number): string;
+export declare function formatAmount(currency: string, amount?: number): string;
 /**
  * Determines whether the given user has privileged (global or elevated) access.
  *

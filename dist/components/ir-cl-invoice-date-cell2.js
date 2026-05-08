@@ -11,7 +11,7 @@ const IrClInvoiceDateCell = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDa
     }
     date;
     render() {
-        return h(Host, { key: '47894ea17cc7b1417fe7f01fd23a292ffacdbb3d' }, hooks(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
+        return h(Host, { key: '3abfcc9798a6ac34b6e5750744d18f4ebd7696e6' }, hooks(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
     }
     static get style() { return IrClInvoiceDateCellStyle0; }
 }, [2, "ir-cl-invoice-date-cell", {

@@ -78,7 +78,7 @@ const IrRevenueTable = /*@__PURE__*/ proxyCustomElement(class IrRevenueTable ext
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'e6a991cdc1050ffb2e627a41bb4977f4ad12d7dc', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: '75d6c7786f4fab5d61a3bb70a714c7d6906866f5', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)

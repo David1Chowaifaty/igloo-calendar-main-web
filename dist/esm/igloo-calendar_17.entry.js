@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
-import { B as BookingService } from './booking.store-221b26b2.js';
-import { q as formatLegendColors, j as dateToFormattedString, l as isBlockUnit, u as getNextDay, w as addTwoMonthToDate, x as convertDMYToISO, y as computeEndDate, o as isPrivilegedUser, d as downloadFile, b as getEntryValue } from './utils-857cf993.js';
+import { B as BookingService } from './booking.store-bd384e12.js';
+import { q as formatLegendColors, j as dateToFormattedString, l as isBlockUnit, u as getNextDay, w as addTwoMonthToDate, x as convertDMYToISO, y as computeEndDate, o as isPrivilegedUser, d as downloadFile, b as getEntryValue } from './utils-3f2511d5.js';
 import { l as lookup } from './index-7ee206df.js';
-import { E as EventsService } from './events.service-7f99e050.js';
+import { E as EventsService } from './events.service-7e361c21.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-279d2136.js';
-import { d as calendar_dates, e as addCleaningTasks, f as formatName, h as getRoomStatus, i as cleanRoom, j as addRoomForCleaning, t as transformNewBooking, k as transformNewBLockedRooms, l as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-792b922c.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-d5723c8a.js';
+import { d as calendar_dates, e as addCleaningTasks, f as formatName, h as getRoomStatus, i as cleanRoom, j as addRoomForCleaning, t as transformNewBooking, k as transformNewBLockedRooms, l as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-e55ab0db.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
@@ -14,17 +14,17 @@ import { T as Token } from './Token-030c78a9.js';
 import { v as v4 } from './v4-964634d6.js';
 import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-0e645d86.js';
 import { A as AgentsService } from './agents.service-51275c3b.js';
-import { P as PropertyService } from './property.service-9617d01c.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-92d103b3.js';
+import { P as PropertyService } from './property.service-7d578b5d.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-fb422004.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-606adaaf.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-af22f1d3.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-3aa12093.js';
 import { S as SystemService } from './system.service-4455d4dc.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-6eddd2d3.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-dc30dcd8.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-7c962578.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
 import { z } from './index-87419685.js';
-import { U as UserService } from './user.service-513cf90a.js';
+import { U as UserService } from './user.service-a186b6e8.js';
 import './index-f100e9d2.js';
 import './type-e34653d3.js';
 
@@ -1858,7 +1858,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '6fd0dba8d1d16b4c3d238f554ec7e405d1b49ec5', class: "p-1" }, h("ir-interceptor", { key: 'c6119a8383e19738816ec42f0d0a9fcb3c1cbc27', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '2efcff1c4d5a91ba5694201938bee5123e277954' }), h("div", { key: 'e2931f930a2dc3aec998676b84a3ff3c13e32585', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'b9762581198d635c5edcbf01eb58a4edc0f23fd0', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '2209170c5be09ce0286636b66cf41156de47ac0e', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '1a342a0b1ec3d9e269714f7269a637111720973a', class: "p-1" }, h("ir-interceptor", { key: 'fa039b680e46a11dd495128dff5e8098fc1165db', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '6297934e7e718d00ad70648689278657fb5f7d0c' }), h("div", { key: '832813786ba3a95fac91df9259015f244c9c9e56', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '7338a91d48be2b533841c912e163d33a0ff9504c', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'e8e13a01d597ce32b7965318f580a19e45eaa57a', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1866,7 +1866,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '2dbabd0a288f724606b32dee09166eb729252b03' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: 'd324632c49fdb8c3acf578fbdc806f77ca90ea1a' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

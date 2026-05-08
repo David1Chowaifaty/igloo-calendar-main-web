@@ -298,10 +298,7 @@ export function validateEmail(email) {
     const parsedEmailResults = z.string().email().safeParse(email);
     return !parsedEmailResults.success;
 }
-export function formatAmount(currency, amount) {
-    if (!amount) {
-        return null;
-    }
+export function formatAmount(currency, amount = 0) {
     return amount < 0 ? '- ' : '' + currency + ' ' + Math.abs(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 /**
