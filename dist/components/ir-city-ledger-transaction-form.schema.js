@@ -84,7 +84,16 @@ const cancellationPenaltySchema = commonFieldsSchema.extend({
     transactionType: z.literal(ClTxTypeCode.CancellationPenalty),
 });
 const cityLedgerTransactionSchema = z
-    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema, discountSchema, cancellationPenaltySchema])
+    .discriminatedUnion('transactionType', [
+    openingBalanceSchema,
+    paymentSchema,
+    manualChargeSchema,
+    adjustmentSchema,
+    creditNoteSchema,
+    debitNoteSchema,
+    discountSchema,
+    cancellationPenaltySchema,
+])
     .superRefine((data, ctx) => {
     if (data.transactionType === ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
         ctx.addIssue({

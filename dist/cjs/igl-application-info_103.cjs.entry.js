@@ -5170,7 +5170,16 @@ const cancellationPenaltySchema = commonFieldsSchema.extend({
     transactionType: index$1.z.literal(enums.ClTxTypeCode.CancellationPenalty),
 });
 const cityLedgerTransactionSchema = index$1.z
-    .discriminatedUnion('transactionType', [openingBalanceSchema, paymentSchema, manualChargeSchema, adjustmentSchema, creditNoteSchema, debitNoteSchema, discountSchema, cancellationPenaltySchema])
+    .discriminatedUnion('transactionType', [
+    openingBalanceSchema,
+    paymentSchema,
+    manualChargeSchema,
+    adjustmentSchema,
+    creditNoteSchema,
+    debitNoteSchema,
+    discountSchema,
+    cancellationPenaltySchema,
+])
     .superRefine((data, ctx) => {
     if (data.transactionType === enums.ClTxTypeCode.Payment && data.onAccount && data.invoiceId) {
         ctx.addIssue({
@@ -5615,7 +5624,7 @@ const IrCityLedgerTransactionForm = class {
                 });
             } }))), withTaxes ? (index.h("div", { class: "amount-tax-group" }, index.h("span", { class: "amount-tax-group__label" }, "Amount (including taxes)"), index.h("div", { class: "amount-tax-group__row" }, index.h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, index.h("ir-input", { label: "Amount (including taxes)", mask: "price", value: this.formData.amount, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
-            } }, index.h("span", { slot: "start" }, calendarData.calendar_data.property?.currency?.symbol))), index.h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, index.h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, onchange: event => {
+            } }, index.h("span", { slot: "start" }, calendarData.calendar_data.property?.currency?.symbol))), index.h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, index.h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
             } }, index.h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable"), this.taxOptions.map(tax => (index.h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label)))))))) : (index.h("div", { class: "transaction-form__field" }, index.h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, index.h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
@@ -5646,7 +5655,7 @@ const IrCityLedgerTransactionForm = class {
             return (index.h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderTransactionTypeField(), this.renderTypeFields()));
         }
         return (index.h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== enums.ClTxTypeCode.OpeningBalance &&
-            ![enums.ClTxTypeCode.Payment, enums.ClTxTypeCode.Discount, enums.ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), index.h("ir-input", { label: "Reference", value: this.formData.reference, "onText-change": (event) => {
+            ![enums.ClTxTypeCode.Payment, enums.ClTxTypeCode.Discount, enums.ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), index.h("ir-input", { label: "Reference", value: this.formData.reference, defaultValue: this.formData.reference, "onText-change": (event) => {
                 this.updateFormData({ reference: event.detail ?? '' });
             } })));
     }
