@@ -37,7 +37,6 @@
 }
 
 /* ── Empty / Error states ──────────────────────────────────── */
-.booking-city-ledger__empty,
 .booking-city-ledger__error {
   margin: 0;
   padding: 1rem var(--wa-card-padding, 1rem);

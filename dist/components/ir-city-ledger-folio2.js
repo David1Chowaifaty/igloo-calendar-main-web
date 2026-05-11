@@ -3,21 +3,22 @@ import { h as hooks } from './moment.js';
 import { m as mapClTxToFolioRow } from './types3.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$l } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$k } from './ir-city-ledger-folio-filters2.js';
-import { d as defineCustomElement$j } from './ir-city-ledger-folio-table2.js';
-import { d as defineCustomElement$i } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$h } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$g } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$f } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$e } from './ir-cl-debit-note-fields2.js';
-import { d as defineCustomElement$d } from './ir-cl-opening-balance-fields2.js';
-import { d as defineCustomElement$c } from './ir-cl-payment-fields2.js';
-import { d as defineCustomElement$b } from './ir-custom-button2.js';
-import { d as defineCustomElement$a } from './ir-date-range-filter2.js';
-import { d as defineCustomElement$9 } from './ir-date-select2.js';
-import { d as defineCustomElement$8 } from './ir-dialog2.js';
-import { d as defineCustomElement$7 } from './ir-drawer2.js';
+import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$l } from './ir-city-ledger-folio-filters2.js';
+import { d as defineCustomElement$k } from './ir-city-ledger-folio-table2.js';
+import { d as defineCustomElement$j } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$i } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$h } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$g } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$f } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$e } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$d } from './ir-cl-payment-fields2.js';
+import { d as defineCustomElement$c } from './ir-custom-button2.js';
+import { d as defineCustomElement$b } from './ir-date-range-filter2.js';
+import { d as defineCustomElement$a } from './ir-date-select2.js';
+import { d as defineCustomElement$9 } from './ir-dialog2.js';
+import { d as defineCustomElement$8 } from './ir-drawer2.js';
+import { d as defineCustomElement$7 } from './ir-empty-state2.js';
 import { d as defineCustomElement$6 } from './ir-hold-transaction-dialog2.js';
 import { d as defineCustomElement$5 } from './ir-input2.js';
 import { d as defineCustomElement$4 } from './ir-input-cell2.js';
@@ -271,7 +272,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-folio", "ir-air-date-picker", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-folio", "ir-air-date-picker", "ir-city-ledger-folio-filters", "ir-city-ledger-folio-table", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-folio":
             if (!customElements.get(tagName)) {
@@ -280,75 +281,80 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-city-ledger-folio-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-city-ledger-folio-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-cl-debit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-cl-opening-balance-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-cl-payment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-date-range-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-date-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

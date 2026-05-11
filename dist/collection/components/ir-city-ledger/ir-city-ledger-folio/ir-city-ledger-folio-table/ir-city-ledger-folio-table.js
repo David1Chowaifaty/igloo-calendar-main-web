@@ -253,7 +253,7 @@ export class IrCityLedgerFolioTable {
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
         if (rows.length === 0) {
-            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "folio-table__no-results" }, "No entries match the current filters.")));
+            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "empty-row" }, h("ir-empty-state", null))));
         }
         return rows.map(row => {
             const isSelected = this.selectedRowIds.has(row.original._rowId);

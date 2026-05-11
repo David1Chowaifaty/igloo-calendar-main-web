@@ -174,7 +174,7 @@ export const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
     START_DATE: z.string(),
     END_DATE: z.string(),
     LIST_CL_TX_ID: z.array(z.number()).optional().default([]),
-    BOOKING_NBR: z.number().optional().nullable().default(null),
+    BOOKING_NBR: z.string().optional().nullable().default(null),
     FD_TYPE_CODE: z.string(),
     FD_STATUS_CODE: z.string().optional().default('SENT'),
 });

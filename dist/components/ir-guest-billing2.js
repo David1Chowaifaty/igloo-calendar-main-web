@@ -4,17 +4,18 @@ import { m as downloadFile, f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as calendar_data } from './calendar-data.js';
-import { d as defineCustomElement$i } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$h } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$g } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-custom-date-picker2.js';
-import { d as defineCustomElement$d } from './ir-dialog2.js';
-import { d as defineCustomElement$c } from './ir-drawer2.js';
-import { d as defineCustomElement$b } from './ir-empty-state2.js';
-import { d as defineCustomElement$a } from './ir-input2.js';
-import { d as defineCustomElement$9 } from './ir-invoice2.js';
-import { d as defineCustomElement$8 } from './ir-invoice-form2.js';
+import { d as defineCustomElement$j } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$i } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$h } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$g } from './ir-custom-button2.js';
+import { d as defineCustomElement$f } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$e } from './ir-dialog2.js';
+import { d as defineCustomElement$d } from './ir-drawer2.js';
+import { d as defineCustomElement$c } from './ir-empty-state2.js';
+import { d as defineCustomElement$b } from './ir-input2.js';
+import { d as defineCustomElement$a } from './ir-invoice2.js';
+import { d as defineCustomElement$9 } from './ir-invoice-form2.js';
+import { d as defineCustomElement$8 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$7 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$6 } from './ir-print-room2.js';
 import { d as defineCustomElement$5 } from './ir-printing-extra-service2.js';
@@ -24,7 +25,7 @@ import { d as defineCustomElement$2 } from './ir-proforma-invoice-preview2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 import { v as v4 } from './v4.js';
 
-const irGuestBillingCss = ".sc-ir-guest-billing-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-guest-billing td.sc-ir-guest-billing{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-guest-billing{overflow-x:auto}.table.sc-ir-guest-billing td.sc-ir-guest-billing{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-guest-billing tbody.sc-ir-guest-billing tr.sc-ir-guest-billing:last-child>td.sc-ir-guest-billing{border-bottom:0 !important}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sc-ir-guest-billing{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sc-ir-guest-billing{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-guest-billing .empty-row.sc-ir-guest-billing{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-guest-billing{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-guest-billing td.sc-ir-guest-billing{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-guest-billing td.sc-ir-guest-billing{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-guest-billing,.ir-table-row.sc-ir-guest-billing{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-guest-billing{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-guest-billing td.sc-ir-guest-billing{transition-duration:var(--wa-transition-fast)}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-guest-billing:active td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-guest-billing:active td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-guest-billing:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-guest-billing svg.sc-ir-guest-billing{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-guest-billing{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-guest-billing,.data-table.sc-ir-guest-billing{height:100%}.sc-ir-guest-billing-h{display:flex;flex-direction:column;height:100%}.billing__container.sc-ir-guest-billing{display:flex;flex-direction:column;height:100%;gap:var(--wa-space-l);padding:0 var(--wa-space-l)}.billing__section-title-row.sc-ir-guest-billing{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.billing__section-title.sc-ir-guest-billing{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.billing__actions-row.sc-ir-guest-billing{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.billing__invoice-nbr.sc-ir-guest-billing{margin:0;padding:0}.billing__invoice-nbr.--secondary.sc-ir-guest-billing{font-size:0.75rem}.billing__price-col.sc-ir-guest-billing{text-align:end !important}.billing__cards.sc-ir-guest-billing{display:flex;flex-direction:column;gap:var(--wa-space-m);padding-bottom:var(--wa-space-l) !important}.billing__card.sc-ir-guest-billing{display:block}.billing__card-header.sc-ir-guest-billing{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}.billing__card-header-info.sc-ir-guest-billing{display:flex;flex-direction:column}.billing__card-number.sc-ir-guest-billing{margin:0;font-weight:var(--wa-font-weight-heading);font-family:var(--wa-font-family-heading)}.billing__card-type.sc-ir-guest-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-secondary)}.billing__card-download-btn.sc-ir-guest-billing{display:flex;align-items:center}.billing__card-details.sc-ir-guest-billing{display:flex;gap:var(--wa-space-xs);justify-content:space-between}.billing__card-detail.sc-ir-guest-billing{display:flex;flex-direction:column}.billing__card-detail-label.sc-ir-guest-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.billing__card-detail-label.--amount.sc-ir-guest-billing{text-align:end !important}.billing__card-detail-value.sc-ir-guest-billing{margin:0;font-weight:var(--wa-font-weight-regular);font-size:var(--wa-font-size-s)}.billing__card-void-btn.sc-ir-guest-billing{flex:1 1 0%}.billing__card-footer.sc-ir-guest-billing{display:flex}.table-container.sc-ir-guest-billing{display:none}.billing__card.sc-ir-guest-billing::part(footer){padding-top:1rem;padding-bottom:1rem}@media (min-width: 768px){.billing__cards.sc-ir-guest-billing{display:none}.table-container.sc-ir-guest-billing{display:block}}";
+const irGuestBillingCss = ".sc-ir-guest-billing-h{--ir-cell-padding:0.5rem 1rem}.ir-table-row.sc-ir-guest-billing td.sc-ir-guest-billing{padding:var(--ir-cell-padding) !important;text-align:left;z-index:2;background-color:var(--wa-color-surface-default);white-space:nowrap;color:var(--wa-color-text-normal);box-sizing:border-box}.table--container.sc-ir-guest-billing{overflow-x:auto}.table.sc-ir-guest-billing td.sc-ir-guest-billing{border-top:0;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #abaeb9);transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.table.sc-ir-guest-billing tbody.sc-ir-guest-billing tr.sc-ir-guest-billing:last-child>td.sc-ir-guest-billing{border-bottom:0 !important}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sc-ir-guest-billing{border:none !important;background:#ececec;background:color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);color:#374151;padding:0.5rem 1rem !important;text-align:left}.data-table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sc-ir-guest-billing{box-sizing:border-box;background:var(--wa-color-surface-default) !important;padding-top:0.5rem !important;padding-bottom:0.5rem !important;border-bottom:1px solid var(--wa-color-neutral-90) !important;color:var(--wa-color-text-normal)}.data-table.sc-ir-guest-billing .empty-row.sc-ir-guest-billing{height:50vh !important;text-align:center;color:var(--wa-color-gray-60)}.data-table--pagination.sc-ir-guest-billing{padding:0.5rem 1rem;background:var(--wa-color-surface-default);border-top:1px solid var(--wa-color-neutral-90)}.selected.sc-ir-guest-billing td.sc-ir-guest-billing{background:var(--wa-color-brand-fill-quiet) !important;border-color:var(--wa-color-brand-fill-normal) !important}.selected.sc-ir-guest-billing td.sc-ir-guest-billing{color:var(--gray-dark) !important;transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-guest-billing,.ir-table-row.sc-ir-guest-billing{transition:color 0.15s ease-in-out,\n    background-color 0.15s ease-in-out,\n    border-color 0.15s ease-in-out,\n    box-shadow 0.15s ease-in-out}.sortable.sc-ir-guest-billing{text-transform:capitalize;cursor:pointer}.ir-table-row.sc-ir-guest-billing td.sc-ir-guest-billing{transition-duration:var(--wa-transition-fast)}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing{transition-property:background, border, box-shadow, color;transition-duration:var(--wa-transition-fast);transition-timing-function:var(--wa-transition-easing)}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing:hover{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.table.sc-ir-guest-billing thead.sc-ir-guest-billing th.sortable.sc-ir-guest-billing:active{color:var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background:#e2e6ea3f !important;background:var(--wa-color-neutral-fill-quiet, #f1f2f3) !important}.--clickable.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background-color:var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important}.--clickable.ir-table-row.sc-ir-guest-billing:active td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important}.selected.ir-table-row.sc-ir-guest-billing:hover td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important}.selected.ir-table-row.sc-ir-guest-billing:active td.sc-ir-guest-billing{background-color:color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important}.sortable.sc-ir-guest-billing:active{color:#212529;background-color:#e2e8f0;border-color:#d3d9df}.sortable.sc-ir-guest-billing svg.sc-ir-guest-billing{color:var(--wa-color-brand-fill-loud)}.sticky-column.sc-ir-guest-billing{position:sticky !important;right:0;background-color:white}.table--container.sc-ir-guest-billing,.data-table.sc-ir-guest-billing{height:100%}.sc-ir-guest-billing-h{display:flex;flex-direction:column;height:100%}.billing__container.sc-ir-guest-billing{display:flex;flex-direction:column;height:100%;gap:var(--wa-space-l);padding:0 var(--wa-space-l)}.billing__section-title-row.sc-ir-guest-billing{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.billing__section-title.sc-ir-guest-billing{margin:0;padding:0;font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-m)}.billing__actions-row.sc-ir-guest-billing{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem}.billing__invoice-nbr.sc-ir-guest-billing{margin:0;padding:0}.billing__invoice-nbr.--secondary.sc-ir-guest-billing{font-size:0.75rem}.billing__price-col.sc-ir-guest-billing{text-align:end !important}.billing__cards.sc-ir-guest-billing{display:flex;flex-direction:column;gap:var(--wa-space-m);padding-bottom:var(--wa-space-l) !important}.billing__card.sc-ir-guest-billing{display:block}.billing__card-header.sc-ir-guest-billing{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}.billing__card-header-info.sc-ir-guest-billing{display:flex;flex-direction:column}.billing__card-number.sc-ir-guest-billing{margin:0;font-weight:var(--wa-font-weight-heading);font-family:var(--wa-font-family-heading)}.billing__card-type.sc-ir-guest-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-secondary)}.billing__card-download-btn.sc-ir-guest-billing{display:flex;align-items:center}.billing__card-details.sc-ir-guest-billing{display:flex;gap:var(--wa-space-xs);justify-content:space-between}.billing__card-detail.sc-ir-guest-billing{display:flex;flex-direction:column}.billing__card-detail-label.sc-ir-guest-billing{margin:0;font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet)}.billing__card-detail-label.--amount.sc-ir-guest-billing{text-align:end !important}.billing__card-detail-value.sc-ir-guest-billing{margin:0;font-weight:var(--wa-font-weight-regular);font-size:var(--wa-font-size-s)}.billing__card-void-btn.sc-ir-guest-billing{flex:1 1 0%}.billing__card-footer.sc-ir-guest-billing{display:flex}.table-container.sc-ir-guest-billing{display:none}.billing__empty-state.sc-ir-guest-billing{display:flex;align-items:center;justify-content:center;width:100%;height:30vh}.billing__card.sc-ir-guest-billing::part(footer){padding-top:1rem;padding-bottom:1rem}@media (min-width: 768px){.billing__cards.sc-ir-guest-billing{display:none}.table-container.sc-ir-guest-billing{display:block}}";
 const IrGuestBillingStyle0 = irGuestBillingCss;
 
 const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling extends HTMLElement {
@@ -38,6 +39,7 @@ const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling ext
     isLoading = 'page';
     invoiceInfo;
     selectedInvoice = null;
+    pdfUrl = null;
     billingClose;
     bookingService = new BookingService();
     _id = `issue_invoice__btn_${v4()}`;
@@ -105,7 +107,7 @@ const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling ext
                 downloadFile(My_Result);
                 return;
             }
-            window.open(My_Result);
+            this.pdfUrl = My_Result;
         }
         catch (error) {
             console.error(error);
@@ -120,7 +122,7 @@ const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling ext
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null))), h("tbody", null, this.invoices?.map(invoice => {
+            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", { class: '' }))), h("tbody", null, this.invoices?.length === 0 && (h("tr", null, h("td", { colSpan: 4, class: "empty-row" }, h("ir-empty-state", null)))), this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')
@@ -140,16 +142,20 @@ const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling ext
                             break;
                     }
                 } }, h("h3", null, "Issued by: ", invoice.credit_note ? invoice.credit_note.user : invoice.user), h("wa-divider", null), h("wa-dropdown-item", { value: "view-print" }, "Open PDF", isRequestPending('/Print_Invoice') && h("wa-spinner", { slot: "details" })), isValid && !invoice.credit_note && (h("wa-dropdown-item", { variant: "danger", value: "void" }, "Void with credit note")), h("ir-custom-button", { slot: "trigger", id: `pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })))))));
-        })))), h("div", { class: "billing__cards" }, this.invoices?.map(invoice => {
+        })))), h("div", { class: "billing__cards" }, this.invoices?.length === 0 && (h("div", { class: "billing__empty-state" }, h("ir-empty-state", null))), this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("wa-card", { key: invoice.nbr, class: "billing__card" }, h("div", { class: "billing__card-header" }, h("div", { class: "billing__card-header-info" }, h("p", { class: "billing__card-number" }, isValid ? 'Invoice' : 'Credit note', ":", isValid ? invoice.nbr : invoice.credit_note.nbr), h("p", { class: "billing__card-type" }, isValid ? '' : invoice.nbr)), h("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' } }, h("wa-tooltip", { for: `mobile-download-pdf-${invoice.system_id}` }, "Open PDF"), h("ir-custom-button", { onClickHandler: () => this.printInvoice({ invoice, mode: isValid ? 'invoice' : 'creditnote' }), loading: isRequestPending('/Print_Invoice'), id: `mobile-download-pdf-${invoice.system_id}`, variant: "neutral", appearance: "plain", class: "billing__card-download-btn" }, h("wa-icon", { name: "file-pdf", style: { fontSize: '1rem' } })))), h("div", { class: "billing__card-details" }, h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label" }, "Date"), h("p", { class: "billing__card-detail-value" }, ' ', isValid ? hooks(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY') : hooks(invoice.credit_note.date, 'YYYY-MM-DD').format('MMM DD, YYYY'))), h("div", { class: "billing__card-detail" }, h("p", { class: "billing__card-detail-label --amount" }, "Amount"), h("p", { class: "billing__card-detail-value" }, formatAmount(invoice.currency.symbol, invoice.total_amount ?? 0)))), isValid && !invoice.credit_note && (h("div", { slot: "footer", class: "billing__card-footer" }, h("ir-custom-button", { onClickHandler: () => {
                     this.selectedInvoice = invoice.nbr;
                 }, variant: "danger", appearance: "outlined", class: "billing__card-void-btn" }, "Void with credit note")))));
-        })), this.invoiceInfo.invoices?.length === 0 && h("ir-empty-state", { style: { width: '100%', height: '40vh' } }))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
+        })))), h("ir-invoice", { invoiceInfo: this.invoiceInfo, onInvoiceClose: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = null;
-            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
+            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-dialog", { label: "Invoice", open: this.pdfUrl !== null, onIrDialogAfterHide: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.pdfUrl = null;
+            } }, this.pdfUrl && h("ir-pdf-viewer", { src: this.pdfUrl })), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
@@ -164,13 +170,14 @@ const IrGuestBilling = /*@__PURE__*/ proxyCustomElement(class IrGuestBilling ext
         "isOpen": [32],
         "isLoading": [32],
         "invoiceInfo": [32],
-        "selectedInvoice": [32]
+        "selectedInvoice": [32],
+        "pdfUrl": [32]
     }, [[0, "invoiceCreated", "handleInvoiceCreation"]]]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
+    const components = ["ir-guest-billing", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-billing":
             if (!customElements.get(tagName)) {
@@ -179,55 +186,60 @@ function defineCustomElement() {
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-custom-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-empty-state":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-invoice":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-invoice-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-pdf-viewer":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

@@ -1101,7 +1101,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.e
     START_DATE: z.ZodString;
     END_DATE: z.ZodString;
     LIST_CL_TX_ID: z.ZodDefault<z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>>;
-    BOOKING_NBR: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodNumber>>>;
+    BOOKING_NBR: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodString>>>;
     FD_TYPE_CODE: z.ZodString;
     FD_STATUS_CODE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }>, "strip", z.ZodTypeAny, {
@@ -1112,7 +1112,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.e
     START_DATE?: string;
     END_DATE?: string;
     LIST_CL_TX_ID?: number[];
-    BOOKING_NBR?: number;
+    BOOKING_NBR?: string;
 }, {
     AGENCY_ID?: number;
     CURRENCY_ID?: number;
@@ -1121,7 +1121,7 @@ export declare const IssueFiscalDocumentParamsSchema: z.ZodObject<z.objectUtil.e
     START_DATE?: string;
     END_DATE?: string;
     LIST_CL_TX_ID?: number[];
-    BOOKING_NBR?: number;
+    BOOKING_NBR?: string;
 }>;
 /** Params for issuing fiscal documents from city-ledger entries. */
 export type IssueFiscalDocumentParams = z.infer<typeof IssueFiscalDocumentParamsSchema>;

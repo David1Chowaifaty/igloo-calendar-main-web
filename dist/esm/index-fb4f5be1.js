@@ -177,7 +177,7 @@ const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
     START_DATE: stringType(),
     END_DATE: stringType(),
     LIST_CL_TX_ID: arrayType(numberType()).optional().default([]),
-    BOOKING_NBR: numberType().optional().nullable().default(null),
+    BOOKING_NBR: stringType().optional().nullable().default(null),
     FD_TYPE_CODE: stringType(),
     FD_STATUS_CODE: stringType().optional().default('SENT'),
 });
@@ -376,4 +376,4 @@ class CityLedgerService {
 
 export { CityLedgerService as C };
 
-//# sourceMappingURL=index-e6815bbd.js.map
+//# sourceMappingURL=index-fb4f5be1.js.map

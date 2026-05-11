@@ -150,13 +150,14 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                     cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
                 }),
             ]
-            : [
-                this.columnHelper.accessor('TOTAL_AMOUNT', {
-                    id: 'amount',
-                    header: 'Amount (incl. taxes)',
-                    cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
-                }),
-            ];
+            : [];
+        // : [
+        //     this.columnHelper.accessor('TOTAL_AMOUNT', {
+        //       id: 'amount',
+        //       header: 'Amount (incl. taxes)',
+        //       cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+        //     }),
+        //   ];
         return [
             ...base,
             ...amountCols,

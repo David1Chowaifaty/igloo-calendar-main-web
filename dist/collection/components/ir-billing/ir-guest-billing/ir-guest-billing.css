@@ -285,6 +285,13 @@
 .table-container {
   display: none;
 }
+.billing__empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30vh;
+}
 .billing__card::part(footer) {
   padding-top: 1rem;
   padding-bottom: 1rem;

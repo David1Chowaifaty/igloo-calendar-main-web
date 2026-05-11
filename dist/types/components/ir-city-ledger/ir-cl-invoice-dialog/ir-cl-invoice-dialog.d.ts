@@ -4,7 +4,7 @@ import { ClFiscalDocumentPreviewRequest } from '../ir-city-ledger-fiscal-documen
 export declare class IrClInvoiceDialog {
     agentId: number | null;
     mode: 'booking' | 'default';
-    bookingNbr: number | null;
+    bookingNbr: string | null;
     startDate: string | null;
     endDate: string | null;
     currencyId: number | null;

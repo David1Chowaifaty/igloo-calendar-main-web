@@ -203,11 +203,11 @@ export class IrClInvoiceDialog {
                 "defaultValue": "'default'"
             },
             "bookingNbr": {
-                "type": "number",
+                "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "number | null",
-                    "resolved": "number",
+                    "original": "string | null",
+                    "resolved": "string",
                     "references": {}
                 },
                 "required": false,

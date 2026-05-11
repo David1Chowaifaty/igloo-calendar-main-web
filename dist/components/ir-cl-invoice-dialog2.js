@@ -169,7 +169,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
 }, [2, "ir-cl-invoice-dialog", {
         "agentId": [2, "agent-id"],
         "mode": [1],
-        "bookingNbr": [2, "booking-nbr"],
+        "bookingNbr": [1, "booking-nbr"],
         "startDate": [1, "start-date"],
         "endDate": [1, "end-date"],
         "currencyId": [2, "currency-id"],

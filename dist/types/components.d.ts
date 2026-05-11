@@ -1591,7 +1591,7 @@ export namespace Components {
     }
     interface IrClInvoiceDialog {
         "agentId": number | null;
-        "bookingNbr": number | null;
+        "bookingNbr": string | null;
         "closeModal": () => Promise<void>;
         "currencyId": number | null;
         "endDate": string | null;
@@ -12056,7 +12056,7 @@ declare namespace LocalJSX {
     }
     interface IrClInvoiceDialog {
         "agentId"?: number | null;
-        "bookingNbr"?: number | null;
+        "bookingNbr"?: string | null;
         "currencyId"?: number | null;
         "endDate"?: string | null;
         "mode"?: 'booking' | 'default';

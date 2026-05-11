@@ -3,8 +3,9 @@ import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable.js';
 import { h as hooks } from './moment.js';
 import { a as actionableClTypes } from './city-ledger.service.js';
-import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$8 } from './ir-custom-button2.js';
+import { d as defineCustomElement$7 } from './ir-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-empty-state2.js';
 import { d as defineCustomElement$5 } from './ir-hold-transaction-dialog2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-input-cell2.js';
@@ -272,7 +273,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     renderDataRows(table) {
         const rows = table.getRowModel().rows;
         if (rows.length === 0) {
-            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "folio-table__no-results" }, "No entries match the current filters.")));
+            return (h("tr", null, h("td", { colSpan: this.columns.length + 1, class: "empty-row" }, h("ir-empty-state", null))));
         }
         return rows.map(row => {
             const isSelected = this.selectedRowIds.has(row.original._rowId);
@@ -353,7 +354,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-folio-table", "ir-custom-button", "ir-dialog", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner"];
+    const components = ["ir-city-ledger-folio-table", "ir-custom-button", "ir-dialog", "ir-empty-state", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-folio-table":
             if (!customElements.get(tagName)) {
@@ -362,10 +363,15 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-empty-state":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

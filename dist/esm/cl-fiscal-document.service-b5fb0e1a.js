@@ -1,5 +1,5 @@
 import { T as Token } from './Token-030c78a9.js';
-import { C as CityLedgerService } from './index-e6815bbd.js';
+import { C as CityLedgerService } from './index-fb4f5be1.js';
 import { P as PropertyService } from './property.service-7d578b5d.js';
 
 class ClFiscalDocumentService {
@@ -30,4 +30,4 @@ class ClFiscalDocumentService {
 
 export { ClFiscalDocumentService as C };
 
-//# sourceMappingURL=cl-fiscal-document.service-aafaa563.js.map
+//# sourceMappingURL=cl-fiscal-document.service-b5fb0e1a.js.map

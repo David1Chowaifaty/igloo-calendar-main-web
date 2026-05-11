@@ -7,6 +7,7 @@ export declare class IrGuestBilling {
     isLoading: 'page' | 'void';
     invoiceInfo: BookingInvoiceInfo;
     selectedInvoice: string;
+    pdfUrl: string;
     billingClose: EventEmitter<void>;
     private bookingService;
     private _id;
