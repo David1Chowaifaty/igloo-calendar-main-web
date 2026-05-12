@@ -3,19 +3,27 @@ import { B as BookingService } from './booking.store.js';
 import { l as locales } from './locales.store.js';
 import { I as InvoiceableItemReason } from './enums.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$4 } from './ir-custom-button2.js';
-import { d as defineCustomElement$3 } from './ir-dialog2.js';
-import { d as defineCustomElement$2 } from './ir-input2.js';
-import { d as defineCustomElement$1 } from './ir-spinner2.js';
+import { A as AgentsService } from './agents.service.js';
+import { i as isAgentMode } from './functions.js';
+import { C as CityLedgerService } from './index6.js';
+import { c as calendar_data } from './calendar-data.js';
+import { d as defineCustomElement$9 } from './ir-custom-button2.js';
+import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$7 } from './ir-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-drawer2.js';
+import { d as defineCustomElement$5 } from './ir-input2.js';
+import { d as defineCustomElement$4 } from './ir-payment-folio2.js';
+import { d as defineCustomElement$3 } from './ir-payment-folio-form2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
+import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const irCheckoutDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}:host{display:block}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px}.early-checkout{display:grid;gap:1rem;width:100%;min-width:0;overflow-x:clip}.early-checkout ir-input,.early-checkout wa-callout,.early-checkout wa-card{min-width:0;max-width:100%}.ec-summary::part(message){display:flex;flex-direction:column;gap:0.5rem}.ec-summary__row{display:flex;justify-content:space-between;align-items:center}.ec-summary__label{font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.ec-summary__value{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-normal, #111827)}.ec-summary__value--accent{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}.ec-section{display:grid;gap:0.35rem}.ec-section__title{margin:0;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--wa-color-text-quiet, #6b7280)}.ec-nights{border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.ec-nights__row{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-nights__date{color:var(--wa-color-text-quiet, #6b7280)}.ec-nights__amount{font-weight:500;font-variant-numeric:tabular-nums;color:var(--wa-color-text-normal, #111827)}.ec-nights__subtotal{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;font-weight:600;color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-penalty__badge{margin:0;font-size:0.75rem;font-weight:500;color:var(--wa-color-warning-on-quiet, #92400e)}.ec-penalty__badge--waived{color:var(--wa-color-success-on-quiet, #065f46)}.ec-penalty__hint{margin:0;font-size:0.75rem;color:var(--wa-color-text-quiet, #6b7280)}.ir-dialog__footer{display:flex;flex-wrap:wrap;gap:0.5rem;width:100%}.ir-dialog__footer>*{flex:1}@media (min-width: 640px){.ir-dialog__footer{flex-wrap:nowrap;justify-content:flex-end}.ir-dialog__footer>*{flex:0 0 auto}}";
+const irCheckoutDialogCss = ".ir-dialog__footer{display:flex;align-items:center;gap:0.5rem;justify-content:flex-end;width:100%}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px;min-width:31rem}:host{display:block}.dialog__loader-container{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;width:100%;min-height:50px}.early-checkout{display:grid;gap:1rem;width:100%;min-width:0;overflow-x:clip}.early-checkout ir-input,.early-checkout wa-callout,.early-checkout wa-card{min-width:0;max-width:100%}.ec-summary::part(message){display:flex;flex-direction:column;gap:0.5rem}.ec-summary__row{display:flex;justify-content:space-between;align-items:center}.ec-summary__label{font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.ec-summary__value{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-normal, #111827)}.ec-summary__value--accent{color:var(--wa-color-brand-fill-loud, #2563eb);font-weight:600}.ec-section{display:grid;gap:0.35rem}.ec-section__title{margin:0;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--wa-color-text-quiet, #6b7280)}.ec-nights{border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;overflow:hidden}.ec-nights__row{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-nights__date{color:var(--wa-color-text-quiet, #6b7280)}.ec-nights__amount{font-weight:500;font-variant-numeric:tabular-nums;color:var(--wa-color-text-normal, #111827)}.ec-nights__subtotal{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.875rem;font-size:0.8125rem;font-weight:600;color:var(--wa-color-text-normal, #111827);background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb)}.ec-penalty__badge{margin:0;font-size:0.75rem;font-weight:500;color:var(--wa-color-warning-on-quiet, #92400e)}.ec-penalty__badge--waived{color:var(--wa-color-success-on-quiet, #065f46)}.ec-penalty__hint{margin:0;font-size:0.75rem;color:var(--wa-color-text-quiet, #6b7280)}.due-amount-btn{all:unset;display:block;width:100%;cursor:pointer;margin-bottom:var(--spacing)}.due-amount-btn:focus-visible{outline:2px solid var(--wa-color-brand-fill-loud);outline-offset:2px;border-radius:0.375rem}.ir-dialog__footer{display:flex;flex-wrap:wrap;gap:0.5rem;width:100%}.ir-dialog__footer>*{flex:1}@media (min-width: 640px){.ir-dialog__footer{flex-wrap:nowrap;justify-content:flex-end}.ir-dialog__footer>*{flex:0 0 auto}}";
 const IrCheckoutDialogStyle0 = irCheckoutDialogCss;
 
 const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog extends HTMLElement {
     constructor() {
         super();
         this.__registerHost();
-        this.__attachShadow();
         this.checkoutDialogClosed = createEvent(this, "checkoutDialogClosed", 7);
     }
     open;
@@ -28,9 +36,15 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
     isEarlyCheckout = false;
     remainingDays = [];
     penaltyAmount = 0;
+    agent;
+    paymentEntries;
     checkoutDialogClosed;
     bookingService = new BookingService();
+    agentService = new AgentsService();
+    cityLedgerService = new CityLedgerService();
     initialPenaltyStr = '0.00';
+    transactions = [];
+    paymentFolioRef;
     get remainingTotal() {
         return this.remainingDays.reduce((sum, d) => sum + d.charges.total_amount, 0);
     }
@@ -62,16 +76,48 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
             this.init();
         }
     }
+    get missingClSummary() {
+        if (!this.agent || !isAgentMode(this.agent) || !this.room)
+            return null;
+        const today = hooks().format('YYYY-MM-DD');
+        const postedRoomDates = new Set(this.transactions.filter(tx => tx.BSA_REF === this.room.identifier).map(tx => tx.SERVICE_DATE));
+        const room = (this.room.days ?? []).filter(d => d.date <= today && !postedRoomDates.has(d.date)).length;
+        const postedExtraKeys = new Set(this.transactions.filter(tx => tx.REL_ENTITY === 'TBL_BSP').map(tx => tx.REL_ENTITY_KEY));
+        const agentId = this.booking.agent?.id;
+        const extras = (this.booking.extra_services ?? []).filter(es => es.system_id != null && es.agent?.id === agentId && es.start_date <= today && !postedExtraKeys.has(es.system_id)).length;
+        return { room, extras, total: room + extras };
+    }
     async init() {
         if (!this.open) {
             return;
         }
         try {
             this.isLoading = 'page';
-            this.invoiceInfo = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-            this.setupButtons();
             this.room = this.booking.rooms.find(r => r.identifier === this.identifier);
             this.detectEarlyCheckout();
+            const hasAgent = !!this.room?.agent;
+            const hasDueAmount = (this.booking?.financial?.due_amount ?? 0) > 0;
+            const [invoiceInfo, agent, setupEntries] = await Promise.all([
+                this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr }),
+                hasAgent ? this.agentService.getExposedAgent({ id: this.booking.agent.id }) : Promise.resolve(null),
+                hasDueAmount ? this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']) : Promise.resolve(null),
+            ]);
+            this.invoiceInfo = invoiceInfo;
+            this.setupButtons();
+            if (setupEntries) {
+                const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
+                this.paymentEntries = { types: pay_type, groups: pay_type_group, methods: pay_method };
+            }
+            if (agent && isAgentMode(agent)) {
+                this.agent = agent;
+                const res = await this.cityLedgerService.fetchCL({
+                    AGENCY_ID: this.booking.agent.id,
+                    SEARCH_QUERY: this.booking.booking_nbr,
+                    IS_HOLD: false,
+                    IS_LOCKED: false,
+                });
+                this.transactions = res.My_Cl_tx;
+            }
         }
         catch (error) {
             console.error(error);
@@ -93,7 +139,7 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         }
     }
     setupButtons() {
-        const toBeInvoiced = this.invoiceInfo.invoiceable_items.filter(item => ![InvoiceableItemReason.AlreadyInvoiced, InvoiceableItemReason.PickupCancellationPolicy].includes(item?.reason?.code));
+        const toBeInvoiced = this.invoiceInfo.invoiceable_items.filter(item => ![InvoiceableItemReason.AlreadyInvoiced, InvoiceableItemReason.PickupCancellationPolicy, InvoiceableItemReason.NotCheckedOutYet].includes(item?.reason?.code));
         const toBeInvoicedRooms = toBeInvoiced.filter(item => item.type === 'BSA');
         if (toBeInvoiced.length === 0) {
             this.buttons.add('checkout');
@@ -114,22 +160,51 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
                 this.penaltyAmount = isNaN(val) ? 0 : val;
             } }, h("span", { slot: "start" }, this.currencySymbol)))));
     }
+    get duePayment() {
+        const p = this.paymentEntries.types.find(t => t.CODE_NAME === '001');
+        return {
+            amount: Math.abs(this.booking.financial.due_amount),
+            currency: calendar_data.property.currency,
+            date: hooks().format('YYYY-MM-DD'),
+            designation: null,
+            payment_method: null,
+            payment_type: { code: p.CODE_NAME, description: p.CODE_VALUE_EN, operation: p.NOTES },
+            id: -1,
+            reference: '',
+        };
+    }
+    renderDueAmountWarning() {
+        if (!this.booking?.financial?.due_amount || this.booking.financial.due_amount <= 0)
+            return null;
+        const amount = `${this.currencySymbol}${Math.abs(this.booking.financial.due_amount).toFixed(2)}`;
+        return (h("button", { type: "button", class: "due-amount-btn", onClick: () => this.paymentFolioRef?.openFolio() }, h("wa-callout", { size: "small", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), "Outstanding balance: ", amount)));
+    }
+    renderMissingClWarning() {
+        const summary = this.missingClSummary;
+        if (!summary)
+            return null;
+        if (summary.total === 0) {
+            return (h("wa-callout", { size: "small", variant: "success", style: { marginBottom: 'var(--spacing)' } }, h("wa-icon", { slot: "icon", name: "circle-check" }), "All charges posted to City Ledger"));
+        }
+        return (h("wa-callout", { size: "small", variant: "warning", style: { marginBottom: 'var(--spacing)' } }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), summary.total, " item", summary.total !== 1 ? 's' : '', " not posted to city ledger"));
+    }
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
-        return (h("ir-dialog", { key: '8b566ac8044bf85b37803c339180ccff2f08b170', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
+        return (h(Fragment, { key: '91245a8f85e84139feb754c590554c699e0593db' }, h("ir-dialog", { key: 'c5638e8b6d1c8f8d8af746f806e4ac6100b482cc', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")), h("div", { key: '0e0d38c6fd891d7897c90a78169d3a6785159fe1', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'd16854dccf620ae14e04caa85c0ee43c00d2a139' }, h("ir-custom-button", { key: 'e351d4f6e98fd4f4c5e19fd669aab8db1f6c25d0', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '59c575ea4f87b3272f614de22c247f9c53764828', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '76e26746d3289fa61a60eefc9d7ead11ed28504b', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '69b8f8ca61567d69e602858d928f765fc8a00d2b', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '38646d7cc76156a83b1b1b81456b607ef3755af6', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c1d1671b1bb0b4a93d4d105c2bfec3613ff6227e' }, h("ir-custom-button", { key: 'd78148fa133ffb2eb5438ffef17afffd5b41e907', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '173acf2436ac81c0b5da574bf9ecf762ee5427c9', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '7264e147147d9140ca0f5fb52c9fa4edfdc149c5', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '8dcbb7c043a84e3601a0c99f3644ba5570edde92', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '36c513e13f0d6202e2a9980cc4a5d09db14f0957', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
     }; }
     static get style() { return IrCheckoutDialogStyle0; }
-}, [1, "ir-checkout-dialog", {
+}, [0, "ir-checkout-dialog", {
         "open": [516],
         "booking": [16],
         "identifier": [1],
@@ -139,7 +214,9 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         "room": [32],
         "isEarlyCheckout": [32],
         "remainingDays": [32],
-        "penaltyAmount": [32]
+        "penaltyAmount": [32],
+        "agent": [32],
+        "paymentEntries": [32]
     }, undefined, {
         "open": ["handleOpenChange"]
     }]);
@@ -147,7 +224,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-checkout-dialog", "ir-custom-button", "ir-dialog", "ir-input", "ir-spinner"];
+    const components = ["ir-checkout-dialog", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-drawer", "ir-input", "ir-payment-folio", "ir-payment-folio-form", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-checkout-dialog":
             if (!customElements.get(tagName)) {
@@ -156,20 +233,45 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-custom-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-drawer":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$6();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-payment-folio":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$4();
+            }
+            break;
+        case "ir-payment-folio-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
             }
             break;
         case "ir-spinner":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

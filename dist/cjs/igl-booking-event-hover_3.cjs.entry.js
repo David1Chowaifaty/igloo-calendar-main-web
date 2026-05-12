@@ -450,7 +450,7 @@ const IglBookingEventHover = class {
         return index.h("div", { class: `bubblePointer ${this.bubbleInfoTop ? 'bubblePointTop' : 'bubblePointBottom'}` });
     }
     render() {
-        return (index.h(index.Host, { key: '1ffa8f83d26b35c43a8516953ac73678a8406078' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
+        return (index.h(index.Host, { key: '3f8ea47acca7a22f61355652fae4294307555c8e' }, this.isBlockedDateEvent() ? this.getBlockedView() : null, this.isNewBooking() ? this.getNewBookingOptions() : null, !this.isBlockedDateEvent() && !this.isNewBooking() ? this.getInfoElement() : null));
     }
     static get watchers() { return {
         "bookingEvent": ["handleBookingEventChange"]
@@ -722,7 +722,7 @@ const IrDropdown = class {
         this.closeDropdown();
     }
     render() {
-        return (index.h(index.Host, { key: '3defe062566204d1e5c5c37d3b554e12aa70c1e0', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: 'c14f38d99140cddeeee63ed596b46fb774ce5e9d', onClick: () => {
+        return (index.h(index.Host, { key: 'ab18d6a52a0800c367b78994a9e18738dd86bcfb', class: `dropdown ${this.isOpen ? 'show' : ''}` }, index.h("div", { key: 'ce52cd58be96ef65450ced1144aad09985fc2fa9', onClick: () => {
                 if (this.disabled)
                     return;
                 if (this.isOpen) {
@@ -731,7 +731,7 @@ const IrDropdown = class {
                 else {
                     this.openDropdown();
                 }
-            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: 'c09ba4ee82ceebc28ab2b69bc566299b01e5ad81', name: "trigger" }), this.caret && (index.h("div", { key: 'cd7da9c87812f25fcfdd92e112e906663622e039', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, index.h("ir-icons", { key: '56455d7e3546ff0144f3a800de3bf43fec120220', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), index.h("div", { key: '538f1bb3971f1becac06c2c10d10cb874e0c95b1', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: 'a94fc97c17ffc9eafb9e41b6538ea8b46e3c6fe7' }))));
+            }, "aria-disabled": String(this.disabled), class: `dropdown-trigger ${this.disabled ? 'disabled' : ''}`, onKeyDown: this.handleKeyDown, tabindex: "0" }, index.h("slot", { key: '45b00b2f63d83fbc3a3f70c5b8628f0d90d6bba9', name: "trigger" }), this.caret && (index.h("div", { key: 'dc0ed5420b86c8b269bde2e8d3ee7f90080897f8', class: `caret-icon ${this.disabled ? 'disabled' : ''}` }, index.h("ir-icons", { key: '9152d474cc56da55e471c7577384f6910df9139b', name: !this.isOpen ? 'angle-down' : 'angle-up' })))), index.h("div", { key: '7b94f24d115a312a06cbf047c21c721073c2ca7a', class: "dropdown-menu", role: "listbox", "aria-expanded": this.isOpen.toString() }, index.h("slot", { key: 'd4e93c8ea411962178071caeec09e68bddbb9bc4' }))));
     }
     static get watchers() { return {
         "value": ["handleValueChange"]
@@ -823,7 +823,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (index.h(index.Host, { key: '771bbe6a41d3a660865952b484c12fbf1526078a', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
+        return (index.h(index.Host, { key: '41027457bb42f6e060cc97906ad2252b5f2ac24b', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
 IrDropdownItem.style = IrDropdownItemStyle0;

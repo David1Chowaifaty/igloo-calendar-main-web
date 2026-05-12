@@ -175,7 +175,7 @@ const IrSecureTasks = class {
     renderPage() {
         switch (this.currentPage) {
             case 'front':
-                return (h("div", { style: { flex: '1 1 0%', display: 'block', background: 'red' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
+                return (h("div", { style: { flex: '1 1 0%', display: 'block' } }, h("igloo-calendar", { currencyName: "USD", propertyid: this.propertyid, p: this.p, ticket: this.token.getToken(), from_date: this.dates.from_date, to_date: this.dates.to_date, language: "en" })));
             case 'arrivals':
                 return h("ir-arrivals", { p: this.p, language: "en", propertyid: this.propertyid, ticket: this.token.getToken() });
             case 'departures':

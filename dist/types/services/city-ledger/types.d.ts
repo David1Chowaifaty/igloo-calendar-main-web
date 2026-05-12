@@ -1166,13 +1166,13 @@ export declare const VoidInvoiceByCreditNoteParamsSchema: z.ZodObject<{
     VOID_DATE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
     REASON: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    REASON?: string;
     FD_ID?: number;
     VOID_DATE?: string;
+    REASON?: string;
 }, {
-    REASON?: string;
     FD_ID?: number;
     VOID_DATE?: string;
+    REASON?: string;
 }>;
 /** Payload for voiding an invoice via credit note. */
 export type VoidInvoiceByCreditNoteParams = z.infer<typeof VoidInvoiceByCreditNoteParamsSchema>;
@@ -1191,11 +1191,11 @@ export declare const PrintClFiscalDocumentParamsSchema: z.ZodObject<{
     doc_number: z.ZodString;
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
-    lang?: string;
     doc_number?: string;
+    lang?: string;
 }, {
-    lang?: string;
     doc_number?: string;
+    lang?: string;
 }>;
 export type PrintClFiscalDocumentParams = z.infer<typeof PrintClFiscalDocumentParamsSchema>;
 export declare const PrintClStatementParamsSchema: z.ZodObject<{

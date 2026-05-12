@@ -4,7 +4,7 @@ export class IrClInvoiceTotalCell {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: 'bea1fe7b8b088442f8530c531cba6e2f8b9830bd' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: 'd84c68617e612391c48cc7cb737b8d2cfd1486b8' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get is() { return "ir-cl-invoice-total-cell"; }
     static get encapsulation() { return "scoped"; }

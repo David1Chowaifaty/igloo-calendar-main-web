@@ -153,13 +153,13 @@ export class IrPriceInput {
         this.inputFocus.emit();
     };
     render() {
-        return (h("fieldset", { key: '23e9b3a2e90df75867b30370ef7a1abeb1c0df29', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '8b57303b9c30aba62006edcb9023bcf61dbacf02', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '7b0613692cf32d04ca2713db2509fa6302543c7f', class: `input-group-text 
+        return (h("fieldset", { key: 'e35de76d70490a9d3029215a3fce1d2217001b47', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '56634595d139ba25221f08c8244a36fe8d3b6ca8', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: 'dc0de5e6b507c87178f6007b2985209c83b014b3', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '4b3238b8018b5b41813f6e06a25fd9ae65006ad9', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '41c78993afa3839f0df0b416f0d4e54fca7d3720', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '6fa62222e51adc6cddba95bb4841f24e56723579' }, h("span", { key: '968b8bcf7dba244897f03c70a7c6c1e9a78eee64', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '0a6d56f17174f1ff8ec022557a2c241054828a37', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, h("label", { key: 'c038e849a2b644bfb7cb525102b589efff70c578', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: 'ccecb81a05e1e993481a23ed59180d0e693f284c', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: 'f561d53f1c3b30662f8be2868d870917f5c8e8ee' }, h("span", { key: '6f26358ddaefeaa1cefcf6bcc6cf9bbe98d0a753', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: 'd92b9f4d3bd7ce29b0a16ce6ebf9c2d37315bd8b', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 

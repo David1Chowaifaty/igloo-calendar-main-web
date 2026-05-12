@@ -1,6 +1,8 @@
 import { Booking, Day, Room } from "../../models/booking.dto";
 import { EventEmitter } from '../../stencil-public-runtime';
 import { BookingInvoiceInfo } from '../ir-invoice/types';
+import { Agent } from "../../services/agents/type";
+import { PaymentEntries } from '../ir-booking-details/types';
 export type CheckoutDialogCloseEvent = {
     reason: 'cancel' | 'checkout' | 'openInvoice';
 };
@@ -15,17 +17,27 @@ export declare class IrCheckoutDialog {
     isEarlyCheckout: boolean;
     remainingDays: Day[];
     penaltyAmount: number;
+    agent: Agent;
+    paymentEntries: PaymentEntries;
     checkoutDialogClosed: EventEmitter<CheckoutDialogCloseEvent>;
     private bookingService;
+    private agentService;
+    private cityLedgerService;
     private initialPenaltyStr;
+    private transactions;
+    private paymentFolioRef;
     private get remainingTotal();
     private get currencySymbol();
     private formatAmount;
     private checkoutRoom;
     handleOpenChange(newValue: boolean, oldValue: boolean): void;
+    private get missingClSummary();
     private init;
     private detectEarlyCheckout;
     private setupButtons;
     private renderEarlyCheckoutContent;
+    private get duePayment();
+    private renderDueAmountWarning;
+    private renderMissingClWarning;
     render(): any;
 }

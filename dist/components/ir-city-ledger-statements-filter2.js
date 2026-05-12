@@ -24,15 +24,15 @@ const IrCityLedgerStatementsFilter = /*@__PURE__*/ proxyCustomElement(class IrCi
     printStatement;
     render() {
         const canCreate = !!(this.fromDate && this.toDate);
-        return (h(Host, { key: 'ffe66918b2aa73adacdc637b25b41a83c35688af' }, h("div", { key: '28183dc368f3dce1b7339f067f03639400b7c8d9', class: "stmt-filters" }, h("div", { key: '3fc5de850844434df0c075a9bc03aaac7a7c2deb', class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '6fa282ddefa908e0428a97379d2ee2d2390de3b4', class: "stmt-filters__date-picker", maxDate: hooks().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
+        return (h(Host, { key: 'ad67e6463f55640f69c468c40e23665c17cae7a7' }, h("div", { key: '312ceb9c000c4f520d148697f1a472bea61c062c', class: "stmt-filters" }, h("div", { key: '3065744d9f11191b99508cc8694435bc237f729f', class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '822b594cfcf03c2ff7349f8846035e84c0fc2113', class: "stmt-filters__date-picker", maxDate: hooks().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? null;
                 this.toDate = e.detail.to ?? null;
                 this.filtersChange.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } })), h("div", { key: '96c5c8d3cc5320678728063f17b3de663d34b664', class: "stmt-filters__right" }, h("ir-custom-button", { key: '7805025a5e8fb4177c5861a1ef250efb6660fdea', variant: "brand", disabled: !canCreate, onClickHandler: () => {
+            } })), h("div", { key: '1897481f2acceb4d2d15b5a17c968e43f232b1f2', class: "stmt-filters__right" }, h("ir-custom-button", { key: '7fa6b1038e6f3e8202cb5195bb5865571e5c2bec', variant: "brand", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.createStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }
-            } }, "Create Statement"), h("ir-custom-button", { key: '656d3d70f3eca3ba813291640e70ede4c473791b', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
+            } }, "Create Statement"), h("ir-custom-button", { key: '78124c07aaef1516ec079462b30c172bfa7aff74', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.printStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }

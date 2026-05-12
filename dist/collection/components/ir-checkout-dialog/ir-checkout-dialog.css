@@ -21,7 +21,6 @@
   display: block;
 }
 
-
 .dialog__loader-container {
   display: flex;
   flex-direction: column;
@@ -151,6 +150,22 @@
   margin: 0;
   font-size: 0.75rem;
   color: var(--wa-color-text-quiet, #6b7280);
+}
+
+/* ── Due amount button ──────────────────────── */
+
+.due-amount-btn {
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: var(--spacing);
+}
+
+.due-amount-btn:focus-visible {
+  outline: 2px solid var(--wa-color-brand-fill-loud);
+  outline-offset: 2px;
+  border-radius: 0.375rem;
 }
 
 /* ── Footer ─────────────────────────────────── */
