@@ -7,7 +7,6 @@ import { AgentsService } from "../../services/agents/agents.service";
 import { isAgentMode } from "../ir-booking-details/functions";
 import { CityLedgerService } from "../../services/city-ledger/index";
 import calendar_data from "../../stores/calendar-data";
-import { calculateGuestFinancial } from "../../utils/utils";
 export class IrCheckoutDialog {
     open;
     booking;
@@ -157,7 +156,7 @@ export class IrCheckoutDialog {
         };
     }
     renderDueAmountWarning() {
-        const { balance } = calculateGuestFinancial(this.booking);
+        const balance = this.booking?.guest_financial?.due_amount ?? 0;
         if (!balance || balance <= 0)
             return null;
         const amount = this.formatAmount(balance);
@@ -175,14 +174,14 @@ export class IrCheckoutDialog {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: 'ba2b5e0f5d04281477179f8328f7fc71e9d35dc7' }, h("ir-dialog", { key: '0fb38a3e826a4401197070d0ad749e1c3e11aa7a', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: '867355e0a45dfa3a4c13554cce2b2af547ac84d4' }, h("ir-dialog", { key: '263402b6a4acb6a8abf631c91e43e1516983d841', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: 'd7337b33c54a1afa0f9843614d3840a0fd796fad', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c23ed13d47a6c46990603a93916577f06719bdf1' }, h("ir-custom-button", { key: '64a0a7bc805c69f852dac183ecd6d8e5f0d53bde', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '4633a85f6a0032d1d81d867d2e60eec51c09ebd1', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '2809b330aa5a17288a62851992c504ebbce6da20', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '1afd80000775861a3dafb98963e502597c8c6c44', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '28a3ab16705a35d1f467736e784ba903f7eed2b1', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '35d3e3aa35e117e46ec71d6ca8d94673ec931095' }, h("ir-custom-button", { key: '0cd8e9b799c3e96d88232e7fbcc1ae2fd5de700f', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: 'ddbcfbe5a08b3821cdc93527ab724d9ef90de9a8', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '5aebaddd73751ac05e56e8c325958bcc5c47e3cb', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '97d88c0bd263f215b79d91f4de9b4fe05745fdf3', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: 'c2110cda30635b4cc092f0fbdff154e1cb4a2654', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '88b877a82606ed3637486cbc8b13d65073ad9d3c', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get is() { return "ir-checkout-dialog"; }
     static get originalStyleUrls() {

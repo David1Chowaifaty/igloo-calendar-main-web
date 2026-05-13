@@ -849,6 +849,7 @@ export namespace Components {
         "currencySymbol": string;
         "display": 'inline' | 'block';
         "financial": Booking['financial'];
+        "guestFinancial": Booking['guest_financial'];
         "isDirect": boolean;
         "label": string;
         "removeBalance": boolean;
@@ -11223,6 +11224,7 @@ declare namespace LocalJSX {
         "currencySymbol": string;
         "display"?: 'inline' | 'block';
         "financial": Booking['financial'];
+        "guestFinancial": Booking['guest_financial'];
         "isDirect": boolean;
         "label"?: string;
         "onPayBookingBalance"?: (event: IrBalanceCellCustomEvent<{ booking_nbr: string; payment: Payment }>) => void;

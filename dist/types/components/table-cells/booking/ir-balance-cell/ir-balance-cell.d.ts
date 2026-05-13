@@ -5,6 +5,7 @@ export declare class IrBalanceCell {
     label: string;
     display: 'inline' | 'block';
     financial: Booking['financial'];
+    guestFinancial: Booking['guest_financial'];
     statusCode: string;
     isDirect: boolean;
     bookingNumber: string;

@@ -5,7 +5,7 @@ import { A as AgentsService } from './agents.service.js';
 import { a as axios } from './axios.js';
 import { h as hooks } from './moment.js';
 import { z } from './index2.js';
-import { y as renderTime } from './utils.js';
+import { x as renderTime } from './utils.js';
 import { i as isAgentMode } from './functions.js';
 import { d as defineCustomElement$4 } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';

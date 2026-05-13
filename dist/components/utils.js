@@ -638,17 +638,7 @@ function getFormSubmitter(e) {
     const submitter = e.submitter;
     return submitter.value;
 }
-/**
- * Calculates guest financial.
- */
-function calculateGuestFinancial(booking) {
-    const guestCollected = booking.financial?.payments?.reduce((prev, curr) => prev + (curr.is_city_ledger ? 0 : curr.amount), 0) ?? 0;
-    return {
-        balance: (booking.guest_financial.gross_total ?? 0) - guestCollected,
-        guestCollected,
-    };
-}
 
-export { getDaysArray as A, convertDatePrice as B, formatDate as C, getFormSubmitter as D, ExtraServiceSchema as E, checkUserAuthState as F, manageAnchorSession as G, isPrivilegedUser as H, sleep as I, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, canCheckout as u, validateEmail as v, calculateGuestFinancial as w, getEntryValue as x, renderTime as y, validateSharedPerson as z };
+export { convertDatePrice as A, formatDate as B, getFormSubmitter as C, checkUserAuthState as D, ExtraServiceSchema as E, manageAnchorSession as F, isPrivilegedUser as G, sleep as H, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, canCheckout as u, validateEmail as v, getEntryValue as w, renderTime as x, validateSharedPerson as y, getDaysArray as z };
 
 //# sourceMappingURL=utils.js.map

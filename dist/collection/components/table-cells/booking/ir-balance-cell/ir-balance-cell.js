@@ -6,6 +6,7 @@ export class IrBalanceCell {
     label;
     display = 'block';
     financial;
+    guestFinancial;
     statusCode;
     isDirect;
     bookingNumber;
@@ -13,7 +14,7 @@ export class IrBalanceCell {
     removeBalance;
     payBookingBalance;
     render() {
-        return (h(Host, { key: 'ea5eb50f6b3b6012e8c15673e47bc0d65dfe5576' }, this.label && h("p", { key: 'aa22d29a1a3994f6fb1b9cbf0369c5a0ad327dd1', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: 'cab86fb8b31f8361a60a02e2384923603ac7fd18', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (h(Host, { key: '69d7cc9342d9fb2a3e0da2d1c3e9c75751d65b36' }, this.label && h("p", { key: '0b620a35131f494b13a2068810d9698a311711de', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (h("p", { class: "ir-price", style: { fontWeight: '400' } }, formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), h("div", { key: '0cfbe70a436e165a5b9efb0372ef640a2ad35ea9', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -24,7 +25,7 @@ export class IrBalanceCell {
                             date: moment().format('YYYY-MM-DD'),
                             designation: null,
                             payment_method: null,
-                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: null },
+                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: 'CR' },
                             id: -1,
                             reference: '',
                         },
@@ -34,17 +35,51 @@ export class IrBalanceCell {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,
                         payment: {
-                            amount: Math.abs(this.financial.due_amount),
+                            amount: Math.abs(this.guestFinancial?.due_amount),
                             currency: calendar_data.property.currency,
                             date: moment().format('YYYY-MM-DD'),
                             designation: null,
                             payment_method: null,
-                            payment_type: { code: '001', description: null, operation: null },
+                            payment_type: { code: '001', description: null, operation: 'CR' },
                             id: -1,
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, formatAmount(this.currencySymbol, this.financial.due_amount))))));
+                    {
+                        ['003', '004'].includes(this.statusCode) && this.isDirect
+                            ? this.financial.cancelation_penality_as_if_today !== 0 &&
+                                this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
+                                    this.payBookingBalance.emit({
+                                        booking_nbr: this.bookingNumber,
+                                        payment: {
+                                            amount: Math.abs(this.financial.cancelation_penality_as_if_today),
+                                            currency: calendar_data.property.currency,
+                                            date: moment().format('YYYY-MM-DD'),
+                                            designation: null,
+                                            payment_method: null,
+                                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: null },
+                                            id: -1,
+                                            reference: '',
+                                        },
+                                    });
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                            : this.financial.due_amount !== 0 && (h("ir-custom-button", { onClickHandler: () => {
+                                    this.payBookingBalance.emit({
+                                        booking_nbr: this.bookingNumber,
+                                        payment: {
+                                            amount: Math.abs(this.financial.due_amount),
+                                            currency: calendar_data.property.currency,
+                                            date: moment().format('YYYY-MM-DD'),
+                                            designation: null,
+                                            payment_method: null,
+                                            payment_type: { code: '001', description: null, operation: null },
+                                            id: -1,
+                                            reference: '',
+                                        },
+                                    });
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, formatAmount(this.currencySymbol, this.financial.due_amount)));
+                    }
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, formatAmount(this.currencySymbol, this.guestFinancial?.due_amount))))));
     }
     static get is() { return "ir-balance-cell"; }
     static get encapsulation() { return "scoped"; }
@@ -104,6 +139,29 @@ export class IrBalanceCell {
                 "mutable": false,
                 "complexType": {
                     "original": "Booking['financial']",
+                    "resolved": "IFinancial",
+                    "references": {
+                        "Booking": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Booking"
+                        }
+                    }
+                },
+                "required": true,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false
+            },
+            "guestFinancial": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Booking['guest_financial']",
                     "resolved": "IFinancial",
                     "references": {
                         "Booking": {

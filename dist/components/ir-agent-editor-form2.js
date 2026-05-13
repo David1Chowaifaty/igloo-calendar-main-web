@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { c as AgentSchema } from './type.js';
 import { A as AgentsService } from './agents.service.js';
-import { D as getFormSubmitter } from './utils.js';
+import { C as getFormSubmitter } from './utils.js';
 import { d as defineCustomElement$8 } from './ir-agent-contract2.js';
 import { d as defineCustomElement$7 } from './ir-agent-profile2.js';
 import { d as defineCustomElement$6 } from './ir-country-picker2.js';

@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
-import { F as checkUserAuthState, G as manageAnchorSession } from './utils.js';
+import { D as checkUserAuthState, F as manageAnchorSession } from './utils.js';
 import { d as defineCustomElement$1E } from './igl-application-info2.js';
 import { d as defineCustomElement$1D } from './igl-rate-plan2.js';
 import { d as defineCustomElement$1C } from './igl-room-type2.js';

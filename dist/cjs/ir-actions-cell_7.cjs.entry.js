@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
-const utils = require('./utils-05449968.js');
+const utils = require('./utils-535ec4cf.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./index-fbf1fe1d.js');
@@ -89,6 +89,7 @@ const IrBalanceCell = class {
     label;
     display = 'block';
     financial;
+    guestFinancial;
     statusCode;
     isDirect;
     bookingNumber;
@@ -96,7 +97,7 @@ const IrBalanceCell = class {
     removeBalance;
     payBookingBalance;
     render() {
-        return (index.h(index.Host, { key: 'ea5eb50f6b3b6012e8c15673e47bc0d65dfe5576' }, this.label && index.h("p", { key: 'aa22d29a1a3994f6fb1b9cbf0369c5a0ad327dd1', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: 'cab86fb8b31f8361a60a02e2384923603ac7fd18', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
+        return (index.h(index.Host, { key: '69d7cc9342d9fb2a3e0da2d1c3e9c75751d65b36' }, this.label && index.h("p", { key: '0b620a35131f494b13a2068810d9698a311711de', class: "cell-label" }, this.label, ":"), this.removeBalance && this.financial.due_amount !== 0 ? null : (index.h("p", { class: "ir-price", style: { fontWeight: '400' } }, utils.formatAmount(this.currencySymbol, this.removeBalance ? 0 : this.financial.gross_total))), index.h("div", { key: '0cfbe70a436e165a5b9efb0372ef640a2ad35ea9', class: "balance_button-container" }, ['003', '004'].includes(this.statusCode) && this.isDirect
             ? this.financial.cancelation_penality_as_if_today !== 0 &&
                 this.financial.due_amount !== 0 && (index.h("ir-custom-button", { onClickHandler: () => {
                     this.payBookingBalance.emit({
@@ -107,7 +108,7 @@ const IrBalanceCell = class {
                             date: moment.hooks().format('YYYY-MM-DD'),
                             designation: null,
                             payment_method: null,
-                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: null },
+                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: 'CR' },
                             id: -1,
                             reference: '',
                         },
@@ -117,17 +118,51 @@ const IrBalanceCell = class {
                     this.payBookingBalance.emit({
                         booking_nbr: this.bookingNumber,
                         payment: {
-                            amount: Math.abs(this.financial.due_amount),
+                            amount: Math.abs(this.guestFinancial?.due_amount),
                             currency: calendarData.calendar_data.property.currency,
                             date: moment.hooks().format('YYYY-MM-DD'),
                             designation: null,
                             payment_method: null,
-                            payment_type: { code: '001', description: null, operation: null },
+                            payment_type: { code: '001', description: null, operation: 'CR' },
                             id: -1,
                             reference: '',
                         },
                     });
-                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, utils.formatAmount(this.currencySymbol, this.financial.due_amount))))));
+                    {
+                        ['003', '004'].includes(this.statusCode) && this.isDirect
+                            ? this.financial.cancelation_penality_as_if_today !== 0 &&
+                                this.financial.due_amount !== 0 && (index.h("ir-custom-button", { onClickHandler: () => {
+                                    this.payBookingBalance.emit({
+                                        booking_nbr: this.bookingNumber,
+                                        payment: {
+                                            amount: Math.abs(this.financial.cancelation_penality_as_if_today),
+                                            currency: calendarData.calendar_data.property.currency,
+                                            date: moment.hooks().format('YYYY-MM-DD'),
+                                            designation: null,
+                                            payment_method: null,
+                                            payment_type: { code: this.financial.cancelation_penality_as_if_today < 0 ? '010' : '001', description: null, operation: null },
+                                            id: -1,
+                                            reference: '',
+                                        },
+                                    });
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, index.h("span", null, this.financial.cancelation_penality_as_if_today < 0 ? 'Refund' : 'Charge', " "), utils.formatAmount(this.currencySymbol, Math.abs(this.financial.cancelation_penality_as_if_today))))
+                            : this.financial.due_amount !== 0 && (index.h("ir-custom-button", { onClickHandler: () => {
+                                    this.payBookingBalance.emit({
+                                        booking_nbr: this.bookingNumber,
+                                        payment: {
+                                            amount: Math.abs(this.financial.due_amount),
+                                            currency: calendarData.calendar_data.property.currency,
+                                            date: moment.hooks().format('YYYY-MM-DD'),
+                                            designation: null,
+                                            payment_method: null,
+                                            payment_type: { code: '001', description: null, operation: null },
+                                            id: -1,
+                                            reference: '',
+                                        },
+                                    });
+                                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, utils.formatAmount(this.currencySymbol, this.financial.due_amount)));
+                    }
+                }, style: { '--ir-c-btn-height': 'fit-content', '--ir-c-btn-padding': '0.25rem', '--ir-c-btn-font-size': '0.725rem' }, size: "small", variant: "danger", appearance: "outlined" }, utils.formatAmount(this.currencySymbol, this.guestFinancial?.due_amount))))));
     }
 };
 IrBalanceCell.style = IrBalanceCellStyle0;
