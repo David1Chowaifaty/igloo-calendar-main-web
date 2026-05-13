@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { z } from './index2.js';
-import { w as getEntryValue } from './utils.js';
+import { x as getEntryValue } from './utils.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 

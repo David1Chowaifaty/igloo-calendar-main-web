@@ -3,32 +3,32 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-8beb63aa.js');
+const booking_store = require('./booking.store-dc8bc612.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
-const utils = require('./utils-535ec4cf.js');
+const utils = require('./utils-05449968.js');
 const types = require('./types-234b9df3.js');
 const index$1 = require('./index-8bb117a0.js');
 const v4 = require('./v4-9b297151.js');
-const index$2 = require('./index-bbd7dfa6.js');
+const index$2 = require('./index-59b1753c.js');
 const Token = require('./Token-8fd11984.js');
 const en = require('./en-d6332ab6.js');
 const moment$1 = require('./moment-1780b03a.js');
 const agents_service = require('./agents.service-3088231b.js');
 const functions = require('./functions-9552a026.js');
-const cityLedger_service = require('./city-ledger.service-29718215.js');
+const cityLedger_service = require('./city-ledger.service-a4d586b3.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const axios = require('./axios-6e678d52.js');
 const room_service = require('./room.service-f9117e70.js');
 const payment_service = require('./payment.service-87fff556.js');
-const booking = require('./booking-f89ac244.js');
+const booking = require('./booking-4c79afa0.js');
 const index$3 = require('./index-e9a28e3e.js');
 const enums = require('./enums-d462d3a9.js');
 const useTable = require('./useTable-206847ef.js');
 const slot = require('./slot-30fa3487.js');
 const momentWithLocales = require('./moment-with-locales-b7fb9d4e.js');
 const _commonjsHelpers = require('./_commonjsHelpers-8f2c79cd.js');
-const property_service = require('./property.service-e2e4b5e8.js');
+const property_service = require('./property.service-05a8c0ba.js');
 const system_service = require('./system.service-101141de.js');
 const global_variables = require('./global.variables-108c9c1e.js');
 const debounce = require('./debounce-1b63fe86.js');
@@ -4793,9 +4793,10 @@ const IrCheckoutDialog = class {
         };
     }
     renderDueAmountWarning() {
-        if (!this.booking?.financial?.due_amount || this.booking.financial.due_amount <= 0)
+        const { balance } = utils.calculateGuestFinancial(this.booking);
+        if (!balance || balance <= 0)
             return null;
-        const amount = `${this.currencySymbol}${Math.abs(this.booking.financial.due_amount).toFixed(2)}`;
+        const amount = this.formatAmount(balance);
         return (index.h("button", { type: "button", class: "due-amount-btn", onClick: () => this.paymentFolioRef?.openFolio() }, index.h("wa-callout", { size: "small", variant: "danger" }, index.h("wa-icon", { slot: "icon", name: "money-bill-wave" }), "Outstanding balance: ", amount)));
     }
     renderMissingClWarning() {
@@ -4810,14 +4811,14 @@ const IrCheckoutDialog = class {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
-        return (index.h(index.Fragment, { key: '91245a8f85e84139feb754c590554c699e0593db' }, index.h("ir-dialog", { key: 'c5638e8b6d1c8f8d8af746f806e4ac6100b482cc', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (index.h(index.Fragment, { key: 'ba2b5e0f5d04281477179f8328f7fc71e9d35dc7' }, index.h("ir-dialog", { key: '0fb38a3e826a4401197070d0ad749e1c3e11aa7a', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), index.h("div", { key: '38646d7cc76156a83b1b1b81456b607ef3755af6', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: 'c1d1671b1bb0b4a93d4d105c2bfec3613ff6227e' }, index.h("ir-custom-button", { key: 'd78148fa133ffb2eb5438ffef17afffd5b41e907', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (index.h("ir-custom-button", { key: '173acf2436ac81c0b5da574bf9ecf762ee5427c9', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (index.h("ir-custom-button", { key: '7264e147147d9140ca0f5fb52c9fa4edfdc149c5', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (index.h("ir-custom-button", { key: '8dcbb7c043a84e3601a0c99f3644ba5570edde92', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (index.h("div", { class: "dialog__loader-container" }, index.h("ir-spinner", null))) : (index.h(index.Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (index.h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), index.h("div", { key: 'd7337b33c54a1afa0f9843614d3840a0fd796fad', slot: "footer", class: "ir-dialog__footer" }, index.h(index.Fragment, { key: 'c23ed13d47a6c46990603a93916577f06719bdf1' }, index.h("ir-custom-button", { key: '64a0a7bc805c69f852dac183ecd6d8e5f0d53bde', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales_store.locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (index.h("ir-custom-button", { key: '4633a85f6a0032d1d81d867d2e60eec51c09ebd1', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (index.h("ir-custom-button", { key: '2809b330aa5a17288a62851992c504ebbce6da20', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (index.h("ir-custom-button", { key: '1afd80000775861a3dafb98963e502597c8c6c44', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (index.h("ir-payment-folio", { key: '36c513e13f0d6202e2a9980cc4a5d09db14f0957', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (index.h("ir-payment-folio", { key: 'c2110cda30635b4cc092f0fbdff154e1cb4a2654', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
@@ -5810,7 +5811,7 @@ const IrClDebitNoteFields = class {
 };
 IrClDebitNoteFields.style = IrClDebitNoteFieldsStyle0;
 
-const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}";
+const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}.header-actions{display:flex;align-items:center;gap:0.5rem}";
 const IrClFiscalDocumentPreviewStyle0 = irClFiscalDocumentPreviewCss;
 
 const IrClFiscalDocumentPreview = class {
@@ -5945,7 +5946,7 @@ const IrClFiscalDocumentPreview = class {
         return (index.h(index.Host, { key: '0b86b827c119d51a48f64ced5a905f88db8e6b70' }, index.h("ir-preview-screen-dialog", { key: '57e43be0bd860248c970b4d25f7e5bdfbe618f0d', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, index.h("div", { key: '4a66e751c09c24e03ee4ad6b1d6ef7492045b35d', slot: "header-actions" }, this.request?.url && (index.h("ir-custom-button", { key: 'b49b248581a71211f3cf436daaa89ec6fa68781a', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, index.h("wa-icon", { key: 'a4d00ff654c067fcb9b3ccf5ef9c91b2935bc116', name: "download", label: "Download PDF" }))), this.request?.fdTypeCode === enums.FdTypes.Draft && (index.h("ir-custom-button", { key: 'bd380ab6ecc493e19942b852bc636f77f71b3539', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), index.h("ir-fd-confirm-dialog", { key: 'f4166a97b9f9585c163e7d118e0aafa424aa83c0', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, index.h("div", { key: '4a66e751c09c24e03ee4ad6b1d6ef7492045b35d', slot: "header-actions" }, this.request?.url && (index.h("ir-custom-button", { key: 'b49b248581a71211f3cf436daaa89ec6fa68781a', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, index.h("wa-icon", { key: '750df1a35859748c4abb586fcecae9d960ec886b', name: "download", style: { fontSize: '1rem' }, label: "Download PDF" }))), this.request?.fdTypeCode === enums.FdTypes.Draft && (index.h("ir-custom-button", { key: 'd803ded59855cb0821f854aa2a0a4ad4b795165b', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), index.h("ir-fd-confirm-dialog", { key: 'be1855e5f639b20a86b59ad1c626ef52f67cb26f', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
 };
 IrClFiscalDocumentPreview.style = IrClFiscalDocumentPreviewStyle0;
@@ -19021,9 +19022,9 @@ const IrPaymentSummary = class {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     render() {
-        const guestCollected = this.booking.financial?.payments?.reduce((prev, curr) => prev + (curr.is_city_ledger ? 0 : curr.amount), 0) ?? 0;
+        const { balance, guestCollected } = utils.calculateGuestFinancial(this.booking);
         if (functions.isAgentMode(this.agent)) {
-            return (index.h("div", { class: "ps-layout" }, index.h("div", { class: "ps-cols" }, !this.isAllServicesAgentOwned && (index.h("div", { class: "ps-col " }, index.h("div", { class: "ps-stacked" }, index.h("span", { class: "ps-stacked__label" }, "Guest Balance:"), index.h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, utils.formatAmount(this.currency.symbol, (this.booking.guest_financial.gross_total ?? 0) - guestCollected))), index.h("div", { class: "ps-stacked " }, index.h("span", { class: "ps-stacked__label" }, "Guest Collected:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, guestCollected))))), index.h("div", { class: "ps-col" }, index.h("div", { class: "ps-stacked --stacked-right" }, index.h("span", { class: "ps-stacked__label ps-stacked__value" }, "Booking Total:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0))), index.h("div", { class: "ps-stacked --stacked-right" }, index.h("span", { class: "ps-stacked__label" }, "Agent Total:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, this.booking.agent_financial.gross_total ?? 0)))))));
+            return (index.h("div", { class: "ps-layout" }, index.h("div", { class: "ps-cols" }, !this.isAllServicesAgentOwned && (index.h("div", { class: "ps-col " }, index.h("div", { class: "ps-stacked" }, index.h("span", { class: "ps-stacked__label" }, "Guest Balance:"), index.h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, utils.formatAmount(this.currency.symbol, balance))), index.h("div", { class: "ps-stacked " }, index.h("span", { class: "ps-stacked__label" }, "Guest Collected:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, guestCollected))))), index.h("div", { class: "ps-col" }, index.h("div", { class: "ps-stacked --stacked-right" }, index.h("span", { class: "ps-stacked__label ps-stacked__value" }, "Booking Total:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0))), index.h("div", { class: "ps-stacked --stacked-right" }, index.h("span", { class: "ps-stacked__label" }, "Agent Total:"), index.h("span", { class: "ps-stacked__value" }, utils.formatAmount(this.currency.symbol, this.booking.agent_financial.gross_total ?? 0)))))));
         }
         return (index.h("div", { class: "ps-layout" }, this.shouldShowTotalCost() && (index.h("div", { class: "ps-row" }, index.h("span", { class: "ps-row__label" }, locales_store.locales.entries.Lcz_TotalCost), index.h("span", { class: "ps-row__value" }, utils.formatAmount(this.currency.symbol, this.totalCost)))), index.h("div", { class: "ps-row" }, index.h("span", { class: "ps-row__label" }, locales_store.locales.entries.Lcz_Balance), index.h("span", { class: "ps-row__value ps-row__value--danger" }, utils.formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (index.h("div", { class: "ps-row" }, index.h("span", { class: "ps-row__label" }, locales_store.locales.entries.Lcz_Collected), index.h("span", { class: "ps-row__value" }, utils.formatAmount(this.currency.symbol, this.collected)))), index.h("div", { class: "ps-grand-total" }, index.h("span", { class: "ps-grand-total__label" }, "Grand Total"), index.h("span", { class: "ps-grand-total__value" }, utils.formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0)))));
     }

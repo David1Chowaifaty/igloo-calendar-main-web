@@ -7,6 +7,7 @@ import { A as AgentsService } from './agents.service.js';
 import { i as isAgentMode } from './functions.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
+import { w as calculateGuestFinancial } from './utils.js';
 import { d as defineCustomElement$9 } from './ir-custom-button2.js';
 import { d as defineCustomElement$8 } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$7 } from './ir-dialog2.js';
@@ -174,9 +175,10 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
         };
     }
     renderDueAmountWarning() {
-        if (!this.booking?.financial?.due_amount || this.booking.financial.due_amount <= 0)
+        const { balance } = calculateGuestFinancial(this.booking);
+        if (!balance || balance <= 0)
             return null;
-        const amount = `${this.currencySymbol}${Math.abs(this.booking.financial.due_amount).toFixed(2)}`;
+        const amount = this.formatAmount(balance);
         return (h("button", { type: "button", class: "due-amount-btn", onClick: () => this.paymentFolioRef?.openFolio() }, h("wa-callout", { size: "small", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), "Outstanding balance: ", amount)));
     }
     renderMissingClWarning() {
@@ -191,14 +193,14 @@ const IrCheckoutDialog = /*@__PURE__*/ proxyCustomElement(class IrCheckoutDialog
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: '91245a8f85e84139feb754c590554c699e0593db' }, h("ir-dialog", { key: 'c5638e8b6d1c8f8d8af746f806e4ac6100b482cc', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: 'ba2b5e0f5d04281477179f8328f7fc71e9d35dc7' }, h("ir-dialog", { key: '0fb38a3e826a4401197070d0ad749e1c3e11aa7a', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '38646d7cc76156a83b1b1b81456b607ef3755af6', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c1d1671b1bb0b4a93d4d105c2bfec3613ff6227e' }, h("ir-custom-button", { key: 'd78148fa133ffb2eb5438ffef17afffd5b41e907', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '173acf2436ac81c0b5da574bf9ecf762ee5427c9', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '7264e147147d9140ca0f5fb52c9fa4edfdc149c5', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '8dcbb7c043a84e3601a0c99f3644ba5570edde92', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: 'd7337b33c54a1afa0f9843614d3840a0fd796fad', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c23ed13d47a6c46990603a93916577f06719bdf1' }, h("ir-custom-button", { key: '64a0a7bc805c69f852dac183ecd6d8e5f0d53bde', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '4633a85f6a0032d1d81d867d2e60eec51c09ebd1', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '2809b330aa5a17288a62851992c504ebbce6da20', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '1afd80000775861a3dafb98963e502597c8c6c44', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '36c513e13f0d6202e2a9980cc4a5d09db14f0957', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: 'c2110cda30635b4cc092f0fbdff154e1cb4a2654', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]

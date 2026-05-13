@@ -1,30 +1,30 @@
 import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, g as getElement } from './index-7e96440e.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, a as updateBookedByGuest, m as modifyBookingStore, r as reserveRooms, c as resetReserved, d as updateRoomParams, g as getVisibleInventory, s as setBookingDraft, e as setBookingSelectOptions, f as resetBookingStore, h as getReservedRooms, i as hasAtLeastOneRoomSelected, j as calculateTotalRooms, k as getBookingTotalPrice, l as bookedByGuestBaseData, n as resetAvailability, Z as ZIEntrySchema } from './booking.store-bd384e12.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, a as updateBookedByGuest, m as modifyBookingStore, r as reserveRooms, c as resetReserved, d as updateRoomParams, g as getVisibleInventory, s as setBookingDraft, e as setBookingSelectOptions, f as resetBookingStore, h as getReservedRooms, i as hasAtLeastOneRoomSelected, j as calculateTotalRooms, k as getBookingTotalPrice, l as bookedByGuestBaseData, n as resetAvailability, Z as ZIEntrySchema } from './booking.store-bd5dae19.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { i as isSingleUnit, c as calendar_data } from './calendar-data-b1f645da.js';
-import { f as formatAmount, e as extras, g as getReleaseHoursString, t as toFloat, c as canCheckout, a as canCheckIn, R as ROOM_IN_OUT, b as getEntryValue, E as ExtraServiceSchema, d as downloadFile, r as renderTime, v as validateSharedPerson, Z as ZSharedPerson } from './utils-3f2511d5.js';
+import { f as formatAmount, e as extras, g as getReleaseHoursString, t as toFloat, c as canCheckout, a as canCheckIn, R as ROOM_IN_OUT, b as calculateGuestFinancial, d as getEntryValue, E as ExtraServiceSchema, h as downloadFile, r as renderTime, v as validateSharedPerson, Z as ZSharedPerson } from './utils-47999a54.js';
 import { G as GuestCredentials } from './types-f16787f2.js';
 import { z, Z as ZodError } from './index-87419685.js';
 import { v as v4 } from './v4-964634d6.js';
-import { C as CityLedgerService } from './index-fb4f5be1.js';
+import { C as CityLedgerService } from './index-d580e526.js';
 import { T as Token } from './Token-030c78a9.js';
 import { A as AirDatepicker, d as default_1 } from './en-ad4ac1a5.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { A as AgentsService } from './agents.service-51275c3b.js';
 import { i as isAgentMode, _ as _formatTime, a as _formatDate, b as _getDay } from './functions-a2d88561.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-7c7511b0.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-205ffa55.js';
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-1376ed6c.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
 import { P as PaymentService } from './payment.service-fca1e8e3.js';
-import { b as buildSplitIndex, c as calculateDaysBetweenDates, g as getPrivateNote, f as formatName } from './booking-e55ab0db.js';
+import { b as buildSplitIndex, c as calculateDaysBetweenDates, g as getPrivateNote, f as formatName } from './booking-ad4ca7f5.js';
 import { I as IMask, M as MaskedRange } from './index-e2caf943.js';
 import { I as InvoiceableItemReason, F as FdTypes, a as FdStatus, C as ClTxTypeCode, V as VatIncludedCodes } from './enums-557eb084.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel } from './useTable-b8c70fc7.js';
 import { C as ClickOutside, c as createSlotManager } from './slot-7f8ed1b3.js';
 import { m as moment$1 } from './moment-with-locales-301320ab.js';
 import { c as commonjsGlobal, a as commonjsRequire, g as getAugmentedNamespace } from './_commonjsHelpers-6e998e78.js';
-import { t as taxationModes } from './property.service-7d578b5d.js';
+import { t as taxationModes } from './property.service-788dc2d5.js';
 import { S as SystemService } from './system.service-4455d4dc.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-caf00b1d.js';
 import { D as Debounce } from './debounce-542065c2.js';
@@ -4789,9 +4789,10 @@ const IrCheckoutDialog = class {
         };
     }
     renderDueAmountWarning() {
-        if (!this.booking?.financial?.due_amount || this.booking.financial.due_amount <= 0)
+        const { balance } = calculateGuestFinancial(this.booking);
+        if (!balance || balance <= 0)
             return null;
-        const amount = `${this.currencySymbol}${Math.abs(this.booking.financial.due_amount).toFixed(2)}`;
+        const amount = this.formatAmount(balance);
         return (h("button", { type: "button", class: "due-amount-btn", onClick: () => this.paymentFolioRef?.openFolio() }, h("wa-callout", { size: "small", variant: "danger" }, h("wa-icon", { slot: "icon", name: "money-bill-wave" }), "Outstanding balance: ", amount)));
     }
     renderMissingClWarning() {
@@ -4806,14 +4807,14 @@ const IrCheckoutDialog = class {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: '91245a8f85e84139feb754c590554c699e0593db' }, h("ir-dialog", { key: 'c5638e8b6d1c8f8d8af746f806e4ac6100b482cc', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: 'ba2b5e0f5d04281477179f8328f7fc71e9d35dc7' }, h("ir-dialog", { key: '0fb38a3e826a4401197070d0ad749e1c3e11aa7a', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '38646d7cc76156a83b1b1b81456b607ef3755af6', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c1d1671b1bb0b4a93d4d105c2bfec3613ff6227e' }, h("ir-custom-button", { key: 'd78148fa133ffb2eb5438ffef17afffd5b41e907', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '173acf2436ac81c0b5da574bf9ecf762ee5427c9', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '7264e147147d9140ca0f5fb52c9fa4edfdc149c5', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '8dcbb7c043a84e3601a0c99f3644ba5570edde92', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: 'd7337b33c54a1afa0f9843614d3840a0fd796fad', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: 'c23ed13d47a6c46990603a93916577f06719bdf1' }, h("ir-custom-button", { key: '64a0a7bc805c69f852dac183ecd6d8e5f0d53bde', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '4633a85f6a0032d1d81d867d2e60eec51c09ebd1', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '2809b330aa5a17288a62851992c504ebbce6da20', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '1afd80000775861a3dafb98963e502597c8c6c44', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '36c513e13f0d6202e2a9980cc4a5d09db14f0957', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            }, variant: 'brand', appearance: 'accent' }, isEarly ? 'Check out & invoice' : 'Check out & invoice'))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: 'c2110cda30635b4cc092f0fbdff154e1cb4a2654', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
@@ -5806,7 +5807,7 @@ const IrClDebitNoteFields = class {
 };
 IrClDebitNoteFields.style = IrClDebitNoteFieldsStyle0;
 
-const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}";
+const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}.header-actions{display:flex;align-items:center;gap:0.5rem}";
 const IrClFiscalDocumentPreviewStyle0 = irClFiscalDocumentPreviewCss;
 
 const IrClFiscalDocumentPreview = class {
@@ -5941,7 +5942,7 @@ const IrClFiscalDocumentPreview = class {
         return (h(Host, { key: '0b86b827c119d51a48f64ced5a905f88db8e6b70' }, h("ir-preview-screen-dialog", { key: '57e43be0bd860248c970b4d25f7e5bdfbe618f0d', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, h("div", { key: '4a66e751c09c24e03ee4ad6b1d6ef7492045b35d', slot: "header-actions" }, this.request?.url && (h("ir-custom-button", { key: 'b49b248581a71211f3cf436daaa89ec6fa68781a', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'a4d00ff654c067fcb9b3ccf5ef9c91b2935bc116', name: "download", label: "Download PDF" }))), this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'bd380ab6ecc493e19942b852bc636f77f71b3539', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: 'f4166a97b9f9585c163e7d118e0aafa424aa83c0', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, h("div", { key: '4a66e751c09c24e03ee4ad6b1d6ef7492045b35d', slot: "header-actions" }, this.request?.url && (h("ir-custom-button", { key: 'b49b248581a71211f3cf436daaa89ec6fa68781a', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '750df1a35859748c4abb586fcecae9d960ec886b', name: "download", style: { fontSize: '1rem' }, label: "Download PDF" }))), this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: 'd803ded59855cb0821f854aa2a0a4ad4b795165b', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice"))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: 'be1855e5f639b20a86b59ad1c626ef52f67cb26f', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
 };
 IrClFiscalDocumentPreview.style = IrClFiscalDocumentPreviewStyle0;
@@ -19017,9 +19018,9 @@ const IrPaymentSummary = class {
         return this.totalCost > 0 && this.totalCost !== null;
     }
     render() {
-        const guestCollected = this.booking.financial?.payments?.reduce((prev, curr) => prev + (curr.is_city_ledger ? 0 : curr.amount), 0) ?? 0;
+        const { balance, guestCollected } = calculateGuestFinancial(this.booking);
         if (isAgentMode(this.agent)) {
-            return (h("div", { class: "ps-layout" }, h("div", { class: "ps-cols" }, !this.isAllServicesAgentOwned && (h("div", { class: "ps-col " }, h("div", { class: "ps-stacked" }, h("span", { class: "ps-stacked__label" }, "Guest Balance:"), h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, formatAmount(this.currency.symbol, (this.booking.guest_financial.gross_total ?? 0) - guestCollected))), h("div", { class: "ps-stacked " }, h("span", { class: "ps-stacked__label" }, "Guest Collected:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, guestCollected))))), h("div", { class: "ps-col" }, h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label ps-stacked__value" }, "Booking Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0))), h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label" }, "Agent Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.agent_financial.gross_total ?? 0)))))));
+            return (h("div", { class: "ps-layout" }, h("div", { class: "ps-cols" }, !this.isAllServicesAgentOwned && (h("div", { class: "ps-col " }, h("div", { class: "ps-stacked" }, h("span", { class: "ps-stacked__label" }, "Guest Balance:"), h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, formatAmount(this.currency.symbol, balance))), h("div", { class: "ps-stacked " }, h("span", { class: "ps-stacked__label" }, "Guest Collected:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, guestCollected))))), h("div", { class: "ps-col" }, h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label ps-stacked__value" }, "Booking Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0))), h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label" }, "Agent Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.agent_financial.gross_total ?? 0)))))));
         }
         return (h("div", { class: "ps-layout" }, this.shouldShowTotalCost() && (h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_TotalCost), h("span", { class: "ps-row__value" }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_Balance), h("span", { class: "ps-row__value ps-row__value--danger" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_Collected), h("span", { class: "ps-row__value" }, formatAmount(this.currency.symbol, this.collected)))), h("div", { class: "ps-grand-total" }, h("span", { class: "ps-grand-total__label" }, "Grand Total"), h("span", { class: "ps-grand-total__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0)))));
     }

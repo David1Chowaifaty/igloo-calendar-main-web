@@ -532,4 +532,14 @@ export function getFormSubmitter(e) {
     const submitter = e.submitter;
     return submitter.value;
 }
+/**
+ * Calculates guest financial.
+ */
+export function calculateGuestFinancial(booking) {
+    const guestCollected = booking.financial?.payments?.reduce((prev, curr) => prev + (curr.is_city_ledger ? 0 : curr.amount), 0) ?? 0;
+    return {
+        balance: (booking.guest_financial.gross_total ?? 0) - guestCollected,
+        guestCollected,
+    };
+}
 //# sourceMappingURL=utils.js.map

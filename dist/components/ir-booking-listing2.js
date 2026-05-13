@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { B as BookingListingService } from './booking_listing.service.js';
 import { R as RoomService } from './room.service.js';
 import { u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.store.js';
-import { G as isPrivilegedUser } from './utils.js';
+import { H as isPrivilegedUser } from './utils.js';
 import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.store.js';
 import { P as PropertyService } from './property.service.js';
