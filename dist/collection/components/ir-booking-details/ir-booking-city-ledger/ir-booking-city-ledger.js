@@ -104,7 +104,7 @@ export class IrBookingCityLedger {
     }
     renderTable() {
         if (this.folioRows.length === 0) {
-            return h("ir-empty-state", null);
+            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", null)));
         }
         return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", { class: "booking-city-ledger__cell-desc" }, "Description"), h("th", { class: "text-right" }, "Amount"), h("th", null))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, moment(row.serviceDate).format('MMM DD, YYYY')), h("td", { class: "booking-city-ledger__cell-desc" }, row.description || '—'), h("td", { class: "text-right " }, row.debit !== null && h("span", { class: 'is-debit' }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: 'is-credit' }, row.credit ? this.formatAmount(row.credit) : '')), h("td", null, row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();

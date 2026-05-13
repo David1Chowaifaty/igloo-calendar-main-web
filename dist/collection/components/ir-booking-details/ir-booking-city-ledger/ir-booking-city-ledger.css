@@ -75,7 +75,9 @@
   /* cspell:disable-next-line */
   font-variant-numeric: tabular-nums;
 }
-
+.booking-city-ledger__empty-state {
+  padding: 1.5rem;
+}
 /*lg*/
 @media (min-width: 1024px) {
 }

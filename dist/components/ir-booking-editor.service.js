@@ -259,9 +259,9 @@ class IRBookingEditorService {
                     break;
                 }
                 default: {
-                    const newRooms = await generateNewRooms(null, check_in);
-                    const { bookedByGuest } = booking_store;
                     const isAgent = sourceOption.type === 'TRAVEL_AGENCY';
+                    const newRooms = (await generateNewRooms(null, check_in)).map(r => ({ ...r, agent: isAgent ? { id: sourceOption.tag } : null }));
+                    const { bookedByGuest } = booking_store;
                     newBooking = {
                         assign_units: true,
                         is_pms: true,
