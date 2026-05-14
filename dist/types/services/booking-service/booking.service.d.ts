@@ -77,6 +77,11 @@ export declare class BookingService {
         room_identifier: string;
         status: RoomInOut['code'];
     }): Promise<any>;
+    handleRoomCheckout(props: {
+        booking_nbr: string;
+        room_identifier: string;
+        penalty_amount: number;
+    }): Promise<any>;
     GetPenaltyStatement(params: {
         booking_nbr: string;
         currency_id: number;

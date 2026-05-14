@@ -275,6 +275,13 @@ class BookingService {
         }
         return data;
     }
+    async handleRoomCheckout(props) {
+        const { data } = await axios.post(`/Handle_Room_Checkout`, props);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
     async GetPenaltyStatement(params) {
         const { data } = await axios.post('/Get_Penalty_Statement', params);
         if (data.ExceptionMsg !== '') {
