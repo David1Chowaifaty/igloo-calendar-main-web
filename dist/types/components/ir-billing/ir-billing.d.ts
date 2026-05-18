@@ -3,18 +3,16 @@ import { Agent } from "../../services/agents/type";
 import { EventEmitter } from '../../stencil-public-runtime';
 export type BillingPanels = 'agent' | 'guest';
 export declare class IrBilling {
-    el: HTMLElement;
-    private isAgentMode;
-    private agentsService;
+    el: HTMLIrBillingElement;
     booking: Booking;
     isAllServicesAgentOwned: boolean;
     agent: Agent;
     handleBookingChange(): Promise<void>;
+    isAgentMode: boolean;
     currentTab: BillingPanels;
-    resolvedAgent: Agent;
     billingClose: EventEmitter<void>;
-    componentWillLoad(): Promise<void>;
+    componentWillLoad(): void;
     componentDidLoad(): void;
-    private resolveAgent;
+    private setTabGroupActive;
     render(): any;
 }

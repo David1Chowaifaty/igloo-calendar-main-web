@@ -1,47 +1,38 @@
-import { AgentsService } from "../../services/agents/agents.service";
-import { Host, h } from "@stencil/core";
+import { h } from "@stencil/core";
 import { isAgentMode } from "../ir-booking-details/functions";
 export class IrBilling {
     el;
-    isAgentMode = false;
-    agentsService = new AgentsService();
     booking;
     isAllServicesAgentOwned;
     agent;
     async handleBookingChange() {
-        if (this.booking) {
-            await this.resolveAgent();
-            this.isAgentMode = isAgentMode(this.resolvedAgent);
-        }
+        this.isAgentMode = isAgentMode(this.agent);
+        this.setTabGroupActive();
     }
+    isAgentMode = false;
     currentTab = 'agent';
-    resolvedAgent;
     billingClose;
-    async componentWillLoad() {
-        if (this.booking) {
-            await this.resolveAgent();
-            this.isAgentMode = isAgentMode(this.resolvedAgent);
-        }
+    componentWillLoad() {
+        this.isAgentMode = isAgentMode(this.agent);
     }
     componentDidLoad() {
-        if (this.isAgentMode) {
-            const tabGroup = this.el.querySelector('wa-tab-group');
-            tabGroup?.show?.(this.currentTab);
-        }
+        this.setTabGroupActive();
     }
-    async resolveAgent() {
-        if (this.agent) {
-            this.resolvedAgent = this.agent;
-        }
-        else if (this.booking?.agent) {
-            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
-        }
+    setTabGroupActive() {
+        requestAnimationFrame(() => {
+            if (this.isAgentMode) {
+                const tabGroup = this.el.querySelector('wa-tab-group');
+                tabGroup.active = 'agent';
+            }
+        });
     }
     render() {
         if (this.isAgentMode) {
-            return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+            return (h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
@@ -129,8 +120,7 @@ export class IrBilling {
     static get states() {
         return {
             "isAgentMode": {},
-            "currentTab": {},
-            "resolvedAgent": {}
+            "currentTab": {}
         };
     }
     static get events() {
@@ -154,7 +144,7 @@ export class IrBilling {
     static get elementRef() { return "el"; }
     static get watchers() {
         return [{
-                "propName": "booking",
+                "propName": "agent",
                 "methodName": "handleBookingChange"
             }];
     }
