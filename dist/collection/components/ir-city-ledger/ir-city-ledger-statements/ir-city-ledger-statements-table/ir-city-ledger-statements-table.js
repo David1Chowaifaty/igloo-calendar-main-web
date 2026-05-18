@@ -3,11 +3,13 @@ import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstac
 import { flexRender, useTable } from "../../../../utils/useTable";
 import { formatAmount } from "../../../../utils/utils";
 import moment from "moment";
+import { FdTypes } from "../../../../types/enums";
 const NUMERIC_COLS = new Set(['debit', 'credit', 'balance']);
 const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
 const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
 export class IrCityLedgerStatementsTable {
     rows = [];
+    agentId;
     startingBalance = 0;
     endingBalance = 0;
     currencySymbol = '$';
@@ -16,6 +18,7 @@ export class IrCityLedgerStatementsTable {
     hasFetched = false;
     fromDate = null;
     toDate = null;
+    clFiscalDocumentPreview;
     columnHelper = createColumnHelper();
     formatDate(date) {
         if (!date)
@@ -51,12 +54,25 @@ export class IrCityLedgerStatementsTable {
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
-                cell: info => h("span", { class: "stmt-table__doc-number" }, info.getValue() ?? '—'),
+                cell: info => (h("wa-button", { onClick: () => {
+                        const row = info.row.original;
+                        this.clFiscalDocumentPreview.emit({
+                            fdTypeCode: row.FD_TYPE_CODE,
+                            documentNumber: row.DOC_NUMBER,
+                            agentId: this.agentId,
+                            agentName: row.AGENCY_NAME,
+                            fdId: row.FD_ID,
+                            externalRef: row.EXTERNAL_REF,
+                            fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
+                            toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
+                            bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
+                        });
+                    }, variant: "brand", appearance: "plain", class: "stmt-table__doc-number" }, info.getValue() ?? '')),
             }),
             this.columnHelper.accessor('FD_TYPE_NAME', {
                 id: 'type',
                 header: 'Type',
-                cell: info => info.getValue() ?? '—',
+                cell: info => info.getValue() ?? '',
             }),
             this.columnHelper.accessor('DEBIT', {
                 id: 'debit',
@@ -81,7 +97,7 @@ export class IrCityLedgerStatementsTable {
     }
     renderEndingBalanceRow() {
         const bal = this.endingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, h("strong", null, formatAmount(this.currencySymbol, Math.abs(bal))))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, Math.abs(bal)))));
     }
     render() {
         if (!this.hasFetched) {
@@ -139,6 +155,25 @@ export class IrCityLedgerStatementsTable {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
+            },
+            "agentId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "agent-id",
+                "reflect": false
             },
             "startingBalance": {
                 "type": "number",
@@ -305,6 +340,30 @@ export class IrCityLedgerStatementsTable {
                 "defaultValue": "null"
             }
         };
+    }
+    static get events() {
+        return [{
+                "method": "clFiscalDocumentPreview",
+                "name": "clFiscalDocumentPreview",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "ClFiscalDocumentPreviewRequest",
+                    "resolved": "ClFiscalDocumentPreviewRequest",
+                    "references": {
+                        "ClFiscalDocumentPreviewRequest": {
+                            "location": "import",
+                            "path": "../../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                        }
+                    }
+                }
+            }];
     }
 }
 //# sourceMappingURL=ir-city-ledger-statements-table.js.map

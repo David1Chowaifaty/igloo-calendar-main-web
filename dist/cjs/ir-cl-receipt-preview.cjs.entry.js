@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const clFiscalDocument_service = require('./cl-fiscal-document.service-e8a07279.js');
 const utils = require('./utils-02561109.js');
 const index$1 = require('./index-eea9e382.js');
-const booking_store = require('./booking.store-addd0425.js');
+const booking_service = require('./booking.service-52d0eb8a.js');
 require('./Token-8fd11984.js');
 require('./axios-6e678d52.js');
 require('./property.service-f761ccf5.js');
@@ -41,7 +41,7 @@ const IrClReceiptPreview = class {
     clPreviewReady;
     hasEmitted = false;
     dataService = new clFiscalDocument_service.ClFiscalDocumentService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     cityLedgerService = new index$1.CityLedgerService();
     componentWillLoad() {
         if (!this.ticket) {

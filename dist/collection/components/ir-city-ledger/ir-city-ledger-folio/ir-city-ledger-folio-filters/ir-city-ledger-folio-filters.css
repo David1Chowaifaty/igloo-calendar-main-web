@@ -90,7 +90,7 @@
   .filters-bar__search-input {
     flex: 1;
     min-width: 0;
-    max-width: 400px;
+    max-width: 0px;
   }
 
   /* actions sit at the end of row 2 */
@@ -106,12 +106,14 @@
   .filters-bar__search-input {
     min-width: 160px;
     max-width: none;
-    max-width: 400px;
   }
 }
 
 /*lg — 1024px: all three groups in one row */
 @media (min-width: 1024px) {
+  .filters-bar__search-input {
+    max-width: 250px;
+  }
   .filters-bar {
     flex-wrap: nowrap;
   }

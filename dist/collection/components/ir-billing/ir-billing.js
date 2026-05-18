@@ -21,8 +21,6 @@ export class IrBilling {
     setTabGroupActive() {
         requestAnimationFrame(() => {
             if (this.isAgentMode) {
-                const tabGroup = this.el.querySelector('wa-tab-group');
-                tabGroup.active = 'agent';
                 this.currentTab = 'agent';
             }
         });

@@ -1477,6 +1477,7 @@ export namespace Components {
     interface IrCityLedgerStatementsFilter {
     }
     interface IrCityLedgerStatementsTable {
+        "agentId": number;
         "currencies": ICurrency[];
         "currencySymbol": string;
         "endingBalance": number;
@@ -5049,6 +5050,10 @@ export interface IrCityLedgerStatementsFilterCustomEvent<T> extends CustomEvent<
     detail: T;
     target: HTMLIrCityLedgerStatementsFilterElement;
 }
+export interface IrCityLedgerStatementsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCityLedgerStatementsTableElement;
+}
 export interface IrCityLedgerToolbarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerToolbarElement;
@@ -7171,7 +7176,18 @@ declare global {
         prototype: HTMLIrCityLedgerStatementsFilterElement;
         new (): HTMLIrCityLedgerStatementsFilterElement;
     };
+    interface HTMLIrCityLedgerStatementsTableElementEventMap {
+        "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
+    }
     interface HTMLIrCityLedgerStatementsTableElement extends Components.IrCityLedgerStatementsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCityLedgerStatementsTableElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsTableElement, ev: IrCityLedgerStatementsTableCustomEvent<HTMLIrCityLedgerStatementsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCityLedgerStatementsTableElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsTableElement, ev: IrCityLedgerStatementsTableCustomEvent<HTMLIrCityLedgerStatementsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCityLedgerStatementsTableElement: {
         prototype: HTMLIrCityLedgerStatementsTableElement;
@@ -11960,12 +11976,14 @@ declare namespace LocalJSX {
         "onPrintStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
     }
     interface IrCityLedgerStatementsTable {
+        "agentId"?: number;
         "currencies"?: ICurrency[];
         "currencySymbol"?: string;
         "endingBalance"?: number;
         "fromDate"?: string | null;
         "hasFetched"?: boolean;
         "isLoading"?: boolean;
+        "onClFiscalDocumentPreview"?: (event: IrCityLedgerStatementsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "rows"?: FiscalDocument[];
         "startingBalance"?: number;
         "toDate"?: string | null;

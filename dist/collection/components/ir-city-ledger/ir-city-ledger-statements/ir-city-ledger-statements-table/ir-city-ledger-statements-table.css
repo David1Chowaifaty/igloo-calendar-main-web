@@ -165,11 +165,13 @@
   border-radius: 0.5rem;
   overflow-x: auto;
   min-height: 60dvh;
-  max-width: 1920px;
   border: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
   background-color: white;
 }
-
+.stmt-table__doc-number::part(base) {
+  padding: 0.05rem 0.5rem;
+  height: auto;
+}
 /* #region numeric alignment */
 .cell--align-end {
   text-align: right !important;
@@ -196,15 +198,15 @@
 .balance-row__label {
   display: flex;
   align-items: center;
-  font-size: 0.8125rem;
+  /* font-size: 0.8125rem; */
 }
 
 .balance-row td {
   background: var(--wa-color-brand-fill-quiet) !important;
   color: var(--wa-color-brand-on-quiet) !important;
   border-color: var(--wa-color-brand-border-quiet) !important;
-  font-weight: 600;
-  font-size: 0.875rem;
+  /* font-weight: 600;
+  font-size: 0.875rem; */
   padding: 0.75rem 1rem !important;
 }
 /* #endregion */

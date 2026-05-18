@@ -13,7 +13,7 @@ import { d as defineCustomElement$3 } from './ir-fd-confirm-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irCityLedgerFiscalDocumentsCss = ".sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1200px}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}";
+const irCityLedgerFiscalDocumentsCss = ".sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1000px;margin-inline:auto}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}";
 const IrCityLedgerFiscalDocumentsStyle0 = irCityLedgerFiscalDocumentsCss;
 
 const IrCityLedgerFiscalDocuments = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFiscalDocuments extends HTMLElement {

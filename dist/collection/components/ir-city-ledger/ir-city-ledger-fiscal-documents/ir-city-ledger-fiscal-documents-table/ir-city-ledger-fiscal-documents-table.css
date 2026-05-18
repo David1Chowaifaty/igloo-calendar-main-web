@@ -170,7 +170,6 @@
 }
 
 /* #region head */
-
 .fiscal-table__heading:last-child {
   border-right: 0;
 }
@@ -178,6 +177,9 @@
 .fiscal-table__heading--numeric,
 .fiscal-table__cell--numeric {
   text-align: right !important;
+}
+.ir-table-row.--is-draft > td {
+  background-color: var(--wa-color-warning-fill-quiet) !important;
 }
 /* #endregion */
 
@@ -193,6 +195,13 @@
 /* #endregion */
 
 /* #region actions */
+.fiscal-table__doc-number::part(base) {
+  padding: 0.05rem 0.5rem;
+  height: auto;
+}
+.fiscal-table__cell--doc-number {
+  --ir-cell-padding: 0.5rem;
+}
 .fiscal-table__heading--actions {
   text-align: center;
 }
@@ -282,4 +291,3 @@
   color: var(--wa-color-text-normal, #111827);
 }
 /* #endregion */
-

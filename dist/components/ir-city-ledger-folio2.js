@@ -28,7 +28,7 @@ import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
 
-const irCityLedgerFolioCss = ".sc-ir-city-ledger-folio-h{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}";
+const irCityLedgerFolioCss = ".sc-ir-city-ledger-folio-h{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem);max-width:1920px}";
 const IrCityLedgerFolioStyle0 = irCityLedgerFolioCss;
 
 const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFolio extends HTMLElement {

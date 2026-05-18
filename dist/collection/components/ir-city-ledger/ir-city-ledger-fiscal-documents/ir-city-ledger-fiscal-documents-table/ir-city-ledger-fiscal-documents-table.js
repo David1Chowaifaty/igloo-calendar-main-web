@@ -118,7 +118,20 @@ export class IrCityLedgerFiscalDocumentsTable {
             }),
             this.columnHelper.accessor('DOC_NUMBER', {
                 header: 'Doc Number',
-                cell: info => h("span", { class: "fiscal-table__doc-number" }, info.getValue()),
+                cell: info => (h("wa-button", { onClick: () => {
+                        const row = info.row.original;
+                        this.clFiscalDocumentPreview.emit({
+                            fdTypeCode: row.FD_TYPE_CODE,
+                            documentNumber: row.DOC_NUMBER,
+                            agentId: this.agentId,
+                            agentName: row.AGENCY_NAME,
+                            fdId: row.FD_ID,
+                            externalRef: row.EXTERNAL_REF,
+                            fromDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.FROM_DATE : this.fromDate,
+                            toDate: row.FD_TYPE_CODE === FdTypes.Proforma ? row.TO_DATE : this.toDate,
+                            bookingNbr: row.FD_TYPE_CODE === FdTypes.Proforma ? row.BOOK_NBR : null,
+                        });
+                    }, variant: "brand", appearance: "plain", class: "fiscal-table__doc-number" }, info.getValue() ?? '')),
             }),
             this.columnHelper.accessor('FD_TYPE_NAME', {
                 id: 'type',
@@ -214,10 +227,11 @@ export class IrCityLedgerFiscalDocumentsTable {
         return (h(Host, null, h("div", { class: "table--container" }, h("table", { class: "table data-table" }, h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => (h("th", { key: header.id, class: {
                 'fiscal-table__heading--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(header.column.id),
                 'fiscal-table__heading--actions': header.column.id === 'actions',
-            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: "ir-table-row" }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
+            } }, flexRender(header.column.columnDef.header, header.getContext())))))))), h("tbody", null, table.getRowModel().rows.map(row => (h("tr", { key: row.id, class: { 'ir-table-row': true, '--is-draft': row.original.FD_TYPE_CODE === FdTypes.Draft } }, row.getVisibleCells().map(cell => (h("td", { key: cell.id, class: {
                 'fiscal-table__cell': true,
                 'fiscal-table__cell--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
+                'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER',
             } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: () => this.confirmPendingAction(), onCancelled: () => (this.pendingAction = null) })));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-table"; }
