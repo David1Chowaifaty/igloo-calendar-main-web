@@ -47,7 +47,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         this.setTabGroupActive();
     }
     isAgentMode = false;
-    currentTab = 'agent';
+    currentTab;
     billingClose;
     componentWillLoad() {
         this.isAgentMode = isAgentMode(this.agent);
@@ -60,6 +60,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
             if (this.isAgentMode) {
                 const tabGroup = this.el.querySelector('wa-tab-group');
                 tabGroup.active = 'agent';
+                this.currentTab = 'agent';
             }
         });
     }
@@ -69,7 +70,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }

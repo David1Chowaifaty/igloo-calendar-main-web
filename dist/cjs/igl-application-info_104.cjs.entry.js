@@ -1461,7 +1461,7 @@ const IrBilling = class {
         this.setTabGroupActive();
     }
     isAgentMode = false;
-    currentTab = 'agent';
+    currentTab;
     billingClose;
     componentWillLoad() {
         this.isAgentMode = functions.isAgentMode(this.agent);
@@ -1474,6 +1474,7 @@ const IrBilling = class {
             if (this.isAgentMode) {
                 const tabGroup = this.el.querySelector('wa-tab-group');
                 tabGroup.active = 'agent';
+                this.currentTab = 'agent';
             }
         });
     }
@@ -1483,7 +1484,7 @@ const IrBilling = class {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, index.h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), index.h("wa-tab", { panel: "agent" }, "Agent"), index.h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && index.h("ir-guest-billing", { booking: this.booking })), index.h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && index.h("ir-agent-billing", { booking: this.booking }))));
+                }, active: this.currentTab }, index.h("wa-tab", { panel: "agent" }, "Agent"), index.h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), index.h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && index.h("ir-guest-billing", { booking: this.booking })), index.h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && index.h("ir-agent-billing", { booking: this.booking }))));
         }
         return index.h("ir-guest-billing", { booking: this.booking });
     }
