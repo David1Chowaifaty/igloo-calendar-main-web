@@ -1657,6 +1657,10 @@ const IrBilling = class {
     async handleBookingChange() {
         this.isAgentMode = functions.isAgentMode(this.agent);
     }
+    open;
+    async handleOpenChange() {
+        this.isAgentMode = functions.isAgentMode(this.agent);
+    }
     isAgentMode = false;
     currentTab = 'agent';
     billingClose;
@@ -1669,12 +1673,15 @@ const IrBilling = class {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, index.h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), index.h("wa-tab", { panel: "agent" }, "Agent"), index.h("wa-tab-panel", { name: "guest", active: this.currentTab === 'guest' }, this.currentTab === 'guest' && index.h("ir-guest-billing", { booking: this.booking })), index.h("wa-tab-panel", { name: "agent", active: this.currentTab === 'agent' }, this.currentTab === 'agent' && index.h("ir-agent-billing", { booking: this.booking }))));
+                }, active: this.currentTab }, index.h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), index.h("wa-tab", { panel: "agent" }, "Agent"), index.h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && this.open && index.h("ir-guest-billing", { booking: this.booking })), index.h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && this.open && index.h("ir-agent-billing", { booking: this.booking }))));
+        }
+        if (!this.open) {
+            return null;
         }
         return index.h("ir-guest-billing", { booking: this.booking });
     }
     static get watchers() { return {
-        "agent": ["handleBookingChange"]
+        "agent": ["handleBookingChange", "handleOpenChange"]
     }; }
 };
 IrBilling.style = IrBillingStyle0;
@@ -1727,7 +1734,7 @@ const IrBillingDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.billingClose.emit();
-            }, open: this.open, label: "Billing" }, this.open && index.h("ir-billing", { key: '00a0d86a63110000a5e0bd9468a4a5cf79cfe811', isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
+            }, open: this.open, label: "Billing" }, index.h("ir-billing", { key: '6abf9131ef7a92e621b38c1de7005eedb4966fbe', open: this.open, isAllServicesAgentOwned: this.isAllServicesAgentOwned, booking: this.booking, agent: this.agent })));
     }
 };
 IrBillingDrawer.style = IrBillingDrawerStyle0;

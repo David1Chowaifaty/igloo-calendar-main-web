@@ -7,6 +7,10 @@ export class IrBilling {
     async handleBookingChange() {
         this.isAgentMode = isAgentMode(this.agent);
     }
+    open;
+    async handleOpenChange() {
+        this.isAgentMode = isAgentMode(this.agent);
+    }
     isAgentMode = false;
     currentTab = 'agent';
     billingClose;
@@ -19,7 +23,10 @@ export class IrBilling {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest", active: this.currentTab === 'guest' }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent", active: this.currentTab === 'agent' }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && this.open && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && this.open && h("ir-agent-billing", { booking: this.booking }))));
+        }
+        if (!this.open) {
+            return null;
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
@@ -101,6 +108,25 @@ export class IrBilling {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "open": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "open",
+                "reflect": false
             }
         };
     }
@@ -132,6 +158,9 @@ export class IrBilling {
         return [{
                 "propName": "agent",
                 "methodName": "handleBookingChange"
+            }, {
+                "propName": "agent",
+                "methodName": "handleOpenChange"
             }];
     }
 }

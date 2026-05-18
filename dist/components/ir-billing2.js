@@ -44,6 +44,10 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
     async handleBookingChange() {
         this.isAgentMode = isAgentMode(this.agent);
     }
+    open;
+    async handleOpenChange() {
+        this.isAgentMode = isAgentMode(this.agent);
+    }
     isAgentMode = false;
     currentTab = 'agent';
     billingClose;
@@ -56,22 +60,26 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest", active: this.currentTab === 'guest' }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent", active: this.currentTab === 'agent' }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && this.open && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && this.open && h("ir-agent-billing", { booking: this.booking }))));
+        }
+        if (!this.open) {
+            return null;
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
     static get watchers() { return {
-        "agent": ["handleBookingChange"]
+        "agent": ["handleBookingChange", "handleOpenChange"]
     }; }
     static get style() { return IrBillingStyle0; }
 }, [2, "ir-billing", {
         "booking": [16],
         "isAllServicesAgentOwned": [4, "is-all-services-agent-owned"],
         "agent": [16],
+        "open": [4],
         "isAgentMode": [32],
         "currentTab": [32]
     }, undefined, {
-        "agent": ["handleBookingChange"]
+        "agent": ["handleBookingChange", "handleOpenChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

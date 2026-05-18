@@ -7,6 +7,8 @@ export declare class IrBilling {
     isAllServicesAgentOwned: boolean;
     agent: Agent;
     handleBookingChange(): Promise<void>;
+    open: boolean;
+    handleOpenChange(): Promise<void>;
     isAgentMode: boolean;
     currentTab: BillingPanels;
     billingClose: EventEmitter<void>;
