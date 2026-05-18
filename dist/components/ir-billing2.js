@@ -1,4 +1,5 @@
-import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { A as AgentsService } from './agents.service.js';
 import { i as isAgentMode } from './functions.js';
 import { d as defineCustomElement$s } from './ir-agent-billing2.js';
 import { d as defineCustomElement$r } from './ir-air-date-picker2.js';
@@ -38,48 +39,62 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         this.__registerHost();
         this.billingClose = createEvent(this, "billingClose", 7);
     }
+    get el() { return this; }
+    isAgentMode = false;
+    agentsService = new AgentsService();
     booking;
     isAllServicesAgentOwned;
     agent;
     async handleBookingChange() {
-        this.isAgentMode = isAgentMode(this.agent);
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
+        }
     }
-    open;
-    async handleOpenChange() {
-        this.isAgentMode = isAgentMode(this.agent);
-    }
-    isAgentMode = false;
     currentTab = 'agent';
+    resolvedAgent;
     billingClose;
-    componentWillLoad() {
-        this.isAgentMode = isAgentMode(this.agent);
+    async componentWillLoad() {
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
+        }
+    }
+    componentDidLoad() {
+        if (this.isAgentMode) {
+            const tabGroup = this.el.querySelector('wa-tab-group');
+            tabGroup?.show?.(this.currentTab);
+        }
+    }
+    async resolveAgent() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
     }
     render() {
         if (this.isAgentMode) {
-            return (h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
+            return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && this.open && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && this.open && h("ir-agent-billing", { booking: this.booking }))));
-        }
-        if (!this.open) {
-            return null;
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
     static get watchers() { return {
-        "agent": ["handleBookingChange", "handleOpenChange"]
+        "booking": ["handleBookingChange"]
     }; }
     static get style() { return IrBillingStyle0; }
 }, [2, "ir-billing", {
         "booking": [16],
         "isAllServicesAgentOwned": [4, "is-all-services-agent-owned"],
         "agent": [16],
-        "open": [4],
         "isAgentMode": [32],
-        "currentTab": [32]
+        "currentTab": [32],
+        "resolvedAgent": [32]
     }, undefined, {
-        "agent": ["handleBookingChange", "handleOpenChange"]
+        "booking": ["handleBookingChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

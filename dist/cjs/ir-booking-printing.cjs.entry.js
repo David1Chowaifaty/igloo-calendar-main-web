@@ -5,14 +5,15 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const index = require('./index-35d81173.js');
 const moment = require('./moment-1780b03a.js');
 const functions = require('./functions-9552a026.js');
-const booking_store = require('./booking.store-f9892617.js');
+const booking = require('./booking-487ab4da.js');
+const booking_service = require('./booking.service-52d0eb8a.js');
 const room_service = require('./room.service-f9117e70.js');
 const locales_store = require('./locales.store-32782582.js');
 const utils = require('./utils-02561109.js');
-require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-70bc3b4b.js');
+require('./index-8bb117a0.js');
 require('./type-87fd01b8.js');
 
 const BeLogoFooter = ({ width, height, ...props }) => {
@@ -52,7 +53,7 @@ const IrBookingPrinting = class {
     guestCountryName;
     isLoading;
     // @State() token: string;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     currency;
     totalNights;
@@ -78,7 +79,7 @@ const IrBookingPrinting = class {
             //   throw new Error('Missing booking number');
             // }
             let countries;
-            const [property, languageTexts, booking, fetchedCountries] = await Promise.all([
+            const [property, languageTexts, booking$1, fetchedCountries] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid, language: this.language, is_backend: true }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getExposedBooking(this.bookingNumber, this.language),
@@ -91,11 +92,11 @@ const IrBookingPrinting = class {
             this.property = property['My_Result'];
             // this.booking = booking;
             countries = fetchedCountries;
-            this.booking = booking;
+            this.booking = booking$1;
             this.setUserCountry(countries, this.booking.guest.country_id);
             this.currency = this.booking.currency.symbol;
             this.totalPersons = this.booking?.occupancy.adult_nbr + this.booking?.occupancy.children_nbr;
-            this.totalNights = booking_store.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
+            this.totalNights = booking.calculateDaysBetweenDates(this.booking.from_date, this.booking.to_date);
         }
         catch (error) {
             console.error(error);

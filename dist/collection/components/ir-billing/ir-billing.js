@@ -1,32 +1,47 @@
-import { h } from "@stencil/core";
+import { AgentsService } from "../../services/agents/agents.service";
+import { Host, h } from "@stencil/core";
 import { isAgentMode } from "../ir-booking-details/functions";
 export class IrBilling {
+    el;
+    isAgentMode = false;
+    agentsService = new AgentsService();
     booking;
     isAllServicesAgentOwned;
     agent;
     async handleBookingChange() {
-        this.isAgentMode = isAgentMode(this.agent);
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
+        }
     }
-    open;
-    async handleOpenChange() {
-        this.isAgentMode = isAgentMode(this.agent);
-    }
-    isAgentMode = false;
     currentTab = 'agent';
+    resolvedAgent;
     billingClose;
-    componentWillLoad() {
-        this.isAgentMode = isAgentMode(this.agent);
+    async componentWillLoad() {
+        if (this.booking) {
+            await this.resolveAgent();
+            this.isAgentMode = isAgentMode(this.resolvedAgent);
+        }
+    }
+    componentDidLoad() {
+        if (this.isAgentMode) {
+            const tabGroup = this.el.querySelector('wa-tab-group');
+            tabGroup?.show?.(this.currentTab);
+        }
+    }
+    async resolveAgent() {
+        if (this.agent) {
+            this.resolvedAgent = this.agent;
+        }
+        else if (this.booking?.agent) {
+            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
+        }
     }
     render() {
         if (this.isAgentMode) {
-            return (h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
+            return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                     this.currentTab = e.detail.name.toString();
-                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && this.open && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && this.open && h("ir-agent-billing", { booking: this.booking }))));
-        }
-        if (!this.open) {
-            return null;
+                }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking })))));
         }
         return h("ir-guest-billing", { booking: this.booking });
     }
@@ -108,32 +123,14 @@ export class IrBilling {
                 },
                 "getter": false,
                 "setter": false
-            },
-            "open": {
-                "type": "boolean",
-                "mutable": false,
-                "complexType": {
-                    "original": "boolean",
-                    "resolved": "boolean",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "open",
-                "reflect": false
             }
         };
     }
     static get states() {
         return {
             "isAgentMode": {},
-            "currentTab": {}
+            "currentTab": {},
+            "resolvedAgent": {}
         };
     }
     static get events() {
@@ -154,13 +151,11 @@ export class IrBilling {
                 }
             }];
     }
+    static get elementRef() { return "el"; }
     static get watchers() {
         return [{
-                "propName": "agent",
+                "propName": "booking",
                 "methodName": "handleBookingChange"
-            }, {
-                "propName": "agent",
-                "methodName": "handleOpenChange"
             }];
     }
 }

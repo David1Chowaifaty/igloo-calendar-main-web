@@ -859,7 +859,6 @@ export namespace Components {
         "agent": Agent;
         "booking": Booking;
         "isAllServicesAgentOwned": boolean;
-        "open": boolean;
     }
     interface IrBillingDrawer {
         "agent": Agent;
@@ -11266,7 +11265,6 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "isAllServicesAgentOwned"?: boolean;
         "onBillingClose"?: (event: IrBillingCustomEvent<void>) => void;
-        "open"?: boolean;
     }
     interface IrBillingDrawer {
         "agent"?: Agent;
