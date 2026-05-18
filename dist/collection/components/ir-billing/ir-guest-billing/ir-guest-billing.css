@@ -296,6 +296,10 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+.guest-billing__pdf-viewer {
+  margin-left: auto;
+  margin-right: auto;
+}
 /*md*/
 @media (min-width: 768px) {
   .billing__cards {
@@ -303,5 +307,17 @@
   }
   .table-container {
     display: block;
+  }
+}
+@media print {
+  .guest-billing__pdf-viewer {
+    margin: 0;
+  }
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
   }
 }

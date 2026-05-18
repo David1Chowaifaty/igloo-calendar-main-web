@@ -1,6 +1,9 @@
+import { C as ClTxTypeCode } from './enums.js';
+
+const lockedStatus = new Set([ClTxTypeCode.Payment, ClTxTypeCode.CreditNote, ClTxTypeCode.DebitNote]);
 function mapClTxToFolioRow(tx) {
     const status = tx.IS_LOCKED
-        ? { id: 'billed', label: 'Billed', variant: 'success', description: '' }
+        ? { id: 'billed', label: lockedStatus.has(tx.CL_TX_TYPE_CODE) ? 'Locked' : 'Billed', variant: 'success', description: '' }
         : tx.IS_HOLD
             ? { id: 'held', label: 'Held', variant: 'warning', description: '' }
             : { id: 'unbilled', label: 'Unbilled', variant: 'neutral', description: '' };

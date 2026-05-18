@@ -186,6 +186,10 @@
 .stmt-table__cell--zero {
   color: var(--wa-color-text-quiet, #9ca3af);
 }
+
+.stmt-table__cell--money {
+  font-variant-numeric: tabular-nums;
+}
 /* #endregion */
 
 /* #region balance rows */

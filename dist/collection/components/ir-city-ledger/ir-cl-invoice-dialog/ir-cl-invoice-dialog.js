@@ -1,7 +1,7 @@
 import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
 import calendar_data from "../../../stores/calendar-data";
-import { FdTypes } from "../../../types/enums";
+import { FdTypes, InOut } from "../../../types/enums";
 export class IrClInvoiceDialog {
     agentId = null;
     mode = 'default';
@@ -9,10 +9,16 @@ export class IrClInvoiceDialog {
     startDate = null;
     endDate = null;
     currencyId = null;
+    rooms = [];
     isLoading = false;
     error = null;
     noResults = false;
     isProforma = false;
+    get allRoomsCheckedOut() {
+        if (this.mode !== 'booking' || !this.rooms.length)
+            return true;
+        return this.rooms.every(r => r.in_out?.code === InOut.CheckedOut);
+    }
     invoiceIssued;
     clFiscalDocumentPreview;
     dialogRef;
@@ -21,7 +27,7 @@ export class IrClInvoiceDialog {
     async openModal() {
         this.error = null;
         this.noResults = false;
-        this.isProforma = false;
+        this.isProforma = !this.allRoomsCheckedOut;
         this.dialogRef.openModal();
     }
     async closeModal() {
@@ -146,7 +152,7 @@ export class IrClInvoiceDialog {
         }
     }
     render() {
-        return (h(Host, { key: 'e1e06c74720eb732618c15474ad760223c27c8e1' }, h("ir-dialog", { key: '1e8061d81430077c39394c69caa56cbc339411c5', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '13f86fe645f3ffb54383b788defd3d1adf076de5', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'd407d294669131b1013c466217096e5454747acf', checked: this.isProforma, onchange: e => (this.isProforma = e.target.checked) }, "Pro forma")), h("div", { key: 'dedb31f25eabfa953934b597348551f0f4b64ebc', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a pro forma for Booking #${this.bookingNbr}?` : `Issue a draft invoice for Booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '72a23bfeccb13fd60db9cd5bf50a1044f11a83b8', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '93528f5d12e796bdeb430a6b29cd89b30c2d6005', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'b0ff0b066a8fd27440b9c4a84aef6b9fb4bcb7ff', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'bdfaae12cbc8aee3896d11c276ab4df0df5b4a07', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '876deda0cf4f87766588a3169f5fd3dd232b9ab4', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: 'a5c243b47b5b935fa11fa841e38082e0dc6130f0', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
+        return (h(Host, { key: '516cd445bd6cf27ea0a066703bc512baaa8bedef' }, h("ir-dialog", { key: '2191079d5668afabee3fc82b9b5ea2e99d147b13', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '6b9c10eab80cd77620fe6b83fb0d4f3399c2718d', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: '17c754dd7920dfa5d45b15c53a7179e3e759b575', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Pro forma")), h("div", { key: 'a631f583f75bda5dfab327434deae6d58e8d0182', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a pro forma for Booking #${this.bookingNbr}?` : `Issue a draft invoice for Booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '6f6439f8c142924b29fc14277925a5273b134266', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '6165443dc0c92516209d343cb4b8f05068941624', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'c1561ae12c54246e2cb2b21f83a54bb6ed0f87f6', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'ee991da06a49a9515ecc28e07e3e5d7ad654b0eb', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '85d55d70ba0a04e5211781610ae7c56ff59fd234', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '0a137c1fa70fa85285dafb17347a935106a7187d', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get is() { return "ir-cl-invoice-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -281,6 +287,30 @@ export class IrClInvoiceDialog {
                 "attribute": "currency-id",
                 "reflect": false,
                 "defaultValue": "null"
+            },
+            "rooms": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "Room[]",
+                    "resolved": "Room[]",
+                    "references": {
+                        "Room": {
+                            "location": "import",
+                            "path": "@/models/booking.dto",
+                            "id": "src/models/booking.dto.ts::Room"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }

@@ -1,5 +1,4 @@
 import { h } from "@stencil/core";
-import { invoiceIdRequiredFieldSchema } from "../../ir-city-ledger-transaction-form.schema";
 export class IrClDebitNoteFields {
     invoiceId;
     fiscalDocuments = [];
@@ -8,9 +7,9 @@ export class IrClDebitNoteFields {
         if (this.fiscalDocuments.length === 0) {
             return (h("wa-callout", { size: "small", variant: "warning" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "No paid invoices are available. A debit note requires at least one paid invoice to reference. Please issue an invoice first, then return to create the debit note."));
         }
-        return (h("div", { class: "field" }, h("ir-validator", { schema: invoiceIdRequiredFieldSchema, value: this.invoiceId ?? '', valueEvent: "change" }, h("wa-select", { label: "Invoice", size: "small", required: true, value: this.invoiceId ?? '', onchange: event => {
-                this.fieldChange.emit({ invoiceId: event.target.value || undefined });
-            } }, h("wa-option", { value: "" }, "Select invoice"), this.fiscalDocuments.map(doc => (h("wa-option", { key: doc.FD_ID, value: String(doc.FD_ID) }, doc.DOC_NUMBER, " \u2014 ", doc.FD_TYPE_NAME)))))));
+        return (h("div", { class: "field" }, h("ir-cl-invoice-select", { value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+                this.fieldChange.emit({ invoiceId: event.detail || undefined });
+            } })));
     }
     static get is() { return "ir-cl-debit-note-fields"; }
     static get encapsulation() { return "scoped"; }

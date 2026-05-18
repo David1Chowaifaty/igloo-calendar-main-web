@@ -89,6 +89,7 @@ export class IrCityLedgerTransactionForm {
                 START_DATE: null,
                 END_DATE: null,
                 LIST_FD_TYPE_CODE,
+                BOOK_NBR: this.booking?.booking_nbr,
                 FD_STATUS_CODE: type === ClTxTypeCode.Payment ? [FdStatus.Sent, FdStatus.Issued] : [FdStatus.Paid, FdStatus.Issued],
             });
             if (type === ClTxTypeCode.CreditNote && this.fiscalDocuments.length === 0 && this.formData.creditNoteMode === 'cancel-invoice') {
@@ -229,7 +230,7 @@ export class IrCityLedgerTransactionForm {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
-            } }, h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable"), this.taxOptions.map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label)))))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
+            } }, this.taxOptions.map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))));
     }

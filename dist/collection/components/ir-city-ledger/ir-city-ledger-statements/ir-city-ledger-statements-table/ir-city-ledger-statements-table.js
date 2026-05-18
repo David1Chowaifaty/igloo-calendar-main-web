@@ -30,9 +30,9 @@ export class IrCityLedgerStatementsTable {
         return match?.symbol ?? this.currencySymbol;
     }
     renderMoney(value, currencyId) {
-        if (!value)
-            return h("span", { class: "stmt-table__cell--zero" }, "\u2014");
-        return h("span", null, formatAmount(this.getSymbol(currencyId), value));
+        if (value == null || value === 0 || isNaN(value))
+            return h("span", { class: "stmt-table__cell--zero" });
+        return h("span", { class: "stmt-table__cell--money" }, formatAmount(this.getSymbol(currencyId), Math.abs(value)));
     }
     get runningBalances() {
         let balance = this.startingBalance;

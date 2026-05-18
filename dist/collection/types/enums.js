@@ -54,4 +54,9 @@ export const FdStatus = {
     Issued: 'ISSUED',
     Voided: 'VOIDED',
 };
+export const InOut = {
+    NotSet: '000',
+    CheckedIn: '001',
+    CheckedOut: '002',
+};
 //# sourceMappingURL=enums.js.map

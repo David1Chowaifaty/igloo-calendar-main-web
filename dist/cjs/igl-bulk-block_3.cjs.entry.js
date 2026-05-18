@@ -3,14 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-cbb1d733.js');
+const booking_service = require('./booking.service-52d0eb8a.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking = require('./booking-f89ac244.js');
+const booking = require('./booking-487ab4da.js');
 require('./axios-6e678d52.js');
-require('./utils-535ec4cf.js');
+require('./utils-02561109.js');
 require('./type-87fd01b8.js');
 require('./index-fbf1fe1d.js');
 
@@ -76,7 +76,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     datesSchema = index$1.z.array(index$1.z.object({
         from: index$1.z
             .any()
@@ -300,7 +300,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }

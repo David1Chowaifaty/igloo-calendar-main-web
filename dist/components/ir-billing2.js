@@ -68,6 +68,7 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
         }
     }
     render() {
+        console.log(this.currentTab);
         if (this.isAgentMode) {
             return (h(Host, null, h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
                     this.currentTab = e.detail.name.toString();

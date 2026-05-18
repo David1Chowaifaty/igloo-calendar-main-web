@@ -147,6 +147,7 @@
     "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-adjustment-fields/ir-cl-adjustment-fields.js",
     "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-credit-note-fields/ir-cl-credit-note-fields.js",
     "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-debit-note-fields/ir-cl-debit-note-fields.js",
+    "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-invoice-select/ir-cl-invoice-select.js",
     "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-opening-balance-fields/ir-cl-opening-balance-fields.js",
     "components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/fields/ir-cl-payment-fields/ir-cl-payment-fields.js",
     "components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-steatments.js",

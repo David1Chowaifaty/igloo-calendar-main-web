@@ -1598,6 +1598,7 @@ export namespace Components {
         "endDate": string | null;
         "mode": 'booking' | 'default';
         "openModal": () => Promise<void>;
+        "rooms": Room[];
         "startDate": string | null;
     }
     interface IrClInvoiceForm {
@@ -1615,6 +1616,12 @@ export namespace Components {
         "documentNumber": string;
         "propertyId": number;
         "ticket": string;
+    }
+    interface IrClInvoiceSelect {
+        "fiscalDocuments": FiscalDocuments;
+        "hint": string;
+        "label": string;
+        "value": string;
     }
     interface IrClInvoiceTotalCell {
         "amount": number;
@@ -5086,6 +5093,10 @@ export interface IrClInvoicePreviewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClInvoicePreviewElement;
 }
+export interface IrClInvoiceSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrClInvoiceSelectElement;
+}
 export interface IrClOpeningBalanceFieldsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrClOpeningBalanceFieldsElement;
@@ -7405,6 +7416,23 @@ declare global {
     var HTMLIrClInvoicePreviewElement: {
         prototype: HTMLIrClInvoicePreviewElement;
         new (): HTMLIrClInvoicePreviewElement;
+    };
+    interface HTMLIrClInvoiceSelectElementEventMap {
+        "invoiceChange": string;
+    }
+    interface HTMLIrClInvoiceSelectElement extends Components.IrClInvoiceSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrClInvoiceSelectElementEventMap>(type: K, listener: (this: HTMLIrClInvoiceSelectElement, ev: IrClInvoiceSelectCustomEvent<HTMLIrClInvoiceSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrClInvoiceSelectElementEventMap>(type: K, listener: (this: HTMLIrClInvoiceSelectElement, ev: IrClInvoiceSelectCustomEvent<HTMLIrClInvoiceSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrClInvoiceSelectElement: {
+        prototype: HTMLIrClInvoiceSelectElement;
+        new (): HTMLIrClInvoiceSelectElement;
     };
     interface HTMLIrClInvoiceTotalCellElement extends Components.IrClInvoiceTotalCell, HTMLStencilElement {
     }
@@ -10236,6 +10264,7 @@ declare global {
         "ir-cl-invoice-form": HTMLIrClInvoiceFormElement;
         "ir-cl-invoice-net-price-cell": HTMLIrClInvoiceNetPriceCellElement;
         "ir-cl-invoice-preview": HTMLIrClInvoicePreviewElement;
+        "ir-cl-invoice-select": HTMLIrClInvoiceSelectElement;
         "ir-cl-invoice-total-cell": HTMLIrClInvoiceTotalCellElement;
         "ir-cl-invoice-vat-amount-cell": HTMLIrClInvoiceVatAmountCellElement;
         "ir-cl-invoice-vat-pct-cell": HTMLIrClInvoiceVatPctCellElement;
@@ -12064,6 +12093,7 @@ declare namespace LocalJSX {
         "mode"?: 'booking' | 'default';
         "onClFiscalDocumentPreview"?: (event: IrClInvoiceDialogCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onInvoiceIssued"?: (event: IrClInvoiceDialogCustomEvent<FiscalDocument>) => void;
+        "rooms"?: Room[];
         "startDate"?: string | null;
     }
     interface IrClInvoiceForm {
@@ -12080,6 +12110,13 @@ declare namespace LocalJSX {
         "onClPreviewReady"?: (event: IrClInvoicePreviewCustomEvent<void>) => void;
         "propertyId"?: number;
         "ticket"?: string;
+    }
+    interface IrClInvoiceSelect {
+        "fiscalDocuments"?: FiscalDocuments;
+        "hint"?: string;
+        "label"?: string;
+        "onInvoiceChange"?: (event: IrClInvoiceSelectCustomEvent<string>) => void;
+        "value"?: string;
     }
     interface IrClInvoiceTotalCell {
         "amount"?: number;
@@ -15677,6 +15714,7 @@ declare namespace LocalJSX {
         "ir-cl-invoice-form": IrClInvoiceForm;
         "ir-cl-invoice-net-price-cell": IrClInvoiceNetPriceCell;
         "ir-cl-invoice-preview": IrClInvoicePreview;
+        "ir-cl-invoice-select": IrClInvoiceSelect;
         "ir-cl-invoice-total-cell": IrClInvoiceTotalCell;
         "ir-cl-invoice-vat-amount-cell": IrClInvoiceVatAmountCell;
         "ir-cl-invoice-vat-pct-cell": IrClInvoiceVatPctCell;
@@ -16011,6 +16049,7 @@ declare module "@stencil/core" {
             "ir-cl-invoice-form": LocalJSX.IrClInvoiceForm & JSXBase.HTMLAttributes<HTMLIrClInvoiceFormElement>;
             "ir-cl-invoice-net-price-cell": LocalJSX.IrClInvoiceNetPriceCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceNetPriceCellElement>;
             "ir-cl-invoice-preview": LocalJSX.IrClInvoicePreview & JSXBase.HTMLAttributes<HTMLIrClInvoicePreviewElement>;
+            "ir-cl-invoice-select": LocalJSX.IrClInvoiceSelect & JSXBase.HTMLAttributes<HTMLIrClInvoiceSelectElement>;
             "ir-cl-invoice-total-cell": LocalJSX.IrClInvoiceTotalCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceTotalCellElement>;
             "ir-cl-invoice-vat-amount-cell": LocalJSX.IrClInvoiceVatAmountCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatAmountCellElement>;
             "ir-cl-invoice-vat-pct-cell": LocalJSX.IrClInvoiceVatPctCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatPctCellElement>;

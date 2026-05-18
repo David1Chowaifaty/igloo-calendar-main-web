@@ -115,7 +115,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             size: 200,
             cell: info => {
                 const value = info.getValue();
-                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, value === 'Billed' && h("wa-icon", { name: "lock" }))));
+                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, info.row.original.status.id === 'billed' && h("wa-icon", { name: "lock" }))));
             },
             enableGrouping: true,
             enableSorting: false,

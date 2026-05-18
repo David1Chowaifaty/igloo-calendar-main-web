@@ -1,9 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$d } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$c } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$b } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$a } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$9 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$e } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$d } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$c } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$b } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$a } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$9 } from './ir-cl-invoice-select2.js';
 import { d as defineCustomElement$8 } from './ir-cl-opening-balance-fields2.js';
 import { d as defineCustomElement$7 } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
@@ -80,7 +81,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-drawer", "ir-air-date-picker", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-drawer", "ir-air-date-picker", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-invoice-select", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
@@ -89,25 +90,30 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
+            }
+            break;
+        case "ir-cl-invoice-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$9();
             }

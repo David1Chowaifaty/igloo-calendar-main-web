@@ -6,10 +6,11 @@ import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as createInitialTransactionFormDraft, h as hydrateFormDraftFromTx, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
 import { C as ClTxTypeCode, V as VatIncludedCodes, a as FdStatus, F as FdTypes } from './enums.js';
-import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$9 } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$8 } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$7 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$b } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$a } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$9 } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$8 } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$7 } from './ir-cl-invoice-select2.js';
 import { d as defineCustomElement$6 } from './ir-cl-opening-balance-fields2.js';
 import { d as defineCustomElement$5 } from './ir-cl-payment-fields2.js';
 import { d as defineCustomElement$4 } from './ir-date-select2.js';
@@ -111,6 +112,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 START_DATE: null,
                 END_DATE: null,
                 LIST_FD_TYPE_CODE,
+                BOOK_NBR: this.booking?.booking_nbr,
                 FD_STATUS_CODE: type === ClTxTypeCode.Payment ? [FdStatus.Sent, FdStatus.Issued] : [FdStatus.Paid, FdStatus.Issued],
             });
             if (type === ClTxTypeCode.CreditNote && this.fiscalDocuments.length === 0 && this.formData.creditNoteMode === 'cancel-invoice') {
@@ -251,7 +253,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
-            } }, h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable"), this.taxOptions.map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label)))))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
+            } }, this.taxOptions.map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))));
     }
@@ -313,7 +315,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-transaction-form", "ir-air-date-picker", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
+    const components = ["ir-city-ledger-transaction-form", "ir-air-date-picker", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-invoice-select", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-date-select", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
@@ -322,20 +324,25 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-cl-debit-note-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$8();
+            }
+            break;
+        case "ir-cl-invoice-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

@@ -299,7 +299,7 @@ export function validateEmail(email) {
     return !parsedEmailResults.success;
 }
 export function formatAmount(currency, amount = 0) {
-    return amount < 0 ? '- ' : '' + currency + ' ' + Math.abs(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `${amount < 0 ? '- ' : ''}${currency} ${Math.abs(amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 /**
  * Determines whether the given user has privileged (global or elevated) access.

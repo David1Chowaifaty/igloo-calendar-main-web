@@ -34,7 +34,12 @@ const FdStatus = {
     Issued: 'ISSUED',
     Voided: 'VOIDED',
 };
+const InOut = {
+    NotSet: '000',
+    CheckedIn: '001',
+    CheckedOut: '002',
+};
 
-export { ClTxTypeCode as C, FdTypes as F, InvoiceableItemReason as I, VatIncludedCodes as V, FdStatus as a };
+export { ClTxTypeCode as C, FdTypes as F, InvoiceableItemReason as I, VatIncludedCodes as V, FdStatus as a, InOut as b };
 
 //# sourceMappingURL=enums.js.map

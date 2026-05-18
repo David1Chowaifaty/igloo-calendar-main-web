@@ -54,3 +54,8 @@ export declare const FdStatus: {
     readonly Issued: "ISSUED";
     readonly Voided: "VOIDED";
 };
+export declare const InOut: {
+    readonly NotSet: "000";
+    readonly CheckedIn: "001";
+    readonly CheckedOut: "002";
+};

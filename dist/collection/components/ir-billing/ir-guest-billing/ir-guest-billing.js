@@ -123,11 +123,16 @@ export class IrGuestBilling {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = null;
-            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-dialog", { label: "Invoice", open: this.pdfUrl !== null, onIrDialogAfterHide: e => {
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                this.pdfUrl = null;
-            } }, this.pdfUrl && h("ir-pdf-viewer", { src: this.pdfUrl })), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
+            }, open: this.isOpen === 'invoice', booking: this.booking }), h("ir-preview-screen-dialog", {
+            // hideDefaultAction
+            open: this.pdfUrl !== null, label: "Invoice", action: "print", onOpenChanged: e => {
+                if (!e.detail) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    this.pdfUrl = null;
+                }
+            }
+        }, this.pdfUrl && h("ir-pdf-viewer", { class: "guest-billing__pdf-viewer", src: this.pdfUrl })), h("ir-dialog", { label: "Alert", open: this.selectedInvoice !== null, lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {

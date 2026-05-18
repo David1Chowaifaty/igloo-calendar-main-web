@@ -1,0 +1,88 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-radius: 0.625rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field--full-width,
+.field--full-width wa-radio-group {
+  width: 100%;
+}
+
+.field--full-width wa-radio-group wa-radio {
+  flex: 1;
+}
+
+.entry-type.--credit:state(checked) {
+  background-color: var(--wa-color-success-fill-quiet);
+  color: var(--wa-color-success-on-quiet);
+  border-color: var(--wa-color-success-border-loud);
+}
+
+.entry-type.--debit:state(checked) {
+  background-color: var(--wa-color-danger-fill-quiet);
+  color: var(--wa-color-danger-on-quiet);
+  border-color: var(--wa-color-danger-border-loud);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.invoice-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.125rem 0;
+}
+
+.invoice-option__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.invoice-option__number {
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.invoice-option__type {
+  font-size: 0.75rem;
+  color: var(--wa-color-neutral-text-quiet);
+}
+
+.invoice-option__meta {
+  justify-content: space-between;
+}
+
+.invoice-option__date {
+  font-size: 0.75rem;
+  color: var(--wa-color-neutral-text-quiet);
+}
+
+.invoice-option__amount {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--wa-color-neutral-text);
+}
+
+.invoice-option__ref {
+  font-size: 0.6875rem;
+  color: var(--wa-color-neutral-text-quiet);
+  font-style: italic;
+}

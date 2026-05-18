@@ -210,7 +210,7 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
     }
     renderMoney(value, currencyId) {
         if (!value)
-            return h("span", { class: "fiscal-table__cell--zero" }, "\u2014");
+            return h("span", { class: "fiscal-table__cell--zero" });
         return h("span", null, formatAmount(this.getSymbol(currencyId), value));
     }
     render() {
