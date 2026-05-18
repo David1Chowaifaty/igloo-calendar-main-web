@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, g as getElement, H as Host, F as Fragment } from './index-7e96440e.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { f as formatAmount } from './utils-6b89a11c.js';
+import { f as formatAmount } from './utils-a3a69e0c.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-caf00b1d.js';
 import './index-f100e9d2.js';
@@ -202,6 +202,16 @@ const IrRevenueTable = class {
      * - Never throws on bad input (null/undefined, non-Map, malformed keys, non-array values).
      * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
      */
+    sortByDateTime(list) {
+        return [...list].sort((a, b) => {
+            const dateCmp = a.date.localeCompare(b.date);
+            if (dateCmp !== 0)
+                return dateCmp;
+            if (a.hour !== b.hour)
+                return a.hour - b.hour;
+            return a.minute - b.minute;
+        });
+    }
     regroupPaymentsByMethod() {
         const result = new Map();
         // Early return on empty/invalid source
@@ -242,8 +252,9 @@ const IrRevenueTable = class {
     }
     render() {
         const hasPayments = this.payments instanceof Map && this.payments.size > 0;
-        return (h("div", { key: 'fed4faf0ff42c40beadbe3f31937bf84f08862ac', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
+        return (h("div", { key: 'ab162bacb52be5b85cd0e241f1b67cfc366ce10d', class: "card p-1 revenue-table__table" }, hasPayments ? (h(Fragment, null, h("div", { class: "revenue-table__header" }, h("p", null, "Method"), h("p", null, "Amount")), this.groupType === 'type' &&
             Array.from(this.payments.entries()).map(([key, list]) => {
+                list = this.sortByDateTime(list);
                 const [paymentType, paymentMethod] = key.split('_');
                 const groupName = PAYMENT_TYPES_WITH_METHOD.includes(paymentType)
                     ? `${this.payTypesObj[paymentType] ?? paymentType}: ${this.payMethodObj[paymentMethod] ?? paymentMethod}`
@@ -253,6 +264,7 @@ const IrRevenueTable = class {
             Array.from(this.regroupPaymentsByMethod().entries()).flatMap(([methodKey, byType]) => {
                 const total = Array.from(byType.entries()).reduce((prev, [_, list]) => prev + list.reduce((p, c) => p + c.amount, 0), 0);
                 return (h("div", { key: `method_${methodKey}` }, h("div", { class: "revenue-table__method_header" }, h("p", null, this.payMethodObj[methodKey] ?? methodKey), h("p", null, formatAmount(calendar_data.currency.symbol, total))), Array.from(byType.entries()).map(([typeKey, list]) => {
+                    list = this.sortByDateTime(list);
                     const groupName = PAYMENT_TYPES_WITH_METHOD.includes(typeKey) ? `${this.payTypesObj[typeKey] ?? typeKey}` : this.payTypesObj[typeKey] ?? typeKey;
                     return (h("div", { key: `type_${typeKey}`, class: "px-1" }, h("ir-revenue-row", { payments: list, groupName: groupName })));
                 })));

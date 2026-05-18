@@ -13,6 +13,7 @@ export declare class IrRevenueTable {
      * - Never throws on bad input (null/undefined, non-Map, malformed keys, non-array values).
      * - Keys are parsed defensively; unknown parts fall back to "UNKNOWN".
      */
+    private sortByDateTime;
     private regroupPaymentsByMethod;
     render(): any;
 }

@@ -70,7 +70,7 @@ const IrCityLedger = /*@__PURE__*/ proxyCustomElement(class IrCityLedger extends
     propertyid;
     agentId = null;
     resolvedPropertyId = null;
-    currentTab = 'folio';
+    currentTab = 'create-statement';
     isLoading = false;
     agents = [];
     selectedAgent = null;

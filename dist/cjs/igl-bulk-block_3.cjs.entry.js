@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-52d0eb8a.js');
+const booking_store = require('./booking.store-f9892617.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking = require('./booking-487ab4da.js');
 require('./axios-6e678d52.js');
 require('./utils-02561109.js');
 require('./type-87fd01b8.js');
@@ -76,7 +75,7 @@ const IglBulkBlock = class {
     dateRefs = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     datesSchema = index$1.z.array(index$1.z.object({
         from: index$1.z
             .any()
@@ -300,7 +299,7 @@ const IglBulkStopSale = class {
     // private allRoomTypes: SelectedRooms[] = [];
     reloadInterceptor;
     minDate = moment.hooks().format('YYYY-MM-DD');
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     getDayIndex(dateStr) {
         return moment.hooks(dateStr, 'YYYY-MM-DD').day();
     }
@@ -362,10 +361,10 @@ const IglBulkStopSale = class {
             return p;
         };
         const updateCalendarCells = (payloads) => {
-            const prevDisabledCells = new Map(booking.calendar_dates.disabled_cells);
+            const prevDisabledCells = new Map(booking_store.calendar_dates.disabled_cells);
             // Caches
             const roomsInfoById = new Map(calendarData.calendar_data.roomsInfo.map((rt, i) => [rt.id, { roomType: rt, index: i }]));
-            const dayIndexByValue = new Map(booking.calendar_dates.days.map((day, i) => [day.value, i]));
+            const dayIndexByValue = new Map(booking_store.calendar_dates.days.map((day, i) => [day.value, i]));
             const rateByRoomTypeAndDate = new Map();
             for (const payload of payloads) {
                 for (const restriction of payload.restrictions) {
@@ -378,7 +377,7 @@ const IglBulkStopSale = class {
                         console.warn(`Couldn't find date ${night}`);
                         continue;
                     }
-                    const day = booking.calendar_dates.days[dayIndex];
+                    const day = booking_store.calendar_dates.days[dayIndex];
                     const rateKey = `${room_type_id}_${night}`;
                     let rp = rateByRoomTypeAndDate.get(rateKey);
                     if (!rp) {
@@ -399,7 +398,7 @@ const IglBulkStopSale = class {
                     }
                 }
             }
-            booking.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
+            booking_store.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
         };
         try {
             this.errors = null;

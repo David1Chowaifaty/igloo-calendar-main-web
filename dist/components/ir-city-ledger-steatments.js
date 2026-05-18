@@ -106,6 +106,7 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             ]);
             this.statement = result ?? null;
             this.rows = fiscalDocuments ?? [];
+            console.log(result.My_Rows.filter(r => !!r.DOC_NUMBER));
         }
         catch (err) {
             console.error('[ir-city-ledger-statements] getCLStatement error:', err);
@@ -121,15 +122,16 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         return `Statement - ${hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: 'f41f04f24b9f7e47b0476af8b5e67bb52e5fec5d' }, h("section", { key: 'dc7a28fdf346179220ad0e99ccefe66a40621ce3', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '5249beecd3d51d4562a81958b77e4cfe4f1bd9a0', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: 'b14d0e57080bd1e7a6f6fe2f0afad53d691ff432' }, h("section", { key: '98c3ca59e8743b3856c7a84576c80beb3bbfd8ff', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '6ea90372ef23bd94a08ba7c2546ee120f615f008', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '274d438460fa7fe9c8e63fd7a59d0f004307c818', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '355bec9c7d9a34953d044f4feca6e2590dece23e', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'f26951739a0a21364f85824979d48362bc57adcd', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate })), h("ir-preview-screen-dialog", { key: '4f37fad9db25af6df36b0f55c7512015fceaee33', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: '0e183a35267df4f07f6458d1e836f6f3244ac186', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: 'b368ccbcf90c3c1219dba50a1b6721db9e76e1fe', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'd00f620748ddb6f2a4fc04db6b3e7186c8926ba3', name: "download", label: "Download PDF" })))), this.printFilters && (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
+            } }, h("div", { key: '186352f9a3f220b55673fe6843f0aaa6773ac5a1', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '769009c2aaa02cf47fde8f7a8ae12bdb14d05dda', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '25516ec05be02b6a3712cb625589f4a9d0892795', name: "download", label: "Download PDF" })))), this.printFilters &&
+            (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"],

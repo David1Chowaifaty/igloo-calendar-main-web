@@ -4,13 +4,12 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const room_service = require('./room.service-f9117e70.js');
-const booking_service = require('./booking.service-52d0eb8a.js');
+const booking_store = require('./booking.store-f9892617.js');
 const utils = require('./utils-02561109.js');
 const index$1 = require('./index-84e84862.js');
-const events_service = require('./events.service-537aa16d.js');
+const events_service = require('./events.service-cf8c5631.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-845e6d0e.js');
-const booking = require('./booking-487ab4da.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const unassigned_dates_store = require('./unassigned_dates.store-4a879984.js');
@@ -21,8 +20,8 @@ const agents_service = require('./agents.service-3088231b.js');
 const property_service = require('./property.service-f761ccf5.js');
 const arrivals_store = require('./arrivals.store-a9bcb0d8.js');
 const axios = require('./axios-6e678d52.js');
-const booking_listing_service = require('./booking_listing.service-39a4ac6b.js');
 const channel_service = require('./channel.service-4e2bcfbc.js');
+const system_service = require('./system.service-101141de.js');
 const departures_store = require('./departures.store-6a360885.js');
 const hkTasks_store = require('./hk-tasks.store-3e893ff1.js');
 const paymentOption_store = require('./payment-option.store-2e20e9a2.js');
@@ -215,7 +214,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     eventsService = new events_service.EventsService();
     toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
@@ -489,8 +488,8 @@ const IglooCalendar = class {
                 roomResp = results[results.length - 1];
             }
             const [bookingResp, countries] = results;
-            booking.calendar_dates.days = bookingResp.days;
-            booking.calendar_dates.months = bookingResp.months;
+            booking_store.calendar_dates.days = bookingResp.days;
+            booking_store.calendar_dates.months = bookingResp.months;
             this.setRoomsData(roomResp);
             this.countries = countries;
             this.setUpCalendarData(roomResp, bookingResp);
@@ -504,8 +503,8 @@ const IglooCalendar = class {
             this.days = bookingResp.days;
             this.calendarData.days = this.days;
             this.calendarData.monthsInfo = bookingResp.months;
-            booking.calendar_dates.fromDate = this.calendarData.from_date;
-            booking.calendar_dates.toDate = this.calendarData.to_date;
+            booking_store.calendar_dates.fromDate = this.calendarData.from_date;
+            booking_store.calendar_dates.toDate = this.calendarData.to_date;
             setTimeout(() => {
                 this.scrollToElement(this.today);
             }, 200);
@@ -547,7 +546,7 @@ const IglooCalendar = class {
             dusty_window: housekeeping_service.housekeeping_store?.hk_criteria?.dusty_periods[0]?.code,
             highlight_window: housekeeping_service.housekeeping_store?.hk_criteria?.highlight_checkin_options[0]?.code,
         });
-        booking.addCleaningTasks(tasks);
+        booking_store.addCleaningTasks(tasks);
     }
     async handleSocketMessage(msg) {
         const msgAsObject = JSON.parse(msg);
@@ -686,7 +685,7 @@ const IglooCalendar = class {
                 ...this.calendarData.bookingEvents.map(e => {
                     if (e.IDENTIFIER === result.identifier) {
                         const mainGuest = result.guests?.find(p => p.is_main);
-                        return { ...e, NAME: booking.formatName(mainGuest.first_name, mainGuest.last_name), ROOM_INFO: { ...e.ROOM_INFO, sharing_persons: result.guests } };
+                        return { ...e, NAME: booking_store.formatName(mainGuest.first_name, mainGuest.last_name), ROOM_INFO: { ...e.ROOM_INFO, sharing_persons: result.guests } };
                     }
                     return e;
                 }),
@@ -699,7 +698,7 @@ const IglooCalendar = class {
             bookingEvents: [
                 ...this.calendarData.bookingEvents.map(e => {
                     if (e.IDENTIFIER === result.room_identifier) {
-                        const STATUS = booking.getRoomStatus({
+                        const STATUS = booking_store.getRoomStatus({
                             from_date: e.FROM_DATE,
                             to_date: e.TO_DATE,
                             in_out: { ...e.ROOM_INFO.in_out, code: result.status },
@@ -719,7 +718,7 @@ const IglooCalendar = class {
         };
     }
     handleHkSkip(result) {
-        booking.cleanRoom({ date: result.DATE, unitId: result.PR_ID });
+        booking_store.cleanRoom({ date: result.DATE, unitId: result.PR_ID });
     }
     handleUnitHKStatusChanged(result) {
         console.log('hk unit change', result);
@@ -743,23 +742,23 @@ const IglooCalendar = class {
         }
         const roomPayload = { date: moment.hooks().format('YYYY-MM-DD'), unitId: result.PR_ID };
         if (result.HKS_CODE === '002') {
-            booking.addRoomForCleaning(roomPayload);
+            booking_store.addRoomForCleaning(roomPayload);
         }
         else {
-            booking.cleanRoom(roomPayload);
+            booking_store.cleanRoom(roomPayload);
         }
     }
     async handleDoReservation(result) {
-        const transformedBooking = booking.transformNewBooking(result);
+        const transformedBooking = booking_store.transformNewBooking(result);
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleBlockExposedUnit(result) {
-        const transformedBooking = [await booking.transformNewBLockedRooms(result)];
+        const transformedBooking = [await booking_store.transformNewBLockedRooms(result)];
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleAssignExposedRoom(result) {
         console.log(result);
-        const transformedBooking = booking.transformNewBooking(result);
+        const transformedBooking = booking_store.transformNewBooking(result);
         this.AddOrUpdateRoomBookings(transformedBooking);
     }
     async handleReallocateExposedRoomBlock(result) {
@@ -820,7 +819,7 @@ const IglooCalendar = class {
                 if (result.pools.includes(event.ID)) {
                     return {
                         ...event,
-                        STATUS: event.STATUS !== 'IN-HOUSE' ? booking.bookingStatus[result.status_code] : result.status_code === '001' ? booking.bookingStatus[result.status_code] : 'IN-HOUSE',
+                        STATUS: event.STATUS !== 'IN-HOUSE' ? booking_store.bookingStatus[result.status_code] : result.status_code === '001' ? booking_store.bookingStatus[result.status_code] : 'IN-HOUSE',
                     };
                 }
                 return event;
@@ -832,7 +831,7 @@ const IglooCalendar = class {
             ...this.calendarData,
             bookingEvents: this.calendarData.bookingEvents.map(event => {
                 if (event.BOOKING_NUMBER === result.booking_nbr) {
-                    return { ...event, PRIVATE_NOTE: booking.getPrivateNote(result.extras) };
+                    return { ...event, PRIVATE_NOTE: booking_store.getPrivateNote(result.extras) };
                 }
                 return event;
             }),
@@ -855,7 +854,7 @@ const IglooCalendar = class {
             bookingEvent.roomsInfo = [...this.calendarData.roomsInfo];
             if (!utils.isBlockUnit(bookingEvent.STATUS_CODE)) {
                 // if (calendar_data.checkin_enabled) {
-                bookingEvent.STATUS = booking.getRoomStatus({
+                bookingEvent.STATUS = booking_store.getRoomStatus({
                     in_out: bookingEvent.ROOM_INFO?.in_out,
                     from_date: bookingEvent.FROM_DATE,
                     to_date: bookingEvent.TO_DATE,
@@ -915,8 +914,8 @@ const IglooCalendar = class {
     }
      */
     processSalesBatch(batch) {
-        const days = [...booking.calendar_dates.days];
-        const disabled_cells = new Map(booking.calendar_dates.disabled_cells);
+        const days = [...booking_store.calendar_dates.days];
+        const disabled_cells = new Map(booking_store.calendar_dates.disabled_cells);
         for (const sale of batch) {
             // 1) find the day index
             const dayIdx = days.findIndex(d => d.value === sale.night);
@@ -962,12 +961,12 @@ const IglooCalendar = class {
             }
         }
         // 6) write back to the store
-        booking.calendar_dates['disabled_cells'] = new Map(disabled_cells);
-        booking.calendar_dates.days = days;
+        booking_store.calendar_dates['disabled_cells'] = new Map(disabled_cells);
+        booking_store.calendar_dates.days = days;
     }
     processAvailabilityBatch(batch) {
-        let days = [...booking.calendar_dates.days];
-        const disabled_cells = new Map(booking.calendar_dates.disabled_cells);
+        let days = [...booking_store.calendar_dates.days];
+        const disabled_cells = new Map(booking_store.calendar_dates.disabled_cells);
         for (const queue of batch) {
             //find the selected day
             const index = days.findIndex(day => day.value === queue.date);
@@ -992,8 +991,8 @@ const IglooCalendar = class {
             }
             // }
         }
-        booking.calendar_dates['disabled_cells'] = new Map(disabled_cells);
-        booking.calendar_dates.days = [...days];
+        booking_store.calendar_dates['disabled_cells'] = new Map(disabled_cells);
+        booking_store.calendar_dates.days = [...days];
     }
     setRoomsData(roomServiceResp) {
         let roomsData = new Array();
@@ -1133,7 +1132,7 @@ const IglooCalendar = class {
         if (new Date(fromDate).getTime() < new Date(this.calendarData.startingDate).getTime()) {
             this.calendarData.startingDate = new Date(fromDate).getTime();
             this.calendarData.from_date = fromDate;
-            booking.calendar_dates.fromDate = this.calendarData.from_date;
+            booking_store.calendar_dates.fromDate = this.calendarData.from_date;
             this.days = [...results.days, ...this.days];
             let newMonths = [...results.months];
             if (this.calendarData.monthsInfo[0].monthName === results.months[results.months.length - 1].monthName) {
@@ -1145,12 +1144,12 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE = newBooking.FROM_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking_store.calculateDaysBetweenDates(newBooking.FROM_DATE, this.calendarData.bookingEvents[existingBookingIndex].TO_DATE);
                     return false;
                 }
                 return true;
             });
-            booking.calendar_dates.days = this.days;
+            booking_store.calendar_dates.days = this.days;
             this.calendarData = {
                 ...this.calendarData,
                 days: this.days,
@@ -1171,7 +1170,7 @@ const IglooCalendar = class {
         else {
             this.calendarData.endingDate = new Date(toDate).getTime();
             this.calendarData.to_date = toDate;
-            booking.calendar_dates.toDate = this.calendarData.to_date;
+            booking_store.calendar_dates.toDate = this.calendarData.to_date;
             let newMonths = [...results.months];
             this.days = [...this.days, ...results.days];
             if (this.calendarData.monthsInfo[this.calendarData.monthsInfo.length - 1].monthName === results.months[0].monthName) {
@@ -1184,12 +1183,12 @@ const IglooCalendar = class {
                 const existingBookingIndex = this.calendarData.bookingEvents.findIndex(event => event.ID === newBooking.ID);
                 if (existingBookingIndex !== -1) {
                     this.calendarData.bookingEvents[existingBookingIndex].TO_DATE = newBooking.TO_DATE;
-                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
+                    this.calendarData.bookingEvents[existingBookingIndex].NO_OF_DAYS = booking_store.calculateDaysBetweenDates(this.calendarData.bookingEvents[existingBookingIndex].FROM_DATE, newBooking.TO_DATE);
                     return false;
                 }
                 return true;
             });
-            booking.calendar_dates.days = this.days;
+            booking_store.calendar_dates.days = this.days;
             //calendar_dates.months = bookingResp.months;
             this.calendarData = {
                 ...this.calendarData,
@@ -1536,7 +1535,7 @@ const IrAgents = class {
     toast;
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     tokenService = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
@@ -1695,7 +1694,7 @@ const IrArrivals = class {
     countries;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -1876,298 +1875,6 @@ const IrBookingEmailLogs = class {
     }; }
 };
 IrBookingEmailLogs.style = IrBookingEmailLogsStyle0;
-
-// src/utils/browserHistory.ts
-/**
- * Read all current search params into a Record<string, string>
- */
-function getAllParams() {
-    const params = new URLSearchParams(window.location.search);
-    const out = {};
-    for (const [key, value] of params.entries()) {
-        out[key] = value;
-    }
-    return out;
-}
-
-const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative;height:100% !important;overflow-y:auto !important}";
-const IrBookingListingStyle0 = irBookingListingCss;
-
-const IrBookingListing = class {
-    constructor(hostRef) {
-        index.registerInstance(this, hostRef);
-    }
-    get el() { return index.getElement(this); }
-    language = '';
-    ticket = '';
-    propertyid;
-    rowCount = 20;
-    p;
-    baseUrl;
-    userType;
-    isLoading = false;
-    editBookingItem = null;
-    showCost = false;
-    paymentEntries;
-    payment;
-    booking;
-    bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_service.BookingService();
-    roomService = new room_service.RoomService();
-    propertyService = new property_service.PropertyService();
-    token = new Token.Token();
-    listingModal;
-    listingModalTimeout;
-    allowedProperties;
-    havePrivilege;
-    paymentFolioRef;
-    componentWillLoad() {
-        if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
-        }
-        booking_listing_service.updateUserSelection('end_row', this.rowCount);
-        booking_listing_service.booking_listing.rowCount = this.rowCount;
-        booking_listing_service.setPaginationPageSize(this.rowCount);
-        if (this.ticket !== '') {
-            booking_listing_service.booking_listing.token = this.ticket;
-            this.token.setToken(this.ticket);
-            this.initializeApp();
-        }
-        booking_listing_service.onBookingListingChange('userSelection', newValue => {
-            booking_listing_service.updatePaginationFromSelection(newValue);
-        });
-        booking_listing_service.onBookingListingChange('bookings', newValue => {
-            this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
-        });
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        booking_listing_service.booking_listing.token = this.ticket;
-        this.initializeApp();
-    }
-    async fetchBookings() {
-        await this.bookingListingService.getExposedBookings({
-            ...booking_listing_service.booking_listing.userSelection,
-            is_to_export: false,
-        });
-    }
-    async initializeApp() {
-        try {
-            this.isLoading = true;
-            this.havePrivilege = utils.isPrivilegedUser(this.userType);
-            let propertyId = this.propertyid;
-            if (!this.havePrivilege) {
-                if (!this.propertyid && !this.p) {
-                    throw new Error('Property ID or username is required');
-                }
-                if (!propertyId) {
-                    const propertyData = await this.roomService.getExposedProperty({
-                        id: 0,
-                        aname: this.p,
-                        language: this.language,
-                        is_backend: true,
-                    });
-                    propertyId = propertyData.My_Result.id;
-                }
-            }
-            const parallelRequests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
-                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
-            ];
-            // let propertyDataIndex: number | null = null;
-            let allowedPropertiesIndex = null;
-            if (this.propertyid && !this.havePrivilege) {
-                // propertyDataIndex = parallelRequests.length;
-                parallelRequests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                    is_backend: true,
-                }));
-            }
-            if (this.havePrivilege) {
-                allowedPropertiesIndex = parallelRequests.length;
-                parallelRequests.push(this.propertyService.getExposedAllowedProperties());
-            }
-            const results = await Promise.all(parallelRequests);
-            const [setupEntries] = results;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
-            this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
-            booking_listing_service.updateUserSelection('property_id', propertyId);
-            booking_listing_service.updateUserSelections({
-                property_ids: this.allowedProperties,
-                userTypeCode: this.userType,
-            });
-            await this.fetchBookings();
-        }
-        catch (error) {
-            console.error('Error initializing app:', error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    handleSideBarToggle(e) {
-        if (e.detail) {
-            this.editBookingItem = null;
-        }
-    }
-    geSearchFiltersFromParams() {
-        //e=10&status=002&from=2025-04-15&to=2025-04-22&filter=2&c=Alitalia+Cabin+Crew
-        const params = getAllParams();
-        if (params) {
-            console.log('update params');
-            let obj = {};
-            if (params.e) {
-                obj['end_row'] = Number(params.e);
-            }
-            if (params.s) {
-                obj['start_row'] = Number(params.s);
-            }
-            if (params.status) {
-                obj['booking_status'] = params.status;
-            }
-            if (params.filter) {
-                obj['filter_type'] = params.filter;
-            }
-            if (params.from) {
-                obj['from'] = params.from;
-            }
-            if (params.to) {
-                obj['to'] = params.to;
-            }
-            booking_listing_service.updateUserSelections(obj);
-        }
-        console.log('params=>', params);
-    }
-    openModal() {
-        this.listingModalTimeout = setTimeout(() => {
-            this.listingModal = this.el.querySelector('ir-listing-modal');
-            this.listingModal.editBooking = this.editBookingItem;
-            this.listingModal.openModal();
-        }, 100);
-    }
-    disconnectedCallback() {
-        clearTimeout(this.listingModalTimeout);
-    }
-    async handlePaginationChange(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        if (!event.detail) {
-            return;
-        }
-        booking_listing_service.setPaginationPage(event.detail.currentPage);
-        await this.fetchBookings();
-    }
-    async handlePaginationPageSizeChange(event) {
-        if (!event.detail || !event.detail.pageSize) {
-            return;
-        }
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        booking_listing_service.setPaginationPageSize(event.detail.pageSize);
-        await this.fetchBookings();
-    }
-    async handleResetStoreData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchBookings();
-    }
-    handleBookingChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        booking_listing_service.booking_listing.bookings = [
-            ...booking_listing_service.booking_listing.bookings.map(b => {
-                if (b.booking_nbr === e.detail.booking_nbr) {
-                    return e.detail;
-                }
-                return b;
-            }),
-        ];
-    }
-    handleBookingPayment(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { booking_nbr, payment } = e.detail;
-        this.booking = this.findBooking(booking_nbr);
-        const paymentType = this.paymentEntries.types.find(p => p.CODE_NAME === payment.payment_type.code);
-        this.payment = {
-            ...payment,
-            payment_type: {
-                code: paymentType.CODE_NAME,
-                description: paymentType.CODE_VALUE_EN,
-                operation: paymentType.NOTES,
-            },
-        };
-        this.paymentFolioRef.openFolio();
-    }
-    handleSelectGuestEvent(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const booking = this.findBooking(e.detail);
-        if (!booking) {
-            return;
-        }
-        this.editBookingItem = {
-            booking,
-            cause: 'guest',
-        };
-    }
-    handleOpen(e) {
-        e.stopImmediatePropagation();
-        const booking = this.findBooking(e.detail);
-        if (!booking) {
-            return;
-        }
-        this.editBookingItem = {
-            booking,
-            cause: 'edit',
-        };
-    }
-    async handleResetExposedCancellationDueAmount(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchBookings();
-    }
-    handleGuestChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        booking_listing_service.booking_listing.bookings = booking_listing_service.booking_listing.bookings.map(b => {
-            const guest = { ...b.guest };
-            const newGuest = e.detail;
-            if (guest.id === newGuest.id) {
-                return { ...b, guest: { ...guest, ...newGuest } };
-            }
-            return b;
-        });
-    }
-    findBooking(bookingNumber) {
-        return booking_listing_service.booking_listing.bookings.find(b => b.booking_nbr === bookingNumber);
-    }
-    render() {
-        if (this.isLoading || this.ticket === '') {
-            return index.h("ir-loading-screen", null);
-        }
-        return (index.h(index.Host, null, index.h("ir-interceptor", null), index.h("ir-toast", null), index.h("div", { class: "main-container" }, index.h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), index.h("section", { class: "mt-2" }, index.h("ir-booking-listing-table", null))), index.h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), index.h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
-                this.editBookingItem = null;
-            }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), index.h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
-                this.booking = null;
-                this.payment = null;
-            } })));
-    }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"]
-    }; }
-};
-IrBookingListing.style = IrBookingListingStyle0;
 
 const actions = (entries) => [
     {
@@ -2434,6 +2141,147 @@ const IrChannel = class {
 };
 IrChannel.style = IrChannelStyle0;
 
+const irCityLedgerCss = ".sc-ir-city-ledger-h{display:block;height:100%}.city-ledger__agents-autocomplete.sc-ir-city-ledger{width:100%}@media (min-width: 768px){.city-ledger__agents-autocomplete.sc-ir-city-ledger{max-width:400px}}.city-ledger__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.city-ledger__no-agent.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.625rem;padding:5rem 2rem;height:100%;text-align:center;color:var(--wa-color-text-quiet, #6b7280)}.city-ledger__no-agent-icon-container.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.city-ledger__no-agent-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.city-ledger__no-agent-sub.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:400px;line-height:1.6}.statement-tab-panel.sc-ir-city-ledger{min-height:400px}.statement__empty-state.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:4rem 2rem;color:var(--wa-color-text-quiet, #6b7280);text-align:center}.statement__empty-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement__empty-subtitle.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:360px}.statement__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:1.25rem}.statement__controls.sc-ir-city-ledger{display:flex;align-items:flex-end;flex-wrap:wrap;gap:1rem}.statement__period-group.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.375rem}.statement__label.sc-ir-city-ledger{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280)}.statement__dates.sc-ir-city-ledger{display:flex;align-items:center;gap:0.5rem}.statement__date-picker.sc-ir-city-ledger{width:160px}.statement__dates-sep.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #9ca3af);font-weight:500}.statement__action-bar.sc-ir-city-ledger{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 1rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);border:1px solid var(--wa-color-brand-border-quiet, #bfdbfe);border-radius:0.625rem 0.625rem 0 0;font-size:0.875rem}.statement__action-bar-label.sc-ir-city-ledger{display:flex;align-items:center;font-weight:500;color:var(--wa-color-brand-on-quiet)}.statement__action-bar-buttons.sc-ir-city-ledger{display:flex;gap:0.5rem;flex-wrap:wrap}.statement__preview-wrapper.sc-ir-city-ledger{display:flex;flex-direction:column}.statement-doc.sc-ir-city-ledger{background:#fff;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-top:0;border-radius:0 0 0.75rem 0.75rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.04)}.statement-doc__header.sc-ir-city-ledger{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}.statement-doc__hotel.sc-ir-city-ledger{display:flex;align-items:center;gap:0.875rem}.statement-doc__hotel-logo.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:var(--wa-color-neutral-fill-quiet, #f3f4f6);border-radius:0.5rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__title.sc-ir-city-ledger{margin:0;font-size:1.375rem;font-weight:700;color:var(--wa-color-text-normal, #111827)}.statement-doc__subtitle.sc-ir-city-ledger{margin:0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.25rem;text-align:right}.statement-doc__meta-row.sc-ir-city-ledger{display:flex;justify-content:flex-end;gap:0.5rem;font-size:0.8125rem}.statement-doc__meta-label.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta-value.sc-ir-city-ledger{font-weight:500;color:var(--wa-color-text-normal, #111827)}.statement-doc__statement-number.sc-ir-city-ledger{font-family:ui-monospace, 'Cascadia Code', monospace;font-size:0.8125rem}.statement-doc__divider.sc-ir-city-ledger{border:0;border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);margin:0}.statement-doc__parties.sc-ir-city-ledger{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.statement-doc__party-label.sc-ir-city-ledger{margin:0 0 0.375rem;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__party-name.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement-doc__party-detail.sc-ir-city-ledger{margin:0.125rem 0 0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__summary.sc-ir-city-ledger{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.75rem}@media (min-width: 768px){.statement-doc__summary.sc-ir-city-ledger{grid-template-columns:repeat(4, 1fr)}}.statement-doc__summary-card.sc-ir-city-ledger{padding:1rem;border-radius:0.5rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);display:flex;flex-direction:column;gap:0.25rem}.statement-doc__summary-card--opening.sc-ir-city-ledger{border-color:var(--wa-color-neutral-border-quiet, #e5e7eb)}.statement-doc__summary-card--charges.sc-ir-city-ledger{border-color:#fecaca;background:#fef2f2}.statement-doc__summary-card--payments.sc-ir-city-ledger{border-color:#bbf7d0;background:#f0fdf4}.statement-doc__summary-card--due.sc-ir-city-ledger{border-color:var(--wa-color-brand-border-quiet, #bfdbfe);background:var(--wa-color-brand-fill-quiet, #eff6ff)}.statement-doc__summary-card-label.sc-ir-city-ledger{font-size:0.75rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);text-transform:uppercase;letter-spacing:0.03em}.statement-doc__summary-card-value.sc-ir-city-ledger{font-size:1.125rem;font-weight:700;color:var(--wa-color-text-normal, #111827);font-variant-numeric:tabular-nums}.statement-doc__balance-due.sc-ir-city-ledger{color:var(--wa-color-brand-fill-loud, #2563eb)}.statement-doc__table-wrapper.sc-ir-city-ledger{overflow-x:auto;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem}.statement-doc__table.sc-ir-city-ledger{width:100%;border-collapse:collapse;font-size:0.875rem}.statement-doc__table.sc-ir-city-ledger thead.sc-ir-city-ledger th.sc-ir-city-ledger{padding:0.625rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);font-weight:600;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280);text-align:left;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);white-space:nowrap}.statement-doc__table.sc-ir-city-ledger tbody.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.625rem 0.875rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #f3f4f6);color:var(--wa-color-text-normal, #111827)}.statement-doc__table.sc-ir-city-ledger tfoot.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.75rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:2px solid var(--wa-color-neutral-border-quiet, #e5e7eb);font-weight:700}.statement-doc__col--right.sc-ir-city-ledger{text-align:right}.statement-doc__opening-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:500;background:var(--wa-color-neutral-fill-quiet, #fafafa);color:var(--wa-color-text-quiet, #6b7280);font-size:0.8125rem}.statement-doc__totals-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:700}.statement-doc__table-note.sc-ir-city-ledger{text-align:center;color:var(--wa-color-text-quiet, #9ca3af);font-size:0.8125rem;padding:1.5rem !important}.statement-doc__footer.sc-ir-city-ledger{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;padding:0.875rem 1rem}.statement-doc__payment-notice.sc-ir-city-ledger{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__payment-notice.sc-ir-city-ledger p.sc-ir-city-ledger{margin:0;line-height:1.5}";
+const IrCityLedgerStyle0 = irCityLedgerCss;
+
+const IrCityLedger = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    get el() { return index.getElement(this); }
+    ticket;
+    p;
+    baseurl;
+    language = 'en';
+    propertyid;
+    agentId = null;
+    resolvedPropertyId = null;
+    currentTab = 'create-statement';
+    isLoading = false;
+    agents = [];
+    selectedAgent = null;
+    taxOptions = [];
+    serviceCategoryOptions = [];
+    currencySymbol = '$';
+    // Statement tab state
+    statementFrom = null;
+    statementTo = null;
+    showStatementPreview = false;
+    folioSummary = null;
+    panels = [
+        { id: 'folio', label: 'Folio' },
+        { id: 'fiscal-documents', label: 'Fiscal Documents' },
+        { id: 'create-statement', label: 'Create Statement' },
+    ];
+    tokenService = new Token.Token();
+    agentsService = new agents_service.AgentsService();
+    propertyService = new property_service.PropertyService();
+    bookingService = new booking_store.BookingService();
+    systemService = new system_service.SystemService();
+    toolbarRef;
+    createInvoiceDialogRef;
+    currencies = [];
+    componentWillLoad() {
+        if (this.ticket) {
+            if (this.baseurl) {
+                this.tokenService.setBaseUrl(this.baseurl);
+            }
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.baseurl)
+            this.tokenService.setBaseUrl(this.baseurl);
+        this.tokenService.setToken(this.ticket);
+        this.init();
+    }
+    handlePropertyIdChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.ticket)
+            this.init();
+    }
+    handleAgentIdChange(newId, oldId) {
+        if (newId === oldId || this.isLoading)
+            return;
+        this.applyAgentIdProp();
+    }
+    applyAgentIdProp() {
+        if (this.agentId == null)
+            return;
+        const agent = this.agents.find(a => a.id === this.agentId);
+        if (!agent)
+            return;
+        this.selectedAgent = agent;
+        this.showStatementPreview = false;
+        this.folioSummary = null;
+        requestAnimationFrame(() => {
+            const autocomplete = this.el.querySelector('ir-autocomplete');
+            if (autocomplete)
+                autocomplete.value = agent.name;
+        });
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            // If a property name was supplied but no numeric id, resolve the id first.
+            let propertyId = this.propertyid;
+            if (!propertyId && this.p) {
+                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                propertyId = calendarData.calendar_data.id;
+            }
+            this.resolvedPropertyId = propertyId;
+            const resolvedByName = !this.propertyid && !!this.p;
+            const [, setupEntries, agents, currencies] = await Promise.all([
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                this.agentsService.getExposedAgents({ property_id: propertyId }),
+                this.systemService.getExposedCurrencies(),
+            ]);
+            this.currencies = currencies;
+            this.agents = agents ?? [];
+            this.applyAgentIdProp();
+            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
+                id: entry.CODE_NAME,
+                label: entry.CODE_VALUE_EN,
+            }));
+            this.currencySymbol = calendarData.calendar_data.currency?.symbol ?? '$';
+        }
+        catch (error) {
+            console.error('Failed to initialize city ledger', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    render() {
+        if (this.isLoading) {
+            return index.h("ir-loading-screen", null);
+        }
+        return (index.h(index.Host, null, index.h("ir-page", { label: 'City Ledger' }, index.h("ir-autocomplete", { slot: "page-header",
+            // size="medium"
+            placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onCombobox-change": (e) => {
+                this.selectedAgent = e.detail ? this.agents?.find(agent => agent.id === Number(e.detail)) : null;
+                this.showStatementPreview = false;
+                this.folioSummary = null;
+            } }, this.agents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (index.h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, index.h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, index.h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), index.h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (index.h("div", { class: "city-ledger__content" }, index.h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), index.h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                this.currentTab = e.detail.name.toString();
+            }, active: this.currentTab }, this.panels.map(panel => (index.h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), index.h("wa-tab-panel", { name: "folio" }, index.h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), index.h("wa-tab-panel", { name: "fiscal-documents" }, this.currentTab === 'fiscal-documents' && (index.h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendarData.calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))), index.h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, this.currentTab === 'create-statement' && (index.h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendarData.calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId }))))))), index.h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
+                await this.toolbarRef?.refresh();
+            } }), index.h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendarData.calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
+    }
+    static get watchers() { return {
+        "ticket": ["handleTicketChange"],
+        "propertyid": ["handlePropertyIdChange"],
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedger.style = IrCityLedgerStyle0;
+
 const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
 
@@ -2463,7 +2311,7 @@ const IrDailyRevenue = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
@@ -2665,7 +2513,7 @@ const IrDepartures = class {
     invoiceState = null;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -3152,7 +3000,7 @@ const IrHousekeeping = class {
     toast;
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     token = new Token.Token();
     componentWillLoad() {
         if (this.baseUrl) {
@@ -3814,7 +3662,7 @@ const IrSalesByCountry = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -4001,7 +3849,7 @@ const IrTaxServiceCategories = class {
     setupEntries;
     autoValidate;
     tokenService = new Token.Token();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
@@ -4224,7 +4072,7 @@ const IrUserManagement = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     userTypes = new Map();
     socket;
     superAdminId = '5';
@@ -4391,8 +4239,8 @@ exports.igloo_calendar = IglooCalendar;
 exports.ir_agents = IrAgents;
 exports.ir_arrivals = IrArrivals;
 exports.ir_booking_email_logs = IrBookingEmailLogs;
-exports.ir_booking_listing = IrBookingListing;
 exports.ir_channel = IrChannel;
+exports.ir_city_ledger = IrCityLedger;
 exports.ir_daily_revenue = IrDailyRevenue;
 exports.ir_departures = IrDepartures;
 exports.ir_hk_tasks = IrHkTasks;
