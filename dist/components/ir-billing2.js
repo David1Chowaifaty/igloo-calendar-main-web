@@ -53,6 +53,8 @@ const IrBilling = /*@__PURE__*/ proxyCustomElement(class IrBilling extends HTMLE
     render() {
         if (this.isAgentMode) {
             return (h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
                     this.currentTab = e.detail.name.toString();
                 }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
         }
