@@ -1199,7 +1199,7 @@ export type RoomInOut = {
 export declare const ROOM_IN_OUT: {
     CHECKIN: string;
     CHECKOUT: string;
-    NOSHOW: string;
+    IDLE: string;
 };
 export interface Room {
     charges: Charges;

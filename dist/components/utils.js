@@ -196,7 +196,7 @@ const ExtraServiceSchema = z.object({
 const ROOM_IN_OUT = {
     CHECKIN: '001',
     CHECKOUT: '002',
-    NOSHOW: '000',
+    IDLE: '000',
 };
 
 const LANGUAGE_KEY_MAP = {
@@ -544,7 +544,7 @@ function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
     if ((!calendar_data.checkin_enabled || calendar_data.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
-    if (inOutCode === ROOM_IN_OUT.CHECKOUT) {
+    if (inOutCode === ROOM_IN_OUT.CHECKOUT || inOutCode === ROOM_IN_OUT.IDLE) {
         return false;
     }
     if (inOutCode === ROOM_IN_OUT.CHECKIN) {

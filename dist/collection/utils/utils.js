@@ -400,7 +400,7 @@ export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
     if ((!calendarData.checkin_enabled || calendarData.is_automatic_check_in_out) && !skipAutoCheckout) {
         return false;
     }
-    if (inOutCode === ROOM_IN_OUT.CHECKOUT) {
+    if (inOutCode === ROOM_IN_OUT.CHECKOUT || inOutCode === ROOM_IN_OUT.IDLE) {
         return false;
     }
     if (inOutCode === ROOM_IN_OUT.CHECKIN) {

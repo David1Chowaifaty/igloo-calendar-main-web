@@ -47,7 +47,11 @@ export class IrAgentBilling {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.invoiceDialogRef.openModal();
-            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { key: '36ae1fbd9ce6aeb32e444be632413d3f4774c59a', class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { key: 'ef0c4a54bd8421c0f4bb0a7d6c77211d4562ed75', mode: "booking", agentId: this.booking.agent?.id, bookingNbr: this.booking.booking_nbr, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, rooms: this.booking.rooms ?? [], ref: el => (this.invoiceDialogRef = el) })));
+            }, appearance: 'accent', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Issue Invoice")), h("ir-city-ledger-fiscal-documents-table", { key: '36ae1fbd9ce6aeb32e444be632413d3f4774c59a', class: 'agent-billing__table', rows: this.fiscalDocuments, isLoading: this.isLoading, hasFetched: this.hasFetched, agentId: this.booking?.agent?.id ?? null, currencySymbol: calendar_data.property?.currency?.symbol ?? '$', fromDate: this.booking?.from_date ?? null, toDate: this.booking?.to_date ?? null, hasDates: true, ticket: this.tokenService.getToken(), propertyId: calendar_data.property?.id, onFetchRequested: () => this.fetchFiscalDocuments() })), h("ir-cl-invoice-dialog", { key: '7fab8ea11ac3f1af4349e39c35361d0cf0c7bd10', mode: "booking", agentId: this.booking.agent?.id, bookingNbr: this.booking.booking_nbr, startDate: this.booking.from_date, endDate: this.booking.to_date, currencyId: calendar_data.property.currency.id, rooms: this.booking.rooms ?? [], ref: el => (this.invoiceDialogRef = el), onInvoiceIssued: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.fetchFiscalDocuments();
+            } })));
     }
     static get is() { return "ir-agent-billing"; }
     static get encapsulation() { return "scoped"; }

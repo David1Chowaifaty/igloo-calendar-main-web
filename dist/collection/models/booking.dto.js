@@ -193,6 +193,6 @@ export const ExtraServiceSchema = z.object({
 export const ROOM_IN_OUT = {
     CHECKIN: '001',
     CHECKOUT: '002',
-    NOSHOW: '000',
+    IDLE: '000',
 };
 //# sourceMappingURL=booking.dto.js.map

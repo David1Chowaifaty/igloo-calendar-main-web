@@ -90,7 +90,6 @@
   .filters-bar__search-input {
     flex: 1;
     min-width: 0;
-    max-width: 0px;
   }
 
   /* actions sit at the end of row 2 */
