@@ -10,7 +10,7 @@ const IrClInvoiceCityTaxPctCell = /*@__PURE__*/ proxyCustomElement(class IrClInv
     }
     cityTaxPercent;
     render() {
-        return h(Host, { key: 'd2bea2c166bcc6c69490fdefb54f98d5bd844139' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
+        return h(Host, { key: 'a7fa4ca7742a913847e35a0f0b082756f9b0ea7a' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
     }
     static get style() { return IrClInvoiceCityTaxPctCellStyle0; }
 }, [2, "ir-cl-invoice-city-tax-pct-cell", {

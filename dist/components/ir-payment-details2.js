@@ -58,6 +58,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
     svcCategories;
     isAllServicesAgentOwned = false;
     agent;
+    folioRows = [];
+    clLoading = false;
+    clError = null;
     confirmModal = false;
     toBeDeletedItem = null;
     modalMode = null;
@@ -260,7 +263,7 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
                 } }, `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
-            isAgentMode(this.agent) && h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories }),
+            isAgentMode(this.agent) && (h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories, folioRows: this.folioRows, isLoading: this.clLoading, error: this.clError })),
             h("ir-payments-folio", { booking: this.booking, payments: (financial.payments || []).filter(p => !p.is_city_ledger), isAddPaymentDisabled: this.isAllServicesAgentOwned, onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
@@ -280,6 +283,9 @@ const IrPaymentDetails = /*@__PURE__*/ proxyCustomElement(class IrPaymentDetails
         "svcCategories": [16],
         "isAllServicesAgentOwned": [4, "is-all-services-agent-owned"],
         "agent": [16],
+        "folioRows": [16],
+        "clLoading": [4, "cl-loading"],
+        "clError": [1, "cl-error"],
         "confirmModal": [32],
         "toBeDeletedItem": [32],
         "modalMode": [32],

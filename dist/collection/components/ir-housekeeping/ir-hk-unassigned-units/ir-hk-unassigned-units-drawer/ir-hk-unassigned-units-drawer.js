@@ -6,11 +6,11 @@ export class IrHkUnassignedUnitsDrawer {
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (h("ir-drawer", { key: '1e1a24c071afda754a93555e0316c655fd3e95f2', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '45a046d32850421eeeb71b34ae784808372d960e', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: 'a13d5a2af539d8fe92b0b5bf9022e5cbfa314f8c', formId: this.formId, user: this.user }), h("div", { key: 'bfdd49be6623268e0e702be62d149d6e5ee95996', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '306004ebf41c9e80234a133d2a88cf330869f41a', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'c442fced8f777917993f8d516a3f33f71b6dcffc', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '3c6f60fde426fa60b7cd2e0075675e1c8d5165b6', formId: this.formId, user: this.user }), h("div", { key: 'efa8cc6ef6e6265c84f056edc402eb53e688c426', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '5fb84ebb3c287367243ca4c60c1928cb0b680287', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '6cf65d8fc7385acf4bac9e311e9993ce54f0b95a', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
     }
     static get is() { return "ir-hk-unassigned-units-drawer"; }
     static get encapsulation() { return "scoped"; }

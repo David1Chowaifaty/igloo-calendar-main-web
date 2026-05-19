@@ -103,15 +103,15 @@ export class IrCityLedgerStatements {
         return `Statement - ${moment(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${moment(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: 'b14d0e57080bd1e7a6f6fe2f0afad53d691ff432' }, h("section", { key: '98c3ca59e8743b3856c7a84576c80beb3bbfd8ff', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '6ea90372ef23bd94a08ba7c2546ee120f615f008', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: '1782044ba0ab33d43d788eef5de41675d8dabcdb' }, h("section", { key: 'c1c94454cf7e62d69a290a4dd37538a6b958d69a', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '5bad47c35e08287b72a411fd24fff1f0bbd06819', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
                 this.filters = e.detail;
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '0066e1592556b05c96df25831dec71ca0a984a21', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'cb6bfe1aac3a0e2513c931619e80440d23637495', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'ec6efcc105ae2c19af3fdc0dca250ba3bc691c29', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'bff5b1bfdc46db0d8a31faa8e35315c459516bdd', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: '49982269a61ab233bdf8e27a96656e950e0af9e5', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '29fb41b35b0a66e664e7db0de098db27063a5dc2', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '9c26d8ca8b0ecad64aee695e17f4df085979b06c', name: "download", label: "Download PDF" })))), this.printFilters &&
+            } }, h("div", { key: '3f563eddc2a9c453b5ec4c84b7530c4ba5133c74', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '5fa86bd7f4a681f7e7ed03c2ec7d956ee50776b7', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '5dca77d61f45ac06beeb2b06150337e7f40670b6', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get is() { return "ir-city-ledger-statements"; }

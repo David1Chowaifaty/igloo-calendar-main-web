@@ -20,6 +20,7 @@ export class IrBookingHeader {
     hasMenu;
     hasCloseButton;
     hasEmail = true;
+    folioRows = [];
     toast;
     closeSidebar;
     resetBookingEvt;
@@ -95,10 +96,17 @@ export class IrBookingHeader {
         }
         return this.booking.origin.Icon;
     }
+    get canChangeSource() {
+        const folioRows = this.folioRows ?? [];
+        if (folioRows?.length > 0) {
+            return folioRows.every(f => f._raw.IS_LOCKED === false);
+        }
+        return true;
+    }
     render() {
         const lastManipulation = this.booking.ota_manipulations ? this.booking.ota_manipulations[this.booking.ota_manipulations.length - 1] : null;
         const showPms = (calendar_data.property?.linked_pms || [])?.findIndex(lp => lp?.is_active && lp?.bookings_integration_mode?.code === '001') !== -1;
-        return (h("div", { key: 'b7c26b126b57c4cc38d8cf6ec68c81ed8db3455e', class: "booking-header" }, h("div", { key: 'f085c5fb7f935d64930ae1adc8e4ea145af7481f', class: "booking-header__row" }, h("div", { key: 'c5a440334b4ab3d0e5fde562959493c74355ff93', class: "booking-header__info" }, h("div", { key: 'daad56798072c28fce7b634fd098e97f98aac69e', class: "booking-header__title" }, h("div", { key: 'bb0ca62ac6965f27dc875efd35d892dc7d3299e5', class: "booking-header__label-container" }, this.hasMenu && (h(Fragment, { key: '2467012bddb6efc3f0e02343ce571c325c152e1a' }, h("wa-tooltip", { key: '80591caf1c4f62ab7e960aecd1005ab7ff75609e', for: "menu" }, "Go back"), h("ir-custom-button", { key: '5300f4877e5de9f470cfc596ed0082a3b5c4f487', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '3e218ab4c295ef70fe43bcdf60f2efb7f6904a82', name: "arrow-left", style: { fontSize: '1.2rem' }, label: "Go back" })))), h("wa-avatar", { key: '210a373715438085cbf09937abfa2692ca63cb08', shape: "circle", initials: this.initials, image: this.avatarImage, loading: "lazy" }), h("div", { key: 'f4722d1e0b161545fe2b9321f12b4713c7c3f73f', class: "booking-header__identity" }, h("div", { key: '0904316290dddf1ba2220ad2dd4b0fbaee6c4d00', class: 'booking-header__label' }, h("h4", { key: 'e41e35d924b44182996424c1471d1fc86bbbdaab', class: "booking-header__label-number" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`)), h("div", { key: 'c01e8d46be19bce97dd9095540579ea4e6955ed5', class: "booking-header__meta" }, !this.booking.is_direct && h("p", { key: '07aa09fab86e4047195af4842a9a2c436e02ed8a', class: "booking-header__channel-number --primary" }, this.booking.channel_booking_nbr), this.booking.agent_booking_nbr && h("p", { key: '976c75db3792b00bb5253b7179e354a6e0dcbb8b', class: "booking-header__channel-number --primary" }, this.booking.agent_booking_nbr), h("p", { key: '1864568d6d4d69d36fd2ba56c1d8a76701853f47', class: "booking-header__channel-number" }, this.booking?.agent ? (h("span", null, "Agent:", ' ', h("p", { class: 'truncate p-0 m-0', style: { maxWidth: '150px', display: 'inline-flex' } }, this.agent.name, " ", this.agent.reference))) : (this.booking.origin.Label)), h("ir-custom-button", { key: 'a1cd05857c28e0845436475a71e136e30cd1b903', link: true, onClickHandler: () => this.bookingSourceEditor.openDialog() }, "Change source"), lastManipulation && (h(Fragment, { key: 'aee1e78fdefc89bb7dadaf0e14a8a1195c15d058' }, h("p", { key: '0c5bf8a197ca84068698db7f656a30162c294632', id: `booking-${this.booking.booking_nbr}-modified`, class: "booking-header__modified" }, "Modified"), h("wa-tooltip", { key: 'c09b568b3b9327143a3219cbaf42af3111f83223', for: `booking-${this.booking.booking_nbr}-modified` }, h("div", { key: '273a3531a9745b9e351074f40980d9e90e46f965' }, h("p", { key: 'b58ce5c9ec404469484d1596c31535841a466c5a', class: "m-0" }, "Modified by ", lastManipulation?.user, " at ", lastManipulation?.date, " ", lastManipulation?.hour, ":", lastManipulation?.minute, "."), h("p", { key: '4ccb24266359af7918b215ec20d9e84eecdeaca9', class: "m-0" }, this.alertMessage)))))))))), h("div", { key: '3d4366c85bb299ac9bdbc2d63462ff02b491850f', class: "booking-header__actions" }, h("div", { key: '450552874c256eb09a4156e9d9bf55680bdcc6f3' }, this.booking.allowed_actions.length > 0 && this.booking.is_editable ? (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { key: 'd6c66ae7c4a97c9ef9fb68e65d0b49039a8fb3ee', class: "booking-header" }, h("div", { key: '2c90657b729b39b7601656213891d6d95c3261a6', class: "booking-header__row" }, h("div", { key: 'a1bddef0534f445285d025387c91f351ed360577', class: "booking-header__info" }, h("div", { key: '0649ed92fc88470c1b067ccf1f69baa9d612d6b7', class: "booking-header__title" }, h("div", { key: 'fdd666fc0be307941ccb6981ae058367fa4bf061', class: "booking-header__label-container" }, this.hasMenu && (h(Fragment, { key: 'fd6c0e01579ede59995da10007901a32f00ce0b1' }, h("wa-tooltip", { key: 'b983e3052dc4752821cd7b42a80bee8daca084a4', for: "menu" }, "Go back"), h("ir-custom-button", { key: '653f0ea6e17fe7f8a2c03a5b624e09ebb76496e0', id: "menu", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '04e8a2350309f118bcda5dcb597e27e60387cdc1', name: "arrow-left", style: { fontSize: '1.2rem' }, label: "Go back" })))), h("wa-avatar", { key: '55aa28fb16ca8f7d99ab3090631448b5d70f81f4', shape: "circle", initials: this.initials, image: this.avatarImage, loading: "lazy" }), h("div", { key: 'fd1a80daf3ca746bdaa479e6cdcdc860668b8e65', class: "booking-header__identity" }, h("div", { key: '77a6421e86969f519e8a753ee03d4fa216d99ddc', class: 'booking-header__label' }, h("h4", { key: '5eb19c991f47960d639db28c4bf14a2a2c44725e', class: "booking-header__label-number" }, `${locales.entries.Lcz_Booking}#${this.booking.booking_nbr}`)), h("div", { key: '97d44cad9c638444f7c1f467f3597a771609c2e1', class: "booking-header__meta" }, !this.booking.is_direct && h("p", { key: '790da927398166aa6ec7609dcee0b3dd60e9b129', class: "booking-header__channel-number --primary" }, this.booking.channel_booking_nbr), this.booking.agent_booking_nbr && h("p", { key: '3397975cfb748d7c3d7b4f6ba9d6206af3eb8c8f', class: "booking-header__channel-number --primary" }, this.booking.agent_booking_nbr), h("p", { key: 'dd6af08af17bb252b260a95e10f4920f4c6edb09', class: "booking-header__channel-number" }, this.booking?.agent ? (h("span", null, "Agent:", ' ', h("p", { class: 'truncate p-0 m-0', style: { maxWidth: '150px', display: 'inline-flex' } }, this.agent.name, " ", this.agent.reference))) : (this.booking.origin.Label)), this.canChangeSource && (h("ir-custom-button", { key: 'baea4ea3ade86d2abb7d4889c2f722597b255492', link: true, onClickHandler: () => this.bookingSourceEditor.openDialog() }, "Change source")), lastManipulation && (h(Fragment, { key: '74542659511948c57ff3d36b2bd67c195167e461' }, h("p", { key: '928fa79b6089ff2044b5e86bcf0218ba83197656', id: `booking-${this.booking.booking_nbr}-modified`, class: "booking-header__modified" }, "Modified"), h("wa-tooltip", { key: '8c2415b3ad1b483d2a45b25f69653d8baa8209fe', for: `booking-${this.booking.booking_nbr}-modified` }, h("div", { key: 'ae539f515e414e4a32133fcef6dd230a93f025d8' }, h("p", { key: '7e7ec71dfc7b42e9fda9889a2b5ca5535cace4d4', class: "m-0" }, "Modified by ", lastManipulation?.user, " at ", lastManipulation?.date, " ", lastManipulation?.hour, ":", lastManipulation?.minute, "."), h("p", { key: '091ea45bc7e16a68b8c48f0f882f14797c7f6adf', class: "m-0" }, this.alertMessage)))))))))), h("div", { key: 'c02cfca036097122b2b78e8bb59594d4a7ba9ce0', class: "booking-header__actions" }, h("div", { key: 'ee3136064aeaa596925218f0f4fb09ae8c664bb1' }, this.booking.allowed_actions.length > 0 && this.booking.is_editable ? (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -114,32 +122,32 @@ export class IrBookingHeader {
             // }}
             withCaret: true,
             // loading={isRequestPending('/Change_Exposed_Booking_Status')}
-            appearance: 'outlined', size: "small", variant: "brand", class: "booking-header__status-trigger" }, h("ir-booking-status-tag", { slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", null, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))) : (h("ir-booking-status-tag", { status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }))), isAgentMode(this.agent) && (h(Fragment, { key: 'bf26e776e78f9424a4b28378a013acc80be644cc' })), h("ir-custom-button", { key: '10386c658ea709cccc0a9d5f3293aeab1664cbae', onClickHandler: e => {
+            appearance: 'outlined', size: "small", variant: "brand", class: "booking-header__status-trigger" }, h("ir-booking-status-tag", { slot: "start", status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }), h("span", null, "Update status")), this.booking.allowed_actions.map(option => (h("wa-dropdown-item", { variant: ['CANC_RA', 'NOSHOW_RA'].includes(option.code) ? 'danger' : 'default', value: option.code }, option.description))))) : (h("ir-booking-status-tag", { status: this.booking.status, isRequestToCancel: this.booking.is_requested_to_cancel }))), isAgentMode(this.agent) && (h(Fragment, { key: 'ac663868b4c4008946b2abf1f28fb998f3ee4166' })), h("ir-custom-button", { key: '2927f238bc3b9f647c09e177b3526b861e3479d3', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'events-log' });
-            }, appearance: 'outlined', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Logs"), showPms && (h("ir-custom-button", { key: 'e9c261b800e165ed229e115a20e1dbbd09b50788', class: "booking-header__stretched-btn", onClickHandler: e => {
+            }, appearance: 'outlined', class: "booking-header__stretched-btn", size: "small", variant: "brand" }, "Logs"), showPms && (h("ir-custom-button", { key: 'caa97e8b09cd5d13bd9d5a85260c0e762282de45', class: "booking-header__stretched-btn", onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.openDialog({ type: 'pms' });
-            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: '6728d456403bf3b6994c9a6802a4ffdf460fc989' }, h("ir-custom-button", { key: '7f359c89ef9a7720e0a25c226eb33c9ec734205d', class: "booking-header__stretched-btn", id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: '2d0ebbabf85e58e4f4fcc0d8d44b1da47e01d138' }, h("wa-tooltip", { key: 'bcd0950337885d97e45d1e10f7c6bc3f39f3c03a', for: "print" }, "Print booking"), h("ir-custom-button", { key: '3ba65cc09d1f15ac181cdcb324401775707a1948', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '18e97288e8138fe72549d6c2eed0e01e28a36f99', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: '300bcf16608fd2bab64c1e9638632c4df2142fb2' }, h("wa-tooltip", { key: '692ddc1c854a8c90a9a230f6e9f55edf7aba4a07', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: 'ced270b4e88154090590af183d08355e3b540b62', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '4dcae5bd722cc46e1aad6a1c5e22f59e83d1ef32', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: '775295e37e9dd65c2b43d0e1b4c8fcb1f82d4c95' }, h("wa-tooltip", { key: 'eff3c0fb5540ddb68be54f0868a26bcf174a6550', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: '838a68f5da405012a82ef242f10cad1f5720c502', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: '8511dddcc6cc2ef64c69104235ebaf5f553632d2', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasCloseButton && (h("ir-custom-button", { key: '3748965361c7f9791e0f3fa021d3aa37e9b7ed71', onClickHandler: e => {
+            }, appearance: 'outlined', size: "small", variant: "brand" }, "PMS")), this.hasReceipt && (h(Fragment, { key: '5a941559fec72384329186f7efdf81b1bbf76ea1' }, h("ir-custom-button", { key: 'bd237fea81aad3e79286730cfdc5e39b503570ad', class: "booking-header__stretched-btn", id: "invoice", variant: "brand", size: "small", appearance: "outlined" }, "Billing"))), this.hasPrint && (h(Fragment, { key: '758a7bcb2ecfccb5f9de5c38de629de886f3faff' }, h("wa-tooltip", { key: '7105859384912087cbedf29f1c63c3dfa5997b81', for: "print" }, "Print booking"), h("ir-custom-button", { key: '05edfb24fb9f1d6bb59b40345ed4e12fd4478ce1', id: "print", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: '04f6450c3d77a7c23ad463ca06b73343ee6a0f96', label: "Print", name: "print", style: { fontSize: '1.2rem' } })))), this.hasEmail && (h(Fragment, { key: 'd552e06d0a5cae78dc9fa5d8987d9a0ce10db941' }, h("wa-tooltip", { key: '77fab6ca2e7816a2ad69ab3f82d93595da1f34ec', for: "email" }, "Email this booking to guest"), h("ir-custom-button", { key: '94b3072447eeb135c730fa63bcddba69006ce192', id: "email", variant: "brand", size: "small", appearance: "outlined" }, h("wa-icon", { key: 'bd78391ae0eee198075fe24f0b7ce411dc492aec', name: "envelope", style: { fontSize: '1.2rem' }, label: "Email this booking" })))), this.hasDelete && (h(Fragment, { key: 'e4bcd9404038a3596f956fe4c30c3f48c7c4c7c4' }, h("wa-tooltip", { key: '0357aace074b937ca05f052da8099500ae5426ae', for: "book-delete" }, "Delete this booking"), h("ir-custom-button", { key: '0d4bdc9022595d098f1e70b4c24d4e82a31ce793', id: "book-delete", variant: "danger", size: "small", appearance: "plain" }, h("wa-icon", { key: '235c2ac488954adc46aa931169103f73b2bddc05', name: "envelope", style: { fontSize: '1.2rem' }, label: "Delete this booking" })))), this.hasCloseButton && (h("ir-custom-button", { key: '7b274550f62bd857204be5766bd625409a7ac8ce', onClickHandler: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeSidebar.emit(null);
-            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '0918aaf6e7750e6c1abc31aaa96564d0d7095fbe', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: 'ddbec37e6f57e1dad3fa9f66fdba71542b7dad77', onIrDialogHide: _ => {
+            }, id: "close", variant: "neutral", size: "small", appearance: "plain" }, h("wa-icon", { key: '58a29c7133a75c4ad45a7f6945f73f6721b3bead', name: "xmark", style: { fontSize: '1.2rem' }, label: "Go back" }))))), h("ir-dialog", { key: '7bb145bbf5f2230fef94811a7e9972bea13b72b9', onIrDialogHide: _ => {
                 this.currentDialogStatus = null;
-            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: '3cfdfd0572be855c4d3d95c647ddb3290590a490', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
+            }, label: this.currentDialogStatus === 'pms' ? locales.entries.Lcz_PMS_Logs : locales.entries.Lcz_EventsLog, style: this.currentDialogStatus === 'events-log' && { '--ir-dialog-max-width': 'max-content' }, ref: el => (this.dialogRef = el) }, this.renderDialogBody()), h("ir-dialog", { key: 'bd7a47798aa2c57d3bfe36d62de062c74d539bff', ref: el => (this.modalEl = el), label: "Alert", lightDismiss: false, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingStatus = null;
-            } }, h("p", { key: '11350aeb0db7d6426e644cfad91dba55b1a95a85' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: '8dd04ff669d85e59c97dafbb110fbd4a7cc9afbf', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: '662e54c98538636992ea2783fe13e32d65be2e14', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: '92b581895c87a56cd36ac1dde45d5df8e15086e8', onClickHandler: e => {
+            } }, h("p", { key: 'ff0d2d4a6d640ed3261e62a6297c700c63b6efa9' }, this.booking.is_direct ? 'Are you sure you want to update this booking status?' : locales.entries.Lcz_OTA_Modification_Alter), h("div", { key: 'ba853271ee9784545b0df10da5cb77e3e4b50452', class: "ir-dialog__footer", slot: "footer" }, h("ir-custom-button", { key: '2c1b3fc2e1ead9c228945bcb7d1976994f63c6c0', "data-dialog": "close", size: "medium", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel), h("ir-custom-button", { key: '7e5fb75a50b563514fc7695dc6b83e278ca7392a', onClickHandler: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateStatus();
-            }, size: "medium", variant: "brand", loading: isRequestPending('/Change_Exposed_Booking_Status') }, locales?.entries?.Lcz_Confirm))), h("ir-booking-source-editor-dialog", { key: 'a4d05bfe1f742a917f118c1baf33b7df53288339', booking: this.booking, ref: el => (this.bookingSourceEditor = el) })));
+            }, size: "medium", variant: "brand", loading: isRequestPending('/Change_Exposed_Booking_Status') }, locales?.entries?.Lcz_Confirm))), h("ir-booking-source-editor-dialog", { key: '433184c1286fec494cbd1c28979f871af96c56b6', booking: this.booking, ref: el => (this.bookingSourceEditor = el) })));
     }
     static get is() { return "ir-booking-header"; }
     static get encapsulation() { return "scoped"; }
@@ -315,6 +323,30 @@ export class IrBookingHeader {
                 "attribute": "has-email",
                 "reflect": false,
                 "defaultValue": "true"
+            },
+            "folioRows": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "FolioRow[]",
+                    "resolved": "FolioRow[]",
+                    "references": {
+                        "FolioRow": {
+                            "location": "import",
+                            "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
             }
         };
     }

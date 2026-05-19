@@ -15,6 +15,9 @@ export class IrPaymentDetails {
     svcCategories;
     isAllServicesAgentOwned = false;
     agent;
+    folioRows = [];
+    clLoading = false;
+    clError = null;
     confirmModal = false;
     toBeDeletedItem = null;
     modalMode = null;
@@ -217,7 +220,7 @@ export class IrPaymentDetails {
                 } }, `Refund ${formatAmount(currency.symbol, Math.abs(this.booking.financial.cancelation_penality_as_if_today))}`))), this.shouldCancellationButton() && (h("div", { class: "d-flex mt-1" }, h("ir-custom-button", { variant: "brand", appearance: "outlined", onClickHandler: () => {
                     this.handleAddPayment({ type: 'cancellation-penalty', amount: Math.abs(this.booking.financial.cancelation_penality_as_if_today) });
                 } }, `Charge cancellation penalty ${formatAmount(currency.symbol, this.booking.financial.cancelation_penality_as_if_today)}`)))),
-            isAgentMode(this.agent) && h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories }),
+            isAgentMode(this.agent) && (h("ir-booking-city-ledger", { booking: this.booking, language: this.language, svcCategories: this.svcCategories, folioRows: this.folioRows, isLoading: this.clLoading, error: this.clError })),
             h("ir-payments-folio", { booking: this.booking, payments: (financial.payments || []).filter(p => !p.is_city_ledger), isAddPaymentDisabled: this.isAllServicesAgentOwned, onAddPayment: () => this.handleAddPayment(), onEditPayment: e => this.handleEditPayment(e.detail), onDeletePayment: e => this.handleDeletePayment(e.detail), onIssueReceipt: e => this.handleIssueReceipt(e.detail) }),
             h("ir-dialog", { onIrDialogHide: e => {
                     e.stopImmediatePropagation();
@@ -414,6 +417,70 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false
+            },
+            "folioRows": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "FolioRow[]",
+                    "resolved": "FolioRow[]",
+                    "references": {
+                        "FolioRow": {
+                            "location": "import",
+                            "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
+            },
+            "clLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "cl-loading",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "clError": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "cl-error",
+                "reflect": false,
+                "defaultValue": "null"
             }
         };
     }

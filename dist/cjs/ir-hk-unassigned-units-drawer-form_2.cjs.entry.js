@@ -120,10 +120,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (index.h("form", { key: 'd601d151b32bccc68005a82d0d8a808cb8bc0c3a', id: this.formId, onSubmit: e => {
+        return (index.h("form", { key: '4524cbcff89f272d0d16e08a2e2fec45ec6c112f', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, index.h("table", { key: 'f89b28efc9083b6d4a94f8d4dd4fcbbc5a64c088' }, index.h("thead", { key: '4e7c357c222df9c28419a1396696bf8a590266cf' }, index.h("th", { key: 'fdbc3054ff4ef8cd41ba3cd11c51166fd03c2daf', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '55e14532bae5c2bb3fb7211570b6fd62f4c6632f', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: 'baae8cf692aa9578d315618305e636221b04a503', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '66d517dd554bfde076782eb37af68e122f16fbda' }, this.renderRooms()))));
+            } }, index.h("table", { key: '8895eb3ee5ad50f9ad8e9a2d4ee8fe1e8a929f96' }, index.h("thead", { key: '5a517042ce89b5d31b6d1349cf0ac59b028a5a77' }, index.h("th", { key: '62f0005f3af501c339869ee568c21ae708987ac3', class: "sr-only" }, locales_store.locales.entries.Lcz_RoomName), index.h("th", { key: '25974d4e0ddf43eb49285bcdc0f392c6086aaa97', class: "sr-only" }, locales_store.locales.entries.Lcz_HousekeeperName), index.h("th", { key: 'a0fa0f9db671854d34b4b2b382901cdb5b03cb78', class: "sr-only" }, locales_store.locales.entries.Lcz_Actions)), index.h("tbody", { key: '445f80153faa17a4d3040201fdaa6e61e09b66bb' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = IrHkUnassignedUnitsDrawerFormStyle0;

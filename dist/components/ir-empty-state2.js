@@ -11,7 +11,7 @@ const IrEmptyState = /*@__PURE__*/ proxyCustomElement(class IrEmptyState extends
     }
     message = 'No records found';
     render() {
-        return (h(Host, { key: 'e2c2d24e70059b8d21d78c57ddfb1d39e7fbe10b' }, h("slot", { key: 'ff165e105e3f8629d2fdfe93be247e34e87826a5', name: "icon" }, h("div", { key: 'a3733f2ee11fcee7d1e45dbd038b85efacd68c42', class: 'icon_container' }, h("wa-icon", { key: '8fd6d5ae2bd7dce619bd4e5e09e0b7e37a8fe932', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: 'a1be634038da21af8e9984cd766a1df8cdb0563f', part: "message", class: "message" }, this.message), h("slot", { key: '90fd5a4b3abbba917bfc6f82dcea9246785f7da7' })));
+        return (h(Host, { key: '02da8f55b515a65fa4a6a89bd03f935b04c8c41d' }, h("slot", { key: '01a4ccd89c4966135e12c67530c7fb19a248d7ec', name: "icon" }, h("div", { key: 'ff5de863dfa97dab969f49c937504596046929af', class: 'icon_container' }, h("wa-icon", { key: '32b82250bd8386733df1e27696e116d30f468511', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: '2f32af1a97a52f3d6b9e603095a1345348b09d4b', part: "message", class: "message" }, this.message), h("slot", { key: '1ef341bac5362304e66e942f0911ff43661ce55d' })));
     }
     static get style() { return IrEmptyStateStyle0; }
 }, [1, "ir-empty-state", {

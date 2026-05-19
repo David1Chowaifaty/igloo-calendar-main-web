@@ -30,6 +30,7 @@ import { PaginationChangeEvent, PaginationRange } from "./components/ir-paginati
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
 import { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 import { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
+import { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { BookingService } from "./services/booking-service/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
@@ -41,7 +42,7 @@ import { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledge
 import { FiscalDocument } from "./services/city-ledger";
 import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
-import { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+import { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
@@ -118,6 +119,7 @@ export { PaginationChangeEvent, PaginationRange } from "./components/ir-paginati
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
 export { MaskProp, NativeWaInput } from "./components/ui/ir-input/ir-input";
 export { AssignableItem } from "./components/ir-booking-details/ir-booking-source-editor-dialog/types";
+export { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { BookingService } from "./services/booking-service/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
@@ -129,7 +131,7 @@ export { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledge
 export { FiscalDocument } from "./services/city-ledger";
 export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
-export { FolioFilters, FolioRow, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
+export { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
@@ -941,6 +943,18 @@ export namespace Components {
          */
         "booking": Booking;
         /**
+          * Error message driven by the parent fetch.
+         */
+        "error": string | null;
+        /**
+          * Folio rows fetched by the parent.
+         */
+        "folioRows": FolioRow[];
+        /**
+          * Loading state driven by the parent fetch.
+         */
+        "isLoading": boolean;
+        /**
           * Active language code.
          */
         "language": string;
@@ -1163,6 +1177,7 @@ export namespace Components {
     interface IrBookingHeader {
         "agent": Agent;
         "booking": Booking;
+        "folioRows": FolioRow[];
         "hasCloseButton": boolean;
         "hasDelete": boolean;
         "hasEmail": boolean;
@@ -1456,7 +1471,7 @@ export namespace Components {
         "closingBalance": number;
         "currencies": ICurrency[];
         "currencySymbol": string;
-        "data": FolioRow[];
+        "data": FolioRow1[];
         "fromDate": string;
         "hasFetched": boolean;
         "isLoading": boolean;
@@ -2560,7 +2575,7 @@ export namespace Components {
         "closeModal": () => Promise<void>;
         "currencySymbol": string;
         "openModal": () => Promise<void>;
-        "row": FolioRow | null;
+        "row": FolioRow1 | null;
     }
     interface IrHousekeeping {
         "baseUrl": string;
@@ -3439,6 +3454,9 @@ export namespace Components {
     interface IrPaymentDetails {
         "agent": Agent;
         "booking": Booking;
+        "clError": string | null;
+        "clLoading": boolean;
+        "folioRows": FolioRow[];
         "isAllServicesAgentOwned": boolean;
         "language": string;
         "paymentActions": IPaymentAction[];
@@ -4933,6 +4951,10 @@ export interface IrBookingAssignItemsCustomEvent<T> extends CustomEvent<T> {
 export interface IrBookingBillingRecipientCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingBillingRecipientElement;
+}
+export interface IrBookingCityLedgerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingCityLedgerElement;
 }
 export interface IrBookingCompanyDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6573,7 +6595,18 @@ declare global {
         prototype: HTMLIrBookingBillingRecipientElement;
         new (): HTMLIrBookingBillingRecipientElement;
     };
+    interface HTMLIrBookingCityLedgerElementEventMap {
+        "clRefreshNeeded": void;
+    }
     interface HTMLIrBookingCityLedgerElement extends Components.IrBookingCityLedger, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrBookingCityLedgerElement, ev: IrBookingCityLedgerCustomEvent<HTMLIrBookingCityLedgerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingCityLedgerElementEventMap>(type: K, listener: (this: HTMLIrBookingCityLedgerElement, ev: IrBookingCityLedgerCustomEvent<HTMLIrBookingCityLedgerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrBookingCityLedgerElement: {
         prototype: HTMLIrBookingCityLedgerElement;
@@ -7132,10 +7165,10 @@ declare global {
     };
     interface HTMLIrCityLedgerFolioTableElementEventMap {
         "pageChange": { pageIndex: number; pageSize: number };
-        "generateInvoice": FolioRow[];
+        "generateInvoice": FolioRow1[];
         "fetchRequested": void;
-        "editEntry": FolioRow['_raw'];
-        "deleteEntry": FolioRow['_raw'];
+        "editEntry": FolioRow1['_raw'];
+        "deleteEntry": FolioRow1['_raw'];
     }
     interface HTMLIrCityLedgerFolioTableElement extends Components.IrCityLedgerFolioTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFolioTableElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFolioTableElement, ev: IrCityLedgerFolioTableCustomEvent<HTMLIrCityLedgerFolioTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11374,9 +11407,25 @@ declare namespace LocalJSX {
          */
         "booking"?: Booking;
         /**
+          * Error message driven by the parent fetch.
+         */
+        "error"?: string | null;
+        /**
+          * Folio rows fetched by the parent.
+         */
+        "folioRows"?: FolioRow[];
+        /**
+          * Loading state driven by the parent fetch.
+         */
+        "isLoading"?: boolean;
+        /**
           * Active language code.
          */
         "language"?: string;
+        /**
+          * Emitted when a mutation (delete / save) completes so the parent can re-fetch.
+         */
+        "onClRefreshNeeded"?: (event: IrBookingCityLedgerCustomEvent<void>) => void;
         /**
           * Service-category entries used to populate the transaction form.
          */
@@ -11623,6 +11672,7 @@ declare namespace LocalJSX {
     interface IrBookingHeader {
         "agent"?: Agent;
         "booking"?: Booking;
+        "folioRows"?: FolioRow[];
         "hasCloseButton"?: boolean;
         "hasDelete"?: boolean;
         "hasEmail"?: boolean;
@@ -11947,14 +11997,14 @@ declare namespace LocalJSX {
         "closingBalance"?: number;
         "currencies"?: ICurrency[];
         "currencySymbol"?: string;
-        "data"?: FolioRow[];
+        "data"?: FolioRow1[];
         "fromDate"?: string;
         "hasFetched"?: boolean;
         "isLoading"?: boolean;
-        "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow['_raw']>) => void;
-        "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow['_raw']>) => void;
+        "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
+        "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFolioTableCustomEvent<void>) => void;
-        "onGenerateInvoice"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow[]>) => void;
+        "onGenerateInvoice"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1[]>) => void;
         "onPageChange"?: (event: IrCityLedgerFolioTableCustomEvent<{ pageIndex: number; pageSize: number }>) => void;
         "pageIndex"?: number;
         "pageSize"?: number;
@@ -13206,7 +13256,7 @@ declare namespace LocalJSX {
     interface IrHoldTransactionDialog {
         "currencySymbol"?: string;
         "onHoldToggled"?: (event: IrHoldTransactionDialogCustomEvent<{ rowId: string; newIsHold: boolean }>) => void;
-        "row"?: FolioRow | null;
+        "row"?: FolioRow1 | null;
     }
     interface IrHousekeeping {
         "baseUrl"?: string;
@@ -14170,6 +14220,9 @@ declare namespace LocalJSX {
     interface IrPaymentDetails {
         "agent"?: Agent;
         "booking"?: Booking;
+        "clError"?: string | null;
+        "clLoading"?: boolean;
+        "folioRows"?: FolioRow[];
         "isAllServicesAgentOwned"?: boolean;
         "language"?: string;
         "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;

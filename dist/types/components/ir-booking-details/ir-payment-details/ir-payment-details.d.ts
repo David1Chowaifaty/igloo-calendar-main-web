@@ -5,6 +5,7 @@ import { IPaymentAction } from "../../../services/payment.service";
 import { IToast } from "../../ui/ir-toast/toast";
 import { PaymentEntries, PaymentSidebarEvent, PrintScreenOptions } from '../types';
 import { IEntries } from "../../../models/property";
+import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrPaymentDetails {
     booking: Booking;
     paymentActions: IPaymentAction[];
@@ -14,6 +15,9 @@ export declare class IrPaymentDetails {
     svcCategories: IEntries[];
     isAllServicesAgentOwned: boolean;
     agent: Agent;
+    folioRows: FolioRow[];
+    clLoading: boolean;
+    clError: string | null;
     confirmModal: boolean;
     toBeDeletedItem: IPayment | null;
     modalMode: 'delete' | 'save' | null;

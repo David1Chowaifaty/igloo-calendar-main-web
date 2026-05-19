@@ -1,6 +1,5 @@
 import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
-import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import Token from "../../../models/Token";
@@ -15,53 +14,18 @@ export class IrBookingCityLedger {
     language = 'en';
     /** Service-category entries used to populate the transaction form. */
     svcCategories = [];
-    isLoading = false;
+    /** Folio rows fetched by the parent. */
     folioRows = [];
-    drawerOpen = false;
+    /** Loading state driven by the parent fetch. */
+    isLoading = false;
+    /** Error message driven by the parent fetch. */
     error = null;
+    /** Emitted when a mutation (delete / save) completes so the parent can re-fetch. */
+    clRefreshNeeded;
+    drawerOpen = false;
     deleteTarget = null;
     isDeleting = false;
     editingRow = null;
-    componentWillLoad() {
-        if (this.booking?.agent) {
-            this.fetchCityLedger();
-        }
-    }
-    handleBookingChange(newVal, oldVal) {
-        const agentChanged = newVal?.agent?.id !== oldVal?.agent?.id;
-        const datesChanged = newVal?.from_date !== oldVal?.from_date || newVal?.to_date !== oldVal?.to_date;
-        if (newVal?.agent && (agentChanged || datesChanged)) {
-            this.fetchCityLedger();
-        }
-    }
-    async fetchCityLedger() {
-        if (!this.booking?.agent)
-            return;
-        this.isLoading = true;
-        this.error = null;
-        try {
-            const result = await this.cityLedgerService.fetchCL({
-                AGENCY_ID: this.booking.agent.id,
-                START_DATE: this.booking.from_date,
-                END_DATE: this.booking.to_date,
-                START_ROW: 0,
-                END_ROW: 200,
-                SEARCH_QUERY: this.booking.booking_nbr,
-            });
-            let runningBalance = 0;
-            this.folioRows = result.My_Cl_tx.map((tx, i) => {
-                runningBalance = runningBalance + tx.DEBIT - tx.CREDIT;
-                return { _rowId: String(i), ...mapClTxToFolioRow(tx), balance: runningBalance };
-            });
-        }
-        catch (err) {
-            console.error('[ir-booking-city-ledger] fetchCL failed:', err);
-            this.error = 'Failed to load city ledger.';
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
     async handleDelete() {
         const row = this.deleteTarget;
         if (!row)
@@ -82,7 +46,7 @@ export class IrBookingCityLedger {
                 IS_DELETE: true,
             });
             this.deleteTarget = null;
-            await this.fetchCityLedger();
+            this.clRefreshNeeded.emit();
         }
         catch (err) {
             console.error('[ir-booking-city-ledger] delete failed:', err);
@@ -131,10 +95,10 @@ export class IrBookingCityLedger {
             } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? 'Edit Folio Entry' : 'New Folio Entry', agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-            }, onTransactionSaved: async () => {
+            }, onTransactionSaved: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-                await this.fetchCityLedger();
+                this.clRefreshNeeded.emit();
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -222,24 +186,97 @@ export class IrBookingCityLedger {
                 "getter": false,
                 "setter": false,
                 "defaultValue": "[]"
+            },
+            "folioRows": {
+                "type": "unknown",
+                "mutable": false,
+                "complexType": {
+                    "original": "FolioRow[]",
+                    "resolved": "FolioRow[]",
+                    "references": {
+                        "FolioRow": {
+                            "location": "import",
+                            "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                        }
+                    }
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Folio rows fetched by the parent."
+                },
+                "getter": false,
+                "setter": false,
+                "defaultValue": "[]"
+            },
+            "isLoading": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Loading state driven by the parent fetch."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "is-loading",
+                "reflect": false,
+                "defaultValue": "false"
+            },
+            "error": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Error message driven by the parent fetch."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "error",
+                "reflect": false,
+                "defaultValue": "null"
             }
         };
     }
     static get states() {
         return {
-            "isLoading": {},
-            "folioRows": {},
             "drawerOpen": {},
-            "error": {},
             "deleteTarget": {},
             "isDeleting": {},
             "editingRow": {}
         };
     }
-    static get watchers() {
+    static get events() {
         return [{
-                "propName": "booking",
-                "methodName": "handleBookingChange"
+                "method": "clRefreshNeeded",
+                "name": "clRefreshNeeded",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emitted when a mutation (delete / save) completes so the parent can re-fetch."
+                },
+                "complexType": {
+                    "original": "void",
+                    "resolved": "void",
+                    "references": {}
+                }
             }];
     }
 }

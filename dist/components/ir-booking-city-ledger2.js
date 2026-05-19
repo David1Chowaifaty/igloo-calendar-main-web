@@ -1,6 +1,5 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index6.js';
-import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
@@ -38,6 +37,7 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
     constructor() {
         super();
         this.__registerHost();
+        this.clRefreshNeeded = createEvent(this, "clRefreshNeeded", 7);
     }
     cityLedgerService = new CityLedgerService();
     tokenService = new Token();
@@ -47,53 +47,18 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
     language = 'en';
     /** Service-category entries used to populate the transaction form. */
     svcCategories = [];
-    isLoading = false;
+    /** Folio rows fetched by the parent. */
     folioRows = [];
-    drawerOpen = false;
+    /** Loading state driven by the parent fetch. */
+    isLoading = false;
+    /** Error message driven by the parent fetch. */
     error = null;
+    /** Emitted when a mutation (delete / save) completes so the parent can re-fetch. */
+    clRefreshNeeded;
+    drawerOpen = false;
     deleteTarget = null;
     isDeleting = false;
     editingRow = null;
-    componentWillLoad() {
-        if (this.booking?.agent) {
-            this.fetchCityLedger();
-        }
-    }
-    handleBookingChange(newVal, oldVal) {
-        const agentChanged = newVal?.agent?.id !== oldVal?.agent?.id;
-        const datesChanged = newVal?.from_date !== oldVal?.from_date || newVal?.to_date !== oldVal?.to_date;
-        if (newVal?.agent && (agentChanged || datesChanged)) {
-            this.fetchCityLedger();
-        }
-    }
-    async fetchCityLedger() {
-        if (!this.booking?.agent)
-            return;
-        this.isLoading = true;
-        this.error = null;
-        try {
-            const result = await this.cityLedgerService.fetchCL({
-                AGENCY_ID: this.booking.agent.id,
-                START_DATE: this.booking.from_date,
-                END_DATE: this.booking.to_date,
-                START_ROW: 0,
-                END_ROW: 200,
-                SEARCH_QUERY: this.booking.booking_nbr,
-            });
-            let runningBalance = 0;
-            this.folioRows = result.My_Cl_tx.map((tx, i) => {
-                runningBalance = runningBalance + tx.DEBIT - tx.CREDIT;
-                return { _rowId: String(i), ...mapClTxToFolioRow(tx), balance: runningBalance };
-            });
-        }
-        catch (err) {
-            console.error('[ir-booking-city-ledger] fetchCL failed:', err);
-            this.error = 'Failed to load city ledger.';
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
     async handleDelete() {
         const row = this.deleteTarget;
         if (!row)
@@ -114,7 +79,7 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
                 IS_DELETE: true,
             });
             this.deleteTarget = null;
-            await this.fetchCityLedger();
+            this.clRefreshNeeded.emit();
         }
         catch (err) {
             console.error('[ir-booking-city-ledger] delete failed:', err);
@@ -163,10 +128,10 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
             } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? 'Edit Folio Entry' : 'New Folio Entry', agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-            }, onTransactionSaved: async () => {
+            }, onTransactionSaved: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
-                await this.fetchCityLedger();
+                this.clRefreshNeeded.emit();
             } }), h("ir-cl-fiscal-document-preview", { ticket: this.tokenService.getToken(), propertyId: calendar_data?.property?.id }), h("ir-dialog", { label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
@@ -174,23 +139,18 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
                     this.deleteTarget = null;
             } }, h("p", null, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete")))));
     }
-    static get watchers() { return {
-        "booking": ["handleBookingChange"]
-    }; }
     static get style() { return IrBookingCityLedgerStyle0 + IrBookingCityLedgerStyle1; }
 }, [2, "ir-booking-city-ledger", {
         "booking": [16],
         "language": [1],
         "svcCategories": [16],
-        "isLoading": [32],
-        "folioRows": [32],
+        "folioRows": [16],
+        "isLoading": [4, "is-loading"],
+        "error": [1],
         "drawerOpen": [32],
-        "error": [32],
         "deleteTarget": [32],
         "isDeleting": [32],
         "editingRow": [32]
-    }, undefined, {
-        "booking": ["handleBookingChange"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

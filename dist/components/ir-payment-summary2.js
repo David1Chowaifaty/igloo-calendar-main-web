@@ -26,7 +26,30 @@ const IrPaymentSummary = /*@__PURE__*/ proxyCustomElement(class IrPaymentSummary
         if (isAgentMode(this.agent)) {
             return (h("div", { class: "ps-layout" }, h("div", { class: "ps-cols" }, !this.isAllServicesAgentOwned && (h("div", { class: "ps-col " }, h("div", { class: "ps-stacked" }, h("span", { class: "ps-stacked__label" }, "Guest Balance:"), h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, formatAmount(this.currency.symbol, this.booking?.guest_financial?.due_amount))), h("div", { class: "ps-stacked " }, h("span", { class: "ps-stacked__label" }, "Guest Collected:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.guest_financial?.collected))))), h("div", { class: "ps-col" }, h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label ps-stacked__value" }, "Booking Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0))), h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label" }, "Agent Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.agent_financial.gross_total ?? 0)))))));
         }
-        return (h("div", { class: "ps-layout" }, this.shouldShowTotalCost() && (h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_TotalCost), h("span", { class: "ps-row__value" }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_Balance), h("span", { class: "ps-row__value ps-row__value--danger" }, formatAmount(this.currency.symbol, this.balance))), !this.isBookingCancelled && (h("div", { class: "ps-row" }, h("span", { class: "ps-row__label" }, locales.entries.Lcz_Collected), h("span", { class: "ps-row__value" }, formatAmount(this.currency.symbol, this.collected)))), h("div", { class: "ps-grand-total" }, h("span", { class: "ps-grand-total__label" }, "Grand Total"), h("span", { class: "ps-grand-total__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0)))));
+        return (
+        // <div class="ps-layout">
+        //   {this.shouldShowTotalCost() && (
+        //     <div class="ps-row">
+        //       <span class="ps-row__label">{locales.entries.Lcz_TotalCost}</span>
+        //       <span class="ps-row__value">{formatAmount(this.currency.symbol, this.totalCost)}</span>
+        //     </div>
+        //   )}
+        //   <div class="ps-row">
+        //     <span class="ps-row__label">{locales.entries.Lcz_Balance}</span>
+        //     <span class="ps-row__value ps-row__value--danger">{formatAmount(this.currency.symbol, this.balance)}</span>
+        //   </div>
+        //   {!this.isBookingCancelled && (
+        //     <div class="ps-row">
+        //       <span class="ps-row__label">{locales.entries.Lcz_Collected}</span>
+        //       <span class="ps-row__value">{formatAmount(this.currency.symbol, this.collected)}</span>
+        //     </div>
+        //   )}
+        //   <div class="ps-grand-total">
+        //     <span class="ps-grand-total__label">Grand Total</span>
+        //     <span class="ps-grand-total__value">{formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0)}</span>
+        //   </div>
+        // </div>
+        h("div", { class: "ps-layout" }, h("div", { class: "ps-cols" }, h("div", { class: "ps-col " }, h("div", { class: "ps-stacked " }, h("span", { class: "ps-stacked__label" }, locales.entries.Lcz_Balance, ":"), h("span", { class: "ps-stacked__value ps-stacked__value--danger" }, formatAmount(this.currency.symbol, this.balance))), h("div", { class: "ps-stacked" }, h("span", { class: "ps-stacked__label" }, locales.entries.Lcz_Collected, ":"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.collected)))), h("div", { class: "ps-col" }, this.shouldShowTotalCost() && (h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label ps-stacked__value" }, locales.entries.Lcz_TotalCost), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.totalCost)))), h("div", { class: "ps-stacked --stacked-right" }, h("span", { class: "ps-stacked__label ps-stacked__value" }, "Grand Total:"), h("span", { class: "ps-stacked__value" }, formatAmount(this.currency.symbol, this.booking.financial?.gross_total ?? 0)))))));
     }
     static get style() { return IrPaymentSummaryStyle0; }
 }, [2, "ir-payment-summary", {

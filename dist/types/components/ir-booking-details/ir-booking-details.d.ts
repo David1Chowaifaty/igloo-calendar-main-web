@@ -7,11 +7,13 @@ import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
 import { Agent } from "../../services/agents/type";
+import { FolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingDetails {
     private bookingService;
     private roomService;
     private paymentService;
     private agentService;
+    private cityLedgerService;
     private token;
     private arrivalTime;
     private svcCategories;
@@ -47,6 +49,9 @@ export declare class IrBookingDetails {
     statusData: any[];
     agent: Agent;
     isLoading: boolean;
+    folioRows: FolioRow[];
+    clLoading: boolean;
+    clError: string | null;
     /**
      * Booking number used to fetch booking details.
      */
@@ -142,6 +147,9 @@ export declare class IrBookingDetails {
     handleResetBooking(e: CustomEvent<Booking | null>): Promise<void>;
     handleEditExtraService(e: CustomEvent): void;
     handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
+    private fetchCityLedger;
+    handleBookingUpdate(newVal: Booking, oldVal: Booking): Promise<void>;
+    handleClRefresh(): Promise<void>;
     private setRoomsData;
     private initializeApp;
     private openPrintingScreen;

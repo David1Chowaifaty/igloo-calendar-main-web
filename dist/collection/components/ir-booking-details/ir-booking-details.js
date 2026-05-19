@@ -9,11 +9,15 @@ import calendar_data from "../../stores/calendar-data";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
 import { buildSplitIndex } from "../../utils/booking";
 import { AgentsService } from "../../services/agents/agents.service";
+import { CityLedgerService } from "../../services/city-ledger/index";
+import { mapClTxToFolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
+import { isAgentMode } from "./functions";
 export class IrBookingDetails {
     bookingService = new BookingService();
     roomService = new RoomService();
     paymentService = new PaymentService();
     agentService = new AgentsService();
+    cityLedgerService = new CityLedgerService();
     token = new Token();
     arrivalTime;
     svcCategories;
@@ -46,6 +50,9 @@ export class IrBookingDetails {
     statusData = [];
     agent;
     isLoading = true;
+    folioRows = [];
+    clLoading = false;
+    clError = null;
     /**
      * Booking number used to fetch booking details.
      */
@@ -252,6 +259,46 @@ export class IrBookingDetails {
     handleOpenPrintScreen(e) {
         this.openPrintingScreen(e.detail);
     }
+    async fetchCityLedger() {
+        if (!this.booking?.agent)
+            return;
+        this.clLoading = true;
+        this.clError = null;
+        try {
+            const result = await this.cityLedgerService.fetchCL({
+                AGENCY_ID: this.booking.agent.id,
+                START_DATE: this.booking.from_date,
+                END_DATE: this.booking.to_date,
+                START_ROW: 0,
+                END_ROW: 200,
+                SEARCH_QUERY: this.booking.booking_nbr,
+            });
+            let runningBalance = 0;
+            this.folioRows = result.My_Cl_tx.map((tx, i) => {
+                runningBalance = runningBalance + tx.DEBIT - tx.CREDIT;
+                return { _rowId: String(i), ...mapClTxToFolioRow(tx), balance: runningBalance };
+            });
+        }
+        catch (err) {
+            console.error('[ir-booking-details] fetchCL failed:', err);
+            this.clError = 'Failed to load city ledger.';
+        }
+        finally {
+            this.clLoading = false;
+        }
+    }
+    async handleBookingUpdate(newVal, oldVal) {
+        if (!newVal?.agent)
+            return;
+        const agentChanged = newVal.agent?.id !== oldVal?.agent?.id;
+        const datesChanged = newVal.from_date !== oldVal?.from_date || newVal.to_date !== oldVal?.to_date;
+        if (agentChanged || datesChanged) {
+            await this.fetchCityLedger();
+        }
+    }
+    async handleClRefresh() {
+        await this.fetchCityLedger();
+    }
     setRoomsData(roomServiceResp) {
         let roomsData = new Array();
         if (roomServiceResp.My_Result?.roomtypes?.length) {
@@ -282,6 +329,9 @@ export class IrBookingDetails {
             ]);
             if (bookingDetails.agent) {
                 this.agent = await this.agentService.getExposedAgent({ id: bookingDetails.agent.id });
+                if (isAgentMode(this.agent)) {
+                    await this.fetchCityLedger();
+                }
             }
             this.property_id = roomResponse?.My_Result?.id;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
@@ -394,7 +444,7 @@ export class IrBookingDetails {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const isAllServicesAgentOwned = this.isAllServicesAgentOwned();
-        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, onRoomDeleteFinished: this.handleDeleteFinish }), h("ir-pickup-view", { booking: this.booking, agent: this.agent }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
+        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, onRoomDeleteFinished: this.handleDeleteFinish }), h("ir-pickup-view", { booking: this.booking, agent: this.agent }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent }))), h("ir-payment-details", { class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalRef.closeModal();
@@ -779,7 +829,10 @@ export class IrBookingDetails {
             "splitIndex": {},
             "statusData": {},
             "agent": {},
-            "isLoading": {}
+            "isLoading": {},
+            "folioRows": {},
+            "clLoading": {},
+            "clError": {}
         };
     }
     static get events() {
@@ -847,6 +900,9 @@ export class IrBookingDetails {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
+            }, {
+                "propName": "booking",
+                "methodName": "handleBookingUpdate"
             }];
     }
     static get listeners() {
@@ -895,6 +951,12 @@ export class IrBookingDetails {
             }, {
                 "name": "openPrintScreen",
                 "method": "handleOpenPrintScreen",
+                "target": undefined,
+                "capture": false,
+                "passive": false
+            }, {
+                "name": "clRefreshNeeded",
+                "method": "handleClRefresh",
                 "target": undefined,
                 "capture": false,
                 "passive": false

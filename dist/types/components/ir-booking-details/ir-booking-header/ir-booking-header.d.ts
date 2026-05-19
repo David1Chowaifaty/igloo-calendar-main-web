@@ -3,6 +3,7 @@ import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
 import { Agent } from "../../../services/agents/type";
+import { FolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingHeader {
     private dialogRef;
     private bookingService;
@@ -19,6 +20,7 @@ export declare class IrBookingHeader {
     hasMenu: boolean;
     hasCloseButton: boolean;
     hasEmail: boolean;
+    folioRows: FolioRow[];
     toast: EventEmitter<IToast>;
     closeSidebar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
@@ -29,5 +31,6 @@ export declare class IrBookingHeader {
     private renderDialogBody;
     private get initials();
     private get avatarImage();
+    private get canChangeSource();
     render(): any;
 }
