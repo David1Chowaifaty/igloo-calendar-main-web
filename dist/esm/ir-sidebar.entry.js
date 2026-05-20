@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, g as getElement, h } from './index-7e96440e.js';
-import { p as handleBodyOverflow } from './utils-177fc6a4.js';
+import { p as handleBodyOverflow } from './utils-66e78d8b.js';
 import './moment-ab846cee.js';
 import './index-87419685.js';
 import './calendar-data-b1f645da.js';
 import './index-f100e9d2.js';
 import './locales.store-cb784e95.js';
-import './type-e34653d3.js';
+import './type-501de9b6.js';
 
 const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:auto}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
 const IrSidebarStyle0 = irSidebarCss;
@@ -118,12 +118,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '850342c5d3173cba8374279a01814b3bb4b9f19b', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '12b4321cf1a79bd342e590e95d6984e4da8855c8', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '90cc4ce6194455234fc37e7058855dbf1ca61545', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '01a5b86090f8eea7a4876d7563ec59e58155a393', class: 'sidebar-title' }, h("p", { key: 'd74b9fde7ad6c312e1067d991d6c3c6bef82a9e6', class: 'p-0 m-0' }, this.label), h("div", { key: 'ff2ade6d43047aa56ff08b94e9264a7574bb502d', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '23c19355876eaf409795cc3d40fbd77cf90eb7ef', class: "", onIconClickHandler: () => {
+            h("div", { key: '18ac068653248889381e6fb3ef6b765a19ce6c18', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '68f7f3de447f59af3b7d122c9473cf52b9e734bf', class: 'sidebar-title' }, h("p", { key: '3a1bdfbb8fddf9052f5b234bb9b5f35f713df0d9', class: 'p-0 m-0' }, this.label), h("div", { key: '359436b609caa79c3e88d974654d5fcd4587cb80', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '4216affd671db54e310e2801a129964c348dd4da', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: '88acd7552891222b5033c8a16910096f58a2b42a', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'b7cef9d011c1eaf1f514c733eb48bb6c9901aa12', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'd84e5b68823e1b1a44cda524b471b1bebb6ad567', name: "sidebar-body" })),
+                } }, h("svg", { key: '1a07e8a511360f1daaf4e391a66d956dac4511a2', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '13fcc99cd7cbfbc27193300e2d8fedc6a86076e7', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '54dda9052e2510e46d063e03869495d23579491a', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

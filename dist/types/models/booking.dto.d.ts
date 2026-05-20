@@ -365,7 +365,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
         has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-        cl_post_timing: z.ZodObject<{
+        cl_post_timing: z.ZodOptional<z.ZodObject<{
             code: z.ZodString;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
@@ -374,7 +374,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         }, {
             code?: string;
             description?: string;
-        }>;
+        }>>;
     }, {
         address: z.ZodNullable<z.ZodString>;
         agent_rate_type_code: z.ZodNullable<z.ZodObject<{
@@ -415,7 +415,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         }>>;
         phone: z.ZodNullable<z.ZodString>;
         tax_nbr: z.ZodNullable<z.ZodString>;
-        cl_post_timing: z.ZodNullable<z.ZodObject<{
+        cl_post_timing: z.ZodNullable<z.ZodOptional<z.ZodObject<{
             code: z.ZodString;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
@@ -424,7 +424,7 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         }, {
             code?: string;
             description?: string;
-        }>>;
+        }>>>;
     }>, "strip", z.ZodTypeAny, {
         name?: string;
         email?: string;

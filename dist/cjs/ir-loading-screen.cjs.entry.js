@@ -13,7 +13,7 @@ const IrLoadingScreen = class {
     }
     message = '';
     render() {
-        return (index.h("div", { key: 'f11267ad4518e36ab646568fcaa861ec97b29aae', class: "loader__container", "data-testid": "loading-screen" }, index.h("wa-spinner", { key: '509dd7f71653aaa7e69950f19d4c2f4ba4d81bab', style: { fontSize: '2.5rem' } })));
+        return (index.h("div", { key: '2dfff849809dc7cc6c55d0ee4d45721c8c954c72', class: "loader__container", "data-testid": "loading-screen" }, index.h("wa-spinner", { key: '5ea050750eaaac34ea7339160ff8203ce2deb3a1', style: { fontSize: '2.5rem' } })));
     }
 };
 IrLoadingScreen.style = IrLoadingScreenStyle0;

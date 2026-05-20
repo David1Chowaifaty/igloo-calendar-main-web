@@ -18,13 +18,13 @@ const IrClCreditNoteFields = /*@__PURE__*/ proxyCustomElement(class IrClCreditNo
     fieldChange;
     render() {
         const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '3a45653b3ca627bbbaab6c38ce65d90906219a4c' }, h("div", { key: '1e0d390a92b7f4e1afca9d2fc24b49ad91e4a7f4', class: "field field--full-width" }, h("wa-radio-group", { key: '4bcf0c1c5f7e62fde7d91a2fc780827d3a6cb196', label: "Credit Note Type", orientation: "horizontal", size: "small", value: this.creditNoteMode, onchange: e => {
+        return (h(Fragment, { key: 'b83773a4f9dac0ff8cdd97aa1d744b76f2a0f9b5' }, h("div", { key: '7c4e0db43aa9fe1abf090786d70c330b9f22be18', class: "field field--full-width" }, h("wa-radio-group", { key: '5e78f440061ea780e53ca630cd12743ec9428fc2', label: "Credit Note Type", orientation: "horizontal", size: "small", value: this.creditNoteMode, onchange: e => {
                 const val = e.target.value;
                 this.fieldChange.emit({
                     creditNoteMode: val,
                     invoiceId: val === 'goodwill' ? undefined : this.invoiceId,
                 });
-            } }, h("wa-radio", { key: '63bc2b1278b4791577bb67dc70a7926fe2a5d0c6', value: "cancel-invoice", appearance: "button", disabled: noInvoices || this.isFetchingFiscalDocs }, "Cancel invoice and unlock all items"), h("wa-radio", { key: 'e6098e380ab77dfb13520a3de4af053a81ebe803', value: "goodwill", appearance: "button" }, "Goodwill credit"))), this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '04aadf7891ac58c6ec497b906ee33ade08676953', class: "field" }, h("ir-cl-invoice-select", { key: 'bb30214aaae28041918211e733b16adacb33ad93', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+            } }, h("wa-radio", { key: '1cbd698b0bba7933c387d2ca1a95c7bf8109f690', value: "cancel-invoice", appearance: "button", disabled: noInvoices || this.isFetchingFiscalDocs }, "Cancel invoice and unlock all items"), h("wa-radio", { key: '018d06ebf0ef04eb4f702edfd2d341a83590c425', value: "goodwill", appearance: "button" }, "Goodwill credit"))), this.creditNoteMode === 'cancel-invoice' && (h("div", { key: 'f9e0179c3b46e40c7d85a459f65d1987f12b933f', class: "field" }, h("ir-cl-invoice-select", { key: '7475909528490c9fbf6e7b2189b3caeaa2a09c90', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
             } })))));
     }

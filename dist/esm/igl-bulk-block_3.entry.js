@@ -1,13 +1,13 @@
 import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-7e96440e.js';
-import { B as BookingService } from './booking.store-38781ecd.js';
+import { B as BookingService } from './booking.store-4e106169.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { z, Z as ZodError } from './index-87419685.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { d as calendar_dates } from './booking-5a42ef26.js';
+import { d as calendar_dates } from './booking-7450fe15.js';
 import './axios-aa1335b8.js';
-import './utils-177fc6a4.js';
-import './type-e34653d3.js';
+import './utils-66e78d8b.js';
+import './type-501de9b6.js';
 import './index-f100e9d2.js';
 
 class ReloadInterceptor {
@@ -649,7 +649,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (h(Host, { key: '725e0b234061dbb24094aaf78fb23610902b50bc', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (h(Host, { key: 'a8ef9f30b55c86ce43f060b6a57b5fee78f0a9b1', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

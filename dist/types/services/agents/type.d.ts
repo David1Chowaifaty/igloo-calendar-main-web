@@ -125,7 +125,7 @@ export declare const AgentBaseSchema: z.ZodObject<{
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
     has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-    cl_post_timing: z.ZodObject<{
+    cl_post_timing: z.ZodOptional<z.ZodObject<{
         code: z.ZodString;
         description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
@@ -134,7 +134,7 @@ export declare const AgentBaseSchema: z.ZodObject<{
     }, {
         code?: string;
         description?: string;
-    }>;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -273,7 +273,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
     has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-    cl_post_timing: z.ZodObject<{
+    cl_post_timing: z.ZodOptional<z.ZodObject<{
         code: z.ZodString;
         description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
@@ -282,7 +282,7 @@ export declare const AgentSchema: z.ZodEffects<z.ZodObject<{
     }, {
         code?: string;
         description?: string;
-    }>;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -504,7 +504,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
     has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-    cl_post_timing: z.ZodObject<{
+    cl_post_timing: z.ZodOptional<z.ZodObject<{
         code: z.ZodString;
         description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
     }, "strip", z.ZodTypeAny, {
@@ -513,7 +513,7 @@ export declare const AgentsSchema: z.ZodNullable<z.ZodArray<z.ZodEffects<z.ZodOb
     }, {
         code?: string;
         description?: string;
-    }>;
+    }>>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
@@ -736,7 +736,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         reference: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         verification_mode: z.ZodDefault<z.ZodNullable<z.ZodString>>;
         has_opening_balance: z.ZodDefault<z.ZodOptional<z.ZodBoolean>>;
-        cl_post_timing: z.ZodObject<{
+        cl_post_timing: z.ZodOptional<z.ZodObject<{
             code: z.ZodString;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
@@ -745,7 +745,7 @@ export declare const HandleExposedAgentPropsSchema: z.ZodObject<{
         }, {
             code?: string;
             description?: string;
-        }>;
+        }>>;
     }, "strip", z.ZodTypeAny, {
         name?: string;
         email?: string;

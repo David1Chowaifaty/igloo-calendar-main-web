@@ -69,7 +69,7 @@ const IrSpinner = /*@__PURE__*/ proxyCustomElement(class IrSpinner extends HTMLE
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: 'e1a4c31bf351f8d7c4d5b435551d996cf4f065d2' }, h("wa-spinner", { key: 'c1e4866bb3ef33b71ae8c89ce2144b766f4c8fc2', style: { fontSize: '2rem' } })));
+        return (h(Host, { key: '98a590bc8a1b6926d74d0a16f20f358f1ae9c2d6' }, h("wa-spinner", { key: '6ccc62df2c689465227fdaa8747165b1da3247bc', style: { fontSize: '2rem' } })));
     }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],

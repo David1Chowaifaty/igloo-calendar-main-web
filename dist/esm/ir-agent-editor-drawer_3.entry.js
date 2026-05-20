@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
 import { v as v4 } from './v4-964634d6.js';
-import { b as AgentSchema } from './type-e34653d3.js';
-import { A as AgentsService } from './agents.service-51275c3b.js';
-import { G as getFormSubmitter } from './utils-177fc6a4.js';
+import { b as AgentSchema } from './type-501de9b6.js';
+import { A as AgentsService } from './agents.service-64531ba1.js';
+import { G as getFormSubmitter } from './utils-66e78d8b.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import './index-87419685.js';
 import './axios-aa1335b8.js';
@@ -106,12 +106,12 @@ const IrAgentEditorForm = class {
         }
     }
     render() {
-        return (h("form", { key: '0aa9ae6d79247b4cc344b977cf5ea026f53dd80b', autoComplete: this.formId,
+        return (h("form", { key: 'b74b706bb3a9138b6f875a48d406c08d6b6a8fb1', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: 'b827f8371e15495b80481c129a8241ab19ed21f7', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'd50189ca102e5b634129d960d15475bb5eb6d640', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '8008cf97e8c6012ab566478fb7cabbca655955f4', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'a4e081213846b2008ee2787e6c694e23e6321ca9', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
 };
 IrAgentEditorForm.style = IrAgentEditorFormStyle0;
@@ -193,11 +193,11 @@ const IrAgentsTable = class {
         });
     };
     render() {
-        return (h(Host, { key: '9d036929cda0b208e79af4f357067329a3aeea0e' }, h("div", { key: 'a3a0ffe1c9efa295cc3ed840bc3d4b2f4ec9e236', class: "table--container" }, h("table", { key: '16b7ab3ad5f8aa243768e3f1f6429d8fd4c90c5a', class: "table" }, h("thead", { key: '2802334d1f40b997518d2c85fcd7b0b7579c2f2f' }, h("tr", { key: '3998cf1c1e81d031a2dd51dc4daf2a809f75a59e' }, h("th", { key: 'f8a5e5b23e2ad61262dcec3cc3f83e596bc43dff', class: "agents-table__header" }, "Name"), h("th", { key: '911b50734ceff6a9d16d04f4d20fb7799b73d4a0', class: "agents-table__header" }, "Type"), h("th", { key: 'c2ef7f82201861cdfd614085492b138e81e50c7b', class: "agents-table__header" }, "Email"), h("th", { key: '4573bf64295ba0b05223aae44221d8f5a7f6c5a2', class: "agents-table__header" }, "Phone"), h("th", { key: '675f0bb376ba000aa6705a9bc8170c8c9233ec50', class: "agents-table__header" }, "Active"), h("th", { key: 'aaee9eba6db0cd631910d71c029e9357f702173b', class: "agents-table__header " }, h("div", { key: '7db945004bd2bdb87bc5877430ebab4dc61644a3', class: "agents-table__action" }, h("wa-tooltip", { key: '1e5047dbf2335972ba8eb21f392b7ec66f588092', for: "create-agent-button" }, "New Agent"), h("ir-custom-button", { key: 'd9e583aac2af07f2e9acf8a746b3228fdea719bc', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: 'bcb69ed7a9b33cb2745a44859ba9fb20b8d1fd7a', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), h("tbody", { key: 'bd21ed4284e00e4acf67fc71c44cdea0f95b5f8b' }, this.agents.map(agent => {
+        return (h(Host, { key: 'ba4a94706f93842cbb08dd55c0c3a33a9575877f' }, h("div", { key: '6f10cbe4cf97840d878b5e35e86f5c19eaf25d92', class: "table--container" }, h("table", { key: '926ce57dc23f930a3cb6f75fb6d83c67e307369e', class: "table" }, h("thead", { key: 'a747c33469479a3a96a0d5a1b07fb5f494c3437e' }, h("tr", { key: '626f129171237bfdb87dc641837ba57c1a1e59bb' }, h("th", { key: '8f5667a7ea77911abd757bcc341cbe3f9826790a', class: "agents-table__header" }, "Name"), h("th", { key: '89c335b14f3283f304980da977d08e63f6c4b6fc', class: "agents-table__header" }, "Type"), h("th", { key: '94662f35770961a8ad36d6b0989ff9d175c4d807', class: "agents-table__header" }, "Email"), h("th", { key: 'a2a9d7acb1fcceaccbe7c8e0b922727075a4b41a', class: "agents-table__header" }, "Phone"), h("th", { key: 'a6d517e8d95cdcace9393f0f0fff7fa9dc0b98eb', class: "agents-table__header" }, "Active"), h("th", { key: '98d5b442a6e28d0c9e585b0ee3c4dabdf38ff483', class: "agents-table__header " }, h("div", { key: 'c3b871c2ffb783118397f71e6cba373db7d97093', class: "agents-table__action" }, h("wa-tooltip", { key: 'bea070d61edb81ced3f4908ddfc5128f0c73feff', for: "create-agent-button" }, "New Agent"), h("ir-custom-button", { key: '124ed87bf677091edd4edac0eb49aaf48fb1def2', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: 'dbb222fffa1749e961c74cabdf4b468ea7c790b8', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), h("tbody", { key: '633d46668f935cdc2cca867d568617d3dba46492' }, this.agents.map(agent => {
             // const status = this.getStatusLabel(agent);
             const typeLabel = this.getAgentTypeLabel(agent);
             return (h("tr", { class: "ir-table-row", key: agent.id }, h("td", { class: "agents-table__name" }, h("div", { class: "d-flex flex-column" }, h("p", null, agent.name), h("p", { class: "agents-table__muted" }, agent.reference))), h("td", null, h("div", { class: "d-flex flex-column" }, h("p", null, typeLabel), h("p", { class: "agents-table__muted" }, agent.code))), h("td", null, agent.email || 'N/A'), h("td", null, this.getAgentPhoneNumber(agent) || 'N/A'), h("td", null, h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), h("td", null, h("div", { class: "agents-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.agents?.length === 0 && (h("tr", { key: 'facbc8da96e25e8e6b7ec9f12c42f620e96efcbf', class: "empty-row" }, h("td", { key: 'adf60e78b430e846ad2f2ea358d2f648031eb769', colSpan: 6 }, h("ir-empty-state", { key: '071c4b0632d882e6b22d8a979092533cd934f4e7' })))))))));
+        }), this.agents?.length === 0 && (h("tr", { key: '73a6f3a9e20b4f788f2a1f119a69ab91b2ac1065', class: "empty-row" }, h("td", { key: 'f906c5e4c979ec43b028866e6cddce98f6afebea', colSpan: 6 }, h("ir-empty-state", { key: '413a88d65e4e061c1d39668bc06e92750c99ea87' })))))))));
     }
 };
 IrAgentsTable.style = IrAgentsTableStyle0 + IrAgentsTableStyle1;

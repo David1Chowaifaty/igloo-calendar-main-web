@@ -3,16 +3,16 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const toBeAssigned_service = require('./toBeAssigned.service-c3133d66.js');
+const toBeAssigned_service = require('./toBeAssigned.service-ef3da18d.js');
 const locales_store = require('./locales.store-32782582.js');
-const utils = require('./utils-cf15d06a.js');
+const utils = require('./utils-8f5b1099.js');
 const v4 = require('./v4-9b297151.js');
 require('./axios-6e678d52.js');
 require('./moment-1780b03a.js');
 require('./index-fbf1fe1d.js');
 require('./index-8bb117a0.js');
 require('./calendar-data-70bc3b4b.js');
-require('./type-87fd01b8.js');
+require('./type-53035218.js');
 
 const iglTbaBookingViewCss = ".sc-igl-tba-booking-view-h{display:block}.guestTitle.sc-igl-tba-booking-view{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px;margin-bottom:5px;margin-top:5px;padding-left:5px;padding-right:5px}.guestTitle.selectedOrder.sc-igl-tba-booking-view{background-color:#f9f9c9}.pointer.sc-igl-tba-booking-view{cursor:pointer}hr.sc-igl-tba-booking-view{margin-top:8px;margin-bottom:0px}.bookingContainer.sc-igl-tba-booking-view{background-color:#ececec}.actionsContainer.sc-igl-tba-booking-view{display:flex;align-items:center;padding:5px !important;width:100%;gap:16px}.room-select.sc-igl-tba-booking-view{flex:1}.selectContainer.sc-igl-tba-booking-view{width:195px;margin-right:8px}.buttonsContainer.sc-igl-tba-booking-view{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;padding:0;margin:0;gap:0.5rem}.booking-guest-title.sc-igl-tba-booking-view{display:flex;align-items:center;gap:0.5rem}.guest-booking-number.sc-igl-tba-booking-view,.guest-name.sc-igl-tba-booking-view,.guest-occupancy.sc-igl-tba-booking-view{margin:0;padding:0;box-sizing:border-box}.guest-name.sc-igl-tba-booking-view{max-width:120px}";
 const IglTbaBookingViewStyle0 = iglTbaBookingViewCss;

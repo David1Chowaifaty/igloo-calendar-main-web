@@ -49,7 +49,7 @@ const AgentBaseSchema = z.object({
     reference: z.string().nullable().optional(),
     verification_mode: z.string().nullable().default(null),
     has_opening_balance: z.boolean().optional().default(false),
-    cl_post_timing: ClPostTimingSchema,
+    cl_post_timing: ClPostTimingSchema.optional(),
 });
 const AgentSchema = AgentBaseSchema.superRefine((value, ctx) => {
     const trimmedCode = (value.code ?? '').trim();
