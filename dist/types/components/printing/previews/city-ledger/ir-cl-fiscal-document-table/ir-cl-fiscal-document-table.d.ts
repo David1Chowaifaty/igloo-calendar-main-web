@@ -9,6 +9,7 @@ export declare class IrClFiscalDocumentTable {
     private get prIdDict();
     private get roomTypesDict();
     private get rateplanDict();
+    private get showCityTax();
     private get totals();
     private renderTxRow;
     private renderUnitGroup;
