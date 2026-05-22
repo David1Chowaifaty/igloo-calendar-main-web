@@ -360,6 +360,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         if (e.detail) {
             this.booking = e.detail;
             this.splitIndex = buildSplitIndex(this.booking.rooms);
+            await this.loadAgentAndFolio(e.detail);
             return;
         }
         await this.resetBooking();
@@ -372,19 +373,19 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     handleOpenPrintScreen(e) {
         this.openPrintingScreen(e.detail);
     }
-    async fetchCityLedger() {
-        if (!this.booking?.agent)
+    async fetchCityLedger(booking = this.booking) {
+        if (!booking?.agent)
             return;
         this.clLoading = true;
         this.clError = null;
         try {
             const result = await this.cityLedgerService.fetchCL({
-                AGENCY_ID: this.booking.agent.id,
-                START_DATE: this.booking.from_date,
-                END_DATE: this.booking.to_date,
+                AGENCY_ID: booking.agent.id,
+                START_DATE: booking.from_date,
+                END_DATE: booking.to_date,
                 START_ROW: 0,
                 END_ROW: 200,
-                SEARCH_QUERY: this.booking.booking_nbr,
+                SEARCH_QUERY: booking.booking_nbr,
             });
             let runningBalance = 0;
             this.folioRows = result.My_Cl_tx.map((tx, i) => {
@@ -400,13 +401,15 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             this.clLoading = false;
         }
     }
-    async handleBookingUpdate(newVal, oldVal) {
-        if (!newVal?.agent)
+    async loadAgentAndFolio(booking) {
+        if (!booking?.agent) {
+            this.agent = null;
+            this.folioRows = [];
             return;
-        const agentChanged = newVal.agent?.id !== oldVal?.agent?.id;
-        const datesChanged = newVal.from_date !== oldVal?.from_date || newVal.to_date !== oldVal?.to_date;
-        if (agentChanged || datesChanged) {
-            await this.fetchCityLedger();
+        }
+        this.agent = await this.agentService.getExposedAgent({ id: booking.agent.id });
+        if (isAgentMode(this.agent)) {
+            await this.fetchCityLedger(booking);
         }
     }
     async handleClRefresh() {
@@ -440,12 +443,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                     '_SVC_CATEGORY',
                 ]),
             ]);
-            if (bookingDetails.agent) {
-                this.agent = await this.agentService.getExposedAgent({ id: bookingDetails.agent.id });
-                if (isAgentMode(this.agent)) {
-                    await this.fetchCityLedger();
-                }
-            }
+            await this.loadAgentAndFolio(bookingDetails);
             this.property_id = roomResponse?.My_Result?.id;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
@@ -528,13 +526,18 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     };
     async resetBooking() {
         try {
+            this.isLoading = true;
             const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
+            this.splitIndex = buildSplitIndex(booking.rooms);
+            await this.loadAgentAndFolio(booking);
             this.booking = { ...booking };
-            this.splitIndex = buildSplitIndex(this.booking.rooms);
             this.bookingChanged.emit(this.booking);
         }
         catch (error) {
             console.log(error);
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     async handleModalConfirm() {
@@ -584,8 +587,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             }, booking_nbr: this.bookingNumber, email: this.booking?.guest.email, language: this.language, open: this.sidebarState === 'guest' }), h("ir-payment-folio", { booking: this.booking, style: { height: 'auto' }, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, payment: this.sidebarPayload?.payment, mode: this.sidebarPayload?.mode, ref: el => (this.paymentFolioRef = el), onCloseModal: () => (this.sidebarState = null) }), h("ir-booking-editor-drawer", { roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, booking: this.booking, ticket: this.ticket, open: this.bookingItem !== null, roomIdentifier: this.bookingItem?.IDENTIFIER, language: this.language, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, checkOut: this.bookingItem?.TO_DATE })));
     }
     static get watchers() { return {
-        "ticket": ["ticketChanged"],
-        "booking": ["handleBookingUpdate"]
+        "ticket": ["ticketChanged"]
     }; }
     static get style() { return IrBookingDetailsStyle0; }
 }, [2, "ir-booking-details", {
@@ -633,8 +635,7 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         "clLoading": [32],
         "clError": [32]
     }, [[0, "openSidebar", "handleSideBarEvents"], [0, "clickHandler", "handleIconClick"], [0, "resetExposedCancellationDueAmount", "handleResetExposedCancellationDueAmount"], [0, "editInitiated", "handleEditInitiated"], [0, "updateRoomGuests", "handleRoomGuestsUpdate"], [0, "resetBookingEvt", "handleResetBooking"], [0, "editExtraService", "handleEditExtraService"], [0, "openPrintScreen", "handleOpenPrintScreen"], [0, "clRefreshNeeded", "handleClRefresh"]], {
-        "ticket": ["ticketChanged"],
-        "booking": ["handleBookingUpdate"]
+        "ticket": ["ticketChanged"]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

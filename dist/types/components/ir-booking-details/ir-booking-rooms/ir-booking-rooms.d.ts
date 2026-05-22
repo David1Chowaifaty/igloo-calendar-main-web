@@ -4,15 +4,12 @@ import { Agent } from "../../../services/agents/type";
 import { SplitIndex } from "../../../utils/booking";
 import { EventEmitter } from '../../../stencil-public-runtime';
 export declare class IrBookingRooms {
-    private agentsService;
     /**
      * The booking object containing reservation details,
      * including rooms, status, currency, and edit permissions.
      */
     booking: Booking;
     agent: Agent;
-    resolvedAgent: Agent;
-    componentWillLoad(): Promise<void>;
     /**
      * Available bed preference options for the booking rooms.
      * Used to populate bed selection inside each room component.

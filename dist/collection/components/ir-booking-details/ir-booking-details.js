@@ -247,6 +247,7 @@ export class IrBookingDetails {
         if (e.detail) {
             this.booking = e.detail;
             this.splitIndex = buildSplitIndex(this.booking.rooms);
+            await this.loadAgentAndFolio(e.detail);
             return;
         }
         await this.resetBooking();
@@ -259,19 +260,19 @@ export class IrBookingDetails {
     handleOpenPrintScreen(e) {
         this.openPrintingScreen(e.detail);
     }
-    async fetchCityLedger() {
-        if (!this.booking?.agent)
+    async fetchCityLedger(booking = this.booking) {
+        if (!booking?.agent)
             return;
         this.clLoading = true;
         this.clError = null;
         try {
             const result = await this.cityLedgerService.fetchCL({
-                AGENCY_ID: this.booking.agent.id,
-                START_DATE: this.booking.from_date,
-                END_DATE: this.booking.to_date,
+                AGENCY_ID: booking.agent.id,
+                START_DATE: booking.from_date,
+                END_DATE: booking.to_date,
                 START_ROW: 0,
                 END_ROW: 200,
-                SEARCH_QUERY: this.booking.booking_nbr,
+                SEARCH_QUERY: booking.booking_nbr,
             });
             let runningBalance = 0;
             this.folioRows = result.My_Cl_tx.map((tx, i) => {
@@ -287,13 +288,15 @@ export class IrBookingDetails {
             this.clLoading = false;
         }
     }
-    async handleBookingUpdate(newVal, oldVal) {
-        if (!newVal?.agent)
+    async loadAgentAndFolio(booking) {
+        if (!booking?.agent) {
+            this.agent = null;
+            this.folioRows = [];
             return;
-        const agentChanged = newVal.agent?.id !== oldVal?.agent?.id;
-        const datesChanged = newVal.from_date !== oldVal?.from_date || newVal.to_date !== oldVal?.to_date;
-        if (agentChanged || datesChanged) {
-            await this.fetchCityLedger();
+        }
+        this.agent = await this.agentService.getExposedAgent({ id: booking.agent.id });
+        if (isAgentMode(this.agent)) {
+            await this.fetchCityLedger(booking);
         }
     }
     async handleClRefresh() {
@@ -327,12 +330,7 @@ export class IrBookingDetails {
                     '_SVC_CATEGORY',
                 ]),
             ]);
-            if (bookingDetails.agent) {
-                this.agent = await this.agentService.getExposedAgent({ id: bookingDetails.agent.id });
-                if (isAgentMode(this.agent)) {
-                    await this.fetchCityLedger();
-                }
-            }
+            await this.loadAgentAndFolio(bookingDetails);
             this.property_id = roomResponse?.My_Result?.id;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
@@ -415,13 +413,18 @@ export class IrBookingDetails {
     };
     async resetBooking() {
         try {
+            this.isLoading = true;
             const booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
+            this.splitIndex = buildSplitIndex(booking.rooms);
+            await this.loadAgentAndFolio(booking);
             this.booking = { ...booking };
-            this.splitIndex = buildSplitIndex(this.booking.rooms);
             this.bookingChanged.emit(this.booking);
         }
         catch (error) {
             console.log(error);
+        }
+        finally {
+            this.isLoading = false;
         }
     }
     async handleModalConfirm() {
@@ -900,9 +903,6 @@ export class IrBookingDetails {
         return [{
                 "propName": "ticket",
                 "methodName": "ticketChanged"
-            }, {
-                "propName": "booking",
-                "methodName": "handleBookingUpdate"
             }];
     }
     static get listeners() {

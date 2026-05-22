@@ -148,7 +148,7 @@ export declare class IrBookingDetails {
     handleEditExtraService(e: CustomEvent): void;
     handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
     private fetchCityLedger;
-    handleBookingUpdate(newVal: Booking, oldVal: Booking): Promise<void>;
+    private loadAgentAndFolio;
     handleClRefresh(): Promise<void>;
     private setRoomsData;
     private initializeApp;

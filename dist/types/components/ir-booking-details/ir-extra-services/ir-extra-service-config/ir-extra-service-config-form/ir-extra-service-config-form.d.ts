@@ -14,12 +14,10 @@ export declare class IrExtraServiceConfigForm {
     toDateClicked: boolean;
     autoValidate: boolean;
     assignee: 'agent' | 'guest';
-    resolvedAgent: Agent;
     closeModal: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     private bookingService;
-    private agentsService;
-    componentWillLoad(): Promise<void>;
+    componentWillLoad(): void;
     handleServiceChange(): void;
     private assignService;
     private get categories();

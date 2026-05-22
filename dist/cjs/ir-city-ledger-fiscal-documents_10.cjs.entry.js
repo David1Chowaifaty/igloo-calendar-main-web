@@ -967,12 +967,12 @@ const IrCityLedgerStatementsTable = class {
     renderMoney(value, currencyId) {
         if (value == null || value === 0 || isNaN(value))
             return index.h("span", { class: "stmt-table__cell--zero" });
-        return index.h("span", { class: "stmt-table__cell--money" }, utils.formatAmount(this.getSymbol(currencyId), Math.abs(value)));
+        return index.h("span", { class: "stmt-table__cell--money" }, utils.formatAmount(this.getSymbol(currencyId), value));
     }
     get runningBalances() {
         let balance = this.startingBalance;
         return this.rows.map(doc => {
-            balance += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+            balance += Math.abs(doc.DEBIT ?? 0) - Math.abs(doc.CREDIT ?? 0);
             return balance;
         });
     }
@@ -1014,7 +1014,7 @@ const IrCityLedgerStatementsTable = class {
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(Math.abs(info.getValue()), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'balance',
@@ -1029,7 +1029,7 @@ const IrCityLedgerStatementsTable = class {
     }
     renderEndingBalanceRow() {
         const bal = this.endingBalance;
-        return (index.h("tr", { class: "ir-table-row balance-row balance-row--end" }, index.h("td", null, this.formatDate(this.toDate)), index.h("td", null), index.h("td", { class: "balance-row__label" }, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }, utils.formatAmount(this.currencySymbol, Math.abs(bal)))));
+        return (index.h("tr", { class: "ir-table-row balance-row balance-row--end" }, index.h("td", null, this.formatDate(this.toDate)), index.h("td", null), index.h("td", { class: "balance-row__label" }, index.h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }), index.h("td", { class: "cell--align-end" }, utils.formatAmount(this.currencySymbol, bal))));
     }
     render() {
         if (!this.hasFetched) {

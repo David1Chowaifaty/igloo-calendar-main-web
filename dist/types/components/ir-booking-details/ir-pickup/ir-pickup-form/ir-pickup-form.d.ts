@@ -16,7 +16,6 @@ export declare class IrPickupForm {
         to: string;
     };
     isLoading: boolean;
-    resolvedAgent: Agent;
     allowedOptionsByLocation: IAllowedOptions[];
     assignee: 'agent' | 'guest';
     pickupData: TPickupData;
@@ -27,14 +26,13 @@ export declare class IrPickupForm {
     loadingChange: EventEmitter<boolean>;
     resetBookingEvt: EventEmitter<null>;
     private pickupService;
-    private agentsService;
     private pickupSchema;
     private get shouldRenderDetails();
     private get isRemovalRequest();
     private get canSubmitPickup();
     private lastCanSubmit;
     handleSubmitPickupChange(): void;
-    componentWillLoad(): Promise<void>;
+    componentWillLoad(): void;
     private handleLocationChange;
     private handleVehicleQuantityChange;
     private handleVehicleTypeChange;

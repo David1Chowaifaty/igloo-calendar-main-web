@@ -1,5 +1,4 @@
 import { ROOM_IN_OUT } from "../../../models/booking.dto";
-import { AgentsService } from "../../../services/agents/agents.service";
 import { buildSplitIndex } from "../../../utils/booking";
 // import calendar_data from '@/stores/calendar-data';
 // import moment from 'moment';
@@ -7,22 +6,12 @@ import { Fragment, h } from "@stencil/core";
 import { isAgentMode } from "../functions";
 import { canCheckIn, canCheckout } from "../../../utils/utils";
 export class IrBookingRooms {
-    agentsService = new AgentsService();
     /**
      * The booking object containing reservation details,
      * including rooms, status, currency, and edit permissions.
      */
     booking;
     agent;
-    resolvedAgent;
-    async componentWillLoad() {
-        if (this.agent) {
-            this.resolvedAgent = this.agent;
-        }
-        else if (this.booking?.agent) {
-            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
-        }
-    }
     /**
      * Available bed preference options for the booking rooms.
      * Used to populate bed selection inside each room component.
@@ -166,7 +155,7 @@ export class IrBookingRooms {
     renderRoomItem(room, bookingIndex, includeDepartureTime = true) {
         const showCheckin = this.handleRoomCheckin(room);
         const showCheckout = this.handleRoomCheckout(room);
-        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, agent: this.resolvedAgent, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
+        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, agent: this.agent, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
     }
     renderRoomPool(rooms) {
         if (!rooms.length) {
@@ -187,7 +176,7 @@ export class IrBookingRooms {
         if (!rooms.length) {
             return null;
         }
-        if (!isAgentMode(this.resolvedAgent)) {
+        if (!isAgentMode(this.agent)) {
             return this.renderRoomPool(rooms);
         }
         const guestRooms = rooms.filter(r => r.agent === null || r.agent === undefined);
@@ -464,11 +453,6 @@ export class IrBookingRooms {
                 "getter": false,
                 "setter": false
             }
-        };
-    }
-    static get states() {
-        return {
-            "resolvedAgent": {}
         };
     }
     static get events() {

@@ -1,6 +1,5 @@
 import { isAgentMode } from "../../../functions";
 import { ExtraServiceSchema } from "../../../../../models/booking.dto";
-import { AgentsService } from "../../../../../services/agents/agents.service";
 import { BookingService } from "../../../../../services/booking-service/booking.service";
 import { taxationModes } from "../../../../../services/property.service";
 import calendar_data from "../../../../../stores/calendar-data";
@@ -19,19 +18,11 @@ export class IrExtraServiceConfigForm {
     toDateClicked;
     autoValidate;
     assignee = 'guest';
-    resolvedAgent;
     closeModal;
     resetBookingEvt;
     bookingService = new BookingService();
-    agentsService = new AgentsService();
-    async componentWillLoad() {
-        if (this.agent) {
-            this.resolvedAgent = this.agent;
-        }
-        else if (this.booking?.agent) {
-            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
-        }
-        if (isAgentMode(this.resolvedAgent)) {
+    componentWillLoad() {
+        if (isAgentMode(this.agent)) {
             this.assignee = 'agent';
         }
         this.assignService();
@@ -94,10 +85,10 @@ export class IrExtraServiceConfigForm {
         this.assignee = event.detail;
     }
     render() {
-        return (h("form", { key: '0eeb424d738407d23a5887f596baf170de0d09b6', id: "extra-service-config-form", onSubmit: async (e) => {
+        return (h("form", { key: '3e47dc98ef9be1837a4cba3fc5df2b59d8daf38a', id: "extra-service-config-form", onSubmit: async (e) => {
                 e.preventDefault();
                 this.saveAmenity();
-            }, class: 'extra-service-config__container' }, this.categories.length > 0 && (h("ir-validator", { key: 'f7b4722dbae1cd5406d1182ade0ccca61abfc092', value: this.s_service?.category, schema: ExtraServiceSchema.shape.category }, h("wa-select", { key: '897bbf3cba3068989d1e01cc44a290a71c2f38fc', size: "small", label: "Service category", value: this.s_service?.category?.code ?? '', defaultValue: this.s_service?.category?.code ?? '', onchange: (e) => {
+            }, class: 'extra-service-config__container' }, this.categories.length > 0 && (h("ir-validator", { key: 'c9b6b8b6879fa670696c53c0b9fda57c0bd8e85d', value: this.s_service?.category, schema: ExtraServiceSchema.shape.category }, h("wa-select", { key: '53b9fe0b9d969acdf7453b2e3c6f07fa14a39201', size: "small", label: "Service category", value: this.s_service?.category?.code ?? '', defaultValue: this.s_service?.category?.code ?? '', onchange: (e) => {
                 this.updateService({ category: { code: e.target.value } });
             }, "onwa-hide": e => {
                 e.stopImmediatePropagation();
@@ -109,13 +100,13 @@ export class IrExtraServiceConfigForm {
             const langKey = `CODE_VALUE_${(this.language ?? 'en').toUpperCase()}`;
             const label = (category[langKey] ?? category.CODE_VALUE_EN ?? '') + ` (VAT ${category.pct}%)`;
             return (h("wa-option", { value: category.CODE_NAME, label: label }, label));
-        })))), h("ir-validator", { key: '3c2fb473818e298bce01eb21272dcdbe788055a4', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: '4d0c08401334e889cd112e075ee668cee7496896', size: "small", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": "Amenity description", maxlength: 250, label: locales.entries.Lcz_Description })), h("ir-validator", { key: '8f95c60852315d37bb029b4d7ec495587029fa74', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-custom-date-picker", { key: 'be11d4707cd42241b2e412cd91ae8c9bb3f130d0', placeholder: "Select date", withClear: true, label: "Dates on", emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') }) })), h("ir-custom-date-picker", { key: 'bdbae2019e5b30ca379c3f82721515f5cdc72801', withClear: true, emitEmptyDate: true, placeholder: "Select date", date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
+        })))), h("ir-validator", { key: 'd19bef728d314f46975be4b8f9a767ac83edd4ea', id: "amenity description-validator", schema: ExtraServiceSchema.shape.description }, h("wa-textarea", { key: '61788176add7395a0f5c08d36559cbc4abc3180a', size: "small", defaultValue: this.s_service?.description, value: this.s_service?.description, onchange: e => this.updateService({ description: e.target.value }), id: "amenity-description", "aria-label": "Amenity description", maxlength: 250, label: locales.entries.Lcz_Description })), h("ir-validator", { key: 'c2374b219c003cb1c9637167f84216e4faf769bf', value: this.s_service?.start_date ?? null, schema: ExtraServiceSchema.shape.start_date }, h("ir-custom-date-picker", { key: '27119c056a13b18d06823ead749efcaabeac5e0a', placeholder: "Select date", withClear: true, label: "Dates on", emitEmptyDate: true, date: this.s_service?.start_date, minDate: this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => this.updateService({ start_date: e.detail.start?.format('YYYY-MM-DD') }) })), h("ir-custom-date-picker", { key: '07673a69ea5b6be92036435c4eee80bf74a7403a', withClear: true, emitEmptyDate: true, placeholder: "Select date", date: this.s_service?.end_date, minDate: this.s_service?.start_date ?? this.booking.from_date, maxDate: this.booking.to_date, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.updateService({ end_date: e.detail.start?.format('YYYY-MM-DD') });
-            }, label: "Till and including" }), h("ir-validator", { key: 'f0deb3de2a4488f885e56afe35cc86d7a595eec1', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: '7b1c2bf8d59633069838ab8c7e0a056230a04384', "onText-change": e => {
+            }, label: "Till and including" }), h("ir-validator", { key: '8e6cc95463df1cf6eb821cb09c8417e33029a4d4', value: this.s_service?.price ?? null, schema: ExtraServiceSchema.shape.price }, h("ir-input", { key: 'b149d7e830e5d1755ee99fbfde5b238804b4610f', "onText-change": e => {
                 this.updateService({ price: Number(e.detail) });
-            }, defaultValue: this.s_service?.price?.toString(), value: this.s_service?.price?.toString(), mask: 'price', type: "text", label: `${locales.entries.Lcz_Price} (including tax)` }, h("span", { key: '06a183b1c119db7228d4cf199a7763ee6f046177', slot: "start" }, this.booking.currency.symbol))), h("ir-validator", { key: 'ea70f597904307240ace1046a843f89e949b0f61', value: this.s_service?.cost ?? null, schema: ExtraServiceSchema.shape.cost }, h("ir-input", { key: '75a12c2dc5542e5396073b601b57b8a6af2a88e1', defaultValue: this.s_service?.cost?.toString(), "onText-change": e => this.updateService({ cost: Number(e.detail) }), value: this.s_service?.cost?.toString(), mask: 'price', label: `${locales.entries.Lcz_Cost} (optional)` }, h("span", { key: 'd107973035cf5db638ed77fb91043f607df2acac', slot: "start" }, this.booking.currency.symbol))), isAgentMode(this.resolvedAgent) && (h("ir-service-assignee-select", { key: '89ef046e92f8a78b086ac0b35ee184c7508a7160', assigneeType: this.assignee, onAssignmentChange: e => this.assignmentChanged(e), agent: this.booking.agent }))));
+            }, defaultValue: this.s_service?.price?.toString(), value: this.s_service?.price?.toString(), mask: 'price', type: "text", label: `${locales.entries.Lcz_Price} (including tax)` }, h("span", { key: '53150c7107a52a4fa15d60e23d322634f93a1906', slot: "start" }, this.booking.currency.symbol))), h("ir-validator", { key: 'aa5b34a3051d4a9989b792a9c7f90414397e40cc', value: this.s_service?.cost ?? null, schema: ExtraServiceSchema.shape.cost }, h("ir-input", { key: '9f4b92ceac813ade9f9aebec3eda410e231624dc', defaultValue: this.s_service?.cost?.toString(), "onText-change": e => this.updateService({ cost: Number(e.detail) }), value: this.s_service?.cost?.toString(), mask: 'price', label: `${locales.entries.Lcz_Cost} (optional)` }, h("span", { key: '56d5ff422e606ccbec9ca0b236369bbea0dcc23c', slot: "start" }, this.booking.currency.symbol))), isAgentMode(this.agent) && (h("ir-service-assignee-select", { key: '87a1b841f89fc809f2dbb9917b74f7cea617172b', assigneeType: this.assignee, onAssignmentChange: e => this.assignmentChanged(e), agent: this.booking.agent }))));
     }
     static get is() { return "ir-extra-service-config-form"; }
     static get encapsulation() { return "scoped"; }
@@ -252,8 +243,7 @@ export class IrExtraServiceConfigForm {
             "fromDateClicked": {},
             "toDateClicked": {},
             "autoValidate": {},
-            "assignee": {},
-            "resolvedAgent": {}
+            "assignee": {}
         };
     }
     static get events() {

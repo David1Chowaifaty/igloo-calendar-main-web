@@ -66,14 +66,11 @@ export class IrBookingCityLedger {
             return '—';
         return formatAmount(calendar_data.property?.currency?.symbol, value);
     }
-    get showCityTax() {
-        return this.folioRows.some(row => (row._raw.CITY_TAX_PERCENT ?? 0) > 0);
-    }
-    renderTable() {
+    renderRows() {
         if (this.folioRows.length === 0) {
             return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", null)));
         }
-        return (h("div", { class: "table--container booking-city-ledger__table-wrap" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Status"), h("th", null, "Date"), h("th", { class: "booking-city-ledger__cell-desc" }, "Description"), h("th", { class: "text-right" }, "Amount"), this.showCityTax && h("th", { class: "text-right" }, "City Tax"), h("th", null))), h("tbody", null, this.folioRows.map(row => (h("tr", { key: row._rowId, class: "ir-table-row" }, h("td", null, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" }))), h("td", { class: "booking-city-ledger__cell-date" }, moment(row.serviceDate).format('MMM DD, YYYY')), h("td", { class: "booking-city-ledger__cell-desc" }, row.description || '—'), h("td", { class: "text-right " }, row.debit !== null && h("span", { class: 'is-debit' }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: 'is-credit' }, row.credit ? this.formatAmount(row.credit) : '')), this.showCityTax && h("td", { class: "text-right" }, this.formatAmount(row._raw.CITY_TAX_AMOUNT)), h("td", null, row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { class: "folio-list" }, this.folioRows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" })), h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -86,7 +83,7 @@ export class IrBookingCityLedger {
                         this.deleteTarget = row;
                         break;
                 }
-            } }, h("div", { slot: "trigger" }, h("ir-custom-button", { appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical" }))), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), "Delete")))))))))));
+            } }, h("div", { slot: "trigger" }, h("ir-custom-button", { appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical" }))), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), "Delete"))))), row.description && h("p", { class: "folio-row__desc" }, row.description), (row._raw.CITY_TAX_AMOUNT ?? 0) > 0 && (h("div", { class: "folio-row__city-tax" }, h("wa-icon", { name: "building" }), h("span", null, "City Tax: ", this.formatAmount(row._raw.CITY_TAX_AMOUNT)))))))));
     }
     render() {
         if (!this.booking?.agent) {
@@ -95,7 +92,7 @@ export class IrBookingCityLedger {
         return (h(Host, null, h("wa-card", { class: "booking-city-ledger__card" }, h("div", { slot: "header", class: "booking-city-ledger__header-title" }, h("p", { class: "font-size-large p-0 m-0" }, " Agent Folio")), h("wa-tooltip", { for: "booking-city-ledger-add-btn" }, "Add folio entry"), h("ir-custom-button", { slot: "header-actions", id: "booking-city-ledger-add-btn", size: "small", variant: "neutral", appearance: "plain", onClickHandler: () => {
                 this.editingRow = null;
                 this.drawerOpen = true;
-            } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderTable())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? 'Edit Folio Entry' : 'New Folio Entry', agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
+            } }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), this.isLoading ? (h("div", { class: "booking-city-ledger__spinner-wrap" }, h("ir-spinner", null))) : this.error ? (h("p", { class: "booking-city-ledger__error" }, this.error)) : (this.renderRows())), h("ir-city-ledger-transaction-drawer", { open: this.drawerOpen, drawerLabel: this.editingRow ? 'Edit Folio Entry' : 'New Folio Entry', agent: this.booking.agent, booking: this.booking, transaction: this.editingRow?._raw ?? null, serviceCategoryOptions: this.serviceCategoryOptions, bookingOptions: this.bookingOptions, onCloseDrawer: () => {
                 this.drawerOpen = false;
                 this.editingRow = null;
             }, onTransactionSaved: () => {
@@ -113,12 +110,12 @@ export class IrBookingCityLedger {
     static get encapsulation() { return "scoped"; }
     static get originalStyleUrls() {
         return {
-            "$": ["ir-booking-city-ledger.css", "../../../common/table.css"]
+            "$": ["ir-booking-city-ledger.css"]
         };
     }
     static get styleUrls() {
         return {
-            "$": ["ir-booking-city-ledger.css", "../../../common/table.css"]
+            "$": ["ir-booking-city-ledger.css"]
         };
     }
     static get properties() {

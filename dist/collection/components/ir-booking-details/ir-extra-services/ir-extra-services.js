@@ -1,34 +1,13 @@
-import { AgentsService } from "../../../services/agents/agents.service";
 import { Fragment, Host, h } from "@stencil/core";
 import locales from "../../../stores/locales.store";
-import { isAgentMode } from "../functions";
 export class IrExtraServices {
-    agentsService = new AgentsService();
     booking;
     agent;
     language;
     svcCategories;
     isAgentMode = false;
-    resolvedAgent;
-    async componentWillLoad() {
-        if (this.booking) {
-            await this.resolveAgent();
-            this.isAgentMode = isAgentMode(this.resolvedAgent);
-        }
-    }
-    handleBookingChange() {
-        this.isAgentMode = isAgentMode(this.resolvedAgent);
-    }
-    async resolveAgent() {
-        if (this.agent) {
-            this.resolvedAgent = this.agent;
-        }
-        else if (this.booking?.agent) {
-            this.resolvedAgent = await this.agentsService.getExposedAgent({ id: this.booking.agent.id });
-        }
-    }
     renderServiceList(services) {
-        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.resolvedAgent }), index !== services.length - 1 && h("wa-divider", null))));
+        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.agent }), index !== services.length - 1 && h("wa-divider", null))));
     }
     render() {
         const services = this.booking.extra_services ?? [];
@@ -143,17 +122,6 @@ export class IrExtraServices {
                 "setter": false
             }
         };
-    }
-    static get states() {
-        return {
-            "resolvedAgent": {}
-        };
-    }
-    static get watchers() {
-        return [{
-                "propName": "booking",
-                "methodName": "handleBookingChange"
-            }];
     }
 }
 //# sourceMappingURL=ir-extra-services.js.map

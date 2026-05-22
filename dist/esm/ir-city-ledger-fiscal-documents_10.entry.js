@@ -1,12 +1,12 @@
 import { r as registerInstance, h, H as Host, c as createEvent, F as Fragment } from './index-7e96440e.js';
-import { C as CityLedgerService } from './index-164ead9f.js';
+import { C as CityLedgerService } from './index-35e51673.js';
 import { F as FdTypes } from './enums-8474d88c.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { D as Debounce } from './debounce-542065c2.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes } from './types-4ae7dd84.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes } from './types-3f532445.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { v as v4 } from './v4-964634d6.js';
-import { f as formatAmount } from './utils-66e78d8b.js';
+import { f as formatAmount } from './utils-bc17ef20.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable-b8c70fc7.js';
 import './axios-aa1335b8.js';
 import './index-87419685.js';
@@ -963,12 +963,12 @@ const IrCityLedgerStatementsTable = class {
     renderMoney(value, currencyId) {
         if (value == null || value === 0 || isNaN(value))
             return h("span", { class: "stmt-table__cell--zero" });
-        return h("span", { class: "stmt-table__cell--money" }, formatAmount(this.getSymbol(currencyId), Math.abs(value)));
+        return h("span", { class: "stmt-table__cell--money" }, formatAmount(this.getSymbol(currencyId), value));
     }
     get runningBalances() {
         let balance = this.startingBalance;
         return this.rows.map(doc => {
-            balance += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+            balance += Math.abs(doc.DEBIT ?? 0) - Math.abs(doc.CREDIT ?? 0);
             return balance;
         });
     }
@@ -1010,7 +1010,7 @@ const IrCityLedgerStatementsTable = class {
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(Math.abs(info.getValue()), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'balance',
@@ -1025,7 +1025,7 @@ const IrCityLedgerStatementsTable = class {
     }
     renderEndingBalanceRow() {
         const bal = this.endingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, Math.abs(bal)))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
     }
     render() {
         if (!this.hasFetched) {

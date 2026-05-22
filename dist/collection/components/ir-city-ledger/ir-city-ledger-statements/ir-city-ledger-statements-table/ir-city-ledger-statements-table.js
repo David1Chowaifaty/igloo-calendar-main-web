@@ -35,12 +35,12 @@ export class IrCityLedgerStatementsTable {
     renderMoney(value, currencyId) {
         if (value == null || value === 0 || isNaN(value))
             return h("span", { class: "stmt-table__cell--zero" });
-        return h("span", { class: "stmt-table__cell--money" }, formatAmount(this.getSymbol(currencyId), Math.abs(value)));
+        return h("span", { class: "stmt-table__cell--money" }, formatAmount(this.getSymbol(currencyId), value));
     }
     get runningBalances() {
         let balance = this.startingBalance;
         return this.rows.map(doc => {
-            balance += (doc.DEBIT ?? 0) - (doc.CREDIT ?? 0);
+            balance += Math.abs(doc.DEBIT ?? 0) - Math.abs(doc.CREDIT ?? 0);
             return balance;
         });
     }
@@ -82,7 +82,7 @@ export class IrCityLedgerStatementsTable {
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(Math.abs(info.getValue()), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'balance',
@@ -97,7 +97,7 @@ export class IrCityLedgerStatementsTable {
     }
     renderEndingBalanceRow() {
         const bal = this.endingBalance;
-        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, Math.abs(bal)))));
+        return (h("tr", { class: "ir-table-row balance-row balance-row--end" }, h("td", null, this.formatDate(this.toDate)), h("td", null), h("td", { class: "balance-row__label" }, h("wa-icon", { name: "scale-balanced", style: { marginRight: '0.375rem', fontSize: '0.875rem' } }), "Ending Balance"), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }), h("td", { class: "cell--align-end" }, formatAmount(this.currencySymbol, bal))));
     }
     render() {
         if (!this.hasFetched) {
