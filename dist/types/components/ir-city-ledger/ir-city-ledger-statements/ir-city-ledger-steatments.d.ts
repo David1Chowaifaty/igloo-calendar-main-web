@@ -1,4 +1,5 @@
 import { ICurrency } from "../../../models/property";
+import { EventEmitter } from '../../../stencil-public-runtime';
 import type { StatementFilters } from './ir-city-ledger-statements-filter/ir-city-ledger-statements-filter';
 export declare class IrCityLedgerStatements {
     agentId: number | null;
@@ -7,7 +8,10 @@ export declare class IrCityLedgerStatements {
     currencies: ICurrency[];
     ticket: string;
     propertyId: number;
+    initialFilters: StatementFilters;
+    clStmtFiltersChange: EventEmitter<StatementFilters>;
     private filters;
+    componentWillLoad(): void;
     private statement;
     private rows;
     private isLoading;

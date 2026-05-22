@@ -1,6 +1,6 @@
 import { formatAmount } from "../../../../utils/utils";
 import { flexRender, useTable } from "../../../../utils/useTable";
-import { Fragment, Host, h } from "@stencil/core";
+import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getExpandedRowModel, getGroupedRowModel, getSortedRowModel } from "@tanstack/table-core";
 import moment from "moment";
 import { actionableClTypes } from "../../../../services/city-ledger.service";
@@ -101,10 +101,11 @@ export class IrCityLedgerFolioTable {
             enableSorting: false,
         }),
         this.columnHelper.accessor('serviceDate', {
+            enableSorting: false,
             header: 'Service Date',
             cell: info => this.formatDate(info.getValue()),
             aggregatedCell: info => this.formatDate(info.getValue()),
-            enableGrouping: true,
+            enableGrouping: false,
             aggregationFn: (columnId, leafRows) => {
                 if (!leafRows.length)
                     return undefined;
@@ -209,8 +210,8 @@ export class IrCityLedgerFolioTable {
         return (h("thead", null, table.getHeaderGroups().map(headerGroup => (h("tr", { key: headerGroup.id }, headerGroup.headers.map(header => {
             const canSort = header.column.getCanSort();
             const canGroup = header.column.getCanGroup();
-            const isGrouped = header.column.getIsGrouped();
-            const sortDirection = header.column.getIsSorted();
+            // const isGrouped = header.column.getIsGrouped();
+            // const sortDirection = header.column.getIsSorted();
             const isNumericCol = ['debit', 'credit', 'balance'].includes(header.column.id);
             return (h("th", { key: header.id, class: {
                     'booking_heading': !header.isPlaceholder,
@@ -226,22 +227,7 @@ export class IrCityLedgerFolioTable {
                     'folio-table__col-label': true,
                     'folio-table__col-label--end': isNumericCol,
                     'folio-table__col-label--center': header.column.id === 'select',
-                } }, h("span", null, flexRender(header.column.columnDef.header, header.getContext())), isGrouped && h("wa-icon", { style: { fontSize: '0.875rem', color: 'var(--wa-color-brand-fill-loud)' }, name: "object-group" }), sortDirection && (h("wa-icon", { style: { fontSize: '0.875rem', color: 'var(--wa-color-brand-fill-loud)' }, name: sortDirection === 'desc' ? 'arrow-up' : 'arrow-down' }))), (canSort || canGroup) && (h("wa-dropdown", { "onwa-select": e => {
-                    switch (e.detail.item.value) {
-                        case 'order-asc':
-                            header.column.toggleSorting(true);
-                            break;
-                        case 'order-desc':
-                            header.column.toggleSorting(false);
-                            break;
-                        case 'order-clear':
-                            header.column.clearSorting();
-                            break;
-                        case 'group':
-                            header.column.toggleGrouping();
-                            break;
-                    }
-                }, style: { fontWeight: '400' } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "header-button" }, h("wa-icon", { name: "ellipsis-vertical" })), canSort && (h(Fragment, null, sortDirection !== 'desc' && (h("wa-dropdown-item", { value: "order-asc" }, h("wa-icon", { slot: "icon", name: "arrow-up" }), "Sort Ascending")), sortDirection !== 'asc' && (h("wa-dropdown-item", { value: "order-desc" }, h("wa-icon", { slot: "icon", name: "arrow-down" }), "Sort Descending")), sortDirection && (h("wa-dropdown-item", { value: "order-clear" }, h("wa-icon", { slot: "icon", name: "up-down" }), "Clear Sort")))), canGroup && (h("wa-dropdown-item", { value: "group" }, h("wa-icon", { slot: "icon", name: isGrouped ? 'object-ungroup' : 'object-group' }), isGrouped ? 'UnGroup' : 'Group'))))))));
+                } }, h("span", null, flexRender(header.column.columnDef.header, header.getContext())))))));
         }))))));
     }
     renderStartingBalanceRow() {

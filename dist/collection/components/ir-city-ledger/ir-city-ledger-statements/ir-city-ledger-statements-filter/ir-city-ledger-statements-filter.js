@@ -1,22 +1,28 @@
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 export class IrCityLedgerStatementsFilter {
+    initialFromDate = null;
+    initialToDate = null;
     fromDate = null;
     toDate = null;
     filtersChange;
+    componentWillLoad() {
+        this.fromDate = this.initialFromDate;
+        this.toDate = this.initialToDate;
+    }
     createStatement;
     printStatement;
     render() {
         const canCreate = !!(this.fromDate && this.toDate);
-        return (h(Host, { key: 'ad67e6463f55640f69c468c40e23665c17cae7a7' }, h("div", { key: '312ceb9c000c4f520d148697f1a472bea61c062c', class: "stmt-filters" }, h("div", { key: '3065744d9f11191b99508cc8694435bc237f729f', class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '822b594cfcf03c2ff7349f8846035e84c0fc2113', class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
+        return (h(Host, { key: '1ae616a430306dadda631a966d2f7f2f8fd0decc' }, h("div", { key: '83339a6312a48b317d7e6f5a1f7f64181e9a3bd2', class: "stmt-filters" }, h("div", { key: '0f33439a8d81201183af83183fd27767e29b2b34', class: "stmt-filters__left" }, h("ir-date-range-filter", { key: '34396773da5492fe50e7b610697598fdbfeca2d4', class: "stmt-filters__date-picker", maxDate: moment().format('YYYY-MM-DD'), fromDate: this.fromDate, toDate: this.toDate, onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? null;
                 this.toDate = e.detail.to ?? null;
                 this.filtersChange.emit({ fromDate: this.fromDate, toDate: this.toDate });
-            } })), h("div", { key: '1897481f2acceb4d2d15b5a17c968e43f232b1f2', class: "stmt-filters__right" }, h("ir-custom-button", { key: '7fa6b1038e6f3e8202cb5195bb5865571e5c2bec', variant: "brand", disabled: !canCreate, onClickHandler: () => {
+            } })), h("div", { key: '02098e2cb6c69931de574c8ee1f75dfe38567329', class: "stmt-filters__right" }, h("ir-custom-button", { key: 'd6701c0987b65e737f72ced9f242a0b07847cdbe', variant: "brand", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.createStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }
-            } }, "Create Statement"), h("ir-custom-button", { key: '78124c07aaef1516ec079462b30c172bfa7aff74', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
+            } }, "Create Statement"), h("ir-custom-button", { key: 'db1bffc24144484149cd374c9cb8d670a9d3ebd2', variant: "brand", appearance: "outlined", disabled: !canCreate, onClickHandler: () => {
                 if (canCreate) {
                     this.printStatement.emit({ fromDate: this.fromDate, toDate: this.toDate });
                 }
@@ -32,6 +38,50 @@ export class IrCityLedgerStatementsFilter {
     static get styleUrls() {
         return {
             "$": ["ir-city-ledger-statements-filter.css"]
+        };
+    }
+    static get properties() {
+        return {
+            "initialFromDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "initial-from-date",
+                "reflect": false,
+                "defaultValue": "null"
+            },
+            "initialToDate": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string | null",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "initial-to-date",
+                "reflect": false,
+                "defaultValue": "null"
+            }
         };
     }
     static get states() {

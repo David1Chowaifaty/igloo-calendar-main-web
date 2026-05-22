@@ -1,4 +1,4 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
@@ -22,6 +22,7 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     constructor() {
         super();
         this.__registerHost();
+        this.clStmtFiltersChange = createEvent(this, "clStmtFiltersChange", 7);
     }
     agentId = null;
     agentName = '';
@@ -29,7 +30,14 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     currencies = [];
     ticket;
     propertyId;
+    initialFilters;
+    clStmtFiltersChange;
     filters = { fromDate: null, toDate: null };
+    componentWillLoad() {
+        if (this.initialFilters?.fromDate || this.initialFilters?.toDate) {
+            this.filters = { ...this.initialFilters };
+        }
+    }
     statement = null;
     rows = [];
     isLoading = false;
@@ -122,15 +130,19 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         return `Statement - ${hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '0a68429600c3ef92d7948d4fcc08b7de9e8f2443' }, h("section", { key: 'e0a274e9c6f8a4a31c9e286477caf4438483b537', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'e0c98634804cdd2c9cc3308011da8fdbed2e0e64', onFiltersChange: e => (this.filters = e.detail), onCreateStatement: e => {
+        return (h(Host, { key: '27b0bc13167302763374b1a5a48b5582ee986892' }, h("section", { key: '4a293e68c6a3dfe08442b9707afe5208a45aeed3', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'a432c1bc8dfda90f2ad643bae6ed71ebf24b06e6', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
+                this.clStmtFiltersChange.emit(e.detail);
+            }, onCreateStatement: e => {
+                this.filters = e.detail;
+                this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '369b9dd6bd301c06e26e735243e578c2ab24c29b', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '829b0d4ca49a417c9d6dde80aa765ca9c9386e17', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '8c81a2c72c35d5dabe73360aaac47f6b677a972f', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '0aad7620803389efa9a655b01c433724a52f770f', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: 'f1cae9a4745e9097a6976d2f9d57421a931e790a', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: 'd6510880be39990920011c5fe4104c6ea424114d', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '7970750fb17cdf6663c1bab09e1eead59c284fd3', name: "download", label: "Download PDF" })))), this.printFilters &&
+            } }, h("div", { key: '58184ec989f26ee84ab9d431026fbb988e149049', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '11843909d6e1b457e82385d400ebb46251a2b124', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'bdeb093b9ef1b02f8902958e0d916f9c8dfae4a1', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get watchers() { return {
@@ -145,6 +157,7 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         "currencies": [16],
         "ticket": [1],
         "propertyId": [2, "property-id"],
+        "initialFilters": [16],
         "filters": [32],
         "statement": [32],
         "rows": [32],

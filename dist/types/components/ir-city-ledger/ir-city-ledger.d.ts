@@ -2,6 +2,8 @@ import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
 import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
+import type { FiscalDocumentFilters } from './ir-city-ledger-fiscal-documents/types';
+import type { StatementFilters } from './ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter';
 export type ClPanels = 'folio' | 'fiscal-documents' | 'create-statement';
 export declare class IrCityLedger {
     el: HTMLElement;
@@ -23,6 +25,9 @@ export declare class IrCityLedger {
     statementTo: Moment | null;
     showStatementPreview: boolean;
     folioSummary: FolioSummary | null;
+    agentSearch: string;
+    fiscalFilters: FiscalDocumentFilters;
+    stmtFilters: StatementFilters;
     private panels;
     private tokenService;
     private agentsService;
@@ -32,6 +37,7 @@ export declare class IrCityLedger {
     private toolbarRef;
     private createInvoiceDialogRef;
     private currencies;
+    private get filteredAgents();
     componentWillLoad(): void;
     handleTicketChange(newValue: string, oldValue: string): void;
     handlePropertyIdChange(newValue: number, oldValue: number): void;

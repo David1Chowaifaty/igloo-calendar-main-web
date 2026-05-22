@@ -5,6 +5,7 @@ export declare class IrCityLedgerFiscalDocumentsFilters {
     private docNumber;
     filtersChange: EventEmitter<FiscalDocumentFilters>;
     applyFilters: EventEmitter<FiscalDocumentFilters>;
+    componentWillLoad(): void;
     private typeOptions;
     private updateFilters;
     private emitSearchDebounced;

@@ -44,6 +44,7 @@ import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-c
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 import { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
+import { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
 import { FiscalDocuments } from "./services/city-ledger/types";
@@ -133,6 +134,7 @@ export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-c
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
 export { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
+export { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
 export { FiscalDocuments } from "./services/city-ledger/types";
@@ -1437,6 +1439,7 @@ export namespace Components {
         "agentId": number | null;
         "currencies": ICurrency[];
         "currencySymbol": string;
+        "initialFilters": FiscalDocumentFilters;
         "propertyId": number;
         "ticket": string;
     }
@@ -1486,10 +1489,13 @@ export namespace Components {
         "agentName": string;
         "currencies": ICurrency[];
         "currencySymbol": string;
+        "initialFilters": StatementFilters;
         "propertyId": number;
         "ticket": string;
     }
     interface IrCityLedgerStatementsFilter {
+        "initialFromDate": string | null;
+        "initialToDate": string | null;
     }
     interface IrCityLedgerStatementsTable {
         "agentId": number;
@@ -5048,6 +5054,10 @@ export interface IrCheckoutDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCheckoutDialogElement;
 }
+export interface IrCityLedgerFiscalDocumentsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCityLedgerFiscalDocumentsElement;
+}
 export interface IrCityLedgerFiscalDocumentsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerFiscalDocumentsFiltersElement;
@@ -5067,6 +5077,10 @@ export interface IrCityLedgerFolioFiltersCustomEvent<T> extends CustomEvent<T> {
 export interface IrCityLedgerFolioTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCityLedgerFolioTableElement;
+}
+export interface IrCityLedgerStatementsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrCityLedgerStatementsElement;
 }
 export interface IrCityLedgerStatementsFilterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -7084,7 +7098,18 @@ declare global {
         prototype: HTMLIrCityLedgerElement;
         new (): HTMLIrCityLedgerElement;
     };
+    interface HTMLIrCityLedgerFiscalDocumentsElementEventMap {
+        "clFiscalFiltersChange": FiscalDocumentFilters;
+    }
     interface HTMLIrCityLedgerFiscalDocumentsElement extends Components.IrCityLedgerFiscalDocuments, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCityLedgerFiscalDocumentsElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFiscalDocumentsElement, ev: IrCityLedgerFiscalDocumentsCustomEvent<HTMLIrCityLedgerFiscalDocumentsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCityLedgerFiscalDocumentsElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFiscalDocumentsElement, ev: IrCityLedgerFiscalDocumentsCustomEvent<HTMLIrCityLedgerFiscalDocumentsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCityLedgerFiscalDocumentsElement: {
         prototype: HTMLIrCityLedgerFiscalDocumentsElement;
@@ -7184,16 +7209,27 @@ declare global {
         prototype: HTMLIrCityLedgerFolioTableElement;
         new (): HTMLIrCityLedgerFolioTableElement;
     };
+    interface HTMLIrCityLedgerStatementsElementEventMap {
+        "clStmtFiltersChange": StatementFilters;
+    }
     interface HTMLIrCityLedgerStatementsElement extends Components.IrCityLedgerStatements, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrCityLedgerStatementsElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsElement, ev: IrCityLedgerStatementsCustomEvent<HTMLIrCityLedgerStatementsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrCityLedgerStatementsElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsElement, ev: IrCityLedgerStatementsCustomEvent<HTMLIrCityLedgerStatementsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrCityLedgerStatementsElement: {
         prototype: HTMLIrCityLedgerStatementsElement;
         new (): HTMLIrCityLedgerStatementsElement;
     };
     interface HTMLIrCityLedgerStatementsFilterElementEventMap {
-        "filtersChange": StatementFilters;
-        "createStatement": StatementFilters;
-        "printStatement": StatementFilters;
+        "filtersChange": StatementFilters1;
+        "createStatement": StatementFilters1;
+        "printStatement": StatementFilters1;
     }
     interface HTMLIrCityLedgerStatementsFilterElement extends Components.IrCityLedgerStatementsFilter, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerStatementsFilterElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerStatementsFilterElement, ev: IrCityLedgerStatementsFilterCustomEvent<HTMLIrCityLedgerStatementsFilterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -11954,6 +11990,8 @@ declare namespace LocalJSX {
         "agentId"?: number | null;
         "currencies"?: ICurrency[];
         "currencySymbol"?: string;
+        "initialFilters"?: FiscalDocumentFilters;
+        "onClFiscalFiltersChange"?: (event: IrCityLedgerFiscalDocumentsCustomEvent<FiscalDocumentFilters>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
@@ -12017,13 +12055,17 @@ declare namespace LocalJSX {
         "agentName"?: string;
         "currencies"?: ICurrency[];
         "currencySymbol"?: string;
+        "initialFilters"?: StatementFilters;
+        "onClStmtFiltersChange"?: (event: IrCityLedgerStatementsCustomEvent<StatementFilters>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
     interface IrCityLedgerStatementsFilter {
-        "onCreateStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
-        "onFiltersChange"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
-        "onPrintStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters>) => void;
+        "initialFromDate"?: string | null;
+        "initialToDate"?: string | null;
+        "onCreateStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters1>) => void;
+        "onFiltersChange"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters1>) => void;
+        "onPrintStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters1>) => void;
     }
     interface IrCityLedgerStatementsTable {
         "agentId"?: number;
