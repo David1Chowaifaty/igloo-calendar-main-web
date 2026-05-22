@@ -103,7 +103,7 @@
 /* ── Description ─────────────────────────────────────────────── */
 .folio-row__desc {
   margin: 0.3rem 0 0;
-  font-size: 1rem;
+  font-size: 12px;
   color: var(--wa-color-neutral-800, #27272a);
   line-height: 1.4;
   word-break: break-word;

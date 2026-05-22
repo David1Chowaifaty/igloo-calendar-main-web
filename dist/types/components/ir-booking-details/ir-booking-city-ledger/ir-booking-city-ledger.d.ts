@@ -27,6 +27,8 @@ export declare class IrBookingCityLedger {
     private get serviceCategoryOptions();
     private get bookingOptions();
     private formatAmount;
+    private rowHiddenCategories;
+    private get rows();
     private renderRows;
     render(): any;
 }
