@@ -2,9 +2,10 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/
 import { C as CityLedgerService } from './index6.js';
 import { F as FdTypes } from './enums.js';
 import { h as hooks } from './moment.js';
-import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$9 } from './ir-city-ledger-fiscal-documents-filters2.js';
-import { d as defineCustomElement$8 } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$b } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$a } from './ir-city-ledger-fiscal-documents-filters2.js';
+import { d as defineCustomElement$9 } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$8 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
@@ -82,14 +83,14 @@ const IrCityLedgerFiscalDocuments = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
     }
     render() {
-        return (h(Host, { key: '8956d65d7276d2879d933788b0f49b5fc0e466bd' }, h("section", { key: '7c3484d484ac4e6c25e890edb9de2a3cad29210e', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '4a4fae226e83de534cf65caaaf32e1236e76462d', filters: this.filters, onFiltersChange: event => {
+        return (h(Host, { key: '0cd5e1e5728f3d58122daae7ca50dc5a2c60b19f' }, h("section", { key: 'ad24ef95fa5a7d974c21fb5021300aa23df1bfd9', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '652bd6297301cc4426423a3a349f73ea906b3cf9', filters: this.filters, onFiltersChange: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
             }, onApplyFilters: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
                 this.fetchFiscalDocuments(event.detail);
-            } }), h("ir-city-ledger-fiscal-documents-table", { key: 'c1a9040ddd40f0a85dab76a6e993488c90d9fbbc', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+            } }), h("ir-city-ledger-fiscal-documents-table", { key: '143e685ccc2a7d82762ae1fa4f55676e9582b5ac', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]
@@ -113,7 +114,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-fiscal-documents", "ir-air-date-picker", "ir-city-ledger-fiscal-documents-filters", "ir-city-ledger-fiscal-documents-table", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-input", "ir-spinner"];
+    const components = ["ir-city-ledger-fiscal-documents", "ir-air-date-picker", "ir-city-ledger-fiscal-documents-filters", "ir-city-ledger-fiscal-documents-table", "ir-cl-status-tag", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-input", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-fiscal-documents":
             if (!customElements.get(tagName)) {
@@ -122,15 +123,20 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-city-ledger-fiscal-documents-filters":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-city-ledger-fiscal-documents-table":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-cl-status-tag":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

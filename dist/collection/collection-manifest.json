@@ -154,6 +154,7 @@
     "components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-table/ir-city-ledger-statements-table.js",
     "components/ir-city-ledger/ir-city-ledger-toolbar/ir-city-ledger-toolbar.js",
     "components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-dialog.js",
+    "components/ir-city-ledger/ir-cl-status-tag/ir-cl-status-tag.js",
     "components/ir-common/ir-common.js",
     "components/ir-custom-date-picker/ir-custom-date-picker.js",
     "components/ir-daily-revenue/ir-daily-revenue.js",

@@ -1,6 +1,8 @@
 import { proxyCustomElement, HTMLElement, h, Fragment, Host } from '@stencil/core/internal/client';
 import { l as locales } from './locales.store.js';
-import { d as defineCustomElement$6 } from './ir-assignment-toggle-dialog2.js';
+import { i as isAgentMode } from './functions.js';
+import { d as defineCustomElement$7 } from './ir-assignment-toggle-dialog2.js';
+import { d as defineCustomElement$6 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
 import { d as defineCustomElement$4 } from './ir-date-view2.js';
 import { d as defineCustomElement$3 } from './ir-dialog2.js';
@@ -19,13 +21,13 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
     agent;
     language;
     svcCategories;
-    isAgentMode = false;
+    clTransactions = [];
     renderServiceList(services) {
-        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.agent }), index !== services.length - 1 && h("wa-divider", null))));
+        return services.map((service, index) => (h(Fragment, null, h("ir-extra-service", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, bookingNumber: this.booking.booking_nbr, currencySymbol: this.booking.currency.symbol, key: service.booking_system_id, service: service, agent: this.agent, clTransactions: this.clTransactions }), index !== services.length - 1 && h("wa-divider", null))));
     }
     render() {
         const services = this.booking.extra_services ?? [];
-        if (this.isAgentMode) {
+        if (isAgentMode(this.agent)) {
             const guestServices = services.filter(s => s.agent === null || s.agent === undefined);
             const agentServices = services.filter(s => s.agent !== null && s.agent !== undefined);
             const agentName = this.booking.agent?.name ?? 'Agent';
@@ -38,13 +40,14 @@ const IrExtraServices = /*@__PURE__*/ proxyCustomElement(class IrExtraServices e
         "booking": [16],
         "agent": [16],
         "language": [1],
-        "svcCategories": [16]
+        "svcCategories": [16],
+        "clTransactions": [16]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-extra-services", "ir-assignment-toggle-dialog", "ir-custom-button", "ir-date-view", "ir-dialog", "ir-empty-state", "ir-extra-service"];
+    const components = ["ir-extra-services", "ir-assignment-toggle-dialog", "ir-cl-status-tag", "ir-custom-button", "ir-date-view", "ir-dialog", "ir-empty-state", "ir-extra-service"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-extra-services":
             if (!customElements.get(tagName)) {
@@ -52,6 +55,11 @@ function defineCustomElement() {
             }
             break;
         case "ir-assignment-toggle-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
+            }
+            break;
+        case "ir-cl-status-tag":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

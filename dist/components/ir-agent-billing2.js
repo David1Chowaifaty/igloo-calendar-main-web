@@ -2,10 +2,11 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$b } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$a } from './ir-city-ledger-fiscal-documents-table2.js';
-import { d as defineCustomElement$9 } from './ir-cl-invoice-dialog2.js';
-import { d as defineCustomElement$8 } from './ir-cl-invoice-form2.js';
+import { d as defineCustomElement$c } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$b } from './ir-city-ledger-fiscal-documents-table2.js';
+import { d as defineCustomElement$a } from './ir-cl-invoice-dialog2.js';
+import { d as defineCustomElement$9 } from './ir-cl-invoice-form2.js';
+import { d as defineCustomElement$8 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
 import { d as defineCustomElement$6 } from './ir-date-range-filter2.js';
 import { d as defineCustomElement$5 } from './ir-date-select2.js';
@@ -88,7 +89,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-agent-billing", "ir-air-date-picker", "ir-city-ledger-fiscal-documents-table", "ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-input", "ir-spinner"];
+    const components = ["ir-agent-billing", "ir-air-date-picker", "ir-city-ledger-fiscal-documents-table", "ir-cl-invoice-dialog", "ir-cl-invoice-form", "ir-cl-status-tag", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-input", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-agent-billing":
             if (!customElements.get(tagName)) {
@@ -97,20 +98,25 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-city-ledger-fiscal-documents-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-cl-invoice-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-cl-invoice-form":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-cl-status-tag":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }

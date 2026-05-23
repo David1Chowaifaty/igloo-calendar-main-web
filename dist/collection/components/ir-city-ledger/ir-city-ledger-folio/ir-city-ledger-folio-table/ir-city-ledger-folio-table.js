@@ -93,10 +93,7 @@ export class IrCityLedgerFolioTable {
             id: 'status',
             header: 'Status',
             size: 200,
-            cell: info => {
-                const value = info.getValue();
-                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, info.row.original.status.id === 'billed' && h("wa-icon", { name: "lock" }))));
-            },
+            cell: info => (h("div", { class: "folio-table__status-cell" }, h("ir-cl-status-tag", { transaction: info.row.original }))),
             enableGrouping: true,
             enableSorting: false,
         }),

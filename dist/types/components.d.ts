@@ -35,6 +35,7 @@ import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components
 import { BookingService } from "./services/booking-service/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 import { SplitIndex } from "./utils/booking";
+import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
@@ -45,9 +46,8 @@ import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption
 import { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
-import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
-import { FiscalDocuments } from "./services/city-ledger/types";
+import { ClTx as ClTx1, FiscalDocuments } from "./services/city-ledger/types";
 import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -125,6 +125,7 @@ export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components
 export { BookingService } from "./services/booking-service/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
 export { SplitIndex } from "./utils/booking";
+export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
@@ -135,9 +136,8 @@ export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption
 export { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/ir-city-ledger/ir-city-ledger-folio/types";
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
-export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
-export { FiscalDocuments } from "./services/city-ledger/types";
+export { ClTx as ClTx1, FiscalDocuments } from "./services/city-ledger/types";
 export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -1239,6 +1239,7 @@ export namespace Components {
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking": Booking;
+        "clTransactions": ClTx[];
         /**
           * Available departure time options for the booking. Passed down to each room when applicable.
          */
@@ -1685,6 +1686,10 @@ export namespace Components {
         "propertyId": number;
         "ticket": string;
         "toDate": string;
+    }
+    interface IrClStatusTag {
+        "size": 'default' | 'extra-small';
+        "transaction": FolioRow1 | FiscalDocument;
     }
     interface IrCollapsableRow {
         "row": Row<any>;
@@ -2358,6 +2363,7 @@ export namespace Components {
         "agent": Agent;
         "booking": Booking;
         "bookingNumber": string;
+        "clTransactions": ClTx[];
         "currencySymbol": string;
         "language": string;
         "service": ExtraService;
@@ -2381,6 +2387,7 @@ export namespace Components {
     interface IrExtraServices {
         "agent": Agent;
         "booking": Booking;
+        "clTransactions": ClTx[];
         "language": string;
         "svcCategories": IEntries[];
     }
@@ -4080,6 +4087,7 @@ export namespace Components {
         "bedPreferences": IEntries[];
         "booking": Booking;
         "bookingIndex": number;
+        "clTransactions": ClTx[];
         "currency": string;
         "departureTime": IEntries[];
         "hasCheckIn": boolean;
@@ -7605,6 +7613,12 @@ declare global {
         prototype: HTMLIrClStatementPreviewElement;
         new (): HTMLIrClStatementPreviewElement;
     };
+    interface HTMLIrClStatusTagElement extends Components.IrClStatusTag, HTMLStencilElement {
+    }
+    var HTMLIrClStatusTagElement: {
+        prototype: HTMLIrClStatusTagElement;
+        new (): HTMLIrClStatusTagElement;
+    };
     interface HTMLIrCollapsableRowElement extends Components.IrCollapsableRow, HTMLStencilElement {
     }
     var HTMLIrCollapsableRowElement: {
@@ -10357,6 +10371,7 @@ declare global {
         "ir-cl-payment-fields": HTMLIrClPaymentFieldsElement;
         "ir-cl-receipt-preview": HTMLIrClReceiptPreviewElement;
         "ir-cl-statement-preview": HTMLIrClStatementPreviewElement;
+        "ir-cl-status-tag": HTMLIrClStatusTagElement;
         "ir-collapsable-row": HTMLIrCollapsableRowElement;
         "ir-column-autocomplete": HTMLIrColumnAutocompleteElement;
         "ir-combobox": HTMLIrComboboxElement;
@@ -11777,6 +11792,7 @@ declare namespace LocalJSX {
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking"?: Booking;
+        "clTransactions"?: ClTx[];
         /**
           * Available departure time options for the booking. Passed down to each room when applicable.
          */
@@ -12272,6 +12288,10 @@ declare namespace LocalJSX {
         "propertyId"?: number;
         "ticket"?: string;
         "toDate"?: string;
+    }
+    interface IrClStatusTag {
+        "size"?: 'default' | 'extra-small';
+        "transaction": FolioRow1 | FiscalDocument;
     }
     interface IrCollapsableRow {
         "row"?: Row<any>;
@@ -13037,6 +13057,7 @@ declare namespace LocalJSX {
         "agent"?: Agent;
         "booking"?: Booking;
         "bookingNumber"?: string;
+        "clTransactions"?: ClTx[];
         "currencySymbol"?: string;
         "language"?: string;
         "onEditExtraService"?: (event: IrExtraServiceCustomEvent<ExtraService>) => void;
@@ -13065,6 +13086,7 @@ declare namespace LocalJSX {
     interface IrExtraServices {
         "agent"?: Agent;
         "booking"?: Booking;
+        "clTransactions"?: ClTx[];
         "language"?: string;
         "svcCategories"?: IEntries[];
     }
@@ -14947,6 +14969,7 @@ declare namespace LocalJSX {
         "bedPreferences"?: IEntries[];
         "booking"?: Booking;
         "bookingIndex"?: number;
+        "clTransactions"?: ClTx[];
         "currency"?: string;
         "departureTime"?: IEntries[];
         "hasCheckIn"?: boolean;
@@ -15835,6 +15858,7 @@ declare namespace LocalJSX {
         "ir-cl-payment-fields": IrClPaymentFields;
         "ir-cl-receipt-preview": IrClReceiptPreview;
         "ir-cl-statement-preview": IrClStatementPreview;
+        "ir-cl-status-tag": IrClStatusTag;
         "ir-collapsable-row": IrCollapsableRow;
         "ir-column-autocomplete": IrColumnAutocomplete;
         "ir-combobox": IrCombobox;
@@ -16170,6 +16194,7 @@ declare module "@stencil/core" {
             "ir-cl-payment-fields": LocalJSX.IrClPaymentFields & JSXBase.HTMLAttributes<HTMLIrClPaymentFieldsElement>;
             "ir-cl-receipt-preview": LocalJSX.IrClReceiptPreview & JSXBase.HTMLAttributes<HTMLIrClReceiptPreviewElement>;
             "ir-cl-statement-preview": LocalJSX.IrClStatementPreview & JSXBase.HTMLAttributes<HTMLIrClStatementPreviewElement>;
+            "ir-cl-status-tag": LocalJSX.IrClStatusTag & JSXBase.HTMLAttributes<HTMLIrClStatusTagElement>;
             "ir-collapsable-row": LocalJSX.IrCollapsableRow & JSXBase.HTMLAttributes<HTMLIrCollapsableRowElement>;
             "ir-column-autocomplete": LocalJSX.IrColumnAutocomplete & JSXBase.HTMLAttributes<HTMLIrColumnAutocompleteElement>;
             "ir-combobox": LocalJSX.IrCombobox & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;

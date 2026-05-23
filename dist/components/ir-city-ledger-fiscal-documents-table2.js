@@ -3,6 +3,7 @@ import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel } from './useTable.js';
 import { C as CityLedgerService } from './index6.js';
 import { F as FdTypes, a as FdStatus } from './enums.js';
+import { d as defineCustomElement$5 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
 import { d as defineCustomElement$3 } from './ir-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-fd-confirm-dialog2.js';
@@ -36,17 +37,6 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
     isConfirming = false;
     columnHelper = createColumnHelper();
     cityLedgerService = new CityLedgerService();
-    getStatusVariant(code) {
-        const map = {
-            PAID: 'success',
-            ISSUED: 'brand',
-            SENT: 'brand',
-            DRAFT: 'neutral',
-            PARTIAL: 'warning',
-            VOID: 'danger',
-        };
-        return map[code?.toUpperCase()] ?? 'neutral';
-    }
     handleAction(action, row) {
         console.log('here', action);
         switch (action) {
@@ -123,7 +113,7 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
         const base = [
             this.columnHelper.accessor('FD_STATUS_CODE', {
                 header: 'Status',
-                cell: info => (h("wa-tag", { class: "fiscal-table__status-tag", variant: this.getStatusVariant(info.getValue()), size: "small" }, info.row.original.FD_STATUS_NAME ?? info.getValue())),
+                cell: info => h("ir-cl-status-tag", { transaction: info.row.original }),
             }),
             this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
                 header: 'Date',
@@ -268,11 +258,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-fiscal-documents-table", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-spinner"];
+    const components = ["ir-city-ledger-fiscal-documents-table", "ir-cl-status-tag", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-fiscal-documents-table":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerFiscalDocumentsTable);
+            }
+            break;
+        case "ir-cl-status-tag":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
             }
             break;
         case "ir-custom-button":

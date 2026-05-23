@@ -3,6 +3,7 @@ import { IEntries } from "../../../models/IBooking";
 import { Agent } from "../../../services/agents/type";
 import { SplitIndex } from "../../../utils/booking";
 import { EventEmitter } from '../../../stencil-public-runtime';
+import type { ClTx } from "../../../services/city-ledger/index";
 export declare class IrBookingRooms {
     /**
      * The booking object containing reservation details,
@@ -54,6 +55,7 @@ export declare class IrBookingRooms {
      * If not provided, it will be generated internally.
      */
     splitIndex: SplitIndex;
+    clTransactions: ClTx[];
     roomDeleteFinished: EventEmitter<string>;
     private computeRoomGroups;
     private handleRoomCheckout;

@@ -23,17 +23,6 @@ export class IrCityLedgerFiscalDocumentsTable {
     isConfirming = false;
     columnHelper = createColumnHelper();
     cityLedgerService = new CityLedgerService();
-    getStatusVariant(code) {
-        const map = {
-            PAID: 'success',
-            ISSUED: 'brand',
-            SENT: 'brand',
-            DRAFT: 'neutral',
-            PARTIAL: 'warning',
-            VOID: 'danger',
-        };
-        return map[code?.toUpperCase()] ?? 'neutral';
-    }
     handleAction(action, row) {
         console.log('here', action);
         switch (action) {
@@ -110,7 +99,7 @@ export class IrCityLedgerFiscalDocumentsTable {
         const base = [
             this.columnHelper.accessor('FD_STATUS_CODE', {
                 header: 'Status',
-                cell: info => (h("wa-tag", { class: "fiscal-table__status-tag", variant: this.getStatusVariant(info.getValue()), size: "small" }, info.row.original.FD_STATUS_NAME ?? info.getValue())),
+                cell: info => h("ir-cl-status-tag", { transaction: info.row.original }),
             }),
             this.columnHelper.accessor('ISSUE_DATE_DISPLAY', {
                 header: 'Date',

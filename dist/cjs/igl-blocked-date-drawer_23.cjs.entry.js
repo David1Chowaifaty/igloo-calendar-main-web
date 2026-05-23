@@ -3,11 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-020673c4.js');
+const booking_store = require('./booking.store-98f3ee63.js');
 const utils = require('./utils-8f5b1099.js');
 const booking = require('./booking-28f7c18d.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-32a3c290.js');
+const events_service = require('./events.service-ce79813f.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const toBeAssigned_service = require('./toBeAssigned.service-ef3da18d.js');
@@ -68,7 +68,7 @@ const IglBlockedDateDrawer = class {
         BLOCKED_TILL_MINUTE: null,
     };
     blockedDateDrawerClosed;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     async handleBlockDate() {
         try {
             this.isLoading = true;
@@ -161,7 +161,7 @@ const IglBookingEvent = class {
     isStretch = false;
     /*Services */
     eventsService = new events_service.EventsService();
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     /* Resize props */
     resizeSide = '';
     isDragging = false;
@@ -2215,7 +2215,7 @@ const IglSplitBooking = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -2251,7 +2251,7 @@ const IglSplitBooking = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -2832,7 +2832,7 @@ const IrInteractiveTitle = class {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (index.h(index.Host, { key: '697a4a322248c12d4b9de26074280bce3f8e9351', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '966424cdfbd9b3705f708b30f416863203935fdf', class: "popover-title" }, title.length > this.cropSize && (index.h("wa-tooltip", { key: 'a85d933dfa7ad6de928b9f1d241febc9429109b7', for: this.titleId, placement: "top" }, title)), index.h("span", { key: 'd771a84d50360a42718f238bd2a08eb037750675', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (index.h("div", { key: 'fb2887cdca8691883d2baadb398bd671479eee6d', class: "hk-dot" }, index.h("slot", { key: '78d09abf545ad439e8221b46d7efecdf2dd6be1c', name: "end" }))))));
+        return (index.h(index.Host, { key: '8f56a399c6eb9f9ade98b689dad5920612206296', style: { '--ir-popover-left': this.irPopoverLeft } }, index.h("p", { key: '71389dc106aca290931e02b320b839ddf6aa4e41', class: "popover-title" }, title.length > this.cropSize && (index.h("wa-tooltip", { key: '81627a10baffb968a73e8ce87d32265212c828b1', for: this.titleId, placement: "top" }, title)), index.h("span", { key: '97ca66c8c51dd3453d3d2b8970e075017134d311', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (index.h("div", { key: '9feacafef2bcf3a6131c6f77c9b90150ba4e6c78', class: "hk-dot" }, index.h("slot", { key: 'ab43506289f27140525e0df3a735f589552a4863', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -2975,13 +2975,13 @@ const IrModal = class {
     }
     render() {
         return [
-            index.h("div", { key: '7f8fc8edd7809c793636552730573c2b450a4b77', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            index.h("div", { key: 'ffabde2f6d43891b6ab4be4487bb99a0006aa035', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            index.h("div", { key: '7010734f18bc21dcda849acb0a261eb14d6a99bc', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: '09c6d4702c0ef4acee7812c45e411dfb0fef0763', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: 'eb6b9aefff7c10155f02412c757b103ab4e0ee6c', class: `ir-alert-header` }, index.h("p", { key: '81196bab0422234aaf9e313d29dda42bb8edb4fd' }, this.modalTitle))), index.h("div", { key: 'db263e00c5c6f3f0cd7d1a5e848ba6438c193c20', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: 'b00d09a6a7fcd9f0b3f3b6bbe16ae79ef2e4ed49' }, this.modalBody)), index.h("div", { key: 'b19b3e19517de384a45942a1ade308e2d65f6cfc', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '483c38b97dd67ba4ab450911f398d1e3d67d650f', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (index.h("ir-button", { key: 'f2962ba89ec45fbbd1222ff8f66c55303b03f4b7', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (index.h("ir-button", { key: 'f82883c8001388149deef495c3b228786b83ced6', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            index.h("div", { key: '34c464c49629db7f0b91bca7b43568d105985e94', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, index.h("div", { key: 'c31324b3f3506338111d06c2031007b37bfd5776', class: `ir-alert-content p-2` }, this.showTitle && (index.h("div", { key: 'e0778e89ae690206fc159a87bc385b5c9e5bdc44', class: `ir-alert-header` }, index.h("p", { key: 'b8458a08d68a3ee352c1d41e56083d54b0752535' }, this.modalTitle))), index.h("div", { key: '0777676d6ee0fa96cbbab86c53c97f35e485658c', class: "modal-body text-left p-0 mb-2" }, index.h("div", { key: 'c0c9ccd73fbef042271777d6d3b3ba59994d6c9c' }, this.modalBody)), index.h("div", { key: 'd911758fa5dfedcc2db8f57bc35c146d3f69af54', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && index.h("ir-button", { key: '7f966c78e2a8c1f01a9263036edc618e934dea4d', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (index.h("ir-button", { key: 'aba7e9dacb6b4016095a7154812448dd8e27ceb8', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (index.h("ir-button", { key: '2fa2baa6ecd75d77fdbcbcde07fac57a50ab277a', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -2995,7 +2995,7 @@ const IrNewBadge = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '9f189011e31b4b133ba0c2d404a3ed46dc614b2c' }, index.h("span", { key: 'ebbc109416762ff6bed96ac9ab0a96969a0bbe70', class: "new-badge" }, "new")));
+        return (index.h(index.Host, { key: '2d98d42e81e084cbdc130cce1144a9b6b3839c24' }, index.h("span", { key: 'd24c21256da042841420fd65c921ab9a19aebba5', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = IrNewBadgeStyle0;
@@ -3161,13 +3161,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: '23e9b3a2e90df75867b30370ef7a1abeb1c0df29', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '8b57303b9c30aba62006edcb9023bcf61dbacf02', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '7b0613692cf32d04ca2713db2509fa6302543c7f', class: `input-group-text 
+        return (index.h("fieldset", { key: '97bb3393e5018a791c0e3268ef0758e547887b2a', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: 'd515ee05a5211a73a0b3cbfb6e69afcde5672d94', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '2c144eff9c1c1ab59a9cd45168a33fb486d48dc0', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: '4b3238b8018b5b41813f6e06a25fd9ae65006ad9', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: '41c78993afa3839f0df0b416f0d4e54fca7d3720', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '6fa62222e51adc6cddba95bb4841f24e56723579' }, index.h("span", { key: '968b8bcf7dba244897f03c70a7c6c1e9a78eee64', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '0a6d56f17174f1ff8ec022557a2c241054828a37', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: '732376bea9c76d5475556232c1017e7b59993c1f', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: 'b32825d0f6bf59ea874811e1357356f09dfcaceb', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '5a2cec8af57b06cebb25c66f3f8d8e51e8e7ff14' }, index.h("span", { key: '9d3217513b2cd634482d6ddbb1cd872e54890235', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '115f2ff006ea72c13512ea2456f565afe539da5e', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -3250,9 +3250,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h("div", { key: '123a367e9fe9e65eda6ae766a669fa1deb4aac06', class: "input-group" }, index.h("label", { key: '58b398737040558a3a6056b679053700b1f54a68', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: 'b0c185571b5dd1b5f90e2a91b9eca63c118e0f46' }, this.label), index.h("input", { key: '999eccdbed0ad931efc7a4e43257df6bd61da7a7', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (index.h("div", { key: '99cc7406072644bed7363aa12c82493343e4cca9', class: "input-group" }, index.h("label", { key: 'ef397a67ac105af1433f39560275690b42c7b648', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '4ce2ffb650e8a28af0ca87a8058a549b41a43ac2' }, this.label), index.h("input", { key: 'd91363b77c4fbf465e46f32e7f1bd0a813cb995d', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '82e5103bfebfc2b31d724619734ab217466c3b73', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '9889f69591809ddbd5bdd9d061ba1ea4d384dd40', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -3275,11 +3275,11 @@ const IrReallocationDrawer = class {
     closeModal;
     _id = `reallocation-form_${v4.v4()}`;
     render() {
-        return (index.h("ir-drawer", { key: '16d38b1db94d15e396d56d78c45e2536b6b519e5', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: 'de2c120a8b65e2677833a8d9f5a22f15d9f8b6ca', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && index.h("ir-reallocation-form", { key: '75390149dc2d7abc9c1807f6459ea9ebe1333a2d', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), index.h("div", { key: '98b0063f887c856abbd1b3ef3d64a2ac36248928', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'b5fe8e459b9059c765f689c07965a17e849539d9', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: 'db1e707897dbaf804382f7e9fc98c3eb07cda08b', form: this._id, size: "medium", loading: irInterceptor_store.isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && index.h("ir-reallocation-form", { key: '4756c338b28a9ae2a05e517e956feea229f0156d', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), index.h("div", { key: '3522930671042b8e1e342ba39d2f6c1df9a7236f', slot: "footer", class: "ir__drawer-footer" }, index.h("ir-custom-button", { key: 'a7b8423afa7b21458d31ec32ecbb3bcad5e61ede', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: '3eb4998baedc2623629358a661a69296da8b67f9', form: this._id, size: "medium", loading: irInterceptor_store.isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
 };
 IrReallocationDrawer.style = IrReallocationDrawerStyle0;
@@ -3304,7 +3304,7 @@ const IrReallocationForm = class {
     errors;
     mealPlanOptions = null;
     closeModal;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     eventsService = new events_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
@@ -3326,7 +3326,7 @@ const IrReallocationForm = class {
     }
     async checkBookingAvailability() {
         this.isLoading = true;
-        booking_service.resetBookingStore(false);
+        booking_store.resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
         try {
@@ -3612,7 +3612,7 @@ const IrRoomNights = class {
     isInputFocused = -1;
     dates = { from_date: new Date(), to_date: new Date() };
     closeRoomNightsDialog;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
@@ -3793,7 +3793,7 @@ const IrRoomNights = class {
         if (!this.bookingEvent) {
             return (index.h("div", { class: "loading-container" }, index.h("ir-loading-screen", null)));
         }
-        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales_store.locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'text-left px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_service.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
+        return (index.h("div", { class: "sheet-container" }, index.h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales_store.locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), index.h("section", { class: 'text-left px-1 pt-0 sheet-body' }, index.h("p", { class: 'font-medium-1' }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (index.h("p", { class: 'mt-2 text-secondary' }, locales_store.locales.entries['Lcz_CheckingRoomAvailability '])) : (index.h(index.Fragment, null, index.h("p", { class: 'font-weight-bold font-medium-1' }, `${utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), index.h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && index.h("p", { class: "font-medium-1 text danger" }, locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && index.h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement)), this.renderDates()))), index.h("section", { class: 'sheet-footer' }, index.h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales_store.locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (index.h("ir-button", { isLoading: this.isLoading, text: locales_store.locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
     }
 };
 IrRoomNights.style = IrRoomNightsStyle0 + IrRoomNightsStyle1;
@@ -3892,7 +3892,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '8c0ebbf47c2ab3517c814674bf636d7c74770288' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (index.h(index.Host, { key: 'a44ce37487720c199700fae90f3759b282af51cc' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],

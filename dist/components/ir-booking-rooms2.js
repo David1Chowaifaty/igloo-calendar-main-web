@@ -2,11 +2,12 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@sten
 import { u as canCheckout, l as canCheckIn, R as ROOM_IN_OUT } from './utils.js';
 import { b as buildSplitIndex } from './booking.js';
 import { i as isAgentMode } from './functions.js';
-import { d as defineCustomElement$r } from './ir-assignment-toggle-dialog2.js';
-import { d as defineCustomElement$q } from './ir-booking-billing-recipient2.js';
-import { d as defineCustomElement$p } from './ir-booking-company-dialog2.js';
-import { d as defineCustomElement$o } from './ir-booking-company-form2.js';
-import { d as defineCustomElement$n } from './ir-checkout-dialog2.js';
+import { d as defineCustomElement$s } from './ir-assignment-toggle-dialog2.js';
+import { d as defineCustomElement$r } from './ir-booking-billing-recipient2.js';
+import { d as defineCustomElement$q } from './ir-booking-company-dialog2.js';
+import { d as defineCustomElement$p } from './ir-booking-company-form2.js';
+import { d as defineCustomElement$o } from './ir-checkout-dialog2.js';
+import { d as defineCustomElement$n } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$m } from './ir-custom-button2.js';
 import { d as defineCustomElement$l } from './ir-custom-date-picker2.js';
 import { d as defineCustomElement$k } from './ir-date-view2.js';
@@ -89,6 +90,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
      * If not provided, it will be generated internally.
      */
     splitIndex;
+    clTransactions = [];
     roomDeleteFinished;
     computeRoomGroups(rooms) {
         const indexById = new Map();
@@ -188,7 +190,7 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
     renderRoomItem(room, bookingIndex, includeDepartureTime = true) {
         const showCheckin = this.handleRoomCheckin(room);
         const showCheckout = this.handleRoomCheckout(room);
-        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, agent: this.agent, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
+        return (h("ir-room", { key: room.identifier, room: room, property_id: this.propertyId, language: this.language, departureTime: this.departureTime, bedPreferences: this.bedPreference, isEditable: this.booking.is_editable, legendData: this.legendData, roomsInfo: this.roomsInfo, myRoomTypeFoodCat: room.roomtype.name, mealCodeName: room.rateplan.short_name, includeDepartureTime: includeDepartureTime, currency: this.booking.currency.symbol, hasRoomEdit: this.hasRoomEdit && this.booking.status.code !== '003' && this.booking.is_direct, hasRoomDelete: this.hasRoomDelete && this.booking.status.code !== '003' && this.booking.is_direct, hasCheckIn: showCheckin, hasCheckOut: showCheckout, booking: this.booking, agent: this.agent, clTransactions: this.clTransactions, bookingIndex: bookingIndex, onDeleteFinished: (e) => this.roomDeleteFinished.emit(e.detail) }));
     }
     renderRoomPool(rooms) {
         if (!rooms.length) {
@@ -236,13 +238,14 @@ const IrBookingRooms = /*@__PURE__*/ proxyCustomElement(class IrBookingRooms ext
         "legendData": [16],
         "propertyId": [2, "property-id"],
         "roomsInfo": [16],
-        "splitIndex": [16]
+        "splitIndex": [16],
+        "clTransactions": [16]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-rooms", "ir-assignment-toggle-dialog", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-checkout-dialog", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-payment-folio", "ir-payment-folio-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-room", "ir-spinner", "ir-unit-tag", "ir-validator"];
+    const components = ["ir-booking-rooms", "ir-assignment-toggle-dialog", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-checkout-dialog", "ir-cl-status-tag", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-payment-folio", "ir-payment-folio-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-room", "ir-spinner", "ir-unit-tag", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-rooms":
             if (!customElements.get(tagName)) {
@@ -251,25 +254,30 @@ function defineCustomElement() {
             break;
         case "ir-assignment-toggle-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$r();
+                defineCustomElement$s();
             }
             break;
         case "ir-booking-billing-recipient":
             if (!customElements.get(tagName)) {
-                defineCustomElement$q();
+                defineCustomElement$r();
             }
             break;
         case "ir-booking-company-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$p();
+                defineCustomElement$q();
             }
             break;
         case "ir-booking-company-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$o();
+                defineCustomElement$p();
             }
             break;
         case "ir-checkout-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$o();
+            }
+            break;
+        case "ir-cl-status-tag":
             if (!customElements.get(tagName)) {
                 defineCustomElement$n();
             }

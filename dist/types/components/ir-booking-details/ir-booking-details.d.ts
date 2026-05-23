@@ -7,6 +7,7 @@ import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
 import { SplitIndex } from "../../utils/booking";
 import { Agent } from "../../services/agents/type";
+import { type ClTx } from "../../services/city-ledger/index";
 import { FolioRow } from "../ir-city-ledger/ir-city-ledger-folio/types";
 export declare class IrBookingDetails {
     private bookingService;
@@ -50,6 +51,7 @@ export declare class IrBookingDetails {
     agent: Agent;
     isLoading: boolean;
     folioRows: FolioRow[];
+    rawTransactions: ClTx[];
     clLoading: boolean;
     clError: string | null;
     /**

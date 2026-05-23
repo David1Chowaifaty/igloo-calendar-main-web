@@ -5,6 +5,7 @@ import { TIglBookPropertyPayload } from "../../../models/igl-book-property";
 import { IEntries } from "../../../models/IBooking";
 import { OpenSidebarEvent, RoomGuestsPayload } from '../types';
 import { IToast } from "../../ui/ir-toast/toast";
+import { ClTx } from "../../../services/city-ledger/types";
 export type RoomModalReason = 'delete' | 'checkin' | 'checkout' | null;
 export declare class IrRoom {
     element: HTMLIrRoomElement;
@@ -28,6 +29,7 @@ export declare class IrRoom {
     hasCheckIn: boolean;
     hasCheckOut: boolean;
     agent: Agent;
+    clTransactions: ClTx[];
     collapsed: boolean;
     isLoading: boolean;
     isToggling: boolean;
@@ -63,5 +65,6 @@ export declare class IrRoom {
     private handleCheckIn;
     private getMainGuest;
     private showGuestModal;
+    private get acmTxByDate();
     render(): any;
 }

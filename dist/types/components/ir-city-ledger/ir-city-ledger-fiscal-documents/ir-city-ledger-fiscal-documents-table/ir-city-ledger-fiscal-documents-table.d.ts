@@ -21,7 +21,6 @@ export declare class IrCityLedgerFiscalDocumentsTable {
     private isConfirming;
     private columnHelper;
     private cityLedgerService;
-    private getStatusVariant;
     private handleAction;
     private confirmPendingAction;
     private get columns();

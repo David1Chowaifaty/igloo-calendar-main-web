@@ -3,6 +3,7 @@ import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable.js';
 import { h as hooks } from './moment.js';
 import { a as actionableClTypes } from './city-ledger.service.js';
+import { d as defineCustomElement$9 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$8 } from './ir-custom-button2.js';
 import { d as defineCustomElement$7 } from './ir-dialog2.js';
 import { d as defineCustomElement$6 } from './ir-empty-state2.js';
@@ -113,10 +114,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
             id: 'status',
             header: 'Status',
             size: 200,
-            cell: info => {
-                const value = info.getValue();
-                return (h("div", { class: "folio-table__status-cell" }, h("wa-tag", { size: "small", variant: info.row.original.status.variant }, value, info.row.original.status.id === 'billed' && h("wa-icon", { name: "lock" }))));
-            },
+            cell: info => (h("div", { class: "folio-table__status-cell" }, h("ir-cl-status-tag", { transaction: info.row.original }))),
             enableGrouping: true,
             enableSorting: false,
         }),
@@ -340,11 +338,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-folio-table", "ir-custom-button", "ir-dialog", "ir-empty-state", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner"];
+    const components = ["ir-city-ledger-folio-table", "ir-cl-status-tag", "ir-custom-button", "ir-dialog", "ir-empty-state", "ir-hold-transaction-dialog", "ir-input", "ir-input-cell", "ir-pagination", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-folio-table":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrCityLedgerFolioTable);
+            }
+            break;
+        case "ir-cl-status-tag":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
             }
             break;
         case "ir-custom-button":

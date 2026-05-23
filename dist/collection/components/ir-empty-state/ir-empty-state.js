@@ -2,7 +2,7 @@ import { Host, h } from "@stencil/core";
 export class IrEmptyState {
     message = 'No records found';
     render() {
-        return (h(Host, { key: 'df9c8cc484b5632adc5450b2f7e2365143126c63' }, h("slot", { key: 'fcbe68aadeffc2ed0e105f0fdd0393365a8163d5', name: "icon" }, h("div", { key: '64c8641c9646986b900830ba026165e41e155434', class: 'icon_container' }, h("wa-icon", { key: '676ed28d472b715eeb57378d0938798815cf6fc3', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: '5701bb1a81ae5f38b9279ab9a646c5ff75cb03c3', part: "message", class: "message" }, this.message), h("slot", { key: 'ac392ae1e535ffc1d8a213394a461cba058c5dc9' })));
+        return (h(Host, { key: '6c773c84c7422b7e8f45c42621dca4cb96db809a' }, h("slot", { key: '2efbb6c9e1eec1e2a85f5b8d6b9cac8d515283b9', name: "icon" }, h("div", { key: 'ae076f937f44089513c4318e663a3733c02f5cea', class: 'icon_container' }, h("wa-icon", { key: 'fc3b72cbe9761daa0c7d1319aa903545df0d54ef', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: '0c1b8cd4ff9d354be18f6c091aa2409cee637568', part: "message", class: "message" }, this.message), h("slot", { key: '2e1ad91effd249a37d31ea99b5cfc33ef249e872' })));
     }
     static get is() { return "ir-empty-state"; }
     static get encapsulation() { return "shadow"; }
