@@ -12,7 +12,7 @@ const IrIcon = class {
     type = 'button';
     iconClickHandler;
     render() {
-        return (h("button", { key: 'adb8045d680f0cc6fd3ea6ca1e85b7666a81145d', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '3916e17ac65066b0b755d720c70ffb61f27ad8a6', name: "icon" })));
+        return (h("button", { key: '1bc05e094792b9452eb923c6fe9e9cb927dad874', type: this.type, class: "icon-button", onClick: () => this.iconClickHandler.emit() }, h("slot", { key: '36e5006da2074b632d32704c2ede9c8eddb830e7', name: "icon" })));
     }
 };
 IrIcon.style = IrIconStyle0;

@@ -41,6 +41,11 @@ export declare class IrBookedByCell {
      */
     showPromoIcon: boolean;
     /**
+     * Show phone and WhatsApp contact icons.
+     * When shown, phone links via `tel:` and WhatsApp via `https://wa.me/`.
+     */
+    showContactIcons: boolean;
+    /**
      * Makes the guest name clickable.
      * Emits `openGuestDetails` when clicked.
      */

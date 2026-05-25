@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host, F as Fragment } from './index-7e96440e.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { f as formatAmount } from './utils-66e78d8b.js';
+import { f as formatAmount } from './utils-046c6412.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import './index-87419685.js';
 import './locales.store-cb784e95.js';
@@ -255,7 +255,7 @@ const IrClInvoiceCityTaxAmountCell = class {
     amount;
     cityTaxPercent;
     render() {
-        return h(Host, { key: '280182c6158136d77de1e0fe6e4495a607cbb81c' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
+        return h(Host, { key: '16a13e387ad5d09ff9241c1317c6c4e12d4a3a8b' }, this.cityTaxPercent > 0 ? formatAmount(this.currencySymbol, this.amount) : '');
     }
 };
 IrClInvoiceCityTaxAmountCell.style = IrClInvoiceCityTaxAmountCellStyle0;
@@ -269,7 +269,7 @@ const IrClInvoiceCityTaxPctCell = class {
     }
     cityTaxPercent;
     render() {
-        return h(Host, { key: '8f68d26267b7eaaf5f60b65e136669f9366e053f' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
+        return h(Host, { key: 'a7fa4ca7742a913847e35a0f0b082756f9b0ea7a' }, this.cityTaxPercent > 0 ? `${this.cityTaxPercent}%` : '');
     }
 };
 IrClInvoiceCityTaxPctCell.style = IrClInvoiceCityTaxPctCellStyle0;
@@ -283,7 +283,7 @@ const IrClInvoiceDateCell = class {
     }
     date;
     render() {
-        return h(Host, { key: '47894ea17cc7b1417fe7f01fd23a292ffacdbb3d' }, hooks(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
+        return h(Host, { key: '1ed219de6bb1aea591747e053beef158d71d5e68' }, hooks(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
     }
 };
 IrClInvoiceDateCell.style = IrClInvoiceDateCellStyle0;
@@ -297,7 +297,7 @@ const IrClInvoiceDescriptionCell = class {
     }
     description;
     render() {
-        return (h(Host, { key: '3320935a236fbf0659082979524c6a9d055fa7eb' }, h("span", { key: 'c7f0fb498b116c9f2d6bc5fe8588d23d90481b61', class: "desc" }, this.description)));
+        return (h(Host, { key: '86ca14fcc26dafd9a0e3abfdf72a9eb83bb3f6a7' }, h("span", { key: 'de3c0bdbfa0c01e735c8b5093e9c8a1898693d53', class: "desc" }, this.description)));
     }
 };
 IrClInvoiceDescriptionCell.style = IrClInvoiceDescriptionCellStyle0;
@@ -312,7 +312,7 @@ const IrClInvoiceNetPriceCell = class {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: '896dfb8391f41aca45598eded25054c1e9ff7040' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '16af1a7b780d602de1143b431aab8a7c13887383' }, formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceNetPriceCell.style = IrClInvoiceNetPriceCellStyle0;
@@ -327,7 +327,7 @@ const IrClInvoiceTotalCell = class {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: '13a07414535d571c22b3d97e236a7ff7669c1a29' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '9cea64793307a89e53f28aef75b535cb1edb32ab' }, formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceTotalCell.style = IrClInvoiceTotalCellStyle0;
@@ -342,7 +342,7 @@ const IrClInvoiceVatAmountCell = class {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: 'd14e82d4312f3ff92501714dda11d2c99ab8eceb' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '8db1615fb132540d0db097dfde2ef89331717b94' }, formatAmount(this.currencySymbol, this.amount));
     }
 };
 IrClInvoiceVatAmountCell.style = IrClInvoiceVatAmountCellStyle0;
@@ -356,7 +356,7 @@ const IrClInvoiceVatPctCell = class {
     }
     vatPercent;
     render() {
-        return h(Host, { key: '89aba4821ec13f4730f3961500418cd7d11fb166' }, this.vatPercent, "%");
+        return h(Host, { key: '7720b553fbe312e33848bb3466ec371c65189526' }, this.vatPercent, "%");
     }
 };
 IrClInvoiceVatPctCell.style = IrClInvoiceVatPctCellStyle0;

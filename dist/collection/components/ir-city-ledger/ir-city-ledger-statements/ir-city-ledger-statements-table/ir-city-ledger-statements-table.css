@@ -1,6 +1,6 @@
 /* Base styles */
 :host {
-  --ir-cell-padding: 0.5rem 1rem;
+  --ir-cell-padding: 0.1rem 0.8rem;
 }
 .ir-table-row td {
   padding: var(--ir-cell-padding) !important;
