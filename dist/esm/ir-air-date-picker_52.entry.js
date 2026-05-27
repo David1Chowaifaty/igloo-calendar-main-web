@@ -1162,7 +1162,7 @@ const IrCityLedger = class {
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("ir-autocomplete", { slot: "page-header",
+        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
             // size="medium"
             placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';
@@ -6271,7 +6271,7 @@ const IrOtpModal = class {
 };
 IrOtpModal.style = IrOtpModalStyle0;
 
-const irPageCss = ":host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:block;height:100%;color:var(--wa-color-text-normal);font-size:var(--wa-font-size-m)}.page-title{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}.page__description{font-size:var(--wa-font-size-s)}.ir-page__container{display:flex;flex-direction:column;gap:var(--wa-space-l, 1.5rem);padding:var(--wa-space-l);position:relative;height:100%;width:100%;max-width:none;margin:0}.tax-page__header{display:flex;gap:var(--wa-space-l, 1.5rem);flex-wrap:wrap;align-items:center;justify-content:space-between}";
+const irPageCss = ":host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:block;height:100%;color:var(--wa-color-text-normal);font-size:var(--wa-font-size-m)}.page-title{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-xl)}.page__description{font-size:var(--wa-font-size-m)}.ir-page__container{display:flex;flex-direction:column;gap:var(--wa-space-l, 1.5rem);padding:var(--wa-space-l);position:relative;height:100%;width:100%;max-width:none;margin:0}.tax-page__header{display:flex;gap:var(--wa-space-l, 1.5rem);flex-wrap:wrap;align-items:center;justify-content:space-between}";
 const IrPageStyle0 = irPageCss;
 
 const IrPage = class {
@@ -6281,7 +6281,7 @@ const IrPage = class {
     label;
     description;
     render() {
-        return (h(Host, { key: '15f69423d11ae9599dfaf2caacaf1fc8e11cdefa' }, h("ir-interceptor", { key: 'c81e4abe716b57cc8a6ca8a19d03b0efb6da01a9' }), h("ir-toast", { key: '9b46e81ce9315ee5295818391447cb61585bbf46' }), h("main", { key: '5e43f2d259206cfb935bd7b3e110f6ba02263894', class: "ir-page__container" }, h("header", { key: '91ef0c4483acc37fb672087200210ec1a6a901da', class: "tax-page__header" }, h("slot", { key: 'ea0e293902b8927143b39796864b27122889cc48', name: "heading" }, h("div", { key: '8ffcaa36edc52f65da249db413046a2770f11078', class: "tax-page__heading" }, h("h3", { key: '6ba5c28b943c56f27d9084476e22589d3f7823e0', class: "page-title" }, this.label), this.description && h("p", { key: '3af859477cbe2024af2df4866be8b6356b323c98', class: "page__description" }, this.description))), h("slot", { key: '5df647a2282c94e6cc88030c26c0cc36057880fb', name: "page-header" })), h("slot", { key: '4e4e4c0333910e66bf1deffd5d361b399e35834a' }))));
+        return (h(Host, { key: '15f69423d11ae9599dfaf2caacaf1fc8e11cdefa' }, h("ir-interceptor", { key: 'c81e4abe716b57cc8a6ca8a19d03b0efb6da01a9' }), h("ir-toast", { key: '9b46e81ce9315ee5295818391447cb61585bbf46' }), h("main", { key: '5e43f2d259206cfb935bd7b3e110f6ba02263894', class: "ir-page__container" }, h("header", { key: '91ef0c4483acc37fb672087200210ec1a6a901da', class: "tax-page__header" }, h("slot", { key: 'ea0e293902b8927143b39796864b27122889cc48', name: "heading" }, h("div", { key: '8ffcaa36edc52f65da249db413046a2770f11078', class: "tax-page__heading" }, h("h3", { key: '6ba5c28b943c56f27d9084476e22589d3f7823e0', class: "page-title" }, this.label), this.description && (h("p", { key: 'c2d86f350ce3a282cd22af54f8d7525b77d043ad', class: "page__description" }, this.description, h("slot", { key: 'c7d473399f2b93af53c68b223ff2ee3bff8a79eb', name: "page-description" }))))), h("slot", { key: 'e2fee387342a472be6ef957081ce4a3be158d5f0', name: "page-header" })), h("slot", { key: '1b20308db48548542b3e1ed1ee41e22d0de52dc3' }))));
     }
 };
 IrPage.style = IrPageStyle0;
@@ -25059,7 +25059,7 @@ const IrSpinner = class {
         this.el.style.setProperty(key, value);
     }
     render() {
-        return (h(Host, { key: 'e1a4c31bf351f8d7c4d5b435551d996cf4f065d2' }, h("wa-spinner", { key: 'c1e4866bb3ef33b71ae8c89ce2144b766f4c8fc2', style: { fontSize: '2rem' } })));
+        return (h(Host, { key: 'b64ab61b1fa0c98b5acc7348e5650f9ad845064b' }, h("wa-spinner", { key: '8af9ed63825a97e1ca76c387828bcaf06bf665e4', style: { fontSize: '2rem' } })));
     }
     static get watchers() { return {
         "size": ["handleSpinnerSizeChange"],
@@ -25705,7 +25705,7 @@ const IrValidator = class {
         }
     }
     render() {
-        return (h(Host, { key: '09704ccfc5e82aa0c9026bc97cf89e6e2e778a2a' }, h("slot", { key: '3f7cffd58f764afdaf456594b5c51f6392b4c37e' }), !this.isValid && this.showErrorMessage && (h("span", { key: '1f650e164063b0de15af9f1b1ab4fdf443679477', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: 'ba029f6c2efcd5be5d85397de2ee49b2091fc5f9' }, h("slot", { key: '41b2f99d4495674127356519626ada22640ca282' }), !this.isValid && this.showErrorMessage && (h("span", { key: '159c7727a01a233139cdfd146cbd379911a988c5', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],

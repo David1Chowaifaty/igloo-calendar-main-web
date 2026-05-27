@@ -29,7 +29,7 @@
   font-size: var(--wa-font-size-xl);
 }
 .page__description {
-  font-size: var(--wa-font-size-s);
+  font-size: var(--wa-font-size-m);
 }
 .ir-page__container {
   display: flex;

@@ -3161,13 +3161,13 @@ const IrPriceInput = class {
         this.inputFocus.emit();
     };
     render() {
-        return (index.h("fieldset", { key: 'b06c2ce44ecfa8f45c925b69f10b3d71e6aeb896', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '909576c3c3cb098c07c1e00b465f214d50cbd6b3', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '5ad6cf9a744ab6891f9a3834778abac063a5df89', class: `input-group-text 
+        return (index.h("fieldset", { key: '1201d5adfe123b7a1f87b61e49fef09ec70f30b1', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (index.h("div", { key: '3de7b3f1de1ef550a6021137ea9118a737cf0bdb', class: `input-group-prepend ${this.labelContainerClassname}` }, index.h("span", { key: '12089db732f2b738830d7b339910cc66355a9660', class: `input-group-text 
                 ${this.labelStyle}
               ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
               ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
               ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, index.h("label", { key: 'b43a314eaf0740c76e5ce58bb3fc8a817480d539', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: 'eb32f75dd1b3a982dd4ffc70293e83fe775c0e2a', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: '1d958e9a82ce205f516160035a4fe9318133d521' }, index.h("span", { key: '5faf710a381bbe0a6d5b34b131467fc512df2430', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '3eadef6252650b9da591afd5e915ff0f5762dbb0', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
+              ` }, index.h("label", { key: '5d136aec6821566e8bf3c3979f00d150eb541393', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), index.h("div", { key: 'd3aefa52f4516c5b3318cc6918404dd4d3bcb4f4', class: "position-relative has-icon-left rate-input-container" }, this.currency && (index.h("div", { key: 'c767638d8cdbd256914b043e4a7770bd1d7c89da' }, index.h("span", { key: '734e104602fdb051e0380ed72d38727c3c1477d2', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), index.h("input", { key: '27a7906f21384f88e923cbb5b03de285f3e9c94d', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
               ${this.inputStyle}
               ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
               ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
@@ -3250,9 +3250,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (index.h("div", { key: '84d9bcd6449abf7df043920b58f80cb0696a54a9', class: "input-group" }, index.h("label", { key: 'ad341c676400ede2818c4eb7e32b43f959be7ad4', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: '5b19ec15406c4bcd49b5449e34ec074acae111fb' }, this.label), index.h("input", { key: '5465ff56135040a2422ed51d8373bda9b186f97e', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (index.h("div", { key: 'c8aa17115e075339650362bba14700c027b9f6a7', class: "input-group" }, index.h("label", { key: '47daf5d45b663b942427e69fedff3089b3c5092c', class: "check-container radio-container align-items-center m-0 py-0" }, index.h("span", { key: 'dc7725dbf89edcc311ba743becf7658de277c13c' }, this.label), index.h("input", { key: '5cc99a59e1f2ce8d1dc382b324a194b176f1872c', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: '58a34f8df21e1ecce48ed59ecf59b9dc1d5a03f8', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), index.h("span", { key: 'b000a6d74ba089a3f46ecb61cd41c82b3b8f47fb', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -3892,7 +3892,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '3dc0b6fe1b45dcb67d9d1f3dfe927cd933df8de5' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (index.h(index.Host, { key: '45f06d57c3d72444c0042f6ee1fb6fcdc0554af6' }, this.phase === 'spinner' ? index.h("wa-spinner", null) : index.h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],
