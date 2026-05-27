@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking_store = require('./booking.store-38ba8ca8.js');
+const booking_service = require('./booking.service-020673c4.js');
 const user_service = require('./user.service-a1d0974f.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-8bb117a0.js');
@@ -15,6 +15,7 @@ require('./axios-6e678d52.js');
 require('./utils-8f5b1099.js');
 require('./moment-1780b03a.js');
 require('./type-53035218.js');
+require('./booking-28f7c18d.js');
 
 const irHkUnassignedUnitsDrawerFormCss = ".sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}";
 const IrHkUnassignedUnitsDrawerFormStyle0 = irHkUnassignedUnitsDrawerFormCss;
@@ -164,7 +165,7 @@ const IrHkUserDrawerForm = class {
     closeSideBar;
     loadingChanged;
     housekeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     // Stable schema references — closures read current `this` state at validation time.
     usernameSchema;
     passwordSchema;

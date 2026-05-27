@@ -186,7 +186,7 @@ const IrCityLedger = /*@__PURE__*/ proxyCustomElement(class IrCityLedger extends
         if (this.isLoading) {
             return h("ir-loading-screen", null);
         }
-        return (h(Host, null, h("ir-page", { label: 'City Ledger' }, h("ir-autocomplete", { slot: "page-header",
+        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("ir-autocomplete", { slot: "page-header",
             // size="medium"
             placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
                 this.agentSearch = e.detail ?? '';

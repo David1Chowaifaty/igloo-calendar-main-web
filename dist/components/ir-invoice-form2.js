@@ -197,6 +197,19 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      */
     enforceNonInvoiceableSelections(disabledKeys) {
         if (this.viewMode === 'proforma') {
+            if (!this.alreadyInvoicedItemKeys.size) {
+                return;
+            }
+            const nextKeys = new Set(this.selectedItemKeys);
+            let changed = false;
+            this.alreadyInvoicedItemKeys.forEach(key => {
+                if (nextKeys.delete(key)) {
+                    changed = true;
+                }
+            });
+            if (changed) {
+                this.syncSelectedItems(nextKeys);
+            }
             return;
         }
         const enforcedDisabledKeys = disabledKeys ?? this.getCombinedDisabledKeys();
@@ -347,7 +360,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      */
     applyDefaultSelections(items) {
         const keysToSelect = this.viewMode === 'proforma'
-            ? items.map(item => this.getSelectableKey(item))
+            ? items.filter(item => !this.alreadyInvoicedItemKeys.has(this.getSelectableKey(item))).map(item => this.getSelectableKey(item))
             : items
                 .filter(item => item.is_invoiceable && item.reason?.code !== '001')
                 .map(item => this.getSelectableKey(item));
@@ -624,8 +637,11 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
      * Determines if any member of a checkbox group should be disabled.
      */
     isDisabled(systemIds = []) {
-        if (this.viewMode === 'proforma' || !systemIds?.length) {
+        if (!systemIds?.length) {
             return false;
+        }
+        if (this.viewMode === 'proforma') {
+            return systemIds.some(id => typeof id === 'number' && this.alreadyInvoicedItemKeys.has(id));
         }
         const disabledKeys = this.getCombinedDisabledKeys();
         if (!disabledKeys.size) {

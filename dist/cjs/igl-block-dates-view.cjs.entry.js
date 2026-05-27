@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-38ba8ca8.js');
+const booking_service = require('./booking.service-020673c4.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
@@ -12,6 +12,7 @@ require('./moment-1780b03a.js');
 require('./calendar-data-70bc3b4b.js');
 require('./index-fbf1fe1d.js');
 require('./type-53035218.js');
+require('./booking-28f7c18d.js');
 
 const iglBlockDatesViewCss = ".sc-igl-block-dates-view-h{display:block}.sc-igl-block-dates-view-h .controlContainer.sc-igl-block-dates-view{width:24px}.sc-igl-block-dates-view-h .checkBoxContainer.sc-igl-block-dates-view input.sc-igl-block-dates-view{height:1.2rem !important;width:30px}.releaseTime.sc-igl-block-dates-view{padding-left:5px}.out-of-service-label.sc-igl-block-dates-view{margin-left:5px !important}";
 const IglBlockDatesViewStyle0 = iglBlockDatesViewCss;
@@ -36,7 +37,7 @@ const IglBlockDatesView = class {
         OUT_OF_SERVICE: false,
     }; // Change of property name might require updates in booking-event-hover
     releaseList = [];
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     async componentWillLoad() {
         try {
             this.releaseList = await this.bookingService.getBlockedInfo();
