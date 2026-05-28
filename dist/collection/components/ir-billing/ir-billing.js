@@ -33,7 +33,7 @@ export class IrBilling {
                     this.currentTab = e.detail.name.toString();
                 }, active: this.currentTab }, h("wa-tab", { panel: "guest", disabled: this.isAllServicesAgentOwned }, "Guest"), h("wa-tab", { panel: "agent" }, "Agent"), h("wa-tab-panel", { name: "guest" }, this.currentTab === 'guest' && h("ir-guest-billing", { booking: this.booking })), h("wa-tab-panel", { name: "agent" }, this.currentTab === 'agent' && h("ir-agent-billing", { booking: this.booking }))));
         }
-        return h("ir-guest-billing", { booking: this.booking });
+        return h("ir-guest-billing", { style: { paddingTop: '1.5rem' }, booking: this.booking });
     }
     static get is() { return "ir-billing"; }
     static get encapsulation() { return "scoped"; }

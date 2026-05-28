@@ -38,6 +38,7 @@ export declare class IrCheckoutDialog {
     private renderEarlyCheckoutContent;
     private get duePayment();
     private renderDueAmountWarning;
+    private renderSameDayWarning;
     private renderMissingClWarning;
     render(): any;
 }

@@ -1,6 +1,7 @@
 /* Base styles */
 :host {
-  --ir-cell-padding: 0.1rem 0.8rem;
+  /* --ir-cell-padding: 0.1rem 0.8rem; */
+  --ir-cell-padding: 0.5rem 1rem;
 }
 .ir-table-row td {
   padding: var(--ir-cell-padding) !important;
@@ -188,8 +189,8 @@
 .billing__actions-row {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
-  justify-content: flex-end;
+  justify-content: center;
+  /* justify-content: flex-end; */
   /* min-width: 160px; */
   gap: 0.5rem;
 }

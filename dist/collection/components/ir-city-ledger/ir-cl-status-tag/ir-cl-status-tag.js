@@ -26,7 +26,7 @@ function resolveStatus(tx) {
 }
 export class IrClStatusTag {
     transaction;
-    size = 'default';
+    size = 'extra-small';
     render() {
         if (!this.transaction)
             return null;
@@ -93,7 +93,7 @@ export class IrClStatusTag {
                 "setter": false,
                 "attribute": "size",
                 "reflect": false,
-                "defaultValue": "'default'"
+                "defaultValue": "'extra-small'"
             }
         };
     }

@@ -4,6 +4,7 @@ import { formatAmount } from "../../../utils/utils";
 import { Host, h } from "@stencil/core";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
+import axios from "axios";
 export class IrInvoiceForm {
     /**
      * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
@@ -83,6 +84,7 @@ export class IrInvoiceForm {
     invoiceTarget;
     apiDisabledItemKeys = new Set();
     alreadyInvoicedItemKeys = new Set();
+    printingBaseUrl = 'https://gateway.igloorooms.com/PrintBooking/%1/printing/fd?id=%2&mode=proforma';
     componentWillLoad() {
         this.init();
     }
@@ -204,6 +206,27 @@ export class IrInvoiceForm {
         if (changed) {
             this.syncSelectedItems(nextKeys);
         }
+    }
+    async openProformaInvoice() {
+        const property = calendar_data.property;
+        const documentId = moment().format('YYYYMMDDHHmm') + property.id;
+        let url = this.printingBaseUrl.replace('%1', encodeURIComponent(property.aname)).replace('%2', encodeURIComponent(this.booking.booking_nbr));
+        url += `&documentId=${encodeURIComponent(documentId)}`;
+        const ids = [...this.selectedItemKeys].join('-');
+        if (ids) {
+            url += `&ids=${ids}`;
+        }
+        if (this.selectedRecipient === 'company') {
+            url += `&bill_to=company`;
+        }
+        else if (this.selectedRecipient?.startsWith('room__')) {
+            url += `&bill_to=${encodeURIComponent(this.selectedRecipient.replace('room__', '').trim())}`;
+        }
+        const { data } = await axios.post(`Get_ShortLiving_Token`);
+        if (!data.ExceptionMsg) {
+            url += `&token=${encodeURIComponent(data.My_Result)}`;
+        }
+        window.open(url, '_blank');
     }
     /**
      * Returns the union of API-disabled keys and client-calculated non-invoiceable keys.
@@ -339,9 +362,7 @@ export class IrInvoiceForm {
     applyDefaultSelections(items) {
         const keysToSelect = this.viewMode === 'proforma'
             ? items.filter(item => !this.alreadyInvoicedItemKeys.has(this.getSelectableKey(item))).map(item => this.getSelectableKey(item))
-            : items
-                .filter(item => item.is_invoiceable && item.reason?.code !== '001')
-                .map(item => this.getSelectableKey(item));
+            : items.filter(item => item.is_invoiceable && item.reason?.code !== '001').map(item => this.getSelectableKey(item));
         this.syncSelectedItems(new Set(keysToSelect));
     }
     /**
@@ -386,7 +407,8 @@ export class IrInvoiceForm {
                 billed_to_name,
             };
             if (isProforma) {
-                this.previewProformaInvoice.emit({ invoice });
+                // this.previewProformaInvoice.emit({ invoice });
+                this.openProformaInvoice();
                 return;
             }
             await this.bookingService.issueInvoice({

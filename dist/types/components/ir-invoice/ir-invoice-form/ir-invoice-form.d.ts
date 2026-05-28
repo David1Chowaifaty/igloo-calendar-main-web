@@ -82,6 +82,7 @@ export declare class IrInvoiceForm {
     private invoiceTarget;
     private apiDisabledItemKeys;
     private alreadyInvoicedItemKeys;
+    private printingBaseUrl;
     componentWillLoad(): void;
     componentDidLoad(): void;
     handleViewModeChange(): void;
@@ -95,6 +96,7 @@ export declare class IrInvoiceForm {
      * Removes selections that correspond to disabled invoice items unless in proforma mode.
      */
     private enforceNonInvoiceableSelections;
+    private openProformaInvoice;
     /**
      * Returns the union of API-disabled keys and client-calculated non-invoiceable keys.
      */

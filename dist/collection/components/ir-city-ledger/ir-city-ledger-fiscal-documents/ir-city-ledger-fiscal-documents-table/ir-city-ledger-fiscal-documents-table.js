@@ -24,7 +24,6 @@ export class IrCityLedgerFiscalDocumentsTable {
     columnHelper = createColumnHelper();
     cityLedgerService = new CityLedgerService();
     handleAction(action, row) {
-        console.log('here', action);
         switch (action) {
             case 'view':
             case 'preview':

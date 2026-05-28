@@ -3691,6 +3691,7 @@ export namespace Components {
     interface IrPickupView {
         "agent": Agent;
         "booking": Booking;
+        "clTransactions": ClTx[];
     }
     interface IrPmsLogs {
         "bookingNumber": string;
@@ -14549,6 +14550,7 @@ declare namespace LocalJSX {
     interface IrPickupView {
         "agent"?: Agent;
         "booking"?: Booking;
+        "clTransactions"?: ClTx[];
     }
     interface IrPmsLogs {
         "bookingNumber"?: string;

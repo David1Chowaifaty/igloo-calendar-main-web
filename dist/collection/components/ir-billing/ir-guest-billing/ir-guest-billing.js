@@ -94,7 +94,7 @@ export class IrGuestBilling {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = 'invoice';
-            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", { class: '' }))), h("tbody", null, this.invoices?.length === 0 && (h("tr", null, h("td", { colSpan: 4, class: "empty-row" }, h("ir-empty-state", null)))), this.invoices?.map(invoice => {
+            } }, "Issue invoice")), h("div", { class: "table-container" }, h("table", { class: "table data-table" }, h("thead", null, h("tr", null, h("th", null, "Date"), h("th", null, "Number"), h("th", { class: "billing__price-col" }, "Amount"), h("th", null, "Actions"))), h("tbody", null, this.invoices?.length === 0 && (h("tr", null, h("td", { colSpan: 4, class: "empty-row" }, h("ir-empty-state", null)))), this.invoices?.map(invoice => {
             const isValid = invoice.status.code === 'VALID';
             return (h("tr", { class: "ir-table-row" }, h("td", null, invoice.status.code === 'VALID'
                 ? moment(invoice.date, 'YYYY-MM-DD').format('MMM DD, YYYY')

@@ -34,7 +34,7 @@ const IrClStatusTag = /*@__PURE__*/ proxyCustomElement(class IrClStatusTag exten
         this.__registerHost();
     }
     transaction;
-    size = 'default';
+    size = 'extra-small';
     render() {
         if (!this.transaction)
             return null;

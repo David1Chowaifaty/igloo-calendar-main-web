@@ -1,6 +1,7 @@
 /* Base styles */
 :host {
-  --ir-cell-padding: 0.1rem 0.8rem;
+  /* --ir-cell-padding: 0.1rem 0.8rem; */
+  --ir-cell-padding: 0.5rem 1rem;
 }
 .ir-table-row td {
   padding: var(--ir-cell-padding) !important;
@@ -202,17 +203,13 @@
 .fiscal-table__cell--doc-number {
   --ir-cell-padding: 0.5rem;
 }
-.fiscal-table__heading--actions {
-  text-align: center;
-}
-
+.fiscal-table__heading--actions,
 .fiscal-table__cell--actions {
-  text-align: center;
+  text-align: center !important;
 }
-
 .fiscal-table__action-trigger::part(base) {
-  font-size: 0.8125rem;
-  font-weight: 500;
+  width: 24px;
+  height: 24px;
 }
 
 .fiscal-table__action-danger {
@@ -222,6 +219,7 @@
 .fiscal-table__cell--zero {
   color: var(--wa-color-text-quiet, #9ca3af);
 }
+
 /* #endregion */
 
 /* #region totals */

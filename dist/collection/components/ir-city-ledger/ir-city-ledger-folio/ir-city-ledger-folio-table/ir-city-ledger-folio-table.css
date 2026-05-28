@@ -1,6 +1,7 @@
 /* Base styles */
 :host {
-  --ir-cell-padding: 0.1rem 0.8rem;
+  /* --ir-cell-padding: 0.1rem 0.8rem; */
+  --ir-cell-padding: 0.5rem 1rem;
 }
 .ir-table-row td {
   padding: var(--ir-cell-padding) !important;
@@ -420,6 +421,19 @@
 .folio-table__description {
   display: block;
   width: 100%;
+}
+.folio-table__heading--actions,
+.folio-table__cell--actions {
+  text-align: center !important;
+}
+
+/* Actions cell */
+.fiscal-table__action-trigger.--placeholder {
+  height: calc(24px + 0.02rem);
+}
+.fiscal-table__action-trigger::part(base) {
+  width: 24px;
+  height: 24px;
 }
 
 /* Balance summary rows */

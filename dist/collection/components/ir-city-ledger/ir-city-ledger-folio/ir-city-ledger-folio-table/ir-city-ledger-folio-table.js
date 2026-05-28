@@ -167,18 +167,18 @@ export class IrCityLedgerFolioTable {
         }),
         this.columnHelper.display({
             id: 'actions',
-            header: '',
+            header: 'Actions',
             size: 48,
             cell: info => {
                 const row = info.row.original;
                 if (row._raw.IS_LOCKED)
-                    return null;
+                    return h("div", { class: 'fiscal-table__action-trigger --placeholder' });
                 return (h("wa-dropdown", { "onwa-hide": e => {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                     }, "onwa-select": (e) => {
                         this.handleAction(e.detail.item.value, row);
-                    } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
+                    } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
             },
             enableSorting: false,
             enableGrouping: false,
@@ -214,6 +214,7 @@ export class IrCityLedgerFolioTable {
                     'booking_heading': !header.isPlaceholder,
                     'cell--align-end': isNumericCol,
                     'cell--align-center': header.column.id === 'select',
+                    'folio-table__heading--actions': header.column.id === 'actions',
                     'sticky-column': header.column.id === 'status',
                     'folio-table__select-col': header.column.id === 'select',
                 }, style: header.column.id === 'bookingNumber' ? { paddingInline: '0' } : undefined }, !header.isPlaceholder && (h("div", { class: {
@@ -246,6 +247,7 @@ export class IrCityLedgerFolioTable {
                     'sticky-column': cell.column.id === 'status',
                     'input-column': ['debit', 'credit', 'balance'].includes(cell.column.id),
                     'grouped-cell': cell.getIsGrouped(),
+                    'folio-table__cell--actions': cell.column.id === 'actions',
                     'folio-table__select-col': cell.column.id === 'select',
                 } }, this.renderCell(cell))))));
         });

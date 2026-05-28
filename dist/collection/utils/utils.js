@@ -417,6 +417,7 @@ export function canCheckout({ to_date, inOutCode, skipAutoCheckout = false }) {
 export function downloadFile(url, filename) {
     const a = document.createElement('a');
     a.href = url;
+    a.setAttribute('download', '');
     a.download = filename || url;
     document.body.appendChild(a);
     a.click();
