@@ -42,3 +42,7 @@
   font-weight: 600;
   color: var(--wa-color-text-normal, #111827);
 }
+.message.--secondary {
+  font-weight: 400;
+  color: var(--wa-color-neutral-400, #a1a1aa);
+}

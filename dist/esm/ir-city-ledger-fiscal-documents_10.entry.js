@@ -3,7 +3,7 @@ import { C as CityLedgerService } from './index-77c86151.js';
 import { F as FdTypes } from './enums-8474d88c.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { D as Debounce } from './debounce-542065c2.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes } from './types-2137ab1a.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-4149f523.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { v as v4 } from './v4-964634d6.js';
 import { f as formatAmount } from './utils-67374c01.js';

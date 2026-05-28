@@ -1,8 +1,9 @@
 import { Host, h } from "@stencil/core";
 export class IrEmptyState {
     message = 'No records found';
+    showIcon = true;
     render() {
-        return (h(Host, { key: '6c773c84c7422b7e8f45c42621dca4cb96db809a' }, h("slot", { key: '2efbb6c9e1eec1e2a85f5b8d6b9cac8d515283b9', name: "icon" }, h("div", { key: 'ae076f937f44089513c4318e663a3733c02f5cea', class: 'icon_container' }, h("wa-icon", { key: 'fc3b72cbe9761daa0c7d1319aa903545df0d54ef', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: '0c1b8cd4ff9d354be18f6c091aa2409cee637568', part: "message", class: "message" }, this.message), h("slot", { key: '2e1ad91effd249a37d31ea99b5cfc33ef249e872' })));
+        return (h(Host, { key: 'cf2297dc4a3013416995dd4c48d88aa7e9df99d4' }, h("slot", { key: 'ba2cf54cdc3348ade64d63c7dcef06d6911a2599', name: "icon" }, this.showIcon && (h("div", { key: '9cc4d35b55073bd4d7b15c3f8bc1495fe23885cf', class: 'icon_container' }, h("wa-icon", { key: '95a3c4005493865cebca06e4a49c41927be90156', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: '4a4d93ecae7ecd80281c2c334ad2b38e75b0a3e6', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message), h("slot", { key: 'fce8bdda59195e73498f32d11d5e1f7e2aa7bb2d' })));
     }
     static get is() { return "ir-empty-state"; }
     static get encapsulation() { return "shadow"; }
@@ -37,6 +38,26 @@ export class IrEmptyState {
                 "attribute": "message",
                 "reflect": false,
                 "defaultValue": "'No records found'"
+            },
+            "showIcon": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "show-icon",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }

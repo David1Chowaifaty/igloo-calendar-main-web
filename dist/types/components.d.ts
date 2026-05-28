@@ -2358,6 +2358,7 @@ export namespace Components {
     }
     interface IrEmptyState {
         "message": string;
+        "showIcon": boolean;
     }
     interface IrEventsLog {
         "booking": Booking;
@@ -13057,6 +13058,7 @@ declare namespace LocalJSX {
     }
     interface IrEmptyState {
         "message"?: string;
+        "showIcon"?: boolean;
     }
     interface IrEventsLog {
         "booking"?: Booking;

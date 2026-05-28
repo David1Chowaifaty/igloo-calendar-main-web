@@ -11,7 +11,7 @@ import { T as Token } from './Token-030c78a9.js';
 import { A as AirDatepicker, d as default_1 } from './en-ad4ac1a5.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { i as isAgentMode, _ as _formatTime, a as _formatDate, b as _getDay } from './functions-a2d88561.js';
-import { a as actionableClTypes, m as mapClTxToFolioRow } from './types-2137ab1a.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-4149f523.js';
 import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-1376ed6c.js';
 import { a as axios } from './axios-aa1335b8.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
@@ -1754,15 +1754,15 @@ const IrBookingCityLedger = class {
             return '—';
         return formatAmount(calendar_data.property?.currency?.symbol, value);
     }
-    rowHiddenCategories = new Set(['ACM', 'TRF', 'GEN']);
+    rowHiddenCategories = new Set(['TBL_BSAD', 'TBL_BSP', 'TBL_BSE']);
     get rows() {
-        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.CATEGORY)) ?? [];
+        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.REL_ENTITY)) ?? [];
     }
     renderRows() {
         if (this.rows.length === 0) {
-            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", null)));
+            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", { showIcon: false })));
         }
-        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" })), h("span", { class: "folio-row__date" }, hooks(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(row._raw), balance: 0 } }), h("span", { class: "folio-row__date" }, hooks(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -4722,11 +4722,12 @@ const IrCheckoutDialog = class {
         const agentRooms = this.booking.rooms.filter(r => r.agent !== null && r.agent.id === agentId);
         const agentExtraServices = (this.booking.extra_services ?? []).filter(e => e.agent !== null && e.agent.id === agentId);
         const room = agentRooms.reduce((total, r) => {
-            const postedDates = new Set(this.transactions.filter(tx => tx.CATEGORY === 'ACM' && tx.BSA_REF === r.identifier).map(tx => tx.SERVICE_DATE));
+            //TODO check for accomodation REL_ENTITY
+            const postedDates = new Set(this.transactions.filter(tx => tx.REL_ENTITY === 'TBL_BSAD' && tx.BSA_REF === r.identifier).map(tx => tx.SERVICE_DATE));
             const unposted = (r.days ?? []).filter(d => d.date < today && !postedDates.has(d.date));
             return total + unposted.length;
         }, 0);
-        const postedExtraKeys = new Set(this.transactions.filter(tx => tx.CATEGORY === 'GEN').map(tx => tx.REL_ENTITY_KEY));
+        const postedExtraKeys = new Set(this.transactions.filter(tx => tx.REL_ENTITY === 'TBL_BSE').map(tx => tx.REL_ENTITY_KEY));
         const extras = agentExtraServices.filter(es => es.system_id != null && es.start_date <= today && !postedExtraKeys.has(es.system_id)).length;
         return { room, extras, total: room + extras };
     }
@@ -4844,14 +4845,14 @@ const IrCheckoutDialog = class {
     render() {
         const isEarly = this.isEarlyCheckout && this.isLoading !== 'page';
         const hasDue = (this.booking?.financial?.due_amount ?? 0) > 0;
-        return (h(Fragment, { key: '404f2fe0f80eb40f6b1b578d0db4481cc17692eb' }, h("ir-dialog", { key: '8d37311926e6174efb3b9aacc27601081c1cb284', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
+        return (h(Fragment, { key: '8fdb112dd297fa8ac76a62d7a4f7bc417606bc94' }, h("ir-dialog", { key: '328a6ed490fb0fa881fc96ef05b13470dec1a309', open: this.open, label: isEarly ? 'Early Check-Out' : 'Check-Out', style: { '--ir-dialog-width': isEarly ? 'min(36rem, calc(100vw - 2rem))' : 'fit-content' }, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.buttons.clear();
                 this.checkoutDialogClosed.emit({ reason: 'cancel' });
-            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.renderSameDayWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '1417ecdd3a475ce288317186b6f3b5124b8d6ba5', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '196ec8367f5690477bb60e325ce2682075778c9e' }, h("ir-custom-button", { key: '0a0c677c765d9f36e5de1c63cf5a14e58f5d3e74', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '14f709e764447a7a43fb7bdfe92939a4b629dfc6', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: 'c138b4c38a96122871b30093f0e2410d975b4d1d', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '4b0985388711ad3fb1d714fd78ab3c6a97f0d621', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
+            } }, this.isLoading === 'page' ? (h("div", { class: "dialog__loader-container" }, h("ir-spinner", null))) : (h(Fragment, null, this.renderDueAmountWarning(), this.renderMissingClWarning(), this.renderSameDayWarning(), this.isEarlyCheckout ? (this.renderEarlyCheckoutContent()) : (h("p", { style: { width: 'calc(31rem - var(--spacing))' } }, "Are you sure you want to check out unit ", this.room?.unit?.name, "?")))), h("div", { key: '2aade6c3beed365fc24296724a6da4bc60398b4d', slot: "footer", class: "ir-dialog__footer" }, h(Fragment, { key: '6f745297c49eabcbe9c9e8e2eba803f049391c8e' }, h("ir-custom-button", { key: 'cce684fe0a5a2398310e06fae8736e6355ee8cbb', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, locales?.entries?.Lcz_Cancel ?? 'Cancel'), this.buttons.has('checkout') && (h("ir-custom-button", { key: '052d51e6af9f7d5f0984af6b1e3d4839378ef0bf', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'checkout' }), variant: 'brand', loading: this.isLoading === 'checkout' }, isEarly ? 'Confirm Early Check-Out' : 'Checkout')), this.buttons.has('checkout_without_invoice') && (h("ir-custom-button", { key: '82ec220051fa3614c1f01a014f4fd9ba0b0219b0', loading: this.isLoading === 'skipCheckout', size: "medium", onClickHandler: e => this.checkoutRoom({ e, source: 'skipCheckout' }), variant: 'brand', appearance: this.buttons.has('invoice_checkout') ? 'outlined' : 'accent' }, "Checkout without invoice")), this.buttons.has('invoice_checkout') && (h("ir-custom-button", { key: '0f672fcb4f36b86dbafcc9b1dae39c2869c27e39', size: "medium", loading: this.isLoading === 'checkout&invoice', onClickHandler: e => {
                 this.checkoutRoom({ e, source: 'checkout&invoice' });
-            }, variant: 'brand', appearance: 'accent' }, "Check out & invoice guest"))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: 'debfab3eee3f2dcbc31a05ab4ab14421bf37248d', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
+            }, variant: 'brand', appearance: 'accent' }, "Check out & invoice guest"))))), hasDue && this.paymentEntries && (h("ir-payment-folio", { key: '2158b753aa7c83ea1f47cade266164f3e9523dba', ref: el => (this.paymentFolioRef = el), booking: this.booking, bookingNumber: this.booking.booking_nbr, paymentEntries: this.paymentEntries, mode: 'payment-action', payment: this.duePayment }))));
     }
     static get watchers() { return {
         "open": ["handleOpenChange"]
@@ -15122,7 +15123,7 @@ __decorate$1([
 ], IrDrawer.prototype, "emitDrawerHide", null);
 IrDrawer.style = IrDrawerStyle0;
 
-const irEmptyStateCss = ":host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:flex;flex-direction:column;gap:var(--wa-space-m);align-items:center}::slotted([slot='icon']){font-size:2rem}.icon_container{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.message{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}";
+const irEmptyStateCss = ":host{box-sizing:border-box !important}:host *,:host *::before,:host *::after{box-sizing:inherit !important;padding:0;margin:0}[hidden]{display:none !important}:host{display:flex;flex-direction:column;gap:var(--wa-space-m);align-items:center}::slotted([slot='icon']){font-size:2rem}.icon_container{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.message{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.message.--secondary{font-weight:400;color:var(--wa-color-neutral-400, #a1a1aa)}";
 const IrEmptyStateStyle0 = irEmptyStateCss;
 
 const IrEmptyState = class {
@@ -15130,8 +15131,9 @@ const IrEmptyState = class {
         registerInstance(this, hostRef);
     }
     message = 'No records found';
+    showIcon = true;
     render() {
-        return (h(Host, { key: '6c773c84c7422b7e8f45c42621dca4cb96db809a' }, h("slot", { key: '2efbb6c9e1eec1e2a85f5b8d6b9cac8d515283b9', name: "icon" }, h("div", { key: 'ae076f937f44089513c4318e663a3733c02f5cea', class: 'icon_container' }, h("wa-icon", { key: 'fc3b72cbe9761daa0c7d1319aa903545df0d54ef', name: "ban", style: { transform: 'rotate(90deg)' } }))), h("p", { key: '0c1b8cd4ff9d354be18f6c091aa2409cee637568', part: "message", class: "message" }, this.message), h("slot", { key: '2e1ad91effd249a37d31ea99b5cfc33ef249e872' })));
+        return (h(Host, { key: 'cf2297dc4a3013416995dd4c48d88aa7e9df99d4' }, h("slot", { key: 'ba2cf54cdc3348ade64d63c7dcef06d6911a2599', name: "icon" }, this.showIcon && (h("div", { key: '9cc4d35b55073bd4d7b15c3f8bc1495fe23885cf', class: 'icon_container' }, h("wa-icon", { key: '95a3c4005493865cebca06e4a49c41927be90156', name: "ban", style: { transform: 'rotate(90deg)' } })))), h("p", { key: '4a4d93ecae7ecd80281c2c334ad2b38e75b0a3e6', part: "message", class: `message ${this.showIcon ? '' : '--secondary'}` }, this.message), h("slot", { key: 'fce8bdda59195e73498f32d11d5e1f7e2aa7bb2d' })));
     }
 };
 IrEmptyState.style = IrEmptyStateStyle0;
@@ -15434,9 +15436,9 @@ const IrExtraServices = class {
             const guestServices = services.filter(s => s.agent === null || s.agent === undefined);
             const agentServices = services.filter(s => s.agent !== null && s.agent !== undefined);
             const agentName = this.booking.agent?.name ?? 'Agent';
-            return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), services.length === 0 ? (h("ir-empty-state", null)) : (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentServices.length === 0 ? h("p", { class: "service-group__empty" }, "No agent services added") : this.renderServiceList(agentServices))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestServices.length === 0 ? h("p", { class: "service-group__empty" }, "No guest services added") : this.renderServiceList(guestServices))))))));
+            return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), services.length === 0 ? (h("ir-empty-state", { showIcon: false })) : (h(Fragment, null, h("p", { class: "service-group__label --agent" }, agentName, h("span", null, "Folio")), h("div", { class: "service-group service-group--agent" }, h("div", { class: "service-group__body" }, agentServices.length === 0 ? h("p", { class: "service-group__empty" }, "No agent services added") : this.renderServiceList(agentServices))), h("wa-divider", null), h("p", { class: "service-group__label" }, "Guest", h("span", null, "Folio")), h("div", { class: "service-group service-group--guest" }, h("div", { class: "service-group__body" }, guestServices.length === 0 ? h("p", { class: "service-group__empty" }, "No guest services added") : this.renderServiceList(guestServices))))))));
         }
-        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), services.length === 0 && h("ir-empty-state", null), this.renderServiceList(services))));
+        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0 ' }, locales.entries.Lcz_ExtraServices), h("wa-tooltip", { for: "extra_service_btn" }, "Add extra service"), h("ir-custom-button", { slot: "header-actions", id: "extra_service_btn", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "plus", style: { fontSize: '1rem' } })), services.length === 0 && h("ir-empty-state", { showIcon: false }), this.renderServiceList(services))));
     }
 };
 IrExtraServices.style = IrExtraServicesStyle0;
@@ -18718,7 +18720,7 @@ const IrPaymentDetails = class {
         if (!this.booking.is_direct) {
             return false;
         }
-        if (this.booking.financial.due_amount === 0) {
+        if (this.booking.guest_financial.due_amount === 0) {
             return false;
         }
         if (this.booking.financial.cancelation_penality_as_if_today === 0) {
@@ -19250,10 +19252,10 @@ const IrPaymentsFolio = class {
         ];
     }
     renderEmptyState() {
-        return h("ir-empty-state", null);
+        return h("ir-empty-state", { showIcon: false });
     }
     render() {
-        return (h("wa-card", { key: '865ce5eafe8525e7159b47048d426e883e23308c', class: " payments-container" }, h("div", { key: 'ae25eeccc4166a94bdfa7efdc0bcb6de684b628a', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: 'a5eb2a36b23329bedb7efdf7b82e3de27170f5ad', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: '18ca432460bf5b743ca44fab9f827d4a87a4dda5', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), !this.isAddPaymentDisabled && h("wa-tooltip", { key: '0411cc193093efe7f790988d460dd977c37ec825', for: "create-payment" }, "Add folio entry"), h("ir-custom-button", { key: 'fecad944e6f97026efa8ec90e1fd6a52358c567d', disabled: this.isAddPaymentDisabled, slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: '35ac5713862d41693fd45d9c1731e2e2a99fc191', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
+        return (h("wa-card", { key: '604af713d21420dcc7e6f263eacc8f08d85cbe07', class: " payments-container" }, h("div", { key: 'ea988b956d5c09c1dbc87506a47cd825c6b55c40', slot: "header", class: 'd-flex align-items-center', style: { gap: '0.5rem' } }, h("p", { key: '36e3a3132902d33e5338b0f8036a6718f8ebc757', class: "font-size-large p-0 m-0" }, "Guest Folio"), h(HelpDocButton, { key: '74e4f6ad7f6649c9f14db297ddbb709e962cfea4', message: "Help", href: "https://help.igloorooms.com/extranet/booking-details/guest-folio" })), !this.isAddPaymentDisabled && h("wa-tooltip", { key: 'e92f22740c2de8646bec85d177a9a2072013cf77', for: "create-payment" }, "Add folio entry"), h("ir-custom-button", { key: '1d5e5a65c8cbcaed2c2bcee4de09273f783f6930', disabled: this.isAddPaymentDisabled, slot: "header-actions", id: "create-payment", size: "small", variant: "neutral", appearance: "plain", onClickHandler: this.handleAddPayment }, h("wa-icon", { key: '4c64fbe1f90dad6eb946633bcc88f6f8293cb05c', name: "plus", style: { fontSize: '1rem' } })), this.hasPayments() ? this.payments.map((payment, index) => this.renderPaymentItem(payment, index)) : this.renderEmptyState()));
     }
 };
 IrPaymentsFolio.style = IrPaymentsFolioStyle0;
@@ -38550,7 +38552,7 @@ const IrPickupView = class {
         const isAgent = isAgentMode(this.agent);
         const tx = this.matchedTx;
         const statusTag = tx ? (h("ir-cl-status-tag", { style: { marginInlineStart: '0.5rem' }, transaction: { _rowId: '', ...mapClTxToFolioRow(tx), balance: 0 }, size: "extra-small" })) : null;
-        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, locales.entries.Lcz_Pickup), h("wa-tooltip", { for: "pickup" }, pickup_info ? 'Edit' : 'Add', " pickup"), h("ir-custom-button", { slot: "header-actions", id: "pickup", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "edit", style: { fontSize: '1rem' } })), pickup_info ? (h(Fragment, null, isAgent && (h("p", { class: `service-group__label${pickup_info.agent ? ' --agent' : ''}` }, pickup_info.agent ? pickup_info.agent.name : 'Guest', h("span", null, "Folio"))), h("div", { class: `pickup-body${isAgent ? (pickup_info.agent ? ' pickup-body--agent' : ' pickup-body--guest') : ''}` }, h("div", { class: "pickup-row pickup-row--header" }, h("span", { class: "pickup-datetime" }, hooks(pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'), pickup_info.hour && pickup_info.minute && h("span", { class: "pickup-time" }, " \u00B7 ", _formatTime(pickup_info.hour.toString(), pickup_info.minute.toString())), statusTag), h("strong", { class: "pickup-price" }, pickup_info.currency.symbol, pickup_info.total)), h("dl", { class: "pickup-dl" }, h("div", { class: "pickup-dl__row" }, h("dt", null, locales.entries.Lcz_FlightDetails), h("dd", null, pickup_info.details)), h("div", { class: "pickup-dl__row" }, h("dt", null, "Vehicle"), h("dd", null, pickup_info.selected_option.vehicle.description)), h("div", { class: "pickup-dl__row" }, h("dt", null, locales.entries.Lcz_NbrOfVehicles), h("dd", null, pickup_info.nbr_of_units))), (calendar_data.pickup_service.pickup_instruction?.description || calendar_data.pickup_service.pickup_cancelation_prepayment?.description) && (h("p", { class: "pickup-note" }, calendar_data.pickup_service.pickup_instruction?.description, calendar_data.pickup_service.pickup_cancelation_prepayment?.description))))) : (h("ir-empty-state", null)))));
+        return (h(Host, null, h("wa-card", null, h("p", { slot: "header", class: 'font-size-large p-0 m-0' }, locales.entries.Lcz_Pickup), h("wa-tooltip", { for: "pickup" }, pickup_info ? 'Edit' : 'Add', " pickup"), h("ir-custom-button", { slot: "header-actions", id: "pickup", size: "small", appearance: "plain", variant: "neutral" }, h("wa-icon", { name: "edit", style: { fontSize: '1rem' } })), pickup_info ? (h(Fragment, null, isAgent && (h("p", { class: `service-group__label${pickup_info.agent ? ' --agent' : ''}` }, pickup_info.agent ? pickup_info.agent.name : 'Guest', h("span", null, "Folio"))), h("div", { class: `pickup-body${isAgent ? (pickup_info.agent ? ' pickup-body--agent' : ' pickup-body--guest') : ''}` }, h("div", { class: "pickup-row pickup-row--header" }, h("span", { class: "pickup-datetime" }, hooks(pickup_info.date, 'YYYY-MM-DD').format('MMM DD, YYYY'), pickup_info.hour && pickup_info.minute && h("span", { class: "pickup-time" }, " \u00B7 ", _formatTime(pickup_info.hour.toString(), pickup_info.minute.toString())), statusTag), h("strong", { class: "pickup-price" }, pickup_info.currency.symbol, pickup_info.total)), h("dl", { class: "pickup-dl" }, h("div", { class: "pickup-dl__row" }, h("dt", null, locales.entries.Lcz_FlightDetails), h("dd", null, pickup_info.details)), h("div", { class: "pickup-dl__row" }, h("dt", null, "Vehicle"), h("dd", null, pickup_info.selected_option.vehicle.description)), h("div", { class: "pickup-dl__row" }, h("dt", null, locales.entries.Lcz_NbrOfVehicles), h("dd", null, pickup_info.nbr_of_units))), (calendar_data.pickup_service.pickup_instruction?.description || calendar_data.pickup_service.pickup_cancelation_prepayment?.description) && (h("p", { class: "pickup-note" }, calendar_data.pickup_service.pickup_instruction?.description, calendar_data.pickup_service.pickup_cancelation_prepayment?.description))))) : (h("ir-empty-state", { showIcon: false })))));
     }
 };
 IrPickupView.style = IrPickupViewStyle0;

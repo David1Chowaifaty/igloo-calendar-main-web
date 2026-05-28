@@ -7,7 +7,7 @@ const index$1 = require('./index-e559fde8.js');
 const enums = require('./enums-e1d0fe3c.js');
 const moment = require('./moment-1780b03a.js');
 const debounce = require('./debounce-1b63fe86.js');
-const types = require('./types-f3a7267a.js');
+const cityLedger_service = require('./city-ledger.service-77ba9e18.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const v4 = require('./v4-9b297151.js');
 const utils = require('./utils-df5f5064.js');
@@ -319,7 +319,7 @@ const IrCityLedgerFolio = class {
             let totalCredits = 0;
             let unbilledCount = 0;
             const mappedRows = txList.map((tx) => {
-                const mapped = types.mapClTxToFolioRow(tx);
+                const mapped = cityLedger_service.mapClTxToFolioRow(tx);
                 totalDebits += tx.DEBIT || 0;
                 totalCredits += tx.CREDIT || 0;
                 if (mapped.status.label === 'Unbilled')
@@ -651,7 +651,7 @@ const IrCityLedgerFolioTable = class {
                         e.stopPropagation();
                     }, "onwa-select": (e) => {
                         this.handleAction(e.detail.item.value, row);
-                    } }, index.h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, index.h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), index.h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), types.actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && index.h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), index.h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
+                    } }, index.h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, index.h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), index.h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), cityLedger_service.actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && index.h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), index.h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
             },
             enableSorting: false,
             enableGrouping: false,

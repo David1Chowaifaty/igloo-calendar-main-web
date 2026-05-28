@@ -1,5 +1,6 @@
 import { Host, h } from "@stencil/core";
 import { CityLedgerService } from "../../../services/city-ledger/index";
+import { mapClTxToFolioRow } from "../../ir-city-ledger/ir-city-ledger-folio/types";
 import moment from "moment";
 import calendar_data from "../../../stores/calendar-data";
 import Token from "../../../models/Token";
@@ -66,15 +67,15 @@ export class IrBookingCityLedger {
             return '—';
         return formatAmount(calendar_data.property?.currency?.symbol, value);
     }
-    rowHiddenCategories = new Set(['ACM', 'TRF', 'GEN']);
+    rowHiddenCategories = new Set(['TBL_BSAD', 'TBL_BSP', 'TBL_BSE']);
     get rows() {
-        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.CATEGORY)) ?? [];
+        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.REL_ENTITY)) ?? [];
     }
     renderRows() {
         if (this.rows.length === 0) {
-            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", null)));
+            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", { showIcon: false })));
         }
-        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" })), h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(row._raw), balance: 0 } }), h("span", { class: "folio-row__date" }, moment(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {

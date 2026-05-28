@@ -1,20 +1,22 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index6.js';
+import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
 import { a as actionableClTypes } from './city-ledger.service.js';
 import { f as formatAmount } from './utils.js';
-import { d as defineCustomElement$l } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$k } from './ir-city-ledger-transaction-drawer2.js';
-import { d as defineCustomElement$j } from './ir-city-ledger-transaction-form2.js';
-import { d as defineCustomElement$i } from './ir-cl-adjustment-fields2.js';
-import { d as defineCustomElement$h } from './ir-cl-credit-note-fields2.js';
-import { d as defineCustomElement$g } from './ir-cl-debit-note-fields2.js';
-import { d as defineCustomElement$f } from './ir-cl-fiscal-document-preview2.js';
-import { d as defineCustomElement$e } from './ir-cl-invoice-select2.js';
-import { d as defineCustomElement$d } from './ir-cl-opening-balance-fields2.js';
-import { d as defineCustomElement$c } from './ir-cl-payment-fields2.js';
+import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$l } from './ir-city-ledger-transaction-drawer2.js';
+import { d as defineCustomElement$k } from './ir-city-ledger-transaction-form2.js';
+import { d as defineCustomElement$j } from './ir-cl-adjustment-fields2.js';
+import { d as defineCustomElement$i } from './ir-cl-credit-note-fields2.js';
+import { d as defineCustomElement$h } from './ir-cl-debit-note-fields2.js';
+import { d as defineCustomElement$g } from './ir-cl-fiscal-document-preview2.js';
+import { d as defineCustomElement$f } from './ir-cl-invoice-select2.js';
+import { d as defineCustomElement$e } from './ir-cl-opening-balance-fields2.js';
+import { d as defineCustomElement$d } from './ir-cl-payment-fields2.js';
+import { d as defineCustomElement$c } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$b } from './ir-custom-button2.js';
 import { d as defineCustomElement$a } from './ir-date-select2.js';
 import { d as defineCustomElement$9 } from './ir-dialog2.js';
@@ -96,15 +98,15 @@ const IrBookingCityLedger = /*@__PURE__*/ proxyCustomElement(class IrBookingCity
             return '—';
         return formatAmount(calendar_data.property?.currency?.symbol, value);
     }
-    rowHiddenCategories = new Set(['ACM', 'TRF', 'GEN']);
+    rowHiddenCategories = new Set(['TBL_BSAD', 'TBL_BSP', 'TBL_BSE']);
     get rows() {
-        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.CATEGORY)) ?? [];
+        return this.folioRows?.filter(r => !this.rowHiddenCategories.has(r._raw.REL_ENTITY)) ?? [];
     }
     renderRows() {
         if (this.rows.length === 0) {
-            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", null)));
+            return (h("div", { class: "booking-city-ledger__empty-state" }, h("ir-empty-state", { showIcon: false })));
         }
-        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("wa-tag", { size: "small", variant: row.status.variant }, row.status.label, row.status.id === 'billed' && h("wa-icon", { name: "lock" })), h("span", { class: "folio-row__date" }, hooks(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
+        return (h("div", { class: "folio-list" }, this.rows.map(row => (h("div", { key: row._rowId, class: "folio-row" }, h("div", { class: "folio-row__header" }, h("div", { class: "folio-row__meta" }, h("ir-cl-status-tag", { transaction: { _rowId: '', ...mapClTxToFolioRow(row._raw), balance: 0 } }), h("span", { class: "folio-row__date" }, hooks(row.serviceDate).format('MMM DD, YYYY'))), h("div", { class: "folio-row__right" }, h("span", { class: "folio-row__amount" }, row.debit !== null && h("span", { class: "is-debit" }, row.debit ? this.formatAmount(row.debit) : ''), row.credit !== null && h("span", { class: "is-credit" }, row.credit ? this.formatAmount(row.credit) : '')), row.status.id !== 'billed' && row._raw.CATEGORY === null && actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && (h("wa-dropdown", { "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, "onwa-select": e => {
@@ -157,7 +159,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-fiscal-document-preview", "ir-cl-invoice-select", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner", "ir-validator"];
+    const components = ["ir-booking-city-ledger", "ir-air-date-picker", "ir-city-ledger-transaction-drawer", "ir-city-ledger-transaction-form", "ir-cl-adjustment-fields", "ir-cl-credit-note-fields", "ir-cl-debit-note-fields", "ir-cl-fiscal-document-preview", "ir-cl-invoice-select", "ir-cl-opening-balance-fields", "ir-cl-payment-fields", "ir-cl-status-tag", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-fd-confirm-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-city-ledger":
             if (!customElements.get(tagName)) {
@@ -166,50 +168,55 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$l();
+                defineCustomElement$m();
             }
             break;
         case "ir-city-ledger-transaction-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$k();
+                defineCustomElement$l();
             }
             break;
         case "ir-city-ledger-transaction-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$j();
+                defineCustomElement$k();
             }
             break;
         case "ir-cl-adjustment-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$i();
+                defineCustomElement$j();
             }
             break;
         case "ir-cl-credit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$h();
+                defineCustomElement$i();
             }
             break;
         case "ir-cl-debit-note-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$h();
             }
             break;
         case "ir-cl-fiscal-document-preview":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$g();
             }
             break;
         case "ir-cl-invoice-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$f();
             }
             break;
         case "ir-cl-opening-balance-fields":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$e();
             }
             break;
         case "ir-cl-payment-fields":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$d();
+            }
+            break;
+        case "ir-cl-status-tag":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }
