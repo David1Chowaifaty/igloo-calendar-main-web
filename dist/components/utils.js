@@ -639,7 +639,20 @@ function getFormSubmitter(e) {
     const submitter = e.submitter;
     return submitter.value;
 }
+function groupEntryTablesResult(entries) {
+    let result = {};
+    for (const entry of entries) {
+        if (!entry.TBL_NAME)
+            continue;
+        const key = entry.TBL_NAME.startsWith('_') ? entry.TBL_NAME.substring(1).toLowerCase() : entry.TBL_NAME.toLowerCase();
+        if (!result[key]) {
+            result[key] = [];
+        }
+        result[key] = [...result[key], entry];
+    }
+    return result;
+}
 
-export { convertDatePrice as A, formatDate as B, getFormSubmitter as C, checkUserAuthState as D, ExtraServiceSchema as E, manageAnchorSession as F, isPrivilegedUser as G, sleep as H, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, canCheckout as u, validateEmail as v, getEntryValue as w, renderTime as x, validateSharedPerson as y, getDaysArray as z };
+export { convertDatePrice as A, formatDate as B, getFormSubmitter as C, checkUserAuthState as D, ExtraServiceSchema as E, manageAnchorSession as F, isPrivilegedUser as G, sleep as H, groupEntryTablesResult as I, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, formatLegendColors as o, getNextDay as p, addTwoMonthToDate as q, convertDMYToISO as r, computeEndDate as s, toFloat as t, canCheckout as u, validateEmail as v, getEntryValue as w, renderTime as x, validateSharedPerson as y, getDaysArray as z };
 
 //# sourceMappingURL=utils.js.map

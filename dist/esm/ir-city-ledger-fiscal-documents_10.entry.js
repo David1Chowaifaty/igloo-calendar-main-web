@@ -1,12 +1,12 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { C as CityLedgerService } from './index-77c86151.js';
+import { C as CityLedgerService } from './index-e3163449.js';
 import { F as FdTypes } from './enums-8474d88c.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { D as Debounce } from './debounce-542065c2.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-4149f523.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-c4afe262.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { v as v4 } from './v4-964634d6.js';
-import { f as formatAmount } from './utils-67374c01.js';
+import { f as formatAmount } from './utils-a8322ee9.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable-b8c70fc7.js';
 import './axios-aa1335b8.js';
 import './index-87419685.js';
@@ -1122,7 +1122,7 @@ const IrPage = class {
     label;
     description;
     render() {
-        return (h(Host, { key: '15f69423d11ae9599dfaf2caacaf1fc8e11cdefa' }, h("ir-interceptor", { key: 'c81e4abe716b57cc8a6ca8a19d03b0efb6da01a9' }), h("ir-toast", { key: '9b46e81ce9315ee5295818391447cb61585bbf46' }), h("main", { key: '5e43f2d259206cfb935bd7b3e110f6ba02263894', class: "ir-page__container" }, h("header", { key: '91ef0c4483acc37fb672087200210ec1a6a901da', class: "tax-page__header" }, h("slot", { key: 'ea0e293902b8927143b39796864b27122889cc48', name: "heading" }, h("div", { key: '8ffcaa36edc52f65da249db413046a2770f11078', class: "tax-page__heading" }, h("h3", { key: '6ba5c28b943c56f27d9084476e22589d3f7823e0', class: "page-title" }, this.label), this.description && (h("p", { key: 'c2d86f350ce3a282cd22af54f8d7525b77d043ad', class: "page__description" }, this.description, h("slot", { key: 'c7d473399f2b93af53c68b223ff2ee3bff8a79eb', name: "page-description" }))))), h("slot", { key: 'e2fee387342a472be6ef957081ce4a3be158d5f0', name: "page-header" })), h("slot", { key: '1b20308db48548542b3e1ed1ee41e22d0de52dc3' }))));
+        return (h(Host, { key: '2f45802d36f7038de7eef85306655670f94f8e47' }, h("ir-interceptor", { key: 'ddeba8b33571b044466df22503c8e1fb6016e6f3' }), h("ir-toast", { key: 'c4f16b13e0e468c26acff672888556bbef04383e' }), h("main", { key: '68a5b4290b3b70891e91c4a024618dfffddbbf7a', class: "ir-page__container" }, h("header", { key: '4019cc7a2deb1c47687da9affe541b90418fd60f', class: "tax-page__header" }, h("slot", { key: 'e03b5fae11560102793cce858e0601d4c822db80', name: "heading" }, h("div", { key: 'a4e2c58f4232c66e968d3ca242d4d525989797fb', class: "tax-page__heading" }, h("h3", { key: '168df18346b2c638953758ff46f7fc6755c53f90', class: "page-title" }, this.label), this.description && (h("p", { key: '6c6da3eecc5f20155b2c67bf515fc79c34e046dd', class: "page__description" }, this.description, h("slot", { key: 'c0d91a2d8bf42bd0e9ddcbd5f478b462e4a8df72', name: "page-description" }))))), h("slot", { key: '94dc6422d9be08363ee96252df78630887004812', name: "page-header" })), h("slot", { key: 'a15269569077a2543dde9afb6d1298c1dafa3ae2' }))));
     }
 };
 IrPage.style = IrPageStyle0;

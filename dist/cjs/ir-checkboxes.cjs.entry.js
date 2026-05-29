@@ -28,7 +28,7 @@ const IrCheckBoxes = class {
         }
     }
     render() {
-        return (index.h("div", { key: 'fcb16575192d0063982f90d9fef0b5ff1f7d184b' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
+        return (index.h("div", { key: '81a6c81c545dcee7e3073dc2db1364caa0411ce4' }, this.checkboxes.map((checkbox, index$1) => (index.h("ir-checkbox", { name: index$1.toString(), label: checkbox.text, checked: checkbox.checked || false })))));
     }
 };
 

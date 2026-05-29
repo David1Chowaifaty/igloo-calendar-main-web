@@ -86,7 +86,7 @@ export class IrSuccessLoader {
         }
     }
     render() {
-        return (h(Host, { key: '45f06d57c3d72444c0042f6ee1fb6fcdc0554af6' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (h(Host, { key: 'cf16f7460540c6bd0fe4dd260623178f263456c2' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get is() { return "ir-success-loader"; }
     static get encapsulation() { return "shadow"; }

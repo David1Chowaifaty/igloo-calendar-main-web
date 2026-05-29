@@ -59,7 +59,7 @@ export class IrInputCell {
         this.slotState = newState;
     }
     render() {
-        return (h("div", { key: 'f9fde3205d01083b57ed8c497bc668bc0e74ceb3', onDblClick: () => {
+        return (h("div", { key: '6db3f277ca9c71bb1a86ba7443f03dce2b06f310', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }
@@ -131,7 +131,7 @@ export class IrInputCell {
                 "mutable": false,
                 "complexType": {
                     "original": "MaskProp",
-                    "resolved": "MaskConfig<\"email\" | \"date\" | \"time\" | \"price\" | \"url\"> | FactoryArg",
+                    "resolved": "MaskConfig<\"email\" | \"date\" | \"price\" | \"time\" | \"url\"> | FactoryArg",
                     "references": {
                         "MaskProp": {
                             "location": "import",

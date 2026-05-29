@@ -1,15 +1,15 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
-import { H as findCountry, a as canCheckIn, f as formatAmount } from './utils-67374c01.js';
-import { E as EventsService } from './events.service-774f018c.js';
+import { I as findCountry, a as canCheckIn, f as formatAmount } from './utils-a8322ee9.js';
+import { E as EventsService } from './events.service-4a005911.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
-import { n as compareTime, o as createDateWithOffsetAndHour } from './booking-c79ad7c2.js';
-import { P as PropertyService } from './property.service-6d44d3c3.js';
+import { n as compareTime, o as createDateWithOffsetAndHour } from './booking-35ec745c.js';
+import { P as PropertyService } from './property.service-9e9cdade.js';
 import './index-87419685.js';
 import './type-501de9b6.js';
 import './axios-aa1335b8.js';
-import './booking.store-fbba7188.js';
+import './booking.store-09b578f6.js';
 import './index-f100e9d2.js';
 
 const iglBookingEventHoverCss = ".sc-igl-booking-event-hover-h{display:block;position:relative;z-index:100;--ir-booking-event-arrow:8px;--ir-booking-event-arrow-before:calc(var(--ir-booking-event-arrow) + 1px);--ir-booking-popover-border-color:var(--wa-color-neutral-border-normal)}.btn.sc-igl-booking-event-hover{padding-left:4px !important;padding-right:4px !important}.balance_amount.sc-igl-booking-event-hover{color:var(--wa-color-danger-fill-loud);font-size:0.75rem}.event-hover__origin-row.sc-igl-booking-event-hover{display:flex;align-items:center;justify-content:space-between}.event-hover__origin-label.sc-igl-booking-event-hover{font-size:0.75rem;font-weight:600;color:var(--wa-color-text-quiet, #6b7280);letter-spacing:0.04em}.user-notes.sc-igl-booking-event-hover{margin-left:4px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;max-width:100%;height:auto}.booking-event-hover__color-picker-trigger.sc-igl-booking-event-hover{all:unset;border:1px solid #e0e0e0;padding:0.25rem 0.25rem;border-radius:0.21rem;cursor:pointer}.events_btns.sc-igl-booking-event-hover{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem}.mx-01.sc-igl-booking-event-hover{--m:5px;margin-left:var(--m) !important;margin-right:var(--m) !important}.ota-notes.sc-igl-booking-event-hover{width:450px}.iglPopOver.sc-igl-booking-event-hover{position:absolute;background-color:var(--wa-color-surface-default);padding:10px;border:1px solid var(--ir-booking-popover-border-color);left:var(--el-left, 50%);transform:translateX(-50%) translateY(10px);box-shadow:1px 0px 20px rgba(0, 0, 0, 0.2);font-size:13.5px;line-height:var(--wa-line-height-normal);padding:var(--wa-space-m);border-radius:var(--wa-panel-border-radius);border-style:var(--wa-panel-border-style);box-shadow:hsl(206 22% 7% / 35%) 0px 10px 38px -10px,\n    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;box-shadow:var(--wa-shadow-l);color:var(--wa-color-text-normal);user-select:none;-webkit-user-select:none}.iglPopOver.infoBubble.sc-igl-booking-event-hover{min-width:350px}.iglPopOver.blockedView.sc-igl-booking-event-hover{max-width:400px;width:400px}.iglPopOver.newBookingOptions.sc-igl-booking-event-hover{overflow-wrap:break-word !important;min-width:230px;width:fit-content}.bubblePointer.sc-igl-booking-event-hover{position:absolute;width:22px;height:12px;left:50%;transform:translateX(-50%);pointer-events:none}.bubblePointer.sc-igl-booking-event-hover::before,.bubblePointer.sc-igl-booking-event-hover::after{z-index:100;content:'';position:absolute;left:50%;transform:translateX(-50%);border-left:var(--ir-booking-event-arrow) solid transparent;border-right:var(--ir-booking-event-arrow) solid transparent}.bubblePointer.sc-igl-booking-event-hover::before{border-left:var(--ir-booking-event-arrow-before) solid transparent;border-right:var(--ir-booking-event-arrow-before) solid transparent}.bubblePointTop.sc-igl-booking-event-hover{bottom:-12px}.bubblePointTop.sc-igl-booking-event-hover::before{border-top:var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);top:0}.bubblePointTop.sc-igl-booking-event-hover::after{border-top:var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);top:-1px}.bubblePointBottom.sc-igl-booking-event-hover{top:-12px}.bubblePointBottom.sc-igl-booking-event-hover::before{border-bottom:var(--ir-booking-event-arrow-before) solid var(--ir-booking-popover-border-color);bottom:0}.bubblePointBottom.sc-igl-booking-event-hover::after{border-bottom:var(--ir-booking-event-arrow) solid var(--wa-color-surface-default);bottom:-1px}.bubbleInfoAbove.sc-igl-booking-event-hover{bottom:35px}.updateBtnIcon.sc-igl-booking-event-hover{margin-right:4px}.icon-image.sc-igl-booking-event-hover{height:auto;width:25px;margin-right:5px}";
@@ -820,7 +820,7 @@ const IrDropdownItem = class {
         this.dropdownItemSelect.emit(this.value);
     };
     render() {
-        return (h(Host, { key: '8aad540881775ede14d348dcb548871e9a4a50d9', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
+        return (h(Host, { key: '8eba0b33eab2aaee0375b1daa882ea69c9ae5fd7', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true, 'hidden': this.hidden }, onClick: this.handleClick, "data-value": this.value }, this.html_content ? h("span", { innerHTML: this.html_content }) : h("slot", null)));
     }
 };
 IrDropdownItem.style = IrDropdownItemStyle0;
