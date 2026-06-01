@@ -1,6 +1,5 @@
 import { MomentFormatSpecification } from 'moment';
 import IBooking, { ICountry, IEntries, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
-import { GroupedTableEntries } from "../services/booking-service/types";
 /** Supported language codes that map to `CODE_VALUE_*` fields on {@link IEntries}. */
 export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';
 /**
@@ -198,5 +197,4 @@ export declare function generateTimeSlotsMilitary(from: string, to: string, step
  */
 export declare function isWeekend(date: string, format?: MomentFormatSpecification): boolean;
 export declare function getFormSubmitter(e: Event): string;
-export declare function groupEntryTablesResult(entries: IEntries[]): GroupedTableEntries;
 export {};

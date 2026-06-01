@@ -6,11 +6,11 @@ const index = require('./index-35d81173.js');
 const locales_store = require('./locales.store-32782582.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const moment = require('./moment-1780b03a.js');
-const user_service = require('./user.service-7337c265.js');
+const user_service = require('./user.service-a65d8844.js');
 const functions = require('./functions-9552a026.js');
 const system_service = require('./system.service-101141de.js');
 require('./index-fbf1fe1d.js');
-require('./utils-32be062a.js');
+require('./utils-df5f5064.js');
 require('./index-8bb117a0.js');
 require('./calendar-data-70bc3b4b.js');
 require('./type-53035218.js');
@@ -38,14 +38,14 @@ const IrUserFormPanelDrawer = class {
     closeSideBar;
     render() {
         const formId = `user-form-${this.user?.id}`;
-        return (index.h("ir-drawer", { key: 'b877b87d7e698dbe82aa48430f22e0e9e05eb3e3', onDrawerHide: e => {
+        return (index.h("ir-drawer", { key: '2c20253b7f71305a1b61661087e016c98411145a', onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!e.detail) {
                     return;
                 }
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? this.user.username : 'Create New User', open: this.open }, this.open && (index.h("ir-user-form-panel", { key: 'a5854ddc91d189122ad83a3a66cb23ae0752cf95', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), index.h("div", { key: 'ebb8881e2608cc1ad05c54906f020c97a98c0f62', slot: "footer", class: 'ir__drawer-footer' }, index.h("ir-custom-button", { key: '32e3b5dfdb3d35c672d5b02e42cc0b0868d05af2', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "medium" }, locales_store.locales?.entries?.Lcz_Cancel), index.h("ir-custom-button", { key: '329160a9198d7d85c0915207c64f4584aab08bac', form: formId, loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "medium", class: "flex-fill", type: "submit", variant: "brand" }, locales_store.locales?.entries?.Lcz_Save))));
+            }, label: this.isEdit ? this.user.username : 'Create New User', open: this.open }, this.open && (index.h("ir-user-form-panel", { key: 'dd90b33ad96b0abd642eacdf50e9054196bdd0f9', user: this.user, userTypes: this.userTypes, isEdit: this.isEdit, language: this.language, property_id: this.property_id, haveAdminPrivileges: this.haveAdminPrivileges, superAdminId: this.superAdminId, userTypeCode: this.userTypeCode, allowedUsersTypes: this.allowedUsersTypes, baseUserTypeCode: this.baseUserTypeCode, formId: formId })), index.h("div", { key: 'a37975b992e947b8541014e4e51b6c376fa590e8', slot: "footer", class: 'ir__drawer-footer' }, index.h("ir-custom-button", { key: 'b9c8860734a53b4f5bdaf80a1d2cad511bdfe518', "data-testid": "cancel", onClickHandler: () => this.closeSideBar.emit(null), class: "flex-fill", appearance: "filled", variant: "neutral", size: "medium" }, locales_store.locales?.entries?.Lcz_Cancel), index.h("ir-custom-button", { key: '03845753ad63a5c528cbd7df6545eb0873c602df', form: formId, loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), "data-testid": "save", size: "medium", class: "flex-fill", type: "submit", variant: "brand" }, locales_store.locales?.entries?.Lcz_Save))));
     }
 };
 IrUserFormPanelDrawer.style = IrUserFormPanelDrawerStyle0;
@@ -189,13 +189,13 @@ const IrUserManagementTable = class {
         return 'ok';
     }
     render() {
-        return (index.h(index.Host, { key: '04868931551de8aa5e94e191be53783bc5e82178' }, index.h("section", { key: '114adfececee05fbaf031d054756b06062a015b6', class: "table-container h-100  w-100 m-0 table-responsive" }, index.h("table", { key: '71f1a10bdab925c5e18ca09105169a710266cf3f', class: "table" }, index.h("thead", { key: '9107dbdbcf8dbf0106db11fb4463f2d5418b8066' }, index.h("tr", { key: 'ae58e97506aee697c31aaf57fcb6d7d8d180af38' }, index.h("th", { key: 'c2d1c16fdf4c876c5fe5513e9a76ed78f65fffea', class: "text-left" }, locales_store.locales.entries.Lcz_Username ?? 'Username'), index.h("th", { key: '40c56ebed3a791f96ce7e0f94ab69fbca9ece3dc', class: "text-left" }, locales_store.locales.entries.Lcz_Email), index.h("th", { key: '0d4c4867256cf7115950ebbbdcec0f8afea304e2', class: "text-left" }, locales_store.locales.entries.Lcz_Mobile ?? 'Mobile'), index.h("th", { key: '250cfe05426664c4b5de58ea782fef34ba64ae75', class: "text-left" }, locales_store.locales.entries.Lcz_Role), index.h("th", { key: '85c7e71174a3c6aacd48451dc45a73c74b402b8a', class: "text-left small", style: { fontWeight: 'bold' } }, index.h("p", { key: '2581516bb5bbedc316be248772067776bfec5d2e', class: "m-0 p-0 " }, locales_store.locales.entries.Lcz_CreatedAt), index.h("p", { key: 'd0541b09524fa6d23819ad5b6c09ac3039766155', class: "m-0 p-0" }, locales_store.locales.entries.Lcz_LastSignedIn)), this.haveAdminPrivileges && index.h("th", { key: '406e2a5258fdc4db53484a76ade5fc544c71a0ac' }, locales_store.locales.entries.Lcz_Active), index.h("th", { key: 'db0c6d2ad810b8a1482ec06f4ea92f0eddbda887', class: 'action-row' }, this.canCreate && (index.h(index.Fragment, { key: 'a6ac31d287ddc10dd649b7808e5a68107cdd19b8' }, index.h("ir-custom-button", { key: 'd3f395e57025c41dbd9e541b4d2e2d287ffe12d1', appearance: "plain", variant: "neutral", id: "new-user-btn", onClickHandler: () => {
+        return (index.h(index.Host, { key: 'cebb2b888d28250326990a2f37421bd039396f24' }, index.h("section", { key: 'd4568c92415fc7f33c1ea9fe7631fbf72ea8a623', class: "table-container h-100  w-100 m-0 table-responsive" }, index.h("table", { key: 'e52ac250281adbab46f24c87cd4176d37f27e428', class: "table" }, index.h("thead", { key: '5b0c70df5e07443c6a5b41e38d7b75d24a88bf48' }, index.h("tr", { key: 'f0b3079ab8e9006d0b27cfc1461e17b589a4ad06' }, index.h("th", { key: '755f1c35563863cd2c044cdaf923d8a7caa4d215', class: "text-left" }, locales_store.locales.entries.Lcz_Username ?? 'Username'), index.h("th", { key: '3d1a2a6d4a58fd7bf6da50aa290f142d210700f4', class: "text-left" }, locales_store.locales.entries.Lcz_Email), index.h("th", { key: '683045719f8fea091b5016a9c17ab4ef24a54c53', class: "text-left" }, locales_store.locales.entries.Lcz_Mobile ?? 'Mobile'), index.h("th", { key: 'e6c8aff1f24ff1b4a513d373039439aa0b5d234a', class: "text-left" }, locales_store.locales.entries.Lcz_Role), index.h("th", { key: 'a5cd9297078cdde3b1e65418b8028c57bb94e12d', class: "text-left small", style: { fontWeight: 'bold' } }, index.h("p", { key: '89b1b14d5345f11cb9f78d20f34e753184052086', class: "m-0 p-0 " }, locales_store.locales.entries.Lcz_CreatedAt), index.h("p", { key: 'cd3f5907754c50d5e285b4b8bd78d7c7ec49bb1a', class: "m-0 p-0" }, locales_store.locales.entries.Lcz_LastSignedIn)), this.haveAdminPrivileges && index.h("th", { key: '76612702c3e67b418c808466a20262246aa3c99e' }, locales_store.locales.entries.Lcz_Active), index.h("th", { key: '361569f67b76a004649ade843c5b93d98fa6695e', class: 'action-row' }, this.canCreate && (index.h(index.Fragment, { key: 'f88d82eeefbb1de131ce543e8144c0946a8df7c9' }, index.h("ir-custom-button", { key: 'ae5af3679b0e22aceffde08b589d99c7565346a4', appearance: "plain", variant: "neutral", id: "new-user-btn", onClickHandler: () => {
                 this.verifyAdminAction({
                     type: 'user',
                     mode: 'create',
                     user: null,
                 });
-            } }, index.h("wa-icon", { key: '72f4d4944a095099ea6c3c4dda6460f039ad1f8e', name: "plus", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { key: 'a9c2a75eddd87989d41b4a82832dac868ed91884', for: "new-user-btn" }, locales_store.locales.entries.Lcz_CreateUser)))))), index.h("tbody", { key: 'fdd89281aebfb4237db548b411c6ed956a3ad81c' }, this.users.map(user => {
+            } }, index.h("wa-icon", { key: 'fd813ada06cfc63a8e9db49e0596de1a7dacae75', name: "plus", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { key: '29cad406a05d8a5acb2dfe5e1566afe87b7eb791', for: "new-user-btn" }, locales_store.locales.entries.Lcz_CreateUser)))))), index.h("tbody", { key: '80446b8a50dd015753752c22f095e15770c3b0c9' }, this.users.map(user => {
             const isUserSuperAdmin = user.type.toString() === this.superAdminId;
             const latestSignIn = user.sign_ins ? user.sign_ins[0] : null;
             const latestSignInDate = latestSignIn ? moment.hooks(latestSignIn.date, 'YYYY-MM-DD') : null;
@@ -221,14 +221,14 @@ const IrUserManagementTable = class {
                     }
                     this.openModal(user, 'delete');
                 }, "data-testid": "delete", variant: "danger", appearance: "plain", id: `delete-user-${user.id}` }, index.h("wa-icon", { name: "trash-can", style: { fontSize: '1.2rem' } })), index.h("wa-tooltip", { for: `delete-user-${user.id}` }, locales_store.locales.entries.Lcz_DeleteUser))))))));
-        })))), index.h("ir-user-form-panel-drawer", { key: '4b855186bdf1278e6d2c0c9c0fa7f63df1fff170', open: this.currentTrigger !== null && this.currentTrigger?.type !== 'delete', property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), index.h("ir-dialog", { key: 'e067734ec5ea0457e5727c558f166a4c60ab31c6', label: 'Alert', onIrDialogAfterHide: e => {
+        })))), index.h("ir-user-form-panel-drawer", { key: '617bbdb7c8b71c943504f45bf24e2f36e80aa130', open: this.currentTrigger !== null && this.currentTrigger?.type !== 'delete', property_id: this.property_id, baseUserTypeCode: this.baseUserTypeCode, superAdminId: this.superAdminId, allowedUsersTypes: this.allowedUsersTypes, userTypeCode: this.userTypeCode, haveAdminPrivileges: this.haveAdminPrivileges, onCloseSideBar: () => (this.currentTrigger = null), slot: "sidebar-body", user: this.currentTrigger?.user, isEdit: this.currentTrigger?.isEdit }), index.h("ir-dialog", { key: '1cf5aadf7085d0063a9db0e5d89db65613338511', label: 'Alert', onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.user = null;
                 this.modalType = null;
-            }, ref: el => (this.dialogRef = el) }, index.h("span", { key: 'e6d180867b901c081e526b661564bc4b65f9943b' }, this.modalType === 'delete'
+            }, ref: el => (this.dialogRef = el) }, index.h("span", { key: '94f90d12e0372d96f2e04b9a96c2e29bf06b03d9' }, this.modalType === 'delete'
             ? `${locales_store.locales.entries.Lcz_AreYouSureToDelete} ${this.user?.username}?`
-            : `${locales_store.locales.entries.Lcz_AreYouSureToUnverify} ${this.maskEmail(this.user?.email)}`), index.h("div", { key: 'd07063c32ab81f872d79c31db239abb251b73b67', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'd36d62aa7e921402f5c18bf7854e50ab500eab08', "data-dialog": "close", size: "medium", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: '859528ae59e258a4e975871de3fb4955b1e2bd8c', size: "medium", loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), appearance: "accent", variant: this.modalType === 'verify' ? 'brand' : 'danger', onClickHandler: this.executeUserAction.bind(this) }, this.modalType === 'verify' ? locales_store.locales.entries.Lcz_Confirm : locales_store.locales.entries.Lcz_Delete)))));
+            : `${locales_store.locales.entries.Lcz_AreYouSureToUnverify} ${this.maskEmail(this.user?.email)}`), index.h("div", { key: 'c0acf8b3c5217119459f04501fd96b9ce9e6cf5c', slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { key: 'a3305a015c35b468461d7c3e275e72907333a27f', "data-dialog": "close", size: "medium", appearance: "filled" }, "Cancel"), index.h("ir-custom-button", { key: '53797e31f1d0a9dd07d812851ab35a76303131ff', size: "medium", loading: irInterceptor_store.isRequestPending('/Handle_Exposed_User'), appearance: "accent", variant: this.modalType === 'verify' ? 'brand' : 'danger', onClickHandler: this.executeUserAction.bind(this) }, this.modalType === 'verify' ? locales_store.locales.entries.Lcz_Confirm : locales_store.locales.entries.Lcz_Delete)))));
     }
     static get watchers() { return {
         "haveAdminPrivileges": ["handleChange"]

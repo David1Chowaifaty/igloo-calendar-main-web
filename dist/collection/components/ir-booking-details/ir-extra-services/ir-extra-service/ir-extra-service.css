@@ -15,7 +15,7 @@
 
 .es-description {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--wa-font-size-m);
   line-height: 1.5;
   color: var(--wa-color-neutral-800, #27272a);
   word-break: break-word;
@@ -39,7 +39,7 @@
   align-items: center;
   gap: 4px;
   margin-top: 5px;
-  font-size: 0.75rem;
+  font-size: var(--wa-font-size-s);
 }
 
 /* ── Right: pricing + action ── */
@@ -64,7 +64,7 @@
 
 .es-vat {
   margin: 2px 0 0;
-  font-size: 0.6875rem;
+  font-size: var(--wa-font-size-xs);
   color: var(--wa-color-neutral-500, #71717a);
   white-space: nowrap;
 }

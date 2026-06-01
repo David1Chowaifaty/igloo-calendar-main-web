@@ -109,8 +109,9 @@ export declare const ZSharedPerson: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     id?: number;
     country_id?: number;
-    dob?: string;
     first_name?: string;
+    last_name?: string;
+    dob?: string;
     id_info?: {
         number?: string;
         type?: {
@@ -119,12 +120,12 @@ export declare const ZSharedPerson: z.ZodObject<{
         };
     };
     is_main?: boolean;
-    last_name?: string;
 }, {
     id?: number;
     country_id?: number;
-    dob?: string;
     first_name?: string;
+    last_name?: string;
+    dob?: string;
     id_info?: {
         number?: string;
         type?: {
@@ -133,7 +134,6 @@ export declare const ZSharedPerson: z.ZodObject<{
         };
     };
     is_main?: boolean;
-    last_name?: string;
 }>;
 export declare function validateSharedPerson(data: any): void;
 export interface HandleExposedRoomGuestsRequest {
@@ -252,10 +252,6 @@ export interface Booking {
     agent_financial: IFinancial;
     guest_financial: IFinancial;
     events: ExposedBookingEvent[];
-    financial_snapshot?: {
-        entries: FinancialSnapshotEntry[];
-        total_debit: number;
-    };
     company_name: string | null;
     company_tax_nbr: string | null;
     ota_manipulations: OTAManipulations[];
@@ -288,11 +284,16 @@ export interface Booking {
     channel_booking_nbr: string | null;
     is_direct: boolean;
     financial: IFinancial;
+    financial_snapshot?: FinancialSnapshot;
     pickup_info: IBookingPickupInfo | null;
     cost: number | null;
     is_pms_enabled: boolean;
     promo_key: string | null;
     is_in_loyalty_mode: boolean;
+}
+export interface FinancialSnapshot {
+    entries: FinancialSnapshotEntry[];
+    total_debit: number;
 }
 export declare const ExtraServiceSchema: z.ZodObject<{
     booking_system_id: z.ZodOptional<z.ZodNumber>;
@@ -585,14 +586,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
     };
     system_id?: number;
-    booking_system_id?: number;
-    cost?: number;
-    end_date?: string;
-    start_date?: string;
-    price?: number;
-    category?: {
-        code?: string;
-    };
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
@@ -604,6 +597,14 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         vat_amount?: number;
         vat_percent?: number;
     };
+    cost?: number;
+    category?: {
+        code?: string;
+    };
+    booking_system_id?: number;
+    end_date?: string;
+    start_date?: string;
+    price?: number;
 }, {
     description?: string;
     currency_id?: number;
@@ -650,14 +651,6 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
     };
     system_id?: number;
-    booking_system_id?: number;
-    cost?: number;
-    end_date?: string;
-    start_date?: string;
-    price?: number;
-    category?: {
-        code?: string;
-    };
     charges?: {
         city_tax_amount?: number;
         city_tax_percent?: number;
@@ -669,6 +662,14 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         vat_amount?: number;
         vat_percent?: number;
     };
+    cost?: number;
+    category?: {
+        code?: string;
+    };
+    booking_system_id?: number;
+    end_date?: string;
+    start_date?: string;
+    price?: number;
 }>;
 export type ExtraService = z.infer<typeof ExtraServiceSchema>;
 export interface Extras {

@@ -160,7 +160,7 @@ const conditionalDefaultsByType = (transactionType) => {
 };
 const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.OpeningBalance) => ({
     transactionType,
-    date: null,
+    date: hooks().format(DATE_FORMAT),
     amount: '',
     taxId: 'N/A',
     reference: '',

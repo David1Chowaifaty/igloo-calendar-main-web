@@ -311,7 +311,7 @@ const IrValidator = /*@__PURE__*/ proxyCustomElement(class IrValidator extends H
         }
     }
     render() {
-        return (h(Host, { key: '953761c84164815d69c11d41a80ce7a4b377c733' }, h("slot", { key: 'eb27b3116a79acdda29f70662c4e6652b01abe42' }), !this.isValid && this.showErrorMessage && (h("span", { key: '98c21bfd4d2eaec5244e008993585d022e54693b', part: "error-message", class: "error-message" }, this.errorMessage))));
+        return (h(Host, { key: '4ede2f560bcd6cf508ff20cbf90bfde635eb7429' }, h("slot", { key: 'eaaa6e50670859caae80826bd8cc89e8d64afde6' }), !this.isValid && this.showErrorMessage && (h("span", { key: 'bf775c6dbfe95b920c94708cbe47a4d2544be9df', part: "error-message", class: "error-message" }, this.errorMessage))));
     }
     static get watchers() { return {
         "schema": ["handleSchemaChange"],

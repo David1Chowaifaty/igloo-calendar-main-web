@@ -37,10 +37,10 @@ const IrClPaymentFields = /*@__PURE__*/ proxyCustomElement(class IrClPaymentFiel
         this.fieldChange.emit({ payment_method });
     }
     render() {
-        return (h(Fragment, { key: '5cc29584daee0f94c6a72ed0b15871582e48ae5a' }, h("div", { key: '606972f60bb17ba8c81a8156a0eed010fb48232c', class: "payment-section" }, h("div", { key: '7a1ba12ca3011213bd8a3f7d8aa7c15b1267b763', class: "field" }, h("ir-validator", { key: 'a7635cd190b4a07c261d0a7fe9e1edea39b9d61c', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '7e1ec3a2ac0b5f3fede95009c8d3e63218108eee', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
+        return (h(Fragment, { key: 'c7703b346934d4e8a8fbd2183ebc259a7a14b458' }, h("div", { key: '6cfef9347bb09a49b313e8b10c2c890a4c0743a4', class: "payment-section" }, h("div", { key: 'ec717480eefed3868dff7bbdae8fda7e6857c075', class: "field" }, h("ir-validator", { key: '283034e6691ea5ad0d3164dd08c80ab3258bb656', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '10e7f40b225b047cb215c1b1471aad10d86e24b2', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
                 this.stopPropagation(e);
                 this.handlePaymentMethodChange(e.target.value);
-            } }, h("wa-option", { key: 'ddb9d5721a9bf5e5967bd012866e150c9aedf374', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language }))))))))));
+            } }, h("wa-option", { key: '9ef2d7a77dfbf82ad70b208b13578277e0bcf5f7', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language }))))))))));
     }
     static get style() { return IrClPaymentFieldsStyle0; }
 }, [2, "ir-cl-payment-fields", {

@@ -9,11 +9,11 @@ export class IrReallocationDrawer {
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '1c5f9bcfe5d5cdeb5044480a43196fbb663925dd', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '72bdccb7685723a281d4c1993eefa510e09a0da0', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '9cff21ae3d9baa8a9c3e86480a45c48b276eeb88', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'f7af4cad96d89d9bf6144a67c3071aa00a6c4d0e', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'fb9d77d9521c64efc059e1a5c1f5ba9cd1e0ef63', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '323d6676bf2c82e934fc88f807d27d7a61b17aa8', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: 'cfb8a8725d3e21cec8ed4f426002a9410185398f', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '7a93fbabe77abf576fbf3e58bb605a8cbf67dc49', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '9d583ef9137c62aa032c41fed41cfee7d9610749', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'c7acb1ac93e389b3c4814f5b513704ab1b77c075', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
     static get is() { return "ir-reallocation-drawer"; }
     static get encapsulation() { return "scoped"; }
