@@ -533,4 +533,17 @@ export function getFormSubmitter(e) {
     const submitter = e.submitter;
     return submitter.value;
 }
+export function groupEntryTablesResult(entries) {
+    let result = {};
+    for (const entry of entries) {
+        if (!entry.TBL_NAME)
+            continue;
+        const key = entry.TBL_NAME.startsWith('_') ? entry.TBL_NAME.substring(1).toLowerCase() : entry.TBL_NAME.toLowerCase();
+        if (!result[key]) {
+            result[key] = [];
+        }
+        result[key] = [...result[key], entry];
+    }
+    return result;
+}
 //# sourceMappingURL=utils.js.map

@@ -35,24 +35,24 @@ export declare const RoomsGuestsSchema: z.ZodArray<z.ZodEffects<z.ZodObject<{
     bed_preference: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     requires_bed_preference: z.ZodNullable<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
-    bed_preference?: string;
     first_name?: string;
     last_name?: string;
+    bed_preference?: string;
     requires_bed_preference?: boolean;
 }, {
-    bed_preference?: string;
     first_name?: string;
     last_name?: string;
+    bed_preference?: string;
     requires_bed_preference?: boolean;
 }>, {
-    bed_preference?: string;
     first_name?: string;
     last_name?: string;
+    bed_preference?: string;
     requires_bed_preference?: boolean;
 }, {
-    bed_preference?: string;
     first_name?: string;
     last_name?: string;
+    bed_preference?: string;
     requires_bed_preference?: boolean;
 }>, "many">;
 export declare const BookedByGuestSchema: z.ZodObject<{

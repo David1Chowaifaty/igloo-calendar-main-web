@@ -1,4 +1,4 @@
-export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents' | 'channels' | 'tax-services' | 'payment-options';
+export type SecureScreens = 'hk' | 'tasks' | 'daily-revenue' | 'arrivals' | 'departures' | 'front' | 'users' | 'email-logs' | 'country-sales' | 'daily-occupancy' | 'booking-listing' | 'channel-sales' | 'city-ledger' | 'agents' | 'channels' | 'tax-services' | 'payment-options' | 'ghs' | 'meal-report';
 export declare class IrSecureTasks {
     el: HTMLElement;
     propertyid: number;
@@ -10,11 +10,12 @@ export declare class IrSecureTasks {
     inputValue: string;
     canScrollLeft: boolean;
     canScrollRight: boolean;
+    isLoading: boolean;
     private token;
     private dates;
     private tabsTrackRef;
     private resizeObserver;
-    componentWillLoad(): void;
+    componentWillLoad(): Promise<void>;
     componentDidLoad(): void;
     disconnectedCallback(): void;
     handlePChange(): void;
@@ -26,6 +27,7 @@ export declare class IrSecureTasks {
     private isValidPage;
     private navigateTo;
     private routeGroups;
+    private resolvePropertyId;
     private handleAuthFinish;
     private logout;
     render(): any;

@@ -1,0 +1,38 @@
+import { EventEmitter } from '../../stencil-public-runtime';
+import { GHS_Candidate_Property } from '../../services/ghs/types';
+import { ICountry } from '../../models/IBooking';
+import { IToast } from '../ui/ir-toast/toast';
+export declare class IrGhsOnboarding {
+    el: HTMLElement;
+    ticket: string;
+    baseurl: string;
+    properties: GHS_Candidate_Property[];
+    countries: ICountry[];
+    selectedCountryId: number | null;
+    selectedProperties: GHS_Candidate_Property[];
+    isPageLoading: boolean;
+    isDataLoading: boolean;
+    isGenerating: boolean;
+    isActivating: boolean;
+    propertyToActivate: GHS_Candidate_Property | null;
+    toast: EventEmitter<IToast>;
+    private ghsService;
+    private bookingService;
+    private tokenService;
+    private removeAllModal;
+    private activateModal;
+    ticketChanged(newValue: string): void;
+    componentWillLoad(): Promise<void>;
+    private init;
+    private fetchProperties;
+    private handleToggleAll;
+    private togglePropertySelection;
+    private removePropertySelection;
+    private handleRemoveAll;
+    private handleConfirmRemoveAll;
+    private handleActivateProperty;
+    private handleConfirmActivate;
+    private handleGenerateRequest;
+    private showToast;
+    render(): any;
+}

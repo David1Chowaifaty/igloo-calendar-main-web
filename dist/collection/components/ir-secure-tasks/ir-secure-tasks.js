@@ -1,4 +1,6 @@
 import Token from "../../models/Token";
+import { PropertyService } from "../../services/property.service";
+import calendar_data from "../../stores/calendar-data";
 import { checkUserAuthState, manageAnchorSession } from "../../utils/utils";
 import { Host, h } from "@stencil/core";
 export class IrSecureTasks {
@@ -12,11 +14,12 @@ export class IrSecureTasks {
     inputValue;
     canScrollLeft = false;
     canScrollRight = true;
+    isLoading = true;
     token = new Token();
     dates = {};
     tabsTrackRef;
     resizeObserver;
-    componentWillLoad() {
+    async componentWillLoad() {
         const isAuthenticated = checkUserAuthState();
         this.generateDates();
         if (this.ticket) {
@@ -31,6 +34,9 @@ export class IrSecureTasks {
         const pageParam = new URLSearchParams(window.location.search).get('page');
         if (pageParam && this.isValidPage(pageParam)) {
             this.currentPage = pageParam;
+        }
+        if (this.isAuthenticated) {
+            await this.resolvePropertyId();
         }
     }
     componentDidLoad() {
@@ -89,6 +95,8 @@ export class IrSecureTasks {
         'channels',
         'tax-services',
         'payment-options',
+        'meal-report',
+        'ghs',
     ]);
     isValidPage(value) {
         return this.validPages.has(value);
@@ -100,6 +108,12 @@ export class IrSecureTasks {
         window.history.pushState({}, '', url);
     }
     routeGroups = [
+        {
+            routes: [
+                { name: 'GHS', value: 'ghs' },
+                { name: 'Meal report', value: 'meal-report' },
+            ],
+        },
         {
             routes: [
                 { name: 'Front Desk', value: 'front' },
@@ -130,11 +144,23 @@ export class IrSecureTasks {
             ],
         },
     ];
-    handleAuthFinish(e) {
+    async resolvePropertyId() {
+        if (this.propertyid) {
+            this.isLoading = false;
+        }
+        else if (this.p) {
+            const propertyService = new PropertyService();
+            await propertyService.getExposedProperty({ aname: this.p, id: 42, language: 'en' });
+            this.propertyid = calendar_data?.property?.id;
+            this.isLoading = false;
+        }
+    }
+    async handleAuthFinish(e) {
         const token = e.detail.token;
         this.token.setToken(token);
         this.isAuthenticated = true;
         manageAnchorSession({ login: { method: 'direct', isLoggedIn: true, token } });
+        await this.resolvePropertyId();
     }
     logout() {
         sessionStorage.removeItem('backend_anchor');
@@ -143,6 +169,9 @@ export class IrSecureTasks {
     render() {
         if (!this.isAuthenticated)
             return (h(Host, null, h("ir-login", { onAuthFinish: this.handleAuthFinish.bind(this) })));
+        if (this.isLoading) {
+            return h("ir-loading-screen", null);
+        }
         return (h("div", { class: "main__container" }, h("header", { class: "secure-header" }, h("div", { class: "secure-header__topbar" }, h("div", { class: "secure-header__brand" }, h("div", { class: "secure-header__brand-icon" }, h("img", { src: "https://x.igloorooms.com/app-assets/images/portrait/small/avatar-s-19.png", alt: "" })), h("span", { class: "secure-header__brand-name" }, "IglooRooms")), h("div", { class: "secure-header__controls" }, h("form", { class: "secure-header__aname-form", onSubmit: e => {
                 e.preventDefault();
                 if (this.inputValue) {
@@ -194,6 +223,10 @@ export class IrSecureTasks {
                 return h("ir-tax-service-categories", { p: this.p, propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             case 'payment-options':
                 return h("ir-payment-option", { p: this.p, propertyid: this.propertyid.toString(), language: "en", ticket: this.token.getToken() });
+            case 'ghs':
+                return h("ir-ghs-onboarding", { ticket: this.token.getToken() });
+            case 'meal-report':
+                return h("ir-meal-report", { propertyid: this.propertyid, language: "en", ticket: this.token.getToken() });
             default:
                 return null;
         }
@@ -295,7 +328,8 @@ export class IrSecureTasks {
             "currentPage": {},
             "inputValue": {},
             "canScrollLeft": {},
-            "canScrollRight": {}
+            "canScrollRight": {},
+            "isLoading": {}
         };
     }
     static get elementRef() { return "el"; }

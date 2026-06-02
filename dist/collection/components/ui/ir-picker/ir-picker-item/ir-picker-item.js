@@ -6,7 +6,7 @@ export class IrPickerItem {
     active = false;
     selected = false;
     render() {
-        return (h(Host, { key: '5f0cef0261f9863a57a29b9cbed41d10b850a36b', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: 'adf03ddeef2b25f3bd90d41c07c2fb6b6569db11', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: '93e984ab092d7863b892bdb6a02eaeff4a88aed6', class: "picker-item__check", name: "check" }), h("div", { key: '87a449e16c1089153d140a465699f5dbcbaa5911', class: "picker-item__content", part: "content" }, h("slot", { key: 'c44c52154e4ea28ac3becb11d497dc895caa37b2' })))));
+        return (h(Host, { key: '34bc77cdfd367bc153e96d89b7691bf98b365eb5', role: "option", "aria-selected": this.selected ? 'true' : 'false', "aria-disabled": this.disabled ? 'true' : 'false' }, h("button", { key: '792978e226045a9b8efc70f70e4c96257bd7666d', class: `picker-item__container`, type: "button", tabindex: "-1", disabled: this.disabled, part: "base" }, h("wa-icon", { key: '4668d54474604538feb48ba8145ccfbd7bcd894a', class: "picker-item__check", name: "check" }), h("div", { key: '0d4afef4fadc361c77c5ca6d183e3c10d6adbbe1', class: "picker-item__content", part: "content" }, h("slot", { key: 'fb07999b672682f97366b269140df73b94b20d6e' })))));
     }
     static get is() { return "ir-picker-item"; }
     static get encapsulation() { return "shadow"; }
