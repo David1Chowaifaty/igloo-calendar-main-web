@@ -10,7 +10,7 @@ const IrGuestNameCell = /*@__PURE__*/ proxyCustomElement(class IrGuestNameCell e
     }
     name;
     render() {
-        return (h(Host, { key: '822174b3dda113931bb975aeb86562982d90993c' }, this.name.first_name, " ", this.name.last_name));
+        return (h(Host, { key: '26f96d000bd710e3c390500b8ab5c01650eee2ee' }, this.name.first_name, " ", this.name.last_name));
     }
     static get style() { return IrGuestNameCellStyle0; }
 }, [2, "ir-guest-name-cell", {

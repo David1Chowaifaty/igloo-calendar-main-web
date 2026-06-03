@@ -1,4 +1,5 @@
 import { a as axios } from './axios.js';
+import { a as FdStatus } from './enums.js';
 import { h as hooks } from './moment.js';
 import { s as stringType, e as enumType, o as objectType, n as numberType, b as booleanType, u as unionType, d as nullType, f as anyType, a as arrayType } from './index2.js';
 import { m as downloadFile } from './utils.js';
@@ -179,7 +180,7 @@ const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
     LIST_CL_TX_ID: arrayType(numberType()).optional().default([]),
     BOOKING_NBR: stringType().optional().nullable().default(null),
     FD_TYPE_CODE: stringType(),
-    FD_STATUS_CODE: stringType().optional().default('SENT'),
+    FD_STATUS_CODE: stringType().optional().default(FdStatus.Issued),
 });
 const GetFiscalDocumentsParamsSchema = objectType({
     DOC_NUMBER: stringType().optional().default(''),

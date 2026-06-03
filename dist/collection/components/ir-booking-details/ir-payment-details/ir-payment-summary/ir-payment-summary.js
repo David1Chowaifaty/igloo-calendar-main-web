@@ -20,7 +20,7 @@ export class IrPaymentSummary {
     get agentTotal() {
         return ((this.booking.agent_financial.gross_total ?? 0) +
             this.clTransactions.reduce((prev, curr) => {
-                if (this.allowedClOps.has(curr.CL_TX_TYPE_CODE)) {
+                if (this.allowedClOps.has(curr.CL_TX_TYPE_CODE) && curr.CATEGORY === null) {
                     return prev + curr.DEBIT - curr.CREDIT;
                 }
                 return prev;

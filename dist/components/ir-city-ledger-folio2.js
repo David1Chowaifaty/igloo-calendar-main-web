@@ -197,13 +197,17 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                     return { ...mapClTxToFolioRow(updatedTx), _rowId: r._rowId };
                 });
             },
-            // Payload only contains partial data (no SERVICE_DATE, DESCRIPTION, etc.) so we
-            // re-fetch the current page to get the full row and server-computed running balances.
             CL_TX_CREATED: async (payload) => {
-                const { agency_id } = payload;
-                if (agency_id !== this.agent?.id)
+                const tx = payload;
+                if (tx.TRAVEL_AGENCY_ID !== this.agent?.id)
                     return;
-                await this.fetchFolioData();
+                const row = { ...mapClTxToFolioRow(tx), _rowId: v4() };
+                let running = this.startingBalance;
+                this.data = [...this.data, row].map(r => {
+                    running += (r.debit ?? 0) - (r.credit ?? 0);
+                    return { ...r, balance: running, _raw: { ...r._raw, RUNNING_BALANCE: running } };
+                });
+                this.totalCount += 1;
             },
         };
     }
@@ -366,7 +370,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         }
     }
     render() {
-        return (h(Host, { key: 'd4d8a8ab2b3399b038718f52f9e0c9f23927aada' }, h("ir-city-ledger-folio-filters", { key: '944a410e3160f8cda11de9d576ef3eec361dca94', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '85433085657775a451c54dd0f6a0845a811c814d' }, h("ir-city-ledger-folio-filters", { key: '355cd98a10571f29947d8c1419ab24bd9302cdf3', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -375,7 +379,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '131d8cfcd6b78a9d6e414546c3853042a2137a15', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: '6688a26e0461d507ecac3f1e25c70fba5fe87ea8', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -387,12 +391,12 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: 'a0639973d0da39ce17e9f82e6c82567783ff7346', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: 'a47317bc48d40822da1a0d7213ead3efd0032c17', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: '7bf844e3abdffd8b8e81cf84c523396cfe3a7cd5' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '7942d03fc7907255197004f6efb51a932a87b14f', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '52e744c2bf96b8ede58e97cda35821569c24353e', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: 'ed9c9c9d40be5d0bbd8c94aee0e1cc1c7ca5c1eb', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '1c9be4d90bf766de070986c08e346741751016c2', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: '525e3afbc5f39cad583e4a8e5f8857d7e45ea158' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: 'a43d5c9b33a725d0e0ef3e494d528007d742dde8', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '7e854f1e62b9de572f1bbd1e4a87b217e801330c', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '7ff2f7e42a1d20d569478abcf2f226f079c81c98', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: 'f52bd079fb955007957ca02b83c5e91b16d2241f', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;

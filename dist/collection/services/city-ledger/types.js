@@ -1,3 +1,4 @@
+import { FdStatus } from "../../types/enums";
 import moment from "moment";
 import * as z from "zod";
 // ---------------------------------------------------------------------------
@@ -176,7 +177,7 @@ export const IssueFiscalDocumentParamsSchema = CLAgencyContextSchema.extend({
     LIST_CL_TX_ID: z.array(z.number()).optional().default([]),
     BOOKING_NBR: z.string().optional().nullable().default(null),
     FD_TYPE_CODE: z.string(),
-    FD_STATUS_CODE: z.string().optional().default('SENT'),
+    FD_STATUS_CODE: z.string().optional().default(FdStatus.Issued),
 });
 export const GetFiscalDocumentsParamsSchema = z.object({
     DOC_NUMBER: z.string().optional().default(''),

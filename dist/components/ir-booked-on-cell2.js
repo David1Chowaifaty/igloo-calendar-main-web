@@ -15,7 +15,7 @@ const IrBookedOnCell = /*@__PURE__*/ proxyCustomElement(class IrBookedOnCell ext
     label;
     render() {
         const { date, hour, minute } = this.bookedOn;
-        return (h(Host, { key: '05f56a9f4987073081eb627ce3429f072bee6d31' }, this.label && h("p", { key: '62b0496147184f2ffe1a013bf8d999830a44e7b5', class: "cell-label" }, this.label, ":"), h("p", { key: '4e5c3fa1b6cd698d15bc4a672330bc462107c6ca', class: "booked-on-cell__date" }, hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: '69359c7158647f941cec78905d1a8a3dbf783853', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
+        return (h(Host, { key: '3ccb7a7e595477b5379f24bdda92bd9cb0aecf0c' }, this.label && h("p", { key: '7c88f893b154175c998d8d03c905944adca468cd', class: "cell-label" }, this.label, ":"), h("p", { key: 'b9bb1bee44011366265f1a94d559942f8ea4b3a6', class: "booked-on-cell__date" }, hooks(date, 'YYYY-MM-DD').format('DD MMM YYYY')), h("p", { key: 'c98f833c2dcdcd9c3f51dfa1ec03427f66fe0f82', class: "booked-on-cell__time" }, _formatTime(hour.toString(), minute.toString()))));
     }
     static get style() { return IrBookedOnCellStyle0; }
 }, [2, "ir-booked-on-cell", {

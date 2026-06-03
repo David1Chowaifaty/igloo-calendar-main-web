@@ -154,7 +154,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
     }
     buildParams(payload) {
-        const amount = payload.amount;
+        const amount = payload.amount ?? 0;
         let credit = 0;
         let debit = 0;
         let payMethodCode = '';
@@ -208,15 +208,24 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
         try {
             this.isSubmitting = true;
-            const result = await this.cityLedgerService.issueManualCLTx(this.buildParams(validation.data));
-            if (result?.My_Fd?.FD_TYPE_CODE && result.My_Fd.DOC_NUMBER) {
-                this.clFiscalDocumentPreview.emit({
-                    fdTypeCode: result.My_Fd.FD_TYPE_CODE,
-                    documentNumber: result.My_Fd.DOC_NUMBER,
-                    agentId: this.agent.id,
-                    agentName: result.My_Fd.AGENCY_NAME ?? '',
-                    externalRef: result.My_Fd.EXTERNAL_REF,
+            if (validation.data.transactionType === ClTxTypeCode.CreditNote) {
+                await this.cityLedgerService.voidInvoiceByCreditNote({
+                    FD_ID: Number(validation.data.invoiceId),
+                    VOID_DATE: validation.data.date,
+                    REASON: validation.data.reference,
                 });
+            }
+            else {
+                const result = await this.cityLedgerService.issueManualCLTx(this.buildParams(validation.data));
+                if (result?.My_Fd?.FD_TYPE_CODE && result.My_Fd.DOC_NUMBER) {
+                    this.clFiscalDocumentPreview.emit({
+                        fdTypeCode: result.My_Fd.FD_TYPE_CODE,
+                        documentNumber: result.My_Fd.DOC_NUMBER,
+                        agentId: this.agent.id,
+                        agentName: result.My_Fd.AGENCY_NAME ?? '',
+                        externalRef: result.My_Fd.EXTERNAL_REF,
+                    });
+                }
             }
             this.transactionSaved.emit();
         }
@@ -234,7 +243,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             } }, this.clTxTypes.map(type => {
             const rate = TRANSACTION_TYPE_RATES[type.CODE_NAME];
             const label = type.CODE_VALUE_EN;
-            if (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null)) {
+            if (ClTxTypeCode.DebitNote === type.CODE_NAME || (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {
                 return null;
             }
             if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) && !this.booking) {
@@ -249,7 +258,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
                 this.updateFormData({
                     date: event.detail.start ? event.detail.start.format(DATE_INPUT_FORMAT) : '',
                 });
-            } }))), withTaxes ? (h("div", { class: "amount-tax-group" }, h("span", { class: "amount-tax-group__label" }, "Amount (including taxes)"), h("div", { class: "amount-tax-group__row" }, h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount (including taxes)", mask: "price", value: this.formData.amount, "onText-change": (event) => {
+            } }))), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h(Fragment, null, withTaxes ? (h("div", { class: "amount-tax-group" }, h("span", { class: "amount-tax-group__label" }, "Amount (including taxes)"), h("div", { class: "amount-tax-group__row" }, h("ir-validator", { class: "amount-tax-group__amount", schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount (including taxes)", mask: "price", value: this.formData.amount, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
             } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol))), h("ir-validator", { schema: taxIdFieldSchema, value: this.formData.taxId, valueEvent: "change" }, h("wa-select", { size: "small", placeholder: "Tax", value: this.formData.taxId, defaultValue: this.formData.taxId, onchange: event => {
                 this.updateFormData({ taxId: event.target.value });
@@ -257,7 +266,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             .filter(tx => tx.id !== ClTxTypeCode.DebitNote)
             .map(tax => (h("wa-option", { key: tax.id, label: tax.label, value: tax.id }, tax.label))), h("wa-option", { value: "N/A", label: "Not Applicable" }, "Not Applicable")))))) : (h("div", { class: "transaction-form__field" }, h("ir-validator", { schema: amountFieldSchema, value: this.formData.amount, valueEvent: "text-change input-change" }, h("ir-input", { label: "Amount", mask: "price", value: this.formData.amount, required: true, "onText-change": (event) => {
                 this.updateFormData({ amount: event.detail ?? '' });
-            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))));
+            } }, h("span", { slot: "start" }, calendar_data.property?.currency?.symbol)))))))));
     }
     renderTypeFields() {
         const onFieldChange = (e) => this.updateFormData(e.detail);
@@ -284,9 +293,9 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderTransactionTypeField(), this.renderTypeFields()));
         }
         return (h("form", { id: this.formId, class: "transaction-form", onSubmit: this.handleSubmit, novalidate: true }, this.renderCommonFields(this.formData.transactionType !== ClTxTypeCode.OpeningBalance &&
-            ![ClTxTypeCode.Payment, ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), h("ir-input", { label: "Reference", value: this.formData.reference, defaultValue: this.formData.reference, "onText-change": (event) => {
+            ![ClTxTypeCode.Payment, ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(this.formData.transactionType)), this.renderTypeFields(), this.formData.transactionType !== ClTxTypeCode.CreditNote && (h("ir-input", { label: "Reference", value: this.formData.reference, defaultValue: this.formData.reference, "onText-change": (event) => {
                 this.updateFormData({ reference: event.detail ?? '' });
-            } })));
+            } }))));
     }
     static get watchers() { return {
         "transaction": ["handleTransactionChange"],

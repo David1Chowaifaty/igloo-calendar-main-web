@@ -6,16 +6,10 @@ export class IrClCreditNoteFields {
     isFetchingFiscalDocs = false;
     fieldChange;
     render() {
-        const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: 'b78b86a429b0280b004a2792ca3618c26dd652a6' }, h("div", { key: '7fb25475a33f292dba4e4996f0565c12340749d2', class: "field field--full-width" }, h("wa-radio-group", { key: '850a1eac49a4370bb856d20e9b5c194d68ab0b30', label: "Credit Note Type", orientation: "horizontal", size: "small", value: this.creditNoteMode, onchange: e => {
-                const val = e.target.value;
-                this.fieldChange.emit({
-                    creditNoteMode: val,
-                    invoiceId: val === 'goodwill' ? undefined : this.invoiceId,
-                });
-            } }, h("wa-radio", { key: '958bfbf187195281ca824d48b2a4d6b735f9b72b', value: "cancel-invoice", appearance: "button", disabled: noInvoices || this.isFetchingFiscalDocs }, "Cancel invoice and unlock all items"), h("wa-radio", { key: 'a1d6d2b01919e42f600eddab3ea475ed75b3ceb4', value: "goodwill", appearance: "button" }, "Goodwill credit"))), this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '226229af4111bca11f1de9930d6d530701ef1e50', class: "field" }, h("ir-cl-invoice-select", { key: '8c5cb3e2722c6e4b0001ab317a1ca0c648a41e14', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+        // const noInvoices = this.fiscalDocuments.length === 0;
+        return (h(Fragment, { key: '058b46b10d4b37a910d852c80e90985c1296fe2e' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '417e52d2c5c2f6ae27ee5a73ab03d734b4d58079', class: "field" }, h("ir-cl-invoice-select", { key: '8bf8b714ed97288adf4e458517021b8fba56f785', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
-            } })))));
+            }, hint: "Issuing this credit note will void the selected invoice and unlock all associated line items." })))));
     }
     static get is() { return "ir-cl-credit-note-fields"; }
     static get encapsulation() { return "scoped"; }

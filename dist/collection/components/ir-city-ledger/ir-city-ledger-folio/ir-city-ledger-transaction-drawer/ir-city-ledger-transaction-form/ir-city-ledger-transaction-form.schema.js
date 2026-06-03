@@ -70,6 +70,8 @@ const creditNoteSchema = commonFieldsSchema.extend({
     creditNoteMode: z.enum(CREDIT_NOTE_MODES),
     invoiceId: z.string().optional(),
     generatesFiscalDocument: z.literal(true),
+    amount: z.coerce.number().optional(),
+    taxId: z.string().optional(),
 });
 const debitNoteSchema = commonFieldsSchema.extend({
     transactionType: z.literal(ClTxTypeCode.DebitNote),

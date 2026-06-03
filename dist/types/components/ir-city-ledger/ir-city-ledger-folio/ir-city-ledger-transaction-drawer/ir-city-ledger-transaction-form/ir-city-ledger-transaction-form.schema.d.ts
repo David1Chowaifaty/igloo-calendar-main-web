@@ -229,6 +229,8 @@ export declare const cityLedgerTransactionSchema: z.ZodEffects<z.ZodDiscriminate
     creditNoteMode: z.ZodEnum<["cancel-invoice", "goodwill"]>;
     invoiceId: z.ZodOptional<z.ZodString>;
     generatesFiscalDocument: z.ZodLiteral<true>;
+    amount: z.ZodOptional<z.ZodNumber>;
+    taxId: z.ZodOptional<z.ZodString>;
 }>, "strip", z.ZodTypeAny, {
     date?: string;
     notes?: string;
