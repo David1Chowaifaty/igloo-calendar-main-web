@@ -1,5 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
+import { l as lookup } from './index5.js';
 import { m as mapClTxToFolioRow } from './types3.js';
 import { C as CityLedgerService } from './index6.js';
 import { c as calendar_data } from './calendar-data.js';
@@ -28,6 +29,51 @@ import { d as defineCustomElement$3 } from './ir-pagination2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 import { v as v4 } from './v4.js';
+
+class SequentialQueue {
+    maxSize;
+    queue = [];
+    draining = false;
+    handler = null;
+    destroyed = false;
+    constructor(maxSize = 1000) {
+        this.maxSize = maxSize;
+    }
+    setHandler(fn) {
+        this.handler = fn;
+    }
+    enqueue(item) {
+        if (this.destroyed)
+            return;
+        if (this.queue.length >= this.maxSize) {
+            this.queue.shift(); // drop oldest when full
+        }
+        this.queue.push(item);
+        if (!this.draining) {
+            this.drain();
+        }
+    }
+    async drain() {
+        if (!this.handler)
+            return;
+        this.draining = true;
+        while (this.queue.length > 0 && !this.destroyed) {
+            const item = this.queue.shift();
+            try {
+                await this.handler(item);
+            }
+            catch (e) {
+                console.error('SequentialQueue handler error', e);
+            }
+        }
+        this.draining = false;
+    }
+    destroy() {
+        this.destroyed = true;
+        this.queue = [];
+        this.handler = null;
+    }
+}
 
 const irCityLedgerFolioCss = ".sc-ir-city-ledger-folio-h{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem);max-width:1920px}";
 const IrCityLedgerFolioStyle0 = irCityLedgerFolioCss;
@@ -58,6 +104,115 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
     isFetchingExcel = false;
     folioSummaryUpdate;
     cityLedgerService = new CityLedgerService();
+    socket = null;
+    folioQueue = new SequentialQueue(500);
+    componentDidLoad() {
+        this.connectSocket();
+    }
+    disconnectedCallback() {
+        this.socket?.disconnect();
+        this.socket = null;
+        this.folioQueue.destroy();
+    }
+    connectSocket() {
+        this.socket = lookup('https://realtime.igloorooms.com/');
+        this.folioQueue.setHandler(this.handleFolioMessage.bind(this));
+        this.socket.on('MSG', (msg) => {
+            let envelope;
+            try {
+                envelope = JSON.parse(msg);
+            }
+            catch {
+                return;
+            }
+            if (!envelope)
+                return;
+            const { REASON, KEY, PAYLOAD } = envelope;
+            if (KEY?.toString() !== this.propertyId?.toString())
+                return;
+            let payload;
+            try {
+                payload = typeof PAYLOAD === 'string' ? JSON.parse(PAYLOAD) : PAYLOAD;
+            }
+            catch {
+                payload = PAYLOAD;
+            }
+            this.folioQueue.enqueue({ REASON, KEY, payload });
+        });
+    }
+    getFolioSocketHandlers() {
+        // ─── Fill in once the server REASON string(s) and payload shape are known ───
+        //
+        // Relevance check (inline in each case):
+        //   agent:  tx.AGENCY_ID !== this.agent?.id → return
+        //   dates:  tx.SERVICE_DATE outside [filters.fromDate … filters.toDate] → return
+        //
+        // Running balance helper (inline in each case):
+        //   let running = this.startingBalance;
+        //   rows = rows.map(r => {
+        //     running += (r.debit ?? 0) - (r.credit ?? 0);
+        //     return { ...r, balance: running, _raw: { ...r._raw, RUNNING_BALANCE: running } };
+        //   });
+        //
+        // return {
+        //   'CL_TX_ADDED': async payload => {
+        //     const tx = payload as ClTx;
+        //     // relevance check...
+        //     const row: FolioRow = { ...mapClTxToFolioRow(tx), _rowId: v4() };
+        //     let running = this.startingBalance;
+        //     this.data = [...this.data, row].map(r => {
+        //       running += (r.debit ?? 0) - (r.credit ?? 0);
+        //       return { ...r, balance: running, _raw: { ...r._raw, RUNNING_BALANCE: running } };
+        //     });
+        //   },
+        //   'CL_TX_UPDATED': async payload => {
+        //     const tx = payload as ClTx;
+        //     // relevance check...
+        //     const updated = this.data.map(r => (r._raw.CL_TX_ID === tx.CL_TX_ID ? { ...mapClTxToFolioRow(tx), _rowId: r._rowId } : r));
+        //     let running = this.startingBalance;
+        //     this.data = updated.map(r => {
+        //       running += (r.debit ?? 0) - (r.credit ?? 0);
+        //       return { ...r, balance: running, _raw: { ...r._raw, RUNNING_BALANCE: running } };
+        //     });
+        //   },
+        //   'CL_TX_DELETED': async payload => {
+        //     const id = (payload as { CL_TX_ID: number }).CL_TX_ID;
+        //     const filtered = this.data.filter(r => r._raw.CL_TX_ID !== id);
+        //     let running = this.startingBalance;
+        //     this.data = filtered.map(r => {
+        //       running += (r.debit ?? 0) - (r.credit ?? 0);
+        //       return { ...r, balance: running, _raw: { ...r._raw, RUNNING_BALANCE: running } };
+        //     });
+        //   },
+        // };
+        return {
+            CL_TX_HOLD_TOGGLED: async (payload) => {
+                const { cl_tx_id, agency_id, is_hold } = payload;
+                if (agency_id !== this.agent?.id)
+                    return;
+                this.data = this.data.map(r => {
+                    if (r._raw.CL_TX_ID !== cl_tx_id)
+                        return r;
+                    const updatedTx = { ...r._raw, IS_HOLD: is_hold };
+                    return { ...mapClTxToFolioRow(updatedTx), _rowId: r._rowId };
+                });
+            },
+            // Payload only contains partial data (no SERVICE_DATE, DESCRIPTION, etc.) so we
+            // re-fetch the current page to get the full row and server-computed running balances.
+            CL_TX_CREATED: async (payload) => {
+                const { agency_id } = payload;
+                if (agency_id !== this.agent?.id)
+                    return;
+                await this.fetchFolioData();
+            },
+        };
+    }
+    async handleFolioMessage(msg) {
+        const handler = this.getFolioSocketHandlers()[msg.REASON];
+        if (!handler)
+            return;
+        await handler(msg.payload);
+    }
     async handleDelete() {
         const tx = this.deleteTarget;
         if (!tx)
@@ -211,7 +366,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
         }
     }
     render() {
-        return (h(Host, { key: '7cd09886dd6abda65082caa8e27650292d3e349b' }, h("ir-city-ledger-folio-filters", { key: 'd8ea59d14c0ab936be5847f83ba3625affc813a0', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: 'd4d8a8ab2b3399b038718f52f9e0c9f23927aada' }, h("ir-city-ledger-folio-filters", { key: '944a410e3160f8cda11de9d576ef3eec361dca94', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -220,7 +375,7 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '5b6f855cb04b0e79865dd272cebac8197b36fe14', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: '131d8cfcd6b78a9d6e414546c3853042a2137a15', agentId: this.agent?.id, data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -232,12 +387,12 @@ const IrCityLedgerFolio = /*@__PURE__*/ proxyCustomElement(class IrCityLedgerFol
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: 'dcc431b4b144a06d2ab0b0abdaeee9e1b4747087', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: 'a0639973d0da39ce17e9f82e6c82567783ff7346', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: '16970de27d48db4d2290e1c0bc2465a13c4c47bb' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: 'e05642c522b0e8ef1b3b1ff5bcffded2786784f2', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '8f93f727eb117e066fa19318afe82e17bba4cb48', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '0d1bce0f034dbec82db7a91332acd18fd8d48e54', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: 'eb25afda036da66b72c16a18c034935ebe7b0dd8', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: '7bf844e3abdffd8b8e81cf84c523396cfe3a7cd5' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '7942d03fc7907255197004f6efb51a932a87b14f', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '52e744c2bf96b8ede58e97cda35821569c24353e', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: 'ed9c9c9d40be5d0bbd8c94aee0e1cc1c7ca5c1eb', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '1c9be4d90bf766de070986c08e346741751016c2', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;

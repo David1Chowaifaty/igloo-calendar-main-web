@@ -1,6 +1,7 @@
 import { Booking } from "../../../../models/booking.dto";
 import { Agent } from "../../../../services/agents/type";
 import { Currency } from "../../../../models/property";
+import { ClTx } from "../../../../services/city-ledger/types";
 export declare class IrPaymentSummary {
     totalCost: number;
     balance: number;
@@ -10,6 +11,11 @@ export declare class IrPaymentSummary {
     isAllServicesAgentOwned: boolean;
     booking: Booking;
     agent: Agent;
+    clTransactions: ClTx[];
+    private allowedClOps;
     private shouldShowTotalCost;
+    private get agentTotal();
+    private get guestTotal();
+    private get bookingTotal();
     render(): any;
 }

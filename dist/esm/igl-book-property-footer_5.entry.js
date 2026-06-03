@@ -3,14 +3,16 @@ import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
-import { B as BookingService, b as booking_store, y as setBookingDraft, m as modifyBookingStore, H as setBookedByGuestManualEditState } from './booking.store-df0e6b6e.js';
+import { B as BookingService, b as booking_store, s as setBookingDraft, m as modifyBookingStore, o as setBookedByGuestManualEditState } from './booking.store-50325e35.js';
 import { z } from './index-87419685.js';
-import { f as formatAmount, O as validateEmail } from './utils-b9cc2b7c.js';
+import { f as formatAmount, H as validateEmail } from './utils-e1289f4a.js';
 import { I as IMask } from './index-e2caf943.js';
 import { B as BookingGuestSchema } from './types-f16787f2.js';
 import { v as v4 } from './v4-964634d6.js';
 import './index-f100e9d2.js';
 import './axios-aa1335b8.js';
+import './booking-16ed5e6f.js';
+import './type-501de9b6.js';
 
 const iglBookPropertyFooterCss = ".sc-igl-book-property-footer-h{width:100% !important;background:#000}";
 const IglBookPropertyFooterStyle0 = iglBookPropertyFooterCss;

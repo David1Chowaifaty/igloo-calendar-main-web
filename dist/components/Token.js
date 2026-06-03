@@ -63,6 +63,7 @@ class Token extends Auth {
                 throw new MissingTokenError();
             }
             config.headers.Authorization = Token.token;
+            config.headers['X-ClientId'] = 'EXTRANET';
             // config.params = config.params || {};
             // config.params.Ticket = Token.token;
             return config;

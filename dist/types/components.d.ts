@@ -3522,6 +3522,7 @@ export namespace Components {
         "booking": Booking;
         "clError": string | null;
         "clLoading": boolean;
+        "clTransactions": ClTx[];
         "folioRows": FolioRow[];
         "isAllServicesAgentOwned": boolean;
         "language": string;
@@ -3583,6 +3584,7 @@ export namespace Components {
         "agent": Agent;
         "balance": number;
         "booking": Booking;
+        "clTransactions": ClTx[];
         "collected": number;
         "currency": Currency;
         "isAllServicesAgentOwned": boolean;
@@ -14545,6 +14547,7 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         "clError"?: string | null;
         "clLoading"?: boolean;
+        "clTransactions"?: ClTx[];
         "folioRows"?: FolioRow[];
         "isAllServicesAgentOwned"?: boolean;
         "language"?: string;
@@ -14615,6 +14618,7 @@ declare namespace LocalJSX {
         "agent"?: Agent;
         "balance"?: number;
         "booking"?: Booking;
+        "clTransactions"?: ClTx[];
         "collected"?: number;
         "currency"?: Currency;
         "isAllServicesAgentOwned"?: boolean;

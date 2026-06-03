@@ -24,6 +24,13 @@ export declare class IrCityLedgerFolio {
     private isFetchingExcel;
     folioSummaryUpdate: EventEmitter<FolioSummary>;
     private cityLedgerService;
+    private socket;
+    private folioQueue;
+    componentDidLoad(): void;
+    disconnectedCallback(): void;
+    private connectSocket;
+    private getFolioSocketHandlers;
+    private handleFolioMessage;
     private handleDelete;
     handleAgentIdChange(newValue: number | null, oldValue: number | null): void;
     private clearData;
