@@ -68,3 +68,10 @@
   color: var(--wa-color-neutral-500, #71717a);
   white-space: nowrap;
 }
+.es-action-trigger::part(base) {
+  height: auto;
+  width: var(--wa-space-s);
+}
+.es-action-trigger-icon {
+  font-size: 1rem;
+}

@@ -4,7 +4,7 @@ import { d as defineCustomElement$3 } from './ir-custom-button2.js';
 import { d as defineCustomElement$2 } from './ir-empty-state2.js';
 import { d as defineCustomElement$1 } from './ir-payment-item2.js';
 
-const irPaymentsFolioCss = ".sc-ir-payments-folio-h{display:block}.payment-divider.sc-ir-payments-folio{margin:0;padding:0}";
+const irPaymentsFolioCss = ".sc-ir-payments-folio-h{display:block}.payment-divider.sc-ir-payments-folio{margin:0;padding:0}.payments-container.sc-ir-payments-folio::part(body){padding:0;padding-bottom:calc(1.5rem - var(--wa-space-s));padding-top:calc(1.5rem - var(--wa-space-s))}";
 const IrPaymentsFolioStyle0 = irPaymentsFolioCss;
 
 const IrPaymentsFolio = /*@__PURE__*/ proxyCustomElement(class IrPaymentsFolio extends HTMLElement {

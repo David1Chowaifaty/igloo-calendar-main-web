@@ -88,7 +88,7 @@ export class IrBookingCityLedger {
                         this.deleteTarget = row;
                         break;
                 }
-            } }, h("div", { slot: "trigger" }, h("ir-custom-button", { appearance: "plain" }, h("wa-icon", { name: "ellipsis-vertical" }))), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), "Delete"))))), row.description && h("p", { class: "folio-row__desc" }, row.description), (row._raw.CITY_TAX_AMOUNT ?? 0) > 0 && (h("div", { class: "folio-row__city-tax" }, h("wa-icon", { name: "building" }), h("span", null, "City Tax: ", this.formatAmount(row._raw.CITY_TAX_AMOUNT)))))))));
+            } }, h("wa-button", { size: "small", class: "folio-row__action-trigger", appearance: "plain", slot: "trigger" }, h("wa-icon", { name: "ellipsis-vertical", class: "folio-row__action-trigger-icon" })), h("wa-dropdown-item", { value: "edit" }, h("wa-icon", { slot: "icon", name: "edit" }), "Edit"), h("wa-dropdown-item", { value: "delete", variant: "danger" }, h("wa-icon", { slot: "icon", name: "trash" }), "Delete"))))), h("div", { class: 'folio-row-desc_row' }, row.description && h("p", { class: "folio-row__desc" }, row.description)))))));
     }
     render() {
         if (!this.booking?.agent) {

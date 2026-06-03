@@ -2,6 +2,8 @@
   display: block;
   width: 100%;
   min-width: 0;
+  --item-vertical-padding: var(--wa-space-s, 0.5rem);
+  --item-inline-padding: var(--wa-space-l, 1.5rem);
 }
 
 /* ── Card ──────────────────────────────────────────────────── */
@@ -11,6 +13,8 @@
 
 .booking-city-ledger__card::part(body) {
   padding: 0;
+  padding-bottom: calc(1.5rem - var(--item-vertical-padding));
+  padding-top: calc(1.5rem - var(--item-vertical-padding));
 }
 
 /* ── Header title ──────────────────────────────────────────── */
@@ -55,7 +59,7 @@
 
 /* ── Folio row ──────────────────────────────────────────────── */
 .folio-row {
-  padding: 0.75rem 1rem;
+  padding: var(--item-vertical-padding) var(--item-inline-padding);
   border-bottom: 1px solid var(--wa-color-neutral-100, #f4f4f5);
 }
 
@@ -71,12 +75,16 @@
   gap: 0.5rem;
 }
 
-.folio-row__meta {
+.folio-row__meta,
+.folio-row-desc_row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
   min-width: 0;
+}
+.folio-row-desc_row {
+  justify-content: space-between;
 }
 
 .folio-row__date {
@@ -107,6 +115,15 @@
   color: var(--wa-color-neutral-800, #27272a);
   line-height: 1.4;
   word-break: break-word;
+}
+
+/* ── Action Trigger ─────────────────────────────────────────────── */
+.folio-row__action-trigger-icon {
+  font-size: 1rem;
+}
+.folio-row__action-trigger::part(base) {
+  height: auto;
+  width: var(--wa-space-xs);
 }
 
 /* ── City tax line ───────────────────────────────────────────── */
