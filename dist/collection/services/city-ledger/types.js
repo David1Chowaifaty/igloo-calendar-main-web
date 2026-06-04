@@ -185,7 +185,7 @@ export const GetFiscalDocumentsParamsSchema = z.object({
     END_DATE: z.string().optional().nullable(),
     BOOK_NBR: z.string().optional().nullable(),
     LIST_FD_TYPE_CODE: z.array(z.string()).optional().nullable().default(null),
-    FD_STATUS_CODE: z.array(z.string()).optional().nullable().default(null),
+    LIST_FD_STATUS_CODE: z.array(z.string()).optional().nullable().default(null),
     AGENCY_ID: z.number(),
 });
 export const IssueInvoiceFromDraftParamsSchema = z.object({

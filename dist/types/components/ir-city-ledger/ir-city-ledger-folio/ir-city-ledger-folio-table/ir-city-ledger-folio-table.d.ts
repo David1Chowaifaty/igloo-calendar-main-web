@@ -16,6 +16,7 @@ export declare class IrCityLedgerFolioTable {
     hasFetched: boolean;
     currencySymbol: string;
     currencies: ICurrency[];
+    hideBalanceInfo: boolean;
     private tableState;
     private selectedRowIds;
     private holdTargetRow;

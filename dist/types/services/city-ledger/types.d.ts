@@ -1131,24 +1131,24 @@ export declare const GetFiscalDocumentsParamsSchema: z.ZodObject<{
     END_DATE: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     BOOK_NBR: z.ZodNullable<z.ZodOptional<z.ZodString>>;
     LIST_FD_TYPE_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
-    FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
+    LIST_FD_STATUS_CODE: z.ZodDefault<z.ZodNullable<z.ZodOptional<z.ZodArray<z.ZodString, "many">>>>;
     AGENCY_ID: z.ZodNumber;
 }, "strip", z.ZodTypeAny, {
     BOOK_NBR?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
-    FD_STATUS_CODE?: string[];
     START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
+    LIST_FD_STATUS_CODE?: string[];
 }, {
     BOOK_NBR?: string;
     AGENCY_ID?: number;
     DOC_NUMBER?: string;
-    FD_STATUS_CODE?: string[];
     START_DATE?: string;
     END_DATE?: string;
     LIST_FD_TYPE_CODE?: string[];
+    LIST_FD_STATUS_CODE?: string[];
 }>;
 /** Filters for listing fiscal documents. */
 export type GetFiscalDocumentsParams = z.infer<typeof GetFiscalDocumentsParamsSchema>;

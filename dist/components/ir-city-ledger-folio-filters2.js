@@ -74,15 +74,33 @@ const IrCityLedgerFolioFilters = /*@__PURE__*/ proxyCustomElement(class IrCityLe
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '8f24428cddd0c80b3a25e6897d4429a76941c4e2', class: "filters-bar__search-input", "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '1740d244b73620d8f139bf809b7982bcae4fcb5c', class: "filters-bar__search-input", "onText-change": e => {
+                const wasCleared = this.searchQuery !== '' && e.detail === '';
                 this.searchQuery = e.detail;
+                if (wasCleared) {
+                    this.applyFilters.emit({
+                        fromDate: this.dates.from?.format('YYYY-MM-DD'),
+                        toDate: this.dates.to?.format('YYYY-MM-DD'),
+                        status: this.statusFilter,
+                        search: '',
+                    });
+                }
+                else {
+                    this.emitFiltersDebounced();
+                }
+            }, onChange: () => {
                 this.emitFiltersDebounced();
-            }, value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: 'a14e64e169822d980e6964c319ae8bdd7414c624', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: 'dfc48b7d99c3c44933753e6b0b48993bfc9cc882', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit({
+            }, onInputCleared: () => this.applyFilters.emit({
+                fromDate: this.dates.from?.format('YYYY-MM-DD'),
+                toDate: this.dates.to?.format('YYYY-MM-DD'),
+                status: this.statusFilter,
+                search: '',
+            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '90e57651a8e22a8938751c9b8c5385aad59647a3', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '15b11fea39901a7f52a040bcccfd126cfffdf7ce', variant: "neutral", appearance: "outlined", onClickHandler: () => this.applyFilters.emit({
                 fromDate: this.dates.from?.format('YYYY-MM-DD'),
                 toDate: this.dates.to?.format('YYYY-MM-DD'),
                 status: this.statusFilter,
                 search: this.searchQuery,
-            }) }, h("wa-icon", { key: 'fc9db31cc5b5d9b5f837013f50dd4cec0c366f0a', name: "magnifying-glass" }))), h("div", { key: '7e79dd00adc83384f688f92efc30eeff4b9812f5', class: "filters-bar__actions" }, h("ir-custom-button", { key: '9b2b8ed370b73912ed966a2c0daada5d9928ad0f', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'ce0511359bc389f6e6046f5932fed31e86dd8b19', name: "download", slot: "start" }), h("span", { key: '83d0ba2fa4a1e0cc6c4504c472a2fc1f895fd1da' }, "Export")), h("ir-custom-button", { key: 'a09338da24d9569650184238a9cbe3c105a95f4c', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
+            }) }, h("wa-icon", { key: 'b6fe73fd5e24f7e83f2d555d5ea242e3ec55e2bb', name: "magnifying-glass" }))), h("div", { key: 'cc66c87adcad81bacfe8fd5aa7d62056a7430f1d', class: "filters-bar__actions" }, h("ir-custom-button", { key: '1b3f524a07dcabee9b5e74745bb07b4e0ab0de0d', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'd3f7804168b9e057d9c8714da5d69fcc55687d37', name: "download", slot: "start" }), h("span", { key: '0b57881d491fabd3fc6a7b498bde293f4de86797' }, "Export")), h("ir-custom-button", { key: 'abdd045bc0954bcf1bf38820f0de910cfb54e47a', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
     static get style() { return IrCityLedgerFolioFiltersStyle0; }
 }, [2, "ir-city-ledger-folio-filters", {

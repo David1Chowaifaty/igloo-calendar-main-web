@@ -1488,6 +1488,7 @@ export namespace Components {
         "data": FolioRow1[];
         "fromDate": string;
         "hasFetched": boolean;
+        "hideBalanceInfo": boolean;
         "isLoading": boolean;
         "pageIndex": number;
         "pageSize": number;
@@ -8670,6 +8671,7 @@ declare global {
         "text-change": string;
         "input-blur": void;
         "inputFocus": void;
+        "inputCleared": void;
     }
     interface HTMLIrInputElement extends Components.IrInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrInputElementEventMap>(type: K, listener: (this: HTMLIrInputElement, ev: IrInputCustomEvent<HTMLIrInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12256,6 +12258,7 @@ declare namespace LocalJSX {
         "data"?: FolioRow1[];
         "fromDate"?: string;
         "hasFetched"?: boolean;
+        "hideBalanceInfo"?: boolean;
         "isLoading"?: boolean;
         "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
@@ -13658,6 +13661,7 @@ declare namespace LocalJSX {
         "minlength"?: NativeWaInput1['minlength'];
         "name"?: string;
         "onInput-blur"?: (event: IrInputCustomEvent<void>) => void;
+        "onInputCleared"?: (event: IrInputCustomEvent<void>) => void;
         "onInputFocus"?: (event: IrInputCustomEvent<void>) => void;
         "onText-change"?: (event: IrInputCustomEvent<string>) => void;
         /**

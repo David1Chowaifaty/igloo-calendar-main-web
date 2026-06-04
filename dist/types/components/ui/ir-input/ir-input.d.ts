@@ -107,6 +107,7 @@ export declare class IrInput {
     textChange: EventEmitter<string>;
     inputBlur: EventEmitter<void>;
     inputFocus: EventEmitter<void>;
+    inputCleared: EventEmitter<void>;
     private isValid;
     private slotState;
     private _mask?;

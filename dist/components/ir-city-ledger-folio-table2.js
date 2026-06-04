@@ -56,6 +56,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
     hasFetched = false;
     currencySymbol = '$';
     currencies = [];
+    hideBalanceInfo = false;
     // ─── State ───────────────────────────────────────────────────────────────
     tableState = {};
     selectedRowIds = new Set();
@@ -285,9 +286,10 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         if (this.isLoading) {
             return (h(Host, null, h("div", { class: "folio-table__loading" }, h("ir-spinner", null))));
         }
+        const visibleColumns = this.hideBalanceInfo ? this.columns.filter(c => c.accessorKey !== 'balance') : this.columns;
         const table = useTable({
             data: this.displayData,
-            columns: this.columns,
+            columns: visibleColumns,
             state: this.tableState,
             enableGrouping: false,
             onStateChange: this.onTableStateChange,
@@ -301,7 +303,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         const showingFrom = total ? this.pageIndex * this.pageSize + 1 : 0;
         const showingTo = total ? Math.min(this.pageIndex * this.pageSize + this.displayData.length, total) : 0;
         const hasUnbilledSelected = this.selectedUnbilledRows.length > 0;
-        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), h("ir-custom-button", { size: "small", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, this.renderStartingBalanceRow(), this.renderDataRows(table), this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
+        return (h(Host, null, hasUnbilledSelected && (h("div", { class: "folio-table__invoice-bar" }, h("span", { class: "folio-table__invoice-bar-text" }, h("wa-icon", { name: "file-invoice", style: { marginRight: '0.375rem' } }), this.selectedUnbilledRows.length, " unbilled item", this.selectedUnbilledRows.length !== 1 ? 's' : '', " selected"), h("ir-custom-button", { size: "small", variant: "brand", onClickHandler: () => this.generateInvoice.emit(this.selectedUnbilledRows) }, h("wa-icon", { slot: "start", name: "file-invoice-dollar" }), "Generate Invoice"), h("ir-custom-button", { size: "small", variant: "neutral", appearance: "outlined", onClickHandler: () => (this.selectedRowIds = new Set()) }, "Clear Selection"))), h("div", { class: "table--container" }, h("table", { class: "table data-table" }, this.renderTableHead(table), h("tbody", null, !this.hideBalanceInfo && this.renderStartingBalanceRow(), this.renderDataRows(table), !this.hideBalanceInfo && this.renderEndingBalanceRow()))), h("ir-pagination", { class: "data-table--pagination", total: total, pages: pageCount, pageSize: this.pageSize, currentPage: this.pageIndex + 1, allowPageSizeChange: true, showing: { from: showingFrom, to: showingTo }, pageSizes: this.pageSizes, recordLabel: '', onPageChange: (event) => {
                 event.stopPropagation();
                 this.pageChange.emit({ pageIndex: event.detail.currentPage - 1, pageSize: this.pageSize });
             }, onPageSizeChange: (event) => {
@@ -329,6 +331,7 @@ const IrCityLedgerFolioTable = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         "hasFetched": [4, "has-fetched"],
         "currencySymbol": [1, "currency-symbol"],
         "currencies": [16],
+        "hideBalanceInfo": [4, "hide-balance-info"],
         "tableState": [32],
         "selectedRowIds": [32],
         "holdTargetRow": [32],

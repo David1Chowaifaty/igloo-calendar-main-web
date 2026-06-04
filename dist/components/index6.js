@@ -188,7 +188,7 @@ const GetFiscalDocumentsParamsSchema = objectType({
     END_DATE: stringType().optional().nullable(),
     BOOK_NBR: stringType().optional().nullable(),
     LIST_FD_TYPE_CODE: arrayType(stringType()).optional().nullable().default(null),
-    FD_STATUS_CODE: arrayType(stringType()).optional().nullable().default(null),
+    LIST_FD_STATUS_CODE: arrayType(stringType()).optional().nullable().default(null),
     AGENCY_ID: numberType(),
 });
 const IssueInvoiceFromDraftParamsSchema = objectType({
