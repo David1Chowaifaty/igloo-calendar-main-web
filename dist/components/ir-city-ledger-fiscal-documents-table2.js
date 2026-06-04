@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { f as formatAmount } from './utils.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getCoreRowModel, a as getSortedRowModel } from './useTable.js';
-import { C as CityLedgerService } from './index6.js';
+import { C as CityLedgerService } from './index5.js';
 import { F as FdTypes, a as FdStatus } from './enums.js';
 import { d as defineCustomElement$5 } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';

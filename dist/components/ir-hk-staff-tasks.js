@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal
 import { T as Token } from './Token.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { m as moment } from './moment-with-locales.js';
-import { l as lookup } from './index5.js';
+import { r as realtimeService } from './realtime.service.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
 import { d as defineCustomElement$5 } from './ir-dialog2.js';
 import { d as defineCustomElement$4 } from './ir-hk-staff-task2.js';
@@ -63,7 +63,7 @@ const IrHkStaffTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkStaffTasks e
     fromDate = moment().locale('en').format('YYYY-MM-DD');
     toDate = moment().add(3, 'days').locale('en').format('YYYY-MM-DD');
     confirmDialog;
-    socket;
+    unsubscribeRealtime = null;
     hkOverrideTimer = null;
     /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
     activeLanguage = 'en';
@@ -194,31 +194,18 @@ const IrHkStaffTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkStaffTasks e
         }
     }
     connectSocket() {
-        if (this.socket) {
+        if (this.unsubscribeRealtime) {
             return;
         }
-        this.socket = lookup('https://realtime.igloorooms.com/');
-        this.socket.on('MSG', async (msg) => {
-            const parsed = JSON.parse(msg);
-            if (!parsed) {
-                return;
-            }
-            const { REASON, KEY, PAYLOAD } = parsed;
-            if (KEY.toString() !== this.connectedHk.AC_ID.toString()) {
-                return;
-            }
-            if (REASON === 'UNIT_HK_STATUS_CHANGED') {
-                const result = JSON.parse(PAYLOAD);
-                if (result.HKM_ID === this.connectedHk.HKM_ID) {
+        this.unsubscribeRealtime = realtimeService.subscribe(this.connectedHk.AC_ID, async (msg) => {
+            if (msg.reason === 'UNIT_HK_STATUS_CHANGED') {
+                if (msg.payload.HKM_ID === this.connectedHk.HKM_ID) {
                     await this.refreshTasks();
                 }
             }
-            else if (REASON === 'HK_TASK_OVERRIDE') {
-                const result = JSON.parse(PAYLOAD);
-                // Relevant if assigned to us (HKM_ID matches) or removed from someone (HKM_ID null — could be us)
-                const affectsUs = result.HKM_ID === this.connectedHk.HKM_ID || result.HKM_ID === null;
-                // Only refresh if the date falls within our displayed window
-                const inRange = result.DATE >= this.fromDate && result.DATE <= this.toDate;
+            else if (msg.reason === 'HK_TASK_OVERRIDE') {
+                const affectsUs = msg.payload.HKM_ID === this.connectedHk.HKM_ID || msg.payload.HKM_ID === null;
+                const inRange = msg.payload.DATE >= this.fromDate && msg.payload.DATE <= this.toDate;
                 if (affectsUs && inRange) {
                     this.scheduleTaskRefresh();
                 }
@@ -230,8 +217,8 @@ const IrHkStaffTasks$1 = /*@__PURE__*/ proxyCustomElement(class IrHkStaffTasks e
             clearTimeout(this.hkOverrideTimer);
             this.hkOverrideTimer = null;
         }
-        this.socket?.disconnect();
-        this.socket = null;
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
     }
     scheduleTaskRefresh() {
         if (this.hkOverrideTimer !== null) {

@@ -2,33 +2,7 @@ import { EventEmitter } from '../../stencil-public-runtime';
 import { Moment } from 'moment';
 import { IRoomNightsData, CalendarModalEvent } from "../../models/property-types";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { RoomHkStatus } from "../../models/booking.dto";
 import { CheckoutRoomEvent } from '../ir-departures/ir-departures-table/ir-departures-table';
-export interface UnitHkStatusChangePayload {
-    PR_ID: number;
-    ROOM_CATEGORY_ID: number;
-    NAME: string;
-    DESCRIPTION: string;
-    ENTRY_USER_ID: number;
-    ENTRY_DATE: string;
-    OWNER_ID: number;
-    IS_ACTIVE: boolean;
-    HKS_CODE: RoomHkStatus;
-    HKM_ID: number;
-    CHECKLIST: null;
-    My_Room_category: null;
-    My_Hkm: null;
-}
-export type SalesBatchPayload = {
-    rate_plan_id: number;
-    night: string;
-    is_available_to_book: boolean;
-};
-export type AvailabilityBatchPayload = {
-    room_type_id: number;
-    date: string;
-    availability: number;
-};
 export type CalendarSidebarState = {
     type: 'room-guests' | 'booking-details' | 'add-days' | 'bulk-blocks' | 'split' | 'reallocate-drawer';
     payload: any;
@@ -90,7 +64,7 @@ export declare class IglooCalendar {
     private scrollContainer;
     private today;
     private reachedEndOfCalendar;
-    private socket;
+    private unsubscribeRealtime;
     private token;
     private calendarModalEl;
     private salesQueue;
@@ -101,6 +75,7 @@ export declare class IglooCalendar {
     private departureTimes;
     componentWillLoad(): void;
     componentDidLoad(): void;
+    disconnectedCallback(): void;
     handleDeleteEvent(ev: CustomEvent): Promise<void>;
     handleCalendarSidebarEvents(ev: CustomEvent): Promise<void>;
     scrollPageToRoom(event: CustomEvent): void;

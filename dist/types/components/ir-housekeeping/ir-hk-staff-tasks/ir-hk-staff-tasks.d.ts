@@ -16,7 +16,7 @@ export declare class IrHkStaffTasks {
     private fromDate;
     private toDate;
     private confirmDialog;
-    private socket;
+    private unsubscribeRealtime;
     private hkOverrideTimer;
     /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
     activeLanguage: string;

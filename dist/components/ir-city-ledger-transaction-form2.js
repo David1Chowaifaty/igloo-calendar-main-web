@@ -2,7 +2,7 @@ import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@sten
 import { h as hooks } from './moment.js';
 import { B as BookingService } from './booking.store.js';
 import { b as buildPaymentTypes } from './utils2.js';
-import { C as CityLedgerService } from './index6.js';
+import { C as CityLedgerService } from './index5.js';
 import { c as calendar_data } from './calendar-data.js';
 import { c as createInitialTransactionFormDraft, h as hydrateFormDraftFromTx, r as resetDraftForTransactionType, v as validateCityLedgerTransaction, t as transactionTypeFieldSchema, D as DATE_INPUT_FORMAT, d as dateFieldSchema, a as amountFieldSchema, b as taxIdFieldSchema, T as TRANSACTION_TYPE_RATES } from './ir-city-ledger-transaction-form.schema.js';
 import { C as ClTxTypeCode, V as VatIncludedCodes, a as FdStatus, F as FdTypes } from './enums.js';

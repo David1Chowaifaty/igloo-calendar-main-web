@@ -15,6 +15,9 @@ export declare class IrBookingDetails {
     private paymentService;
     private agentService;
     private cityLedgerService;
+    private unsubscribeRealtime;
+    private clLockingPending;
+    private clLockingTimer;
     private token;
     private arrivalTime;
     private svcCategories;
@@ -138,6 +141,7 @@ export declare class IrBookingDetails {
      */
     toast: EventEmitter<IToast>;
     componentWillLoad(): void;
+    disconnectedCallback(): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;
     handleIconClick(e: CustomEvent): void;
     handleResetExposedCancellationDueAmount(e: CustomEvent): Promise<void>;
@@ -151,6 +155,8 @@ export declare class IrBookingDetails {
     handleOpenPrintScreen(e: CustomEvent<PrintScreenOptions>): void;
     private fetchCityLedger;
     private loadAgentAndFolio;
+    private handleClSocketMessage;
+    private applyClLockingUpdates;
     handleClRefresh(): Promise<void>;
     private setRoomsData;
     private initializeApp;

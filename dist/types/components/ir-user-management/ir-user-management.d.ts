@@ -21,7 +21,7 @@ export declare class IrUserManagement {
     private userService;
     private bookingService;
     private userTypes;
-    private socket;
+    private unsubscribeRealtime;
     private superAdminId;
     componentWillLoad(): void;
     ticketChanged(newValue: string, oldValue: string): void;

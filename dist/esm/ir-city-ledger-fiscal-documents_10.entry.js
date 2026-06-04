@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host } from './index-7
 import { C as CityLedgerService, F as FdTypes } from './index-59d00153.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { D as Debounce } from './debounce-542065c2.js';
-import { l as lookup } from './index-7ee206df.js';
+import { r as realtimeService } from './realtime.service-cd7f5b8f.js';
 import { m as mapClTxToFolioRow, a as actionableClTypes } from './city-ledger.service-0814b098.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { v as v4 } from './v4-964634d6.js';
@@ -13,51 +13,6 @@ import './index-87419685.js';
 import './locales.store-cb784e95.js';
 import './index-f100e9d2.js';
 import './type-501de9b6.js';
-
-class SequentialQueue {
-    maxSize;
-    queue = [];
-    draining = false;
-    handler = null;
-    destroyed = false;
-    constructor(maxSize = 1000) {
-        this.maxSize = maxSize;
-    }
-    setHandler(fn) {
-        this.handler = fn;
-    }
-    enqueue(item) {
-        if (this.destroyed)
-            return;
-        if (this.queue.length >= this.maxSize) {
-            this.queue.shift(); // drop oldest when full
-        }
-        this.queue.push(item);
-        if (!this.draining) {
-            this.drain();
-        }
-    }
-    async drain() {
-        if (!this.handler)
-            return;
-        this.draining = true;
-        while (this.queue.length > 0 && !this.destroyed) {
-            const item = this.queue.shift();
-            try {
-                await this.handler(item);
-            }
-            catch (e) {
-                console.error('SequentialQueue handler error', e);
-            }
-        }
-        this.draining = false;
-    }
-    destroy() {
-        this.destroyed = true;
-        this.queue = [];
-        this.handler = null;
-    }
-}
 
 const irCityLedgerFiscalDocumentsCss = ".sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1000px;margin-inline:auto}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}";
 const IrCityLedgerFiscalDocumentsStyle0 = irCityLedgerFiscalDocumentsCss;
@@ -233,41 +188,21 @@ const IrCityLedgerFolio = class {
     isFetchingExcel = false;
     folioSummaryUpdate;
     cityLedgerService = new CityLedgerService();
-    socket = null;
-    folioQueue = new SequentialQueue(500);
+    unsubscribeRealtime = null;
+    clLockingPending = new Map();
+    clLockingTimer = null;
     componentDidLoad() {
-        this.connectSocket();
+        this.unsubscribeRealtime = realtimeService.subscribe(this.propertyId, async (msg) => {
+            await this.handleFolioMessage(msg.reason, msg.payload);
+        });
     }
     disconnectedCallback() {
-        this.socket?.disconnect();
-        this.socket = null;
-        this.folioQueue.destroy();
-    }
-    connectSocket() {
-        this.socket = lookup('https://realtime.igloorooms.com/');
-        this.folioQueue.setHandler(this.handleFolioMessage.bind(this));
-        this.socket.on('MSG', (msg) => {
-            let envelope;
-            try {
-                envelope = JSON.parse(msg);
-            }
-            catch {
-                return;
-            }
-            if (!envelope)
-                return;
-            const { REASON, KEY, PAYLOAD } = envelope;
-            if (KEY?.toString() !== this.propertyId?.toString())
-                return;
-            let payload;
-            try {
-                payload = typeof PAYLOAD === 'string' ? JSON.parse(PAYLOAD) : PAYLOAD;
-            }
-            catch {
-                payload = PAYLOAD;
-            }
-            this.folioQueue.enqueue({ REASON, KEY, payload });
-        });
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
+        if (this.clLockingTimer !== null) {
+            clearTimeout(this.clLockingTimer);
+            this.clLockingTimer = null;
+        }
     }
     getFolioSocketHandlers() {
         // ─── Fill in once the server REASON string(s) and payload shape are known ───
@@ -315,6 +250,18 @@ const IrCityLedgerFolio = class {
         //   },
         // };
         return {
+            CL_TX_LOCKING: async (payload) => {
+                const tx = payload;
+                if (tx.TRAVEL_AGENCY_ID !== this.agent?.id)
+                    return;
+                this.clLockingPending.set(tx.CL_TX_ID, tx.IS_LOCKED);
+                if (this.clLockingTimer !== null)
+                    clearTimeout(this.clLockingTimer);
+                this.clLockingTimer = setTimeout(() => {
+                    this.clLockingTimer = null;
+                    this.applyClLockingUpdates();
+                }, 150);
+            },
             CL_TX_HOLD_TOGGLED: async (payload) => {
                 const { cl_tx_id, agency_id, is_hold } = payload;
                 if (agency_id !== this.agent?.id)
@@ -340,11 +287,21 @@ const IrCityLedgerFolio = class {
             },
         };
     }
-    async handleFolioMessage(msg) {
-        const handler = this.getFolioSocketHandlers()[msg.REASON];
+    async handleFolioMessage(reason, payload) {
+        const handler = this.getFolioSocketHandlers()[reason];
         if (!handler)
             return;
-        await handler(msg.payload);
+        await handler(payload);
+    }
+    applyClLockingUpdates() {
+        const pending = this.clLockingPending;
+        this.clLockingPending = new Map();
+        this.data = this.data.map(r => {
+            const isLocked = pending.get(r._raw.CL_TX_ID);
+            if (isLocked === undefined)
+                return r;
+            return { ...mapClTxToFolioRow({ ...r._raw, IS_LOCKED: isLocked }), _rowId: r._rowId };
+        });
     }
     async handleDelete() {
         const tx = this.deleteTarget;
@@ -499,7 +456,7 @@ const IrCityLedgerFolio = class {
         }
     }
     render() {
-        return (h(Host, { key: '85433085657775a451c54dd0f6a0845a811c814d' }, h("ir-city-ledger-folio-filters", { key: '355cd98a10571f29947d8c1419ab24bd9302cdf3', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '9b1e6b926cfdc3e0fbb5da8b536313de06d74bfc' }, h("ir-city-ledger-folio-filters", { key: '3cf7f1c5bdb86772ed8fe0efa506fbb52f04d956', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -508,7 +465,7 @@ const IrCityLedgerFolio = class {
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '472e6d30d56d1bcfc7ec50a532b438d8c1145780', agentId: this.agent?.id, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: '74091eaef74fca7804ae03ba5f39d819a43a1b9a', agentId: this.agent?.id, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -520,12 +477,12 @@ const IrCityLedgerFolio = class {
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: '9c9631b332271b36af189db9e65760597fcde518', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: '6d9a5a8316c398ed5151d8be5fb0eb66f2c0bb89', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: 'c8698da87453a91589cbe0410b947fa967a29af5' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: 'e13ae712aadc1dccc3b7f4991b697c2d9d48f623', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '016bcd8bbed6d838a7ee916ce1bc88dd86a9c4cc', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '99a2f8252b84fb171c4c5c5445cae87362844a29', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '90f4307c9c2d94abb3d3d335010ef1f2766a5b44', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: 'bc7bd7e6d24adfe29e63bd85096d8421aa395b79' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '65e4fe7bc916481ab984d838473b2f552ca86d8f', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'f88f694a6f798a65327f3bfe05c89674e15d81ab', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '79f16e373c5400d05dcc49b5215fcfadaaa54eaf', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '8ab0ac4357ef468719a66129c1427847714f43cf', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;

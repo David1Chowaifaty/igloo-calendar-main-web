@@ -22,6 +22,7 @@ const room_service = require('./room.service-f9117e70.js');
 const payment_service = require('./payment.service-87fff556.js');
 const booking = require('./booking-a54b7725.js');
 const agents_service = require('./agents.service-dcea1c92.js');
+const realtime_service = require('./realtime.service-aca6e8d2.js');
 const index$3 = require('./index-e9a28e3e.js');
 const useTable = require('./useTable-206847ef.js');
 const slot = require('./slot-30fa3487.js');
@@ -1922,6 +1923,9 @@ const IrBookingDetails = class {
     paymentService = new payment_service.PaymentService();
     agentService = new agents_service.AgentsService();
     cityLedgerService = new index$2.CityLedgerService();
+    unsubscribeRealtime = null;
+    clLockingPending = new Map();
+    clLockingTimer = null;
     token = new Token.Token();
     arrivalTime;
     svcCategories;
@@ -2051,6 +2055,14 @@ const IrBookingDetails = class {
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
             this.initializeApp();
+        }
+    }
+    disconnectedCallback() {
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
+        if (this.clLockingTimer !== null) {
+            clearTimeout(this.clLockingTimer);
+            this.clLockingTimer = null;
         }
     }
     handleSideBarEvents(e) {
@@ -2194,7 +2206,9 @@ const IrBookingDetails = class {
             this.clLoading = false;
         }
     }
-    async loadAgentAndFolio(booking) {
+    async loadAgentAndFolio(booking, propertyId) {
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
         if (!booking?.agent) {
             this.agent = null;
             this.folioRows = [];
@@ -2204,7 +2218,49 @@ const IrBookingDetails = class {
         this.agent = await this.agentService.getExposedAgent({ id: booking.agent.id });
         if (functions.isAgentMode(this.agent)) {
             await this.fetchCityLedger(booking);
+            const pid = propertyId ?? this.property_id;
+            if (pid) {
+                this.unsubscribeRealtime = realtime_service.realtimeService.subscribe(pid, msg => {
+                    this.handleClSocketMessage(msg);
+                });
+            }
         }
+    }
+    handleClSocketMessage(msg) {
+        if (msg.reason === 'CL_TX_LOCKING') {
+            const tx = msg.payload;
+            if (tx.TRAVEL_AGENCY_ID !== this.agent?.id)
+                return;
+            // Accumulate — later arrivals for the same ID overwrite earlier ones
+            this.clLockingPending.set(tx.CL_TX_ID, tx.IS_LOCKED);
+            if (this.clLockingTimer !== null)
+                clearTimeout(this.clLockingTimer);
+            this.clLockingTimer = setTimeout(() => {
+                this.clLockingTimer = null;
+                this.applyClLockingUpdates();
+            }, 150);
+        }
+        else if (msg.reason === 'CL_TX_HOLD_TOGGLED') {
+            const { cl_tx_id, agency_id, is_hold } = msg.payload;
+            if (agency_id !== this.agent?.id)
+                return;
+            this.rawTransactions = this.rawTransactions.map(tx => (tx.CL_TX_ID === cl_tx_id ? { ...tx, IS_HOLD: is_hold } : tx));
+            this.folioRows = this.folioRows.map(r => r._raw.CL_TX_ID === cl_tx_id ? { ...cityLedger_service.mapClTxToFolioRow({ ...r._raw, IS_HOLD: is_hold }), _rowId: r._rowId, balance: r.balance } : r);
+        }
+    }
+    applyClLockingUpdates() {
+        const pending = this.clLockingPending;
+        this.clLockingPending = new Map();
+        this.rawTransactions = this.rawTransactions.map(tx => {
+            const isLocked = pending.get(tx.CL_TX_ID);
+            return isLocked !== undefined ? { ...tx, IS_LOCKED: isLocked } : tx;
+        });
+        this.folioRows = this.folioRows.map(r => {
+            const isLocked = pending.get(r._raw.CL_TX_ID);
+            if (isLocked === undefined)
+                return r;
+            return { ...cityLedger_service.mapClTxToFolioRow({ ...r._raw, IS_LOCKED: isLocked }), _rowId: r._rowId, balance: r.balance };
+        });
     }
     async handleClRefresh() {
         await this.fetchCityLedger();
@@ -2237,8 +2293,9 @@ const IrBookingDetails = class {
                     '_SVC_CATEGORY',
                 ]),
             ]);
-            await this.loadAgentAndFolio(bookingDetails);
-            this.property_id = roomResponse?.My_Result?.id;
+            const resolvedPropertyId = roomResponse?.My_Result?.id;
+            await this.loadAgentAndFolio(bookingDetails, resolvedPropertyId);
+            this.property_id = resolvedPropertyId;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.svcCategories = svc_category;

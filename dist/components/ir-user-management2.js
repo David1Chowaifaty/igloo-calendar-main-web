@@ -3,7 +3,7 @@ import { T as Token } from './Token.js';
 import { B as BookingService } from './booking.store.js';
 import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
-import { l as lookup } from './index5.js';
+import { r as realtimeService } from './realtime.service.js';
 import { l as locales } from './locales.store.js';
 import { w as getEntryValue } from './utils.js';
 import { d as defineCustomElement$o } from './ir-button2.js';
@@ -59,7 +59,7 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
     userService = new UserService();
     bookingService = new BookingService();
     userTypes = new Map();
-    socket;
+    unsubscribeRealtime = null;
     superAdminId = '5';
     componentWillLoad() {
         if (this.baseUrl) {
@@ -116,9 +116,8 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
                 }));
             }
             await Promise.all(requests);
-            this.socket = lookup('https://realtime.igloorooms.com/');
-            this.socket.on('MSG', async (msg) => {
-                await this.handleSocketMessage(msg);
+            this.unsubscribeRealtime = realtimeService.subscribe(this.property_id, async (msg) => {
+                await this.handleSocketMessage(msg.reason, msg.payload);
             });
         }
         catch (error) {
@@ -128,29 +127,13 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
             this.isLoading = false;
         }
     }
-    async handleSocketMessage(msg) {
-        const msgAsObject = JSON.parse(msg);
-        if (!msgAsObject) {
-            return;
-        }
-        const { REASON, KEY, PAYLOAD } = msgAsObject;
-        if (KEY.toString() !== this.property_id.toString()) {
-            return;
-        }
-        let result = JSON.parse(PAYLOAD);
-        console.log(KEY, result);
-        // const reasonHandlers: Partial<Record<bookingReasons, Function>> = {
-        //   DORESERVATION: this.updateUserVerificationStatus,
-        // };
+    async handleSocketMessage(reason, result) {
         const reasonHandlers = {
             EMAIL_VERIFIED: this.updateUserVerificationStatus,
         };
-        const handler = reasonHandlers[REASON];
+        const handler = reasonHandlers[reason];
         if (handler) {
             await handler.call(this, result);
-        }
-        else {
-            console.warn(`Unhandled REASON: ${REASON}`);
         }
     }
     updateUserVerificationStatus(result) {
@@ -206,7 +189,8 @@ const IrUserManagement = /*@__PURE__*/ proxyCustomElement(class IrUserManagement
         }
     }
     disconnectedCallback() {
-        this.socket.disconnect();
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
     }
     render() {
         if (this.isLoading) {

@@ -2,7 +2,7 @@ import Token from "../../../models/Token";
 import { HouseKeepingService } from "../../../services/housekeeping.service";
 import { Host, h } from "@stencil/core";
 import moment from "moment/min/moment-with-locales";
-import io from "socket.io-client";
+import { realtimeService } from "../../../services/realtime/realtime.service";
 import { v4 } from "uuid";
 const LANGUAGE_KEY = 'ir_language';
 const localeMap = {
@@ -50,7 +50,7 @@ export class IrHkStaffTasks {
     fromDate = moment().locale('en').format('YYYY-MM-DD');
     toDate = moment().add(3, 'days').locale('en').format('YYYY-MM-DD');
     confirmDialog;
-    socket;
+    unsubscribeRealtime = null;
     hkOverrideTimer = null;
     /** Resolved language: localStorage → language prop → 'en'. @State so render updates on change. */
     activeLanguage = 'en';
@@ -181,31 +181,18 @@ export class IrHkStaffTasks {
         }
     }
     connectSocket() {
-        if (this.socket) {
+        if (this.unsubscribeRealtime) {
             return;
         }
-        this.socket = io('https://realtime.igloorooms.com/');
-        this.socket.on('MSG', async (msg) => {
-            const parsed = JSON.parse(msg);
-            if (!parsed) {
-                return;
-            }
-            const { REASON, KEY, PAYLOAD } = parsed;
-            if (KEY.toString() !== this.connectedHk.AC_ID.toString()) {
-                return;
-            }
-            if (REASON === 'UNIT_HK_STATUS_CHANGED') {
-                const result = JSON.parse(PAYLOAD);
-                if (result.HKM_ID === this.connectedHk.HKM_ID) {
+        this.unsubscribeRealtime = realtimeService.subscribe(this.connectedHk.AC_ID, async (msg) => {
+            if (msg.reason === 'UNIT_HK_STATUS_CHANGED') {
+                if (msg.payload.HKM_ID === this.connectedHk.HKM_ID) {
                     await this.refreshTasks();
                 }
             }
-            else if (REASON === 'HK_TASK_OVERRIDE') {
-                const result = JSON.parse(PAYLOAD);
-                // Relevant if assigned to us (HKM_ID matches) or removed from someone (HKM_ID null — could be us)
-                const affectsUs = result.HKM_ID === this.connectedHk.HKM_ID || result.HKM_ID === null;
-                // Only refresh if the date falls within our displayed window
-                const inRange = result.DATE >= this.fromDate && result.DATE <= this.toDate;
+            else if (msg.reason === 'HK_TASK_OVERRIDE') {
+                const affectsUs = msg.payload.HKM_ID === this.connectedHk.HKM_ID || msg.payload.HKM_ID === null;
+                const inRange = msg.payload.DATE >= this.fromDate && msg.payload.DATE <= this.toDate;
                 if (affectsUs && inRange) {
                     this.scheduleTaskRefresh();
                 }
@@ -217,8 +204,8 @@ export class IrHkStaffTasks {
             clearTimeout(this.hkOverrideTimer);
             this.hkOverrideTimer = null;
         }
-        this.socket?.disconnect();
-        this.socket = null;
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
     }
     scheduleTaskRefresh() {
         if (this.hkOverrideTimer !== null) {

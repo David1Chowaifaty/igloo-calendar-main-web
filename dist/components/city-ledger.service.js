@@ -1,5 +1,5 @@
 import { C as ClTxTypeCode } from './enums.js';
-import './index6.js';
+import './index5.js';
 import './moment.js';
 import './calendar-data.js';
 import './locales.store.js';

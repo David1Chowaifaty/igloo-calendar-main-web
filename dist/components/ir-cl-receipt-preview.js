@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as ClFiscalDocumentService } from './cl-fiscal-document.service.js';
 import { f as formatAmount } from './utils.js';
-import { C as CityLedgerService } from './index6.js';
+import { C as CityLedgerService } from './index5.js';
 import { B as BookingService } from './booking.store.js';
 import { d as defineCustomElement$3 } from './ir-cl-document-header2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';

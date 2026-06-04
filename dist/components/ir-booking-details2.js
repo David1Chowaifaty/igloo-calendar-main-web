@@ -9,9 +9,10 @@ import { c as calendar_data } from './calendar-data.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { b as buildSplitIndex } from './booking.js';
 import { A as AgentsService } from './agents.service.js';
-import { C as CityLedgerService } from './index6.js';
+import { C as CityLedgerService } from './index5.js';
 import { m as mapClTxToFolioRow } from './types3.js';
 import { i as isAgentMode } from './functions.js';
+import { r as realtimeService } from './realtime.service.js';
 import { d as defineCustomElement$1D } from './igl-application-info2.js';
 import { d as defineCustomElement$1C } from './igl-rate-plan2.js';
 import { d as defineCustomElement$1B } from './igl-room-type2.js';
@@ -132,6 +133,9 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
     paymentService = new PaymentService();
     agentService = new AgentsService();
     cityLedgerService = new CityLedgerService();
+    unsubscribeRealtime = null;
+    clLockingPending = new Map();
+    clLockingTimer = null;
     token = new Token();
     arrivalTime;
     svcCategories;
@@ -261,6 +265,14 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
             this.initializeApp();
+        }
+    }
+    disconnectedCallback() {
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
+        if (this.clLockingTimer !== null) {
+            clearTimeout(this.clLockingTimer);
+            this.clLockingTimer = null;
         }
     }
     handleSideBarEvents(e) {
@@ -404,7 +416,9 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
             this.clLoading = false;
         }
     }
-    async loadAgentAndFolio(booking) {
+    async loadAgentAndFolio(booking, propertyId) {
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
         if (!booking?.agent) {
             this.agent = null;
             this.folioRows = [];
@@ -414,7 +428,49 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
         this.agent = await this.agentService.getExposedAgent({ id: booking.agent.id });
         if (isAgentMode(this.agent)) {
             await this.fetchCityLedger(booking);
+            const pid = propertyId ?? this.property_id;
+            if (pid) {
+                this.unsubscribeRealtime = realtimeService.subscribe(pid, msg => {
+                    this.handleClSocketMessage(msg);
+                });
+            }
         }
+    }
+    handleClSocketMessage(msg) {
+        if (msg.reason === 'CL_TX_LOCKING') {
+            const tx = msg.payload;
+            if (tx.TRAVEL_AGENCY_ID !== this.agent?.id)
+                return;
+            // Accumulate — later arrivals for the same ID overwrite earlier ones
+            this.clLockingPending.set(tx.CL_TX_ID, tx.IS_LOCKED);
+            if (this.clLockingTimer !== null)
+                clearTimeout(this.clLockingTimer);
+            this.clLockingTimer = setTimeout(() => {
+                this.clLockingTimer = null;
+                this.applyClLockingUpdates();
+            }, 150);
+        }
+        else if (msg.reason === 'CL_TX_HOLD_TOGGLED') {
+            const { cl_tx_id, agency_id, is_hold } = msg.payload;
+            if (agency_id !== this.agent?.id)
+                return;
+            this.rawTransactions = this.rawTransactions.map(tx => (tx.CL_TX_ID === cl_tx_id ? { ...tx, IS_HOLD: is_hold } : tx));
+            this.folioRows = this.folioRows.map(r => r._raw.CL_TX_ID === cl_tx_id ? { ...mapClTxToFolioRow({ ...r._raw, IS_HOLD: is_hold }), _rowId: r._rowId, balance: r.balance } : r);
+        }
+    }
+    applyClLockingUpdates() {
+        const pending = this.clLockingPending;
+        this.clLockingPending = new Map();
+        this.rawTransactions = this.rawTransactions.map(tx => {
+            const isLocked = pending.get(tx.CL_TX_ID);
+            return isLocked !== undefined ? { ...tx, IS_LOCKED: isLocked } : tx;
+        });
+        this.folioRows = this.folioRows.map(r => {
+            const isLocked = pending.get(r._raw.CL_TX_ID);
+            if (isLocked === undefined)
+                return r;
+            return { ...mapClTxToFolioRow({ ...r._raw, IS_LOCKED: isLocked }), _rowId: r._rowId, balance: r.balance };
+        });
     }
     async handleClRefresh() {
         await this.fetchCityLedger();
@@ -447,8 +503,9 @@ const IrBookingDetails = /*@__PURE__*/ proxyCustomElement(class IrBookingDetails
                     '_SVC_CATEGORY',
                 ]),
             ]);
-            await this.loadAgentAndFolio(bookingDetails);
-            this.property_id = roomResponse?.My_Result?.id;
+            const resolvedPropertyId = roomResponse?.My_Result?.id;
+            await this.loadAgentAndFolio(bookingDetails, resolvedPropertyId);
+            this.property_id = resolvedPropertyId;
             const { bed_preference_type, svc_category, departure_time, pay_type, pay_type_group, pay_method, arrival_time } = this.bookingService.groupEntryTablesResult(setupEntries);
             this.bedPreference = bed_preference_type;
             this.svcCategories = svc_category;

@@ -3,7 +3,7 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { RoomService } from "../../services/room.service";
 import { UserService } from "../../services/user.service";
 import { Host, h } from "@stencil/core";
-import { io } from "socket.io-client";
+import { realtimeService } from "../../services/realtime/realtime.service";
 import locales from "../../stores/locales.store";
 import { getEntryValue } from "../../utils/utils";
 export class IrUserManagement {
@@ -27,7 +27,7 @@ export class IrUserManagement {
     userService = new UserService();
     bookingService = new BookingService();
     userTypes = new Map();
-    socket;
+    unsubscribeRealtime = null;
     superAdminId = '5';
     componentWillLoad() {
         if (this.baseUrl) {
@@ -84,9 +84,8 @@ export class IrUserManagement {
                 }));
             }
             await Promise.all(requests);
-            this.socket = io('https://realtime.igloorooms.com/');
-            this.socket.on('MSG', async (msg) => {
-                await this.handleSocketMessage(msg);
+            this.unsubscribeRealtime = realtimeService.subscribe(this.property_id, async (msg) => {
+                await this.handleSocketMessage(msg.reason, msg.payload);
             });
         }
         catch (error) {
@@ -96,29 +95,13 @@ export class IrUserManagement {
             this.isLoading = false;
         }
     }
-    async handleSocketMessage(msg) {
-        const msgAsObject = JSON.parse(msg);
-        if (!msgAsObject) {
-            return;
-        }
-        const { REASON, KEY, PAYLOAD } = msgAsObject;
-        if (KEY.toString() !== this.property_id.toString()) {
-            return;
-        }
-        let result = JSON.parse(PAYLOAD);
-        console.log(KEY, result);
-        // const reasonHandlers: Partial<Record<bookingReasons, Function>> = {
-        //   DORESERVATION: this.updateUserVerificationStatus,
-        // };
+    async handleSocketMessage(reason, result) {
         const reasonHandlers = {
             EMAIL_VERIFIED: this.updateUserVerificationStatus,
         };
-        const handler = reasonHandlers[REASON];
+        const handler = reasonHandlers[reason];
         if (handler) {
             await handler.call(this, result);
-        }
-        else {
-            console.warn(`Unhandled REASON: ${REASON}`);
         }
     }
     updateUserVerificationStatus(result) {
@@ -174,7 +157,8 @@ export class IrUserManagement {
         }
     }
     disconnectedCallback() {
-        this.socket.disconnect();
+        this.unsubscribeRealtime?.();
+        this.unsubscribeRealtime = null;
     }
     render() {
         if (this.isLoading) {
