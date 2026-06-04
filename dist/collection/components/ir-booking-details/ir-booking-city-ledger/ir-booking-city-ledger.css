@@ -2,7 +2,7 @@
   display: block;
   width: 100%;
   min-width: 0;
-  --item-vertical-padding: var(--wa-space-s, 0.5rem);
+  --item-vertical-padding: var(--wa-space-xs, 0.5rem);
   --item-inline-padding: var(--wa-space-l, 1.5rem);
 }
 
@@ -14,7 +14,7 @@
 .booking-city-ledger__card::part(body) {
   padding: 0;
   padding-bottom: calc(1.5rem - var(--item-vertical-padding));
-  padding-top: calc(1.5rem - var(--item-vertical-padding));
+  padding-top: 0;
 }
 
 /* ── Header title ──────────────────────────────────────────── */
@@ -89,7 +89,7 @@
 
 .folio-row__date {
   font-size: 0.857rem;
-  color: var(--wa-color-neutral-500, #71717a);
+  /* color: var(--wa-color-neutral-500, #71717a); */
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }

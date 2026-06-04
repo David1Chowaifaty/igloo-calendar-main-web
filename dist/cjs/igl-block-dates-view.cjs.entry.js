@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_service = require('./booking.service-f799a810.js');
+const booking_store = require('./booking.store-da99b883.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
@@ -37,7 +37,7 @@ const IglBlockDatesView = class {
         OUT_OF_SERVICE: false,
     }; // Change of property name might require updates in booking-event-hover
     releaseList = [];
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     async componentWillLoad() {
         try {
             this.releaseList = await this.bookingService.getBlockedInfo();
