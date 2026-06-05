@@ -16,14 +16,14 @@ export class IrMealReportFilters {
     presetDate;
     render() {
         const mealTypes = this.setupEntries?.meal_type || [];
-        return (h("div", { key: '88b542f328dde51f7ebfae09abcc3342cb1d3f65', class: "ir-meal-report-filters__container", onKeyDown: (e) => {
+        return (h("div", { key: '9985647029d6e05b5dca1476e40d85c14dd1165f', class: "ir-meal-report-filters__container", onKeyDown: (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
                 }
-            } }, h("div", { key: 'e26e505c23cbf7e86225df1dc2cdadec2513d85c', class: "ir-meal-report-filters__header" }, h("div", { key: '2813e056d21526b58d84bedd237e56bc751ea058', class: "ir-meal-report-filters__header-content" }, h("svg", { key: 'dca99927c56e320691d42ceb4ac2487de908145c', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '463786c918bb6d7ac2ecb339d64a1a81b762c948', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '5a7599d10fee46f6461ff4e47fbd5a63f7184f48', class: "ir-meal-report-filters__title" }, this.lcz.Lcz_Filters || 'Filters'))), h("div", { key: '90a66f86fe4d28f4fc779a78222aaf946e2ee917', class: "ir-meal-report-filters__body" }, h("fieldset", { key: 'e73cb4a2880d5fb033a2c02c3044c34a9fe19f84', class: "ir-meal-report-filters__group" }, h("label", { key: '75fd7788d975bc0e2d93d08543586ed627052780', class: "ir-meal-report-filters__label" }, "Report type"), h("wa-radio-group", { key: '11189d7e57282fb8d3c9f2bacd62399dfc9c6847', value: this.reportType, onchange: e => {
+            } }, h("div", { key: '97f81ee81f50a3f5ebb1d52b49979e4a1405ddf3', class: "ir-meal-report-filters__header" }, h("div", { key: '2a063cc8dd89ebb725ab1fa5a225bbc1e98383f3', class: "ir-meal-report-filters__header-content" }, h("svg", { key: '2b1c30c8e117b515f0f2cb04f6678dc02ce01e85', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 512 512", height: 18, width: 18 }, h("path", { key: '4a58cbbcc52f1751ffbb9b239c6ed2fca4aa42b2', fill: "currentColor", d: "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" })), h("h4", { key: '236fc99e87c681fc2830e8c8853256071bb744de', class: "ir-meal-report-filters__title" }, this.lcz.Lcz_Filters || 'Filters'))), h("div", { key: '47c87792edb2ab6789904ee413b138f671b09ff0', class: "ir-meal-report-filters__body" }, h("fieldset", { key: '73388ca6afc27addb8a79346a56fd3a860623645', class: "ir-meal-report-filters__group" }, h("label", { key: '89da050697f77fe20075f2887e18291d46e1cac6', class: "ir-meal-report-filters__label" }, "Report type"), h("wa-radio-group", { key: 'cb40800f39cb46407c443f0e0cf833a1a7070d3c', value: this.reportType, onchange: e => {
                 this.reportTypeChange.emit(e.target.value);
-            } }, h("wa-radio", { key: 'ffc04d5142694f3282b0531d89bed004b18ab2f2', value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: 'bf0c28e8989f9d4b727497a4a826ccf0bb8f3601', value: "MEAL_COUNT" }, "Meal count"))), h("fieldset", { key: '456d84dc3307778ee05fd0c4cab49bd09ad6eb82', class: "ir-meal-report-filters__group" }, h("label", { key: '8ae48bf6bdcb989fe58dd3567fd115be5a1232d7', class: "ir-meal-report-filters__label" }, "Stay date"), this.reportType === 'GUEST_LIST' ? (h("div", { class: "ir-meal-report-filters__date-presets" }, h("ir-custom-button", { type: "button", size: "small", variant: this.fromDate === moment().format('YYYY-MM-DD') ? 'brand' : 'neutral', appearance: this.fromDate === moment().format('YYYY-MM-DD') ? 'filled' : 'outlined', onClickHandler: (e) => {
+            } }, h("wa-radio", { key: '1091aebaef199ebaca5d2a01801c6d5b5c4be31d', value: "GUEST_LIST" }, "Guest list"), h("wa-radio", { key: '1d45d12c65dbda8d94b85e28d734618ffc7da189', value: "MEAL_COUNT" }, "Meal count"))), h("fieldset", { key: 'bfe87465398d170e78676d8e67c01f78bfd56981', class: "ir-meal-report-filters__group" }, h("label", { key: '3ee952cd4a6d4250a1a5ad9df4d7f877ac7eb3ea', class: "ir-meal-report-filters__label" }, "Stay date"), this.reportType === 'GUEST_LIST' ? (h("div", { class: "ir-meal-report-filters__date-presets" }, h("ir-custom-button", { type: "button", size: "small", variant: this.fromDate === moment().format('YYYY-MM-DD') ? 'brand' : 'neutral', appearance: this.fromDate === moment().format('YYYY-MM-DD') ? 'filled' : 'outlined', onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -43,21 +43,21 @@ export class IrMealReportFilters {
                     from: fromDate.format('YYYY-MM-DD'),
                     to: toDate.format('YYYY-MM-DD')
                 });
-            }, withOverlay: false })))), this.reportType === 'GUEST_LIST' && (h("fieldset", { key: '82fc45c652426a04be1114bcc5715fbecccb5d44', class: "ir-meal-report-filters__group" }, h("label", { key: '5cc8193fb29d9131b3dc53f178a0170c30efe921', class: "ir-meal-report-filters__label" }, "Meal type"), mealTypes.length > 0 ? (h("div", { class: "ir-meal-report-filters__meal-types" }, mealTypes.map(type => (h("ir-custom-button", { type: "button", size: "small", variant: this.mealType === type.CODE_NAME ? 'brand' : 'neutral', appearance: this.mealType === type.CODE_NAME ? 'filled' : 'outlined', onClickHandler: async (e) => {
+            }, withOverlay: false })))), this.reportType === 'GUEST_LIST' && (h("fieldset", { key: '3941f8166fc83a627757fcfe7d6f2a56c0040dd6', class: "ir-meal-report-filters__group" }, h("label", { key: '60e51df74ae750af6e63145b5a35430939ef6bb4', class: "ir-meal-report-filters__label" }, "Meal type"), mealTypes.length > 0 ? (h("div", { class: "ir-meal-report-filters__meal-types" }, mealTypes.map(type => (h("ir-custom-button", { type: "button", size: "small", variant: this.mealType === type.CODE_NAME ? 'brand' : 'neutral', appearance: this.mealType === type.CODE_NAME ? 'filled' : 'outlined', onClickHandler: async (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.mealTypeChange.emit(type.CODE_NAME);
-            }, class: "ir-meal-report-filters__meal-btn" }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found.")))), h("div", { key: '4cc87efda5df96d0ab7b18e1b51d88f32e8ccb07', class: "ir-meal-report-filters__footer" }, h("ir-custom-button", { key: '6a312d8229eeb47c4579a3de6a1ad395821ccdd4', type: "button", size: "small", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
+            }, class: "ir-meal-report-filters__meal-btn" }, type.CODE_VALUE_EN))))) : (h("div", { class: "ir-meal-report-filters__warning" }, "No meal types found.")))), h("div", { key: 'e066ea5a21df917bc1accdd8b283da08c319065c', class: "ir-meal-report-filters__footer" }, h("ir-custom-button", { key: '43f4fee3b18b059a0ea9585a2039b8e8cd05a30a', type: "button", size: "small", variant: "neutral", appearance: "filled", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.filterReset.emit();
-            }, class: "ir-meal-report-filters__reset-btn" }, this.lcz.Lcz_Reset || 'Reset'), h("ir-custom-button", { key: '59006a68a4e253c731216e34489a441be508fe53', type: "button", size: "small", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
+            }, class: "ir-meal-report-filters__reset-btn" }, this.lcz.Lcz_Reset || 'Reset'), h("ir-custom-button", { key: 'b7d2725f2a27186b1583d0e89bc6218e39f62f54', type: "button", size: "small", variant: "brand", loading: this.isLoading, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
