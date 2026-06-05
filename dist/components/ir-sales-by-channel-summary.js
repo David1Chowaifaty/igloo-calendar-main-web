@@ -9,7 +9,7 @@ const IrSalesByChannelSummary$1 = /*@__PURE__*/ proxyCustomElement(class IrSales
         this.__registerHost();
     }
     render() {
-        return (h(Host, { key: 'bfd740136063077c3e09ec87098a99b5f52d2747' }, h("slot", { key: '0cc775bd3e5791481999414d6f0778153cba5cff' })));
+        return (h(Host, { key: 'c17840fdb069e237631b4fcc4f1c7f8777e5fd36' }, h("slot", { key: '129b767f408cede9ae3dea1a4aa92e090124f9f9' })));
     }
     static get style() { return IrSalesByChannelSummaryStyle0; }
 }, [6, "ir-sales-by-channel-summary"]);

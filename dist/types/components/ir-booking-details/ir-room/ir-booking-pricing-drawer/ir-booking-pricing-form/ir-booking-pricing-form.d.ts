@@ -21,12 +21,15 @@ export declare class IrBookingPricingForm {
     isCheckingInvoice: boolean;
     pricingSaved: EventEmitter<void>;
     submitDisabledChange: EventEmitter<boolean>;
+    allDisabled: EventEmitter<boolean>;
     private bookingService;
-    componentWillLoad(): Promise<void>;
+    private isAgent;
+    componentWillLoad(): void;
     handleRoomChange(): void;
     private initNights;
     private checkInvoiceStatus;
     private isValid;
+    private get acmTxByDate();
     private updateNight;
     private handleSubmit;
     render(): any;

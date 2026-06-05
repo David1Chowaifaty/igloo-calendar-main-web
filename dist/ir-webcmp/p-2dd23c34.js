@@ -1,2 +1,0 @@
-import{T as e}from"./p-4ed0db97.js";import{C as t}from"./p-2ff693e4.js";import{P as r}from"./p-0684d68a.js";class i{tokenService=new e;propertyService=new r;cityLedgerService=new t;init(e,t){if(e)this.tokenService.setBaseUrl(e);this.tokenService.setToken(t)}async fetchData(e,t,r){const[i,s]=await Promise.all([this.propertyService.getExposedProperty({id:e,language:"en"}),this.cityLedgerService.fetchCL({AGENCY_ID:t,START_ROW:0,END_ROW:1e3,SEARCH_QUERY:r})]);return{property:i?.My_Result??null,transactions:s?.My_Cl_tx??[]}}}export{i as C};
-//# sourceMappingURL=p-2dd23c34.js.map

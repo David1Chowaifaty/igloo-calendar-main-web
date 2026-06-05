@@ -7031,6 +7031,7 @@ declare global {
     interface HTMLIrBookingPricingFormElementEventMap {
         "pricingSaved": void;
         "submitDisabledChange": boolean;
+        "allDisabled": boolean;
     }
     interface HTMLIrBookingPricingFormElement extends Components.IrBookingPricingForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingPricingFormElementEventMap>(type: K, listener: (this: HTMLIrBookingPricingFormElement, ev: IrBookingPricingFormCustomEvent<HTMLIrBookingPricingFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -12063,6 +12064,7 @@ declare namespace LocalJSX {
         "currencySymbol"?: string;
         "folioEntries"?: ClTx[];
         "formId"?: string;
+        "onAllDisabled"?: (event: IrBookingPricingFormCustomEvent<boolean>) => void;
         "onPricingSaved"?: (event: IrBookingPricingFormCustomEvent<void>) => void;
         "onSubmitDisabledChange"?: (event: IrBookingPricingFormCustomEvent<boolean>) => void;
         "room"?: Room;

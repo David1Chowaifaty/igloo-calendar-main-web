@@ -1,8 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
-import { d as defineCustomElement$5 } from './ir-booking-pricing-form2.js';
-import { d as defineCustomElement$4 } from './ir-custom-button2.js';
-import { d as defineCustomElement$3 } from './ir-drawer2.js';
-import { d as defineCustomElement$2 } from './ir-input2.js';
+import { d as defineCustomElement$6 } from './ir-booking-pricing-form2.js';
+import { d as defineCustomElement$5 } from './ir-custom-button2.js';
+import { d as defineCustomElement$4 } from './ir-drawer2.js';
+import { d as defineCustomElement$3 } from './ir-input2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
 const irBookingPricingDrawerCss = ".sc-ir-booking-pricing-drawer-h{display:block}.pricing-drawer__footer.sc-ir-booking-pricing-drawer{display:flex;gap:0.75rem}.pricing-drawer__btn.sc-ir-booking-pricing-drawer{flex:1 1 0}";
@@ -75,7 +76,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-booking-pricing-drawer", "ir-booking-pricing-form", "ir-custom-button", "ir-drawer", "ir-input", "ir-validator"];
+    const components = ["ir-booking-pricing-drawer", "ir-booking-pricing-form", "ir-custom-button", "ir-drawer", "ir-input", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-booking-pricing-drawer":
             if (!customElements.get(tagName)) {
@@ -84,20 +85,25 @@ function defineCustomElement() {
             break;
         case "ir-booking-pricing-form":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-drawer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$3();
+            }
+            break;
+        case "ir-spinner":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

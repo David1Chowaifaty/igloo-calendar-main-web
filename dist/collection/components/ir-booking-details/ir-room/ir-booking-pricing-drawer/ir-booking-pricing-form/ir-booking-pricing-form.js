@@ -4,6 +4,7 @@ import { z } from "zod";
 import { BookingService } from "../../../../../services/booking-service/booking.service";
 import { isAgentMode } from "../../../functions";
 import calendar_data from "../../../../../stores/calendar-data";
+import { InvoiceableItemReason } from "../../../../../types/enums";
 const nightAmountSchema = z.coerce.number({ invalid_type_error: 'Required' }).min(0, 'Minimum is 0');
 export class IrBookingPricingForm {
     formId = 'booking-pricing-form';
@@ -18,30 +19,34 @@ export class IrBookingPricingForm {
     isCheckingInvoice = false;
     pricingSaved;
     submitDisabledChange;
+    allDisabled;
     bookingService = new BookingService();
-    async componentWillLoad() {
+    isAgent;
+    componentWillLoad() {
+        this.isAgent = this.room.agent && isAgentMode(this.agent);
         this.initNights();
-        if (!isAgentMode(this.agent)) {
-            await this.checkInvoiceStatus();
+        if (!this.isAgent) {
+            this.checkInvoiceStatus();
         }
     }
     handleRoomChange() {
         this.initNights();
     }
     initNights() {
+        const acmTxByDate = this.acmTxByDate;
         this.nights = this.room.days.map(day => ({
             date: day.date,
-            amount: day.amount.toFixed(2),
+            amount: day.amount.toString(),
             cost: day.cost,
-            isLocked: this.folioEntries.some(e => e.SERVICE_DATE === day.date && e.IS_LOCKED),
+            isLocked: this.isAgent ? acmTxByDate.get(day.date)?.IS_LOCKED : false,
         }));
     }
     async checkInvoiceStatus() {
         this.isCheckingInvoice = true;
         try {
             const info = await this.bookingService.getBookingInvoiceInfo({ booking_nbr: this.booking.booking_nbr });
-            const accommodationItems = (info.invoiceable_items ?? []).filter(item => item.type === 'BSA');
-            this.invoiceLocked = accommodationItems.some(item => item.reason?.code === '001');
+            const accommodationItem = (info.invoiceable_items ?? []).find(item => item.key === this.room.system_id);
+            this.invoiceLocked = accommodationItem.reason.code === InvoiceableItemReason.AlreadyInvoiced;
         }
         catch {
             // non-fatal — fall through with invoiceLocked = false
@@ -58,6 +63,9 @@ export class IrBookingPricingForm {
                 return true;
             return nightAmountSchema.safeParse(n.amount).success;
         });
+    }
+    get acmTxByDate() {
+        return new Map(this.folioEntries.filter(tx => tx.CATEGORY === 'ACM' && tx.BSA_REF === this.room.identifier).map(tx => [tx.SERVICE_DATE, tx]));
     }
     updateNight(date, value) {
         this.nights = this.nights.map(n => (n.date === date ? { ...n, amount: value } : n));
@@ -84,7 +92,7 @@ export class IrBookingPricingForm {
                 promo_key,
                 extras: extras ?? [],
                 agent: this.booking.agent,
-                booking: { ...rest, rooms: updatedRooms },
+                booking: { ...rest, rooms: updatedRooms, agent: this.booking.agent },
                 extra_services,
                 pickup_info,
             };
@@ -100,9 +108,11 @@ export class IrBookingPricingForm {
         }
     }
     render() {
-        const currency = this.currencySymbol || this.booking?.currency?.symbol || this.booking?.currency?.code || '';
-        const allDisabled = this.invoiceLocked || this.isSubmitting || this.isCheckingInvoice;
-        return (h("form", { key: '5b2c1c2b2d9542f5b3e47c1df7152ebb88bd449b', id: this.formId, class: "pricing-form", onSubmit: this.handleSubmit.bind(this), novalidate: true }, h("wa-callout", { key: '877d59c9243a243bc8d2ad24320d12b12b4aa434', size: "small", variant: "neutral" }, calendar_data.property.tax_statement), this.invoiceLocked && (h("wa-callout", { key: 'bd17ae08e39448e6d8259651138a07696d89889d', variant: "warning", size: "small" }, h("wa-icon", { key: '70173e6db2b7f728354d52775ec4e442512258d8', slot: "icon", name: "triangle-exclamation" }), "Rates are locked \u2014 an invoice has already been issued for this room's accommodation. To modify prices, void the invoice first.")), this.nights.map(night => (h("div", { key: night.date, class: `pricing-form__row${night.isLocked || allDisabled ? ' pricing-form__row--locked' : ''}` }, h("span", { class: "pricing-form__date" }, moment(night.date).format('ddd, MMM D')), h("ir-validator", { class: "pricing-form__input-validator", schema: nightAmountSchema, value: night.amount, valueEvent: "text-change", showErrorMessage: true, autovalidate: true }, h("ir-input", { value: night.amount, mask: "price", disabled: night.isLocked || allDisabled, "onText-change": (e) => this.updateNight(night.date, e.detail) }, h("span", { slot: "start" }, currency), (night.isLocked || this.invoiceLocked) && h("wa-icon", { slot: "end", name: "lock", style: { fontSize: '0.875rem' } }))))))));
+        if (this.isCheckingInvoice) {
+            return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
+        }
+        const allDisabled = this.invoiceLocked || this.isSubmitting;
+        return (h("form", { id: this.formId, class: "pricing-form", onSubmit: this.handleSubmit.bind(this), novalidate: true }, h("wa-callout", { variant: "warning", size: "small" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), "Locked nightly rates cannot be edited because they ", h("b", null, "have been invoiced"), ". You can void the invoice with a ", h("b", null, "credit note"), " to update the rates and recreate a new one"), h("wa-callout", { size: "small", variant: "neutral" }, calendar_data.property.tax_statement), h("div", { style: { marginBottom: '0.5rem' } }), this.nights.map(night => (h("ir-validator", { key: night.date, class: "pricing-form__input-validator", schema: nightAmountSchema, value: night.amount }, h("ir-input", { class: "pricing-form__input", label: moment(night.date).format('ddd, MMM D'), value: night.amount, mask: "price", disabled: night.isLocked || allDisabled, "onText-change": (e) => this.updateNight(night.date, e.detail) }, h("span", { slot: "start" }, calendar_data.property.currency.symbol), (night.isLocked || this.invoiceLocked) && h("wa-icon", { slot: "end", name: "lock", style: { fontSize: '0.875rem' } })))))));
     }
     static get is() { return "ir-booking-pricing-form"; }
     static get encapsulation() { return "scoped"; }
@@ -281,6 +291,21 @@ export class IrBookingPricingForm {
             }, {
                 "method": "submitDisabledChange",
                 "name": "submitDisabledChange",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                }
+            }, {
+                "method": "allDisabled",
+                "name": "allDisabled",
                 "bubbles": true,
                 "cancelable": true,
                 "composed": true,

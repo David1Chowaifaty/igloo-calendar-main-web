@@ -3,7 +3,7 @@ import moment from "moment";
 export class IrClInvoiceDateCell {
     date;
     render() {
-        return h(Host, { key: '249d8380fea3c6886d0f36be9d6d7ef6bbc47b72' }, moment(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
+        return h(Host, { key: 'db296589abaf0b62a083bcf5308af6d0272d9c08' }, moment(this.date, 'YYYY-MM-DD').format('MMM DD, YYYY'));
     }
     static get is() { return "ir-cl-invoice-date-cell"; }
     static get encapsulation() { return "scoped"; }

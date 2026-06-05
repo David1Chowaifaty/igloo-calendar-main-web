@@ -20,7 +20,7 @@ const IrProgressIndicator = class {
      */
     color = 'primary';
     render() {
-        return (h(Host, { key: 'bc024fc2418b155e58782941148f926bb80d8ec4', class: "progress-main" }, h("span", { key: '38d2853a1334d137168c0cc0e3c32fd81f644f27', class: "progress-totle" }, this.percentage), h("div", { key: '4e0d3847ff7f64c3c8cec2457d7845bc0d9c4a9e', class: "progress-line" }, h("div", { key: 'ecda70c675a4b924e71978d3b44a9cfb6bfe49d4', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
+        return (h(Host, { key: '438d831ffd40977d341b2468fce7f2011570bc53', class: "progress-main" }, h("span", { key: '26ce47793697a45b2252766af0f96803c352d139', class: "progress-totle" }, this.percentage), h("div", { key: 'b9fa5fa1e94567b6fb6d8c7943269ee75d58256d', class: "progress-line" }, h("div", { key: 'a25be2870cc9def39c6635328e5bf47e01220e0b', class: `progress ${this.color === 'primary' ? 'bg-primary' : 'secondary-progress'} mb-0`, style: { width: this.percentage } }))));
     }
 };
 IrProgressIndicator.style = IrProgressIndicatorStyle0;

@@ -1,5 +1,5 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { C as CityLedgerService, F as FdTypes } from './index-20eff296.js';
+import { C as CityLedgerService, F as FdTypes } from './index-59d00153.js';
 import { P as PropertyService } from './property.service-688f3343.js';
 import { f as formatAmount } from './utils-84245485.js';
 import { T as Token } from './Token-bcdb7c50.js';
