@@ -34,8 +34,9 @@ import { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types
 import { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 import { BookingService } from "./services/booking-service/booking.service";
 import { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
+import { ClTx, FiscalDocuments } from "./services/city-ledger/types";
 import { SplitIndex } from "./utils/booking";
-import { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
+import { ClTx as ClTx1, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
@@ -47,7 +48,6 @@ import { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/
 import { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 import { ZodIssue, ZodType, ZodTypeAny } from "zod";
-import { ClTx as ClTx1, FiscalDocuments } from "./services/city-ledger/types";
 import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -127,8 +127,9 @@ export { FolioRow } from "./components/ir-city-ledger/ir-city-ledger-folio/types
 export { BlockedDatePayload, BookingEditorMode, BookingStep } from "./components/igloo-calendar/ir-booking-editor/types";
 export { BookingService } from "./services/booking-service/booking.service";
 export { FolioEntryMode, OpenSidebarEvent, Payment as Payment1, PaymentEntries as PaymentEntries1, PaymentSidebarEvent, PrintScreenOptions, RoomGuestsPayload as RoomGuestsPayload1 } from "./components/ir-booking-details/types";
+export { ClTx, FiscalDocuments } from "./services/city-ledger/types";
 export { SplitIndex } from "./utils/booking";
-export { ClTx, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
+export { ClTx as ClTx1, FiscalDocument as FiscalDocument1 } from "./services/city-ledger/index";
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
@@ -140,7 +141,6 @@ export { FolioFilters, FolioRow as FolioRow1, FolioSummary } from "./components/
 export { StatementFilters } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { StatementFilters as StatementFilters1 } from "./components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter";
 export { ZodIssue, ZodType, ZodTypeAny } from "zod";
-export { ClTx as ClTx1, FiscalDocuments } from "./services/city-ledger/types";
 export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoice-dialog/ir-cl-invoice-form/ir-cl-invoice-form";
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
@@ -1231,6 +1231,23 @@ export namespace Components {
          */
         "source": Booking['source'];
     }
+    interface IrBookingPricingDrawer {
+        "agent": Agent | null;
+        "booking": Booking;
+        "currencySymbol": string;
+        "folioEntries": ClTx[];
+        "formId": string;
+        "open": boolean;
+        "room": Room;
+    }
+    interface IrBookingPricingForm {
+        "agent": Agent | null;
+        "booking": Booking;
+        "currencySymbol": string;
+        "folioEntries": ClTx[];
+        "formId": string;
+        "room": Room;
+    }
     interface IrBookingPrinting {
         "bookingNumber": string;
         "countries": any;
@@ -1474,8 +1491,10 @@ export namespace Components {
     interface IrCityLedgerFolio {
         "agent": Agent | null;
         "currencies": ICurrency[];
+        "language": string;
         "propertyId": number;
         "serviceCategoryOptions": ServiceCategoryOption[];
+        "ticket": string;
     }
     interface IrCityLedgerFolioFilters {
         "isExporting": boolean;
@@ -1490,9 +1509,12 @@ export namespace Components {
         "hasFetched": boolean;
         "hideBalanceInfo": boolean;
         "isLoading": boolean;
+        "language": string;
         "pageIndex": number;
         "pageSize": number;
+        "propertyId": number;
         "startingBalance": number;
+        "ticket": string;
         "toDate": string;
         "totalCount": number;
     }
@@ -5079,6 +5101,14 @@ export interface IrBookingNumberCellCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingNumberCellElement;
 }
+export interface IrBookingPricingDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingPricingDrawerElement;
+}
+export interface IrBookingPricingFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrBookingPricingFormElement;
+}
 export interface IrBookingRoomsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrBookingRoomsElement;
@@ -6979,6 +7009,42 @@ declare global {
     var HTMLIrBookingNumberCellElement: {
         prototype: HTMLIrBookingNumberCellElement;
         new (): HTMLIrBookingNumberCellElement;
+    };
+    interface HTMLIrBookingPricingDrawerElementEventMap {
+        "closeDrawer": void;
+        "pricingSaved": void;
+    }
+    interface HTMLIrBookingPricingDrawerElement extends Components.IrBookingPricingDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingPricingDrawerElementEventMap>(type: K, listener: (this: HTMLIrBookingPricingDrawerElement, ev: IrBookingPricingDrawerCustomEvent<HTMLIrBookingPricingDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingPricingDrawerElementEventMap>(type: K, listener: (this: HTMLIrBookingPricingDrawerElement, ev: IrBookingPricingDrawerCustomEvent<HTMLIrBookingPricingDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingPricingDrawerElement: {
+        prototype: HTMLIrBookingPricingDrawerElement;
+        new (): HTMLIrBookingPricingDrawerElement;
+    };
+    interface HTMLIrBookingPricingFormElementEventMap {
+        "pricingSaved": void;
+        "submitDisabledChange": boolean;
+    }
+    interface HTMLIrBookingPricingFormElement extends Components.IrBookingPricingForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrBookingPricingFormElementEventMap>(type: K, listener: (this: HTMLIrBookingPricingFormElement, ev: IrBookingPricingFormCustomEvent<HTMLIrBookingPricingFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrBookingPricingFormElementEventMap>(type: K, listener: (this: HTMLIrBookingPricingFormElement, ev: IrBookingPricingFormCustomEvent<HTMLIrBookingPricingFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrBookingPricingFormElement: {
+        prototype: HTMLIrBookingPricingFormElement;
+        new (): HTMLIrBookingPricingFormElement;
     };
     interface HTMLIrBookingPrintingElement extends Components.IrBookingPrinting, HTMLStencilElement {
     }
@@ -10512,6 +10578,8 @@ declare global {
         "ir-booking-listing-table": HTMLIrBookingListingTableElement;
         "ir-booking-new-form": HTMLIrBookingNewFormElement;
         "ir-booking-number-cell": HTMLIrBookingNumberCellElement;
+        "ir-booking-pricing-drawer": HTMLIrBookingPricingDrawerElement;
+        "ir-booking-pricing-form": HTMLIrBookingPricingFormElement;
         "ir-booking-printing": HTMLIrBookingPrintingElement;
         "ir-booking-rooms": HTMLIrBookingRoomsElement;
         "ir-booking-source-editor-dialog": HTMLIrBookingSourceEditorDialogElement;
@@ -11978,6 +12046,27 @@ declare namespace LocalJSX {
          */
         "source"?: Booking['source'];
     }
+    interface IrBookingPricingDrawer {
+        "agent"?: Agent | null;
+        "booking"?: Booking;
+        "currencySymbol"?: string;
+        "folioEntries"?: ClTx[];
+        "formId"?: string;
+        "onCloseDrawer"?: (event: IrBookingPricingDrawerCustomEvent<void>) => void;
+        "onPricingSaved"?: (event: IrBookingPricingDrawerCustomEvent<void>) => void;
+        "open"?: boolean;
+        "room"?: Room;
+    }
+    interface IrBookingPricingForm {
+        "agent"?: Agent | null;
+        "booking"?: Booking;
+        "currencySymbol"?: string;
+        "folioEntries"?: ClTx[];
+        "formId"?: string;
+        "onPricingSaved"?: (event: IrBookingPricingFormCustomEvent<void>) => void;
+        "onSubmitDisabledChange"?: (event: IrBookingPricingFormCustomEvent<boolean>) => void;
+        "room"?: Room;
+    }
     interface IrBookingPrinting {
         "bookingNumber"?: string;
         "countries"?: any;
@@ -12239,9 +12328,11 @@ declare namespace LocalJSX {
     interface IrCityLedgerFolio {
         "agent"?: Agent | null;
         "currencies"?: ICurrency[];
+        "language"?: string;
         "onFolioSummaryUpdate"?: (event: IrCityLedgerFolioCustomEvent<FolioSummary>) => void;
         "propertyId"?: number;
         "serviceCategoryOptions"?: ServiceCategoryOption[];
+        "ticket"?: string;
     }
     interface IrCityLedgerFolioFilters {
         "isExporting"?: boolean;
@@ -12260,6 +12351,7 @@ declare namespace LocalJSX {
         "hasFetched"?: boolean;
         "hideBalanceInfo"?: boolean;
         "isLoading"?: boolean;
+        "language"?: string;
         "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFolioTableCustomEvent<void>) => void;
@@ -12267,7 +12359,9 @@ declare namespace LocalJSX {
         "onPageChange"?: (event: IrCityLedgerFolioTableCustomEvent<{ pageIndex: number; pageSize: number }>) => void;
         "pageIndex"?: number;
         "pageSize"?: number;
+        "propertyId"?: number;
         "startingBalance"?: number;
+        "ticket"?: string;
         "toDate"?: string;
         "totalCount"?: number;
     }
@@ -16075,6 +16169,8 @@ declare namespace LocalJSX {
         "ir-booking-listing-table": IrBookingListingTable;
         "ir-booking-new-form": IrBookingNewForm;
         "ir-booking-number-cell": IrBookingNumberCell;
+        "ir-booking-pricing-drawer": IrBookingPricingDrawer;
+        "ir-booking-pricing-form": IrBookingPricingForm;
         "ir-booking-printing": IrBookingPrinting;
         "ir-booking-rooms": IrBookingRooms;
         "ir-booking-source-editor-dialog": IrBookingSourceEditorDialog;
@@ -16419,6 +16515,8 @@ declare module "@stencil/core" {
             "ir-booking-listing-table": LocalJSX.IrBookingListingTable & JSXBase.HTMLAttributes<HTMLIrBookingListingTableElement>;
             "ir-booking-new-form": LocalJSX.IrBookingNewForm & JSXBase.HTMLAttributes<HTMLIrBookingNewFormElement>;
             "ir-booking-number-cell": LocalJSX.IrBookingNumberCell & JSXBase.HTMLAttributes<HTMLIrBookingNumberCellElement>;
+            "ir-booking-pricing-drawer": LocalJSX.IrBookingPricingDrawer & JSXBase.HTMLAttributes<HTMLIrBookingPricingDrawerElement>;
+            "ir-booking-pricing-form": LocalJSX.IrBookingPricingForm & JSXBase.HTMLAttributes<HTMLIrBookingPricingFormElement>;
             "ir-booking-printing": LocalJSX.IrBookingPrinting & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
             "ir-booking-rooms": LocalJSX.IrBookingRooms & JSXBase.HTMLAttributes<HTMLIrBookingRoomsElement>;
             "ir-booking-source-editor-dialog": LocalJSX.IrBookingSourceEditorDialog & JSXBase.HTMLAttributes<HTMLIrBookingSourceEditorDialogElement>;

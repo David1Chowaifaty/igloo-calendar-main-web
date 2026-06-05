@@ -6,6 +6,8 @@ import { Agent } from "../../../services/agents/type";
 export declare class IrCityLedgerFolio {
     agent: Agent | null;
     propertyId: number;
+    ticket: string;
+    language: string;
     serviceCategoryOptions: ServiceCategoryOption[];
     currencies: ICurrency[];
     private isTransactionOpen;

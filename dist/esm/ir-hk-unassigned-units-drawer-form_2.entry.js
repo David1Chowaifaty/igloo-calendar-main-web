@@ -116,10 +116,10 @@ const IrHkUnassignedUnitsDrawerForm = class {
         });
     }
     render() {
-        return (h("form", { key: 'a1a861b4a935cfface6a83b99b08641979d40738', id: this.formId, onSubmit: e => {
+        return (h("form", { key: '9291cb3409bb2c9eff16fe9f91f19bfdb31779d3', id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.assignUnits();
-            } }, h("table", { key: 'c9ff5c8c2786aae79e5bac3959c9a5fde019730b' }, h("thead", { key: 'b8391b4fac8b9fbb808c68fe1cf33798ff57d101' }, h("th", { key: '29d02d42ac60ea25ad42074d5819165f1eb745e2', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '68e5570f5b0bb7e5d97fe56d34fbeab0ba6bbaae', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: '75076ddbcaa1f281f701a23586e13d2d03754502', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: 'a7eb68d7f28b193d583e4e0455702e3156d6e429' }, this.renderRooms()))));
+            } }, h("table", { key: 'd04317bdf7665a184678c594c4b27408781e1760' }, h("thead", { key: 'db641a0ad5f83467caf7b206cd0f0f014e56251d' }, h("th", { key: '59a09553aa021cc2f136cc7d8d9c977ad0bcd257', class: "sr-only" }, locales.entries.Lcz_RoomName), h("th", { key: '8db9c65b58377c7d68ffa2b385c3546298a396c9', class: "sr-only" }, locales.entries.Lcz_HousekeeperName), h("th", { key: 'ad01a8c416e610c94946e1bc726970d59b4375ba', class: "sr-only" }, locales.entries.Lcz_Actions)), h("tbody", { key: '0e2b7e600113de4667e2cfe98831173f8573095a' }, this.renderRooms()))));
     }
 };
 IrHkUnassignedUnitsDrawerForm.style = IrHkUnassignedUnitsDrawerFormStyle0;

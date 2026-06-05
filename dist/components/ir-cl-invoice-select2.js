@@ -20,7 +20,7 @@ const IrClInvoiceSelect = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceSele
     hint = '';
     invoiceChange;
     render() {
-        return (h("ir-validator", { key: '7c7b8d44ef6ddafaf43f3448add88eb6bfa74a3a', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '1eb047f54f4f2fdd99dd3898762ccbd2cd71f6dc', label: this.label, size: "small", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
+        return (h("ir-validator", { key: '655616952add0125d5a478a98311e9c3c4673d20', schema: invoiceIdRequiredFieldSchema, value: this.value, valueEvent: "change" }, h("wa-select", { key: '11a7d416a3abcad2787d6e3b620b0272e9f86696', label: this.label, size: "small", required: true, hint: this.hint || undefined, placeholder: "Select invoice", value: this.value, onchange: event => {
                 this.invoiceChange.emit(event.target.value || '');
             } }, this.fiscalDocuments.map(doc => {
             const date = doc.ISSUE_DATE_DISPLAY ?? (doc.ISSUE_DATE ? hooks(doc.ISSUE_DATE, 'YYYY-MM-DD').format('MMM D, YYYY') : '');

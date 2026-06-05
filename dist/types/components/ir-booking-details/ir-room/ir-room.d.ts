@@ -37,6 +37,7 @@ export declare class IrRoom {
     mainGuest: SharedPerson;
     isModelOpen: boolean;
     isOpen: boolean;
+    isPricingDrawerOpen: boolean;
     deleteFinished: EventEmitter<string>;
     toast: EventEmitter<IToast>;
     pressCheckIn: EventEmitter;

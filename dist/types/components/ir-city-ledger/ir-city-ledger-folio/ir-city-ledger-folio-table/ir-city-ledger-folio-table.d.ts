@@ -4,6 +4,9 @@ import type { ICurrency } from "../../../../models/property";
 export declare class IrCityLedgerFolioTable {
     private handleAction;
     agentId: number | null;
+    propertyId: number;
+    ticket: string;
+    language: string;
     data: FolioRow[];
     isLoading: boolean;
     startingBalance: number;
@@ -20,6 +23,8 @@ export declare class IrCityLedgerFolioTable {
     private tableState;
     private selectedRowIds;
     private holdTargetRow;
+    private bookingDrawerOpen;
+    private selectedBookingNumber;
     pageChange: EventEmitter<{
         pageIndex: number;
         pageSize: number;

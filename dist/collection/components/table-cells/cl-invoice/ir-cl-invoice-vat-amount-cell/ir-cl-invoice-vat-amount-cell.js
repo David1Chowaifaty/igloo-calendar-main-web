@@ -4,7 +4,7 @@ export class IrClInvoiceVatAmountCell {
     currencySymbol;
     amount;
     render() {
-        return h(Host, { key: '0ecb04cc6555bcc75f4d1bd30a09e8206dbe13cc' }, formatAmount(this.currencySymbol, this.amount));
+        return h(Host, { key: '6446ff0397edeac5fd3aa248da9c0137a693c0be' }, formatAmount(this.currencySymbol, this.amount));
     }
     static get is() { return "ir-cl-invoice-vat-amount-cell"; }
     static get encapsulation() { return "scoped"; }

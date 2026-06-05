@@ -23,6 +23,9 @@ export class IrCityLedgerFolioTable {
     }
     // ─── Props ───────────────────────────────────────────────────────────────
     agentId = null;
+    propertyId;
+    ticket;
+    language = 'en';
     data = [];
     isLoading = false;
     startingBalance = 0;
@@ -40,6 +43,8 @@ export class IrCityLedgerFolioTable {
     tableState = {};
     selectedRowIds = new Set();
     holdTargetRow = null;
+    bookingDrawerOpen = false;
+    selectedBookingNumber = null;
     // ─── Events ──────────────────────────────────────────────────────────────
     pageChange;
     generateInvoice;
@@ -119,7 +124,15 @@ export class IrCityLedgerFolioTable {
         }),
         this.columnHelper.accessor('bookingNumber', {
             header: 'Booking #',
-            cell: info => (info.getValue() ? String(info.getValue()) : null),
+            cell: info => {
+                const val = info.getValue();
+                if (!val)
+                    return null;
+                return (h("ir-custom-button", { link: true, onClickHandler: () => {
+                        this.selectedBookingNumber = String(val);
+                        this.bookingDrawerOpen = true;
+                    } }, String(val)));
+            },
             enableGrouping: true,
             enableSorting: false,
         }),
@@ -174,12 +187,13 @@ export class IrCityLedgerFolioTable {
                 const row = info.row.original;
                 if (row._raw.IS_LOCKED)
                     return h("div", { class: 'fiscal-table__action-trigger --placeholder' });
+                const canEditOrDelete = actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && !row._raw.CATEGORY;
                 return (h("wa-dropdown", { "onwa-hide": e => {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                     }, "onwa-select": (e) => {
                         this.handleAction(e.detail.item.value, row);
-                    } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete")));
+                    } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1rem' } })), h("wa-dropdown-item", { value: "hold-transaction" }, row._raw.IS_HOLD ? 'Revert to Unbilled' : 'Hold entry'), canEditOrDelete && h("wa-dropdown-item", { value: "edit-transaction" }, "Edit"), canEditOrDelete && (h("wa-dropdown-item", { value: "delete-transaction", variant: "danger" }, "Delete"))));
             },
             enableSorting: false,
             enableGrouping: false,
@@ -290,7 +304,7 @@ export class IrCityLedgerFolioTable {
                 if (event.detail.pageSize) {
                     this.pageChange.emit({ pageIndex: 0, pageSize: event.detail.pageSize });
                 }
-            } }), h("ir-hold-transaction-dialog", { row: this.holdTargetRow, currencySymbol: this.currencySymbol, ref: el => (this.holdDialogRef = el), onHoldToggled: e => this.handleHoldToggled(e.detail.rowId, e.detail.newIsHold) })));
+            } }), h("ir-hold-transaction-dialog", { row: this.holdTargetRow, currencySymbol: this.currencySymbol, ref: el => (this.holdDialogRef = el), onHoldToggled: e => this.handleHoldToggled(e.detail.rowId, e.detail.newIsHold) }), h("ir-booking-details-drawer", { open: this.bookingDrawerOpen, propertyId: this.propertyId, ticket: this.ticket, language: this.language, bookingNumber: this.selectedBookingNumber, onBookingDetailsDrawerClosed: () => (this.bookingDrawerOpen = false) })));
     }
     static get is() { return "ir-city-ledger-folio-table"; }
     static get encapsulation() { return "scoped"; }
@@ -325,6 +339,64 @@ export class IrCityLedgerFolioTable {
                 "attribute": "agent-id",
                 "reflect": false,
                 "defaultValue": "null"
+            },
+            "propertyId": {
+                "type": "number",
+                "mutable": false,
+                "complexType": {
+                    "original": "number",
+                    "resolved": "number",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "property-id",
+                "reflect": false
+            },
+            "ticket": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "ticket",
+                "reflect": false
+            },
+            "language": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "language",
+                "reflect": false,
+                "defaultValue": "'en'"
             },
             "data": {
                 "type": "unknown",
@@ -601,6 +673,8 @@ export class IrCityLedgerFolioTable {
             "tableState": {},
             "selectedRowIds": {},
             "holdTargetRow": {},
+            "bookingDrawerOpen": {},
+            "selectedBookingNumber": {},
             "_localDataOverride": {}
         };
     }
