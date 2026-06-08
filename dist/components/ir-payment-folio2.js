@@ -1,7 +1,8 @@
 import { proxyCustomElement, HTMLElement, createEvent, h } from '@stencil/core/internal/client';
 import { h as hooks } from './moment.js';
+import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-drawer2.js';
 import { d as defineCustomElement$3 } from './ir-input2.js';
 import { d as defineCustomElement$2 } from './ir-payment-folio-form2.js';
@@ -118,11 +119,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-folio", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-validator"];
+    const components = ["ir-payment-folio", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-payment-folio-form", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-folio":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrPaymentFolio);
+            }
+            break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$7();
             }
             break;
         case "ir-custom-button":
@@ -130,7 +136,7 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

@@ -10,7 +10,7 @@ import { d as defineCustomElement$3 } from './ir-spinner2.js';
 import { d as defineCustomElement$2 } from './ir-unit-tag2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
-const iglRateExtenderFormCss = ".sc-igl-rate-extender-form-h{display:block;height:100%}.rate-form__body.sc-igl-rate-extender-form{text-align:left;padding-inline:0.25rem;padding-top:0;display:grid}.rate-extender-form.sc-igl-rate-extender-form{display:grid;gap:1rem}.rate-form__booking-number.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);margin:0}.rate-form__checking-availability.sc-igl-rate-extender-form{margin-top:0.5rem;font-size:0.875rem;color:var(--wa-color-text-quiet)}.rate-form__date-range.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);font-weight:600;line-height:1.3;color:#111827;margin:0;margin-top:0.5rem}.rate-form__rate-plan.sc-igl-rate-extender-form{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet);margin:0;margin-top:0.375rem}.rate-form__availability-callout.sc-igl-rate-extender-form{margin-top:1rem}.rate-form__custom-text.sc-igl-rate-extender-form{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);line-height:1.4;margin:0;margin-top:0.625rem}.rate-form__tax-callout.sc-igl-rate-extender-form{margin-top:1.25rem}.rate-form__dates.sc-igl-rate-extender-form{margin:0;margin-top:1.5rem;display:grid;gap:1rem}.rate-form__date-row.sc-igl-rate-extender-form{display:flex;align-items:center;margin:0;margin-top:0.25rem}.rate-form__date-label.sc-igl-rate-extender-form{flex:0 0 16.666%;margin:0;padding:0;font-size:0.8125rem;color:#6b7280}.rate-form__input-wrapper.sc-igl-rate-extender-form{flex:0 0 25%;margin-left:0.25rem;position:relative;margin-top:0;margin-bottom:0;padding:0}.rate-form__readonly-value.sc-igl-rate-extender-form{flex:0 0 75%;margin-left:0.25rem;margin-top:0;margin-bottom:0;padding:0}.rate-extender-input.sc-igl-rate-extender-form{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center}.rate-extender-input.sc-igl-rate-extender-form::part(label){width:80px;margin:0}.rate-extender-input.sc-igl-rate-extender-form:disabled::part(label){opacity:0.5}.rate-extender-input.sc-igl-rate-extender-form::part(wa-input){grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}.rate-extender-arrow.sc-igl-rate-extender-form{display:block;margin-left:calc(40px + var(--wa-space-l));width:calc(100% - 40px - var(--wa-space-l));text-align:center}@media (min-width: 640px){.rate-extender-input.sc-igl-rate-extender-form::part(base){max-width:180px}.rate-extender-arrow.sc-igl-rate-extender-form{width:180px}}";
+const iglRateExtenderFormCss = ".sc-igl-rate-extender-form-h{display:block;height:100%;padding-bottom:1rem}.rate-form__body.sc-igl-rate-extender-form{text-align:left;padding-inline:0.25rem;padding-top:0;display:grid}.rate-extender-form.sc-igl-rate-extender-form{display:grid;gap:1rem}.rate-form__booking-number.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);margin:0}.rate-form__checking-availability.sc-igl-rate-extender-form{margin-top:0.5rem;font-size:0.875rem;color:var(--wa-color-text-quiet)}.rate-form__date-range.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);font-weight:600;line-height:1.3;color:#111827;margin:0;margin-top:0.5rem}.rate-form__rate-plan.sc-igl-rate-extender-form{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet);margin:0;margin-top:0.375rem}.rate-form__availability-callout.sc-igl-rate-extender-form{margin-top:1rem}.rate-form__custom-text.sc-igl-rate-extender-form{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);line-height:1.4;margin:0;margin-top:0.625rem}.rate-form__tax-callout.sc-igl-rate-extender-form{margin-top:1.25rem}.rate-form__dates.sc-igl-rate-extender-form{margin:0;margin-top:1.5rem;display:grid;gap:1rem}.rate-form__date-row.sc-igl-rate-extender-form{display:flex;align-items:center;margin:0;margin-top:0.25rem}.rate-form__date-label.sc-igl-rate-extender-form{flex:0 0 16.666%;margin:0;padding:0;font-size:0.8125rem;color:#6b7280}.rate-form__input-wrapper.sc-igl-rate-extender-form{flex:0 0 25%;margin-left:0.25rem;position:relative;margin-top:0;margin-bottom:0;padding:0}.rate-form__readonly-value.sc-igl-rate-extender-form{flex:0 0 75%;margin-left:0.25rem;margin-top:0;margin-bottom:0;padding:0}.rate-extender-input.sc-igl-rate-extender-form{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center}.rate-extender-input.sc-igl-rate-extender-form::part(label){width:80px;margin:0}.rate-extender-input.sc-igl-rate-extender-form:disabled::part(label){opacity:0.5}.rate-extender-input.sc-igl-rate-extender-form::part(wa-input){grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}.rate-extender-arrow.sc-igl-rate-extender-form{display:block;margin-left:calc(40px + var(--wa-space-l));width:calc(100% - 40px - var(--wa-space-l));text-align:center}@media (min-width: 640px){.rate-extender-input.sc-igl-rate-extender-form::part(base){max-width:180px}.rate-extender-arrow.sc-igl-rate-extender-form{width:180px}}";
 const IglRateExtenderFormStyle0 = iglRateExtenderFormCss;
 
 const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtenderForm extends HTMLElement {
@@ -19,6 +19,7 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
         this.__registerHost();
         this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
         this.loadingChanged = createEvent(this, "loadingChanged", 7);
+        this.availabilityChanged = createEvent(this, "availabilityChanged", 7);
     }
     bookingNumber;
     propertyId;
@@ -39,14 +40,37 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
     dates = { from_date: new Date(), to_date: new Date() };
     closeRoomNightsDialog;
     loadingChanged;
+    /** Emits whether inventory is available for the additional nights (false when there is none). */
+    availabilityChanged;
     bookingService = new BookingService();
+    inputRefs = [];
+    shouldScrollToFirstEnabled = false;
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
     }
+    componentDidRender() {
+        if (!this.shouldScrollToFirstEnabled) {
+            return;
+        }
+        const target = this.firstEnabledIndex >= 0 ? this.inputRefs[this.firstEnabledIndex] : undefined;
+        if (target) {
+            this.shouldScrollToFirstEnabled = false;
+            requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        }
+    }
+    /** Index of the first editable (non-disabled) night input, or -1 when none. */
+    get firstEnabledIndex() {
+        if (!this.hasInventory) {
+            return -1;
+        }
+        // Prepending: the newly added nights sit at the start; appending: they follow the existing days.
+        return this.isEndDateBeforeFromDate ? 0 : (this.selectedRoom?.days.length ?? -1);
+    }
     async init() {
         try {
             this.initialLoading = true;
+            this.inputRefs = [];
             const { from_date } = this.defaultDates;
             if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
                 this.dates.from_date = new Date(from_date);
@@ -65,7 +89,7 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
                     const newDatesArr = getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
                     this.isEndDateBeforeFromDate = true;
                     let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
+                    variation?.nights.forEach(n => (dates[n.night] = n));
                     this.rates = [
                         ...newDatesArr.map(day => ({
                             amount: dates[day].discounted_amount,
@@ -80,7 +104,7 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
                     const variation = await this.fetchBookingAvailability(this.selectedRoom.to_date, hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
                     const newDatesArr = getDaysArray(lastDay.date, this.toDate);
                     let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
+                    variation?.nights.forEach(n => (dates[n.night] = n));
                     this.rates = [
                         ...this.selectedRoom.days,
                         ...newDatesArr.map(day => ({
@@ -97,7 +121,12 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
         }
         finally {
             this.initialLoading = false;
+            this.availabilityChanged.emit(this.hasInventory);
+            this.shouldScrollToFirstEnabled = this.hasInventory;
         }
+    }
+    get hasInventory() {
+        return this.inventory !== 0 && this.inventory !== null;
     }
     handleInput(event, index) {
         let inputValue = event;
@@ -217,10 +246,10 @@ const IglRateExtenderForm = /*@__PURE__*/ proxyCustomElement(class IglRateExtend
                 this.handleRoomConfirmation();
             } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", h("wa-icon", { name: "arrow-right" }), ' ', formatDate(hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "small", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index) => {
             return [
-                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: hooks(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
+                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { ref: el => (this.inputRefs[index] = el), disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: hooks(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index) && h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
             ];
-        })));
+        }), h("div", null)));
     }
     static get style() { return IglRateExtenderFormStyle0; }
 }, [2, "igl-rate-extender-form", {

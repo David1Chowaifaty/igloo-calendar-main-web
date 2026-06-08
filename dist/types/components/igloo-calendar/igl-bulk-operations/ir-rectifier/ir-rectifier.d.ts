@@ -15,7 +15,7 @@ export declare class IrRectifier {
     closeDrawer: EventEmitter<void>;
     toast: EventEmitter<IToast>;
     private propertyService;
-    toDateRef: HTMLIrCustomDatePickerElement;
+    toDateRef: HTMLIrDateSelectElement;
     componentWillLoad(): void;
     private updateForm;
     private normalizeDateRange;

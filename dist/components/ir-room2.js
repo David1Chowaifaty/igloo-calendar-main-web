@@ -6,6 +6,7 @@ import { c as calendar_data, i as isSingleUnit } from './calendar-data.js';
 import { f as formatAmount } from './utils.js';
 import { B as BookingService } from './booking.store.js';
 import { m as mapClTxToFolioRow } from './types3.js';
+import { d as defineCustomElement$u } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$t } from './ir-assignment-toggle-dialog2.js';
 import { d as defineCustomElement$s } from './ir-booking-billing-recipient2.js';
 import { d as defineCustomElement$r } from './ir-booking-company-dialog2.js';
@@ -15,7 +16,7 @@ import { d as defineCustomElement$o } from './ir-booking-pricing-form2.js';
 import { d as defineCustomElement$n } from './ir-checkout-dialog2.js';
 import { d as defineCustomElement$m } from './ir-cl-status-tag2.js';
 import { d as defineCustomElement$l } from './ir-custom-button2.js';
-import { d as defineCustomElement$k } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$k } from './ir-date-select2.js';
 import { d as defineCustomElement$j } from './ir-date-view2.js';
 import { d as defineCustomElement$i } from './ir-dialog2.js';
 import { d as defineCustomElement$h } from './ir-drawer2.js';
@@ -507,11 +508,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-room", "ir-assignment-toggle-dialog", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-booking-pricing-drawer", "ir-booking-pricing-form", "ir-checkout-dialog", "ir-cl-status-tag", "ir-custom-button", "ir-custom-date-picker", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-payment-folio", "ir-payment-folio-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner", "ir-unit-tag", "ir-validator"];
+    const components = ["ir-room", "ir-air-date-picker", "ir-assignment-toggle-dialog", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-booking-pricing-drawer", "ir-booking-pricing-form", "ir-checkout-dialog", "ir-cl-status-tag", "ir-custom-button", "ir-date-select", "ir-date-view", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-input", "ir-invoice", "ir-invoice-form", "ir-label", "ir-payment-folio", "ir-payment-folio-form", "ir-preview-screen-dialog", "ir-print-room", "ir-printing-extra-service", "ir-printing-label", "ir-printing-pickup", "ir-proforma-invoice-preview", "ir-spinner", "ir-unit-tag", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-room":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrRoom);
+            }
+            break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$u();
             }
             break;
         case "ir-assignment-toggle-dialog":
@@ -559,7 +565,7 @@ function defineCustomElement() {
                 defineCustomElement$l();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$k();
             }

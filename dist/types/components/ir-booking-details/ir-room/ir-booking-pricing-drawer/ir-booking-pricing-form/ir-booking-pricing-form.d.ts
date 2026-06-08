@@ -25,7 +25,11 @@ export declare class IrBookingPricingForm {
     private bookingService;
     private isAgent;
     componentWillLoad(): void;
+    componentDidLoad(): void;
     handleRoomChange(): void;
+    /** True when nothing in the form is editable (invoice-locked, or every night is locked). */
+    private get areAllItemsDisabled();
+    private emitAllDisabled;
     private initNights;
     private checkInvoiceStatus;
     private isValid;

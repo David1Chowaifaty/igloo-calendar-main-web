@@ -27,9 +27,17 @@ export declare class IglRateExtenderForm {
     };
     closeRoomNightsDialog: EventEmitter<IRoomNightsDataEventPayload>;
     loadingChanged: EventEmitter<boolean>;
+    /** Emits whether inventory is available for the additional nights (false when there is none). */
+    availabilityChanged: EventEmitter<boolean>;
     private bookingService;
+    private inputRefs;
+    private shouldScrollToFirstEnabled;
     componentWillLoad(): void;
+    componentDidRender(): void;
+    /** Index of the first editable (non-disabled) night input, or -1 when none. */
+    private get firstEnabledIndex();
     private init;
+    private get hasInventory();
     private handleInput;
     private fetchBookingAvailability;
     private disabled;

@@ -29,8 +29,21 @@ export class IrBookingPricingForm {
             this.checkInvoiceStatus();
         }
     }
+    componentDidLoad() {
+        this.emitAllDisabled();
+    }
     handleRoomChange() {
         this.initNights();
+        this.emitAllDisabled();
+    }
+    /** True when nothing in the form is editable (invoice-locked, or every night is locked). */
+    get areAllItemsDisabled() {
+        if (this.invoiceLocked)
+            return true;
+        return this.nights.length > 0 && this.nights.every(night => night.isLocked);
+    }
+    emitAllDisabled() {
+        this.allDisabled.emit(this.areAllItemsDisabled);
     }
     initNights() {
         const acmTxByDate = this.acmTxByDate;
@@ -53,6 +66,7 @@ export class IrBookingPricingForm {
         }
         finally {
             this.isCheckingInvoice = false;
+            this.emitAllDisabled();
         }
     }
     isValid() {

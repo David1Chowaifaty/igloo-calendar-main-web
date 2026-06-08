@@ -11,6 +11,7 @@ export declare class IrBookingPricingDrawer {
     folioEntries: ClTx[];
     currencySymbol: string;
     saveDisabled: boolean;
+    allItemsDisabled: boolean;
     closeDrawer: EventEmitter<void>;
     pricingSaved: EventEmitter<void>;
     private get drawerLabel();

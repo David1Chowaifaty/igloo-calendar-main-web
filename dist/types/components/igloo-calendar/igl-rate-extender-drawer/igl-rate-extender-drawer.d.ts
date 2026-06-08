@@ -15,6 +15,7 @@ export declare class IglRateExtenderDrawer {
         to_date: string;
     };
     isLoading: boolean;
+    hasInventory: boolean;
     closeRoomNightsDialog: EventEmitter<IRoomNightsDataEventPayload>;
     private get label();
     private handleDrawerHide;

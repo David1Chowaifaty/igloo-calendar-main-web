@@ -3,7 +3,7 @@ import moment from "moment";
 export class IrClInvoiceForm {
     fromDate = '';
     toDate = '';
-    scope = 'UNBILLED';
+    scope = 'UNBILLED_CHECKED_OUT';
     dateError = false;
     onDateChange() {
         if (this.fromDate && this.toDate) {
@@ -22,10 +22,10 @@ export class IrClInvoiceForm {
         return { fromDate: this.fromDate, toDate: this.toDate, scope: this.scope, is_checked_out_only: this.scope === 'UNBILLED_CHECKED_OUT' };
     }
     render() {
-        return (h(Host, { key: 'b0aec56588163f2ad391ca3fc6a4eac0e269a03a' }, h("wa-callout", { key: '6ca6f613473e6f9c6c361105304b13a0be5f8875' }, h("wa-icon", { key: '290038c061f420d3530289a12c4a494302e9a3da', slot: "icon", name: "circle-info" }), h("div", { key: '5f561e130f367a7c49d5628c3ba3cff830c583a8', class: "invoice-form__scope-text" }, h("span", { key: '1e540aca98811c4e6421aefdd37354bbc5f55ab7', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: 'c3f8c68081ef7bf12d139d77b0e31273071cd44a', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges and adjustments."))), h("div", { key: 'f64eedd5b72a209bb92ec9ef16a4a3da67391c3d', class: `invoice-form__field${this.dateError ? ' invoice-form__date-error' : ''}` }, h("ir-date-range-filter", { key: 'b0d0f90115233359ca163658e302f81fb91418bd', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
+        return (h(Host, { key: '8bae71dfe5886ac3d44a0fee89697b21574d31ae' }, h("wa-callout", { key: '45d480fb921d632a4828707759b6f12d763ee3b5' }, h("wa-icon", { key: 'd05e0102a268bdcc03e119fa0f8eab157224d173', slot: "icon", name: "circle-info" }), h("div", { key: '739d8c1764d672e3b9d4b7915c3776d71dbbf2c2', class: "invoice-form__scope-text" }, h("span", { key: '07bc07bdf0cd8dc184a50658a6936f3040c1c367', class: "invoice-form__scope-label" }, "Unbilled Folio Entries"), h("span", { key: 'f8eaf972f71a102c319e4cfc81416fa36145ca87', class: "invoice-form__scope-desc" }, "Including all services from bookings, manual charges and adjustments."))), h("div", { key: '96e1efa6863bd09d85624a30551b73b77efc62c9', class: `invoice-form__field${this.dateError ? ' invoice-form__date-error' : ''}` }, h("ir-date-range-filter", { key: '38fd61e6e0b28c04de02d2d40c6c781f4064f1e5', showQuickActions: false, style: { width: '100%' }, fromDate: this.fromDate, toDate: this.toDate, maxDate: moment().format('YYYY-MM-DD'), onDatesChanged: e => {
                 this.fromDate = e.detail.from ?? '';
                 this.toDate = e.detail.to ?? '';
-            } })), h("div", { key: '732fb6736b092e162706ca31d1efdc95bcaa1c5d', class: "invoice-form__field" }, h("wa-checkbox", { key: '695ae87325af56ab77ef6168305c8667eb9483bf', checked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
+            } })), h("div", { key: '93c4ef5a84b651b0cdf37545dc1ed4fb59d803af', class: "invoice-form__field" }, h("wa-checkbox", { key: '335ae3141fdda195655df56abc56921d002f2692', checked: this.scope === 'UNBILLED_CHECKED_OUT', defaultChecked: this.scope === 'UNBILLED_CHECKED_OUT', onchange: e => {
                 this.scope = e.target.checked ? 'UNBILLED_CHECKED_OUT' : 'UNBILLED';
             } }, "Include checked-out bookings only"))));
     }

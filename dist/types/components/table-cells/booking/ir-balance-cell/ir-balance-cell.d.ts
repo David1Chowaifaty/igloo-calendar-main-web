@@ -15,5 +15,7 @@ export declare class IrBalanceCell {
         booking_nbr: string;
         payment: Payment;
     }>;
+    /** A balance amount is actionable only when it is a non-zero, non-null number. */
+    private hasAmount;
     render(): any;
 }

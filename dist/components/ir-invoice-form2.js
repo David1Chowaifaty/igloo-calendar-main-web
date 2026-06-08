@@ -5,11 +5,12 @@ import { f as formatAmount } from './utils.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { a as axios } from './axios.js';
+import { d as defineCustomElement$a } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$9 } from './ir-booking-billing-recipient2.js';
 import { d as defineCustomElement$8 } from './ir-booking-company-dialog2.js';
 import { d as defineCustomElement$7 } from './ir-booking-company-form2.js';
 import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$5 } from './ir-date-select2.js';
 import { d as defineCustomElement$4 } from './ir-dialog2.js';
 import { d as defineCustomElement$3 } from './ir-empty-state2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
@@ -768,7 +769,7 @@ const IrInvoiceForm = /*@__PURE__*/ proxyCustomElement(class IrInvoiceForm exten
                 const submitter = e.submitter;
                 const shouldCreateProforma = this.viewMode === 'proforma' || submitter?.value === 'pro-forma';
                 this.handleConfirmInvoice(shouldCreateProforma);
-            }, class: "ir-invoice__container" }, h("ir-custom-date-picker", { onDateChanged: e => {
+            }, class: "ir-invoice__container" }, h("ir-date-select", { onDateChanged: e => {
                 this.invoiceDate = e.detail.start;
                 this.setUpDisabledItems();
             }, label: "Date", date: this.invoiceDate.format('YYYY-MM-DD'), minDate: this.getMinDate(), maxDate: this.getMaxDate() }), h("ir-booking-billing-recipient", { onRecipientChange: e => (this.selectedRecipient = e.detail), booking: this.booking }), this.viewMode === 'invoice' && hooks().isBefore(hooks(this.booking.from_date, 'YYYY-MM-DD'), 'dates') ? (h("ir-empty-state", { message: "Invoices cannot be issued before guest arrival" })) : (h("div", { class: 'ir-invoice__services' }, h("p", { class: "ir-invoice__form-control-label" }, "Choose what to invoice ", h("span", { style: { color: 'var(--wa-color-gray-60)', paddingLeft: '0.5rem' } }, " (Disabled services are not eligible to be invoiced yet)")), h("div", { class: "ir-invoice__services-container" }, this.invoicableKey.size === 0 && h("ir-empty-state", { style: { marginTop: '3rem' } }), this.renderRooms(), this.booking.pickup_info && this.renderPickup(), this.booking.extra_services?.map(extra_service => {
@@ -815,11 +816,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-invoice-form", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-custom-date-picker", "ir-dialog", "ir-empty-state", "ir-input", "ir-spinner"];
+    const components = ["ir-invoice-form", "ir-air-date-picker", "ir-booking-billing-recipient", "ir-booking-company-dialog", "ir-booking-company-form", "ir-custom-button", "ir-date-select", "ir-dialog", "ir-empty-state", "ir-input", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-invoice-form":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrInvoiceForm);
+            }
+            break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$a();
             }
             break;
         case "ir-booking-billing-recipient":
@@ -842,7 +848,7 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

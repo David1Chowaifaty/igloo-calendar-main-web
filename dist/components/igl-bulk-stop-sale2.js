@@ -6,8 +6,9 @@ import { h as hooks } from './moment.js';
 import { z, Z as ZodError } from './index2.js';
 import { f as calendar_dates } from './booking.js';
 import { l as locales } from './locales.store.js';
+import { d as defineCustomElement$5 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$4 } from './ir-custom-button2.js';
-import { d as defineCustomElement$3 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$3 } from './ir-date-select2.js';
 import { d as defineCustomElement$2 } from './ir-input2.js';
 import { d as defineCustomElement$1 } from './ir-weekday-selector2.js';
 
@@ -282,9 +283,9 @@ const IglBulkStopSale = /*@__PURE__*/ proxyCustomElement(class IglBulkStopSale e
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
-            const fromDateMinDate = i > 0 ? this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate : this.minDate;
+            const fromDateMinDate = i > 0 ? (this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate) : this.minDate;
             const toDateMinDate = this.dates[i].from ? this.dates[i]?.from.clone()?.format('YYYY-MM-DD') : this.minDate;
-            return (h("tr", { key: `date_${i}` }, h("td", { class: "pr-1 pb-1" }, h("ir-custom-date-picker", { ref: el => {
+            return (h("tr", { key: `date_${i}` }, h("td", { class: "pr-1 pb-1" }, h("ir-date-select", { ref: el => {
                     this.dateRefs[i].from = el;
                 }, forceDestroyOnUpdate: true, minDate: fromDateMinDate, "data-testid": "pickup_arrival_date", date: d.from?.format('YYYY-MM-DD'), emitEmptyDate: true, "aria-invalid": String(this.errors === 'dates' && !d.from), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
@@ -304,7 +305,7 @@ const IglBulkStopSale = /*@__PURE__*/ proxyCustomElement(class IglBulkStopSale e
                     if (!this.dates[index]?.to) {
                         this.dateRefs[index].to.openDatePicker();
                     }
-                } })), h("td", { class: "pr-1 pb-1" }, h("ir-custom-date-picker", { forceDestroyOnUpdate: true, disabled: !d.from, ref: el => {
+                } })), h("td", { class: "pr-1 pb-1" }, h("ir-date-select", { forceDestroyOnUpdate: true, disabled: !d.from, ref: el => {
                     this.dateRefs[i].to = el;
                 }, "data-testid": "pickup_arrival_date", date: d.to?.format('YYYY-MM-DD'), emitEmptyDate: true, minDate: toDateMinDate, "aria-invalid": String(this.errors === 'dates' && !d.to), onDateChanged: evt => {
                     evt.stopImmediatePropagation();
@@ -340,11 +341,16 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-bulk-stop-sale", "ir-custom-button", "ir-custom-date-picker", "ir-input", "ir-weekday-selector"];
+    const components = ["igl-bulk-stop-sale", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-input", "ir-weekday-selector"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-bulk-stop-sale":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IglBulkStopSale);
+            }
+            break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
             }
             break;
         case "ir-custom-button":
@@ -352,7 +358,7 @@ function defineCustomElement() {
                 defineCustomElement$4();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

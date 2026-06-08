@@ -1,8 +1,9 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$9 } from './igl-bulk-block2.js';
-import { d as defineCustomElement$8 } from './igl-bulk-stop-sale2.js';
+import { d as defineCustomElement$a } from './igl-bulk-block2.js';
+import { d as defineCustomElement$9 } from './igl-bulk-stop-sale2.js';
+import { d as defineCustomElement$8 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$7 } from './ir-custom-button2.js';
-import { d as defineCustomElement$6 } from './ir-custom-date-picker2.js';
+import { d as defineCustomElement$6 } from './ir-date-select2.js';
 import { d as defineCustomElement$5 } from './ir-drawer2.js';
 import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-rectifier2.js';
@@ -67,7 +68,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-bulk-operations-drawer", "igl-bulk-block", "igl-bulk-stop-sale", "ir-custom-button", "ir-custom-date-picker", "ir-drawer", "ir-input", "ir-rectifier", "ir-validator", "ir-weekday-selector"];
+    const components = ["igl-bulk-operations-drawer", "igl-bulk-block", "igl-bulk-stop-sale", "ir-air-date-picker", "ir-custom-button", "ir-date-select", "ir-drawer", "ir-input", "ir-rectifier", "ir-validator", "ir-weekday-selector"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-bulk-operations-drawer":
             if (!customElements.get(tagName)) {
@@ -76,10 +77,15 @@ function defineCustomElement() {
             break;
         case "igl-bulk-block":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "igl-bulk-stop-sale":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
@@ -89,7 +95,7 @@ function defineCustomElement() {
                 defineCustomElement$7();
             }
             break;
-        case "ir-custom-date-picker":
+        case "ir-date-select":
             if (!customElements.get(tagName)) {
                 defineCustomElement$6();
             }

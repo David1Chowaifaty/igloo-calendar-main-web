@@ -59,7 +59,7 @@ export class IrInputCell {
         this.slotState = newState;
     }
     render() {
-        return (h("div", { key: '859eb74acc18c919d8fa68224846121a1bb3f2a7', onDblClick: () => {
+        return (h("div", { key: '4b79bfb6277b890ac3d8e2965d14a299e1ea0e47', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

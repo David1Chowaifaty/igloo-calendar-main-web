@@ -1915,86 +1915,6 @@ export namespace Components {
          */
         "withCaret": NativeButton['withCaret'];
     }
-    interface IrCustomDatePicker {
-        /**
-          * Closes the picker automatically after a date is selected.
-         */
-        "autoClose": boolean;
-        "clearDatePicker": () => Promise<void>;
-        /**
-          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
-         */
-        "container"?: HTMLElement;
-        /**
-          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
-         */
-        "customPicker": boolean;
-        /**
-          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
-         */
-        "date": string | Date | null;
-        /**
-          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
-         */
-        "dateFormat": string;
-        "dates": string[];
-        /**
-          * Disables the input and prevents interaction.
-         */
-        "disabled": boolean;
-        /**
-          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
-         */
-        "emitEmptyDate": boolean;
-        /**
-          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
-         */
-        "forceDestroyOnUpdate": boolean;
-        /**
-          * The date picker's hint.
-         */
-        "hint"?: string;
-        /**
-          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
-         */
-        "inline": boolean;
-        "label": string;
-        /**
-          * The latest date that can be selected.
-         */
-        "maxDate"?: string | Date;
-        /**
-          * The earliest date that can be selected.
-         */
-        "minDate"?: string | Date;
-        /**
-          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-         */
-        "multipleDates": boolean | number;
-        "openDatePicker": () => Promise<void>;
-        "placeholder": string;
-        /**
-          * Whether the picker should allow range selection (start and end date).
-         */
-        "range": boolean;
-        /**
-          * Allows selecting days from previous/next month shown in the current view.
-         */
-        "selectOtherMonths": boolean;
-        /**
-          * Shows days from previous/next month in the current month's calendar.
-         */
-        "showOtherMonths": boolean;
-        /**
-          * Enables the timepicker functionality (select hours and minutes).
-         */
-        "timepicker": boolean;
-        /**
-          * Styles for the trigger container
-         */
-        "triggerContainerStyle": string;
-        "withClear": boolean;
-    }
     /**
      * @component ir-custom-date-range
      * @description A two-month inline calendar for selecting a date range.
@@ -5297,10 +5217,6 @@ export interface IrCustomButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCustomButtonElement;
 }
-export interface IrCustomDatePickerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrCustomDatePickerElement;
-}
 export interface IrCustomDateRangeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrCustomDateRangeElement;
@@ -6221,6 +6137,7 @@ declare global {
     interface HTMLIglRateExtenderFormElementEventMap {
         "closeRoomNightsDialog": IRoomNightsDataEventPayload;
         "loadingChanged": boolean;
+        "availabilityChanged": boolean;
     }
     interface HTMLIglRateExtenderFormElement extends Components.IglRateExtenderForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIglRateExtenderFormElementEventMap>(type: K, listener: (this: HTMLIglRateExtenderFormElement, ev: IglRateExtenderFormCustomEvent<HTMLIglRateExtenderFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7918,28 +7835,6 @@ declare global {
     var HTMLIrCustomButtonElement: {
         prototype: HTMLIrCustomButtonElement;
         new (): HTMLIrCustomButtonElement;
-    };
-    interface HTMLIrCustomDatePickerElementEventMap {
-        "dateChanged": {
-    start: moment.Moment;
-    end: moment.Moment;
-  };
-        "datePickerFocus": void;
-        "datePickerBlur": void;
-    }
-    interface HTMLIrCustomDatePickerElement extends Components.IrCustomDatePicker, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrCustomDatePickerElementEventMap>(type: K, listener: (this: HTMLIrCustomDatePickerElement, ev: IrCustomDatePickerCustomEvent<HTMLIrCustomDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrCustomDatePickerElementEventMap>(type: K, listener: (this: HTMLIrCustomDatePickerElement, ev: IrCustomDatePickerCustomEvent<HTMLIrCustomDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLIrCustomDatePickerElement: {
-        prototype: HTMLIrCustomDatePickerElement;
-        new (): HTMLIrCustomDatePickerElement;
     };
     interface HTMLIrCustomDateRangeElementEventMap {
         "dateChange": { start: Date | null; end: Date | null };
@@ -10710,7 +10605,6 @@ declare global {
         "ir-copy-button": HTMLIrCopyButtonElement;
         "ir-country-picker": HTMLIrCountryPickerElement;
         "ir-custom-button": HTMLIrCustomButtonElement;
-        "ir-custom-date-picker": HTMLIrCustomDatePickerElement;
         "ir-custom-date-range": HTMLIrCustomDateRangeElement;
         "ir-daily-revenue": HTMLIrDailyRevenueElement;
         "ir-daily-revenue-filters": HTMLIrDailyRevenueFiltersElement;
@@ -11204,6 +11098,10 @@ declare namespace LocalJSX {
         "fromDate"?: string;
         "identifier"?: string;
         "language"?: string;
+        /**
+          * Emits whether inventory is available for the additional nights (false when there is none).
+         */
+        "onAvailabilityChanged"?: (event: IglRateExtenderFormCustomEvent<boolean>) => void;
         "onCloseRoomNightsDialog"?: (event: IglRateExtenderFormCustomEvent<IRoomNightsDataEventPayload>) => void;
         "onLoadingChanged"?: (event: IglRateExtenderFormCustomEvent<boolean>) => void;
         "pool"?: string;
@@ -12876,90 +12774,6 @@ declare namespace LocalJSX {
           * Draws the button with a caret. Used to indicate that the button triggers a dropdown menu or similar behavior.
          */
         "withCaret"?: NativeButton['withCaret'];
-    }
-    interface IrCustomDatePicker {
-        /**
-          * Closes the picker automatically after a date is selected.
-         */
-        "autoClose"?: boolean;
-        /**
-          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
-         */
-        "container"?: HTMLElement;
-        /**
-          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
-         */
-        "customPicker"?: boolean;
-        /**
-          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
-         */
-        "date"?: string | Date | null;
-        /**
-          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
-         */
-        "dateFormat"?: string;
-        "dates"?: string[];
-        /**
-          * Disables the input and prevents interaction.
-         */
-        "disabled"?: boolean;
-        /**
-          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
-         */
-        "emitEmptyDate"?: boolean;
-        /**
-          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
-         */
-        "forceDestroyOnUpdate"?: boolean;
-        /**
-          * The date picker's hint.
-         */
-        "hint"?: string;
-        /**
-          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
-         */
-        "inline"?: boolean;
-        "label"?: string;
-        /**
-          * The latest date that can be selected.
-         */
-        "maxDate"?: string | Date;
-        /**
-          * The earliest date that can be selected.
-         */
-        "minDate"?: string | Date;
-        /**
-          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-         */
-        "multipleDates"?: boolean | number;
-        "onDateChanged"?: (event: IrCustomDatePickerCustomEvent<{
-    start: moment.Moment;
-    end: moment.Moment;
-  }>) => void;
-        "onDatePickerBlur"?: (event: IrCustomDatePickerCustomEvent<void>) => void;
-        "onDatePickerFocus"?: (event: IrCustomDatePickerCustomEvent<void>) => void;
-        "placeholder"?: string;
-        /**
-          * Whether the picker should allow range selection (start and end date).
-         */
-        "range"?: boolean;
-        /**
-          * Allows selecting days from previous/next month shown in the current view.
-         */
-        "selectOtherMonths"?: boolean;
-        /**
-          * Shows days from previous/next month in the current month's calendar.
-         */
-        "showOtherMonths"?: boolean;
-        /**
-          * Enables the timepicker functionality (select hours and minutes).
-         */
-        "timepicker"?: boolean;
-        /**
-          * Styles for the trigger container
-         */
-        "triggerContainerStyle"?: string;
-        "withClear"?: boolean;
     }
     /**
      * @component ir-custom-date-range
@@ -16332,7 +16146,6 @@ declare namespace LocalJSX {
         "ir-copy-button": IrCopyButton;
         "ir-country-picker": IrCountryPicker;
         "ir-custom-button": IrCustomButton;
-        "ir-custom-date-picker": IrCustomDatePicker;
         "ir-custom-date-range": IrCustomDateRange;
         "ir-daily-revenue": IrDailyRevenue;
         "ir-daily-revenue-filters": IrDailyRevenueFilters;
@@ -16680,7 +16493,6 @@ declare module "@stencil/core" {
             "ir-copy-button": LocalJSX.IrCopyButton & JSXBase.HTMLAttributes<HTMLIrCopyButtonElement>;
             "ir-country-picker": LocalJSX.IrCountryPicker & JSXBase.HTMLAttributes<HTMLIrCountryPickerElement>;
             "ir-custom-button": LocalJSX.IrCustomButton & JSXBase.HTMLAttributes<HTMLIrCustomButtonElement>;
-            "ir-custom-date-picker": LocalJSX.IrCustomDatePicker & JSXBase.HTMLAttributes<HTMLIrCustomDatePickerElement>;
             /**
              * @component ir-custom-date-range
              * @description A two-month inline calendar for selecting a date range.

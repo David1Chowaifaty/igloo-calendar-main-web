@@ -27,6 +27,7 @@ const IglRateExtenderDrawer = /*@__PURE__*/ proxyCustomElement(class IglRateExte
     ticket;
     defaultDates;
     isLoading = false;
+    hasInventory = false;
     closeRoomNightsDialog;
     get label() {
         return `Adding Room Nights`;
@@ -34,18 +35,23 @@ const IglRateExtenderDrawer = /*@__PURE__*/ proxyCustomElement(class IglRateExte
     handleDrawerHide = (e) => {
         e.stopImmediatePropagation();
         e.stopPropagation();
+        this.hasInventory = false;
         this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool });
     };
     render() {
-        return (h("ir-drawer", { key: '3d79d8ae8ab2a192181830683372a3e141a332e6', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'b8269d4b670bfeaea63f5753f48e231c9db9c03a', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
+        return (h("ir-drawer", { key: 'ef5baac285f0f9e0c3f41cd115d0f1c1708624f9', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'd4cbe750aef5576655d26c9a367657352a23c0fd', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
+            }, onAvailabilityChanged: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.hasInventory = e.detail;
             }, onCloseRoomNightsDialog: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeRoomNightsDialog.emit(e.detail);
-            } })), h("div", { key: '3ea3ee20c6b4838ab8f61136808c5a14bdc44fdd', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '9af22fc9af898f8b8e92ce078ef4a4bd313ad1e1', size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'd93f48aae7a8d95427693b4f32f28c648e6edb53', loading: this.isLoading, size: "medium", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, "Confirm"))));
+            } })), h("div", { key: '51c07727defc40059e628c1d4232ad92d544c85a', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '3c2bbb8e1483f5050baad8456e2b72a85e7ae603', size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: '6cf17e32027c590170dc55d3e748c7aa5a34eab9', loading: this.isLoading, disabled: !this.hasInventory, size: "medium", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, "Confirm"))));
     }
     static get style() { return IglRateExtenderDrawerStyle0; }
 }, [2, "igl-rate-extender-drawer", {
@@ -59,7 +65,8 @@ const IglRateExtenderDrawer = /*@__PURE__*/ proxyCustomElement(class IglRateExte
         "pool": [1],
         "ticket": [1],
         "defaultDates": [16],
-        "isLoading": [32]
+        "isLoading": [32],
+        "hasInventory": [32]
     }]);
 function defineCustomElement() {
     if (typeof customElements === "undefined") {

@@ -19,11 +19,11 @@ const IrHkUnassignedUnitsDrawer = /*@__PURE__*/ proxyCustomElement(class IrHkUna
     closeSideBar;
     formId = 'hk-unassigned-units-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'ad2541ed8d18f85fb9e4cd0299457237dfa9fec9', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '781c1b1c92985b926f7ea060e39e9929572180b2', label: !this.user ? 'Assingn Units' : `Assignment for ${this.user.name}`, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeSideBar.emit(null);
-            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '35342c7f038c93c2b4fee087749d284398f31448', formId: this.formId, user: this.user }), h("div", { key: '4cba73c67b588d198dcf595eb7cbfdd9d9166344', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '5ef626c7e578a0812f20d85aa3132ec73dc6a722', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '8d1c4020d754770e7c02f0fcdb862f09dfc99538', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
+            }, style: { '--ir-drawer-width': 'max-content' }, open: this.open }, this.open && h("ir-hk-unassigned-units-drawer-form", { key: '120bf493aae9e1aa71674b59d92f3d8c7583e35a', formId: this.formId, user: this.user }), h("div", { key: '50c4f1b4a643586548b71d9fe89a14fc66fcf011', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '98cbb97e8e92477d53c334fbc579ebf346007b1a', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '61d51dbc58da9c42fb5480b1a7e89e67ef2fefb7', loading: isRequestPending('/Manage_Exposed_Assigned_Unit_To_HKM'), variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
     }
     static get style() { return IrHkUnassignedUnitsDrawerStyle0; }
 }, [2, "ir-hk-unassigned-units-drawer", {

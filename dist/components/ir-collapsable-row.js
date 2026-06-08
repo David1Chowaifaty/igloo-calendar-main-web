@@ -25,7 +25,7 @@ const IrCollapsableRow$1 = /*@__PURE__*/ proxyCustomElement(class IrCollapsableR
     };
     render() {
         return [
-            h("tr", { key: '069bce2f40e51fe860a2e1f50149710c83d632b5' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
+            h("tr", { key: 'a2f54689c6cd5b78028a7873d8f9732ebcdaab11' }, this.row.getVisibleCells().map((cell, index) => (h("td", { key: cell.id, class: {
                     'text-right': ['debit', 'credit', 'balance'].includes(cell.column.id),
                     'text-center': cell.column.id === 'actions',
                     'sticky-column': cell.column.id === 'status',

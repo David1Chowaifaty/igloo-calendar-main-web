@@ -26,14 +26,37 @@ export class IglRateExtenderForm {
     dates = { from_date: new Date(), to_date: new Date() };
     closeRoomNightsDialog;
     loadingChanged;
+    /** Emits whether inventory is available for the additional nights (false when there is none). */
+    availabilityChanged;
     bookingService = new BookingService();
+    inputRefs = [];
+    shouldScrollToFirstEnabled = false;
     componentWillLoad() {
         this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
         this.init();
     }
+    componentDidRender() {
+        if (!this.shouldScrollToFirstEnabled) {
+            return;
+        }
+        const target = this.firstEnabledIndex >= 0 ? this.inputRefs[this.firstEnabledIndex] : undefined;
+        if (target) {
+            this.shouldScrollToFirstEnabled = false;
+            requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        }
+    }
+    /** Index of the first editable (non-disabled) night input, or -1 when none. */
+    get firstEnabledIndex() {
+        if (!this.hasInventory) {
+            return -1;
+        }
+        // Prepending: the newly added nights sit at the start; appending: they follow the existing days.
+        return this.isEndDateBeforeFromDate ? 0 : (this.selectedRoom?.days.length ?? -1);
+    }
     async init() {
         try {
             this.initialLoading = true;
+            this.inputRefs = [];
             const { from_date } = this.defaultDates;
             if (moment(from_date, 'YYYY-MM-DD').isBefore(moment(this.fromDate, 'YYYY-MM-DD'))) {
                 this.dates.from_date = new Date(from_date);
@@ -52,7 +75,7 @@ export class IglRateExtenderForm {
                     const newDatesArr = getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
                     this.isEndDateBeforeFromDate = true;
                     let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
+                    variation?.nights.forEach(n => (dates[n.night] = n));
                     this.rates = [
                         ...newDatesArr.map(day => ({
                             amount: dates[day].discounted_amount,
@@ -67,7 +90,7 @@ export class IglRateExtenderForm {
                     const variation = await this.fetchBookingAvailability(this.selectedRoom.to_date, moment(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
                     const newDatesArr = getDaysArray(lastDay.date, this.toDate);
                     let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
+                    variation?.nights.forEach(n => (dates[n.night] = n));
                     this.rates = [
                         ...this.selectedRoom.days,
                         ...newDatesArr.map(day => ({
@@ -84,7 +107,12 @@ export class IglRateExtenderForm {
         }
         finally {
             this.initialLoading = false;
+            this.availabilityChanged.emit(this.hasInventory);
+            this.shouldScrollToFirstEnabled = this.hasInventory;
         }
+    }
+    get hasInventory() {
+        return this.inventory !== 0 && this.inventory !== null;
     }
     handleInput(event, index) {
         let inputValue = event;
@@ -204,10 +232,10 @@ export class IglRateExtenderForm {
                 this.handleRoomConfirmation();
             } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(moment(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", h("wa-icon", { name: "arrow-right" }), ' ', formatDate(moment(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "small", variant: "danger", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index) => {
             return [
-                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
+                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { ref: el => (this.inputRefs[index] = el), disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index) && h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
             ];
-        })));
+        }), h("div", null)));
     }
     static get is() { return "igl-rate-extender-form"; }
     static get encapsulation() { return "scoped"; }
@@ -419,6 +447,21 @@ export class IglRateExtenderForm {
                 "docs": {
                     "tags": [],
                     "text": ""
+                },
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                }
+            }, {
+                "method": "availabilityChanged",
+                "name": "availabilityChanged",
+                "bubbles": true,
+                "cancelable": true,
+                "composed": true,
+                "docs": {
+                    "tags": [],
+                    "text": "Emits whether inventory is available for the additional nights (false when there is none)."
                 },
                 "complexType": {
                     "original": "boolean",
