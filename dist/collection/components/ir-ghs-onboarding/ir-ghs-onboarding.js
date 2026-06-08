@@ -215,13 +215,10 @@ export class IrGhsOnboarding {
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__layout" }, h("ir-ghs-filters", { countries: this.countries, selectedCountryId: this.selectedCountryId, isLoading: this.isDataLoading, onCountryChange: (e) => {
+            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail), onCountryChange: (e) => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
-            }, onFilterApply: () => this.fetchProperties(), onFilterReset: () => {
-                this.selectedCountryId = null;
-                this.fetchProperties();
-            } }), h("ir-ghs-candidate-table", { properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail) }), h("ir-ghs-selection-bucket", { selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) })))));
+            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) }))))));
     }
     static get is() { return "ir-ghs-onboarding"; }
     static get encapsulation() { return "scoped"; }

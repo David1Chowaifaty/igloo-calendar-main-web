@@ -42,7 +42,7 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
         event.stopImmediatePropagation();
     }
     render() {
-        return (h("ir-drawer", { key: '4815a69699cbda5553a5ddbc0b8909b1cac9ae5b', open: this.open, style: {
+        return (h("ir-drawer", { key: 'e7efff5fc630c528b87a728fb4f79cada3c0f09d', open: this.open, style: {
                 '--ir-drawer-width': '40rem',
                 '--ir-drawer-background-color': 'var(--wa-color-surface-default)',
                 '--ir-drawer-padding-left': 'var(--spacing)',
@@ -54,14 +54,14 @@ const IrCityLedgerTransactionDrawer = /*@__PURE__*/ proxyCustomElement(class IrC
                 if (event.detail) {
                     this.closeDrawer.emit();
                 }
-            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '4f037b7718d4f2384b1924214a5a1ecef8d2a440', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, transaction: this.transaction, onTransactionSaved: e => {
+            } }, this.open && (h("ir-city-ledger-transaction-form", { key: '3a0e202d7794bfe61d021cc3b3c215b5b8e623df', booking: this.booking, formId: this.formId, agent: this.agent, initialTransactionType: this.initialTransactionType, unpaidInvoiceOptions: this.unpaidInvoiceOptions, bookingOptions: this.bookingOptions, serviceCategoryOptions: this.serviceCategoryOptions, transaction: this.transaction, onTransactionSaved: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.transactionSaved.emit();
                 this.closeDrawer.emit();
             }, onSubmitDisabledChange: (e) => {
                 this.saveDisabled = e.detail;
-            } })), h("div", { key: '14239330c51d8e5c24669650a17e99e1be9b9d63', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '3f5ba7d4698e26a57d375e78cc80b6d0f164209f', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: '2517449da00407c408812b359bf0e729dd261b68', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
+            } })), h("div", { key: '9f3b8b6b9204d21380f648f67e1eeb7f9f214bf6', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '671411ab3b07fda64be869eeee143873dc34134a', appearance: "filled", size: "medium", variant: "neutral", class: "city-ledger-transaction-drawer__btn", onClickHandler: () => this.closeDrawer.emit() }, "Cancel"), h("ir-custom-button", { key: 'b446039e2f1094c38a0c72e9e4989d7e1e000e27', form: this.formId, size: "medium", type: "submit", variant: "brand", class: "city-ledger-transaction-drawer__btn", disabled: this.saveDisabled }, "Save"))));
     }
     static get style() { return IrCityLedgerTransactionDrawerStyle0; }
 }, [2, "ir-city-ledger-transaction-drawer", {

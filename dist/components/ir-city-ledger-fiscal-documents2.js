@@ -83,14 +83,14 @@ const IrCityLedgerFiscalDocuments = /*@__PURE__*/ proxyCustomElement(class IrCit
         }
     }
     render() {
-        return (h(Host, { key: '5738da9d765b2e3dae94eaccac2c6b464ce5ea72' }, h("section", { key: '50e389ca3e49a94e5ff1f4e37489e369c051717b', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '076fc53096a781cd293d8dd98f32731a11993e57', filters: this.filters, onFiltersChange: event => {
+        return (h(Host, { key: 'b46e406e3345cf40cfe6e7d6f349738bb99b753d' }, h("section", { key: 'd4c7f13b91afe777ac4e94f2c96332a445ea4d99', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '2b627cf196271e42489bf771bc2fff6f3a507b71', filters: this.filters, onFiltersChange: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
             }, onApplyFilters: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
                 this.fetchFiscalDocuments(event.detail);
-            } }), h("ir-city-ledger-fiscal-documents-table", { key: 'aaa01cfa6d8f4082ae71dbba29cd4912248b2400', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+            } }), h("ir-city-ledger-fiscal-documents-table", { key: '7fc342e28cb052aa53aedbe944a745c7e119e382', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]

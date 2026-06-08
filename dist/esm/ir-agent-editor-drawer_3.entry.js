@@ -2,7 +2,7 @@ import { r as registerInstance, c as createEvent, h, H as Host } from './index-7
 import { v as v4 } from './v4-964634d6.js';
 import { b as AgentSchema } from './type-501de9b6.js';
 import { A as AgentsService } from './agents.service-64531ba1.js';
-import { H as getFormSubmitter } from './utils-84245485.js';
+import { H as getFormSubmitter } from './utils-f7c73e2d.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import './index-87419685.js';
 import './axios-aa1335b8.js';
@@ -40,7 +40,7 @@ const IrAgentEditorDrawer = class {
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (h(Host, { key: 'f31c9ef7ce3900d58c03e4ac2e7cdaac9f7b6c3c', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'fa7809e05fbdd81d88124216adcc1865b4955e6d', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (h(Host, { key: 'f26844a095ee2f59abd03e7dd3ca11caae3b2400', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: '48f0a1ee3ed3aa73dbaa251c9316ac1ace238393', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>
@@ -51,7 +51,7 @@ const IrAgentEditorDrawer = class {
         //     {this.currentTab === 'contract' && <ir-agent-contract formId={formId} agent={this.agent}></ir-agent-contract>}
         //   </wa-tab-panel>
         // </wa-tab-group>
-        h("ir-agent-editor-form", { key: '86826a4f10fee6df95df94c911bcf318cb2d4b3c', onCloseDrawer: e => {
+        h("ir-agent-editor-form", { key: 'b8494e03e0d63429fbf9d4f98611b5e434df6996', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.agentEditorClose.emit();
@@ -59,7 +59,7 @@ const IrAgentEditorDrawer = class {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: '94579ecd41abedf31ec09e8c6786c3aca84ff6fb', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: '788647ad9b65ef9223a211fc5fee7f7f01e210db', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: 'f214e4ef54821062a96b0dc79ca37312d3339a11', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (h("ir-custom-button", { key: 'bbbd4ed993b7434f49ec81a534d30156e429eb7d', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
+            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: '28712516c759b4f51939016d9e610f3a6153ad6c', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: '05a2a12a3f86dfa52b7396fe12440f243aa72a6e', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: 'a29262b5078d4143cfbebe3b25bb552d2d79b768', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (h("ir-custom-button", { key: '5cbbb355415365ee7fb5d7de2a6900af69bede47', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
     }
 };
 IrAgentEditorDrawer.style = IrAgentEditorDrawerStyle0;
@@ -106,12 +106,12 @@ const IrAgentEditorForm = class {
         }
     }
     render() {
-        return (h("form", { key: 'b74b706bb3a9138b6f875a48d406c08d6b6a8fb1', autoComplete: this.formId,
+        return (h("form", { key: '70179205ca793e6453c7fca04d9c6ad280cd59aa', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '8008cf97e8c6012ab566478fb7cabbca655955f4', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'a4e081213846b2008ee2787e6c694e23e6321ca9', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '3b8b48ce3123624b05f83a7f645a8a97ae9a2517', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'dd0ad90f254abdb7e7cfb870affb33caef0b21ff', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
 };
 IrAgentEditorForm.style = IrAgentEditorFormStyle0;
@@ -193,11 +193,11 @@ const IrAgentsTable = class {
         });
     };
     render() {
-        return (h(Host, { key: 'ba4a94706f93842cbb08dd55c0c3a33a9575877f' }, h("div", { key: '6f10cbe4cf97840d878b5e35e86f5c19eaf25d92', class: "table--container" }, h("table", { key: '926ce57dc23f930a3cb6f75fb6d83c67e307369e', class: "table" }, h("thead", { key: 'a747c33469479a3a96a0d5a1b07fb5f494c3437e' }, h("tr", { key: '626f129171237bfdb87dc641837ba57c1a1e59bb' }, h("th", { key: '8f5667a7ea77911abd757bcc341cbe3f9826790a', class: "agents-table__header" }, "Name"), h("th", { key: '89c335b14f3283f304980da977d08e63f6c4b6fc', class: "agents-table__header" }, "Type"), h("th", { key: '94662f35770961a8ad36d6b0989ff9d175c4d807', class: "agents-table__header" }, "Email"), h("th", { key: 'a2a9d7acb1fcceaccbe7c8e0b922727075a4b41a', class: "agents-table__header" }, "Phone"), h("th", { key: 'a6d517e8d95cdcace9393f0f0fff7fa9dc0b98eb', class: "agents-table__header" }, "Active"), h("th", { key: '98d5b442a6e28d0c9e585b0ee3c4dabdf38ff483', class: "agents-table__header " }, h("div", { key: 'c3b871c2ffb783118397f71e6cba373db7d97093', class: "agents-table__action" }, h("wa-tooltip", { key: 'bea070d61edb81ced3f4908ddfc5128f0c73feff', for: "create-agent-button" }, "New Agent"), h("ir-custom-button", { key: '124ed87bf677091edd4edac0eb49aaf48fb1def2', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: 'dbb222fffa1749e961c74cabdf4b468ea7c790b8', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), h("tbody", { key: '633d46668f935cdc2cca867d568617d3dba46492' }, this.agents.map(agent => {
+        return (h(Host, { key: '6eb226819fd5d25b91fe150d7ce6f70454161d4a' }, h("div", { key: 'a7781bcc49c9dd0534b7c6d923432791944990e3', class: "table--container" }, h("table", { key: '4f491720d8779e9e0d9c8381ed9c754b69d32f39', class: "table" }, h("thead", { key: '4512e582cf8e87699a606287ed18a1b05b01d7ba' }, h("tr", { key: 'c7eb5f2e72bb057abaf7dd3605d0d634fbae5883' }, h("th", { key: '7292c1e033a09d6ef6e12d8b0b593354a07ca662', class: "agents-table__header" }, "Name"), h("th", { key: '182831c207b7a5a04e5e24aff07914916564b74f', class: "agents-table__header" }, "Type"), h("th", { key: '46e5a99b57a4b11bc37d2e34a76ce698d00fa0af', class: "agents-table__header" }, "Email"), h("th", { key: 'e4b37d5ce0821c1283d3e54bee5125048ad37af3', class: "agents-table__header" }, "Phone"), h("th", { key: 'b5fd24ed0bab13d5639a7b4023832383dbdfddfa', class: "agents-table__header" }, "Active"), h("th", { key: '9c37f551f7c4bd232892980845a3007aa707b013', class: "agents-table__header " }, h("div", { key: '537641a74cf82dea1421e0679f76dd98501b7578', class: "agents-table__action" }, h("wa-tooltip", { key: '1c38602647302164de5126e70d5ccba2c4f7a606', for: "create-agent-button" }, "New Agent"), h("ir-custom-button", { key: 'cee7d11cf1f903441cf42ec8ea1ec0332a6d922b', onClickHandler: this.createAgent, variant: "neutral", appearance: "plain", id: "create-agent-button", "data-testid": "create-agent-button" }, h("wa-icon", { key: '1e9b16428a1d5a3823a2c95a4270615d0ed5abb7', name: "plus", style: { fontSize: '1.2rem' }, label: "New Agent" })))))), h("tbody", { key: 'ab4a8cf6a6d10406b9ae8e67a990781c7d99e811' }, this.agents.map(agent => {
             // const status = this.getStatusLabel(agent);
             const typeLabel = this.getAgentTypeLabel(agent);
             return (h("tr", { class: "ir-table-row", key: agent.id }, h("td", { class: "agents-table__name" }, h("div", { class: "d-flex flex-column" }, h("p", null, agent.name), h("p", { class: "agents-table__muted" }, agent.reference))), h("td", null, h("div", { class: "d-flex flex-column" }, h("p", null, typeLabel), h("p", { class: "agents-table__muted" }, agent.code))), h("td", null, agent.email || 'N/A'), h("td", null, this.getAgentPhoneNumber(agent) || 'N/A'), h("td", null, h("wa-switch", { onchange: e => this.toggleAgentActive.emit({ ...agent, is_active: e.target.checked }), defaultChecked: agent.is_active, checked: agent.is_active })), h("td", null, h("div", { class: "agents-table__action" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => this.upsertAgent.emit(agent) }, h("wa-icon", { name: "edit", "aria-hidden": "true", style: { fontSize: '1.2rem' } }))))));
-        }), this.agents?.length === 0 && (h("tr", { key: '73a6f3a9e20b4f788f2a1f119a69ab91b2ac1065', class: "empty-row" }, h("td", { key: 'f906c5e4c979ec43b028866e6cddce98f6afebea', colSpan: 6 }, h("ir-empty-state", { key: '413a88d65e4e061c1d39668bc06e92750c99ea87' })))))))));
+        }), this.agents?.length === 0 && (h("tr", { key: '6d0c94312416b6cbaaf13ec245fd8e4d212dc7d3', class: "empty-row" }, h("td", { key: '098bde99fa410cf88fbf1881a71dc19c7aa70825', colSpan: 6 }, h("ir-empty-state", { key: 'e7ed688d6db069aa40b0b54a89b8069a94417a3f' })))))))));
     }
 };
 IrAgentsTable.style = IrAgentsTableStyle0 + IrAgentsTableStyle1;

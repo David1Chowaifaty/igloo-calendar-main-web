@@ -201,7 +201,7 @@ export class IrDailyRevenue {
                 await this.getPaymentReports(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("ir-revenue-summary", { filters: this.filters, previousDateGroupedPayments: this.previousDateGroupedPayments, groupedPayments: this.groupedPayment, paymentEntries: this.paymentEntries }), h("div", { class: "daily-revenue__meta" }, h("ir-daily-revenue-filters", { isLoading: this.isLoading === 'filter', payments: this.groupedPayment }), h("ir-revenue-table", { filters: this.filters, class: 'daily-revenue__table', paymentEntries: this.paymentEntries, payments: this.groupedPayment }))), h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
+                background: this.sideBarEvent?.type === 'booking' ? 'var(--ir-color-muted-background,#f2f3f8)' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get is() { return "ir-daily-revenue"; }

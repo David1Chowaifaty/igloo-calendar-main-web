@@ -3,12 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-da99b883.js');
+const booking_store = require('./booking.store-99692a78.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking = require('./booking-a54b7725.js');
 require('./axios-6e678d52.js');
 require('./utils-32be062a.js');
 require('./type-53035218.js');
@@ -362,10 +361,10 @@ const IglBulkStopSale = class {
             return p;
         };
         const updateCalendarCells = (payloads) => {
-            const prevDisabledCells = new Map(booking.calendar_dates.disabled_cells);
+            const prevDisabledCells = new Map(booking_store.calendar_dates.disabled_cells);
             // Caches
             const roomsInfoById = new Map(calendarData.calendar_data.roomsInfo.map((rt, i) => [rt.id, { roomType: rt, index: i }]));
-            const dayIndexByValue = new Map(booking.calendar_dates.days.map((day, i) => [day.value, i]));
+            const dayIndexByValue = new Map(booking_store.calendar_dates.days.map((day, i) => [day.value, i]));
             const rateByRoomTypeAndDate = new Map();
             for (const payload of payloads) {
                 for (const restriction of payload.restrictions) {
@@ -378,7 +377,7 @@ const IglBulkStopSale = class {
                         console.warn(`Couldn't find date ${night}`);
                         continue;
                     }
-                    const day = booking.calendar_dates.days[dayIndex];
+                    const day = booking_store.calendar_dates.days[dayIndex];
                     const rateKey = `${room_type_id}_${night}`;
                     let rp = rateByRoomTypeAndDate.get(rateKey);
                     if (!rp) {
@@ -399,7 +398,7 @@ const IglBulkStopSale = class {
                     }
                 }
             }
-            booking.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
+            booking_store.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
         };
         try {
             this.errors = null;
@@ -653,7 +652,7 @@ const IrWeekdaySelector = class {
         this.weekdayChange.emit(Array.from(this.selectedWeekdays));
     }
     render() {
-        return (index.h(index.Host, { key: '4c4fa79f13b7b050475b2964691962573f74aa7a', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
+        return (index.h(index.Host, { key: '34630c5b3a0df02c36e5f0f4a8f57d1025cddf93', class: "my-1 d-flex align-items-center", style: { gap: '1.1rem' } }, this._weekdays.map(w => (index.h("wa-checkbox", { checked: this.selectedWeekdays.has(w.value), defaultChecked: this.selectedWeekdays.has(w.value), onchange: e => this.toggleWeekDays({ checked: e.target.checked, weekDay: w.value }) }, w.label)))));
     }
     static get watchers() { return {
         "weekdays": ["handleWeekdayChange"]

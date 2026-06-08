@@ -15,28 +15,31 @@
 .ir-ghs-candidate-table__header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--wa-space-m);
   width: 100%;
 }
 
 .ir-ghs-candidate-table__title {
   margin: 0;
-  flex-grow: 1;
   font-size: var(--wa-font-size-medium);
   font-weight: var(--wa-font-weight-bold);
   color: var(--wa-color-neutral-900);
   white-space: nowrap;
 }
 
-.ir-ghs-candidate-table__subtitle {
-  margin-inline-start: var(--wa-space-xs);
-  font-weight: var(--wa-font-weight-normal);
-  font-size: var(--wa-font-size-x-small);
-  color: var(--wa-color-neutral-500);
+.ir-ghs-candidate-table__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--wa-space-s);
+}
+
+.ir-ghs-candidate-table__country-select {
+  width: 200px;
 }
 
 .ir-ghs-candidate-table__search-wrapper {
-  width: 180px;
+  width: 280px;
 }
 
 .ir-ghs-candidate-table__body {
@@ -96,6 +99,16 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.ir-ghs-candidate-table__property-link {
+  color: var(--wa-color-primary-600);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ir-ghs-candidate-table__property-link:hover {
+  color: var(--wa-color-primary-700);
 }
 
 .ir-ghs-candidate-table__cell {

@@ -75,9 +75,9 @@ const IrBookingExtraNote = /*@__PURE__*/ proxyCustomElement(class IrBookingExtra
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '3029428cceec67f4b8cf36157e66d464a1f16502', label: "Private Note", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '3b4c014110ff85b49b2177a7d705ba2ad01043eb', label: "Private Note", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: 'b805080992a26e50ff45e83ddf4afe59b7c4c07e', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'd6b46c468911369e7bb6d63774776dcb9f8223e7', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '3d3e2d4ef267105a198d49930d3fb83e4f6ddf69', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '6e43fe8e20828f0e6ef9a6b3526284ea28817e49', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-textarea", { key: '13025ba0e377d53f0333919bed083c2fee5db7a5', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: '30be6fde6f26d17752aa04b5f579bed265b8f2be', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '971e1042007556585da1fadb1910bc2c249179e7', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '3821a28afbb5b784ec08c814a75ef3adb8efd52c', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
     static get style() { return IrBookingExtraNoteStyle0; }
 }, [2, "ir-booking-extra-note", {

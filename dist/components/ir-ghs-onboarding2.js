@@ -3,11 +3,10 @@ import { a as axios } from './axios.js';
 import { z } from './index2.js';
 import { B as BookingService } from './booking.store.js';
 import { T as Token } from './Token.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-dialog2.js';
-import { d as defineCustomElement$d } from './ir-ghs-candidate-table2.js';
-import { d as defineCustomElement$c } from './ir-ghs-filters2.js';
+import { d as defineCustomElement$f } from './ir-button2.js';
+import { d as defineCustomElement$e } from './ir-custom-button2.js';
+import { d as defineCustomElement$d } from './ir-dialog2.js';
+import { d as defineCustomElement$c } from './ir-ghs-candidate-table2.js';
 import { d as defineCustomElement$b } from './ir-ghs-selection-bucket2.js';
 import { d as defineCustomElement$a } from './ir-icons2.js';
 import { d as defineCustomElement$9 } from './ir-input2.js';
@@ -64,7 +63,7 @@ class GHSService {
     }
 }
 
-const irGhsOnboardingCss = ".sc-ir-ghs-onboarding-h{display:block;box-sizing:border-box}*.sc-ir-ghs-onboarding,*.sc-ir-ghs-onboarding::before,*.sc-ir-ghs-onboarding::after{box-sizing:inherit}.ir-ghs-onboarding__container.sc-ir-ghs-onboarding{padding:var(--wa-space-m);display:flex;flex-direction:column;gap:var(--wa-space-m)}.ir-ghs-onboarding__header.sc-ir-ghs-onboarding{display:flex;align-items:center;justify-content:space-between}.ir-ghs-onboarding__title.sc-ir-ghs-onboarding{margin:0;font-size:var(--wa-font-size-large);margin-bottom:var(--wa-space-xs);color:var(--wa-color-neutral-900)}.ir-ghs-onboarding__layout.sc-ir-ghs-onboarding{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-m);align-items:stretch}@media (min-width: 992px){.ir-ghs-onboarding__layout.sc-ir-ghs-onboarding{flex-direction:row}}.ir-ghs-onboarding__dialog-body.sc-ir-ghs-onboarding{padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ir-ghs-onboarding__dialog-footer.sc-ir-ghs-onboarding{display:flex;gap:var(--wa-space-s);justify-content:flex-end}";
+const irGhsOnboardingCss = ".sc-ir-ghs-onboarding-h{display:block;box-sizing:border-box}*.sc-ir-ghs-onboarding,*.sc-ir-ghs-onboarding::before,*.sc-ir-ghs-onboarding::after{box-sizing:inherit}.ir-ghs-onboarding__container.sc-ir-ghs-onboarding{padding:var(--wa-space-m);display:flex;flex-direction:column;gap:var(--wa-space-m)}.ir-ghs-onboarding__header.sc-ir-ghs-onboarding{display:flex;align-items:center;justify-content:space-between}.ir-ghs-onboarding__title.sc-ir-ghs-onboarding{margin:0;font-size:var(--wa-font-size-large);margin-bottom:var(--wa-space-xs);color:var(--wa-color-neutral-900)}.ir-ghs-onboarding__content.sc-ir-ghs-onboarding{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-m)}.ir-ghs-onboarding__main-row.sc-ir-ghs-onboarding{display:flex;flex-direction:column;gap:var(--wa-space-m);align-items:stretch}@media (min-width: 992px){.ir-ghs-onboarding__main-row.sc-ir-ghs-onboarding{flex-direction:row;align-items:flex-start}.ir-ghs-onboarding__candidate-table.sc-ir-ghs-onboarding{flex:0 0 calc(60% - var(--wa-space-m) / 2);min-width:0}.ir-ghs-onboarding__selection-bucket.sc-ir-ghs-onboarding{flex:0 0 calc(40% - var(--wa-space-m) / 2);min-width:0}}.ir-ghs-onboarding__dialog-body.sc-ir-ghs-onboarding{padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ir-ghs-onboarding__dialog-footer.sc-ir-ghs-onboarding{display:flex;gap:var(--wa-space-s);justify-content:flex-end}";
 const IrGhsOnboardingStyle0 = irGhsOnboardingCss;
 
 const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding extends HTMLElement {
@@ -284,13 +283,10 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__layout" }, h("ir-ghs-filters", { countries: this.countries, selectedCountryId: this.selectedCountryId, isLoading: this.isDataLoading, onCountryChange: (e) => {
+            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail), onCountryChange: (e) => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
-            }, onFilterApply: () => this.fetchProperties(), onFilterReset: () => {
-                this.selectedCountryId = null;
-                this.fetchProperties();
-            } }), h("ir-ghs-candidate-table", { properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail) }), h("ir-ghs-selection-bucket", { selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) })))));
+            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) }))))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -315,7 +311,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-ghs-onboarding", "ir-button", "ir-custom-button", "ir-dialog", "ir-ghs-candidate-table", "ir-ghs-filters", "ir-ghs-selection-bucket", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-ghs-onboarding", "ir-button", "ir-custom-button", "ir-dialog", "ir-ghs-candidate-table", "ir-ghs-selection-bucket", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-ghs-onboarding":
             if (!customElements.get(tagName)) {
@@ -324,25 +320,20 @@ function defineCustomElement() {
             break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$f();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$e();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
-            }
-            break;
-        case "ir-ghs-candidate-table":
-            if (!customElements.get(tagName)) {
                 defineCustomElement$d();
             }
             break;
-        case "ir-ghs-filters":
+        case "ir-ghs-candidate-table":
             if (!customElements.get(tagName)) {
                 defineCustomElement$c();
             }

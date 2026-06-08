@@ -1441,9 +1441,21 @@ wa-select[aria-invalid='true']::part(combobox) {
 /* body {
   background-color: var(--wa-color-surface-default) !important;
 } */
+:root {
+  --ir-color-muted-background: #f2f3f8;
+  --ir-color-loader: rgba(255, 255, 255, 0.2);
+}
+.wa-dark {
+  --ir-color-loader: rgba(0, 0, 0, 0.2);
+  --ir-color-muted-background: #12141a;
+}
+body {
+  background-color: var(--ir-color-muted-background) !important;
+}
 html {
   font-size: 14px !important;
 }
+
 /* body {
   background-color: var(---wa-color-surface-default) !important;
   color: var(--wa-color-text-normal) !important;

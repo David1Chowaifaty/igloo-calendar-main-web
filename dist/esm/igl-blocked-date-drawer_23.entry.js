@@ -1,18 +1,16 @@
 import { r as registerInstance, c as createEvent, h, g as getElement, F as Fragment, H as Host } from './index-7e96440e.js';
-import { B as BookingService, f as resetBookingStore, b as booking_store } from './booking.store-caa84b6c.js';
-import { g as getReleaseHoursString, l as isBlockUnit, A as checkMealPlan, f as formatAmount, B as isWeekend, j as dateToFormattedString, C as getDaysArray, D as convertDatePrice, F as formatDate } from './utils-84245485.js';
-import { b as buildSplitIndex, m as getSplitRole, c as calculateDaysBetweenDates, t as transformNewBooking, d as calendar_dates, n as compareTime, o as createDateWithOffsetAndHour } from './booking-00ad46c5.js';
+import { B as BookingService, e as buildSplitIndex, E as getSplitRole, n as calculateDaysBetweenDates, A as transformNewBooking, v as calendar_dates, F as compareTime, G as createDateWithOffsetAndHour, b as booking_store, h as resetBookingStore } from './booking.store-13788919.js';
+import { g as getReleaseHoursString, j as isBlockUnit, D as checkMealPlan, f as formatAmount, F as isWeekend, m as dateToFormattedString, p as getDaysArray, u as formatDate } from './utils-f7c73e2d.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { E as EventsService } from './events.service-eb1b09bc.js';
+import { E as EventsService } from './events.service-67eca30b.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-81d104ec.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-9b5a7c36.js';
 import { h as handleUnAssignedDatesChange, g as getUnassignedDates } from './unassigned_dates.store-6de7154f.js';
 import { H as HouseKeepingService } from './housekeeping.service-0e645d86.js';
-import { P as PropertyService, E as ExposedRectifierParamsSchema } from './property.service-688f3343.js';
-import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
+import { P as PropertyService, E as ExposedRectifierParamsSchema } from './property.service-f48b1d4b.js';
 import { z, Z as ZodError } from './index-87419685.js';
-import { I as IMask } from './index-e2caf943.js';
+import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
 import { v as v4 } from './v4-964634d6.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
@@ -2053,6 +2051,251 @@ const IglLegend = class {
 };
 IglLegend.style = IglLegendStyle0;
 
+const iglRateExtenderDrawerCss = ".sc-igl-rate-extender-drawer-h{display:block}";
+const IglRateExtenderDrawerStyle0 = iglRateExtenderDrawerCss;
+
+const IglRateExtenderDrawer = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
+    }
+    open = false;
+    bookingNumber;
+    propertyId;
+    language;
+    identifier;
+    toDate;
+    fromDate;
+    pool;
+    ticket;
+    defaultDates;
+    isLoading = false;
+    closeRoomNightsDialog;
+    get label() {
+        return `Adding Room Nights`;
+    }
+    handleDrawerHide = (e) => {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool });
+    };
+    render() {
+        return (h("ir-drawer", { key: '3d79d8ae8ab2a192181830683372a3e141a332e6', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'b8269d4b670bfeaea63f5753f48e231c9db9c03a', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.isLoading = e.detail;
+            }, onCloseRoomNightsDialog: (e) => {
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                this.closeRoomNightsDialog.emit(e.detail);
+            } })), h("div", { key: '3ea3ee20c6b4838ab8f61136808c5a14bdc44fdd', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '9af22fc9af898f8b8e92ce078ef4a4bd313ad1e1', size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'd93f48aae7a8d95427693b4f32f28c648e6edb53', loading: this.isLoading, size: "medium", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, "Confirm"))));
+    }
+};
+IglRateExtenderDrawer.style = IglRateExtenderDrawerStyle0;
+
+const iglRateExtenderFormCss = ".sc-igl-rate-extender-form-h{display:block;height:100%}.rate-form__body.sc-igl-rate-extender-form{text-align:left;padding-inline:0.25rem;padding-top:0;display:grid}.rate-extender-form.sc-igl-rate-extender-form{display:grid;gap:1rem}.rate-form__booking-number.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);color:var(--wa-color-text-quiet);margin:0}.rate-form__checking-availability.sc-igl-rate-extender-form{margin-top:0.5rem;font-size:0.875rem;color:var(--wa-color-text-quiet)}.rate-form__date-range.sc-igl-rate-extender-form{font-size:var(--wa-font-size-m);font-weight:600;line-height:1.3;color:#111827;margin:0;margin-top:0.5rem}.rate-form__rate-plan.sc-igl-rate-extender-form{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet);margin:0;margin-top:0.375rem}.rate-form__availability-callout.sc-igl-rate-extender-form{margin-top:1rem}.rate-form__custom-text.sc-igl-rate-extender-form{font-size:var(--wa-font-size-xs);color:var(--wa-color-text-quiet);line-height:1.4;margin:0;margin-top:0.625rem}.rate-form__tax-callout.sc-igl-rate-extender-form{margin-top:1.25rem}.rate-form__dates.sc-igl-rate-extender-form{margin:0;margin-top:1.5rem;display:grid;gap:1rem}.rate-form__date-row.sc-igl-rate-extender-form{display:flex;align-items:center;margin:0;margin-top:0.25rem}.rate-form__date-label.sc-igl-rate-extender-form{flex:0 0 16.666%;margin:0;padding:0;font-size:0.8125rem;color:#6b7280}.rate-form__input-wrapper.sc-igl-rate-extender-form{flex:0 0 25%;margin-left:0.25rem;position:relative;margin-top:0;margin-bottom:0;padding:0}.rate-form__readonly-value.sc-igl-rate-extender-form{flex:0 0 75%;margin-left:0.25rem;margin-top:0;margin-bottom:0;padding:0}.rate-extender-input.sc-igl-rate-extender-form{display:grid;grid-template-columns:auto 1fr;gap:var(--wa-space-l);align-items:center}.rate-extender-input.sc-igl-rate-extender-form::part(label){width:80px;margin:0}.rate-extender-input.sc-igl-rate-extender-form:disabled::part(label){opacity:0.5}.rate-extender-input.sc-igl-rate-extender-form::part(wa-input){grid-column:1 / -1;grid-row-end:span 2;display:grid;grid-template-columns:subgrid;gap:0 var(--wa-space-s);align-items:center}@media (min-width: 640px){.rate-extender-input.sc-igl-rate-extender-form::part(base){max-width:180px}}";
+const IglRateExtenderFormStyle0 = iglRateExtenderFormCss;
+
+const IglRateExtenderForm = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
+        this.loadingChanged = createEvent(this, "loadingChanged", 7);
+    }
+    bookingNumber;
+    propertyId;
+    language;
+    identifier;
+    toDate;
+    fromDate;
+    pool;
+    defaultDates;
+    booking;
+    selectedRoom;
+    rates = [];
+    isLoading = false;
+    initialLoading = true;
+    inventory = null;
+    isEndDateBeforeFromDate = false;
+    defaultTotalNights = 0;
+    dates = { from_date: new Date(), to_date: new Date() };
+    closeRoomNightsDialog;
+    loadingChanged;
+    bookingService = new BookingService();
+    componentWillLoad() {
+        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
+        this.init();
+    }
+    async init() {
+        try {
+            this.initialLoading = true;
+            const { from_date } = this.defaultDates;
+            if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
+                this.dates.from_date = new Date(from_date);
+            }
+            else {
+                this.dates.from_date = new Date(this.fromDate);
+            }
+            this.dates.to_date = new Date(this.toDate);
+            this.booking = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
+            if (this.booking) {
+                const filteredRooms = this.booking.rooms.filter(room => room.identifier === this.identifier);
+                this.selectedRoom = filteredRooms[0];
+                const lastDay = this.selectedRoom?.days[this.selectedRoom.days.length - 1];
+                if (!hooks(this.selectedRoom.to_date, 'YYYY-MM-DD').isBefore(hooks(this.toDate, 'YYYY-MM-DD'))) {
+                    const variation = await this.fetchBookingAvailability(this.fromDate, this.selectedRoom.days[0].date, this.selectedRoom.rateplan.id);
+                    const newDatesArr = getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
+                    this.isEndDateBeforeFromDate = true;
+                    let dates = {};
+                    variation.nights.forEach(n => (dates[n.night] = n));
+                    this.rates = [
+                        ...newDatesArr.map(day => ({
+                            amount: dates[day].discounted_amount,
+                            date: day,
+                            cost: null,
+                        })),
+                        ...this.selectedRoom.days,
+                    ];
+                    this.defaultTotalNights = this.rates.length - this.selectedRoom.days.length;
+                }
+                else {
+                    const variation = await this.fetchBookingAvailability(this.selectedRoom.to_date, hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
+                    const newDatesArr = getDaysArray(lastDay.date, this.toDate);
+                    let dates = {};
+                    variation.nights.forEach(n => (dates[n.night] = n));
+                    this.rates = [
+                        ...this.selectedRoom.days,
+                        ...newDatesArr.map(day => ({
+                            amount: dates[day].discounted_amount,
+                            date: day,
+                            cost: null,
+                        })),
+                    ];
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {
+            this.initialLoading = false;
+        }
+    }
+    handleInput(event, index) {
+        let inputValue = event;
+        let days = [...this.rates];
+        inputValue = inputValue.replace(/[^0-9.]/g, '');
+        if (inputValue === '') {
+            days[index].amount = -1;
+        }
+        else {
+            if (!isNaN(Number(inputValue))) {
+                days[index].amount = Number(inputValue);
+            }
+        }
+        this.rates = days;
+    }
+    async fetchBookingAvailability(from_date, to_date, rate_plan_id) {
+        try {
+            const bookingAvailability = await this.bookingService.getBookingAvailability({
+                from_date,
+                to_date,
+                propertyid: this.propertyId,
+                adultChildCount: {
+                    adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
+                    child: this.selectedRoom.rateplan.selected_variation.child_nbr,
+                },
+                language: this.language,
+                currency: this.booking.currency,
+                room_type_ids: [this.selectedRoom.roomtype.id],
+                rate_plan_ids: [rate_plan_id],
+            });
+            this.inventory = bookingAvailability[0].inventory;
+            const rate_plan = bookingAvailability[0].rateplans.find(rate => rate.id === rate_plan_id);
+            if (!rate_plan || !rate_plan.variations) {
+                this.inventory = null;
+                return null;
+            }
+            const selected_variation = rate_plan.variations?.find(variation => variation.adult_nbr === this.selectedRoom.rateplan.selected_variation.adult_nbr && variation.child_nbr === this.selectedRoom.rateplan.selected_variation.child_nbr);
+            if (!selected_variation) {
+                return null;
+            }
+            return selected_variation;
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    disabled(index) {
+        if (this.inventory === 0 || this.inventory === null) {
+            return true;
+        }
+        if (this.isEndDateBeforeFromDate) {
+            return !(index < this.defaultTotalNights);
+        }
+        return index < this.selectedRoom.days.length;
+    }
+    async handleRoomConfirmation() {
+        try {
+            this.isLoading = true;
+            this.loadingChanged.emit(true);
+            let oldRooms = [...this.booking.rooms];
+            let selectedRoomIndex = oldRooms.findIndex(room => room.identifier === this.identifier);
+            if (selectedRoomIndex === -1) {
+                throw new Error('Invalid Pool');
+            }
+            oldRooms[selectedRoomIndex] = {
+                ...oldRooms[selectedRoomIndex],
+                days: this.rates,
+                to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
+            };
+            const body = {
+                assign_units: true,
+                check_in: true,
+                is_pms: true,
+                is_direct: true,
+                pickup_info: this.booking.pickup_info,
+                extra_services: this.booking.extra_services,
+                agent: this.booking.agent,
+                booking: {
+                    booking_nbr: this.bookingNumber,
+                    from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
+                    to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
+                    remark: this.booking.remark,
+                    property: this.booking.property,
+                    source: this.booking.source,
+                    currency: this.booking.currency,
+                    arrival: this.booking.arrival,
+                    guest: this.booking.guest,
+                    rooms: oldRooms,
+                },
+            };
+            await this.bookingService.doReservation(body);
+            this.closeRoomNightsDialog.emit({ type: 'confirm', pool: this.pool });
+        }
+        catch (error) {
+        }
+        finally {
+            this.isLoading = false;
+            this.loadingChanged.emit(false);
+        }
+    }
+    render() {
+        if (this.initialLoading) {
+            return (h("div", { class: 'drawer__loader-container' }, h("ir-spinner", null)));
+        }
+        const currency_symbol = this.booking.currency.symbol;
+        return (h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
+                e.preventDefault();
+                this.handleRoomConfirmation();
+            } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "small", variant: "warning", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", h("wa-icon", { name: "arrow-right" }), ' ', formatDate(hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), this.rates?.map((day, index) => {
+            return (h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: hooks(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))));
+        })));
+    }
+};
+IglRateExtenderForm.style = IglRateExtenderFormStyle0;
+
 const iglReallocationDialogCss = ".sc-igl-reallocation-dialog-h{display:block;text-align:start}.dialog-body.sc-igl-reallocation-dialog{display:grid;gap:1.5rem}.dialog-body__description.sc-igl-reallocation-dialog{margin:0}.dialog-footer.sc-igl-reallocation-dialog{display:flex;justify-content:flex-end;gap:0.75rem}";
 const IglReallocationDialogStyle0 = iglReallocationDialogCss;
 
@@ -2160,7 +2403,7 @@ const IglReallocationDialog = class {
     };
     render() {
         const hasRateplans = this.hasRateplanRequirement();
-        return (h("ir-dialog", { key: 'e9c73c70460989bc2200f705487eafd6991c2745', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: 'bb93cc3cebfbe4dbbd7401d090a914fbf43a1189' }, h("div", { key: '88f09df72b59168e8c268028b8c2eb105b6cf508', class: "dialog-body" }, h("p", { key: '31ece3d5579f7b6b5596b79a17c4e670f29f98aa', class: "text-left dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
+        return (h("ir-dialog", { key: '41c8568053b28b359b9da90ed1dcbac548f1604f', label: 'Alert', ref: el => (this.dialogEl = el), onIrDialogHide: this.handleDialogVisibilityChange }, this.data && (h(Fragment, { key: '35fcad97871c40f871c7908dfacde5077cf0200d' }, h("div", { key: '61323bd1e2ba3a191a507c1de39a8660ed46a35e', class: "dialog-body" }, h("p", { key: 'b8a224f9c010d1744ec570969416c96bfe2300a1', class: "text-left dialog-body__description m-0 p-0" }, this.data.description), hasRateplans && (
         // <ir-select
         //   ref={el => (this.rateplanSelectEl = el)}
         //   required
@@ -2169,13 +2412,13 @@ const IglReallocationDialog = class {
         //   error={this.showRateplanError}
         //   onSelectChange={this.handleRateplanChange}
         // ></ir-select>
-        h("wa-select", { key: '731126d74135bb5e6cd701d22f18656d646cf159', "onwa-hide": e => {
+        h("wa-select", { key: '43f2ff7c241823d33e246ff1cd2983fdccef88a8', "onwa-hide": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
             }, defaultValue: '', "onwa-show": e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '06158a4659c87c8bdc9900b4bf5c81b001ae4785', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: '15416390a21d07c4d4be160e987f1857cf1f43a4', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: '5a878e1b173f914454b310aed3f1c3a740454826', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: '583943e7b9e06d3b26538c080b3c9def05e3addd', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
+            }, size: "small", "aria-invalid": String(this.showRateplanError), onchange: e => this.handleRateplanChange(e.target.value) }, h("wa-option", { key: '84928695d3a4bb5a6afba057a899a29c4cb2a7cd', value: "" }, "Select rate plan..."), this.rateplanOptions.map(option => (h("wa-option", { key: option.value, value: option.value }, option.text)))))), h("div", { key: 'f37ede8b8b66cd4df6a23c30f64590da5081e032', class: "dialog-footer", slot: "footer" }, h("ir-custom-button", { key: 'a4cd56447fe8ad85c878428f01de10efed110820', appearance: "filled", variant: "neutral", onClickHandler: this.handleCancelClick, size: "medium" }, "Cancel"), h("ir-custom-button", { key: '45218d508ad86dc1d1e4291a8e159698013dc916', variant: "brand", onClickHandler: () => this.reallocateUnit(), size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room') }, "Confirm"))))));
     }
     static get watchers() { return {
         "data": ["handleDataChange"]
@@ -2192,8 +2435,8 @@ const SelectedUnitSchema = z.object({
 const iglSplitBookingCss = ".sc-igl-split-booking-h{display:block}.sc-igl-split-booking-h{display:flex;flex-direction:column;flex:1 1 0%;height:100%}.bulk-sheet-container.sc-igl-split-booking{display:flex;flex-direction:column;flex:1;min-height:0;gap:1rem}.animated-container.sc-igl-split-booking{transition:all 0.5s ease}.physical-room.sc-igl-split-booking{margin-left:1rem !important}.physical-room.sc-igl-split-booking>td.sc-igl-split-booking:last-child{padding-left:1rem}.room-type-list.sc-igl-split-booking{padding:0;margin:0}.room-type-list.sc-igl-split-booking>li.sc-igl-split-booking,.physical-room.sc-igl-split-booking,.room-type-row.sc-igl-split-booking{list-style:none}";
 const IglSplitBookingStyle0 = iglSplitBookingCss;
 
-const sheetCss$1 = ".sc-igl-split-booking-h{height:100%}.sheet-container.sc-igl-split-booking{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-split-booking{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-split-booking{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-split-booking{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-split-booking{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-split-booking{flex-direction:row;align-items:center}}";
-const IglSplitBookingStyle1 = sheetCss$1;
+const sheetCss = ".sc-igl-split-booking-h{height:100%}.sheet-container.sc-igl-split-booking{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-split-booking{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-split-booking{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-split-booking{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-split-booking{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-split-booking{flex-direction:row;align-items:center}}";
+const IglSplitBookingStyle1 = sheetCss;
 
 const IglSplitBooking = class {
     constructor(hostRef) {
@@ -2421,17 +2664,17 @@ const IglSplitBooking = class {
         this.selectedUnit = merged;
     }
     render() {
-        return (h("form", { key: '77d37fba0e1a81ab21e5f5cde60a275edc9a1105', onSubmit: e => {
+        return (h("form", { key: '07cf313b4d5b05583f377dedb46b81375a4625d9', onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, h("ir-title", { key: 'c03846f5f9b3b415b457aa76cad94990ed85819f', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: '10e1f8dd51e678e84a7b0fc58c3ebf3a9f7a23f3', class: "px-1 sheet-body" }, h("div", { key: '987dcf15674028aa711256e714b921b702d1c528', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '684fd31648d844e83b34fdccfc9919325a311828' }, h("ir-date-view", { key: 'e7bd8fd8c02ff01e0e8d92484e2b9d2b6aa2c105', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: '361d6cffb6b0baa07195e2d9b9601b4100494b2c', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '2d2e789375959339e2c801d06e28ef83c51a7797', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: '6831615266ad4a76cf78703e4280aad891bdb68c' }, "From:"), h("ir-date-picker", { key: '083ee3e178f10d9d3308a1ded198b455eb5bbfce', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
+            }, class: "sheet-container" }, h("ir-title", { key: '920454d0da5522e8615f973ba3113daf1e32705a', class: "px-1 sheet-header mb-0", displayContext: "sidebar", onCloseSideBar: () => this.closeModal.emit(), label: `Split unit ${this.room?.unit['name']}` }), h("section", { key: 'fb592bece176bd51e15ff4e9eddf682b60cc99ac', class: "px-1 sheet-body" }, h("div", { key: '31300a332658719d959d31e513b2925f036c0280', class: "d-flex align-items-center", style: { gap: '0.5rem' } }, h("div", { key: '61113af6d40c5f9d2f073cb3bfcfe3adf85d8778' }, h("ir-date-view", { key: '27066880b8b0f5b517f001eb770ac2d6de52f215', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false })), h("p", { key: '65f26d1846bc5564aa19e4210ff5cf712027964b', class: "m-0 p-0" }, this.room.rateplan.short_name, " ", this.room.rateplan.is_non_refundable ? locales.entries.Lcz_NonRefundable : '')), h("div", { key: '1f72906ee2b54f3c1f5efa6ca329474d3bccfc4a', class: 'd-flex align-items-center mt-1', style: { gap: '0.5rem' } }, h("span", { key: '2480bf9785c4ae514a600ccaeee3ae64320f6467' }, "From:"), h("ir-date-picker", { key: '4442db5a79f65f20c2551545857181b3f3ec79df', "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true,
             // aria-invalid={this.errors?.arrival_date && !this.pickupData.arrival_date ? 'true' : 'false'}
             onDateChanged: evt => {
                 this.selectedDates = {
                     ...this.selectedDates,
                     from_date: evt.detail.start,
                 };
-            } }, h("input", { key: 'e6e492de133276e5c0c952de707bf8c63e9e08e7', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: '0f58939e21c095caa7c77adadab5b3e86fa077f7', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '8e3f163edbbf40c4cf7e317827a9b118b2821000', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: 'c60dc2bface2d2987bbd0da527f0b72ea72a178f', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
+            } }, h("input", { key: '8a6bbafccb5f472ecaa8028710f0cdbd244ed446', type: "text", slot: "trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null, class: `form-control input-sm  text-center`, style: { width: '120px' } })), h("ir-button", { key: 'e53ce912e935fa1991c6fd40f43f25c6621954a9', isLoading: isRequestPending('/Check_Availability'), text: "Check available units", size: "sm", onClick: () => this.checkBookingAvailability() })), this.errors?.roomtype_id && h("p", { key: '5c6cbda1ec9067f7b5998bfde870535d8dfdc171', class: "text-danger text-left mt-2" }, "Please select a room"), h("ul", { key: '35c9df27d994fb34311176415a17365513f4d29e', class: "room-type-list mt-2" }, this.roomTypes?.map(roomType => {
             if (!roomType.is_available_to_book) {
                 return null;
             }
@@ -2479,7 +2722,7 @@ const IglSplitBooking = class {
                 // </ir-dropdown>
                 ))));
             })));
-        }))), h("div", { key: '6a8a68f13af3d4ac0bd77defa6d274fc28d328e4', class: 'sheet-footer' }, h("ir-button", { key: 'b0c7b1d0299ab0c0e1b988b5fc52a9461962b4e7', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '442f882b1ce4576d862cb93a5961d645fffab153', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
+        }))), h("div", { key: '54182fcb0732b3d59d782318516b06a1e7b639d5', class: 'sheet-footer' }, h("ir-button", { key: '2aad28dd2d6537837747aeeb4dea7e59251a394b', text: locales.entries.Lcz_Cancel, btn_color: "secondary", class: 'flex-fill', onClickHandler: () => this.closeModal.emit(null) }), h("ir-button", { key: '602ee3db409a5d6fef778312fc72814a8a32f609', isLoading: this.isLoading, text: locales.entries.Lcz_Confirm, btn_type: "submit", class: "flex-fill" }))));
     }
 };
 IglSplitBooking.style = IglSplitBookingStyle0 + IglSplitBookingStyle1;
@@ -2526,7 +2769,7 @@ const IglTbaCategoryView = class {
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '5c25faa56ed3dd90dc445f55fb5f7872e8801396' }, h("div", { key: '0bee8d67b83abefdff2974b7aab3e41569658a49', class: "sectionContainer" }, h("div", { key: '7c679d3d6a7a9b5af2d64271a5f51305dec58d03', class: "font-weight-bold font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '0b0ca27ecf3f4d5a2c51c6d69b2150d7f0430d2b' }, h("div", { key: 'ef8b5d52e91f878168ae3a9cc538702daa1f0d20', class: "sectionContainer" }, h("div", { key: '67c19ba1738f8ec30d36b51083628bc3433752b1', class: "font-weight-bold font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
 };
 IglTbaCategoryView.style = IglTbaCategoryViewStyle0;
@@ -2775,7 +3018,7 @@ const IglToBeAssigned = class {
     }
     render() {
         const selectedDateData = this.selectedDate ? this.data[this.selectedDate] : null;
-        return (h(Host, { key: 'a0e7e7315752c91a93a4c81bab2cf19da729d144', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: 'f93e080154e848854767d752122f2dfce0c7db84', class: 'fd-to-be-assigned__header-container' }, h("div", { key: 'cbb74e25a56b96890de72c7ee49290e1d2137707', class: "fd-to-be-assigned__header" }, h("h2", { key: 'bd1c047316992b003733f7e50ebd43e715da6ed0', class: "fd-to-be-assigned__title", id: "to-be-assigned-title" }, locales.entries.Lcz_Assignments), h("ir-custom-button", { key: '5b3f9913184fbc1f660f5d3aba1bcdd1e7479de3', size: "medium", onClickHandler: () => this.handleOptionEvent('closeSideMenu'), appearance: "plain", variant: "neutral" }, h("wa-icon", { key: '74d90b0feb945ff4a22e4735fde2a8ab5442e13d', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), Object.keys(this.data).length === 0 ? (h("p", { style: { padding: '1.5rem' } }, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center", style: { padding: '1.5rem' } }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h("div", { style: { padding: '0.5rem' } }, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, selectedDateData?.dateStr || this.selectedDateDisplay), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, this.orderedDatesList?.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (h("span", { style: { padding: '1.5rem' } }, locales.entries.Lcz_AllBookingsAreAssigned))))), h("div", { key: 'febe1c97b1ae4afaee3ee9cfc4736de6e55a1ae2', class: "to-be-assigned__body" }, !this.isLoading && (h("div", { key: 'e170aeab5b75011c3f29c20e667782b0e8b18988', class: "scrollabledArea" }, this.selectedDate ? (selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("div", null, locales.entries.Lcz_AllAssignForThisDay))) : null)))));
+        return (h(Host, { key: '9c25afb1fd8153a595dc46651afa2d38aa329baf', class: "tobeAssignedContainer pr-1 text-left" }, h("div", { key: 'ed8474f0c4ca809caceea31e8c7edc5e430dfae3', class: 'fd-to-be-assigned__header-container' }, h("div", { key: '7390d86a45f2addc1d3a35fb4fb936781c058d59', class: "fd-to-be-assigned__header" }, h("h2", { key: '86e85bf00e01eaba8cd04ecf4b71687d081d964b', class: "fd-to-be-assigned__title", id: "to-be-assigned-title" }, locales.entries.Lcz_Assignments), h("ir-custom-button", { key: 'da573e3331473a7ce7e31cf5aca9058e31eff2cf', size: "medium", onClickHandler: () => this.handleOptionEvent('closeSideMenu'), appearance: "plain", variant: "neutral" }, h("wa-icon", { key: '8ffbca1f49648f2ad56b63e14c0dc4d13faf84be', name: "xmark", variant: "solid", label: "Close", "aria-label": "Close", role: "img" }))), Object.keys(this.data).length === 0 ? (h("p", { style: { padding: '1.5rem' } }, locales.entries.Lcz_AllBookingsAreAssigned)) : this.isLoading ? (h("p", { class: "d-flex align-items-center", style: { padding: '1.5rem' } }, h("span", { class: "p-0" }, this.loadingMessage), h("div", { class: "dots" }, h("div", { class: "dot" }), h("div", { class: "dot" }), h("div", { class: "dot" })))) : (h("div", { style: { padding: '0.5rem' } }, this.orderedDatesList.length ? (h("div", { class: `custom-dropdown border border-light rounded text-center ` + (this.showDatesList ? 'show' : ''), id: "dropdownMenuButton", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "false" }, h("div", { class: 'dropdown-toggle' }, h("span", { class: "font-weight-bold" }, selectedDateData?.dateStr || this.selectedDateDisplay), h("svg", { class: 'caret-icon', xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 448 512", height: 14, width: 14 }, h("path", { fill: "#6b6f82", d: "M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" }))), h("div", { class: "dropdown-menu dropdown-menu-right full-width", "aria-labelledby": "dropdownMenuButton" }, this.orderedDatesList?.map(ordDate => (h("div", { class: "dropdown-item pointer", onClick: () => this.showForDate(ordDate) }, this.data[ordDate].dateStr)))))) : (h("span", { style: { padding: '1.5rem' } }, locales.entries.Lcz_AllBookingsAreAssigned))))), h("div", { key: '47dfc612217de48604a25bb5955828a2bb603dce', class: "to-be-assigned__body" }, !this.isLoading && (h("div", { key: '3d0404f6f90273fc66c93d47eac5c9ba98b130aa', class: "scrollabledArea" }, this.selectedDate ? (selectedDateData && Object.keys(selectedDateData.categories).length ? (this.getCategoryView()) : (h("div", null, locales.entries.Lcz_AllAssignForThisDay))) : null)))));
     }
     static get watchers() { return {
         "unassignedDatesProp": ["handleUnassignedDatesToBeAssignedChange"]
@@ -2828,7 +3071,7 @@ const IrInteractiveTitle = class {
     titleId = `ir-title-${++titleIdCounter}`;
     render() {
         const title = this.popoverTitle || '';
-        return (h(Host, { key: '9ded85ae353d5378edbd16e122254de334f7b196', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'ec6b6243706a09778921d98eed2111eb6c3572a9', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: 'c19f85fad59d6e45b4e816c8b934bb9cba961e97', for: this.titleId, placement: "top" }, title)), h("span", { key: '98308a54f10057efee70da8b0655b9886453c956', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '1f6759c5ec0c6c5cdb3ff8263ce020c1a1f54eb5', class: "hk-dot" }, h("slot", { key: 'b6db5a4c032f527e38a8866fe80bdf1d0bbb92fd', name: "end" }))))));
+        return (h(Host, { key: 'df778432a825d0b128146e52cddb8d13b3ba8dc3', style: { '--ir-popover-left': this.irPopoverLeft } }, h("p", { key: 'f5752d676f5cf3deeca102fd22df816b49c4b0d5', class: "popover-title" }, title.length > this.cropSize && (h("wa-tooltip", { key: '0f521177f81e508907c4f28e4e15263a7bbfdba8', for: this.titleId, placement: "top" }, title)), h("span", { key: '448200a23b276cf080ec864c3754b42892bdad97', id: this.titleId, class: "cropped-title" }, title), this.hkStatus && (h("div", { key: '589ae9bdda56200ea8e8a1ec32b2c9c825b8265a', class: "hk-dot" }, h("slot", { key: '757282d19b32f111f2388f397eb9bbc8131a5172', name: "end" }))))));
     }
 };
 IrInteractiveTitle.style = IrInteractiveTitleStyle0;
@@ -2971,13 +3214,13 @@ const IrModal = class {
     }
     render() {
         return [
-            h("div", { key: '2c81dde7c90e4418dc3c1e1d347697df33d58522', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
+            h("div", { key: 'c6bf08da58280579ce4b53815fb28ae61127a37b', class: `backdropModal ${this.isOpen ? 'active' : ''}`, onClick: () => {
                     this.cancelModal.emit();
                     if (this.autoClose && !this.isLoading) {
                         this.closeModal();
                     }
                 } }),
-            h("div", { key: 'f8121d3c949391f5a380ca5f0f55177a74a155fc', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '1102beb394a1eaa63a3906890b7432cc9ff13356', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: '98bbfae5617a4f92b5bc315fa4c9b69fd0305b96', class: `ir-alert-header` }, h("p", { key: '99143ccd5889ad5d65fc8afa0da392d260a52e42' }, this.modalTitle))), h("div", { key: '406099031f04244cb7696d55e6d6ed2368fd9117', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '4f4f8e57f46904e7e75e44b03de0dcd61da03c85' }, this.modalBody)), h("div", { key: '028fdcb13af1e7a29c8825966611ee59389e9369', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: 'e93368e49231b41bbb5fe23a139f089a9c62e73d', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '3d197a7e7ecdea4b08b1e3a0fcf0c4f104a381d1', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '56023a1f22eef4295dba5cbf9575da941c143400', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
+            h("div", { key: '6b6cb09ea1bfc45772d436855ff0997e5b6eb8bd', "data-state": this.isOpen ? 'opened' : 'closed', class: `ir-modal`, tabindex: "-1" }, h("div", { key: '0c7ae32d7101e2d1e60db7e417d43faad8f0dc9d', class: `ir-alert-content p-2` }, this.showTitle && (h("div", { key: 'ec7a86f6cbe1b450f90dc90b03661c2396bacf3e', class: `ir-alert-header` }, h("p", { key: 'b9fb398539a33f571370e1550b47566564fd07d4' }, this.modalTitle))), h("div", { key: 'dcda8d2aec1ab828574624d4892a1aaec47b8c6b', class: "modal-body text-left p-0 mb-2" }, h("div", { key: '22246b657db50ffce4608f35775f9332f4971ba9' }, this.modalBody)), h("div", { key: '085dce2bdaeaede84eb96aea41840db20f88dc79', class: `ir-alert-footer border-0  d-flex justify-content-${this.btnPosition === 'center' ? 'center' : this.btnPosition === 'left' ? 'start' : 'end'}` }, this.leftBtnActive && h("ir-button", { key: '0e4b89efb1d183391034b18185eb5889af793526', btn_disabled: this.isLoading, btn_color: this.leftBtnColor, btn_block: true, text: this.leftBtnText, name: this.leftBtnText }), this.middleBtnActive && (h("ir-button", { key: '1a3cc1c425db686a991ddc1ea2ef6570bfa65f28', btn_disabled: this.isMiddleButtonLoading, btn_color: this.middleBtnColor, btn_block: true, text: this.middleBtnText, isLoading: this.isMiddleButtonLoading, name: this.middleBtnText })), this.rightBtnActive && (h("ir-button", { key: '73263cdc2093fae0ccd1765ef18d91990f95ed02', btn_color: this.rightBtnColor, btn_disabled: this.isLoading, isLoading: this.isLoading, btn_block: true, text: this.rightBtnText, name: this.rightBtnText }))))),
         ];
     }
 };
@@ -2991,186 +3234,10 @@ const IrNewBadge = class {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h(Host, { key: '73f15daad7f7869c41d1be4d91e4377583f89439' }, h("span", { key: '0fce97c8e3b61efb224dcd4c58d4fb78d8d6c7ee', class: "new-badge" }, "new")));
+        return (h(Host, { key: 'fce75e004ec0082a8aded812b030904c493e482e' }, h("span", { key: 'c6ed1e2a575b0baf7b0cdc49270cab9ab60100cd', class: "new-badge" }, "new")));
     }
 };
 IrNewBadge.style = IrNewBadgeStyle0;
-
-const irPriceInputCss = ".sc-ir-price-input-h{display:block;--ir-input-border-color:#cacfe7;flex:1 1 0%}.sc-ir-price-input-h .input-group-text.sc-ir-price-input{border-color:var(--ir-input-border-color)}.sc-ir-price-input-h .form-control.sc-ir-price-input,.currency-label.sc-ir-price-input{font-size:14px !important}.ir-bl-lbl-none.sc-ir-price-input,.ir-bl-input-none.sc-ir-price-input{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.rate-input.sc-ir-price-input:read-only{background:white !important}.ir-br-lbl-none.sc-ir-price-input,.ir-br-input-none.sc-ir-price-input{border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}.ir-br-none.sc-ir-price-input{border-right:none}.ir-bl-none.sc-ir-price-input{border-left:none}.rate-input-container.sc-ir-price-input{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1;padding:0 !important}[class='special-style'].sc-ir-price-input-h .rate-input.sc-ir-price-input{background:black !important}.rate-input.sc-ir-price-input{font-size:0.875rem;line-height:0;padding:0;height:0;box-sizing:border-box;border-left:0;padding-left:0px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}.currency-label.with-label.sc-ir-price-input{border-radius:0}.currency-label.sc-ir-price-input{box-sizing:border-box;color:#3b4781;border:1px solid #cacfe7;font-size:0.875rem;height:2rem;background:white;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;pointer-events:none;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.currency-label.disabled.sc-ir-price-input,.rate-input.sc-ir-price-input:disabled{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.price-input-group.sc-ir-price-input:focus-within .currency-label.sc-ir-price-input{border-top:1px solid #1e9ff2;border-bottom:1px solid #1e9ff2;border-left:1px solid #1e9ff2}[data-state='error'].sc-ir-price-input-h .currency-label.sc-ir-price-input,[data-state='error'].sc-ir-price-input-h .rate-input.sc-ir-price-input,.error.sc-ir-price-input{border-color:var(--red, #ff4961) !important}.price-input.sc-ir-price-input:focus{border-right-width:1px !important}.is-invalid.sc-ir-price-input{background-image:none !important}";
-const IrPriceInputStyle0 = irPriceInputCss;
-
-const IrPriceInput = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.textChange = createEvent(this, "textChange", 7);
-        this.inputBlur = createEvent(this, "inputBlur", 7);
-        this.inputFocus = createEvent(this, "inputFocus", 7);
-    }
-    get el() { return getElement(this); }
-    /** The label for the input, optional */
-    label;
-    /** The readonly for the input, optional */
-    readOnly;
-    /** Extra classnames for the input, optional */
-    inputStyle;
-    /** Extra classnames for the label, optional */
-    labelStyle;
-    /** The disabled for the input, optional */
-    disabled;
-    /** The Currency for the input, optional */
-    currency;
-    /** The AutoValidate for the input, optional */
-    autoValidate = true;
-    /** Indicates the key to wrap the value (e.g., 'price' or 'cost') */
-    wrapKey;
-    /**
-     * A Zod schema for validating the input
-     * Example: z.coerce.number()
-     */
-    zod;
-    /** Placeholder text for the input */
-    placeholder = '';
-    /** Initial value for the input */
-    value = '';
-    /** Whether the input is required */
-    required = false;
-    /** Minimum value for the price */
-    minValue;
-    /** Maximum value for the price */
-    maxValue;
-    /** Unique id for testing */
-    testId;
-    /** Error*/
-    error;
-    /**
-     * Extra class names applied to the outer <fieldset> wrapper.
-     * Useful for spacing (e.g., margins/padding), width/layout utilities,
-     * or theming the whole input group from the outside.
-     * Example: "w-100 mb-2 d-flex align-items-center"
-     */
-    containerClassname;
-    /**
-     * Extra class names applied to the label container (<div class="input-group-prepend">)
-     * that wraps the <label>. Use this to control label width, alignment,
-     * spacing, or visibility at different breakpoints.
-     * Example: "min-w-120 text-nowrap pe-2"
-     */
-    labelContainerClassname;
-    /** Emits the current value on change */
-    textChange;
-    /** Emits the current value on blur */
-    inputBlur;
-    /** Emits the current value on focus */
-    inputFocus;
-    id;
-    opts = {
-        mask: Number,
-        scale: 2,
-        radix: '.',
-        mapToRadix: [','],
-        normalizeZeros: true,
-        padFractionalZeros: true,
-        thousandsSeparator: ',',
-    };
-    mask;
-    inputRef;
-    componentWillLoad() {
-        if (this.el.id) {
-            this.id = this.el.id;
-        }
-        else {
-            this.id = v4();
-        }
-    }
-    componentDidLoad() {
-        if (!this.mask) {
-            this.initializeMask();
-        }
-    }
-    initializeMask() {
-        // Create options object with min/max if provided
-        const maskOpts = {
-            ...this.opts,
-        };
-        if (this.minValue !== undefined) {
-            maskOpts['min'] = this.minValue;
-        }
-        if (this.maxValue !== undefined) {
-            maskOpts['max'] = this.maxValue;
-        }
-        this.mask = IMask(this.inputRef, maskOpts);
-        // Set initial value if provided
-        if (this.value) {
-            this.mask.value = this.value;
-        }
-        this.mask.on('accept', () => {
-            const isEmpty = this.inputRef.value.trim() === '' || this.mask.unmaskedValue === '';
-            if (isEmpty) {
-                this.value = '';
-                this.textChange.emit(null);
-            }
-            else {
-                this.value = this.mask.unmaskedValue;
-                this.textChange.emit(this.value);
-            }
-        });
-    }
-    hasSpecialClass(className) {
-        return this.el.classList.contains(className);
-    }
-    validateInput(value) {
-        if (!this.autoValidate) {
-            return;
-        }
-        if (this.zod) {
-            try {
-                this.zod.parse(this.wrapKey ? { [this.wrapKey]: value } : value); // Validate the value using the Zod schema
-                this.error = false; // Clear the error if valid
-            }
-            catch (error) {
-                console.log(error);
-                this.error = true; // Set the error message
-            }
-        }
-    }
-    handleInputChange = () => {
-        // The value is already being updated by the mask's 'accept' event
-        // Just validate here if needed
-        this.validateInput(this.value);
-    };
-    handleBlur = () => {
-        this.validateInput(this.value);
-        // Format to 2 decimal places on blur
-        if (this.value) {
-            const numValue = parseFloat(this.value);
-            this.value = numValue.toFixed(2);
-            // Update the mask value to show the formatted value
-            if (this.mask) {
-                this.mask.value = this.value;
-            }
-        }
-        // Emit the blur event
-        this.inputBlur.emit(this.value);
-    };
-    handleFocus = () => {
-        // Emit the focus event
-        this.inputFocus.emit();
-    };
-    render() {
-        return (h("fieldset", { key: 'd9ad977e139a7c99925d902fee1dcd9f6f8bd949', class: `${this.containerClassname} input-group price-input-group m-0 p-0 ` }, this.label && (h("div", { key: '917bce8414a1de3855a62fb1740ef725385a08f8', class: `input-group-prepend ${this.labelContainerClassname}` }, h("span", { key: '31b3a0a00bcffc83d33141d41d51e9d9861d6968', class: `input-group-text 
-                ${this.labelStyle}
-              ${this.hasSpecialClass('ir-bl-lbl-none') ? 'ir-bl-lbl-none' : ''}
-              ${this.hasSpecialClass('ir-br-lbl-none') ? 'ir-br-lbl-none' : ''}
-              ${this.hasSpecialClass('ir-br-none') ? 'ir-br-none' : ''} 
-              ${this.hasSpecialClass('ir-bl-none') ? 'ir-bl-none' : ''} 
-              ` }, h("label", { key: '3cb4ba78e0a8c41cea70ab1b8c82bbb2ae559ee9', class: 'p-0 m-0 ', htmlFor: this.id }, this.label)))), h("div", { key: '7884f0e370cbfa0639cdcd537138e15545a56108', class: "position-relative has-icon-left rate-input-container" }, this.currency && (h("div", { key: '3e48935913b97f03bd582f9cdefc9025dece2d20' }, h("span", { key: '3c56bef0889a348e741c37efc0ee9a3d5de2e801', class: `input-group-text ${this.disabled ? 'disabled' : ''} currency-label ${this.error ? 'error' : ''} ${this.label ? 'with-label' : ''}` }, this.currency))), h("input", { key: '0778928def6b1cf4d4d9babe6e27e8dde1187af5', ref: el => (this.inputRef = el), "data-testid": this.testId, disabled: this.disabled, id: this.id, class: `form-control input-sm rate-input 
-              ${this.inputStyle}
-              ${this.hasSpecialClass('ir-br-input-none') ? 'ir-br-input-none' : ''} 
-              ${this.hasSpecialClass('ir-bl-input-none') ? 'ir-bl-input-none' : ''} 
-              ${this.error ? 'error' : ''} py-0 m-0 ${this.currency ? 'ir-bl-none' : ''}`, onInput: this.handleInputChange, onBlur: this.handleBlur, onFocus: this.handleFocus, type: "text", placeholder: this.placeholder, readOnly: this.readOnly, "aria-label": this.el.ariaLabel ?? 'price-input', "aria-describedby": this.el.ariaDescription ?? 'price-input' }))));
-    }
-};
-IrPriceInput.style = IrPriceInputStyle0;
 
 const irRadioCss = ".sc-ir-radio-h{display:block}.checkmark.sc-ir-radio{top:50% !important;transform:translateY(-50%) !important}";
 const IrRadioStyle0 = irRadioCss;
@@ -3246,9 +3313,9 @@ const IrRadio = class {
         this.checkChange.emit(this.currentChecked);
     }
     render() {
-        return (h("div", { key: 'b83caf5f3e4eeaa2c8e9ceb061911a57110137a7', class: "input-group" }, h("label", { key: '1e704f24f33f6b0e206a7396acd3a338d071d832', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '38ae761d94da6dce9834c493d75ef1fd83d24f03' }, this.label), h("input", { key: '24c72c47ac38421c1f17d9ee95aaac373cd7559a', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
+        return (h("div", { key: '9ccf64db8e40a1288558b714db1e39269e77eb8a', class: "input-group" }, h("label", { key: 'f02937eb57c7106f5bc40e4d80123d355589c272', class: "check-container radio-container align-items-center m-0 py-0" }, h("span", { key: '024360358832275c5ee521b0c2fd7fe481ef4283' }, this.label), h("input", { key: 'ea15d68f9820007b65e256404a974f21ea429065', class: "p-0 m-0", type: "radio", value: "000", name: this.el.name, title: "", onChange: () => {
                 this.handleCheckChange();
-            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: '60685a685c7639552719fd2e3602306d24fda200', class: "checkmark" }))));
+            }, checked: this.currentChecked, ref: el => (this.radioRef = el) }), h("span", { key: 'f4bc13d15cbebcca325407dc3ebd92170a4ae47e', class: "checkmark" }))));
     }
     static get watchers() { return {
         "checked": ["handleCheckedChange"]
@@ -3271,11 +3338,11 @@ const IrReallocationDrawer = class {
     closeModal;
     _id = `reallocation-form_${v4()}`;
     render() {
-        return (h("ir-drawer", { key: '3b18c01b9b546fdc8eb6369856aec6a827e271f3', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
+        return (h("ir-drawer", { key: '88f2da99588d77510a5fec8e755027b8f63ef6fb', label: "Reassign Unit", open: this.open, onDrawerHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeModal.emit();
-            } }, this.open && h("ir-reallocation-form", { key: '00a452511b115b7d72625bd8b3a5ff58b16d03bd', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: '4dfbe890c15dae467d1f95c6ccfa213f85efa2b8', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '925006552ff0049c17cf048d4b36b8a39da9821b', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '7122f64792cb0daa80a440a1daa0f8a2bcbb365a', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
+            } }, this.open && h("ir-reallocation-form", { key: 'bd667c01d61e163ae5439a42a435f749c172733c', pool: this.pool, formId: this._id, booking: this.booking, identifier: this.roomIdentifier }), h("div", { key: 'c43ad299e94b3d8f60d9de8f3a2e139e53f6311b', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'a431c558f77e2af3ee1a0042883c34ed73e714c9', size: "medium", "data-drawer": "close", variant: "neutral", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: 'cc605bfc848ff5f41714cf61d25c989fadae4b84', form: this._id, size: "medium", loading: isRequestPending('/ReAllocate_Exposed_Room'), type: "submit", variant: "brand" }, "Confirm"))));
     }
 };
 IrReallocationDrawer.style = IrReallocationDrawerStyle0;
@@ -3577,223 +3644,6 @@ const IrRectifier = class {
 };
 IrRectifier.style = IrRectifierStyle0;
 
-const irRoomNightsCss = ".sc-ir-room-nights-h{display:block;box-sizing:border-box;margin:0;position:relative}.loading-container.sc-ir-room-nights{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.close-icon.sc-ir-room-nights{position:absolute;top:18px;right:33px;outline:none}.close.sc-ir-room-nights{float:right;font-size:1.5rem;font-weight:700;line-height:1;color:#000;text-shadow:0 1px 0 #fff;opacity:0.5;padding:0;background-color:transparent;border:0;appearance:none}.card.sc-ir-room-nights{top:0;z-index:1000}.card-title.sc-ir-room-nights{border-bottom:1px solid #e4e5ec;width:100%}.irfontgreen.sc-ir-room-nights{color:#0e930e}.currency.sc-ir-room-nights{display:block;position:absolute;margin:0;padding:0;height:auto;left:10px}.rate-input.sc-ir-room-nights{font-size:14px;line-height:0;padding:0;height:0;border-left:0;border-radius:0.25rem !important}.rate-input-container.sc-ir-room-nights{display:flex;align-items:center;justify-content:flex-start;box-sizing:border-box;flex:1}.new-currency.sc-ir-room-nights{color:#3b4781;border:1px solid #cacfe7;font-size:0.975rem;height:2rem;background:rgb(255, 255, 255);padding-right:0 !important;border-right:0;border-top-right-radius:0;border-bottom-right-radius:0;transition:border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out}.input-group-prepend.sc-ir-room-nights span[data-state='focus'].sc-ir-room-nights{border-color:var(--blue)}.input-group-prepend.sc-ir-room-nights span[data-disabled].sc-ir-room-nights{background-color:#eceff1;border-color:rgba(118, 118, 118, 0.3)}.rateInputBorder.sc-ir-room-nights{padding-left:5px !important;padding-right:5px !important;border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}";
-const IrRoomNightsStyle0 = irRoomNightsCss;
-
-const sheetCss = ".sc-ir-room-nights-h{height:100%}.sheet-container.sc-ir-room-nights{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-ir-room-nights{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-ir-room-nights{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-ir-room-nights{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-ir-room-nights{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-ir-room-nights{flex-direction:row;align-items:center}}";
-const IrRoomNightsStyle1 = sheetCss;
-
-const IrRoomNights = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.closeRoomNightsDialog = createEvent(this, "closeRoomNightsDialog", 7);
-    }
-    bookingNumber;
-    propertyId;
-    language;
-    identifier;
-    toDate;
-    fromDate;
-    pool;
-    ticket;
-    defaultDates;
-    bookingEvent;
-    selectedRoom;
-    rates = [];
-    isLoading = false;
-    initialLoading = false;
-    inventory = null;
-    isEndDateBeforeFromDate = false;
-    defaultTotalNights = 0;
-    isInputFocused = -1;
-    dates = { from_date: new Date(), to_date: new Date() };
-    closeRoomNightsDialog;
-    bookingService = new BookingService();
-    componentWillLoad() {
-        this.dates = { from_date: new Date(this.fromDate), to_date: new Date(this.toDate) };
-        this.init();
-    }
-    isButtonDisabled() {
-        return this.isLoading || this.rates.some(rate => rate.amount === -1) || this.inventory === 0 || this.inventory === null;
-    }
-    async init() {
-        try {
-            const { from_date } = this.defaultDates;
-            if (hooks(from_date, 'YYYY-MM-DD').isBefore(hooks(this.fromDate, 'YYYY-MM-DD'))) {
-                this.dates.from_date = new Date(from_date);
-            }
-            else {
-                this.dates.from_date = new Date(this.fromDate);
-            }
-            this.dates.to_date = new Date(this.toDate);
-            this.bookingEvent = await this.bookingService.getExposedBooking(this.bookingNumber, this.language);
-            if (this.bookingEvent) {
-                const filteredRooms = this.bookingEvent.rooms.filter(room => room.identifier === this.identifier);
-                this.selectedRoom = filteredRooms[0];
-                const lastDay = this.selectedRoom?.days[this.selectedRoom.days.length - 1];
-                if (!hooks(this.selectedRoom.to_date, 'YYYY-MM-DD').isBefore(hooks(this.toDate, 'YYYY-MM-DD'))) {
-                    const variation = await this.fetchBookingAvailability(this.fromDate, this.selectedRoom.days[0].date, this.selectedRoom.rateplan.id);
-                    const newDatesArr = getDaysArray(this.selectedRoom.days[0].date, this.fromDate);
-                    this.isEndDateBeforeFromDate = true;
-                    let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
-                    this.rates = [
-                        ...newDatesArr.map(day => ({
-                            amount: dates[day].discounted_amount,
-                            date: day,
-                            cost: null,
-                        })),
-                        ...this.selectedRoom.days,
-                    ];
-                    this.defaultTotalNights = this.rates.length - this.selectedRoom.days.length;
-                }
-                else {
-                    const variation = await this.fetchBookingAvailability(this.selectedRoom.to_date, hooks(this.toDate, 'YYYY-MM-DD').format('YYYY-MM-DD'), this.selectedRoom.rateplan.id);
-                    const newDatesArr = getDaysArray(lastDay.date, this.toDate);
-                    let dates = {};
-                    variation.nights.forEach(n => (dates[n.night] = n));
-                    this.rates = [
-                        ...this.selectedRoom.days,
-                        ...newDatesArr.map(day => ({
-                            amount: dates[day].discounted_amount,
-                            date: day,
-                            cost: null,
-                        })),
-                    ];
-                }
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    handleInput(event, index) {
-        let inputValue = event;
-        let days = [...this.rates];
-        inputValue = inputValue.replace(/[^0-9.]/g, '');
-        if (inputValue === '') {
-            days[index].amount = -1;
-        }
-        else {
-            if (!isNaN(Number(inputValue))) {
-                days[index].amount = Number(inputValue);
-            }
-        }
-        this.rates = days;
-    }
-    async fetchBookingAvailability(from_date, to_date, rate_plan_id) {
-        try {
-            this.initialLoading = true;
-            const bookingAvailability = await this.bookingService.getBookingAvailability({
-                from_date,
-                to_date,
-                propertyid: this.propertyId,
-                adultChildCount: {
-                    adult: this.selectedRoom.rateplan.selected_variation.adult_nbr,
-                    child: this.selectedRoom.rateplan.selected_variation.child_nbr,
-                },
-                language: this.language,
-                currency: this.bookingEvent.currency,
-                room_type_ids: [this.selectedRoom.roomtype.id],
-                rate_plan_ids: [rate_plan_id],
-            });
-            console.log(bookingAvailability[0], rate_plan_id);
-            this.inventory = bookingAvailability[0].inventory;
-            const rate_plan = bookingAvailability[0].rateplans.find(rate => rate.id === rate_plan_id);
-            if (!rate_plan || !rate_plan.variations) {
-                this.inventory = null;
-                return null;
-            }
-            const selected_variation = rate_plan.variations?.find(variation => variation.adult_nbr === this.selectedRoom.rateplan.selected_variation.adult_nbr && variation.child_nbr === this.selectedRoom.rateplan.selected_variation.child_nbr);
-            if (!selected_variation) {
-                return null;
-            }
-            return selected_variation;
-        }
-        catch (error) {
-            console.error(error);
-        }
-        finally {
-            this.initialLoading = false;
-        }
-    }
-    renderInputField(index, currency_symbol, day) {
-        return (h("div", { class: "col-3 ml-1 position-relative  m-0 p-0 rate-input-container" }, h("ir-price-input", { value: day.amount > 0 ? day.amount.toString() : '', disabled: this.inventory === 0 || this.inventory === null, currency: currency_symbol, "aria-label": "rate", "aria-describedby": "rate cost", onTextChange: e => this.handleInput(e.detail, index) })));
-    }
-    renderReadOnlyField(currency_symbol, day) {
-        return h("p", { class: "col-9 ml-1 m-0 p-0" }, `${currency_symbol}${Number(day.amount).toFixed(2)}`);
-    }
-    renderRateFields(index, currency_symbol, day) {
-        if (this.isEndDateBeforeFromDate) {
-            if (index < this.defaultTotalNights) {
-                return this.renderInputField(index, currency_symbol, day);
-            }
-            else {
-                return this.renderReadOnlyField(currency_symbol, day);
-            }
-        }
-        else {
-            return index < this.selectedRoom.days.length ? this.renderReadOnlyField(currency_symbol, day) : this.renderInputField(index, currency_symbol, day);
-        }
-    }
-    renderDates() {
-        const currency_symbol = this.bookingEvent.currency.symbol;
-        // const currency_symbol = getCurrencySymbol(this.bookingEvent.currency.code);
-        return (h("div", { class: 'mt-2 m-0' }, this.rates?.map((day, index) => (h("div", { class: 'row m-0 mt-1 align-items-center' }, h("p", { class: 'col-2 m-0 p-0' }, convertDatePrice(day.date)), this.renderRateFields(index, currency_symbol, day))))));
-    }
-    async handleRoomConfirmation() {
-        try {
-            this.isLoading = true;
-            let oldRooms = [...this.bookingEvent.rooms];
-            let selectedRoomIndex = oldRooms.findIndex(room => room.identifier === this.identifier);
-            if (selectedRoomIndex === -1) {
-                throw new Error('Invalid Pool');
-            }
-            oldRooms[selectedRoomIndex] = {
-                ...oldRooms[selectedRoomIndex],
-                days: this.rates,
-                to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
-                from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
-            };
-            const body = {
-                assign_units: true,
-                check_in: true,
-                is_pms: true,
-                is_direct: true,
-                pickup_info: this.bookingEvent.pickup_info,
-                extra_services: this.bookingEvent.extra_services,
-                agent: this.bookingEvent.agent,
-                booking: {
-                    booking_nbr: this.bookingNumber,
-                    from_date: hooks(this.dates.from_date).format('YYYY-MM-DD'),
-                    to_date: hooks(this.dates.to_date).format('YYYY-MM-DD'),
-                    remark: this.bookingEvent.remark,
-                    property: this.bookingEvent.property,
-                    source: this.bookingEvent.source,
-                    currency: this.bookingEvent.currency,
-                    arrival: this.bookingEvent.arrival,
-                    guest: this.bookingEvent.guest,
-                    rooms: oldRooms,
-                },
-            };
-            await this.bookingService.doReservation(body);
-            this.closeRoomNightsDialog.emit({ type: 'confirm', pool: this.pool });
-        }
-        catch (error) {
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    render() {
-        if (!this.bookingEvent) {
-            return (h("div", { class: "loading-container" }, h("ir-loading-screen", null)));
-        }
-        return (h("div", { class: "sheet-container" }, h("ir-title", { class: "p-1 sheet-header", onCloseSideBar: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }), label: `${locales.entries.Lcz_AddingRoomNightsTo} ${this.selectedRoom?.roomtype?.name} ${(this.selectedRoom?.unit).name}`, displayContext: "sidebar" }), h("section", { class: 'text-left px-1 pt-0 sheet-body' }, h("p", { class: 'font-medium-1' }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), this.initialLoading ? (h("p", { class: 'mt-2 text-secondary' }, locales.entries['Lcz_CheckingRoomAvailability '])) : (h(Fragment, null, h("p", { class: 'font-weight-bold font-medium-1' }, `${formatDate(hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')} - ${formatDate(hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')}`), h("p", { class: 'font-medium-1 mb-0' }, `${this.selectedRoom.rateplan.name}`, " ", this.selectedRoom.rateplan.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && h("p", { class: "font-medium-1 text danger" }, locales.entries.Lcz_NoAvailabilityForAdditionalNights), this.selectedRoom.rateplan.custom_text && h("p", { class: 'text-secondary mt-0' }, this.selectedRoom.rateplan.custom_text), booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "mt-1 booking-editor-header__tax_statement" }, calendar_data.tax_statement)), this.renderDates()))), h("section", { class: 'sheet-footer' }, h("ir-button", { btn_color: "secondary", btn_disabled: this.isLoading, text: locales?.entries.Lcz_Cancel, class: "full-width", btn_styles: "justify-content-center", onClickHandler: () => this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool }) }), this.inventory > 0 && this.inventory !== null && (h("ir-button", { isLoading: this.isLoading, text: locales?.entries.Lcz_Confirm, btn_disabled: this.isButtonDisabled(), class: "full-width", btn_styles: "justify-content-center", onClickHandler: this.handleRoomConfirmation.bind(this) })))));
-    }
-};
-IrRoomNights.style = IrRoomNightsStyle0 + IrRoomNightsStyle1;
-
 const irSuccessLoaderCss = ":host{display:block}.spinner{transform-origin:center;animation:spinner_svv2 0.75s infinite linear}@keyframes spinner_svv2{100%{transform:rotate(360deg)}}";
 const IrSuccessLoaderStyle0 = irSuccessLoaderCss;
 
@@ -3888,7 +3738,7 @@ const IrSuccessLoader = class {
         }
     }
     render() {
-        return (h(Host, { key: '7a7d60216b97d477bf7ffaaa0cd7eddc12fc0e24' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
+        return (h(Host, { key: '29583a3547447db577617333a11673ef32d814b6' }, this.phase === 'spinner' ? h("wa-spinner", null) : h("wa-icon", { part: "check", name: "check", style: { color: 'var(--wa-color-success-fill-loud,#45b16d)' } })));
     }
     static get watchers() { return {
         "active": ["onActiveChange"],
@@ -3898,6 +3748,6 @@ const IrSuccessLoader = class {
 };
 IrSuccessLoader.style = IrSuccessLoaderStyle0;
 
-export { IglBlockedDateDrawer as igl_blocked_date_drawer, IglBookingEvent as igl_booking_event, IglBulkOperationsDrawer as igl_bulk_operations_drawer, IglCalBody as igl_cal_body, IglCalFooter as igl_cal_footer, IglCalHeader as igl_cal_header, IglHkIssuesDialog as igl_hk_issues_dialog, IglHousekeepingDialog as igl_housekeeping_dialog, IglLegend as igl_legend, IglReallocationDialog as igl_reallocation_dialog, IglSplitBooking as igl_split_booking, IglTbaCategoryView as igl_tba_category_view, IglToBeAssigned as igl_to_be_assigned, IrInteractiveTitle as ir_interactive_title, IrModal as ir_modal, IrNewBadge as ir_new_badge, IrPriceInput as ir_price_input, IrRadio as ir_radio, IrReallocationDrawer as ir_reallocation_drawer, IrReallocationForm as ir_reallocation_form, IrRectifier as ir_rectifier, IrRoomNights as ir_room_nights, IrSuccessLoader as ir_success_loader };
+export { IglBlockedDateDrawer as igl_blocked_date_drawer, IglBookingEvent as igl_booking_event, IglBulkOperationsDrawer as igl_bulk_operations_drawer, IglCalBody as igl_cal_body, IglCalFooter as igl_cal_footer, IglCalHeader as igl_cal_header, IglHkIssuesDialog as igl_hk_issues_dialog, IglHousekeepingDialog as igl_housekeeping_dialog, IglLegend as igl_legend, IglRateExtenderDrawer as igl_rate_extender_drawer, IglRateExtenderForm as igl_rate_extender_form, IglReallocationDialog as igl_reallocation_dialog, IglSplitBooking as igl_split_booking, IglTbaCategoryView as igl_tba_category_view, IglToBeAssigned as igl_to_be_assigned, IrInteractiveTitle as ir_interactive_title, IrModal as ir_modal, IrNewBadge as ir_new_badge, IrRadio as ir_radio, IrReallocationDrawer as ir_reallocation_drawer, IrReallocationForm as ir_reallocation_form, IrRectifier as ir_rectifier, IrSuccessLoader as ir_success_loader };
 
 //# sourceMappingURL=igl-blocked-date-drawer_23.entry.js.map

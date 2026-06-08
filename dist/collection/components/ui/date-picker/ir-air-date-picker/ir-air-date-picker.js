@@ -293,6 +293,7 @@ export class IrAirDatePicker {
         datepickerEl.style.setProperty('--adp-background-color-selected-other-month', 'var(--wa-color-brand-fill-normal)');
         datepickerEl.style.setProperty('--adp-background-color-selected-other-month-focused', 'var(--wa-color-brand-fill-loud)');
         datepickerEl.style.setProperty('--adp-accent-color', 'var(--wa-color-brand-fill-loud)');
+        datepickerEl.style.setProperty('--adp-background-color', 'var(--wa-color-surface-default,white)');
         datepickerEl.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
         datepickerEl.style.setProperty('--adp-padding', '0px 0px 0.5rem 0px', 'important');
         datepickerEl.style.setProperty('--adp-border-color-inner', 'transparent', 'important');

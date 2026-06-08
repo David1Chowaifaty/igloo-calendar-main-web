@@ -111,7 +111,7 @@ export class IrFinancialActions {
                 await this.getFinancialAction(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "financial-actions__meta" }, h("ir-financial-filters", { isLoading: this.isLoading === 'filter' }), h("ir-financial-table", { class: 'financial-actions__table card  w-100' }))), h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
+                background: this.sideBarEvent?.type === 'booking' ? 'var(--ir-color-muted-background,#f2f3f8)' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get is() { return "ir-financial-actions"; }

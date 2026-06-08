@@ -8,9 +8,12 @@ export declare class IrGhsCandidateTable {
     selectedProperties: GHS_Candidate_Property[];
     propertyToActivate: GHS_Candidate_Property | null;
     isLoading: boolean;
+    baseUrl: string;
     searchQuery: string;
     toggleSelection: EventEmitter<GHS_Candidate_Property>;
     toggleAll: EventEmitter<boolean>;
     activateProperty: EventEmitter<GHS_Candidate_Property>;
+    countryChange: EventEmitter<number | null>;
+    private handlePropertyLinkClick;
     render(): any;
 }

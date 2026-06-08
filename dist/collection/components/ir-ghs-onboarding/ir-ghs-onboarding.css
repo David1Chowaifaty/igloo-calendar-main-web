@@ -27,17 +27,34 @@
   color: var(--wa-color-neutral-900);
 }
 
-.ir-ghs-onboarding__layout {
+.ir-ghs-onboarding__content {
   display: flex;
   flex-direction: column;
   gap: var(--wa-space-m);
   margin-top: var(--wa-space-m);
+}
+
+.ir-ghs-onboarding__main-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wa-space-m);
   align-items: stretch;
 }
 
 @media (min-width: 992px) {
-  .ir-ghs-onboarding__layout {
+  .ir-ghs-onboarding__main-row {
     flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .ir-ghs-onboarding__candidate-table {
+    flex: 0 0 calc(60% - var(--wa-space-m) / 2);
+    min-width: 0;
+  }
+
+  .ir-ghs-onboarding__selection-bucket {
+    flex: 0 0 calc(40% - var(--wa-space-m) / 2);
+    min-width: 0;
   }
 }
 

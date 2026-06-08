@@ -53,6 +53,8 @@
     "components/igloo-calendar/igl-cal-footer/igl-cal-footer.js",
     "components/igloo-calendar/igl-cal-header/igl-cal-header.js",
     "components/igloo-calendar/igl-legend/igl-legend.js",
+    "components/igloo-calendar/igl-rate-extender-drawer/igl-rate-extender-drawer.js",
+    "components/igloo-calendar/igl-rate-extender-drawer/igl-rate-extender-form/igl-rate-extender-form.js",
     "components/igloo-calendar/igl-reallocation-dialog/igl-reallocation-dialog.js",
     "components/igloo-calendar/igl-split-booking/igl-split-booking.js",
     "components/igloo-calendar/igl-to-be-assigned/igl-to-be-assigned.js",

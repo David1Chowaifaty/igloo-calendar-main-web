@@ -2,15 +2,14 @@ import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
 import { T as Token } from './Token-bcdb7c50.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
-import { B as BookingService } from './booking.store-caa84b6c.js';
+import { B as BookingService } from './booking.store-13788919.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
 import './calendar-data-b1f645da.js';
 import './index-87419685.js';
-import './utils-84245485.js';
+import './utils-f7c73e2d.js';
 import './moment-ab846cee.js';
 import './type-501de9b6.js';
-import './booking-00ad46c5.js';
 
 const irFinancialActionsCss = ".sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}";
 const IrFinancialActionsStyle0 = irFinancialActionsCss;
@@ -126,7 +125,7 @@ const IrFinancialActions = class {
                 await this.getFinancialAction(true);
             }, btnStyle: { height: '100%' }, iconPosition: "right", icon_name: "file", icon_style: { '--icon-size': '14px' } })), h("div", { class: "financial-actions__meta" }, h("ir-financial-filters", { isLoading: this.isLoading === 'filter' }), h("ir-financial-table", { class: 'financial-actions__table card  w-100' }))), h("ir-sidebar", { sidebarStyles: {
                 width: this.sideBarEvent?.type === 'booking' ? '80rem' : 'var(--sidebar-width,40rem)',
-                background: this.sideBarEvent?.type === 'booking' ? '#F2F3F8' : 'white',
+                background: this.sideBarEvent?.type === 'booking' ? 'var(--ir-color-muted-background,#f2f3f8)' : 'white',
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get watchers() { return {

@@ -1,8 +1,6 @@
 :host {
   display: block;
-  flex: 0 0 350px;
-  max-width: 350px;
-  min-width: 280px;
+  min-width: 0;
 }
 
 .ir-ghs-selection-bucket__container {

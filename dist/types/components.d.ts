@@ -405,6 +405,28 @@ export namespace Components {
         "propertyId": number;
         "showPaymentDetails": boolean;
     }
+    interface IglRateExtenderDrawer {
+        "bookingNumber": string;
+        "defaultDates": { from_date: string; to_date: string };
+        "fromDate": string;
+        "identifier": string;
+        "language": string;
+        "open": boolean;
+        "pool": string;
+        "propertyId": number;
+        "ticket": string;
+        "toDate": string;
+    }
+    interface IglRateExtenderForm {
+        "bookingNumber": string;
+        "defaultDates": { from_date: string; to_date: string };
+        "fromDate": string;
+        "identifier": string;
+        "language": string;
+        "pool": string;
+        "propertyId": number;
+        "toDate": string;
+    }
     interface IglRatePlan {
         "bookingType": string;
         "currency": { symbol: string };
@@ -2531,6 +2553,7 @@ export namespace Components {
     interface IrFinancialTable {
     }
     interface IrGhsCandidateTable {
+        "baseUrl": string;
         "countries": ICountry1[];
         "isLoading": boolean;
         "properties": GHS_Candidate_Property[];
@@ -4937,6 +4960,14 @@ export interface IglPropertyBookedByCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglPropertyBookedByElement;
 }
+export interface IglRateExtenderDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglRateExtenderDrawerElement;
+}
+export interface IglRateExtenderFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglRateExtenderFormElement;
+}
 export interface IglRatePlanCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglRatePlanElement;
@@ -6168,6 +6199,41 @@ declare global {
     var HTMLIglPropertyBookedByElement: {
         prototype: HTMLIglPropertyBookedByElement;
         new (): HTMLIglPropertyBookedByElement;
+    };
+    interface HTMLIglRateExtenderDrawerElementEventMap {
+        "closeRoomNightsDialog": IRoomNightsDataEventPayload;
+    }
+    interface HTMLIglRateExtenderDrawerElement extends Components.IglRateExtenderDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglRateExtenderDrawerElementEventMap>(type: K, listener: (this: HTMLIglRateExtenderDrawerElement, ev: IglRateExtenderDrawerCustomEvent<HTMLIglRateExtenderDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglRateExtenderDrawerElementEventMap>(type: K, listener: (this: HTMLIglRateExtenderDrawerElement, ev: IglRateExtenderDrawerCustomEvent<HTMLIglRateExtenderDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglRateExtenderDrawerElement: {
+        prototype: HTMLIglRateExtenderDrawerElement;
+        new (): HTMLIglRateExtenderDrawerElement;
+    };
+    interface HTMLIglRateExtenderFormElementEventMap {
+        "closeRoomNightsDialog": IRoomNightsDataEventPayload;
+        "loadingChanged": boolean;
+    }
+    interface HTMLIglRateExtenderFormElement extends Components.IglRateExtenderForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglRateExtenderFormElementEventMap>(type: K, listener: (this: HTMLIglRateExtenderFormElement, ev: IglRateExtenderFormCustomEvent<HTMLIglRateExtenderFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglRateExtenderFormElementEventMap>(type: K, listener: (this: HTMLIglRateExtenderFormElement, ev: IglRateExtenderFormCustomEvent<HTMLIglRateExtenderFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglRateExtenderFormElement: {
+        prototype: HTMLIglRateExtenderFormElement;
+        new (): HTMLIglRateExtenderFormElement;
     };
     interface HTMLIglRatePlanElementEventMap {
         "buttonClicked": { [key: string]: any };
@@ -8314,6 +8380,7 @@ declare global {
         "toggleSelection": GHS_Candidate_Property;
         "toggleAll": boolean;
         "activateProperty": GHS_Candidate_Property;
+        "countryChange": number | null;
     }
     interface HTMLIrGhsCandidateTableElement extends Components.IrGhsCandidateTable, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGhsCandidateTableElementEventMap>(type: K, listener: (this: HTMLIrGhsCandidateTableElement, ev: IrGhsCandidateTableCustomEvent<HTMLIrGhsCandidateTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10522,6 +10589,8 @@ declare global {
         "igl-housekeeping-dialog": HTMLIglHousekeepingDialogElement;
         "igl-legend": HTMLIglLegendElement;
         "igl-property-booked-by": HTMLIglPropertyBookedByElement;
+        "igl-rate-extender-drawer": HTMLIglRateExtenderDrawerElement;
+        "igl-rate-extender-form": HTMLIglRateExtenderFormElement;
         "igl-rate-plan": HTMLIglRatePlanElement;
         "igl-reallocation-dialog": HTMLIglReallocationDialogElement;
         "igl-room-type": HTMLIglRoomTypeElement;
@@ -11114,6 +11183,31 @@ declare namespace LocalJSX {
         "onDataUpdateEvent"?: (event: IglPropertyBookedByCustomEvent<{ [key: string]: any }>) => void;
         "propertyId"?: number;
         "showPaymentDetails"?: boolean;
+    }
+    interface IglRateExtenderDrawer {
+        "bookingNumber"?: string;
+        "defaultDates"?: { from_date: string; to_date: string };
+        "fromDate"?: string;
+        "identifier"?: string;
+        "language"?: string;
+        "onCloseRoomNightsDialog"?: (event: IglRateExtenderDrawerCustomEvent<IRoomNightsDataEventPayload>) => void;
+        "open"?: boolean;
+        "pool"?: string;
+        "propertyId"?: number;
+        "ticket"?: string;
+        "toDate"?: string;
+    }
+    interface IglRateExtenderForm {
+        "bookingNumber"?: string;
+        "defaultDates"?: { from_date: string; to_date: string };
+        "fromDate"?: string;
+        "identifier"?: string;
+        "language"?: string;
+        "onCloseRoomNightsDialog"?: (event: IglRateExtenderFormCustomEvent<IRoomNightsDataEventPayload>) => void;
+        "onLoadingChanged"?: (event: IglRateExtenderFormCustomEvent<boolean>) => void;
+        "pool"?: string;
+        "propertyId"?: number;
+        "toDate"?: string;
     }
     interface IglRatePlan {
         "bookingType"?: string;
@@ -13505,9 +13599,11 @@ declare namespace LocalJSX {
         "onFinancialActionsOpenSidebar"?: (event: IrFinancialTableCustomEvent<SidebarOpenEvent>) => void;
     }
     interface IrGhsCandidateTable {
+        "baseUrl"?: string;
         "countries"?: ICountry1[];
         "isLoading"?: boolean;
         "onActivateProperty"?: (event: IrGhsCandidateTableCustomEvent<GHS_Candidate_Property>) => void;
+        "onCountryChange"?: (event: IrGhsCandidateTableCustomEvent<number | null>) => void;
         "onToggleAll"?: (event: IrGhsCandidateTableCustomEvent<boolean>) => void;
         "onToggleSelection"?: (event: IrGhsCandidateTableCustomEvent<GHS_Candidate_Property>) => void;
         "properties"?: GHS_Candidate_Property[];
@@ -16114,6 +16210,8 @@ declare namespace LocalJSX {
         "igl-housekeeping-dialog": IglHousekeepingDialog;
         "igl-legend": IglLegend;
         "igl-property-booked-by": IglPropertyBookedBy;
+        "igl-rate-extender-drawer": IglRateExtenderDrawer;
+        "igl-rate-extender-form": IglRateExtenderForm;
         "igl-rate-plan": IglRatePlan;
         "igl-reallocation-dialog": IglReallocationDialog;
         "igl-room-type": IglRoomType;
@@ -16454,6 +16552,8 @@ declare module "@stencil/core" {
             "igl-housekeeping-dialog": LocalJSX.IglHousekeepingDialog & JSXBase.HTMLAttributes<HTMLIglHousekeepingDialogElement>;
             "igl-legend": LocalJSX.IglLegend & JSXBase.HTMLAttributes<HTMLIglLegendElement>;
             "igl-property-booked-by": LocalJSX.IglPropertyBookedBy & JSXBase.HTMLAttributes<HTMLIglPropertyBookedByElement>;
+            "igl-rate-extender-drawer": LocalJSX.IglRateExtenderDrawer & JSXBase.HTMLAttributes<HTMLIglRateExtenderDrawerElement>;
+            "igl-rate-extender-form": LocalJSX.IglRateExtenderForm & JSXBase.HTMLAttributes<HTMLIglRateExtenderFormElement>;
             "igl-rate-plan": LocalJSX.IglRatePlan & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;
             "igl-reallocation-dialog": LocalJSX.IglReallocationDialog & JSXBase.HTMLAttributes<HTMLIglReallocationDialogElement>;
             "igl-room-type": LocalJSX.IglRoomType & JSXBase.HTMLAttributes<HTMLIglRoomTypeElement>;

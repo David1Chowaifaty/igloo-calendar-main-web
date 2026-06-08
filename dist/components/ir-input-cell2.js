@@ -70,7 +70,7 @@ const IrInputCell = /*@__PURE__*/ proxyCustomElement(class IrInputCell extends H
         this.slotState = newState;
     }
     render() {
-        return (h("div", { key: '6b738c6f8a51b0f7cfc227df605c5110d1bc4b0b', onDblClick: () => {
+        return (h("div", { key: '859eb74acc18c919d8fa68224846121a1bb3f2a7', onDblClick: () => {
                 if (this.disabled) {
                     return;
                 }

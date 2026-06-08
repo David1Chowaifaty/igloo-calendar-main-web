@@ -3,8 +3,7 @@
 }
 
 .ir-ghs-filters__container {
-  width: 280px;
-  flex-shrink: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
