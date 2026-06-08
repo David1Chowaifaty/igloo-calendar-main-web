@@ -3800,8 +3800,14 @@ const IglRateExtenderForm = class {
             console.error(error);
         }
     }
-    disabled() {
-        return this.inventory === 0 || this.inventory === null;
+    disabled(index) {
+        if (this.inventory === 0 || this.inventory === null) {
+            return true;
+        }
+        if (this.isEndDateBeforeFromDate) {
+            return !(index < this.defaultTotalNights);
+        }
+        return index < this.selectedRoom.days.length;
     }
     showArrow(index) {
         // Prepending (adding from the start date): arrow goes under the last new date.
@@ -3867,7 +3873,7 @@ const IglRateExtenderForm = class {
                 this.handleRoomConfirmation();
             } }, h("section", { class: "rate-form__body" }, h("p", { class: "rate-form__booking-number" }, `${locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && h("span", { class: 'irfontgreen' }, locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && (h("wa-callout", { size: "small", variant: "warning", class: "rate-form__availability-callout" }, h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.inventory !== 0 && this.inventory !== null && booking_store.roomTypes?.length > 0 && (h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendar_data.tax_statement))), h("p", { class: "rate-form__date-range" }, formatDate(hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", h("wa-icon", { name: "arrow-right" }), ' ', formatDate(hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), this.rates?.map((day, index) => {
             return [
-                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { disabled: this.disabled(), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: hooks(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
+                h("ir-validator", { key: day.date, value: day.amount, schema: z.number().min(0) }, h("ir-input", { disabled: this.disabled(index), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: hooks(day.date).format('ddd, MMM D') }, h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index) && h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
             ];
         })));

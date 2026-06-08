@@ -3804,8 +3804,14 @@ const IglRateExtenderForm = class {
             console.error(error);
         }
     }
-    disabled() {
-        return this.inventory === 0 || this.inventory === null;
+    disabled(index) {
+        if (this.inventory === 0 || this.inventory === null) {
+            return true;
+        }
+        if (this.isEndDateBeforeFromDate) {
+            return !(index < this.defaultTotalNights);
+        }
+        return index < this.selectedRoom.days.length;
     }
     showArrow(index) {
         // Prepending (adding from the start date): arrow goes under the last new date.
@@ -3871,7 +3877,7 @@ const IglRateExtenderForm = class {
                 this.handleRoomConfirmation();
             } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "small", variant: "warning", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.inventory !== 0 && this.inventory !== null && booking_store.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, utils.formatDate(moment$1.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", index.h("wa-icon", { name: "arrow-right" }), ' ', utils.formatDate(moment$1.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), this.rates?.map((day, index$2) => {
             return [
-                index.h("ir-validator", { key: day.date, value: day.amount, schema: index$1.z.number().min(0) }, index.h("ir-input", { disabled: this.disabled(), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index$2), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment$1.hooks(day.date).format('ddd, MMM D') }, index.h("span", { slot: "start" }, currency_symbol))),
+                index.h("ir-validator", { key: day.date, value: day.amount, schema: index$1.z.number().min(0) }, index.h("ir-input", { disabled: this.disabled(index$2), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index$2), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment$1.hooks(day.date).format('ddd, MMM D') }, index.h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index$2) && index.h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
             ];
         })));
