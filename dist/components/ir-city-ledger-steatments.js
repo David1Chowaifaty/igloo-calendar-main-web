@@ -3,17 +3,18 @@ import { C as CityLedgerService } from './index5.js';
 import { c as calendar_data } from './calendar-data.js';
 import { h as hooks } from './moment.js';
 import { F as FdTypes } from './enums.js';
-import { d as defineCustomElement$b } from './ir-air-date-picker2.js';
-import { d as defineCustomElement$a } from './ir-city-ledger-statements-filter2.js';
-import { d as defineCustomElement$9 } from './ir-city-ledger-statements-table2.js';
-import { d as defineCustomElement$8 } from './ir-custom-button2.js';
-import { d as defineCustomElement$7 } from './ir-date-range-filter2.js';
-import { d as defineCustomElement$6 } from './ir-date-select2.js';
-import { d as defineCustomElement$5 } from './ir-dialog2.js';
-import { d as defineCustomElement$4 } from './ir-input2.js';
-import { d as defineCustomElement$3 } from './ir-pdf-viewer2.js';
-import { d as defineCustomElement$2 } from './ir-preview-screen-dialog2.js';
-import { d as defineCustomElement$1 } from './ir-spinner2.js';
+import { d as defineCustomElement$c } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$b } from './ir-city-ledger-statements-filter2.js';
+import { d as defineCustomElement$a } from './ir-city-ledger-statements-table2.js';
+import { d as defineCustomElement$9 } from './ir-custom-button2.js';
+import { d as defineCustomElement$8 } from './ir-date-range-filter2.js';
+import { d as defineCustomElement$7 } from './ir-date-select2.js';
+import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$5 } from './ir-input2.js';
+import { d as defineCustomElement$4 } from './ir-pdf-viewer2.js';
+import { d as defineCustomElement$3 } from './ir-preview-screen-dialog2.js';
+import { d as defineCustomElement$2 } from './ir-spinner2.js';
+import { d as defineCustomElement$1 } from './ir-validator2.js';
 
 const irCityLedgerStatementsCss = ".sc-ir-city-ledger-statements-h{display:block;max-width:1000px;margin-inline:auto}.cl-statements.sc-ir-city-ledger-statements{display:flex;flex-direction:column;gap:1rem}.preview-loading.sc-ir-city-ledger-statements{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body.sc-ir-city-ledger-statements{display:flex;justify-content:center;padding:1.5rem;min-height:100%}";
 const IrCityLedgerStatementsStyle0 = irCityLedgerStatementsCss;
@@ -109,12 +110,11 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
                     AGENCY_ID: this.agentId,
                     START_DATE: filters.fromDate,
                     END_DATE: filters.toDate,
-                    LIST_FD_TYPE_CODE: [FdTypes.CreditNote, FdTypes.DebitNote, FdTypes.Invoice, FdTypes.Receipt],
+                    LIST_FD_TYPE_CODE: [FdTypes.CreditReceipt, FdTypes.CreditNote, FdTypes.DebitNote, FdTypes.Invoice, FdTypes.Receipt],
                 }),
             ]);
             this.statement = result ?? null;
             this.rows = fiscalDocuments ?? [];
-            console.log(result.My_Rows.filter(r => !!r.DOC_NUMBER));
         }
         catch (err) {
             console.error('[ir-city-ledger-statements] getCLStatement error:', err);
@@ -130,19 +130,19 @@ const IrCityLedgerStatements = /*@__PURE__*/ proxyCustomElement(class IrCityLedg
         return `Statement - ${hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '787287e4d78dd6cd0526763da786c7831e2dced9' }, h("section", { key: '3b472649b6b08070c4532cb327329e0001b88674', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'a5f99284efbd2a48be4f22aa408c1d4e47fd27ec', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
+        return (h(Host, { key: '6e10cafa2911cce4e43d001ab87df06f582e17e0' }, h("section", { key: 'a9bf7946ff9cc08c66c4cd29bae30165539209c1', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '2521fda24e7ff456e7599b9deb574a5b3ff9f1e6', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
             }, onCreateStatement: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '046b4706831249c253b729311dbd750d717e42f2', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'd5b534471a1abd9f1d065f46c0409f8c5f3433b7', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '025d11b7c94fd97be4fba188faab3ad141556b60', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'a7a28d3141281fea29d430421f9e58363fbab406', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: 'e1a2c645c244be1d9547a3e66a3018174c801d50', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '429ba3ec2b7b2095e0dc4548e68de2bf31dbff3c', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '6145a2c8ed94cc600869d0f89afb6b8928774c51', name: "download", label: "Download PDF" })))), this.printFilters &&
+            } }, h("div", { key: 'd9356b214f74680fa88279fe848886f8b60a4383', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '3b71dd6bfea4d3506b2c9120146ed1beeb12732e', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '9d940d950d2b1b77792fbc27ed21fa78a390000c', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get watchers() { return {
@@ -174,7 +174,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-city-ledger-statements", "ir-air-date-picker", "ir-city-ledger-statements-filter", "ir-city-ledger-statements-table", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner"];
+    const components = ["ir-city-ledger-statements", "ir-air-date-picker", "ir-city-ledger-statements-filter", "ir-city-ledger-statements-table", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-city-ledger-statements":
             if (!customElements.get(tagName)) {
@@ -183,55 +183,60 @@ function defineCustomElement() {
             break;
         case "ir-air-date-picker":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-city-ledger-statements-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-city-ledger-statements-table":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$8();
+                defineCustomElement$9();
             }
             break;
         case "ir-date-range-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$7();
+                defineCustomElement$8();
             }
             break;
         case "ir-date-select":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-input":
             if (!customElements.get(tagName)) {
-                defineCustomElement$4();
+                defineCustomElement$5();
             }
             break;
         case "ir-pdf-viewer":
             if (!customElements.get(tagName)) {
-                defineCustomElement$3();
+                defineCustomElement$4();
             }
             break;
         case "ir-preview-screen-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$2();
+                defineCustomElement$3();
             }
             break;
         case "ir-spinner":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$2();
+            }
+            break;
+        case "ir-validator":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }

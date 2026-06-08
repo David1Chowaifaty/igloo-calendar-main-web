@@ -1365,14 +1365,13 @@
 wa-input[aria-invalid='true']::part(base),
 wa-textarea[aria-invalid='true']::part(base),
 wa-select[aria-invalid='true']::part(combobox) {
-  --error-width: 2px;
-  border-color: var(--wa-color-danger-border-loud);
-  outline-color: var(--wa-color-danger-border-loud);
+  border-color: var(--ir-color-border-error, var(--wa-color-danger-border-loud));
+  outline-color: var(--ir-color-border-error, var(--wa-color-danger-border-loud));
 
-  border-top-width: var(--error-width) !important;
-  border-left-width: var(--error-width) !important;
-  border-right-width: var(--error-width) !important;
-  border-bottom-width: var(--error-width) !important;
+  border-top-width: var(--error-border-width) !important;
+  border-left-width: var(--error-border-width) !important;
+  border-right-width: var(--error-border-width) !important;
+  border-bottom-width: var(--error-border-width) !important;
 }
 
 .ir-dialog__footer {
@@ -1444,6 +1443,8 @@ wa-select[aria-invalid='true']::part(combobox) {
 :root {
   --ir-color-muted-background: #f2f3f8;
   --ir-color-loader: rgba(255, 255, 255, 0.2);
+  --error-border-width: 2px;
+  --ir-color-border-error: var(--wa-color-danger-border-loud);
 }
 .wa-dark {
   --ir-color-loader: rgba(0, 0, 0, 0.2);
@@ -1556,7 +1557,17 @@ wa-card::part(base) {
   pointer-events: none;
   z-index: -1;
 }
-
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
 @media print {
   body.ir-preview-dialog-print-mode {
     background: #fff !important;

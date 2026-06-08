@@ -4,6 +4,7 @@ import { flexRender, useTable } from "../../../../utils/useTable";
 import { formatAmount } from "../../../../utils/utils";
 import moment from "moment";
 import { FdTypes } from "../../../../types/enums";
+import { debitFdTypeCode } from "../../../../services/city-ledger.service";
 const NUMERIC_COLS = new Set(['debit', 'credit', 'balance']);
 const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
 const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
@@ -40,10 +41,23 @@ export class IrCityLedgerStatementsTable {
     get runningBalances() {
         let balance = this.startingBalance;
         return this.rows.map(doc => {
-            balance += Math.abs(doc.DEBIT ?? 0) - Math.abs(doc.CREDIT ?? 0);
+            if (debitFdTypeCode.has(doc.FD_TYPE_CODE)) {
+                balance += doc.DEBIT ?? 0;
+            }
+            else {
+                balance -= Math.abs(doc.CREDIT ?? 0);
+            }
             return balance;
         });
     }
+    //Before Credit receipt change
+    // private get runningBalances(): number[] {
+    //   let balance = this.startingBalance;
+    //   return this.rows.map(doc => {
+    //     balance += Math.abs(doc.DEBIT ?? 0) - Math.abs(doc.CREDIT ?? 0);
+    //     return balance;
+    //   });
+    // }
     get columns() {
         const balances = this.runningBalances;
         return [
@@ -77,12 +91,12 @@ export class IrCityLedgerStatementsTable {
             this.columnHelper.accessor('DEBIT', {
                 id: 'debit',
                 header: 'Debit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(Math.abs(info.getValue()), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? info.row.original.DEBIT : info.getValue(), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'balance',

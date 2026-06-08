@@ -1,4 +1,4 @@
-import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type PrintClStatementParams, type PrintClProformaParams, type FiscalDocuments, type ClTx, type FiscalDocument, type GetClProformaLinkParams } from './types';
+import { type CLAccountBalance, type AllocateCLCreditParams, type FetchCLParams, type FetchCLResult, type GetCLAccountBalanceParams, type GetCLAccountOverviewParams, type GetCLAgingReportParams, type GetCLStatementParams, type GetCLUnallocatedTransactionsParams, type IssueManualCLTxParams, type SyncBookingToCityLedgerParams, type ToggleCLTxHoldParams, type TransferCLTransactionsParams, type CLStatements, type IssueFiscalDocumentParams, type VoidInvoiceByCreditNoteParams, type CLAccountOverview, type GetFiscalDocumentsParams, type IssueInvoiceFromDraftParams, type DeleteDraftFiscalDocumentParams, type PrintClFiscalDocumentParams, type PrintClStatementParams, type PrintClProformaParams, type FiscalDocuments, type ClTx, type FiscalDocument, type GetClProformaLinkParams, type VoidReceiptByCreditReceiptParams } from './types';
 export * from './types';
 export declare class CityLedgerService {
     fetchCL(params: FetchCLParams): Promise<FetchCLResult>;
@@ -19,6 +19,7 @@ export declare class CityLedgerService {
     transferCLTransactions(params: TransferCLTransactionsParams): Promise<any>;
     issueFiscalDocument(params: IssueFiscalDocumentParams): Promise<FiscalDocument>;
     voidInvoiceByCreditNote(params: VoidInvoiceByCreditNoteParams): Promise<any>;
+    voidReceiptByCreditCreditReceipt(params: VoidReceiptByCreditReceiptParams): Promise<any>;
     getFiscalDocuments(params: GetFiscalDocumentsParams): Promise<FiscalDocuments>;
     issueInvoiceFromDraft(params: IssueInvoiceFromDraftParams): Promise<any>;
     deleteDraftFiscalDocument(params: DeleteDraftFiscalDocumentParams): Promise<any>;

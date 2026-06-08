@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AllocateCLCreditParamsSchema, CLAgencyContextSchema, GetCLAgingReportParamsSchema, GetCLStatementParamsSchema, IssueManualCLTxParamsSchema, SyncBookingToCityLedgerParamsSchema, ToggleCLTxHoldParamsSchema, TransferCLTransactionsParamsSchema, IssueFiscalDocumentParamsSchema, VoidInvoiceByCreditNoteParamsSchema, GetFiscalDocumentsParamsSchema, IssueInvoiceFromDraftParamsSchema, DeleteDraftFiscalDocumentParamsSchema, FetchCLParamsSchema, PrintClFiscalDocumentParamsSchema, PrintClStatementParamsSchema, PrintClProformaParamsSchema, GetClProformaLinkParamsSchema, } from "./types";
+import { AllocateCLCreditParamsSchema, CLAgencyContextSchema, GetCLAgingReportParamsSchema, GetCLStatementParamsSchema, IssueManualCLTxParamsSchema, SyncBookingToCityLedgerParamsSchema, ToggleCLTxHoldParamsSchema, TransferCLTransactionsParamsSchema, IssueFiscalDocumentParamsSchema, VoidInvoiceByCreditNoteParamsSchema, GetFiscalDocumentsParamsSchema, IssueInvoiceFromDraftParamsSchema, DeleteDraftFiscalDocumentParamsSchema, FetchCLParamsSchema, PrintClFiscalDocumentParamsSchema, PrintClStatementParamsSchema, PrintClProformaParamsSchema, GetClProformaLinkParamsSchema, VoidReceiptByCreditReceiptParamsSchema, } from "./types";
 import { downloadFile } from "../../utils/utils";
 export * from './types';
 export class CityLedgerService {
@@ -127,6 +127,13 @@ export class CityLedgerService {
     async voidInvoiceByCreditNote(params) {
         const payload = VoidInvoiceByCreditNoteParamsSchema.parse(params);
         const { data } = await axios.post('/Void_Invoice_By_Credit_Note', payload);
+        if (data.ExceptionMsg !== '')
+            throw new Error(data.ExceptionMsg);
+        return data.My_Result;
+    }
+    async voidReceiptByCreditCreditReceipt(params) {
+        const payload = VoidReceiptByCreditReceiptParamsSchema.parse(params);
+        const { data } = await axios.post('/Void_Receipt_By_Credit_Receipt', payload);
         if (data.ExceptionMsg !== '')
             throw new Error(data.ExceptionMsg);
         return data.My_Result;

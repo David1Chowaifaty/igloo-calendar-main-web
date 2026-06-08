@@ -4,8 +4,7 @@ import { m as mapClTxToFolioRow } from './types3.js';
 import { h as hooks } from './moment.js';
 import { c as calendar_data } from './calendar-data.js';
 import { T as Token } from './Token.js';
-import { C as ClTxTypeCode } from './enums.js';
-import './locales.store.js';
+import { a as actionableClTypes } from './city-ledger.service.js';
 import { f as formatAmount } from './utils.js';
 import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$l } from './ir-city-ledger-transaction-drawer2.js';
@@ -29,8 +28,6 @@ import { d as defineCustomElement$4 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$3 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$2 } from './ir-spinner2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
-
-const actionableClTypes = new Set([ClTxTypeCode.Adjustment, ClTxTypeCode.CancellationPenalty, ClTxTypeCode.Discount, ClTxTypeCode.StandardChargeDebit]);
 
 const irBookingCityLedgerCss = ".sc-ir-booking-city-ledger-h{display:block;width:100%;min-width:0;--item-vertical-padding:var(--wa-space-xs, 0.5rem);--item-inline-padding:var(--wa-space-l, 1.5rem)}.booking-city-ledger__card.sc-ir-booking-city-ledger{width:100%}.booking-city-ledger__card.sc-ir-booking-city-ledger::part(body){padding:0;padding-bottom:calc(1.5rem - var(--item-vertical-padding));padding-top:0}.booking-city-ledger__header-title.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem}.booking-city-ledger__agent-name.sc-ir-booking-city-ledger{font-weight:400;color:var(--wa-color-neutral-600, #6b7280);font-size:var(--wa-font-size-s, 0.8125rem)}.booking-city-ledger__spinner-wrap.sc-ir-booking-city-ledger{display:flex;justify-content:center;align-items:center;padding:2rem 1rem}.booking-city-ledger__empty-state.sc-ir-booking-city-ledger{padding:1.5rem}.booking-city-ledger__error.sc-ir-booking-city-ledger{margin:0;padding:1rem;text-align:center;font-size:0.875rem;color:var(--wa-color-danger-600, #dc2626)}.folio-list.sc-ir-booking-city-ledger{display:flex;flex-direction:column}.folio-row.sc-ir-booking-city-ledger{padding:var(--item-vertical-padding) var(--item-inline-padding);border-bottom:1px solid var(--wa-color-neutral-100, #f4f4f5)}.folio-row.sc-ir-booking-city-ledger:last-child{border-bottom:none}.folio-row__header.sc-ir-booking-city-ledger{display:flex;justify-content:space-between;align-items:center;gap:0.5rem}.folio-row__meta.sc-ir-booking-city-ledger,.folio-row-desc_row.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;min-width:0}.folio-row-desc_row.sc-ir-booking-city-ledger{justify-content:space-between}.folio-row__date.sc-ir-booking-city-ledger{font-size:0.857rem;white-space:nowrap;font-variant-numeric:tabular-nums}.folio-row__right.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.375rem;flex-shrink:0}.folio-row__amount.sc-ir-booking-city-ledger{font-size:1rem;font-weight:600;white-space:nowrap}.folio-row__desc.sc-ir-booking-city-ledger{margin:0.3rem 0 0;font-size:var(--wa-font-size-s);color:var(--wa-color-neutral-800, #27272a);line-height:1.4;word-break:break-word}.folio-row__action-trigger-icon.sc-ir-booking-city-ledger{font-size:1rem}.folio-row__action-trigger.sc-ir-booking-city-ledger::part(base){height:auto;width:var(--wa-space-xs)}.folio-row__city-tax.sc-ir-booking-city-ledger{display:flex;align-items:center;gap:0.375rem;margin-top:0.25rem;font-size:0.857rem;color:var(--wa-color-neutral-500, #71717a)}.is-debit.sc-ir-booking-city-ledger{color:var(--wa-color-danger-fill-loud);font-weight:700}.is-credit.sc-ir-booking-city-ledger{color:var(--wa-color-success-fill-loud);font-weight:700}";
 const IrBookingCityLedgerStyle0 = irBookingCityLedgerCss;
@@ -285,6 +282,6 @@ function defineCustomElement() {
     } });
 }
 
-export { IrBookingCityLedger as I, actionableClTypes as a, defineCustomElement as d };
+export { IrBookingCityLedger as I, defineCustomElement as d };
 
 //# sourceMappingURL=ir-booking-city-ledger2.js.map

@@ -15,6 +15,7 @@ const FdTypes = {
     DebitNote: 'DN',
     Receipt: 'REC',
     Proforma: 'PRF',
+    CreditReceipt: 'CREC',
 };
 const InvoiceableItemReason = {
     AlreadyInvoiced: '001',

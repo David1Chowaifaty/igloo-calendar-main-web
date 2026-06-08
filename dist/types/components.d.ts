@@ -2450,6 +2450,7 @@ export namespace Components {
     interface IrFdConfirmDialog {
         "action": FdConfirmAction | null;
         "docNumber": string;
+        "fdType": string;
         "isConfirming": boolean;
         "open": boolean;
     }
@@ -13489,6 +13490,7 @@ declare namespace LocalJSX {
     interface IrFdConfirmDialog {
         "action"?: FdConfirmAction | null;
         "docNumber"?: string;
+        "fdType"?: string;
         "isConfirming"?: boolean;
         "onCancelled"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
         "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;

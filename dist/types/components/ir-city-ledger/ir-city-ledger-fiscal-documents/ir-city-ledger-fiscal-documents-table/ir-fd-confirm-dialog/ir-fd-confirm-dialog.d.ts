@@ -5,6 +5,7 @@ export declare class IrFdConfirmDialog {
     action: FdConfirmAction | null;
     docNumber: string;
     isConfirming: boolean;
+    fdType: string;
     confirmed: EventEmitter<void>;
     cancelled: EventEmitter<void>;
     render(): any;

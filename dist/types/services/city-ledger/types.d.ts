@@ -1243,3 +1243,17 @@ export declare const GetClProformaLinkParamsSchema: z.ZodObject<{
     FD_ID?: number;
 }>;
 export type GetClProformaLinkParams = z.infer<typeof GetClProformaLinkParamsSchema>;
+export declare const VoidReceiptByCreditReceiptParamsSchema: z.ZodObject<{
+    FD_ID: z.ZodNumber;
+    VOID_DATE: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+    REASON: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+}, "strip", z.ZodTypeAny, {
+    FD_ID?: number;
+    VOID_DATE?: string;
+    REASON?: string;
+}, {
+    FD_ID?: number;
+    VOID_DATE?: string;
+    REASON?: string;
+}>;
+export type VoidReceiptByCreditReceiptParams = z.infer<typeof VoidReceiptByCreditReceiptParamsSchema>;

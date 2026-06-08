@@ -54,7 +54,7 @@
   background: var(--wa-color-surface-default) !important;
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
-  border-bottom: 1px solid var(--wa-color-neutral-90) !important;
+  border-bottom: 1px solid var(--wa-color-neutral-fill-loud) !important;
   color: var(--wa-color-text-normal);
   /* position: sticky;
   top: 0;
@@ -167,7 +167,7 @@
   min-height: 60dvh;
   max-width: 1920px;
   border: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
-  background-color: white;
+  /* background-color: white; */
 }
 
 /* #region head */

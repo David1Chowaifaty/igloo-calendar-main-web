@@ -79,7 +79,17 @@ export class IrCityLedgerFiscalDocumentsTable {
         this.isConfirming = true;
         try {
             if (action === 'void') {
-                await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
+                switch (row.FD_TYPE_CODE) {
+                    case FdTypes.Invoice:
+                        await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
+                        break;
+                    case FdTypes.Receipt:
+                        await this.cityLedgerService.voidReceiptByCreditCreditReceipt({ FD_ID: row.FD_ID });
+                        break;
+                    default:
+                        console.warn(row.FD_TYPE_CODE + ' not implemented');
+                        break;
+                }
             }
             else if (action === 'delete-draft') {
                 await this.cityLedgerService.deleteDraftFiscalDocument({ FD_ID: row.FD_ID });
@@ -151,11 +161,11 @@ export class IrCityLedgerFiscalDocumentsTable {
             ...amountCols,
             this.columnHelper.accessor('DEBIT', {
                 header: 'Debit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => (info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? '' : this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID)),
             }),
             this.columnHelper.accessor('CREDIT', {
                 header: 'Credit',
-                cell: info => this.renderMoney(info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? info.row.original.DEBIT : info.getValue(), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'actions',
@@ -165,6 +175,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                     const isDraft = row.FD_TYPE_CODE === FdTypes.Draft;
                     // const isPaid = row.FD_STATUS_CODE === 'INV';
                     const isInvoice = row.FD_TYPE_CODE === FdTypes.Invoice;
+                    const isReceipt = row.FD_TYPE_CODE === FdTypes.Receipt;
                     return (h("wa-dropdown", { "onwa-hide": e => {
                             e.stopImmediatePropagation();
                             e.stopPropagation();
@@ -173,11 +184,11 @@ export class IrCityLedgerFiscalDocumentsTable {
                         } }, h("wa-button", { slot: "trigger", size: "small", variant: "neutral", appearance: "plain", class: "fiscal-table__action-trigger" }, h("wa-icon", { name: "ellipsis-vertical", style: { fontSize: '1.2rem' } })), isDraft
                         ? [
                             h("wa-dropdown-item", { value: "preview" }, "Preview"),
-                            h("wa-dropdown-item", { value: "convert-to-invoice" }, "Convert to Invoice"),
+                            h("wa-dropdown-item", { value: "convert-to-invoice" }, "Convert to invoice"),
                             h("wa-dropdown-item", { value: "delete-draft", variant: "danger" }, "Delete"),
                         ]
                         : [
-                            h("wa-dropdown-item", { value: "view" }, "View Document"),
+                            h("wa-dropdown-item", { value: "view" }, "View document"),
                             h("wa-dropdown-item", { value: "print" }, "Print"),
                             // <wa-dropdown-item value="download">Download PDF</wa-dropdown-item>,
                             // (!isPaid || !isInvoice) && <wa-divider></wa-divider>,
@@ -186,6 +197,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                             // !isPaid && <wa-dropdown-item value="mark-paid">Mark as Paid</wa-dropdown-item>,
                             // <wa-divider></wa-divider>,
                             isInvoice && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit note"))),
+                            isReceipt && info.row.original.FD_STATUS_CODE !== FdStatus.Voided && (h("wa-dropdown-item", { value: "void" }, h("span", { class: "fiscal-table__action-danger" }, "Void with credit receipt"))),
                         ]));
                 },
                 enableSorting: false,

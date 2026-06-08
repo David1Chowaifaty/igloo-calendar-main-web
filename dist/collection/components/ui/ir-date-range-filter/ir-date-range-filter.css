@@ -35,6 +35,16 @@
   overflow: visible;
 }
 
+:host([aria-invalid='true']) .drf-container {
+  border-color: var(--ir-color-border-error, var(--wa-color-danger-border-loud));
+  outline-color: var(--ir-color-border-error, var(--wa-color-danger-border-loud));
+
+  border-top-width: var(--error-border-width) !important;
+  border-left-width: var(--error-border-width) !important;
+  border-right-width: var(--error-border-width) !important;
+  border-bottom-width: var(--error-border-width) !important;
+}
+
 .drf-container:focus-within {
   outline: var(--wa-focus-ring);
   outline-offset: var(--wa-focus-ring-offset);
@@ -154,4 +164,16 @@
   gap: 0.5rem;
   box-sizing: border-box;
   width: 200px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
 }

@@ -19,6 +19,7 @@ export declare const FdTypes: {
     readonly DebitNote: "DN";
     readonly Receipt: "REC";
     readonly Proforma: "PRF";
+    readonly CreditReceipt: "CREC";
 };
 export declare const InvoiceableItemReason: {
     readonly AlreadyInvoiced: "001";

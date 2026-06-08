@@ -34,6 +34,10 @@ export declare class IrDateRangeFilter {
     dateCleared: EventEmitter<{
         field: 'from' | 'to';
     }>;
+    /** Inner parts of ir-date-select that are re-exported by this component. */
+    private static readonly dateSelectParts;
+    /** Builds an `exportparts` string that re-exposes ir-date-select parts under a from-/to- prefix. */
+    private exportPartsFor;
     private groupId;
     private toDateSelectRef;
     private fromDateSelectRef;

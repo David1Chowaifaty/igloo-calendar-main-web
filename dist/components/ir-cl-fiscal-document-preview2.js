@@ -8,7 +8,7 @@ import { d as defineCustomElement$3 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$2 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
 
-const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}.header-actions{display:flex;align-items:center;gap:0.5rem;padding-inline-end:0.5rem}";
+const irClFiscalDocumentPreviewCss = ".preview-loading{display:flex;align-items:center;justify-content:center;padding:3rem;height:100%}.preview-body{display:flex;justify-content:center;padding:1.5rem;min-height:100%}.header-actions{display:flex;align-items:center;gap:0.5rem;padding-inline-end:0.5rem}";
 const IrClFiscalDocumentPreviewStyle0 = irClFiscalDocumentPreviewCss;
 
 const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFiscalDocumentPreview extends HTMLElement {
