@@ -19,6 +19,7 @@ export declare class IrClInvoiceDialog {
     clFiscalDocumentPreview: EventEmitter<ClFiscalDocumentPreviewRequest>;
     private dialogRef;
     private formRef;
+    private readonly invoicedClTxTypeCode;
     private cityLedgerService;
     openModal(): Promise<void>;
     closeModal(): Promise<void>;

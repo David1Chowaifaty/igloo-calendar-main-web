@@ -9,7 +9,7 @@ import { ClTxTypeCode, FdStatus, FdTypes, VatIncludedCodes } from "../../../../.
 export class IrCityLedgerTransactionForm {
     formId = 'city-ledger-transaction-form';
     agent = null;
-    initialTransactionType = 'OB';
+    initialTransactionType = ClTxTypeCode.Payment;
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
@@ -35,11 +35,7 @@ export class IrCityLedgerTransactionForm {
     cityLedgerService = new CityLedgerService();
     clTxTypes;
     get resolvedInitialType() {
-        const obHidden = this.agent?.has_opening_balance || this.booking !== null;
-        if (this.initialTransactionType === ClTxTypeCode.OpeningBalance && obHidden) {
-            return ClTxTypeCode.StandardChargeDebit;
-        }
-        return this.initialTransactionType;
+        return ClTxTypeCode.Payment;
     }
     getUniqueTaxValues() {
         let taxes = new Set();
@@ -223,7 +219,9 @@ export class IrCityLedgerTransactionForm {
             if (ClTxTypeCode.DebitNote === type.CODE_NAME || (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {
                 return null;
             }
-            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) && !this.booking && this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
+            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) &&
+                !this.booking &&
+                this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
                 return null;
             }
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));
@@ -356,7 +354,7 @@ export class IrCityLedgerTransactionForm {
                 "setter": false,
                 "attribute": "initial-transaction-type",
                 "reflect": false,
-                "defaultValue": "'OB'"
+                "defaultValue": "ClTxTypeCode.Payment"
             },
             "unpaidInvoiceOptions": {
                 "type": "unknown",

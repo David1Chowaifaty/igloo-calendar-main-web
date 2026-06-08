@@ -4,6 +4,7 @@ import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getExpandedRowModel, getGroupedRowModel, getSortedRowModel } from "@tanstack/table-core";
 import moment from "moment";
 import { actionableClTypes } from "../../../../services/city-ledger.service";
+import { ClTxTypeCode } from "../../../../types/enums";
 const DATE_DISPLAY_FORMAT = 'MMM DD, YYYY';
 const DATE_INPUT_FORMAT = 'YYYY-MM-DD';
 export class IrCityLedgerFolioTable {
@@ -99,7 +100,12 @@ export class IrCityLedgerFolioTable {
             id: 'status',
             header: 'Status',
             size: 200,
-            cell: info => (h("div", { class: "folio-table__status-cell" }, h("ir-cl-status-tag", { transaction: info.row.original }))),
+            cell: info => {
+                if (info?.row?.original?._raw?.CL_TX_TYPE_CODE === ClTxTypeCode.OpeningBalance) {
+                    return null;
+                }
+                return (h("div", { class: "folio-table__status-cell" }, h("ir-cl-status-tag", { transaction: info.row.original })));
+            },
             enableGrouping: true,
             enableSorting: false,
         }),
@@ -185,7 +191,7 @@ export class IrCityLedgerFolioTable {
             size: 48,
             cell: info => {
                 const row = info.row.original;
-                if (row._raw.IS_LOCKED)
+                if (row._raw.IS_LOCKED || row._raw.CL_TX_TYPE_CODE === ClTxTypeCode.OpeningBalance)
                     return h("div", { class: 'fiscal-table__action-trigger --placeholder' });
                 const canEditOrDelete = actionableClTypes.has(row._raw.CL_TX_TYPE_CODE) && !row._raw.CATEGORY;
                 return (h("wa-dropdown", { "onwa-hide": e => {

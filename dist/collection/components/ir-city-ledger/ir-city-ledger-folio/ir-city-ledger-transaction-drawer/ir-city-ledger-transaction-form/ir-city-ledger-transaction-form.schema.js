@@ -159,7 +159,7 @@ const conditionalDefaultsByType = (transactionType) => {
             return {};
     }
 };
-export const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.OpeningBalance) => ({
+export const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.Payment) => ({
     transactionType,
     date: moment().format(DATE_FORMAT),
     amount: '',

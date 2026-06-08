@@ -32,7 +32,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     }
     formId = 'city-ledger-transaction-form';
     agent = null;
-    initialTransactionType = 'OB';
+    initialTransactionType = ClTxTypeCode.Payment;
     unpaidInvoiceOptions = [];
     bookingOptions = [];
     serviceCategoryOptions = [];
@@ -58,11 +58,7 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
     cityLedgerService = new CityLedgerService();
     clTxTypes;
     get resolvedInitialType() {
-        const obHidden = this.agent?.has_opening_balance || this.booking !== null;
-        if (this.initialTransactionType === ClTxTypeCode.OpeningBalance && obHidden) {
-            return ClTxTypeCode.StandardChargeDebit;
-        }
-        return this.initialTransactionType;
+        return ClTxTypeCode.Payment;
     }
     getUniqueTaxValues() {
         let taxes = new Set();
@@ -246,7 +242,9 @@ const IrCityLedgerTransactionForm = /*@__PURE__*/ proxyCustomElement(class IrCit
             if (ClTxTypeCode.DebitNote === type.CODE_NAME || (type.CODE_NAME === ClTxTypeCode.OpeningBalance && (this.agent.has_opening_balance || this.booking !== null))) {
                 return null;
             }
-            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) && !this.booking && this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
+            if ([ClTxTypeCode.Discount, ClTxTypeCode.CancellationPenalty].includes(type.CODE_NAME) &&
+                !this.booking &&
+                this.transaction?.CL_TX_TYPE_CODE !== type.CODE_NAME) {
                 return null;
             }
             return (h("wa-option", { key: type.CODE_NAME, value: type.CODE_NAME, label: label }, h("div", { class: "tx-option" }, h("span", { class: "tx-option__label" }, label), h("span", { class: "tx-option__badges" }, (rate === 'CR' || rate === 'CR|DB') && h("wa-badge", { variant: "success" }, "Credit"), (rate === 'DB' || rate === 'CR|DB') && h("wa-badge", { variant: "danger" }, "Debit")))));

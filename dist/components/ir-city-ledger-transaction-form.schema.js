@@ -160,7 +160,7 @@ const conditionalDefaultsByType = (transactionType) => {
             return {};
     }
 };
-const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.OpeningBalance) => ({
+const createInitialTransactionFormDraft = (transactionType = ClTxTypeCode.Payment) => ({
     transactionType,
     date: hooks().format(DATE_FORMAT),
     amount: '',

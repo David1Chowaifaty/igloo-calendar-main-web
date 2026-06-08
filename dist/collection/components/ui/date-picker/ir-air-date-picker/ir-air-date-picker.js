@@ -297,6 +297,8 @@ export class IrAirDatePicker {
         datepickerEl.style.setProperty('--adp-day-name-color', 'lab(48.496% 0 0)');
         datepickerEl.style.setProperty('--adp-padding', '0px 0px 0.5rem 0px', 'important');
         datepickerEl.style.setProperty('--adp-border-color-inner', 'transparent', 'important');
+        datepickerEl.style.setProperty('--adp-color-other-month-hover', 'var(--wa-color-text-normal)', 'important');
+        // datepickerEl.style.setProperty('--adp-color-disabled', 'var(--wa-color-text-quiet)', 'important');
     }
     handleDateSelect(selected) {
         const dates = Array.isArray(selected) ? selected.filter(Boolean) : selected ? [selected] : [];

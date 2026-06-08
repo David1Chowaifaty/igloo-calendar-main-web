@@ -54,7 +54,8 @@
   background: var(--wa-color-surface-default) !important;
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
-  border-bottom: 1px solid var(--wa-color-neutral-fill-normal) !important;
+  /* border-bottom: 1px solid var(--wa-color-neutral-fill-normal) !important; */
+  border-bottom: var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-neutral-border-normal) !important;
   color: var(--wa-color-text-normal);
   /* position: sticky;
   top: 0;
@@ -79,7 +80,7 @@
 
 .selected td {
   background: var(--wa-color-brand-fill-quiet) !important;
-  border-color: var(--wa-color-brand-fill-normal) !important;
+  border-color: var(--wa-color-neutral-border-quiet) !important;
 }
 .selected td {
   color: var(--gray-dark) !important;

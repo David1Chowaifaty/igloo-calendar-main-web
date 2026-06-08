@@ -1,7 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { C as CityLedgerService } from './index5.js';
 import { c as calendar_data } from './calendar-data.js';
-import { b as InOut, F as FdTypes } from './enums.js';
+import { b as InOut, C as ClTxTypeCode, F as FdTypes } from './enums.js';
 import { d as defineCustomElement$7 } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$6 } from './ir-cl-invoice-form2.js';
 import { d as defineCustomElement$5 } from './ir-custom-button2.js';
@@ -40,6 +40,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
     clFiscalDocumentPreview;
     dialogRef;
     formRef;
+    invoicedClTxTypeCode = new Set([ClTxTypeCode.Adjustment, ClTxTypeCode.CancellationPenalty, ClTxTypeCode.Discount, ClTxTypeCode.StandardChargeDebit]);
     cityLedgerService = new CityLedgerService();
     async openModal() {
         this.error = null;
@@ -103,7 +104,14 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
                     this.noResults = true;
                     return;
                 }
-                const listClTxIds = [...new Set(clResult.My_Cl_tx.map(tx => tx.CL_TX_ID))];
+                const listClTxIds = [
+                    ...new Set(clResult.My_Cl_tx.map(tx => {
+                        if (this.invoicedClTxTypeCode.has(tx.CL_TX_TYPE_CODE)) {
+                            return tx.CL_TX_ID;
+                        }
+                        return null;
+                    }).filter(Boolean)),
+                ];
                 const result = await this.cityLedgerService.issueFiscalDocument({
                     AGENCY_ID: this.agentId,
                     CURRENCY_ID: calendar_data?.property?.currency?.id,
@@ -178,7 +186,7 @@ const IrClInvoiceDialog = /*@__PURE__*/ proxyCustomElement(class IrClInvoiceDial
         }
     }
     render() {
-        return (h(Host, { key: '577df09305486ade8752b32ec640f215961ea1de' }, h("ir-dialog", { key: '2cd8e1c5928356748a2696feef9d94e298dc4400', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '86e10db395d4f9e3d0b8ecf912a18ea2c3773430', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: 'cef061fe7b882a759c0ef760d72f8692b0a15368', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma")), h("div", { key: '454a011cd6d94f73898ff6c4510187ca22b407b7', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a proforma for Booking #${this.bookingNbr}?` : `Issue a draft invoice for Booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: 'b5ce29c93d5ded250b826da141e4d53be576139c', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: '97899824570cc628fd7c3810f7398c24ac54fed0', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: '98607362c0c07c9a3952625de689b5ff120c8414', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'fc0ba1b1a9b7c7e8a9d2457ac862c038e451d248', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '191afabec83ead104a65db9a2d627a90ce76dccf', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '016189a253387c1dad803d87d5a9f2717deeb5d0', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
+        return (h(Host, { key: '0ef779714df647c59e587a6819373bcf26da4ed5' }, h("ir-dialog", { key: '996ed190c0b78b496e260e1d6bd3078afc4f7de5', label: "Create Invoice", ref: el => (this.dialogRef = el) }, h("div", { key: '2fd099322321509ea889871cebbf6995d6ab1104', slot: "header-actions", class: 'cl-invoice-dialog__header-actions' }, h("wa-switch", { key: '2fcc3762832f55276c820f4683a03361f3a827e9', checked: this.isProforma, disabled: this.mode === 'booking' && !this.allRoomsCheckedOut, onchange: e => (this.isProforma = e.target.checked) }, "Proforma")), h("div", { key: 'bc1c89979a2c278e49235ec9aaf5cd46d640da69', class: "create-invoice-dialog__body" }, this.mode === 'booking' ? (h("p", { class: "create-invoice-dialog__message" }, this.isProforma ? `Generate a proforma for Booking #${this.bookingNbr}?` : `Issue a draft invoice for Booking #${this.bookingNbr} to the agent?`)) : (h("ir-cl-invoice-form", { ref: el => (this.formRef = el) })), this.noResults && (h("wa-callout", { key: '7387d3076621deac31a752f58bd1187bc17e3c40', variant: "warning", class: "create-invoice-dialog__no-results" }, h("wa-icon", { key: 'd8eef9e861e8e86beb55131f54e9e2fc851e76c1', slot: "icon", name: "triangle-exclamation" }), "No transactions found for the selected period and filters.")), this.error && h("p", { key: 'ebcde534f3ad390887a9161a8c8696fa0b465665', class: "create-invoice-dialog__error" }, this.error)), h("div", { key: 'a3d56360a77cc33e4640c8cc0c86b97678ec2afb', slot: "footer", class: "create-invoice-dialog__footer" }, h("ir-custom-button", { key: '6cd0f0186d8333cf5934bf0f00025e054bd3ca37', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close", disabled: this.isLoading }, "Cancel"), h("ir-custom-button", { key: '195e29d42273dcea6ef1bcee66e42bd17e1f0cb3', size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading, onClickHandler: () => this.handleSubmit() }, this.isProforma ? 'Confirm' : 'Show draft')))));
     }
     static get style() { return IrClInvoiceDialogStyle0; }
 }, [2, "ir-cl-invoice-dialog", {
