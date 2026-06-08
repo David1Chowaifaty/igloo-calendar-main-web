@@ -450,9 +450,18 @@ export namespace Components {
         "roomTypeId": number | null;
         "unavailableRatePlanIds": Set<number>;
     }
+    interface IglSpiltBookingForm {
+        "booking": Booking;
+        "identifier": Room['identifier'];
+    }
     interface IglSplitBooking {
         "booking": Booking;
         "identifier": Room['identifier'];
+    }
+    interface IglSplitBookingDrawer {
+        "booking": Booking;
+        "identifier": Room['identifier'];
+        "open": boolean;
     }
     interface IglTbaBookingView {
         "calendarData": { [key: string]: any };
@@ -4897,9 +4906,17 @@ export interface IglReallocationDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglReallocationDialogElement;
 }
+export interface IglSpiltBookingFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglSpiltBookingFormElement;
+}
 export interface IglSplitBookingCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIglSplitBookingElement;
+}
+export interface IglSplitBookingDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIglSplitBookingDrawerElement;
 }
 export interface IglTbaBookingViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -6196,6 +6213,23 @@ declare global {
         prototype: HTMLIglRoomTypeElement;
         new (): HTMLIglRoomTypeElement;
     };
+    interface HTMLIglSpiltBookingFormElementEventMap {
+        "closeModal": null;
+    }
+    interface HTMLIglSpiltBookingFormElement extends Components.IglSpiltBookingForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglSpiltBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSpiltBookingFormElement, ev: IglSpiltBookingFormCustomEvent<HTMLIglSpiltBookingFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglSpiltBookingFormElementEventMap>(type: K, listener: (this: HTMLIglSpiltBookingFormElement, ev: IglSpiltBookingFormCustomEvent<HTMLIglSpiltBookingFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglSpiltBookingFormElement: {
+        prototype: HTMLIglSpiltBookingFormElement;
+        new (): HTMLIglSpiltBookingFormElement;
+    };
     interface HTMLIglSplitBookingElementEventMap {
         "closeModal": null;
     }
@@ -6212,6 +6246,23 @@ declare global {
     var HTMLIglSplitBookingElement: {
         prototype: HTMLIglSplitBookingElement;
         new (): HTMLIglSplitBookingElement;
+    };
+    interface HTMLIglSplitBookingDrawerElementEventMap {
+        "closeModal": null;
+    }
+    interface HTMLIglSplitBookingDrawerElement extends Components.IglSplitBookingDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIglSplitBookingDrawerElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingDrawerElement, ev: IglSplitBookingDrawerCustomEvent<HTMLIglSplitBookingDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIglSplitBookingDrawerElementEventMap>(type: K, listener: (this: HTMLIglSplitBookingDrawerElement, ev: IglSplitBookingDrawerCustomEvent<HTMLIglSplitBookingDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIglSplitBookingDrawerElement: {
+        prototype: HTMLIglSplitBookingDrawerElement;
+        new (): HTMLIglSplitBookingDrawerElement;
     };
     interface HTMLIglTbaBookingViewElementEventMap {
         "highlightToBeAssignedBookingEvent": any;
@@ -10490,7 +10541,9 @@ declare global {
         "igl-rate-plan": HTMLIglRatePlanElement;
         "igl-reallocation-dialog": HTMLIglReallocationDialogElement;
         "igl-room-type": HTMLIglRoomTypeElement;
+        "igl-spilt-booking-form": HTMLIglSpiltBookingFormElement;
         "igl-split-booking": HTMLIglSplitBookingElement;
+        "igl-split-booking-drawer": HTMLIglSplitBookingDrawerElement;
         "igl-tba-booking-view": HTMLIglTbaBookingViewElement;
         "igl-tba-category-view": HTMLIglTbaCategoryViewElement;
         "igl-to-be-assigned": HTMLIglToBeAssignedElement;
@@ -11136,10 +11189,21 @@ declare namespace LocalJSX {
         "roomTypeId"?: number | null;
         "unavailableRatePlanIds"?: Set<number>;
     }
+    interface IglSpiltBookingForm {
+        "booking"?: Booking;
+        "identifier"?: Room['identifier'];
+        "onCloseModal"?: (event: IglSpiltBookingFormCustomEvent<null>) => void;
+    }
     interface IglSplitBooking {
         "booking"?: Booking;
         "identifier"?: Room['identifier'];
         "onCloseModal"?: (event: IglSplitBookingCustomEvent<null>) => void;
+    }
+    interface IglSplitBookingDrawer {
+        "booking"?: Booking;
+        "identifier"?: Room['identifier'];
+        "onCloseModal"?: (event: IglSplitBookingDrawerCustomEvent<null>) => void;
+        "open"?: boolean;
     }
     interface IglTbaBookingView {
         "calendarData"?: { [key: string]: any };
@@ -16031,7 +16095,9 @@ declare namespace LocalJSX {
         "igl-rate-plan": IglRatePlan;
         "igl-reallocation-dialog": IglReallocationDialog;
         "igl-room-type": IglRoomType;
+        "igl-spilt-booking-form": IglSpiltBookingForm;
         "igl-split-booking": IglSplitBooking;
+        "igl-split-booking-drawer": IglSplitBookingDrawer;
         "igl-tba-booking-view": IglTbaBookingView;
         "igl-tba-category-view": IglTbaCategoryView;
         "igl-to-be-assigned": IglToBeAssigned;
@@ -16372,7 +16438,9 @@ declare module "@stencil/core" {
             "igl-rate-plan": LocalJSX.IglRatePlan & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;
             "igl-reallocation-dialog": LocalJSX.IglReallocationDialog & JSXBase.HTMLAttributes<HTMLIglReallocationDialogElement>;
             "igl-room-type": LocalJSX.IglRoomType & JSXBase.HTMLAttributes<HTMLIglRoomTypeElement>;
+            "igl-spilt-booking-form": LocalJSX.IglSpiltBookingForm & JSXBase.HTMLAttributes<HTMLIglSpiltBookingFormElement>;
             "igl-split-booking": LocalJSX.IglSplitBooking & JSXBase.HTMLAttributes<HTMLIglSplitBookingElement>;
+            "igl-split-booking-drawer": LocalJSX.IglSplitBookingDrawer & JSXBase.HTMLAttributes<HTMLIglSplitBookingDrawerElement>;
             "igl-tba-booking-view": LocalJSX.IglTbaBookingView & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
             "igl-tba-category-view": LocalJSX.IglTbaCategoryView & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
             "igl-to-be-assigned": LocalJSX.IglToBeAssigned & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;

@@ -1,9 +1,7 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
-import { d as defineCustomElement$3 } from './igl-tba-booking-view2.js';
-import { d as defineCustomElement$2 } from './ir-button2.js';
-import { d as defineCustomElement$1 } from './ir-icons2.js';
+import { d as defineCustomElement$1 } from './igl-tba-booking-view2.js';
 
-const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}";
+const iglTbaCategoryViewCss = ".sc-igl-tba-category-view-h{display:block}.tba-category.sc-igl-tba-category-view{display:flex;flex-direction:column}.tba-category__title.sc-igl-tba-category-view{margin:0;color:var(--wa-color-default-normal);font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);font-size:var(--wa-font-size-m);text-wrap:balance}";
 const IglTbaCategoryViewStyle0 = iglTbaCategoryViewCss;
 
 const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategoryView extends HTMLElement {
@@ -46,7 +44,7 @@ const IglTbaCategoryView = /*@__PURE__*/ proxyCustomElement(class IglTbaCategory
         this.renderAgain = !this.renderAgain;
     }
     render() {
-        return (h(Host, { key: '0b0ca27ecf3f4d5a2c51c6d69b2150d7f0430d2b' }, h("div", { key: 'ef8b5d52e91f878168ae3a9cc538702daa1f0d20', class: "sectionContainer" }, h("div", { key: '67c19ba1738f8ec30d36b51083628bc3433752b1', class: "font-weight-bold font-small-3" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
+        return (h(Host, { key: '005ecab8ce4e78b6d225c3bfffb68f9bc7b28404' }, h("div", { key: '5bdcd65e2363ad5b2839cd3ad25cf9cecc69b435', class: "tba-category" }, h("h5", { key: '20d2ad12f93ffed3d148fc43fd1cb5bad5722100', class: "tba-category__title" }, this.categoriesData[this.categoryId]?.name), this.getEventView(this.categoryId, this.eventDatas))));
     }
     static get style() { return IglTbaCategoryViewStyle0; }
 }, [2, "igl-tba-category-view", {
@@ -62,7 +60,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-tba-category-view", "igl-tba-booking-view", "ir-button", "ir-icons"];
+    const components = ["igl-tba-category-view", "igl-tba-booking-view"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-tba-category-view":
             if (!customElements.get(tagName)) {
@@ -70,16 +68,6 @@ function defineCustomElement() {
             }
             break;
         case "igl-tba-booking-view":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$3();
-            }
-            break;
-        case "ir-button":
-            if (!customElements.get(tagName)) {
-                defineCustomElement$2();
-            }
-            break;
-        case "ir-icons":
             if (!customElements.get(tagName)) {
                 defineCustomElement$1();
             }
