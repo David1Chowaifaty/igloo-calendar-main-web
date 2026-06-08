@@ -33,6 +33,7 @@ export declare class IglRateExtenderForm {
     private handleInput;
     private fetchBookingAvailability;
     private disabled;
+    private showArrow;
     private handleRoomConfirmation;
     render(): any;
 }

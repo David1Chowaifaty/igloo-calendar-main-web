@@ -123,9 +123,19 @@
   gap: 0 var(--wa-space-s);
   align-items: center;
 }
+/* Arrow connector — centered under the input field, offset past the label + gap */
+.rate-extender-arrow {
+  display: block;
+  margin-left: calc(40px + var(--wa-space-l));
+  width: calc(100% - 40px - var(--wa-space-l));
+  text-align: center;
+}
 /*sm*/
 @media (min-width: 640px) {
   .rate-extender-input::part(base) {
     max-width: 180px;
+  }
+  .rate-extender-arrow {
+    width: 180px;
   }
 }

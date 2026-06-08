@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const Token = require('./Token-fb15e0d7.js');
 const locales_store = require('./locales.store-32782582.js');
 const room_service = require('./room.service-f9117e70.js');
-const booking_store = require('./booking.store-99692a78.js');
+const booking_store = require('./booking.store-da99b883.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-70bc3b4b.js');
@@ -14,6 +14,7 @@ require('./index-8bb117a0.js');
 require('./utils-32be062a.js');
 require('./moment-1780b03a.js');
 require('./type-53035218.js');
+require('./booking-a54b7725.js');
 
 const irFinancialActionsCss = ".sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}";
 const IrFinancialActionsStyle0 = irFinancialActionsCss;

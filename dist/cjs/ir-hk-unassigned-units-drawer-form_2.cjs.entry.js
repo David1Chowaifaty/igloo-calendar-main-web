@@ -6,7 +6,7 @@ const index = require('./index-35d81173.js');
 const housekeeping_service = require('./housekeeping.service-8d06557d.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const locales_store = require('./locales.store-32782582.js');
-const booking_store = require('./booking.store-99692a78.js');
+const booking_store = require('./booking.store-da99b883.js');
 const user_service = require('./user.service-7337c265.js');
 const constants = require('./constants-abd1d7db.js');
 const index$1 = require('./index-8bb117a0.js');
@@ -15,6 +15,7 @@ require('./axios-6e678d52.js');
 require('./utils-32be062a.js');
 require('./moment-1780b03a.js');
 require('./type-53035218.js');
+require('./booking-a54b7725.js');
 
 const irHkUnassignedUnitsDrawerFormCss = ".sc-ir-hk-unassigned-units-drawer-form-h{display:block;min-width:20rem;--ir-root-active-color:#1e9ff2;--ir-root-inactive-color:#d2d2d2}table.sc-ir-hk-unassigned-units-drawer-form{width:100%}td.sc-ir-hk-unassigned-units-drawer-form{padding-top:3px;padding-bottom:3px}td.sc-ir-hk-unassigned-units-drawer-form:last-child{text-align:end}.title.sc-ir-hk-unassigned-units-drawer-form{min-width:230px !important}";
 const IrHkUnassignedUnitsDrawerFormStyle0 = irHkUnassignedUnitsDrawerFormCss;
