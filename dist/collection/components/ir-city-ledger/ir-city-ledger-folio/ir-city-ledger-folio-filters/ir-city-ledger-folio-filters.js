@@ -32,6 +32,7 @@ export class IrCityLedgerFolioFilters {
         { value: 'billed', label: 'Billed' },
         { value: 'held', label: 'Held' },
         { value: 'unbilled', label: 'Unbilled' },
+        { value: 'unbilled&checkedOut', label: 'Checked out only' },
     ];
     emitFilters() {
         this.filtersChange.emit({
@@ -45,7 +46,7 @@ export class IrCityLedgerFolioFilters {
         this.emitFilters();
     }
     render() {
-        return (h("form", { key: '2f50e2c5a0fd4e2465a9088d61cb50dd6116493c', onSubmit: e => {
+        return (h("form", { key: 'a3b629c06f8b0b0b5b9bbe03539b59a4fb4921cc', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit({
                     fromDate: this.dates.from?.format('YYYY-MM-DD'),
@@ -53,20 +54,20 @@ export class IrCityLedgerFolioFilters {
                     status: this.statusFilter,
                     search: this.searchQuery,
                 });
-            } }, h("div", { key: 'eb0914fad32d2466ccdc6918341fabc50465f4b0', class: "filters-bar" }, h("ir-validator", { key: 'a58f1483fbac58565c02307a1085b6c62e0c2d2c', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: '992ff7a731de454bb06129fedeb633c75ba65fd5', maxDate: moment().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+            } }, h("div", { key: 'a32e3be2943e00db63a99439a0d60d108e0e2f9e', class: "filters-bar" }, h("ir-validator", { key: '6900bdfc4d4343b3794b5f1a858e2eb314cd5a2f', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'c3f97f4c0e1e0f7cb929d02121e44cafacb5dcef', maxDate: moment().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
                 const { from, to } = e.detail;
                 this.dates = {
                     from: from ? moment(from, 'YYYY-MM-DD') : null,
                     to: to ? moment(to, 'YYYY-MM-DD') : null,
                 };
                 this.emitFilters();
-            } })), h("div", { key: '0a829e27cb6b50dab4d6f32245414cd54b76a091', class: "filters-bar__search-group" }, h("wa-select", { key: 'f703d6643c383f23b006c891cd7e07905f5afc31', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
+            } })), h("div", { key: '67b147690910fe907fab8a2d34167cb650cce4d7', class: "filters-bar__search-group" }, h("wa-select", { key: 'fa961c29950904ea40d204833cc7a0ab982638c0', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '5753ec7aaea34deb5819d1f75ccb0f3e94694755', class: "filters-bar__search-input", "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '4895d8837bfdb8078a8bee27951c09bc397b262e', class: "filters-bar__search-input", "onText-change": e => {
                 const wasCleared = this.searchQuery !== '' && e.detail === '';
                 this.searchQuery = e.detail;
                 if (wasCleared) {
@@ -87,7 +88,7 @@ export class IrCityLedgerFolioFilters {
                 toDate: this.dates.to?.format('YYYY-MM-DD'),
                 status: this.statusFilter,
                 search: '',
-            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: 'c2a43087d21ab89f5b6cb40104adae3a363b6f1d', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: 'e32c75b4e0bc72d7b9abc80617e142cab3853e31', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: 'e8c6a8fd2555616844ad770ec104f569cee664ad', name: "magnifying-glass" }))), h("div", { key: '4ac3b3603667d222ea5432bf0241bceab573bfae', class: "filters-bar__actions" }, h("ir-custom-button", { key: '1a6b65eae1ebe949e6ba2b77bd69162166ff6858', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'f174a4c76ebacfe0cdd4d4059113b7523c46a128', name: "download", slot: "start" }), h("span", { key: 'a9520e405977f36e2c4926596f4605929e438748' }, "Export")), h("ir-custom-button", { key: '79470747669e0cf9b4f023e85a5f37cb987187f1', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
+            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '69f9d36f73eadf96c5b3d594a8723f83fd3d7dc9', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '513270973902d451e432e9834d3079350207b2c3', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: '7b0c40ac5abc936bfc3aa64a3aefca7e24442eb7', name: "magnifying-glass" }))), h("div", { key: 'f7ce8b7ce4886cf686ae498817c89a1a691ae206', class: "filters-bar__actions" }, h("ir-custom-button", { key: 'df3afa954d6e0c27a35c3d3a5bfda7c3ab004fa6', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'b238d499779b902b6f611eeeb8d2063303a580d2', name: "download", slot: "start" }), h("span", { key: '5852e0bfe9e5691b668d2c24b054ccf980ecb486' }, "Export")), h("ir-custom-button", { key: 'a64fefa85c136ac49d30b11afbec29b1edb35661', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
     static get is() { return "ir-city-ledger-folio-filters"; }
     static get encapsulation() { return "scoped"; }

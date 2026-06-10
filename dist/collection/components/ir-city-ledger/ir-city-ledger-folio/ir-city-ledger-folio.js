@@ -223,6 +223,8 @@ export class IrCityLedgerFolio {
                         return { IS_LOCKED: null, IS_HOLD: true };
                     case 'unbilled':
                         return { IS_LOCKED: false, IS_HOLD: false };
+                    case 'unbilled&checkedOut':
+                        return { IS_LOCKED: false, IS_HOLD: false, IS_CHECKED_OUT_ONLY: true };
                     default:
                         return { IS_LOCKED: null, IS_HOLD: null };
                 }
@@ -296,7 +298,7 @@ export class IrCityLedgerFolio {
         }
     }
     render() {
-        return (h(Host, { key: '768886a076b169b38848961b89a655220625d6dc' }, h("ir-city-ledger-folio-filters", { key: 'f302c2421eb4528e09dd66c03902cb5cf3e1b537', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: '3f5e8cbee04bdaee9cee16bc33e216dec1ba483f' }, h("ir-city-ledger-folio-filters", { key: '8967195d40bc427c59c90bb2694127042f771359', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -305,7 +307,7 @@ export class IrCityLedgerFolio {
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: 'c0e81c6e1011d6535a60681903049412b7c3faff', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: 'ebc256ae283e8b12472d033c322175489f18f287', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -317,12 +319,12 @@ export class IrCityLedgerFolio {
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: '6401c36349d7a3d9bb6facbe0d0cb06ba90159a6', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: 'c064d82218425c6039aad0842967ecd09756bf18', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: '49308c263cc8d4eda6d006504f6d3456e854d4cd' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '891625bb6cd0b321158fe71ddb475dfaec78c1b0', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '4c89488edb91ae6a0bde53456aa5d3b1a410f479', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: 'f16e5fd3936201059e42fb1c22e883438769f2a0', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '4e8f8903033d8d088ed0af7182d597df8d82dda7', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: 'ce57b6e2136b5d7e788a3d8ebbc98c2494f40b4f' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '704329fde716b4db018f4ac7d648a564b3be59a4', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'be161f0693ce7f9dea8f96c0c396fa0ae3fb5c3d', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '897f12808a9804093e0af5215f3f23c6eaba7ed9', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: 'ff512b2ecd863d53e913fb3ed6754edb9b086b8a', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;
