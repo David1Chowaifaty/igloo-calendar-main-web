@@ -104,6 +104,18 @@ export class IrCityLedgerFiscalDocumentsTable {
             this.pendingAction = null;
         }
     }
+    getCredit(info) {
+        const { FD_TYPE_CODE, DEBIT } = info.row.original;
+        const value = info.getValue();
+        switch (FD_TYPE_CODE) {
+            case FdTypes.CreditReceipt:
+                return -DEBIT;
+            case FdTypes.Receipt:
+                return Math.abs(value);
+            default:
+                return value;
+        }
+    }
     get columns() {
         const base = [
             this.columnHelper.accessor('FD_STATUS_CODE', {
@@ -165,7 +177,7 @@ export class IrCityLedgerFiscalDocumentsTable {
             }),
             this.columnHelper.accessor('CREDIT', {
                 header: 'Credit',
-                cell: info => this.renderMoney(info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? info.row.original.DEBIT : info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'actions',

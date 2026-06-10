@@ -19,6 +19,7 @@ export declare class IrCityLedgerStatementsTable {
     private getSymbol;
     private renderMoney;
     private get runningBalances();
+    private getCredit;
     private get columns();
     private renderStartingBalanceRow;
     private renderEndingBalanceRow;

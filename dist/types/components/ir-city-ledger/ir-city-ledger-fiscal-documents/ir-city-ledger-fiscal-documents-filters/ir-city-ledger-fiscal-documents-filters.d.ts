@@ -1,10 +1,10 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import type { FiscalDocumentFilters } from '../types';
+import type { ClFiscalDocumentFilters } from '../types';
 export declare class IrCityLedgerFiscalDocumentsFilters {
-    filters: FiscalDocumentFilters;
+    filters: ClFiscalDocumentFilters;
     private docNumber;
-    filtersChange: EventEmitter<FiscalDocumentFilters>;
-    applyFilters: EventEmitter<FiscalDocumentFilters>;
+    filtersChange: EventEmitter<ClFiscalDocumentFilters>;
+    applyFilters: EventEmitter<ClFiscalDocumentFilters>;
     componentWillLoad(): void;
     private typeOptions;
     private updateFilters;

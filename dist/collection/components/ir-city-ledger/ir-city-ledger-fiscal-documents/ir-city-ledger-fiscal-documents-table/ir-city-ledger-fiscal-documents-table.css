@@ -169,6 +169,7 @@
   max-width: 1920px;
   border: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
   /* background-color: white; */
+  background-color: var(--wa-color-surface-default);
 }
 
 /* #region head */

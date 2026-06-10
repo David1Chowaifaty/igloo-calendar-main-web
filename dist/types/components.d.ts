@@ -40,7 +40,7 @@ import { ClTx as ClTx1, FiscalDocument as FiscalDocument1 } from "./services/cit
 import { TIcons } from "./components/ui/ir-icons/icons";
 import { checkboxes, selectOption } from "./common/models";
 import { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
-import { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
+import { ClFiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 import { FiscalDocument } from "./services/city-ledger";
 import { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
@@ -66,6 +66,8 @@ import { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 import { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 import { FdConfirmAction } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 import { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+import { FiscalDocumentFilters, FiscalDocumentRow, FiscalFolioType } from "./components/ir-fiscal-documents/types";
+import { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 import { GHS_Candidate_Property } from "./services/ghs/types";
 import { ICountry as ICountry1 } from "./models/IBooking";
 import { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
@@ -133,7 +135,7 @@ export { ClTx as ClTx1, FiscalDocument as FiscalDocument1 } from "./services/cit
 export { TIcons } from "./components/ui/ir-icons/icons";
 export { checkboxes, selectOption } from "./common/models";
 export { CheckoutDialogCloseEvent } from "./components/ir-checkout-dialog/ir-checkout-dialog";
-export { FiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
+export { ClFiscalDocumentFilters } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/types";
 export { FiscalDocument } from "./services/city-ledger";
 export { ClFiscalDocumentPreviewRequest } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { CityLedgerTransactionFormDraft, CreditNoteMode, EntryType, LinkedOption, LinkType, ServiceCategoryOption, TransactionType } from "./components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema";
@@ -159,6 +161,8 @@ export { DropdownItem } from "./components/ui/ir-dropdown/ir-dropdown";
 export { DropdownItem as DropdownItem1 } from "./components/ui/ir-dropdown/ir-dropdown";
 export { FdConfirmAction } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-city-ledger-fiscal-documents-table/ir-fd-confirm-dialog/ir-fd-confirm-dialog";
 export { DailyFinancialActionsFilter, SidebarOpenEvent } from "./components/ir-financial-actions/types";
+export { FiscalDocumentFilters, FiscalDocumentRow, FiscalFolioType } from "./components/ir-fiscal-documents/types";
+export { ClFiscalDocumentPreviewRequest as ClFiscalDocumentPreviewRequest1 } from "./components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types";
 export { GHS_Candidate_Property } from "./services/ghs/types";
 export { ICountry as ICountry1 } from "./models/IBooking";
 export { GuestChangedEvent as GuestChangedEvent1 } from "./components/ir-guest-info/ir-guest-info-form/ir-guest-info-form";
@@ -1498,12 +1502,12 @@ export namespace Components {
         "agentId": number | null;
         "currencies": ICurrency[];
         "currencySymbol": string;
-        "initialFilters": FiscalDocumentFilters;
+        "initialFilters": ClFiscalDocumentFilters;
         "propertyId": number;
         "ticket": string;
     }
     interface IrCityLedgerFiscalDocumentsFilters {
-        "filters": FiscalDocumentFilters;
+        "filters": ClFiscalDocumentFilters;
     }
     interface IrCityLedgerFiscalDocumentsTable {
         "agentId": number | null;
@@ -2481,6 +2485,41 @@ export namespace Components {
     interface IrFinancialSummary {
     }
     interface IrFinancialTable {
+    }
+    interface IrFiscalDocuments {
+        "baseurl": string;
+        "language": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrFiscalDocumentsFilters {
+        "filters": FiscalDocumentFilters;
+        "propertyId": number;
+    }
+    interface IrFiscalDocumentsTable {
+        /**
+          * Selected agent id (when a specific agent is chosen under the agent folio).
+         */
+        "agentId": number | null;
+        "currencies": ICurrency[];
+        "currencySymbol": string;
+        /**
+          * Folio scope driving which identity columns are shown.
+         */
+        "folioType": FiscalFolioType;
+        "fromDate": string | null;
+        /**
+          * Selected guest id (when a specific guest is chosen under the guest folio).
+         */
+        "guestId": number | null;
+        "hasDates": boolean;
+        "hasFetched": boolean;
+        "isLoading": boolean;
+        "propertyId": number;
+        "rows": FiscalDocumentRow[];
+        "taxableOnly": boolean;
+        "ticket": string;
+        "toDate": string | null;
     }
     interface IrGhsCandidateTable {
         "baseUrl": string;
@@ -5310,6 +5349,14 @@ export interface IrFinancialTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrFinancialTableElement;
 }
+export interface IrFiscalDocumentsFiltersCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFiscalDocumentsFiltersElement;
+}
+export interface IrFiscalDocumentsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrFiscalDocumentsTableElement;
+}
 export interface IrGhsCandidateTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGhsCandidateTableElement;
@@ -7286,7 +7333,7 @@ declare global {
         new (): HTMLIrCityLedgerElement;
     };
     interface HTMLIrCityLedgerFiscalDocumentsElementEventMap {
-        "clFiscalFiltersChange": FiscalDocumentFilters;
+        "clFiscalFiltersChange": ClFiscalDocumentFilters;
     }
     interface HTMLIrCityLedgerFiscalDocumentsElement extends Components.IrCityLedgerFiscalDocuments, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFiscalDocumentsElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFiscalDocumentsElement, ev: IrCityLedgerFiscalDocumentsCustomEvent<HTMLIrCityLedgerFiscalDocumentsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7303,8 +7350,8 @@ declare global {
         new (): HTMLIrCityLedgerFiscalDocumentsElement;
     };
     interface HTMLIrCityLedgerFiscalDocumentsFiltersElementEventMap {
-        "filtersChange": FiscalDocumentFilters;
-        "applyFilters": FiscalDocumentFilters;
+        "filtersChange": ClFiscalDocumentFilters;
+        "applyFilters": ClFiscalDocumentFilters;
     }
     interface HTMLIrCityLedgerFiscalDocumentsFiltersElement extends Components.IrCityLedgerFiscalDocumentsFilters, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrCityLedgerFiscalDocumentsFiltersElementEventMap>(type: K, listener: (this: HTMLIrCityLedgerFiscalDocumentsFiltersElement, ev: IrCityLedgerFiscalDocumentsFiltersCustomEvent<HTMLIrCityLedgerFiscalDocumentsFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8322,6 +8369,48 @@ declare global {
     var HTMLIrFinancialTableElement: {
         prototype: HTMLIrFinancialTableElement;
         new (): HTMLIrFinancialTableElement;
+    };
+    interface HTMLIrFiscalDocumentsElement extends Components.IrFiscalDocuments, HTMLStencilElement {
+    }
+    var HTMLIrFiscalDocumentsElement: {
+        prototype: HTMLIrFiscalDocumentsElement;
+        new (): HTMLIrFiscalDocumentsElement;
+    };
+    interface HTMLIrFiscalDocumentsFiltersElementEventMap {
+        "filtersChange": FiscalDocumentFilters;
+        "applyFilters": FiscalDocumentFilters;
+    }
+    interface HTMLIrFiscalDocumentsFiltersElement extends Components.IrFiscalDocumentsFilters, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFiscalDocumentsFiltersElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsFiltersElement, ev: IrFiscalDocumentsFiltersCustomEvent<HTMLIrFiscalDocumentsFiltersElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFiscalDocumentsFiltersElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsFiltersElement, ev: IrFiscalDocumentsFiltersCustomEvent<HTMLIrFiscalDocumentsFiltersElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFiscalDocumentsFiltersElement: {
+        prototype: HTMLIrFiscalDocumentsFiltersElement;
+        new (): HTMLIrFiscalDocumentsFiltersElement;
+    };
+    interface HTMLIrFiscalDocumentsTableElementEventMap {
+        "clFiscalDocumentPreview": ClFiscalDocumentPreviewRequest;
+        "fetchRequested": void;
+    }
+    interface HTMLIrFiscalDocumentsTableElement extends Components.IrFiscalDocumentsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrFiscalDocumentsTableElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsTableElement, ev: IrFiscalDocumentsTableCustomEvent<HTMLIrFiscalDocumentsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrFiscalDocumentsTableElementEventMap>(type: K, listener: (this: HTMLIrFiscalDocumentsTableElement, ev: IrFiscalDocumentsTableCustomEvent<HTMLIrFiscalDocumentsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrFiscalDocumentsTableElement: {
+        prototype: HTMLIrFiscalDocumentsTableElement;
+        new (): HTMLIrFiscalDocumentsTableElement;
     };
     interface HTMLIrGhsCandidateTableElementEventMap {
         "toggleSelection": GHS_Candidate_Property;
@@ -10686,6 +10775,9 @@ declare global {
         "ir-financial-filters": HTMLIrFinancialFiltersElement;
         "ir-financial-summary": HTMLIrFinancialSummaryElement;
         "ir-financial-table": HTMLIrFinancialTableElement;
+        "ir-fiscal-documents": HTMLIrFiscalDocumentsElement;
+        "ir-fiscal-documents-filters": HTMLIrFiscalDocumentsFiltersElement;
+        "ir-fiscal-documents-table": HTMLIrFiscalDocumentsTableElement;
         "ir-ghs-candidate-table": HTMLIrGhsCandidateTableElement;
         "ir-ghs-filters": HTMLIrGhsFiltersElement;
         "ir-ghs-onboarding": HTMLIrGhsOnboardingElement;
@@ -12358,15 +12450,15 @@ declare namespace LocalJSX {
         "agentId"?: number | null;
         "currencies"?: ICurrency[];
         "currencySymbol"?: string;
-        "initialFilters"?: FiscalDocumentFilters;
-        "onClFiscalFiltersChange"?: (event: IrCityLedgerFiscalDocumentsCustomEvent<FiscalDocumentFilters>) => void;
+        "initialFilters"?: ClFiscalDocumentFilters;
+        "onClFiscalFiltersChange"?: (event: IrCityLedgerFiscalDocumentsCustomEvent<ClFiscalDocumentFilters>) => void;
         "propertyId"?: number;
         "ticket"?: string;
     }
     interface IrCityLedgerFiscalDocumentsFilters {
-        "filters"?: FiscalDocumentFilters;
-        "onApplyFilters"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
-        "onFiltersChange"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
+        "filters"?: ClFiscalDocumentFilters;
+        "onApplyFilters"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<ClFiscalDocumentFilters>) => void;
+        "onFiltersChange"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<ClFiscalDocumentFilters>) => void;
     }
     interface IrCityLedgerFiscalDocumentsTable {
         "agentId"?: number | null;
@@ -13477,6 +13569,45 @@ declare namespace LocalJSX {
     }
     interface IrFinancialTable {
         "onFinancialActionsOpenSidebar"?: (event: IrFinancialTableCustomEvent<SidebarOpenEvent>) => void;
+    }
+    interface IrFiscalDocuments {
+        "baseurl"?: string;
+        "language"?: string;
+        "propertyid"?: number;
+        "ticket"?: string;
+    }
+    interface IrFiscalDocumentsFilters {
+        "filters"?: FiscalDocumentFilters;
+        "onApplyFilters"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
+        "onFiltersChange"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
+        "propertyId"?: number;
+    }
+    interface IrFiscalDocumentsTable {
+        /**
+          * Selected agent id (when a specific agent is chosen under the agent folio).
+         */
+        "agentId"?: number | null;
+        "currencies"?: ICurrency[];
+        "currencySymbol"?: string;
+        /**
+          * Folio scope driving which identity columns are shown.
+         */
+        "folioType"?: FiscalFolioType;
+        "fromDate"?: string | null;
+        /**
+          * Selected guest id (when a specific guest is chosen under the guest folio).
+         */
+        "guestId"?: number | null;
+        "hasDates"?: boolean;
+        "hasFetched"?: boolean;
+        "isLoading"?: boolean;
+        "onClFiscalDocumentPreview"?: (event: IrFiscalDocumentsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
+        "onFetchRequested"?: (event: IrFiscalDocumentsTableCustomEvent<void>) => void;
+        "propertyId"?: number;
+        "rows"?: FiscalDocumentRow[];
+        "taxableOnly"?: boolean;
+        "ticket"?: string;
+        "toDate"?: string | null;
     }
     interface IrGhsCandidateTable {
         "baseUrl"?: string;
@@ -16240,6 +16371,9 @@ declare namespace LocalJSX {
         "ir-financial-filters": IrFinancialFilters;
         "ir-financial-summary": IrFinancialSummary;
         "ir-financial-table": IrFinancialTable;
+        "ir-fiscal-documents": IrFiscalDocuments;
+        "ir-fiscal-documents-filters": IrFiscalDocumentsFilters;
+        "ir-fiscal-documents-table": IrFiscalDocumentsTable;
         "ir-ghs-candidate-table": IrGhsCandidateTable;
         "ir-ghs-filters": IrGhsFilters;
         "ir-ghs-onboarding": IrGhsOnboarding;
@@ -16621,6 +16755,9 @@ declare module "@stencil/core" {
             "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
             "ir-financial-summary": LocalJSX.IrFinancialSummary & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
             "ir-financial-table": LocalJSX.IrFinancialTable & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
+            "ir-fiscal-documents": LocalJSX.IrFiscalDocuments & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsElement>;
+            "ir-fiscal-documents-filters": LocalJSX.IrFiscalDocumentsFilters & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsFiltersElement>;
+            "ir-fiscal-documents-table": LocalJSX.IrFiscalDocumentsTable & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsTableElement>;
             "ir-ghs-candidate-table": LocalJSX.IrGhsCandidateTable & JSXBase.HTMLAttributes<HTMLIrGhsCandidateTableElement>;
             "ir-ghs-filters": LocalJSX.IrGhsFilters & JSXBase.HTMLAttributes<HTMLIrGhsFiltersElement>;
             "ir-ghs-onboarding": LocalJSX.IrGhsOnboarding & JSXBase.HTMLAttributes<HTMLIrGhsOnboardingElement>;

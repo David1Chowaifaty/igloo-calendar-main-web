@@ -1,5 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import type { FiscalDocumentFilters } from './types';
+import type { ClFiscalDocumentFilters } from './types';
 import type { ICurrency } from "../../../models/property";
 export declare class IrCityLedgerFiscalDocuments {
     agentId: number | null;
@@ -7,8 +7,8 @@ export declare class IrCityLedgerFiscalDocuments {
     currencies: ICurrency[];
     ticket: string;
     propertyId: number;
-    initialFilters: FiscalDocumentFilters;
-    clFiscalFiltersChange: EventEmitter<FiscalDocumentFilters>;
+    initialFilters: ClFiscalDocumentFilters;
+    clFiscalFiltersChange: EventEmitter<ClFiscalDocumentFilters>;
     private filters;
     componentWillLoad(): void;
     private fiscalDocuments;

@@ -23,6 +23,7 @@ export declare class IrCityLedgerFiscalDocumentsTable {
     private cityLedgerService;
     private handleAction;
     private confirmPendingAction;
+    private getCredit;
     private get columns();
     private getSymbol;
     private renderMoney;

@@ -58,6 +58,18 @@ export class IrCityLedgerStatementsTable {
     //     return balance;
     //   });
     // }
+    getCredit(info) {
+        const { FD_TYPE_CODE, DEBIT } = info.row.original;
+        const value = info.getValue();
+        switch (FD_TYPE_CODE) {
+            case FdTypes.CreditReceipt:
+                return -DEBIT;
+            case FdTypes.Receipt:
+                return Math.abs(value);
+            default:
+                return value;
+        }
+    }
     get columns() {
         const balances = this.runningBalances;
         return [
@@ -96,7 +108,7 @@ export class IrCityLedgerStatementsTable {
             this.columnHelper.accessor('CREDIT', {
                 id: 'credit',
                 header: 'Credit',
-                cell: info => this.renderMoney(info.row.original.FD_TYPE_CODE === FdTypes.CreditReceipt ? info.row.original.DEBIT : info.getValue(), info.row.original.CURRENCY_ID),
+                cell: info => this.renderMoney(this.getCredit(info), info.row.original.CURRENCY_ID),
             }),
             this.columnHelper.display({
                 id: 'balance',

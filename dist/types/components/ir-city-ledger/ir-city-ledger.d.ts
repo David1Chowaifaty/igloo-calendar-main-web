@@ -2,7 +2,7 @@ import type { Agent } from "../../services/agents/type";
 import { Moment } from 'moment';
 import type { TaxOption, ServiceCategoryOption } from './ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema';
 import type { FolioSummary } from './ir-city-ledger-folio/types';
-import type { FiscalDocumentFilters } from './ir-city-ledger-fiscal-documents/types';
+import type { ClFiscalDocumentFilters } from './ir-city-ledger-fiscal-documents/types';
 import type { StatementFilters } from './ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter';
 export type ClPanels = 'folio' | 'fiscal-documents' | 'create-statement';
 export declare class IrCityLedger {
@@ -26,7 +26,7 @@ export declare class IrCityLedger {
     showStatementPreview: boolean;
     folioSummary: FolioSummary | null;
     agentSearch: string;
-    fiscalFilters: FiscalDocumentFilters;
+    fiscalFilters: ClFiscalDocumentFilters;
     stmtFilters: StatementFilters;
     private panels;
     private tokenService;
