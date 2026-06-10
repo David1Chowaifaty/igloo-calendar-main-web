@@ -7015,9 +7015,9 @@ const IrCityLedgerFolioTable = class {
                 if (!val)
                     return null;
                 return (index.h("ir-custom-button", { link: true, onClickHandler: () => {
-                        this.selectedBookingNumber = String(val);
+                        this.selectedBookingNumber = val;
                         this.bookingDrawerOpen = true;
-                    } }, String(val)));
+                    } }, val));
             },
             enableGrouping: true,
             enableSorting: false,
