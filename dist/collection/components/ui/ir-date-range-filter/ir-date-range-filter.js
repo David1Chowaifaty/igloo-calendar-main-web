@@ -1,5 +1,38 @@
-import { h } from "@stencil/core";
+import { h, Host } from "@stencil/core";
 import moment from "moment";
+/** Inner parts of ir-date-select that are re-exported by this component. */
+const DATE_SELECT_PARTS = ['base', 'anchor', 'combobox', 'body'];
+/** Builds an `exportparts` string that re-exposes ir-date-select parts under a from-/to- prefix. */
+const buildExportParts = (side) => DATE_SELECT_PARTS.map(part => `${part}:${side}-${part}`).join(', ');
+/**
+ * `exportparts` strings are constant per side, so build them once at module load.
+ * (Module scope, not static class fields: Stencil compiles components to class
+ * expressions, where self-referencing static initializers throw at runtime.)
+ */
+const EXPORT_PARTS = {
+    from: buildExportParts('from'),
+    to: buildExportParts('to'),
+};
+/**
+ * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
+ *
+ * Composition: each side renders a text button (shows the value, opens the popup),
+ * an optional clear button, and an `ir-date-select` whose popup hosts the calendar
+ * plus optional quick-date preset buttons.
+ *
+ * State model: the component is *optionally controlled*. If `fromDate`/`toDate` are
+ * provided they seed and (via watchers) overwrite the internal `dates` state; either
+ * side can be controlled independently. Internal selections always update local state
+ * and emit `datesChanged` — a controlling parent is expected to echo the value back.
+ *
+ * Range integrity is enforced two ways:
+ * - the from-calendar's max is capped at the to-date and the to-calendar's min is
+ *   floored at the from-date (see {@link getFromMaxDate}/{@link getToMinDate}),
+ * - quick-date presets that would invert the range are disabled.
+ *
+ * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
+ * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
+ */
 export class IrDateRangeFilter {
     /** Configurable quick-date preset buttons shown alongside each calendar. */
     quickDates = [
@@ -13,29 +46,44 @@ export class IrDateRangeFilter {
     fromDate;
     /** Controlled end date in YYYY-MM-DD format. */
     toDate;
-    /** Size variant passed through to inner form controls. */
+    /** Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`). */
     size = 'small';
     /** Whether to show the quick-action preset buttons in each calendar popup. */
     showQuickActions = true;
-    /** Earliest selectable date in YYYY-MM-DD format. */
+    /** Earliest selectable date in YYYY-MM-DD format. Applied to both calendars. */
     minDate;
-    /** Latest selectable date in YYYY-MM-DD format. */
+    /** Latest selectable date in YYYY-MM-DD format. Applied to both calendars. */
     maxDate;
+    /**
+     * Flow after picking a from-date:
+     * - `'auto'`: the to-picker opens automatically so the user completes the range in one pass.
+     * - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
+     */
+    selectionMode = 'manual';
+    /** Shows an ✕ button next to each filled side that clears just that side. */
+    withClear = true;
+    /**
+     * Visible label rendered above the control. It names the group for assistive
+     * technology (replacing the default visually-hidden "Date range selector") and,
+     * like a native form label, clicking it opens the from-date picker.
+     */
+    label;
+    /** The selection rendered by the component (see the class doc for the controlled/uncontrolled rules). */
     dates = { from: null, to: null };
+    /** Text for the polite live region, refreshed on every change so screen readers announce the new range. */
     liveMessage = '';
     /** Fired whenever either date changes. Payload contains ISO date strings or null. */
     datesChanged;
-    /** Fired when the user explicitly clears a date field. */
+    /** Fired when the user explicitly clears a date field (after the accompanying `datesChanged`). */
     dateCleared;
-    /** Inner parts of ir-date-select that are re-exported by this component. */
-    static dateSelectParts = ['base', 'anchor', 'combobox', 'body'];
-    /** Builds an `exportparts` string that re-exposes ir-date-select parts under a from-/to- prefix. */
-    exportPartsFor(side) {
-        return IrDateRangeFilter.dateSelectParts.map(part => `${part}:${side}-${part}`).join(', ');
-    }
+    /** Unique id linking the group wrapper to its visually-hidden label. */
     groupId = `date-range-${Math.random().toString(36).substring(2, 9)}`;
     toDateSelectRef;
     fromDateSelectRef;
+    /**
+     * Latched to `true` the first time the corresponding prop is supplied, so a side
+     * that was ever controlled keeps following the prop on subsequent syncs.
+     */
     hasControlledFromDate = false;
     hasControlledToDate = false;
     componentWillLoad() {
@@ -51,30 +99,51 @@ export class IrDateRangeFilter {
         this.hasControlledToDate = this.hasControlledToDate || newValue !== undefined;
         this.syncControlledDates('to', newValue);
     }
-    /** Updates one side of the date range and emits the change. */
+    /**
+     * Updates one side of the date range and emits the change. In `'auto'` selection
+     * mode, picking a from-date opens the to-picker on the next frame (the popup needs
+     * the click that closed the from-picker to finish propagating first).
+     */
     selectDate(date, type) {
-        this.dates = { ...this.dates, [type]: date };
+        let changes = { ...this.dates, [type]: date };
+        if (this.dates.to && type === 'from' && date.isAfter(this.dates.to, 'date')) {
+            changes = { ...changes, to: date };
+        }
+        this.dates = changes;
         this.emitChange();
+        if (type === 'from' && date && this.selectionMode === 'auto') {
+            requestAnimationFrame(() => {
+                this.toDateSelectRef?.show();
+            });
+        }
     }
-    /** Clears one side of the date range. */
+    /**
+     * Clears one side of the range. State-only on purpose: nulling the date prop
+     * cascades down to the calendar as a silent clear, whereas calling the picker's
+     * `clear()` method would fire a second `dateChanged` and double-emit `datesChanged`.
+     */
     clearDate(type) {
-        const pickerRef = type === 'from' ? this.fromDateSelectRef : this.toDateSelectRef;
-        pickerRef?.clearDatePicker();
         this.selectDate(null, type);
         this.dateCleared.emit({ field: type });
     }
+    /** Seeds internal state from whichever side is controlled (called once before first render). */
     syncInitialDates() {
         this.dates = {
             from: this.hasControlledFromDate ? this.parseDate(this.fromDate) : this.dates.from,
             to: this.hasControlledToDate ? this.parseDate(this.toDate) : this.dates.to,
         };
     }
+    /**
+     * Applies a controlled-prop change to internal state: the changed side takes the
+     * new value; the other side re-reads its prop only if it is controlled too.
+     */
     syncControlledDates(changedField, changedValue) {
         this.dates = {
             from: changedField === 'from' ? this.parseDate(changedValue) : this.hasControlledFromDate ? this.parseDate(this.fromDate) : this.dates.from,
             to: changedField === 'to' ? this.parseDate(changedValue) : this.hasControlledToDate ? this.parseDate(this.toDate) : this.dates.to,
         };
     }
+    /** Strict `YYYY-MM-DD` parser; anything else (including partial ISO strings) yields null. */
     parseDate(value) {
         if (!value) {
             return null;
@@ -82,26 +151,18 @@ export class IrDateRangeFilter {
         const parsed = moment(value, 'YYYY-MM-DD', true);
         return parsed.isValid() ? parsed : null;
     }
+    /** Emits `datesChanged` and refreshes the screen-reader live region. */
     emitChange() {
         const from = this.dates.from?.format('YYYY-MM-DD') ?? null;
         const to = this.dates.to?.format('YYYY-MM-DD') ?? null;
         this.datesChanged.emit({ from, to });
-        this.liveMessage = `Date range updated. From ${from ?? 'not set'} to ${to ?? 'not set'}.`;
-    }
-    /**
-     * Caps the from-picker's max date at the to-date (or the global maxDate),
-     * whichever is earlier.
-     */
-    getFromMaxDate(toStr) {
-        if (!toStr)
-            return this.maxDate;
-        if (!this.maxDate)
-            return toStr;
-        return toStr < this.maxDate ? toStr : this.maxDate;
+        const fromText = this.dates.from?.format('MMMM D, YYYY') ?? 'not set';
+        const toText = this.dates.to?.format('MMMM D, YYYY') ?? 'not set';
+        this.liveMessage = `Date range updated. From ${fromText} to ${toText}.`;
     }
     /**
      * Floors the to-picker's min date at the from-date (or the global minDate),
-     * whichever is later.
+     * whichever is later. String comparison is safe for YYYY-MM-DD.
      */
     getToMinDate(fromStr) {
         if (!fromStr)
@@ -113,15 +174,15 @@ export class IrDateRangeFilter {
     render() {
         const fromLabel = this.dates.from?.format('YYYY-MM-DD') ?? null;
         const toLabel = this.dates.to?.format('YYYY-MM-DD') ?? null;
-        const fromMaxDate = this.getFromMaxDate(toLabel);
+        // const fromMaxDate = this.getFromMaxDate(toLabel);
         const toMinDate = this.getToMinDate(fromLabel);
-        return (h("div", { key: '6a86fb4180ba5ef19dcd3e1dcba2679fd1c753b9', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, h("span", { key: 'be1740058eb9e1055878615d4569842cf3e0b01a', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector"), h("div", { key: 'cc7d82a973413c9c907a02c5cb419efde753c63a', part: "field field-from", class: "drf-field" }, h("button", { key: 'f52de99f4011a4275f0457c88a1cc724fcdd34e6', part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.openDatePicker(), "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && (h("button", { key: '4f61318a084345f793228914d38b03639584b8ae', part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: 'd4e17ac4119603b223c420dcade943598eb87160', name: "xmark" }))), h("ir-date-select", { key: '5c14d238b5a6bb29f8cd9cf51a9b7ff5fbaf2017', ref: el => (this.fromDateSelectRef = el), exportparts: this.exportPartsFor('from'), date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: fromMaxDate, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '70c5dc38576d7b3374e4836a39f41a655cea331d', slot: "trigger", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: 'cd0d39c24fa6a802efe5242817daaab9eefce684', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: 'e635bc35e827121f6879e2be42f03847fd828aa8', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
+        return (h(Host, { key: '72fe12e641697f4263bc44a45e2e7daa234c8df2' }, this.label && (h("label", { key: 'e4c993539c2f16bf14f315a7b7bbe418dedbe901', id: `${this.groupId}-label`, class: "drf-label", part: "label", htmlFor: `${this.groupId}-from-btn` }, this.label)), h("div", { key: '769e3d0b362ffbba5317bb4f99a85b4e8f7c7f6c', part: "container", class: "drf-container", role: "group", "aria-labelledby": `${this.groupId}-label` }, !this.label && (h("span", { key: '8b96786297acfab80f6f0036fe859dd7bd9801c0', id: `${this.groupId}-label`, class: "sr-only" }, "Date range selector")), h("div", { key: '7ea1a6d0378e72d59037f06a20f636a7f5a257c6', part: "field field-from", class: "drf-field" }, h("button", { key: 'dfea3c9ccb27d935314c30fb3a576e1e3dbf5707', id: `${this.groupId}-from-btn`, type: "button", part: "text-btn", class: `drf-text-btn${!fromLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.fromDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": fromLabel ? `Start date: ${fromLabel}` : 'Select start date' }, fromLabel ?? 'From'), fromLabel && this.withClear && (h("button", { key: '78747ee7c185b94d99247157aa297b146f18d78a', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('from'), "aria-label": "Clear start date" }, h("wa-icon", { key: '5f94118e5d33c5d799b4cff539cb64cabb04b46e', name: "xmark" }))), h("ir-date-select", { key: 'b267b5448f57bb9400113355737c0f7933b35d18', ref: el => (this.fromDateSelectRef = el), exportparts: EXPORT_PARTS.from, date: this.dates.from?.format('YYYY-MM-DD') || null, placeholder: "From", minDate: this.minDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'from') }, h("button", { key: '743d06632faf2876739404de511901005c7a8eb4', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open start date calendar" }, h("wa-icon", { key: '2dc8d269b9d0413d5bbf888519b50ceb3887f075', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '8c978ce2e7a577d6b6738cb635a676ecdea6cfb8', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick start date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", disabled: this.dates?.to?.isSameOrBefore(action.getDate(), 'date'), "aria-label": `Set start date to ${action.label}`, onClickHandler: () => {
                 this.selectDate(action.getDate(), 'from');
-                this.fromDateSelectRef.closeDatePicker();
-            } }, action.label))))))), h("span", { key: 'b2fdda5e9a979257aaaf3d70ef5c022d1e38bfb7', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: '6309b51fb8108dd8e5930481b23257e318739ed4', part: "field field-to", class: "drf-field" }, h("button", { key: '305c76cc8973d6c275166d1e5be9f16039669957', part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.openDatePicker(), "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && (h("button", { key: 'c20e44de4808b56381fe89a7deb2726ab752875f', part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: '4e64c13262764cd5d7ce293cd57969b3258302e1', name: "xmark" }))), h("ir-date-select", { key: '36101b588a90e81afb7c87e9a784f3263da4f3e5', ref: el => (this.toDateSelectRef = el), exportparts: this.exportPartsFor('to'), date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: '039e20016363d53292ac2113f494e60835077bf1', slot: "trigger", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: 'b78a8fd488f79f2212333989e6c85f2f63ccc109', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: '9fe1784147492d9f9ce1b927b0d0459904f1cc79', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
+                this.fromDateSelectRef?.hide();
+            } }, action.label))))))), h("span", { key: 'de4b346294ac8ee8ee456a505356bca6db10918f', part: "divider", class: "drf-divider", "aria-hidden": "true" }), h("div", { key: '46302a5b3de0062c18ccbc2dcc2b9ca7c13d8854', part: "field field-to", class: "drf-field" }, h("button", { key: '7f15203e51086dc012b8a7ab1cf64e8f5c73be5d', type: "button", part: "text-btn", class: `drf-text-btn${!toLabel ? ' drf-text-btn--placeholder' : ''}`, onClick: () => this.toDateSelectRef?.show(), "aria-haspopup": "dialog", "aria-label": toLabel ? `End date: ${toLabel}` : 'Select end date' }, toLabel ?? 'To'), toLabel && this.withClear && (h("button", { key: '91ee0f54a2a1dc176fef7309093a064c43334289', type: "button", part: "clear-btn", class: "drf-clear-btn", onClick: () => this.clearDate('to'), "aria-label": "Clear end date" }, h("wa-icon", { key: '8236df2b8542c1921e5033658688aa04f4e8bdfc', name: "xmark" }))), h("ir-date-select", { key: '6ad328470849af8178feebbb6eccc23ae132e147', ref: el => (this.toDateSelectRef = el), exportparts: EXPORT_PARTS.to, date: this.dates.to?.format('YYYY-MM-DD') || null, placeholder: "To", minDate: toMinDate, maxDate: this.maxDate, emitEmptyDate: true, class: "drf-date-select", onDateChanged: evt => this.selectDate(evt.detail.start, 'to') }, h("button", { key: '2ddaf2acddff740b9d7e7a96ef86c9d245567347', slot: "trigger", type: "button", part: "cal-trigger", class: "drf-cal-trigger", "aria-label": "Open end date calendar" }, h("wa-icon", { key: '390abf8b57ae7700448183cc697f2cf43168bf2b', name: "calendar", variant: "regular" })), this.showQuickActions && (h("div", { key: 'a4bca3e54744088c1715ea117009106f1726dfc1', part: "quick-actions", class: "drf-quick-actions", role: "group", "aria-label": "Quick end date options" }, this.quickDates.map(action => (h("ir-custom-button", { type: "button", variant: "neutral", appearance: "outlined", "aria-label": `Set end date to ${action.label}`, disabled: this.dates?.from?.isSameOrAfter(action.getDate(), 'date'), onClickHandler: () => {
                 this.selectDate(action.getDate(), 'to');
-                this.toDateSelectRef.closeDatePicker();
-            } }, action.label))))))), h("span", { key: 'ba83be0f8b151a2f3d43b1a59b992190731d0e35', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage)));
+                this.toDateSelectRef?.hide();
+            } }, action.label))))))), h("span", { key: 'e2340e3c9e1b43abe7abf8e8fc75ba6e5f8fb6a2', "aria-live": "polite", "aria-atomic": "true", class: "sr-only" }, this.liveMessage))));
     }
     static get is() { return "ir-date-range-filter"; }
     static get encapsulation() { return "shadow"; }
@@ -211,7 +272,7 @@ export class IrDateRangeFilter {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Size variant passed through to inner form controls."
+                    "text": "Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`)."
                 },
                 "getter": false,
                 "setter": false,
@@ -251,7 +312,7 @@ export class IrDateRangeFilter {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Earliest selectable date in YYYY-MM-DD format."
+                    "text": "Earliest selectable date in YYYY-MM-DD format. Applied to both calendars."
                 },
                 "getter": false,
                 "setter": false,
@@ -270,11 +331,70 @@ export class IrDateRangeFilter {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Latest selectable date in YYYY-MM-DD format."
+                    "text": "Latest selectable date in YYYY-MM-DD format. Applied to both calendars."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "max-date",
+                "reflect": false
+            },
+            "selectionMode": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "'auto' | 'manual'",
+                    "resolved": "\"auto\" | \"manual\"",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Flow after picking a from-date:\n- `'auto'`: the to-picker opens automatically so the user completes the range in one pass.\n- `'manual'` (default): nothing opens; the user clicks the to-field themselves."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "selection-mode",
+                "reflect": false,
+                "defaultValue": "'manual'"
+            },
+            "withClear": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Shows an \u2715 button next to each filled side that clears just that side."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "with-clear",
+                "reflect": false,
+                "defaultValue": "true"
+            },
+            "label": {
+                "type": "string",
+                "mutable": false,
+                "complexType": {
+                    "original": "string",
+                    "resolved": "string",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Visible label rendered above the control. It names the group for assistive\ntechnology (replacing the default visually-hidden \"Date range selector\") and,\nlike a native form label, clicking it opens the from-date picker."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "label",
                 "reflect": false
             }
         };
@@ -309,7 +429,7 @@ export class IrDateRangeFilter {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Fired when the user explicitly clears a date field."
+                    "text": "Fired when the user explicitly clears a date field (after the accompanying `datesChanged`)."
                 },
                 "complexType": {
                     "original": "{ field: 'from' | 'to' }",

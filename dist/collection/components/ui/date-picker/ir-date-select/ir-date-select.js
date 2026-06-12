@@ -143,17 +143,20 @@ export class IrDateSelect {
         if (newVal !== oldVal)
             this.isValid = newVal;
     }
-    async clearDatePicker() {
+    handleDatePropChange(newDate) {
+        this.currentDate = newDate ? moment(newDate) : null;
+    }
+    async clear() {
         this.airDatePickerRef?.clearDatePicker();
     }
-    async openDatePicker() {
+    async show() {
         this.isActive = true;
     }
-    async closeDatePicker() {
+    async hide() {
         this.isActive = false;
     }
     togglePicker() {
-        this.isActive ? this.closeDatePicker() : this.openDatePicker();
+        this.isActive ? this.hide() : this.show();
     }
     handleKeyDown(event) {
         switch (event.key) {
@@ -165,7 +168,7 @@ export class IrDateSelect {
             case 'Escape':
                 if (this.isActive) {
                     event.preventDefault();
-                    this.closeDatePicker();
+                    this.hide();
                 }
                 break;
         }
@@ -180,21 +183,21 @@ export class IrDateSelect {
         return this.timepicker ? moment(this.currentDate).format('MMM DD, YYYY, HH:mm') : moment(this.currentDate).format('MMM DD, YYYY');
     }
     render() {
-        return (h(Host, { key: '6ece060414d36e7894e86ce81f19519bfd75bdb8', class: {
+        return (h(Host, { key: 'bb8fe05eb235a2d6c069fadda207c82c2f3d04a9', class: {
                 'ir-date-select': true,
                 'ir-date-select--active': this.isActive,
                 'ir-date-select--inline': this.inline,
                 'ir-date-select--disabled': this.disabled,
-            } }, h("wa-popup", { key: '7e99e10f5a1be30e814adcc67cc573101d0a59d7', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '2786b02785709abbab3815ea1524e50f6ed41a74', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: 'dfcd30d1af9b97f0a7f842b62886b0ec728d6151', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: 'e15275cf0f91fc2485a698de6ddada86661c1390', name: "trigger" }, h("ir-input", { key: 'e7079695b245d45b46600fae7378c84c403e2200', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: '4bd3996e13023a04313284bbe639a1d38569dfa0', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '1dda02f17ebf3e26f13ad9a76de60e14ab55350d', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: 'd7378fa13b16172eb6f74878bdff732aa898929f', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: 'e97f7b0a4d35d42d84b1e4660913ee1e68566677', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: '2742111bd3216c48c5e214f9c111b788b58d2d7d', name: "hint", slot: "hint" }))))), h("div", { key: 'b02dee6f0628dd75baf24bcd890c7e0a4c7346ee', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: 'd894be080879dab60be259fc10021c440ebd9272', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
+            } }, h("wa-popup", { key: '00712c99b50a15738469dcead2a1e1f53f1040de', arrow: true, part: "base", placement: "bottom", flip: true, shift: true, "auto-size": "vertical", "auto-size-padding": 10, active: this.isActive, class: "ir-date-select__popup" }, h("div", { key: '4588b4feff19a8246d7ed86362c0bcc05bb01071', slot: "anchor", part: "anchor", class: "ir-date-select__trigger" }, h("div", { key: '656cf52cbce9ff81d2b09b196cf9bb2502cf8d4f', part: "combobox", class: "ir-date-select__control", role: "combobox", tabindex: this.disabled ? -1 : 0, "aria-haspopup": "dialog", "aria-expanded": this.isActive ? 'true' : 'false', "aria-controls": this.popupId, "aria-disabled": this.disabled ? 'true' : 'false', "aria-label": "Select date", onClick: !this.disabled ? this.togglePicker.bind(this) : undefined, onKeyDown: !this.disabled ? this.handleKeyDown.bind(this) : undefined }, h("slot", { key: 'f818961f1b5c567c679e404384b61b3841f794ad', name: "trigger" }, h("ir-input", { key: '886c36ddea0f49582c618d356be2eac76d247e78', disabled: this.disabled, class: "ir-date-select__input", placeholder: this.placeholder, withClear: this.withClear, tabIndex: !this.customPicker && !this.disabled ? 0 : undefined, "aria-expanded": !this.customPicker ? String(this.isActive) : undefined, "aria-disabled": this.disabled ? 'true' : undefined, "aria-invalid": this.isValid, readonly: true, defaultValue: this._label, label: this.label, value: this._label }, this.slotManager.hasSlot('label') && h("slot", { key: 'c0614343a9e29f2f186978e3e18e67590ebe46de', name: "label", slot: "label" }), this.slotManager.hasSlot('start') && h("slot", { key: '1eb4d55046f40031902010c67724f8cc9c13706a', name: "start", slot: "start" }), this.slotManager.hasSlot('end') && h("slot", { key: '9f7b49f05eb1e429f128864ac98e740c29744fa2', name: "end", slot: "end" }), this.slotManager.hasSlot('clear-icon') && h("slot", { key: '34a776b58fad7d765cb5a5cf964ac0e9829b879b', name: "clear-icon", slot: "clear-icon" }), this.slotManager.hasSlot('hint') && h("slot", { key: 'a2f36d6c2a4f0a8791a6c8eb9a67b7fda27af826', name: "hint", slot: "hint" }))))), h("div", { key: '523da5fc3860113690bb96ce4fd3acadf7d431df', part: "body", id: this.popupId, class: "ir-date-select__calendar", role: "dialog", "aria-modal": "false", "aria-label": "Date selection dialog" }, h("ir-air-date-picker", { key: '676bd1a2549db4787d2b596e1abc66162ff859ac', ref: el => (this.airDatePickerRef = el), withClear: this.withClear, placeholder: this.placeholder, label: this.label, dates: this.dates, inline: this.inline, date: this.date, multipleDates: this.multipleDates, range: this.range, dateFormat: this.dateFormat, timepicker: this.timepicker, minDate: this.minDate, maxDate: this.maxDate, disabled: this.disabled, autoClose: this.autoClose, showOtherMonths: this.showOtherMonths, selectOtherMonths: this.selectOtherMonths, customPicker: this.customPicker, container: this.container, forceDestroyOnUpdate: this.forceDestroyOnUpdate, emitEmptyDate: this.emitEmptyDate, onDateChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.currentDate = e.detail?.start;
                 this.dateChanged.emit(e.detail);
                 const shouldClose = this.autoClose && (!this.range || (this.range && e.detail.dates.length > 1));
                 if (shouldClose) {
-                    this.closeDatePicker();
+                    this.hide();
                 }
-            } }), h("slot", { key: 'e17037f3ade9db849048331fea754ff971ca0a3d' })))));
+            } }), h("slot", { key: '0554bee59283f9dc306c12f3ed2be4d027839fa2' })))));
     }
     static get is() { return "ir-date-select"; }
     static get encapsulation() { return "shadow"; }
@@ -308,12 +311,13 @@ export class IrDateSelect {
                 "type": "string",
                 "mutable": true,
                 "complexType": {
-                    "original": "string | Date | null",
-                    "resolved": "Date | string",
+                    "original": "string | Moment | null",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -413,12 +417,13 @@ export class IrDateSelect {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string | Date",
-                    "resolved": "Date | string",
+                    "original": "string | Moment",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -437,12 +442,13 @@ export class IrDateSelect {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string | Date",
-                    "resolved": "Date | string",
+                    "original": "string | Moment",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -691,12 +697,13 @@ export class IrDateSelect {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\n    start: moment.Moment | null;\n    end: moment.Moment | null;\n  }",
+                    "original": "DateChangeEvent",
                     "resolved": "{ start: Moment; end: Moment; }",
                     "references": {
-                        "moment": {
-                            "location": "global",
-                            "id": "global::moment"
+                        "DateChangeEvent": {
+                            "location": "local",
+                            "path": "/Users/davidchowaifaty/code/igloorooms/modified-ir-webcmp/src/components/ui/date-picker/ir-date-select/ir-date-select.tsx",
+                            "id": "src/components/ui/date-picker/ir-date-select/ir-date-select.tsx::DateChangeEvent"
                         }
                     }
                 }
@@ -704,7 +711,7 @@ export class IrDateSelect {
     }
     static get methods() {
         return {
-            "clearDatePicker": {
+            "clear": {
                 "complexType": {
                     "signature": "() => Promise<void>",
                     "parameters": [],
@@ -721,7 +728,7 @@ export class IrDateSelect {
                     "tags": []
                 }
             },
-            "openDatePicker": {
+            "show": {
                 "complexType": {
                     "signature": "() => Promise<void>",
                     "parameters": [],
@@ -738,7 +745,7 @@ export class IrDateSelect {
                     "tags": []
                 }
             },
-            "closeDatePicker": {
+            "hide": {
                 "complexType": {
                     "signature": "() => Promise<void>",
                     "parameters": [],
@@ -762,10 +769,13 @@ export class IrDateSelect {
         return [{
                 "propName": "aria-invalid",
                 "methodName": "handleAriaInvalidChange"
+            }, {
+                "propName": "date",
+                "methodName": "handleDatePropChange"
             }];
     }
 }
 __decorate([
     ClickOutside()
-], IrDateSelect.prototype, "closeDatePicker", null);
+], IrDateSelect.prototype, "hide", null);
 //# sourceMappingURL=ir-date-select.js.map

@@ -10,7 +10,7 @@ const IrClInvoiceVatPctCell = /*@__PURE__*/ proxyCustomElement(class IrClInvoice
     }
     vatPercent;
     render() {
-        return h(Host, { key: '65626d0de236a31a2b4e4840abbe149f868e5618' }, this.vatPercent, "%");
+        return h(Host, { key: '97f7989b80213f5fc3ffe366e2bf8977b284f6a2' }, this.vatPercent, "%");
     }
     static get style() { return IrClInvoiceVatPctCellStyle0; }
 }, [2, "ir-cl-invoice-vat-pct-cell", {

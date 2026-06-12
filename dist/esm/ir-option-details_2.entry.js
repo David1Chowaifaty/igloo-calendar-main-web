@@ -1,8 +1,8 @@
 import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-7e96440e.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
-import { i as isRequestPending } from './ir-interceptor.store-1376ed6c.js';
+import { a as isRequestPending } from './ir-interceptor.store-b1961d27.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import { c as commonjsGlobal, b as getDefaultExportFromCjs } from './_commonjsHelpers-6e998e78.js';
+import { c as commonjsGlobal, g as getDefaultExportFromCjs } from './_commonjsHelpers-dc761540.js';
 import './axios-aa1335b8.js';
 import './index-f100e9d2.js';
 
@@ -16698,7 +16698,7 @@ const IrTextEditor = class {
         }
     }
     render() {
-        return (h("div", { key: 'a16ce0af3365a159e32b4f48e5b753495d3dde43', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: '4f421c92fa5c02c628c0784c8e5cfe7f36548f80', ref: el => (this.editorContainer = el), class: "editor-container" })));
+        return (h("div", { key: 'c027142c2b9549c23e4bd13527338d9f9a3f0137', class: { 'editor-wrapper': true, 'error': this.error } }, h("div", { key: 'f0df90bd5cb895163570511b739c3da840e52274', ref: el => (this.editorContainer = el), class: "editor-container" })));
     }
     static get watchers() { return {
         "value": ["handleValueChange"],

@@ -19,7 +19,7 @@ export declare class CityLedgerService {
     transferCLTransactions(params: TransferCLTransactionsParams): Promise<any>;
     issueFiscalDocument(params: IssueFiscalDocumentParams): Promise<FiscalDocument>;
     voidInvoiceByCreditNote(params: VoidInvoiceByCreditNoteParams): Promise<any>;
-    voidReceiptByCreditCreditReceipt(params: VoidReceiptByCreditReceiptParams): Promise<any>;
+    voidReceiptByCreditReceipt(params: VoidReceiptByCreditReceiptParams): Promise<any>;
     getFiscalDocuments(params: GetFiscalDocumentsParams): Promise<FiscalDocuments>;
     issueInvoiceFromDraft(params: IssueInvoiceFromDraftParams): Promise<any>;
     deleteDraftFiscalDocument(params: DeleteDraftFiscalDocumentParams): Promise<any>;

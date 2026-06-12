@@ -10,7 +10,7 @@ export interface FolioRow {
     };
     type: string;
     serviceDate: string;
-    bookingNumber: number;
+    bookingNumber: string;
     docNumber: string | null;
     description: string;
     debit: number;

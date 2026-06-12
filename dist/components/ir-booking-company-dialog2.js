@@ -29,17 +29,17 @@ const IrBookingCompanyDialog = /*@__PURE__*/ proxyCustomElement(class IrBookingC
     }
     render() {
         const formId = `${this.booking.booking_nbr}-${v4()}`;
-        return (h("ir-dialog", { key: 'b8073a038f5a3ecfd42d1351dadff88d7bf43c03', open: this.open, onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '5e7b35f2fa4a3a53888fb30a0cfcb44c922975e2', open: this.open, onIrDialogHide: e => {
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.closeCompanyForm();
-            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: 'ad8ad082704abfac3a07b182e9b1a9c04bd756b0', onResetBookingEvt: e => {
+            }, label: "Company", id: "dialog-overview" }, this.open && (h("ir-booking-company-form", { key: '36295e0acd3f407e159105a77ff746c12b2aee5d', onResetBookingEvt: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingEvt.emit(e.detail);
                 this.open = false;
                 // this.closeCompanyForm();
-            }, formId: formId, booking: this.booking })), h("div", { key: 'a6825effd877494fe4229d1cbbf749a4d8df9e6d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'c024db7ec808daee3f18f113990326a68fc971e8', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: 'f4aa7e3ecc8108a2588b708475027e05ec39587a', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
+            }, formId: formId, booking: this.booking })), h("div", { key: '21df73a7b5b9a816cdb51850745573560e96d1bb', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '42db8ed77b3aca34aea634807b397beb22b99939', size: "medium", appearance: "filled", variant: "neutral", "data-dialog": "close" }, "Cancel"), h("ir-custom-button", { key: '7f3b33ef32e7101ebb58d38798682730a486feec', type: "submit", form: formId, loading: isRequestPending('/DoReservation'), size: "medium", variant: "brand" }, "Save"))));
     }
     static get style() { return IrBookingCompanyDialogStyle0; }
 }, [2, "ir-booking-company-dialog", {

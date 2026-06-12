@@ -1,22 +1,28 @@
-import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h } from '@stencil/core/internal/client';
 import { a as axios } from './axios.js';
 import { o as objectType, n as numberType, e as enumType, s as stringType, b as booleanType } from './index2.js';
 import { T as Token } from './Token.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { H as groupEntryTablesResult } from './utils.js';
-import { d as defineCustomElement$g } from './ir-button2.js';
-import { d as defineCustomElement$f } from './ir-custom-button2.js';
-import { d as defineCustomElement$e } from './ir-date-picker2.js';
-import { d as defineCustomElement$d } from './ir-icons2.js';
-import { d as defineCustomElement$c } from './ir-interceptor2.js';
-import { d as defineCustomElement$b } from './ir-loading-screen2.js';
-import { d as defineCustomElement$a } from './ir-meal-count-summary2.js';
-import { d as defineCustomElement$9 } from './ir-meal-guest-list2.js';
-import { d as defineCustomElement$8 } from './ir-meal-report-filters2.js';
+import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
+import { d as defineCustomElement$l } from './ir-button2.js';
+import { d as defineCustomElement$k } from './ir-custom-button2.js';
+import { d as defineCustomElement$j } from './ir-date-range-filter2.js';
+import { d as defineCustomElement$i } from './ir-date-select2.js';
+import { d as defineCustomElement$h } from './ir-empty-state2.js';
+import { d as defineCustomElement$g } from './ir-filter-card2.js';
+import { d as defineCustomElement$f } from './ir-icons2.js';
+import { d as defineCustomElement$e } from './ir-input2.js';
+import { d as defineCustomElement$d } from './ir-interceptor2.js';
+import { d as defineCustomElement$c } from './ir-loading-screen2.js';
+import { d as defineCustomElement$b } from './ir-meal-count-summary2.js';
+import { d as defineCustomElement$a } from './ir-meal-guest-list2.js';
+import { d as defineCustomElement$9 } from './ir-meal-report-filters2.js';
+import { d as defineCustomElement$8 } from './ir-metric-card2.js';
 import { d as defineCustomElement$7 } from './ir-otp2.js';
 import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
-import { d as defineCustomElement$5 } from './ir-range-picker2.js';
+import { d as defineCustomElement$5 } from './ir-page2.js';
 import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
 import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
@@ -61,7 +67,7 @@ class MealReportService {
     }
 }
 
-const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__container.sc-ir-meal-report{padding:var(--wa-space-m);display:flex;flex-direction:column;gap:var(--wa-space-m)}.ir-meal-report__header.sc-ir-meal-report{display:flex;align-items:center;justify-content:space-between}.ir-meal-report__title.sc-ir-meal-report{margin-bottom:var(--wa-space-xs);color:var(--wa-color-neutral-900)}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}@media (min-width: 992px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row}}.ir-meal-report__results-card.sc-ir-meal-report{flex-grow:1;background-color:#ffffff;border:1px solid #e2e8f0;border-radius:var(--wa-border-radius-m);box-shadow:var(--wa-shadow-s);overflow:hidden;display:flex;flex-direction:column}.ir-meal-report__results-header.sc-ir-meal-report{display:flex;align-items:center;padding:var(--wa-space-s) var(--wa-space-m);border-bottom:1px solid var(--wa-color-neutral-200);background:var(--wa-color-neutral-0)}.ir-meal-report__results-title.sc-ir-meal-report{margin:0;flex-grow:1;font-size:var(--wa-font-size-medium);font-weight:var(--wa-font-weight-bold);color:var(--wa-color-neutral-900)}.ir-meal-report__results-subtitle.sc-ir-meal-report{margin-inline-start:var(--wa-space-xs);font-weight:var(--wa-font-weight-normal);font-size:var(--wa-font-size-small);color:var(--wa-color-neutral-500)}.ir-meal-report__results-body.sc-ir-meal-report{position:relative;flex-grow:1;min-height:400px}.ir-meal-report__loading-overlay.sc-ir-meal-report{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgb(255 255 255 / 0.5);z-index:2}";
+const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 992px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
 const IrMealReportStyle0 = irMealReportCss;
 
 const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends HTMLElement {
@@ -76,7 +82,7 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
     isPageLoading = true;
     isExporting = false;
     isDataLoading = false;
-    localReportType = 'GUEST_LIST';
+    localReportType = 'MEAL_COUNT';
     localFrom = hooks().format('YYYY-MM-DD');
     localTo = hooks().format('YYYY-MM-DD');
     localMealType = null;
@@ -84,7 +90,7 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
     mealCountSummary = [];
     setupEntries = {
         meal_type: [],
-        hb_preference: []
+        hb_preference: [],
     };
     mealReportService = new MealReportService();
     tokenService = new Token();
@@ -94,13 +100,13 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
             this.init();
         }
     }
-    async componentWillLoad() {
+    componentWillLoad() {
         if (this.baseurl) {
             this.tokenService.setBaseUrl(this.baseurl);
         }
         if (this.ticket) {
             this.tokenService.setToken(this.ticket);
-            await this.init();
+            this.init();
         }
     }
     async handlePropertyChange() {
@@ -161,22 +167,17 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
         if (this.setupEntries.meal_type.length > 0) {
             this.localMealType = this.setupEntries.meal_type[0].CODE_NAME;
         }
-        this.guestList = [];
-        this.mealCountSummary = [];
         this.applyFilters();
     }
     async setPresetDate(type) {
         const date = type === 'today' ? hooks() : hooks().add(1, 'day');
         this.localFrom = date.format('YYYY-MM-DD');
-        this.guestList = [];
-        this.mealCountSummary = [];
         if (type === 'today' && this.localReportType === 'MEAL_COUNT') {
             this.localTo = hooks().add(14, 'days').format('YYYY-MM-DD');
         }
         else {
             this.localTo = this.localFrom;
         }
-        await this.applyFilters();
     }
     async handleExport() {
         try {
@@ -219,45 +220,33 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
         if (this.isPageLoading) {
             return h("ir-loading-screen", null);
         }
-        const mealType = this.setupEntries?.meal_type || [];
-        const headerTitle = this.localReportType === 'GUEST_LIST'
-            ? 'Guest list'
-            : 'Meal count';
-        const mealTypeLabel = this.localReportType === 'GUEST_LIST' && mealType.length > 0
-            ? (mealType.find(t => t.CODE_NAME === this.localMealType)?.CODE_VALUE_EN || '')
-            : '';
-        const formatDate = (dateStr) => {
-            const m = hooks(dateStr);
-            return `${m.format('ddd')} ${m.format('MMM DD, YYYY')}`;
-        };
-        const formattedFrom = formatDate(this.localFrom);
-        const formattedTo = formatDate(this.localTo);
         const lcz = locales.entries || {};
-        return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "ir-meal-report__container" }, h("div", { class: "ir-meal-report__header" }, h("h3", { class: "ir-meal-report__title" }, "Meal report"), h("ir-custom-button", { type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+        const summary = this.mealCountSummary || [];
+        const sum = (key) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
+        const mealMetrics = [
+            { label: 'Breakfast', icon: 'mug-saucer', intent: 'brand', adults: sum('Breakfast_Ad'), children: sum('Breakfast_Ch') },
+            { label: 'Lunch', icon: 'utensils', intent: 'success', adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
+            { label: 'Dinner', icon: 'moon', intent: 'warning', adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
+        ];
+        return (h("ir-page", { label: "Meal Report", class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
                     ev.stopPropagation();
                 }
                 this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "file", slot: "end", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export')), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
+            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), this.localReportType === 'MEAL_COUNT' && (h("div", { class: "ir-meal-report__metrics" }, mealMetrics.map(metric => (h("ir-metric-card", { key: metric.label, label: metric.label, icon: metric.icon, intent: metric.intent, value: metric.adults + metric.children, unit: "guests", caption: `Adults ${metric.adults} · Children ${metric.children}`, loading: this.isDataLoading }))))), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
                 this.localReportType = e.detail;
-                this.guestList = [];
-                this.mealCountSummary = [];
+                this.applyFilters();
                 if (e.detail === 'GUEST_LIST') {
                     this.localTo = this.localFrom;
                 }
             }, onDateChange: e => {
                 this.localFrom = e.detail.from;
                 this.localTo = e.detail.to;
-                this.guestList = [];
-                this.mealCountSummary = [];
             }, onMealTypeChange: async (e) => {
                 this.localMealType = e.detail;
-                this.guestList = [];
-                this.mealCountSummary = [];
-                await this.applyFilters();
-            }, onFilterApply: () => this.applyFilters(), onFilterReset: () => this.resetFilters(), onPresetDate: e => this.setPresetDate(e.detail) }), h("div", { class: "ir-meal-report__results-card" }, h("div", { class: "ir-meal-report__results-header" }, h("h3", { class: "ir-meal-report__results-title" }, headerTitle, h("span", { class: "ir-meal-report__results-subtitle" }, "(", formattedFrom, this.localReportType === 'MEAL_COUNT' ? ` - ${formattedTo}` : '', ")", this.localReportType === 'GUEST_LIST' && mealTypeLabel && ` - ${mealTypeLabel}`)), this.localReportType === 'GUEST_LIST' && this.guestList?.length > 0 && (h("wa-tag", null, this.guestList.length, " Units"))), h("div", { class: "ir-meal-report__results-body" }, this.isDataLoading && (h("div", { class: "ir-meal-report__loading-overlay" }, h("ir-spinner", null))), this.localReportType === 'GUEST_LIST' ? (h("ir-meal-guest-list", { guestList: this.guestList })) : (h("ir-meal-count-summary", { mealCountSummary: this.mealCountSummary }))))))));
+            }, onFilterApply: () => this.applyFilters(), onFilterReset: () => this.resetFilters(), onPresetDate: e => this.setPresetDate(e.detail) }), h("wa-card", { class: "ir-meal-report__results" }, h("div", null, this.localReportType === 'GUEST_LIST' ? (h("ir-meal-guest-list", { guestList: this.guestList })) : (h("ir-meal-count-summary", { mealCountSummary: this.mealCountSummary })))))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"],
@@ -287,54 +276,84 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-meal-report", "ir-button", "ir-custom-button", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-meal-count-summary", "ir-meal-guest-list", "ir-meal-report-filters", "ir-otp", "ir-otp-modal", "ir-range-picker", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-meal-report", "ir-air-date-picker", "ir-button", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-empty-state", "ir-filter-card", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-meal-count-summary", "ir-meal-guest-list", "ir-meal-report-filters", "ir-metric-card", "ir-otp", "ir-otp-modal", "ir-page", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-meal-report":
             if (!customElements.get(tagName)) {
                 customElements.define(tagName, IrMealReport);
             }
             break;
+        case "ir-air-date-picker":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$m();
+            }
+            break;
         case "ir-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$g();
+                defineCustomElement$l();
             }
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$f();
+                defineCustomElement$k();
             }
             break;
-        case "ir-date-picker":
+        case "ir-date-range-filter":
             if (!customElements.get(tagName)) {
-                defineCustomElement$e();
+                defineCustomElement$j();
+            }
+            break;
+        case "ir-date-select":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$i();
+            }
+            break;
+        case "ir-empty-state":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$h();
+            }
+            break;
+        case "ir-filter-card":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$g();
             }
             break;
         case "ir-icons":
             if (!customElements.get(tagName)) {
-                defineCustomElement$d();
+                defineCustomElement$f();
+            }
+            break;
+        case "ir-input":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$e();
             }
             break;
         case "ir-interceptor":
             if (!customElements.get(tagName)) {
-                defineCustomElement$c();
+                defineCustomElement$d();
             }
             break;
         case "ir-loading-screen":
             if (!customElements.get(tagName)) {
-                defineCustomElement$b();
+                defineCustomElement$c();
             }
             break;
         case "ir-meal-count-summary":
             if (!customElements.get(tagName)) {
-                defineCustomElement$a();
+                defineCustomElement$b();
             }
             break;
         case "ir-meal-guest-list":
             if (!customElements.get(tagName)) {
-                defineCustomElement$9();
+                defineCustomElement$a();
             }
             break;
         case "ir-meal-report-filters":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$9();
+            }
+            break;
+        case "ir-metric-card":
             if (!customElements.get(tagName)) {
                 defineCustomElement$8();
             }
@@ -349,7 +368,7 @@ function defineCustomElement() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-range-picker":
+        case "ir-page":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

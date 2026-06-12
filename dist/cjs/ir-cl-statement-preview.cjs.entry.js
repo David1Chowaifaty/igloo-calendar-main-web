@@ -3,11 +3,12 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const index$1 = require('./index-d1c39688.js');
+const index$1 = require('./index-bb422c12.js');
 const property_service = require('./property.service-ceef98b2.js');
 const utils = require('./utils-32be062a.js');
 const Token = require('./Token-fb15e0d7.js');
 const moment = require('./moment-1780b03a.js');
+const enums = require('./enums-ea1dc492.js');
 require('./axios-6e678d52.js');
 require('./index-8bb117a0.js');
 require('./calendar-data-70bc3b4b.js');
@@ -76,7 +77,7 @@ const IrClStatementPreview = class {
                     AGENCY_ID: this.agentId,
                     START_DATE: this.fromDate,
                     END_DATE: this.toDate,
-                    LIST_FD_TYPE_CODE: [index$1.FdTypes.CreditNote, index$1.FdTypes.DebitNote, index$1.FdTypes.Invoice, index$1.FdTypes.Receipt],
+                    LIST_FD_TYPE_CODE: [enums.FdTypes.CreditNote, enums.FdTypes.DebitNote, enums.FdTypes.Invoice, enums.FdTypes.Receipt],
                 }),
             ]);
             this.property = propertyData?.My_Result ?? null;

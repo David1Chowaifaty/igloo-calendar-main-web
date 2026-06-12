@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-da99b883.js');
+const booking_service = require('./booking.service-f799a810.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const locales_store = require('./locales.store-32782582.js');
@@ -35,7 +35,7 @@ const IglSpiltBookingForm = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -71,7 +71,7 @@ const IglSpiltBookingForm = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -245,15 +245,15 @@ const IglSpiltBookingForm = class {
         this.selectedUnit = merged;
     }
     render() {
-        return (index.h("form", { key: '18be722c0b6eca1613c8211de680f20814451b1c', id: "split-booking-form", onSubmit: e => {
+        return (index.h("form", { key: 'fa51ad5e4fe16327753b318a6b6539e94401b999', id: "split-booking-form", onSubmit: e => {
                 e.preventDefault();
                 this.doReservation();
-            }, class: "sheet-container" }, index.h("div", { key: '5eaee3723b895ec3404fe73462d46f81f7f8e50d', class: "split-header" }, index.h("div", { key: '8569c2336e45d57b65957f6415ec922fc71353a0', class: "split-header__summary" }, index.h("ir-date-view", { key: '7c05bcbd6caf4cd6b95a653fd9c3e4a5d3c45583', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), index.h("div", { key: '7cb6b3135698555970426a60c4cc3f414deff866', class: "split-header__tags" }, index.h("wa-tag", { key: 'fb09c9ca7401c8ded0b780874dc1a8238bc69c1a', size: "small", variant: "neutral" }, this.room.rateplan.short_name), this.room.rateplan.is_non_refundable && (index.h("wa-tag", { key: 'a6c70b34951500014090d33a0d1bb36f30972af5', size: "small", variant: "warning" }, locales_store.locales.entries.Lcz_NonRefundable)))), index.h("div", { key: '71922bea5fbe2c66097ebed121f4f85ec6f8a834', class: "split-header__controls" }, index.h("label", { key: '5d0e63bb0efe0baa754fa02b8e590890a90bd21d', class: "split-header__label", htmlFor: "split-from-date" }, "Split from"), index.h("ir-date-picker", { key: '75d6fbc77e2bd418a6ba0626a1edca05c1f5ac8d', class: "split-header__date", "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: evt => {
+            }, class: "sheet-container" }, index.h("div", { key: '746b91b806bce99d1deab31c3a916dbdbcbb4713', class: "split-header" }, index.h("div", { key: '43024333154256d1ae1d951d8e890e79bc7f3f2f', class: "split-header__summary" }, index.h("ir-date-view", { key: '3a971571f999877457d207979f945ad65952ca07', from_date: this.room.from_date, to_date: this.room.to_date, showDateDifference: false }), index.h("div", { key: '3ac5e6fbd6eafacd91acc77800c20469d8a7f974', class: "split-header__tags" }, index.h("wa-tag", { key: 'aba4c561c072d128c6422a8aeca7dcee68c9bdee', size: "small", variant: "neutral" }, this.room.rateplan.short_name), this.room.rateplan.is_non_refundable && (index.h("wa-tag", { key: '492f3ac9cc0797b7b059059975e9ad3189a9c99a', size: "small", variant: "warning" }, locales_store.locales.entries.Lcz_NonRefundable)))), index.h("div", { key: '8977e6d7b34f5f582a74d2d64f38e828bf5c78b8', class: "split-header__controls" }, index.h("label", { key: 'a437ea071d2dd831b75be5cc1e78698a6335cd23', class: "split-header__label", htmlFor: "split-from-date" }, "Split from"), index.h("ir-date-picker", { key: '1eda6bb0b325af6f0caf03da8814fb4b165192f9', class: "split-header__date", "data-testid": "pickup_arrival_date", date: this.selectedDates?.from_date?.format('YYYY-MM-DD'), maxDate: this.defaultDates?.to_date.format('YYYY-MM-DD'), minDate: this.defaultDates?.from_date.format('YYYY-MM-DD'), emitEmptyDate: true, onDateChanged: evt => {
                 this.selectedDates = {
                     ...this.selectedDates,
                     from_date: evt.detail.start,
                 };
-            } }, index.h("wa-input", { key: '13f2d24f0fbdb8ae27503f8a9be17e9f7b7607be', id: "split-from-date", slot: "trigger", size: "small", readonly: true, class: "date-trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null }, index.h("wa-icon", { key: '454d8754bc1c527ea440e26ad4102c9d28b8c3ee', slot: "start", name: "calendar" }))), index.h("wa-button", { key: '619a5ed80bde2ef712018e88dde1ce0ad7925a37', class: "split-header__check", size: "small", variant: "brand", loading: irInterceptor_store.isRequestPending('/Check_Availability'), onClick: () => this.checkBookingAvailability() }, index.h("wa-icon", { key: '95fda392a0d019da96cec76f4f885629128e37f3', slot: "start", name: "magnifying-glass" }), "Check"))), this.errors?.roomtype_id && index.h("p", { key: '28fe3805525f38bec1476b026521efd749a86772', class: "error-message" }, "Please select a room"), index.h("wa-radio-group", { key: 'da57b3a5b3b96ee8f5dde6a5c92ae05621f81e4a', class: "room-type-list", name: "unit", onchange: e => {
+            } }, index.h("wa-input", { key: '7316bf4a2461bc89c7e54c5b960f6aacfc744ffa', id: "split-from-date", slot: "trigger", size: "small", readonly: true, class: "date-trigger", value: this.selectedDates.from_date ? this.selectedDates.from_date.format('MMM DD, YYYY') : null }, index.h("wa-icon", { key: '3697ea4ca47a10b7568a648a2130f86ea5265ec3', slot: "start", name: "calendar" }))), index.h("wa-button", { key: 'a00db4f3ec633495918d9d000eef911f6bb0bc84', class: "split-header__check", size: "small", variant: "brand", loading: irInterceptor_store.isRequestPending('/Check_Availability'), onClick: () => this.checkBookingAvailability() }, index.h("wa-icon", { key: '077dc01163ba8752a84943e7cbae9d43e779efc1', slot: "start", name: "magnifying-glass" }), "Check"))), this.errors?.roomtype_id && index.h("p", { key: '7995c23776a041d0951826f4026b88e17aa82ed1', class: "error-message" }, "Please select a room"), index.h("wa-radio-group", { key: '7acc7dab47db78c80105a84e77ade067fbad05a7', class: "room-type-list", name: "unit", onchange: e => {
                 const [roomtype_id, unit_id] = e.target.value.split('_');
                 this.updateSelectedUnit({
                     roomtype_id: Number(roomtype_id),

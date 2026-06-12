@@ -1,135 +1,168 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
-import moment from 'moment';
+import { Moment } from 'moment';
+/**
+ * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+ *
+ * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+ * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+ * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+ *
+ * Design notes:
+ * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+ *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+ * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+ *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+ *   with equal values are no-ops.
+ * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+ *   and forwards its own props one-to-one.
+ */
 export declare class IrAirDatePicker {
+    /** Host element; AirDatepicker mounts its calendar DOM inside it (`inline: true`). */
     el: HTMLElement;
+    /** Not wired to the picker. Accepted only for API parity with `ir-date-select`, which forwards all of its props. */
     withClear: boolean;
+    /** Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity. */
     placeholder: string;
+    /** Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity. */
     label: string;
-    dates: string[];
     /**
-     * Determines whether the date picker is rendered inline or in a pop-up.
-     * If `true`, the picker is always visible inline.
+     * Pre-selected dates for multi-select/range mode. Takes precedence over `date`
+     * at initialization, and is re-applied through the `dates` watcher on change.
+     */
+    dates: (string | Moment)[];
+    /**
+     * Not wired to the picker: the calendar is always created with `inline: true`
+     * (visibility is controlled by the parent `ir-date-select` popup).
      */
     inline: boolean;
     /**
-     * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+     * The selected date (single-select mode). Mutable: the component writes the latest
+     * selection back into it from `onSelect`, and the parent can set it to move the
+     * calendar selection programmatically (applied silently, no `dateChanged` emitted).
      */
-    date: string | Date | null;
-    /**
-     * Enables multiple dates.
-     * If `true`, multiple selection is allowed.
-     * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-     */
+    date: string | Moment | null;
+    /** `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only. */
     multipleDates: boolean | number;
-    /**
-     * Whether the picker should allow range selection (start and end date).
-     */
+    /** Enables range selection (start + end). Passed to AirDatepicker at init only. */
     range: boolean;
-    /**
-     * Format for the date as it appears in the input field.
-     * Follows the `AirDatepicker` format rules.
-     */
+    /** Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only. */
     dateFormat: string;
-    /**
-     * Enables the timepicker functionality (select hours and minutes).
-     */
+    /** Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision. */
     timepicker: boolean;
-    /**
-     * The earliest date that can be selected.
-     */
-    minDate?: string | Date;
-    /**
-     * The latest date that can be selected.
-     */
-    maxDate?: string | Date;
-    /**
-     * Disables the input and prevents interaction.
-     */
+    /** Earliest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection. */
+    minDate?: string | Moment;
+    /** Latest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection. */
+    maxDate?: string | Moment;
+    /** Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself). */
     disabled: boolean;
-    /**
-     * Closes the picker automatically after a date is selected.
-     */
+    /** Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing. */
     autoClose: boolean;
-    /**
-     * Shows days from previous/next month in the current month's calendar.
-     */
+    /** Shows days from the previous/next month in the current view. Passed at init only. */
     showOtherMonths: boolean;
-    /**
-     * Allows selecting days from previous/next month shown in the current view.
-     */
+    /** Allows selecting the previous/next-month days shown in the current view. Passed at init only. */
     selectOtherMonths: boolean;
-    /**
-     * Controls how the date picker is triggered.
-     * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
-     * - **`false`**: A default button input is used to open the picker.
-     *
-     * Defaults to `false`.
-     */
+    /** Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern). */
     customPicker: boolean;
-    /**
-     * Pass a container element if you need the date picker to be appended to a specific element
-     * for styling or positioning (particularly for arrow rendering).
-     * If not provided, it defaults to `this.el`.
-     */
+    /** Optional element AirDatepicker appends its calendar to (for positioning/styling). Defaults to the host. */
     container?: HTMLElement;
     /**
-     * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
-     * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
-     * but note that it may affect performance if triggered frequently.
-     * Defaults to `false`.
+     * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance
+     * instead of calling `selectDate`. Use only when the picker must fully re-initialize;
+     * rebuilding on every change is expensive.
      */
     forceDestroyOnUpdate: boolean;
     /**
-     * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
-     * Otherwise, empty-date changes will be ignored (no event emitted).
-     *
-     * Defaults to `false`.
+     * If `true`, emits `dateChanged` with null values when the selection is cleared.
+     * Otherwise clear-events are swallowed.
      */
     emitEmptyDate: boolean;
-    /**
-     * Styles for the trigger container
-     */
+    /** Not wired to the picker. Forwarded by `ir-date-select` for API parity. */
     triggerContainerStyle: string;
-    currentDate: Date | null;
     /**
-     * Emitted when the selected date changes.
-     * Returns the selected date as Moment objects.
+     * Emitted when the user picks a date in the calendar (never for silent, prop-driven updates).
+     * `start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`.
      */
     dateChanged: EventEmitter<{
-        start: moment.Moment | null;
-        end: moment.Moment | null;
-        dates: Date | Date[];
+        start: Moment | null;
+        end: Moment | null;
+        dates: string | string[];
     }>;
-    /**
-     * Emitted when the date picker gains focus or is opened.
-     */
+    /** Emitted when the AirDatepicker reports `onShow`. */
     datePickerFocus: EventEmitter<void>;
-    /**
-     * Emitted when the date picker loses focus or is closed.
-     */
+    /** Emitted when the AirDatepicker reports `onHide`. */
     datePickerBlur: EventEmitter<void>;
+    /**
+     * The current selection, normalized to a Moment. Used as the comparison baseline so
+     * prop updates that match the existing selection don't touch the picker.
+     * Deliberately a plain field, not `@State`: this component renders `null`, so
+     * state-driven re-renders would be pure overhead.
+     */
+    private currentDate;
+    /** The AirDatepicker instance. `undefined` until `componentDidLoad` and after disconnect. */
     private datePicker?;
     componentWillLoad(): void;
     componentDidLoad(): void;
-    datePropChanged(newDate: string | Date | null, oldDate: string | Date | null): void;
-    minDatePropChanged(newVal: string | Date, oldVal: string | Date): void;
-    maxDatePropChanged(newVal: string | Date, oldVal: string | Date): void;
-    datesPropChanged(newDates?: string[], oldDates?: string[]): void;
-    clearDatePicker(): Promise<void>;
-    syncSelection(options?: {
-        date?: string | Date | null;
-        dates?: (string | Date)[] | null;
-    }): Promise<void>;
-    private isSameDates;
-    private toValidDate;
-    private toValidDates;
-    private areDateListsEqual;
-    private updatePickerDates;
-    private forceSyncPickerDate;
-    private forceSyncPickerDates;
-    private updatePickerDate;
-    private initializeDatepicker;
-    private handleDateSelect;
     disconnectedCallback(): void;
+    /** Applies external `date` changes to the calendar, skipping same-day (or same-minute) no-ops. */
+    datePropChanged(newDate: string | Moment | null, oldDate: string | Moment | null): void;
+    minDatePropChanged(newVal: string | Moment, oldVal: string | Moment): void;
+    maxDatePropChanged(newVal: string | Moment, oldVal: string | Moment): void;
+    /** Applies external `dates` (multi/range) changes, skipping value-equal lists. */
+    datesPropChanged(newDates?: (string | Moment)[], oldDates?: (string | Moment)[]): void;
+    /** Clears the calendar selection. Not silent: fires `onSelect` with an empty value (see `emitEmptyDate`). */
+    clearDatePicker(): Promise<void>;
+    /**
+     * Force-resyncs the calendar to the given (or current) value, bypassing the equality
+     * checks the watchers perform. Escape hatch for parents whose prop value didn't change
+     * but whose picker drifted (e.g. after a silent internal clear). Always silent.
+     */
+    syncSelection(options?: {
+        date?: string | Moment | null;
+        dates?: (string | Moment)[] | null;
+    }): Promise<void>;
+    /**
+     * Normalizes any accepted date input to a valid Moment, or `null`.
+     * Parse order: strict `YYYY-MM-DD` → strict ISO-8601 → loose fallback,
+     * so canonical app dates never hit moment's slow/ambiguous loose parser.
+     */
+    private toMoment;
+    /** Normalizes a list of date inputs, dropping unparseable entries. */
+    private toMoments;
+    /**
+     * Value-equality for two date inputs at day precision (minute precision when
+     * `timepicker` is on). Unparseable values are never equal to anything.
+     */
+    private isSameDates;
+    /** Order-sensitive value-equality for two date lists (empty and missing lists are equal). */
+    private areDateListsEqual;
+    /**
+     * Pushes a single-date value into the calendar without emitting `dateChanged`.
+     * Clears on `null`/unparseable input; otherwise selects the day (or rebuilds the
+     * whole instance when `forceDestroyOnUpdate` is set).
+     */
+    private updatePickerDate;
+    /** Replaces the calendar's multi/range selection without emitting `dateChanged`. */
+    private updatePickerDates;
+    /**
+     * Unconditional single-date resync used by `syncSelection`: clears, re-selects, and
+     * writes back `currentDate`/`date`. Before the picker exists it just stores the value
+     * so `initializeDatepicker` picks it up.
+     */
+    private forceSyncPickerDate;
+    /** Unconditional multi/range resync used by `syncSelection`. Mirrors `forceSyncPickerDate`. */
+    private forceSyncPickerDates;
+    /**
+     * AirDatepicker `onSelect` handler — the only path that emits `dateChanged`.
+     * Writes the selection back into `currentDate`/`date` so the watchers treat the
+     * parent's echoed prop update as a no-op.
+     */
+    private handleDateSelect;
+    /**
+     * Creates the inline AirDatepicker on the host element (idempotent), seeding the
+     * selection from `dates` (preferred) or `currentDate`, then applies the Web Awesome
+     * theme via CSS custom properties on the generated calendar element.
+     */
+    private initializeDatepicker;
+    /** Headless: the calendar DOM is injected by AirDatepicker, not Stencil. */
     render(): any;
 }

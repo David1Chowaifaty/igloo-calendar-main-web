@@ -31,10 +31,10 @@ const IrAssignmentToggleDialog = /*@__PURE__*/ proxyCustomElement(class IrAssign
         this.dialogRef?.closeModal();
     }
     render() {
-        return (h(Host, { key: '5c93061907a8e0a75633cc9286e39174fe0baaa9' }, h("ir-dialog", { key: '34cb803ea2c5bcbd8469ce3176ef2589067190b4', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
+        return (h(Host, { key: '782ea15301505c64d6b384c84974cc24e3691d77' }, h("ir-dialog", { key: '30d228539624326b7b5ff55abbd353b635f32473', label: this.label, lightDismiss: false, ref: el => (this.dialogRef = el), onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
-            } }, h("p", { key: '2f54b6cf2205d3c5755381d7d2795b4604149951', class: "assignment-toggle-dialog__message" }, h("slot", { key: '93cf37c78e4c8126596b77688f1c15cbf79d71c6', name: "message" }, this.message)), h("div", { key: '3ffb8b3d222eb069cbaf5c34670b47fd108a3ff8', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: 'd6256492b3b539a6bd20943516517e11946d6142', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close", disabled: this.loading }, this.cancelLabel), h("ir-custom-button", { key: 'aee9c8b81c8570c33cb0b3fc152452a451c3406e', variant: "brand", size: "medium", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel)))));
+            } }, h("p", { key: '4a60db446ea3a0b22bbcf768bacffbbca7febc73', class: "assignment-toggle-dialog__message" }, h("slot", { key: 'a84572d7cc1f29f832fdc784eb2a64bbd14b8eae', name: "message" }, this.message)), h("div", { key: 'e790c29048797bd3aee5bee76571e8869bcb7c21', slot: "footer", class: "assignment-toggle-dialog__footer" }, h("ir-custom-button", { key: '94b6e92aaf4008a3144d076d1264338f4f0aa27f', appearance: "filled", variant: "neutral", size: "medium", "data-dialog": "close", disabled: this.loading }, this.cancelLabel), h("ir-custom-button", { key: 'bdc58a508110fe6af709a26e88e6403b64c874a7', variant: "brand", size: "medium", loading: this.loading, onClickHandler: () => this.confirmToggle.emit() }, this.confirmLabel)))));
     }
     static get style() { return IrAssignmentToggleDialogStyle0; }
 }, [6, "ir-assignment-toggle-dialog", {

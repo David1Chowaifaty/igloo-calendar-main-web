@@ -25,6 +25,7 @@ import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell
 import { Agent } from "./services/agents/type";
 import { AgentSetupEntries } from "./components/ir-agents/types";
 import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+import { Moment } from "moment";
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 import { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
@@ -54,11 +55,12 @@ import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-colu
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
-import { Moment } from "moment/min/moment-with-locales";
+import { Moment as Moment1 } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
 import { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 import { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 import { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
+import { DateChangeEvent } from "./components/ui/date-picker/ir-date-select/ir-date-select";
 import { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 import { Element } from "./stencil-public-runtime";
 import { NativeDrawer } from "./components/ir-drawer/ir-drawer";
@@ -78,6 +80,7 @@ import { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 import { IssueInvoiceProps } from "./services/booking-service/types";
 import { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 import { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
+import { MetricIntent, MetricSize } from "./components/ir-metric-card/ir-metric-card";
 import { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 import { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 import { Notification } from "./components/ir-notifications/types";
@@ -85,7 +88,6 @@ import { PaymentOption } from "./models/payment-options";
 import { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 import { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
 import { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
-import { Moment as Moment1 } from "moment";
 import { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 import { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
 import { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
@@ -120,6 +122,7 @@ export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell
 export { Agent } from "./services/agents/type";
 export { AgentSetupEntries } from "./components/ir-agents/types";
 export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
+export { Moment } from "moment";
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
 export { Payment, PaymentEntries, RoomGuestsPayload } from "./components/ir-booking-details/types";
@@ -149,11 +152,12 @@ export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-colu
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
 export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
-export { Moment } from "moment/min/moment-with-locales";
+export { Moment as Moment1 } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
 export { DailyPaymentFilter, FolioPayment, GroupedFolioPayment } from "./components/ir-daily-revenue/types";
 export { DateRangeChangeEvent } from "./components/ui/ir-date-range/ir-date-range";
 export { QuickDatePreset } from "./components/ui/ir-date-range-filter/ir-date-range-filter";
+export { DateChangeEvent } from "./components/ui/date-picker/ir-date-select/ir-date-select";
 export { CheckoutRoomEvent } from "./components/ir-departures/ir-departures-table/ir-departures-table";
 export { Element } from "./stencil-public-runtime";
 export { NativeDrawer } from "./components/ir-drawer/ir-drawer";
@@ -173,6 +177,7 @@ export { BookingInvoiceInfo, ViewMode } from "./components/ir-invoice/types";
 export { IssueInvoiceProps } from "./services/booking-service/types";
 export { ComboboxOption, DataMode } from "./components/ir-m-combobox/types";
 export { MealCountDaySummary, MealGuestEntry } from "./services/meal-report/types";
+export { MetricIntent, MetricSize } from "./components/ir-metric-card/ir-metric-card";
 export { IrMobileInputChangeDetail } from "./components/ui/ir-mobile-input/ir-mobile-input";
 export { DailyReport, DailyReportFilter } from "./components/ir-monthly-bookings-report/types";
 export { Notification } from "./components/ir-notifications/types";
@@ -180,7 +185,6 @@ export { PaymentOption } from "./models/payment-options";
 export { IrComboboxSelectEventDetail } from "./components/ui/ir-picker/ir-picker";
 export { GetACByACID } from "./components/pms-header/ir-property-switcher/legacy.types";
 export { AllowedProperties, FetchedProperty, FetchUnBookableRoomsResult, LinkedProperty } from "./services/property.service";
-export { Moment as Moment1 } from "moment";
 export { SidebarOpenEvent as SidebarOpenEvent1 } from "./components/ir-daily-revenue/types";
 export { ChannelReportResult, ChannelSaleFilter, SalesByChannelMode } from "./components/ir-sales-by-channel/types";
 export { CountrySalesFilter, MappedCountries, SalesRecord } from "./components/ir-sales-by-country/types";
@@ -581,80 +585,112 @@ export namespace Components {
         "language": string;
         "setupEntries": AgentSetupEntries;
     }
+    /**
+     * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+     * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+     * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+     * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+     * Design notes:
+     * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+     *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+     * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+     *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+     *   with equal values are no-ops.
+     * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+     *   and forwards its own props one-to-one.
+     */
     interface IrAirDatePicker {
         /**
-          * Closes the picker automatically after a date is selected.
+          * Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing.
          */
         "autoClose": boolean;
+        /**
+          * Clears the calendar selection. Not silent: fires `onSelect` with an empty value (see `emitEmptyDate`).
+         */
         "clearDatePicker": () => Promise<void>;
         /**
-          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+          * Optional element AirDatepicker appends its calendar to (for positioning/styling). Defaults to the host.
          */
         "container"?: HTMLElement;
         /**
-          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+          * Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern).
          */
         "customPicker": boolean;
         /**
-          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * The selected date (single-select mode). Mutable: the component writes the latest selection back into it from `onSelect`, and the parent can set it to move the calendar selection programmatically (applied silently, no `dateChanged` emitted).
          */
-        "date": string | Date | null;
+        "date": string | Moment | null;
         /**
-          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only.
          */
         "dateFormat": string;
-        "dates": string[];
         /**
-          * Disables the input and prevents interaction.
+          * Pre-selected dates for multi-select/range mode. Takes precedence over `date` at initialization, and is re-applied through the `dates` watcher on change.
+         */
+        "dates": (string | Moment)[];
+        /**
+          * Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself).
          */
         "disabled": boolean;
         /**
-          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * If `true`, emits `dateChanged` with null values when the selection is cleared. Otherwise clear-events are swallowed.
          */
         "emitEmptyDate": boolean;
         /**
-          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance instead of calling `selectDate`. Use only when the picker must fully re-initialize; rebuilding on every change is expensive.
          */
         "forceDestroyOnUpdate": boolean;
         /**
-          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * Not wired to the picker: the calendar is always created with `inline: true` (visibility is controlled by the parent `ir-date-select` popup).
          */
         "inline": boolean;
+        /**
+          * Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity.
+         */
         "label": string;
         /**
-          * The latest date that can be selected.
+          * Latest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection.
          */
-        "maxDate"?: string | Date;
+        "maxDate"?: string | Moment;
         /**
-          * The earliest date that can be selected.
+          * Earliest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection.
          */
-        "minDate"?: string | Date;
+        "minDate"?: string | Moment;
         /**
-          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only.
          */
         "multipleDates": boolean | number;
+        /**
+          * Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity.
+         */
         "placeholder": string;
         /**
-          * Whether the picker should allow range selection (start and end date).
+          * Enables range selection (start + end). Passed to AirDatepicker at init only.
          */
         "range": boolean;
         /**
-          * Allows selecting days from previous/next month shown in the current view.
+          * Allows selecting the previous/next-month days shown in the current view. Passed at init only.
          */
         "selectOtherMonths": boolean;
         /**
-          * Shows days from previous/next month in the current month's calendar.
+          * Shows days from the previous/next month in the current view. Passed at init only.
          */
         "showOtherMonths": boolean;
-        "syncSelection": (options?: { date?: string | Date | null; dates?: (string | Date)[] | null; }) => Promise<void>;
         /**
-          * Enables the timepicker functionality (select hours and minutes).
+          * Force-resyncs the calendar to the given (or current) value, bypassing the equality checks the watchers perform. Escape hatch for parents whose prop value didn't change but whose picker drifted (e.g. after a silent internal clear). Always silent.
+         */
+        "syncSelection": (options?: { date?: string | Moment | null; dates?: (string | Moment)[] | null; }) => Promise<void>;
+        /**
+          * Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision.
          */
         "timepicker": boolean;
         /**
-          * Styles for the trigger container
+          * Not wired to the picker. Forwarded by `ir-date-select` for API parity.
          */
         "triggerContainerStyle": string;
+        /**
+          * Not wired to the picker. Accepted only for API parity with `ir-date-select`, which forwards all of its props.
+         */
         "withClear": boolean;
     }
     interface IrApplicablePolicies {
@@ -1954,7 +1990,7 @@ export namespace Components {
         /**
           * The currently selected check-in date.
          */
-        "fromDate": Moment | null;
+        "fromDate": Moment1 | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
           * @reflect
@@ -1963,7 +1999,7 @@ export namespace Components {
         /**
           * The latest selectable date. Defaults to 24 years in the future.
          */
-        "maxDate": Moment;
+        "maxDate": Moment1;
         /**
           * Maximum number of nights that can be selected in one span.
          */
@@ -1971,7 +2007,7 @@ export namespace Components {
         /**
           * The earliest selectable date. Defaults to 24 years in the past.
          */
-        "minDate": Moment;
+        "minDate": Moment1;
         /**
           * When `true`, displays a price line inside each day button (requires `dateModifiers`).
          */
@@ -1979,7 +2015,7 @@ export namespace Components {
         /**
           * The currently selected check-out date.
          */
-        "toDate": Moment | null;
+        "toDate": Moment1 | null;
     }
     interface IrDailyRevenue {
         "language": string;
@@ -2125,17 +2161,37 @@ export namespace Components {
          */
         "withDateDifference": boolean;
     }
+    /**
+     * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
+     * Composition: each side renders a text button (shows the value, opens the popup),
+     * an optional clear button, and an `ir-date-select` whose popup hosts the calendar
+     * plus optional quick-date preset buttons.
+     * State model: the component is *optionally controlled*. If `fromDate`/`toDate` are
+     * provided they seed and (via watchers) overwrite the internal `dates` state; either
+     * side can be controlled independently. Internal selections always update local state
+     * and emit `datesChanged` — a controlling parent is expected to echo the value back.
+     * Range integrity is enforced two ways:
+     * - the from-calendar's max is capped at the to-date and the to-calendar's min is
+     *   floored at the from-date (see {@link getFromMaxDate }/{@link getToMinDate}),
+     * - quick-date presets that would invert the range are disabled.
+     * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
+     * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
+     */
     interface IrDateRangeFilter {
         /**
           * Controlled start date in YYYY-MM-DD format.
          */
         "fromDate"?: string;
         /**
-          * Latest selectable date in YYYY-MM-DD format.
+          * Visible label rendered above the control. It names the group for assistive technology (replacing the default visually-hidden "Date range selector") and, like a native form label, clicking it opens the from-date picker.
+         */
+        "label": string;
+        /**
+          * Latest selectable date in YYYY-MM-DD format. Applied to both calendars.
          */
         "maxDate"?: string;
         /**
-          * Earliest selectable date in YYYY-MM-DD format.
+          * Earliest selectable date in YYYY-MM-DD format. Applied to both calendars.
          */
         "minDate"?: string;
         /**
@@ -2143,25 +2199,32 @@ export namespace Components {
          */
         "quickDates": QuickDatePreset[];
         /**
+          * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
+         */
+        "selectionMode": 'auto' | 'manual';
+        /**
           * Whether to show the quick-action preset buttons in each calendar popup.
          */
         "showQuickActions": boolean;
         /**
-          * Size variant passed through to inner form controls.
+          * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
          */
         "size": string;
         /**
           * Controlled end date in YYYY-MM-DD format.
          */
         "toDate"?: string;
+        /**
+          * Shows an ✕ button next to each filled side that clears just that side.
+         */
+        "withClear": boolean;
     }
     interface IrDateSelect {
         /**
           * Closes the picker automatically after a date is selected.
          */
         "autoClose": boolean;
-        "clearDatePicker": () => Promise<void>;
-        "closeDatePicker": () => Promise<void>;
+        "clear": () => Promise<void>;
         /**
           * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
          */
@@ -2173,7 +2236,7 @@ export namespace Components {
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
          */
-        "date": string | Date | null;
+        "date": string | Moment | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
          */
@@ -2191,6 +2254,7 @@ export namespace Components {
           * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
          */
         "forceDestroyOnUpdate": boolean;
+        "hide": () => Promise<void>;
         /**
           * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
          */
@@ -2199,16 +2263,15 @@ export namespace Components {
         /**
           * The latest date that can be selected.
          */
-        "maxDate"?: string | Date;
+        "maxDate"?: string | Moment;
         /**
           * The earliest date that can be selected.
          */
-        "minDate"?: string | Date;
+        "minDate"?: string | Moment;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
          */
         "multipleDates": boolean | number;
-        "openDatePicker": () => Promise<void>;
         "placeholder": string;
         /**
           * Whether the picker should allow range selection (start and end date).
@@ -2218,6 +2281,7 @@ export namespace Components {
           * Allows selecting days from previous/next month shown in the current view.
          */
         "selectOtherMonths": boolean;
+        "show": () => Promise<void>;
         /**
           * Shows days from previous/next month in the current month's calendar.
          */
@@ -2386,6 +2450,8 @@ export namespace Components {
         "fdType": string;
         "isConfirming": boolean;
         "open": boolean;
+    }
+    interface IrFilterCard {
     }
     interface IrFiltersPanel {
         /**
@@ -3238,6 +3304,61 @@ export namespace Components {
         "href": string;
         "selected": boolean;
     }
+    /**
+     * A compact, themeable KPI / metric card. Displays a label, a primary value with an
+     * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
+     * slotted body content. Fully styleable via CSS parts and custom properties.
+     */
+    interface IrMetricCard {
+        /**
+          * Secondary descriptive line shown beneath the value.
+         */
+        "caption": string;
+        /**
+          * Make the whole card interactive: adds hover/focus affordance and emits `metricClick`.
+         */
+        "clickable": boolean;
+        /**
+          * Name of a `wa-icon` rendered in the leading icon chip.
+         */
+        "icon": string;
+        /**
+          * Accent color used for the icon chip, trend, and accent edge.
+         */
+        "intent": MetricIntent;
+        /**
+          * Flip trend color semantics so a decrease reads as positive (good).
+         */
+        "invertTrend": boolean;
+        /**
+          * Metric label / title.
+         */
+        "label": string;
+        /**
+          * Render skeleton placeholders instead of content.
+         */
+        "loading": boolean;
+        /**
+          * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
+         */
+        "size": MetricSize;
+        /**
+          * Trend delta as a percentage. The sign selects the up/down arrow and color.
+         */
+        "trend": number;
+        /**
+          * Context text shown beside the trend (e.g. `vs last week`).
+         */
+        "trendLabel": string;
+        /**
+          * Unit rendered after the value (e.g. `guests`, `%`, `nights`).
+         */
+        "unit": string;
+        /**
+          * Primary metric value. Rendered with tabular figures.
+         */
+        "value": string | number;
+    }
     interface IrMobileInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
@@ -4084,7 +4205,7 @@ export namespace Components {
         /**
           * The start date of the range.
          */
-        "fromDate": Moment1;
+        "fromDate": Moment;
         /**
           * The latest date that can be selected.
          */
@@ -4096,7 +4217,7 @@ export namespace Components {
         /**
           * The end date of the range.
          */
-        "toDate": Moment1;
+        "toDate": Moment;
         /**
           * Whether to show the overlay before the date is selected.
          */
@@ -5501,6 +5622,10 @@ export interface IrMenuGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMenuGroupElement;
 }
+export interface IrMetricCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrMetricCardElement;
+}
 export interface IrMobileInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrMobileInputElement;
@@ -6559,13 +6684,27 @@ declare global {
     };
     interface HTMLIrAirDatePickerElementEventMap {
         "dateChanged": {
-    start: moment.Moment | null;
-    end: moment.Moment | null;
-    dates: Date | Date[];
+    start: Moment | null;
+    end: Moment | null;
+    dates: string | string[];
   };
         "datePickerFocus": void;
         "datePickerBlur": void;
     }
+    /**
+     * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+     * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+     * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+     * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+     * Design notes:
+     * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+     *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+     * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+     *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+     *   with equal values are no-ops.
+     * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+     *   and forwards its own props one-to-one.
+     */
     interface HTMLIrAirDatePickerElement extends Components.IrAirDatePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrAirDatePickerElementEventMap>(type: K, listener: (this: HTMLIrAirDatePickerElement, ev: IrAirDatePickerCustomEvent<HTMLIrAirDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8063,6 +8202,22 @@ declare global {
         "datesChanged": { from: string | null; to: string | null };
         "dateCleared": { field: 'from' | 'to' };
     }
+    /**
+     * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
+     * Composition: each side renders a text button (shows the value, opens the popup),
+     * an optional clear button, and an `ir-date-select` whose popup hosts the calendar
+     * plus optional quick-date preset buttons.
+     * State model: the component is *optionally controlled*. If `fromDate`/`toDate` are
+     * provided they seed and (via watchers) overwrite the internal `dates` state; either
+     * side can be controlled independently. Internal selections always update local state
+     * and emit `datesChanged` — a controlling parent is expected to echo the value back.
+     * Range integrity is enforced two ways:
+     * - the from-calendar's max is capped at the to-date and the to-calendar's min is
+     *   floored at the from-date (see {@link getFromMaxDate }/{@link getToMinDate}),
+     * - quick-date presets that would invert the range are disabled.
+     * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
+     * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
+     */
     interface HTMLIrDateRangeFilterElement extends Components.IrDateRangeFilter, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrDateRangeFilterElementEventMap>(type: K, listener: (this: HTMLIrDateRangeFilterElement, ev: IrDateRangeFilterCustomEvent<HTMLIrDateRangeFilterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8080,10 +8235,7 @@ declare global {
     interface HTMLIrDateSelectElementEventMap {
         "datePickerFocus": void;
         "datePickerBlur": void;
-        "dateChanged": {
-    start: moment.Moment | null;
-    end: moment.Moment | null;
-  };
+        "dateChanged": DateChangeEvent;
     }
     interface HTMLIrDateSelectElement extends Components.IrDateSelect, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrDateSelectElementEventMap>(type: K, listener: (this: HTMLIrDateSelectElement, ev: IrDateSelectCustomEvent<HTMLIrDateSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8304,6 +8456,12 @@ declare global {
     var HTMLIrFdConfirmDialogElement: {
         prototype: HTMLIrFdConfirmDialogElement;
         new (): HTMLIrFdConfirmDialogElement;
+    };
+    interface HTMLIrFilterCardElement extends Components.IrFilterCard, HTMLStencilElement {
+    }
+    var HTMLIrFilterCardElement: {
+        prototype: HTMLIrFilterCardElement;
+        new (): HTMLIrFilterCardElement;
     };
     interface HTMLIrFiltersPanelElementEventMap {
         "irFilterToggle": { collapsed: boolean };
@@ -9167,6 +9325,28 @@ declare global {
         prototype: HTMLIrMenuItemElement;
         new (): HTMLIrMenuItemElement;
     };
+    interface HTMLIrMetricCardElementEventMap {
+        "metricClick": void;
+    }
+    /**
+     * A compact, themeable KPI / metric card. Displays a label, a primary value with an
+     * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
+     * slotted body content. Fully styleable via CSS parts and custom properties.
+     */
+    interface HTMLIrMetricCardElement extends Components.IrMetricCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrMetricCardElementEventMap>(type: K, listener: (this: HTMLIrMetricCardElement, ev: IrMetricCardCustomEvent<HTMLIrMetricCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrMetricCardElementEventMap>(type: K, listener: (this: HTMLIrMetricCardElement, ev: IrMetricCardCustomEvent<HTMLIrMetricCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLIrMetricCardElement: {
+        prototype: HTMLIrMetricCardElement;
+        new (): HTMLIrMetricCardElement;
+    };
     interface HTMLIrMobileInputElementEventMap {
         "mobile-input-change": IrMobileInputChangeDetail;
         "mobile-input-country-change": ICountry;
@@ -9791,7 +9971,7 @@ declare global {
         new (): HTMLIrRadioElement;
     };
     interface HTMLIrRangePickerElementEventMap {
-        "dateRangeChanged": { fromDate: Moment1; toDate: Moment1; wasFocused?: boolean };
+        "dateRangeChanged": { fromDate: Moment; toDate: Moment; wasFocused?: boolean };
     }
     interface HTMLIrRangePickerElement extends Components.IrRangePicker, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRangePickerElementEventMap>(type: K, listener: (this: HTMLIrRangePickerElement, ev: IrRangePickerCustomEvent<HTMLIrRangePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10770,6 +10950,7 @@ declare global {
         "ir-extra-service-config-form": HTMLIrExtraServiceConfigFormElement;
         "ir-extra-services": HTMLIrExtraServicesElement;
         "ir-fd-confirm-dialog": HTMLIrFdConfirmDialogElement;
+        "ir-filter-card": HTMLIrFilterCardElement;
         "ir-filters-panel": HTMLIrFiltersPanelElement;
         "ir-financial-actions": HTMLIrFinancialActionsElement;
         "ir-financial-filters": HTMLIrFinancialFiltersElement;
@@ -10828,6 +11009,7 @@ declare global {
         "ir-menu-drawer": HTMLIrMenuDrawerElement;
         "ir-menu-group": HTMLIrMenuGroupElement;
         "ir-menu-item": HTMLIrMenuItemElement;
+        "ir-metric-card": HTMLIrMetricCardElement;
         "ir-mobile-input": HTMLIrMobileInputElement;
         "ir-modal": HTMLIrModalElement;
         "ir-monthly-bookings-report": HTMLIrMonthlyBookingsReportElement;
@@ -11440,94 +11622,120 @@ declare namespace LocalJSX {
         "onUpsertAgent"?: (event: IrAgentsTableCustomEvent<Agent>) => void;
         "setupEntries"?: AgentSetupEntries;
     }
+    /**
+     * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+     * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+     * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+     * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+     * Design notes:
+     * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+     *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+     * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+     *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+     *   with equal values are no-ops.
+     * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+     *   and forwards its own props one-to-one.
+     */
     interface IrAirDatePicker {
         /**
-          * Closes the picker automatically after a date is selected.
+          * Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing.
          */
         "autoClose"?: boolean;
         /**
-          * Pass a container element if you need the date picker to be appended to a specific element for styling or positioning (particularly for arrow rendering). If not provided, it defaults to `this.el`.
+          * Optional element AirDatepicker appends its calendar to (for positioning/styling). Defaults to the host.
          */
         "container"?: HTMLElement;
         /**
-          * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+          * Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern).
          */
         "customPicker"?: boolean;
         /**
-          * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * The selected date (single-select mode). Mutable: the component writes the latest selection back into it from `onSelect`, and the parent can set it to move the calendar selection programmatically (applied silently, no `dateChanged` emitted).
          */
-        "date"?: string | Date | null;
+        "date"?: string | Moment | null;
         /**
-          * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only.
          */
         "dateFormat"?: string;
-        "dates"?: string[];
         /**
-          * Disables the input and prevents interaction.
+          * Pre-selected dates for multi-select/range mode. Takes precedence over `date` at initialization, and is re-applied through the `dates` watcher on change.
+         */
+        "dates"?: (string | Moment)[];
+        /**
+          * Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself).
          */
         "disabled"?: boolean;
         /**
-          * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * If `true`, emits `dateChanged` with null values when the selection is cleared. Otherwise clear-events are swallowed.
          */
         "emitEmptyDate"?: boolean;
         /**
-          * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance instead of calling `selectDate`. Use only when the picker must fully re-initialize; rebuilding on every change is expensive.
          */
         "forceDestroyOnUpdate"?: boolean;
         /**
-          * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * Not wired to the picker: the calendar is always created with `inline: true` (visibility is controlled by the parent `ir-date-select` popup).
          */
         "inline"?: boolean;
+        /**
+          * Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity.
+         */
         "label"?: string;
         /**
-          * The latest date that can be selected.
+          * Latest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection.
          */
-        "maxDate"?: string | Date;
+        "maxDate"?: string | Moment;
         /**
-          * The earliest date that can be selected.
+          * Earliest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection.
          */
-        "minDate"?: string | Date;
+        "minDate"?: string | Moment;
         /**
-          * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only.
          */
         "multipleDates"?: boolean | number;
         /**
-          * Emitted when the selected date changes. Returns the selected date as Moment objects.
+          * Emitted when the user picks a date in the calendar (never for silent, prop-driven updates). `start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`.
          */
         "onDateChanged"?: (event: IrAirDatePickerCustomEvent<{
-    start: moment.Moment | null;
-    end: moment.Moment | null;
-    dates: Date | Date[];
+    start: Moment | null;
+    end: Moment | null;
+    dates: string | string[];
   }>) => void;
         /**
-          * Emitted when the date picker loses focus or is closed.
+          * Emitted when the AirDatepicker reports `onHide`.
          */
         "onDatePickerBlur"?: (event: IrAirDatePickerCustomEvent<void>) => void;
         /**
-          * Emitted when the date picker gains focus or is opened.
+          * Emitted when the AirDatepicker reports `onShow`.
          */
         "onDatePickerFocus"?: (event: IrAirDatePickerCustomEvent<void>) => void;
+        /**
+          * Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity.
+         */
         "placeholder"?: string;
         /**
-          * Whether the picker should allow range selection (start and end date).
+          * Enables range selection (start + end). Passed to AirDatepicker at init only.
          */
         "range"?: boolean;
         /**
-          * Allows selecting days from previous/next month shown in the current view.
+          * Allows selecting the previous/next-month days shown in the current view. Passed at init only.
          */
         "selectOtherMonths"?: boolean;
         /**
-          * Shows days from previous/next month in the current month's calendar.
+          * Shows days from the previous/next month in the current view. Passed at init only.
          */
         "showOtherMonths"?: boolean;
         /**
-          * Enables the timepicker functionality (select hours and minutes).
+          * Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision.
          */
         "timepicker"?: boolean;
         /**
-          * Styles for the trigger container
+          * Not wired to the picker. Forwarded by `ir-date-select` for API parity.
          */
         "triggerContainerStyle"?: string;
+        /**
+          * Not wired to the picker. Accepted only for API parity with `ir-date-select`, which forwards all of its props.
+         */
         "withClear"?: boolean;
     }
     interface IrApplicablePolicies {
@@ -12957,7 +13165,7 @@ declare namespace LocalJSX {
         /**
           * The currently selected check-in date.
          */
-        "fromDate"?: Moment | null;
+        "fromDate"?: Moment1 | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
           * @reflect
@@ -12966,7 +13174,7 @@ declare namespace LocalJSX {
         /**
           * The latest selectable date. Defaults to 24 years in the future.
          */
-        "maxDate"?: Moment;
+        "maxDate"?: Moment1;
         /**
           * Maximum number of nights that can be selected in one span.
          */
@@ -12974,7 +13182,7 @@ declare namespace LocalJSX {
         /**
           * The earliest selectable date. Defaults to 24 years in the past.
          */
-        "minDate"?: Moment;
+        "minDate"?: Moment1;
         /**
           * Emits the selected start and end dates as native `Date` objects. `end` is `null` when the user has only picked the first date.
          */
@@ -12986,7 +13194,7 @@ declare namespace LocalJSX {
         /**
           * The currently selected check-out date.
          */
-        "toDate"?: Moment | null;
+        "toDate"?: Moment1 | null;
     }
     interface IrDailyRevenue {
         "language"?: string;
@@ -13147,21 +13355,41 @@ declare namespace LocalJSX {
          */
         "withDateDifference"?: boolean;
     }
+    /**
+     * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
+     * Composition: each side renders a text button (shows the value, opens the popup),
+     * an optional clear button, and an `ir-date-select` whose popup hosts the calendar
+     * plus optional quick-date preset buttons.
+     * State model: the component is *optionally controlled*. If `fromDate`/`toDate` are
+     * provided they seed and (via watchers) overwrite the internal `dates` state; either
+     * side can be controlled independently. Internal selections always update local state
+     * and emit `datesChanged` — a controlling parent is expected to echo the value back.
+     * Range integrity is enforced two ways:
+     * - the from-calendar's max is capped at the to-date and the to-calendar's min is
+     *   floored at the from-date (see {@link getFromMaxDate }/{@link getToMinDate}),
+     * - quick-date presets that would invert the range are disabled.
+     * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
+     * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
+     */
     interface IrDateRangeFilter {
         /**
           * Controlled start date in YYYY-MM-DD format.
          */
         "fromDate"?: string;
         /**
-          * Latest selectable date in YYYY-MM-DD format.
+          * Visible label rendered above the control. It names the group for assistive technology (replacing the default visually-hidden "Date range selector") and, like a native form label, clicking it opens the from-date picker.
+         */
+        "label"?: string;
+        /**
+          * Latest selectable date in YYYY-MM-DD format. Applied to both calendars.
          */
         "maxDate"?: string;
         /**
-          * Earliest selectable date in YYYY-MM-DD format.
+          * Earliest selectable date in YYYY-MM-DD format. Applied to both calendars.
          */
         "minDate"?: string;
         /**
-          * Fired when the user explicitly clears a date field.
+          * Fired when the user explicitly clears a date field (after the accompanying `datesChanged`).
          */
         "onDateCleared"?: (event: IrDateRangeFilterCustomEvent<{ field: 'from' | 'to' }>) => void;
         /**
@@ -13173,17 +13401,25 @@ declare namespace LocalJSX {
          */
         "quickDates"?: QuickDatePreset[];
         /**
+          * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
+         */
+        "selectionMode"?: 'auto' | 'manual';
+        /**
           * Whether to show the quick-action preset buttons in each calendar popup.
          */
         "showQuickActions"?: boolean;
         /**
-          * Size variant passed through to inner form controls.
+          * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
          */
         "size"?: string;
         /**
           * Controlled end date in YYYY-MM-DD format.
          */
         "toDate"?: string;
+        /**
+          * Shows an ✕ button next to each filled side that clears just that side.
+         */
+        "withClear"?: boolean;
     }
     interface IrDateSelect {
         /**
@@ -13201,7 +13437,7 @@ declare namespace LocalJSX {
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
          */
-        "date"?: string | Date | null;
+        "date"?: string | Moment | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
          */
@@ -13227,19 +13463,16 @@ declare namespace LocalJSX {
         /**
           * The latest date that can be selected.
          */
-        "maxDate"?: string | Date;
+        "maxDate"?: string | Moment;
         /**
           * The earliest date that can be selected.
          */
-        "minDate"?: string | Date;
+        "minDate"?: string | Moment;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
          */
         "multipleDates"?: boolean | number;
-        "onDateChanged"?: (event: IrDateSelectCustomEvent<{
-    start: moment.Moment | null;
-    end: moment.Moment | null;
-  }>) => void;
+        "onDateChanged"?: (event: IrDateSelectCustomEvent<DateChangeEvent>) => void;
         "onDatePickerBlur"?: (event: IrDateSelectCustomEvent<void>) => void;
         "onDatePickerFocus"?: (event: IrDateSelectCustomEvent<void>) => void;
         "placeholder"?: string;
@@ -13465,6 +13698,8 @@ declare namespace LocalJSX {
         "onCancelled"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
         "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
         "open"?: boolean;
+    }
+    interface IrFilterCard {
     }
     interface IrFiltersPanel {
         /**
@@ -14412,6 +14647,65 @@ declare namespace LocalJSX {
         "href"?: string;
         "selected"?: boolean;
     }
+    /**
+     * A compact, themeable KPI / metric card. Displays a label, a primary value with an
+     * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
+     * slotted body content. Fully styleable via CSS parts and custom properties.
+     */
+    interface IrMetricCard {
+        /**
+          * Secondary descriptive line shown beneath the value.
+         */
+        "caption"?: string;
+        /**
+          * Make the whole card interactive: adds hover/focus affordance and emits `metricClick`.
+         */
+        "clickable"?: boolean;
+        /**
+          * Name of a `wa-icon` rendered in the leading icon chip.
+         */
+        "icon"?: string;
+        /**
+          * Accent color used for the icon chip, trend, and accent edge.
+         */
+        "intent"?: MetricIntent;
+        /**
+          * Flip trend color semantics so a decrease reads as positive (good).
+         */
+        "invertTrend"?: boolean;
+        /**
+          * Metric label / title.
+         */
+        "label"?: string;
+        /**
+          * Render skeleton placeholders instead of content.
+         */
+        "loading"?: boolean;
+        /**
+          * Emitted when a clickable card is activated by click or keyboard (Enter / Space).
+         */
+        "onMetricClick"?: (event: IrMetricCardCustomEvent<void>) => void;
+        /**
+          * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
+         */
+        "size"?: MetricSize;
+        /**
+          * Trend delta as a percentage. The sign selects the up/down arrow and color.
+         */
+        "trend"?: number;
+        /**
+          * Context text shown beside the trend (e.g. `vs last week`).
+         */
+        "trendLabel"?: string;
+        /**
+          * Unit rendered after the value (e.g. `guests`, `%`, `nights`).
+         */
+        "unit"?: string;
+        /**
+          * Primary metric value. Rendered with tabular figures.
+         */
+        "value"?: string | number;
+    }
     interface IrMobileInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
@@ -15357,7 +15651,7 @@ declare namespace LocalJSX {
         /**
           * The start date of the range.
          */
-        "fromDate"?: Moment1;
+        "fromDate"?: Moment;
         /**
           * The latest date that can be selected.
          */
@@ -15366,11 +15660,11 @@ declare namespace LocalJSX {
           * The earliest date that can be selected.
          */
         "minDate"?: string | Date;
-        "onDateRangeChanged"?: (event: IrRangePickerCustomEvent<{ fromDate: Moment1; toDate: Moment1; wasFocused?: boolean }>) => void;
+        "onDateRangeChanged"?: (event: IrRangePickerCustomEvent<{ fromDate: Moment; toDate: Moment; wasFocused?: boolean }>) => void;
         /**
           * The end date of the range.
          */
-        "toDate"?: Moment1;
+        "toDate"?: Moment;
         /**
           * Whether to show the overlay before the date is selected.
          */
@@ -16366,6 +16660,7 @@ declare namespace LocalJSX {
         "ir-extra-service-config-form": IrExtraServiceConfigForm;
         "ir-extra-services": IrExtraServices;
         "ir-fd-confirm-dialog": IrFdConfirmDialog;
+        "ir-filter-card": IrFilterCard;
         "ir-filters-panel": IrFiltersPanel;
         "ir-financial-actions": IrFinancialActions;
         "ir-financial-filters": IrFinancialFilters;
@@ -16424,6 +16719,7 @@ declare namespace LocalJSX {
         "ir-menu-drawer": IrMenuDrawer;
         "ir-menu-group": IrMenuGroup;
         "ir-menu-item": IrMenuItem;
+        "ir-metric-card": IrMetricCard;
         "ir-mobile-input": IrMobileInput;
         "ir-modal": IrModal;
         "ir-monthly-bookings-report": IrMonthlyBookingsReport;
@@ -16591,6 +16887,20 @@ declare module "@stencil/core" {
             "ir-agent-profile": LocalJSX.IrAgentProfile & JSXBase.HTMLAttributes<HTMLIrAgentProfileElement>;
             "ir-agents": LocalJSX.IrAgents & JSXBase.HTMLAttributes<HTMLIrAgentsElement>;
             "ir-agents-table": LocalJSX.IrAgentsTable & JSXBase.HTMLAttributes<HTMLIrAgentsTableElement>;
+            /**
+             * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+             * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+             * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+             * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+             * Design notes:
+             * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+             *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+             * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+             *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+             *   with equal values are no-ops.
+             * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+             *   and forwards its own props one-to-one.
+             */
             "ir-air-date-picker": LocalJSX.IrAirDatePicker & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
             "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
             "ir-arrival-time-cell": LocalJSX.IrArrivalTimeCell & JSXBase.HTMLAttributes<HTMLIrArrivalTimeCellElement>;
@@ -16732,6 +17042,22 @@ declare module "@stencil/core" {
              * All CSS parts of `ir-custom-date-range` are re-exported and can be targeted via `::part()` on this host.
              */
             "ir-date-range": LocalJSX.IrDateRange & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
+            /**
+             * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
+             * Composition: each side renders a text button (shows the value, opens the popup),
+             * an optional clear button, and an `ir-date-select` whose popup hosts the calendar
+             * plus optional quick-date preset buttons.
+             * State model: the component is *optionally controlled*. If `fromDate`/`toDate` are
+             * provided they seed and (via watchers) overwrite the internal `dates` state; either
+             * side can be controlled independently. Internal selections always update local state
+             * and emit `datesChanged` — a controlling parent is expected to echo the value back.
+             * Range integrity is enforced two ways:
+             * - the from-calendar's max is capped at the to-date and the to-calendar's min is
+             *   floored at the from-date (see {@link getFromMaxDate }/{@link getToMinDate}),
+             * - quick-date presets that would invert the range are disabled.
+             * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
+             * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
+             */
             "ir-date-range-filter": LocalJSX.IrDateRangeFilter & JSXBase.HTMLAttributes<HTMLIrDateRangeFilterElement>;
             "ir-date-select": LocalJSX.IrDateSelect & JSXBase.HTMLAttributes<HTMLIrDateSelectElement>;
             "ir-date-view": LocalJSX.IrDateView & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
@@ -16750,6 +17076,7 @@ declare module "@stencil/core" {
             "ir-extra-service-config-form": LocalJSX.IrExtraServiceConfigForm & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigFormElement>;
             "ir-extra-services": LocalJSX.IrExtraServices & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
             "ir-fd-confirm-dialog": LocalJSX.IrFdConfirmDialog & JSXBase.HTMLAttributes<HTMLIrFdConfirmDialogElement>;
+            "ir-filter-card": LocalJSX.IrFilterCard & JSXBase.HTMLAttributes<HTMLIrFilterCardElement>;
             "ir-filters-panel": LocalJSX.IrFiltersPanel & JSXBase.HTMLAttributes<HTMLIrFiltersPanelElement>;
             "ir-financial-actions": LocalJSX.IrFinancialActions & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
             "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
@@ -16824,6 +17151,12 @@ declare module "@stencil/core" {
             "ir-menu-drawer": LocalJSX.IrMenuDrawer & JSXBase.HTMLAttributes<HTMLIrMenuDrawerElement>;
             "ir-menu-group": LocalJSX.IrMenuGroup & JSXBase.HTMLAttributes<HTMLIrMenuGroupElement>;
             "ir-menu-item": LocalJSX.IrMenuItem & JSXBase.HTMLAttributes<HTMLIrMenuItemElement>;
+            /**
+             * A compact, themeable KPI / metric card. Displays a label, a primary value with an
+             * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
+             * slotted body content. Fully styleable via CSS parts and custom properties.
+             */
+            "ir-metric-card": LocalJSX.IrMetricCard & JSXBase.HTMLAttributes<HTMLIrMetricCardElement>;
             "ir-mobile-input": LocalJSX.IrMobileInput & JSXBase.HTMLAttributes<HTMLIrMobileInputElement>;
             "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
             "ir-monthly-bookings-report": LocalJSX.IrMonthlyBookingsReport & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportElement>;

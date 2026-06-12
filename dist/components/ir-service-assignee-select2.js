@@ -26,7 +26,7 @@ const IrServiceAssigneeSelect = /*@__PURE__*/ proxyCustomElement(class IrService
      */
     assignmentChange;
     render() {
-        return (h(Host, { key: '87577258a7b9aca4124975c263ea9d25ed8d4ee1' }, h("wa-radio-group", { key: 'a238a03eb87ae51dbb498045411aca9ff2be1a48', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "small", label: this.label, orientation: "vertical" }, h("wa-radio", { key: 'a26a12f78a9797c936d0370c6dfadc8004fda085', value: "agent", appearance: "button" }, "Agent: ", this.agent?.name), h("wa-radio", { key: 'e34b9fd95dec7d6b1ebab8112ac61d1fb41379fb', value: "guest", appearance: "button" }, "Guest"))));
+        return (h(Host, { key: '6e0d55cbc319dc68683b748f6ea3a72455f5d180' }, h("wa-radio-group", { key: '7c716ed7dd8f02eb530c375dcdae559ed407342c', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "small", label: this.label, orientation: "vertical" }, h("wa-radio", { key: 'f17c814b4a98bdc3fc5df7b1406e61bd7229b248', value: "agent", appearance: "button" }, "Agent: ", this.agent?.name), h("wa-radio", { key: '3106624a003fc836b8dbefc949443dcd75fe38b8', value: "guest", appearance: "button" }, "Guest"))));
     }
     static get style() { return IrServiceAssigneeSelectStyle0; }
 }, [2, "ir-service-assignee-select", {

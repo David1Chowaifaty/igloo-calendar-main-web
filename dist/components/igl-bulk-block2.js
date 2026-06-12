@@ -140,12 +140,12 @@ const IglBulkBlock = /*@__PURE__*/ proxyCustomElement(class IglBulkBlock extends
         // 4) open the appropriate picker
         setTimeout(() => {
             if (key === 'from') {
-                this.dateRefs[index]?.to.openDatePicker();
+                this.dateRefs[index]?.to.show();
             }
             else {
                 const nextFrom = dates.findIndex(d => d.from === null);
                 if (nextFrom > -1) {
-                    this.dateRefs[nextFrom]?.from.openDatePicker();
+                    this.dateRefs[nextFrom]?.from.show();
                 }
             }
         }, 100);
@@ -163,10 +163,10 @@ const IglBulkBlock = /*@__PURE__*/ proxyCustomElement(class IglBulkBlock extends
         }, 100);
     }
     render() {
-        return (h("form", { key: '34d2eb6bf67b9205f287fc6aae357c5ea2de852b', id: this.formId, class: "igl-bulk-block__form", onSubmit: e => {
+        return (h("form", { key: 'b57f34eebf99ea4072ba0f03c004c76909964b11', id: this.formId, class: "igl-bulk-block__form", onSubmit: e => {
                 e.preventDefault();
                 this.addBlockDates();
-            } }, h("wa-radio-group", { key: '298916cd2f8c31e908a2df9ccb23741300a58678', size: "small", label: "Block or unblock a unit", orientation: "horizontal", name: "action" }, h("wa-radio", { key: '36caf60c45e28c31db437b232c288e45b4949f29', style: { flex: '1 1 0%' }, appearance: "button", value: "block" }, "Block"), h("wa-radio", { key: 'f8c9342a19854f2b495a43276d7765d0fea16a14', style: { flex: '1 1 0%' }, appearance: "button", value: "unblock" }, "Unblock")), h("div", { key: '96d88951fc57540bb9fd50a3abb32b45b60d597a' }, this.errors === 'rooms' && (h("p", { key: 'd68fb80a40318412b93dd5647fd2a534a2ae6a79', class: "igl-bulk-block__error" }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("wa-radio-group", { key: '9ecf309a9a9eb298805bc3f4466139fc9674bda3', name: "unit", ref: el => (this.unitSections = el), onchange: e => {
+            } }, h("wa-radio-group", { key: '470b06cd6a6d3fba1a5bf35e3357320690d1089a', size: "small", label: "Block or unblock a unit", orientation: "horizontal", name: "action" }, h("wa-radio", { key: '3cf852d6a3215d490d8486ebc94d7d37c8749b57', style: { flex: '1 1 0%' }, appearance: "button", value: "block" }, "Block"), h("wa-radio", { key: '8d485cba6358f9b067fa1e8bb4f5675d7178625c', style: { flex: '1 1 0%' }, appearance: "button", value: "unblock" }, "Unblock")), h("div", { key: '3f0ead21038738583b5ee288e2e3a05cd2bb0f15' }, this.errors === 'rooms' && (h("p", { key: '792ccb0bf3954d436d76e1d419ac80879f54eb45', class: "igl-bulk-block__error" }, calendar_data.is_vacation_rental ? locales.entries.Lcz_PlzSelectOneListing : locales.entries.Lcz_PlzSelectOneUnit)), h("wa-radio-group", { key: '941672d093da64d551e3435c23f30ea06e84248b', name: "unit", ref: el => (this.unitSections = el), onchange: e => {
                 const [roomtypeId, unitId] = e.target.value?.toString().split('-');
                 this.selectedUnit = {
                     roomtype_id: roomtypeId,
@@ -177,13 +177,13 @@ const IglBulkBlock = /*@__PURE__*/ proxyCustomElement(class IglBulkBlock extends
                 const rowStyle = j === roomType.physicalrooms.length - 1 ? 'igl-bulk-block__unit-row--last' : '';
                 return (h("div", { key: `physicalRoom-${room.id}-${j}`, class: `igl-bulk-block__unit-row ${rowStyle}` }, h("div", { class: "igl-bulk-block__unit-choice" }, h("wa-radio", { value: `${roomType.id}-${room.id}`, "data-roomtype": roomType.id, checked: this.selectedUnit?.unit_id === room.id }, room.name))));
             })));
-        }))), h("table", { key: '443b50f72272ea7da50f4f77ae5148fb6d6e9b77', class: "igl-bulk-block__dates-table", ref: el => (this.datesSections = el) }, h("thead", { key: 'b1a2800616b1c855c045046e80916efd3b2372b5' }, h("tr", { key: 'ec20f850c2c4c3f803958dc0dfab92061e61a90b' }, h("td", { key: 'e59534b094fce56381cc32731c5bbdb30bbe73ae', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_From), h("td", { key: '654c888baa6d18983ae8a4093ef7cd16660c70e0', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_ToExclusive), h("td", { key: '4b2e6e0d3693e9111225cac9ce2662e122e6b24e' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-custom-button", { key: 'a2fa14f03fdd6e355611de898462cd2534c010b2', appearance: "plain", variant: "neutral", onClickHandler: () => {
+        }))), h("table", { key: 'f08b45ccbe4ee6b3e35149e1b5561cf1c395d956', class: "igl-bulk-block__dates-table", ref: el => (this.datesSections = el) }, h("thead", { key: 'e4f221748ba4d2e2d8b8ef2d2185948b3aa88c17' }, h("tr", { key: '3a59a3b4b0de423a7e368ddb0adfbfd0ce85a0fa' }, h("td", { key: 'e10b91cb74b6779e6f96e229fc21932271728490', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_From), h("td", { key: '5af2b386e5b823fe5c35f8ff5f904d300a299f9f', class: "igl-bulk-block__dates-header" }, locales.entries.Lcz_ToExclusive), h("td", { key: '00a0857a4810f1743be4464948c9b749ccfdb60c' }, this.dates.length !== this.maxDatesLength && this.blockState === 'block' && (h("ir-custom-button", { key: 'df4e63811d6fc7b4b979989636575b02a48de0db', appearance: "plain", variant: "neutral", onClickHandler: () => {
                 this.addDateRow();
-            } }, h("wa-icon", { key: 'f85562e39bd6c6eb74cec62882c899e11a083ed2', name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", { key: 'b1b6a3bd23bcd6e25eb762260430d7ef81cfe344' }, this.dates.map((d, i) => {
+            } }, h("wa-icon", { key: 'c2c67a060961adbbc56d26f3ba49e0b06d5d58a7', name: "plus", style: { fontSize: '1.2rem' } })))))), h("tbody", { key: 'fddce600efea1f8aee96560f127ca5f15c2f0e24' }, this.dates.map((d, i) => {
             if (!this.dateRefs[i]) {
                 this.dateRefs[i] = {};
             }
-            const fromDateMinDate = i > 0 ? this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate : this.minDate;
+            const fromDateMinDate = i > 0 ? (this.dates[i - 1]?.to.clone().add(1, 'days')?.format('YYYY-MM-DD') ?? this.minDate) : this.minDate;
             const toDateMinDate = this.dates[i].from ? this.dates[i]?.from.clone().add(1, 'days')?.format('YYYY-MM-DD') : this.minDate;
             return (h("tr", { key: `date_${i}` }, h("td", { class: "igl-bulk-block__date-cell" }, h("ir-date-select", { ref: el => {
                     this.dateRefs[i].from = el;
@@ -199,11 +199,11 @@ const IglBulkBlock = /*@__PURE__*/ proxyCustomElement(class IglBulkBlock extends
                     }
                     const index = this.dates.findIndex(d => !d.from || !d.to);
                     if (!this.dates[index]?.from) {
-                        this.dateRefs[index]?.from.openDatePicker();
+                        this.dateRefs[index]?.from.show();
                         return;
                     }
                     if (!this.dates[index]?.to) {
-                        this.dateRefs[index].to.openDatePicker();
+                        this.dateRefs[index].to.show();
                     }
                 } })), h("td", { class: "igl-bulk-block__date-cell" }, h("ir-date-select", { forceDestroyOnUpdate: true, disabled: !d.from, ref: el => {
                     this.dateRefs[i].to = el;
@@ -216,11 +216,11 @@ const IglBulkBlock = /*@__PURE__*/ proxyCustomElement(class IglBulkBlock extends
                     e.stopPropagation();
                     const index = this.dates.findIndex(d => !d.from || !d.to);
                     if (!this.dates[index]?.from) {
-                        this.dateRefs[index]?.from?.openDatePicker();
+                        this.dateRefs[index]?.from?.show();
                         return;
                     }
                     if (!this.dates[index]?.to) {
-                        this.dateRefs[index].to.openDatePicker();
+                        this.dateRefs[index].to.show();
                     }
                 } })), i > 0 && (h("td", { class: "igl-bulk-block__date-action-cell" }, h("ir-custom-button", { appearance: "plain", variant: "neutral", onClickHandler: () => {
                     this.dates = this.dates.filter((_, j) => j !== i);

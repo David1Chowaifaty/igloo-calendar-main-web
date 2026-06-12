@@ -98,7 +98,7 @@ const IrCityLedgerFiscalDocumentsTable = /*@__PURE__*/ proxyCustomElement(class 
                         await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
                         break;
                     case FdTypes.Receipt:
-                        await this.cityLedgerService.voidReceiptByCreditCreditReceipt({ FD_ID: row.FD_ID });
+                        await this.cityLedgerService.voidReceiptByCreditReceipt({ FD_ID: row.FD_ID });
                         break;
                     default:
                         console.warn(row.FD_TYPE_CODE + ' not implemented');

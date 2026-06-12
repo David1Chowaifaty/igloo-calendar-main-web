@@ -1,5 +1,9 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import moment, { Moment } from 'moment';
+export type DateChangeEvent = {
+    start: moment.Moment | null;
+    end: moment.Moment | null;
+};
 export declare class IrDateSelect {
     el: HTMLIrDateSelectElement;
     withClear: boolean;
@@ -14,7 +18,7 @@ export declare class IrDateSelect {
     /**
      * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
      */
-    date: string | Date | null;
+    date: string | Moment | null;
     /**
      * Enables multiple dates.
      * If `true`, multiple selection is allowed.
@@ -37,11 +41,11 @@ export declare class IrDateSelect {
     /**
      * The earliest date that can be selected.
      */
-    minDate?: string | Date;
+    minDate?: string | Moment;
     /**
      * The latest date that can be selected.
      */
-    maxDate?: string | Date;
+    maxDate?: string | Moment;
     /**
      * Disables the input and prevents interaction.
      */
@@ -96,10 +100,7 @@ export declare class IrDateSelect {
     isValid: string;
     datePickerFocus: EventEmitter<void>;
     datePickerBlur: EventEmitter<void>;
-    dateChanged: EventEmitter<{
-        start: moment.Moment | null;
-        end: moment.Moment | null;
-    }>;
+    dateChanged: EventEmitter<DateChangeEvent>;
     private static instanceCounter;
     private popupId;
     private readonly SLOT_NAMES;
@@ -109,9 +110,10 @@ export declare class IrDateSelect {
     componentDidLoad(): void;
     disconnectedCallback(): void;
     handleAriaInvalidChange(newVal: string, oldVal: string): void;
-    clearDatePicker(): Promise<void>;
-    openDatePicker(): Promise<void>;
-    closeDatePicker(): Promise<void>;
+    handleDatePropChange(newDate: string | Moment | null): void;
+    clear(): Promise<void>;
+    show(): Promise<void>;
+    hide(): Promise<void>;
     private togglePicker;
     private handleKeyDown;
     private get _label();

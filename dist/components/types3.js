@@ -12,7 +12,7 @@ function mapClTxToFolioRow(tx) {
         status,
         type: tx.CATEGORY,
         serviceDate: tx.SERVICE_DATE,
-        bookingNumber: tx.BOOK_NBR ? Number(tx.BOOK_NBR) : null,
+        bookingNumber: tx.BOOK_NBR ? tx.BOOK_NBR : null,
         docNumber: tx.DOC_NUMBER ?? tx.EXTERNAL_REF,
         description: tx.DESCRIPTION,
         debit: tx.DEBIT,

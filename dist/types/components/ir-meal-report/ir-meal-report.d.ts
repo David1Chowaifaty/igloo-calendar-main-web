@@ -21,12 +21,12 @@ export declare class IrMealReport {
     private mealReportService;
     private tokenService;
     ticketChanged(newValue: string): void;
-    componentWillLoad(): Promise<void>;
+    componentWillLoad(): void;
     handlePropertyChange(): Promise<void>;
-    init(): Promise<void>;
-    applyFilters(): Promise<void>;
-    resetFilters(): void;
-    setPresetDate(type: 'today' | 'tomorrow'): Promise<void>;
-    handleExport(): Promise<void>;
+    private init;
+    private applyFilters;
+    private resetFilters;
+    private setPresetDate;
+    private handleExport;
     render(): any;
 }

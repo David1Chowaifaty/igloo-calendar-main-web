@@ -1,0 +1,270 @@
+/* Base styles */
+:host {
+  /* --ir-cell-padding: 0.1rem 0.8rem; */
+  --ir-cell-padding: 0.5rem 1rem;
+}
+.ir-table-row td {
+  padding: var(--ir-cell-padding) !important;
+  text-align: left;
+  z-index: 2;
+  background-color: var(--wa-color-surface-default);
+  white-space: nowrap;
+  color: var(--wa-color-text-normal);
+  box-sizing: border-box;
+  /* width: max-content;
+  max-width: max-content; */
+}
+/* .ir-table-row td:last-child {
+  width: 100%; 
+}*/
+/* .ir-table-row td:first-child,
+.table thead th:first-child {
+  position: sticky;
+  left: var(--ir-table-sticky-padding,-1rem);
+} */
+/* .table--container {
+  flex: 1 1 0%;
+} */
+.table--container {
+  overflow-x: auto;
+}
+.table td {
+  border-top: 0;
+  border-bottom: 1px solid var(--wa-color-neutral-border-quiet, #abaeb9);
+  /* border-bottom: 1px solid var(--wa-color-gray-80); */
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.table tbody tr:last-child > td {
+  border-bottom: 0 !important;
+}
+.table thead th {
+  border: none !important;
+  background: #ececec;
+  background: color-mix(in oklab, var(--wa-color-neutral-fill-quiet, #f1f2f3) 60%, transparent);
+  color: #374151;
+  padding: 0.5rem 1rem !important;
+  text-align: left;
+}
+.data-table thead th {
+  box-sizing: border-box;
+  background: var(--wa-color-surface-default) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  /* border-bottom: 1px solid var(--wa-color-neutral-fill-normal) !important; */
+  border-bottom: var(--wa-border-style) var(--wa-border-width-s) var(--wa-color-neutral-border-normal) !important;
+  color: var(--wa-color-text-normal);
+  /* position: sticky;
+  top: 0;
+  z-index: 99; */
+}
+
+.data-table .empty-row {
+  height: 50vh !important;
+  text-align: center;
+  color: var(--wa-color-gray-60);
+}
+
+.data-table--pagination {
+  padding: 0.5rem 1rem;
+  /* position: sticky;
+  bottom: 0; */
+  background: var(--wa-color-surface-default);
+  border-top: 1px solid var(--wa-color-neutral-90);
+}
+
+/* Selected Rows Styles */
+
+.selected td {
+  background: var(--wa-color-brand-fill-quiet) !important;
+  border-color: var(--wa-color-neutral-border-quiet) !important;
+}
+.selected td {
+  color: var(--gray-dark) !important;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+/* Sorting styles */
+.sortable,
+.ir-table-row {
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.sortable {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.ir-table-row td {
+  transition-duration: var(--wa-transition-fast);
+}
+.table thead th.sortable {
+  transition-property: background, border, box-shadow, color;
+  transition-duration: var(--wa-transition-fast);
+  transition-timing-function: var(--wa-transition-easing);
+}
+
+.table thead th.sortable:hover {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+.table thead th.sortable:active {
+  color: var(--wa-color-on-quiet, var(--wa-color-neutral-on-quiet));
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+
+.ir-table-row:hover td {
+  background: #e2e6ea3f !important;
+  background: var(--wa-color-neutral-fill-quiet, #f1f2f3) !important;
+}
+.--clickable.ir-table-row:hover td {
+  background-color: var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)) !important;
+}
+.--clickable.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-quiet, var(--wa-color-neutral-fill-quiet)), var(--wa-color-mix-active)) !important;
+}
+.selected.ir-table-row:hover td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-hover)) !important;
+}
+.selected.ir-table-row:active td {
+  background-color: color-mix(in oklab, var(--wa-color-fill-normal, var(--wa-color-brand-fill-normal)), var(--wa-color-mix-active)) !important;
+}
+.sortable:active {
+  color: #212529;
+  background-color: #e2e8f0;
+  border-color: #d3d9df;
+}
+.sortable svg {
+  color: var(--wa-color-brand-fill-loud);
+}
+/* .action-row {
+  position: sticky;
+  right:var(--ir-table-sticky-padding,-1rem);
+} */
+.sticky-column {
+  position: sticky !important;
+  right: 0;
+  background-color: white;
+}
+.table--container,
+.data-table {
+  height: 100%;
+}
+
+
+/* #region host */
+/* Card chrome lives on :host (matches ir-city-ledger-folio-table convention).
+   Compact by design: tight cell padding and small type so the table fits as
+   many rows as possible and stays usable on narrow viewports. */
+:host {
+  --ir-cell-padding: 0.3rem 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 200px;
+}
+.data-table {
+  font-size: var(--wa-font-size-m);
+}
+/* #endregion */
+
+/* #region header */
+/* Align header horizontal padding with the tightened body cells. */
+.data-table thead th {
+  padding-inline: 0.5rem !important;
+}
+.meal-guest-list__th {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  font-weight: var(--wa-font-weight-semibold, 600);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.meal-guest-list__th--center {
+  justify-content: center;
+  width: 100%;
+}
+.meal-guest-list__sort {
+  opacity: 0.35;
+  transition: opacity var(--wa-transition-fast, 150ms) var(--wa-transition-easing, ease);
+}
+.meal-guest-list__sort--active {
+  opacity: 1;
+  color: var(--wa-color-brand-fill-loud);
+}
+.table thead th.sortable:hover .meal-guest-list__sort {
+  opacity: 0.7;
+}
+/* #endregion */
+
+/* #region cells */
+.meal-guest-list__unit {
+  font-weight: var(--wa-font-weight-bold, 700);
+  color: var(--wa-color-text-normal, #0f172a);
+}
+.meal-guest-list__guest {
+  display: flex;
+  align-items: center;
+  gap: var(--wa-space-xs, 0.5rem);
+  color: var(--wa-color-text-normal, #0f172a);
+}
+.meal-guest-list__muted {
+  color: var(--wa-color-text-quiet, #64748b);
+}
+.meal-guest-list__arr {
+  --wa-tag-padding: 0 0.3rem;
+}
+
+/* Center-aligned occupancy column hugs its content instead of floating. */
+.cell--align-center {
+  text-align: center !important;
+  padding-inline: 0.45rem !important;
+}
+/* #endregion */
+
+/* #region totals */
+.meal-guest-list__total-row td {
+  background: var(--wa-color-neutral-fill-quiet, #f1f5f9) !important;
+  border-top: 1px solid var(--wa-color-surface-border, #e2e8f0);
+  border-bottom: 0 !important;
+  padding: var(--ir-cell-padding) !important;
+}
+.meal-guest-list__total-label {
+  text-align: end;
+
+  font-weight: var(--wa-font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--wa-color-text-quiet, #64748b);
+}
+.meal-guest-list__total-value {
+  font-weight: var(--wa-font-weight-bold, 700);
+  color: var(--wa-color-brand-fill-loud);
+}
+.meal-guest-list__total-meta {
+  color: var(--wa-color-text-quiet, #64748b);
+}
+/* #endregion */
+
+/* #region empty */
+.meal-guest-list__empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+/* #endregion */

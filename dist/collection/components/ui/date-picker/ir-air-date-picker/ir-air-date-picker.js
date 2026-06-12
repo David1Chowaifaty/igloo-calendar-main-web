@@ -1,148 +1,146 @@
 import AirDatepicker from "air-datepicker";
 import moment from "moment";
 import localeEn from "air-datepicker/locale/en";
+/**
+ * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
+ *
+ * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
+ * it instantiates an inline `AirDatepicker` calendar directly into the host element and
+ * keeps it in sync with the `date` / `dates` / `minDate` / `maxDate` props via watchers.
+ *
+ * Design notes:
+ * - All prop-driven picker mutations use `{ silent: true }` so they never re-trigger
+ *   `onSelect` → `dateChanged`, preventing parent ↔ child feedback loops.
+ * - All date inputs (`string | Moment`) are normalized through {@link toMoment} before
+ *   touching the picker, and value-compared (`isSameDates`) so re-renders of the parent
+ *   with equal values are no-ops.
+ * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
+ *   and forwards its own props one-to-one.
+ */
 export class IrAirDatePicker {
+    /** Host element; AirDatepicker mounts its calendar DOM inside it (`inline: true`). */
     el;
+    /** Not wired to the picker. Accepted only for API parity with `ir-date-select`, which forwards all of its props. */
     withClear;
+    /** Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity. */
     placeholder;
+    /** Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity. */
     label;
+    /**
+     * Pre-selected dates for multi-select/range mode. Takes precedence over `date`
+     * at initialization, and is re-applied through the `dates` watcher on change.
+     */
     dates;
     /**
-     * Determines whether the date picker is rendered inline or in a pop-up.
-     * If `true`, the picker is always visible inline.
+     * Not wired to the picker: the calendar is always created with `inline: true`
+     * (visibility is controlled by the parent `ir-date-select` popup).
      */
     inline = false;
     /**
-     * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+     * The selected date (single-select mode). Mutable: the component writes the latest
+     * selection back into it from `onSelect`, and the parent can set it to move the
+     * calendar selection programmatically (applied silently, no `dateChanged` emitted).
      */
     date = null;
-    /**
-     * Enables multiple dates.
-     * If `true`, multiple selection is allowed.
-     * If you pass a number (e.g. 3), that is the maximum number of selectable dates.
-     */
+    /** `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only. */
     multipleDates = false;
-    /**
-     * Whether the picker should allow range selection (start and end date).
-     */
+    /** Enables range selection (start + end). Passed to AirDatepicker at init only. */
     range = false;
-    /**
-     * Format for the date as it appears in the input field.
-     * Follows the `AirDatepicker` format rules.
-     */
+    /** Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only. */
     dateFormat = 'yyyy-MM-dd';
-    /**
-     * Enables the timepicker functionality (select hours and minutes).
-     */
+    /** Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision. */
     timepicker = false;
-    /**
-     * The earliest date that can be selected.
-     */
+    /** Earliest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection. */
     minDate;
-    /**
-     * The latest date that can be selected.
-     */
+    /** Latest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection. */
     maxDate;
-    /**
-     * Disables the input and prevents interaction.
-     */
+    /** Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself). */
     disabled = false;
-    /**
-     * Closes the picker automatically after a date is selected.
-     */
+    /** Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing. */
     autoClose = true;
-    /**
-     * Shows days from previous/next month in the current month's calendar.
-     */
+    /** Shows days from the previous/next month in the current view. Passed at init only. */
     showOtherMonths = true;
-    /**
-     * Allows selecting days from previous/next month shown in the current view.
-     */
+    /** Allows selecting the previous/next-month days shown in the current view. Passed at init only. */
     selectOtherMonths = true;
-    /**
-     * Controls how the date picker is triggered.
-     * - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`).
-     * - **`false`**: A default button input is used to open the picker.
-     *
-     * Defaults to `false`.
-     */
+    /** Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern). */
     customPicker = false;
-    /**
-     * Pass a container element if you need the date picker to be appended to a specific element
-     * for styling or positioning (particularly for arrow rendering).
-     * If not provided, it defaults to `this.el`.
-     */
+    /** Optional element AirDatepicker appends its calendar to (for positioning/styling). Defaults to the host. */
     container;
     /**
-     * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.
-     * This can be useful if you need the picker to fully re-initialize in response to dynamic changes,
-     * but note that it may affect performance if triggered frequently.
-     * Defaults to `false`.
+     * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance
+     * instead of calling `selectDate`. Use only when the picker must fully re-initialize;
+     * rebuilding on every change is expensive.
      */
     forceDestroyOnUpdate = false;
     /**
-     * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).
-     * Otherwise, empty-date changes will be ignored (no event emitted).
-     *
-     * Defaults to `false`.
+     * If `true`, emits `dateChanged` with null values when the selection is cleared.
+     * Otherwise clear-events are swallowed.
      */
     emitEmptyDate = false;
-    /**
-     * Styles for the trigger container
-     */
+    /** Not wired to the picker. Forwarded by `ir-date-select` for API parity. */
     triggerContainerStyle = '';
-    currentDate = null;
     /**
-     * Emitted when the selected date changes.
-     * Returns the selected date as Moment objects.
+     * Emitted when the user picks a date in the calendar (never for silent, prop-driven updates).
+     * `start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`.
      */
     dateChanged;
-    /**
-     * Emitted when the date picker gains focus or is opened.
-     */
+    /** Emitted when the AirDatepicker reports `onShow`. */
     datePickerFocus;
-    /**
-     * Emitted when the date picker loses focus or is closed.
-     */
+    /** Emitted when the AirDatepicker reports `onHide`. */
     datePickerBlur;
+    /**
+     * The current selection, normalized to a Moment. Used as the comparison baseline so
+     * prop updates that match the existing selection don't touch the picker.
+     * Deliberately a plain field, not `@State`: this component renders `null`, so
+     * state-driven re-renders would be pure overhead.
+     */
+    currentDate = null;
+    /** The AirDatepicker instance. `undefined` until `componentDidLoad` and after disconnect. */
     datePicker;
     componentWillLoad() {
-        // Sync initial @Prop to internal state
         if (this.date) {
-            this.currentDate = this.toValidDate(this.date);
+            this.currentDate = this.toMoment(this.date);
         }
     }
     componentDidLoad() {
         this.initializeDatepicker();
     }
+    disconnectedCallback() {
+        this.datePicker?.destroy?.();
+        this.datePicker = undefined;
+    }
+    /** Applies external `date` changes to the calendar, skipping same-day (or same-minute) no-ops. */
     datePropChanged(newDate, oldDate) {
-        if (this.isSameDates(newDate, oldDate)) {
+        if (this.isSameDates(newDate, oldDate))
             return;
-        }
         this.updatePickerDate(newDate);
     }
     minDatePropChanged(newVal, oldVal) {
-        if (!this.datePicker) {
+        if (!this.datePicker || this.isSameDates(newVal, oldVal))
             return;
-        }
-        if (!this.isSameDates(newVal, oldVal)) {
-            this.datePicker?.update({ minDate: this.toValidDate(newVal) ?? undefined });
-        }
+        // update() re-applies opts.selectedDates (the initial selection), so pass the current one to keep it
+        this.datePicker.update({ minDate: this.toMoment(newVal)?.format('YYYY-MM-DD'), selectedDates: [...this.datePicker.selectedDates] }, { silent: true });
     }
     maxDatePropChanged(newVal, oldVal) {
-        if (!this.isSameDates(newVal, oldVal)) {
-            this.datePicker?.update({ maxDate: this.toValidDate(newVal) ?? undefined });
-        }
-    }
-    datesPropChanged(newDates = [], oldDates = []) {
-        if (this.areDateListsEqual(newDates, oldDates)) {
+        if (!this.datePicker || this.isSameDates(newVal, oldVal))
             return;
-        }
+        this.datePicker.update({ maxDate: this.toMoment(newVal)?.format('YYYY-MM-DD'), selectedDates: [...this.datePicker.selectedDates] }, { silent: true });
+    }
+    /** Applies external `dates` (multi/range) changes, skipping value-equal lists. */
+    datesPropChanged(newDates = [], oldDates = []) {
+        if (this.areDateListsEqual(newDates, oldDates))
+            return;
         this.updatePickerDates(newDates);
     }
+    /** Clears the calendar selection. Not silent: fires `onSelect` with an empty value (see `emitEmptyDate`). */
     async clearDatePicker() {
         this.datePicker?.clear();
     }
+    /**
+     * Force-resyncs the calendar to the given (or current) value, bypassing the equality
+     * checks the watchers perform. Escape hatch for parents whose prop value didn't change
+     * but whose picker drifted (e.g. after a silent internal clear). Always silent.
+     */
     async syncSelection(options) {
         if (Array.isArray(options?.dates) || this.range) {
             const list = Array.isArray(options?.dates) ? options.dates : this.dates;
@@ -152,139 +150,187 @@ export class IrAirDatePicker {
         const nextDate = options?.date !== undefined ? options.date : this.date;
         this.forceSyncPickerDate(nextDate ?? null);
     }
+    // ── Moment helpers ────────────────────────────────────────────────────────
+    /**
+     * Normalizes any accepted date input to a valid Moment, or `null`.
+     * Parse order: strict `YYYY-MM-DD` → strict ISO-8601 → loose fallback,
+     * so canonical app dates never hit moment's slow/ambiguous loose parser.
+     */
+    toMoment(value) {
+        if (!value)
+            return null;
+        if (moment.isMoment(value))
+            return value.isValid() ? value : null;
+        const strict = moment(value, 'YYYY-MM-DD', true);
+        if (strict.isValid())
+            return strict;
+        const iso = moment(value, moment.ISO_8601, true);
+        if (iso.isValid())
+            return iso;
+        const loose = moment(value);
+        return loose.isValid() ? loose : null;
+    }
+    /** Normalizes a list of date inputs, dropping unparseable entries. */
+    toMoments(values) {
+        if (!Array.isArray(values) || values.length === 0)
+            return [];
+        return values.map(v => this.toMoment(v)).filter((m) => m !== null);
+    }
+    /**
+     * Value-equality for two date inputs at day precision (minute precision when
+     * `timepicker` is on). Unparseable values are never equal to anything.
+     */
     isSameDates(d1, d2) {
         if (!d1 && !d2)
             return true;
         if (!d1 || !d2)
             return false;
-        return moment(d1).isSame(moment(d2), this.timepicker ? 'minute' : 'day');
+        const m1 = this.toMoment(d1);
+        const m2 = this.toMoment(d2);
+        if (!m1 || !m2)
+            return false;
+        return m1.isSame(m2, this.timepicker ? 'minute' : 'date');
     }
-    toValidDate(value) {
-        if (!value)
-            return null;
-        if (value instanceof Date) {
-            return isNaN(value.getTime()) ? null : value;
-        }
-        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-            const parsed = moment(value, 'YYYY-MM-DD', true);
-            return parsed.isValid() ? parsed.toDate() : null;
-        }
-        const parsed = moment(value, moment.ISO_8601, true);
-        if (parsed.isValid()) {
-            return parsed.toDate();
-        }
-        const fallback = new Date(value);
-        return isNaN(fallback.getTime()) ? null : fallback;
-    }
-    toValidDates(values) {
-        if (!Array.isArray(values) || values.length === 0)
-            return [];
-        return values.map(v => this.toValidDate(v)).filter((date) => Boolean(date));
-    }
+    /** Order-sensitive value-equality for two date lists (empty and missing lists are equal). */
     areDateListsEqual(first, second) {
         if (!first?.length && !second?.length)
             return true;
         if (!first || !second || first.length !== second.length)
             return false;
-        return first.every((value, index) => this.isSameDates(value, second[index]));
+        return first.every((v, i) => this.isSameDates(v, second[i]));
     }
-    updatePickerDates(nextDates = []) {
-        if (!this.datePicker) {
-            return;
-        }
-        const validDates = this.toValidDates(nextDates);
-        this.datePicker.clear({ silent: true });
-        if (validDates.length > 0) {
-            this.datePicker.selectDate(validDates, { silent: true });
-            this.currentDate = validDates[0];
-            return;
-        }
-        this.currentDate = null;
-        this.date = null;
-    }
-    forceSyncPickerDate(nextDate) {
-        const valid = this.toValidDate(nextDate);
-        if (!this.datePicker) {
-            this.currentDate = valid;
-            this.date = valid;
-            return;
-        }
-        this.datePicker.clear({ silent: true });
-        if (!valid) {
-            this.currentDate = null;
-            this.date = null;
-            return;
-        }
-        this.datePicker.selectDate(valid, { silent: true });
-        this.currentDate = valid;
-        this.date = valid;
-    }
-    forceSyncPickerDates(nextDates = []) {
-        const validDates = this.toValidDates(nextDates);
-        if (!this.datePicker) {
-            this.currentDate = validDates[0] ?? null;
-            this.date = validDates[0] ?? null;
-            return;
-        }
-        this.datePicker.clear({ silent: true });
-        if (validDates.length > 0) {
-            this.datePicker.selectDate(validDates, { silent: true });
-        }
-        this.currentDate = validDates[0] ?? null;
-        this.date = validDates[0] ?? null;
-    }
+    // ── Picker state management ───────────────────────────────────────────────
+    /**
+     * Pushes a single-date value into the calendar without emitting `dateChanged`.
+     * Clears on `null`/unparseable input; otherwise selects the day (or rebuilds the
+     * whole instance when `forceDestroyOnUpdate` is set).
+     */
     updatePickerDate(newDate) {
-        const valid = this.toValidDate(newDate);
-        if (!valid) {
-            // If invalid or null, just clear
+        const m = this.toMoment(newDate);
+        if (!m) {
             this.datePicker?.clear({ silent: true });
             this.currentDate = null;
             return;
         }
-        // If it's a truly new date, select it
-        if (!this.isSameDates(this.currentDate, valid)) {
-            this.currentDate = valid;
+        if (!this.isSameDates(this.currentDate, m)) {
+            this.currentDate = m;
             if (this.forceDestroyOnUpdate) {
                 this.datePicker?.destroy();
                 this.datePicker = undefined;
                 this.initializeDatepicker();
             }
             else {
-                this.datePicker?.selectDate(valid, { silent: true });
+                this.datePicker?.selectDate(m.format('YYYY-MM-DD'), { silent: true });
             }
         }
     }
+    /** Replaces the calendar's multi/range selection without emitting `dateChanged`. */
+    updatePickerDates(nextDates = []) {
+        if (!this.datePicker)
+            return;
+        const moments = this.toMoments(nextDates);
+        this.datePicker.clear({ silent: true });
+        if (moments.length > 0) {
+            this.datePicker.selectDate(moments.map(m => m.format('YYYY-MM-DD')), { silent: true });
+            this.currentDate = moments[0];
+            return;
+        }
+        this.currentDate = null;
+        this.date = null;
+    }
+    /**
+     * Unconditional single-date resync used by `syncSelection`: clears, re-selects, and
+     * writes back `currentDate`/`date`. Before the picker exists it just stores the value
+     * so `initializeDatepicker` picks it up.
+     */
+    forceSyncPickerDate(nextDate) {
+        const m = this.toMoment(nextDate);
+        if (!this.datePicker) {
+            this.currentDate = m;
+            this.date = m;
+            return;
+        }
+        this.datePicker.clear({ silent: true });
+        if (!m) {
+            this.currentDate = null;
+            this.date = null;
+            return;
+        }
+        this.datePicker.selectDate(m.format('YYYY-MM-DD'), { silent: true });
+        this.currentDate = m;
+        this.date = m;
+    }
+    /** Unconditional multi/range resync used by `syncSelection`. Mirrors `forceSyncPickerDate`. */
+    forceSyncPickerDates(nextDates = []) {
+        const moments = this.toMoments(nextDates);
+        if (!this.datePicker) {
+            this.currentDate = moments[0] ?? null;
+            this.date = moments[0] ?? null;
+            return;
+        }
+        this.datePicker.clear({ silent: true });
+        if (moments.length > 0) {
+            this.datePicker.selectDate(moments.map(m => m.format('YYYY-MM-DD')), { silent: true });
+        }
+        this.currentDate = moments[0] ?? null;
+        this.date = moments[0] ?? null;
+    }
+    /**
+     * AirDatepicker `onSelect` handler — the only path that emits `dateChanged`.
+     * Writes the selection back into `currentDate`/`date` so the watchers treat the
+     * parent's echoed prop update as a no-op.
+     */
+    handleDateSelect(date) {
+        const dates = (Array.isArray(date) ? date : date ? [date] : []).filter(Boolean);
+        if (!dates.length) {
+            if (this.emitEmptyDate) {
+                this.dateChanged.emit({ start: null, end: null, dates: [] });
+            }
+            this.currentDate = null;
+            this.date = null;
+            return;
+        }
+        const startMoment = moment(dates[0]);
+        const endMoment = this.range && dates.length > 1 ? moment(dates[1]) : startMoment;
+        this.currentDate = startMoment;
+        this.date = startMoment;
+        this.dateChanged.emit({
+            start: startMoment,
+            end: endMoment,
+            dates: dates.map(d => moment(d).format('YYYY-MM-DD')),
+        });
+    }
+    /**
+     * Creates the inline AirDatepicker on the host element (idempotent), seeding the
+     * selection from `dates` (preferred) or `currentDate`, then applies the Web Awesome
+     * theme via CSS custom properties on the generated calendar element.
+     */
     initializeDatepicker() {
         if (this.datePicker)
             return;
-        const preselectedDates = this.toValidDates(this.dates);
+        const preselectedMoments = this.toMoments(this.dates);
+        const selectedDates = preselectedMoments.length > 0 ? preselectedMoments.map(m => m.format('YYYY-MM-DD')) : this.currentDate ? [this.currentDate.format('YYYY-MM-DD')] : [];
         this.datePicker = new AirDatepicker(this.el, {
             container: this.container,
             inline: true,
-            selectedDates: preselectedDates.length > 0 ? preselectedDates : this.currentDate ? [this.currentDate] : [],
+            selectedDates,
             multipleDates: this.multipleDates,
             range: this.range,
             dateFormat: this.dateFormat,
             timepicker: this.timepicker,
-            minDate: this.toValidDate(this.minDate) ?? undefined,
-            maxDate: this.toValidDate(this.maxDate) ?? undefined,
+            minDate: this.toMoment(this.minDate)?.format('YYYY-MM-DD'),
+            maxDate: this.toMoment(this.maxDate)?.format('YYYY-MM-DD'),
             autoClose: this.autoClose,
             locale: localeEn,
             showOtherMonths: this.showOtherMonths,
             selectOtherMonths: this.selectOtherMonths,
-            onHide: () => {
-                this.datePickerBlur.emit();
-            },
-            onShow: () => {
-                this.datePickerFocus.emit();
-            },
+            onHide: () => this.datePickerBlur.emit(),
+            onShow: () => this.datePickerFocus.emit(),
             onSelect: ({ date }) => this.handleDateSelect(date),
         });
-        // this.datePicker.$datepicker.style.height = '280px';
         const datepickerEl = this.datePicker.$datepicker;
-        if (!datepickerEl) {
+        if (!datepickerEl)
             return;
-        }
         datepickerEl.classList.add('ir-custom-date-picker__calendar');
         datepickerEl.classList.add('custom-date-picker__calendar');
         datepickerEl.style.borderWidth = '0px';
@@ -298,35 +344,8 @@ export class IrAirDatePicker {
         datepickerEl.style.setProperty('--adp-padding', '0px 0px 0.5rem 0px', 'important');
         datepickerEl.style.setProperty('--adp-border-color-inner', 'transparent', 'important');
         datepickerEl.style.setProperty('--adp-color-other-month-hover', 'var(--wa-color-text-normal)', 'important');
-        // datepickerEl.style.setProperty('--adp-color-disabled', 'var(--wa-color-text-quiet)', 'important');
     }
-    handleDateSelect(selected) {
-        const dates = Array.isArray(selected) ? selected.filter(Boolean) : selected ? [selected] : [];
-        if (!dates.length || !(dates[0] instanceof Date)) {
-            if (this.emitEmptyDate) {
-                this.dateChanged.emit({
-                    start: null,
-                    end: null,
-                    dates: selected,
-                });
-            }
-            this.currentDate = null;
-            this.date = null;
-            return;
-        }
-        const startDate = dates[0];
-        const endDate = this.range && dates.length > 1 ? dates[1] : startDate;
-        this.currentDate = startDate;
-        this.date = startDate;
-        this.dateChanged.emit({
-            start: startDate ? moment(startDate) : null,
-            end: endDate ? moment(endDate) : null,
-            dates: selected,
-        });
-    }
-    disconnectedCallback() {
-        this.datePicker?.destroy?.();
-    }
+    /** Headless: the calendar DOM is injected by AirDatepicker, not Stencil. */
     render() {
         return null;
     }
@@ -355,7 +374,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Not wired to the picker. Accepted only for API parity with `ir-date-select`, which forwards all of its props."
                 },
                 "getter": false,
                 "setter": false,
@@ -374,7 +393,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity."
                 },
                 "getter": false,
                 "setter": false,
@@ -393,7 +412,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Not wired to the picker (this component renders no input). Forwarded by `ir-date-select` for API parity."
                 },
                 "getter": false,
                 "setter": false,
@@ -404,15 +423,21 @@ export class IrAirDatePicker {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
-                    "original": "string[]",
-                    "resolved": "string[]",
-                    "references": {}
+                    "original": "(string | Moment)[]",
+                    "resolved": "(string | Moment)[]",
+                    "references": {
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
+                        }
+                    }
                 },
                 "required": false,
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Pre-selected dates for multi-select/range mode. Takes precedence over `date`\nat initialization, and is re-applied through the `dates` watcher on change."
                 },
                 "getter": false,
                 "setter": false
@@ -429,7 +454,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Determines whether the date picker is rendered inline or in a pop-up.\nIf `true`, the picker is always visible inline."
+                    "text": "Not wired to the picker: the calendar is always created with `inline: true`\n(visibility is controlled by the parent `ir-date-select` popup)."
                 },
                 "getter": false,
                 "setter": false,
@@ -441,12 +466,13 @@ export class IrAirDatePicker {
                 "type": "string",
                 "mutable": true,
                 "complexType": {
-                    "original": "string | Date | null",
-                    "resolved": "Date | string",
+                    "original": "string | Moment | null",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -454,7 +480,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`."
+                    "text": "The selected date (single-select mode). Mutable: the component writes the latest\nselection back into it from `onSelect`, and the parent can set it to move the\ncalendar selection programmatically (applied silently, no `dateChanged` emitted)."
                 },
                 "getter": false,
                 "setter": false,
@@ -474,7 +500,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Enables multiple dates.\nIf `true`, multiple selection is allowed.\nIf you pass a number (e.g. 3), that is the maximum number of selectable dates."
+                    "text": "`true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only."
                 },
                 "getter": false,
                 "setter": false,
@@ -494,7 +520,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Whether the picker should allow range selection (start and end date)."
+                    "text": "Enables range selection (start + end). Passed to AirDatepicker at init only."
                 },
                 "getter": false,
                 "setter": false,
@@ -514,7 +540,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Format for the date as it appears in the input field.\nFollows the `AirDatepicker` format rules."
+                    "text": "Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only."
                 },
                 "getter": false,
                 "setter": false,
@@ -534,7 +560,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Enables the timepicker functionality (select hours and minutes)."
+                    "text": "Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision."
                 },
                 "getter": false,
                 "setter": false,
@@ -546,12 +572,13 @@ export class IrAirDatePicker {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string | Date",
-                    "resolved": "Date | string",
+                    "original": "string | Moment",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -559,7 +586,7 @@ export class IrAirDatePicker {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "The earliest date that can be selected."
+                    "text": "Earliest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection."
                 },
                 "getter": false,
                 "setter": false,
@@ -570,12 +597,13 @@ export class IrAirDatePicker {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
-                    "original": "string | Date",
-                    "resolved": "Date | string",
+                    "original": "string | Moment",
+                    "resolved": "Moment | string",
                     "references": {
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 },
@@ -583,7 +611,7 @@ export class IrAirDatePicker {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "The latest date that can be selected."
+                    "text": "Latest selectable date. Reactive: changes call `datePicker.update()` while preserving the current selection."
                 },
                 "getter": false,
                 "setter": false,
@@ -602,7 +630,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Disables the input and prevents interaction."
+                    "text": "Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself)."
                 },
                 "getter": false,
                 "setter": false,
@@ -622,7 +650,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Closes the picker automatically after a date is selected."
+                    "text": "Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing."
                 },
                 "getter": false,
                 "setter": false,
@@ -642,7 +670,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Shows days from previous/next month in the current month's calendar."
+                    "text": "Shows days from the previous/next month in the current view. Passed at init only."
                 },
                 "getter": false,
                 "setter": false,
@@ -662,7 +690,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Allows selecting days from previous/next month shown in the current view."
+                    "text": "Allows selecting the previous/next-month days shown in the current view. Passed at init only."
                 },
                 "getter": false,
                 "setter": false,
@@ -682,7 +710,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Controls how the date picker is triggered.\n- **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name=\"trigger\">`).\n- **`false`**: A default button input is used to open the picker.\n\nDefaults to `false`."
+                    "text": "Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern)."
                 },
                 "getter": false,
                 "setter": false,
@@ -707,7 +735,7 @@ export class IrAirDatePicker {
                 "optional": true,
                 "docs": {
                     "tags": [],
-                    "text": "Pass a container element if you need the date picker to be appended to a specific element\nfor styling or positioning (particularly for arrow rendering).\nIf not provided, it defaults to `this.el`."
+                    "text": "Optional element AirDatepicker appends its calendar to (for positioning/styling). Defaults to the host."
                 },
                 "getter": false,
                 "setter": false
@@ -724,7 +752,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes.\nThis can be useful if you need the picker to fully re-initialize in response to dynamic changes,\nbut note that it may affect performance if triggered frequently.\nDefaults to `false`."
+                    "text": "If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance\ninstead of calling `selectDate`. Use only when the picker must fully re-initialize;\nrebuilding on every change is expensive."
                 },
                 "getter": false,
                 "setter": false,
@@ -744,7 +772,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null).\nOtherwise, empty-date changes will be ignored (no event emitted).\n\nDefaults to `false`."
+                    "text": "If `true`, emits `dateChanged` with null values when the selection is cleared.\nOtherwise clear-events are swallowed."
                 },
                 "getter": false,
                 "setter": false,
@@ -764,7 +792,7 @@ export class IrAirDatePicker {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": "Styles for the trigger container"
+                    "text": "Not wired to the picker. Forwarded by `ir-date-select` for API parity."
                 },
                 "getter": false,
                 "setter": false,
@@ -772,11 +800,6 @@ export class IrAirDatePicker {
                 "reflect": false,
                 "defaultValue": "''"
             }
-        };
-    }
-    static get states() {
-        return {
-            "currentDate": {}
         };
     }
     static get events() {
@@ -788,19 +811,16 @@ export class IrAirDatePicker {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the selected date changes.\nReturns the selected date as Moment objects."
+                    "text": "Emitted when the user picks a date in the calendar (never for silent, prop-driven updates).\n`start`/`end` are equal in single-select mode; `dates` holds every selected date as `YYYY-MM-DD`."
                 },
                 "complexType": {
-                    "original": "{\n    start: moment.Moment | null;\n    end: moment.Moment | null;\n    dates: Date | Date[];\n  }",
-                    "resolved": "{ start: Moment; end: Moment; dates: Date | Date[]; }",
+                    "original": "{\n    start: Moment | null;\n    end: Moment | null;\n    dates: string | string[];\n  }",
+                    "resolved": "{ start: Moment; end: Moment; dates: string | string[]; }",
                     "references": {
-                        "moment": {
-                            "location": "global",
-                            "id": "global::moment"
-                        },
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     }
                 }
@@ -812,7 +832,7 @@ export class IrAirDatePicker {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the date picker gains focus or is opened."
+                    "text": "Emitted when the AirDatepicker reports `onShow`."
                 },
                 "complexType": {
                     "original": "void",
@@ -827,7 +847,7 @@ export class IrAirDatePicker {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": "Emitted when the date picker loses focus or is closed."
+                    "text": "Emitted when the AirDatepicker reports `onHide`."
                 },
                 "complexType": {
                     "original": "void",
@@ -851,16 +871,16 @@ export class IrAirDatePicker {
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "",
+                    "text": "Clears the calendar selection. Not silent: fires `onSelect` with an empty value (see `emitEmptyDate`).",
                     "tags": []
                 }
             },
             "syncSelection": {
                 "complexType": {
-                    "signature": "(options?: { date?: string | Date | null; dates?: (string | Date)[] | null; }) => Promise<void>",
+                    "signature": "(options?: { date?: string | Moment | null; dates?: (string | Moment)[] | null; }) => Promise<void>",
                     "parameters": [{
                             "name": "options",
-                            "type": "{ date?: string | Date; dates?: (string | Date)[]; }",
+                            "type": "{ date?: string | Moment; dates?: (string | Moment)[]; }",
                             "docs": ""
                         }],
                     "references": {
@@ -868,15 +888,16 @@ export class IrAirDatePicker {
                             "location": "global",
                             "id": "global::Promise"
                         },
-                        "Date": {
-                            "location": "global",
-                            "id": "global::Date"
+                        "Moment": {
+                            "location": "import",
+                            "path": "moment",
+                            "id": "node_modules::Moment"
                         }
                     },
                     "return": "Promise<void>"
                 },
                 "docs": {
-                    "text": "",
+                    "text": "Force-resyncs the calendar to the given (or current) value, bypassing the equality\nchecks the watchers perform. Escape hatch for parents whose prop value didn't change\nbut whose picker drifted (e.g. after a silent internal clear). Always silent.",
                     "tags": []
                 }
             }

@@ -131,7 +131,7 @@ export class CityLedgerService {
             throw new Error(data.ExceptionMsg);
         return data.My_Result;
     }
-    async voidReceiptByCreditCreditReceipt(params) {
+    async voidReceiptByCreditReceipt(params) {
         const payload = VoidReceiptByCreditReceiptParamsSchema.parse(params);
         const { data } = await axios.post('/Void_Receipt_By_Credit_Receipt', payload);
         if (data.ExceptionMsg !== '')

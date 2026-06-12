@@ -15055,7 +15055,7 @@ const IrQueueChart$1 = /*@__PURE__*/ proxyCustomElement(class IrQueueChart exten
         this.chart.update();
     }
     render() {
-        return (h(Host, { key: 'ada8eac2870104b9587179d17778e3737ce13637' }, h("div", { key: '8c82e5e7703de8413b6bf8068cc7b1e8f2ba5210', class: "chart-container" }, h("canvas", { key: '8b50b7b89daca2f3f25f3cc0259641d6800c3de6', ref: el => (this.canvas = el) }))));
+        return (h(Host, { key: 'ec54aecedc358ecce8b07547d5be65a6e88ce94b' }, h("div", { key: '946c0b1e52713f398431f940ae9f1bbd896e5683', class: "chart-container" }, h("canvas", { key: 'aa257e0f1c45c59debf8dbea65aeb68b153fc90b', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
         "values": ["dataChanged"],
