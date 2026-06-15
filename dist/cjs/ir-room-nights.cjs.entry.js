@@ -3,13 +3,14 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-bf99f431.js');
+const booking_store = require('./booking.store-1346a1f5.js');
 const utils = require('./utils-410526d1.js');
 const moment = require('./moment-1780b03a.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
+require('./booking-07bbb19e.js');
 require('./index-fbf1fe1d.js');
 require('./type-53035218.js');
 

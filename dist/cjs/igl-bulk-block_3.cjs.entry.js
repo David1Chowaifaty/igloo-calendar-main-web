@@ -3,12 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-bf99f431.js');
+const booking_store = require('./booking.store-1346a1f5.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const moment = require('./moment-1780b03a.js');
 const index$1 = require('./index-8bb117a0.js');
 const locales_store = require('./locales.store-32782582.js');
 const utils = require('./utils-410526d1.js');
+const booking = require('./booking-07bbb19e.js');
 require('./axios-6e678d52.js');
 require('./index-fbf1fe1d.js');
 require('./type-53035218.js');
@@ -357,10 +358,10 @@ const IglBulkStopSale = class {
             return p;
         };
         const updateCalendarCells = (payloads) => {
-            const prevDisabledCells = new Map(booking_store.calendar_dates.disabled_cells);
+            const prevDisabledCells = new Map(booking.calendar_dates.disabled_cells);
             // Caches
             const roomsInfoById = new Map(calendarData.calendar_data.roomsInfo.map((rt, i) => [rt.id, { roomType: rt, index: i }]));
-            const dayIndexByValue = new Map(booking_store.calendar_dates.days.map((day, i) => [day.value, i]));
+            const dayIndexByValue = new Map(booking.calendar_dates.days.map((day, i) => [day.value, i]));
             const rateByRoomTypeAndDate = new Map();
             for (const payload of payloads) {
                 for (const restriction of payload.restrictions) {
@@ -373,7 +374,7 @@ const IglBulkStopSale = class {
                         console.warn(`Couldn't find date ${night}`);
                         continue;
                     }
-                    const day = booking_store.calendar_dates.days[dayIndex];
+                    const day = booking.calendar_dates.days[dayIndex];
                     const rateKey = `${room_type_id}_${night}`;
                     let rp = rateByRoomTypeAndDate.get(rateKey);
                     if (!rp) {
@@ -394,7 +395,7 @@ const IglBulkStopSale = class {
                     }
                 }
             }
-            booking_store.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
+            booking.calendar_dates['disabled_cells'] = new Map(prevDisabledCells);
         };
         try {
             this.errors = null;

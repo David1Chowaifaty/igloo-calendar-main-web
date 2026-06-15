@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-bf99f431.js');
+const booking_store = require('./booking.store-1346a1f5.js');
 const room_service = require('./room.service-f9117e70.js');
 const locales_store = require('./locales.store-32782582.js');
 const Token = require('./Token-fb15e0d7.js');
@@ -11,6 +11,7 @@ const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const utils = require('./utils-410526d1.js');
 require('./index-8bb117a0.js');
 require('./axios-6e678d52.js');
+require('./booking-07bbb19e.js');
 require('./moment-1780b03a.js');
 require('./index-fbf1fe1d.js');
 require('./calendar-data-70bc3b4b.js');
