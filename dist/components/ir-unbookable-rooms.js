@@ -11,7 +11,7 @@ import { d as defineCustomElement$9 } from './ir-otp2.js';
 import { d as defineCustomElement$8 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$7 } from './ir-spinner2.js';
 import { d as defineCustomElement$6 } from './ir-toast2.js';
-import { d as defineCustomElement$5 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$5 } from './ir-toast-item2.js';
 import { d as defineCustomElement$4 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$3 } from './ir-unbookable-rooms-data2.js';
 import { d as defineCustomElement$2 } from './ir-unbookable-rooms-filters2.js';
@@ -211,7 +211,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-unbookable-rooms", "ir-button", "ir-custom-button", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-unbookable-rooms-data", "ir-unbookable-rooms-filters"];
+    const components = ["ir-unbookable-rooms", "ir-button", "ir-custom-button", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-unbookable-rooms-data", "ir-unbookable-rooms-filters"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-unbookable-rooms":
             if (!customElements.get(tagName)) {
@@ -268,7 +268,7 @@ function defineCustomElement$1() {
                 defineCustomElement$6();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$5();
             }

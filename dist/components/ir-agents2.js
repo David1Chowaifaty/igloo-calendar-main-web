@@ -1,9 +1,10 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
 import { A as AgentsService } from './agents.service.js';
 import { B as BookingService } from './booking.store.js';
 import { c as calendar_data } from './calendar-data.js';
 import { P as PropertyService } from './property.service.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$p } from './ir-agent-contract2.js';
 import { d as defineCustomElement$o } from './ir-agent-editor-drawer2.js';
 import { d as defineCustomElement$n } from './ir-agent-editor-form2.js';
@@ -26,7 +27,7 @@ import { d as defineCustomElement$7 } from './ir-picker2.js';
 import { d as defineCustomElement$6 } from './ir-picker-item2.js';
 import { d as defineCustomElement$5 } from './ir-spinner2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-item2.js';
 import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
@@ -37,7 +38,6 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
     constructor() {
         super();
         this.__registerHost();
-        this.toast = createEvent(this, "toast", 7);
     }
     /**
      * Authentication token issued by the PMS backend.
@@ -66,7 +66,6 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
     isLoading = true;
     countries;
     setupEntries;
-    toast;
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
@@ -161,11 +160,10 @@ const IrAgents = /*@__PURE__*/ proxyCustomElement(class IrAgents extends HTMLEle
         try {
             await this.agentsService.handleExposedAgent({ agent });
             this.upsertAgent();
-            this.toast.emit({
+            showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
-                position: 'top-right',
             });
         }
         catch (error) {
@@ -203,7 +201,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-agents", "ir-agent-contract", "ir-agent-editor-drawer", "ir-agent-editor-form", "ir-agent-profile", "ir-agents-table", "ir-button", "ir-country-picker", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["ir-agents", "ir-agent-contract", "ir-agent-editor-drawer", "ir-agent-editor-form", "ir-agent-profile", "ir-agents-table", "ir-button", "ir-country-picker", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-empty-state", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-agents":
             if (!customElements.get(tagName)) {
@@ -320,7 +318,7 @@ function defineCustomElement() {
                 defineCustomElement$4();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

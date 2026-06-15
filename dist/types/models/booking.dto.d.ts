@@ -241,6 +241,7 @@ export interface FinancialSnapshotEntry {
     vat_percent: number;
 }
 export interface Booking {
+    is_source_editable: boolean;
     charges: Charges;
     agent_booking_nbr: string;
     agent: {

@@ -1,8 +1,9 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { a as axios } from './axios.js';
 import { z } from './index2.js';
 import { B as BookingService } from './booking.store.js';
 import { T as Token } from './Token.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$f } from './ir-button2.js';
 import { d as defineCustomElement$e } from './ir-custom-button2.js';
 import { d as defineCustomElement$d } from './ir-dialog2.js';
@@ -16,7 +17,7 @@ import { d as defineCustomElement$6 } from './ir-otp2.js';
 import { d as defineCustomElement$5 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 
 z.object({
@@ -70,7 +71,6 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
     constructor() {
         super();
         this.__registerHost();
-        this.toast = createEvent(this, "toast", 7);
     }
     get el() { return this; }
     ticket;
@@ -84,7 +84,6 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
     isGenerating = false;
     isActivating = false;
     propertyToActivate = null;
-    toast;
     ghsService = new GHSService();
     bookingService = new BookingService();
     tokenService = new Token();
@@ -108,14 +107,9 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
     async init() {
         this.isPageLoading = true;
         try {
-            const [allCountries, allProperties] = await Promise.all([
-                this.bookingService.getCountries('EN'),
-                this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null }),
-            ]);
+            const [allCountries, allProperties] = await Promise.all([this.bookingService.getCountries('EN'), this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null })]);
             const validCountryIds = new Set(allProperties.map(p => p.COUNTRY_ID));
-            this.countries = allCountries
-                .filter(c => validCountryIds.has(c.id))
-                .sort((a, b) => a.name.localeCompare(b.name));
+            this.countries = allCountries.filter(c => validCountryIds.has(c.id)).sort((a, b) => a.name.localeCompare(b.name));
             this.properties = allProperties;
         }
         catch (error) {
@@ -240,7 +234,7 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
         }
     }
     showToast(type, title, description) {
-        this.toast.emit({
+        showToast({
             type,
             title,
             description,
@@ -254,7 +248,7 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
         return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-dialog", { ref: el => (this.activateModal = el), label: "Activation Confirmation", onIrDialogHide: () => {
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for", ' ', h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
+            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for ", h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -283,10 +277,10 @@ const IrGhsOnboarding = /*@__PURE__*/ proxyCustomElement(class IrGhsOnboarding e
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail), onCountryChange: (e) => {
+            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: e => this.togglePropertySelection(e.detail), onToggleAll: e => this.handleToggleAll(e.detail), onActivateProperty: e => this.handleActivateProperty(e.detail), onCountryChange: e => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
-            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) }))))));
+            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: e => this.removePropertySelection(e.detail) }))))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -311,7 +305,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-ghs-onboarding", "ir-button", "ir-custom-button", "ir-dialog", "ir-ghs-candidate-table", "ir-ghs-selection-bucket", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-ghs-onboarding", "ir-button", "ir-custom-button", "ir-dialog", "ir-ghs-candidate-table", "ir-ghs-selection-bucket", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-ghs-onboarding":
             if (!customElements.get(tagName)) {
@@ -383,7 +377,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

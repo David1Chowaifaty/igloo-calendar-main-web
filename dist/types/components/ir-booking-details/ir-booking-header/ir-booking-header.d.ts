@@ -1,4 +1,3 @@
-import { IToast } from "../../ui/ir-toast/toast";
 import { Booking } from "../../../models/booking.dto";
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { BookingDetailsDialogEvents, OpenSidebarEvent } from '../types';
@@ -21,7 +20,7 @@ export declare class IrBookingHeader {
     hasCloseButton: boolean;
     hasEmail: boolean;
     folioRows: FolioRow[];
-    toast: EventEmitter<IToast>;
+    agents: Agent[];
     closeSidebar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
     openSidebar: EventEmitter<OpenSidebarEvent<any>>;

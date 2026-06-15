@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { IToast } from "../../ui/ir-toast/toast";
 import { User } from "../../../models/Users";
 import { AllowedUser } from '../types';
 export declare class IrUserManagementTable {
@@ -18,7 +17,6 @@ export declare class IrUserManagementTable {
     canDelete: boolean;
     canEdit: boolean;
     canCreate: boolean;
-    toast: EventEmitter<IToast>;
     resetData: EventEmitter<null>;
     private dialogRef;
     private userService;

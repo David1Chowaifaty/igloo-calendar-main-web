@@ -24,7 +24,6 @@ import { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 import { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 import { Agent } from "./services/agents/type";
 import { AgentSetupEntries } from "./components/ir-agents/types";
-import { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 import { Moment } from "moment";
 import { IPaymentAction } from "./services/payment.service";
 import { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
@@ -53,7 +52,7 @@ import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoi
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
+import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { Moment as Moment1 } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -96,6 +95,7 @@ import { Tab } from "./components/ui/ir-tabs/ir-tabs";
 import { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 import { ChargeRule } from "./components/ir-tax-service-categories/types";
 import { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+import { TPositions } from "./components/ui/ir-toast/toast";
 import { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 import { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 import { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
@@ -121,7 +121,6 @@ export { Toast } from "./components/igl-toast-provider/igl-toast-provider";
 export { IrActionButton } from "./components/table-cells/booking/ir-actions-cell/ir-actions-cell";
 export { Agent } from "./services/agents/type";
 export { AgentSetupEntries } from "./components/ir-agents/types";
-export { IToast as IToast1, TPositions } from "./components/ui/ir-toast/toast";
 export { Moment } from "moment";
 export { IPaymentAction } from "./services/payment.service";
 export { PaginationChangeEvent, PaginationRange } from "./components/ir-pagination/ir-pagination";
@@ -150,7 +149,7 @@ export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoi
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast2 } from "./components.d";
+export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { Moment as Moment1 } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -193,6 +192,7 @@ export { Tab } from "./components/ui/ir-tabs/ir-tabs";
 export { TaskFilters } from "./components/ir-housekeeping/ir-hk-tasks/types";
 export { ChargeRule } from "./components/ir-tax-service-categories/types";
 export { ToolbarConfig } from "./components/ui/ir-text-editor/ir-text-editor";
+export { TPositions } from "./components/ui/ir-toast/toast";
 export { ToastVariant } from "./components/ir-toast-alert/ir-toast-alert";
 export { ToastVariants } from "./components/ui/ir-toast-item/ir-toast-item";
 export { Toast as Toast1 } from "./components/ir-toast-provider/ir-toast-provider";
@@ -1259,6 +1259,7 @@ export namespace Components {
     }
     interface IrBookingHeader {
         "agent": Agent;
+        "agents": Agent[];
         "booking": Booking;
         "folioRows": FolioRow[];
         "hasCloseButton": boolean;
@@ -4776,7 +4777,22 @@ export namespace Components {
         "variant": ToastVariant;
     }
     interface IrToastItem {
+        /**
+          * Whether the close button is rendered.
+         */
+        "dismissible": boolean;
+        /**
+          * Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast.
+         */
         "duration": number;
+        /**
+          * Plays the exit animation, then emits `irDismiss`.
+         */
+        "hide": () => Promise<void>;
+        /**
+          * Starts the auto-dismiss countdown. Safe to call more than once.
+         */
+        "startTimer": () => Promise<void>;
         "variant": ToastVariants;
     }
     interface IrToastProvider {
@@ -5117,10 +5133,6 @@ export interface IrAgentEditorFormCustomEvent<T> extends CustomEvent<T> {
 export interface IrAgentProfileCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrAgentProfileElement;
-}
-export interface IrAgentsCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrAgentsElement;
 }
 export interface IrAgentsTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5486,10 +5498,6 @@ export interface IrGhsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGhsFiltersElement;
 }
-export interface IrGhsOnboardingCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrGhsOnboardingElement;
-}
 export interface IrGhsSelectionBucketCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrGhsSelectionBucketElement;
@@ -5513,10 +5521,6 @@ export interface IrGuestInfoFormCustomEvent<T> extends CustomEvent<T> {
 export interface IrHkDeleteDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHkDeleteDialogElement;
-}
-export interface IrHkOperationsCardCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrHkOperationsCardElement;
 }
 export interface IrHkStaffTaskCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5557,10 +5561,6 @@ export interface IrHkUserDrawerFormCustomEvent<T> extends CustomEvent<T> {
 export interface IrHoldTransactionDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrHoldTransactionDialogElement;
-}
-export interface IrHousekeepingCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrHousekeepingElement;
 }
 export interface IrIconCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5681,10 +5681,6 @@ export interface IrPaymentFolioFormCustomEvent<T> extends CustomEvent<T> {
 export interface IrPaymentItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrPaymentItemElement;
-}
-export interface IrPaymentOptionCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLIrPaymentOptionElement;
 }
 export interface IrPaymentsFolioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -5846,6 +5842,10 @@ export interface IrToastItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrToastItemElement;
 }
+export interface IrToastProviderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIrToastProviderElement;
+}
 export interface IrUnbookableRoomsFiltersCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIrUnbookableRoomsFiltersElement;
@@ -6003,7 +6003,6 @@ declare global {
         "splitBookingDropDownChange": any;
         "checkClicked": any;
         "buttonClicked": { key: TPropertyButtonsTypes };
-        "toast": IToast;
         "spiltBookingSelected": { key: string; data: unknown };
         "animateIrSelect": string;
     }
@@ -6028,7 +6027,6 @@ declare global {
         "showRoomNightsDialog": IRoomNightsData;
         "showDialog": CalendarModalEvent;
         "resetStretchedBooking": string;
-        "toast": IToast;
         "updateBookingEvent": { [key: string]: any };
     }
     interface HTMLIglBookingEventElement extends Components.IglBookingEvent, HTMLStencilElement {
@@ -6107,7 +6105,6 @@ declare global {
     };
     interface HTMLIglBulkBlockElementEventMap {
         "closeDrawer": null;
-        "toast": IToast;
         "loadingChanged": boolean;
     }
     interface HTMLIglBulkBlockElement extends Components.IglBulkBlock, HTMLStencilElement {
@@ -6162,7 +6159,6 @@ declare global {
     };
     interface HTMLIglBulkStopSaleElementEventMap {
         "closeDrawer": null;
-        "toast": IToast;
         "loadingChanged": boolean;
     }
     interface HTMLIglBulkStopSaleElement extends Components.IglBulkStopSale, HTMLStencilElement {
@@ -6646,18 +6642,7 @@ declare global {
         prototype: HTMLIrAgentProfileElement;
         new (): HTMLIrAgentProfileElement;
     };
-    interface HTMLIrAgentsElementEventMap {
-        "toast": IToast1;
-    }
     interface HTMLIrAgentsElement extends Components.IrAgents, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrAgentsElementEventMap>(type: K, listener: (this: HTMLIrAgentsElement, ev: IrAgentsCustomEvent<HTMLIrAgentsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrAgentsElementEventMap>(type: K, listener: (this: HTMLIrAgentsElement, ev: IrAgentsCustomEvent<HTMLIrAgentsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrAgentsElement: {
         prototype: HTMLIrAgentsElement;
@@ -7000,7 +6985,6 @@ declare global {
     interface HTMLIrBookingDetailsElementEventMap {
         "bookingChanged": Booking;
         "closeSidebar": null;
-        "toast": IToast;
     }
     interface HTMLIrBookingDetailsElement extends Components.IrBookingDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrBookingDetailsElementEventMap>(type: K, listener: (this: HTMLIrBookingDetailsElement, ev: IrBookingDetailsCustomEvent<HTMLIrBookingDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -7147,7 +7131,6 @@ declare global {
         new (): HTMLIrBookingGuaranteeElement;
     };
     interface HTMLIrBookingHeaderElementEventMap {
-        "toast": IToast;
         "closeSidebar": null;
         "resetBookingEvt": null;
         "openSidebar": OpenSidebarEvent<any>;
@@ -8609,18 +8592,7 @@ declare global {
         prototype: HTMLIrGhsFiltersElement;
         new (): HTMLIrGhsFiltersElement;
     };
-    interface HTMLIrGhsOnboardingElementEventMap {
-        "toast": IToast1;
-    }
     interface HTMLIrGhsOnboardingElement extends Components.IrGhsOnboarding, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrGhsOnboardingElementEventMap>(type: K, listener: (this: HTMLIrGhsOnboardingElement, ev: IrGhsOnboardingCustomEvent<HTMLIrGhsOnboardingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrGhsOnboardingElementEventMap>(type: K, listener: (this: HTMLIrGhsOnboardingElement, ev: IrGhsOnboardingCustomEvent<HTMLIrGhsOnboardingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrGhsOnboardingElement: {
         prototype: HTMLIrGhsOnboardingElement;
@@ -8665,7 +8637,6 @@ declare global {
     interface HTMLIrGuestInfoElementEventMap {
         "closeSideBar": null;
         "resetBookingEvt": null;
-        "toast": IToast;
     }
     interface HTMLIrGuestInfoElement extends Components.IrGuestInfo, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestInfoElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoElement, ev: IrGuestInfoCustomEvent<HTMLIrGuestInfoElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8685,7 +8656,6 @@ declare global {
         "guestInfoDrawerClosed": { source: Element };
         "guestChanged": GuestChangedEvent;
         "resetBookingEvt": null;
-        "toast": IToast;
     }
     interface HTMLIrGuestInfoDrawerElement extends Components.IrGuestInfoDrawer, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrGuestInfoDrawerElementEventMap>(type: K, listener: (this: HTMLIrGuestInfoDrawerElement, ev: IrGuestInfoDrawerCustomEvent<HTMLIrGuestInfoDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -8751,18 +8721,7 @@ declare global {
         prototype: HTMLIrHkDeleteDialogElement;
         new (): HTMLIrHkDeleteDialogElement;
     };
-    interface HTMLIrHkOperationsCardElementEventMap {
-        "toast": IToast;
-    }
     interface HTMLIrHkOperationsCardElement extends Components.IrHkOperationsCard, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrHkOperationsCardElementEventMap>(type: K, listener: (this: HTMLIrHkOperationsCardElement, ev: IrHkOperationsCardCustomEvent<HTMLIrHkOperationsCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrHkOperationsCardElementEventMap>(type: K, listener: (this: HTMLIrHkOperationsCardElement, ev: IrHkOperationsCardCustomEvent<HTMLIrHkOperationsCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrHkOperationsCardElement: {
         prototype: HTMLIrHkOperationsCardElement;
@@ -8955,18 +8914,7 @@ declare global {
         prototype: HTMLIrHoldTransactionDialogElement;
         new (): HTMLIrHoldTransactionDialogElement;
     };
-    interface HTMLIrHousekeepingElementEventMap {
-        "toast": IToast;
-    }
     interface HTMLIrHousekeepingElement extends Components.IrHousekeeping, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrHousekeepingElementEventMap>(type: K, listener: (this: HTMLIrHousekeepingElement, ev: IrHousekeepingCustomEvent<HTMLIrHousekeepingElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrHousekeepingElementEventMap>(type: K, listener: (this: HTMLIrHousekeepingElement, ev: IrHousekeepingCustomEvent<HTMLIrHousekeepingElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrHousekeepingElement: {
         prototype: HTMLIrHousekeepingElement;
@@ -9438,7 +9386,6 @@ declare global {
     };
     interface HTMLIrOptionDetailsElementEventMap {
         "closeModal": PaymentOption | null;
-        "toast": IToast;
     }
     interface HTMLIrOptionDetailsElement extends Components.IrOptionDetails, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrOptionDetailsElementEventMap>(type: K, listener: (this: HTMLIrOptionDetailsElement, ev: IrOptionDetailsCustomEvent<HTMLIrOptionDetailsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -9649,18 +9596,7 @@ declare global {
         prototype: HTMLIrPaymentItemElement;
         new (): HTMLIrPaymentItemElement;
     };
-    interface HTMLIrPaymentOptionElementEventMap {
-        "toast": IToast;
-    }
     interface HTMLIrPaymentOptionElement extends Components.IrPaymentOption, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLIrPaymentOptionElementEventMap>(type: K, listener: (this: HTMLIrPaymentOptionElement, ev: IrPaymentOptionCustomEvent<HTMLIrPaymentOptionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLIrPaymentOptionElementEventMap>(type: K, listener: (this: HTMLIrPaymentOptionElement, ev: IrPaymentOptionCustomEvent<HTMLIrPaymentOptionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrPaymentOptionElement: {
         prototype: HTMLIrPaymentOptionElement;
@@ -10024,7 +9960,6 @@ declare global {
     interface HTMLIrRectifierElementEventMap {
         "loadingChanged": boolean;
         "closeDrawer": void;
-        "toast": IToast;
     }
     interface HTMLIrRectifierElement extends Components.IrRectifier, HTMLStencilElement {
         addEventListener<K extends keyof HTMLIrRectifierElementEventMap>(type: K, listener: (this: HTMLIrRectifierElement, ev: IrRectifierCustomEvent<HTMLIrRectifierElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -10597,7 +10532,18 @@ declare global {
         prototype: HTMLIrToastItemElement;
         new (): HTMLIrToastItemElement;
     };
+    interface HTMLIrToastProviderElementEventMap {
+        "toastAction": { id: string };
+    }
     interface HTMLIrToastProviderElement extends Components.IrToastProvider, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLIrToastProviderElementEventMap>(type: K, listener: (this: HTMLIrToastProviderElement, ev: IrToastProviderCustomEvent<HTMLIrToastProviderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLIrToastProviderElementEventMap>(type: K, listener: (this: HTMLIrToastProviderElement, ev: IrToastProviderCustomEvent<HTMLIrToastProviderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLIrToastProviderElement: {
         prototype: HTMLIrToastProviderElement;
@@ -10717,7 +10663,6 @@ declare global {
         new (): HTMLIrUserManagementElement;
     };
     interface HTMLIrUserManagementTableElementEventMap {
-        "toast": IToast;
         "resetData": null;
     }
     interface HTMLIrUserManagementTableElement extends Components.IrUserManagementTable, HTMLStencilElement {
@@ -11225,7 +11170,6 @@ declare namespace LocalJSX {
         "onCheckClicked"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "onSpiltBookingSelected"?: (event: IglBookPropertyHeaderCustomEvent<{ key: string; data: unknown }>) => void;
         "onSplitBookingDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
-        "onToast"?: (event: IglBookPropertyHeaderCustomEvent<IToast>) => void;
         "propertyId"?: number;
         "showSplitBookingOption"?: boolean;
         "splitBookingId"?: any;
@@ -11244,7 +11188,6 @@ declare namespace LocalJSX {
         "onResetStretchedBooking"?: (event: IglBookingEventCustomEvent<string>) => void;
         "onShowDialog"?: (event: IglBookingEventCustomEvent<CalendarModalEvent>) => void;
         "onShowRoomNightsDialog"?: (event: IglBookingEventCustomEvent<IRoomNightsData>) => void;
-        "onToast"?: (event: IglBookingEventCustomEvent<IToast>) => void;
         "onUpdateBookingEvent"?: (event: IglBookingEventCustomEvent<{ [key: string]: any }>) => void;
         "onUpdateEventData"?: (event: IglBookingEventCustomEvent<any>) => void;
     }
@@ -11305,7 +11248,6 @@ declare namespace LocalJSX {
         "maxDatesLength"?: number;
         "onCloseDrawer"?: (event: IglBulkBlockCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IglBulkBlockCustomEvent<boolean>) => void;
-        "onToast"?: (event: IglBulkBlockCustomEvent<IToast>) => void;
         "property_id"?: number;
     }
     interface IglBulkOperations {
@@ -11326,7 +11268,6 @@ declare namespace LocalJSX {
         "maxDatesLength"?: number;
         "onCloseDrawer"?: (event: IglBulkStopSaleCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IglBulkStopSaleCustomEvent<boolean>) => void;
-        "onToast"?: (event: IglBulkStopSaleCustomEvent<IToast>) => void;
         "property_id"?: number;
     }
     interface IglCalBody {
@@ -11599,7 +11540,6 @@ declare namespace LocalJSX {
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
          */
         "language"?: string;
-        "onToast"?: (event: IrAgentsCustomEvent<IToast1>) => void;
         /**
           * Property alias or short identifier used by backend endpoints (aname). Passed to `getExposedProperty` when initializing the component.
          */
@@ -12184,10 +12124,6 @@ declare namespace LocalJSX {
          */
         "onCloseSidebar"?: (event: IrBookingDetailsCustomEvent<null>) => void;
         /**
-          * Emits toast notifications to the parent context. Carries toast configuration such as message, type, and duration.
-         */
-        "onToast"?: (event: IrBookingDetailsCustomEvent<IToast>) => void;
-        /**
           * Property alias or account name used when fetching exposed property data.
          */
         "p"?: string;
@@ -12352,6 +12288,7 @@ declare namespace LocalJSX {
     }
     interface IrBookingHeader {
         "agent"?: Agent;
+        "agents"?: Agent[];
         "booking"?: Booking;
         "folioRows"?: FolioRow[];
         "hasCloseButton"?: boolean;
@@ -12363,7 +12300,6 @@ declare namespace LocalJSX {
         "onCloseSidebar"?: (event: IrBookingHeaderCustomEvent<null>) => void;
         "onOpenSidebar"?: (event: IrBookingHeaderCustomEvent<OpenSidebarEvent<any>>) => void;
         "onResetBookingEvt"?: (event: IrBookingHeaderCustomEvent<null>) => void;
-        "onToast"?: (event: IrBookingHeaderCustomEvent<IToast>) => void;
     }
     interface IrBookingListing {
         "baseUrl"?: string;
@@ -13867,7 +13803,6 @@ declare namespace LocalJSX {
     }
     interface IrGhsOnboarding {
         "baseurl"?: string;
-        "onToast"?: (event: IrGhsOnboardingCustomEvent<IToast1>) => void;
         "ticket"?: string;
     }
     interface IrGhsSelectionBucket {
@@ -13889,7 +13824,6 @@ declare namespace LocalJSX {
         "language"?: string;
         "onCloseSideBar"?: (event: IrGuestInfoCustomEvent<null>) => void;
         "onResetBookingEvt"?: (event: IrGuestInfoCustomEvent<null>) => void;
-        "onToast"?: (event: IrGuestInfoCustomEvent<IToast>) => void;
         "ticket"?: string;
     }
     interface IrGuestInfoDrawer {
@@ -13899,7 +13833,6 @@ declare namespace LocalJSX {
         "onGuestChanged"?: (event: IrGuestInfoDrawerCustomEvent<GuestChangedEvent>) => void;
         "onGuestInfoDrawerClosed"?: (event: IrGuestInfoDrawerCustomEvent<{ source: Element }>) => void;
         "onResetBookingEvt"?: (event: IrGuestInfoDrawerCustomEvent<null>) => void;
-        "onToast"?: (event: IrGuestInfoDrawerCustomEvent<IToast>) => void;
         "open"?: boolean;
         "ticket"?: string;
     }
@@ -13929,7 +13862,6 @@ declare namespace LocalJSX {
     }
     interface IrHkOperationsCard {
         "frequencies"?: IEntries[];
-        "onToast"?: (event: IrHkOperationsCardCustomEvent<IToast>) => void;
     }
     interface IrHkStaffTask {
         "future"?: boolean;
@@ -14000,7 +13932,6 @@ declare namespace LocalJSX {
     interface IrHousekeeping {
         "baseUrl"?: string;
         "language"?: string;
-        "onToast"?: (event: IrHousekeepingCustomEvent<IToast>) => void;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
@@ -14868,7 +14799,6 @@ declare namespace LocalJSX {
     }
     interface IrOptionDetails {
         "onCloseModal"?: (event: IrOptionDetailsCustomEvent<PaymentOption | null>) => void;
-        "onToast"?: (event: IrOptionDetailsCustomEvent<IToast>) => void;
         "propertyId"?: string;
     }
     interface IrOtaService {
@@ -15110,7 +15040,6 @@ declare namespace LocalJSX {
         "defaultStyles"?: boolean;
         "hideLogs"?: boolean;
         "language"?: string;
-        "onToast"?: (event: IrPaymentOptionCustomEvent<IToast>) => void;
         "p"?: string;
         "propertyid"?: string;
         "ticket"?: string;
@@ -15688,7 +15617,6 @@ declare namespace LocalJSX {
         "formId"?: string;
         "onCloseDrawer"?: (event: IrRectifierCustomEvent<void>) => void;
         "onLoadingChanged"?: (event: IrRectifierCustomEvent<boolean>) => void;
-        "onToast"?: (event: IrRectifierCustomEvent<IToast>) => void;
     }
     interface IrReservationInformation {
         "arrivalTime"?: IEntries[];
@@ -16295,12 +16223,26 @@ declare namespace LocalJSX {
         "variant"?: ToastVariant;
     }
     interface IrToastItem {
+        /**
+          * Whether the close button is rendered.
+         */
+        "dismissible"?: boolean;
+        /**
+          * Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast.
+         */
         "duration"?: number;
+        /**
+          * Emitted once the exit animation finishes and the toast should be removed from the DOM.
+         */
         "onIrDismiss"?: (event: IrToastItemCustomEvent<void>) => void;
         "variant"?: ToastVariants;
     }
     interface IrToastProvider {
         "duration"?: number;
+        /**
+          * Emitted when a toast's action button is clicked.
+         */
+        "onToastAction"?: (event: IrToastProviderCustomEvent<{ id: string }>) => void;
         "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "rtl"?: boolean;
     }
@@ -16413,7 +16355,6 @@ declare namespace LocalJSX {
         "haveAdminPrivileges"?: boolean;
         "isSuperAdmin"?: boolean;
         "onResetData"?: (event: IrUserManagementTableCustomEvent<null>) => void;
-        "onToast"?: (event: IrUserManagementTableCustomEvent<IToast>) => void;
         "property_id"?: number;
         "superAdminId"?: string;
         "userTypeCode"?: string | number;

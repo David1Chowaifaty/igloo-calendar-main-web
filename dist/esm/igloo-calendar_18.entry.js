@@ -1,32 +1,30 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
-import { B as BookingService } from './booking.service-b23bef2f.js';
-import { v as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, w as getNextDay, x as addTwoMonthToDate, y as convertDMYToISO, z as computeEndDate, o as isPrivilegedUser, l as downloadFile, A as getEntryValue } from './utils-fa3eb983.js';
+import { B as BookingService, v as calendar_dates, w as addCleaningTasks, t as formatName, x as getRoomStatus, y as cleanRoom, z as addRoomForCleaning, A as transformNewBooking, C as transformNewBLockedRooms, D as bookingStatus, q as getPrivateNote, n as calculateDaysBetweenDates } from './booking.store-6d632de3.js';
+import { z as formatLegendColors, m as dateToFormattedString, j as isBlockUnit, A as getNextDay, B as addTwoMonthToDate, C as convertDMYToISO, D as computeEndDate, s as showToast, d as downloadFile, F as groupEntryTablesResult, b as getEntryValue } from './utils-6449df99.js';
 import { r as realtimeService } from './realtime.service-cd7f5b8f.js';
-import { E as EventsService } from './events.service-9a0bae59.js';
+import { E as EventsService } from './events.service-d55c9f29.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-1fa3b2ee.js';
-import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-7c5ba50d.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-659d2ae1.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
 import { T as Token } from './Token-bcdb7c50.js';
 import { v as v4 } from './v4-964634d6.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-ff0c8099.js';
-import { A as AgentsService } from './agents.service-6ca78f40.js';
-import { P as PropertyService } from './property.service-97a17198.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-4ad2843a.js';
+import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-0e645d86.js';
+import { A as AgentsService } from './agents.service-64531ba1.js';
+import { P as PropertyService } from './property.service-bf78d8e9.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-b5e28726.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-c9623d3a.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-3aa12093.js';
 import { S as SystemService } from './system.service-4455d4dc.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-9a324b5a.js';
-import { z } from './index-1e1f097b.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-aea32cc5.js';
+import { z, o as objectType, n as numberType, e as enumType, s as stringType, b as booleanType } from './index-87419685.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-7c962578.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
-import { U as UserService } from './user.service-ac1b4768.js';
+import { U as UserService } from './user.service-e454a5d5.js';
 import './index-f100e9d2.js';
-import './type-cce4b8e0.js';
+import './type-501de9b6.js';
 
 class BatchingQueue {
     queue = [];
@@ -1451,10 +1449,10 @@ const IglooCalendar = class {
         //   return <ir-login onAuthFinish={() => this.auth.setIsAuthenticated(true)}></ir-login>;
         // }
         // console.log(this.bookingItem);
-        return (h(Host, { key: '8ceae5f9df1e1ae15d81ce236f048505c5def1a1' }, h("ir-toast", { key: 'a6e314b42b8534d592e4d77b8508366186172634' }), h("ir-interceptor", { key: '75ab9f14502fead402016a52eb0c07339e776ee9' }), h("div", { key: '24bec7fb9cce01306c28b5046dd1b581c40d263c', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("ir-sidebar", { key: 'b15e51f96d4c39045720dc4a71774ce106c1f068', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
+        return (h(Host, { key: '8f6d5efd3595bf38fdd80b7d392398351b29dfbe' }, h("ir-toast", { key: '0f9b1f2d2a72c44203bb5cc9be8315a8a5a5c456' }), h("ir-interceptor", { key: 'fe204fe8c52645d7d19f3a8a3601af6620b6c97b' }), h("div", { key: '34f808fedbeb9c36f6acacf059879559d340e05c', id: "iglooCalendar", class: { 'igl-calendar': true, 'showToBeAssigned': this.showToBeAssigned, 'showLegend': this.showLegend } }, this.shouldRenderCalendarView() ? (h(Fragment, { "data-testid": "ir-calendar" }, this.showToBeAssigned && (h("igl-to-be-assigned", { unassignedDatesProp: this.unassignedDates, to_date: this.to_date, from_date: this.from_date, propertyid: this.property_id, class: "tobeAssignedContainer", calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) })), this.showLegend && h("igl-legend", { class: "legendContainer", legendData: this.calendarData.legendData, onOptionEvent: evt => this.onOptionSelect(evt) }), h("div", { class: "calendarScrollContainer", onMouseDown: event => this.dragScrollContent(event), onScroll: () => this.calendarScrolling() }, h("div", { id: "calendarContainer" }, h("igl-cal-header", { unassignedDates: this.unassignedDates, to_date: this.to_date, propertyid: this.property_id, today: this.today, calendarData: this.calendarData, highlightedDate: this.highlightedDate, onOptionEvent: evt => this.onOptionSelect(evt) }), h("igl-cal-body", { propertyId: this.property_id, language: this.language, countries: this.countries, currency: this.calendarData.currency, today: this.today, highlightedDate: this.highlightedDate, isScrollViewDragging: this.scrollViewDragging, calendarData: this.calendarData }), h("igl-cal-footer", { isLegendOpen: this.showLegend, highlightedDate: this.highlightedDate, today: this.today, calendarData: this.calendarData, onOptionEvent: evt => this.onOptionSelect(evt) }))))) : (h("ir-loading-screen", { message: "Preparing Calendar Data" }))), h("ir-sidebar", { key: 'b131aacc0a4bb041a6dfabb372f00486253a97c9', onIrSidebarToggle: this.handleSideBarToggle.bind(this), open: this.isSidebarOpen, showCloseButton: false, sidebarStyles: {
                 width: this.calendarSidebarState?.type === 'room-guests' ? '60rem' : this.editBookingItem ? '80rem' : 'var(--sidebar-width,40rem)',
                 background: this.editBookingItem ? 'var(--ir-color-muted-background,#f2f3f8)' : 'white',
-            } }, this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: '1008219d296b7ef6fb622ffd74aa4ded3b5f1655', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }))), h("igl-rate-extender-drawer", { key: '1a2320d3ec777b460dd4a9a97e50055bae321d0e', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), h("ir-booking-details-drawer", { key: 'b7ab14ebe559a33967961779e0226cb1f9daab9f', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: '6ae46d521fff500efe6d72303d26c0b20fca453f', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("ir-reallocation-drawer", { key: 'b379bd3a77cd63e71f137cc959b320e1bbfb699c', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: 'f1d1aeb7ef3c15213f8bb51a60edf10a69260940', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: 'a7da1fba0d72d473e679e161099e59c0f2ef3d4d', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: 'd1481748ed9001c1b2a43cc671e7c77f6b14b415', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: 'b4db758381a07ccddebb0856b6b4da25590c243d', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: '0fe52a61c57fdd1633aac5f7975b0558bb2d5942', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
+            } }, this.calendarSidebarState?.type === 'split' && (h("igl-split-booking", { key: 'eb2478a99583c08dfbe5e9c82b0aea15652953e8', slot: "sidebar-body", booking: this.calendarSidebarState?.payload?.booking, identifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }))), h("igl-rate-extender-drawer", { key: '63b66efa7c1adcbe9965d1ed762e3553f3a87f3c', open: !!this.roomNightsData, bookingNumber: this.roomNightsData?.bookingNumber, identifier: this.roomNightsData?.identifier, toDate: this.roomNightsData?.to_date, fromDate: this.roomNightsData?.from_date, defaultDates: this.roomNightsData?.defaultDates, pool: this.roomNightsData?.pool, ticket: this.ticket, propertyId: this.property_id, language: this.language, onCloseRoomNightsDialog: this.handleRoomNightsDialogClose.bind(this) }), h("ir-booking-details-drawer", { key: 'd25049b6ab63500e6704a6220075a2b6e810d7e8', open: this.editBookingItem?.event_type === 'EDIT_BOOKING', propertyId: this.property_id, bookingNumber: this.editBookingItem && this.editBookingItem?.event_type === 'EDIT_BOOKING' ? this.editBookingItem.BOOKING_NUMBER : null, ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-room-guests", { key: '81069ccfd24036736a3f06f3fafd61a603e998bb', open: this.calendarSidebarState?.type === 'room-guests', countries: this.countries, language: this.language, identifier: this.calendarSidebarState?.payload?.identifier, bookingNumber: this.calendarSidebarState?.payload?.bookingNumber, roomName: this.calendarSidebarState?.payload?.roomName, totalGuests: this.calendarSidebarState?.payload?.totalGuests, sharedPersons: this.calendarSidebarState?.payload?.sharing_persons, checkIn: true, onCloseModal: () => (this.calendarSidebarState = null) }), h("ir-reallocation-drawer", { key: '105a29a1a967684cacefcbe3cdfb0a4a8028de69', open: this.calendarSidebarState?.type === 'reallocate-drawer', booking: this.calendarSidebarState?.payload?.booking, pool: this.calendarSidebarState?.payload?.pool, roomIdentifier: this.calendarSidebarState?.payload?.identifier, onCloseModal: () => (this.calendarSidebarState = null) }), h("igl-reallocation-dialog", { key: '2614d416aefd1ba9f9a29c87aa76def941730947', onResetModalState: () => (this.dialogData = null), onDialogClose: () => this.handleModalCancel(), data: this.dialogData?.reason === 'reallocate' ? this.dialogData : undefined }), h("ir-modal", { key: '637ef68a7b3ce2ad41b480c22394727ac0d700dd', ref: el => (this.calendarModalEl = el), modalTitle: 'lol', rightBtnActive: this.dialogData?.reason === 'reallocate' ? !this.dialogData.hideConfirmButton : true, leftBtnText: locales?.entries?.Lcz_Cancel, rightBtnText: locales?.entries?.Lcz_Confirm, modalBody: this.renderModalBody(), onConfirmModal: this.handleModalConfirm.bind(this), onCancelModal: this.handleModalCancel.bind(this) }), h("ir-checkout-dialog", { key: '892ce1986de9f0d58b3cbd38d7846939b4fc0a9c', style: { textAlign: 'start' }, booking: this.dialogData?.reason === 'checkout' ? this.dialogData?.booking : null, identifier: this.dialogData?.reason === 'checkout' ? this.dialogData?.roomIdentifier : null, open: this.dialogData?.reason === 'checkout', onCheckoutDialogClosed: event => this.handleCheckoutDialogClosed(event) }), h("ir-invoice", { key: 'aa74688e4861224002df017dd4fc398a0b79bbfa', style: { textAlign: 'start' }, onInvoiceClose: event => this.handleInvoiceClose(event), booking: this.invoiceState?.booking, roomIdentifier: this.invoiceState?.identifier, open: this.invoiceState !== null }), h("ir-booking-editor-drawer", { key: '58049419d25605893ad5943b4068fe4a044ddf62', roomTypeIds: this.bookingItem?.roomsInfo?.map(r => r.id), onBookingEditorClosed: this.handleCloseBookingWindow.bind(this), unitId: this.bookingItem?.PR_ID, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, roomIdentifier: this.bookingItem?.IDENTIFIER, open: this.bookingItem !== null && this.bookingItem.event_type !== 'BLOCK_DATES', language: this.language, booking: this.bookingItem?.booking, propertyid: this.propertyid, checkIn: this.bookingItem?.FROM_DATE, blockedUnit: {
                 ENTRY_DATE: this.bookingItem?.ENTRY_DATE,
                 ENTRY_HOUR: this.bookingItem?.ENTRY_HOUR,
                 ENTRY_MINUTE: this.bookingItem?.ENTRY_MINUTE,
@@ -1462,7 +1460,7 @@ const IglooCalendar = class {
                 OUT_OF_SERVICE: this.bookingItem?.OUT_OF_SERVICE,
                 RELEASE_AFTER_HOURS: this.bookingItem?.RELEASE_AFTER_HOURS,
                 STATUS_CODE: this.bookingItem?.STATUS_CODE,
-            }, checkOut: this.bookingItem?.TO_DATE }), h("igl-bulk-operations-drawer", { key: '86008b30cb4b2672604e23b3671a90744002022f', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), h("igl-blocked-date-drawer", { key: '70063fed80bd34fbcbdafce50d500cb215d93fe2', onBlockedDateDrawerClosed: e => {
+            }, checkOut: this.bookingItem?.TO_DATE }), h("igl-bulk-operations-drawer", { key: 'd671b704154b9bc69fa375bd952cc4528ce900cf', property_id: this.property_id, onCloseDrawer: () => (this.calendarSidebarState = null), open: this.calendarSidebarState?.type === 'bulk-blocks' }), h("igl-blocked-date-drawer", { key: 'fb4c9cb730f1bd1fa4d4e8215acc64d2ecef2a7e', onBlockedDateDrawerClosed: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.bookingItem = null;
@@ -1480,7 +1478,6 @@ const IrAgentsStyle0 = irAgentsCss;
 const IrAgents = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
     }
     /**
      * Authentication token issued by the PMS backend.
@@ -1509,7 +1506,6 @@ const IrAgents = class {
     isLoading = true;
     countries;
     setupEntries;
-    toast;
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
@@ -1604,11 +1600,10 @@ const IrAgents = class {
         try {
             await this.agentsService.handleExposedAgent({ agent });
             this.upsertAgent();
-            this.toast.emit({
+            showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
-                position: 'top-right',
             });
         }
         catch (error) {
@@ -1837,7 +1832,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '8562925503b4082513fdf6ae4a22c175f77db41e', class: "p-1" }, h("ir-interceptor", { key: '5718119cea0a86b2706c85287c00624713002125', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'da9cf35ab74d3403a89be1d690f409c1930b89bf' }), h("div", { key: 'bb2e0dba561f78aa398a77b20610cd3b4dee3897', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '119a464744cdfdb683c62870c575e97b7e1ddcca', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: 'b111b095ee61e000f435d24e44ba2e17e22cd750', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: 'fe8d512bc538f6c9bc6fa2deec19f08696a9f0be', class: "p-1" }, h("ir-interceptor", { key: '9b03f2c9712be7fe23a366e862b4f49b388df4e9', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '8aa44f299919b71e1c2eb3ca9ee43727013d11a8' }), h("div", { key: 'ff2012e0748341d11aefc21b375542b2cd38d93c', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: 'f9f6b3bc6fb0e58e37e4f0310a419137d6ec8b9c', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '80de8a9eff583b18b388a0e4109f650bc95a9c13', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1845,305 +1840,13 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '7312d4eeb1bf1e97a179a506198c6f7b4199f33b' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: 'c0c5e53273fdff502b3c955b108ad7ac41656510' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
     }; }
 };
 IrBookingEmailLogs.style = IrBookingEmailLogsStyle0;
-
-// src/utils/browserHistory.ts
-/**
- * Read all current search params into a Record<string, string>
- */
-function getAllParams() {
-    const params = new URLSearchParams(window.location.search);
-    const out = {};
-    for (const [key, value] of params.entries()) {
-        out[key] = value;
-    }
-    return out;
-}
-
-const irBookingListingCss = ".sc-ir-booking-listing-h{display:block;padding:var(--wa-space-l);position:relative;height:100% !important;overflow-y:auto !important}";
-const IrBookingListingStyle0 = irBookingListingCss;
-
-const IrBookingListing = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-    }
-    get el() { return getElement(this); }
-    language = '';
-    ticket = '';
-    propertyid;
-    rowCount = 20;
-    p;
-    baseUrl;
-    userType;
-    isLoading = false;
-    editBookingItem = null;
-    showCost = false;
-    paymentEntries;
-    payment;
-    booking;
-    bookingListingService = new BookingListingService();
-    bookingService = new BookingService();
-    roomService = new RoomService();
-    propertyService = new PropertyService();
-    token = new Token();
-    listingModal;
-    listingModalTimeout;
-    allowedProperties;
-    havePrivilege;
-    paymentFolioRef;
-    componentWillLoad() {
-        if (this.baseUrl) {
-            this.token.setBaseUrl(this.baseUrl);
-        }
-        updateUserSelection('end_row', this.rowCount);
-        booking_listing.rowCount = this.rowCount;
-        setPaginationPageSize(this.rowCount);
-        if (this.ticket !== '') {
-            booking_listing.token = this.ticket;
-            this.token.setToken(this.ticket);
-            this.initializeApp();
-        }
-        onBookingListingChange('userSelection', newValue => {
-            updatePaginationFromSelection(newValue);
-        });
-        onBookingListingChange('bookings', newValue => {
-            this.showCost = newValue.some(booking => booking.financial.gross_cost !== null && booking.financial.gross_cost > 0);
-        });
-    }
-    ticketChanged(newValue, oldValue) {
-        if (newValue === oldValue) {
-            return;
-        }
-        this.token.setToken(this.ticket);
-        booking_listing.token = this.ticket;
-        this.initializeApp();
-    }
-    async fetchBookings() {
-        await this.bookingListingService.getExposedBookings({
-            ...booking_listing.userSelection,
-            is_to_export: false,
-        });
-    }
-    async initializeApp() {
-        try {
-            this.isLoading = true;
-            this.havePrivilege = isPrivilegedUser(this.userType);
-            let propertyId = this.propertyid;
-            if (!this.havePrivilege) {
-                if (!this.propertyid && !this.p) {
-                    throw new Error('Property ID or username is required');
-                }
-                if (!propertyId) {
-                    const propertyData = await this.roomService.getExposedProperty({
-                        id: 0,
-                        aname: this.p,
-                        language: this.language,
-                        is_backend: true,
-                    });
-                    propertyId = propertyData.My_Result.id;
-                }
-            }
-            const parallelRequests = [
-                this.bookingService.getSetupEntriesByTableNameMulti(['_PAY_TYPE', '_PAY_TYPE_GROUP', '_PAY_METHOD']),
-                this.bookingListingService.getExposedBookingsCriteria(this.havePrivilege ? null : propertyId),
-                this.roomService.fetchLanguage(this.language, ['_BOOKING_LIST_FRONT', '_PMS_FRONT']),
-            ];
-            // let propertyDataIndex: number | null = null;
-            let allowedPropertiesIndex = null;
-            if (this.propertyid && !this.havePrivilege) {
-                // propertyDataIndex = parallelRequests.length;
-                parallelRequests.push(this.roomService.getExposedProperty({
-                    id: this.propertyid,
-                    language: this.language,
-                    is_backend: true,
-                }));
-            }
-            if (this.havePrivilege) {
-                allowedPropertiesIndex = parallelRequests.length;
-                parallelRequests.push(this.propertyService.getExposedAllowedProperties());
-            }
-            const results = await Promise.all(parallelRequests);
-            const [setupEntries] = results;
-            const { pay_type, pay_type_group, pay_method } = this.bookingService.groupEntryTablesResult(setupEntries);
-            this.paymentEntries = {
-                groups: pay_type_group,
-                methods: pay_method,
-                types: pay_type,
-            };
-            this.allowedProperties = allowedPropertiesIndex !== null ? results[allowedPropertiesIndex]?.map(p => p.id) : null;
-            updateUserSelection('property_id', propertyId);
-            updateUserSelections({
-                property_ids: this.allowedProperties,
-                userTypeCode: this.userType,
-            });
-            await this.fetchBookings();
-        }
-        catch (error) {
-            console.error('Error initializing app:', error);
-        }
-        finally {
-            this.isLoading = false;
-        }
-    }
-    handleSideBarToggle(e) {
-        if (e.detail) {
-            this.editBookingItem = null;
-        }
-    }
-    geSearchFiltersFromParams() {
-        //e=10&status=002&from=2025-04-15&to=2025-04-22&filter=2&c=Alitalia+Cabin+Crew
-        const params = getAllParams();
-        if (params) {
-            console.log('update params');
-            let obj = {};
-            if (params.e) {
-                obj['end_row'] = Number(params.e);
-            }
-            if (params.s) {
-                obj['start_row'] = Number(params.s);
-            }
-            if (params.status) {
-                obj['booking_status'] = params.status;
-            }
-            if (params.filter) {
-                obj['filter_type'] = params.filter;
-            }
-            if (params.from) {
-                obj['from'] = params.from;
-            }
-            if (params.to) {
-                obj['to'] = params.to;
-            }
-            updateUserSelections(obj);
-        }
-        console.log('params=>', params);
-    }
-    openModal() {
-        this.listingModalTimeout = setTimeout(() => {
-            this.listingModal = this.el.querySelector('ir-listing-modal');
-            this.listingModal.editBooking = this.editBookingItem;
-            this.listingModal.openModal();
-        }, 100);
-    }
-    disconnectedCallback() {
-        clearTimeout(this.listingModalTimeout);
-    }
-    async handlePaginationChange(event) {
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        if (!event.detail) {
-            return;
-        }
-        setPaginationPage(event.detail.currentPage);
-        await this.fetchBookings();
-    }
-    async handlePaginationPageSizeChange(event) {
-        if (!event.detail || !event.detail.pageSize) {
-            return;
-        }
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        setPaginationPageSize(event.detail.pageSize);
-        await this.fetchBookings();
-    }
-    async handleResetStoreData(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchBookings();
-    }
-    handleBookingChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        booking_listing.bookings = [
-            ...booking_listing.bookings.map(b => {
-                if (b.booking_nbr === e.detail.booking_nbr) {
-                    return e.detail;
-                }
-                return b;
-            }),
-        ];
-    }
-    handleBookingPayment(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const { booking_nbr, payment } = e.detail;
-        this.booking = this.findBooking(booking_nbr);
-        const paymentType = this.paymentEntries.types.find(p => p.CODE_NAME === payment.payment_type.code);
-        this.payment = {
-            ...payment,
-            payment_type: {
-                code: paymentType.CODE_NAME,
-                description: paymentType.CODE_VALUE_EN,
-                operation: paymentType.NOTES,
-            },
-        };
-        this.paymentFolioRef.openFolio();
-    }
-    handleSelectGuestEvent(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        const booking = this.findBooking(e.detail);
-        if (!booking) {
-            return;
-        }
-        this.editBookingItem = {
-            booking,
-            cause: 'guest',
-        };
-    }
-    handleOpen(e) {
-        e.stopImmediatePropagation();
-        const booking = this.findBooking(e.detail);
-        if (!booking) {
-            return;
-        }
-        this.editBookingItem = {
-            booking,
-            cause: 'edit',
-        };
-    }
-    async handleResetExposedCancellationDueAmount(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        await this.fetchBookings();
-    }
-    handleGuestChanged(e) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        booking_listing.bookings = booking_listing.bookings.map(b => {
-            const guest = { ...b.guest };
-            const newGuest = e.detail;
-            if (guest.id === newGuest.id) {
-                return { ...b, guest: { ...guest, ...newGuest } };
-            }
-            return b;
-        });
-    }
-    findBooking(bookingNumber) {
-        return booking_listing.bookings.find(b => b.booking_nbr === bookingNumber);
-    }
-    render() {
-        if (this.isLoading || this.ticket === '') {
-            return h("ir-loading-screen", null);
-        }
-        return (h(Host, null, h("ir-interceptor", null), h("ir-toast", null), h("div", { class: "main-container" }, h("ir-listing-header", { propertyId: this.propertyid, p: this.p, language: this.language }), h("section", { class: "mt-2" }, h("ir-booking-listing-table", null))), h("ir-booking-details-drawer", { open: this.editBookingItem?.cause === 'edit', propertyId: this.editBookingItem?.booking?.property?.id, bookingNumber: this.editBookingItem?.booking?.booking_nbr.toString(), ticket: this.ticket, language: this.language, onBookingDetailsDrawerClosed: () => (this.editBookingItem = null) }), h("ir-guest-info-drawer", { onGuestInfoDrawerClosed: () => {
-                this.editBookingItem = null;
-            }, booking_nbr: this.editBookingItem?.booking?.booking_nbr, email: this.editBookingItem?.booking?.guest.email, language: this.language, open: this.editBookingItem?.cause === 'guest' }), h("ir-payment-folio", { style: { height: 'auto' }, booking: this.booking, bookingNumber: this.booking?.booking_nbr, paymentEntries: this.paymentEntries, payment: this.payment, mode: 'payment-action', ref: el => (this.paymentFolioRef = el), onCloseModal: () => {
-                this.booking = null;
-                this.payment = null;
-            } })));
-    }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"]
-    }; }
-};
-IrBookingListing.style = IrBookingListingStyle0;
 
 const actions = (entries) => [
     {
@@ -3005,7 +2708,6 @@ const IrGhsOnboardingStyle0 = irGhsOnboardingCss;
 const IrGhsOnboarding = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
     }
     get el() { return getElement(this); }
     ticket;
@@ -3019,7 +2721,6 @@ const IrGhsOnboarding = class {
     isGenerating = false;
     isActivating = false;
     propertyToActivate = null;
-    toast;
     ghsService = new GHSService();
     bookingService = new BookingService();
     tokenService = new Token();
@@ -3043,14 +2744,9 @@ const IrGhsOnboarding = class {
     async init() {
         this.isPageLoading = true;
         try {
-            const [allCountries, allProperties] = await Promise.all([
-                this.bookingService.getCountries('EN'),
-                this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null }),
-            ]);
+            const [allCountries, allProperties] = await Promise.all([this.bookingService.getCountries('EN'), this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null })]);
             const validCountryIds = new Set(allProperties.map(p => p.COUNTRY_ID));
-            this.countries = allCountries
-                .filter(c => validCountryIds.has(c.id))
-                .sort((a, b) => a.name.localeCompare(b.name));
+            this.countries = allCountries.filter(c => validCountryIds.has(c.id)).sort((a, b) => a.name.localeCompare(b.name));
             this.properties = allProperties;
         }
         catch (error) {
@@ -3175,7 +2871,7 @@ const IrGhsOnboarding = class {
         }
     }
     showToast(type, title, description) {
-        this.toast.emit({
+        showToast({
             type,
             title,
             description,
@@ -3189,7 +2885,7 @@ const IrGhsOnboarding = class {
         return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-dialog", { ref: el => (this.activateModal = el), label: "Activation Confirmation", onIrDialogHide: () => {
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for", ' ', h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
+            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for ", h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -3218,10 +2914,10 @@ const IrGhsOnboarding = class {
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail), onCountryChange: (e) => {
+            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: e => this.togglePropertySelection(e.detail), onToggleAll: e => this.handleToggleAll(e.detail), onActivateProperty: e => this.handleActivateProperty(e.detail), onCountryChange: e => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
-            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) }))))));
+            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: e => this.removePropertySelection(e.detail) }))))));
     }
     static get watchers() { return {
         "ticket": ["ticketChanged"]
@@ -3559,7 +3255,6 @@ const IrHousekeepingStyle0 = irHousekeepingCss;
 const IrHousekeeping = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
     }
     language = '';
     ticket = '';
@@ -3568,7 +3263,6 @@ const IrHousekeeping = class {
     baseUrl;
     isLoading = false;
     frequencies = [];
-    toast;
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
     bookingService = new BookingService();
@@ -3641,6 +3335,232 @@ const IrHousekeeping = class {
     }; }
 };
 IrHousekeeping.style = IrHousekeepingStyle0;
+
+const ParamsGetMealReportSchema = objectType({
+    property_id: numberType(),
+    report_type: enumType(['GUEST_LIST', 'MEAL_COUNT']),
+    from: stringType(),
+    to: stringType(),
+    meal_type_code: stringType().optional().nullable(),
+    is_export_to_excel: booleanType().optional().default(false),
+});
+const ParamsSetHBPreferenceSchema = objectType({
+    property_id: numberType(),
+    room_identifier: stringType(),
+    code: stringType(),
+});
+
+class MealReportService {
+    async getMealReport(props) {
+        const payload = ParamsGetMealReportSchema.parse(props);
+        const { data } = await axios.post(`/Get_Meal_Report`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data;
+    }
+    async setHBPreference(props) {
+        const payload = ParamsSetHBPreferenceSchema.parse(props);
+        const { data } = await axios.post(`/Set_HB_Preference`, payload);
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+    }
+    async getSetupEntriesByTableNameMulti(entries) {
+        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
+        if (data.ExceptionMsg !== '') {
+            throw new Error(data.ExceptionMsg);
+        }
+        return data.My_Result;
+    }
+}
+
+const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 992px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
+const IrMealReportStyle0 = irMealReportCss;
+
+const IrMealReport = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    ticket;
+    propertyid;
+    baseurl;
+    language = 'en';
+    isPageLoading = true;
+    isExporting = false;
+    isDataLoading = false;
+    localReportType = 'MEAL_COUNT';
+    localFrom = hooks().format('YYYY-MM-DD');
+    localTo = hooks().format('YYYY-MM-DD');
+    localMealType = null;
+    guestList = [];
+    mealCountSummary = [];
+    setupEntries = {
+        meal_type: [],
+        hb_preference: [],
+    };
+    mealReportService = new MealReportService();
+    tokenService = new Token();
+    ticketChanged(newValue) {
+        if (newValue) {
+            this.tokenService.setToken(newValue);
+            this.init();
+        }
+    }
+    componentWillLoad() {
+        if (this.baseurl) {
+            this.tokenService.setBaseUrl(this.baseurl);
+        }
+        if (this.ticket) {
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    async handlePropertyChange() {
+        await this.init();
+    }
+    async init() {
+        try {
+            this.isPageLoading = true;
+            this.isDataLoading = true;
+            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
+            const grouped = groupEntryTablesResult(setupEntries);
+            const meal_type = grouped.meal_type || [];
+            const hb_preference = grouped.hb_preference || [];
+            this.setupEntries = {
+                meal_type,
+                hb_preference,
+            };
+            if (meal_type.length > 0) {
+                if (!this.localMealType) {
+                    this.localMealType = meal_type[0].CODE_NAME;
+                }
+            }
+            await this.applyFilters();
+        }
+        catch (error) {
+            // Handling handled via UI
+        }
+        finally {
+            this.isPageLoading = false;
+            this.isDataLoading = false;
+        }
+    }
+    async applyFilters() {
+        try {
+            this.isDataLoading = true;
+            const response = await this.mealReportService.getMealReport({
+                property_id: this.propertyid,
+                from: this.localFrom,
+                to: this.localTo,
+                report_type: this.localReportType,
+                meal_type_code: this.localMealType,
+                is_export_to_excel: false,
+            });
+            this.guestList = response.My_Result.Guest_List || [];
+            this.mealCountSummary = response.My_Result.Meal_Count_Summary || [];
+        }
+        catch (error) {
+            // Handling handled via UI
+        }
+        finally {
+            this.isDataLoading = false;
+        }
+    }
+    resetFilters() {
+        this.localReportType = 'GUEST_LIST';
+        this.localFrom = hooks().format('YYYY-MM-DD');
+        this.localTo = hooks().format('YYYY-MM-DD');
+        if (this.setupEntries.meal_type.length > 0) {
+            this.localMealType = this.setupEntries.meal_type[0].CODE_NAME;
+        }
+        this.applyFilters();
+    }
+    async setPresetDate(type) {
+        const date = type === 'today' ? hooks() : hooks().add(1, 'day');
+        this.localFrom = date.format('YYYY-MM-DD');
+        if (type === 'today' && this.localReportType === 'MEAL_COUNT') {
+            this.localTo = hooks().add(14, 'days').format('YYYY-MM-DD');
+        }
+        else {
+            this.localTo = this.localFrom;
+        }
+    }
+    async handleExport() {
+        try {
+            this.isExporting = true;
+            const response = await this.mealReportService.getMealReport({
+                property_id: this.propertyid,
+                from: this.localFrom,
+                to: this.localTo,
+                report_type: this.localReportType,
+                meal_type_code: this.localMealType,
+                is_export_to_excel: true,
+            });
+            const link = response.My_Params_Get_Meal_Report?.Link_excel;
+            if (link) {
+                // Use clean axios to bypass interceptors (avoiding network errors)
+                const cleanAxios = axios.create();
+                const responseBlob = await cleanAxios.get(link, { responseType: 'blob' });
+                // Force download via local blob URL
+                const blob = new Blob([responseBlob.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const filename = link.split('/').pop() || 'meal_report.xlsx';
+                a.setAttribute('download', filename);
+                document.body.appendChild(a);
+                a.click();
+                // Cleanup
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+        }
+        catch (error) {
+            // Export Error handled silently or via UI
+        }
+        finally {
+            this.isExporting = false;
+        }
+    }
+    render() {
+        if (this.isPageLoading) {
+            return h("ir-loading-screen", null);
+        }
+        const lcz = locales.entries || {};
+        const summary = this.mealCountSummary || [];
+        const sum = (key) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
+        const mealMetrics = [
+            { label: 'Breakfast', icon: 'mug-saucer', intent: 'brand', adults: sum('Breakfast_Ad'), children: sum('Breakfast_Ch') },
+            { label: 'Lunch', icon: 'utensils', intent: 'success', adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
+            { label: 'Dinner', icon: 'moon', intent: 'warning', adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
+        ];
+        return (h("ir-page", { label: "Meal Report", class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
+                const ev = e.detail;
+                if (ev && typeof ev.preventDefault === 'function') {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                }
+                this.handleExport();
+            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), this.localReportType === 'MEAL_COUNT' && (h("div", { class: "ir-meal-report__metrics" }, mealMetrics.map(metric => (h("ir-metric-card", { key: metric.label, label: metric.label, icon: metric.icon, intent: metric.intent, value: metric.adults + metric.children, unit: "guests", caption: `Adults ${metric.adults} · Children ${metric.children}`, loading: this.isDataLoading }))))), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
+                this.localReportType = e.detail;
+                this.applyFilters();
+                if (e.detail === 'GUEST_LIST') {
+                    this.localTo = this.localFrom;
+                }
+            }, onDateChange: e => {
+                this.localFrom = e.detail.from;
+                this.localTo = e.detail.to;
+            }, onMealTypeChange: async (e) => {
+                this.localMealType = e.detail;
+            }, onFilterApply: () => this.applyFilters(), onFilterReset: () => this.resetFilters(), onPresetDate: e => this.setPresetDate(e.detail) }), h("wa-card", { class: "ir-meal-report__results" }, h("div", null, this.localReportType === 'GUEST_LIST' ? (h("ir-meal-guest-list", { guestList: this.guestList })) : (h("ir-meal-count-summary", { mealCountSummary: this.mealCountSummary })))))));
+    }
+    static get watchers() { return {
+        "ticket": ["ticketChanged"],
+        "propertyid": ["handlePropertyChange"]
+    }; }
+};
+IrMealReport.style = IrMealReportStyle0;
 
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
@@ -3807,7 +3727,6 @@ const IrPaymentOptionStyle0 = irPaymentOptionCss;
 const IrPaymentOption = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.toast = createEvent(this, "toast", 7);
     }
     propertyid;
     ticket;
@@ -3818,7 +3737,6 @@ const IrPaymentOption = class {
     paymentOptions = [];
     isLoading = false;
     selectedOption = null;
-    toast;
     paymentOptionService = new PaymentOptionService();
     roomService = new RoomService();
     token = new Token();
@@ -3925,7 +3843,7 @@ const IrPaymentOption = class {
             await this.changePaymentMethod(newOption);
             this.modifyPaymentList(newOption);
             if (po.code === '000' && is_active && this.paymentOptions.filter(p => p.code !== '000').every(p => p.is_active === false || p.is_active === null)) {
-                this.toast.emit({
+                showToast({
                     type: 'success',
                     description: '',
                     title: locales.entries['Lcz_YouNeedToSelect'],
@@ -3950,7 +3868,7 @@ const IrPaymentOption = class {
     async changePaymentMethod(newOption) {
         try {
             await this.paymentOptionService.HandlePaymentMethod(newOption);
-            this.toast.emit({
+            showToast({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
@@ -4587,6 +4505,10 @@ const IrTaxServiceCategories = class {
             this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
+            showToast({
+                title: 'Saved Successfully',
+                type: 'success',
+            });
         }
         catch (error) {
             console.error(error);
@@ -4790,6 +4712,6 @@ const IrUserManagement = class {
 };
 IrUserManagement.style = IrUserManagementStyle0;
 
-export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrBookingListing as ir_booking_listing, IrChannel as ir_channel, IrCityLedger as ir_city_ledger, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUserManagement as ir_user_management };
+export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrChannel as ir_channel, IrCityLedger as ir_city_ledger, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMealReport as ir_meal_report, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUserManagement as ir_user_management };
 
 //# sourceMappingURL=igloo-calendar_18.entry.js.map

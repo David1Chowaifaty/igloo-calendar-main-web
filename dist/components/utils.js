@@ -341,6 +341,10 @@ function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
     }
     return options;
 }
+function showToast(toast) {
+    const event = new CustomEvent('toast', { detail: toast });
+    document.body.dispatchEvent(event);
+}
 function dateDifference(FROM_DATE, TO_DATE) {
     const startDate = new Date(FROM_DATE);
     const endDate = new Date(TO_DATE);
@@ -653,6 +657,6 @@ function groupEntryTablesResult(entries) {
     return result;
 }
 
-export { validateSharedPerson as A, getFormSubmitter as B, checkUserAuthState as C, manageAnchorSession as D, ExtraServiceSchema as E, isPrivilegedUser as F, sleep as G, groupEntryTablesResult as H, convertDatePrice as I, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, getDaysArray as o, formatDate as p, formatLegendColors as q, getNextDay as r, addTwoMonthToDate as s, convertDMYToISO as t, computeEndDate as u, validateEmail as v, toFloat as w, canCheckout as x, getEntryValue as y, renderTime as z };
+export { renderTime as A, validateSharedPerson as B, getFormSubmitter as C, checkUserAuthState as D, ExtraServiceSchema as E, manageAnchorSession as F, isPrivilegedUser as G, sleep as H, groupEntryTablesResult as I, convertDatePrice as J, ROOM_IN_OUT as R, ZSharedPerson as Z, convertDateToTime as a, dateDifference as b, convertDateToCustomFormat as c, dateToFormattedString as d, extras as e, formatAmount as f, getReleaseHoursString as g, handleBodyOverflow as h, isBlockUnit as i, checkMealPlan as j, findCountry as k, canCheckIn as l, downloadFile as m, isWeekend as n, getDaysArray as o, formatDate as p, formatLegendColors as q, getNextDay as r, showToast as s, addTwoMonthToDate as t, convertDMYToISO as u, validateEmail as v, computeEndDate as w, toFloat as x, canCheckout as y, getEntryValue as z };
 
 //# sourceMappingURL=utils.js.map

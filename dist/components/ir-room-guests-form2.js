@@ -1,5 +1,5 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
-import { A as validateSharedPerson, Z as ZSharedPerson } from './utils.js';
+import { B as validateSharedPerson, Z as ZSharedPerson } from './utils.js';
 import { l as locales } from './locales.store.js';
 import { h as hooks } from './moment.js';
 import { M as MaskedRange } from './index4.js';

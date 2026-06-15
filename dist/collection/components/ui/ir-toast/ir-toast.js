@@ -1,37 +1,24 @@
 import { h } from "@stencil/core";
 export class IrToast {
-    element;
     /**
      * Position where toasts will appear.
      * Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
      */
-    position = 'bottom-left';
-    /**
-     * Array of active toast messages.
-     */
-    toasts = [];
-    // @Listen('toast', { target: 'body' })
-    // onToast(event: CustomEvent<IToast>) {
-    //   const toast: IToast = event.detail;
-    //   this.showToast(toast);
-    // }
-    // private showToast(toast: IToast) {
-    //   const toastrOptions = {
-    //     positionClass: 'toast-top-right',
-    //     closeButton: true,
-    //     timeOut: toast.duration || 5000,
-    //   };
-    //   switch (toast.type) {
-    //     case 'success':
-    //       toastr.success(toast.title, '', toastrOptions);
-    //       break;
-    //     case 'error':
-    //       toastr.error(toast.title, '', toastrOptions);
-    //       break;
-    //   }
-    // }
+    position = 'top-right';
+    get providerPosition() {
+        const map = {
+            'top-left': 'top-start',
+            'top-right': 'top-end',
+            'bottom-left': 'bottom-start',
+            'bottom-right': 'bottom-end',
+        };
+        return map[this.position] ?? 'top-end';
+    }
     render() {
-        return h("ir-toast-provider", { key: 'ddfdc9fde7fe74c430b19333cdd984d19c39fb7a' });
+        // ir-toast-provider renders the ir-toast-item stack and listens for
+        // `toast` events on the body, so this component is a thin shell kept
+        // for backwards compatibility with the many pages that embed it.
+        return h("ir-toast-provider", { key: 'dcc3e1446f7b852c0b0e04de468a7574f17dcba5', position: this.providerPosition });
     }
     static get is() { return "ir-toast"; }
     static get encapsulation() { return "scoped"; }
@@ -71,15 +58,9 @@ export class IrToast {
                 "setter": false,
                 "attribute": "position",
                 "reflect": true,
-                "defaultValue": "'bottom-left'"
+                "defaultValue": "'top-right'"
             }
         };
     }
-    static get states() {
-        return {
-            "toasts": {}
-        };
-    }
-    static get elementRef() { return "element"; }
 }
 //# sourceMappingURL=ir-toast.js.map

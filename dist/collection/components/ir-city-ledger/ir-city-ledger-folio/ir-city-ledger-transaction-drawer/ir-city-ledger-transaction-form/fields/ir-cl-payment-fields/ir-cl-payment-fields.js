@@ -27,10 +27,10 @@ export class IrClPaymentFields {
         this.fieldChange.emit({ payment_method });
     }
     render() {
-        return (h(Fragment, { key: 'c18d084e80d5891a9e99978039b45596ca146cb5' }, h("div", { key: 'f078311f2bd949ef50ef43a355cadd8f87bb21d5', class: "payment-section" }, h("div", { key: '14fa97bb360a67fd54111b76ce78f1b7e72dcca7', class: "field" }, h("ir-validator", { key: 'c6f1c8be0669c2533747f8c989cdf78b79f2328b', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '36ca938a9023d697c12a983dfa426489cc771c63', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
+        return (h(Fragment, { key: '146749b4affc506efa63877a70b76664f69dba76' }, h("div", { key: '08605703e8ac0395335bc238375a3e8d846c81a2', class: "payment-section" }, h("div", { key: '45ff75ed5660f0962adf6e758e9302da9830be60', class: "field" }, h("ir-validator", { key: 'c5828d7a39958b8870bdde00b724414a4dab7e2a', schema: paymentMethodCodeFieldSchema, value: this.paymentMethodCode, valueEvent: "change" }, h("wa-select", { key: '666a3b85a715e3e81fd4a96051c5f3883cdc0ae6', size: "small", label: "Payment method", placeholder: "Select method\u2026", value: this.paymentMethodCode, "onwa-show": e => this.stopPropagation(e), "onwa-hide": e => this.stopPropagation(e), onchange: e => {
                 this.stopPropagation(e);
                 this.handlePaymentMethodChange(e.target.value);
-            } }, h("wa-option", { key: '122ab2b571ecd0c2abe99ffae5151e6d4795713a', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language }))))))))));
+            } }, h("wa-option", { key: '5c91c5241d61e7e1e359eff439da37ea8f22b57d', value: "" }, "Select method\u2026"), this.paymentMethods.map(method => (h("wa-option", { key: method.CODE_NAME, label: method.CODE_VALUE_EN, value: method.CODE_NAME }, getEntryValue({ entry: method, language: this.language }))))))))));
     }
     static get is() { return "ir-cl-payment-fields"; }
     static get encapsulation() { return "scoped"; }

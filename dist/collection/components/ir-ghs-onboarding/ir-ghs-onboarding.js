@@ -3,6 +3,7 @@ import axios from "axios";
 import { GHSService } from "../../services/ghs/ghs.service";
 import { BookingService } from "../../services/booking-service/booking.service";
 import Token from "../../models/Token";
+import { showToast } from "../../utils/utils";
 export class IrGhsOnboarding {
     el;
     ticket;
@@ -16,7 +17,6 @@ export class IrGhsOnboarding {
     isGenerating = false;
     isActivating = false;
     propertyToActivate = null;
-    toast;
     ghsService = new GHSService();
     bookingService = new BookingService();
     tokenService = new Token();
@@ -40,14 +40,9 @@ export class IrGhsOnboarding {
     async init() {
         this.isPageLoading = true;
         try {
-            const [allCountries, allProperties] = await Promise.all([
-                this.bookingService.getCountries('EN'),
-                this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null }),
-            ]);
+            const [allCountries, allProperties] = await Promise.all([this.bookingService.getCountries('EN'), this.ghsService.Get_GHS_Candidate_Properties({ COUNTRY_ID: null })]);
             const validCountryIds = new Set(allProperties.map(p => p.COUNTRY_ID));
-            this.countries = allCountries
-                .filter(c => validCountryIds.has(c.id))
-                .sort((a, b) => a.name.localeCompare(b.name));
+            this.countries = allCountries.filter(c => validCountryIds.has(c.id)).sort((a, b) => a.name.localeCompare(b.name));
             this.properties = allProperties;
         }
         catch (error) {
@@ -172,7 +167,7 @@ export class IrGhsOnboarding {
         }
     }
     showToast(type, title, description) {
-        this.toast.emit({
+        showToast({
             type,
             title,
             description,
@@ -186,7 +181,7 @@ export class IrGhsOnboarding {
         return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("ir-dialog", { ref: el => (this.activateModal = el), label: "Activation Confirmation", onIrDialogHide: () => {
                 this.propertyToActivate = null;
                 this.activateModal.closeModal();
-            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for", ' ', h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
+            } }, h("div", { class: "ir-ghs-onboarding__dialog-body" }, h("p", { class: "m-0 text-center" }, "Are you sure you want to ", h("strong", null, "activate"), " GHS for ", h("span", { class: "text-primary" }, this.propertyToActivate?.NAME), "?"), h("p", { class: "small text-muted mt-2 mb-0" }, "This will enable real-time synchronization with Google.")), h("div", { slot: "footer", class: "ir-ghs-onboarding__dialog-footer" }, h("ir-custom-button", { type: "button", variant: "neutral", appearance: "filled", size: "medium", onClickHandler: (e) => {
                 const ev = e.detail;
                 if (ev && typeof ev.preventDefault === 'function') {
                     ev.preventDefault();
@@ -215,10 +210,10 @@ export class IrGhsOnboarding {
                     ev.stopPropagation();
                 }
                 this.handleConfirmRemoveAll();
-            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: (e) => this.togglePropertySelection(e.detail), onToggleAll: (e) => this.handleToggleAll(e.detail), onActivateProperty: (e) => this.handleActivateProperty(e.detail), onCountryChange: (e) => {
+            } }, "Confirm"))), h("section", { class: "ir-ghs-onboarding__container" }, h("div", { class: "ir-ghs-onboarding__header" }, h("h3", { class: "ir-ghs-onboarding__title" }, "Google hotels request")), h("div", { class: "ir-ghs-onboarding__content" }, h("div", { class: "ir-ghs-onboarding__main-row" }, h("ir-ghs-candidate-table", { class: "ir-ghs-onboarding__candidate-table", properties: this.properties, countries: this.countries, selectedCountryId: this.selectedCountryId, selectedProperties: this.selectedProperties, propertyToActivate: this.propertyToActivate, isLoading: this.isDataLoading, baseUrl: this.baseurl, onToggleSelection: e => this.togglePropertySelection(e.detail), onToggleAll: e => this.handleToggleAll(e.detail), onActivateProperty: e => this.handleActivateProperty(e.detail), onCountryChange: e => {
                 this.selectedCountryId = e.detail;
                 this.fetchProperties();
-            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: (e) => this.removePropertySelection(e.detail) }))))));
+            } }), h("ir-ghs-selection-bucket", { class: "ir-ghs-onboarding__selection-bucket", selectedProperties: this.selectedProperties, isGenerating: this.isGenerating, onGenerateRequest: () => this.handleGenerateRequest(), onRemoveAll: () => this.handleRemoveAll(), onRemoveProperty: e => this.removePropertySelection(e.detail) }))))));
     }
     static get is() { return "ir-ghs-onboarding"; }
     static get encapsulation() { return "scoped"; }
@@ -286,30 +281,6 @@ export class IrGhsOnboarding {
             "isActivating": {},
             "propertyToActivate": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "../ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
-                }
-            }];
     }
     static get elementRef() { return "el"; }
     static get watchers() {

@@ -4,7 +4,7 @@ import { o as objectType, n as numberType, e as enumType, s as stringType, b as 
 import { T as Token } from './Token.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
-import { H as groupEntryTablesResult } from './utils.js';
+import { I as groupEntryTablesResult } from './utils.js';
 import { d as defineCustomElement$m } from './ir-air-date-picker2.js';
 import { d as defineCustomElement$l } from './ir-button2.js';
 import { d as defineCustomElement$k } from './ir-custom-button2.js';
@@ -25,7 +25,7 @@ import { d as defineCustomElement$6 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$5 } from './ir-page2.js';
 import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 
 const ParamsGetMealReportSchema = objectType({
@@ -276,7 +276,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-meal-report", "ir-air-date-picker", "ir-button", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-empty-state", "ir-filter-card", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-meal-count-summary", "ir-meal-guest-list", "ir-meal-report-filters", "ir-metric-card", "ir-otp", "ir-otp-modal", "ir-page", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-meal-report", "ir-air-date-picker", "ir-button", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-empty-state", "ir-filter-card", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-meal-count-summary", "ir-meal-guest-list", "ir-meal-report-filters", "ir-metric-card", "ir-otp", "ir-otp-modal", "ir-page", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-meal-report":
             if (!customElements.get(tagName)) {
@@ -383,7 +383,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

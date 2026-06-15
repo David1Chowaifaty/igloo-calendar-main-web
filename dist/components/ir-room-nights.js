@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Fragment } from '@stencil/core/internal/client';
 import { B as BookingService, b as booking_store } from './booking.store.js';
-import { o as getDaysArray, I as convertDatePrice, p as formatDate } from './utils.js';
+import { o as getDaysArray, J as convertDatePrice, p as formatDate } from './utils.js';
 import { h as hooks } from './moment.js';
 import { l as locales } from './locales.store.js';
 import { c as calendar_data } from './calendar-data.js';

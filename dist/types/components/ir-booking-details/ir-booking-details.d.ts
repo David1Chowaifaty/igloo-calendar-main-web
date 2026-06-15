@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Booking, ExtraService, Guest, IPmsLog, SharedPerson } from "../../models/booking.dto";
 import { TIglBookPropertyPayload } from "../../models/igl-book-property";
-import { IToast } from "../ui/ir-toast/toast";
 import { ICountry, IEntries } from "../../models/IBooking";
 import { IPaymentAction } from "../../services/payment.service";
 import { BookingDetailsSidebarEvents, OpenSidebarEvent, PaymentEntries, PrintScreenOptions } from './types';
@@ -57,6 +56,7 @@ export declare class IrBookingDetails {
     rawTransactions: ClTx[];
     clLoading: boolean;
     clError: string | null;
+    agents: Agent[];
     /**
      * Booking number used to fetch booking details.
      */
@@ -135,11 +135,6 @@ export declare class IrBookingDetails {
      * Typically triggered by header actions (e.g., close button).
      */
     closeSidebar: EventEmitter<null>;
-    /**
-     * Emits toast notifications to the parent context.
-     * Carries toast configuration such as message, type, and duration.
-     */
-    toast: EventEmitter<IToast>;
     componentWillLoad(): void;
     disconnectedCallback(): void;
     handleSideBarEvents(e: CustomEvent<OpenSidebarEvent<unknown>>): void;

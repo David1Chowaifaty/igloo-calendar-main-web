@@ -1,0 +1,2 @@
+import{z as e}from"./p-748cfd41.js";const r=e.object({first_name:e.string().nonempty(),last_name:e.string().nonempty()});const s=e.object({bed_preference:e.string().optional().nullable(),requires_bed_preference:e.boolean().nullable()}).superRefine(((r,s)=>{if(r.requires_bed_preference&&!r.bed_preference){s.addIssue({path:["bed_preference"],message:"Bed preference is required",code:e.ZodIssueCode.custom})}}));e.array(s);const a=e.object({first_name:e.string().nonempty(),last_name:e.string().nonempty()});export{a as B,r as G,s as R};
+//# sourceMappingURL=p-990efbf2.js.map

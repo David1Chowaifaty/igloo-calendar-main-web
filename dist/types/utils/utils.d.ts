@@ -1,6 +1,8 @@
 import { MomentFormatSpecification } from 'moment';
 import IBooking, { ICountry, IEntries, PhysicalRoomType, PropertyRoomType } from '../models/IBooking';
 import { GroupedTableEntries } from "../services/booking-service/types";
+import { Toast } from "../components/ir-toast-provider/ir-toast-provider";
+import { TPositions } from "../components/ui/ir-toast/toast";
 /** Supported language codes that map to `CODE_VALUE_*` fields on {@link IEntries}. */
 export type EntryLanguage = 'en' | 'ar' | 'de' | 'el' | 'fr' | 'he' | 'pl' | 'ru' | 'ua';
 /**
@@ -72,6 +74,9 @@ interface CheckMealPlanParams {
  * @returns `null` if no choices are needed; otherwise a list of choices.
  */
 export declare function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }: CheckMealPlanParams): SelectOption | SelectOption[] | null;
+export declare function showToast(toast: Toast & {
+    position?: TPositions;
+}): void;
 export declare function dateDifference(FROM_DATE: string, TO_DATE: string): number;
 export declare const getBrowserLanguage: () => string;
 export declare const transformBooking: (physicalRoom: PhysicalRoomType[]) => IBooking[];

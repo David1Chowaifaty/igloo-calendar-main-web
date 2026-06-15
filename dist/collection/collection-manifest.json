@@ -1,6 +1,8 @@
 {
   "entries": [
     "components/ac-pages-menu/ac-pages-menu.js",
+    "components/ui/ir-toast-item/ir-toast-item.js",
+    "components/ir-toast-provider/ir-toast-provider.js",
     "components/ir-checkout-dialog/ir-checkout-dialog.js",
     "components/ir-pagination/ir-pagination.js",
     "components/ir-departures/ir-departures-table/ir-departures-table.js",
@@ -27,8 +29,6 @@
     "components/ui/ir-tabs/ir-tabs.js",
     "components/ui/ir-text-editor/ir-text-editor.js",
     "components/ir-toast-alert/ir-toast-alert.js",
-    "components/ui/ir-toast-item/ir-toast-item.js",
-    "components/ir-toast-provider/ir-toast-provider.js",
     "components/ui/ir-toasts-provider/ir-toasts-provider.js",
     "components/igl-book-property-container/igl-book-property-container.js",
     "components/igloo-calendar/igl-block-dates-view/igl-block-dates-view.js",

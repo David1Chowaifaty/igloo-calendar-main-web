@@ -18,7 +18,7 @@ import { d as defineCustomElement$7 } from './ir-select2.js';
 import { d as defineCustomElement$6 } from './ir-spinner2.js';
 import { d as defineCustomElement$5 } from './ir-stats-card2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-item2.js';
 import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$1 } from './ir-tooltip2.js';
 
@@ -198,7 +198,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-tooltip"];
+    const components = ["ir-monthly-bookings-report", "ir-button", "ir-checkbox", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-monthly-bookings-report-filter", "ir-monthly-bookings-report-table", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-tooltip"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-monthly-bookings-report":
             if (!customElements.get(tagName)) {
@@ -275,7 +275,7 @@ function defineCustomElement() {
                 defineCustomElement$4();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

@@ -1,6 +1,4 @@
 import { PaymentOption } from "../../models/payment-options";
-import { EventEmitter } from '../../stencil-public-runtime';
-import { IToast } from "../ui/ir-toast/toast";
 export declare class IrPaymentOption {
     propertyid: string;
     ticket: string;
@@ -11,7 +9,6 @@ export declare class IrPaymentOption {
     paymentOptions: PaymentOption[];
     isLoading: boolean;
     selectedOption: PaymentOption | null;
-    toast: EventEmitter<IToast>;
     private paymentOptionService;
     private roomService;
     private token;

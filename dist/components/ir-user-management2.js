@@ -5,7 +5,7 @@ import { R as RoomService } from './room.service.js';
 import { U as UserService } from './user.service.js';
 import { r as realtimeService } from './realtime.service.js';
 import { l as locales } from './locales.store.js';
-import { y as getEntryValue } from './utils.js';
+import { z as getEntryValue } from './utils.js';
 import { d as defineCustomElement$o } from './ir-button2.js';
 import { d as defineCustomElement$n } from './ir-custom-button2.js';
 import { d as defineCustomElement$m } from './ir-dialog2.js';
@@ -23,7 +23,7 @@ import { d as defineCustomElement$b } from './ir-sidebar2.js';
 import { d as defineCustomElement$a } from './ir-spinner2.js';
 import { d as defineCustomElement$9 } from './ir-title2.js';
 import { d as defineCustomElement$8 } from './ir-toast2.js';
-import { d as defineCustomElement$7 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$7 } from './ir-toast-item2.js';
 import { d as defineCustomElement$6 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$5 } from './ir-user-form-panel2.js';
 import { d as defineCustomElement$4 } from './ir-user-form-panel-drawer2.js';
@@ -225,7 +225,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-user-management", "ir-button", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-user-form-panel", "ir-user-form-panel-drawer", "ir-user-management-table", "ir-validator", "requirement-check"];
+    const components = ["ir-user-management", "ir-button", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-user-form-panel", "ir-user-form-panel-drawer", "ir-user-management-table", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-user-management":
             if (!customElements.get(tagName)) {
@@ -317,7 +317,7 @@ function defineCustomElement() {
                 defineCustomElement$8();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$7();
             }

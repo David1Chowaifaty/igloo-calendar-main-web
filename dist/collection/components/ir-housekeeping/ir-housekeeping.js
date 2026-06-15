@@ -14,7 +14,6 @@ export class IrHousekeeping {
     baseUrl;
     isLoading = false;
     frequencies = [];
-    toast;
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
     bookingService = new BookingService();
@@ -200,30 +199,6 @@ export class IrHousekeeping {
             "isLoading": {},
             "frequencies": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
-                }
-            }];
     }
     static get watchers() {
         return [{

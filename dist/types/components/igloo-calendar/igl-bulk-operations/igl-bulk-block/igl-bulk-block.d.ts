@@ -1,6 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { Moment } from 'moment';
-import { IToast } from "../../../ui/ir-toast/toast";
 export type RoomStatus = 'open' | 'closed';
 export type SelectedRooms = {
     id: string | number;
@@ -22,7 +21,6 @@ export declare class IglBulkBlock {
         to: Moment | null;
     }[];
     closeDrawer: EventEmitter<null>;
-    toast: EventEmitter<IToast>;
     loadingChanged: EventEmitter<boolean>;
     private sidebar;
     private dateRefs;

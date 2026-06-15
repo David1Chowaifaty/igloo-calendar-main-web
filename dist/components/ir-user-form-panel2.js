@@ -22,7 +22,7 @@ import { d as defineCustomElement$8 } from './ir-sidebar2.js';
 import { d as defineCustomElement$7 } from './ir-spinner2.js';
 import { d as defineCustomElement$6 } from './ir-title2.js';
 import { d as defineCustomElement$5 } from './ir-toast2.js';
-import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$4 } from './ir-toast-item2.js';
 import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
@@ -176,14 +176,14 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         }
     }
     render() {
-        return (h("form", { key: '5d2d171f72c4e776bb11a458943596275d7c8ebb', id: this.formId,
+        return (h("form", { key: '9195b1a585c72bf9ef2f5d76b4d36f72b96522a5', id: this.formId,
             // class="sheet-container"
             onSubmit: async (e) => {
                 e.preventDefault();
                 await this.createOrUpdateUser();
-            } }, h("div", { key: 'a9c90a05a4b1b33ed788b6a1b34c704fbfdc2e1b', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '4a177584bc1c1fe4e39b93152daa7b0cf2b0453f', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: 'fb71ef4f4b41bb024bc90d2cb416a22b9398496a', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: locales.entries.Lcz_Email, "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '7f6d394049cae4d08f397a7cb4cfe6c4bed69401', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'c8fc94ec2baf2084d562d81536dc390b51bb10c6', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: locales.entries.Lcz_Mobile, "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
+            } }, h("div", { key: 'a390f22cf21a3facd9e8e6546a6dc94d3dc16f5b', class: "d-flex flex-column", style: { gap: '1rem' } }, h("ir-validator", { key: '9826c807ac62abad9b2fc9736be00ef5c164e344', asyncValidation: true, showErrorMessage: true, value: this.userInfo.email, schema: this.userSchema.shape.email }, h("ir-input", { key: '407a878589194cef45e36663b188e5c1e856262f', maxlength: 40, "onText-change": e => this.updateUserField('email', e.detail), value: this.userInfo.email, label: locales.entries.Lcz_Email, "data-testid": "email", id: "user-email" })), h("ir-validator", { key: '1c50a68eb0d4ebd2bebcfa42da5ecda719a50f91', showErrorMessage: true, value: this.userInfo.mobile, schema: this.userSchema.shape.mobile }, h("ir-input", { key: 'a7c6886e04abf3612e732579263bb2486e940d0a', "onText-change": e => this.updateUserField('mobile', e.detail), value: this.userInfo.mobile, label: locales.entries.Lcz_Mobile, "data-testid": "mobile", mask: this.mobileMask })), (this.user && this.user?.type?.toString() === this.superAdminId) || this.isPropertyAdmin ? null : (h("ir-validator", { value: this.userInfo.type?.toString(), schema: this.userSchema.shape.type }, h("wa-select", { "data-testId": "user_type",
             // error={this.errors?.type && !this.userInfo.type}
-            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "small", defaultValue: this.userInfo.type?.toString(), placeholder: locales.entries.Lcz_Select, onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'b5644ed0f1e4d3759832dd82f35a42039273d276' }, h("input", { key: 'e1ba09eed99afb038f8d71ee069a71a408a22eed', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'd51984e31d2756e3880c6fbfb8c8aeb6a39fac96', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '0207cebf48ed6822f09f64ac7ed01da03e6dfba4', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: locales.entries.Lcz_Username })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: locales.entries.Lcz_Password, value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
+            disabled: this.disableFields, label: "Role", value: this.userInfo.type?.toString(), size: "small", defaultValue: this.userInfo.type?.toString(), placeholder: locales.entries.Lcz_Select, onchange: e => this.updateUserField('type', e.target.value) }, this.allowedUsersTypes.map(t => (h("wa-option", { value: t.code }, t.value)))))), this.user?.type?.toString() !== '5' && (h(Fragment, { key: 'e2fabb95cc49e9288a34b2f6c62cf4eb92fdf472' }, h("input", { key: '05d69ceed6fc2d95c7c489609f3e527198f07181', type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { key: 'd598d9af2fc24a3abd59d9a09d25dfeef7dbf1c2', asyncValidation: true, schema: this.userSchema.shape.username, value: this.userInfo.username }, h("ir-input", { key: '3d2ad5024fa8f6d867b9d533b5d0867c5d82c85a', "onText-change": e => this.updateUserField('username', e.detail), autocomplete: "off", maxlength: 40, value: this.userInfo.username, disabled: this.disableFields, label: locales.entries.Lcz_Username })))), !this.user ? (h(Fragment, null, h("input", { type: "text", name: "dummy", style: { display: 'none' } }), h("ir-validator", { value: this.userInfo.password, schema: this.userSchema.shape.password }, h("ir-input", { "data-testId": "password", label: locales.entries.Lcz_Password, value: this.userInfo.password, autocomplete: "off", passwordToggle: true, type: "password", id: "password", maxlength: 16, onInputFocus: () => (this.showPasswordValidation = true), "onInput-blur": () => {
                 // if (this.user) this.showPasswordValidation = false;
             }, "onText-change": e => this.updateUserField('password', e.detail) })), this.showPasswordValidation && h("ir-password-validator", { class: "mb-1", password: this.userInfo.password }))) : (
         // this.haveAdminPrivileges &&
@@ -191,16 +191,16 @@ const IrUserFormPanel = /*@__PURE__*/ proxyCustomElement(class IrUserFormPanel e
         // (this.user?.type.toString() === '17' && this.userTypeCode?.toString() === '17' ? null : (
         h("div", { class: "d-flex mt-2 align-items-center justify-content-between" }, h("h4", { class: "m-0 p-0 logins-history-title" }, locales.entries.Lcz_Password), h("ir-button", { size: "sm", btn_styles: 'pr-0', onClickHandler: () => (this.isOpen = true), text: locales.entries.Lcz_ChangePassword, btn_color: "link" }))
         // ))
-        )), this.user?.sign_ins?.length > 0 && (h("section", { key: 'd30a81bb17fb7fafd752697771aa1532de4d14c0', class: "logins-history-section mt-2" }, h("div", { key: '901e79cb791b417c1bb87f34fb2aae1727a76ef9', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: 'f92affdac8dd3cc012d938382c0502a3fe3cfcf8', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: '9839c30babe339c414926fe16c5e5fdefda1a36a', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '2fd992e6330ae55b71feebd6afc2023e3e0c8a77', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
+        )), this.user?.sign_ins?.length > 0 && (h("section", { key: '660b7133c41b91c56fdae9adb97cf2c53b29ecf2', class: "logins-history-section mt-2" }, h("div", { key: '8629978f3fe60fdd5b060e260e0a63b66b302468', class: "d-flex align-items-center logins-history-title-container justify-content-between" }, h("h4", { key: 'a4b4526fdff447d7435002d32b0119156dfcd2e6', class: "logins-history-title m-0 p-0" }, "Recent sign-ins"), this.user.sign_ins.length > 5 && (h("ir-button", { key: 'a8443c267ac6206e8d5064c333d8c3b63d9339f9', btn_styles: 'pr-0', text: !this.showFullHistory ? locales.entries.Lcz_ViewAll : locales.entries.Lcz_ViewLess, btn_color: "link", size: "sm", onClickHandler: () => (this.showFullHistory = !this.showFullHistory) }))), h("ul", { key: '6daed34d8d218e2ea2ec144d71245504f8bb1eca', class: "logins-history-list" }, this.user.sign_ins.slice(0, this.showFullHistory ? this.user.sign_ins.length : 5).map((s, i) => {
             const ua = uaParser_pack.exports.UAParser(s.user_agent);
             return (h("li", { class: "login-entry", key: s.date + '_' + i }, h("div", { class: "login-meta" }, h("p", { class: "login-datetime" }, hooks(s.date, 'YYYY-MM-DD').format('DD-MMM-YYYY'), " ", _formatTime(s.hour?.toString(), s.minute?.toString()), " |"), h("p", { class: "login-location" }, h("span", { class: "login-ip" }, locales.entries.Lcz_IP, ": ", s.ip), ' ', "\u00A0|\u00A0", h("span", { class: "login-country" }, locales.entries.Lcz_Location, ": ", s.country), ' ', "\u00A0|\u00A0", h("span", { class: "login-os" }, "OS: ", ua.os.name ?? 'N/A', " ", ua.os.version)))));
-        })))), h("ir-sidebar", { key: '09494be3f09b2c636164388c4becc1dd502a827c', open: this.isOpen, showCloseButton: false, style: {
+        })))), h("ir-sidebar", { key: '993a6f369ccd17bae663310215336f92d3472e51', open: this.isOpen, showCloseButton: false, style: {
                 '--sidebar-block-padding': '0',
             }, onIrSidebarToggle: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
-            } }, this.isOpen && (h("ir-reset-password", { key: '7cdc73895486eb26162677764758c8992859d866', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
+            } }, this.isOpen && (h("ir-reset-password", { key: 'a98b1143ce524646cf20b634a0e163c65d80bd58', ticket: this.token.getToken(), skip2Fa: true, username: this.user.username, onCloseSideBar: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isOpen = false;
@@ -229,7 +229,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-user-form-panel", "ir-button", "ir-custom-button", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator", "requirement-check"];
+    const components = ["ir-user-form-panel", "ir-button", "ir-custom-button", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-reset-password", "ir-sidebar", "ir-spinner", "ir-title", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-user-form-panel":
             if (!customElements.get(tagName)) {
@@ -306,7 +306,7 @@ function defineCustomElement() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

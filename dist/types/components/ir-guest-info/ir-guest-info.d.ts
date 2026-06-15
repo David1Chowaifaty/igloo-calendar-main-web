@@ -1,7 +1,6 @@
 import { EventEmitter } from '../../stencil-public-runtime';
 import { Guest } from "../../models/booking.dto";
 import { ICountry } from "../../components";
-import { IToast } from "../ui/ir-toast/toast";
 export declare class GuestInfo {
     language: string;
     headerShown: boolean;
@@ -15,7 +14,6 @@ export declare class GuestInfo {
     autoValidate: boolean;
     closeSideBar: EventEmitter<null>;
     resetBookingEvt: EventEmitter<null>;
-    toast: EventEmitter<IToast>;
     private bookingService;
     private roomService;
     private token;

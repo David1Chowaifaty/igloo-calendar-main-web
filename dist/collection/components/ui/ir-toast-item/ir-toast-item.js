@@ -1,22 +1,79 @@
 import { Host, h } from "@stencil/core";
 export class IrToastItem {
+    el;
     variant = 'neutral';
+    /** Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast. */
     duration = 5000;
+    /** Whether the close button is rendered. */
+    dismissible = true;
     progress = 100;
+    leaving = false;
+    /** Emitted once the exit animation finishes and the toast should be removed from the DOM. */
     irDismiss;
     timer;
+    timerStarted = false;
+    hiding = false;
+    hovered = false;
+    focused = false;
     componentDidLoad() {
-        this.startTimer();
+        if (!this.timerStarted) {
+            this.startTimer();
+        }
+    }
+    connectedCallback() {
+        // Re-parenting (e.g. the provider moving the toast layer into a modal
+        // dialog) disconnects and reconnects the element; resume the countdown.
+        if (this.timerStarted && !this.hovered && !this.focused) {
+            this.resumeTimer();
+        }
     }
     disconnectedCallback() {
         this.clearTimer();
     }
-    startTimer() {
+    /** Starts the auto-dismiss countdown. Safe to call more than once. */
+    async startTimer() {
+        this.timerStarted = true;
+        if (this.hovered || this.focused) {
+            return;
+        }
+        this.resumeTimer();
+    }
+    /** Plays the exit animation, then emits `irDismiss`. */
+    async hide() {
+        if (this.hiding) {
+            return;
+        }
+        this.hiding = true;
+        this.clearTimer();
+        if (!this.prefersReducedMotion()) {
+            this.leaving = true;
+            await new Promise(resolve => {
+                const done = () => {
+                    clearTimeout(fallback);
+                    resolve();
+                };
+                // Safety timeout in case animationend never fires (display:none ancestors, etc.)
+                const fallback = window.setTimeout(done, 300);
+                this.el.shadowRoot?.querySelector('.toast-item')?.addEventListener('animationend', done, { once: true });
+            });
+        }
+        this.irDismiss.emit();
+    }
+    get hasTimer() {
+        return Number.isFinite(this.duration) && this.duration > 0;
+    }
+    prefersReducedMotion() {
+        return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    }
+    resumeTimer() {
+        if (!this.hasTimer || this.hiding || this.timer) {
+            return;
+        }
         const step = (16 / this.duration) * 100;
         this.timer = window.setInterval(() => {
             this.progress = Math.max(0, this.progress - step);
             if (this.progress <= 0) {
-                this.dismiss();
+                this.hide();
             }
         }, 16);
     }
@@ -26,22 +83,38 @@ export class IrToastItem {
             this.timer = undefined;
         }
     }
-    dismiss() {
-        this.clearTimer();
-        this.irDismiss.emit();
+    updateInteraction() {
+        if (this.hovered || this.focused) {
+            // Reset the countdown while the user is interacting; it restarts from
+            // the full duration once they move away.
+            this.clearTimer();
+            this.progress = 100;
+        }
+        else if (this.timerStarted) {
+            this.resumeTimer();
+        }
     }
     handleMouseEnter = () => {
-        this.clearTimer();
-        this.progress = 100;
+        this.hovered = true;
+        this.updateInteraction();
     };
     handleMouseLeave = () => {
-        this.startTimer();
+        this.hovered = false;
+        this.updateInteraction();
+    };
+    handleFocusIn = () => {
+        this.focused = true;
+        this.updateInteraction();
+    };
+    handleFocusOut = () => {
+        this.focused = false;
+        this.updateInteraction();
     };
     handleClose = () => {
-        this.dismiss();
+        this.hide();
     };
     render() {
-        return (h(Host, { key: 'ca7ed7e0e1495bca7a2b58dd6790b1e0f81307b3', style: { '--accent-color': `var(--wa-color-${this.variant}-fill-loud)` } }, h("div", { key: '43db6f774bcde26fa15f814e94aab031b414029c', class: 'toast-item', onMouseEnter: this.handleMouseEnter, onMouseLeave: this.handleMouseLeave }, h("div", { key: '862df35ee632b993eb47ff4801c5bd9a76b1fd64', part: "accent", class: "accent" }), h("div", { key: '37b02a6c0c7ad2848e92a694577d6c5819345824', part: "icon", class: "icon" }, h("slot", { key: 'bfe40d2a38ea9c804fedd9fe06469f7bce21f90f', name: "icon" })), h("div", { key: '556c365bfc82f6af75509d511bdf582a4654b185', part: "content", class: "content" }, h("slot", { key: 'bbfb2658841c85cfac6953b4ff919fa0b55b4ad6' })), h("button", { key: '98635fef09728ccbcac89df2b5ff09bc00b50b4d', part: "close-button", class: "close-button", type: "button", "aria-label": "Close", onClick: this.handleClose }, h("wa-progress-ring", { key: 'cb147b25af4ab8359838d9549e0ec0e7e9116477', part: "progress-ring", exportparts: "\n              base:progress-ring__base,\n              label:progress-ring__label,\n              track:progress-ring__track,\n              indicator:progress-ring__indicator\n            ", value: this.progress }, h("wa-icon", { key: 'fc6dba923da6efd2cc784247ecf3f572d846c0e3', part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" }))))));
+        return (h(Host, { key: '2f3a96d2000d90424a2cc0f817b1257f93c77c73', "data-leaving": this.leaving ? 'true' : undefined, style: { '--accent-color': `var(--wa-color-${this.variant}-fill-loud)` } }, h("div", { key: 'd8ed5e7f25eb01c1a47cf81dbfd107cb0255242b', class: 'toast-item', onMouseEnter: this.handleMouseEnter, onMouseLeave: this.handleMouseLeave, onFocusin: this.handleFocusIn, onFocusout: this.handleFocusOut }, h("div", { key: '38450e86f4df2d34179b43e69171bb45c7686e19', part: "accent", class: "accent" }), h("div", { key: '358d23f93d9bebdc045501b766c21008405b9e1a', part: "icon", class: "icon" }, h("slot", { key: 'e631ade91528ba87a5fcf5f8b9b2ac6941d97a64', name: "icon" })), h("div", { key: '7c39972dfc36fc8dcc4b0b0b671aa1fcff2ae081', part: "content", class: "content" }, h("slot", { key: '1fafdbdb37c264b3a47d05d9e702f4cc950c292f' })), this.dismissible && (h("button", { key: 'b90ed98abff50374dfde6a229efaac9e970747cf', part: "close-button", class: "close-button", type: "button", "aria-label": "Close notification", onClick: this.handleClose }, this.hasTimer ? (h("wa-progress-ring", { part: "progress-ring", "aria-hidden": "true", exportparts: "\n                  base:progress-ring__base,\n                  label:progress-ring__label,\n                  track:progress-ring__track,\n                  indicator:progress-ring__indicator\n                ", value: this.progress }, h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" }))) : (h("wa-icon", { part: "close-icon", exportparts: "svg:close-icon__svg", name: "xmark", library: "system", variant: "solid", "aria-hidden": "true" })))))));
     }
     static get is() { return "ir-toast-item"; }
     static get encapsulation() { return "shadow"; }
@@ -95,19 +168,40 @@ export class IrToastItem {
                 "optional": false,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast."
                 },
                 "getter": false,
                 "setter": false,
                 "attribute": "duration",
                 "reflect": false,
                 "defaultValue": "5000"
+            },
+            "dismissible": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": "Whether the close button is rendered."
+                },
+                "getter": false,
+                "setter": false,
+                "attribute": "dismissible",
+                "reflect": false,
+                "defaultValue": "true"
             }
         };
     }
     static get states() {
         return {
-            "progress": {}
+            "progress": {},
+            "leaving": {}
         };
     }
     static get events() {
@@ -119,7 +213,7 @@ export class IrToastItem {
                 "composed": true,
                 "docs": {
                     "tags": [],
-                    "text": ""
+                    "text": "Emitted once the exit animation finishes and the toast should be removed from the DOM."
                 },
                 "complexType": {
                     "original": "void",
@@ -128,5 +222,44 @@ export class IrToastItem {
                 }
             }];
     }
+    static get methods() {
+        return {
+            "startTimer": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "Starts the auto-dismiss countdown. Safe to call more than once.",
+                    "tags": []
+                }
+            },
+            "hide": {
+                "complexType": {
+                    "signature": "() => Promise<void>",
+                    "parameters": [],
+                    "references": {
+                        "Promise": {
+                            "location": "global",
+                            "id": "global::Promise"
+                        }
+                    },
+                    "return": "Promise<void>"
+                },
+                "docs": {
+                    "text": "Plays the exit animation, then emits `irDismiss`.",
+                    "tags": []
+                }
+            }
+        };
+    }
+    static get elementRef() { return "el"; }
 }
 //# sourceMappingURL=ir-toast-item.js.map

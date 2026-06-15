@@ -145,6 +145,10 @@ export function checkMealPlan({ rateplan_id, roomTypes, roomTypeId }) {
     }
     return options;
 }
+export function showToast(toast) {
+    const event = new CustomEvent('toast', { detail: toast });
+    document.body.dispatchEvent(event);
+}
 export function dateDifference(FROM_DATE, TO_DATE) {
     const startDate = new Date(FROM_DATE);
     const endDate = new Date(TO_DATE);

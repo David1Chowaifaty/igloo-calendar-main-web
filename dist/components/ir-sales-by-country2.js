@@ -22,7 +22,7 @@ import { d as defineCustomElement$6 } from './ir-select2.js';
 import { d as defineCustomElement$5 } from './ir-spinner2.js';
 import { d as defineCustomElement$4 } from './ir-stats-card2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 import { v as v4 } from './v4.js';
 
@@ -211,7 +211,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-country-summary", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-sales-by-country", "ir-button", "ir-checkbox", "ir-date-picker", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-country-summary", "ir-sales-filters", "ir-sales-table", "ir-select", "ir-spinner", "ir-stats-card", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-country":
             if (!customElements.get(tagName)) {
@@ -303,7 +303,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

@@ -1,4 +1,4 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { T as Token } from './Token.js';
 import { H as HouseKeepingService } from './housekeeping.service.js';
 import { R as RoomService } from './room.service.js';
@@ -32,7 +32,7 @@ import { d as defineCustomElement$8 } from './ir-select2.js';
 import { d as defineCustomElement$7 } from './ir-spinner2.js';
 import { d as defineCustomElement$6 } from './ir-title2.js';
 import { d as defineCustomElement$5 } from './ir-toast2.js';
-import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$4 } from './ir-toast-item2.js';
 import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$2 } from './ir-validator2.js';
 import { d as defineCustomElement$1 } from './requirement-check2.js';
@@ -44,7 +44,6 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
     constructor() {
         super();
         this.__registerHost();
-        this.toast = createEvent(this, "toast", 7);
     }
     language = '';
     ticket = '';
@@ -53,7 +52,6 @@ const IrHousekeeping = /*@__PURE__*/ proxyCustomElement(class IrHousekeeping ext
     baseUrl;
     isLoading = false;
     frequencies = [];
-    toast;
     roomService = new RoomService();
     houseKeepingService = new HouseKeepingService();
     bookingService = new BookingService();
@@ -140,7 +138,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-housekeeping", "ir-button", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-hk-delete-dialog", "ir-hk-operations-card", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-unassigned-units-drawer", "ir-hk-unassigned-units-drawer-form", "ir-hk-user-drawer", "ir-hk-user-drawer-form", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-popover", "ir-select", "ir-spinner", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator", "requirement-check"];
+    const components = ["ir-housekeeping", "ir-button", "ir-custom-button", "ir-dialog", "ir-drawer", "ir-hk-delete-dialog", "ir-hk-operations-card", "ir-hk-team", "ir-hk-unassigned-units", "ir-hk-unassigned-units-drawer", "ir-hk-unassigned-units-drawer-form", "ir-hk-user-drawer", "ir-hk-user-drawer-form", "ir-icon", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-password-validator", "ir-popover", "ir-select", "ir-spinner", "ir-title", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator", "requirement-check"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-housekeeping":
             if (!customElements.get(tagName)) {
@@ -277,7 +275,7 @@ function defineCustomElement() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

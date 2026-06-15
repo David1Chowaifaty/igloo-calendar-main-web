@@ -25,7 +25,7 @@ import { d as defineCustomElement$8 } from './ir-picker2.js';
 import { d as defineCustomElement$7 } from './ir-picker-item2.js';
 import { d as defineCustomElement$6 } from './ir-spinner2.js';
 import { d as defineCustomElement$5 } from './ir-toast2.js';
-import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$4 } from './ir-toast-item2.js';
 import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$2 } from './ir-validator2.js';
 
@@ -113,10 +113,10 @@ const IrFiscalDocuments$1 = /*@__PURE__*/ proxyCustomElement(class IrFiscalDocum
         }
     }
     render() {
-        return (h("ir-page", { key: '128b8f51148bc9658eb3e8b0e7018d822c0971e5', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: 'f53ade956d40dc314f2bd38e9927ec7a79356577', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
+        return (h("ir-page", { key: '3327d3ce484bbf54c2af34ce03df5bc71364d27f', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: '98b7a10ef908b60b4a9e13781319e06c7baa7144', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
                 this.filters = e.detail;
                 this.fetchFiscalDocuments(e.detail);
-            } }), h("ir-fiscal-documents-table", { key: 'e09e8bed65c54f04907099470ad52c12c9f228c3', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
+            } }), h("ir-fiscal-documents-table", { key: 'b999bc9732858a7973441c760f9b926179112bb1', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -138,7 +138,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-fiscal-documents", "ir-air-date-picker", "ir-autocomplete", "ir-autocomplete-option", "ir-button", "ir-cl-status-tag", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-fiscal-documents-filters", "ir-fiscal-documents-table", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-page", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["ir-fiscal-documents", "ir-air-date-picker", "ir-autocomplete", "ir-autocomplete-option", "ir-button", "ir-cl-status-tag", "ir-custom-button", "ir-date-range-filter", "ir-date-select", "ir-dialog", "ir-fd-confirm-dialog", "ir-fiscal-documents-filters", "ir-fiscal-documents-table", "ir-icons", "ir-input", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-page", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-fiscal-documents":
             if (!customElements.get(tagName)) {
@@ -255,7 +255,7 @@ function defineCustomElement$1() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

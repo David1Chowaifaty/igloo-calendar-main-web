@@ -30,7 +30,7 @@ import { d as defineCustomElement$8 } from './ir-picker2.js';
 import { d as defineCustomElement$7 } from './ir-picker-item2.js';
 import { d as defineCustomElement$6 } from './ir-spinner2.js';
 import { d as defineCustomElement$5 } from './ir-toast2.js';
-import { d as defineCustomElement$4 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$4 } from './ir-toast-item2.js';
 import { d as defineCustomElement$3 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$2 } from './ir-validator2.js';
 
@@ -133,7 +133,7 @@ const IglBookPropertyContainer$1 = /*@__PURE__*/ proxyCustomElement(class IglBoo
         };
     }
     render() {
-        return (h(Host, { key: '54fb605b43865d1a081d25cfb940d474cb03346e' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '3482dcb927ab60f564313b7bfd28a98e279e6b75' }, h("ir-toast", { key: '71c3300c24b60e3a0d8492b04019b062eed7911e' }), h("ir-interceptor", { key: '8a8783fd1e9232bc831359e45828260aa45bc20e' }))), h("div", { key: '7e88735f3741275d80760d7e8ac38f9ba30555aa', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: '574fa95b95b7a5b629ef0ca7557808531c98eb58', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: '987388b99134515bf9a7e48a7cfce03d6c7e9136', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (h(Host, { key: 'a067ada99a75872a6c291226d75e115c09d3407e' }, this.withIrToastAndInterceptor && (h(Fragment, { key: '7dce5209af4e8d24e9e846077026924a4f66e3f5' }, h("ir-toast", { key: 'c682843a744a30e66d9d5f99545963a525f385f0' }), h("ir-interceptor", { key: '29c7adcdf6c6d8cda2b792f715f11ee46f13552f' }))), h("div", { key: '9bb8368da2e7d88cd1a292553ff75ee271034665', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, h("slot", { key: 'bcf19492c78b8a42b99e59c80ec2d70f866e5100', name: "trigger" })), this.bookingItem && (h("igl-book-property", { key: 'af8ba67c9413904fd752db9e0c23ac1c03485bc9', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);
@@ -162,7 +162,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["igl-book-property-container", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-range", "ir-date-range", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["igl-book-property-container", "igl-application-info", "igl-block-dates-view", "igl-book-property", "igl-book-property-footer", "igl-book-property-header", "igl-booking-form", "igl-booking-overview-page", "igl-property-booked-by", "igl-rate-plan", "igl-room-type", "ir-button", "ir-country-picker", "ir-custom-button", "ir-custom-date-range", "ir-date-range", "ir-date-view", "ir-icons", "ir-input", "ir-input-text", "ir-interceptor", "ir-mobile-input", "ir-otp", "ir-otp-modal", "ir-picker", "ir-picker-item", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "igl-book-property-container":
             if (!customElements.get(tagName)) {
@@ -304,7 +304,7 @@ function defineCustomElement$1() {
                 defineCustomElement$5();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

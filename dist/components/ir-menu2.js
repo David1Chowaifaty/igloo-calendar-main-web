@@ -121,7 +121,7 @@ const IrMenu = /*@__PURE__*/ proxyCustomElement(class IrMenu extends HTMLElement
         }
     }
     render() {
-        return (h(Host, { key: 'c264e446cd8e9a86c4185d36f49e08c73dbcbb2d' }, h("slot", { key: '9c5aa29ed9f7f16747c1182a283a1974c8fd9efb', onSlotchange: this.handleSlotChange })));
+        return (h(Host, { key: '107b437c52302e4ad73a0eeaf52e15d76965eea8' }, h("slot", { key: 'b2aa5bff714b9ff0cf3eecaf11aabd90d8b79a7b', onSlotchange: this.handleSlotChange })));
     }
     static get watchers() { return {
         "selectedHref": ["handleSelectedHrefChange"]

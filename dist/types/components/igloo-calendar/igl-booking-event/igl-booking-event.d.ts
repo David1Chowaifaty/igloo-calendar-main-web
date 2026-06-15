@@ -1,6 +1,5 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
 import { IRoomNightsData, CalendarModalEvent } from "../../../models/property-types";
-import { IToast } from "../../ui/ir-toast/toast";
 import { ICountry } from "../../../models/IBooking";
 export declare class IglBookingEvent {
     private element;
@@ -20,7 +19,6 @@ export declare class IglBookingEvent {
     showRoomNightsDialog: EventEmitter<IRoomNightsData>;
     showDialog: EventEmitter<CalendarModalEvent>;
     resetStretchedBooking: EventEmitter<string>;
-    toast: EventEmitter<IToast>;
     updateBookingEvent: EventEmitter<{
         [key: string]: any;
     }>;

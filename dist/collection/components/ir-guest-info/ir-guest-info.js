@@ -4,6 +4,7 @@ import { RoomService } from "../../services/room.service";
 import locales from "../../stores/locales.store";
 import Token from "../../models/Token";
 import { isRequestPending } from "../../stores/ir-interceptor.store";
+import { showToast } from "../../utils/utils";
 export class GuestInfo {
     language;
     headerShown;
@@ -18,7 +19,6 @@ export class GuestInfo {
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    toast;
     bookingService = new BookingService();
     roomService = new RoomService();
     token = new Token();
@@ -68,7 +68,7 @@ export class GuestInfo {
         try {
             this.autoValidate = true;
             await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
-            this.toast.emit({
+            showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
@@ -279,27 +279,6 @@ export class GuestInfo {
                     "original": "null",
                     "resolved": "null",
                     "references": {}
-                }
-            }, {
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
                 }
             }];
     }

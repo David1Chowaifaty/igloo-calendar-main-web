@@ -1,6 +1,4 @@
 import { IEntries } from "../../models/IBooking";
-import { EventEmitter } from '../../stencil-public-runtime';
-import { IToast } from "../ui/ir-toast/toast";
 export declare class IrHousekeeping {
     language: string;
     ticket: string;
@@ -9,7 +7,6 @@ export declare class IrHousekeeping {
     baseUrl: string;
     isLoading: boolean;
     frequencies: IEntries[];
-    toast: EventEmitter<IToast>;
     private roomService;
     private houseKeepingService;
     private bookingService;

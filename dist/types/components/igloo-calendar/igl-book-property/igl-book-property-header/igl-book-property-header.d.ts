@@ -1,6 +1,5 @@
 import { EventEmitter } from '../../../../stencil-public-runtime';
 import { TAdultChildConstraints, TPropertyButtonsTypes } from '../../../../models/igl-book-property';
-import { IToast } from "../../../ui/ir-toast/toast";
 import { Booking } from "../../../../models/booking.dto";
 export declare class IglBookPropertyHeader {
     splitBookingId: any;
@@ -28,7 +27,6 @@ export declare class IglBookPropertyHeader {
     buttonClicked: EventEmitter<{
         key: TPropertyButtonsTypes;
     }>;
-    toast: EventEmitter<IToast>;
     spiltBookingSelected: EventEmitter<{
         key: string;
         data: unknown;

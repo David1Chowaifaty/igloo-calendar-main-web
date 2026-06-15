@@ -358,7 +358,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
-                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"text\" | \"month\" | \"week\" | \"button\" | \"time\" | \"reset\" | \"color\" | \"url\" | \"hidden\" | \"tel\" | \"image\" | \"submit\" | \"datetime-local\" | \"range\" | \"checkbox\" | \"radio\"",
+                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"reset\" | \"submit\" | \"month\" | \"week\" | \"color\" | \"url\" | \"tel\" | \"datetime-local\" | \"range\" | \"checkbox\" | \"radio\"",
                     "references": {}
                 },
                 "required": false,
@@ -598,7 +598,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "FactoryArg",
-                    "resolved": "string | RegExp | DateConstructor | NumberConstructor | Masked<any> | FactoryOpts | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
+                    "resolved": "string | RegExp | NumberConstructor | DateConstructor | Masked<any> | FactoryOpts | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
                     "references": {
                         "FactoryArg": {
                             "location": "import",

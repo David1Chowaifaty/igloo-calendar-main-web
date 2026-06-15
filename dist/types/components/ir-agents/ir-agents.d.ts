@@ -1,8 +1,6 @@
 import { ICountry } from "../../models/IBooking";
 import type { Agent, Agents } from "../../services/agents/type";
-import { EventEmitter } from '../../stencil-public-runtime';
 import { AgentSetupEntries } from './types';
-import { IToast } from '../ui/ir-toast/toast';
 export declare class IrAgents {
     /**
      * Authentication token issued by the PMS backend.
@@ -31,7 +29,6 @@ export declare class IrAgents {
     isLoading: boolean;
     countries: ICountry[];
     setupEntries: AgentSetupEntries;
-    toast: EventEmitter<IToast>;
     private agentsService;
     private propertyService;
     private bookingService;

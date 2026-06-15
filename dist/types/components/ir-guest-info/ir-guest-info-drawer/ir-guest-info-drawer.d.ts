@@ -1,5 +1,4 @@
 import { EventEmitter } from '../../../stencil-public-runtime';
-import { IToast } from "../../ui/ir-toast/toast";
 import { GuestChangedEvent } from "../../../components";
 export declare class IrGuestInfoDrawer {
     open: boolean;
@@ -12,7 +11,6 @@ export declare class IrGuestInfoDrawer {
     }>;
     guestChanged: EventEmitter<GuestChangedEvent>;
     resetBookingEvt: EventEmitter<null>;
-    toast: EventEmitter<IToast>;
     hostElement: HTMLElement;
     private handleDrawerHide;
     private handleCancel;

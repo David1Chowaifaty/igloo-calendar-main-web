@@ -1191,11 +1191,11 @@ export declare const PrintClFiscalDocumentParamsSchema: z.ZodObject<{
     doc_number: z.ZodString;
     lang: z.ZodDefault<z.ZodOptional<z.ZodString>>;
 }, "strip", z.ZodTypeAny, {
-    doc_number?: string;
     lang?: string;
+    doc_number?: string;
 }, {
-    doc_number?: string;
     lang?: string;
+    doc_number?: string;
 }>;
 export type PrintClFiscalDocumentParams = z.infer<typeof PrintClFiscalDocumentParamsSchema>;
 export declare const PrintClStatementParamsSchema: z.ZodObject<{

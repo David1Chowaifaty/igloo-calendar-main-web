@@ -16,7 +16,7 @@ import { d as defineCustomElement$6 } from './ir-modal2.js';
 import { d as defineCustomElement$5 } from './ir-sidebar2.js';
 import { d as defineCustomElement$4 } from './ir-switch2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 
 const actions = (entries) => [
@@ -299,7 +299,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-channel", "ir-button", "ir-channel-editor", "ir-channel-general", "ir-channel-header", "ir-channel-mapping", "ir-combobox", "ir-icon", "ir-icons", "ir-loading-screen", "ir-modal", "ir-sidebar", "ir-switch", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-channel", "ir-button", "ir-channel-editor", "ir-channel-general", "ir-channel-header", "ir-channel-mapping", "ir-combobox", "ir-icon", "ir-icons", "ir-loading-screen", "ir-modal", "ir-sidebar", "ir-switch", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-channel":
             if (!customElements.get(tagName)) {
@@ -371,7 +371,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

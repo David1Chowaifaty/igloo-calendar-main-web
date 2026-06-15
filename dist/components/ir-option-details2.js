@@ -3,6 +3,7 @@ import { a as axios } from './axios.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
 import { c as createStore } from './index3.js';
 import { l as locales } from './locales.store.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$7 } from './ir-button2.js';
 import { d as defineCustomElement$6 } from './ir-icon2.js';
 import { d as defineCustomElement$5 } from './ir-icons2.js';
@@ -65,14 +66,12 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         super();
         this.__registerHost();
         this.closeModal = createEvent(this, "closeModal", 7);
-        this.toast = createEvent(this, "toast", 7);
     }
     propertyId;
     localizationIdx;
     selectedLanguage = null;
     invalid = false;
     closeModal;
-    toast;
     paymentOptionService = new PaymentOptionService();
     async componentWillLoad() {
         if (payment_option_store.selectedOption.code !== '005') {
@@ -108,7 +107,7 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
         let selectedOption = {
             ...payment_option_store.selectedOption,
             property_id: this.propertyId,
-            is_active: payment_option_store.mode === 'create' ? true : payment_option_store.selectedOption.is_active ?? false,
+            is_active: payment_option_store.mode === 'create' ? true : (payment_option_store.selectedOption.is_active ?? false),
         };
         if (selectedOption?.code === '005') {
             const englishDescription = selectedOption.localizables.find(l => l.language.code.toLowerCase() === 'en')?.description;
@@ -128,7 +127,7 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
             }
         }
         await this.paymentOptionService.HandlePaymentMethod(selectedOption);
-        this.toast.emit({
+        showToast({
             type: 'success',
             description: '',
             title: locales.entries.Lcz_Saved,
@@ -198,7 +197,7 @@ const IrOptionDetails = /*@__PURE__*/ proxyCustomElement(class IrOptionDetails e
             // pluginsMode="add"
             // toolbarItemsMode="add"
             // toolbarItems={['|', 'link']}
-            maxLength: 450, placeholder: "", style: { '--ir-editor-height': '250px' }, error: this.invalid, value: this.localizationIdx !== null ? payment_option_store.selectedOption?.localizables[this.localizationIdx]?.description ?? '' : '', onTextChange: this.handleTextAreaChange.bind(this)
+            maxLength: 450, placeholder: "", style: { '--ir-editor-height': '250px' }, error: this.invalid, value: this.localizationIdx !== null ? (payment_option_store.selectedOption?.localizables[this.localizationIdx]?.description ?? '') : '', onTextChange: this.handleTextAreaChange.bind(this)
         })))) : (h("div", null, payment_option_store.selectedOption.data?.map((d, idx) => {
             return (h("fieldset", { key: d.key }, h("ir-input-text", { value: d.value, onTextChange: e => this.handlePaymentGatewayInfoChange(e, idx), id: `input_${d.key}`, label: d.key.replace(/_/g, ' '), placeholder: "", labelWidth: 4, "aria-invalid": this.invalid && (d.value === null || (d.value ?? '')?.trim() === '') ? 'true' : 'false' })));
         })))), h("div", { class: 'sheet-footer' }, h("ir-button", { onClick: () => this.closeModal.emit(null), btn_styles: "justify-content-center", class: `flex-fill`, text: locales.entries.Lcz_Cancel, btn_color: "secondary", btn_type: "button" }), h("ir-button", { btn_type: "submit", btn_styles: "justify-content-center align-items-center", class: 'flex-fill', isLoading: isRequestPending('/Handle_Payment_Method'), text: locales.entries.Lcz_Save, btn_color: "primary" })))));

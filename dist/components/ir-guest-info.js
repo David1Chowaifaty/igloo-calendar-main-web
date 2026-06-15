@@ -4,6 +4,7 @@ import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
 import { i as isRequestPending } from './ir-interceptor.store.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$j } from './ir-button2.js';
 import { d as defineCustomElement$i } from './ir-combobox2.js';
 import { d as defineCustomElement$h } from './ir-country-picker2.js';
@@ -20,7 +21,7 @@ import { d as defineCustomElement$7 } from './ir-spinner2.js';
 import { d as defineCustomElement$6 } from './ir-textarea2.js';
 import { d as defineCustomElement$5 } from './ir-title2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-item2.js';
 import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 
 const irGuestInfoCss = ".input-group-text.sc-ir-guest-info{min-width:10rem;text-align:left}.mobilePrefixSelect.sc-ir-guest-info{border-right-width:0;border-top-right-radius:0;border-bottom-right-radius:0}.mobilePrefixInput.sc-ir-guest-info{border-top-left-radius:0;border-bottom-left-radius:0}.check-container.sc-ir-guest-info{position:relative;cursor:pointer;font-size:14px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:flex;align-items:center}.check-container.sc-ir-guest-info input.sc-ir-guest-info{position:relative;opacity:0;cursor:pointer;height:0;width:0}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info{position:relative;top:0;left:0;height:20px;width:20px;border:1px solid #cacfe7;border-radius:4px;transition:all 0.3s ease}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info{background-color:#1e9ff2;border-color:#1e9ff2}.checkmark.sc-ir-guest-info:after{content:'';position:absolute;display:none}.check-container.sc-ir-guest-info input.sc-ir-guest-info:checked~.checkmark.sc-ir-guest-info:after{display:block}.check-label.sc-ir-guest-info{margin-left:10px !important}.check-container.sc-ir-guest-info .checkmark.sc-ir-guest-info:after{left:6px;top:3px;width:6px;height:10px;border:solid white;border-width:0 2px 2px 0;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.ir-card-header.sc-ir-guest-info{width:100%;border-bottom:1px solid #e4e5ec}.close-icon.sc-ir-guest-info{margin:0}.border-theme.sc-ir-guest-info{border:1px solid #cacfe7}.loading-container.sc-ir-guest-info{height:100%;width:100%;display:flex;justify-content:center;align-items:center;margin:0;padding:0}";
@@ -35,7 +36,6 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         this.__registerHost();
         this.closeSideBar = createEvent(this, "closeSideBar", 7);
         this.resetBookingEvt = createEvent(this, "resetBookingEvt", 7);
-        this.toast = createEvent(this, "toast", 7);
     }
     language;
     headerShown;
@@ -50,7 +50,6 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
     autoValidate = false;
     closeSideBar;
     resetBookingEvt;
-    toast;
     bookingService = new BookingService();
     roomService = new RoomService();
     token = new Token();
@@ -100,7 +99,7 @@ const GuestInfo = /*@__PURE__*/ proxyCustomElement(class GuestInfo extends HTMLE
         try {
             this.autoValidate = true;
             await this.bookingService.editExposedGuest(this.guest, this.booking_nbr ?? null);
-            this.toast.emit({
+            showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
@@ -165,7 +164,7 @@ function defineCustomElement$1() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-phone-input", "ir-picker", "ir-picker-item", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-guest-info", "ir-button", "ir-combobox", "ir-country-picker", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-otp", "ir-otp-modal", "ir-phone-input", "ir-picker", "ir-picker-item", "ir-spinner", "ir-textarea", "ir-title", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-guest-info":
             if (!customElements.get(tagName)) {
@@ -252,7 +251,7 @@ function defineCustomElement$1() {
                 defineCustomElement$4();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

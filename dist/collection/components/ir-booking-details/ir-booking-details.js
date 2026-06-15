@@ -58,6 +58,7 @@ export class IrBookingDetails {
     rawTransactions = [];
     clLoading = false;
     clError = null;
+    agents = [];
     /**
      * Booking number used to fetch booking details.
      */
@@ -142,11 +143,6 @@ export class IrBookingDetails {
      * Typically triggered by header actions (e.g., close button).
      */
     closeSidebar;
-    /**
-     * Emits toast notifications to the parent context.
-     * Carries toast configuration such as message, type, and duration.
-     */
-    toast;
     componentWillLoad() {
         if (this.ticket !== '') {
             this.token.setToken(this.ticket);
@@ -267,7 +263,6 @@ export class IrBookingDetails {
     }
     handleEditExtraService(e) {
         this.selectedService = e.detail;
-        console.log(this.selectedService);
         this.sidebarState = 'extra_service';
     }
     handleOpenPrintScreen(e) {
@@ -305,16 +300,15 @@ export class IrBookingDetails {
     async loadAgentAndFolio(booking, propertyId) {
         this.unsubscribeRealtime?.();
         this.unsubscribeRealtime = null;
-        if (!booking?.agent) {
-            this.agent = null;
+        const pid = propertyId ?? this.property_id;
+        this.agent = this.agents?.find(a => a.id === booking?.agent?.id) ?? null;
+        if (!this.agent) {
             this.folioRows = [];
             this.rawTransactions = [];
             return;
         }
-        this.agent = await this.agentService.getExposedAgent({ id: booking.agent.id });
         if (isAgentMode(this.agent)) {
             await this.fetchCityLedger(booking);
-            const pid = propertyId ?? this.property_id;
             if (pid) {
                 this.unsubscribeRealtime = realtimeService.subscribe(pid, msg => {
                     this.handleClSocketMessage(msg);
@@ -374,7 +368,7 @@ export class IrBookingDetails {
     async initializeApp() {
         try {
             this.isLoading = true;
-            const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries] = await Promise.all([
+            const [roomResponse, languageTexts, countriesList, bookingDetails, setupEntries, agents] = await Promise.all([
                 this.roomService.getExposedProperty({ id: this.propertyid || 0, language: this.language, aname: this.p }),
                 this.roomService.fetchLanguage(this.language),
                 this.bookingService.getCountries(this.language),
@@ -388,7 +382,9 @@ export class IrBookingDetails {
                     '_ARRIVAL_TIME',
                     '_SVC_CATEGORY',
                 ]),
+                this.agentService.getExposedAgents({ property_id: this.propertyid || 0 }),
             ]);
+            this.agents = agents;
             const resolvedPropertyId = roomResponse?.My_Result?.id;
             await this.loadAgentAndFolio(bookingDetails, resolvedPropertyId);
             this.property_id = resolvedPropertyId;
@@ -507,7 +503,7 @@ export class IrBookingDetails {
             return (h("div", { class: 'loading-container' }, h("ir-spinner", null)));
         }
         const isAllServicesAgentOwned = this.isAllServicesAgentOwned();
-        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, onRoomDeleteFinished: this.handleDeleteFinish }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
+        return (h(Host, null, !this.is_from_front_desk && (h(Fragment, null, h("ir-toast", { style: { height: '0' } }), h("ir-interceptor", { style: { height: '0' } }))), h("ir-booking-header", { agents: this.agents, booking: this.booking, hasCloseButton: this.hasCloseButton, hasDelete: this.hasDelete, hasMenu: this.hasMenu, hasPrint: this.hasPrint, agent: this.agent, folioRows: this.folioRows, hasReceipt: calendar_data.property.is_frontdesk_enabled, hasEmail: ['001', '002'].includes(this.booking?.status?.code) }), h("div", { class: "booking-details__booking-info" }, h("div", { class: "booking-details__info-column" }, h("ir-reservation-information", { arrivalTime: this.arrivalTime, countries: this.countries, booking: this.booking }), h("ir-booking-rooms", { booking: this.booking, agent: this.agent, propertyId: this.property_id, language: this.language, departureTime: this.departureTime, bedPreference: this.bedPreference, legendData: this.calendarData.legendData, roomsInfo: this.calendarData.roomsInfo, hasRoomAdd: this.hasRoomAdd, hasRoomEdit: this.hasRoomEdit, hasRoomDelete: this.hasRoomDelete, splitIndex: this.splitIndex, clTransactions: this.rawTransactions, onRoomDeleteFinished: this.handleDeleteFinish }), h("section", null, h("ir-extra-services", { language: this.language, svcCategories: this.svcCategories, booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-pickup-view", { booking: this.booking, agent: this.agent, clTransactions: this.rawTransactions })), h("ir-payment-details", { clTransactions: this.rawTransactions, class: "booking-details__info-column", propertyId: this.property_id, paymentEntries: this.paymentEntries, paymentActions: this.paymentActions, booking: this.booking, agent: this.agent, svcCategories: this.svcCategories, isAllServicesAgentOwned: isAllServicesAgentOwned, folioRows: this.folioRows, clLoading: this.clLoading, clError: this.clError })), h("ir-dialog", { label: "Send Email", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.modalRef.closeModal();
@@ -896,7 +892,8 @@ export class IrBookingDetails {
             "folioRows": {},
             "rawTransactions": {},
             "clLoading": {},
-            "clError": {}
+            "clError": {},
+            "agents": {}
         };
     }
     static get events() {
@@ -935,27 +932,6 @@ export class IrBookingDetails {
                     "original": "null",
                     "resolved": "null",
                     "references": {}
-                }
-            }, {
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": "Emits toast notifications to the parent context.\nCarries toast configuration such as message, type, and duration."
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
                 }
             }];
     }

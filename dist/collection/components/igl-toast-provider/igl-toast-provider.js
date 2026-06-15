@@ -353,7 +353,7 @@ export class IglToastProvider {
                             "docs": ""
                         }, {
                             "name": "options",
-                            "type": "{ variant?: \"danger\" | \"success\" | \"neutral\" | \"warning\" | \"primary\"; duration?: number; closable?: boolean; icon?: string; }",
+                            "type": "{ variant?: \"danger\" | \"neutral\" | \"success\" | \"warning\" | \"primary\"; duration?: number; closable?: boolean; icon?: string; }",
                             "docs": ""
                         }],
                     "references": {

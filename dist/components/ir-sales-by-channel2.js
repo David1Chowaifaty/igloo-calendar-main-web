@@ -21,7 +21,7 @@ import { d as defineCustomElement$6 } from './ir-sales-by-channel-table2.js';
 import { d as defineCustomElement$5 } from './ir-select2.js';
 import { d as defineCustomElement$4 } from './ir-spinner2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 
 const irSalesByChannelCss = ".sc-ir-sales-by-channel-h{display:block}";
@@ -264,7 +264,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-sales-by-channel", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-m-combobox", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-channel-filters", "ir-sales-by-channel-table", "ir-select", "ir-spinner", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-sales-by-channel", "ir-button", "ir-checkbox", "ir-date-picker", "ir-filters-panel", "ir-icons", "ir-interceptor", "ir-loading-screen", "ir-m-combobox", "ir-otp", "ir-otp-modal", "ir-progress-indicator", "ir-range-picker", "ir-sales-by-channel-filters", "ir-sales-by-channel-table", "ir-select", "ir-spinner", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-sales-by-channel":
             if (!customElements.get(tagName)) {
@@ -356,7 +356,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

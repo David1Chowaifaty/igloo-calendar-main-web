@@ -1,0 +1,72 @@
+import { r as registerInstance, c as createEvent, h } from './index-7e96440e.js';
+
+const irToastAlertCss = ":host{--toast-shadow:var(--wa-shadow-l);--toast-translate:16px;--toast-accent-fg:#0f172a;display:block;box-sizing:border-box;max-width:min(420px, calc(100vw - 32px));pointer-events:auto;font-family:inherit}:host([data-position*='left']){--toast-translate:-16px}.toast{box-shadow:var(--toast-shadow);animation:toast-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;border-radius:var(--wa-panel-border-radius)}:host([data-leaving='true']) .toast{animation:toast-exit 200ms ease forwards}:host(:focus-within) .toast{box-shadow:0 0 0 2px #93c5fd, var(--toast-shadow)}.toast__leading{width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--toast-accent-fg)}.toast__icon{width:20px;height:20px;fill:currentColor}.toast__body{flex:1 1 0%;min-width:0;display:flex;flex-direction:column;gap:0.25rem}.toast__title{margin:0;font-weight:600;font-size:0.95rem}.toast__description{margin:0;font-size:0.85rem;line-height:1.35;opacity:0.85}@keyframes toast-enter{from{opacity:0;transform:translateX(var(--toast-translate)) translateY(6px)}to{opacity:1;transform:translateX(0) translateY(0)}}@keyframes toast-exit{from{opacity:1;transform:translateX(0) translateY(0)}to{opacity:0;transform:translateX(calc(var(--toast-translate) * 1.25)) translateY(-4px)}}@media (prefers-reduced-motion: reduce){.toast{animation:none}:host([data-leaving='true']) .toast{animation:none}}:host([variant='success']){--toast-accent-fg:#047857}:host([variant='warning']){--toast-accent-fg:#92400e}:host([variant='danger']){--toast-accent-fg:#b91c1c}";
+const IrToastAlertStyle0 = irToastAlertCss;
+
+const IrToastAlert = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.irToastDismiss = createEvent(this, "irToastDismiss", 7);
+        this.irToastAction = createEvent(this, "irToastAction", 7);
+        this.irToastInteractionChange = createEvent(this, "irToastInteractionChange", 7);
+    }
+    /** Unique identifier passed back to the provider when interacting with the toast */
+    toastId;
+    /** Heading displayed at the top of the toast */
+    label;
+    /** Plain text description for the toast body */
+    description;
+    /** Maps to visual style tokens */
+    variant = 'info';
+    /** Whether the close button should be rendered */
+    dismissible = true;
+    /** Optional primary action label */
+    actionLabel;
+    /** Indicates when the provider is playing the exit animation */
+    leaving = false;
+    /** Toast position drives enter/exit direction */
+    position = 'top-right';
+    irToastDismiss;
+    irToastAction;
+    irToastInteractionChange;
+    interacting = false;
+    setInteracting = (interacting) => {
+        if (this.interacting === interacting) {
+            return;
+        }
+        this.interacting = interacting;
+        this.irToastInteractionChange.emit({ id: this.toastId, interacting });
+    };
+    getIcon() {
+        switch (this.variant) {
+            case 'success':
+                return h("wa-icon", { slot: "icon", name: "circle-check" });
+            case 'warning':
+                return h("wa-icon", { slot: "icon", name: "triangle-exclamation" });
+            case 'danger':
+                return h("wa-icon", { slot: "icon", name: "triangle-exclamation" });
+            default:
+                return h("wa-icon", { slot: "icon", name: "circle-info" });
+        }
+    }
+    get calloutVariant() {
+        switch (this.variant) {
+            case 'info':
+                return 'neutral';
+            case 'success':
+                return 'success';
+            case 'warning':
+                return 'warning';
+            case 'danger':
+                return 'danger';
+        }
+    }
+    render() {
+        return (h("div", { key: 'e7b85f11409599c616358b6b1fea392602c97a61', class: "toast", "data-position": this.position, "data-leaving": this.leaving, onMouseEnter: () => this.setInteracting(true), onMouseLeave: () => this.setInteracting(false), onFocusin: () => this.setInteracting(true), onFocusout: () => this.setInteracting(false) }, h("wa-callout", { key: '4bfb1bcfe5b4e1be7cbf49df602288f07aaf4e90', variant: this.calloutVariant }, this.getIcon(), h("div", { key: 'eb04e710390244e38efee2043cc40c55b8eb9bee', class: "toast__body" }, this.label && h("h3", { key: '535041e06c314d8cd8f7cc72fd8e0238c847dad4', class: "toast__title" }, this.label), this.description && h("p", { key: '8563da22878b2ee621430fb2c9e467beb2194740', class: "toast__description" }, this.description)))));
+    }
+};
+IrToastAlert.style = IrToastAlertStyle0;
+
+export { IrToastAlert as ir_toast_alert };
+
+//# sourceMappingURL=ir-toast-alert.entry.js.map

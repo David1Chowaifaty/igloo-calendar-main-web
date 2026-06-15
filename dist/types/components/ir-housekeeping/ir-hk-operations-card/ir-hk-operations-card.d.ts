@@ -1,5 +1,3 @@
-import { EventEmitter } from '../../../stencil-public-runtime';
-import { IToast } from "../../ui/ir-toast/toast";
 import { IEntries } from "../../../models/IBooking";
 export declare class IrHkOperationsCard {
     frequencies: IEntries[];
@@ -8,7 +6,6 @@ export declare class IrHkOperationsCard {
         frequency: string;
     }>;
     selectedCleaningFrequency: string;
-    toast: EventEmitter<IToast>;
     private roomService;
     private propertyService;
     private houseKeepingService;

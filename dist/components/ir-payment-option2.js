@@ -1,8 +1,9 @@
-import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
+import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 import { P as PaymentOptionService, p as payment_option_store, d as defineCustomElement$c } from './ir-option-details2.js';
 import { R as RoomService } from './room.service.js';
 import { l as locales } from './locales.store.js';
 import { T as Token } from './Token.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$h } from './ir-button2.js';
 import { d as defineCustomElement$g } from './ir-icon2.js';
 import { d as defineCustomElement$f } from './ir-icons2.js';
@@ -17,7 +18,7 @@ import { d as defineCustomElement$6 } from './ir-switch2.js';
 import { d as defineCustomElement$5 } from './ir-text-editor2.js';
 import { d as defineCustomElement$4 } from './ir-title2.js';
 import { d as defineCustomElement$3 } from './ir-toast2.js';
-import { d as defineCustomElement$2 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$2 } from './ir-toast-item2.js';
 import { d as defineCustomElement$1 } from './ir-toast-provider2.js';
 
 const irPaymentOptionCss = ".sc-ir-payment-option-h{display:block}.payment-table-container.sc-ir-payment-option{display:flex;align-items:center;justify-content:center}.po-view.sc-ir-payment-option{padding:0;margin:0}.payment-img.sc-ir-payment-option{height:18px;display:none}.loading-container.sc-ir-payment-option{background:white;display:flex;align-items:center;flex-direction:column;align-items:center;justify-content:center;width:100%;height:40rem}.payment-option-loader.sc-ir-payment-option{width:1.25rem;height:1.25rem;border:2.5px solid #3f3f3f;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite}.loading-container.default.sc-ir-payment-option{height:100vh;width:100%}@media (min-width: 768px){.po-view.sc-ir-payment-option{display:flex;align-items:center;justify-content:space-between;gap:0.5rem}.dataTable.sc-ir-payment-option{width:70%}.payment-img.sc-ir-payment-option{display:block}.actions-header.sc-ir-payment-option{width:max-content !important}.payment-table-container.sc-ir-payment-option{justify-content:flex-start}}@media (min-width: 1280px){.dataTable.sc-ir-payment-option{width:50%}}@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}";
@@ -27,7 +28,6 @@ const IrPaymentOption = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption e
     constructor() {
         super();
         this.__registerHost();
-        this.toast = createEvent(this, "toast", 7);
     }
     propertyid;
     ticket;
@@ -38,7 +38,6 @@ const IrPaymentOption = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption e
     paymentOptions = [];
     isLoading = false;
     selectedOption = null;
-    toast;
     paymentOptionService = new PaymentOptionService();
     roomService = new RoomService();
     token = new Token();
@@ -145,7 +144,7 @@ const IrPaymentOption = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption e
             await this.changePaymentMethod(newOption);
             this.modifyPaymentList(newOption);
             if (po.code === '000' && is_active && this.paymentOptions.filter(p => p.code !== '000').every(p => p.is_active === false || p.is_active === null)) {
-                this.toast.emit({
+                showToast({
                     type: 'success',
                     description: '',
                     title: locales.entries['Lcz_YouNeedToSelect'],
@@ -170,7 +169,7 @@ const IrPaymentOption = /*@__PURE__*/ proxyCustomElement(class IrPaymentOption e
     async changePaymentMethod(newOption) {
         try {
             await this.paymentOptionService.HandlePaymentMethod(newOption);
-            this.toast.emit({
+            showToast({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
@@ -226,7 +225,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-text-editor", "ir-title", "ir-toast", "ir-toast-alert", "ir-toast-provider"];
+    const components = ["ir-payment-option", "ir-button", "ir-icon", "ir-icons", "ir-input-text", "ir-interceptor", "ir-option-details", "ir-otp", "ir-otp-modal", "ir-select", "ir-sidebar", "ir-spinner", "ir-switch", "ir-text-editor", "ir-title", "ir-toast", "ir-toast-item", "ir-toast-provider"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-payment-option":
             if (!customElements.get(tagName)) {
@@ -308,7 +307,7 @@ function defineCustomElement() {
                 defineCustomElement$3();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$2();
             }

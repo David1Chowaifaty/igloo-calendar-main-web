@@ -39,7 +39,7 @@ const IglRateExtenderDrawer = /*@__PURE__*/ proxyCustomElement(class IglRateExte
         this.closeRoomNightsDialog.emit({ type: 'cancel', pool: this.pool });
     };
     render() {
-        return (h("ir-drawer", { key: '296cc9cd814c0edaeda0696b3ce57a1fe9a9a4d1', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: 'b1a6dec09a747202f34757a955f6e51dc9049ee6', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
+        return (h("ir-drawer", { key: '493f45f208238cec14e2dfbc5b432188a2a9c80a', open: this.open, label: this.label, onDrawerHide: this.handleDrawerHide }, this.open && (h("igl-rate-extender-form", { key: '9cb8519958073772244658768c949f3d7575dae4', bookingNumber: this.bookingNumber, propertyId: this.propertyId, language: this.language, identifier: this.identifier, toDate: this.toDate, fromDate: this.fromDate, pool: this.pool, defaultDates: this.defaultDates, onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
@@ -51,7 +51,7 @@ const IglRateExtenderDrawer = /*@__PURE__*/ proxyCustomElement(class IglRateExte
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.closeRoomNightsDialog.emit(e.detail);
-            } })), h("div", { key: 'ef7ac702de2c60893271edccd5d56af5fe2b8b3e', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: '19ffcf69066079c647e8600a874417689e000b48', size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'd739f0f8511ec0bd613b78aa4ffde5a12ca30af5', loading: this.isLoading, disabled: !this.hasInventory, size: "medium", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, "Confirm"))));
+            } })), h("div", { key: 'a4def2787a054cd687aabc45e1ef5920e0716138', slot: "footer", class: 'ir__drawer-footer' }, h("ir-custom-button", { key: 'eea2af1fb4e39ca8dab1367a09176058bc6dda79', size: "medium", appearance: "filled", variant: "neutral", "data-drawer": "close" }, "Cancel"), h("ir-custom-button", { key: 'aa824f589a9b14684bfdf28fe5b7103b1aa95d7f', loading: this.isLoading, disabled: !this.hasInventory, size: "medium", type: "submit", form: "rate-extender-form", appearance: "accent", variant: "brand" }, "Confirm"))));
     }
     static get style() { return IglRateExtenderDrawerStyle0; }
 }, [2, "igl-rate-extender-drawer", {

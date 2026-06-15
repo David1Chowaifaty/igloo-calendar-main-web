@@ -4,6 +4,7 @@ import { BookingService } from "../../services/booking-service/booking.service";
 import { Host, h } from "@stencil/core";
 import calendar_data from "../../stores/calendar-data";
 import { PropertyService } from "../../services/property.service";
+import { showToast } from "../../utils/utils";
 export class IrAgents {
     /**
      * Authentication token issued by the PMS backend.
@@ -32,7 +33,6 @@ export class IrAgents {
     isLoading = true;
     countries;
     setupEntries;
-    toast;
     agentsService = new AgentsService();
     propertyService = new PropertyService();
     bookingService = new BookingService();
@@ -127,11 +127,10 @@ export class IrAgents {
         try {
             await this.agentsService.handleExposedAgent({ agent });
             this.upsertAgent();
-            this.toast.emit({
+            showToast({
                 type: 'success',
                 description: '',
                 title: 'Saved Successfully',
-                position: 'top-right',
             });
         }
         catch (error) {
@@ -249,30 +248,6 @@ export class IrAgents {
             "countries": {},
             "setupEntries": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "../ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
-                }
-            }];
     }
     static get watchers() {
         return [{

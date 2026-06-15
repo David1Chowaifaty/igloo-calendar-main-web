@@ -1,7 +1,5 @@
-import { EventEmitter } from '../../stencil-public-runtime';
 import { GHS_Candidate_Property } from '../../services/ghs/types';
 import { ICountry } from '../../models/IBooking';
-import { IToast } from '../ui/ir-toast/toast';
 export declare class IrGhsOnboarding {
     el: HTMLElement;
     ticket: string;
@@ -15,7 +13,6 @@ export declare class IrGhsOnboarding {
     isGenerating: boolean;
     isActivating: boolean;
     propertyToActivate: GHS_Candidate_Property | null;
-    toast: EventEmitter<IToast>;
     private ghsService;
     private bookingService;
     private tokenService;

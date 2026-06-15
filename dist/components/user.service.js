@@ -1,4 +1,4 @@
-import { G as sleep } from './utils.js';
+import { H as sleep } from './utils.js';
 import { a as axios } from './axios.js';
 
 class UserService {

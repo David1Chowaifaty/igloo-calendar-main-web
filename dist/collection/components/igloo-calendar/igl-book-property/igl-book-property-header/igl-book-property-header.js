@@ -6,6 +6,7 @@ import calendar_data from "../../../../stores/calendar-data";
 import booking_store, { setBookingDraft } from "../../../../stores/booking.store";
 import { BookingService } from "../../../../services/booking-service/booking.service";
 import { z } from "zod";
+import { showToast } from "../../../../utils/utils";
 export class IglBookPropertyHeader {
     splitBookingId = '';
     bookingData = '';
@@ -25,7 +26,6 @@ export class IglBookPropertyHeader {
     splitBookingDropDownChange;
     checkClicked;
     buttonClicked;
-    toast;
     spiltBookingSelected;
     animateIrSelect;
     autoValidate;
@@ -94,11 +94,9 @@ export class IglBookPropertyHeader {
     handleButtonClicked() {
         const { occupancy } = booking_store.bookingDraft;
         if (this.isEventType('SPLIT_BOOKING') && Object.keys(this.bookedByInfoData).length <= 1) {
-            this.toast.emit({
+            showToast({
                 type: 'error',
                 title: locales.entries.Lcz_ChooseBookingNumber,
-                description: '',
-                position: 'top-right',
             });
         }
         else if (this.isEventType('ADD_ROOM') || this.isEventType('SPLIT_BOOKING')) {
@@ -107,16 +105,14 @@ export class IglBookPropertyHeader {
             const selectedFromDate = moment(new Date(this.dateRangeData.fromDate));
             const selectedToDate = moment(new Date(this.dateRangeData.toDate));
             if (selectedToDate.isBefore(initialFromDate) || selectedFromDate.isAfter(initialToDate)) {
-                this.toast.emit({
+                showToast({
                     type: 'error',
                     title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace('%1', moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY')).replace('%2', moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
-                    description: '',
-                    position: 'top-right',
                 });
                 return;
             }
             else if (Number(occupancy.adults) === 0) {
-                this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
+                showToast({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests });
                 // this.adultAnimationContainer.play = true;
                 this.autoValidate = true;
             }
@@ -125,20 +121,19 @@ export class IglBookPropertyHeader {
             }
         }
         // else if (this.minDate && new Date(this.dateRangeData.fromDate).getTime() > new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date).getTime()) {
-        //   this.toast.emit({
+        //   showToast({
         //     type: 'error',
         //     title: `${locales.entries.Lcz_CheckInDateShouldBeMAx.replace(
         //       '%1',
         //       moment(new Date(this.bookedByInfoData.from_date || this.defaultDaterange.from_date)).format('ddd, DD MMM YYYY'),
         //     ).replace('%2', moment(new Date(this.bookedByInfoData.to_date || this.defaultDaterange.to_date)).format('ddd, DD MMM YYYY'))}  `,
         //     description: '',
-        //     position: 'top-right',
         //   });
         // }
         else if (Number(occupancy.adults) === 0) {
             // this.adultAnimationContainer.play = true;
             this.autoValidate = true;
-            this.toast.emit({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '', position: 'top-right' });
+            showToast({ type: 'error', title: locales.entries.Lcz_PlzSelectNumberOfGuests, description: '' });
         }
         else {
             this.buttonClicked.emit({ key: 'check' });
@@ -168,7 +163,7 @@ export class IglBookPropertyHeader {
     render() {
         console.log(this.bookingData.event_type);
         const showSourceNode = this.showSplitBookingOption ? this.getSplitBookingList() : this.isEventType('EDIT_BOOKING') || this.isEventType('ADD_ROOM') ? false : true;
-        return (h(Host, { key: '69dd0c44156905f27dee8d4fc0cd65babea4964a' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '024391626441d6334b526883f8575465ed68c5b8', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("ir-date-range", { key: '904a5bb5de0393e462b65269106ca6a73df687cd', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: 'ef28e1e8ebb16ca737a3884c5d42e0be77a7478a', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '329ca51e6c2f367a80e7d39914cd2839bdc9adc9', class: "text-right message-label" }, calendar_data.tax_statement)));
+        return (h(Host, { key: '2049c5295118a579babd27ac89193afdccb7ff77' }, this.isEventType('SPLIT_BOOKING') && this.getSplitBookingList(), h("div", { key: '88c7200032717d87dd88f3116ec26d5079659ce7', class: `fd-book-property__header-container` }, showSourceNode && this.getSourceNode(), h("ir-date-range", { key: 'cdeb68eaab474c134e872fc207f0ad17c1612928', "data-testid": "date_picker", variant: "booking", dateLabel: locales.entries.Lcz_Dates, maxDate: this.getMaxDate(), minDate: this.getMinDate(), disabled: (this.isEventType('BAR_BOOKING') && !this.wasBlockedUnit) || this.isEventType('SPLIT_BOOKING'), defaultData: this.bookingDataDefaultDateRange }), !this.isEventType('EDIT_BOOKING') && this.getAdultChildConstraints(), h("ir-custom-button", { key: '25caba81ffa3ada1c0fff15ae7492cc70597d283', loading: isRequestPending('/Check_Availability'), variant: "brand", onClickHandler: () => this.handleButtonClicked() }, locales.entries.Lcz_Check)), h("p", { key: '7df0a5df608034ba8aa9ef8729a7ba971d213254', class: "text-right message-label" }, calendar_data.tax_statement)));
     }
     static get is() { return "igl-book-property-header"; }
     static get encapsulation() { return "scoped"; }
@@ -490,27 +485,6 @@ export class IglBookPropertyHeader {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
                             "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes"
-                        }
-                    }
-                }
-            }, {
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
                         }
                     }
                 }

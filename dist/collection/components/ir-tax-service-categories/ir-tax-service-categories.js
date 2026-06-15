@@ -4,6 +4,7 @@ import { TaxationStrategy } from "./types";
 import { BookingService } from "../../services/booking-service/booking.service";
 import { PropertyService } from "../../services/property.service";
 import calendar_data from "../../stores/calendar-data";
+import { showToast } from "../../utils/utils";
 export class IrTaxServiceCategories {
     ticket;
     p;
@@ -182,6 +183,10 @@ export class IrTaxServiceCategories {
             this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
+            showToast({
+                title: 'Saved Successfully',
+                type: 'success',
+            });
         }
         catch (error) {
             console.error(error);

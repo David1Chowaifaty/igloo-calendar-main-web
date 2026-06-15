@@ -4,6 +4,7 @@ import { z } from './index2.js';
 import { B as BookingService } from './booking.store.js';
 import { P as PropertyService } from './property.service.js';
 import { c as calendar_data } from './calendar-data.js';
+import { s as showToast } from './utils.js';
 import { d as defineCustomElement$e } from './ir-button2.js';
 import { d as defineCustomElement$d } from './ir-custom-button2.js';
 import { d as defineCustomElement$c } from './ir-icons2.js';
@@ -15,7 +16,7 @@ import { d as defineCustomElement$7 } from './ir-otp-modal2.js';
 import { d as defineCustomElement$6 } from './ir-spinner2.js';
 import { d as defineCustomElement$5 } from './ir-tax-input2.js';
 import { d as defineCustomElement$4 } from './ir-toast2.js';
-import { d as defineCustomElement$3 } from './ir-toast-alert2.js';
+import { d as defineCustomElement$3 } from './ir-toast-item2.js';
 import { d as defineCustomElement$2 } from './ir-toast-provider2.js';
 import { d as defineCustomElement$1 } from './ir-validator2.js';
 
@@ -226,6 +227,10 @@ const IrTaxServiceCategories = /*@__PURE__*/ proxyCustomElement(class IrTaxServi
             this.isSaving = true;
             const payload = this.buildPayload();
             await this.propertyService.handleExposedPropertyTaxCategories(payload);
+            showToast({
+                title: 'Saved Successfully',
+                type: 'success',
+            });
         }
         catch (error) {
             console.error(error);
@@ -274,7 +279,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-tax-service-categories", "ir-button", "ir-custom-button", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-tax-input", "ir-toast", "ir-toast-alert", "ir-toast-provider", "ir-validator"];
+    const components = ["ir-tax-service-categories", "ir-button", "ir-custom-button", "ir-icons", "ir-input", "ir-interceptor", "ir-loading-screen", "ir-otp", "ir-otp-modal", "ir-spinner", "ir-tax-input", "ir-toast", "ir-toast-item", "ir-toast-provider", "ir-validator"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-tax-service-categories":
             if (!customElements.get(tagName)) {
@@ -336,7 +341,7 @@ function defineCustomElement() {
                 defineCustomElement$4();
             }
             break;
-        case "ir-toast-alert":
+        case "ir-toast-item":
             if (!customElements.get(tagName)) {
                 defineCustomElement$3();
             }

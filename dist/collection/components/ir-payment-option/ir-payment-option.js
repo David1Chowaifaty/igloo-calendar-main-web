@@ -4,6 +4,7 @@ import locales from "../../stores/locales.store";
 import payment_option_store from "../../stores/payment-option.store";
 import { Host, h } from "@stencil/core";
 import Token from "../../models/Token";
+import { showToast } from "../../utils/utils";
 export class IrPaymentOption {
     propertyid;
     ticket;
@@ -14,7 +15,6 @@ export class IrPaymentOption {
     paymentOptions = [];
     isLoading = false;
     selectedOption = null;
-    toast;
     paymentOptionService = new PaymentOptionService();
     roomService = new RoomService();
     token = new Token();
@@ -121,7 +121,7 @@ export class IrPaymentOption {
             await this.changePaymentMethod(newOption);
             this.modifyPaymentList(newOption);
             if (po.code === '000' && is_active && this.paymentOptions.filter(p => p.code !== '000').every(p => p.is_active === false || p.is_active === null)) {
-                this.toast.emit({
+                showToast({
                     type: 'success',
                     description: '',
                     title: locales.entries['Lcz_YouNeedToSelect'],
@@ -146,7 +146,7 @@ export class IrPaymentOption {
     async changePaymentMethod(newOption) {
         try {
             await this.paymentOptionService.HandlePaymentMethod(newOption);
-            this.toast.emit({
+            showToast({
                 position: 'top-right',
                 title: 'Saved Successfully',
                 description: '',
@@ -320,30 +320,6 @@ export class IrPaymentOption {
             "isLoading": {},
             "selectedOption": {}
         };
-    }
-    static get events() {
-        return [{
-                "method": "toast",
-                "name": "toast",
-                "bubbles": true,
-                "cancelable": true,
-                "composed": true,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "complexType": {
-                    "original": "IToast",
-                    "resolved": "ICustomToast & Partial<IToastWithButton> | IDefaultToast & Partial<IToastWithButton>",
-                    "references": {
-                        "IToast": {
-                            "location": "import",
-                            "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
-                        }
-                    }
-                }
-            }];
     }
     static get watchers() {
         return [{
