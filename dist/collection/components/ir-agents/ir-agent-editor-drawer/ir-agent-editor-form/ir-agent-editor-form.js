@@ -35,12 +35,12 @@ export class IrAgentEditorForm {
         }
     }
     render() {
-        return (h("form", { key: 'c72c7cc9fd06e9ecee72bf32c130d1ef57ad8a1a', autoComplete: this.formId,
+        return (h("form", { key: '86ae3bd51b6b85ffdd5fc60f54d10f11f8a7e05d', autoComplete: this.formId,
             // autoComplete="off"
             id: this.formId, onSubmit: e => {
                 e.preventDefault();
                 this.saveOrEditAgent(getFormSubmitter(e));
-            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: '9b5c69d2cc7f08dbe59236c971b59b9e91b64fe4', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'ac12341829d27416d59be04c65969849dde26fcd', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
+            }, class: "agent-editor__content" }, h("ir-agent-profile", { key: 'e24d7dc44bba5cf2b9842686ef2f9c585d08e8b1', setupEntries: this.setupEntries, countries: this.countries, class: 'agent-editor__profile', agent: this.agent }), h("ir-agent-contract", { key: 'f3dd88aedb13cf9b577f4dbf2241252f8f06330d', setupEntries: this.setupEntries, class: 'agent-editor__contract', agent: this.agent })));
     }
     static get is() { return "ir-agent-editor-form"; }
     static get encapsulation() { return "scoped"; }

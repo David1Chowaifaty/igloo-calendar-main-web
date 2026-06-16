@@ -113,10 +113,10 @@ const IrFiscalDocuments$1 = /*@__PURE__*/ proxyCustomElement(class IrFiscalDocum
         }
     }
     render() {
-        return (h("ir-page", { key: '3327d3ce484bbf54c2af34ce03df5bc71364d27f', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: '98b7a10ef908b60b4a9e13781319e06c7baa7144', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
+        return (h("ir-page", { key: '460ec630a07f500288475e8c96615789079064c5', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: '8d29cc63f0038194556403f8b20085aa5aa5a413', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
                 this.filters = e.detail;
                 this.fetchFiscalDocuments(e.detail);
-            } }), h("ir-fiscal-documents-table", { key: 'b999bc9732858a7973441c760f9b926179112bb1', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
+            } }), h("ir-fiscal-documents-table", { key: '8738682e8d35113b412091a1f97bf083a09d3352', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]

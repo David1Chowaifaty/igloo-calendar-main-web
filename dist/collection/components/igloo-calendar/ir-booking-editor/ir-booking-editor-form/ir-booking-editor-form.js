@@ -74,11 +74,11 @@ export class IrBookingEditorForm {
     render() {
         const { dates } = booking_store.bookingDraft;
         let hasBookedByGuestController = false;
-        return (h("form", { key: 'beb3f8a4b7890ef4c4839a55cc9661521cfe1848', class: "booking-editor__guest-form", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
+        return (h("form", { key: '93558fbe46a8d385cd529206fe10e877e528cd39', class: "booking-editor__guest-form", id: "new_booking_form", autoComplete: "off", onSubmit: e => {
                 e.preventDefault();
                 const submitter = e.submitter;
                 this.doReservation.emit(submitter?.value);
-            } }, h("div", { key: 'e2ca17ab3c995cd5a4b9fffdceaf245d82443ed8', class: "booking-editor__header" }, h("ir-date-view", { key: '4bc1b14b0e99cbd5851960978ab5778d21d0b3fc', class: "booking-editor__dates mr-1 flex-fill font-weight-bold font-medium-1", from_date: dates.checkIn, to_date: dates.checkOut, dateOption: "DD MMM YYYY" }), this.totalRooms > 1 && (h("div", { key: '94fe4ad8a5a18af5abb4d23297289c4fe2aaca12', class: "booking-editor__total mt-1 mt-md-0 text-right" }, h("span", { key: '1ba4ee31dcff1d05b58e894b59bcdb9c7a09b374', class: "booking-editor__total-label" }, locales.entries.Lcz_TotalPrice), ' ', h("span", { key: '76880f619cca61983a7dbc9a5d61dc07ea3de634', class: "booking-editor__total-amount font-weight-bold font-medium-1" }, formatAmount(calendar_data.property.currency.symbol, this.totalCost))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
+            } }, h("div", { key: 'd2f03f1e784f19be87de781f4ff25b6227165df6', class: "booking-editor__header" }, h("ir-date-view", { key: 'c0fa0f53b9abb843543dde39452769646df27bf4', class: "booking-editor__dates mr-1 flex-fill font-weight-bold font-medium-1", from_date: dates.checkIn, to_date: dates.checkOut, dateOption: "DD MMM YYYY" }), this.totalRooms > 1 && (h("div", { key: 'c4554f37b064b137544e19b5b9c3c57bd0a71c4f', class: "booking-editor__total mt-1 mt-md-0 text-right" }, h("span", { key: 'a445f66a5fde9ec7f49d26282e17a5271c67f0ad', class: "booking-editor__total-label" }, locales.entries.Lcz_TotalPrice), ' ', h("span", { key: 'f547ae5bf26f57f0751c17d64b751bb3d59ea8fa', class: "booking-editor__total-amount font-weight-bold font-medium-1" }, formatAmount(calendar_data.property.currency.symbol, this.totalCost))))), Object.values(booking_store.ratePlanSelections).map(val => Object.values(val).map(ratePlan => {
             const rp = ratePlan;
             if (rp.reserved === 0) {
                 return null;
@@ -98,7 +98,7 @@ export class IrBookingEditorForm {
                         }
                         : undefined }));
             });
-        })), this.bookingEditorService.isEventType(['BAR_BOOKING', 'PLUS_BOOKING']) && (h("section", { key: 'd70ab1b8f6e699c2dc017316ff5a079e527b20c8', class: 'mt-2' }, h("div", { key: '19c37948f3973e01082231e7d4d2e308f1d1606f', class: "booking-editor__booked-by booking-editor__booked-by-header" }, h("h4", { key: '04428b9b9a6748b040107e516d9a0d72384f1b88', class: "booking-editor__heading booking-editor__booked-by-title" }, "Booked by"), booking_store.bookingDraft?.agent ? (h("span", null, booking_store.bookingDraft?.agent.name)) : (h(Fragment, null, h("ir-picker", { class: "booking-editor__booked-by-picker", appearance: "filled",
+        })), this.bookingEditorService.isEventType(['BAR_BOOKING', 'PLUS_BOOKING']) && (h("section", { key: '7dc2f355074d1914fd00a223b6e6378d17c40317', class: 'mt-2' }, h("div", { key: '7792603d2cb74c35421ff4cf0e93d1e185ac147f', class: "booking-editor__booked-by booking-editor__booked-by-header" }, h("h4", { key: '78846e8639e1d75227e455b8647c6d719260e8c8', class: "booking-editor__heading booking-editor__booked-by-title" }, "Booked by"), booking_store.bookingDraft?.agent ? (h("span", null, booking_store.bookingDraft?.agent.name)) : (h(Fragment, null, h("ir-picker", { class: "booking-editor__booked-by-picker", appearance: "filled",
             // placeholder="Search customer by email, name or company name"
             placeholder: "Search customer by email or name", withClear: true, "onText-change": event => this.fetchGuests(event.detail), debounce: 500, loading: isRequestPending('/Fetch_Exposed_Guests'), mode: "select-async", ref: el => (this.pickerEl = el), "onCombobox-select": this.handleComboboxSelect.bind(this) }, this.guests?.map(guest => {
             const label = `${guest.email} - ${guest.first_name} ${guest.last_name}`;
@@ -106,7 +106,7 @@ export class IrBookingEditorForm {
         })), booking_store.bookedByGuest.id !== -1 && (h("ir-custom-button", { onClickHandler: () => {
                 updateBookedByGuest(bookedByGuestBaseData);
                 this.pickerEl.clearInput();
-            }, variant: "brand" }, "Clear user"))))), h("ir-booking-editor-guest-form", { key: '7c72492f880fbbd86213b7c250dfd2cd3312bfac' }))), this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && isAgentMode(this.resolvedAgent) && (h("ir-service-assignee-select", { key: '7f77442090cec064eeb4483565889b17d281c8e6', style: { maxWidth: '500px' }, agent: this.booking.agent, assigneeType: this.assignee, onAssignmentChange: e => {
+            }, variant: "brand" }, "Clear user"))))), h("ir-booking-editor-guest-form", { key: 'e317b95451deb004ea97cc499cafbf0a2677f1b8' }))), this.bookingEditorService.isEventType(['SPLIT_BOOKING', 'ADD_ROOM']) && isAgentMode(this.resolvedAgent) && (h("ir-service-assignee-select", { key: '48808d3f61c9833ac15642452fa40b29051a3003', style: { maxWidth: '500px' }, agent: this.booking.agent, assigneeType: this.assignee, onAssignmentChange: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.assignee = e.detail;

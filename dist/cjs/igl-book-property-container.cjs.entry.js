@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const Token = require('./Token-fb15e0d7.js');
-const booking_service = require('./booking.service-965ec29c.js');
+const booking_store = require('./booking.store-1346a1f5.js');
 const room_service = require('./room.service-f9117e70.js');
 const locales_store = require('./locales.store-32782582.js');
 require('./axios-6e678d52.js');
@@ -36,7 +36,7 @@ const IglBookPropertyContainer = class {
     countries;
     calendarData = {};
     resetBookingData;
-    bookingService = new booking_service.BookingService();
+    bookingService = new booking_store.BookingService();
     roomService = new room_service.RoomService();
     token = new Token.Token();
     setRoomsData(roomServiceResp) {
@@ -114,7 +114,7 @@ const IglBookPropertyContainer = class {
         };
     }
     render() {
-        return (index.h(index.Host, { key: 'a067ada99a75872a6c291226d75e115c09d3407e' }, this.withIrToastAndInterceptor && (index.h(index.Fragment, { key: '7dce5209af4e8d24e9e846077026924a4f66e3f5' }, index.h("ir-toast", { key: 'c682843a744a30e66d9d5f99545963a525f385f0' }), index.h("ir-interceptor", { key: '29c7adcdf6c6d8cda2b792f715f11ee46f13552f' }))), index.h("div", { key: '9bb8368da2e7d88cd1a292553ff75ee271034665', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, index.h("slot", { key: 'bcf19492c78b8a42b99e59c80ec2d70f866e5100', name: "trigger" })), this.bookingItem && (index.h("igl-book-property", { key: 'af8ba67c9413904fd752db9e0c23ac1c03485bc9', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
+        return (index.h(index.Host, { key: '466611861fabf89c441ddcbbe935aa963b43beed' }, this.withIrToastAndInterceptor && (index.h(index.Fragment, { key: '5d5eeac1a84b627290c9340524265f6fae1333e5' }, index.h("ir-toast", { key: '7901d682a68dbd0bd2b47ff53500b5029d1a781b' }), index.h("ir-interceptor", { key: '0ed55759c0e050eadfd6d1cdced660a32c781920' }))), index.h("div", { key: 'c8bd8cf49a25eb4f6d124a5d2d3bd351309ff3c4', class: "book-container", onClick: this.handleTriggerClicked.bind(this) }, index.h("slot", { key: '7d53aa07a413d60a4c3911f2c47aa3d2b5d0ecea', name: "trigger" })), this.bookingItem && (index.h("igl-book-property", { key: 'eb31573afdd975f3b45a856b91800f3bbe9cdc98', allowedBookingSources: this.calendarData.allowed_booking_sources, adultChildConstraints: this.calendarData.adult_child_constraints, showPaymentDetails: this.showPaymentDetails, countries: this.countries, currency: this.calendarData.currency, language: this.language, propertyid: this.propertyid, bookingData: this.bookingItem, onResetBookingEvt: (e) => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.resetBookingData.emit(null);

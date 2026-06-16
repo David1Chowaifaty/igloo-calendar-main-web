@@ -8,13 +8,13 @@ export class IrHkUserDrawer {
     closeSideBar;
     formId = 'hk-user-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'a783243689f71d546304541c47f61b56da98cd70', open: this.open, onDrawerHide: () => {
+        return (h("ir-drawer", { key: 'c49cba793c0778f080b86994e0682fd292f2263c', open: this.open, onDrawerHide: () => {
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (h("ir-hk-user-drawer-form", { key: '1136507f87c86537ff9ed642bf9990397f39f824', onLoadingChanged: e => {
+            }, label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (h("ir-hk-user-drawer-form", { key: '459f4f463aa1c59872127b01acd639828c50ff51', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: 'f3df9de07eb8af10631f4106eca8a743a6e495e0', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: 'f0f46f31fdee0c44deeb79252deaca9e3a6c2566', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '7f360e74b6dc9df3698db5e9d1a74cf8e693b356', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
+            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: '16d69f971c1b0fc2fc0643ed3bcc81fe98680b64', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '06e36f5a0cb673e9e6a7316b0f16c05dd343bb95', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '773f3f924beb09818ab9ccbaf5edefd39b45ffb6', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
     }
     static get is() { return "ir-hk-user-drawer"; }
     static get encapsulation() { return "scoped"; }

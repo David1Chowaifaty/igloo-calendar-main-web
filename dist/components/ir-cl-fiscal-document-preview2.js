@@ -1,9 +1,10 @@
 import { proxyCustomElement, HTMLElement, createEvent, h, Host } from '@stencil/core/internal/client';
 import { F as FdTypes } from './enums.js';
 import { C as CityLedgerService } from './index5.js';
-import { d as defineCustomElement$6 } from './ir-custom-button2.js';
-import { d as defineCustomElement$5 } from './ir-dialog2.js';
-import { d as defineCustomElement$4 } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$7 } from './ir-custom-button2.js';
+import { d as defineCustomElement$6 } from './ir-dialog2.js';
+import { d as defineCustomElement$5 } from './ir-fd-confirm-dialog2.js';
+import { d as defineCustomElement$4 } from './ir-input2.js';
 import { d as defineCustomElement$3 } from './ir-pdf-viewer2.js';
 import { d as defineCustomElement$2 } from './ir-preview-screen-dialog2.js';
 import { d as defineCustomElement$1 } from './ir-spinner2.js';
@@ -141,10 +142,10 @@ const IrClFiscalDocumentPreview = /*@__PURE__*/ proxyCustomElement(class IrClFis
         return (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.request?.url })));
     }
     render() {
-        return (h(Host, { key: 'dcb9a35c342815164eccdfa4906692fe87f15c86' }, h("ir-preview-screen-dialog", { key: '7c9fce61a98a8da81db4a1242e2a25821e076480', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
+        return (h(Host, { key: 'b65aac596e6ccc67f328be65a6f55198dba55350' }, h("ir-preview-screen-dialog", { key: '0ec65eb622dcdd553682bec3515f5e1ba954618a', hideDefaultAction: true, open: this.request !== null, label: this.getDialogLabel(), action: "print", onOpenChanged: e => {
                 if (!e.detail)
                     this.request = null;
-            } }, h("div", { key: 'a1008e86b6c4bf42df95ab8d137402280b4186fc', slot: "header-actions", class: "header-actions" }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '35635d363f612d3e3f1e97ffbccfff40e847542f', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice")), this.request?.url && (h("ir-custom-button", { key: '03f8af4b376d4493c4e534ddd1a888ea585c72f1', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '584eb698ece0e2a8e831c721c24bb3bbb27c27b1', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" })))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '0b3f86473ff24125ba55b1bf05b55b32163b3f3f', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
+            } }, h("div", { key: '58e746ef4d061103c6b0cd0a81366428763d9396', slot: "header-actions", class: "header-actions" }, this.request?.fdTypeCode === FdTypes.Draft && (h("ir-custom-button", { key: '16bceb6e90402facea555f899aed45a722aca4e7', onClickHandler: () => (this.showConvertDialog = true), variant: "brand", appearance: "accent" }, "Convert to invoice")), this.request?.url && (h("ir-custom-button", { key: 'e61bdc2bf0a4e1c2a33cba8728690f2d781cb53c', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'e37be40aca3427dd10ad01914d4e8bd1be3c53d5', name: "download", style: { fontSize: '1.2rem' }, label: "Download PDF" })))), this.renderPreview()), h("ir-fd-confirm-dialog", { key: '3c3509bef0b95b5d2af21a5a448688bd10b14b69', open: this.showConvertDialog, action: "convert-to-invoice", docNumber: this.request?.documentNumber ?? 'this document', isConfirming: this.isConverting, onConfirmed: () => this.handleConvertConfirm(), onCancelled: () => (this.showConvertDialog = false) })));
     }
     static get style() { return IrClFiscalDocumentPreviewStyle0; }
 }, [0, "ir-cl-fiscal-document-preview", {
@@ -159,7 +160,7 @@ function defineCustomElement() {
     if (typeof customElements === "undefined") {
         return;
     }
-    const components = ["ir-cl-fiscal-document-preview", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner"];
+    const components = ["ir-cl-fiscal-document-preview", "ir-custom-button", "ir-dialog", "ir-fd-confirm-dialog", "ir-input", "ir-pdf-viewer", "ir-preview-screen-dialog", "ir-spinner"];
     components.forEach(tagName => { switch (tagName) {
         case "ir-cl-fiscal-document-preview":
             if (!customElements.get(tagName)) {
@@ -168,15 +169,20 @@ function defineCustomElement() {
             break;
         case "ir-custom-button":
             if (!customElements.get(tagName)) {
-                defineCustomElement$6();
+                defineCustomElement$7();
             }
             break;
         case "ir-dialog":
             if (!customElements.get(tagName)) {
-                defineCustomElement$5();
+                defineCustomElement$6();
             }
             break;
         case "ir-fd-confirm-dialog":
+            if (!customElements.get(tagName)) {
+                defineCustomElement$5();
+            }
+            break;
+        case "ir-input":
             if (!customElements.get(tagName)) {
                 defineCustomElement$4();
             }

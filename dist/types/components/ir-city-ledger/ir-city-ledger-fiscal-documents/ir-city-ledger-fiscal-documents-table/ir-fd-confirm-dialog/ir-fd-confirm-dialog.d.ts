@@ -5,10 +5,14 @@ export declare class IrFdConfirmDialog {
     action: FdConfirmAction | null;
     docNumber: string;
     isConfirming: boolean;
+    amount: number;
     fdType: string;
     voidType: 'credit-note' | 'goodwill';
     goodwillAmount: string;
-    confirmed: EventEmitter<void>;
+    confirmed: EventEmitter<{
+        amount: number | null;
+        voidType: 'credit-note' | 'goodwill';
+    }>;
     cancelled: EventEmitter<void>;
     render(): any;
 }
