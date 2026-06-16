@@ -1,8 +1,1 @@
-import { I as IrFiscalDocumentsFilters$1, d as defineCustomElement$1 } from './ir-fiscal-documents-filters2.js';
-
-const IrFiscalDocumentsFilters = IrFiscalDocumentsFilters$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrFiscalDocumentsFilters, defineCustomElement };
-
-//# sourceMappingURL=ir-fiscal-documents-filters.js.map
+import{I as s,d as o}from"./ir-fiscal-documents-filters2.js";const r=s,t=o;export{r as IrFiscalDocumentsFilters,t as defineCustomElement}

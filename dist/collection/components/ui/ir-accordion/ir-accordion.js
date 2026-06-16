@@ -209,8 +209,8 @@ export class IrAccordion {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-expanded",
                 "reflect": false,
+                "attribute": "default-expanded",
                 "defaultValue": "false"
             },
             "expanded": {
@@ -229,8 +229,8 @@ export class IrAccordion {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "expanded",
-                "reflect": true
+                "reflect": true,
+                "attribute": "expanded"
             },
             "caret": {
                 "type": "boolean",
@@ -248,8 +248,8 @@ export class IrAccordion {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "caret",
                 "reflect": false,
+                "attribute": "caret",
                 "defaultValue": "true"
             },
             "caretIcon": {
@@ -268,8 +268,8 @@ export class IrAccordion {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "caret-icon",
                 "reflect": false,
+                "attribute": "caret-icon",
                 "defaultValue": "'angle-down'"
             }
         };
@@ -351,4 +351,3 @@ export class IrAccordion {
             }];
     }
 }
-//# sourceMappingURL=ir-accordion.js.map

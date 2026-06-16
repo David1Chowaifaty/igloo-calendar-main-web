@@ -270,8 +270,8 @@ export class IglPropertyBookedBy {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "showPaymentDetails": {
                 "type": "boolean",
@@ -289,8 +289,8 @@ export class IglPropertyBookedBy {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-payment-details",
                 "reflect": false,
+                "attribute": "show-payment-details",
                 "defaultValue": "false"
             },
             "defaultData": {
@@ -320,7 +320,8 @@ export class IglPropertyBookedBy {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -350,8 +351,8 @@ export class IglPropertyBookedBy {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             }
         };
     }
@@ -391,4 +392,3 @@ export class IglPropertyBookedBy {
             }];
     }
 }
-//# sourceMappingURL=igl-property-booked-by.js.map

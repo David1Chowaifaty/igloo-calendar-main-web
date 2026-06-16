@@ -115,8 +115,8 @@ export class IrFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseurl": {
                 "type": "string",
@@ -134,8 +134,8 @@ export class IrFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "language": {
                 "type": "string",
@@ -153,8 +153,8 @@ export class IrFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "propertyid": {
@@ -173,8 +173,8 @@ export class IrFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             }
         };
     }
@@ -193,4 +193,3 @@ export class IrFiscalDocuments {
             }];
     }
 }
-//# sourceMappingURL=ir-fiscal-documents.js.map

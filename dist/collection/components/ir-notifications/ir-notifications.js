@@ -138,8 +138,8 @@ export class IrNotifications {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "number",
@@ -157,8 +157,8 @@ export class IrNotifications {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             }
         };
     }
@@ -185,7 +185,8 @@ export class IrNotifications {
                         "Notification": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-notifications/types.ts::Notification"
+                            "id": "src/components/ir-notifications/types.ts::Notification",
+                            "referenceLocation": "Notification"
                         }
                     }
                 }
@@ -205,4 +206,3 @@ export class IrNotifications {
             }];
     }
 }
-//# sourceMappingURL=ir-notifications.js.map

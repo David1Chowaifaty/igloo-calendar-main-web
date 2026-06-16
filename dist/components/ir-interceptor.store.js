@@ -1,11 +1,1 @@
-import { c as createStore } from './index3.js';
-
-const initialState = {};
-const { state: interceptor_requests, onChange: onCalendarDatesChange } = createStore(initialState);
-function isRequestPending(url) {
-    return interceptor_requests[url] === 'pending';
-}
-
-export { interceptor_requests as a, isRequestPending as i };
-
-//# sourceMappingURL=ir-interceptor.store.js.map
+import{c as n}from"./index4.js";const{state:t}=n({});function s(n){return"pending"===t[n]}export{t as a,s as i}

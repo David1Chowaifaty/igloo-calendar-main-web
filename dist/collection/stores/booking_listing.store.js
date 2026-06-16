@@ -174,4 +174,3 @@ export function setPaginationPageSize(pageSize) {
     return { startRow, endRow };
 }
 export default booking_listing;
-//# sourceMappingURL=booking_listing.store.js.map

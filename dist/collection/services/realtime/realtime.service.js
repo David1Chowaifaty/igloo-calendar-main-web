@@ -72,4 +72,3 @@ class RealtimeService {
     }
 }
 export const realtimeService = RealtimeService.getInstance();
-//# sourceMappingURL=realtime.service.js.map

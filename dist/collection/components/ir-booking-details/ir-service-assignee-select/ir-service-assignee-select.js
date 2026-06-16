@@ -66,8 +66,8 @@ export class IrServiceAssigneeSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "assignee-type",
                 "reflect": false,
+                "attribute": "assignee-type",
                 "defaultValue": "'agent'"
             },
             "label": {
@@ -86,8 +86,8 @@ export class IrServiceAssigneeSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'Assign to folio'"
             }
         };
@@ -111,4 +111,3 @@ export class IrServiceAssigneeSelect {
             }];
     }
 }
-//# sourceMappingURL=ir-service-assignee-select.js.map

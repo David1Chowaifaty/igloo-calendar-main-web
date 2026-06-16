@@ -195,4 +195,3 @@ function getOverflowHost(instance) {
 function isDomAvailable() {
     return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
-//# sourceMappingURL=OverflowLock.js.map

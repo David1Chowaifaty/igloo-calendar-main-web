@@ -140,7 +140,8 @@ export class IglReallocationDialog {
                         "IReallocationPayload": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::IReallocationPayload"
+                            "id": "src/models/property-types.ts::IReallocationPayload",
+                            "referenceLocation": "IReallocationPayload"
                         }
                     }
                 },
@@ -217,4 +218,3 @@ export class IglReallocationDialog {
             }];
     }
 }
-//# sourceMappingURL=igl-reallocation-dialog.js.map

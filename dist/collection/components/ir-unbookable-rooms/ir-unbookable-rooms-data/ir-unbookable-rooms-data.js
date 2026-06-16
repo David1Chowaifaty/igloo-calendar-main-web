@@ -118,8 +118,8 @@ export class IrUnbookableRoomsData {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": true,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "isLoading": {
@@ -138,8 +138,8 @@ export class IrUnbookableRoomsData {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "errorMessage": {
@@ -158,8 +158,8 @@ export class IrUnbookableRoomsData {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error-message",
                 "reflect": false,
+                "attribute": "error-message",
                 "defaultValue": "''"
             },
             "unbookableRooms": {
@@ -172,7 +172,8 @@ export class IrUnbookableRoomsData {
                         "FetchUnBookableRoomsResult": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::FetchUnBookableRoomsResult"
+                            "id": "src/services/property.service.ts::FetchUnBookableRoomsResult",
+                            "referenceLocation": "FetchUnBookableRoomsResult"
                         }
                     }
                 },
@@ -196,7 +197,8 @@ export class IrUnbookableRoomsData {
                         "AllowedProperties": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::AllowedProperties"
+                            "id": "src/services/property.service.ts::AllowedProperties",
+                            "referenceLocation": "AllowedProperties"
                         }
                     }
                 },
@@ -262,4 +264,3 @@ export class IrUnbookableRoomsData {
 __decorate([
     Debounce(300)
 ], IrUnbookableRoomsData.prototype, "filterProperties", null);
-//# sourceMappingURL=ir-unbookable-rooms-data.js.map

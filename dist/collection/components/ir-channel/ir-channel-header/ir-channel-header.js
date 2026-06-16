@@ -99,4 +99,3 @@ export class IrChannelHeader {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-channel-header.js.map

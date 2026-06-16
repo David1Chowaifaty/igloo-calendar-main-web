@@ -1,8 +1,1 @@
-import { I as IrClStatusTag$1, d as defineCustomElement$1 } from './ir-cl-status-tag2.js';
-
-const IrClStatusTag = IrClStatusTag$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrClStatusTag, defineCustomElement };
-
-//# sourceMappingURL=ir-cl-status-tag.js.map
+import{I as s,d as t}from"./ir-cl-status-tag2.js";const a=s,o=t;export{a as IrClStatusTag,o as defineCustomElement}

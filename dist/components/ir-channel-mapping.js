@@ -1,8 +1,1 @@
-import { I as IrChannelMapping$1, d as defineCustomElement$1 } from './ir-channel-mapping2.js';
-
-const IrChannelMapping = IrChannelMapping$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrChannelMapping, defineCustomElement };
-
-//# sourceMappingURL=ir-channel-mapping.js.map
+import{I as a,d as n}from"./ir-channel-mapping2.js";const o=a,p=n;export{o as IrChannelMapping,p as defineCustomElement}

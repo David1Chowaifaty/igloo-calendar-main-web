@@ -211,8 +211,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "ticket": {
                 "type": "string",
@@ -230,8 +230,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "p": {
                 "type": "string",
@@ -249,8 +249,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "language": {
                 "type": "string",
@@ -268,8 +268,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "defaultStyles": {
@@ -288,8 +288,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-styles",
                 "reflect": false,
+                "attribute": "default-styles",
                 "defaultValue": "true"
             },
             "hideLogs": {
@@ -308,8 +308,8 @@ export class IrPaymentOption {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hide-logs",
                 "reflect": false,
+                "attribute": "hide-logs",
                 "defaultValue": "true"
             }
         };
@@ -337,4 +337,3 @@ export class IrPaymentOption {
             }];
     }
 }
-//# sourceMappingURL=ir-payment-option.js.map

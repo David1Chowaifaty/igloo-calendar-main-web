@@ -97,8 +97,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "cellId": {
                 "type": "string",
@@ -116,8 +116,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "cell-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "cell-id"
             },
             "display": {
                 "type": "string",
@@ -135,8 +135,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'block'"
             },
             "guest": {
@@ -149,7 +149,8 @@ export class IrBookedByCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -178,8 +179,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             },
             "totalPersons": {
                 "type": "string",
@@ -197,8 +198,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-persons",
-                "reflect": false
+                "reflect": false,
+                "attribute": "total-persons"
             },
             "promoKey": {
                 "type": "string",
@@ -216,8 +217,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "promo-key",
-                "reflect": false
+                "reflect": false,
+                "attribute": "promo-key"
             },
             "showRepeatGuestBadge": {
                 "type": "boolean",
@@ -235,8 +236,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-repeat-guest-badge",
                 "reflect": false,
+                "attribute": "show-repeat-guest-badge",
                 "defaultValue": "false"
             },
             "showPersons": {
@@ -255,8 +256,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-persons",
                 "reflect": false,
+                "attribute": "show-persons",
                 "defaultValue": "false"
             },
             "showPrivateNoteDot": {
@@ -275,8 +276,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-private-note-dot",
                 "reflect": false,
+                "attribute": "show-private-note-dot",
                 "defaultValue": "false"
             },
             "showLoyaltyIcon": {
@@ -295,8 +296,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-loyalty-icon",
                 "reflect": false,
+                "attribute": "show-loyalty-icon",
                 "defaultValue": "false"
             },
             "showPromoIcon": {
@@ -315,8 +316,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-promo-icon",
                 "reflect": false,
+                "attribute": "show-promo-icon",
                 "defaultValue": "false"
             },
             "showContactIcons": {
@@ -335,8 +336,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-contact-icons",
                 "reflect": false,
+                "attribute": "show-contact-icons",
                 "defaultValue": "false"
             },
             "clickableGuest": {
@@ -355,8 +356,8 @@ export class IrBookedByCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "clickable-guest",
                 "reflect": false,
+                "attribute": "clickable-guest",
                 "defaultValue": "false"
             }
         };
@@ -380,4 +381,3 @@ export class IrBookedByCell {
             }];
     }
 }
-//# sourceMappingURL=ir-booked-by-cell.js.map

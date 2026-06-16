@@ -1,24 +1,24 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-34c2b34a.js';
-import './Token-bcdb7c50.js';
-import './axios-aa1335b8.js';
-import './index-39bc3997.js';
-import './moment-ab846cee.js';
-import './index-87419685.js';
-import './utils-91ae2576.js';
-import './calendar-data-b1f645da.js';
-import './index-f100e9d2.js';
-import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
-import './property.service-30a15dd6.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-DsP1thJ-.js';
+import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-DYv2yD0n.js';
+import './Token-CkxFIO_J.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './index-CMqHZmNL.js';
+import './moment-Mki5YqAR.js';
+import './index-DeW5X45W.js';
+import './utils-XHeF_jXG.js';
+import './calendar-data-Ogu9Tn08.js';
+import './index-ChvQumDv.js';
+import './locales.store-CnCF03aI.js';
+import './type-D7rOPtKA.js';
+import './property.service-Dc89r73e.js';
 
-const irClCreditNotePreviewCss = ":host{display:block;font-family:system-ui,\n    -apple-system,\n    sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}";
-const IrClCreditNotePreviewStyle0 = irClCreditNotePreviewCss;
+const irClCreditNotePreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
 const IrClCreditNotePreview = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.clPreviewReady = createEvent(this, "clPreviewReady", 7);
+        this.clPreviewReady = createEvent(this, "clPreviewReady");
     }
     propertyId;
     ticket;
@@ -78,8 +78,6 @@ const IrClCreditNotePreview = class {
         return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "creditnote" }), h("ir-cl-fiscal-document-table", { transactions: this.transactions, currencySymbol: this.property?.currency?.symbol ?? '$', invertAmounts: true }))));
     }
 };
-IrClCreditNotePreview.style = IrClCreditNotePreviewStyle0;
+IrClCreditNotePreview.style = irClCreditNotePreviewCss();
 
 export { IrClCreditNotePreview as ir_cl_credit_note_preview };
-
-//# sourceMappingURL=ir-cl-credit-note-preview.entry.js.map

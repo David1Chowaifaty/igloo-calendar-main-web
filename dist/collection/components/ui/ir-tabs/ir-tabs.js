@@ -201,8 +201,8 @@ export class IrTabs {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-tab",
-                "reflect": false
+                "reflect": false,
+                "attribute": "initial-tab"
             },
             "disabled": {
                 "type": "boolean",
@@ -226,8 +226,8 @@ export class IrTabs {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "ariaLabel": {
@@ -252,8 +252,8 @@ export class IrTabs {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "aria-label",
                 "reflect": false,
+                "attribute": "aria-label",
                 "defaultValue": "'Tabs'"
             }
         };
@@ -295,4 +295,3 @@ export class IrTabs {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-tabs.js.map

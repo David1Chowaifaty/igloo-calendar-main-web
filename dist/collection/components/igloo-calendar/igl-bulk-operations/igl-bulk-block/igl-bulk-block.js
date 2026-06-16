@@ -243,8 +243,8 @@ export class IglBulkBlock {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             },
             "maxDatesLength": {
                 "type": "number",
@@ -262,8 +262,8 @@ export class IglBulkBlock {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-dates-length",
                 "reflect": false,
+                "attribute": "max-dates-length",
                 "defaultValue": "8"
             },
             "property_id": {
@@ -282,8 +282,8 @@ export class IglBulkBlock {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property_id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property_id"
             }
         };
     }
@@ -330,4 +330,3 @@ export class IglBulkBlock {
             }];
     }
 }
-//# sourceMappingURL=igl-bulk-block.js.map

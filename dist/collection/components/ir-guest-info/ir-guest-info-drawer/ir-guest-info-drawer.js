@@ -62,8 +62,8 @@ export class IrGuestInfoDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "language": {
                 "type": "string",
@@ -81,8 +81,8 @@ export class IrGuestInfoDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "email": {
@@ -101,8 +101,8 @@ export class IrGuestInfoDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "email",
-                "reflect": false
+                "reflect": false,
+                "attribute": "email"
             },
             "booking_nbr": {
                 "type": "string",
@@ -120,8 +120,8 @@ export class IrGuestInfoDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking_nbr",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking_nbr"
             },
             "ticket": {
                 "type": "string",
@@ -139,8 +139,8 @@ export class IrGuestInfoDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -162,7 +162,8 @@ export class IrGuestInfoDrawer {
                         "Element": {
                             "location": "import",
                             "path": "@stencil/core",
-                            "id": "node_modules::Element"
+                            "id": "node_modules::Element",
+                            "referenceLocation": "Element"
                         }
                     }
                 }
@@ -183,7 +184,8 @@ export class IrGuestInfoDrawer {
                         "GuestChangedEvent": {
                             "location": "import",
                             "path": "@/components",
-                            "id": "src/components.d.ts::unknown"
+                            "id": "src/components.d.ts::unknown",
+                            "referenceLocation": "GuestChangedEvent"
                         }
                     }
                 }
@@ -206,4 +208,3 @@ export class IrGuestInfoDrawer {
     }
     static get elementRef() { return "hostElement"; }
 }
-//# sourceMappingURL=ir-guest-info-drawer.js.map

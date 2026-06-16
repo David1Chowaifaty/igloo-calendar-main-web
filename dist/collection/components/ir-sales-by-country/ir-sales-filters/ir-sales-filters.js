@@ -99,8 +99,8 @@ export class IrSalesFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             },
             "baseFilters": {
                 "type": "unknown",
@@ -112,7 +112,8 @@ export class IrSalesFilters {
                         "CountrySalesFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-country/types.ts::CountrySalesFilter"
+                            "id": "src/components/ir-sales-by-country/types.ts::CountrySalesFilter",
+                            "referenceLocation": "CountrySalesFilter"
                         }
                     }
                 },
@@ -152,11 +153,11 @@ export class IrSalesFilters {
                         "CountrySalesFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-country/types.ts::CountrySalesFilter"
+                            "id": "src/components/ir-sales-by-country/types.ts::CountrySalesFilter",
+                            "referenceLocation": "CountrySalesFilter"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-sales-filters.js.map

@@ -303,8 +303,8 @@ export class IrDropdown {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": true
+                "reflect": true,
+                "attribute": "value"
             },
             "disabled": {
                 "type": "boolean",
@@ -322,8 +322,8 @@ export class IrDropdown {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": true,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "caret": {
@@ -342,8 +342,8 @@ export class IrDropdown {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "caret",
                 "reflect": true,
+                "attribute": "caret",
                 "defaultValue": "true"
             }
         };
@@ -415,4 +415,3 @@ export class IrDropdown {
             }];
     }
 }
-//# sourceMappingURL=ir-dropdown.js.map

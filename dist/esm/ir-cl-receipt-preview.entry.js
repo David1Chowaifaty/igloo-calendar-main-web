@@ -1,26 +1,26 @@
-import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-34c2b34a.js';
-import { f as formatAmount } from './utils-91ae2576.js';
-import { C as CityLedgerService } from './index-39bc3997.js';
-import { B as BookingService } from './booking.store-8b688b9d.js';
-import './Token-bcdb7c50.js';
-import './axios-aa1335b8.js';
-import './property.service-30a15dd6.js';
-import './index-87419685.js';
-import './calendar-data-b1f645da.js';
-import './index-f100e9d2.js';
-import './moment-ab846cee.js';
-import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
-import './booking-a4cf4a51.js';
+import { r as registerInstance, c as createEvent, h, H as Host } from './index-DsP1thJ-.js';
+import { C as ClFiscalDocumentService } from './cl-fiscal-document.service-DYv2yD0n.js';
+import { i as formatAmount } from './utils-XHeF_jXG.js';
+import { C as CityLedgerService } from './index-CMqHZmNL.js';
+import { B as BookingService } from './booking.store-ppUQV_m6.js';
+import './Token-CkxFIO_J.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './property.service-Dc89r73e.js';
+import './index-DeW5X45W.js';
+import './calendar-data-Ogu9Tn08.js';
+import './index-ChvQumDv.js';
+import './moment-Mki5YqAR.js';
+import './locales.store-CnCF03aI.js';
+import './type-D7rOPtKA.js';
+import './booking-BBPCf6_8.js';
 
-const irClReceiptPreviewCss = ":host{display:block;font-family:system-ui,\n    -apple-system,\n    sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}";
-const IrClReceiptPreviewStyle0 = irClReceiptPreviewCss;
+const irClReceiptPreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.receipt-body{display:flex;flex-direction:column;gap:1.75rem}.receipt-section__title{margin:0 0 0.625rem;padding-bottom:0.375rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#9ca3af;border-bottom:1px solid #e5e7eb}.receipt-rows{display:flex;flex-direction:column;gap:0.35rem}.receipt-row{display:flex;align-items:baseline;gap:0.375rem;font-size:0.875rem}.receipt-row__label{color:#6b7280;font-weight:400;flex-shrink:0}.receipt-row__label::after{content:':'}.receipt-row__value{color:#111827;font-weight:500}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}.receipt-section__title{color:#374151}.receipt-row__label{color:#374151}}`;
 
 const IrClReceiptPreview = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.clPreviewReady = createEvent(this, "clPreviewReady", 7);
+        this.clPreviewReady = createEvent(this, "clPreviewReady");
     }
     propertyId;
     ticket;
@@ -104,8 +104,6 @@ const IrClReceiptPreview = class {
         return (h(Host, null, h("div", { class: "document" }, h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "receipt" }), h("div", { class: "receipt-body" }, h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Payment Details"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Amount Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Method"), h("span", { class: "receipt-row__value" }, this.getPaymentMethodLabel(tx.PAY_METHOD_CODE))), tx.DESCRIPTION && (h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Reference"), h("span", { class: "receipt-row__value" }, tx.DESCRIPTION))))), h("section", { class: "receipt-section" }, h("h4", { class: "receipt-section__title" }, "Balance Summary (Account)"), h("div", { class: "receipt-rows" }, h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance Before Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_BEFORE_TX))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Payment Received"), h("span", { class: "receipt-row__value" }, fmt(tx.TOTAL_AMOUNT))), h("div", { class: "receipt-row" }, h("span", { class: "receipt-row__label" }, "Balance After Payment"), h("span", { class: "receipt-row__value" }, fmt(this.document?.BALANCE_AFTER_TX)))))))));
     }
 };
-IrClReceiptPreview.style = IrClReceiptPreviewStyle0;
+IrClReceiptPreview.style = irClReceiptPreviewCss();
 
 export { IrClReceiptPreview as ir_cl_receipt_preview };
-
-//# sourceMappingURL=ir-cl-receipt-preview.entry.js.map

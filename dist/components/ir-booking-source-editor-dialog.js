@@ -1,8 +1,1 @@
-import { I as IrBookingSourceEditorDialog$1, d as defineCustomElement$1 } from './ir-booking-source-editor-dialog2.js';
-
-const IrBookingSourceEditorDialog = IrBookingSourceEditorDialog$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrBookingSourceEditorDialog, defineCustomElement };
-
-//# sourceMappingURL=ir-booking-source-editor-dialog.js.map
+import{I as o,d as r}from"./ir-booking-source-editor-dialog2.js";const i=o,s=r;export{i as IrBookingSourceEditorDialog,s as defineCustomElement}

@@ -162,8 +162,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "size": {
                 "type": "string",
@@ -175,7 +175,8 @@ export class IrCountryPicker {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -187,8 +188,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
-                "reflect": true
+                "reflect": true,
+                "attribute": "size"
             },
             "variant": {
                 "type": "string",
@@ -206,8 +207,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'default'"
             },
             "countries": {
@@ -220,7 +221,8 @@ export class IrCountryPicker {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -244,7 +246,8 @@ export class IrCountryPicker {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -273,8 +276,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
-                "reflect": false
+                "reflect": false,
+                "attribute": "error"
             },
             "propertyCountry": {
                 "type": "unknown",
@@ -286,7 +289,8 @@ export class IrCountryPicker {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -315,8 +319,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "testId": {
                 "type": "string",
@@ -334,8 +338,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             },
             "autoValidate": {
                 "type": "boolean",
@@ -353,8 +357,8 @@ export class IrCountryPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-validate",
                 "reflect": false,
+                "attribute": "auto-validate",
                 "defaultValue": "false"
             }
         };
@@ -385,7 +389,8 @@ export class IrCountryPicker {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 }
@@ -398,4 +403,3 @@ export class IrCountryPicker {
             }];
     }
 }
-//# sourceMappingURL=ir-country-picker.js.map

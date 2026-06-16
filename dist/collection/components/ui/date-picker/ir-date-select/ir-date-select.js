@@ -229,8 +229,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-clear",
-                "reflect": false
+                "reflect": false,
+                "attribute": "with-clear"
             },
             "placeholder": {
                 "type": "string",
@@ -248,8 +248,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "label": {
                 "type": "string",
@@ -267,8 +267,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "dates": {
                 "type": "unknown",
@@ -303,8 +303,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "inline",
                 "reflect": false,
+                "attribute": "inline",
                 "defaultValue": "false"
             },
             "date": {
@@ -317,7 +317,8 @@ export class IrDateSelect {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -329,8 +330,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date",
                 "reflect": true,
+                "attribute": "date",
                 "defaultValue": "null"
             },
             "multipleDates": {
@@ -349,8 +350,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "multiple-dates",
                 "reflect": false,
+                "attribute": "multiple-dates",
                 "defaultValue": "false"
             },
             "range": {
@@ -369,8 +370,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "range",
                 "reflect": false,
+                "attribute": "range",
                 "defaultValue": "false"
             },
             "dateFormat": {
@@ -389,8 +390,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date-format",
                 "reflect": false,
+                "attribute": "date-format",
                 "defaultValue": "'yyyy-MM-dd'"
             },
             "timepicker": {
@@ -409,8 +410,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "timepicker",
                 "reflect": false,
+                "attribute": "timepicker",
                 "defaultValue": "false"
             },
             "minDate": {
@@ -423,7 +424,8 @@ export class IrDateSelect {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -435,8 +437,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-date"
             },
             "maxDate": {
                 "type": "string",
@@ -448,7 +450,8 @@ export class IrDateSelect {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -460,8 +463,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-date"
             },
             "disabled": {
                 "type": "boolean",
@@ -479,8 +482,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "autoClose": {
@@ -499,8 +502,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-close",
                 "reflect": false,
+                "attribute": "auto-close",
                 "defaultValue": "true"
             },
             "showOtherMonths": {
@@ -519,8 +522,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-other-months",
                 "reflect": false,
+                "attribute": "show-other-months",
                 "defaultValue": "true"
             },
             "selectOtherMonths": {
@@ -539,8 +542,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select-other-months",
                 "reflect": false,
+                "attribute": "select-other-months",
                 "defaultValue": "true"
             },
             "customPicker": {
@@ -559,8 +562,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "custom-picker",
                 "reflect": false,
+                "attribute": "custom-picker",
                 "defaultValue": "false"
             },
             "container": {
@@ -601,8 +604,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "force-destroy-on-update",
                 "reflect": false,
+                "attribute": "force-destroy-on-update",
                 "defaultValue": "false"
             },
             "emitEmptyDate": {
@@ -621,8 +624,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "emit-empty-date",
                 "reflect": false,
+                "attribute": "emit-empty-date",
                 "defaultValue": "false"
             },
             "triggerContainerStyle": {
@@ -641,8 +644,8 @@ export class IrDateSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "trigger-container-style",
                 "reflect": false,
+                "attribute": "trigger-container-style",
                 "defaultValue": "''"
             }
         };
@@ -778,4 +781,3 @@ export class IrDateSelect {
 __decorate([
     ClickOutside()
 ], IrDateSelect.prototype, "hide", null);
-//# sourceMappingURL=ir-date-select.js.map

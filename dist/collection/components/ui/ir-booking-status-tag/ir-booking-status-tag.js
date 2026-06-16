@@ -35,7 +35,8 @@ export class IrBookingStatusTag {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -58,7 +59,8 @@ export class IrBookingStatusTag {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -70,10 +72,9 @@ export class IrBookingStatusTag {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-request-to-cancel",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-request-to-cancel"
             }
         };
     }
 }
-//# sourceMappingURL=ir-booking-status-tag.js.map

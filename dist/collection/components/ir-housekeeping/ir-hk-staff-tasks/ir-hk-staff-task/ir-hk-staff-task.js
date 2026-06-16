@@ -51,7 +51,8 @@ export class IrHkStaffTask {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 },
@@ -80,8 +81,8 @@ export class IrHkStaffTask {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "future",
                 "reflect": true,
+                "attribute": "future",
                 "defaultValue": "false"
             }
         };
@@ -104,11 +105,11 @@ export class IrHkStaffTask {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-hk-staff-task.js.map

@@ -101,8 +101,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "rows",
                 "reflect": false,
+                "attribute": "rows",
                 "defaultValue": "3"
             },
             "cols": {
@@ -121,8 +121,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "cols",
                 "reflect": false,
+                "attribute": "cols",
                 "defaultValue": "5"
             },
             "text": {
@@ -141,8 +141,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text",
                 "reflect": false,
+                "attribute": "text",
                 "defaultValue": "''"
             },
             "label": {
@@ -161,8 +161,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'<label>'"
             },
             "placeholder": {
@@ -181,8 +181,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "'<placeholder>'"
             },
             "value": {
@@ -201,8 +201,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": false,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "maxLength": {
@@ -221,8 +221,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-length",
                 "reflect": false,
+                "attribute": "max-length",
                 "defaultValue": "250"
             },
             "textareaClassname": {
@@ -241,8 +241,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "textarea-classname",
-                "reflect": false
+                "reflect": false,
+                "attribute": "textarea-classname"
             },
             "variant": {
                 "type": "string",
@@ -260,8 +260,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'default'"
             },
             "labelWidth": {
@@ -280,8 +280,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-width",
                 "reflect": false,
+                "attribute": "label-width",
                 "defaultValue": "3"
             },
             "styles": {
@@ -317,8 +317,8 @@ export class IrTextArea {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             }
         };
     }
@@ -352,4 +352,3 @@ export class IrTextArea {
             }];
     }
 }
-//# sourceMappingURL=ir-textarea.js.map

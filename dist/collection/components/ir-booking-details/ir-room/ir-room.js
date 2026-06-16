@@ -448,7 +448,8 @@ export class IrRoom {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -477,8 +478,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-index",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-index"
             },
             "isEditable": {
                 "type": "boolean",
@@ -496,8 +497,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-editable",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-editable"
             },
             "room": {
                 "type": "unknown",
@@ -509,7 +510,8 @@ export class IrRoom {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -538,8 +540,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property_id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property_id"
             },
             "includeDepartureTime": {
                 "type": "boolean",
@@ -557,8 +559,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "include-departure-time",
-                "reflect": false
+                "reflect": false,
+                "attribute": "include-departure-time"
             },
             "mealCodeName": {
                 "type": "string",
@@ -576,8 +578,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "meal-code-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "meal-code-name"
             },
             "myRoomTypeFoodCat": {
                 "type": "string",
@@ -595,8 +597,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "my-room-type-food-cat",
-                "reflect": false
+                "reflect": false,
+                "attribute": "my-room-type-food-cat"
             },
             "currency": {
                 "type": "string",
@@ -614,8 +616,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
                 "reflect": false,
+                "attribute": "currency",
                 "defaultValue": "'USD'"
             },
             "language": {
@@ -634,8 +636,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "legendData": {
@@ -654,8 +656,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "legend-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "legend-data"
             },
             "roomsInfo": {
                 "type": "any",
@@ -673,8 +675,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "rooms-info",
-                "reflect": false
+                "reflect": false,
+                "attribute": "rooms-info"
             },
             "bedPreferences": {
                 "type": "unknown",
@@ -686,7 +688,8 @@ export class IrRoom {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -709,7 +712,8 @@ export class IrRoom {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -738,8 +742,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-edit",
                 "reflect": false,
+                "attribute": "has-room-edit",
                 "defaultValue": "false"
             },
             "hasRoomDelete": {
@@ -758,8 +762,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-delete",
                 "reflect": false,
+                "attribute": "has-room-delete",
                 "defaultValue": "false"
             },
             "hasRoomAdd": {
@@ -778,8 +782,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-add",
                 "reflect": false,
+                "attribute": "has-room-add",
                 "defaultValue": "false"
             },
             "hasCheckIn": {
@@ -798,8 +802,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-check-in",
                 "reflect": false,
+                "attribute": "has-check-in",
                 "defaultValue": "false"
             },
             "hasCheckOut": {
@@ -818,8 +822,8 @@ export class IrRoom {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-check-out",
                 "reflect": false,
+                "attribute": "has-check-out",
                 "defaultValue": "false"
             },
             "agent": {
@@ -827,12 +831,13 @@ export class IrRoom {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -855,7 +860,8 @@ export class IrRoom {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger/types",
-                            "id": "src/services/city-ledger/types.ts::ClTx"
+                            "id": "src/services/city-ledger/types.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -916,7 +922,8 @@ export class IrRoom {
                         "IToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -967,7 +974,8 @@ export class IrRoom {
                         "TIglBookPropertyPayload": {
                             "location": "import",
                             "path": "@/models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TIglBookPropertyPayload"
+                            "id": "src/models/igl-book-property.d.ts::TIglBookPropertyPayload",
+                            "referenceLocation": "TIglBookPropertyPayload"
                         }
                     }
                 }
@@ -998,17 +1006,19 @@ export class IrRoom {
                 },
                 "complexType": {
                     "original": "OpenSidebarEvent<RoomGuestsPayload>",
-                    "resolved": "{ type: BookingDetailsSidebarEvents; payload?: RoomGuestsPayload; }",
+                    "resolved": "{ roomName: string; sharing_persons: SharedPerson[]; totalGuests: number; checkin: boolean; identifier: string; booking_nbr?: string | number; }",
                     "references": {
                         "OpenSidebarEvent": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent"
+                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent",
+                            "referenceLocation": "OpenSidebarEvent"
                         },
                         "RoomGuestsPayload": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::RoomGuestsPayload"
+                            "id": "src/components/ir-booking-details/types.ts::RoomGuestsPayload",
+                            "referenceLocation": "RoomGuestsPayload"
                         }
                     }
                 }
@@ -1031,4 +1041,3 @@ export class IrRoom {
             }];
     }
 }
-//# sourceMappingURL=ir-room.js.map

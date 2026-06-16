@@ -34,4 +34,3 @@ export class ReloadInterceptor {
         e.returnValue = '';
     };
 }
-//# sourceMappingURL=ReloadInterceptor.js.map

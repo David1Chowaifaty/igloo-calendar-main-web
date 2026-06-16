@@ -3,4 +3,3 @@ import { ClTxTypeCode, FdTypes } from "../types/enums";
 export * from './city-ledger/index';
 export const actionableClTypes = new Set([ClTxTypeCode.Adjustment, ClTxTypeCode.CancellationPenalty, ClTxTypeCode.Discount, ClTxTypeCode.StandardChargeDebit]);
 export const debitFdTypeCode = new Set([FdTypes.Invoice, FdTypes.DebitNote, FdTypes.Draft, FdTypes.CreditReceipt]);
-//# sourceMappingURL=city-ledger.service.js.map

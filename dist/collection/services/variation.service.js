@@ -52,4 +52,3 @@ export default class VariationService {
         return parts.filter(Boolean).join('&nbsp&nbsp&nbsp&nbsp');
     }
 }
-//# sourceMappingURL=variation.service.js.map

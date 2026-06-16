@@ -34,10 +34,9 @@ export class IrClInvoiceDescriptionCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "description",
-                "reflect": false
+                "reflect": false,
+                "attribute": "description"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-description-cell.js.map

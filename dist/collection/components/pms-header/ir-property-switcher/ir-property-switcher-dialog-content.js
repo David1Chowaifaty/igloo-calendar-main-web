@@ -193,8 +193,8 @@ export class IrPropertySwitcherDialogContent {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": false,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "selectedPropertyId": {
@@ -213,8 +213,8 @@ export class IrPropertySwitcherDialogContent {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "selected-property-id"
             },
             "properties": {
                 "type": "unknown",
@@ -226,7 +226,8 @@ export class IrPropertySwitcherDialogContent {
                         "LinkedProperty": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::LinkedProperty"
+                            "id": "src/services/property.service.ts::LinkedProperty",
+                            "referenceLocation": "LinkedProperty"
                         }
                     }
                 },
@@ -267,7 +268,8 @@ export class IrPropertySwitcherDialogContent {
                         "FetchedProperty": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::FetchedProperty"
+                            "id": "src/services/property.service.ts::FetchedProperty",
+                            "referenceLocation": "FetchedProperty"
                         }
                     }
                 }
@@ -288,7 +290,8 @@ export class IrPropertySwitcherDialogContent {
                         "LinkedProperty": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::LinkedProperty"
+                            "id": "src/services/property.service.ts::LinkedProperty",
+                            "referenceLocation": "LinkedProperty"
                         }
                     }
                 }
@@ -308,4 +311,3 @@ export class IrPropertySwitcherDialogContent {
 __decorate([
     Debounce(300)
 ], IrPropertySwitcherDialogContent.prototype, "fetchProperties", null);
-//# sourceMappingURL=ir-property-switcher-dialog-content.js.map

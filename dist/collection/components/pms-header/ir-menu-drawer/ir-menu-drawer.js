@@ -58,8 +58,8 @@ export class IrMenuDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             }
         };
     }
@@ -109,4 +109,3 @@ export class IrMenuDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-menu-drawer.js.map

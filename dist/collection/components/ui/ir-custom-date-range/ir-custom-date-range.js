@@ -267,7 +267,8 @@ export class IrCustomDateRange {
                         "Moment": {
                             "location": "import",
                             "path": "moment/min/moment-with-locales",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -291,7 +292,8 @@ export class IrCustomDateRange {
                         "Moment": {
                             "location": "import",
                             "path": "moment/min/moment-with-locales",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -315,7 +317,8 @@ export class IrCustomDateRange {
                         "Moment": {
                             "location": "import",
                             "path": "moment/min/moment-with-locales",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -339,7 +342,8 @@ export class IrCustomDateRange {
                         "Moment": {
                             "location": "import",
                             "path": "moment/min/moment-with-locales",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -363,7 +367,8 @@ export class IrCustomDateRange {
                         "IDateModifiers": {
                             "location": "import",
                             "path": "./ir-custom-date-range.types",
-                            "id": "src/components/ui/ir-custom-date-range/ir-custom-date-range.types.ts::IDateModifiers"
+                            "id": "src/components/ui/ir-custom-date-range/ir-custom-date-range.types.ts::IDateModifiers",
+                            "referenceLocation": "IDateModifiers"
                         }
                     }
                 },
@@ -392,8 +397,8 @@ export class IrCustomDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-span-days",
                 "reflect": false,
+                "attribute": "max-span-days",
                 "defaultValue": "90"
             },
             "showPrice": {
@@ -412,8 +417,8 @@ export class IrCustomDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-price",
                 "reflect": false,
+                "attribute": "show-price",
                 "defaultValue": "false"
             },
             "locale": {
@@ -435,8 +440,8 @@ export class IrCustomDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "locale",
                 "reflect": true,
+                "attribute": "locale",
                 "defaultValue": "'en'"
             }
         };
@@ -485,4 +490,3 @@ export class IrCustomDateRange {
             }];
     }
 }
-//# sourceMappingURL=ir-custom-date-range.js.map

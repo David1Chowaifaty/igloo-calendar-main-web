@@ -1,8 +1,1 @@
-import { I as IrAgentsTable$1, d as defineCustomElement$1 } from './ir-agents-table2.js';
-
-const IrAgentsTable = IrAgentsTable$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrAgentsTable, defineCustomElement };
-
-//# sourceMappingURL=ir-agents-table.js.map
+import{I as s,d as t}from"./ir-agents-table2.js";const a=s,o=t;export{a as IrAgentsTable,o as defineCustomElement}

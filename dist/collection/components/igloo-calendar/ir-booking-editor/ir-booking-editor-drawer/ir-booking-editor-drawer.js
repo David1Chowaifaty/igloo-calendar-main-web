@@ -331,8 +331,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "ticket": {
                 "type": "string",
@@ -350,8 +350,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "string",
@@ -369,8 +369,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "language": {
                 "type": "string",
@@ -388,8 +388,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "booking": {
@@ -402,7 +402,8 @@ export class IrBookingEditorDrawer {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -425,7 +426,8 @@ export class IrBookingEditorDrawer {
                         "BookingEditorMode": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode"
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode",
+                            "referenceLocation": "BookingEditorMode"
                         }
                     }
                 },
@@ -437,8 +439,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "label": {
@@ -457,8 +459,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "checkIn": {
                 "type": "string",
@@ -476,8 +478,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-in",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-in"
             },
             "checkOut": {
                 "type": "string",
@@ -495,8 +497,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-out",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-out"
             },
             "unitId": {
                 "type": "string",
@@ -514,8 +516,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit-id"
             },
             "blockedUnit": {
                 "type": "unknown",
@@ -527,7 +529,8 @@ export class IrBookingEditorDrawer {
                         "BlockedDatePayload": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BlockedDatePayload"
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BlockedDatePayload",
+                            "referenceLocation": "BlockedDatePayload"
                         }
                     }
                 },
@@ -574,8 +577,8 @@ export class IrBookingEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-identifier"
             }
         };
     }
@@ -634,4 +637,3 @@ export class IrBookingEditorDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-editor-drawer.js.map

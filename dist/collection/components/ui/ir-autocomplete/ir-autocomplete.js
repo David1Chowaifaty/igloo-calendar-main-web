@@ -424,8 +424,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "emit-on-same-value",
                 "reflect": false,
+                "attribute": "emit-on-same-value",
                 "defaultValue": "true"
             },
             "open": {
@@ -444,8 +444,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": true,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "placement": {
@@ -469,8 +469,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placement",
                 "reflect": true,
+                "attribute": "placement",
                 "defaultValue": "'bottom'"
             },
             "name": {
@@ -489,8 +489,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "value": {
                 "type": "string",
@@ -508,8 +508,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": true,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "type": {
@@ -522,7 +522,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -534,8 +535,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "type",
                 "reflect": true,
+                "attribute": "type",
                 "defaultValue": "'text'"
             },
             "defaultValue": {
@@ -548,7 +549,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -560,8 +562,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-value",
-                "reflect": true
+                "reflect": true,
+                "attribute": "default-value"
             },
             "size": {
                 "type": "string",
@@ -573,7 +575,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -585,8 +588,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "appearance": {
@@ -599,7 +602,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -611,8 +615,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "appearance",
-                "reflect": true
+                "reflect": true,
+                "attribute": "appearance"
             },
             "pill": {
                 "type": "boolean",
@@ -624,7 +628,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -636,8 +641,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pill",
-                "reflect": true
+                "reflect": true,
+                "attribute": "pill"
             },
             "returnMaskedValue": {
                 "type": "boolean",
@@ -655,8 +660,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "return-masked-value",
                 "reflect": false,
+                "attribute": "return-masked-value",
                 "defaultValue": "false"
             },
             "label": {
@@ -669,7 +674,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -681,8 +687,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "label"
             },
             "hint": {
                 "type": "string",
@@ -694,7 +700,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -706,8 +713,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hint",
-                "reflect": true
+                "reflect": true,
+                "attribute": "hint"
             },
             "withClear": {
                 "type": "boolean",
@@ -719,7 +726,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -731,8 +739,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-clear",
-                "reflect": true
+                "reflect": true,
+                "attribute": "with-clear"
             },
             "placeholder": {
                 "type": "string",
@@ -744,7 +752,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -756,8 +765,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": true
+                "reflect": true,
+                "attribute": "placeholder"
             },
             "readonly": {
                 "type": "boolean",
@@ -769,7 +778,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -781,8 +791,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "readonly",
-                "reflect": true
+                "reflect": true,
+                "attribute": "readonly"
             },
             "passwordToggle": {
                 "type": "boolean",
@@ -794,7 +804,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -806,8 +817,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "password-toggle",
-                "reflect": true
+                "reflect": true,
+                "attribute": "password-toggle"
             },
             "passwordVisible": {
                 "type": "boolean",
@@ -819,7 +830,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -831,8 +843,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "password-visible",
-                "reflect": true
+                "reflect": true,
+                "attribute": "password-visible"
             },
             "withoutSpinButtons": {
                 "type": "boolean",
@@ -844,7 +856,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -856,8 +869,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "without-spin-buttons",
-                "reflect": true
+                "reflect": true,
+                "attribute": "without-spin-buttons"
             },
             "form": {
                 "type": "unknown",
@@ -869,7 +882,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -892,7 +906,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -904,8 +919,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "required",
-                "reflect": true
+                "reflect": true,
+                "attribute": "required"
             },
             "pattern": {
                 "type": "string",
@@ -917,7 +932,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -929,8 +945,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pattern",
-                "reflect": false
+                "reflect": false,
+                "attribute": "pattern"
             },
             "minlength": {
                 "type": "number",
@@ -942,7 +958,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -954,8 +971,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "minlength",
-                "reflect": false
+                "reflect": false,
+                "attribute": "minlength"
             },
             "maxlength": {
                 "type": "number",
@@ -967,7 +984,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -979,8 +997,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "maxlength",
-                "reflect": false
+                "reflect": false,
+                "attribute": "maxlength"
             },
             "min": {
                 "type": "any",
@@ -992,7 +1010,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1004,8 +1023,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min"
             },
             "max": {
                 "type": "any",
@@ -1017,7 +1036,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1029,8 +1049,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max"
             },
             "step": {
                 "type": "any",
@@ -1042,7 +1062,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1054,8 +1075,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "step",
-                "reflect": false
+                "reflect": false,
+                "attribute": "step"
             },
             "autocapitalize": {
                 "type": "string",
@@ -1067,7 +1088,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1079,8 +1101,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "autocapitalize",
-                "reflect": false
+                "reflect": false,
+                "attribute": "autocapitalize"
             },
             "autocorrect": {
                 "type": "string",
@@ -1092,7 +1114,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1104,8 +1127,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "autocorrect",
-                "reflect": false
+                "reflect": false,
+                "attribute": "autocorrect"
             },
             "autocomplete": {
                 "type": "string",
@@ -1117,7 +1140,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1129,8 +1153,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "autocomplete",
                 "reflect": false,
+                "attribute": "autocomplete",
                 "defaultValue": "'off'"
             },
             "autofocus": {
@@ -1143,7 +1167,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1155,8 +1180,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "autofocus",
-                "reflect": false
+                "reflect": false,
+                "attribute": "autofocus"
             },
             "enterkeyhint": {
                 "type": "string",
@@ -1168,7 +1193,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1180,8 +1206,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "enterkeyhint",
-                "reflect": false
+                "reflect": false,
+                "attribute": "enterkeyhint"
             },
             "spellcheck": {
                 "type": "boolean",
@@ -1193,7 +1219,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1205,8 +1232,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "spellcheck",
-                "reflect": false
+                "reflect": false,
+                "attribute": "spellcheck"
             },
             "inputmode": {
                 "type": "string",
@@ -1218,7 +1245,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1230,8 +1258,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "inputmode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "inputmode"
             },
             "withLabel": {
                 "type": "boolean",
@@ -1243,7 +1271,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1255,8 +1284,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "with-label"
             },
             "withHint": {
                 "type": "boolean",
@@ -1268,7 +1297,8 @@ export class IrAutocomplete {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -1280,20 +1310,21 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-hint",
-                "reflect": false
+                "reflect": false,
+                "attribute": "with-hint"
             },
             "mask": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
                     "original": "MaskProp",
-                    "resolved": "MaskConfig<\"email\" | \"date\" | \"price\" | \"time\" | \"url\"> | FactoryArg",
+                    "resolved": "\"autofix\" | \"blocks\" | \"commit\" | \"definitions\" | \"dispatch\" | \"displayChar\" | \"eager\" | \"format\" | \"lazy\" | \"mapToRadix\" | \"mask\" | \"max\" | \"min\" | \"normalizeZeros\" | \"overwrite\" | \"padFractionalZeros\" | \"parent\" | \"parse\" | \"placeholderChar\" | \"prepare\" | \"prepareChar\" | \"radix\" | \"scale\" | \"skipInvalid\" | \"thousandsSeparator\" | \"validate\" | ((value: string, masked: Masked<any>) => boolean) | ArrayConstructor | DateConstructor | ExtendFactoryArgOptions<{ expose?: boolean; }>[] | Masked<any> | MaskedDynamic<any> | MaskedFunction<any> | MaskedNumber | MaskedPattern<string> | MaskedRegExp | NumberConstructor | Omit<MaskedDateOptions, \"mask\"> & { mask: DateConstructor; } | RegExp | string | { mask: Masked<any>; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: MaskedDynamic<any>; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: MaskedFunction<any>; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: MaskedPattern<string>; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof Masked; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: typeof MaskedDynamic; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: typeof MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: typeof MaskedFunction; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: typeof MaskedPattern; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: typeof MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: typeof MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { readonly mask: \"HH:mm\"; readonly blocks: { readonly HH: { readonly mask: typeof MaskedRange; readonly from: 0; readonly to: 23; readonly placeholderChar: \"H\"; }; readonly mm: { readonly mask: typeof MaskedRange; readonly from: 0; readonly to: 59; readonly placeholderChar: \"m\"; }; }; readonly lazy: false; readonly placeholderChar: \"_\"; } | ({ readonly mask: DateConstructor; readonly pattern: \"DD/MM/YYYY\"; readonly lazy: false; readonly min: Date; readonly max: Date; readonly format: (date: any) => string; readonly parse: (str: any) => Date; readonly autofix: true; readonly placeholderChar: \"_\"; readonly blocks: { readonly YYYY: { readonly mask: typeof MaskedRange; readonly from: 1900; readonly to: string; readonly placeholderChar: \"Y\"; }; readonly MM: { readonly mask: typeof MaskedRange; readonly from: 1; readonly to: 12; readonly placeholderChar: \"M\"; }; readonly DD: { readonly mask: typeof MaskedRange; readonly from: 1; readonly to: 31; readonly placeholderChar: \"D\"; }; }; }) | { readonly mask: NumberConstructor; readonly scale: 2; readonly radix: \".\"; readonly mapToRadix: readonly [\",\"]; readonly normalizeZeros: true; readonly padFractionalZeros: true; readonly thousandsSeparator: \",\"; } | ({ readonly mask: RegExp; readonly overwrite: false; readonly prepare: (appended: any) => any; readonly commit: (value: any, masked: any) => void; }) | ({ readonly mask: RegExp; readonly overwrite: false; readonly prepare: (value: string) => string; readonly validate: (value: string) => boolean; })",
                     "references": {
                         "MaskProp": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::MaskProp"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::MaskProp",
+                            "referenceLocation": "MaskProp"
                         }
                     }
                 },
@@ -1305,8 +1336,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mask",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mask"
             },
             "disabled": {
                 "type": "boolean",
@@ -1324,8 +1355,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": true
+                "reflect": true,
+                "attribute": "disabled"
             },
             "inputClass": {
                 "type": "string",
@@ -1343,8 +1374,8 @@ export class IrAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "input-class"
             }
         };
     }
@@ -1456,4 +1487,3 @@ export class IrAutocomplete {
 __decorate([
     ClickOutside()
 ], IrAutocomplete.prototype, "hide", null);
-//# sourceMappingURL=ir-autocomplete.js.map

@@ -32,4 +32,3 @@ class Auth {
     }
 }
 export default Auth;
-//# sourceMappingURL=Auth.js.map

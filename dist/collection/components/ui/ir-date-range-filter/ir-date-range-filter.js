@@ -238,8 +238,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "toDate": {
                 "type": "string",
@@ -257,8 +257,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "size": {
                 "type": "string",
@@ -276,8 +276,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "showQuickActions": {
@@ -296,8 +296,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-quick-actions",
                 "reflect": false,
+                "attribute": "show-quick-actions",
                 "defaultValue": "true"
             },
             "minDate": {
@@ -316,8 +316,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-date"
             },
             "maxDate": {
                 "type": "string",
@@ -335,8 +335,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-date"
             },
             "selectionMode": {
                 "type": "string",
@@ -354,8 +354,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selection-mode",
                 "reflect": false,
+                "attribute": "selection-mode",
                 "defaultValue": "'manual'"
             },
             "withClear": {
@@ -374,8 +374,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-clear",
                 "reflect": false,
+                "attribute": "with-clear",
                 "defaultValue": "true"
             },
             "label": {
@@ -394,8 +394,8 @@ export class IrDateRangeFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             }
         };
     }
@@ -448,4 +448,3 @@ export class IrDateRangeFilter {
             }];
     }
 }
-//# sourceMappingURL=ir-date-range-filter.js.map

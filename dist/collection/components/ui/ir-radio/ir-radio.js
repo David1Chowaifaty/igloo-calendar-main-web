@@ -101,8 +101,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "checked",
                 "reflect": false,
+                "attribute": "checked",
                 "defaultValue": "false"
             },
             "label": {
@@ -121,8 +121,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "radioBoxId": {
                 "type": "string",
@@ -140,8 +140,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "radio-box-id",
                 "reflect": false,
+                "attribute": "radio-box-id",
                 "defaultValue": "v4()"
             },
             "name": {
@@ -160,8 +160,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "indeterminate": {
                 "type": "boolean",
@@ -179,8 +179,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "indeterminate",
-                "reflect": false
+                "reflect": false,
+                "attribute": "indeterminate"
             },
             "disabled": {
                 "type": "boolean",
@@ -198,8 +198,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "labelClass": {
                 "type": "string",
@@ -217,8 +217,8 @@ export class IrRadio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-class"
             }
         };
     }
@@ -253,4 +253,3 @@ export class IrRadio {
             }];
     }
 }
-//# sourceMappingURL=ir-radio.js.map

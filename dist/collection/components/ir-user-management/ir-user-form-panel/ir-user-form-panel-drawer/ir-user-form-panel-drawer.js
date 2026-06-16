@@ -55,8 +55,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "user": {
                 "type": "unknown",
@@ -68,7 +68,8 @@ export class IrUserFormPanelDrawer {
                         "User": {
                             "location": "import",
                             "path": "@/models/Users",
-                            "id": "src/models/Users.ts::User"
+                            "id": "src/models/Users.ts::User",
+                            "referenceLocation": "User"
                         }
                     }
                 },
@@ -132,8 +133,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-edit",
                 "reflect": false,
+                "attribute": "is-edit",
                 "defaultValue": "false"
             },
             "language": {
@@ -152,8 +153,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "property_id": {
@@ -172,8 +173,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property_id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property_id"
             },
             "haveAdminPrivileges": {
                 "type": "boolean",
@@ -191,8 +192,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "have-admin-privileges",
-                "reflect": false
+                "reflect": false,
+                "attribute": "have-admin-privileges"
             },
             "superAdminId": {
                 "type": "string",
@@ -210,8 +211,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "super-admin-id",
                 "reflect": false,
+                "attribute": "super-admin-id",
                 "defaultValue": "'5'"
             },
             "userTypeCode": {
@@ -230,8 +231,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "user-type-code"
             },
             "allowedUsersTypes": {
                 "type": "unknown",
@@ -243,7 +244,8 @@ export class IrUserFormPanelDrawer {
                         "AllowedUser": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-user-management/types.ts::AllowedUser"
+                            "id": "src/components/ir-user-management/types.ts::AllowedUser",
+                            "referenceLocation": "AllowedUser"
                         }
                     }
                 },
@@ -273,8 +275,8 @@ export class IrUserFormPanelDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-user-type-code"
             }
         };
     }
@@ -297,4 +299,3 @@ export class IrUserFormPanelDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-user-form-panel-drawer.js.map

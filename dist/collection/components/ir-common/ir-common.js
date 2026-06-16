@@ -84,8 +84,8 @@ export class IrCommon {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "extra-resources",
                 "reflect": true,
+                "attribute": "extra-resources",
                 "defaultValue": "''"
             },
             "disableResourceInjection": {
@@ -104,8 +104,8 @@ export class IrCommon {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disable-resource-injection",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disable-resource-injection"
             }
         };
     }
@@ -121,4 +121,3 @@ export class IrCommon {
             }];
     }
 }
-//# sourceMappingURL=ir-common.js.map

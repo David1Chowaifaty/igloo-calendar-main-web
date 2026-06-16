@@ -92,8 +92,8 @@ export class IrSpinner {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
-                "reflect": false
+                "reflect": false,
+                "attribute": "size"
             },
             "borderWidth": {
                 "type": "number",
@@ -111,8 +111,8 @@ export class IrSpinner {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "border-width",
-                "reflect": false
+                "reflect": false,
+                "attribute": "border-width"
             },
             "unit": {
                 "type": "string",
@@ -130,8 +130,8 @@ export class IrSpinner {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit",
                 "reflect": false,
+                "attribute": "unit",
                 "defaultValue": "'rem'"
             },
             "color": {
@@ -150,8 +150,8 @@ export class IrSpinner {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "color",
-                "reflect": false
+                "reflect": false,
+                "attribute": "color"
             }
         };
     }
@@ -172,4 +172,3 @@ export class IrSpinner {
             }];
     }
 }
-//# sourceMappingURL=ir-spinner.js.map

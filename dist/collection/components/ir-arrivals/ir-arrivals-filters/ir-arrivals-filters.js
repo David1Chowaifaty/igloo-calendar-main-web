@@ -21,4 +21,3 @@ export class IrArrivalsFilters {
         };
     }
 }
-//# sourceMappingURL=ir-arrivals-filters.js.map

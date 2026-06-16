@@ -104,4 +104,3 @@ export const groupData = (rows) => {
     }
     return sortByOldestDate([...standalone, ...bookingGroups]);
 };
-//# sourceMappingURL=utils.js.map

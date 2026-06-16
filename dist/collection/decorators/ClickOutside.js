@@ -102,4 +102,3 @@ function isEventInsideHost(host, event) {
 function isDomAvailable() {
     return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
-//# sourceMappingURL=ClickOutside.js.map

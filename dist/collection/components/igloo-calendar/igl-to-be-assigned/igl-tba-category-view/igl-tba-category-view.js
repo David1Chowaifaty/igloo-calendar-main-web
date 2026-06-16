@@ -83,8 +83,8 @@ export class IglTbaCategoryView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "selected-date"
             },
             "categoriesData": {
                 "type": "unknown",
@@ -120,8 +120,8 @@ export class IglTbaCategoryView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "category-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "category-id"
             },
             "eventDatas": {
                 "type": "any",
@@ -139,8 +139,8 @@ export class IglTbaCategoryView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "event-datas",
-                "reflect": false
+                "reflect": false,
+                "attribute": "event-datas"
             },
             "categoryIndex": {
                 "type": "any",
@@ -158,8 +158,8 @@ export class IglTbaCategoryView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "category-index",
-                "reflect": false
+                "reflect": false,
+                "attribute": "category-index"
             }
         };
     }
@@ -187,4 +187,3 @@ export class IglTbaCategoryView {
             }];
     }
 }
-//# sourceMappingURL=igl-tba-category-view.js.map

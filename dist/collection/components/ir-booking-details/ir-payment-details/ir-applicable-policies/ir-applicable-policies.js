@@ -236,7 +236,8 @@ export class IrApplicablePolicies {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -265,8 +266,8 @@ export class IrApplicablePolicies {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "language": {
                 "type": "string",
@@ -284,8 +285,8 @@ export class IrApplicablePolicies {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             }
         };
@@ -315,7 +316,8 @@ export class IrApplicablePolicies {
                         "IPaymentAction": {
                             "location": "import",
                             "path": "@/services/payment.service",
-                            "id": "src/services/payment.service.ts::IPaymentAction"
+                            "id": "src/services/payment.service.ts::IPaymentAction",
+                            "referenceLocation": "IPaymentAction"
                         }
                     }
                 }
@@ -328,4 +330,3 @@ export class IrApplicablePolicies {
             }];
     }
 }
-//# sourceMappingURL=ir-applicable-policies.js.map

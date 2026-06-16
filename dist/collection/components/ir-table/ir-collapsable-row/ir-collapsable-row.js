@@ -68,7 +68,8 @@ export class IrCollapsableRow {
                         "Row": {
                             "location": "import",
                             "path": "@tanstack/table-core",
-                            "id": "node_modules::Row"
+                            "id": "node_modules::Row",
+                            "referenceLocation": "Row"
                         }
                     }
                 },
@@ -89,4 +90,3 @@ export class IrCollapsableRow {
         };
     }
 }
-//# sourceMappingURL=ir-collapsable-row.js.map

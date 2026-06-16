@@ -302,8 +302,8 @@ export class IrCityLedgerTransactionForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
                 "reflect": false,
+                "attribute": "form-id",
                 "defaultValue": "'city-ledger-transaction-form'"
             },
             "agent": {
@@ -311,12 +311,13 @@ export class IrCityLedgerTransactionForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -340,7 +341,8 @@ export class IrCityLedgerTransactionForm {
                         "TransactionType": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TransactionType"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TransactionType",
+                            "referenceLocation": "TransactionType"
                         }
                     }
                 },
@@ -352,9 +354,9 @@ export class IrCityLedgerTransactionForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-transaction-type",
                 "reflect": false,
-                "defaultValue": "ClTxTypeCode.Payment"
+                "attribute": "initial-transaction-type",
+                "defaultValue": "'PAY'"
             },
             "unpaidInvoiceOptions": {
                 "type": "unknown",
@@ -366,7 +368,8 @@ export class IrCityLedgerTransactionForm {
                         "LinkedOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -390,7 +393,8 @@ export class IrCityLedgerTransactionForm {
                         "LinkedOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -414,7 +418,8 @@ export class IrCityLedgerTransactionForm {
                         "ServiceCategoryOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::ServiceCategoryOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::ServiceCategoryOption",
+                            "referenceLocation": "ServiceCategoryOption"
                         }
                     }
                 },
@@ -444,8 +449,8 @@ export class IrCityLedgerTransactionForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "booking": {
@@ -458,7 +463,8 @@ export class IrCityLedgerTransactionForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -482,7 +488,8 @@ export class IrCityLedgerTransactionForm {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::ClTx"
+                            "id": "src/services/city-ledger/index.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -541,7 +548,8 @@ export class IrCityLedgerTransactionForm {
                         "ZodIssue": {
                             "location": "import",
                             "path": "zod",
-                            "id": "node_modules::ZodIssue"
+                            "id": "node_modules::ZodIssue",
+                            "referenceLocation": "ZodIssue"
                         }
                     }
                 }
@@ -577,7 +585,8 @@ export class IrCityLedgerTransactionForm {
                         "ClFiscalDocumentPreviewRequest": {
                             "location": "import",
                             "path": "../../../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest",
+                            "referenceLocation": "ClFiscalDocumentPreviewRequest"
                         }
                     }
                 }
@@ -593,4 +602,3 @@ export class IrCityLedgerTransactionForm {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-transaction-form.js.map

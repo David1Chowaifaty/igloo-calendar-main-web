@@ -48,4 +48,3 @@ export class MissingTokenError extends Error {
         this.name = 'MissingTokenError';
     }
 }
-//# sourceMappingURL=Token.js.map

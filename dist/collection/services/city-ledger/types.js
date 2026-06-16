@@ -224,4 +224,3 @@ export const VoidReceiptByCreditReceiptParamsSchema = z.object({
     VOID_DATE: z.string().optional().default(moment().format('YYYY-MM-DD')),
     REASON: z.string().optional().default(''),
 });
-//# sourceMappingURL=types.js.map

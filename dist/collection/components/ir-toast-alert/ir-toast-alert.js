@@ -84,8 +84,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "toast-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "toast-id"
             },
             "label": {
                 "type": "string",
@@ -103,8 +103,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "description": {
                 "type": "string",
@@ -122,8 +122,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "description",
-                "reflect": false
+                "reflect": false,
+                "attribute": "description"
             },
             "variant": {
                 "type": "string",
@@ -147,8 +147,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": true,
+                "attribute": "variant",
                 "defaultValue": "'info'"
             },
             "dismissible": {
@@ -167,8 +167,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "dismissible",
                 "reflect": false,
+                "attribute": "dismissible",
                 "defaultValue": "true"
             },
             "actionLabel": {
@@ -187,8 +187,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "action-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "action-label"
             },
             "leaving": {
                 "type": "boolean",
@@ -206,8 +206,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "leaving",
                 "reflect": false,
+                "attribute": "leaving",
                 "defaultValue": "false"
             },
             "position": {
@@ -220,7 +220,8 @@ export class IrToastAlert {
                         "TPositions": {
                             "location": "import",
                             "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::TPositions"
+                            "id": "src/components/ui/ir-toast/toast.ts::TPositions",
+                            "referenceLocation": "TPositions"
                         }
                     }
                 },
@@ -232,8 +233,8 @@ export class IrToastAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "position",
                 "reflect": false,
+                "attribute": "position",
                 "defaultValue": "'top-right'"
             }
         };
@@ -287,4 +288,3 @@ export class IrToastAlert {
             }];
     }
 }
-//# sourceMappingURL=ir-toast-alert.js.map

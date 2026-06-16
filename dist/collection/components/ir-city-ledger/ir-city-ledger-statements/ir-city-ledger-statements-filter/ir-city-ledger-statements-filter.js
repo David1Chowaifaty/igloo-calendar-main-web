@@ -65,8 +65,8 @@ export class IrCityLedgerStatementsFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-from-date",
                 "reflect": false,
+                "attribute": "initial-from-date",
                 "defaultValue": "null"
             },
             "initialToDate": {
@@ -85,8 +85,8 @@ export class IrCityLedgerStatementsFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-to-date",
                 "reflect": false,
+                "attribute": "initial-to-date",
                 "defaultValue": "null"
             }
         };
@@ -164,4 +164,3 @@ export class IrCityLedgerStatementsFilter {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-statements-filter.js.map

@@ -16,4 +16,3 @@ export class IrFinancialSummary {
         };
     }
 }
-//# sourceMappingURL=ir-financial-summary.js.map

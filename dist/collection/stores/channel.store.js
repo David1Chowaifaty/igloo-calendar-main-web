@@ -83,4 +83,3 @@ export function saveChannel() {
     console.log(channels_data.channel_settings, channels_data.mappedChannels, channels_data.selectedChannel);
 }
 export default channels_data;
-//# sourceMappingURL=channel.store.js.map

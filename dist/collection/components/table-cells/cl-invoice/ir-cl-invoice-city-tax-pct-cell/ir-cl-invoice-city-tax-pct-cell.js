@@ -34,10 +34,9 @@ export class IrClInvoiceCityTaxPctCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "city-tax-percent",
-                "reflect": false
+                "reflect": false,
+                "attribute": "city-tax-percent"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-city-tax-pct-cell.js.map

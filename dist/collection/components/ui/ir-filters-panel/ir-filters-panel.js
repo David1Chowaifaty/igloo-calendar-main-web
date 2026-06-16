@@ -149,8 +149,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "filter-title",
                 "reflect": false,
+                "attribute": "filter-title",
                 "defaultValue": "locales.entries.Lcz_Filters"
             },
             "collapseId": {
@@ -169,8 +169,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "collapse-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "collapse-id"
             },
             "showCollapseButton": {
                 "type": "boolean",
@@ -188,8 +188,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-collapse-button",
                 "reflect": false,
+                "attribute": "show-collapse-button",
                 "defaultValue": "true"
             },
             "defaultCollapsed": {
@@ -208,8 +208,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-collapsed",
                 "reflect": false,
+                "attribute": "default-collapsed",
                 "defaultValue": "false"
             },
             "collapsed": {
@@ -228,8 +228,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "collapsed",
-                "reflect": true
+                "reflect": true,
+                "attribute": "collapsed"
             },
             "persistentOnDesktop": {
                 "type": "boolean",
@@ -247,8 +247,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "persistent-on-desktop",
                 "reflect": false,
+                "attribute": "persistent-on-desktop",
                 "defaultValue": "true"
             },
             "panelClass": {
@@ -267,8 +267,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "panel-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "panel-class"
             },
             "cardClass": {
                 "type": "string",
@@ -286,8 +286,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "card-class",
                 "reflect": false,
+                "attribute": "card-class",
                 "defaultValue": "'sales-filters-card'"
             },
             "headerClass": {
@@ -306,8 +306,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "header-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "header-class"
             },
             "contentClass": {
                 "type": "string",
@@ -325,8 +325,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "content-class"
             },
             "contentGap": {
                 "type": "string",
@@ -344,8 +344,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content-gap",
                 "reflect": false,
+                "attribute": "content-gap",
                 "defaultValue": "'0.5rem'"
             },
             "actionsAlign": {
@@ -364,8 +364,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "actions-align",
                 "reflect": false,
+                "attribute": "actions-align",
                 "defaultValue": "'end'"
             },
             "hideDefaultActions": {
@@ -384,8 +384,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hide-default-actions",
                 "reflect": false,
+                "attribute": "hide-default-actions",
                 "defaultValue": "false"
             },
             "collapseIconOpen": {
@@ -393,12 +393,13 @@ export class IrFiltersPanel {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"angle-up\" | \"angle_left\" | \"angle_right\" | \"angles_left\" | \"angles_right\" | \"arrow-right-from-bracket\" | \"arrow-trend-down\" | \"arrow-trend-up\" | \"arrow_left\" | \"arrow_right\" | \"ban\" | \"bell\" | \"burger_menu\" | \"calendar\" | \"calendar-xmark\" | \"check\" | \"circle_check\" | \"circle_info\" | \"circle_plus\" | \"clock\" | \"closed_eye\" | \"credit_card\" | \"danger\" | \"double_caret_left\" | \"edit\" | \"email\" | \"envelope-circle-check\" | \"eraser\" | \"facebook\" | \"file\" | \"globe\" | \"heart\" | \"heart-fill\" | \"home\" | \"hotel\" | \"instagram\" | \"key\" | \"menu_list\" | \"minus\" | \"note\" | \"open_eye\" | \"outline_user\" | \"plus\" | \"print\" | \"reciept\" | \"save\" | \"search\" | \"server\" | \"square_plus\" | \"trash\" | \"twitter\" | \"unlock\" | \"user\" | \"user_group\" | \"whatsapp\" | \"xmark\" | \"xmark-fill\" | \"youtube\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
                             "path": "../ir-icons/icons",
-                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
+                            "id": "src/components/ui/ir-icons/icons.ts::TIcons",
+                            "referenceLocation": "TIcons"
                         }
                     }
                 },
@@ -410,8 +411,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "collapse-icon-open",
                 "reflect": false,
+                "attribute": "collapse-icon-open",
                 "defaultValue": "'open_eye'"
             },
             "collapseIconClosed": {
@@ -419,12 +420,13 @@ export class IrFiltersPanel {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"angle-up\" | \"angle_left\" | \"angle_right\" | \"angles_left\" | \"angles_right\" | \"arrow-right-from-bracket\" | \"arrow-trend-down\" | \"arrow-trend-up\" | \"arrow_left\" | \"arrow_right\" | \"ban\" | \"bell\" | \"burger_menu\" | \"calendar\" | \"calendar-xmark\" | \"check\" | \"circle_check\" | \"circle_info\" | \"circle_plus\" | \"clock\" | \"closed_eye\" | \"credit_card\" | \"danger\" | \"double_caret_left\" | \"edit\" | \"email\" | \"envelope-circle-check\" | \"eraser\" | \"facebook\" | \"file\" | \"globe\" | \"heart\" | \"heart-fill\" | \"home\" | \"hotel\" | \"instagram\" | \"key\" | \"menu_list\" | \"minus\" | \"note\" | \"open_eye\" | \"outline_user\" | \"plus\" | \"print\" | \"reciept\" | \"save\" | \"search\" | \"server\" | \"square_plus\" | \"trash\" | \"twitter\" | \"unlock\" | \"user\" | \"user_group\" | \"whatsapp\" | \"xmark\" | \"xmark-fill\" | \"youtube\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
                             "path": "../ir-icons/icons",
-                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
+                            "id": "src/components/ui/ir-icons/icons.ts::TIcons",
+                            "referenceLocation": "TIcons"
                         }
                     }
                 },
@@ -436,8 +438,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "collapse-icon-closed",
                 "reflect": false,
+                "attribute": "collapse-icon-closed",
                 "defaultValue": "'closed_eye'"
             },
             "applyLabel": {
@@ -456,8 +458,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "apply-label",
                 "reflect": false,
+                "attribute": "apply-label",
                 "defaultValue": "locales.entries.Lcz_Apply"
             },
             "resetLabel": {
@@ -476,8 +478,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "reset-label",
                 "reflect": false,
+                "attribute": "reset-label",
                 "defaultValue": "locales.entries.Lcz_Reset"
             },
             "disableApply": {
@@ -496,8 +498,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disable-apply",
                 "reflect": false,
+                "attribute": "disable-apply",
                 "defaultValue": "false"
             },
             "disableReset": {
@@ -516,8 +518,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disable-reset",
                 "reflect": false,
+                "attribute": "disable-reset",
                 "defaultValue": "false"
             },
             "isApplyLoading": {
@@ -536,8 +538,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-apply-loading",
                 "reflect": false,
+                "attribute": "is-apply-loading",
                 "defaultValue": "false"
             },
             "actionTestId": {
@@ -556,8 +558,8 @@ export class IrFiltersPanel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "action-test-id",
                 "reflect": false,
+                "attribute": "action-test-id",
                 "defaultValue": "'filter'"
             }
         };
@@ -622,4 +624,3 @@ export class IrFiltersPanel {
             }];
     }
 }
-//# sourceMappingURL=ir-filters-panel.js.map

@@ -42,8 +42,8 @@ export class IrMenuItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "href",
-                "reflect": true
+                "reflect": true,
+                "attribute": "href"
             },
             "selected": {
                 "type": "boolean",
@@ -61,8 +61,8 @@ export class IrMenuItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected",
-                "reflect": true
+                "reflect": true,
+                "attribute": "selected"
             },
             "badge": {
                 "type": "string",
@@ -80,10 +80,9 @@ export class IrMenuItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "badge",
-                "reflect": true
+                "reflect": true,
+                "attribute": "badge"
             }
         };
     }
 }
-//# sourceMappingURL=ir-menu-item.js.map

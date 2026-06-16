@@ -190,8 +190,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "p": {
                 "type": "string",
@@ -209,8 +209,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "baseurl": {
                 "type": "string",
@@ -228,8 +228,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "language": {
                 "type": "string",
@@ -247,8 +247,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "propertyid": {
@@ -267,8 +267,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "agentId": {
                 "type": "number",
@@ -286,8 +286,8 @@ export class IrCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             }
         };
@@ -325,4 +325,3 @@ export class IrCityLedger {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger.js.map

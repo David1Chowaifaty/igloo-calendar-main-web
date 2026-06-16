@@ -324,4 +324,3 @@ export class IRBookingEditorService {
         }
     }
 }
-//# sourceMappingURL=ir-booking-editor.service.js.map

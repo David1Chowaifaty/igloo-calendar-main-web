@@ -38,8 +38,8 @@ export class IrPickerItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": true
+                "reflect": true,
+                "attribute": "value"
             },
             "label": {
                 "type": "string",
@@ -57,8 +57,8 @@ export class IrPickerItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "label"
             },
             "disabled": {
                 "type": "boolean",
@@ -76,8 +76,8 @@ export class IrPickerItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": true,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "active": {
@@ -96,8 +96,8 @@ export class IrPickerItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "active",
                 "reflect": true,
+                "attribute": "active",
                 "defaultValue": "false"
             },
             "selected": {
@@ -116,11 +116,10 @@ export class IrPickerItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected",
                 "reflect": true,
+                "attribute": "selected",
                 "defaultValue": "false"
             }
         };
     }
 }
-//# sourceMappingURL=ir-picker-item.js.map

@@ -1,8 +1,1 @@
-import { I as IrUserManagement$1, d as defineCustomElement$1 } from './ir-user-management2.js';
-
-const IrUserManagement = IrUserManagement$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrUserManagement, defineCustomElement };
-
-//# sourceMappingURL=ir-user-management.js.map
+import{I as r,d as s}from"./ir-user-management2.js";const a=r,e=s;export{a as IrUserManagement,e as defineCustomElement}

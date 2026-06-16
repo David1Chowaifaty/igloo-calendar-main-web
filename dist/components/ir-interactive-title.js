@@ -1,8 +1,1 @@
-import { I as IrInteractiveTitle$1, d as defineCustomElement$1 } from './ir-interactive-title2.js';
-
-const IrInteractiveTitle = IrInteractiveTitle$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrInteractiveTitle, defineCustomElement };
-
-//# sourceMappingURL=ir-interactive-title.js.map
+import{I as t,d as i}from"./ir-interactive-title2.js";const r=t,e=i;export{r as IrInteractiveTitle,e as defineCustomElement}

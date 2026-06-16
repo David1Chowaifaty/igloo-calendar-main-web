@@ -33,7 +33,8 @@ export class IrPaymentAction {
                         "IPaymentAction": {
                             "location": "import",
                             "path": "@/services/payment.service",
-                            "id": "src/services/payment.service.ts::IPaymentAction"
+                            "id": "src/services/payment.service.ts::IPaymentAction",
+                            "referenceLocation": "IPaymentAction"
                         }
                     }
                 },
@@ -66,11 +67,11 @@ export class IrPaymentAction {
                         "IPaymentAction": {
                             "location": "import",
                             "path": "@/services/payment.service",
-                            "id": "src/services/payment.service.ts::IPaymentAction"
+                            "id": "src/services/payment.service.ts::IPaymentAction",
+                            "referenceLocation": "IPaymentAction"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-payment-action.js.map

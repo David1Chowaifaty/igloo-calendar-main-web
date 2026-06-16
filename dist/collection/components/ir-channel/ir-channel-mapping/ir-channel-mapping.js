@@ -57,4 +57,3 @@ export class IrChannelMapping {
         };
     }
 }
-//# sourceMappingURL=ir-channel-mapping.js.map

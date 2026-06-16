@@ -1,13 +1,11 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var axios = require('./axios-EresIryl.js');
+var debounce = require('./debounce-Be8tSGtB.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
-const index = require('./index-35d81173.js');
-const axios = require('./axios-6e678d52.js');
-const debounce = require('./debounce-1b63fe86.js');
-
-const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base){font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}";
-const IrPropertySwitcherDialogContentStyle0 = irPropertySwitcherDialogContentCss;
+const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -22,8 +20,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 const IrPropertySwitcherDialogContent = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.propertySelected = index.createEvent(this, "propertySelected", 7);
-        this.linkedPropertyChange = index.createEvent(this, "linkedPropertyChange", 7);
+        this.propertySelected = index.createEvent(this, "propertySelected");
+        this.linkedPropertyChange = index.createEvent(this, "linkedPropertyChange");
     }
     get el() { return index.getElement(this); }
     /** Whether the surrounding dialog is open. Used to focus and reset the search input as needed. */
@@ -173,15 +171,17 @@ const IrPropertySwitcherDialogContent = class {
         }))));
     }
     static get watchers() { return {
-        "open": ["handleOpenChange"],
-        "selectedPropertyId": ["handleSelectedPropertyIdChange"]
+        "open": [{
+                "handleOpenChange": 0
+            }],
+        "selectedPropertyId": [{
+                "handleSelectedPropertyIdChange": 0
+            }]
     }; }
 };
 __decorate([
     debounce.Debounce(300)
 ], IrPropertySwitcherDialogContent.prototype, "fetchProperties", null);
-IrPropertySwitcherDialogContent.style = IrPropertySwitcherDialogContentStyle0;
+IrPropertySwitcherDialogContent.style = irPropertySwitcherDialogContentCss();
 
 exports.ir_property_switcher_dialog_content = IrPropertySwitcherDialogContent;
-
-//# sourceMappingURL=ir-property-switcher-dialog-content.cjs.entry.js.map

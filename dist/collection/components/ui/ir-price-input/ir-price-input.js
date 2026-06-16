@@ -195,8 +195,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "readOnly": {
                 "type": "boolean",
@@ -214,8 +214,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "read-only",
-                "reflect": false
+                "reflect": false,
+                "attribute": "read-only"
             },
             "inputStyle": {
                 "type": "string",
@@ -233,8 +233,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input-style",
-                "reflect": false
+                "reflect": false,
+                "attribute": "input-style"
             },
             "labelStyle": {
                 "type": "string",
@@ -252,8 +252,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-style",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-style"
             },
             "disabled": {
                 "type": "boolean",
@@ -271,8 +271,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "currency": {
                 "type": "string",
@@ -290,8 +290,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "autoValidate": {
                 "type": "boolean",
@@ -309,8 +309,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-validate",
                 "reflect": false,
+                "attribute": "auto-validate",
                 "defaultValue": "true"
             },
             "wrapKey": {
@@ -329,8 +329,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "wrap-key",
-                "reflect": false
+                "reflect": false,
+                "attribute": "wrap-key"
             },
             "zod": {
                 "type": "unknown",
@@ -342,7 +342,8 @@ export class IrPriceInput {
                         "ZodType": {
                             "location": "import",
                             "path": "zod",
-                            "id": "node_modules::ZodType"
+                            "id": "node_modules::ZodType",
+                            "referenceLocation": "ZodType"
                         }
                     }
                 },
@@ -371,8 +372,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "''"
             },
             "value": {
@@ -391,8 +392,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": false,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "required": {
@@ -411,8 +412,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "required",
                 "reflect": false,
+                "attribute": "required",
                 "defaultValue": "false"
             },
             "minValue": {
@@ -431,8 +432,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-value"
             },
             "maxValue": {
                 "type": "number",
@@ -450,8 +451,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-value"
             },
             "testId": {
                 "type": "string",
@@ -469,8 +470,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             },
             "error": {
                 "type": "boolean",
@@ -488,8 +489,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
-                "reflect": false
+                "reflect": false,
+                "attribute": "error"
             },
             "containerClassname": {
                 "type": "string",
@@ -507,8 +508,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "container-classname",
-                "reflect": false
+                "reflect": false,
+                "attribute": "container-classname"
             },
             "labelContainerClassname": {
                 "type": "string",
@@ -526,8 +527,8 @@ export class IrPriceInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-container-classname",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-container-classname"
             }
         };
     }
@@ -581,4 +582,3 @@ export class IrPriceInput {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-price-input.js.map

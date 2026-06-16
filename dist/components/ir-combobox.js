@@ -1,8 +1,1 @@
-import { I as IrCombobox$1, d as defineCustomElement$1 } from './ir-combobox2.js';
-
-const IrCombobox = IrCombobox$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrCombobox, defineCustomElement };
-
-//# sourceMappingURL=ir-combobox.js.map
+import{I as o,d as r}from"./ir-combobox2.js";const s=o,m=r;export{s as IrCombobox,m as defineCustomElement}

@@ -181,8 +181,8 @@ export class IrListingModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "modal-title",
                 "reflect": false,
+                "attribute": "modal-title",
                 "defaultValue": "'Modal Title'"
             },
             "editBooking": {
@@ -195,7 +195,8 @@ export class IrListingModal {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -218,7 +219,8 @@ export class IrListingModal {
                         "PaymentEntries": {
                             "location": "import",
                             "path": "@/components/ir-booking-details/types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries",
+                            "referenceLocation": "PaymentEntries"
                         }
                     }
                 },
@@ -322,4 +324,3 @@ export class IrListingModal {
             }];
     }
 }
-//# sourceMappingURL=ir-listing-modal.js.map

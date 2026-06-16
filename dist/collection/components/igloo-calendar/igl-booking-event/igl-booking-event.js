@@ -932,8 +932,8 @@ export class IglBookingEvent {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "is_vacation_rental": {
                 "type": "boolean",
@@ -951,8 +951,8 @@ export class IglBookingEvent {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is_vacation_rental",
                 "reflect": false,
+                "attribute": "is_vacation_rental",
                 "defaultValue": "false"
             },
             "language": {
@@ -971,8 +971,8 @@ export class IglBookingEvent {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "bookingEvent": {
                 "type": "unknown",
@@ -1019,7 +1019,8 @@ export class IglBookingEvent {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -1104,7 +1105,8 @@ export class IglBookingEvent {
                         "IRoomNightsData": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::IRoomNightsData"
+                            "id": "src/models/property-types.ts::IRoomNightsData",
+                            "referenceLocation": "IRoomNightsData"
                         }
                     }
                 }
@@ -1125,7 +1127,8 @@ export class IglBookingEvent {
                         "CalendarModalEvent": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::CalendarModalEvent"
+                            "id": "src/models/property-types.ts::CalendarModalEvent",
+                            "referenceLocation": "CalendarModalEvent"
                         }
                     }
                 }
@@ -1190,4 +1193,3 @@ export class IglBookingEvent {
             }];
     }
 }
-//# sourceMappingURL=igl-booking-event.js.map

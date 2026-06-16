@@ -122,7 +122,8 @@ export class IrHkOperationsCard {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -145,4 +146,3 @@ export class IrHkOperationsCard {
         };
     }
 }
-//# sourceMappingURL=ir-hk-operations-card.js.map

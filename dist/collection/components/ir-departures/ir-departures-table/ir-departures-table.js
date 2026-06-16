@@ -106,7 +106,8 @@ export class IrDeparturesTable {
                         "PaginationChangeEvent": {
                             "location": "import",
                             "path": "@/components/ir-pagination/ir-pagination",
-                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
                         }
                     }
                 }
@@ -127,11 +128,11 @@ export class IrDeparturesTable {
                         "PaginationChangeEvent": {
                             "location": "import",
                             "path": "@/components/ir-pagination/ir-pagination",
-                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-departures-table.js.map

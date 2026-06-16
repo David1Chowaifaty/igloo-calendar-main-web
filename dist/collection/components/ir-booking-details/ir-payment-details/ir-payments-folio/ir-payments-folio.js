@@ -74,7 +74,8 @@ export class IrPaymentsFolio {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 },
@@ -98,7 +99,8 @@ export class IrPaymentsFolio {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -127,8 +129,8 @@ export class IrPaymentsFolio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-add-payment-disabled",
                 "reflect": false,
+                "attribute": "is-add-payment-disabled",
                 "defaultValue": "false"
             }
         };
@@ -166,7 +168,8 @@ export class IrPaymentsFolio {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
@@ -187,7 +190,8 @@ export class IrPaymentsFolio {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
@@ -208,11 +212,11 @@ export class IrPaymentsFolio {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-payments-folio.js.map

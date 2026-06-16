@@ -35,10 +35,9 @@ export class IrClInvoiceDateCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "date"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-date-cell.js.map

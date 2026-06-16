@@ -104,8 +104,8 @@ export class IrInputCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "disabled": {
                 "type": "boolean",
@@ -123,20 +123,21 @@ export class IrInputCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "mask": {
                 "type": "string",
                 "mutable": false,
                 "complexType": {
                     "original": "MaskProp",
-                    "resolved": "MaskConfig<\"email\" | \"date\" | \"price\" | \"time\" | \"url\"> | FactoryArg",
+                    "resolved": "\"autofix\" | \"blocks\" | \"commit\" | \"definitions\" | \"dispatch\" | \"displayChar\" | \"eager\" | \"format\" | \"lazy\" | \"mapToRadix\" | \"mask\" | \"max\" | \"min\" | \"normalizeZeros\" | \"overwrite\" | \"padFractionalZeros\" | \"parent\" | \"parse\" | \"placeholderChar\" | \"prepare\" | \"prepareChar\" | \"radix\" | \"scale\" | \"skipInvalid\" | \"thousandsSeparator\" | \"validate\" | ((value: string, masked: Masked<any>) => boolean) | ArrayConstructor | DateConstructor | ExtendFactoryArgOptions<{ expose?: boolean; }>[] | Masked<any> | MaskedDynamic<any> | MaskedFunction<any> | MaskedNumber | MaskedPattern<string> | MaskedRegExp | NumberConstructor | Omit<MaskedDateOptions, \"mask\"> & { mask: DateConstructor; } | RegExp | string | { mask: Masked<any>; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: MaskedDynamic<any>; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: MaskedFunction<any>; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: MaskedPattern<string>; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof Masked; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: typeof MaskedDynamic; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: typeof MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: typeof MaskedFunction; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: typeof MaskedPattern; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: typeof MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: typeof MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { readonly mask: \"HH:mm\"; readonly blocks: { readonly HH: { readonly mask: typeof MaskedRange; readonly from: 0; readonly to: 23; readonly placeholderChar: \"H\"; }; readonly mm: { readonly mask: typeof MaskedRange; readonly from: 0; readonly to: 59; readonly placeholderChar: \"m\"; }; }; readonly lazy: false; readonly placeholderChar: \"_\"; } | ({ readonly mask: DateConstructor; readonly pattern: \"DD/MM/YYYY\"; readonly lazy: false; readonly min: Date; readonly max: Date; readonly format: (date: any) => string; readonly parse: (str: any) => Date; readonly autofix: true; readonly placeholderChar: \"_\"; readonly blocks: { readonly YYYY: { readonly mask: typeof MaskedRange; readonly from: 1900; readonly to: string; readonly placeholderChar: \"Y\"; }; readonly MM: { readonly mask: typeof MaskedRange; readonly from: 1; readonly to: 12; readonly placeholderChar: \"M\"; }; readonly DD: { readonly mask: typeof MaskedRange; readonly from: 1; readonly to: 31; readonly placeholderChar: \"D\"; }; }; }) | { readonly mask: NumberConstructor; readonly scale: 2; readonly radix: \".\"; readonly mapToRadix: readonly [\",\"]; readonly normalizeZeros: true; readonly padFractionalZeros: true; readonly thousandsSeparator: \",\"; } | ({ readonly mask: RegExp; readonly overwrite: false; readonly prepare: (appended: any) => any; readonly commit: (value: any, masked: any) => void; }) | ({ readonly mask: RegExp; readonly overwrite: false; readonly prepare: (value: string) => string; readonly validate: (value: string) => boolean; })",
                     "references": {
                         "MaskProp": {
                             "location": "import",
                             "path": "@/components/ui/ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::MaskProp"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::MaskProp",
+                            "referenceLocation": "MaskProp"
                         }
                     }
                 },
@@ -148,8 +149,8 @@ export class IrInputCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mask",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mask"
             }
         };
     }
@@ -185,4 +186,3 @@ export class IrInputCell {
             }];
     }
 }
-//# sourceMappingURL=ir-input-cell.js.map

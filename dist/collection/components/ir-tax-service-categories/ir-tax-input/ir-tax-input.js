@@ -113,7 +113,8 @@ export class IrTaxInput {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -143,8 +144,8 @@ export class IrTaxInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "placeholder": {
                 "type": "string",
@@ -162,8 +163,8 @@ export class IrTaxInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "inputDisabled": {
                 "type": "boolean",
@@ -181,8 +182,8 @@ export class IrTaxInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input-disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "input-disabled"
             },
             "language": {
                 "type": "string",
@@ -200,8 +201,8 @@ export class IrTaxInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "chargeRule": {
@@ -214,7 +215,8 @@ export class IrTaxInput {
                         "ChargeRule": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-tax-service-categories/types.ts::ChargeRule"
+                            "id": "src/components/ir-tax-service-categories/types.ts::ChargeRule",
+                            "referenceLocation": "ChargeRule"
                         }
                     }
                 },
@@ -243,8 +245,8 @@ export class IrTaxInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-validate",
-                "reflect": false
+                "reflect": false,
+                "attribute": "auto-validate"
             }
         };
     }
@@ -271,7 +273,8 @@ export class IrTaxInput {
                         "ChargeRule": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-tax-service-categories/types.ts::ChargeRule"
+                            "id": "src/components/ir-tax-service-categories/types.ts::ChargeRule",
+                            "referenceLocation": "ChargeRule"
                         }
                     }
                 }
@@ -284,4 +287,3 @@ export class IrTaxInput {
             }];
     }
 }
-//# sourceMappingURL=ir-tax-input.js.map

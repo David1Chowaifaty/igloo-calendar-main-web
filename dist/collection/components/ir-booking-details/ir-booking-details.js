@@ -559,8 +559,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
                 "reflect": false,
+                "attribute": "booking-number",
                 "defaultValue": "''"
             },
             "hasCheckIn": {
@@ -579,8 +579,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-check-in",
                 "reflect": false,
+                "attribute": "has-check-in",
                 "defaultValue": "false"
             },
             "hasCheckOut": {
@@ -599,8 +599,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-check-out",
                 "reflect": false,
+                "attribute": "has-check-out",
                 "defaultValue": "false"
             },
             "hasCloseButton": {
@@ -619,8 +619,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-close-button",
                 "reflect": false,
+                "attribute": "has-close-button",
                 "defaultValue": "false"
             },
             "hasDelete": {
@@ -639,8 +639,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-delete",
                 "reflect": false,
+                "attribute": "has-delete",
                 "defaultValue": "false"
             },
             "hasMenu": {
@@ -659,8 +659,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-menu",
                 "reflect": false,
+                "attribute": "has-menu",
                 "defaultValue": "false"
             },
             "hasPrint": {
@@ -679,8 +679,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-print",
                 "reflect": false,
+                "attribute": "has-print",
                 "defaultValue": "false"
             },
             "hasReceipt": {
@@ -699,8 +699,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-receipt",
                 "reflect": false,
+                "attribute": "has-receipt",
                 "defaultValue": "false"
             },
             "hasRoomAdd": {
@@ -719,8 +719,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-add",
                 "reflect": false,
+                "attribute": "has-room-add",
                 "defaultValue": "false"
             },
             "hasRoomDelete": {
@@ -739,8 +739,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-delete",
                 "reflect": false,
+                "attribute": "has-room-delete",
                 "defaultValue": "false"
             },
             "hasRoomEdit": {
@@ -759,8 +759,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-edit",
                 "reflect": false,
+                "attribute": "has-room-edit",
                 "defaultValue": "false"
             },
             "is_from_front_desk": {
@@ -779,8 +779,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is_from_front_desk",
                 "reflect": false,
+                "attribute": "is_from_front_desk",
                 "defaultValue": "false"
             },
             "language": {
@@ -799,8 +799,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "p": {
@@ -819,8 +819,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "propertyid": {
                 "type": "number",
@@ -838,8 +838,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "ticket": {
                 "type": "string",
@@ -857,8 +857,8 @@ export class IrBookingDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             }
         };
@@ -914,7 +914,8 @@ export class IrBookingDetails {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
@@ -1000,4 +1001,3 @@ export class IrBookingDetails {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-details.js.map

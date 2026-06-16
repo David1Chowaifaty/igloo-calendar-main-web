@@ -35,8 +35,8 @@ export class IrEmptyState {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
                 "reflect": false,
+                "attribute": "message",
                 "defaultValue": "'No records found'"
             },
             "showIcon": {
@@ -55,11 +55,10 @@ export class IrEmptyState {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-icon",
                 "reflect": false,
+                "attribute": "show-icon",
                 "defaultValue": "true"
             }
         };
     }
 }
-//# sourceMappingURL=ir-empty-state.js.map

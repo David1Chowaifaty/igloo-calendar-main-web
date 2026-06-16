@@ -155,4 +155,3 @@ function getTodayString() {
     return moment().format('YYYY-MM-DD');
 }
 initializeDeparturesStore();
-//# sourceMappingURL=departures.store.js.map

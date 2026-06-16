@@ -406,8 +406,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "defaultOption": {
                 "type": "string",
@@ -419,7 +419,8 @@ export class IrMCombobox {
                         "ComboboxOption": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption",
+                            "referenceLocation": "ComboboxOption"
                         }
                     }
                 },
@@ -431,8 +432,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-option",
-                "reflect": false
+                "reflect": false,
+                "attribute": "default-option"
             },
             "dataMode": {
                 "type": "string",
@@ -444,7 +445,8 @@ export class IrMCombobox {
                         "DataMode": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-m-combobox/types.ts::DataMode"
+                            "id": "src/components/ir-m-combobox/types.ts::DataMode",
+                            "referenceLocation": "DataMode"
                         }
                     }
                 },
@@ -459,8 +461,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "data-mode",
                 "reflect": false,
+                "attribute": "data-mode",
                 "defaultValue": "'static'"
             },
             "options": {
@@ -473,7 +475,8 @@ export class IrMCombobox {
                         "ComboboxOption": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption",
+                            "referenceLocation": "ComboboxOption"
                         }
                     }
                 },
@@ -506,8 +509,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "debounce-delay",
                 "reflect": false,
+                "attribute": "debounce-delay",
                 "defaultValue": "300"
             },
             "loading": {
@@ -526,8 +529,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading",
                 "reflect": false,
+                "attribute": "loading",
                 "defaultValue": "false"
             },
             "useSlot": {
@@ -546,8 +549,8 @@ export class IrMCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "use-slot",
                 "reflect": false,
+                "attribute": "use-slot",
                 "defaultValue": "false"
             }
         };
@@ -582,7 +585,8 @@ export class IrMCombobox {
                         "ComboboxOption": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption",
+                            "referenceLocation": "ComboboxOption"
                         }
                     }
                 }
@@ -621,7 +625,8 @@ export class IrMCombobox {
                         "ComboboxOption": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption",
+                            "referenceLocation": "ComboboxOption"
                         }
                     },
                     "return": "Promise<void>"
@@ -674,4 +679,3 @@ export class IrMCombobox {
             }];
     }
 }
-//# sourceMappingURL=ir-m-combobox.js.map

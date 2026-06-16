@@ -217,7 +217,8 @@ export class IglApplicationInfo {
                         "IRatePlanSelection": {
                             "location": "import",
                             "path": "@/stores/booking.store",
-                            "id": "src/stores/booking.store.ts::IRatePlanSelection"
+                            "id": "src/stores/booking.store.ts::IRatePlanSelection",
+                            "referenceLocation": "IRatePlanSelection"
                         }
                     }
                 },
@@ -240,7 +241,8 @@ export class IglApplicationInfo {
                         "RatePlanGuest": {
                             "location": "import",
                             "path": "@/stores/booking.store",
-                            "id": "src/stores/booking.store.ts::RatePlanGuest"
+                            "id": "src/stores/booking.store.ts::RatePlanGuest",
+                            "referenceLocation": "RatePlanGuest"
                         }
                     }
                 },
@@ -263,7 +265,8 @@ export class IglApplicationInfo {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/calendarData",
-                            "id": "src/models/calendarData.ts::ICurrency"
+                            "id": "src/models/calendarData.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -310,8 +313,8 @@ export class IglApplicationInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-type",
                 "reflect": false,
+                "attribute": "booking-type",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "roomIndex": {
@@ -330,8 +333,8 @@ export class IglApplicationInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-index",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-index"
             },
             "totalNights": {
                 "type": "number",
@@ -349,8 +352,8 @@ export class IglApplicationInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-nights",
                 "reflect": false,
+                "attribute": "total-nights",
                 "defaultValue": "1"
             },
             "baseData": {
@@ -386,8 +389,8 @@ export class IglApplicationInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-fill-guest",
-                "reflect": false
+                "reflect": false,
+                "attribute": "auto-fill-guest"
             }
         };
     }
@@ -431,4 +434,3 @@ export class IglApplicationInfo {
             }];
     }
 }
-//# sourceMappingURL=igl-application-info.js.map

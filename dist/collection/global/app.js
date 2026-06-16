@@ -36,4 +36,3 @@ import "@awesome.me/webawesome/dist/components/copy-button/copy-button.js";
 export default () => {
     /* The side-effect imports above define the custom elements; nothing else to execute at runtime. */
 };
-//# sourceMappingURL=app.js.map

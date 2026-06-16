@@ -11,4 +11,3 @@ export const guestInfoFormSchema = z.object({
     country_phone_prefix: nonEmptyString('Country code is required'),
     notes: z.string().max(2000, 'Private note cannot exceed 2000 characters').optional(),
 });
-//# sourceMappingURL=types.js.map

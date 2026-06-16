@@ -215,7 +215,8 @@ export class IrTasksTable {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 },
@@ -270,7 +271,8 @@ export class IrTasksTable {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 }
@@ -306,7 +308,8 @@ export class IrTasksTable {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 }
@@ -327,7 +330,8 @@ export class IrTasksTable {
                         "IToast": {
                             "location": "import",
                             "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -350,4 +354,3 @@ export class IrTasksTable {
             }];
     }
 }
-//# sourceMappingURL=ir-tasks-table.js.map

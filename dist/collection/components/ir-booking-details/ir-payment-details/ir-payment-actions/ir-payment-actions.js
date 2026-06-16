@@ -32,7 +32,8 @@ export class IrPaymentActions {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -55,7 +56,8 @@ export class IrPaymentActions {
                         "IPaymentAction": {
                             "location": "import",
                             "path": "@/services/payment.service",
-                            "id": "src/services/payment.service.ts::IPaymentAction"
+                            "id": "src/services/payment.service.ts::IPaymentAction",
+                            "referenceLocation": "IPaymentAction"
                         }
                     }
                 },
@@ -71,4 +73,3 @@ export class IrPaymentActions {
         };
     }
 }
-//# sourceMappingURL=ir-payment-actions.js.map

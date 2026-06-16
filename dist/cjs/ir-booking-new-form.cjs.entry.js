@@ -1,11 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irBookingNewFormCss = ".sc-ir-booking-new-form-h{display:block}";
-const IrBookingNewFormStyle0 = irBookingNewFormCss;
+const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 
 const IrBookingNewForm = class {
     constructor(hostRef) {
@@ -48,8 +45,6 @@ const IrBookingNewForm = class {
             }, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, open: this.bookingItem !== null, language: this.language, propertyid: this.propertyid })));
     }
 };
-IrBookingNewForm.style = IrBookingNewFormStyle0;
+IrBookingNewForm.style = irBookingNewFormCss();
 
 exports.ir_booking_new_form = IrBookingNewForm;
-
-//# sourceMappingURL=ir-booking-new-form.cjs.entry.js.map

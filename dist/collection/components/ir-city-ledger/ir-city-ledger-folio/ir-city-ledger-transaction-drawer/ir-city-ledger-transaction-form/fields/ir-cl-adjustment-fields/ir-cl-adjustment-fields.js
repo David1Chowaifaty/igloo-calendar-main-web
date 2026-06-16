@@ -41,7 +41,8 @@ export class IrClAdjustmentFields {
                         "EntryType": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::EntryType"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::EntryType",
+                            "referenceLocation": "EntryType"
                         }
                     }
                 },
@@ -53,8 +54,8 @@ export class IrClAdjustmentFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "entry-type",
                 "reflect": false,
+                "attribute": "entry-type",
                 "defaultValue": "''"
             },
             "linkType": {
@@ -67,7 +68,8 @@ export class IrClAdjustmentFields {
                         "LinkType": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkType"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkType",
+                            "referenceLocation": "LinkType"
                         }
                     }
                 },
@@ -79,8 +81,8 @@ export class IrClAdjustmentFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "link-type",
                 "reflect": false,
+                "attribute": "link-type",
                 "defaultValue": "'NONE'"
             },
             "linkedId": {
@@ -99,8 +101,8 @@ export class IrClAdjustmentFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "linked-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "linked-id"
             },
             "bookingOptions": {
                 "type": "unknown",
@@ -112,7 +114,8 @@ export class IrClAdjustmentFields {
                         "LinkedOption": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -136,7 +139,8 @@ export class IrClAdjustmentFields {
                         "LinkedOption": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -165,7 +169,7 @@ export class IrClAdjustmentFields {
                 },
                 "complexType": {
                     "original": "Partial<CityLedgerTransactionFormDraft>",
-                    "resolved": "{ transactionType?: TransactionType; date?: string; amount?: string; taxId?: string; reference?: string; notes?: string; entryType?: \"\" | \"DB\" | \"CR\"; isCutover?: boolean; payment_type?: PaymentTypeOption; payment_method?: PaymentMethodOption; designation?: string; invoiceId?: string; onAccount?: boolean; serviceCategoryId?: string; linkType?: \"NONE\" | \"INVOICE\" | \"BOOKING\"; linkedId?: string; reason?: \"\" | \"ROUNDING_DIFFERENCE\" | \"GOODWILL_CREDIT\" | \"PRICE_MATCH\" | \"COMMISSION_CORRECTION\" | \"DISCOUNT_CORRECTION\"; generatesFiscalDocument?: boolean; creditNoteMode?: \"cancel-invoice\" | \"goodwill\"; }",
+                    "resolved": "CityLedgerTransactionFormDraft",
                     "references": {
                         "Partial": {
                             "location": "global",
@@ -174,11 +178,11 @@ export class IrClAdjustmentFields {
                         "CityLedgerTransactionFormDraft": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CityLedgerTransactionFormDraft"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CityLedgerTransactionFormDraft",
+                            "referenceLocation": "CityLedgerTransactionFormDraft"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-cl-adjustment-fields.js.map

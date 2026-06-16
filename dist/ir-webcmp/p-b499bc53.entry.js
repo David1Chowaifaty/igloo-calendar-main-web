@@ -1,0 +1,1 @@
+import{r as s,h as a,H as e}from"./p-DsP1thJ-.js";const r=class{constructor(a){s(this,a)}render(){return a(e,{key:"796e5bb45ecdd8d53293ae87c4c1ba2a0df50f90"},a("slot",{key:"54bfbf571d806083234e162843b3ff9d7930265d"}))}};r.style=".sc-ir-sales-by-channel-summary-h{display:block}";export{r as ir_sales_by_channel_summary}

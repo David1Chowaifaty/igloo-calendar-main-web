@@ -432,8 +432,8 @@ export class IrToastProvider {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "position",
                 "reflect": false,
+                "attribute": "position",
                 "defaultValue": "'top-end'"
             },
             "rtl": {
@@ -452,8 +452,8 @@ export class IrToastProvider {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "rtl",
                 "reflect": false,
+                "attribute": "rtl",
                 "defaultValue": "false"
             },
             "duration": {
@@ -472,8 +472,8 @@ export class IrToastProvider {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "duration",
                 "reflect": false,
+                "attribute": "duration",
                 "defaultValue": "5000"
             }
         };
@@ -608,4 +608,3 @@ export class IrToastProvider {
             }];
     }
 }
-//# sourceMappingURL=ir-toast-provider.js.map

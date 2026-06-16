@@ -1,8 +1,1 @@
-import { I as IrMealCountSummary$1, d as defineCustomElement$1 } from './ir-meal-count-summary2.js';
-
-const IrMealCountSummary = IrMealCountSummary$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrMealCountSummary, defineCustomElement };
-
-//# sourceMappingURL=ir-meal-count-summary.js.map
+import{I as m,d as o}from"./ir-meal-count-summary2.js";const r=m,s=o;export{r as IrMealCountSummary,s as defineCustomElement}

@@ -1342,8 +1342,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "from_date": {
                 "type": "string",
@@ -1361,8 +1361,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from_date"
             },
             "to_date": {
                 "type": "string",
@@ -1380,8 +1380,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to_date"
             },
             "language": {
                 "type": "string",
@@ -1399,8 +1399,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "loadingMessage": {
                 "type": "string",
@@ -1418,8 +1418,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading-message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "loading-message"
             },
             "currencyName": {
                 "type": "string",
@@ -1437,8 +1437,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency-name"
             },
             "ticket": {
                 "type": "string",
@@ -1456,8 +1456,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "p": {
@@ -1476,8 +1476,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "baseUrl": {
                 "type": "string",
@@ -1495,8 +1495,8 @@ export class IglooCalendar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             }
         };
     }
@@ -1637,7 +1637,8 @@ export class IglooCalendar {
                         "IRoomNightsData": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::IRoomNightsData"
+                            "id": "src/models/property-types.ts::IRoomNightsData",
+                            "referenceLocation": "IRoomNightsData"
                         }
                     }
                 }
@@ -1714,4 +1715,3 @@ export class IglooCalendar {
             }];
     }
 }
-//# sourceMappingURL=igloo-calendar.js.map

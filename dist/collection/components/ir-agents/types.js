@@ -4,4 +4,3 @@ export const AgentsTypes = {
     TOUR_OPERATOR: '003',
     AFFILIATE: '004',
 };
-//# sourceMappingURL=types.js.map

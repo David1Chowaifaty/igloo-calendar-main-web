@@ -92,8 +92,8 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content",
-                "reflect": false
+                "reflect": false,
+                "attribute": "content"
             },
             "irPopoverLeft": {
                 "type": "string",
@@ -111,8 +111,8 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ir-popover-left",
                 "reflect": false,
+                "attribute": "ir-popover-left",
                 "defaultValue": "'10px'"
             },
             "placement": {
@@ -131,8 +131,8 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placement",
                 "reflect": false,
+                "attribute": "placement",
                 "defaultValue": "'auto'"
             },
             "trigger": {
@@ -151,8 +151,8 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "trigger",
                 "reflect": false,
+                "attribute": "trigger",
                 "defaultValue": "'focus'"
             },
             "renderContentAsHtml": {
@@ -171,12 +171,11 @@ export class IrPopover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "render-content-as-html",
                 "reflect": false,
+                "attribute": "render-content-as-html",
                 "defaultValue": "false"
             }
         };
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-popover.js.map

@@ -329,8 +329,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "duration",
                 "reflect": false,
+                "attribute": "duration",
                 "defaultValue": "300"
             },
             "placeholder": {
@@ -349,8 +349,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "value": {
                 "type": "string",
@@ -368,8 +368,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "disabled": {
                 "type": "boolean",
@@ -387,8 +387,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "autoFocus": {
@@ -407,8 +407,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-focus",
                 "reflect": false,
+                "attribute": "auto-focus",
                 "defaultValue": "false"
             },
             "input_id": {
@@ -427,8 +427,8 @@ export class IrCombobox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input_id",
                 "reflect": false,
+                "attribute": "input_id",
                 "defaultValue": "v4()"
             }
         };
@@ -493,7 +493,8 @@ export class IrCombobox {
                         "IToast": {
                             "location": "import",
                             "path": "@/components",
-                            "id": "src/components.d.ts::IToast"
+                            "id": "src/components.d.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -516,4 +517,3 @@ export class IrCombobox {
             }];
     }
 }
-//# sourceMappingURL=ir-combobox.js.map

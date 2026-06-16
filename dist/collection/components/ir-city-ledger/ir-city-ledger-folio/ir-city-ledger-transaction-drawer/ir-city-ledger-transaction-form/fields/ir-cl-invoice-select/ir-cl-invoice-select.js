@@ -49,8 +49,8 @@ export class IrClInvoiceSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": false,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "fiscalDocuments": {
@@ -63,7 +63,8 @@ export class IrClInvoiceSelect {
                         "FiscalDocuments": {
                             "location": "import",
                             "path": "@/services/city-ledger/types",
-                            "id": "src/services/city-ledger/types.ts::FiscalDocuments"
+                            "id": "src/services/city-ledger/types.ts::FiscalDocuments",
+                            "referenceLocation": "FiscalDocuments"
                         }
                     }
                 },
@@ -93,8 +94,8 @@ export class IrClInvoiceSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'Invoice'"
             },
             "hint": {
@@ -113,8 +114,8 @@ export class IrClInvoiceSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hint",
                 "reflect": false,
+                "attribute": "hint",
                 "defaultValue": "''"
             }
         };
@@ -138,4 +139,3 @@ export class IrClInvoiceSelect {
             }];
     }
 }
-//# sourceMappingURL=ir-cl-invoice-select.js.map

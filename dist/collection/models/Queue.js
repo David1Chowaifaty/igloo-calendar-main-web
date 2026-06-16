@@ -25,4 +25,3 @@ class Queue {
         return this.length === 0;
     }
 }
-//# sourceMappingURL=Queue.js.map

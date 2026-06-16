@@ -117,8 +117,8 @@ export class IglHousekeepingDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": false
+                "reflect": false,
+                "attribute": "open"
             },
             "selectedRoom": {
                 "type": "unknown",
@@ -130,7 +130,8 @@ export class IglHousekeepingDialog {
                         "PhysicalRoom": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::PhysicalRoom"
+                            "id": "src/models/booking.dto.ts::PhysicalRoom",
+                            "referenceLocation": "PhysicalRoom"
                         }
                     }
                 },
@@ -159,8 +160,8 @@ export class IglHousekeepingDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "propertyId": {
                 "type": "number",
@@ -178,8 +179,8 @@ export class IglHousekeepingDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             }
         };
     }
@@ -207,4 +208,3 @@ export class IglHousekeepingDialog {
             }];
     }
 }
-//# sourceMappingURL=igl-housekeeping-dialog.js.map

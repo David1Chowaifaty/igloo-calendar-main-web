@@ -1,11 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irAgentAssignmentDialogCss = ".sc-ir-agent-assignment-dialog-h{display:block}";
-const IrAgentAssignmentDialogStyle0 = irAgentAssignmentDialogCss;
+const irAgentAssignmentDialogCss = () => `.sc-ir-agent-assignment-dialog-h{display:block}`;
 
 const IrAgentAssignmentDialog = class {
     constructor(hostRef) {
@@ -15,8 +12,6 @@ const IrAgentAssignmentDialog = class {
         return (index.h(index.Host, { key: 'a7555da6b343d39d424eeb153b92ed0b209305d9' }, index.h("slot", { key: 'b19cb287c4da30bbd01cd1a87e77680f2731880b' })));
     }
 };
-IrAgentAssignmentDialog.style = IrAgentAssignmentDialogStyle0;
+IrAgentAssignmentDialog.style = irAgentAssignmentDialogCss();
 
 exports.ir_agent_assignment_dialog = IrAgentAssignmentDialog;
-
-//# sourceMappingURL=ir-agent-assignment-dialog.cjs.entry.js.map

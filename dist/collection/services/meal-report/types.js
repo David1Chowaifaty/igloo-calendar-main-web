@@ -12,4 +12,3 @@ export const ParamsSetHBPreferenceSchema = z.object({
     room_identifier: z.string(),
     code: z.string(),
 });
-//# sourceMappingURL=types.js.map

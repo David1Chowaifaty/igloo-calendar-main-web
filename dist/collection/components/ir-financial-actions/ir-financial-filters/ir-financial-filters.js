@@ -75,8 +75,8 @@ export class IrFinancialFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             }
         };
     }
@@ -104,11 +104,11 @@ export class IrFinancialFilters {
                         "DailyFinancialActionsFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-financial-actions/types.ts::DailyFinancialActionsFilter"
+                            "id": "src/components/ir-financial-actions/types.ts::DailyFinancialActionsFilter",
+                            "referenceLocation": "DailyFinancialActionsFilter"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-financial-filters.js.map

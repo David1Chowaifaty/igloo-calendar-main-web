@@ -1,8 +1,1 @@
-import { I as IrInvoice$1, d as defineCustomElement$1 } from './ir-invoice2.js';
-
-const IrInvoice = IrInvoice$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrInvoice, defineCustomElement };
-
-//# sourceMappingURL=ir-invoice.js.map
+import{I as o,d as i}from"./ir-invoice2.js";const r=o,s=i;export{r as IrInvoice,s as defineCustomElement}

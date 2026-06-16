@@ -142,8 +142,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "data": {
                 "type": "unknown",
@@ -155,7 +155,8 @@ export class IrSelect {
                         "selectOption": {
                             "location": "import",
                             "path": "@/common/models",
-                            "id": "src/common/models.ts::selectOption"
+                            "id": "src/common/models.ts::selectOption",
+                            "referenceLocation": "selectOption"
                         }
                     }
                 },
@@ -184,8 +185,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "selectStyles": {
                 "type": "string",
@@ -203,8 +204,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select-styles",
-                "reflect": false
+                "reflect": false,
+                "attribute": "select-styles"
             },
             "selectForcedStyles": {
                 "type": "unknown",
@@ -239,8 +240,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select-container-style",
-                "reflect": false
+                "reflect": false,
+                "attribute": "select-container-style"
             },
             "selectedValue": {
                 "type": "any",
@@ -258,8 +259,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-value",
                 "reflect": false,
+                "attribute": "selected-value",
                 "defaultValue": "null"
             },
             "required": {
@@ -278,8 +279,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "required",
-                "reflect": false
+                "reflect": false,
+                "attribute": "required"
             },
             "firstOption": {
                 "type": "string",
@@ -297,8 +298,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "first-option",
                 "reflect": false,
+                "attribute": "first-option",
                 "defaultValue": "'Select'"
             },
             "showFirstOption": {
@@ -317,8 +318,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-first-option",
                 "reflect": false,
+                "attribute": "show-first-option",
                 "defaultValue": "true"
             },
             "size": {
@@ -337,8 +338,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": false,
+                "attribute": "size",
                 "defaultValue": "'md'"
             },
             "textSize": {
@@ -357,8 +358,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text-size",
                 "reflect": false,
+                "attribute": "text-size",
                 "defaultValue": "'md'"
             },
             "labelPosition": {
@@ -377,8 +378,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-position",
                 "reflect": false,
+                "attribute": "label-position",
                 "defaultValue": "'left'"
             },
             "labelBackground": {
@@ -397,8 +398,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-background",
                 "reflect": false,
+                "attribute": "label-background",
                 "defaultValue": "null"
             },
             "labelColor": {
@@ -417,8 +418,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-color",
                 "reflect": false,
+                "attribute": "label-color",
                 "defaultValue": "'dark'"
             },
             "labelBorder": {
@@ -437,8 +438,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-border",
                 "reflect": false,
+                "attribute": "label-border",
                 "defaultValue": "'theme'"
             },
             "labelWidth": {
@@ -457,8 +458,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-width",
                 "reflect": false,
+                "attribute": "label-width",
                 "defaultValue": "3"
             },
             "selectId": {
@@ -477,8 +478,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select-id",
                 "reflect": false,
+                "attribute": "select-id",
                 "defaultValue": "v4()"
             },
             "testId": {
@@ -497,8 +498,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             },
             "disabled": {
                 "type": "boolean",
@@ -516,8 +517,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "error": {
                 "type": "boolean",
@@ -535,8 +536,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
                 "reflect": false,
+                "attribute": "error",
                 "defaultValue": "false"
             },
             "floatingLabel": {
@@ -555,8 +556,8 @@ export class IrSelect {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "floating-label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "floating-label"
             }
         };
     }
@@ -600,4 +601,3 @@ export class IrSelect {
             }];
     }
 }
-//# sourceMappingURL=ir-select.js.map

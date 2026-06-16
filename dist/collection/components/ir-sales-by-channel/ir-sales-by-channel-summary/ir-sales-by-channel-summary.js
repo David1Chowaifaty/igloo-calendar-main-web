@@ -16,4 +16,3 @@ export class IrSalesByChannelSummary {
         };
     }
 }
-//# sourceMappingURL=ir-sales-by-channel-summary.js.map

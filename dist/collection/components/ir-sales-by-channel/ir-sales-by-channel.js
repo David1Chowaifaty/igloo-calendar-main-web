@@ -244,8 +244,8 @@ export class IrSalesByChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -264,8 +264,8 @@ export class IrSalesByChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -284,8 +284,8 @@ export class IrSalesByChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -303,8 +303,8 @@ export class IrSalesByChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "mode": {
                 "type": "string",
@@ -316,7 +316,8 @@ export class IrSalesByChannel {
                         "SalesByChannelMode": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-sales-by-channel/types.ts::SalesByChannelMode"
+                            "id": "src/components/ir-sales-by-channel/types.ts::SalesByChannelMode",
+                            "referenceLocation": "SalesByChannelMode"
                         }
                     }
                 },
@@ -328,8 +329,8 @@ export class IrSalesByChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mode"
             }
         };
     }
@@ -350,4 +351,3 @@ export class IrSalesByChannel {
             }];
     }
 }
-//# sourceMappingURL=ir-sales-by-channel.js.map

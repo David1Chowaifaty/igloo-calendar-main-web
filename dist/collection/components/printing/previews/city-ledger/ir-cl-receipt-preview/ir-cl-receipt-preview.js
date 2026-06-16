@@ -115,8 +115,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "ticket": {
                 "type": "string",
@@ -134,8 +134,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseurl": {
                 "type": "string",
@@ -153,8 +153,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "agentId": {
                 "type": "number",
@@ -172,8 +172,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-id"
             },
             "agentName": {
                 "type": "string",
@@ -191,8 +191,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-name"
             },
             "documentNumber": {
                 "type": "string",
@@ -210,8 +210,8 @@ export class IrClReceiptPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "document-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "document-number"
             }
         };
     }
@@ -244,4 +244,3 @@ export class IrClReceiptPreview {
             }];
     }
 }
-//# sourceMappingURL=ir-cl-receipt-preview.js.map

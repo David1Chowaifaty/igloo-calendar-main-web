@@ -39,7 +39,8 @@ export class IrGhsSelectionBucket {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 },
@@ -69,8 +70,8 @@ export class IrGhsSelectionBucket {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-generating",
                 "reflect": false,
+                "attribute": "is-generating",
                 "defaultValue": "false"
             }
         };
@@ -124,4 +125,3 @@ export class IrGhsSelectionBucket {
             }];
     }
 }
-//# sourceMappingURL=ir-ghs-selection-bucket.js.map

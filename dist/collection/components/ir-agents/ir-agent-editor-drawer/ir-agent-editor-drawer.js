@@ -74,8 +74,8 @@ export class IrAgentEditorDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": true,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "agent": {
@@ -83,12 +83,13 @@ export class IrAgentEditorDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -111,7 +112,8 @@ export class IrAgentEditorDrawer {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -134,7 +136,8 @@ export class IrAgentEditorDrawer {
                         "AgentSetupEntries": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-agents/types.ts::AgentSetupEntries"
+                            "id": "src/components/ir-agents/types.ts::AgentSetupEntries",
+                            "referenceLocation": "AgentSetupEntries"
                         }
                     }
                 },
@@ -174,4 +177,3 @@ export class IrAgentEditorDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-agent-editor-drawer.js.map

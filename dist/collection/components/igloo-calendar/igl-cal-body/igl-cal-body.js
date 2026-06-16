@@ -472,8 +472,8 @@ export class IglCalBody {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-scroll-view-dragging",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-scroll-view-dragging"
             },
             "propertyId": {
                 "type": "number",
@@ -491,8 +491,8 @@ export class IglCalBody {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "calendarData": {
                 "type": "unknown",
@@ -549,8 +549,8 @@ export class IglCalBody {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "language": {
                 "type": "string",
@@ -568,8 +568,8 @@ export class IglCalBody {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "countries": {
                 "type": "unknown",
@@ -581,7 +581,8 @@ export class IglCalBody {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -610,8 +611,8 @@ export class IglCalBody {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "highlighted-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "highlighted-date"
             }
         };
     }
@@ -709,4 +710,3 @@ export class IglCalBody {
             }];
     }
 }
-//# sourceMappingURL=igl-cal-body.js.map

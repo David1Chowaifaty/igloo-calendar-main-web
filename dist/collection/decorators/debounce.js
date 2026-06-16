@@ -43,4 +43,3 @@ export function Debounce(wait, options = {}) {
         return descriptor;
     };
 }
-//# sourceMappingURL=debounce.js.map

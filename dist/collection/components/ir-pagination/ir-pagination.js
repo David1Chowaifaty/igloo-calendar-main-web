@@ -197,8 +197,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pages",
                 "reflect": false,
+                "attribute": "pages",
                 "defaultValue": "0"
             },
             "pageSizes": {
@@ -237,8 +237,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "allow-page-size-change",
-                "reflect": false
+                "reflect": false,
+                "attribute": "allow-page-size-change"
             },
             "total": {
                 "type": "number",
@@ -256,8 +256,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total",
                 "reflect": false,
+                "attribute": "total",
                 "defaultValue": "0"
             },
             "currentPage": {
@@ -276,8 +276,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "current-page",
                 "reflect": false,
+                "attribute": "current-page",
                 "defaultValue": "1"
             },
             "showing": {
@@ -320,8 +320,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-total-records",
                 "reflect": false,
+                "attribute": "show-total-records",
                 "defaultValue": "true"
             },
             "recordLabel": {
@@ -340,8 +340,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "record-label",
                 "reflect": false,
+                "attribute": "record-label",
                 "defaultValue": "''"
             },
             "disabled": {
@@ -360,8 +360,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "pageSize": {
@@ -380,8 +380,8 @@ export class IrPagination {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "page-size",
                 "reflect": false,
+                "attribute": "page-size",
                 "defaultValue": "10"
             }
         };
@@ -525,4 +525,3 @@ export class IrPagination {
             }];
     }
 }
-//# sourceMappingURL=ir-pagination.js.map

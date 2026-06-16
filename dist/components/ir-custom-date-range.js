@@ -1,8 +1,1 @@
-import { I as IrCustomDateRange$1, d as defineCustomElement$1 } from './ir-custom-date-range2.js';
-
-const IrCustomDateRange = IrCustomDateRange$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrCustomDateRange, defineCustomElement };
-
-//# sourceMappingURL=ir-custom-date-range.js.map
+import{I as o,d as r}from"./ir-custom-date-range2.js";const s=o,t=r;export{s as IrCustomDateRange,t as defineCustomElement}

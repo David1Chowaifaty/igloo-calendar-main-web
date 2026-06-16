@@ -48,4 +48,3 @@ export const parseChannelSalesParams = (data) => ChannelSalesParamsSchema.parse(
 export const safeParseChannelSalesParams = (data) => ChannelSalesParamsSchema.safeParse(data);
 /* ---------- Consolidated exports ---------- */
 export { ChannelReportSchema as ReportSchema, ChannelReportResultSchema as ReportResultSchema, ChannelSalesParamsSchema as SalesParamsSchema };
-//# sourceMappingURL=types.js.map

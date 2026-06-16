@@ -192,8 +192,8 @@ export class IrSalesByCountry {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -212,8 +212,8 @@ export class IrSalesByCountry {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -232,8 +232,8 @@ export class IrSalesByCountry {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -251,8 +251,8 @@ export class IrSalesByCountry {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             }
         };
     }
@@ -273,4 +273,3 @@ export class IrSalesByCountry {
             }];
     }
 }
-//# sourceMappingURL=ir-sales-by-country.js.map

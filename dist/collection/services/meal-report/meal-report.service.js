@@ -24,4 +24,3 @@ export class MealReportService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=meal-report.service.js.map

@@ -1,9 +1,9 @@
-import { r as registerInstance, c as createEvent, g as getElement, h, H as Host } from './index-7e96440e.js';
-import { a as axios } from './axios-aa1335b8.js';
-import { D as Debounce } from './debounce-542065c2.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, H as Host } from './index-DsP1thJ-.js';
+import { a as axios } from './axios-B50ozOIF.js';
+import { D as Debounce } from './debounce-DF70NVXP.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 
-const irPropertySwitcherDialogContentCss = ".sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base){font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}";
-const IrPropertySwitcherDialogContentStyle0 = irPropertySwitcherDialogContentCss;
+const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -18,8 +18,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 const IrPropertySwitcherDialogContent = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.propertySelected = createEvent(this, "propertySelected", 7);
-        this.linkedPropertyChange = createEvent(this, "linkedPropertyChange", 7);
+        this.propertySelected = createEvent(this, "propertySelected");
+        this.linkedPropertyChange = createEvent(this, "linkedPropertyChange");
     }
     get el() { return getElement(this); }
     /** Whether the surrounding dialog is open. Used to focus and reset the search input as needed. */
@@ -169,15 +169,17 @@ const IrPropertySwitcherDialogContent = class {
         }))));
     }
     static get watchers() { return {
-        "open": ["handleOpenChange"],
-        "selectedPropertyId": ["handleSelectedPropertyIdChange"]
+        "open": [{
+                "handleOpenChange": 0
+            }],
+        "selectedPropertyId": [{
+                "handleSelectedPropertyIdChange": 0
+            }]
     }; }
 };
 __decorate([
     Debounce(300)
 ], IrPropertySwitcherDialogContent.prototype, "fetchProperties", null);
-IrPropertySwitcherDialogContent.style = IrPropertySwitcherDialogContentStyle0;
+IrPropertySwitcherDialogContent.style = irPropertySwitcherDialogContentCss();
 
 export { IrPropertySwitcherDialogContent as ir_property_switcher_dialog_content };
-
-//# sourceMappingURL=ir-property-switcher-dialog-content.entry.js.map

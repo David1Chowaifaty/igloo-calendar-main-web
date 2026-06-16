@@ -1,21 +1,19 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var Token = require('./Token-mN7PQKGF.js');
+var moment = require('./moment-CdViwxPQ.js');
+var index$1 = require('./index-B4XBS53K.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-CLqkDPTC.js');
+require('./utils-CldsIwq_.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-yPf-buWw.js');
+require('./locales.store-CUKWeY9v.js');
+require('./type-Dy9pVS4V.js');
 
-const index = require('./index-35d81173.js');
-const Token = require('./Token-fb15e0d7.js');
-const moment = require('./moment-1780b03a.js');
-const index$1 = require('./index-02ae9ba0.js');
-require('./axios-6e678d52.js');
-require('./index-8bb117a0.js');
-require('./utils-410526d1.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-fbf1fe1d.js');
-require('./locales.store-32782582.js');
-require('./type-53035218.js');
-
-const irFiscalDocumentsCss = ".sc-ir-fiscal-documents-h{display:block}";
-const IrFiscalDocumentsStyle0 = irFiscalDocumentsCss;
+const irFiscalDocumentsCss = () => `.sc-ir-fiscal-documents-h{display:block}`;
 
 const IrFiscalDocuments = class {
     constructor(hostRef) {
@@ -103,11 +101,11 @@ const IrFiscalDocuments = class {
             } }), index.h("ir-fiscal-documents-table", { key: '4cc2f80533f9cbf2d8b6678762d90b8ad6e520f9', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
-        "ticket": ["handleTicketChange"]
+        "ticket": [{
+                "handleTicketChange": 0
+            }]
     }; }
 };
-IrFiscalDocuments.style = IrFiscalDocumentsStyle0;
+IrFiscalDocuments.style = irFiscalDocumentsCss();
 
 exports.ir_fiscal_documents = IrFiscalDocuments;
-
-//# sourceMappingURL=ir-fiscal-documents.cjs.entry.js.map

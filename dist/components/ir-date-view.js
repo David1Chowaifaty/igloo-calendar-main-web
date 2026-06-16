@@ -1,8 +1,1 @@
-import { I as IrDateView$1, d as defineCustomElement$1 } from './ir-date-view2.js';
-
-const IrDateView = IrDateView$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrDateView, defineCustomElement };
-
-//# sourceMappingURL=ir-date-view.js.map
+import{I as o,d as r}from"./ir-date-view2.js";const s=o,t=r;export{s as IrDateView,t as defineCustomElement}

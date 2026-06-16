@@ -1,0 +1,1 @@
+import{l as o}from"./p-DeW5X45W.js";const t=o.z.object({roomtype_id:o.z.coerce.number(),unit_id:o.z.coerce.number(),rateplan_id:o.z.coerce.number()});export{t as S}

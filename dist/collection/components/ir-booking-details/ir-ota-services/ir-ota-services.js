@@ -31,7 +31,8 @@ export class IrOtaServices {
                         "OtaService": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::OtaService"
+                            "id": "src/models/booking.dto.ts::OtaService",
+                            "referenceLocation": "OtaService"
                         }
                     }
                 },
@@ -48,4 +49,3 @@ export class IrOtaServices {
         };
     }
 }
-//# sourceMappingURL=ir-ota-services.js.map

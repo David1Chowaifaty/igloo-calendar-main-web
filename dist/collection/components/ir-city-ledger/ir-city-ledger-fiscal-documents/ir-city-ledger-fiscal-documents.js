@@ -102,8 +102,8 @@ export class IrCityLedgerFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "currencySymbol": {
@@ -122,8 +122,8 @@ export class IrCityLedgerFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "currencies": {
@@ -136,7 +136,8 @@ export class IrCityLedgerFiscalDocuments {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::ICurrency"
+                            "id": "src/models/property.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -166,8 +167,8 @@ export class IrCityLedgerFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyId": {
                 "type": "number",
@@ -185,8 +186,8 @@ export class IrCityLedgerFiscalDocuments {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "initialFilters": {
                 "type": "unknown",
@@ -198,7 +199,8 @@ export class IrCityLedgerFiscalDocuments {
                         "ClFiscalDocumentFilters": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters",
+                            "referenceLocation": "ClFiscalDocumentFilters"
                         }
                     }
                 },
@@ -239,7 +241,8 @@ export class IrCityLedgerFiscalDocuments {
                         "ClFiscalDocumentFilters": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters",
+                            "referenceLocation": "ClFiscalDocumentFilters"
                         }
                     }
                 }
@@ -252,4 +255,3 @@ export class IrCityLedgerFiscalDocuments {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-fiscal-documents.js.map

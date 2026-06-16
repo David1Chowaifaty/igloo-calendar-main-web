@@ -22,4 +22,3 @@ export class guestInfo {
     currency = '';
     language = '';
 }
-//# sourceMappingURL=models.js.map

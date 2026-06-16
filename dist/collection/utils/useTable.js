@@ -38,4 +38,3 @@ export const useTable = (options) => {
     applyOptions();
     return table;
 };
-//# sourceMappingURL=useTable.js.map

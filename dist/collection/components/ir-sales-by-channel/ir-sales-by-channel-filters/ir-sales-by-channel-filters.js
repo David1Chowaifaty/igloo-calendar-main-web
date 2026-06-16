@@ -108,8 +108,8 @@ export class IrSalesByChannelFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             },
             "baseFilters": {
                 "type": "unknown",
@@ -121,7 +121,8 @@ export class IrSalesByChannelFilters {
                         "ChannelSaleFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelSaleFilter"
+                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelSaleFilter",
+                            "referenceLocation": "ChannelSaleFilter"
                         }
                     }
                 },
@@ -144,7 +145,8 @@ export class IrSalesByChannelFilters {
                         "AllowedProperties": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::AllowedProperties"
+                            "id": "src/services/property.service.ts::AllowedProperties",
+                            "referenceLocation": "AllowedProperties"
                         }
                     }
                 },
@@ -183,11 +185,11 @@ export class IrSalesByChannelFilters {
                         "ChannelSaleFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelSaleFilter"
+                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelSaleFilter",
+                            "referenceLocation": "ChannelSaleFilter"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-sales-by-channel-filters.js.map

@@ -1,7 +1,6 @@
-import { r as registerInstance, g as getElement } from './index-7e96440e.js';
+import { r as registerInstance, d as getElement } from './index-DsP1thJ-.js';
 
-const iglToastProviderCss = ":host{display:none}.toast{display:flex;align-items:flex-start;gap:12px;min-width:300px;max-width:500px;padding:16px;border-radius:8px;box-shadow:0 4px 12px rgba(0, 0, 0, 0.15);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;font-size:14px;line-height:1.5;opacity:0;transform:translateX(400px);transition:all 0.25s ease}.toast--show{opacity:1;transform:translateX(0)}.toast--hiding{opacity:0;transform:translateX(400px) scale(0.9)}.toast--primary{background:#0ea5e9;color:white}.toast--success{background:#22c55e;color:white}.toast--warning{background:#f59e0b;color:white}.toast--danger{background:#ef4444;color:white}.toast--neutral{background:#f3f4f6;color:#1f2937;border:1px solid #e5e7eb}.toast__icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:20px;height:20px}.toast__icon-svg{width:100%;height:100%}.toast__message{flex:1;padding-top:2px}.toast__close{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:none;background:transparent;color:inherit;cursor:pointer;border-radius:4px;transition:background-color 0.15s ease;opacity:0.8}.toast__close:hover{opacity:1;background:rgba(0, 0, 0, 0.1)}.toast--neutral .toast__close:hover{background:rgba(0, 0, 0, 0.05)}.toast__close svg{width:16px;height:16px;fill:currentColor}";
-const IglToastProviderStyle0 = iglToastProviderCss;
+const iglToastProviderCss = () => `:host{display:none}.toast{display:flex;align-items:flex-start;gap:12px;min-width:300px;max-width:500px;padding:16px;border-radius:8px;box-shadow:0 4px 12px rgba(0, 0, 0, 0.15);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;font-size:14px;line-height:1.5;opacity:0;transform:translateX(400px);transition:all 0.25s ease}.toast--show{opacity:1;transform:translateX(0)}.toast--hiding{opacity:0;transform:translateX(400px) scale(0.9)}.toast--primary{background:#0ea5e9;color:white}.toast--success{background:#22c55e;color:white}.toast--warning{background:#f59e0b;color:white}.toast--danger{background:#ef4444;color:white}.toast--neutral{background:#f3f4f6;color:#1f2937;border:1px solid #e5e7eb}.toast__icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:20px;height:20px}.toast__icon-svg{width:100%;height:100%}.toast__message{flex:1;padding-top:2px}.toast__close{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border:none;background:transparent;color:inherit;cursor:pointer;border-radius:4px;transition:background-color 0.15s ease;opacity:0.8}.toast__close:hover{opacity:1;background:rgba(0, 0, 0, 0.1)}.toast--neutral .toast__close:hover{background:rgba(0, 0, 0, 0.05)}.toast__close svg{width:16px;height:16px;fill:currentColor}`;
 
 const IglToastProvider = class {
     constructor(hostRef) {
@@ -335,8 +334,6 @@ const IglToastProvider = class {
         return null;
     }
 };
-IglToastProvider.style = IglToastProviderStyle0;
+IglToastProvider.style = iglToastProviderCss();
 
 export { IglToastProvider as igl_toast_provider };
-
-//# sourceMappingURL=igl-toast-provider.entry.js.map

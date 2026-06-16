@@ -25,4 +25,3 @@ export class GHSService {
         }
     }
 }
-//# sourceMappingURL=ghs.service.js.map

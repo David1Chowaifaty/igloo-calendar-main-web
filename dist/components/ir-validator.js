@@ -1,8 +1,1 @@
-import { I as IrValidator$1, d as defineCustomElement$1 } from './ir-validator2.js';
-
-const IrValidator = IrValidator$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrValidator, defineCustomElement };
-
-//# sourceMappingURL=ir-validator.js.map
+import{I as o,d as r}from"./ir-validator2.js";const a=o,s=r;export{a as IrValidator,s as defineCustomElement}

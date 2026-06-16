@@ -247,4 +247,3 @@ export const colorVariants = {
     },
 };
 export default icons;
-//# sourceMappingURL=icons.js.map

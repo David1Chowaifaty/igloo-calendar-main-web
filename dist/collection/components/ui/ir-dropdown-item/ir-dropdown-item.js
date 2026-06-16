@@ -106,8 +106,8 @@ export class IrDropdownItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "label": {
                 "type": "string",
@@ -125,8 +125,8 @@ export class IrDropdownItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "html_content": {
                 "type": "string",
@@ -144,8 +144,8 @@ export class IrDropdownItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "html_content",
-                "reflect": false
+                "reflect": false,
+                "attribute": "html_content"
             },
             "hidden": {
                 "type": "boolean",
@@ -163,8 +163,8 @@ export class IrDropdownItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hidden",
                 "reflect": true,
+                "attribute": "hidden",
                 "defaultValue": "false"
             }
         };
@@ -187,7 +187,8 @@ export class IrDropdownItem {
                         "DropdownItem": {
                             "location": "import",
                             "path": "../ir-dropdown/ir-dropdown",
-                            "id": "src/components/ui/ir-dropdown/ir-dropdown.tsx::DropdownItem"
+                            "id": "src/components/ui/ir-dropdown/ir-dropdown.tsx::DropdownItem",
+                            "referenceLocation": "DropdownItem"
                         }
                     }
                 }
@@ -271,4 +272,3 @@ export class IrDropdownItem {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-dropdown-item.js.map

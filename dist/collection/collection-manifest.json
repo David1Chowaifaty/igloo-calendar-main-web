@@ -343,10 +343,11 @@
     "components/ui/ir-weekday-selector/ir-weekday-selector.js",
     "components/ui/ota-label/ota-label.js"
   ],
+  "mixins": [],
   "compiler": {
     "name": "@stencil/core",
-    "version": "4.26.0",
-    "typescriptVersion": "5.5.4"
+    "version": "4.43.5",
+    "typescriptVersion": "5.8.3"
   },
   "collections": [],
   "bundles": [],

@@ -1,28 +1,26 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var index$1 = require('./index-B4XBS53K.js');
+var property_service = require('./property.service-BLpopdhe.js');
+var utils = require('./utils-CldsIwq_.js');
+var Token = require('./Token-mN7PQKGF.js');
+var moment = require('./moment-CdViwxPQ.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-CLqkDPTC.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-yPf-buWw.js');
+require('./locales.store-CUKWeY9v.js');
+require('./type-Dy9pVS4V.js');
 
-const index = require('./index-35d81173.js');
-const index$1 = require('./index-02ae9ba0.js');
-const property_service = require('./property.service-18d693bd.js');
-const utils = require('./utils-410526d1.js');
-const Token = require('./Token-fb15e0d7.js');
-const moment = require('./moment-1780b03a.js');
-require('./axios-6e678d52.js');
-require('./index-8bb117a0.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-fbf1fe1d.js');
-require('./locales.store-32782582.js');
-require('./type-53035218.js');
-
-const irClStatementPreviewCss = ".cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:right}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,\n    -apple-system,\n    sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}";
-const IrClStatementPreviewStyle0 = irClStatementPreviewCss;
+const irClStatementPreviewCss = () => `.cl-table{width:100%;border-collapse:collapse;font-size:0.8125rem;table-layout:auto}.cl-th{padding:0.5rem 0.75rem;text-align:left;font-size:0.75rem;font-weight:600;text-transform:capitalize;color:#374151;border-top:2px solid #111827;border-bottom:1px solid #111827;white-space:nowrap}.cl-th--num{text-align:right}.cl-td{padding:0.45rem 0.75rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}.cl-td--num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cl-td--muted{color:#6b7280}.cl-td--bold{font-weight:700;color:#111827}.cl-td--nowrap{white-space:nowrap}.cl-td--empty{text-align:center;color:#6b7280;padding:1.5rem 0.75rem;font-style:italic}.cl-balance-row td{background:#f3f4f6;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-weight:600;color:#111827;padding-top:0.5rem;padding-bottom:0.5rem}@media print{.cl-table{font-size:0.75rem}.cl-th,.cl-td{padding:0.35rem 0.5rem}.cl-td--muted,.cl-td--empty{color:#374151}.cl-balance-row td{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cl-balance-row{page-break-inside:avoid}}:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:960px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}.statement-period{display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;padding:0.5rem 0.75rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;font-size:0.8125rem}.statement-period__label{font-weight:600;color:#374151}.statement-period__value{color:#374151}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
 const DATE_DISPLAY = 'MMM DD, YYYY';
 const IrClStatementPreview = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.clPreviewReady = index.createEvent(this, "clPreviewReady", 7);
+        this.clPreviewReady = index.createEvent(this, "clPreviewReady");
     }
     propertyId;
     ticket;
@@ -115,8 +113,6 @@ const IrClStatementPreview = class {
         })(), this.fiscalDocuments.length === 0 && (index.h("tr", null, index.h("td", { class: "cl-td cl-td--empty", colSpan: 6 }, "No fiscal documents found for this period."))), index.h("tr", { class: "cl-balance-row" }, index.h("td", { class: "cl-td", colSpan: 3 }, "Closing Balance \u2014 ", moment.hooks(this.toDate).format(DATE_DISPLAY)), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td" }), index.h("td", { class: "cl-td cl-td--num cl-td--bold" }, fmt(ENDING_BALANCE))))))));
     }
 };
-IrClStatementPreview.style = IrClStatementPreviewStyle0;
+IrClStatementPreview.style = irClStatementPreviewCss();
 
 exports.ir_cl_statement_preview = IrClStatementPreview;
-
-//# sourceMappingURL=ir-cl-statement-preview.cjs.entry.js.map

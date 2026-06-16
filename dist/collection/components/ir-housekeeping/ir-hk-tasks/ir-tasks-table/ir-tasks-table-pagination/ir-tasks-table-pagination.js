@@ -25,4 +25,3 @@ export class IrTasksTablePagination {
         };
     }
 }
-//# sourceMappingURL=ir-tasks-table-pagination.js.map

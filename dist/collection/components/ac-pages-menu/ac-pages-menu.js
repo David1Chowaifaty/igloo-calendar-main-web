@@ -104,8 +104,8 @@ export class AcPagesMenu {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "location",
                 "reflect": false,
+                "attribute": "location",
                 "defaultValue": "'nav'"
             }
         };
@@ -134,4 +134,3 @@ export class AcPagesMenu {
             }];
     }
 }
-//# sourceMappingURL=ac-pages-menu.js.map

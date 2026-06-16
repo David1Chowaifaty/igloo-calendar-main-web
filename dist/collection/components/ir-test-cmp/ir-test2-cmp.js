@@ -18,4 +18,3 @@ export class IrTest2Cmp {
         };
     }
 }
-//# sourceMappingURL=ir-test2-cmp.js.map

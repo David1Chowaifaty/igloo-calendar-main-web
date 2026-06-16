@@ -49,8 +49,8 @@ export class IrTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "borderShown": {
                 "type": "boolean",
@@ -68,8 +68,8 @@ export class IrTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "border-shown",
-                "reflect": true
+                "reflect": true,
+                "attribute": "border-shown"
             },
             "displayContext": {
                 "type": "string",
@@ -87,8 +87,8 @@ export class IrTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display-context",
                 "reflect": true,
+                "attribute": "display-context",
                 "defaultValue": "'default'"
             },
             "justifyContent": {
@@ -107,8 +107,8 @@ export class IrTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "justify-content",
                 "reflect": true,
+                "attribute": "justify-content",
                 "defaultValue": "'start'"
             }
         };
@@ -139,4 +139,3 @@ export class IrTitle {
             }];
     }
 }
-//# sourceMappingURL=ir-title.js.map

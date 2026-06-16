@@ -271,7 +271,8 @@ export class IrPaymentFolioForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -294,7 +295,8 @@ export class IrPaymentFolioForm {
                         "PaymentEntries": {
                             "location": "import",
                             "path": "../../../types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries",
+                            "referenceLocation": "PaymentEntries"
                         }
                     }
                 },
@@ -323,8 +325,8 @@ export class IrPaymentFolioForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "formId": {
                 "type": "string",
@@ -342,8 +344,8 @@ export class IrPaymentFolioForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             },
             "payment": {
                 "type": "unknown",
@@ -355,7 +357,8 @@ export class IrPaymentFolioForm {
                         "Payment": {
                             "location": "import",
                             "path": "../../../types",
-                            "id": "src/components/ir-booking-details/types.ts::Payment"
+                            "id": "src/components/ir-booking-details/types.ts::Payment",
+                            "referenceLocation": "Payment"
                         }
                     }
                 },
@@ -379,7 +382,8 @@ export class IrPaymentFolioForm {
                         "FolioEntryMode": {
                             "location": "import",
                             "path": "../../../types",
-                            "id": "src/components/ir-booking-details/types.ts::FolioEntryMode"
+                            "id": "src/components/ir-booking-details/types.ts::FolioEntryMode",
+                            "referenceLocation": "FolioEntryMode"
                         }
                     }
                 },
@@ -391,8 +395,8 @@ export class IrPaymentFolioForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mode"
             }
         };
     }
@@ -448,7 +452,7 @@ export class IrPaymentFolioForm {
                 },
                 "complexType": {
                     "original": "Pick<Booking, 'booking_nbr'>",
-                    "resolved": "{ booking_nbr: string; }",
+                    "resolved": "\"booking_nbr\" | Booking",
                     "references": {
                         "Pick": {
                             "location": "global",
@@ -457,7 +461,8 @@ export class IrPaymentFolioForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
@@ -488,4 +493,3 @@ export class IrPaymentFolioForm {
             }];
     }
 }
-//# sourceMappingURL=ir-payment-folio-form.js.map

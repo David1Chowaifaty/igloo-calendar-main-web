@@ -1,8 +1,1 @@
-import { I as IrIcon$1, d as defineCustomElement$1 } from './ir-icon2.js';
-
-const IrIcon = IrIcon$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrIcon, defineCustomElement };
-
-//# sourceMappingURL=ir-icon.js.map
+import{I as o,d as r}from"./ir-icon2.js";const s=o,i=r;export{s as IrIcon,i as defineCustomElement}

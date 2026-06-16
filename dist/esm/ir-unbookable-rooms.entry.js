@@ -1,17 +1,17 @@
-import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
-import { T as Token } from './Token-bcdb7c50.js';
-import { P as PropertyService } from './property.service-30a15dd6.js';
-import './axios-aa1335b8.js';
-import './index-87419685.js';
-import './calendar-data-b1f645da.js';
-import './index-f100e9d2.js';
-import './utils-91ae2576.js';
-import './moment-ab846cee.js';
-import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
+import { r as registerInstance, h, H as Host } from './index-DsP1thJ-.js';
+import { T as Token } from './Token-CkxFIO_J.js';
+import { P as PropertyService } from './property.service-Dc89r73e.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './index-DeW5X45W.js';
+import './calendar-data-Ogu9Tn08.js';
+import './index-ChvQumDv.js';
+import './utils-XHeF_jXG.js';
+import './moment-Mki5YqAR.js';
+import './locales.store-CnCF03aI.js';
+import './type-D7rOPtKA.js';
 
-const irUnbookableRoomsCss = ".sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 768px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}";
-const IrUnbookableRoomsStyle0 = irUnbookableRoomsCss;
+const irUnbookableRoomsCss = () => `.sc-ir-unbookable-rooms-h{height:100% !important;overflow-y:auto !important}.ir-page__container.sc-ir-unbookable-rooms{height:100%;overflow-y:auto}.unbookable-rooms__content.sc-ir-unbookable-rooms{display:flex;flex-direction:column;gap:1rem}.summary.sc-ir-unbookable-rooms{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:12px}.summary__value.sc-ir-unbookable-rooms{display:block;font-size:1.3rem;font-weight:600}.summary__label.sc-ir-unbookable-rooms{font-size:0.82rem;color:#6a6256}@media (min-width: 768px){.unbookable-rooms__content.sc-ir-unbookable-rooms{flex-direction:row;align-items:flex-start}}`;
 
 const IrUnbookableRooms = class {
     constructor(hostRef) {
@@ -172,15 +172,23 @@ const IrUnbookableRooms = class {
         return (h(Host, null, h("ir-toast", null), h("ir-interceptor", null), h("section", { class: "ir-page__container" }, h("h3", { class: "page-title" }, "Availability Alert"), this.mode === 'mpo' && (h("section", { class: "summary", "aria-live": "polite" }, h("wa-card", null, h("span", { class: "summary__value" }, totalIssues), h("span", { class: "summary__label" }, "room types affected")), h("wa-card", null, h("span", { class: "summary__value" }, propertiesWithIssues), h("span", { class: "summary__label" }, "properties impacted")))), h("section", { class: "unbookable-rooms__content" }, h("ir-unbookable-rooms-filters", { mode: this.mode, filters: this.filters, unbookableRooms: this.unbookableRooms, isLoading: this.isLoading, onFiltersChange: this.handleFiltersChange, onFiltersReset: this.handleFiltersReset, onFiltersSave: this.handleRefresh }), h("ir-unbookable-rooms-data", { mode: this.mode, isLoading: this.isLoading, errorMessage: this.errorMessage, unbookableRooms: this.unbookableRooms, allowedProperties: this.allowedProperties, filters: this.filters, progressFilters: this.progressFilters })))));
     }
     static get watchers() { return {
-        "ticket": ["ticketChanged"],
-        "mode": ["modeChanged"],
-        "property_id": ["propertyIdChanged"],
-        "period_to_check": ["periodToCheckChanged"],
-        "consecutive_period": ["consecutivePeriodChanged"]
+        "ticket": [{
+                "ticketChanged": 0
+            }],
+        "mode": [{
+                "modeChanged": 0
+            }],
+        "property_id": [{
+                "propertyIdChanged": 0
+            }],
+        "period_to_check": [{
+                "periodToCheckChanged": 0
+            }],
+        "consecutive_period": [{
+                "consecutivePeriodChanged": 0
+            }]
     }; }
 };
-IrUnbookableRooms.style = IrUnbookableRoomsStyle0;
+IrUnbookableRooms.style = irUnbookableRoomsCss();
 
 export { IrUnbookableRooms as ir_unbookable_rooms };
-
-//# sourceMappingURL=ir-unbookable-rooms.entry.js.map

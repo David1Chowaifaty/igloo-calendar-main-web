@@ -55,7 +55,8 @@ export class IrPaymentItem {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 },
@@ -88,7 +89,8 @@ export class IrPaymentItem {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
@@ -109,7 +111,8 @@ export class IrPaymentItem {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
@@ -130,11 +133,11 @@ export class IrPaymentItem {
                         "IPayment": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IPayment"
+                            "id": "src/models/booking.dto.ts::IPayment",
+                            "referenceLocation": "IPayment"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-payment-item.js.map

@@ -41,8 +41,8 @@ export class RequirementCheck {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-valid",
                 "reflect": false,
+                "attribute": "is-valid",
                 "defaultValue": "false"
             },
             "text": {
@@ -61,11 +61,10 @@ export class RequirementCheck {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text",
                 "reflect": false,
+                "attribute": "text",
                 "defaultValue": "''"
             }
         };
     }
 }
-//# sourceMappingURL=requirement-check.js.map

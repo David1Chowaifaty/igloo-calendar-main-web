@@ -111,7 +111,8 @@ export class IrPaymentFolio {
                         "PaymentEntries": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries",
+                            "referenceLocation": "PaymentEntries"
                         }
                     }
                 },
@@ -140,8 +141,8 @@ export class IrPaymentFolio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "booking": {
                 "type": "unknown",
@@ -153,7 +154,8 @@ export class IrPaymentFolio {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -176,7 +178,8 @@ export class IrPaymentFolio {
                         "Payment": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-booking-details/types.ts::Payment"
+                            "id": "src/components/ir-booking-details/types.ts::Payment",
+                            "referenceLocation": "Payment"
                         }
                     }
                 },
@@ -200,7 +203,8 @@ export class IrPaymentFolio {
                         "FolioEntryMode": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-booking-details/types.ts::FolioEntryMode"
+                            "id": "src/components/ir-booking-details/types.ts::FolioEntryMode",
+                            "referenceLocation": "FolioEntryMode"
                         }
                     }
                 },
@@ -212,8 +216,8 @@ export class IrPaymentFolio {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mode"
             }
         };
     }
@@ -280,4 +284,3 @@ export class IrPaymentFolio {
         };
     }
 }
-//# sourceMappingURL=ir-payment-folio.js.map

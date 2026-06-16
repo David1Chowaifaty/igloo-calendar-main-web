@@ -13,4 +13,3 @@ export function getDefaultProperties() {
     return housekeeping_store.default_properties;
 }
 export default housekeeping_store;
-//# sourceMappingURL=housekeeping.store.js.map

@@ -64,8 +64,8 @@ export class IrClDocumentHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "document-type",
                 "reflect": false,
+                "attribute": "document-type",
                 "defaultValue": "'invoice'"
             },
             "property": {
@@ -78,7 +78,8 @@ export class IrClDocumentHeader {
                         "IProperty": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IProperty"
+                            "id": "src/models/property.ts::IProperty",
+                            "referenceLocation": "IProperty"
                         }
                     }
                 },
@@ -107,8 +108,8 @@ export class IrClDocumentHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "document-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "document-number"
             },
             "agentName": {
                 "type": "string",
@@ -126,10 +127,9 @@ export class IrClDocumentHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-name"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-document-header.js.map

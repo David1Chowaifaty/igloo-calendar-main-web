@@ -34,10 +34,9 @@ export class IrClInvoiceVatPctCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "vat-percent",
-                "reflect": false
+                "reflect": false,
+                "attribute": "vat-percent"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-vat-pct-cell.js.map

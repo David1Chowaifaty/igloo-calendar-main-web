@@ -1,17 +1,17 @@
-import { r as registerInstance, h } from './index-7e96440e.js';
-import { T as Token } from './Token-bcdb7c50.js';
-import { h as hooks } from './moment-ab846cee.js';
-import { C as CityLedgerService, F as FdTypes } from './index-39bc3997.js';
-import './axios-aa1335b8.js';
-import './index-87419685.js';
-import './utils-91ae2576.js';
-import './calendar-data-b1f645da.js';
-import './index-f100e9d2.js';
-import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
+import { r as registerInstance, h } from './index-DsP1thJ-.js';
+import { T as Token } from './Token-CkxFIO_J.js';
+import { h as hooks } from './moment-Mki5YqAR.js';
+import { C as CityLedgerService, F as FdTypes } from './index-CMqHZmNL.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './index-DeW5X45W.js';
+import './utils-XHeF_jXG.js';
+import './calendar-data-Ogu9Tn08.js';
+import './index-ChvQumDv.js';
+import './locales.store-CnCF03aI.js';
+import './type-D7rOPtKA.js';
 
-const irFiscalDocumentsCss = ".sc-ir-fiscal-documents-h{display:block}";
-const IrFiscalDocumentsStyle0 = irFiscalDocumentsCss;
+const irFiscalDocumentsCss = () => `.sc-ir-fiscal-documents-h{display:block}`;
 
 const IrFiscalDocuments = class {
     constructor(hostRef) {
@@ -99,11 +99,11 @@ const IrFiscalDocuments = class {
             } }), h("ir-fiscal-documents-table", { key: '4cc2f80533f9cbf2d8b6678762d90b8ad6e520f9', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
-        "ticket": ["handleTicketChange"]
+        "ticket": [{
+                "handleTicketChange": 0
+            }]
     }; }
 };
-IrFiscalDocuments.style = IrFiscalDocumentsStyle0;
+IrFiscalDocuments.style = irFiscalDocumentsCss();
 
 export { IrFiscalDocuments as ir_fiscal_documents };
-
-//# sourceMappingURL=ir-fiscal-documents.entry.js.map

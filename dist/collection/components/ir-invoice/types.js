@@ -64,4 +64,3 @@ export const BookingInvoiceInfoSchema = z.object({
     invoiceable_items: z.array(InvoiceableItemSchema),
     invoices: z.array(InvoiceSchema).nullable(),
 });
-//# sourceMappingURL=types.js.map

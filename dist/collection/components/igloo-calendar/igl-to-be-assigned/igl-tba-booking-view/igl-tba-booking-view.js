@@ -246,8 +246,8 @@ export class IglTbaBookingView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "selected-date"
             },
             "eventData": {
                 "type": "unknown",
@@ -301,8 +301,8 @@ export class IglTbaBookingView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "category-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "category-id"
             },
             "categoryIndex": {
                 "type": "any",
@@ -320,8 +320,8 @@ export class IglTbaBookingView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "category-index",
-                "reflect": false
+                "reflect": false,
+                "attribute": "category-index"
             },
             "eventIndex": {
                 "type": "any",
@@ -339,8 +339,8 @@ export class IglTbaBookingView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "event-index",
-                "reflect": false
+                "reflect": false,
+                "attribute": "event-index"
             }
         };
     }
@@ -384,7 +384,8 @@ export class IglTbaBookingView {
                         "CalendarSidebarState": {
                             "location": "import",
                             "path": "@/components/igloo-calendar/igloo-calendar",
-                            "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState"
+                            "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState",
+                            "referenceLocation": "CalendarSidebarState"
                         }
                     }
                 }
@@ -445,4 +446,3 @@ export class IglTbaBookingView {
             }];
     }
 }
-//# sourceMappingURL=igl-tba-booking-view.js.map

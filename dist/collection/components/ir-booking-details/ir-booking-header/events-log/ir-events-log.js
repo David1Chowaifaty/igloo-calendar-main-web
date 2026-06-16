@@ -48,8 +48,8 @@ export class IrEventsLog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "booking": {
                 "type": "unknown",
@@ -61,7 +61,8 @@ export class IrEventsLog {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -82,4 +83,3 @@ export class IrEventsLog {
         };
     }
 }
-//# sourceMappingURL=ir-events-log.js.map

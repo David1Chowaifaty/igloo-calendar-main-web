@@ -47,4 +47,3 @@ export function validateForm(data, rules) {
     }
     return { isValid, errors };
 }
-//# sourceMappingURL=validation.js.map

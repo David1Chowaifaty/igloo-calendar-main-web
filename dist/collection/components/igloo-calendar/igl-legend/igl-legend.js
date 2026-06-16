@@ -173,4 +173,3 @@ export class IglLegend {
             }];
     }
 }
-//# sourceMappingURL=igl-legend.js.map

@@ -188,4 +188,3 @@ export class IrToastsProvider {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-toasts-provider.js.map

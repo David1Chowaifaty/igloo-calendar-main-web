@@ -1,8 +1,1 @@
-import { I as IrAssignmentToggleDialog$1, d as defineCustomElement$1 } from './ir-assignment-toggle-dialog2.js';
-
-const IrAssignmentToggleDialog = IrAssignmentToggleDialog$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrAssignmentToggleDialog, defineCustomElement };
-
-//# sourceMappingURL=ir-assignment-toggle-dialog.js.map
+import{I as o,d as s}from"./ir-assignment-toggle-dialog2.js";const t=o,a=s;export{t as IrAssignmentToggleDialog,a as defineCustomElement}

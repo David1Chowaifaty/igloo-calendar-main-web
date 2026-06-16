@@ -399,4 +399,3 @@ export class IglToastProvider {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=igl-toast-provider.js.map

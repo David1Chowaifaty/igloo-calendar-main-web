@@ -1,28 +1,26 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var clFiscalDocument_service = require('./cl-fiscal-document.service-B6si3VbF.js');
+require('./Token-mN7PQKGF.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-B4XBS53K.js');
+require('./moment-CdViwxPQ.js');
+require('./index-CLqkDPTC.js');
+require('./utils-CldsIwq_.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-yPf-buWw.js');
+require('./locales.store-CUKWeY9v.js');
+require('./type-Dy9pVS4V.js');
+require('./property.service-BLpopdhe.js');
 
-const index = require('./index-35d81173.js');
-const clFiscalDocument_service = require('./cl-fiscal-document.service-b9a8f587.js');
-require('./Token-fb15e0d7.js');
-require('./axios-6e678d52.js');
-require('./index-02ae9ba0.js');
-require('./moment-1780b03a.js');
-require('./index-8bb117a0.js');
-require('./utils-410526d1.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-fbf1fe1d.js');
-require('./locales.store-32782582.js');
-require('./type-53035218.js');
-require('./property.service-18d693bd.js');
-
-const irClInvoicePreviewCss = ":host{display:block;font-family:system-ui,\n    -apple-system,\n    sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}";
-const IrClInvoicePreviewStyle0 = irClInvoicePreviewCss;
+const irClInvoicePreviewCss = () => `:host{display:block;font-family:system-ui,     -apple-system,     sans-serif;color:#1a1a1a}.document-state{display:flex;align-items:center;justify-content:center;min-height:200px;font-size:0.875rem;color:#6b7280}.document-state--error{color:#dc2626}.document{max-width:900px;margin:0 auto;padding:2.5rem;background:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.08);border-radius:8px}@media print{:host{display:block;width:100%}.document{box-shadow:none;width:100%;max-width:100%;padding:0;border-radius:0}}`;
 
 const IrClInvoicePreview = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.clPreviewReady = index.createEvent(this, "clPreviewReady", 7);
+        this.clPreviewReady = index.createEvent(this, "clPreviewReady");
     }
     propertyId;
     ticket;
@@ -81,8 +79,6 @@ const IrClInvoicePreview = class {
         return (index.h(index.Host, null, index.h("div", { class: "document" }, index.h("ir-cl-document-header", { style: { marginBottom: '2.5rem' }, property: this.property, documentNumber: this.documentNumber, agentName: this.agentName, documentType: "invoice" }), index.h("ir-cl-fiscal-document-table", { transactions: this.transactions, currencySymbol: this.property?.currency?.symbol ?? '$' }))));
     }
 };
-IrClInvoicePreview.style = IrClInvoicePreviewStyle0;
+IrClInvoicePreview.style = irClInvoicePreviewCss();
 
 exports.ir_cl_invoice_preview = IrClInvoicePreview;
-
-//# sourceMappingURL=ir-cl-invoice-preview.cjs.entry.js.map

@@ -5,12 +5,12 @@ export declare const CurrencySchema: z.ZodObject<{
     symbol: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     symbol?: string;
-    code?: string;
     id?: number;
+    code?: string;
 }, {
     symbol?: string;
-    code?: string;
     id?: number;
+    code?: string;
 }>;
 export type Currency = z.infer<typeof CurrencySchema>;
 export declare const StatusSchema: z.ZodObject<{
@@ -33,12 +33,12 @@ export declare const ItemSchema: z.ZodObject<{
         symbol: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }>;
     description: z.ZodAny;
     invoice_nbr: z.ZodString;
@@ -68,8 +68,8 @@ export declare const ItemSchema: z.ZodObject<{
     amount?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     invoice_nbr?: string;
@@ -86,8 +86,8 @@ export declare const ItemSchema: z.ZodObject<{
     amount?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     invoice_nbr?: string;
@@ -142,12 +142,12 @@ export declare const InvoiceSchema: z.ZodObject<{
         symbol: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }>;
     date: z.ZodString;
     items: z.ZodArray<z.ZodObject<{
@@ -159,12 +159,12 @@ export declare const InvoiceSchema: z.ZodObject<{
             symbol: z.ZodString;
         }, "strip", z.ZodTypeAny, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }>;
         description: z.ZodAny;
         invoice_nbr: z.ZodString;
@@ -194,8 +194,8 @@ export declare const InvoiceSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -212,8 +212,8 @@ export declare const InvoiceSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -246,8 +246,8 @@ export declare const InvoiceSchema: z.ZodObject<{
     system_id?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     total_amount?: any;
@@ -268,8 +268,8 @@ export declare const InvoiceSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -293,8 +293,8 @@ export declare const InvoiceSchema: z.ZodObject<{
     system_id?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     total_amount?: any;
@@ -315,8 +315,8 @@ export declare const InvoiceSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -364,12 +364,12 @@ export declare const InvoiceableItemSchema: z.ZodObject<{
         symbol: z.ZodString;
     }, "strip", z.ZodTypeAny, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }, {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     }>;
     invoice_nbr: z.ZodNullable<z.ZodString>;
     is_invoiceable: z.ZodBoolean;
@@ -395,8 +395,8 @@ export declare const InvoiceableItemSchema: z.ZodObject<{
     amount?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     invoice_nbr?: string;
@@ -413,8 +413,8 @@ export declare const InvoiceableItemSchema: z.ZodObject<{
     amount?: number;
     currency?: {
         symbol?: string;
-        code?: string;
         id?: number;
+        code?: string;
     };
     booking_nbr?: string;
     invoice_nbr?: string;
@@ -435,12 +435,12 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             symbol: z.ZodString;
         }, "strip", z.ZodTypeAny, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }>;
         invoice_nbr: z.ZodNullable<z.ZodString>;
         is_invoiceable: z.ZodBoolean;
@@ -466,8 +466,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -484,8 +484,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -524,12 +524,12 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             symbol: z.ZodString;
         }, "strip", z.ZodTypeAny, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }, {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         }>;
         date: z.ZodString;
         items: z.ZodArray<z.ZodObject<{
@@ -541,12 +541,12 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
                 symbol: z.ZodString;
             }, "strip", z.ZodTypeAny, {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             }, {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             }>;
             description: z.ZodAny;
             invoice_nbr: z.ZodString;
@@ -576,8 +576,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;
@@ -594,8 +594,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;
@@ -628,8 +628,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         system_id?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         total_amount?: any;
@@ -650,8 +650,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;
@@ -675,8 +675,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         system_id?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         total_amount?: any;
@@ -697,8 +697,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;
@@ -722,8 +722,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -743,8 +743,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         system_id?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         total_amount?: any;
@@ -765,8 +765,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;
@@ -790,8 +790,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         amount?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         invoice_nbr?: string;
@@ -811,8 +811,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
         system_id?: number;
         currency?: {
             symbol?: string;
-            code?: string;
             id?: number;
+            code?: string;
         };
         booking_nbr?: string;
         total_amount?: any;
@@ -833,8 +833,8 @@ export declare const BookingInvoiceInfoSchema: z.ZodObject<{
             amount?: number;
             currency?: {
                 symbol?: string;
-                code?: string;
                 id?: number;
+                code?: string;
             };
             booking_nbr?: string;
             invoice_nbr?: string;

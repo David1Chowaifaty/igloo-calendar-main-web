@@ -50,7 +50,8 @@ export class IrBookingListingMobileCard {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -79,8 +80,8 @@ export class IrBookingListingMobileCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-persons",
-                "reflect": false
+                "reflect": false,
+                "attribute": "total-persons"
             },
             "lastManipulation": {
                 "type": "unknown",
@@ -92,7 +93,8 @@ export class IrBookingListingMobileCard {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         },
                         "Array": {
                             "location": "global",
@@ -129,8 +131,8 @@ export class IrBookingListingMobileCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "extra-services-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "extra-services-label"
             }
         };
     }
@@ -152,16 +154,17 @@ export class IrBookingListingMobileCard {
                         "IrActionButton": {
                             "location": "import",
                             "path": "@/components/table-cells/booking/ir-actions-cell/ir-actions-cell",
-                            "id": "src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx::IrActionButton"
+                            "id": "src/components/table-cells/booking/ir-actions-cell/ir-actions-cell.tsx::IrActionButton",
+                            "referenceLocation": "IrActionButton"
                         },
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-booking-listing-mobile-card.js.map

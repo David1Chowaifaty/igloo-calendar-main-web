@@ -16,4 +16,3 @@ export class IrAgentAssignmentDialog {
         };
     }
 }
-//# sourceMappingURL=ir-agent-assignment-dialog.js.map

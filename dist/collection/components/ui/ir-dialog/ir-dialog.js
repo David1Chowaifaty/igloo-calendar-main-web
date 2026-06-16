@@ -157,8 +157,8 @@ export class IrDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "label"
             },
             "open": {
                 "type": "boolean",
@@ -176,8 +176,8 @@ export class IrDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "withoutHeader": {
                 "type": "boolean",
@@ -195,8 +195,8 @@ export class IrDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "without-header",
-                "reflect": true
+                "reflect": true,
+                "attribute": "without-header"
             },
             "lightDismiss": {
                 "type": "boolean",
@@ -214,8 +214,8 @@ export class IrDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "light-dismiss",
                 "reflect": false,
+                "attribute": "light-dismiss",
                 "defaultValue": "true"
             }
         };
@@ -258,7 +258,8 @@ export class IrDialog {
                         "Element": {
                             "location": "import",
                             "path": "@stencil/core",
-                            "id": "node_modules::Element"
+                            "id": "node_modules::Element",
+                            "referenceLocation": "Element"
                         }
                     }
                 }
@@ -340,4 +341,3 @@ __decorate([
 __decorate([
     OverflowAdd()
 ], IrDialog.prototype, "handleWaShow", null);
-//# sourceMappingURL=ir-dialog.js.map

@@ -141,8 +141,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "headerShown": {
                 "type": "boolean",
@@ -160,8 +160,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "header-shown",
-                "reflect": false
+                "reflect": false,
+                "attribute": "header-shown"
             },
             "email": {
                 "type": "string",
@@ -179,8 +179,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "email",
-                "reflect": false
+                "reflect": false,
+                "attribute": "email"
             },
             "booking_nbr": {
                 "type": "string",
@@ -198,8 +198,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking_nbr",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking_nbr"
             },
             "ticket": {
                 "type": "string",
@@ -217,8 +217,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "isInSideBar": {
                 "type": "boolean",
@@ -236,8 +236,8 @@ export class GuestInfo {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-in-side-bar",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-in-side-bar"
             }
         };
     }
@@ -289,4 +289,3 @@ export class GuestInfo {
             }];
     }
 }
-//# sourceMappingURL=ir-guest-info.js.map

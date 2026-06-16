@@ -139,8 +139,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "text": {
                 "type": "string",
@@ -158,8 +158,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text",
-                "reflect": false
+                "reflect": false,
+                "attribute": "text"
             },
             "btn_color": {
                 "type": "string",
@@ -177,8 +177,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_color",
                 "reflect": false,
+                "attribute": "btn_color",
                 "defaultValue": "'primary'"
             },
             "size": {
@@ -197,8 +197,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": false,
+                "attribute": "size",
                 "defaultValue": "'md'"
             },
             "textSize": {
@@ -217,8 +217,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text-size",
                 "reflect": false,
+                "attribute": "text-size",
                 "defaultValue": "'md'"
             },
             "btn_block": {
@@ -237,8 +237,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_block",
                 "reflect": false,
+                "attribute": "btn_block",
                 "defaultValue": "true"
             },
             "btn_disabled": {
@@ -257,8 +257,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_disabled",
                 "reflect": false,
+                "attribute": "btn_disabled",
                 "defaultValue": "false"
             },
             "btn_type": {
@@ -277,8 +277,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_type",
                 "reflect": false,
+                "attribute": "btn_type",
                 "defaultValue": "'button'"
             },
             "isLoading": {
@@ -297,8 +297,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "btn_styles": {
@@ -317,8 +317,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_styles",
-                "reflect": false
+                "reflect": false,
+                "attribute": "btn_styles"
             },
             "btn_id": {
                 "type": "string",
@@ -336,8 +336,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn_id",
                 "reflect": false,
+                "attribute": "btn_id",
                 "defaultValue": "v4()"
             },
             "variant": {
@@ -356,8 +356,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'default'"
             },
             "icon_name": {
@@ -365,12 +365,13 @@ export class IrButton {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"angle-up\" | \"angle_left\" | \"angle_right\" | \"angles_left\" | \"angles_right\" | \"arrow-right-from-bracket\" | \"arrow-trend-down\" | \"arrow-trend-up\" | \"arrow_left\" | \"arrow_right\" | \"ban\" | \"bell\" | \"burger_menu\" | \"calendar\" | \"calendar-xmark\" | \"check\" | \"circle_check\" | \"circle_info\" | \"circle_plus\" | \"clock\" | \"closed_eye\" | \"credit_card\" | \"danger\" | \"double_caret_left\" | \"edit\" | \"email\" | \"envelope-circle-check\" | \"eraser\" | \"facebook\" | \"file\" | \"globe\" | \"heart\" | \"heart-fill\" | \"home\" | \"hotel\" | \"instagram\" | \"key\" | \"menu_list\" | \"minus\" | \"note\" | \"open_eye\" | \"outline_user\" | \"plus\" | \"print\" | \"reciept\" | \"save\" | \"search\" | \"server\" | \"square_plus\" | \"trash\" | \"twitter\" | \"unlock\" | \"user\" | \"user_group\" | \"whatsapp\" | \"xmark\" | \"xmark-fill\" | \"youtube\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
                             "path": "../ir-icons/icons",
-                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
+                            "id": "src/components/ui/ir-icons/icons.ts::TIcons",
+                            "referenceLocation": "TIcons"
                         }
                     }
                 },
@@ -382,8 +383,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon_name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "icon_name"
             },
             "visibleBackgroundOnHover": {
                 "type": "boolean",
@@ -401,8 +402,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "visible-background-on-hover",
                 "reflect": false,
+                "attribute": "visible-background-on-hover",
                 "defaultValue": "false"
             },
             "iconPosition": {
@@ -421,8 +422,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon-position",
                 "reflect": false,
+                "attribute": "icon-position",
                 "defaultValue": "'left'"
             },
             "icon_style": {
@@ -441,8 +442,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon_style",
-                "reflect": false
+                "reflect": false,
+                "attribute": "icon_style"
             },
             "btnStyle": {
                 "type": "unknown",
@@ -494,8 +495,8 @@ export class IrButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "render-content-as-html",
                 "reflect": false,
+                "attribute": "render-content-as-html",
                 "defaultValue": "false"
             }
         };
@@ -549,4 +550,3 @@ export class IrButton {
             }];
     }
 }
-//# sourceMappingURL=ir-button.js.map

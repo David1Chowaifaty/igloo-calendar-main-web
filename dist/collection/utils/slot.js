@@ -116,4 +116,3 @@ export function createSlotManager(hostElement, slotNames, onStateChange) {
         refresh: () => manager.refresh(),
     };
 }
-//# sourceMappingURL=slot.js.map

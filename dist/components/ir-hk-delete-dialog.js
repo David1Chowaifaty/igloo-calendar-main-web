@@ -1,8 +1,1 @@
-import { I as IrHkDeleteDialog$1, d as defineCustomElement$1 } from './ir-hk-delete-dialog2.js';
-
-const IrHkDeleteDialog = IrHkDeleteDialog$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrHkDeleteDialog, defineCustomElement };
-
-//# sourceMappingURL=ir-hk-delete-dialog.js.map
+import{I as o,d as e}from"./ir-hk-delete-dialog2.js";const r=o,s=e;export{r as IrHkDeleteDialog,s as defineCustomElement}

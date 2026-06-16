@@ -57,4 +57,3 @@ export class EventsService {
         return date.split('/').join('-');
     }
 }
-//# sourceMappingURL=events.service.js.map

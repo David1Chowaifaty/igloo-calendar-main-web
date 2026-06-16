@@ -1,8 +1,1 @@
-import { I as IglReallocationDialog$1, d as defineCustomElement$1 } from './igl-reallocation-dialog2.js';
-
-const IglReallocationDialog = IglReallocationDialog$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglReallocationDialog, defineCustomElement };
-
-//# sourceMappingURL=igl-reallocation-dialog.js.map
+import{I as o,d as a}from"./igl-reallocation-dialog2.js";const i=o,l=a;export{i as IglReallocationDialog,l as defineCustomElement}

@@ -217,4 +217,3 @@ export class PropertyService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=property.service.js.map

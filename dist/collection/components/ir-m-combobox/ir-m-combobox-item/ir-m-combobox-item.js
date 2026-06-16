@@ -90,8 +90,8 @@ export class IrMComboboxItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "label": {
                 "type": "string",
@@ -109,8 +109,8 @@ export class IrMComboboxItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "html_content": {
                 "type": "string",
@@ -128,8 +128,8 @@ export class IrMComboboxItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "html_content",
-                "reflect": false
+                "reflect": false,
+                "attribute": "html_content"
             },
             "hidden": {
                 "type": "boolean",
@@ -147,8 +147,8 @@ export class IrMComboboxItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hidden",
                 "reflect": true,
+                "attribute": "hidden",
                 "defaultValue": "false"
             }
         };
@@ -171,7 +171,8 @@ export class IrMComboboxItem {
                         "ComboboxOption": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption"
+                            "id": "src/components/ir-m-combobox/types.ts::ComboboxOption",
+                            "referenceLocation": "ComboboxOption"
                         }
                     }
                 }
@@ -255,4 +256,3 @@ export class IrMComboboxItem {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-m-combobox-item.js.map

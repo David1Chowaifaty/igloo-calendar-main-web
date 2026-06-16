@@ -1,8 +1,1 @@
-import { I as IrToastProvider$1, d as defineCustomElement$1 } from './ir-toast-provider2.js';
-
-const IrToastProvider = IrToastProvider$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrToastProvider, defineCustomElement };
-
-//# sourceMappingURL=ir-toast-provider.js.map
+import{I as o,d as r}from"./ir-toast-provider2.js";const s=o,t=r;export{s as IrToastProvider,t as defineCustomElement}

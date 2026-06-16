@@ -136,8 +136,8 @@ export class IrRectifier {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             }
         };
     }
@@ -182,4 +182,3 @@ export class IrRectifier {
             }];
     }
 }
-//# sourceMappingURL=ir-rectifier.js.map

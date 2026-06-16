@@ -34,7 +34,8 @@ export class IglSplitBookingDrawer {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -57,7 +58,8 @@ export class IglSplitBookingDrawer {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -69,8 +71,8 @@ export class IglSplitBookingDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             },
             "open": {
                 "type": "boolean",
@@ -88,8 +90,8 @@ export class IglSplitBookingDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": false
+                "reflect": false,
+                "attribute": "open"
             }
         };
     }
@@ -112,4 +114,3 @@ export class IglSplitBookingDrawer {
             }];
     }
 }
-//# sourceMappingURL=igl-split-booking-drawer.js.map

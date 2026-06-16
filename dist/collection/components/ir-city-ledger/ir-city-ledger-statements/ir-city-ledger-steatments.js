@@ -154,8 +154,8 @@ export class IrCityLedgerStatements {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "agentName": {
@@ -174,8 +174,8 @@ export class IrCityLedgerStatements {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-name",
                 "reflect": false,
+                "attribute": "agent-name",
                 "defaultValue": "''"
             },
             "currencySymbol": {
@@ -194,8 +194,8 @@ export class IrCityLedgerStatements {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "currencies": {
@@ -208,7 +208,8 @@ export class IrCityLedgerStatements {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::ICurrency"
+                            "id": "src/models/property.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -238,8 +239,8 @@ export class IrCityLedgerStatements {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyId": {
                 "type": "number",
@@ -257,8 +258,8 @@ export class IrCityLedgerStatements {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "initialFilters": {
                 "type": "unknown",
@@ -270,7 +271,8 @@ export class IrCityLedgerStatements {
                         "StatementFilters": {
                             "location": "import",
                             "path": "./ir-city-ledger-statements-filter/ir-city-ledger-statements-filter",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.tsx::StatementFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.tsx::StatementFilters",
+                            "referenceLocation": "StatementFilters"
                         }
                     }
                 },
@@ -315,7 +317,8 @@ export class IrCityLedgerStatements {
                         "StatementFilters": {
                             "location": "import",
                             "path": "./ir-city-ledger-statements-filter/ir-city-ledger-statements-filter",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.tsx::StatementFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-statements/ir-city-ledger-statements-filter/ir-city-ledger-statements-filter.tsx::StatementFilters",
+                            "referenceLocation": "StatementFilters"
                         }
                     }
                 }
@@ -331,4 +334,3 @@ export class IrCityLedgerStatements {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-steatments.js.map

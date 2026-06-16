@@ -16,4 +16,3 @@ export class AuthService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=authenticate.service.js.map

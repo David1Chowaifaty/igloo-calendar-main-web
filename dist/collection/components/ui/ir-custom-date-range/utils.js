@@ -29,4 +29,3 @@ export function getAbbreviatedWeekdays(locale) {
     }
     return weekdays;
 }
-//# sourceMappingURL=utils.js.map

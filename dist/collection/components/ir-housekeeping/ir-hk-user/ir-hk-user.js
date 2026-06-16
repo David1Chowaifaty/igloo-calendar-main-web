@@ -138,12 +138,13 @@ export class IrHkUser {
                 "mutable": false,
                 "complexType": {
                     "original": "THKUser | null",
-                    "resolved": "{ name: string; note: string; property_id: number; id: number; mobile: string; password: string; phone_prefix: string; username: string; }",
+                    "resolved": "{ name: string; id: number; note: string; property_id: number; mobile: string; password: string; phone_prefix: string; username: string; }",
                     "references": {
                         "THKUser": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::THKUser"
+                            "id": "src/models/housekeeping.ts::THKUser",
+                            "referenceLocation": "THKUser"
                         }
                     }
                 },
@@ -173,8 +174,8 @@ export class IrHkUser {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-edit",
                 "reflect": false,
+                "attribute": "is-edit",
                 "defaultValue": "false"
             }
         };
@@ -223,4 +224,3 @@ export class IrHkUser {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-user.js.map

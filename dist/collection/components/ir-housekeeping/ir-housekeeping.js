@@ -111,8 +111,8 @@ export class IrHousekeeping {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -131,8 +131,8 @@ export class IrHousekeeping {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -151,8 +151,8 @@ export class IrHousekeeping {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -170,8 +170,8 @@ export class IrHousekeeping {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "baseUrl": {
                 "type": "string",
@@ -189,8 +189,8 @@ export class IrHousekeeping {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             }
         };
     }
@@ -216,4 +216,3 @@ export class IrHousekeeping {
             }];
     }
 }
-//# sourceMappingURL=ir-housekeeping.js.map

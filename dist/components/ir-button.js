@@ -1,8 +1,1 @@
-import { I as IrButton$1, d as defineCustomElement$1 } from './ir-button2.js';
-
-const IrButton = IrButton$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrButton, defineCustomElement };
-
-//# sourceMappingURL=ir-button.js.map
+import{I as o,d as t}from"./ir-button2.js";const r=o,s=t;export{r as IrButton,s as defineCustomElement}

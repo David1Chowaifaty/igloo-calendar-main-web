@@ -1,8 +1,1 @@
-import { I as IrPasswordValidator$1, d as defineCustomElement$1 } from './ir-password-validator2.js';
-
-const IrPasswordValidator = IrPasswordValidator$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPasswordValidator, defineCustomElement };
-
-//# sourceMappingURL=ir-password-validator.js.map
+import{I as o,d as r}from"./ir-password-validator2.js";const s=o,a=r;export{s as IrPasswordValidator,a as defineCustomElement}

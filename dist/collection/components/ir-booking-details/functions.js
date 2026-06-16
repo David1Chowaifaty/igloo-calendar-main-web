@@ -15,4 +15,3 @@ export const _formatTime = (hour, minute) => {
 export const isAgentMode = (agent) => {
     return agent && agent.payment_mode.code !== '002';
 };
-//# sourceMappingURL=functions.js.map

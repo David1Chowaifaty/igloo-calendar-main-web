@@ -122,8 +122,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "value": {
                 "type": "any",
@@ -141,8 +141,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "unit": {
                 "type": "string",
@@ -160,8 +160,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit"
             },
             "icon": {
                 "type": "string",
@@ -179,8 +179,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon",
-                "reflect": false
+                "reflect": false,
+                "attribute": "icon"
             },
             "intent": {
                 "type": "string",
@@ -204,8 +204,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "intent",
                 "reflect": true,
+                "attribute": "intent",
                 "defaultValue": "'neutral'"
             },
             "trend": {
@@ -224,8 +224,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "trend",
-                "reflect": false
+                "reflect": false,
+                "attribute": "trend"
             },
             "trendLabel": {
                 "type": "string",
@@ -243,8 +243,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "trend-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "trend-label"
             },
             "invertTrend": {
                 "type": "boolean",
@@ -262,8 +262,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "invert-trend",
                 "reflect": false,
+                "attribute": "invert-trend",
                 "defaultValue": "false"
             },
             "caption": {
@@ -282,8 +282,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "caption",
-                "reflect": false
+                "reflect": false,
+                "attribute": "caption"
             },
             "loading": {
                 "type": "boolean",
@@ -301,8 +301,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading",
                 "reflect": true,
+                "attribute": "loading",
                 "defaultValue": "false"
             },
             "size": {
@@ -327,8 +327,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "clickable": {
@@ -347,8 +347,8 @@ export class IrMetricCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "clickable",
                 "reflect": true,
+                "attribute": "clickable",
                 "defaultValue": "false"
             }
         };
@@ -372,4 +372,3 @@ export class IrMetricCard {
             }];
     }
 }
-//# sourceMappingURL=ir-metric-card.js.map

@@ -76,8 +76,8 @@ export class IrPmsPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "ticket": {
                 "type": "string",
@@ -95,8 +95,8 @@ export class IrPmsPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -106,4 +106,3 @@ export class IrPmsPage {
         };
     }
 }
-//# sourceMappingURL=ir-pms-page.js.map

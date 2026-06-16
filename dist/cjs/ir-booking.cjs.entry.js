@@ -1,20 +1,18 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var Token = require('./Token-mN7PQKGF.js');
+var utils = require('./utils-CldsIwq_.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./moment-CdViwxPQ.js');
+require('./index-CLqkDPTC.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-yPf-buWw.js');
+require('./locales.store-CUKWeY9v.js');
+require('./type-Dy9pVS4V.js');
 
-const index = require('./index-35d81173.js');
-const Token = require('./Token-fb15e0d7.js');
-const utils = require('./utils-410526d1.js');
-require('./axios-6e678d52.js');
-require('./moment-1780b03a.js');
-require('./index-8bb117a0.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-fbf1fe1d.js');
-require('./locales.store-32782582.js');
-require('./type-53035218.js');
-
-const irBookingCss = ".sc-ir-booking-h{display:block}";
-const IrBookingStyle0 = irBookingCss;
+const irBookingCss = () => `.sc-ir-booking-h{display:block}`;
 
 const IrBooking = class {
     constructor(hostRef) {
@@ -44,8 +42,6 @@ const IrBooking = class {
         return (index.h(index.Host, null, index.h("ir-booking-details", { p: this.p, hasPrint: true, hasReceipt: true, propertyid: this.propertyid, hasRoomEdit: true, hasRoomDelete: true, language: "en", ticket: this.token.getToken(), bookingNumber: this.bookingNumber })));
     }
 };
-IrBooking.style = IrBookingStyle0;
+IrBooking.style = irBookingCss();
 
 exports.ir_booking = IrBooking;
-
-//# sourceMappingURL=ir-booking.cjs.entry.js.map

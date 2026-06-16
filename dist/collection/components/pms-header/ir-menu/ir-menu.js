@@ -144,8 +144,8 @@ export class IrMenu {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-href",
-                "reflect": true
+                "reflect": true,
+                "attribute": "selected-href"
             }
         };
     }
@@ -209,4 +209,3 @@ export class IrMenu {
             }];
     }
 }
-//# sourceMappingURL=ir-menu.js.map

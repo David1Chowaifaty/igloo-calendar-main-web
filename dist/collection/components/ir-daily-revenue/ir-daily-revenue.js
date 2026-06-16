@@ -234,8 +234,8 @@ export class IrDailyRevenue {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -254,8 +254,8 @@ export class IrDailyRevenue {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -274,8 +274,8 @@ export class IrDailyRevenue {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -293,8 +293,8 @@ export class IrDailyRevenue {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             }
         };
     }
@@ -355,4 +355,3 @@ export class IrDailyRevenue {
             }];
     }
 }
-//# sourceMappingURL=ir-daily-revenue.js.map

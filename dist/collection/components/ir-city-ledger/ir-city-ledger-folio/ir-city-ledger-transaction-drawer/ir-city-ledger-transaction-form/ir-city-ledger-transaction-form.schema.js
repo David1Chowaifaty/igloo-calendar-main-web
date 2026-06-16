@@ -307,4 +307,3 @@ export function hydrateFormDraftFromTx(tx) {
             return base;
     }
 }
-//# sourceMappingURL=ir-city-ledger-transaction-form.schema.js.map

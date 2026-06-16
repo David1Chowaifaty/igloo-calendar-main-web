@@ -102,8 +102,8 @@ export class IrUnitTag {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit"
             }
         };
     }
@@ -119,4 +119,3 @@ export class IrUnitTag {
             }];
     }
 }
-//# sourceMappingURL=ir-unit-tag.js.map

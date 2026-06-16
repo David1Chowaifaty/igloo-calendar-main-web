@@ -16,4 +16,3 @@ export const Params_Update_GHS_Enablement_Schema = z.object({
     AC_ID: z.number(),
     IS_ENABLED: z.boolean(),
 });
-//# sourceMappingURL=types.js.map

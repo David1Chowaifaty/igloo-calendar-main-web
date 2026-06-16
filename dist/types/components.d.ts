@@ -52,7 +52,7 @@ import { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoi
 import { Row } from "@tanstack/table-core";
 import { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 import { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-import { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+import { FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 import { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 import { Moment as Moment1 } from "moment/min/moment-with-locales";
 import { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -149,7 +149,7 @@ export { CreateInvoiceFormValues } from "./components/ir-city-ledger/ir-cl-invoi
 export { Row } from "@tanstack/table-core";
 export { ColumnAutocompleteSelectionChange } from "./components/ir-table/ir-column-autocomplete/ir-column-autocomplete";
 export { ComboboxItem } from "./components/ui/ir-combobox/ir-combobox";
-export { FolioPayment as FolioPayment1, unknown as GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
+export { FolioPayment as FolioPayment1, GuestChangedEvent, ICountry as ICountry2, IrComboboxSelectEventDetail as IrComboboxSelectEventDetail1, IToast as IToast1 } from "./components.d";
 export { NativeButton } from "./components/ui/ir-custom-button/ir-custom-button";
 export { Moment as Moment1 } from "moment/min/moment-with-locales";
 export { IDateModifiers } from "./components/ui/ir-custom-date-range/ir-custom-date-range.types";
@@ -201,18 +201,33 @@ export { User } from "./models/Users";
 export { AllowedUser } from "./components/ir-user-management/types";
 export namespace Components {
     interface AcPagesMenu {
+        /**
+          * @default 'nav'
+         */
         "location": 'sheet' | 'nav';
+        /**
+          * @default []
+         */
         "pages": ACPages[];
     }
     interface IglApplicationInfo {
         "autoFillGuest": boolean;
         "baseData": { unit: { id: string; name: string }; roomtypeId: number };
+        /**
+          * @default []
+         */
         "bedPreferenceType": any[];
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType": string;
         "currency": ICurrency;
         "guestInfo": RatePlanGuest | null;
         "rateplanSelection": IRatePlanSelection;
         "roomIndex": number;
+        /**
+          * @default 1
+         */
         "totalNights": number;
     }
     interface IglBlockDatesView {
@@ -221,6 +236,9 @@ export namespace Components {
         "entryHour": number;
         "entryMinute": number;
         "fromDate": string;
+        /**
+          * @default false
+         */
         "isEventHover": boolean;
         "toDate": string;
     }
@@ -254,15 +272,27 @@ export namespace Components {
         "currency": ICurrency;
         "language": string;
         "propertyid": number;
+        /**
+          * @default false
+         */
         "showPaymentDetails": boolean;
     }
     interface IglBookPropertyContainer {
         "from_date": string;
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
         "to_date": string;
+        /**
+          * @default true
+         */
         "withIrToastAndInterceptor": boolean;
     }
     interface IglBookPropertyFooter {
@@ -275,6 +305,9 @@ export namespace Components {
     interface IglBookPropertyHeader {
         "adultChildConstraints": TAdultChildConstraints1;
         "bookedByInfoData": any;
+        /**
+          * @default ''
+         */
         "bookingData": any;
         "bookingDataDefaultDateRange": { [key: string]: any };
         "dateRangeData": any;
@@ -282,24 +315,42 @@ export namespace Components {
         "message": string;
         "minDate": string;
         "propertyId": number;
+        /**
+          * @default false
+         */
         "showSplitBookingOption": boolean;
+        /**
+          * @default ''
+         */
         "splitBookingId": any;
         "splitBookings": any[];
         "wasBlockedUnit": boolean;
     }
     interface IglBookingEvent {
+        /**
+          * @default []
+         */
         "allBookingEvents": { [key: string]: any };
         "bookingEvent": { [key: string]: any };
         "countries": ICountry[];
         "currency": any;
+        /**
+          * @default false
+         */
         "is_vacation_rental": boolean;
         "language": string;
     }
     interface IglBookingEventHover {
         "bookingEvent": { [key: string]: any };
+        /**
+          * @default false
+         */
         "bubbleInfoTop": boolean;
         "countries": ICountry[];
         "currency": any;
+        /**
+          * @default false
+         */
         "is_vacation_rental": boolean;
     }
     interface IglBookingForm {
@@ -337,20 +388,32 @@ export namespace Components {
     }
     interface IglBulkBlock {
         "formId": string;
+        /**
+          * @default 8
+         */
         "maxDatesLength": number;
         "property_id": number;
     }
     interface IglBulkOperations {
+        /**
+          * @default 8
+         */
         "maxDatesLength": number;
         "property_id": number;
     }
     interface IglBulkOperationsDrawer {
+        /**
+          * @default 8
+         */
         "maxDatesLength": number;
         "open": boolean;
         "property_id": number;
     }
     interface IglBulkStopSale {
         "formId": string;
+        /**
+          * @default 8
+         */
         "maxDatesLength": number;
         "property_id": number;
     }
@@ -367,6 +430,9 @@ export namespace Components {
     interface IglCalFooter {
         "calendarData": { [key: string]: any };
         "highlightedDate": string;
+        /**
+          * @default false
+         */
         "isLegendOpen": boolean;
         "today": String;
     }
@@ -380,6 +446,9 @@ export namespace Components {
     }
     interface IglHkIssuesDialog {
         "issues": HKIssue[];
+        /**
+          * @default false
+         */
         "open": boolean;
         "propertyId": number;
         "unitId": number;
@@ -407,10 +476,16 @@ export namespace Components {
         "legendData": { [key: string]: any };
     }
     interface IglPropertyBookedBy {
+        /**
+          * @default []
+         */
         "countries": ICountry[];
         "defaultData": { [key: string]: any };
         "language": string;
         "propertyId": number;
+        /**
+          * @default false
+         */
         "showPaymentDetails": boolean;
     }
     interface IglRateExtenderDrawer {
@@ -419,6 +494,9 @@ export namespace Components {
         "fromDate": string;
         "identifier": string;
         "language": string;
+        /**
+          * @default false
+         */
         "open": boolean;
         "pool": string;
         "propertyId": number;
@@ -436,13 +514,25 @@ export namespace Components {
         "toDate": string;
     }
     interface IglRatePlan {
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType": string;
         "currency": { symbol: string };
+        /**
+          * @default false
+         */
         "isBookDisabled": boolean;
         "ratePlan": RatePlan;
+        /**
+          * @default []
+         */
         "ratePricingMode": Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
         "roomTypeId": number;
         "shouldBeDisabled": boolean;
+        /**
+          * @default new Set()
+         */
         "unavailableRatePlanIds": Set<number>;
         "visibleInventory": IRatePlanSelection;
     }
@@ -450,12 +540,24 @@ export namespace Components {
         "data"?: IReallocationPayload;
     }
     interface IglRoomType {
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType": string;
         "currency": any;
         "isBookDisabled": boolean;
+        /**
+          * @default []
+         */
         "ratePricingMode": any[];
         "roomType": RoomType;
+        /**
+          * @default null
+         */
         "roomTypeId": number | null;
+        /**
+          * @default new Set()
+         */
         "unavailableRatePlanIds": Set<number>;
     }
     interface IglSpiltBookingForm {
@@ -473,15 +575,24 @@ export namespace Components {
     }
     interface IglTbaBookingView {
         "calendarData": { [key: string]: any };
+        /**
+          * @default {}
+         */
         "categoriesData": { [key: string]: any };
         "categoryId": any;
         "categoryIndex": any;
+        /**
+          * @default {}
+         */
         "eventData": { [key: string]: any };
         "eventIndex": any;
         "selectedDate": any;
     }
     interface IglTbaCategoryView {
         "calendarData": { [key: string]: any };
+        /**
+          * @default {}
+         */
         "categoriesData": { [key: string]: any };
         "categoryId": any;
         "categoryIndex": any;
@@ -507,20 +618,26 @@ export namespace Components {
         "loadingMessage": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
         "to_date": string;
     }
     interface IrAccordion {
         /**
           * Show caret icon
+          * @default true
          */
         "caret": boolean;
         /**
           * Caret icon name
+          * @default 'angle-down'
          */
         "caretIcon": string;
         /**
           * Start expanded
+          * @default false
          */
         "defaultExpanded": boolean;
         /**
@@ -531,6 +648,9 @@ export namespace Components {
         "show": () => Promise<void>;
     }
     interface IrActionsCell {
+        /**
+          * @default []
+         */
         "buttons": IrActionButton[];
     }
     interface IrAgentAssignmentDialog {
@@ -547,6 +667,9 @@ export namespace Components {
     interface IrAgentEditorDrawer {
         "agent"?: Agent;
         "countries": ICountry[];
+        /**
+          * @default false
+         */
         "open": boolean;
         "setupEntries": AgentSetupEntries;
     }
@@ -564,6 +687,7 @@ export namespace Components {
     interface IrAgents {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+          * @default 'en'
          */
         "language": string;
         /**
@@ -580,6 +704,9 @@ export namespace Components {
         "ticket": string;
     }
     interface IrAgentsTable {
+        /**
+          * @default []
+         */
         "agents": Agent[];
         "countries": ICountry[];
         "language": string;
@@ -602,6 +729,7 @@ export namespace Components {
     interface IrAirDatePicker {
         /**
           * Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing.
+          * @default true
          */
         "autoClose": boolean;
         /**
@@ -614,14 +742,17 @@ export namespace Components {
         "container"?: HTMLElement;
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern).
+          * @default false
          */
         "customPicker": boolean;
         /**
           * The selected date (single-select mode). Mutable: the component writes the latest selection back into it from `onSelect`, and the parent can set it to move the calendar selection programmatically (applied silently, no `dateChanged` emitted).
+          * @default null
          */
         "date": string | Moment | null;
         /**
           * Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat": string;
         /**
@@ -630,18 +761,22 @@ export namespace Components {
         "dates": (string | Moment)[];
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself).
+          * @default false
          */
         "disabled": boolean;
         /**
           * If `true`, emits `dateChanged` with null values when the selection is cleared. Otherwise clear-events are swallowed.
+          * @default false
          */
         "emitEmptyDate": boolean;
         /**
           * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance instead of calling `selectDate`. Use only when the picker must fully re-initialize; rebuilding on every change is expensive.
+          * @default false
          */
         "forceDestroyOnUpdate": boolean;
         /**
           * Not wired to the picker: the calendar is always created with `inline: true` (visibility is controlled by the parent `ir-date-select` popup).
+          * @default false
          */
         "inline": boolean;
         /**
@@ -658,6 +793,7 @@ export namespace Components {
         "minDate"?: string | Moment;
         /**
           * `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only.
+          * @default false
          */
         "multipleDates": boolean | number;
         /**
@@ -666,14 +802,17 @@ export namespace Components {
         "placeholder": string;
         /**
           * Enables range selection (start + end). Passed to AirDatepicker at init only.
+          * @default false
          */
         "range": boolean;
         /**
           * Allows selecting the previous/next-month days shown in the current view. Passed at init only.
+          * @default true
          */
         "selectOtherMonths": boolean;
         /**
           * Shows days from the previous/next month in the current view. Passed at init only.
+          * @default true
          */
         "showOtherMonths": boolean;
         /**
@@ -682,10 +821,12 @@ export namespace Components {
         "syncSelection": (options?: { date?: string | Moment | null; dates?: (string | Moment)[] | null; }) => Promise<void>;
         /**
           * Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision.
+          * @default false
          */
         "timepicker": boolean;
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` for API parity.
+          * @default ''
          */
         "triggerContainerStyle": string;
         /**
@@ -695,15 +836,24 @@ export namespace Components {
     }
     interface IrApplicablePolicies {
         "booking": Booking;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "propertyId": number;
     }
     interface IrArrivalTimeCell {
         "arrival": Booking['arrival'];
         "arrivalTimeLabel": string;
+        /**
+          * @default 'block'
+         */
         "display": 'block' | 'inline';
     }
     interface IrArrivalTimeDialog {
+        /**
+          * @default []
+         */
         "arrivalTime": IEntries[];
         "booking": Booking;
         "closeDialog": () => Promise<void>;
@@ -712,6 +862,7 @@ export namespace Components {
     interface IrArrivals {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+          * @default 'en'
          */
         "language": string;
         /**
@@ -720,6 +871,7 @@ export namespace Components {
         "p": string;
         /**
           * Number of arrivals to load per page in the arrivals table. Used to configure pagination via Arrivals Store. Defaults to `20`.
+          * @default 20
          */
         "pageSize": number;
         /**
@@ -738,19 +890,23 @@ export namespace Components {
     interface IrAssignmentToggleDialog {
         /**
           * Cancel button label
+          * @default 'Cancel'
          */
         "cancelLabel": string;
         "closeModal": () => Promise<void>;
         /**
           * Confirm button label
+          * @default 'Confirm'
          */
         "confirmLabel": string;
         /**
           * Dialog header title
+          * @default 'Are you sure?'
          */
         "label": string;
         /**
           * Controls the loading spinner on the confirm button — set by the parent while the async operation runs
+          * @default false
          */
         "loading": boolean;
         /**
@@ -770,6 +926,7 @@ export namespace Components {
         "autocapitalize": NativeWaInput['autocapitalize'];
         /**
           * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+          * @default 'off'
          */
         "autocomplete": NativeWaInput['autocomplete'];
         /**
@@ -845,6 +1002,7 @@ export namespace Components {
         "name": string;
         /**
           * Whether the autocomplete dropdown is open.
+          * @default false
          */
         "open": boolean;
         /**
@@ -869,6 +1027,7 @@ export namespace Components {
         "placeholder": NativeWaInput['placeholder'];
         /**
           * Placement of the autocomplete dropdown relative to the input.
+          * @default 'bottom'
          */
         "placement": AutocompletePopupElement['placement'];
         /**
@@ -879,10 +1038,14 @@ export namespace Components {
           * Makes the input a required field.
          */
         "required": NativeWaInput['required'];
+        /**
+          * @default false
+         */
         "returnMaskedValue": boolean;
         "show": () => Promise<void>;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size": NativeWaInput['size'];
         /**
@@ -895,10 +1058,12 @@ export namespace Components {
         "step": NativeWaInput['step'];
         /**
           * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+          * @default 'text'
          */
         "type": NativeWaInput['type'];
         /**
           * The value of the input.
+          * @default ''
          */
         "value": string;
         /**
@@ -919,15 +1084,27 @@ export namespace Components {
         "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
     }
     interface IrAutocompleteOption {
+        /**
+          * @default false
+         */
         "current": boolean;
+        /**
+          * @default false
+         */
         "disabled": boolean;
         "label": string;
+        /**
+          * @default false
+         */
         "selected": boolean;
         "value": string;
     }
     interface IrBalanceCell {
         "bookingNumber": string;
         "currencySymbol": string;
+        /**
+          * @default 'block'
+         */
         "display": 'inline' | 'block';
         "financial": Booking['financial'];
         "guestFinancial": Booking['guest_financial'];
@@ -959,8 +1136,12 @@ export namespace Components {
         "cellId": string;
         /**
           * Makes the guest name clickable. Emits `openGuestDetails` when clicked.
+          * @default false
          */
         "clickableGuest": boolean;
+        /**
+          * @default 'block'
+         */
         "display": 'inline' | 'block';
         /**
           * Guest associated with this booking.
@@ -977,26 +1158,32 @@ export namespace Components {
         "promoKey": string;
         /**
           * Show phone and WhatsApp contact icons. When shown, phone links via `tel:` and WhatsApp via `https://wa.me/`.
+          * @default false
          */
         "showContactIcons": boolean;
         /**
           * Show loyalty discount icon (pink heart-outline).
+          * @default false
          */
         "showLoyaltyIcon": boolean;
         /**
           * Show total persons count (e.g. "3P").
+          * @default false
          */
         "showPersons": boolean;
         /**
           * Show yellow dot indicating the booking has a private note.
+          * @default false
          */
         "showPrivateNoteDot": boolean;
         /**
           * Show promo/coupon icon.
+          * @default false
          */
         "showPromoIcon": boolean;
         /**
           * Show pink heart icon if guest has repeated bookings.
+          * @default false
          */
         "showRepeatGuestBadge": boolean;
         /**
@@ -1006,6 +1193,9 @@ export namespace Components {
     }
     interface IrBookedOnCell {
         "bookedOn": Booking['booked_on'];
+        /**
+          * @default 'block'
+         */
         "display": 'inline' | 'block';
         "label": string;
     }
@@ -1015,6 +1205,9 @@ export namespace Components {
         "propertyid": number;
     }
     interface IrBookingAssignItems {
+        /**
+          * @default []
+         */
         "items": AssignableItem[];
     }
     interface IrBookingBillingRecipient {
@@ -1027,22 +1220,27 @@ export namespace Components {
         "booking": Booking;
         /**
           * Error message driven by the parent fetch.
+          * @default null
          */
         "error": string | null;
         /**
           * Folio rows fetched by the parent.
+          * @default []
          */
         "folioRows": FolioRow[];
         /**
           * Loading state driven by the parent fetch.
+          * @default false
          */
         "isLoading": boolean;
         /**
           * Active language code.
+          * @default 'en'
          */
         "language": string;
         /**
           * Service-category entries used to populate the transaction form.
+          * @default []
          */
         "svcCategories": IEntries[];
     }
@@ -1058,54 +1256,67 @@ export namespace Components {
     interface IrBookingDetails {
         /**
           * Booking number used to fetch booking details.
+          * @default ''
          */
         "bookingNumber": string;
         /**
           * Enables the check-in action in room components.
+          * @default false
          */
         "hasCheckIn": boolean;
         /**
           * Enables the check-out action in room components.
+          * @default false
          */
         "hasCheckOut": boolean;
         /**
           * Displays the close button in the booking header.
+          * @default false
          */
         "hasCloseButton": boolean;
         /**
           * Enables the delete booking action.
+          * @default false
          */
         "hasDelete": boolean;
         /**
           * Displays the navigation menu button.
+          * @default false
          */
         "hasMenu": boolean;
         /**
           * Enables the print booking option.
+          * @default false
          */
         "hasPrint": boolean;
         /**
           * Enables the receipt action in the booking header.
+          * @default false
          */
         "hasReceipt": boolean;
         /**
           * Allows adding new rooms to the booking.
+          * @default false
          */
         "hasRoomAdd": boolean;
         /**
           * Allows deleting rooms from the booking.
+          * @default false
          */
         "hasRoomDelete": boolean;
         /**
           * Allows editing existing rooms in the booking.
+          * @default false
          */
         "hasRoomEdit": boolean;
         /**
           * Indicates whether the component is rendered from the front desk context. Disables interceptor and toast rendering when true.
+          * @default false
          */
         "is_from_front_desk": boolean;
         /**
           * Active language code used for translations and API requests. Defaults to 'en'.
+          * @default 'en'
          */
         "language": string;
         /**
@@ -1118,6 +1329,7 @@ export namespace Components {
         "propertyid": number;
         /**
           * Authentication token used to initialize the component. Triggers re-initialization when changed.
+          * @default ''
          */
         "ticket": string;
     }
@@ -1134,6 +1346,7 @@ export namespace Components {
         "bookingNumber": string;
         /**
           * Language code used for localization. Defaults to English (`en`).
+          * @default 'en'
          */
         "language": string;
         /**
@@ -1155,9 +1368,18 @@ export namespace Components {
         "checkIn": string;
         "checkOut": string;
         "identifier": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "mode": BookingEditorMode;
         "propertyId": string | number;
+        /**
+          * @default []
+         */
         "roomTypeIds": (string | number)[];
         "step": BookingStep;
         "unitId": string;
@@ -1185,10 +1407,12 @@ export namespace Components {
         "label": string;
         /**
           * UI language code (default: `en`).
+          * @default 'en'
          */
         "language": string;
         /**
           * Current booking editor mode.
+          * @default 'PLUS_BOOKING'
          */
         "mode": BookingEditorMode;
         /**
@@ -1205,6 +1429,7 @@ export namespace Components {
         "roomIdentifier": string;
         /**
           * Allowed room type identifiers.
+          * @default []
          */
         "roomTypeIds": (string | number)[];
         /**
@@ -1219,6 +1444,9 @@ export namespace Components {
     interface IrBookingEditorForm {
         "agent": Agent;
         "booking": Booking;
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "mode": BookingEditorMode;
         "room": Room;
     }
@@ -1241,6 +1469,7 @@ export namespace Components {
         "isLoading": boolean;
         /**
           * Controls header behavior and date constraints
+          * @default 'PLUS_BOOKING'
          */
         "mode": BookingEditorMode;
     }
@@ -1259,11 +1488,20 @@ export namespace Components {
     }
     interface IrBookingHeader {
         "agent": Agent;
+        /**
+          * @default []
+         */
         "agents": Agent[];
         "booking": Booking;
+        /**
+          * @default []
+         */
         "folioRows": FolioRow[];
         "hasCloseButton": boolean;
         "hasDelete": boolean;
+        /**
+          * @default true
+         */
         "hasEmail": boolean;
         "hasMenu": boolean;
         "hasPrint": boolean;
@@ -1271,10 +1509,19 @@ export namespace Components {
     }
     interface IrBookingListing {
         "baseUrl": string;
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default 20
+         */
         "rowCount": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
         "userType": number;
     }
@@ -1304,55 +1551,102 @@ export namespace Components {
         "source": Booking['source'];
     }
     interface IrBookingPricingDrawer {
+        /**
+          * @default null
+         */
         "agent": Agent | null;
         "booking": Booking;
+        /**
+          * @default ''
+         */
         "currencySymbol": string;
+        /**
+          * @default []
+         */
         "folioEntries": ClTx[];
+        /**
+          * @default 'booking-pricing-form'
+         */
         "formId": string;
+        /**
+          * @default false
+         */
         "open": boolean;
         "room": Room;
     }
     interface IrBookingPricingForm {
+        /**
+          * @default null
+         */
         "agent": Agent | null;
         "booking": Booking;
+        /**
+          * @default ''
+         */
         "currencySymbol": string;
+        /**
+          * @default []
+         */
         "folioEntries": ClTx[];
+        /**
+          * @default 'booking-pricing-form'
+         */
         "formId": string;
         "room": Room;
     }
     interface IrBookingPrinting {
+        /**
+          * @default ''
+         */
         "bookingNumber": string;
         "countries": any;
+        /**
+          * @default 'en'
+         */
         "language": string;
+        /**
+          * @default 'default'
+         */
         "mode": 'invoice' | 'default';
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "token": string;
     }
     interface IrBookingRooms {
         "agent": Agent;
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
+          * @default []
          */
         "bedPreference": IEntries[];
         /**
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking": Booking;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
         /**
           * Available departure time options for the booking. Passed down to each room when applicable.
+          * @default []
          */
         "departureTime": IEntries[];
         /**
           * Enables the ability to add a new room/unit to the booking.
+          * @default false
          */
         "hasRoomAdd": boolean;
         /**
           * Enables deleting a room from the booking.
+          * @default false
          */
         "hasRoomDelete": boolean;
         /**
           * Enables editing room details within the booking.
+          * @default false
          */
         "hasRoomEdit": boolean;
         /**
@@ -1399,18 +1693,22 @@ export namespace Components {
         "btnStyle": { [key: string]: string };
         /**
           * Whether the button should expand to the full width of its container.
+          * @default true
          */
         "btn_block": boolean;
         /**
           * The color theme of the button.
+          * @default 'primary'
          */
         "btn_color": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline' | 'link';
         /**
           * Disables the button when set to true.
+          * @default false
          */
         "btn_disabled": boolean;
         /**
           * A unique identifier for the button instance.
+          * @default v4()
          */
         "btn_id": string;
         /**
@@ -1419,10 +1717,12 @@ export namespace Components {
         "btn_styles": string;
         /**
           * The button type attribute (`button`, `submit`, or `reset`).
+          * @default 'button'
          */
         "btn_type": string;
         /**
           * Position of the icon relative to the button text.
+          * @default 'left'
          */
         "iconPosition": 'left' | 'right';
         /**
@@ -1435,6 +1735,7 @@ export namespace Components {
         "icon_style": any;
         /**
           * Displays a loading indicator when true and disables the button.
+          * @default false
          */
         "isLoading": boolean;
         /**
@@ -1447,10 +1748,12 @@ export namespace Components {
         "name": string;
         /**
           * If true, renders the text property as raw HTML inside the button.
+          * @default false
          */
         "renderContentAsHtml": boolean;
         /**
           * The size of the button.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         /**
@@ -1459,14 +1762,17 @@ export namespace Components {
         "text": string;
         /**
           * The size of the text inside the button.
+          * @default 'md'
          */
         "textSize": 'sm' | 'md' | 'lg';
         /**
           * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+          * @default 'default'
          */
         "variant": 'default' | 'icon';
         /**
           * If true, applies a visible background when hovered.
+          * @default false
          */
         "visibleBackgroundOnHover": boolean;
     }
@@ -1475,16 +1781,28 @@ export namespace Components {
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrChannelEditor {
+        /**
+          * @default null
+         */
         "channel_status": 'create' | 'edit' | null;
         "ticket": string;
     }
     interface IrChannelGeneral {
+        /**
+          * @default null
+         */
         "channel_status": 'create' | 'edit' | null;
     }
     interface IrChannelHeader {
+        /**
+          * @default []
+         */
         "headerTitles": { id: string; name: string; disabled: boolean }[];
     }
     interface IrChannelMapping {
@@ -1492,10 +1810,12 @@ export namespace Components {
     interface IrCheckbox {
         /**
           * The unique ID of the checkbox element.
+          * @default v4()
          */
         "checkboxId": string;
         /**
           * Whether the checkbox is checked.
+          * @default false
          */
         "checked": boolean;
         /**
@@ -1520,6 +1840,9 @@ export namespace Components {
         "name": string;
     }
     interface IrCheckboxes {
+        /**
+          * @default []
+         */
         "checkboxes": checkboxes[];
     }
     interface IrCheckoutDialog {
@@ -1528,43 +1851,103 @@ export namespace Components {
         "open": boolean;
     }
     interface IrCityLedger {
+        /**
+          * @default null
+         */
         "agentId": number | null;
         "baseurl": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "p": string;
         "propertyid": number;
         "ticket": string;
     }
     interface IrCityLedgerFiscalDocuments {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         "initialFilters": ClFiscalDocumentFilters;
         "propertyId": number;
         "ticket": string;
     }
     interface IrCityLedgerFiscalDocumentsFilters {
+        /**
+          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,   }
+         */
         "filters": ClFiscalDocumentFilters;
     }
     interface IrCityLedgerFiscalDocumentsTable {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
+        /**
+          * @default null
+         */
         "fromDate": string | null;
+        /**
+          * @default false
+         */
         "hasDates": boolean;
+        /**
+          * @default false
+         */
         "hasFetched": boolean;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
         "propertyId": number;
+        /**
+          * @default []
+         */
         "rows": FiscalDocument[];
+        /**
+          * @default false
+         */
         "taxableOnly": boolean;
         "ticket": string;
+        /**
+          * @default null
+         */
         "toDate": string | null;
     }
     interface IrCityLedgerFolio {
+        /**
+          * @default null
+         */
         "agent": Agent | null;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default 'en'
+         */
         "language": string;
         "propertyId": number;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions": ServiceCategoryOption[];
         "ticket": string;
     }
@@ -1572,88 +1955,262 @@ export namespace Components {
         "isExporting": boolean;
     }
     interface IrCityLedgerFolioTable {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default 0
+         */
         "closingBalance": number;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
+        /**
+          * @default []
+         */
         "data": FolioRow1[];
+        /**
+          * @default ''
+         */
         "fromDate": string;
+        /**
+          * @default false
+         */
         "hasFetched": boolean;
+        /**
+          * @default false
+         */
         "hideBalanceInfo": boolean;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
+        /**
+          * @default 0
+         */
         "pageIndex": number;
+        /**
+          * @default 25
+         */
         "pageSize": number;
         "propertyId": number;
+        /**
+          * @default 0
+         */
         "startingBalance": number;
         "ticket": string;
+        /**
+          * @default ''
+         */
         "toDate": string;
+        /**
+          * @default 0
+         */
         "totalCount": number;
     }
     interface IrCityLedgerStatements {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default ''
+         */
         "agentName": string;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         "initialFilters": StatementFilters;
         "propertyId": number;
         "ticket": string;
     }
     interface IrCityLedgerStatementsFilter {
+        /**
+          * @default null
+         */
         "initialFromDate": string | null;
+        /**
+          * @default null
+         */
         "initialToDate": string | null;
     }
     interface IrCityLedgerStatementsTable {
         "agentId": number;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
+        /**
+          * @default 0
+         */
         "endingBalance": number;
+        /**
+          * @default null
+         */
         "fromDate": string | null;
+        /**
+          * @default false
+         */
         "hasFetched": boolean;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default []
+         */
         "rows": FiscalDocument[];
+        /**
+          * @default 0
+         */
         "startingBalance": number;
+        /**
+          * @default null
+         */
         "toDate": string | null;
     }
     interface IrCityLedgerToolbar {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         "refresh": () => Promise<void>;
     }
     interface IrCityLedgerTransactionDrawer {
+        /**
+          * @default null
+         */
         "agent": Agent | null;
+        /**
+          * @default null
+         */
         "booking": Booking | null;
+        /**
+          * @default []
+         */
         "bookingOptions": LinkedOption[];
+        /**
+          * @default 'New Entry'
+         */
         "drawerLabel": string;
+        /**
+          * @default 'city-ledger-transaction-form'
+         */
         "formId": string;
+        /**
+          * @default 'OB'
+         */
         "initialTransactionType": TransactionType;
+        /**
+          * @default false
+         */
         "open": boolean;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions": ServiceCategoryOption[];
+        /**
+          * @default null
+         */
         "transaction": ClTx | null;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
+        /**
+          * @default null
+         */
         "agent": Agent | null;
+        /**
+          * @default null
+         */
         "booking": Booking | null;
+        /**
+          * @default []
+         */
         "bookingOptions": LinkedOption[];
+        /**
+          * @default 'city-ledger-transaction-form'
+         */
         "formId": string;
+        /**
+          * @default 'PAY'
+         */
         "initialTransactionType": TransactionType;
+        /**
+          * @default 'en'
+         */
         "language": string;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions": ServiceCategoryOption[];
+        /**
+          * @default null
+         */
         "transaction": ClTx | null;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrClAdjustmentFields {
+        /**
+          * @default []
+         */
         "bookingOptions": LinkedOption[];
+        /**
+          * @default ''
+         */
         "entryType": EntryType | '';
+        /**
+          * @default 'NONE'
+         */
         "linkType": LinkType;
         "linkedId": string | undefined;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrClCreditNoteFields {
+        /**
+          * @default 'cancel-invoice'
+         */
         "creditNoteMode": CreditNoteMode;
+        /**
+          * @default []
+         */
         "fiscalDocuments": FiscalDocuments;
         "invoiceId": string | undefined;
+        /**
+          * @default false
+         */
         "isFetchingFiscalDocs": boolean;
     }
     interface IrClCreditNotePreview {
@@ -1666,6 +2223,9 @@ export namespace Components {
         "ticket": string;
     }
     interface IrClDebitNoteFields {
+        /**
+          * @default []
+         */
         "fiscalDocuments": FiscalDocuments;
         "invoiceId": string | undefined;
     }
@@ -1686,6 +2246,9 @@ export namespace Components {
           * Optional document reference number shown in the meta block.
          */
         "documentNumber"?: string;
+        /**
+          * @default 'invoice'
+         */
         "documentType": 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
         /**
           * Property whose branding and details appear on the right side.
@@ -1697,11 +2260,18 @@ export namespace Components {
         "ticket": string;
     }
     interface IrClFiscalDocumentTable {
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         /**
           * When true all monetary amounts are negated — used for credit notes.
+          * @default false
          */
         "invertAmounts": boolean;
+        /**
+          * @default []
+         */
         "transactions": ClTx[];
     }
     interface IrClInvoiceCityTaxAmountCell {
@@ -1719,14 +2289,35 @@ export namespace Components {
         "description": string;
     }
     interface IrClInvoiceDialog {
+        /**
+          * @default null
+         */
         "agentId": number | null;
+        /**
+          * @default null
+         */
         "bookingNbr": string | null;
         "closeModal": () => Promise<void>;
+        /**
+          * @default null
+         */
         "currencyId": number | null;
+        /**
+          * @default null
+         */
         "endDate": string | null;
+        /**
+          * @default 'default'
+         */
         "mode": 'booking' | 'default';
         "openModal": () => Promise<void>;
+        /**
+          * @default []
+         */
         "rooms": Room[];
+        /**
+          * @default null
+         */
         "startDate": string | null;
     }
     interface IrClInvoiceForm {
@@ -1746,9 +2337,21 @@ export namespace Components {
         "ticket": string;
     }
     interface IrClInvoiceSelect {
+        /**
+          * @default []
+         */
         "fiscalDocuments": FiscalDocuments;
+        /**
+          * @default ''
+         */
         "hint": string;
+        /**
+          * @default 'Invoice'
+         */
         "label": string;
+        /**
+          * @default ''
+         */
         "value": string;
     }
     interface IrClInvoiceTotalCell {
@@ -1763,15 +2366,36 @@ export namespace Components {
         "vatPercent": number;
     }
     interface IrClOpeningBalanceFields {
+        /**
+          * @default ''
+         */
         "entryType": EntryType | '';
     }
     interface IrClPaymentFields {
         "invoiceId": string | undefined;
+        /**
+          * @default false
+         */
         "isOnAccount": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
+        /**
+          * @default false
+         */
         "noInvoices": boolean;
+        /**
+          * @default ''
+         */
         "paymentMethodCode": string;
+        /**
+          * @default []
+         */
         "paymentMethods": IEntries[];
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions": LinkedOption[];
     }
     interface IrClReceiptPreview {
@@ -1793,6 +2417,9 @@ export namespace Components {
         "toDate": string;
     }
     interface IrClStatusTag {
+        /**
+          * @default 'extra-small'
+         */
         "size": 'default' | 'extra-small';
         "transaction": FolioRow1 | FiscalDocument;
     }
@@ -1800,33 +2427,56 @@ export namespace Components {
         "row": Row<any>;
     }
     interface IrColumnAutocomplete {
+        /**
+          * @default 'No results found'
+         */
         "emptyLabel": string;
+        /**
+          * @default []
+         */
         "options": string[];
+        /**
+          * @default 'Search...'
+         */
         "placeholder": string;
+        /**
+          * @default 'Select all'
+         */
         "selectAllLabel": string;
+        /**
+          * @default []
+         */
         "selectedValues": string[];
+        /**
+          * @default true
+         */
         "showSelectAll": boolean;
         "triggerId"?: string;
     }
     interface IrCombobox {
         /**
           * Autofocuses the input field when true.
+          * @default false
          */
         "autoFocus": boolean;
         /**
           * The list of items displayed in the combobox.
+          * @default []
          */
         "data": ComboboxItem[];
         /**
           * Disables the combobox input when set to true.
+          * @default false
          */
         "disabled": boolean;
         /**
           * Debounce duration in milliseconds for search input.
+          * @default 300
          */
         "duration": number;
         /**
           * Unique identifier for the input element.
+          * @default v4()
          */
         "input_id": string;
         /**
@@ -1840,6 +2490,9 @@ export namespace Components {
     }
     interface IrCommon {
         "disableResourceInjection": boolean;
+        /**
+          * @default ''
+         */
         "extraResources": string;
     }
     interface IrCopyButton {
@@ -1848,10 +2501,12 @@ export namespace Components {
     interface IrCountryPicker {
         /**
           * Whether to automatically validate the input.
+          * @default false
          */
         "autoValidate": boolean;
         /**
           * List of countries to display in the dropdown.
+          * @default []
          */
         "countries": ICountry[];
         /**
@@ -1879,6 +2534,9 @@ export namespace Components {
           * Test ID for automated testing.
          */
         "testId": string;
+        /**
+          * @default 'default'
+         */
         "variant": 'modern' | 'default';
     }
     interface IrCustomButton {
@@ -1942,6 +2600,7 @@ export namespace Components {
         "rel": NativeButton['rel'];
         /**
           * The button's size.
+          * @default 'small'
          */
         "size": NativeButton['size'];
         /**
@@ -1950,6 +2609,7 @@ export namespace Components {
         "target": NativeButton['target'];
         /**
           * The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
+          * @default 'button'
          */
         "type": NativeButton['type'];
         /**
@@ -1990,38 +2650,51 @@ export namespace Components {
         "dateModifiers": IDateModifiers;
         /**
           * The currently selected check-in date.
+          * @default null
          */
         "fromDate": Moment1 | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
-          * @reflect
+          * @reflect 
+          * @default 'en'
          */
         "locale": string;
         /**
           * The latest selectable date. Defaults to 24 years in the future.
+          * @default moment().add(24, 'years')
          */
         "maxDate": Moment1;
         /**
           * Maximum number of nights that can be selected in one span.
+          * @default 90
          */
         "maxSpanDays": number;
         /**
           * The earliest selectable date. Defaults to 24 years in the past.
+          * @default moment().add(-24, 'years')
          */
         "minDate": Moment1;
         /**
           * When `true`, displays a price line inside each day button (requires `dateModifiers`).
+          * @default false
          */
         "showPrice": boolean;
         /**
           * The currently selected check-out date.
+          * @default null
          */
         "toDate": Moment1 | null;
     }
     interface IrDailyRevenue {
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrDailyRevenueFilters {
@@ -2031,6 +2704,7 @@ export namespace Components {
     interface IrDatePicker {
         /**
           * Closes the picker automatically after a date is selected.
+          * @default true
          */
         "autoClose": boolean;
         "clearDatePicker": () => Promise<void>;
@@ -2040,30 +2714,37 @@ export namespace Components {
         "container"?: HTMLElement;
         /**
           * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `true`.
+          * @default true
          */
         "customPicker": boolean;
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * @default null
          */
         "date": string | Date | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat": string;
         /**
           * Disables the input and prevents interaction.
+          * @default false
          */
         "disabled": boolean;
         /**
           * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * @default false
          */
         "emitEmptyDate": boolean;
         /**
           * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * @default false
          */
         "forceDestroyOnUpdate": boolean;
         /**
           * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * @default false
          */
         "inline": boolean;
         /**
@@ -2076,27 +2757,33 @@ export namespace Components {
         "minDate"?: string | Date;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * @default false
          */
         "multipleDates": boolean | number;
         "openDatePicker": () => Promise<void>;
         /**
           * Whether the picker should allow range selection (start and end date).
+          * @default false
          */
         "range": boolean;
         /**
           * Allows selecting days from previous/next month shown in the current view.
+          * @default true
          */
         "selectOtherMonths": boolean;
         /**
           * Shows days from previous/next month in the current month's calendar.
+          * @default true
          */
         "showOtherMonths": boolean;
         /**
           * Enables the timepicker functionality (select hours and minutes).
+          * @default false
          */
         "timepicker": boolean;
         /**
           * Styles for the trigger container
+          * @default ''
          */
         "triggerContainerStyle": string;
     }
@@ -2129,7 +2816,8 @@ export namespace Components {
         "defaultData": { [key: string]: any };
         /**
           * When `true`, the picker is disabled and cannot be opened.
-          * @reflect
+          * @reflect 
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -2150,15 +2838,18 @@ export namespace Components {
         "openDatePicker": () => Promise<void>;
         /**
           * Controls the visual size of the input trigger.
-          * @reflect
+          * @reflect 
+          * @default 'small'
          */
         "size": 'small' | 'medium' | 'large';
         /**
           * `"booking"` shows the nights badge; `"default"` hides it.
+          * @default 'default'
          */
         "variant": 'booking' | 'default';
         /**
           * When `true` and `variant="booking"`, a nights badge is shown inside the input.
+          * @default true
          */
         "withDateDifference": boolean;
     }
@@ -2197,18 +2888,22 @@ export namespace Components {
         "minDate"?: string;
         /**
           * Configurable quick-date preset buttons shown alongside each calendar.
+          * @default [     { label: 'Today', getDate: () => moment() },     { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },     { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },     { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },     { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },   ]
          */
         "quickDates": QuickDatePreset[];
         /**
           * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
+          * @default 'manual'
          */
         "selectionMode": 'auto' | 'manual';
         /**
           * Whether to show the quick-action preset buttons in each calendar popup.
+          * @default true
          */
         "showQuickActions": boolean;
         /**
           * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
+          * @default 'small'
          */
         "size": string;
         /**
@@ -2217,12 +2912,14 @@ export namespace Components {
         "toDate"?: string;
         /**
           * Shows an ✕ button next to each filled side that clears just that side.
+          * @default true
          */
         "withClear": boolean;
     }
     interface IrDateSelect {
         /**
           * Closes the picker automatically after a date is selected.
+          * @default true
          */
         "autoClose": boolean;
         "clear": () => Promise<void>;
@@ -2232,32 +2929,39 @@ export namespace Components {
         "container"?: HTMLElement;
         /**
           * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+          * @default false
          */
         "customPicker": boolean;
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * @default null
          */
         "date": string | Moment | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat": string;
         "dates": string[];
         /**
           * Disables the input and prevents interaction.
+          * @default false
          */
         "disabled": boolean;
         /**
           * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * @default false
          */
         "emitEmptyDate": boolean;
         /**
           * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * @default false
          */
         "forceDestroyOnUpdate": boolean;
         "hide": () => Promise<void>;
         /**
           * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * @default false
          */
         "inline": boolean;
         "label": string;
@@ -2271,28 +2975,34 @@ export namespace Components {
         "minDate"?: string | Moment;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * @default false
          */
         "multipleDates": boolean | number;
         "placeholder": string;
         /**
           * Whether the picker should allow range selection (start and end date).
+          * @default false
          */
         "range": boolean;
         /**
           * Allows selecting days from previous/next month shown in the current view.
+          * @default true
          */
         "selectOtherMonths": boolean;
         "show": () => Promise<void>;
         /**
           * Shows days from previous/next month in the current month's calendar.
+          * @default true
          */
         "showOtherMonths": boolean;
         /**
           * Enables the timepicker functionality (select hours and minutes).
+          * @default false
          */
         "timepicker": boolean;
         /**
           * Styles for the trigger container
+          * @default ''
          */
         "triggerContainerStyle": string;
         "withClear": boolean;
@@ -2300,10 +3010,12 @@ export namespace Components {
     interface IrDateView {
         /**
           * Input format used when `from_date` / `to_date` are plain strings
+          * @default 'YYYY-MM-DD'
          */
         "dateOption": string;
         /**
           * Display format for both dates
+          * @default 'MMM DD, YYYY'
          */
         "format": string;
         /**
@@ -2312,6 +3024,7 @@ export namespace Components {
         "from_date": string | Date | moment.Moment;
         /**
           * Show the night-count badge after the to-date
+          * @default true
          */
         "showDateDifference": boolean;
         /**
@@ -2324,11 +3037,17 @@ export namespace Components {
         "checkInLabel": string;
         "checkOut": string;
         "checkoutLabel": string;
+        /**
+          * @default 'block'
+         */
         "display": 'block' | 'inline';
         "overdueCheckin": boolean;
         "overdueCheckout": boolean;
     }
     interface IrDepartures {
+        /**
+          * @default 'en'
+         */
         "language": string;
         "p": string;
         "propertyid": number;
@@ -2346,6 +3065,7 @@ export namespace Components {
         "label": string;
         /**
           * When enabled, the dialog will be closed when the user clicks outside of it.
+          * @default true
          */
         "lightDismiss": boolean;
         /**
@@ -2365,6 +3085,7 @@ export namespace Components {
         "label": NativeDrawer['label'];
         /**
           * When enabled, the drawer will be closed when the user clicks outside of it.
+          * @default true
          */
         "lightDismiss": NativeDrawer['lightDismiss'];
         /**
@@ -2381,13 +3102,20 @@ export namespace Components {
         "withoutHeader": NativeDrawer['withoutHeader'];
     }
     interface IrDropdown {
+        /**
+          * @default true
+         */
         "caret": boolean;
+        /**
+          * @default false
+         */
         "disabled": boolean;
         "value": DropdownItem['value'];
     }
     interface IrDropdownItem {
         /**
           * When true, visually hide the item (used for filtering).
+          * @default false
          */
         "hidden": boolean;
         /**
@@ -2406,7 +3134,13 @@ export namespace Components {
         "value": string;
     }
     interface IrEmptyState {
+        /**
+          * @default 'No records found'
+         */
         "message": string;
+        /**
+          * @default true
+         */
         "showIcon": boolean;
     }
     interface IrEventsLog {
@@ -2417,8 +3151,14 @@ export namespace Components {
         "agent": Agent;
         "booking": Booking;
         "bookingNumber": string;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
         "currencySymbol": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "service": ExtraService;
         "svcCategories": IEntries[];
@@ -2429,6 +3169,9 @@ export namespace Components {
         "language": string;
         "open": boolean;
         "service": ExtraService;
+        /**
+          * @default []
+         */
         "svcCategories": IEntries[];
     }
     interface IrExtraServiceConfigForm {
@@ -2436,21 +3179,39 @@ export namespace Components {
         "booking": Booking;
         "language": string;
         "service": ExtraService;
+        /**
+          * @default []
+         */
         "svcCategories": IEntries[];
     }
     interface IrExtraServices {
         "agent": Agent;
         "booking": Booking;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
         "language": string;
         "svcCategories": IEntries[];
     }
     interface IrFdConfirmDialog {
+        /**
+          * @default null
+         */
         "action": FdConfirmAction | null;
         "amount": number;
+        /**
+          * @default 'this document'
+         */
         "docNumber": string;
         "fdType": string;
+        /**
+          * @default false
+         */
         "isConfirming": boolean;
+        /**
+          * @default false
+         */
         "open": boolean;
     }
     interface IrFilterCard {
@@ -2458,26 +3219,32 @@ export namespace Components {
     interface IrFiltersPanel {
         /**
           * Optional data test id suffix for default buttons
+          * @default 'filter'
          */
         "actionTestId": string;
         /**
           * Align footer actions
+          * @default 'end'
          */
         "actionsAlign": 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
+          * @default locales.entries.Lcz_Apply
          */
         "applyLabel": string;
         /**
           * Optional extra class for the card wrapper
+          * @default 'sales-filters-card'
          */
         "cardClass": string;
         /**
           * Collapse icon when collapsed
+          * @default 'closed_eye'
          */
         "collapseIconClosed": TIcons;
         /**
           * Collapse icon when expanded
+          * @default 'open_eye'
          */
         "collapseIconOpen": TIcons;
         /**
@@ -2494,22 +3261,27 @@ export namespace Components {
         "contentClass"?: string;
         /**
           * Space between content items
+          * @default '0.5rem'
          */
         "contentGap": string;
         /**
           * Collapse by default
+          * @default false
          */
         "defaultCollapsed": boolean;
         /**
           * Disable apply action
+          * @default false
          */
         "disableApply": boolean;
         /**
           * Disable reset action
+          * @default false
          */
         "disableReset": boolean;
         /**
           * Panel headline text
+          * @default locales.entries.Lcz_Filters
          */
         "filterTitle": string;
         /**
@@ -2518,10 +3290,12 @@ export namespace Components {
         "headerClass"?: string;
         /**
           * Hide the default footer actions
+          * @default false
          */
         "hideDefaultActions": boolean;
         /**
           * Show loader inside apply button
+          * @default false
          */
         "isApplyLoading": boolean;
         /**
@@ -2530,21 +3304,30 @@ export namespace Components {
         "panelClass"?: string;
         /**
           * Keep content expanded on desktop and hide the collapse toggle
+          * @default true
          */
         "persistentOnDesktop": boolean;
         /**
           * Reset button copy
+          * @default locales.entries.Lcz_Reset
          */
         "resetLabel": string;
         /**
           * Show collapse toggle button
+          * @default true
          */
         "showCollapseButton": boolean;
     }
     interface IrFinancialActions {
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrFinancialFilters {
@@ -2556,51 +3339,114 @@ export namespace Components {
     }
     interface IrFiscalDocuments {
         "baseurl": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "propertyid": number;
         "ticket": string;
     }
     interface IrFiscalDocumentsFilters {
+        /**
+          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,     folioType: 'all',     agentId: null,     guestId: null,   }
+         */
         "filters": FiscalDocumentFilters;
         "propertyId": number;
     }
     interface IrFiscalDocumentsTable {
         /**
           * Selected agent id (when a specific agent is chosen under the agent folio).
+          * @default null
          */
         "agentId": number | null;
+        /**
+          * @default []
+         */
         "currencies": ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         /**
           * Folio scope driving which identity columns are shown.
+          * @default 'all'
          */
         "folioType": FiscalFolioType;
+        /**
+          * @default null
+         */
         "fromDate": string | null;
         /**
           * Selected guest id (when a specific guest is chosen under the guest folio).
+          * @default null
          */
         "guestId": number | null;
+        /**
+          * @default false
+         */
         "hasDates": boolean;
+        /**
+          * @default false
+         */
         "hasFetched": boolean;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
         "propertyId": number;
+        /**
+          * @default []
+         */
         "rows": FiscalDocumentRow[];
+        /**
+          * @default false
+         */
         "taxableOnly": boolean;
         "ticket": string;
+        /**
+          * @default null
+         */
         "toDate": string | null;
     }
     interface IrGhsCandidateTable {
         "baseUrl": string;
+        /**
+          * @default []
+         */
         "countries": ICountry1[];
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default []
+         */
         "properties": GHS_Candidate_Property[];
+        /**
+          * @default null
+         */
         "propertyToActivate": GHS_Candidate_Property | null;
+        /**
+          * @default null
+         */
         "selectedCountryId": number | null;
+        /**
+          * @default []
+         */
         "selectedProperties": GHS_Candidate_Property[];
     }
     interface IrGhsFilters {
+        /**
+          * @default []
+         */
         "countries": ICountry1[];
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default null
+         */
         "selectedCountryId": number | null;
     }
     interface IrGhsOnboarding {
@@ -2608,7 +3454,13 @@ export namespace Components {
         "ticket": string;
     }
     interface IrGhsSelectionBucket {
+        /**
+          * @default false
+         */
         "isGenerating": boolean;
+        /**
+          * @default []
+         */
         "selectedProperties": GHS_Candidate_Property[];
     }
     interface IrGuestBilling {
@@ -2625,6 +3477,9 @@ export namespace Components {
     interface IrGuestInfoDrawer {
         "booking_nbr": string;
         "email": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "open": boolean;
         "ticket": string;
@@ -2640,6 +3495,9 @@ export namespace Components {
         "name": Guest;
     }
     interface IrHkArchive {
+        /**
+          * @default 'en'
+         */
         "language": string;
         "propertyId": string | number;
         "ticket": string;
@@ -2650,70 +3508,139 @@ export namespace Components {
         "user": IHouseKeepers;
     }
     interface IrHkOperationsCard {
+        /**
+          * @default []
+         */
         "frequencies": IEntries[];
     }
     interface IrHkStaffTask {
+        /**
+          * @default false
+         */
         "future": boolean;
         "task": Task;
     }
     interface IrHkStaffTasks {
         "baseurl": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "ticket": string;
     }
     interface IrHkStaffTasksHeader {
         "connectedHK": ConnectedHK;
+        /**
+          * @default 'en'
+         */
         "language": string;
     }
     interface IrHkTasks {
         "baseUrl": string;
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrHkTeam {
     }
     interface IrHkUnassignedUnits {
+        /**
+          * @default null
+         */
         "user": IHouseKeepers | null;
     }
     interface IrHkUnassignedUnitsDrawer {
+        /**
+          * @default false
+         */
         "open": boolean;
+        /**
+          * @default null
+         */
         "user": IHouseKeepers | null;
     }
     interface IrHkUnassignedUnitsDrawerForm {
         "formId": string;
+        /**
+          * @default null
+         */
         "user": IHouseKeepers | null;
     }
     interface IrHkUser {
+        /**
+          * @default false
+         */
         "isEdit": boolean;
+        /**
+          * @default null
+         */
         "user": THKUser | null;
     }
     interface IrHkUserDrawer {
+        /**
+          * @default false
+         */
         "isEdit": boolean;
+        /**
+          * @default false
+         */
         "open": boolean;
+        /**
+          * @default null
+         */
         "user": THKUser | null;
     }
     interface IrHkUserDrawerForm {
         "formId": string;
+        /**
+          * @default false
+         */
         "isEdit": boolean;
+        /**
+          * @default null
+         */
         "user": THKUser | null;
     }
     interface IrHoldTransactionDialog {
         "closeModal": () => Promise<void>;
+        /**
+          * @default '$'
+         */
         "currencySymbol": string;
         "openModal": () => Promise<void>;
+        /**
+          * @default null
+         */
         "row": FolioRow1 | null;
     }
     interface IrHousekeeping {
         "baseUrl": string;
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrIcon {
+        /**
+          * @default 'ft-check'
+         */
         "icon": string;
+        /**
+          * @default 'button'
+         */
         "type": 'button' | 'submit' | 'reset';
     }
     interface IrIcons {
@@ -2741,6 +3668,7 @@ export namespace Components {
         "autocapitalize": NativeWaInput1['autocapitalize'];
         /**
           * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+          * @default 'off'
          */
         "autocomplete": NativeWaInput1['autocomplete'];
         /**
@@ -2834,9 +3762,13 @@ export namespace Components {
           * Makes the input a required field.
          */
         "required": NativeWaInput1['required'];
+        /**
+          * @default false
+         */
         "returnMaskedValue": boolean;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size": NativeWaInput1['size'];
         /**
@@ -2849,10 +3781,12 @@ export namespace Components {
         "step": NativeWaInput1['step'];
         /**
           * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+          * @default 'text'
          */
         "type": NativeWaInput1['type'];
         /**
           * The value of the input.
+          * @default ''
          */
         "value": string;
         /**
@@ -2897,6 +3831,7 @@ export namespace Components {
         "autoComplete": string;
         /**
           * Whether the input should auto-validate
+          * @default true
          */
         "autoValidate"?: boolean;
         /**
@@ -2905,10 +3840,12 @@ export namespace Components {
         "clearBaseStyles": boolean;
         /**
           * Whether the input is disabled
+          * @default false
          */
         "disabled": boolean;
         /**
           * Whether the input has an error
+          * @default false
          */
         "error": boolean;
         /**
@@ -2925,10 +3862,12 @@ export namespace Components {
         "inputForcedStyle"?: { [key: string]: string };
         /**
           * Whether to apply default input styling
+          * @default true
          */
         "inputStyle": boolean;
         /**
           * Additional inline styles for the input
+          * @default ''
          */
         "inputStyles": string;
         /**
@@ -2937,14 +3876,17 @@ export namespace Components {
         "label": string;
         /**
           * Background color of the label
+          * @default null
          */
         "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
         /**
           * Border color/style of the label
+          * @default 'theme'
          */
         "labelBorder": 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
         /**
           * Text color of the label
+          * @default 'dark'
          */
         "labelColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
@@ -2953,10 +3895,12 @@ export namespace Components {
         "labelContainerClassname": string;
         /**
           * Position of the label: left, right, or center
+          * @default 'left'
          */
         "labelPosition": 'left' | 'right' | 'center' | 'top';
         /**
           * Label width as a fraction of 12 columns (1-11)
+          * @default 3
          */
         "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         /**
@@ -2977,6 +3921,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * Whether the input field is read-only
+          * @default false
          */
         "readonly": boolean;
         /**
@@ -2985,6 +3930,7 @@ export namespace Components {
         "required": boolean;
         /**
           * Whether the form has been submitted
+          * @default false
          */
         "submitted": boolean;
         /**
@@ -2993,10 +3939,12 @@ export namespace Components {
         "testId": string;
         /**
           * Text size inside the input field
+          * @default 'md'
          */
         "textSize": 'sm' | 'md' | 'lg';
         /**
           * Input type (e.g., text, password, email)
+          * @default 'text'
          */
         "type": | 'text'
     | 'password'
@@ -3026,6 +3974,7 @@ export namespace Components {
         "value": string;
         /**
           * Variant of the input: default or icon or floating-label
+          * @default 'default'
          */
         "variant": 'default' | 'icon' | 'floating-label';
         /**
@@ -3061,6 +4010,7 @@ export namespace Components {
         "cropSize": number;
         /**
           * When `true`, renders the `.hk-dot` container and the `slot[name="end"]` inside it. Must be `true` whenever slot content is provided, otherwise the slotted nodes are silently discarded by the browser.
+          * @default false
          */
         "hkStatus": boolean;
         /**
@@ -3070,22 +4020,26 @@ export namespace Components {
         "irPopoverLeft": string;
         /**
           * The full title string. When its length exceeds `cropSize` the tooltip is activated so the user can read the complete text on hover.
+          * @default ''
          */
         "popoverTitle": string;
     }
     interface IrInterceptor {
         /**
           * List of endpoint paths that should trigger loader logic and OTP handling.
+          * @default ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']
          */
         "handledEndpoints": string[];
         /**
           * List of endpoints for which to suppress toast messages.
+          * @default []
          */
         "suppressToastEndpoints": string[];
     }
     interface IrInvoice {
         /**
           * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+          * @default false
          */
         "autoPrint": boolean;
         /**
@@ -3099,6 +4053,7 @@ export namespace Components {
         "closeDrawer": () => Promise<void>;
         /**
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+          * @default 'booking'
          */
         "for": 'room' | 'booking';
         /**
@@ -3123,6 +4078,7 @@ export namespace Components {
     interface IrInvoiceForm {
         /**
           * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+          * @default false
          */
         "autoPrint": boolean;
         /**
@@ -3131,6 +4087,7 @@ export namespace Components {
         "booking": Booking;
         /**
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+          * @default 'booking'
          */
         "for": 'room' | 'booking';
         /**
@@ -3148,6 +4105,7 @@ export namespace Components {
         "roomIdentifier": string;
         /**
           * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+          * @default 'invoice'
          */
         "viewMode": ViewMode;
     }
@@ -3162,21 +4120,28 @@ export namespace Components {
           * The main text or HTML content to display
          */
         "content": string;
+        /**
+          * @default 'flex'
+         */
         "display": 'inline' | 'flex';
         /**
           * If true, label will ignore checking for an empty content
+          * @default false
          */
         "ignoreEmptyContent": boolean;
         /**
           * Object representing the image used within the label
+          * @default null
          */
         "image"?: { src: string; alt: string; style?: string } | null;
         /**
           * Additional CSS classes or style for the image
+          * @default ''
          */
         "imageStyle": string;
         /**
           * Renders a country-type image style (vs. a 'logo')
+          * @default false
          */
         "isCountryImage": boolean;
         /**
@@ -3189,6 +4154,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, will render `content` as HTML
+          * @default false
          */
         "renderContentAsHtml": boolean;
     }
@@ -3200,11 +4166,17 @@ export namespace Components {
     interface IrListingModal {
         "closeModal": () => Promise<void>;
         "editBooking": { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
+        /**
+          * @default 'Modal Title'
+         */
         "modalTitle": string;
         "openModal": () => Promise<void>;
         "paymentEntries": PaymentEntries;
     }
     interface IrLoadingScreen {
+        /**
+          * @default ''
+         */
         "message": string;
     }
     interface IrLogin {
@@ -3226,10 +4198,12 @@ export namespace Components {
         "defaultOption": ComboboxOption['value'];
         /**
           * Whether to show loading state
+          * @default false
          */
         "loading": boolean;
         /**
           * List of available options for the combobox when using static data mode. If empty, falls back to a default internal option list.
+          * @default []
          */
         "options": ComboboxOption[];
         /**
@@ -3242,6 +4216,7 @@ export namespace Components {
         "selectOptionFromSlot": (option: ComboboxOption) => Promise<void>;
         /**
           * Whether to use slot content for custom dropdown rendering
+          * @default false
          */
         "useSlot": boolean;
     }
@@ -3251,6 +4226,7 @@ export namespace Components {
     interface IrMComboboxItem {
         /**
           * When true, visually hide the item (used for filtering).
+          * @default false
          */
         "hidden": boolean;
         /**
@@ -3269,22 +4245,43 @@ export namespace Components {
         "value": string;
     }
     interface IrMealCountSummary {
+        /**
+          * @default []
+         */
         "mealCountSummary": MealCountDaySummary[];
     }
     interface IrMealGuestList {
+        /**
+          * @default []
+         */
         "guestList": MealGuestEntry[];
     }
     interface IrMealReport {
         "baseurl": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "propertyid": number;
         "ticket": string;
     }
     interface IrMealReportFilters {
         "fromDate": string;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default {}
+         */
         "lcz": any;
+        /**
+          * @default null
+         */
         "mealType": string | null;
+        /**
+          * @default 'GUEST_LIST'
+         */
         "reportType": 'GUEST_LIST' | 'MEAL_COUNT';
         "setupEntries": { meal_type: IEntries[]; hb_preference: IEntries[] };
         "toDate": string;
@@ -3318,6 +4315,7 @@ export namespace Components {
         "caption": string;
         /**
           * Make the whole card interactive: adds hover/focus affordance and emits `metricClick`.
+          * @default false
          */
         "clickable": boolean;
         /**
@@ -3326,10 +4324,12 @@ export namespace Components {
         "icon": string;
         /**
           * Accent color used for the icon chip, trend, and accent edge.
+          * @default 'neutral'
          */
         "intent": MetricIntent;
         /**
           * Flip trend color semantics so a decrease reads as positive (good).
+          * @default false
          */
         "invertTrend": boolean;
         /**
@@ -3338,10 +4338,12 @@ export namespace Components {
         "label": string;
         /**
           * Render skeleton placeholders instead of content.
+          * @default false
          */
         "loading": boolean;
         /**
           * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
+          * @default 'small'
          */
         "size": MetricSize;
         /**
@@ -3364,6 +4366,7 @@ export namespace Components {
     interface IrMobileInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
+          * @default []
          */
         "countries": ICountry[];
         /**
@@ -3376,6 +4379,7 @@ export namespace Components {
         "description"?: string;
         /**
           * Whether the control is disabled
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -3384,36 +4388,44 @@ export namespace Components {
         "error"?: string;
         /**
           * Visible label for the phone input
+          * @default 'Phone number'
          */
         "label": string;
         /**
           * Name attribute passed to the native input
+          * @default 'phone'
          */
         "name": string;
         /**
           * Placeholder shown when the input is empty
+          * @default 'Enter phone number'
          */
         "placeholder": string;
         /**
           * Native required attribute
+          * @default false
          */
         "required": boolean;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size": NativeWaInput['size'];
         /**
           * Input value without formatting. Component keeps this prop in sync
+          * @default ''
          */
         "value": string;
     }
     interface IrModal {
         /**
           * If true, the modal automatically closes after confirm/cancel actions.
+          * @default true
          */
         "autoClose": boolean;
         /**
           * Horizontal alignment of the footer buttons.
+          * @default 'right'
          */
         "btnPosition": 'left' | 'right' | 'center';
         /**
@@ -3422,55 +4434,68 @@ export namespace Components {
         "closeModal": () => Promise<void>;
         /**
           * Icon name to render next to the title (if `iconAvailable` is true).
+          * @default ''
          */
         "icon": string;
         /**
           * Whether an icon should be displayed next to the title.
+          * @default false
          */
         "iconAvailable": boolean;
         /**
           * Whether the modal is in a loading state, disabling interaction.
+          * @default false
          */
         "isLoading": boolean;
         /**
           * Whether the modal middle button is in a loading state, disabling interaction.
           * @requires middleBtnActive to be true
+          * @default false
          */
         "isMiddleButtonLoading": boolean;
         /**
           * Payload object to pass along with confirm/cancel events.
+          * @default {}
          */
         "item": any;
         /**
           * Whether the left (cancel/close) button is visible.
+          * @default true
          */
         "leftBtnActive": boolean;
         /**
           * Color theme of the left button.
+          * @default 'secondary'
          */
         "leftBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the left (cancel/close) button.
+          * @default 'Close'
          */
         "leftBtnText": string;
         /**
           * Whether the middle (tertiary) button is visible.
+          * @default false
          */
         "middleBtnActive": boolean;
         /**
           * Color theme of the middle (tertiary) button.
+          * @default 'info'
          */
         "middleBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the middle (tertiary) button.
+          * @default 'More'
          */
         "middleBtnText": string;
         /**
           * The main content text shown in the modal body.
+          * @default 'Modal Body'
          */
         "modalBody": string;
         /**
           * The title text displayed in the modal header.
+          * @default 'Modal Title'
          */
         "modalTitle": string;
         /**
@@ -3479,14 +4504,17 @@ export namespace Components {
         "openModal": () => Promise<void>;
         /**
           * Whether the right (confirm) button is visible.
+          * @default true
          */
         "rightBtnActive": boolean;
         /**
           * Color theme of the right button.
+          * @default 'primary'
          */
         "rightBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the right (confirm) button.
+          * @default 'Confirm'
          */
         "rightBtnText": string;
         /**
@@ -3495,9 +4523,15 @@ export namespace Components {
         "showTitle": boolean;
     }
     interface IrMonthlyBookingsReport {
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrMonthlyBookingsReportFilter {
@@ -3505,6 +4539,9 @@ export namespace Components {
         "isLoading": boolean;
     }
     interface IrMonthlyBookingsReportTable {
+        /**
+          * @default []
+         */
         "reports": DailyReport[];
     }
     interface IrNewBadge {
@@ -3520,11 +4557,15 @@ export namespace Components {
         "service": OtaService;
     }
     interface IrOtaServices {
+        /**
+          * @default []
+         */
         "services": OtaService[];
     }
     interface IrOtp {
         /**
           * Auto focus on the first input when component loads
+          * @default true
          */
         "autoFocus": boolean;
         /**
@@ -3533,26 +4574,32 @@ export namespace Components {
         "defaultValue": string;
         /**
           * Whether the input is disabled
+          * @default false
          */
         "disabled": boolean;
         /**
           * The length of the OTP code
+          * @default 6
          */
         "length": number;
         /**
           * Allow only numbers (0-9) as input
+          * @default false
          */
         "numbersOnly": boolean;
         /**
           * Placeholder character to display
+          * @default ''
          */
         "placeholder": string;
         /**
           * Whether to mask the input (show dots instead of text)
+          * @default false
          */
         "secure": boolean;
         /**
           * Input type - can be 'text', 'password', 'number', or 'tel'
+          * @default 'number'
          */
         "type": 'text' | 'password' | 'number' | 'tel';
     }
@@ -3569,6 +4616,9 @@ export namespace Components {
           * User's email address to display in the modal and send the OTP to
          */
         "email": string;
+        /**
+          * @default 'en'
+         */
         "language": string;
         /**
           * Open & reset everything
@@ -3576,6 +4626,7 @@ export namespace Components {
         "openModal": () => Promise<void>;
         /**
           * Number of digits the OTP should have
+          * @default 6
          */
         "otpLength": number;
         /**
@@ -3584,10 +4635,12 @@ export namespace Components {
         "requestUrl": string;
         /**
           * Number of seconds to wait before allowing OTP resend
+          * @default 60
          */
         "resendTimer": number;
         /**
           * Whether the resend option should be visible
+          * @default true
          */
         "showResend": boolean;
         /**
@@ -3607,14 +4660,17 @@ export namespace Components {
         "allowPageSizeChange": boolean;
         /**
           * Current active page number (1-based)
+          * @default 1
          */
         "currentPage": number;
         /**
           * Whether the pagination is disabled
+          * @default false
          */
         "disabled": boolean;
         /**
           * Page size for calculations
+          * @default 10
          */
         "pageSize": number;
         /**
@@ -3623,28 +4679,34 @@ export namespace Components {
         "pageSizes": number[];
         /**
           * Total number of pages available
+          * @default 0
          */
         "pages": number;
         /**
           * Label for the record type (e.g., 'items', 'tasks', 'records')
+          * @default ''
          */
         "recordLabel": string;
         /**
           * Whether to show total records count
+          * @default true
          */
         "showTotalRecords": boolean;
         /**
           * Range of items currently being displayed
+          * @default { from: 0, to: 0 }
          */
         "showing": PaginationRange;
         /**
           * Total number of records/items
+          * @default 0
          */
         "total": number;
     }
     interface IrPasswordValidator {
         /**
           * The password string to validate
+          * @default ''
          */
         "password": string;
     }
@@ -3658,11 +4720,29 @@ export namespace Components {
     interface IrPaymentDetails {
         "agent": Agent;
         "booking": Booking;
+        /**
+          * @default null
+         */
         "clError": string | null;
+        /**
+          * @default false
+         */
         "clLoading": boolean;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
+        /**
+          * @default []
+         */
         "folioRows": FolioRow[];
+        /**
+          * @default false
+         */
         "isAllServicesAgentOwned": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "paymentActions": IPaymentAction[];
         "paymentEntries": PaymentEntries1;
@@ -3692,6 +4772,7 @@ export namespace Components {
         "openFolio": () => Promise<void>;
         /**
           * The payment or folio entry being created or edited. Defaults to a new empty payment object when the component is used for creating a new entry.
+          * @default {     date: moment().format(DATE_FORMAT),     amount: 0,     designation: undefined,     currency: null,     reference: null,     id: -1,   }
          */
         "payment": Payment1;
         /**
@@ -3704,6 +4785,9 @@ export namespace Components {
         "bookingNumber": string;
         "formId": string;
         "mode": FolioEntryMode;
+        /**
+          * @default {     date: moment().format(DATE_FORMAT),     amount: 0,     designation: undefined,     currency: null,     reference: null,     id: -1,   }
+         */
         "payment": Payment1;
         "paymentEntries": PaymentEntries1;
     }
@@ -3711,8 +4795,17 @@ export namespace Components {
         "payment": IPayment;
     }
     interface IrPaymentOption {
+        /**
+          * @default true
+         */
         "defaultStyles": boolean;
+        /**
+          * @default true
+         */
         "hideLogs": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "p": string;
         "propertyid": string;
@@ -3722,6 +4815,9 @@ export namespace Components {
         "agent": Agent;
         "balance": number;
         "booking": Booking;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
         "collected": number;
         "currency": Currency;
@@ -3731,7 +4827,13 @@ export namespace Components {
     }
     interface IrPaymentsFolio {
         "booking": Booking;
+        /**
+          * @default false
+         */
         "isAddPaymentDisabled": boolean;
+        /**
+          * @default []
+         */
         "payments": IPayment[];
     }
     interface IrPdfViewer {
@@ -3747,18 +4849,22 @@ export namespace Components {
     interface IrPhoneInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
+          * @default []
          */
         "countries": ICountry[];
         /**
           * Default country ID used if no phone prefix is set.
+          * @default null
          */
         "default_country": number;
         /**
           * Disables the phone input when true.
+          * @default false
          */
         "disabled": boolean;
         /**
           * If true, styles the input to indicate an error state.
+          * @default false
          */
         "error": boolean;
         /**
@@ -3773,9 +4879,13 @@ export namespace Components {
           * Two-letter language code used for country fetching.
          */
         "language": string;
+        /**
+          * @default 'default'
+         */
         "mode": 'modern' | 'default';
         /**
           * If provided, sets the phone prefix and updates selected country.
+          * @default null
          */
         "phone_prefix": string | null;
         /**
@@ -3792,6 +4902,7 @@ export namespace Components {
         "token": string;
         /**
           * Initial phone number value.
+          * @default ''
          */
         "value": string;
     }
@@ -3804,6 +4915,7 @@ export namespace Components {
         "close": () => Promise<void>;
         /**
           * Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode.
+          * @default 0
          */
         "debounce": number;
         /**
@@ -3815,20 +4927,32 @@ export namespace Components {
           * Optional label applied to the text field.
          */
         "label"?: string;
+        /**
+          * @default false
+         */
         "loading": boolean;
+        /**
+          * @default 'default'
+         */
         "mode": 'select' | 'default' | 'select-async';
         "open": () => Promise<void>;
+        /**
+          * @default false
+         */
         "pill": boolean;
         /**
           * Placeholder shown inside the input when there is no query.
+          * @default ''
          */
         "placeholder": string;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size": NativeWaInput['size'];
         /**
           * Selected value (also shown in the input when `mode="select"`).
+          * @default ''
          */
         "value": string;
         /**
@@ -3838,9 +4962,18 @@ export namespace Components {
         "withClear": boolean;
     }
     interface IrPickerItem {
+        /**
+          * @default false
+         */
         "active": boolean;
+        /**
+          * @default false
+         */
         "disabled": boolean;
         "label": string;
+        /**
+          * @default false
+         */
         "selected": boolean;
         "value": string;
     }
@@ -3861,6 +4994,7 @@ export namespace Components {
         "defaultPickupData": IBookingPickupInfo | null;
         /**
           * Total number of persons included in the booking. Used to compute vehicle capacity and validate pickup options.
+          * @default 0
          */
         "numberOfPersons": number;
         /**
@@ -3875,11 +5009,17 @@ export namespace Components {
         "bookingNumber": string;
         "defaultPickupData": IBookingPickupInfo | null;
         "formId": string;
+        /**
+          * @default 0
+         */
         "numberOfPersons": number;
     }
     interface IrPickupView {
         "agent": Agent;
         "booking": Booking;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
     }
     interface IrPmsLogs {
@@ -3905,24 +5045,29 @@ export namespace Components {
         "content": string;
         /**
           * Horizontal offset (left) of the popover from its trigger. Used in inline style as `--ir-popover-left`.
+          * @default '10px'
          */
         "irPopoverLeft": string;
         /**
           * Position of the popover relative to the trigger. Options: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`.
+          * @default 'auto'
          */
         "placement": 'top' | 'bottom' | 'left' | 'right' | 'auto';
         /**
           * Whether to treat `content` as raw HTML. When true, `content` will be injected with `html: true` in jQuery popover.
+          * @default false
          */
         "renderContentAsHtml": boolean;
         /**
           * Event that triggers the popover. Options: `'focus'`, `'click'`, `'hover'`.
+          * @default 'focus'
          */
         "trigger": 'focus' | 'click' | 'hover';
     }
     interface IrPreviewScreenDialog {
         /**
           * Determines which built-in action is rendered in the header. `print` triggers `window.print()` while `download` downloads the configured URL.
+          * @default 'print'
          */
         "action": PreviewAction;
         /**
@@ -3943,14 +5088,17 @@ export namespace Components {
         "downloadUrl"?: string;
         /**
           * When `true`, hides the default header action button so a custom implementation can be slotted.
+          * @default false
          */
         "hideDefaultAction": boolean;
         /**
           * The dialog's label as displayed in the header. Required for accessibility and announced by assistive technologies.
+          * @default 'Preview'
          */
         "label": string;
         /**
           * Indicates whether or not the preview dialog is open. Toggle this attribute or use {@link openDialog} / {@link closeDialog} to control visibility.
+          * @default false
          */
         "open": boolean;
         /**
@@ -3969,6 +5117,7 @@ export namespace Components {
     interface IrPriceInput {
         /**
           * The AutoValidate for the input, optional
+          * @default true
          */
         "autoValidate"?: boolean;
         /**
@@ -4013,6 +5162,7 @@ export namespace Components {
         "minValue"?: number;
         /**
           * Placeholder text for the input
+          * @default ''
          */
         "placeholder": string;
         /**
@@ -4021,6 +5171,7 @@ export namespace Components {
         "readOnly"?: boolean;
         /**
           * Whether the input is required
+          * @default false
          */
         "required": boolean;
         /**
@@ -4029,6 +5180,7 @@ export namespace Components {
         "testId"?: string;
         /**
           * Initial value for the input
+          * @default ''
          */
         "value": string;
         /**
@@ -4079,6 +5231,9 @@ export namespace Components {
           * Fallback content text (used if no content slot is provided)
          */
         "content"?: string;
+        /**
+          * @default 'flex'
+         */
         "display": 'inline' | 'flex';
         /**
           * Fallback label text (used if no label slot is provided)
@@ -4110,6 +5265,7 @@ export namespace Components {
         "invoiceInfo"?: BookingInvoiceInfo;
         /**
           * Locale used for date formatting.
+          * @default 'en'
          */
         "locale": string;
         /**
@@ -4120,6 +5276,7 @@ export namespace Components {
     interface IrProgressIndicator {
         /**
           * The color variant of the progress bar. Options: - 'primary' (default) - 'secondary'
+          * @default 'primary'
          */
         "color": 'primary' | 'secondary';
         /**
@@ -4129,6 +5286,9 @@ export namespace Components {
     }
     interface IrPropertySwitcher {
         "baseUrl": string;
+        /**
+          * @default 'dialog'
+         */
         "mode": 'dropdown' | 'dialog';
         "propertyId"?: number;
         "selectedLinkedPropertyId"?: number;
@@ -4141,10 +5301,12 @@ export namespace Components {
     interface IrPropertySwitcherDialogContent {
         /**
           * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
+          * @default false
          */
         "open": boolean;
         /**
           * Linked properties provided by the parent switcher.
+          * @default []
          */
         "properties": LinkedProperty[];
         /**
@@ -4155,23 +5317,30 @@ export namespace Components {
     interface IrQueueChart {
         /**
           * Chart title
+          * @default 'Queue Status'
          */
         "label": string;
         /**
           * Labels for X-axis
+          * @default []
          */
         "labels": string[];
         /**
           * Values for bars
+          * @default []
          */
         "values": number[];
     }
     interface IrQueueManager {
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
+          * @default false
          */
         "checked": boolean;
         /**
@@ -4196,12 +5365,14 @@ export namespace Components {
         "name": string;
         /**
           * The unique ID of the checkbox element.
+          * @default v4()
          */
         "radioBoxId": string;
     }
     interface IrRangePicker {
         /**
           * Whether to all the emitted dates to be null.
+          * @default true
          */
         "allowNullDates": boolean;
         /**
@@ -4222,6 +5393,7 @@ export namespace Components {
         "toDate": Moment;
         /**
           * Whether to show the overlay before the date is selected.
+          * @default true
          */
         "withOverlay": boolean;
     }
@@ -4246,6 +5418,9 @@ export namespace Components {
         "countries": ICountry[];
     }
     interface IrResetPassword {
+        /**
+          * @default 'en'
+         */
         "language": string;
         "old_pwd": string;
         "skip2Fa": boolean;
@@ -4259,6 +5434,7 @@ export namespace Components {
         "groupName": string;
         /**
           * Array of payments for this method group
+          * @default []
          */
         "payments": FolioPayment[];
     }
@@ -4267,13 +5443,22 @@ export namespace Components {
     }
     interface IrRevenueSummary {
         "filters": DailyPaymentFilter;
+        /**
+          * @default new Map()
+         */
         "groupedPayments": GroupedFolioPayment;
         "paymentEntries": PaymentEntries;
+        /**
+          * @default new Map()
+         */
         "previousDateGroupedPayments": GroupedFolioPayment;
     }
     interface IrRevenueTable {
         "filters": DailyPaymentFilter;
         "paymentEntries": PaymentEntries;
+        /**
+          * @default new Map()
+         */
         "payments": GroupedFolioPayment;
     }
     interface IrRoom {
@@ -4281,16 +5466,40 @@ export namespace Components {
         "bedPreferences": IEntries[];
         "booking": Booking;
         "bookingIndex": number;
+        /**
+          * @default []
+         */
         "clTransactions": ClTx[];
+        /**
+          * @default 'USD'
+         */
         "currency": string;
         "departureTime": IEntries[];
+        /**
+          * @default false
+         */
         "hasCheckIn": boolean;
+        /**
+          * @default false
+         */
         "hasCheckOut": boolean;
+        /**
+          * @default false
+         */
         "hasRoomAdd": boolean;
+        /**
+          * @default false
+         */
         "hasRoomDelete": boolean;
+        /**
+          * @default false
+         */
         "hasRoomEdit": boolean;
         "includeDepartureTime": boolean;
         "isEditable": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "legendData": any;
         "mealCodeName": string;
@@ -4318,6 +5527,7 @@ export namespace Components {
         "identifier": string;
         /**
           * The language used for displaying text content in the component. Defaults to English ('en'), but can be set to other supported languages.
+          * @default 'en'
          */
         "language": string;
         "open": boolean;
@@ -4327,10 +5537,12 @@ export namespace Components {
         "roomName": string;
         /**
           * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * @default []
          */
         "sharedPersons": SharedPerson[];
         /**
           * The total number of guests for the room. Determines how many guest input forms to display in the UI.
+          * @default 0
          */
         "totalGuests": number;
     }
@@ -4353,6 +5565,7 @@ export namespace Components {
         "identifier": string;
         /**
           * The language used for displaying text content in the component. Defaults to English ('en'), but can be set to other supported languages.
+          * @default 'en'
          */
         "language": string;
         /**
@@ -4361,10 +5574,12 @@ export namespace Components {
         "roomName": string;
         /**
           * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * @default []
          */
         "sharedPersons": SharedPerson[];
         /**
           * The total number of guests for the room. Determines how many guest input forms to display in the UI.
+          * @default 0
          */
         "totalGuests": number;
     }
@@ -4380,10 +5595,16 @@ export namespace Components {
         "toDate": string;
     }
     interface IrSalesByChannel {
+        /**
+          * @default ''
+         */
         "language": string;
         "mode": SalesByChannelMode;
         "p": string;
         "propertyid": string;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrSalesByChannelFilters {
@@ -4399,9 +5620,15 @@ export namespace Components {
         "records": ChannelReportResult;
     }
     interface IrSalesByCountry {
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrSalesByCountrySummary {
@@ -4413,6 +5640,9 @@ export namespace Components {
     }
     interface IrSalesTable {
         "mappedCountries": MappedCountries;
+        /**
+          * @default []
+         */
         "records": SalesRecord[];
     }
     interface IrSecureTasks {
@@ -4424,28 +5654,64 @@ export namespace Components {
     interface IrSelect {
         "data": selectOption[];
         "disabled": boolean;
+        /**
+          * @default false
+         */
         "error": boolean;
+        /**
+          * @default 'Select'
+         */
         "firstOption": string;
         /**
           * Floating label text that appears inside the input and “floats” above when the field is focused or has a value.  - If provided, a floating label will be rendered inside the input container. - If you omit this prop but set `label`, the old left-side static label is used. - If you provide both `label` and `floatingLabel`, only the floating label is shown.   Examples: ```tsx <ir-select floating-label label="Phone" /> ```
          */
         "floatingLabel": boolean;
         "label": string;
+        /**
+          * @default null
+         */
         "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
+        /**
+          * @default 'theme'
+         */
         "labelBorder": 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
+        /**
+          * @default 'dark'
+         */
         "labelColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        /**
+          * @default 'left'
+         */
         "labelPosition": 'left' | 'right' | 'center';
+        /**
+          * @default 3
+         */
         "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         "name": string;
         "required": boolean;
         "selectContainerStyle": string;
         "selectForcedStyles": { [key: string]: string };
+        /**
+          * @default v4()
+         */
         "selectId": string;
         "selectStyles": string;
+        /**
+          * @default null
+         */
         "selectedValue": any;
+        /**
+          * @default true
+         */
         "showFirstOption": boolean;
+        /**
+          * @default 'md'
+         */
         "size": 'sm' | 'md' | 'lg';
         "testId": string;
+        /**
+          * @default 'md'
+         */
         "textSize": 'sm' | 'md' | 'lg';
     }
     interface IrServiceAssigneeSelect {
@@ -4455,10 +5721,12 @@ export namespace Components {
         "agent": { id: number; name: string; code: string } | null;
         /**
           * Currently selected service assignee type.
+          * @default 'agent'
          */
         "assigneeType": 'agent' | 'guest';
         /**
           * Label displayed above the assignment selector.
+          * @default 'Assign to folio'
          */
         "label": string;
     }
@@ -4473,6 +5741,7 @@ export namespace Components {
         "name": string;
         /**
           * Whether the sidebar is open. Can be used with two-way binding.
+          * @default false
          */
         "open": boolean;
         /**
@@ -4481,10 +5750,12 @@ export namespace Components {
         "preventClose": boolean;
         /**
           * Whether to show the close (X) button in the sidebar header.
+          * @default true
          */
         "showCloseButton": boolean;
         /**
           * Which side of the screen the sidebar appears on. Options: `'left'` or `'right'`.
+          * @default 'right'
          */
         "side": 'right' | 'left';
         /**
@@ -4514,6 +5785,7 @@ export namespace Components {
         "size": number;
         /**
           * CSS unit used for `size` and `borderWidth`. Can be `'px'` or `'rem'`.
+          * @default 'rem'
          */
         "unit": 'px' | 'rem';
     }
@@ -4534,28 +5806,34 @@ export namespace Components {
     interface IrSuccessLoader {
         /**
           * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
+          * @default true
          */
         "active": boolean;
         /**
           * Whether the loader should automatically start its cycle when it becomes active.
+          * @default true
          */
         "autoStart": boolean;
         /**
           * How long the spinner should be shown before transitioning to the success icon. Value is expressed in milliseconds.
+          * @default 1500
          */
         "spinnerDuration": number;
         /**
           * How long the success icon should be shown before the loader dispatches the completion event. Value is expressed in milliseconds.
+          * @default 1000
          */
         "successDuration": number;
     }
     interface IrSwitch {
         /**
           * Whether the switch is currently checked (on). This is mutable and can be toggled internally.
+          * @default false
          */
         "checked": boolean;
         /**
           * Disables the switch if true.
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -4600,6 +5878,9 @@ export namespace Components {
     interface IrTasksHeader {
     }
     interface IrTasksTable {
+        /**
+          * @default []
+         */
         "tasks": Task[];
     }
     interface IrTasksTablePagination {
@@ -4623,6 +5904,7 @@ export namespace Components {
         "label": string;
         /**
           * Current language used to resolve translated setup entry labels. Defaults to English ("en").
+          * @default 'en'
          */
         "language": string;
         /**
@@ -4631,10 +5913,14 @@ export namespace Components {
         "placeholder": string;
         /**
           * List of setup entries used to populate the tax mode select.  Each entry represents a tax application option (e.g. Not Applicable, Inclusive, Exclusive).
+          * @default []
          */
         "setupEntries": IEntries[];
     }
     interface IrTaxServiceCategories {
+        /**
+          * @default 'en'
+         */
         "language": string;
         "p": string;
         "propertyid": number;
@@ -4653,6 +5939,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, makes the editor read-only
+          * @default false
          */
         "readOnly": boolean;
         /**
@@ -4661,36 +5948,44 @@ export namespace Components {
         "toolbarConfig"?: ToolbarConfig;
         /**
           * Determines if the current user can edit the content
+          * @default true
          */
         "userCanEdit": boolean;
         /**
           * Initial HTML content
+          * @default ''
          */
         "value": string;
     }
     interface IrTextarea {
         /**
           * Number of visible character columns.
+          * @default 5
          */
         "cols": number;
         /**
           * Text label displayed above or beside the textarea.
+          * @default '<label>'
          */
         "label": string;
         /**
           * Width of the label in grid columns (for `variant="prepend"`).
+          * @default 3
          */
         "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         /**
           * Maximum number of characters allowed.
+          * @default 250
          */
         "maxLength": number;
         /**
           * Placeholder text shown when input is empty.
+          * @default '<placeholder>'
          */
         "placeholder": string;
         /**
           * Number of visible text lines.
+          * @default 3
          */
         "rows": number;
         /**
@@ -4703,6 +5998,7 @@ export namespace Components {
         "testId": string;
         /**
           * Unused property, intended to store textarea text.
+          * @default ''
          */
         "text": string;
         /**
@@ -4711,16 +6007,24 @@ export namespace Components {
         "textareaClassname": string;
         /**
           * Current value of the textarea (supports two-way binding).
+          * @default ''
          */
         "value": string;
         /**
           * Layout style of the textarea: `'default'` shows label above, `'prepend'` shows label on the left.
+          * @default 'default'
          */
         "variant": 'default' | 'prepend';
     }
     interface IrTitle {
         "borderShown": boolean;
+        /**
+          * @default 'default'
+         */
         "displayContext": 'default' | 'sidebar';
+        /**
+          * @default 'start'
+         */
         "justifyContent": | 'center'
     | 'start'
     | 'end'
@@ -4740,6 +6044,7 @@ export namespace Components {
     interface IrToast {
         /**
           * Position where toasts will appear. Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+          * @default 'top-right'
          */
         "position": TPositions;
     }
@@ -4754,6 +6059,7 @@ export namespace Components {
         "description"?: string;
         /**
           * Whether the close button should be rendered
+          * @default true
          */
         "dismissible": boolean;
         /**
@@ -4762,10 +6068,12 @@ export namespace Components {
         "label"?: string;
         /**
           * Indicates when the provider is playing the exit animation
+          * @default false
          */
         "leaving": boolean;
         /**
           * Toast position drives enter/exit direction
+          * @default 'top-right'
          */
         "position": TPositions;
         /**
@@ -4774,16 +6082,19 @@ export namespace Components {
         "toastId": string;
         /**
           * Maps to visual style tokens
+          * @default 'info'
          */
         "variant": ToastVariant;
     }
     interface IrToastItem {
         /**
           * Whether the close button is rendered.
+          * @default true
          */
         "dismissible": boolean;
         /**
           * Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast.
+          * @default 5000
          */
         "duration": number;
         /**
@@ -4794,14 +6105,26 @@ export namespace Components {
           * Starts the auto-dismiss countdown. Safe to call more than once.
          */
         "startTimer": () => Promise<void>;
+        /**
+          * @default 'neutral'
+         */
         "variant": ToastVariants;
     }
     interface IrToastProvider {
         "addToast": (toast: Toast1) => Promise<string>;
         "clearAllToasts": () => Promise<void>;
+        /**
+          * @default 5000
+         */
         "duration": number;
+        /**
+          * @default 'top-end'
+         */
         "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
         "removeToast": (id: string) => Promise<void>;
+        /**
+          * @default false
+         */
         "rtl": boolean;
     }
     interface IrToastsProvider {
@@ -4813,6 +6136,7 @@ export namespace Components {
     interface IrTooltip {
         /**
           * Defines the horizontal alignment of the tooltip trigger content.  - `'start'`: Aligns the trigger to the left within its container. - `'center'`: Centers the trigger horizontally (default). - `'end'`: Aligns the trigger to the right within its container.  This alignment affects how the trigger (e.g., icon or slotted element) is positioned inside the outer tooltip container.
+          * @default 'center'
          */
         "alignment": 'start' | 'end' | 'center';
         /**
@@ -4825,6 +6149,7 @@ export namespace Components {
         "containerStyle": { [key: string]: string };
         /**
           * When true, allows a custom element to trigger the tooltip using a named slot. If false, a default info icon is used.
+          * @default false
          */
         "customSlot": boolean;
         /**
@@ -4833,33 +6158,82 @@ export namespace Components {
         "message": string;
         /**
           * Whether the tooltip content should be rendered using `innerHTML`. If false, treats message as plain text.
+          * @default true
          */
         "withHtml": boolean;
     }
     interface IrUnbookableRooms {
+        /**
+          * @default 14
+         */
         "consecutive_period": number;
+        /**
+          * @default 'default'
+         */
         "mode": UnbookableRoomsMode;
+        /**
+          * @default 2
+         */
         "period_to_check": number;
         "propertyid": number;
+        /**
+          * @default ''
+         */
         "ticket": string;
     }
     interface IrUnbookableRoomsData {
+        /**
+          * @default null
+         */
         "allowedProperties": AllowedProperties;
+        /**
+          * @default ''
+         */
         "errorMessage": string;
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14, country: 'all' }
+         */
         "filters": UnbookableRoomsFilters;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default 'default'
+         */
         "mode": UnbookableRoomsMode;
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14 }
+         */
         "progressFilters": { period_to_check: number; consecutive_period: number; };
+        /**
+          * @default []
+         */
         "unbookableRooms": FetchUnBookableRoomsResult;
     }
     interface IrUnbookableRoomsFilters {
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14, country: 'all' }
+         */
         "filters": UnbookableRoomsFilters;
+        /**
+          * @default false
+         */
         "isLoading": boolean;
+        /**
+          * @default 'default'
+         */
         "mode": UnbookableRoomsMode;
+        /**
+          * @default []
+         */
         "unbookableRooms": FetchUnBookableRoomsResult;
     }
     interface IrUnitCell {
         "room": Room;
+        /**
+          * @default false
+         */
         "showDeparture": boolean;
     }
     interface IrUnitStatus {
@@ -4868,35 +6242,71 @@ export namespace Components {
         "unit": string;
     }
     interface IrUserFormPanel {
+        /**
+          * @default []
+         */
         "allowedUsersTypes": AllowedUser[];
         "baseUserTypeCode": string | number;
         "formId": string;
         "haveAdminPrivileges": boolean;
+        /**
+          * @default false
+         */
         "isEdit": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "property_id": number;
+        /**
+          * @default '5'
+         */
         "superAdminId": string;
         "user": User;
         "userTypeCode": string | number;
+        /**
+          * @default Map<number | string, string>
+         */
         "userTypes": { new (entries?: readonly (readonly [string | number, string])[]): Map<string | number, string>; new (iterable?: Iterable<readonly [string | number, string]>): Map<string | number, string>; readonly prototype: Map<any, any>; readonly [Symbol.species]: MapConstructor; };
     }
     interface IrUserFormPanelDrawer {
+        /**
+          * @default []
+         */
         "allowedUsersTypes": AllowedUser[];
         "baseUserTypeCode": string | number;
         "haveAdminPrivileges": boolean;
+        /**
+          * @default false
+         */
         "isEdit": boolean;
+        /**
+          * @default 'en'
+         */
         "language": string;
         "open": boolean;
         "property_id": number;
+        /**
+          * @default '5'
+         */
         "superAdminId": string;
         "user": User;
         "userTypeCode": string | number;
+        /**
+          * @default Map<number | string, string>
+         */
         "userTypes": { new (entries?: readonly (readonly [string | number, string])[]): Map<string | number, string>; new (iterable?: Iterable<readonly [string | number, string]>): Map<string | number, string>; readonly prototype: Map<any, any>; readonly [Symbol.species]: MapConstructor; };
     }
     interface IrUserManagement {
         "baseUrl": string;
         "baseUserTypeCode": string | number;
+        /**
+          * @default true
+         */
         "isSuperAdmin": boolean;
+        /**
+          * @default ''
+         */
         "language": string;
         "p": string;
         "propertyid": number;
@@ -4905,14 +6315,26 @@ export namespace Components {
         "userTypeCode": string | number;
     }
     interface IrUserManagementTable {
+        /**
+          * @default []
+         */
         "allowedUsersTypes": AllowedUser[];
         "baseUserTypeCode": string | number;
         "haveAdminPrivileges": boolean;
         "isSuperAdmin": boolean;
         "property_id": number;
+        /**
+          * @default '5'
+         */
         "superAdminId": string;
         "userTypeCode": string | number;
+        /**
+          * @default new Map()
+         */
         "userTypes": Map<string | number, string>;
+        /**
+          * @default []
+         */
         "users": User[];
     }
     interface IrValidator {
@@ -4923,6 +6345,7 @@ export namespace Components {
         "autovalidate"?: boolean;
         /**
           * Event names (space/comma separated) dispatched when the child loses focus.
+          * @default 'blur input-blur select-blur'
          */
         "blurEvent": string;
         /**
@@ -4936,17 +6359,20 @@ export namespace Components {
         "showErrorMessage": boolean;
         /**
           * Debounce delay (ms) before running validation for autovalidated changes.
+          * @default 200
          */
         "validationDebounce": number;
         "value": any;
         /**
           * Event names (space/comma separated) dispatched when the child value changes.
+          * @default 'input input-change value-change select-change'
          */
         "valueEvent": string;
     }
     interface IrWeekdaySelector {
         /**
           * Initial list of selected weekdays (numeric values).
+          * @default []
          */
         "weekdays": number[];
     }
@@ -4957,6 +6383,7 @@ export namespace Components {
         "label": string;
         /**
           * Maximum number of remarks to display before showing the "Show More" button.
+          * @default 3
          */
         "maxVisibleItems": number;
         /**
@@ -4967,10 +6394,12 @@ export namespace Components {
     interface RequirementCheck {
         /**
           * Whether this requirement has been satisfied (true/false).
+          * @default false
          */
         "isValid": boolean;
         /**
           * The requirement text to display (e.g. "At least one lowercase letter").
+          * @default ''
          */
         "text": string;
     }
@@ -11076,21 +12505,38 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
     interface AcPagesMenu {
+        /**
+          * @default 'nav'
+         */
         "location"?: 'sheet' | 'nav';
         "onLink-clicked"?: (event: AcPagesMenuCustomEvent<MouseEvent>) => void;
+        /**
+          * @default []
+         */
         "pages"?: ACPages[];
     }
     interface IglApplicationInfo {
         "autoFillGuest"?: boolean;
         "baseData"?: { unit: { id: string; name: string }; roomtypeId: number };
+        /**
+          * @default []
+         */
         "bedPreferenceType"?: any[];
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType"?: string;
         "currency"?: ICurrency;
         "guestInfo"?: RatePlanGuest | null;
         "onRecalculateTotalCost"?: (event: IglApplicationInfoCustomEvent<void>) => void;
         "rateplanSelection"?: IRatePlanSelection;
         "roomIndex"?: number;
+        /**
+          * @default 1
+         */
         "totalNights"?: number;
     }
     interface IglBlockDatesView {
@@ -11099,6 +12545,9 @@ declare namespace LocalJSX {
         "entryHour"?: number;
         "entryMinute"?: number;
         "fromDate"?: string;
+        /**
+          * @default false
+         */
         "isEventHover"?: boolean;
         "onDataUpdateEvent"?: (event: IglBlockDatesViewCustomEvent<{ [key: string]: any }>) => void;
         "toDate"?: string;
@@ -11140,16 +12589,28 @@ declare namespace LocalJSX {
         "onResetBookingEvt"?: (event: IglBookPropertyCustomEvent<null>) => void;
         "onToast"?: (event: IglBookPropertyCustomEvent<IToast>) => void;
         "propertyid"?: number;
+        /**
+          * @default false
+         */
         "showPaymentDetails"?: boolean;
     }
     interface IglBookPropertyContainer {
         "from_date"?: string;
+        /**
+          * @default ''
+         */
         "language"?: string;
         "onResetBookingData"?: (event: IglBookPropertyContainerCustomEvent<null>) => void;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
         "to_date"?: string;
+        /**
+          * @default true
+         */
         "withIrToastAndInterceptor"?: boolean;
     }
     interface IglBookPropertyFooter {
@@ -11163,6 +12624,9 @@ declare namespace LocalJSX {
     interface IglBookPropertyHeader {
         "adultChildConstraints"?: TAdultChildConstraints1;
         "bookedByInfoData"?: any;
+        /**
+          * @default ''
+         */
         "bookingData"?: any;
         "bookingDataDefaultDateRange"?: { [key: string]: any };
         "dateRangeData"?: any;
@@ -11175,16 +12639,28 @@ declare namespace LocalJSX {
         "onSpiltBookingSelected"?: (event: IglBookPropertyHeaderCustomEvent<{ key: string; data: unknown }>) => void;
         "onSplitBookingDropDownChange"?: (event: IglBookPropertyHeaderCustomEvent<any>) => void;
         "propertyId"?: number;
+        /**
+          * @default false
+         */
         "showSplitBookingOption"?: boolean;
+        /**
+          * @default ''
+         */
         "splitBookingId"?: any;
         "splitBookings"?: any[];
         "wasBlockedUnit"?: boolean;
     }
     interface IglBookingEvent {
+        /**
+          * @default []
+         */
         "allBookingEvents"?: { [key: string]: any };
         "bookingEvent"?: { [key: string]: any };
         "countries"?: ICountry[];
         "currency"?: any;
+        /**
+          * @default false
+         */
         "is_vacation_rental"?: boolean;
         "language"?: string;
         "onDragOverEventData"?: (event: IglBookingEventCustomEvent<any>) => void;
@@ -11197,9 +12673,15 @@ declare namespace LocalJSX {
     }
     interface IglBookingEventHover {
         "bookingEvent"?: { [key: string]: any };
+        /**
+          * @default false
+         */
         "bubbleInfoTop"?: boolean;
         "countries"?: ICountry[];
         "currency"?: any;
+        /**
+          * @default false
+         */
         "is_vacation_rental"?: boolean;
         "onBookingCreated"?: (event: IglBookingEventHoverCustomEvent<{ pool?: string; data: any[] }>) => void;
         "onDeleteButton"?: (event: IglBookingEventHoverCustomEvent<string>) => void;
@@ -11249,18 +12731,27 @@ declare namespace LocalJSX {
     }
     interface IglBulkBlock {
         "formId"?: string;
+        /**
+          * @default 8
+         */
         "maxDatesLength"?: number;
         "onCloseDrawer"?: (event: IglBulkBlockCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IglBulkBlockCustomEvent<boolean>) => void;
         "property_id"?: number;
     }
     interface IglBulkOperations {
+        /**
+          * @default 8
+         */
         "maxDatesLength"?: number;
         "onCloseModal"?: (event: IglBulkOperationsCustomEvent<null>) => void;
         "onToast"?: (event: IglBulkOperationsCustomEvent<IrToast>) => void;
         "property_id"?: number;
     }
     interface IglBulkOperationsDrawer {
+        /**
+          * @default 8
+         */
         "maxDatesLength"?: number;
         "onCloseDrawer"?: (event: IglBulkOperationsDrawerCustomEvent<null>) => void;
         "onToast"?: (event: IglBulkOperationsDrawerCustomEvent<IrToast>) => void;
@@ -11269,6 +12760,9 @@ declare namespace LocalJSX {
     }
     interface IglBulkStopSale {
         "formId"?: string;
+        /**
+          * @default 8
+         */
         "maxDatesLength"?: number;
         "onCloseDrawer"?: (event: IglBulkStopSaleCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IglBulkStopSaleCustomEvent<boolean>) => void;
@@ -11290,6 +12784,9 @@ declare namespace LocalJSX {
     interface IglCalFooter {
         "calendarData"?: { [key: string]: any };
         "highlightedDate"?: string;
+        /**
+          * @default false
+         */
         "isLegendOpen"?: boolean;
         "onOptionEvent"?: (event: IglCalFooterCustomEvent<{ [key: string]: any }>) => void;
         "today"?: String;
@@ -11312,6 +12809,9 @@ declare namespace LocalJSX {
     interface IglHkIssuesDialog {
         "issues"?: HKIssue[];
         "onIrAfterClose"?: (event: IglHkIssuesDialogCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
         "propertyId"?: number;
         "unitId"?: number;
@@ -11344,11 +12844,17 @@ declare namespace LocalJSX {
         "onOptionEvent"?: (event: IglLegendCustomEvent<{ [key: string]: any }>) => void;
     }
     interface IglPropertyBookedBy {
+        /**
+          * @default []
+         */
         "countries"?: ICountry[];
         "defaultData"?: { [key: string]: any };
         "language"?: string;
         "onDataUpdateEvent"?: (event: IglPropertyBookedByCustomEvent<{ [key: string]: any }>) => void;
         "propertyId"?: number;
+        /**
+          * @default false
+         */
         "showPaymentDetails"?: boolean;
     }
     interface IglRateExtenderDrawer {
@@ -11358,6 +12864,9 @@ declare namespace LocalJSX {
         "identifier"?: string;
         "language"?: string;
         "onCloseRoomNightsDialog"?: (event: IglRateExtenderDrawerCustomEvent<IRoomNightsDataEventPayload>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
         "pool"?: string;
         "propertyId"?: number;
@@ -11381,15 +12890,27 @@ declare namespace LocalJSX {
         "toDate"?: string;
     }
     interface IglRatePlan {
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType"?: string;
         "currency": { symbol: string };
+        /**
+          * @default false
+         */
         "isBookDisabled"?: boolean;
         "onBookingStepChange"?: (event: IglRatePlanCustomEvent<{ direction: 'next' | 'prev' }>) => void;
         "onButtonClicked"?: (event: IglRatePlanCustomEvent<{ [key: string]: any }>) => void;
         "ratePlan"?: RatePlan;
+        /**
+          * @default []
+         */
         "ratePricingMode"?: Array<{ CODE_NAME: string; CODE_VALUE_EN: string }>;
         "roomTypeId"?: number;
         "shouldBeDisabled": boolean;
+        /**
+          * @default new Set()
+         */
         "unavailableRatePlanIds"?: Set<number>;
         "visibleInventory": IRatePlanSelection;
     }
@@ -11400,12 +12921,24 @@ declare namespace LocalJSX {
         "onRevertBooking"?: (event: IglReallocationDialogCustomEvent<string>) => void;
     }
     interface IglRoomType {
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "bookingType"?: string;
         "currency"?: any;
         "isBookDisabled"?: boolean;
+        /**
+          * @default []
+         */
         "ratePricingMode"?: any[];
         "roomType"?: RoomType;
+        /**
+          * @default null
+         */
         "roomTypeId"?: number | null;
+        /**
+          * @default new Set()
+         */
         "unavailableRatePlanIds"?: Set<number>;
     }
     interface IglSpiltBookingForm {
@@ -11426,9 +12959,15 @@ declare namespace LocalJSX {
     }
     interface IglTbaBookingView {
         "calendarData"?: { [key: string]: any };
+        /**
+          * @default {}
+         */
         "categoriesData"?: { [key: string]: any };
         "categoryId"?: any;
         "categoryIndex"?: any;
+        /**
+          * @default {}
+         */
         "eventData"?: { [key: string]: any };
         "eventIndex"?: any;
         "onAddToBeAssignedEvent"?: (event: IglTbaBookingViewCustomEvent<any>) => void;
@@ -11440,6 +12979,9 @@ declare namespace LocalJSX {
     }
     interface IglTbaCategoryView {
         "calendarData"?: { [key: string]: any };
+        /**
+          * @default {}
+         */
         "categoriesData"?: { [key: string]: any };
         "categoryId"?: any;
         "categoryIndex"?: any;
@@ -11476,20 +13018,26 @@ declare namespace LocalJSX {
         "onShowRoomNightsDialog"?: (event: IglooCalendarCustomEvent<IRoomNightsData>) => void;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
         "to_date"?: string;
     }
     interface IrAccordion {
         /**
           * Show caret icon
+          * @default true
          */
         "caret"?: boolean;
         /**
           * Caret icon name
+          * @default 'angle-down'
          */
         "caretIcon"?: string;
         /**
           * Start expanded
+          * @default false
          */
         "defaultExpanded"?: boolean;
         /**
@@ -11502,6 +13050,9 @@ declare namespace LocalJSX {
         "onIr-toggle"?: (event: IrAccordionCustomEvent<{ expanded: boolean }>) => void;
     }
     interface IrActionsCell {
+        /**
+          * @default []
+         */
         "buttons"?: IrActionButton[];
         "onIrAction"?: (event: IrActionsCellCustomEvent<{ action: IrActionButton }>) => void;
     }
@@ -11521,6 +13072,9 @@ declare namespace LocalJSX {
         "agent"?: Agent;
         "countries"?: ICountry[];
         "onAgentEditorClose"?: (event: IrAgentEditorDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
         "setupEntries"?: AgentSetupEntries;
     }
@@ -11542,6 +13096,7 @@ declare namespace LocalJSX {
     interface IrAgents {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -11558,6 +13113,9 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrAgentsTable {
+        /**
+          * @default []
+         */
         "agents"?: Agent[];
         "countries"?: ICountry[];
         "language"?: string;
@@ -11583,6 +13141,7 @@ declare namespace LocalJSX {
     interface IrAirDatePicker {
         /**
           * Passed to AirDatepicker at init only. Has no visual effect on an inline calendar; the parent popup handles closing.
+          * @default true
          */
         "autoClose"?: boolean;
         /**
@@ -11591,14 +13150,17 @@ declare namespace LocalJSX {
         "container"?: HTMLElement;
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` (trigger rendering is the parent's concern).
+          * @default false
          */
         "customPicker"?: boolean;
         /**
           * The selected date (single-select mode). Mutable: the component writes the latest selection back into it from `onSelect`, and the parent can set it to move the calendar selection programmatically (applied silently, no `dateChanged` emitted).
+          * @default null
          */
         "date"?: string | Moment | null;
         /**
           * Display format for the picker (AirDatepicker format tokens, not moment tokens). Passed at init only.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat"?: string;
         /**
@@ -11607,18 +13169,22 @@ declare namespace LocalJSX {
         "dates"?: (string | Moment)[];
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` (which handles disabling interaction itself).
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * If `true`, emits `dateChanged` with null values when the selection is cleared. Otherwise clear-events are swallowed.
+          * @default false
          */
         "emitEmptyDate"?: boolean;
         /**
           * If `true`, a `date` prop change destroys and rebuilds the AirDatepicker instance instead of calling `selectDate`. Use only when the picker must fully re-initialize; rebuilding on every change is expensive.
+          * @default false
          */
         "forceDestroyOnUpdate"?: boolean;
         /**
           * Not wired to the picker: the calendar is always created with `inline: true` (visibility is controlled by the parent `ir-date-select` popup).
+          * @default false
          */
         "inline"?: boolean;
         /**
@@ -11635,6 +13201,7 @@ declare namespace LocalJSX {
         "minDate"?: string | Moment;
         /**
           * `true` for unlimited multi-select, or a number for a fixed max. Passed to AirDatepicker at init only.
+          * @default false
          */
         "multipleDates"?: boolean | number;
         /**
@@ -11659,22 +13226,27 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * Enables range selection (start + end). Passed to AirDatepicker at init only.
+          * @default false
          */
         "range"?: boolean;
         /**
           * Allows selecting the previous/next-month days shown in the current view. Passed at init only.
+          * @default true
          */
         "selectOtherMonths"?: boolean;
         /**
           * Shows days from the previous/next month in the current view. Passed at init only.
+          * @default true
          */
         "showOtherMonths"?: boolean;
         /**
           * Enables the timepicker. Also switches `isSameDates` comparisons from day precision to minute precision.
+          * @default false
          */
         "timepicker"?: boolean;
         /**
           * Not wired to the picker. Forwarded by `ir-date-select` for API parity.
+          * @default ''
          */
         "triggerContainerStyle"?: string;
         /**
@@ -11684,6 +13256,9 @@ declare namespace LocalJSX {
     }
     interface IrApplicablePolicies {
         "booking"?: Booking;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onGeneratePayment"?: (event: IrApplicablePoliciesCustomEvent<IPaymentAction>) => void;
         "propertyId"?: number;
@@ -11691,9 +13266,15 @@ declare namespace LocalJSX {
     interface IrArrivalTimeCell {
         "arrival"?: Booking['arrival'];
         "arrivalTimeLabel"?: string;
+        /**
+          * @default 'block'
+         */
         "display"?: 'block' | 'inline';
     }
     interface IrArrivalTimeDialog {
+        /**
+          * @default []
+         */
         "arrivalTime"?: IEntries[];
         "booking"?: Booking;
         "onResetBookingEvt"?: (event: IrArrivalTimeDialogCustomEvent<Booking | null>) => void;
@@ -11701,6 +13282,7 @@ declare namespace LocalJSX {
     interface IrArrivals {
         /**
           * Two-letter language code (ISO) used for translations and API locale. Defaults to `'en'`.
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -11709,6 +13291,7 @@ declare namespace LocalJSX {
         "p"?: string;
         /**
           * Number of arrivals to load per page in the arrivals table. Used to configure pagination via Arrivals Store. Defaults to `20`.
+          * @default 20
          */
         "pageSize"?: number;
         /**
@@ -11730,18 +13313,22 @@ declare namespace LocalJSX {
     interface IrAssignmentToggleDialog {
         /**
           * Cancel button label
+          * @default 'Cancel'
          */
         "cancelLabel"?: string;
         /**
           * Confirm button label
+          * @default 'Confirm'
          */
         "confirmLabel"?: string;
         /**
           * Dialog header title
+          * @default 'Are you sure?'
          */
         "label"?: string;
         /**
           * Controls the loading spinner on the confirm button — set by the parent while the async operation runs
+          * @default false
          */
         "loading"?: boolean;
         /**
@@ -11764,6 +13351,7 @@ declare namespace LocalJSX {
         "autocapitalize"?: NativeWaInput['autocapitalize'];
         /**
           * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+          * @default 'off'
          */
         "autocomplete"?: NativeWaInput['autocomplete'];
         /**
@@ -11839,6 +13427,7 @@ declare namespace LocalJSX {
         "onText-change"?: (event: IrAutocompleteCustomEvent<string>) => void;
         /**
           * Whether the autocomplete dropdown is open.
+          * @default false
          */
         "open"?: boolean;
         /**
@@ -11863,6 +13452,7 @@ declare namespace LocalJSX {
         "placeholder"?: NativeWaInput['placeholder'];
         /**
           * Placement of the autocomplete dropdown relative to the input.
+          * @default 'bottom'
          */
         "placement"?: AutocompletePopupElement['placement'];
         /**
@@ -11873,9 +13463,13 @@ declare namespace LocalJSX {
           * Makes the input a required field.
          */
         "required"?: NativeWaInput['required'];
+        /**
+          * @default false
+         */
         "returnMaskedValue"?: boolean;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size"?: NativeWaInput['size'];
         /**
@@ -11888,10 +13482,12 @@ declare namespace LocalJSX {
         "step"?: NativeWaInput['step'];
         /**
           * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+          * @default 'text'
          */
         "type"?: NativeWaInput['type'];
         /**
           * The value of the input.
+          * @default ''
          */
         "value"?: string;
         /**
@@ -11912,15 +13508,27 @@ declare namespace LocalJSX {
         "withoutSpinButtons"?: NativeWaInput['withoutSpinButtons'];
     }
     interface IrAutocompleteOption {
+        /**
+          * @default false
+         */
         "current"?: boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
         "label"?: string;
+        /**
+          * @default false
+         */
         "selected"?: boolean;
         "value"?: string;
     }
     interface IrBalanceCell {
         "bookingNumber": string;
         "currencySymbol": string;
+        /**
+          * @default 'block'
+         */
         "display"?: 'inline' | 'block';
         "financial": Booking['financial'];
         "guestFinancial": Booking['guest_financial'];
@@ -11959,8 +13567,12 @@ declare namespace LocalJSX {
         "cellId"?: string;
         /**
           * Makes the guest name clickable. Emits `openGuestDetails` when clicked.
+          * @default false
          */
         "clickableGuest"?: boolean;
+        /**
+          * @default 'block'
+         */
         "display"?: 'inline' | 'block';
         /**
           * Guest associated with this booking.
@@ -11981,26 +13593,32 @@ declare namespace LocalJSX {
         "promoKey"?: string;
         /**
           * Show phone and WhatsApp contact icons. When shown, phone links via `tel:` and WhatsApp via `https://wa.me/`.
+          * @default false
          */
         "showContactIcons"?: boolean;
         /**
           * Show loyalty discount icon (pink heart-outline).
+          * @default false
          */
         "showLoyaltyIcon"?: boolean;
         /**
           * Show total persons count (e.g. "3P").
+          * @default false
          */
         "showPersons"?: boolean;
         /**
           * Show yellow dot indicating the booking has a private note.
+          * @default false
          */
         "showPrivateNoteDot"?: boolean;
         /**
           * Show promo/coupon icon.
+          * @default false
          */
         "showPromoIcon"?: boolean;
         /**
           * Show pink heart icon if guest has repeated bookings.
+          * @default false
          */
         "showRepeatGuestBadge"?: boolean;
         /**
@@ -12010,6 +13628,9 @@ declare namespace LocalJSX {
     }
     interface IrBookedOnCell {
         "bookedOn"?: Booking['booked_on'];
+        /**
+          * @default 'block'
+         */
         "display"?: 'inline' | 'block';
         "label"?: string;
     }
@@ -12019,6 +13640,9 @@ declare namespace LocalJSX {
         "propertyid"?: number;
     }
     interface IrBookingAssignItems {
+        /**
+          * @default []
+         */
         "items"?: AssignableItem[];
         "onBookingSelectionChange"?: (event: IrBookingAssignItemsCustomEvent<Set<string>>) => void;
     }
@@ -12033,18 +13657,22 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         /**
           * Error message driven by the parent fetch.
+          * @default null
          */
         "error"?: string | null;
         /**
           * Folio rows fetched by the parent.
+          * @default []
          */
         "folioRows"?: FolioRow[];
         /**
           * Loading state driven by the parent fetch.
+          * @default false
          */
         "isLoading"?: boolean;
         /**
           * Active language code.
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -12053,6 +13681,7 @@ declare namespace LocalJSX {
         "onClRefreshNeeded"?: (event: IrBookingCityLedgerCustomEvent<void>) => void;
         /**
           * Service-category entries used to populate the transaction form.
+          * @default []
          */
         "svcCategories"?: IEntries[];
     }
@@ -12069,54 +13698,67 @@ declare namespace LocalJSX {
     interface IrBookingDetails {
         /**
           * Booking number used to fetch booking details.
+          * @default ''
          */
         "bookingNumber"?: string;
         /**
           * Enables the check-in action in room components.
+          * @default false
          */
         "hasCheckIn"?: boolean;
         /**
           * Enables the check-out action in room components.
+          * @default false
          */
         "hasCheckOut"?: boolean;
         /**
           * Displays the close button in the booking header.
+          * @default false
          */
         "hasCloseButton"?: boolean;
         /**
           * Enables the delete booking action.
+          * @default false
          */
         "hasDelete"?: boolean;
         /**
           * Displays the navigation menu button.
+          * @default false
          */
         "hasMenu"?: boolean;
         /**
           * Enables the print booking option.
+          * @default false
          */
         "hasPrint"?: boolean;
         /**
           * Enables the receipt action in the booking header.
+          * @default false
          */
         "hasReceipt"?: boolean;
         /**
           * Allows adding new rooms to the booking.
+          * @default false
          */
         "hasRoomAdd"?: boolean;
         /**
           * Allows deleting rooms from the booking.
+          * @default false
          */
         "hasRoomDelete"?: boolean;
         /**
           * Allows editing existing rooms in the booking.
+          * @default false
          */
         "hasRoomEdit"?: boolean;
         /**
           * Indicates whether the component is rendered from the front desk context. Disables interceptor and toast rendering when true.
+          * @default false
          */
         "is_from_front_desk"?: boolean;
         /**
           * Active language code used for translations and API requests. Defaults to 'en'.
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -12137,6 +13779,7 @@ declare namespace LocalJSX {
         "propertyid"?: number;
         /**
           * Authentication token used to initialize the component. Triggers re-initialization when changed.
+          * @default ''
          */
         "ticket"?: string;
     }
@@ -12153,6 +13796,7 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
         /**
           * Language code used for localization. Defaults to English (`en`).
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -12178,12 +13822,21 @@ declare namespace LocalJSX {
         "checkIn"?: string;
         "checkOut"?: string;
         "identifier"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "mode"?: BookingEditorMode;
         "onAdjustBlockedUnit"?: (event: IrBookingEditorCustomEvent<any>) => void;
         "onLoadingChanged"?: (event: IrBookingEditorCustomEvent<{ cause: string | null }>) => void;
         "onResetBookingEvt"?: (event: IrBookingEditorCustomEvent<void>) => void;
         "propertyId"?: string | number;
+        /**
+          * @default []
+         */
         "roomTypeIds"?: (string | number)[];
         "step"?: BookingStep;
         "unitId"?: string;
@@ -12211,10 +13864,12 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * UI language code (default: `en`).
+          * @default 'en'
          */
         "language"?: string;
         /**
           * Current booking editor mode.
+          * @default 'PLUS_BOOKING'
          */
         "mode"?: BookingEditorMode;
         /**
@@ -12235,6 +13890,7 @@ declare namespace LocalJSX {
         "roomIdentifier"?: string;
         /**
           * Allowed room type identifiers.
+          * @default []
          */
         "roomTypeIds"?: (string | number)[];
         /**
@@ -12249,6 +13905,9 @@ declare namespace LocalJSX {
     interface IrBookingEditorForm {
         "agent"?: Agent;
         "booking"?: Booking;
+        /**
+          * @default 'PLUS_BOOKING'
+         */
         "mode"?: BookingEditorMode;
         "onDoReservation"?: (event: IrBookingEditorFormCustomEvent<string>) => void;
         "room"?: Room;
@@ -12272,6 +13931,7 @@ declare namespace LocalJSX {
         "isLoading"?: boolean;
         /**
           * Controls header behavior and date constraints
+          * @default 'PLUS_BOOKING'
          */
         "mode"?: BookingEditorMode;
         "onCheckAvailability"?: (event: IrBookingEditorHeaderCustomEvent<void>) => void;
@@ -12292,11 +13952,20 @@ declare namespace LocalJSX {
     }
     interface IrBookingHeader {
         "agent"?: Agent;
+        /**
+          * @default []
+         */
         "agents"?: Agent[];
         "booking"?: Booking;
+        /**
+          * @default []
+         */
         "folioRows"?: FolioRow[];
         "hasCloseButton"?: boolean;
         "hasDelete"?: boolean;
+        /**
+          * @default true
+         */
         "hasEmail"?: boolean;
         "hasMenu"?: boolean;
         "hasPrint"?: boolean;
@@ -12307,10 +13976,19 @@ declare namespace LocalJSX {
     }
     interface IrBookingListing {
         "baseUrl"?: string;
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default 20
+         */
         "rowCount"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
         "userType"?: number;
     }
@@ -12345,21 +14023,48 @@ declare namespace LocalJSX {
         "source"?: Booking['source'];
     }
     interface IrBookingPricingDrawer {
+        /**
+          * @default null
+         */
         "agent"?: Agent | null;
         "booking"?: Booking;
+        /**
+          * @default ''
+         */
         "currencySymbol"?: string;
+        /**
+          * @default []
+         */
         "folioEntries"?: ClTx[];
+        /**
+          * @default 'booking-pricing-form'
+         */
         "formId"?: string;
         "onCloseDrawer"?: (event: IrBookingPricingDrawerCustomEvent<void>) => void;
         "onPricingSaved"?: (event: IrBookingPricingDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
         "room"?: Room;
     }
     interface IrBookingPricingForm {
+        /**
+          * @default null
+         */
         "agent"?: Agent | null;
         "booking"?: Booking;
+        /**
+          * @default ''
+         */
         "currencySymbol"?: string;
+        /**
+          * @default []
+         */
         "folioEntries"?: ClTx[];
+        /**
+          * @default 'booking-pricing-form'
+         */
         "formId"?: string;
         "onAllDisabled"?: (event: IrBookingPricingFormCustomEvent<boolean>) => void;
         "onPricingSaved"?: (event: IrBookingPricingFormCustomEvent<void>) => void;
@@ -12367,38 +14072,58 @@ declare namespace LocalJSX {
         "room"?: Room;
     }
     interface IrBookingPrinting {
+        /**
+          * @default ''
+         */
         "bookingNumber"?: string;
         "countries"?: any;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
+        /**
+          * @default 'default'
+         */
         "mode"?: 'invoice' | 'default';
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "token"?: string;
     }
     interface IrBookingRooms {
         "agent"?: Agent;
         /**
           * Available bed preference options for the booking rooms. Used to populate bed selection inside each room component.
+          * @default []
          */
         "bedPreference"?: IEntries[];
         /**
           * The booking object containing reservation details, including rooms, status, currency, and edit permissions.
          */
         "booking"?: Booking;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
         /**
           * Available departure time options for the booking. Passed down to each room when applicable.
+          * @default []
          */
         "departureTime"?: IEntries[];
         /**
           * Enables the ability to add a new room/unit to the booking.
+          * @default false
          */
         "hasRoomAdd"?: boolean;
         /**
           * Enables deleting a room from the booking.
+          * @default false
          */
         "hasRoomDelete"?: boolean;
         /**
           * Enables editing room details within the booking.
+          * @default false
          */
         "hasRoomEdit"?: boolean;
         /**
@@ -12443,18 +14168,22 @@ declare namespace LocalJSX {
         "btnStyle"?: { [key: string]: string };
         /**
           * Whether the button should expand to the full width of its container.
+          * @default true
          */
         "btn_block"?: boolean;
         /**
           * The color theme of the button.
+          * @default 'primary'
          */
         "btn_color"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline' | 'link';
         /**
           * Disables the button when set to true.
+          * @default false
          */
         "btn_disabled"?: boolean;
         /**
           * A unique identifier for the button instance.
+          * @default v4()
          */
         "btn_id"?: string;
         /**
@@ -12463,10 +14192,12 @@ declare namespace LocalJSX {
         "btn_styles"?: string;
         /**
           * The button type attribute (`button`, `submit`, or `reset`).
+          * @default 'button'
          */
         "btn_type"?: string;
         /**
           * Position of the icon relative to the button text.
+          * @default 'left'
          */
         "iconPosition"?: 'left' | 'right';
         /**
@@ -12479,6 +14210,7 @@ declare namespace LocalJSX {
         "icon_style"?: any;
         /**
           * Displays a loading indicator when true and disables the button.
+          * @default false
          */
         "isLoading"?: boolean;
         /**
@@ -12495,10 +14227,12 @@ declare namespace LocalJSX {
         "onClickHandler"?: (event: IrButtonCustomEvent<any>) => void;
         /**
           * If true, renders the text property as raw HTML inside the button.
+          * @default false
          */
         "renderContentAsHtml"?: boolean;
         /**
           * The size of the button.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         /**
@@ -12507,14 +14241,17 @@ declare namespace LocalJSX {
         "text"?: string;
         /**
           * The size of the text inside the button.
+          * @default 'md'
          */
         "textSize"?: 'sm' | 'md' | 'lg';
         /**
           * Visual variant of the button: either standard (`default`) or icon-only (`icon`).
+          * @default 'default'
          */
         "variant"?: 'default' | 'icon';
         /**
           * If true, applies a visible background when hovered.
+          * @default false
          */
         "visibleBackgroundOnHover"?: boolean;
     }
@@ -12523,9 +14260,15 @@ declare namespace LocalJSX {
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrChannelEditor {
+        /**
+          * @default null
+         */
         "channel_status"?: 'create' | 'edit' | null;
         "onCloseSideBar"?: (event: IrChannelEditorCustomEvent<null>) => void;
         "onSaveChannelFinished"?: (event: IrChannelEditorCustomEvent<null>) => void;
@@ -12533,10 +14276,16 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrChannelGeneral {
+        /**
+          * @default null
+         */
         "channel_status"?: 'create' | 'edit' | null;
         "onConnectionStatus"?: (event: IrChannelGeneralCustomEvent<boolean>) => void;
     }
     interface IrChannelHeader {
+        /**
+          * @default []
+         */
         "headerTitles"?: { id: string; name: string; disabled: boolean }[];
         "onTabChanged"?: (event: IrChannelHeaderCustomEvent<string>) => void;
     }
@@ -12545,10 +14294,12 @@ declare namespace LocalJSX {
     interface IrCheckbox {
         /**
           * The unique ID of the checkbox element.
+          * @default v4()
          */
         "checkboxId"?: string;
         /**
           * Whether the checkbox is checked.
+          * @default false
          */
         "checked"?: boolean;
         /**
@@ -12577,6 +14328,9 @@ declare namespace LocalJSX {
         "onCheckChange"?: (event: IrCheckboxCustomEvent<boolean>) => void;
     }
     interface IrCheckboxes {
+        /**
+          * @default []
+         */
         "checkboxes"?: checkboxes[];
         "onCheckboxesChange"?: (event: IrCheckboxesCustomEvent<checkboxes[]>) => void;
     }
@@ -12587,16 +14341,31 @@ declare namespace LocalJSX {
         "open"?: boolean;
     }
     interface IrCityLedger {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
         "baseurl"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
         "ticket"?: string;
     }
     interface IrCityLedgerFiscalDocuments {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         "initialFilters"?: ClFiscalDocumentFilters;
         "onClFiscalFiltersChange"?: (event: IrCityLedgerFiscalDocumentsCustomEvent<ClFiscalDocumentFilters>) => void;
@@ -12604,32 +14373,77 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrCityLedgerFiscalDocumentsFilters {
+        /**
+          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,   }
+         */
         "filters"?: ClFiscalDocumentFilters;
         "onApplyFilters"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<ClFiscalDocumentFilters>) => void;
         "onFiltersChange"?: (event: IrCityLedgerFiscalDocumentsFiltersCustomEvent<ClFiscalDocumentFilters>) => void;
     }
     interface IrCityLedgerFiscalDocumentsTable {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
+        /**
+          * @default null
+         */
         "fromDate"?: string | null;
+        /**
+          * @default false
+         */
         "hasDates"?: boolean;
+        /**
+          * @default false
+         */
         "hasFetched"?: boolean;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
         "onClFiscalDocumentPreview"?: (event: IrCityLedgerFiscalDocumentsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFiscalDocumentsTableCustomEvent<void>) => void;
         "propertyId"?: number;
+        /**
+          * @default []
+         */
         "rows"?: FiscalDocument[];
+        /**
+          * @default false
+         */
         "taxableOnly"?: boolean;
         "ticket"?: string;
+        /**
+          * @default null
+         */
         "toDate"?: string | null;
     }
     interface IrCityLedgerFolio {
+        /**
+          * @default null
+         */
         "agent"?: Agent | null;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onFolioSummaryUpdate"?: (event: IrCityLedgerFolioCustomEvent<FolioSummary>) => void;
         "propertyId"?: number;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions"?: ServiceCategoryOption[];
         "ticket"?: string;
     }
@@ -12641,33 +14455,90 @@ declare namespace LocalJSX {
         "onFiltersChange"?: (event: IrCityLedgerFolioFiltersCustomEvent<FolioFilters>) => void;
     }
     interface IrCityLedgerFolioTable {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default 0
+         */
         "closingBalance"?: number;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
+        /**
+          * @default []
+         */
         "data"?: FolioRow1[];
+        /**
+          * @default ''
+         */
         "fromDate"?: string;
+        /**
+          * @default false
+         */
         "hasFetched"?: boolean;
+        /**
+          * @default false
+         */
         "hideBalanceInfo"?: boolean;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onDeleteEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onEditEntry"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1['_raw']>) => void;
         "onFetchRequested"?: (event: IrCityLedgerFolioTableCustomEvent<void>) => void;
         "onGenerateInvoice"?: (event: IrCityLedgerFolioTableCustomEvent<FolioRow1[]>) => void;
         "onPageChange"?: (event: IrCityLedgerFolioTableCustomEvent<{ pageIndex: number; pageSize: number }>) => void;
+        /**
+          * @default 0
+         */
         "pageIndex"?: number;
+        /**
+          * @default 25
+         */
         "pageSize"?: number;
         "propertyId"?: number;
+        /**
+          * @default 0
+         */
         "startingBalance"?: number;
         "ticket"?: string;
+        /**
+          * @default ''
+         */
         "toDate"?: string;
+        /**
+          * @default 0
+         */
         "totalCount"?: number;
     }
     interface IrCityLedgerStatements {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default ''
+         */
         "agentName"?: string;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         "initialFilters"?: StatementFilters;
         "onClStmtFiltersChange"?: (event: IrCityLedgerStatementsCustomEvent<StatementFilters>) => void;
@@ -12675,7 +14546,13 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrCityLedgerStatementsFilter {
+        /**
+          * @default null
+         */
         "initialFromDate"?: string | null;
+        /**
+          * @default null
+         */
         "initialToDate"?: string | null;
         "onCreateStatement"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters1>) => void;
         "onFiltersChange"?: (event: IrCityLedgerStatementsFilterCustomEvent<StatementFilters1>) => void;
@@ -12683,63 +14560,174 @@ declare namespace LocalJSX {
     }
     interface IrCityLedgerStatementsTable {
         "agentId"?: number;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
+        /**
+          * @default 0
+         */
         "endingBalance"?: number;
+        /**
+          * @default null
+         */
         "fromDate"?: string | null;
+        /**
+          * @default false
+         */
         "hasFetched"?: boolean;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
         "onClFiscalDocumentPreview"?: (event: IrCityLedgerStatementsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
+        /**
+          * @default []
+         */
         "rows"?: FiscalDocument[];
+        /**
+          * @default 0
+         */
         "startingBalance"?: number;
+        /**
+          * @default null
+         */
         "toDate"?: string | null;
     }
     interface IrCityLedgerToolbar {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         "onCreateInvoice"?: (event: IrCityLedgerToolbarCustomEvent<void>) => void;
     }
     interface IrCityLedgerTransactionDrawer {
+        /**
+          * @default null
+         */
         "agent"?: Agent | null;
+        /**
+          * @default null
+         */
         "booking"?: Booking | null;
+        /**
+          * @default []
+         */
         "bookingOptions"?: LinkedOption[];
+        /**
+          * @default 'New Entry'
+         */
         "drawerLabel"?: string;
+        /**
+          * @default 'city-ledger-transaction-form'
+         */
         "formId"?: string;
+        /**
+          * @default 'OB'
+         */
         "initialTransactionType"?: TransactionType;
         "onCloseDrawer"?: (event: IrCityLedgerTransactionDrawerCustomEvent<void>) => void;
         "onTransactionSaved"?: (event: IrCityLedgerTransactionDrawerCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions"?: ServiceCategoryOption[];
+        /**
+          * @default null
+         */
         "transaction"?: ClTx | null;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrCityLedgerTransactionForm {
+        /**
+          * @default null
+         */
         "agent"?: Agent | null;
+        /**
+          * @default null
+         */
         "booking"?: Booking | null;
+        /**
+          * @default []
+         */
         "bookingOptions"?: LinkedOption[];
+        /**
+          * @default 'city-ledger-transaction-form'
+         */
         "formId"?: string;
+        /**
+          * @default 'PAY'
+         */
         "initialTransactionType"?: TransactionType;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onClFiscalDocumentPreview"?: (event: IrCityLedgerTransactionFormCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onSubmitDisabledChange"?: (event: IrCityLedgerTransactionFormCustomEvent<boolean>) => void;
         "onTransactionSaved"?: (event: IrCityLedgerTransactionFormCustomEvent<void>) => void;
         "onTransactionValidationFailed"?: (event: IrCityLedgerTransactionFormCustomEvent<ZodIssue[]>) => void;
+        /**
+          * @default []
+         */
         "serviceCategoryOptions"?: ServiceCategoryOption[];
+        /**
+          * @default null
+         */
         "transaction"?: ClTx | null;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrClAdjustmentFields {
+        /**
+          * @default []
+         */
         "bookingOptions"?: LinkedOption[];
+        /**
+          * @default ''
+         */
         "entryType"?: EntryType | '';
+        /**
+          * @default 'NONE'
+         */
         "linkType"?: LinkType;
         "linkedId"?: string | undefined;
         "onFieldChange"?: (event: IrClAdjustmentFieldsCustomEvent<Partial<CityLedgerTransactionFormDraft>>) => void;
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrClCreditNoteFields {
+        /**
+          * @default 'cancel-invoice'
+         */
         "creditNoteMode"?: CreditNoteMode;
+        /**
+          * @default []
+         */
         "fiscalDocuments"?: FiscalDocuments;
         "invoiceId"?: string | undefined;
+        /**
+          * @default false
+         */
         "isFetchingFiscalDocs"?: boolean;
         "onFieldChange"?: (event: IrClCreditNoteFieldsCustomEvent<Partial<CityLedgerTransactionFormDraft>>) => void;
     }
@@ -12754,6 +14742,9 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrClDebitNoteFields {
+        /**
+          * @default []
+         */
         "fiscalDocuments"?: FiscalDocuments;
         "invoiceId"?: string | undefined;
         "onFieldChange"?: (event: IrClDebitNoteFieldsCustomEvent<Partial<CityLedgerTransactionFormDraft>>) => void;
@@ -12776,6 +14767,9 @@ declare namespace LocalJSX {
           * Optional document reference number shown in the meta block.
          */
         "documentNumber"?: string;
+        /**
+          * @default 'invoice'
+         */
         "documentType"?: 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
         /**
           * Property whose branding and details appear on the right side.
@@ -12788,11 +14782,18 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrClFiscalDocumentTable {
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         /**
           * When true all monetary amounts are negated — used for credit notes.
+          * @default false
          */
         "invertAmounts"?: boolean;
+        /**
+          * @default []
+         */
         "transactions"?: ClTx[];
     }
     interface IrClInvoiceCityTaxAmountCell {
@@ -12810,14 +14811,35 @@ declare namespace LocalJSX {
         "description"?: string;
     }
     interface IrClInvoiceDialog {
+        /**
+          * @default null
+         */
         "agentId"?: number | null;
+        /**
+          * @default null
+         */
         "bookingNbr"?: string | null;
+        /**
+          * @default null
+         */
         "currencyId"?: number | null;
+        /**
+          * @default null
+         */
         "endDate"?: string | null;
+        /**
+          * @default 'default'
+         */
         "mode"?: 'booking' | 'default';
         "onClFiscalDocumentPreview"?: (event: IrClInvoiceDialogCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onInvoiceIssued"?: (event: IrClInvoiceDialogCustomEvent<FiscalDocument>) => void;
+        /**
+          * @default []
+         */
         "rooms"?: Room[];
+        /**
+          * @default null
+         */
         "startDate"?: string | null;
     }
     interface IrClInvoiceForm {
@@ -12836,10 +14858,22 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrClInvoiceSelect {
+        /**
+          * @default []
+         */
         "fiscalDocuments"?: FiscalDocuments;
+        /**
+          * @default ''
+         */
         "hint"?: string;
+        /**
+          * @default 'Invoice'
+         */
         "label"?: string;
         "onInvoiceChange"?: (event: IrClInvoiceSelectCustomEvent<string>) => void;
+        /**
+          * @default ''
+         */
         "value"?: string;
     }
     interface IrClInvoiceTotalCell {
@@ -12854,17 +14888,38 @@ declare namespace LocalJSX {
         "vatPercent"?: number;
     }
     interface IrClOpeningBalanceFields {
+        /**
+          * @default ''
+         */
         "entryType"?: EntryType | '';
         "onFieldChange"?: (event: IrClOpeningBalanceFieldsCustomEvent<Partial<CityLedgerTransactionFormDraft>>) => void;
     }
     interface IrClPaymentFields {
         "invoiceId"?: string | undefined;
+        /**
+          * @default false
+         */
         "isOnAccount"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
+        /**
+          * @default false
+         */
         "noInvoices"?: boolean;
         "onFieldChange"?: (event: IrClPaymentFieldsCustomEvent<Partial<CityLedgerTransactionFormDraft>>) => void;
+        /**
+          * @default ''
+         */
         "paymentMethodCode"?: string;
+        /**
+          * @default []
+         */
         "paymentMethods"?: IEntries[];
+        /**
+          * @default []
+         */
         "unpaidInvoiceOptions"?: LinkedOption[];
     }
     interface IrClReceiptPreview {
@@ -12888,6 +14943,9 @@ declare namespace LocalJSX {
         "toDate"?: string;
     }
     interface IrClStatusTag {
+        /**
+          * @default 'extra-small'
+         */
         "size"?: 'default' | 'extra-small';
         "transaction": FolioRow1 | FiscalDocument;
     }
@@ -12895,35 +14953,58 @@ declare namespace LocalJSX {
         "row"?: Row<any>;
     }
     interface IrColumnAutocomplete {
+        /**
+          * @default 'No results found'
+         */
         "emptyLabel"?: string;
         "onAutocompleteSelectionChange"?: (event: IrColumnAutocompleteCustomEvent<ColumnAutocompleteSelectionChange>) => void;
         "onQueryChange"?: (event: IrColumnAutocompleteCustomEvent<string>) => void;
+        /**
+          * @default []
+         */
         "options"?: string[];
+        /**
+          * @default 'Search...'
+         */
         "placeholder"?: string;
+        /**
+          * @default 'Select all'
+         */
         "selectAllLabel"?: string;
+        /**
+          * @default []
+         */
         "selectedValues"?: string[];
+        /**
+          * @default true
+         */
         "showSelectAll"?: boolean;
         "triggerId"?: string;
     }
     interface IrCombobox {
         /**
           * Autofocuses the input field when true.
+          * @default false
          */
         "autoFocus"?: boolean;
         /**
           * The list of items displayed in the combobox.
+          * @default []
          */
         "data"?: ComboboxItem[];
         /**
           * Disables the combobox input when set to true.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * Debounce duration in milliseconds for search input.
+          * @default 300
          */
         "duration"?: number;
         /**
           * Unique identifier for the input element.
+          * @default v4()
          */
         "input_id"?: string;
         /**
@@ -12949,6 +15030,9 @@ declare namespace LocalJSX {
     }
     interface IrCommon {
         "disableResourceInjection"?: boolean;
+        /**
+          * @default ''
+         */
         "extraResources"?: string;
     }
     interface IrCopyButton {
@@ -12957,10 +15041,12 @@ declare namespace LocalJSX {
     interface IrCountryPicker {
         /**
           * Whether to automatically validate the input.
+          * @default false
          */
         "autoValidate"?: boolean;
         /**
           * List of countries to display in the dropdown.
+          * @default []
          */
         "countries"?: ICountry[];
         /**
@@ -12992,6 +15078,9 @@ declare namespace LocalJSX {
           * Test ID for automated testing.
          */
         "testId"?: string;
+        /**
+          * @default 'default'
+         */
         "variant"?: 'modern' | 'default';
     }
     interface IrCustomButton {
@@ -13056,6 +15145,7 @@ declare namespace LocalJSX {
         "rel"?: NativeButton['rel'];
         /**
           * The button's size.
+          * @default 'small'
          */
         "size"?: NativeButton['size'];
         /**
@@ -13064,6 +15154,7 @@ declare namespace LocalJSX {
         "target"?: NativeButton['target'];
         /**
           * The type of button. Note that the default value is `button` instead of `submit`, which is opposite of how native `<button>` elements behave. When the type is `submit`, the button will submit the surrounding form.
+          * @default 'button'
          */
         "type"?: NativeButton['type'];
         /**
@@ -13104,23 +15195,28 @@ declare namespace LocalJSX {
         "dateModifiers"?: IDateModifiers;
         /**
           * The currently selected check-in date.
+          * @default null
          */
         "fromDate"?: Moment1 | null;
         /**
           * BCP-47 locale tag used to localise day names and month formatting.
-          * @reflect
+          * @reflect 
+          * @default 'en'
          */
         "locale"?: string;
         /**
           * The latest selectable date. Defaults to 24 years in the future.
+          * @default moment().add(24, 'years')
          */
         "maxDate"?: Moment1;
         /**
           * Maximum number of nights that can be selected in one span.
+          * @default 90
          */
         "maxSpanDays"?: number;
         /**
           * The earliest selectable date. Defaults to 24 years in the past.
+          * @default moment().add(-24, 'years')
          */
         "minDate"?: Moment1;
         /**
@@ -13129,18 +15225,26 @@ declare namespace LocalJSX {
         "onDateChange"?: (event: IrCustomDateRangeCustomEvent<{ start: Date | null; end: Date | null }>) => void;
         /**
           * When `true`, displays a price line inside each day button (requires `dateModifiers`).
+          * @default false
          */
         "showPrice"?: boolean;
         /**
           * The currently selected check-out date.
+          * @default null
          */
         "toDate"?: Moment1 | null;
     }
     interface IrDailyRevenue {
+        /**
+          * @default ''
+         */
         "language"?: string;
         "onPreventPageLoad"?: (event: IrDailyRevenueCustomEvent<null>) => void;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrDailyRevenueFilters {
@@ -13151,6 +15255,7 @@ declare namespace LocalJSX {
     interface IrDatePicker {
         /**
           * Closes the picker automatically after a date is selected.
+          * @default true
          */
         "autoClose"?: boolean;
         /**
@@ -13159,30 +15264,37 @@ declare namespace LocalJSX {
         "container"?: HTMLElement;
         /**
           * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `true`.
+          * @default true
          */
         "customPicker"?: boolean;
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * @default null
          */
         "date"?: string | Date | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat"?: string;
         /**
           * Disables the input and prevents interaction.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * @default false
          */
         "emitEmptyDate"?: boolean;
         /**
           * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * @default false
          */
         "forceDestroyOnUpdate"?: boolean;
         /**
           * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * @default false
          */
         "inline"?: boolean;
         /**
@@ -13195,6 +15307,7 @@ declare namespace LocalJSX {
         "minDate"?: string | Date;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * @default false
          */
         "multipleDates"?: boolean | number;
         "onDateChanged"?: (event: IrDatePickerCustomEvent<{
@@ -13205,22 +15318,27 @@ declare namespace LocalJSX {
         "onDatePickerFocus"?: (event: IrDatePickerCustomEvent<void>) => void;
         /**
           * Whether the picker should allow range selection (start and end date).
+          * @default false
          */
         "range"?: boolean;
         /**
           * Allows selecting days from previous/next month shown in the current view.
+          * @default true
          */
         "selectOtherMonths"?: boolean;
         /**
           * Shows days from previous/next month in the current month's calendar.
+          * @default true
          */
         "showOtherMonths"?: boolean;
         /**
           * Enables the timepicker functionality (select hours and minutes).
+          * @default false
          */
         "timepicker"?: boolean;
         /**
           * Styles for the trigger container
+          * @default ''
          */
         "triggerContainerStyle"?: string;
     }
@@ -13249,7 +15367,8 @@ declare namespace LocalJSX {
         "defaultData"?: { [key: string]: any };
         /**
           * When `true`, the picker is disabled and cannot be opened.
-          * @reflect
+          * @reflect 
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -13283,15 +15402,18 @@ declare namespace LocalJSX {
         "onDateSelectEvent"?: (event: IrDateRangeCustomEvent<{ [key: string]: any }>) => void;
         /**
           * Controls the visual size of the input trigger.
-          * @reflect
+          * @reflect 
+          * @default 'small'
          */
         "size"?: 'small' | 'medium' | 'large';
         /**
           * `"booking"` shows the nights badge; `"default"` hides it.
+          * @default 'default'
          */
         "variant"?: 'booking' | 'default';
         /**
           * When `true` and `variant="booking"`, a nights badge is shown inside the input.
+          * @default true
          */
         "withDateDifference"?: boolean;
     }
@@ -13338,18 +15460,22 @@ declare namespace LocalJSX {
         "onDatesChanged"?: (event: IrDateRangeFilterCustomEvent<{ from: string | null; to: string | null }>) => void;
         /**
           * Configurable quick-date preset buttons shown alongside each calendar.
+          * @default [     { label: 'Today', getDate: () => moment() },     { label: '30 Days Ago', getDate: () => moment().subtract(30, 'days') },     { label: '60 Days Ago', getDate: () => moment().subtract(60, 'days') },     { label: '90 Days Ago', getDate: () => moment().subtract(90, 'days') },     { label: '1 Year Ago', getDate: () => moment().subtract(1, 'year') },   ]
          */
         "quickDates"?: QuickDatePreset[];
         /**
           * Flow after picking a from-date: - `'auto'`: the to-picker opens automatically so the user completes the range in one pass. - `'manual'` (default): nothing opens; the user clicks the to-field themselves.
+          * @default 'manual'
          */
         "selectionMode"?: 'auto' | 'manual';
         /**
           * Whether to show the quick-action preset buttons in each calendar popup.
+          * @default true
          */
         "showQuickActions"?: boolean;
         /**
           * Size variant passed through to inner form controls. Reflected for CSS hooks (`ir-date-range-filter[size='...']`).
+          * @default 'small'
          */
         "size"?: string;
         /**
@@ -13358,12 +15484,14 @@ declare namespace LocalJSX {
         "toDate"?: string;
         /**
           * Shows an ✕ button next to each filled side that clears just that side.
+          * @default true
          */
         "withClear"?: boolean;
     }
     interface IrDateSelect {
         /**
           * Closes the picker automatically after a date is selected.
+          * @default true
          */
         "autoClose"?: boolean;
         /**
@@ -13372,31 +15500,38 @@ declare namespace LocalJSX {
         "container"?: HTMLElement;
         /**
           * Controls how the date picker is triggered. - **`true`**: The picker can be triggered by custom UI elements (provided via a `<slot name="trigger">`). - **`false`**: A default button input is used to open the picker.  Defaults to `false`.
+          * @default false
          */
         "customPicker"?: boolean;
         /**
           * The initially selected date; can be a `Date` object or a string recognized by `AirDatepicker`.
+          * @default null
          */
         "date"?: string | Moment | null;
         /**
           * Format for the date as it appears in the input field. Follows the `AirDatepicker` format rules.
+          * @default 'yyyy-MM-dd'
          */
         "dateFormat"?: string;
         "dates"?: string[];
         /**
           * Disables the input and prevents interaction.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * If `true`, the component will emit a `dateChanged` event when the selected date becomes empty (null). Otherwise, empty-date changes will be ignored (no event emitted).  Defaults to `false`.
+          * @default false
          */
         "emitEmptyDate"?: boolean;
         /**
           * If `true`, the date picker instance is destroyed and rebuilt each time the `date` prop changes. This can be useful if you need the picker to fully re-initialize in response to dynamic changes, but note that it may affect performance if triggered frequently. Defaults to `false`.
+          * @default false
          */
         "forceDestroyOnUpdate"?: boolean;
         /**
           * Determines whether the date picker is rendered inline or in a pop-up. If `true`, the picker is always visible inline.
+          * @default false
          */
         "inline"?: boolean;
         "label"?: string;
@@ -13410,6 +15545,7 @@ declare namespace LocalJSX {
         "minDate"?: string | Moment;
         /**
           * Enables multiple dates. If `true`, multiple selection is allowed. If you pass a number (e.g. 3), that is the maximum number of selectable dates.
+          * @default false
          */
         "multipleDates"?: boolean | number;
         "onDateChanged"?: (event: IrDateSelectCustomEvent<DateChangeEvent>) => void;
@@ -13418,22 +15554,27 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * Whether the picker should allow range selection (start and end date).
+          * @default false
          */
         "range"?: boolean;
         /**
           * Allows selecting days from previous/next month shown in the current view.
+          * @default true
          */
         "selectOtherMonths"?: boolean;
         /**
           * Shows days from previous/next month in the current month's calendar.
+          * @default true
          */
         "showOtherMonths"?: boolean;
         /**
           * Enables the timepicker functionality (select hours and minutes).
+          * @default false
          */
         "timepicker"?: boolean;
         /**
           * Styles for the trigger container
+          * @default ''
          */
         "triggerContainerStyle"?: string;
         "withClear"?: boolean;
@@ -13441,10 +15582,12 @@ declare namespace LocalJSX {
     interface IrDateView {
         /**
           * Input format used when `from_date` / `to_date` are plain strings
+          * @default 'YYYY-MM-DD'
          */
         "dateOption"?: string;
         /**
           * Display format for both dates
+          * @default 'MMM DD, YYYY'
          */
         "format"?: string;
         /**
@@ -13453,6 +15596,7 @@ declare namespace LocalJSX {
         "from_date"?: string | Date | moment.Moment;
         /**
           * Show the night-count badge after the to-date
+          * @default true
          */
         "showDateDifference"?: boolean;
         /**
@@ -13465,11 +15609,17 @@ declare namespace LocalJSX {
         "checkInLabel"?: string;
         "checkOut"?: string;
         "checkoutLabel"?: string;
+        /**
+          * @default 'block'
+         */
         "display"?: 'block' | 'inline';
         "overdueCheckin"?: boolean;
         "overdueCheckout"?: boolean;
     }
     interface IrDepartures {
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
@@ -13489,6 +15639,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * When enabled, the dialog will be closed when the user clicks outside of it.
+          * @default true
          */
         "lightDismiss"?: boolean;
         /**
@@ -13523,6 +15674,7 @@ declare namespace LocalJSX {
         "label"?: NativeDrawer['label'];
         /**
           * When enabled, the drawer will be closed when the user clicks outside of it.
+          * @default true
          */
         "lightDismiss"?: NativeDrawer['lightDismiss'];
         /**
@@ -13547,7 +15699,13 @@ declare namespace LocalJSX {
         "withoutHeader"?: NativeDrawer['withoutHeader'];
     }
     interface IrDropdown {
+        /**
+          * @default true
+         */
         "caret"?: boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
         /**
           * Emitted when a user selects an option from the combobox. The event payload contains the selected `DropdownItem` object.
@@ -13558,6 +15716,7 @@ declare namespace LocalJSX {
     interface IrDropdownItem {
         /**
           * When true, visually hide the item (used for filtering).
+          * @default false
          */
         "hidden"?: boolean;
         /**
@@ -13586,7 +15745,13 @@ declare namespace LocalJSX {
         "value": string;
     }
     interface IrEmptyState {
+        /**
+          * @default 'No records found'
+         */
         "message"?: string;
+        /**
+          * @default true
+         */
         "showIcon"?: boolean;
     }
     interface IrEventsLog {
@@ -13597,8 +15762,14 @@ declare namespace LocalJSX {
         "agent"?: Agent;
         "booking"?: Booking;
         "bookingNumber"?: string;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
         "currencySymbol"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onEditExtraService"?: (event: IrExtraServiceCustomEvent<ExtraService>) => void;
         "onResetBookingEvt"?: (event: IrExtraServiceCustomEvent<null>) => void;
@@ -13612,6 +15783,9 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrExtraServiceConfigCustomEvent<null>) => void;
         "open"?: boolean;
         "service"?: ExtraService;
+        /**
+          * @default []
+         */
         "svcCategories"?: IEntries[];
     }
     interface IrExtraServiceConfigForm {
@@ -13621,26 +15795,44 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrExtraServiceConfigFormCustomEvent<null>) => void;
         "onResetBookingEvt"?: (event: IrExtraServiceConfigFormCustomEvent<null>) => void;
         "service"?: ExtraService;
+        /**
+          * @default []
+         */
         "svcCategories"?: IEntries[];
     }
     interface IrExtraServices {
         "agent"?: Agent;
         "booking"?: Booking;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
         "language"?: string;
         "svcCategories"?: IEntries[];
     }
     interface IrFdConfirmDialog {
+        /**
+          * @default null
+         */
         "action"?: FdConfirmAction | null;
         "amount"?: number;
+        /**
+          * @default 'this document'
+         */
         "docNumber"?: string;
         "fdType"?: string;
+        /**
+          * @default false
+         */
         "isConfirming"?: boolean;
         "onCancelled"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
         "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<{
     amount: number | null;
     voidType: 'credit-note' | 'goodwill';
   }>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
     }
     interface IrFilterCard {
@@ -13648,26 +15840,32 @@ declare namespace LocalJSX {
     interface IrFiltersPanel {
         /**
           * Optional data test id suffix for default buttons
+          * @default 'filter'
          */
         "actionTestId"?: string;
         /**
           * Align footer actions
+          * @default 'end'
          */
         "actionsAlign"?: 'start' | 'center' | 'end' | 'space-between' | 'space-around';
         /**
           * Apply button copy
+          * @default locales.entries.Lcz_Apply
          */
         "applyLabel"?: string;
         /**
           * Optional extra class for the card wrapper
+          * @default 'sales-filters-card'
          */
         "cardClass"?: string;
         /**
           * Collapse icon when collapsed
+          * @default 'closed_eye'
          */
         "collapseIconClosed"?: TIcons;
         /**
           * Collapse icon when expanded
+          * @default 'open_eye'
          */
         "collapseIconOpen"?: TIcons;
         /**
@@ -13684,22 +15882,27 @@ declare namespace LocalJSX {
         "contentClass"?: string;
         /**
           * Space between content items
+          * @default '0.5rem'
          */
         "contentGap"?: string;
         /**
           * Collapse by default
+          * @default false
          */
         "defaultCollapsed"?: boolean;
         /**
           * Disable apply action
+          * @default false
          */
         "disableApply"?: boolean;
         /**
           * Disable reset action
+          * @default false
          */
         "disableReset"?: boolean;
         /**
           * Panel headline text
+          * @default locales.entries.Lcz_Filters
          */
         "filterTitle"?: string;
         /**
@@ -13708,10 +15911,12 @@ declare namespace LocalJSX {
         "headerClass"?: string;
         /**
           * Hide the default footer actions
+          * @default false
          */
         "hideDefaultActions"?: boolean;
         /**
           * Show loader inside apply button
+          * @default false
          */
         "isApplyLoading"?: boolean;
         "onIrFilterApply"?: (event: IrFiltersPanelCustomEvent<void>) => void;
@@ -13723,21 +15928,30 @@ declare namespace LocalJSX {
         "panelClass"?: string;
         /**
           * Keep content expanded on desktop and hide the collapse toggle
+          * @default true
          */
         "persistentOnDesktop"?: boolean;
         /**
           * Reset button copy
+          * @default locales.entries.Lcz_Reset
          */
         "resetLabel"?: string;
         /**
           * Show collapse toggle button
+          * @default true
          */
         "showCollapseButton"?: boolean;
     }
     interface IrFinancialActions {
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrFinancialFilters {
@@ -13751,11 +15965,17 @@ declare namespace LocalJSX {
     }
     interface IrFiscalDocuments {
         "baseurl"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "propertyid"?: number;
         "ticket"?: string;
     }
     interface IrFiscalDocumentsFilters {
+        /**
+          * @default {     fromDate: undefined,     toDate: undefined,     docNumber: '',     taxableOnly: false,     type: 'all',     proformaOnly: false,     folioType: 'all',     agentId: null,     guestId: null,   }
+         */
         "filters"?: FiscalDocumentFilters;
         "onApplyFilters"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
         "onFiltersChange"?: (event: IrFiscalDocumentsFiltersCustomEvent<FiscalDocumentFilters>) => void;
@@ -13764,49 +15984,106 @@ declare namespace LocalJSX {
     interface IrFiscalDocumentsTable {
         /**
           * Selected agent id (when a specific agent is chosen under the agent folio).
+          * @default null
          */
         "agentId"?: number | null;
+        /**
+          * @default []
+         */
         "currencies"?: ICurrency[];
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         /**
           * Folio scope driving which identity columns are shown.
+          * @default 'all'
          */
         "folioType"?: FiscalFolioType;
+        /**
+          * @default null
+         */
         "fromDate"?: string | null;
         /**
           * Selected guest id (when a specific guest is chosen under the guest folio).
+          * @default null
          */
         "guestId"?: number | null;
+        /**
+          * @default false
+         */
         "hasDates"?: boolean;
+        /**
+          * @default false
+         */
         "hasFetched"?: boolean;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
         "onClFiscalDocumentPreview"?: (event: IrFiscalDocumentsTableCustomEvent<ClFiscalDocumentPreviewRequest>) => void;
         "onFetchRequested"?: (event: IrFiscalDocumentsTableCustomEvent<void>) => void;
         "propertyId"?: number;
+        /**
+          * @default []
+         */
         "rows"?: FiscalDocumentRow[];
+        /**
+          * @default false
+         */
         "taxableOnly"?: boolean;
         "ticket"?: string;
+        /**
+          * @default null
+         */
         "toDate"?: string | null;
     }
     interface IrGhsCandidateTable {
         "baseUrl"?: string;
+        /**
+          * @default []
+         */
         "countries"?: ICountry1[];
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
         "onActivateProperty"?: (event: IrGhsCandidateTableCustomEvent<GHS_Candidate_Property>) => void;
         "onCountryChange"?: (event: IrGhsCandidateTableCustomEvent<number | null>) => void;
         "onToggleAll"?: (event: IrGhsCandidateTableCustomEvent<boolean>) => void;
         "onToggleSelection"?: (event: IrGhsCandidateTableCustomEvent<GHS_Candidate_Property>) => void;
+        /**
+          * @default []
+         */
         "properties"?: GHS_Candidate_Property[];
+        /**
+          * @default null
+         */
         "propertyToActivate"?: GHS_Candidate_Property | null;
+        /**
+          * @default null
+         */
         "selectedCountryId"?: number | null;
+        /**
+          * @default []
+         */
         "selectedProperties"?: GHS_Candidate_Property[];
     }
     interface IrGhsFilters {
+        /**
+          * @default []
+         */
         "countries"?: ICountry1[];
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
         "onCountryChange"?: (event: IrGhsFiltersCustomEvent<number | null>) => void;
         "onFilterApply"?: (event: IrGhsFiltersCustomEvent<void>) => void;
         "onFilterReset"?: (event: IrGhsFiltersCustomEvent<void>) => void;
+        /**
+          * @default null
+         */
         "selectedCountryId"?: number | null;
     }
     interface IrGhsOnboarding {
@@ -13814,10 +16091,16 @@ declare namespace LocalJSX {
         "ticket"?: string;
     }
     interface IrGhsSelectionBucket {
+        /**
+          * @default false
+         */
         "isGenerating"?: boolean;
         "onGenerateRequest"?: (event: IrGhsSelectionBucketCustomEvent<void>) => void;
         "onRemoveAll"?: (event: IrGhsSelectionBucketCustomEvent<void>) => void;
         "onRemoveProperty"?: (event: IrGhsSelectionBucketCustomEvent<number>) => void;
+        /**
+          * @default []
+         */
         "selectedProperties"?: GHS_Candidate_Property[];
     }
     interface IrGuestBilling {
@@ -13837,6 +16120,9 @@ declare namespace LocalJSX {
     interface IrGuestInfoDrawer {
         "booking_nbr"?: string;
         "email"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onGuestChanged"?: (event: IrGuestInfoDrawerCustomEvent<GuestChangedEvent>) => void;
         "onGuestInfoDrawerClosed"?: (event: IrGuestInfoDrawerCustomEvent<{ source: Element }>) => void;
@@ -13859,6 +16145,9 @@ declare namespace LocalJSX {
         "name"?: Guest;
     }
     interface IrHkArchive {
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "propertyId"?: string | number;
         "ticket"?: string;
@@ -13869,29 +16158,47 @@ declare namespace LocalJSX {
         "user"?: IHouseKeepers;
     }
     interface IrHkOperationsCard {
+        /**
+          * @default []
+         */
         "frequencies"?: IEntries[];
     }
     interface IrHkStaffTask {
+        /**
+          * @default false
+         */
         "future"?: boolean;
         "onTaskClick"?: (event: IrHkStaffTaskCustomEvent<Task>) => void;
         "task"?: Task;
     }
     interface IrHkStaffTasks {
         "baseurl"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "ticket"?: string;
     }
     interface IrHkStaffTasksHeader {
         "connectedHK"?: ConnectedHK;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onLanguageChanged"?: (event: IrHkStaffTasksHeaderCustomEvent<string>) => void;
     }
     interface IrHkTasks {
         "baseUrl"?: string;
+        /**
+          * @default ''
+         */
         "language"?: string;
         "onClearSelectedHkTasks"?: (event: IrHkTasksCustomEvent<void>) => void;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrHkTeam {
@@ -13899,54 +16206,105 @@ declare namespace LocalJSX {
     interface IrHkUnassignedUnits {
         "onCloseSideBar"?: (event: IrHkUnassignedUnitsCustomEvent<null>) => void;
         "onResetData"?: (event: IrHkUnassignedUnitsCustomEvent<null>) => void;
+        /**
+          * @default null
+         */
         "user"?: IHouseKeepers | null;
     }
     interface IrHkUnassignedUnitsDrawer {
         "onCloseSideBar"?: (event: IrHkUnassignedUnitsDrawerCustomEvent<null>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
+        /**
+          * @default null
+         */
         "user"?: IHouseKeepers | null;
     }
     interface IrHkUnassignedUnitsDrawerForm {
         "formId"?: string;
         "onCloseSideBar"?: (event: IrHkUnassignedUnitsDrawerFormCustomEvent<null>) => void;
         "onResetData"?: (event: IrHkUnassignedUnitsDrawerFormCustomEvent<null>) => void;
+        /**
+          * @default null
+         */
         "user"?: IHouseKeepers | null;
     }
     interface IrHkUser {
+        /**
+          * @default false
+         */
         "isEdit"?: boolean;
         "onCloseSideBar"?: (event: IrHkUserCustomEvent<null>) => void;
         "onResetData"?: (event: IrHkUserCustomEvent<null>) => void;
+        /**
+          * @default null
+         */
         "user"?: THKUser | null;
     }
     interface IrHkUserDrawer {
+        /**
+          * @default false
+         */
         "isEdit"?: boolean;
         "onCloseSideBar"?: (event: IrHkUserDrawerCustomEvent<null>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
+        /**
+          * @default null
+         */
         "user"?: THKUser | null;
     }
     interface IrHkUserDrawerForm {
         "formId"?: string;
+        /**
+          * @default false
+         */
         "isEdit"?: boolean;
         "onCloseSideBar"?: (event: IrHkUserDrawerFormCustomEvent<null>) => void;
         "onLoadingChanged"?: (event: IrHkUserDrawerFormCustomEvent<boolean>) => void;
         "onResetData"?: (event: IrHkUserDrawerFormCustomEvent<null>) => void;
+        /**
+          * @default null
+         */
         "user"?: THKUser | null;
     }
     interface IrHoldTransactionDialog {
+        /**
+          * @default '$'
+         */
         "currencySymbol"?: string;
         "onHoldToggled"?: (event: IrHoldTransactionDialogCustomEvent<{ rowId: string; newIsHold: boolean }>) => void;
+        /**
+          * @default null
+         */
         "row"?: FolioRow1 | null;
     }
     interface IrHousekeeping {
         "baseUrl"?: string;
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrIcon {
+        /**
+          * @default 'ft-check'
+         */
         "icon"?: string;
         "onIconClickHandler"?: (event: IrIconCustomEvent<any>) => void;
+        /**
+          * @default 'button'
+         */
         "type"?: 'button' | 'submit' | 'reset';
     }
     interface IrIcons {
@@ -13974,6 +16332,7 @@ declare namespace LocalJSX {
         "autocapitalize"?: NativeWaInput1['autocapitalize'];
         /**
           * Specifies what permission the browser has to provide assistance in filling out form field values. Refer to [this page on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values.
+          * @default 'off'
          */
         "autocomplete"?: NativeWaInput1['autocomplete'];
         /**
@@ -14069,9 +16428,13 @@ declare namespace LocalJSX {
           * Makes the input a required field.
          */
         "required"?: NativeWaInput1['required'];
+        /**
+          * @default false
+         */
         "returnMaskedValue"?: boolean;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size"?: NativeWaInput1['size'];
         /**
@@ -14084,10 +16447,12 @@ declare namespace LocalJSX {
         "step"?: NativeWaInput1['step'];
         /**
           * The type of input. Works the same as a native `<input>` element, but only a subset of types are supported. Defaults to `text`.
+          * @default 'text'
          */
         "type"?: NativeWaInput1['type'];
         /**
           * The value of the input.
+          * @default ''
          */
         "value"?: string;
         /**
@@ -14133,6 +16498,7 @@ declare namespace LocalJSX {
         "autoComplete"?: string;
         /**
           * Whether the input should auto-validate
+          * @default true
          */
         "autoValidate"?: boolean;
         /**
@@ -14141,10 +16507,12 @@ declare namespace LocalJSX {
         "clearBaseStyles"?: boolean;
         /**
           * Whether the input is disabled
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * Whether the input has an error
+          * @default false
          */
         "error"?: boolean;
         /**
@@ -14161,10 +16529,12 @@ declare namespace LocalJSX {
         "inputForcedStyle"?: { [key: string]: string };
         /**
           * Whether to apply default input styling
+          * @default true
          */
         "inputStyle"?: boolean;
         /**
           * Additional inline styles for the input
+          * @default ''
          */
         "inputStyles"?: string;
         /**
@@ -14173,14 +16543,17 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Background color of the label
+          * @default null
          */
         "labelBackground"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
         /**
           * Border color/style of the label
+          * @default 'theme'
          */
         "labelBorder"?: 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
         /**
           * Text color of the label
+          * @default 'dark'
          */
         "labelColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
@@ -14189,10 +16562,12 @@ declare namespace LocalJSX {
         "labelContainerClassname"?: string;
         /**
           * Position of the label: left, right, or center
+          * @default 'left'
          */
         "labelPosition"?: 'left' | 'right' | 'center' | 'top';
         /**
           * Label width as a fraction of 12 columns (1-11)
+          * @default 3
          */
         "labelWidth"?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         /**
@@ -14216,6 +16591,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * Whether the input field is read-only
+          * @default false
          */
         "readonly"?: boolean;
         /**
@@ -14224,6 +16600,7 @@ declare namespace LocalJSX {
         "required"?: boolean;
         /**
           * Whether the form has been submitted
+          * @default false
          */
         "submitted"?: boolean;
         /**
@@ -14232,10 +16609,12 @@ declare namespace LocalJSX {
         "testId"?: string;
         /**
           * Text size inside the input field
+          * @default 'md'
          */
         "textSize"?: 'sm' | 'md' | 'lg';
         /**
           * Input type (e.g., text, password, email)
+          * @default 'text'
          */
         "type"?: | 'text'
     | 'password'
@@ -14265,6 +16644,7 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Variant of the input: default or icon or floating-label
+          * @default 'default'
          */
         "variant"?: 'default' | 'icon' | 'floating-label';
         /**
@@ -14300,6 +16680,7 @@ declare namespace LocalJSX {
         "cropSize"?: number;
         /**
           * When `true`, renders the `.hk-dot` container and the `slot[name="end"]` inside it. Must be `true` whenever slot content is provided, otherwise the slotted nodes are silently discarded by the browser.
+          * @default false
          */
         "hkStatus"?: boolean;
         /**
@@ -14309,12 +16690,14 @@ declare namespace LocalJSX {
         "irPopoverLeft"?: string;
         /**
           * The full title string. When its length exceeds `cropSize` the tooltip is activated so the user can read the complete text on hover.
+          * @default ''
          */
         "popoverTitle"?: string;
     }
     interface IrInterceptor {
         /**
           * List of endpoint paths that should trigger loader logic and OTP handling.
+          * @default ['/Get_Exposed_Calendar', '/ReAllocate_Exposed_Room', '/Get_Exposed_Bookings', '/UnBlock_Exposed_Unit']
          */
         "handledEndpoints"?: string[];
         /**
@@ -14323,12 +16706,14 @@ declare namespace LocalJSX {
         "onToast"?: (event: IrInterceptorCustomEvent<IToast>) => void;
         /**
           * List of endpoints for which to suppress toast messages.
+          * @default []
          */
         "suppressToastEndpoints"?: string[];
     }
     interface IrInvoice {
         /**
           * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+          * @default false
          */
         "autoPrint"?: boolean;
         /**
@@ -14337,6 +16722,7 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         /**
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+          * @default 'booking'
          */
         "for"?: 'room' | 'booking';
         /**
@@ -14364,6 +16750,7 @@ declare namespace LocalJSX {
     interface IrInvoiceForm {
         /**
           * When `true`, automatically triggers `window.print()` after an invoice is created. Useful for setups where the invoice should immediately be sent to a printer.
+          * @default false
          */
         "autoPrint"?: boolean;
         /**
@@ -14372,6 +16759,7 @@ declare namespace LocalJSX {
         "booking"?: Booking;
         /**
           * Specifies what the invoice is for. - `"room"`: invoice for a specific room - `"booking"`: invoice for the entire booking
+          * @default 'booking'
          */
         "for"?: 'room' | 'booking';
         /**
@@ -14403,6 +16791,7 @@ declare namespace LocalJSX {
         "roomIdentifier"?: string;
         /**
           * Controls how the invoice form behaves (e.g., "invoice", "proforma", "preview").
+          * @default 'invoice'
          */
         "viewMode"?: ViewMode;
     }
@@ -14417,21 +16806,28 @@ declare namespace LocalJSX {
           * The main text or HTML content to display
          */
         "content"?: string;
+        /**
+          * @default 'flex'
+         */
         "display"?: 'inline' | 'flex';
         /**
           * If true, label will ignore checking for an empty content
+          * @default false
          */
         "ignoreEmptyContent"?: boolean;
         /**
           * Object representing the image used within the label
+          * @default null
          */
         "image"?: { src: string; alt: string; style?: string } | null;
         /**
           * Additional CSS classes or style for the image
+          * @default ''
          */
         "imageStyle"?: string;
         /**
           * Renders a country-type image style (vs. a 'logo')
+          * @default false
          */
         "isCountryImage"?: boolean;
         /**
@@ -14444,6 +16840,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, will render `content` as HTML
+          * @default false
          */
         "renderContentAsHtml"?: boolean;
     }
@@ -14455,12 +16852,18 @@ declare namespace LocalJSX {
     }
     interface IrListingModal {
         "editBooking"?: { booking: Booking; cause: 'edit' | 'payment' | 'delete' | 'guest' };
+        /**
+          * @default 'Modal Title'
+         */
         "modalTitle"?: string;
         "onModalClosed"?: (event: IrListingModalCustomEvent<null>) => void;
         "onResetData"?: (event: IrListingModalCustomEvent<string>) => void;
         "paymentEntries"?: PaymentEntries;
     }
     interface IrLoadingScreen {
+        /**
+          * @default ''
+         */
         "message"?: string;
     }
     interface IrLogin {
@@ -14486,6 +16889,7 @@ declare namespace LocalJSX {
         "defaultOption"?: ComboboxOption['value'];
         /**
           * Whether to show loading state
+          * @default false
          */
         "loading"?: boolean;
         /**
@@ -14498,6 +16902,7 @@ declare namespace LocalJSX {
         "onSearchQuery"?: (event: IrMComboboxCustomEvent<string>) => void;
         /**
           * List of available options for the combobox when using static data mode. If empty, falls back to a default internal option list.
+          * @default []
          */
         "options"?: ComboboxOption[];
         /**
@@ -14506,6 +16911,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * Whether to use slot content for custom dropdown rendering
+          * @default false
          */
         "useSlot"?: boolean;
     }
@@ -14515,6 +16921,7 @@ declare namespace LocalJSX {
     interface IrMComboboxItem {
         /**
           * When true, visually hide the item (used for filtering).
+          * @default false
          */
         "hidden"?: boolean;
         /**
@@ -14543,21 +16950,39 @@ declare namespace LocalJSX {
         "value": string;
     }
     interface IrMealCountSummary {
+        /**
+          * @default []
+         */
         "mealCountSummary"?: MealCountDaySummary[];
     }
     interface IrMealGuestList {
+        /**
+          * @default []
+         */
         "guestList"?: MealGuestEntry[];
     }
     interface IrMealReport {
         "baseurl"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "propertyid"?: number;
         "ticket"?: string;
     }
     interface IrMealReportFilters {
         "fromDate"?: string;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
+        /**
+          * @default {}
+         */
         "lcz"?: any;
+        /**
+          * @default null
+         */
         "mealType"?: string | null;
         "onDateChange"?: (event: IrMealReportFiltersCustomEvent<{ from: string; to: string }>) => void;
         "onFilterApply"?: (event: IrMealReportFiltersCustomEvent<void>) => void;
@@ -14565,6 +16990,9 @@ declare namespace LocalJSX {
         "onMealTypeChange"?: (event: IrMealReportFiltersCustomEvent<string>) => void;
         "onPresetDate"?: (event: IrMealReportFiltersCustomEvent<'today' | 'tomorrow'>) => void;
         "onReportTypeChange"?: (event: IrMealReportFiltersCustomEvent<'GUEST_LIST' | 'MEAL_COUNT'>) => void;
+        /**
+          * @default 'GUEST_LIST'
+         */
         "reportType"?: 'GUEST_LIST' | 'MEAL_COUNT';
         "setupEntries"?: { meal_type: IEntries[]; hb_preference: IEntries[] };
         "toDate"?: string;
@@ -14598,6 +17026,7 @@ declare namespace LocalJSX {
         "caption"?: string;
         /**
           * Make the whole card interactive: adds hover/focus affordance and emits `metricClick`.
+          * @default false
          */
         "clickable"?: boolean;
         /**
@@ -14606,10 +17035,12 @@ declare namespace LocalJSX {
         "icon"?: string;
         /**
           * Accent color used for the icon chip, trend, and accent edge.
+          * @default 'neutral'
          */
         "intent"?: MetricIntent;
         /**
           * Flip trend color semantics so a decrease reads as positive (good).
+          * @default false
          */
         "invertTrend"?: boolean;
         /**
@@ -14618,6 +17049,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Render skeleton placeholders instead of content.
+          * @default false
          */
         "loading"?: boolean;
         /**
@@ -14626,6 +17058,7 @@ declare namespace LocalJSX {
         "onMetricClick"?: (event: IrMetricCardCustomEvent<void>) => void;
         /**
           * Visual density. `small` is compact (default); `medium` enlarges the value and padding.
+          * @default 'small'
          */
         "size"?: MetricSize;
         /**
@@ -14648,6 +17081,7 @@ declare namespace LocalJSX {
     interface IrMobileInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
+          * @default []
          */
         "countries"?: ICountry[];
         /**
@@ -14660,6 +17094,7 @@ declare namespace LocalJSX {
         "description"?: string;
         /**
           * Whether the control is disabled
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -14668,91 +17103,112 @@ declare namespace LocalJSX {
         "error"?: string;
         /**
           * Visible label for the phone input
+          * @default 'Phone number'
          */
         "label"?: string;
         /**
           * Name attribute passed to the native input
+          * @default 'phone'
          */
         "name"?: string;
         "onMobile-input-change"?: (event: IrMobileInputCustomEvent<IrMobileInputChangeDetail>) => void;
         "onMobile-input-country-change"?: (event: IrMobileInputCustomEvent<ICountry>) => void;
         /**
           * Placeholder shown when the input is empty
+          * @default 'Enter phone number'
          */
         "placeholder"?: string;
         /**
           * Native required attribute
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size"?: NativeWaInput['size'];
         /**
           * Input value without formatting. Component keeps this prop in sync
+          * @default ''
          */
         "value"?: string;
     }
     interface IrModal {
         /**
           * If true, the modal automatically closes after confirm/cancel actions.
+          * @default true
          */
         "autoClose"?: boolean;
         /**
           * Horizontal alignment of the footer buttons.
+          * @default 'right'
          */
         "btnPosition"?: 'left' | 'right' | 'center';
         /**
           * Icon name to render next to the title (if `iconAvailable` is true).
+          * @default ''
          */
         "icon"?: string;
         /**
           * Whether an icon should be displayed next to the title.
+          * @default false
          */
         "iconAvailable"?: boolean;
         /**
           * Whether the modal is in a loading state, disabling interaction.
+          * @default false
          */
         "isLoading"?: boolean;
         /**
           * Whether the modal middle button is in a loading state, disabling interaction.
           * @requires middleBtnActive to be true
+          * @default false
          */
         "isMiddleButtonLoading"?: boolean;
         /**
           * Payload object to pass along with confirm/cancel events.
+          * @default {}
          */
         "item"?: any;
         /**
           * Whether the left (cancel/close) button is visible.
+          * @default true
          */
         "leftBtnActive"?: boolean;
         /**
           * Color theme of the left button.
+          * @default 'secondary'
          */
         "leftBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the left (cancel/close) button.
+          * @default 'Close'
          */
         "leftBtnText"?: string;
         /**
           * Whether the middle (tertiary) button is visible.
+          * @default false
          */
         "middleBtnActive"?: boolean;
         /**
           * Color theme of the middle (tertiary) button.
+          * @default 'info'
          */
         "middleBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the middle (tertiary) button.
+          * @default 'More'
          */
         "middleBtnText"?: string;
         /**
           * The main content text shown in the modal body.
+          * @default 'Modal Body'
          */
         "modalBody"?: string;
         /**
           * The title text displayed in the modal header.
+          * @default 'Modal Title'
          */
         "modalTitle"?: string;
         /**
@@ -14769,14 +17225,17 @@ declare namespace LocalJSX {
         "onMiddleModal"?: (event: IrModalCustomEvent<any>) => void;
         /**
           * Whether the right (confirm) button is visible.
+          * @default true
          */
         "rightBtnActive"?: boolean;
         /**
           * Color theme of the right button.
+          * @default 'primary'
          */
         "rightBtnColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
         /**
           * Text displayed on the right (confirm) button.
+          * @default 'Confirm'
          */
         "rightBtnText"?: string;
         /**
@@ -14785,9 +17244,15 @@ declare namespace LocalJSX {
         "showTitle"?: boolean;
     }
     interface IrMonthlyBookingsReport {
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrMonthlyBookingsReportFilter {
@@ -14796,6 +17261,9 @@ declare namespace LocalJSX {
         "onApplyFilters"?: (event: IrMonthlyBookingsReportFilterCustomEvent<DailyReportFilter>) => void;
     }
     interface IrMonthlyBookingsReportTable {
+        /**
+          * @default []
+         */
         "reports"?: DailyReport[];
     }
     interface IrNewBadge {
@@ -14813,11 +17281,15 @@ declare namespace LocalJSX {
         "service"?: OtaService;
     }
     interface IrOtaServices {
+        /**
+          * @default []
+         */
         "services"?: OtaService[];
     }
     interface IrOtp {
         /**
           * Auto focus on the first input when component loads
+          * @default true
          */
         "autoFocus"?: boolean;
         /**
@@ -14826,14 +17298,17 @@ declare namespace LocalJSX {
         "defaultValue"?: string;
         /**
           * Whether the input is disabled
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * The length of the OTP code
+          * @default 6
          */
         "length"?: number;
         /**
           * Allow only numbers (0-9) as input
+          * @default false
          */
         "numbersOnly"?: boolean;
         /**
@@ -14846,14 +17321,17 @@ declare namespace LocalJSX {
         "onOtpComplete"?: (event: IrOtpCustomEvent<string>) => void;
         /**
           * Placeholder character to display
+          * @default ''
          */
         "placeholder"?: string;
         /**
           * Whether to mask the input (show dots instead of text)
+          * @default false
          */
         "secure"?: boolean;
         /**
           * Input type - can be 'text', 'password', 'number', or 'tel'
+          * @default 'number'
          */
         "type"?: 'text' | 'password' | 'number' | 'tel';
     }
@@ -14866,6 +17344,9 @@ declare namespace LocalJSX {
           * User's email address to display in the modal and send the OTP to
          */
         "email"?: string;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         /**
           * Emits the final OTP (or empty on cancel)
@@ -14876,6 +17357,7 @@ declare namespace LocalJSX {
   }>) => void;
         /**
           * Number of digits the OTP should have
+          * @default 6
          */
         "otpLength"?: number;
         /**
@@ -14884,10 +17366,12 @@ declare namespace LocalJSX {
         "requestUrl"?: string;
         /**
           * Number of seconds to wait before allowing OTP resend
+          * @default 60
          */
         "resendTimer"?: number;
         /**
           * Whether the resend option should be visible
+          * @default true
          */
         "showResend"?: boolean;
         /**
@@ -14907,10 +17391,12 @@ declare namespace LocalJSX {
         "allowPageSizeChange"?: boolean;
         /**
           * Current active page number (1-based)
+          * @default 1
          */
         "currentPage"?: number;
         /**
           * Whether the pagination is disabled
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -14939,6 +17425,7 @@ declare namespace LocalJSX {
         "onPreviousPage"?: (event: IrPaginationCustomEvent<PaginationChangeEvent>) => void;
         /**
           * Page size for calculations
+          * @default 10
          */
         "pageSize"?: number;
         /**
@@ -14947,22 +17434,27 @@ declare namespace LocalJSX {
         "pageSizes"?: number[];
         /**
           * Total number of pages available
+          * @default 0
          */
         "pages"?: number;
         /**
           * Label for the record type (e.g., 'items', 'tasks', 'records')
+          * @default ''
          */
         "recordLabel"?: string;
         /**
           * Whether to show total records count
+          * @default true
          */
         "showTotalRecords"?: boolean;
         /**
           * Range of items currently being displayed
+          * @default { from: 0, to: 0 }
          */
         "showing"?: PaginationRange;
         /**
           * Total number of records/items
+          * @default 0
          */
         "total"?: number;
     }
@@ -14970,6 +17462,7 @@ declare namespace LocalJSX {
         "onPasswordValidationChange"?: (event: IrPasswordValidatorCustomEvent<boolean>) => void;
         /**
           * The password string to validate
+          * @default ''
          */
         "password"?: string;
     }
@@ -14984,11 +17477,29 @@ declare namespace LocalJSX {
     interface IrPaymentDetails {
         "agent"?: Agent;
         "booking"?: Booking;
+        /**
+          * @default null
+         */
         "clError"?: string | null;
+        /**
+          * @default false
+         */
         "clLoading"?: boolean;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
+        /**
+          * @default []
+         */
         "folioRows"?: FolioRow[];
+        /**
+          * @default false
+         */
         "isAllServicesAgentOwned"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onOpenPrintScreen"?: (event: IrPaymentDetailsCustomEvent<PrintScreenOptions>) => void;
         "onOpenSidebar"?: (event: IrPaymentDetailsCustomEvent<PaymentSidebarEvent>) => void;
@@ -15019,6 +17530,7 @@ declare namespace LocalJSX {
         "onCloseModal"?: (event: IrPaymentFolioCustomEvent<null>) => void;
         /**
           * The payment or folio entry being created or edited. Defaults to a new empty payment object when the component is used for creating a new entry.
+          * @default {     date: moment().format(DATE_FORMAT),     amount: 0,     designation: undefined,     currency: null,     reference: null,     id: -1,   }
          */
         "payment"?: Payment1;
         /**
@@ -15035,6 +17547,9 @@ declare namespace LocalJSX {
         "onLoadingChanged"?: (event: IrPaymentFolioFormCustomEvent<'save' | 'save-print' | null>) => void;
         "onResetBookingEvt"?: (event: IrPaymentFolioFormCustomEvent<null>) => void;
         "onResetExposedCancellationDueAmount"?: (event: IrPaymentFolioFormCustomEvent<Pick<Booking, 'booking_nbr'>>) => void;
+        /**
+          * @default {     date: moment().format(DATE_FORMAT),     amount: 0,     designation: undefined,     currency: null,     reference: null,     id: -1,   }
+         */
         "payment"?: Payment1;
         "paymentEntries"?: PaymentEntries1;
     }
@@ -15045,8 +17560,17 @@ declare namespace LocalJSX {
         "payment"?: IPayment;
     }
     interface IrPaymentOption {
+        /**
+          * @default true
+         */
         "defaultStyles"?: boolean;
+        /**
+          * @default true
+         */
         "hideLogs"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: string;
@@ -15056,6 +17580,9 @@ declare namespace LocalJSX {
         "agent"?: Agent;
         "balance"?: number;
         "booking"?: Booking;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
         "collected"?: number;
         "currency"?: Currency;
@@ -15065,11 +17592,17 @@ declare namespace LocalJSX {
     }
     interface IrPaymentsFolio {
         "booking"?: Booking;
+        /**
+          * @default false
+         */
         "isAddPaymentDisabled"?: boolean;
         "onAddPayment"?: (event: IrPaymentsFolioCustomEvent<void>) => void;
         "onDeletePayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onEditPayment"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
         "onIssueReceipt"?: (event: IrPaymentsFolioCustomEvent<IPayment>) => void;
+        /**
+          * @default []
+         */
         "payments"?: IPayment[];
     }
     interface IrPdfViewer {
@@ -15085,18 +17618,22 @@ declare namespace LocalJSX {
     interface IrPhoneInput {
         /**
           * Country list, used to populate prefix and dropdown. If not provided, fetched from the booking service.
+          * @default []
          */
         "countries"?: ICountry[];
         /**
           * Default country ID used if no phone prefix is set.
+          * @default null
          */
         "default_country"?: number;
         /**
           * Disables the phone input when true.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * If true, styles the input to indicate an error state.
+          * @default false
          */
         "error"?: boolean;
         /**
@@ -15111,6 +17648,9 @@ declare namespace LocalJSX {
           * Two-letter language code used for country fetching.
          */
         "language"?: string;
+        /**
+          * @default 'default'
+         */
         "mode"?: 'modern' | 'default';
         /**
           * Emits when the user changes the phone number. Emits `{ phone_prefix, mobile }` object.  Example: ```tsx <ir-phone-input onTextChange={(e) => console.log(e.detail)} /> ```
@@ -15118,6 +17658,7 @@ declare namespace LocalJSX {
         "onTextChange"?: (event: IrPhoneInputCustomEvent<{ phone_prefix: string; mobile: string }>) => void;
         /**
           * If provided, sets the phone prefix and updates selected country.
+          * @default null
          */
         "phone_prefix"?: string | null;
         /**
@@ -15134,6 +17675,7 @@ declare namespace LocalJSX {
         "token"?: string;
         /**
           * Initial phone number value.
+          * @default ''
          */
         "value"?: string;
     }
@@ -15144,6 +17686,7 @@ declare namespace LocalJSX {
         "appearance"?: NativeWaInput['appearance'];
         /**
           * Delay (in milliseconds) before emitting the `text-change` event. Defaults to 300ms for async mode.
+          * @default 0
          */
         "debounce"?: number;
         /**
@@ -15154,7 +17697,13 @@ declare namespace LocalJSX {
           * Optional label applied to the text field.
          */
         "label"?: string;
+        /**
+          * @default false
+         */
         "loading"?: boolean;
+        /**
+          * @default 'default'
+         */
         "mode"?: 'select' | 'default' | 'select-async';
         /**
           * Emitted when the clear button is clicked and the combobox value is cleared.
@@ -15172,17 +17721,23 @@ declare namespace LocalJSX {
           * Emitted when the text input value changes.
          */
         "onText-change"?: (event: IrPickerCustomEvent<string>) => void;
+        /**
+          * @default false
+         */
         "pill"?: boolean;
         /**
           * Placeholder shown inside the input when there is no query.
+          * @default ''
          */
         "placeholder"?: string;
         /**
           * The input's size.
+          * @default 'small'
          */
         "size"?: NativeWaInput['size'];
         /**
           * Selected value (also shown in the input when `mode="select"`).
+          * @default ''
          */
         "value"?: string;
         /**
@@ -15192,9 +17747,18 @@ declare namespace LocalJSX {
         "withClear"?: boolean;
     }
     interface IrPickerItem {
+        /**
+          * @default false
+         */
         "active"?: boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
         "label"?: string;
+        /**
+          * @default false
+         */
         "selected"?: boolean;
         "value"?: string;
     }
@@ -15215,6 +17779,7 @@ declare namespace LocalJSX {
         "defaultPickupData"?: IBookingPickupInfo | null;
         /**
           * Total number of persons included in the booking. Used to compute vehicle capacity and validate pickup options.
+          * @default 0
          */
         "numberOfPersons"?: number;
         /**
@@ -15233,6 +17798,9 @@ declare namespace LocalJSX {
         "bookingNumber"?: string;
         "defaultPickupData"?: IBookingPickupInfo | null;
         "formId"?: string;
+        /**
+          * @default 0
+         */
         "numberOfPersons"?: number;
         "onCanSubmitPickupChange"?: (event: IrPickupFormCustomEvent<boolean>) => void;
         "onCloseModal"?: (event: IrPickupFormCustomEvent<null>) => void;
@@ -15242,6 +17810,9 @@ declare namespace LocalJSX {
     interface IrPickupView {
         "agent"?: Agent;
         "booking"?: Booking;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
     }
     interface IrPmsLogs {
@@ -15268,24 +17839,29 @@ declare namespace LocalJSX {
         "content"?: string;
         /**
           * Horizontal offset (left) of the popover from its trigger. Used in inline style as `--ir-popover-left`.
+          * @default '10px'
          */
         "irPopoverLeft"?: string;
         /**
           * Position of the popover relative to the trigger. Options: `'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`.
+          * @default 'auto'
          */
         "placement"?: 'top' | 'bottom' | 'left' | 'right' | 'auto';
         /**
           * Whether to treat `content` as raw HTML. When true, `content` will be injected with `html: true` in jQuery popover.
+          * @default false
          */
         "renderContentAsHtml"?: boolean;
         /**
           * Event that triggers the popover. Options: `'focus'`, `'click'`, `'hover'`.
+          * @default 'focus'
          */
         "trigger"?: 'focus' | 'click' | 'hover';
     }
     interface IrPreviewScreenDialog {
         /**
           * Determines which built-in action is rendered in the header. `print` triggers `window.print()` while `download` downloads the configured URL.
+          * @default 'print'
          */
         "action"?: PreviewAction;
         /**
@@ -15302,10 +17878,12 @@ declare namespace LocalJSX {
         "downloadUrl"?: string;
         /**
           * When `true`, hides the default header action button so a custom implementation can be slotted.
+          * @default false
          */
         "hideDefaultAction"?: boolean;
         /**
           * The dialog's label as displayed in the header. Required for accessibility and announced by assistive technologies.
+          * @default 'Preview'
          */
         "label"?: string;
         "onOpenChanged"?: (event: IrPreviewScreenDialogCustomEvent<boolean>) => void;
@@ -15315,12 +17893,14 @@ declare namespace LocalJSX {
         "onPreviewAction"?: (event: IrPreviewScreenDialogCustomEvent<{ action: PreviewAction; url?: string }>) => void;
         /**
           * Indicates whether or not the preview dialog is open. Toggle this attribute or use {@link openDialog} / {@link closeDialog} to control visibility.
+          * @default false
          */
         "open"?: boolean;
     }
     interface IrPriceInput {
         /**
           * The AutoValidate for the input, optional
+          * @default true
          */
         "autoValidate"?: boolean;
         /**
@@ -15377,6 +17957,7 @@ declare namespace LocalJSX {
         "onTextChange"?: (event: IrPriceInputCustomEvent<string>) => void;
         /**
           * Placeholder text for the input
+          * @default ''
          */
         "placeholder"?: string;
         /**
@@ -15385,6 +17966,7 @@ declare namespace LocalJSX {
         "readOnly"?: boolean;
         /**
           * Whether the input is required
+          * @default false
          */
         "required"?: boolean;
         /**
@@ -15393,6 +17975,7 @@ declare namespace LocalJSX {
         "testId"?: string;
         /**
           * Initial value for the input
+          * @default ''
          */
         "value"?: string;
         /**
@@ -15443,6 +18026,9 @@ declare namespace LocalJSX {
           * Fallback content text (used if no content slot is provided)
          */
         "content"?: string;
+        /**
+          * @default 'flex'
+         */
         "display"?: 'inline' | 'flex';
         /**
           * Fallback label text (used if no label slot is provided)
@@ -15474,6 +18060,7 @@ declare namespace LocalJSX {
         "invoiceInfo"?: BookingInvoiceInfo;
         /**
           * Locale used for date formatting.
+          * @default 'en'
          */
         "locale"?: string;
         /**
@@ -15484,6 +18071,7 @@ declare namespace LocalJSX {
     interface IrProgressIndicator {
         /**
           * The color variant of the progress bar. Options: - 'primary' (default) - 'secondary'
+          * @default 'primary'
          */
         "color"?: 'primary' | 'secondary';
         /**
@@ -15493,6 +18081,9 @@ declare namespace LocalJSX {
     }
     interface IrPropertySwitcher {
         "baseUrl"?: string;
+        /**
+          * @default 'dialog'
+         */
         "mode"?: 'dropdown' | 'dialog';
         /**
           * Single unified event - emitted when dialog confirms selection OR dropdown selects linked property
@@ -15518,10 +18109,12 @@ declare namespace LocalJSX {
         "onPropertySelected"?: (event: IrPropertySwitcherDialogContentCustomEvent<FetchedProperty['PROPERTY_ID']>) => void;
         /**
           * Whether the surrounding dialog is open. Used to focus and reset the search input as needed.
+          * @default false
          */
         "open"?: boolean;
         /**
           * Linked properties provided by the parent switcher.
+          * @default []
          */
         "properties"?: LinkedProperty[];
         /**
@@ -15532,23 +18125,30 @@ declare namespace LocalJSX {
     interface IrQueueChart {
         /**
           * Chart title
+          * @default 'Queue Status'
          */
         "label"?: string;
         /**
           * Labels for X-axis
+          * @default []
          */
         "labels"?: string[];
         /**
           * Values for bars
+          * @default []
          */
         "values"?: number[];
     }
     interface IrQueueManager {
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrRadio {
         /**
           * Whether the checkbox is checked.
+          * @default false
          */
         "checked"?: boolean;
         /**
@@ -15577,12 +18177,14 @@ declare namespace LocalJSX {
         "onCheckChange"?: (event: IrRadioCustomEvent<boolean>) => void;
         /**
           * The unique ID of the checkbox element.
+          * @default v4()
          */
         "radioBoxId"?: string;
     }
     interface IrRangePicker {
         /**
           * Whether to all the emitted dates to be null.
+          * @default true
          */
         "allowNullDates"?: boolean;
         /**
@@ -15604,6 +18206,7 @@ declare namespace LocalJSX {
         "toDate"?: Moment;
         /**
           * Whether to show the overlay before the date is selected.
+          * @default true
          */
         "withOverlay"?: boolean;
     }
@@ -15633,6 +18236,9 @@ declare namespace LocalJSX {
         "onOpenSidebar"?: (event: IrReservationInformationCustomEvent<OpenSidebarEvent<any>>) => void;
     }
     interface IrResetPassword {
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "old_pwd"?: string;
         "onCloseSideBar"?: (event: IrResetPasswordCustomEvent<null>) => void;
@@ -15647,6 +18253,7 @@ declare namespace LocalJSX {
         "groupName": string;
         /**
           * Array of payments for this method group
+          * @default []
          */
         "payments"?: FolioPayment[];
     }
@@ -15656,13 +18263,22 @@ declare namespace LocalJSX {
     }
     interface IrRevenueSummary {
         "filters"?: DailyPaymentFilter;
+        /**
+          * @default new Map()
+         */
         "groupedPayments"?: GroupedFolioPayment;
         "paymentEntries"?: PaymentEntries;
+        /**
+          * @default new Map()
+         */
         "previousDateGroupedPayments"?: GroupedFolioPayment;
     }
     interface IrRevenueTable {
         "filters"?: DailyPaymentFilter;
         "paymentEntries"?: PaymentEntries;
+        /**
+          * @default new Map()
+         */
         "payments"?: GroupedFolioPayment;
     }
     interface IrRoom {
@@ -15670,16 +18286,40 @@ declare namespace LocalJSX {
         "bedPreferences"?: IEntries[];
         "booking"?: Booking;
         "bookingIndex"?: number;
+        /**
+          * @default []
+         */
         "clTransactions"?: ClTx[];
+        /**
+          * @default 'USD'
+         */
         "currency"?: string;
         "departureTime"?: IEntries[];
+        /**
+          * @default false
+         */
         "hasCheckIn"?: boolean;
+        /**
+          * @default false
+         */
         "hasCheckOut"?: boolean;
+        /**
+          * @default false
+         */
         "hasRoomAdd"?: boolean;
+        /**
+          * @default false
+         */
         "hasRoomDelete"?: boolean;
+        /**
+          * @default false
+         */
         "hasRoomEdit"?: boolean;
         "includeDepartureTime"?: boolean;
         "isEditable"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "legendData"?: any;
         "mealCodeName"?: string;
@@ -15714,6 +18354,7 @@ declare namespace LocalJSX {
         "identifier"?: string;
         /**
           * The language used for displaying text content in the component. Defaults to English ('en'), but can be set to other supported languages.
+          * @default 'en'
          */
         "language"?: string;
         "onCloseModal"?: (event: IrRoomGuestsCustomEvent<null>) => void;
@@ -15724,10 +18365,12 @@ declare namespace LocalJSX {
         "roomName"?: string;
         /**
           * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * @default []
          */
         "sharedPersons"?: SharedPerson[];
         /**
           * The total number of guests for the room. Determines how many guest input forms to display in the UI.
+          * @default 0
          */
         "totalGuests"?: number;
     }
@@ -15750,6 +18393,7 @@ declare namespace LocalJSX {
         "identifier"?: string;
         /**
           * The language used for displaying text content in the component. Defaults to English ('en'), but can be set to other supported languages.
+          * @default 'en'
          */
         "language"?: string;
         "onCloseModal"?: (event: IrRoomGuestsFormCustomEvent<null>) => void;
@@ -15762,10 +18406,12 @@ declare namespace LocalJSX {
         "roomName"?: string;
         /**
           * An array of people sharing the room. Contains information about the {locales.entries.Lcz_MainGuest} and additional guests, such as their name, date of birth, {locales.entries.Lcz_Nationality}, and ID details.
+          * @default []
          */
         "sharedPersons"?: SharedPerson[];
         /**
           * The total number of guests for the room. Determines how many guest input forms to display in the UI.
+          * @default 0
          */
         "totalGuests"?: number;
     }
@@ -15782,10 +18428,16 @@ declare namespace LocalJSX {
         "toDate"?: string;
     }
     interface IrSalesByChannel {
+        /**
+          * @default ''
+         */
         "language"?: string;
         "mode"?: SalesByChannelMode;
         "p"?: string;
         "propertyid"?: string;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrSalesByChannelFilters {
@@ -15802,9 +18454,15 @@ declare namespace LocalJSX {
         "records"?: ChannelReportResult;
     }
     interface IrSalesByCountry {
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrSalesByCountrySummary {
@@ -15817,6 +18475,9 @@ declare namespace LocalJSX {
     }
     interface IrSalesTable {
         "mappedCountries"?: MappedCountries;
+        /**
+          * @default []
+         */
         "records"?: SalesRecord[];
     }
     interface IrSecureTasks {
@@ -15828,29 +18489,65 @@ declare namespace LocalJSX {
     interface IrSelect {
         "data"?: selectOption[];
         "disabled"?: boolean;
+        /**
+          * @default false
+         */
         "error"?: boolean;
+        /**
+          * @default 'Select'
+         */
         "firstOption"?: string;
         /**
           * Floating label text that appears inside the input and “floats” above when the field is focused or has a value.  - If provided, a floating label will be rendered inside the input container. - If you omit this prop but set `label`, the old left-side static label is used. - If you provide both `label` and `floatingLabel`, only the floating label is shown.   Examples: ```tsx <ir-select floating-label label="Phone" /> ```
          */
         "floatingLabel"?: boolean;
         "label"?: string;
+        /**
+          * @default null
+         */
         "labelBackground"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
+        /**
+          * @default 'theme'
+         */
         "labelBorder"?: 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
+        /**
+          * @default 'dark'
+         */
         "labelColor"?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        /**
+          * @default 'left'
+         */
         "labelPosition"?: 'left' | 'right' | 'center';
+        /**
+          * @default 3
+         */
         "labelWidth"?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         "name"?: string;
         "onSelectChange"?: (event: IrSelectCustomEvent<any>) => void;
         "required"?: boolean;
         "selectContainerStyle"?: string;
         "selectForcedStyles"?: { [key: string]: string };
+        /**
+          * @default v4()
+         */
         "selectId"?: string;
         "selectStyles"?: string;
+        /**
+          * @default null
+         */
         "selectedValue"?: any;
+        /**
+          * @default true
+         */
         "showFirstOption"?: boolean;
+        /**
+          * @default 'md'
+         */
         "size"?: 'sm' | 'md' | 'lg';
         "testId"?: string;
+        /**
+          * @default 'md'
+         */
         "textSize"?: 'sm' | 'md' | 'lg';
     }
     interface IrServiceAssigneeSelect {
@@ -15860,10 +18557,12 @@ declare namespace LocalJSX {
         "agent"?: { id: number; name: string; code: string } | null;
         /**
           * Currently selected service assignee type.
+          * @default 'agent'
          */
         "assigneeType"?: 'agent' | 'guest';
         /**
           * Label displayed above the assignment selector.
+          * @default 'Assign to folio'
          */
         "label"?: string;
         /**
@@ -15890,6 +18589,7 @@ declare namespace LocalJSX {
         "onIrSidebarToggle"?: (event: IrSidebarCustomEvent<any>) => void;
         /**
           * Whether the sidebar is open. Can be used with two-way binding.
+          * @default false
          */
         "open"?: boolean;
         /**
@@ -15898,10 +18598,12 @@ declare namespace LocalJSX {
         "preventClose"?: boolean;
         /**
           * Whether to show the close (X) button in the sidebar header.
+          * @default true
          */
         "showCloseButton"?: boolean;
         /**
           * Which side of the screen the sidebar appears on. Options: `'left'` or `'right'`.
+          * @default 'right'
          */
         "side"?: 'right' | 'left';
         /**
@@ -15927,6 +18629,7 @@ declare namespace LocalJSX {
         "size"?: number;
         /**
           * CSS unit used for `size` and `borderWidth`. Can be `'px'` or `'rem'`.
+          * @default 'rem'
          */
         "unit"?: 'px' | 'rem';
     }
@@ -15947,10 +18650,12 @@ declare namespace LocalJSX {
     interface IrSuccessLoader {
         /**
           * Controls the visibility of the loader. Setting this to `true` starts the spinner/success cycle.
+          * @default true
          */
         "active"?: boolean;
         /**
           * Whether the loader should automatically start its cycle when it becomes active.
+          * @default true
          */
         "autoStart"?: boolean;
         /**
@@ -15959,20 +18664,24 @@ declare namespace LocalJSX {
         "onLoaderComplete"?: (event: IrSuccessLoaderCustomEvent<void>) => void;
         /**
           * How long the spinner should be shown before transitioning to the success icon. Value is expressed in milliseconds.
+          * @default 1500
          */
         "spinnerDuration"?: number;
         /**
           * How long the success icon should be shown before the loader dispatches the completion event. Value is expressed in milliseconds.
+          * @default 1000
          */
         "successDuration"?: number;
     }
     interface IrSwitch {
         /**
           * Whether the switch is currently checked (on). This is mutable and can be toggled internally.
+          * @default false
          */
         "checked"?: boolean;
         /**
           * Disables the switch if true.
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -16037,6 +18746,9 @@ declare namespace LocalJSX {
         "onSkipSelectedTask"?: (event: IrTasksTableCustomEvent<Task>) => void;
         "onSortingChanged"?: (event: IrTasksTableCustomEvent<{ field: string; direction: 'ASC' | 'DESC' }>) => void;
         "onToast"?: (event: IrTasksTableCustomEvent<IToast>) => void;
+        /**
+          * @default []
+         */
         "tasks"?: Task[];
     }
     interface IrTasksTablePagination {
@@ -16060,6 +18772,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Current language used to resolve translated setup entry labels. Defaults to English ("en").
+          * @default 'en'
          */
         "language"?: string;
         /**
@@ -16072,10 +18785,14 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * List of setup entries used to populate the tax mode select.  Each entry represents a tax application option (e.g. Not Applicable, Inclusive, Exclusive).
+          * @default []
          */
         "setupEntries"?: IEntries[];
     }
     interface IrTaxServiceCategories {
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
@@ -16098,6 +18815,7 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, makes the editor read-only
+          * @default false
          */
         "readOnly"?: boolean;
         /**
@@ -16106,28 +18824,34 @@ declare namespace LocalJSX {
         "toolbarConfig"?: ToolbarConfig;
         /**
           * Determines if the current user can edit the content
+          * @default true
          */
         "userCanEdit"?: boolean;
         /**
           * Initial HTML content
+          * @default ''
          */
         "value"?: string;
     }
     interface IrTextarea {
         /**
           * Number of visible character columns.
+          * @default 5
          */
         "cols"?: number;
         /**
           * Text label displayed above or beside the textarea.
+          * @default '<label>'
          */
         "label"?: string;
         /**
           * Width of the label in grid columns (for `variant="prepend"`).
+          * @default 3
          */
         "labelWidth"?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
         /**
           * Maximum number of characters allowed.
+          * @default 250
          */
         "maxLength"?: number;
         /**
@@ -16136,10 +18860,12 @@ declare namespace LocalJSX {
         "onTextChange"?: (event: IrTextareaCustomEvent<string>) => void;
         /**
           * Placeholder text shown when input is empty.
+          * @default '<placeholder>'
          */
         "placeholder"?: string;
         /**
           * Number of visible text lines.
+          * @default 3
          */
         "rows"?: number;
         /**
@@ -16152,6 +18878,7 @@ declare namespace LocalJSX {
         "testId"?: string;
         /**
           * Unused property, intended to store textarea text.
+          * @default ''
          */
         "text"?: string;
         /**
@@ -16160,16 +18887,24 @@ declare namespace LocalJSX {
         "textareaClassname"?: string;
         /**
           * Current value of the textarea (supports two-way binding).
+          * @default ''
          */
         "value"?: string;
         /**
           * Layout style of the textarea: `'default'` shows label above, `'prepend'` shows label on the left.
+          * @default 'default'
          */
         "variant"?: 'default' | 'prepend';
     }
     interface IrTitle {
         "borderShown"?: boolean;
+        /**
+          * @default 'default'
+         */
         "displayContext"?: 'default' | 'sidebar';
+        /**
+          * @default 'start'
+         */
         "justifyContent"?: | 'center'
     | 'start'
     | 'end'
@@ -16190,6 +18925,7 @@ declare namespace LocalJSX {
     interface IrToast {
         /**
           * Position where toasts will appear. Options include: `'top-left'`, `'top-right'`, `'bottom-left'`, `'bottom-right'`.
+          * @default 'top-right'
          */
         "position"?: TPositions;
     }
@@ -16204,6 +18940,7 @@ declare namespace LocalJSX {
         "description"?: string;
         /**
           * Whether the close button should be rendered
+          * @default true
          */
         "dismissible"?: boolean;
         /**
@@ -16212,6 +18949,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Indicates when the provider is playing the exit animation
+          * @default false
          */
         "leaving"?: boolean;
         "onIrToastAction"?: (event: IrToastAlertCustomEvent<{ id: string }>) => void;
@@ -16219,6 +18957,7 @@ declare namespace LocalJSX {
         "onIrToastInteractionChange"?: (event: IrToastAlertCustomEvent<{ id: string; interacting: boolean }>) => void;
         /**
           * Toast position drives enter/exit direction
+          * @default 'top-right'
          */
         "position"?: TPositions;
         /**
@@ -16227,31 +18966,46 @@ declare namespace LocalJSX {
         "toastId": string;
         /**
           * Maps to visual style tokens
+          * @default 'info'
          */
         "variant"?: ToastVariant;
     }
     interface IrToastItem {
         /**
           * Whether the close button is rendered.
+          * @default true
          */
         "dismissible"?: boolean;
         /**
           * Auto-dismiss delay in milliseconds. Pass `0` or `Infinity` for a persistent toast.
+          * @default 5000
          */
         "duration"?: number;
         /**
           * Emitted once the exit animation finishes and the toast should be removed from the DOM.
          */
         "onIrDismiss"?: (event: IrToastItemCustomEvent<void>) => void;
+        /**
+          * @default 'neutral'
+         */
         "variant"?: ToastVariants;
     }
     interface IrToastProvider {
+        /**
+          * @default 5000
+         */
         "duration"?: number;
         /**
           * Emitted when a toast's action button is clicked.
          */
         "onToastAction"?: (event: IrToastProviderCustomEvent<{ id: string }>) => void;
+        /**
+          * @default 'top-end'
+         */
         "position"?: 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+        /**
+          * @default false
+         */
         "rtl"?: boolean;
     }
     interface IrToastsProvider {
@@ -16259,6 +19013,7 @@ declare namespace LocalJSX {
     interface IrTooltip {
         /**
           * Defines the horizontal alignment of the tooltip trigger content.  - `'start'`: Aligns the trigger to the left within its container. - `'center'`: Centers the trigger horizontally (default). - `'end'`: Aligns the trigger to the right within its container.  This alignment affects how the trigger (e.g., icon or slotted element) is positioned inside the outer tooltip container.
+          * @default 'center'
          */
         "alignment"?: 'start' | 'end' | 'center';
         /**
@@ -16271,6 +19026,7 @@ declare namespace LocalJSX {
         "containerStyle"?: { [key: string]: string };
         /**
           * When true, allows a custom element to trigger the tooltip using a named slot. If false, a default info icon is used.
+          * @default false
          */
         "customSlot"?: boolean;
         /**
@@ -16279,36 +19035,85 @@ declare namespace LocalJSX {
         "message"?: string;
         /**
           * Whether the tooltip content should be rendered using `innerHTML`. If false, treats message as plain text.
+          * @default true
          */
         "withHtml"?: boolean;
     }
     interface IrUnbookableRooms {
+        /**
+          * @default 14
+         */
         "consecutive_period"?: number;
+        /**
+          * @default 'default'
+         */
         "mode"?: UnbookableRoomsMode;
+        /**
+          * @default 2
+         */
         "period_to_check"?: number;
         "propertyid"?: number;
+        /**
+          * @default ''
+         */
         "ticket"?: string;
     }
     interface IrUnbookableRoomsData {
+        /**
+          * @default null
+         */
         "allowedProperties"?: AllowedProperties;
+        /**
+          * @default ''
+         */
         "errorMessage"?: string;
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14, country: 'all' }
+         */
         "filters"?: UnbookableRoomsFilters;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
+        /**
+          * @default 'default'
+         */
         "mode"?: UnbookableRoomsMode;
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14 }
+         */
         "progressFilters"?: { period_to_check: number; consecutive_period: number; };
+        /**
+          * @default []
+         */
         "unbookableRooms"?: FetchUnBookableRoomsResult;
     }
     interface IrUnbookableRoomsFilters {
+        /**
+          * @default { period_to_check: 2, consecutive_period: 14, country: 'all' }
+         */
         "filters"?: UnbookableRoomsFilters;
+        /**
+          * @default false
+         */
         "isLoading"?: boolean;
+        /**
+          * @default 'default'
+         */
         "mode"?: UnbookableRoomsMode;
         "onFiltersChange"?: (event: IrUnbookableRoomsFiltersCustomEvent<Partial<UnbookableRoomsFilters>>) => void;
         "onFiltersReset"?: (event: IrUnbookableRoomsFiltersCustomEvent<void>) => void;
         "onFiltersSave"?: (event: IrUnbookableRoomsFiltersCustomEvent<void>) => void;
+        /**
+          * @default []
+         */
         "unbookableRooms"?: FetchUnBookableRoomsResult;
     }
     interface IrUnitCell {
         "room"?: Room;
+        /**
+          * @default false
+         */
         "showDeparture"?: boolean;
     }
     interface IrUnitStatus {
@@ -16318,38 +19123,74 @@ declare namespace LocalJSX {
         "unit"?: string;
     }
     interface IrUserFormPanel {
+        /**
+          * @default []
+         */
         "allowedUsersTypes"?: AllowedUser[];
         "baseUserTypeCode"?: string | number;
         "formId"?: string;
         "haveAdminPrivileges"?: boolean;
+        /**
+          * @default false
+         */
         "isEdit"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onCloseSideBar"?: (event: IrUserFormPanelCustomEvent<null>) => void;
         "onResetData"?: (event: IrUserFormPanelCustomEvent<null>) => void;
         "property_id"?: number;
+        /**
+          * @default '5'
+         */
         "superAdminId"?: string;
         "user"?: User;
         "userTypeCode"?: string | number;
+        /**
+          * @default Map<number | string, string>
+         */
         "userTypes"?: { new (entries?: readonly (readonly [string | number, string])[]): Map<string | number, string>; new (iterable?: Iterable<readonly [string | number, string]>): Map<string | number, string>; readonly prototype: Map<any, any>; readonly [Symbol.species]: MapConstructor; };
     }
     interface IrUserFormPanelDrawer {
+        /**
+          * @default []
+         */
         "allowedUsersTypes"?: AllowedUser[];
         "baseUserTypeCode"?: string | number;
         "haveAdminPrivileges"?: boolean;
+        /**
+          * @default false
+         */
         "isEdit"?: boolean;
+        /**
+          * @default 'en'
+         */
         "language"?: string;
         "onCloseSideBar"?: (event: IrUserFormPanelDrawerCustomEvent<void>) => void;
         "open"?: boolean;
         "property_id"?: number;
+        /**
+          * @default '5'
+         */
         "superAdminId"?: string;
         "user"?: User;
         "userTypeCode"?: string | number;
+        /**
+          * @default Map<number | string, string>
+         */
         "userTypes"?: { new (entries?: readonly (readonly [string | number, string])[]): Map<string | number, string>; new (iterable?: Iterable<readonly [string | number, string]>): Map<string | number, string>; readonly prototype: Map<any, any>; readonly [Symbol.species]: MapConstructor; };
     }
     interface IrUserManagement {
         "baseUrl"?: string;
         "baseUserTypeCode"?: string | number;
+        /**
+          * @default true
+         */
         "isSuperAdmin"?: boolean;
+        /**
+          * @default ''
+         */
         "language"?: string;
         "p"?: string;
         "propertyid"?: number;
@@ -16358,15 +19199,27 @@ declare namespace LocalJSX {
         "userTypeCode"?: string | number;
     }
     interface IrUserManagementTable {
+        /**
+          * @default []
+         */
         "allowedUsersTypes"?: AllowedUser[];
         "baseUserTypeCode"?: string | number;
         "haveAdminPrivileges"?: boolean;
         "isSuperAdmin"?: boolean;
         "onResetData"?: (event: IrUserManagementTableCustomEvent<null>) => void;
         "property_id"?: number;
+        /**
+          * @default '5'
+         */
         "superAdminId"?: string;
         "userTypeCode"?: string | number;
+        /**
+          * @default new Map()
+         */
         "userTypes"?: Map<string | number, string>;
+        /**
+          * @default []
+         */
         "users"?: User[];
     }
     interface IrValidator {
@@ -16377,6 +19230,7 @@ declare namespace LocalJSX {
         "autovalidate"?: boolean;
         /**
           * Event names (space/comma separated) dispatched when the child loses focus.
+          * @default 'blur input-blur select-blur'
          */
         "blurEvent"?: string;
         /**
@@ -16398,11 +19252,13 @@ declare namespace LocalJSX {
         "showErrorMessage"?: boolean;
         /**
           * Debounce delay (ms) before running validation for autovalidated changes.
+          * @default 200
          */
         "validationDebounce"?: number;
         "value"?: any;
         /**
           * Event names (space/comma separated) dispatched when the child value changes.
+          * @default 'input input-change value-change select-change'
          */
         "valueEvent"?: string;
     }
@@ -16413,6 +19269,7 @@ declare namespace LocalJSX {
         "onWeekdayChange"?: (event: IrWeekdaySelectorCustomEvent<number[]>) => void;
         /**
           * Initial list of selected weekdays (numeric values).
+          * @default []
          */
         "weekdays"?: number[];
     }
@@ -16423,6 +19280,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Maximum number of remarks to display before showing the "Show More" button.
+          * @default 3
          */
         "maxVisibleItems"?: number;
         /**
@@ -16433,409 +19291,2314 @@ declare namespace LocalJSX {
     interface RequirementCheck {
         /**
           * Whether this requirement has been satisfied (true/false).
+          * @default false
          */
         "isValid"?: boolean;
         /**
           * The requirement text to display (e.g. "At least one lowercase letter").
+          * @default ''
          */
         "text"?: string;
     }
+
+    interface AcPagesMenuAttributes {
+        "location": 'sheet' | 'nav';
+    }
+    interface IglApplicationInfoAttributes {
+        "bookingType": string;
+        "roomIndex": number;
+        "totalNights": number;
+        "autoFillGuest": boolean;
+    }
+    interface IglBlockDatesViewAttributes {
+        "fromDate": string;
+        "toDate": string;
+        "entryDate": string;
+        "entryHour": number;
+        "isEventHover": boolean;
+        "entryMinute": number;
+    }
+    interface IglBlockedDateDrawerAttributes {
+        "open": boolean;
+        "label": string;
+        "fromDate": string;
+        "toDate": string;
+        "unitId": number;
+    }
+    interface IglBookPropertyAttributes {
+        "propertyid": number;
+        "allowedBookingSources": string;
+        "language": string;
+        "showPaymentDetails": boolean;
+    }
+    interface IglBookPropertyContainerAttributes {
+        "language": string;
+        "ticket": string;
+        "p": string;
+        "propertyid": number;
+        "from_date": string;
+        "to_date": string;
+        "withIrToastAndInterceptor": boolean;
+    }
+    interface IglBookPropertyFooterAttributes {
+        "eventType": string;
+        "page": string;
+        "isEditOrAddRoomEvent": boolean;
+        "isLoading": string;
+    }
+    interface IglBookPropertyHeaderAttributes {
+        "splitBookingId": string;
+        "bookingData": string;
+        "minDate": string;
+        "message": string;
+        "showSplitBookingOption": boolean;
+        "dateRangeData": string;
+        "bookedByInfoData": string;
+        "propertyId": number;
+        "wasBlockedUnit": boolean;
+    }
+    interface IglBookingEventAttributes {
+        "currency": string;
+        "is_vacation_rental": boolean;
+        "language": string;
+    }
+    interface IglBookingEventHoverAttributes {
+        "bubbleInfoTop": boolean;
+        "currency": string;
+        "is_vacation_rental": boolean;
+    }
+    interface IglBookingFormAttributes {
+        "showPaymentDetails": boolean;
+        "isEditOrAddRoomEvent": boolean;
+        "showSplitBookingOption": boolean;
+        "language": string;
+        "propertyId": number;
+        "bedPreferenceType": string;
+        "isLoading": string;
+        "selectedGuestData": string;
+    }
+    interface IglBookingOverviewPageAttributes {
+        "bookingData": string;
+        "propertyId": number;
+        "message": string;
+        "showSplitBookingOption": boolean;
+        "eventType": string;
+        "currency": string;
+        "ratePricingMode": string;
+        "dateRangeData": string;
+        "bookedByInfoData": string;
+        "initialRoomIds": string;
+        "wasBlockedUnit": boolean;
+    }
+    interface IglBulkBlockAttributes {
+        "formId": string;
+        "maxDatesLength": number;
+        "property_id": number;
+    }
+    interface IglBulkOperationsAttributes {
+        "maxDatesLength": number;
+        "property_id": number;
+    }
+    interface IglBulkOperationsDrawerAttributes {
+        "open": boolean;
+        "maxDatesLength": number;
+        "property_id": number;
+    }
+    interface IglBulkStopSaleAttributes {
+        "formId": string;
+        "maxDatesLength": number;
+        "property_id": number;
+    }
+    interface IglCalBodyAttributes {
+        "isScrollViewDragging": boolean;
+        "propertyId": number;
+        "currency": string;
+        "language": string;
+        "highlightedDate": string;
+    }
+    interface IglCalFooterAttributes {
+        "isLegendOpen": boolean;
+        "highlightedDate": string;
+    }
+    interface IglCalHeaderAttributes {
+        "propertyid": number;
+        "unassignedDates": string;
+        "to_date": string;
+        "highlightedDate": string;
+    }
+    interface IglHkIssuesDialogAttributes {
+        "open": boolean;
+        "unitId": number;
+        "unitName": string;
+        "propertyId": number;
+    }
+    interface IglHousekeepingDialogAttributes {
+        "open": boolean;
+        "bookingNumber": number;
+        "propertyId": number;
+    }
+    interface IglPropertyBookedByAttributes {
+        "language": string;
+        "showPaymentDetails": boolean;
+        "propertyId": number;
+    }
+    interface IglRateExtenderDrawerAttributes {
+        "open": boolean;
+        "bookingNumber": string;
+        "propertyId": number;
+        "language": string;
+        "identifier": string;
+        "toDate": string;
+        "fromDate": string;
+        "pool": string;
+        "ticket": string;
+    }
+    interface IglRateExtenderFormAttributes {
+        "bookingNumber": string;
+        "propertyId": number;
+        "language": string;
+        "identifier": string;
+        "toDate": string;
+        "fromDate": string;
+        "pool": string;
+    }
+    interface IglRatePlanAttributes {
+        "roomTypeId": number;
+        "shouldBeDisabled": boolean;
+        "bookingType": string;
+        "isBookDisabled": boolean;
+    }
+    interface IglRoomTypeAttributes {
+        "bookingType": string;
+        "roomTypeId": number | null;
+        "currency": string;
+        "isBookDisabled": boolean;
+    }
+    interface IglSpiltBookingFormAttributes {
+        "identifier": Room['identifier'];
+    }
+    interface IglSplitBookingAttributes {
+        "identifier": Room['identifier'];
+    }
+    interface IglSplitBookingDrawerAttributes {
+        "identifier": Room['identifier'];
+        "open": boolean;
+    }
+    interface IglTbaBookingViewAttributes {
+        "selectedDate": string;
+        "categoryId": string;
+        "categoryIndex": string;
+        "eventIndex": string;
+    }
+    interface IglTbaCategoryViewAttributes {
+        "selectedDate": string;
+        "categoryId": string;
+        "eventDatas": string;
+        "categoryIndex": string;
+    }
+    interface IglToBeAssignedAttributes {
+        "unassignedDatesProp": string;
+        "propertyid": number;
+        "from_date": string;
+        "to_date": string;
+    }
+    interface IglooCalendarAttributes {
+        "propertyid": number;
+        "from_date": string;
+        "to_date": string;
+        "language": string;
+        "loadingMessage": string;
+        "currencyName": string;
+        "ticket": string;
+        "p": string;
+        "baseUrl": string;
+    }
+    interface IrAccordionAttributes {
+        "defaultExpanded": boolean;
+        "expanded": boolean;
+        "caret": boolean;
+        "caretIcon": string;
+    }
+    interface IrAgentEditorDrawerAttributes {
+        "open": boolean;
+    }
+    interface IrAgentEditorFormAttributes {
+        "formId": string;
+    }
+    interface IrAgentsAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "language": string;
+        "p": string;
+    }
+    interface IrAgentsTableAttributes {
+        "language": string;
+    }
+    interface IrAirDatePickerAttributes {
+        "withClear": boolean;
+        "placeholder": string;
+        "label": string;
+        "inline": boolean;
+        "date": string | Moment | null;
+        "multipleDates": string;
+        "range": boolean;
+        "dateFormat": string;
+        "timepicker": boolean;
+        "minDate": string | Moment;
+        "maxDate": string | Moment;
+        "disabled": boolean;
+        "autoClose": boolean;
+        "showOtherMonths": boolean;
+        "selectOtherMonths": boolean;
+        "customPicker": boolean;
+        "forceDestroyOnUpdate": boolean;
+        "emitEmptyDate": boolean;
+        "triggerContainerStyle": string;
+    }
+    interface IrApplicablePoliciesAttributes {
+        "propertyId": number;
+        "language": string;
+    }
+    interface IrArrivalTimeCellAttributes {
+        "display": 'block' | 'inline';
+        "arrivalTimeLabel": string;
+    }
+    interface IrArrivalsAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "language": string;
+        "p": string;
+        "pageSize": number;
+    }
+    interface IrAssignmentToggleDialogAttributes {
+        "label": string;
+        "message": string;
+        "confirmLabel": string;
+        "cancelLabel": string;
+        "loading": boolean;
+    }
+    interface IrAutocompleteAttributes {
+        "emitOnSameValue": boolean;
+        "open": boolean;
+        "placement": AutocompletePopupElement['placement'];
+        "name": string;
+        "value": string;
+        "type": NativeWaInput['type'];
+        "defaultValue": NativeWaInput['defaultValue'];
+        "size": NativeWaInput['size'];
+        "appearance": NativeWaInput['appearance'];
+        "pill": NativeWaInput['pill'];
+        "returnMaskedValue": boolean;
+        "label": NativeWaInput['label'];
+        "hint": NativeWaInput['hint'];
+        "withClear": NativeWaInput['withClear'];
+        "placeholder": NativeWaInput['placeholder'];
+        "readonly": NativeWaInput['readonly'];
+        "passwordToggle": NativeWaInput['passwordToggle'];
+        "passwordVisible": NativeWaInput['passwordVisible'];
+        "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
+        "required": NativeWaInput['required'];
+        "pattern": NativeWaInput['pattern'];
+        "minlength": NativeWaInput['minlength'];
+        "maxlength": NativeWaInput['maxlength'];
+        "min": string;
+        "max": string;
+        "step": string;
+        "autocapitalize": NativeWaInput['autocapitalize'];
+        "autocorrect": NativeWaInput['autocorrect'];
+        "autocomplete": NativeWaInput['autocomplete'];
+        "autofocus": NativeWaInput['autofocus'];
+        "enterkeyhint": NativeWaInput['enterkeyhint'];
+        "spellcheck": NativeWaInput['spellcheck'];
+        "inputmode": NativeWaInput['inputmode'];
+        "withLabel": NativeWaInput['withLabel'];
+        "withHint": NativeWaInput['withHint'];
+        "mask": MaskProp;
+        "disabled": boolean;
+        "inputClass": string;
+    }
+    interface IrAutocompleteOptionAttributes {
+        "value": string;
+        "label": string;
+        "disabled": boolean;
+        "current": boolean;
+        "selected": boolean;
+    }
+    interface IrBalanceCellAttributes {
+        "label": string;
+        "display": 'inline' | 'block';
+        "statusCode": string;
+        "isDirect": boolean;
+        "bookingNumber": string;
+        "currencySymbol": string;
+        "removeBalance": boolean;
+    }
+    interface IrBillingAttributes {
+        "isAllServicesAgentOwned": boolean;
+    }
+    interface IrBillingDrawerAttributes {
+        "open": boolean;
+        "isAllServicesAgentOwned": boolean;
+    }
+    interface IrBookedByCellAttributes {
+        "label": string;
+        "cellId": string;
+        "display": 'inline' | 'block';
+        "identifier": string;
+        "totalPersons": string;
+        "promoKey": string;
+        "showRepeatGuestBadge": boolean;
+        "showPersons": boolean;
+        "showPrivateNoteDot": boolean;
+        "showLoyaltyIcon": boolean;
+        "showPromoIcon": boolean;
+        "showContactIcons": boolean;
+        "clickableGuest": boolean;
+    }
+    interface IrBookedOnCellAttributes {
+        "display": 'inline' | 'block';
+        "label": string;
+    }
+    interface IrBookingAttributes {
+        "propertyid": number;
+        "p": string;
+        "bookingNumber": string;
+    }
+    interface IrBookingCityLedgerAttributes {
+        "language": string;
+        "isLoading": boolean;
+        "error": string | null;
+    }
+    interface IrBookingCompanyFormAttributes {
+        "formId": string;
+    }
+    interface IrBookingDetailsAttributes {
+        "bookingNumber": string;
+        "hasCheckIn": boolean;
+        "hasCheckOut": boolean;
+        "hasCloseButton": boolean;
+        "hasDelete": boolean;
+        "hasMenu": boolean;
+        "hasPrint": boolean;
+        "hasReceipt": boolean;
+        "hasRoomAdd": boolean;
+        "hasRoomDelete": boolean;
+        "hasRoomEdit": boolean;
+        "is_from_front_desk": boolean;
+        "language": string;
+        "p": string;
+        "propertyid": number;
+        "ticket": string;
+    }
+    interface IrBookingDetailsDrawerAttributes {
+        "open": boolean;
+        "propertyId": number;
+        "ticket": string;
+        "language": string;
+        "bookingNumber": string;
+    }
+    interface IrBookingEditorAttributes {
+        "propertyId": string;
+        "language": string;
+        "identifier": string;
+        "mode": BookingEditorMode;
+        "checkIn": string;
+        "checkOut": string;
+        "step": BookingStep;
+        "unitId": string;
+    }
+    interface IrBookingEditorDrawerAttributes {
+        "open": boolean;
+        "ticket": string;
+        "propertyid": string;
+        "language": string;
+        "mode": BookingEditorMode;
+        "label": string;
+        "checkIn": string;
+        "checkOut": string;
+        "unitId": string;
+        "roomIdentifier": string;
+    }
+    interface IrBookingEditorFormAttributes {
+        "mode": BookingEditorMode;
+    }
+    interface IrBookingEditorHeaderAttributes {
+        "isLoading": boolean;
+        "isBlockConversion": boolean;
+        "mode": BookingEditorMode;
+        "checkIn": string;
+        "checkOut": string;
+    }
+    interface IrBookingEmailLogsAttributes {
+        "ticket": string;
+    }
+    interface IrBookingExtraNoteAttributes {
+        "open": boolean;
+    }
+    interface IrBookingHeaderAttributes {
+        "hasReceipt": boolean;
+        "hasPrint": boolean;
+        "hasDelete": boolean;
+        "hasMenu": boolean;
+        "hasCloseButton": boolean;
+        "hasEmail": boolean;
+    }
+    interface IrBookingListingAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "rowCount": number;
+        "p": string;
+        "baseUrl": string;
+        "userType": number;
+    }
+    interface IrBookingListingMobileCardAttributes {
+        "totalPersons": number;
+        "extraServicesLabel": string;
+    }
+    interface IrBookingNewFormAttributes {
+        "ticket": string;
+        "propertyid": string;
+        "language": string;
+    }
+    interface IrBookingNumberCellAttributes {
+        "bookingNumber": Booking['booking_nbr'];
+        "channelBookingNumber": Booking['channel_booking_nbr'];
+    }
+    interface IrBookingPricingDrawerAttributes {
+        "open": boolean;
+        "formId": string;
+        "currencySymbol": string;
+    }
+    interface IrBookingPricingFormAttributes {
+        "formId": string;
+        "currencySymbol": string;
+    }
+    interface IrBookingPrintingAttributes {
+        "token": string;
+        "bookingNumber": string;
+        "language": string;
+        "propertyid": number;
+        "mode": 'invoice' | 'default';
+        "countries": string;
+    }
+    interface IrBookingRoomsAttributes {
+        "hasRoomAdd": boolean;
+        "hasRoomDelete": boolean;
+        "hasRoomEdit": boolean;
+        "language": string;
+        "propertyId": number;
+    }
+    interface IrBookingStatusTagAttributes {
+        "isRequestToCancel": Booking['is_requested_to_cancel'];
+    }
+    interface IrButtonAttributes {
+        "name": string;
+        "text": string;
+        "btn_color": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline' | 'link';
+        "size": 'sm' | 'md' | 'lg';
+        "textSize": 'sm' | 'md' | 'lg';
+        "btn_block": boolean;
+        "btn_disabled": boolean;
+        "btn_type": string;
+        "isLoading": boolean;
+        "btn_styles": string;
+        "btn_id": string;
+        "variant": 'default' | 'icon';
+        "icon_name": TIcons;
+        "visibleBackgroundOnHover": boolean;
+        "iconPosition": 'left' | 'right';
+        "icon_style": string;
+        "renderContentAsHtml": boolean;
+    }
+    interface IrChannelAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "language": string;
+        "baseurl": string;
+        "p": string;
+    }
+    interface IrChannelEditorAttributes {
+        "channel_status": 'create' | 'edit' | null;
+        "ticket": string;
+    }
+    interface IrChannelGeneralAttributes {
+        "channel_status": 'create' | 'edit' | null;
+    }
+    interface IrCheckboxAttributes {
+        "checked": boolean;
+        "label": string;
+        "checkboxId": string;
+        "name": string;
+        "indeterminate": boolean;
+        "disabled": boolean;
+        "labelClass": string;
+    }
+    interface IrCheckoutDialogAttributes {
+        "open": boolean;
+        "identifier": string;
+    }
+    interface IrCityLedgerAttributes {
+        "ticket": string;
+        "p": string;
+        "baseurl": string;
+        "language": string;
+        "propertyid": number;
+        "agentId": number | null;
+    }
+    interface IrCityLedgerFiscalDocumentsAttributes {
+        "agentId": number | null;
+        "currencySymbol": string;
+        "ticket": string;
+        "propertyId": number;
+    }
+    interface IrCityLedgerFiscalDocumentsTableAttributes {
+        "currencySymbol": string;
+        "taxableOnly": boolean;
+        "isLoading": boolean;
+        "hasDates": boolean;
+        "ticket": string;
+        "propertyId": number;
+        "agentId": number | null;
+        "fromDate": string | null;
+        "toDate": string | null;
+        "hasFetched": boolean;
+    }
+    interface IrCityLedgerFolioAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "language": string;
+    }
+    interface IrCityLedgerFolioFiltersAttributes {
+        "isExporting": boolean;
+    }
+    interface IrCityLedgerFolioTableAttributes {
+        "agentId": number | null;
+        "propertyId": number;
+        "ticket": string;
+        "language": string;
+        "isLoading": boolean;
+        "startingBalance": number;
+        "closingBalance": number;
+        "totalCount": number;
+        "pageIndex": number;
+        "pageSize": number;
+        "fromDate": string;
+        "toDate": string;
+        "hasFetched": boolean;
+        "currencySymbol": string;
+        "hideBalanceInfo": boolean;
+    }
+    interface IrCityLedgerStatementsAttributes {
+        "agentId": number | null;
+        "agentName": string;
+        "currencySymbol": string;
+        "ticket": string;
+        "propertyId": number;
+    }
+    interface IrCityLedgerStatementsFilterAttributes {
+        "initialFromDate": string | null;
+        "initialToDate": string | null;
+    }
+    interface IrCityLedgerStatementsTableAttributes {
+        "agentId": number;
+        "startingBalance": number;
+        "endingBalance": number;
+        "currencySymbol": string;
+        "isLoading": boolean;
+        "hasFetched": boolean;
+        "fromDate": string | null;
+        "toDate": string | null;
+    }
+    interface IrCityLedgerToolbarAttributes {
+        "agentId": number | null;
+        "currencySymbol": string;
+    }
+    interface IrCityLedgerTransactionDrawerAttributes {
+        "open": boolean;
+        "formId": string;
+        "drawerLabel": string;
+        "initialTransactionType": TransactionType;
+    }
+    interface IrCityLedgerTransactionFormAttributes {
+        "formId": string;
+        "initialTransactionType": TransactionType;
+        "language": string;
+    }
+    interface IrClAdjustmentFieldsAttributes {
+        "entryType": EntryType | '';
+        "linkType": LinkType;
+        "linkedId": string | undefined;
+    }
+    interface IrClCreditNoteFieldsAttributes {
+        "creditNoteMode": CreditNoteMode;
+        "invoiceId": string | undefined;
+        "isFetchingFiscalDocs": boolean;
+    }
+    interface IrClCreditNotePreviewAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "baseurl": string;
+        "agentId": number;
+        "agentName": string;
+        "documentNumber": string;
+        "externalRef": string;
+    }
+    interface IrClDebitNoteFieldsAttributes {
+        "invoiceId": string | undefined;
+    }
+    interface IrClDebitNotePreviewAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "baseurl": string;
+        "agentId": number;
+        "agentName": string;
+        "documentNumber": string;
+    }
+    interface IrClDocumentHeaderAttributes {
+        "documentType": 'invoice' | 'receipt' | 'creditnote' | 'debitnote' | 'statement';
+        "documentNumber": string;
+        "agentName": string;
+    }
+    interface IrClFiscalDocumentPreviewAttributes {
+        "ticket": string;
+        "propertyId": number;
+    }
+    interface IrClFiscalDocumentTableAttributes {
+        "currencySymbol": string;
+        "invertAmounts": boolean;
+    }
+    interface IrClInvoiceCityTaxAmountCellAttributes {
+        "currencySymbol": string;
+        "amount": number;
+        "cityTaxPercent": number;
+    }
+    interface IrClInvoiceCityTaxPctCellAttributes {
+        "cityTaxPercent": number;
+    }
+    interface IrClInvoiceDateCellAttributes {
+        "date": string;
+    }
+    interface IrClInvoiceDescriptionCellAttributes {
+        "description": string;
+    }
+    interface IrClInvoiceDialogAttributes {
+        "agentId": number | null;
+        "mode": 'booking' | 'default';
+        "bookingNbr": string | null;
+        "startDate": string | null;
+        "endDate": string | null;
+        "currencyId": number | null;
+    }
+    interface IrClInvoiceNetPriceCellAttributes {
+        "currencySymbol": string;
+        "amount": number;
+    }
+    interface IrClInvoicePreviewAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "baseurl": string;
+        "agentId": number;
+        "agentName": string;
+        "documentNumber": string;
+    }
+    interface IrClInvoiceSelectAttributes {
+        "value": string;
+        "label": string;
+        "hint": string;
+    }
+    interface IrClInvoiceTotalCellAttributes {
+        "currencySymbol": string;
+        "amount": number;
+    }
+    interface IrClInvoiceVatAmountCellAttributes {
+        "currencySymbol": string;
+        "amount": number;
+    }
+    interface IrClInvoiceVatPctCellAttributes {
+        "vatPercent": number;
+    }
+    interface IrClOpeningBalanceFieldsAttributes {
+        "entryType": EntryType | '';
+    }
+    interface IrClPaymentFieldsAttributes {
+        "paymentMethodCode": string;
+        "isOnAccount": boolean;
+        "invoiceId": string | undefined;
+        "noInvoices": boolean;
+        "language": string;
+    }
+    interface IrClReceiptPreviewAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "baseurl": string;
+        "agentId": number;
+        "agentName": string;
+        "documentNumber": string;
+    }
+    interface IrClStatementPreviewAttributes {
+        "propertyId": number;
+        "ticket": string;
+        "baseurl": string;
+        "agentId": number;
+        "agentName": string;
+        "fromDate": string;
+        "toDate": string;
+        "currencyId": number;
+    }
+    interface IrClStatusTagAttributes {
+        "size": 'default' | 'extra-small';
+    }
+    interface IrColumnAutocompleteAttributes {
+        "placeholder": string;
+        "selectAllLabel": string;
+        "emptyLabel": string;
+        "showSelectAll": boolean;
+        "triggerId": string;
+    }
+    interface IrComboboxAttributes {
+        "duration": number;
+        "placeholder": string;
+        "value": string;
+        "disabled": boolean;
+        "autoFocus": boolean;
+        "input_id": string;
+    }
+    interface IrCommonAttributes {
+        "extraResources": string;
+        "disableResourceInjection": boolean;
+    }
+    interface IrCopyButtonAttributes {
+        "text": string;
+    }
+    interface IrCountryPickerAttributes {
+        "placeholder": string;
+        "size": NativeWaInput['size'];
+        "variant": 'modern' | 'default';
+        "error": boolean;
+        "label": string;
+        "testId": string;
+        "autoValidate": boolean;
+    }
+    interface IrCustomButtonAttributes {
+        "link": boolean;
+        "iconBtn": boolean;
+        "variant": NativeButton['variant'];
+        "appearance": NativeButton['appearance'];
+        "size": NativeButton['size'];
+        "withCaret": NativeButton['withCaret'];
+        "disabled": NativeButton['disabled'];
+        "loading": NativeButton['loading'];
+        "pill": NativeButton['pill'];
+        "type": NativeButton['type'];
+        "name": NativeButton['name'];
+        "value": NativeButton['value'];
+        "href": NativeButton['href'];
+        "target": NativeButton['target'];
+        "rel": NativeButton['rel'];
+        "download": NativeButton['download'];
+        "form": NativeButton['form'];
+        "formAction": NativeButton['formAction'];
+        "formEnctype": NativeButton['formEnctype'];
+        "formMethod": NativeButton['formMethod'];
+        "formNoValidate": NativeButton['formNoValidate'];
+        "formTarget": NativeButton['formTarget'];
+    }
+    interface IrCustomDateRangeAttributes {
+        "maxSpanDays": number;
+        "showPrice": boolean;
+        "locale": string;
+    }
+    interface IrDailyRevenueAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+    }
+    interface IrDailyRevenueFiltersAttributes {
+        "isLoading": boolean;
+    }
+    interface IrDatePickerAttributes {
+        "inline": boolean;
+        "date": string | Date | null;
+        "multipleDates": string;
+        "range": boolean;
+        "dateFormat": string;
+        "timepicker": boolean;
+        "minDate": string | Date;
+        "maxDate": string | Date;
+        "disabled": boolean;
+        "autoClose": boolean;
+        "showOtherMonths": boolean;
+        "selectOtherMonths": boolean;
+        "customPicker": boolean;
+        "forceDestroyOnUpdate": boolean;
+        "emitEmptyDate": boolean;
+        "triggerContainerStyle": string;
+    }
+    interface IrDateRangeAttributes {
+        "size": 'small' | 'medium' | 'large';
+        "disabled": boolean;
+        "minDate": string;
+        "dateLabel": string;
+        "maxDate": string;
+        "withDateDifference": boolean;
+        "variant": 'booking' | 'default';
+        "hint": string;
+    }
+    interface IrDateRangeFilterAttributes {
+        "fromDate": string;
+        "toDate": string;
+        "size": string;
+        "showQuickActions": boolean;
+        "minDate": string;
+        "maxDate": string;
+        "selectionMode": 'auto' | 'manual';
+        "withClear": boolean;
+        "label": string;
+    }
+    interface IrDateSelectAttributes {
+        "withClear": boolean;
+        "placeholder": string;
+        "label": string;
+        "inline": boolean;
+        "date": string | Moment | null;
+        "multipleDates": string;
+        "range": boolean;
+        "dateFormat": string;
+        "timepicker": boolean;
+        "minDate": string | Moment;
+        "maxDate": string | Moment;
+        "disabled": boolean;
+        "autoClose": boolean;
+        "showOtherMonths": boolean;
+        "selectOtherMonths": boolean;
+        "customPicker": boolean;
+        "forceDestroyOnUpdate": boolean;
+        "emitEmptyDate": boolean;
+        "triggerContainerStyle": string;
+    }
+    interface IrDateViewAttributes {
+        "from_date": string | Date | moment.Moment;
+        "to_date": string | Date | moment.Moment;
+        "showDateDifference": boolean;
+        "dateOption": string;
+        "format": string;
+    }
+    interface IrDatesCellAttributes {
+        "display": 'block' | 'inline';
+        "checkIn": string;
+        "checkOut": string;
+        "checkInLabel": string;
+        "checkoutLabel": string;
+        "overdueCheckin": boolean;
+        "overdueCheckout": boolean;
+    }
+    interface IrDeparturesAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "language": string;
+        "p": string;
+    }
+    interface IrDialogAttributes {
+        "label": string;
+        "open": boolean;
+        "withoutHeader": boolean;
+        "lightDismiss": boolean;
+    }
+    interface IrDrawerAttributes {
+        "open": NativeDrawer['open'];
+        "label": NativeDrawer['label'];
+        "placement": NativeDrawer['placement'];
+        "withoutHeader": NativeDrawer['withoutHeader'];
+        "lightDismiss": NativeDrawer['lightDismiss'];
+    }
+    interface IrDropdownAttributes {
+        "value": string;
+        "disabled": boolean;
+        "caret": boolean;
+    }
+    interface IrDropdownItemAttributes {
+        "value": string;
+        "label": string;
+        "html_content": string;
+        "hidden": boolean;
+    }
+    interface IrEmptyStateAttributes {
+        "message": string;
+        "showIcon": boolean;
+    }
+    interface IrEventsLogAttributes {
+        "bookingNumber": string;
+    }
+    interface IrExtraServiceAttributes {
+        "bookingNumber": string;
+        "currencySymbol": string;
+        "language": string;
+    }
+    interface IrExtraServiceConfigAttributes {
+        "language": string;
+        "open": boolean;
+    }
+    interface IrExtraServiceConfigFormAttributes {
+        "language": string;
+    }
+    interface IrExtraServicesAttributes {
+        "language": string;
+    }
+    interface IrFdConfirmDialogAttributes {
+        "open": boolean;
+        "action": FdConfirmAction | null;
+        "docNumber": string;
+        "isConfirming": boolean;
+        "amount": number;
+        "fdType": string;
+    }
+    interface IrFiltersPanelAttributes {
+        "filterTitle": string;
+        "collapseId": string;
+        "showCollapseButton": boolean;
+        "defaultCollapsed": boolean;
+        "collapsed": boolean;
+        "persistentOnDesktop": boolean;
+        "panelClass": string;
+        "cardClass": string;
+        "headerClass": string;
+        "contentClass": string;
+        "contentGap": string;
+        "actionsAlign": 'start' | 'center' | 'end' | 'space-between' | 'space-around';
+        "hideDefaultActions": boolean;
+        "collapseIconOpen": TIcons;
+        "collapseIconClosed": TIcons;
+        "applyLabel": string;
+        "resetLabel": string;
+        "disableApply": boolean;
+        "disableReset": boolean;
+        "isApplyLoading": boolean;
+        "actionTestId": string;
+    }
+    interface IrFinancialActionsAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+    }
+    interface IrFinancialFiltersAttributes {
+        "isLoading": boolean;
+    }
+    interface IrFiscalDocumentsAttributes {
+        "ticket": string;
+        "baseurl": string;
+        "language": string;
+        "propertyid": number;
+    }
+    interface IrFiscalDocumentsFiltersAttributes {
+        "propertyId": number;
+    }
+    interface IrFiscalDocumentsTableAttributes {
+        "currencySymbol": string;
+        "taxableOnly": boolean;
+        "isLoading": boolean;
+        "hasDates": boolean;
+        "ticket": string;
+        "propertyId": number;
+        "fromDate": string | null;
+        "toDate": string | null;
+        "hasFetched": boolean;
+        "folioType": FiscalFolioType;
+        "agentId": number | null;
+        "guestId": number | null;
+    }
+    interface IrGhsCandidateTableAttributes {
+        "selectedCountryId": number | null;
+        "isLoading": boolean;
+        "baseUrl": string;
+    }
+    interface IrGhsFiltersAttributes {
+        "selectedCountryId": number | null;
+        "isLoading": boolean;
+    }
+    interface IrGhsOnboardingAttributes {
+        "ticket": string;
+        "baseurl": string;
+    }
+    interface IrGhsSelectionBucketAttributes {
+        "isGenerating": boolean;
+    }
+    interface IrGuestInfoAttributes {
+        "language": string;
+        "headerShown": boolean;
+        "email": string;
+        "booking_nbr": string;
+        "ticket": string;
+        "isInSideBar": boolean;
+    }
+    interface IrGuestInfoDrawerAttributes {
+        "open": boolean;
+        "language": string;
+        "email": string;
+        "booking_nbr": string;
+        "ticket": string;
+    }
+    interface IrGuestInfoFormAttributes {
+        "fromId": string;
+        "language": string;
+        "email": string;
+        "booking_nbr": string;
+        "ticket": string;
+    }
+    interface IrHkArchiveAttributes {
+        "propertyId": string;
+        "language": string;
+        "ticket": string;
+    }
+    interface IrHkStaffTaskAttributes {
+        "future": boolean;
+    }
+    interface IrHkStaffTasksAttributes {
+        "ticket": string;
+        "baseurl": string;
+        "language": string;
+    }
+    interface IrHkStaffTasksHeaderAttributes {
+        "language": string;
+    }
+    interface IrHkTasksAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+        "baseUrl": string;
+    }
+    interface IrHkUnassignedUnitsDrawerAttributes {
+        "open": boolean;
+    }
+    interface IrHkUnassignedUnitsDrawerFormAttributes {
+        "formId": string;
+    }
+    interface IrHkUserAttributes {
+        "isEdit": boolean;
+    }
+    interface IrHkUserDrawerAttributes {
+        "open": boolean;
+        "isEdit": boolean;
+    }
+    interface IrHkUserDrawerFormAttributes {
+        "isEdit": boolean;
+        "formId": string;
+    }
+    interface IrHoldTransactionDialogAttributes {
+        "currencySymbol": string;
+    }
+    interface IrHousekeepingAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+        "baseUrl": string;
+    }
+    interface IrIconAttributes {
+        "icon": string;
+        "type": 'button' | 'submit' | 'reset';
+    }
+    interface IrIconsAttributes {
+        "name": TIcons;
+        "svgClassName": string;
+        "color": string;
+    }
+    interface IrInputAttributes {
+        "name": string;
+        "value": string;
+        "type": NativeWaInput['type'];
+        "defaultValue": NativeWaInput['defaultValue'];
+        "size": NativeWaInput['size'];
+        "appearance": NativeWaInput['appearance'];
+        "pill": NativeWaInput['pill'];
+        "returnMaskedValue": boolean;
+        "label": NativeWaInput['label'];
+        "hint": NativeWaInput['hint'];
+        "withClear": NativeWaInput['withClear'];
+        "placeholder": NativeWaInput['placeholder'];
+        "readonly": NativeWaInput['readonly'];
+        "passwordToggle": NativeWaInput['passwordToggle'];
+        "passwordVisible": NativeWaInput['passwordVisible'];
+        "withoutSpinButtons": NativeWaInput['withoutSpinButtons'];
+        "required": NativeWaInput['required'];
+        "pattern": NativeWaInput['pattern'];
+        "minlength": NativeWaInput['minlength'];
+        "maxlength": NativeWaInput['maxlength'];
+        "min": string;
+        "max": string;
+        "step": string;
+        "autocapitalize": NativeWaInput['autocapitalize'];
+        "autocorrect": NativeWaInput['autocorrect'];
+        "autocomplete": NativeWaInput['autocomplete'];
+        "autofocus": NativeWaInput['autofocus'];
+        "enterkeyhint": NativeWaInput['enterkeyhint'];
+        "spellcheck": NativeWaInput['spellcheck'];
+        "inputmode": NativeWaInput['inputmode'];
+        "withLabel": NativeWaInput['withLabel'];
+        "withHint": NativeWaInput['withHint'];
+        "mask": MaskProp;
+        "disabled": boolean;
+        "inputClass": string;
+    }
+    interface IrInputCellAttributes {
+        "value": string;
+        "disabled": boolean;
+        "mask": MaskProp;
+    }
+    interface IrInputTextAttributes {
+        "name": string;
+        "value": string;
+        "label": string;
+        "placeholder": string;
+        "inputStyles": string;
+        "required": boolean;
+        "readonly": boolean;
+        "type": | 'text'
+    | 'password'
+    | 'email'
+    | 'number'
+    | 'tel'
+    | 'url'
+    | 'search'
+    | 'date'
+    | 'datetime-local'
+    | 'month'
+    | 'week'
+    | 'time'
+    | 'color'
+    | 'file'
+    | 'hidden'
+    | 'checkbox'
+    | 'radio'
+    | 'range'
+    | 'button'
+    | 'reset'
+    | 'submit'
+    | 'image';
+        "submitted": boolean;
+        "inputStyle": boolean;
+        "textSize": 'sm' | 'md' | 'lg';
+        "labelPosition": 'left' | 'right' | 'center' | 'top';
+        "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
+        "labelColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        "labelBorder": 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
+        "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+        "variant": 'default' | 'icon' | 'floating-label';
+        "disabled": boolean;
+        "error": boolean;
+        "mask": FactoryArg;
+        "autoValidate": boolean;
+        "asyncParse": boolean;
+        "wrapKey": string;
+        "testId": string;
+        "maxLength": number;
+        "clearBaseStyles": boolean;
+        "errorMessage": string;
+        "autoComplete": string;
+        "labelContainerClassname": string;
+    }
+    interface IrInteractiveTitleAttributes {
+        "popoverTitle": string;
+        "irPopoverLeft": string;
+        "hkStatus": boolean;
+        "cropSize": number;
+    }
+    interface IrInvoiceAttributes {
+        "open": boolean;
+        "for": 'room' | 'booking';
+        "roomIdentifier": string;
+        "autoPrint": boolean;
+    }
+    interface IrInvoiceFormAttributes {
+        "viewMode": ViewMode;
+        "formId": string;
+        "open": boolean;
+        "for": 'room' | 'booking';
+        "roomIdentifier": string;
+        "autoPrint": boolean;
+    }
+    interface IrLabelAttributes {
+        "labelText": string;
+        "content": string;
+        "display": 'inline' | 'flex';
+        "renderContentAsHtml": boolean;
+        "isCountryImage": boolean;
+        "imageStyle": string;
+        "ignoreEmptyContent": boolean;
+        "placeholder": string;
+    }
+    interface IrListingHeaderAttributes {
+        "propertyId": number;
+        "language": string;
+        "p": string;
+    }
+    interface IrListingModalAttributes {
+        "modalTitle": string;
+    }
+    interface IrLoadingScreenAttributes {
+        "message": string;
+    }
+    interface IrMComboboxAttributes {
+        "placeholder": string;
+        "defaultOption": ComboboxOption['value'];
+        "dataMode": DataMode;
+        "debounceDelay": number;
+        "loading": boolean;
+        "useSlot": boolean;
+    }
+    interface IrMComboboxItemAttributes {
+        "value": string;
+        "label": string;
+        "html_content": string;
+        "hidden": boolean;
+    }
+    interface IrMealReportAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "baseurl": string;
+        "language": string;
+    }
+    interface IrMealReportFiltersAttributes {
+        "reportType": 'GUEST_LIST' | 'MEAL_COUNT';
+        "fromDate": string;
+        "toDate": string;
+        "mealType": string | null;
+        "isLoading": boolean;
+        "lcz": string;
+    }
+    interface IrMenuAttributes {
+        "selectedHref": string;
+    }
+    interface IrMenuDrawerAttributes {
+        "open": boolean;
+    }
+    interface IrMenuGroupAttributes {
+        "open": boolean;
+        "groupName": string;
+    }
+    interface IrMenuItemAttributes {
+        "href": string;
+        "selected": boolean;
+        "badge": string;
+    }
+    interface IrMetricCardAttributes {
+        "label": string;
+        "value": string;
+        "unit": string;
+        "icon": string;
+        "intent": MetricIntent;
+        "trend": number;
+        "trendLabel": string;
+        "invertTrend": boolean;
+        "caption": string;
+        "loading": boolean;
+        "size": MetricSize;
+        "clickable": boolean;
+    }
+    interface IrMobileInputAttributes {
+        "size": NativeWaInput['size'];
+        "label": string;
+        "name": string;
+        "placeholder": string;
+        "description": string;
+        "error": string;
+        "required": boolean;
+        "disabled": boolean;
+        "countryCode": string;
+        "value": string;
+    }
+    interface IrModalAttributes {
+        "modalTitle": string;
+        "modalBody": string;
+        "showTitle": boolean;
+        "rightBtnActive": boolean;
+        "leftBtnActive": boolean;
+        "middleBtnActive": boolean;
+        "rightBtnText": string;
+        "leftBtnText": string;
+        "middleBtnText": string;
+        "isLoading": boolean;
+        "isMiddleButtonLoading": boolean;
+        "autoClose": boolean;
+        "rightBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        "leftBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        "middleBtnColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        "btnPosition": 'left' | 'right' | 'center';
+        "iconAvailable": boolean;
+        "icon": string;
+        "item": string;
+    }
+    interface IrMonthlyBookingsReportAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+    }
+    interface IrMonthlyBookingsReportFilterAttributes {
+        "isLoading": boolean;
+    }
+    interface IrNotificationsAttributes {
+        "ticket": string;
+        "propertyid": number;
+    }
+    interface IrOptionDetailsAttributes {
+        "propertyId": string;
+    }
+    interface IrOtpAttributes {
+        "length": number;
+        "defaultValue": string;
+        "disabled": boolean;
+        "placeholder": string;
+        "type": 'text' | 'password' | 'number' | 'tel';
+        "autoFocus": boolean;
+        "secure": boolean;
+        "numbersOnly": boolean;
+    }
+    interface IrOtpModalAttributes {
+        "language": string;
+        "resendTimer": number;
+        "requestUrl": string;
+        "baseOTPUrl": string;
+        "showResend": boolean;
+        "email": string;
+        "otpLength": number;
+        "ticket": string;
+    }
+    interface IrPageAttributes {
+        "label": string;
+        "description": string;
+    }
+    interface IrPaginationAttributes {
+        "pages": number;
+        "allowPageSizeChange": boolean;
+        "total": number;
+        "currentPage": number;
+        "showTotalRecords": boolean;
+        "recordLabel": string;
+        "disabled": boolean;
+        "pageSize": number;
+    }
+    interface IrPasswordValidatorAttributes {
+        "password": string;
+    }
+    interface IrPaymentDetailsAttributes {
+        "propertyId": number;
+        "language": string;
+        "isAllServicesAgentOwned": boolean;
+        "clLoading": boolean;
+        "clError": string | null;
+    }
+    interface IrPaymentFolioAttributes {
+        "bookingNumber": string;
+        "mode": FolioEntryMode;
+    }
+    interface IrPaymentFolioFormAttributes {
+        "bookingNumber": string;
+        "formId": string;
+        "mode": FolioEntryMode;
+    }
+    interface IrPaymentOptionAttributes {
+        "propertyid": string;
+        "ticket": string;
+        "p": string;
+        "language": string;
+        "defaultStyles": boolean;
+        "hideLogs": boolean;
+    }
+    interface IrPaymentSummaryAttributes {
+        "totalCost": number;
+        "balance": number;
+        "collected": number;
+        "isBookingCancelled": boolean;
+        "isAllServicesAgentOwned": boolean;
+    }
+    interface IrPaymentsFolioAttributes {
+        "isAddPaymentDisabled": boolean;
+    }
+    interface IrPdfViewerAttributes {
+        "src": string;
+        "workerSrc": string;
+    }
+    interface IrPhoneInputAttributes {
+        "mode": 'modern' | 'default';
+        "label": string;
+        "value": string;
+        "disabled": boolean;
+        "error": boolean;
+        "token": string;
+        "language": string;
+        "default_country": number;
+        "phone_prefix": string | null;
+        "placeholder": string;
+        "testId": string;
+        "floatingLabel": boolean;
+    }
+    interface IrPickerAttributes {
+        "value": string;
+        "loading": boolean;
+        "mode": 'select' | 'default' | 'select-async';
+        "pill": boolean;
+        "placeholder": string;
+        "label": string;
+        "defaultValue": NativeWaInput['defaultValue'];
+        "withClear": boolean;
+        "size": NativeWaInput['size'];
+        "appearance": NativeWaInput['appearance'];
+        "debounce": number;
+    }
+    interface IrPickerItemAttributes {
+        "value": string;
+        "label": string;
+        "disabled": boolean;
+        "active": boolean;
+        "selected": boolean;
+    }
+    interface IrPickupAttributes {
+        "numberOfPersons": number;
+        "bookingNumber": string;
+        "open": boolean;
+    }
+    interface IrPickupFormAttributes {
+        "formId": string;
+        "numberOfPersons": number;
+        "bookingNumber": string;
+    }
+    interface IrPmsLogsAttributes {
+        "bookingNumber": string;
+    }
+    interface IrPmsPageAttributes {
+        "propertyid": string;
+        "ticket": string;
+    }
+    interface IrPmsPaymentDueAlertAttributes {
+        "propertyid": number;
+        "ticket": string;
+        "baseUrl": string;
+    }
+    interface IrPmsSearchAttributes {
+        "propertyid": string;
+        "ticket": string;
+    }
+    interface IrPopoverAttributes {
+        "content": string;
+        "irPopoverLeft": string;
+        "placement": 'top' | 'bottom' | 'left' | 'right' | 'auto';
+        "trigger": 'focus' | 'click' | 'hover';
+        "renderContentAsHtml": boolean;
+    }
+    interface IrPreviewScreenDialogAttributes {
+        "label": string;
+        "open": boolean;
+        "action": PreviewAction;
+        "downloadUrl": string;
+        "downloadFileName": string;
+        "hideDefaultAction": boolean;
+        "actionButtonLabel": string;
+    }
+    interface IrPriceInputAttributes {
+        "label": string;
+        "readOnly": boolean;
+        "inputStyle": string;
+        "labelStyle": string;
+        "disabled": boolean;
+        "currency": string;
+        "autoValidate": boolean;
+        "wrapKey": string;
+        "placeholder": string;
+        "value": string;
+        "required": boolean;
+        "minValue": number;
+        "maxValue": number;
+        "testId": string;
+        "error": boolean;
+        "containerClassname": string;
+        "labelContainerClassname": string;
+    }
+    interface IrPrintRoomAttributes {
+        "currency": string;
+        "idx": number;
+    }
+    interface IrPrintingLabelAttributes {
+        "label": string;
+        "asHtml": boolean;
+        "display": 'inline' | 'flex';
+        "content": string;
+    }
+    interface IrProformaInvoicePreviewAttributes {
+        "locale": string;
+        "footerNote": string;
+    }
+    interface IrProgressIndicatorAttributes {
+        "percentage": string;
+        "color": 'primary' | 'secondary';
+    }
+    interface IrPropertySwitcherAttributes {
+        "mode": 'dropdown' | 'dialog';
+        "ticket": string;
+        "baseUrl": string;
+        "propertyId": number;
+        "selectedLinkedPropertyId": number;
+    }
+    interface IrPropertySwitcherDialogContentAttributes {
+        "open": boolean;
+        "selectedPropertyId": number;
+    }
+    interface IrQueueChartAttributes {
+        "label": string;
+    }
+    interface IrQueueManagerAttributes {
+        "ticket": string;
+    }
+    interface IrRadioAttributes {
+        "checked": boolean;
+        "label": string;
+        "radioBoxId": string;
+        "name": string;
+        "indeterminate": boolean;
+        "disabled": boolean;
+        "labelClass": string;
+    }
+    interface IrRangePickerAttributes {
+        "minDate": string | Date;
+        "maxDate": string | Date;
+        "withOverlay": boolean;
+        "allowNullDates": boolean;
+    }
+    interface IrReallocationDrawerAttributes {
+        "open": boolean;
+        "roomIdentifier": string;
+        "pool": string;
+    }
+    interface IrReallocationFormAttributes {
+        "identifier": string;
+        "pool": string;
+        "formId": string;
+    }
+    interface IrRectifierAttributes {
+        "formId": string;
+    }
+    interface IrResetPasswordAttributes {
+        "username": string;
+        "old_pwd": string;
+        "ticket": string;
+        "skip2Fa": boolean;
+        "language": string;
+    }
+    interface IrRevenueRowAttributes {
+        "groupName": string;
+    }
+    interface IrRoomAttributes {
+        "bookingIndex": number;
+        "isEditable": boolean;
+        "property_id": number;
+        "includeDepartureTime": boolean;
+        "mealCodeName": string;
+        "myRoomTypeFoodCat": string;
+        "currency": string;
+        "language": string;
+        "legendData": string;
+        "roomsInfo": string;
+        "hasRoomEdit": boolean;
+        "hasRoomDelete": boolean;
+        "hasRoomAdd": boolean;
+        "hasCheckIn": boolean;
+        "hasCheckOut": boolean;
+    }
+    interface IrRoomGuestsAttributes {
+        "open": boolean;
+        "roomName": string;
+        "identifier": string;
+        "totalGuests": number;
+        "checkIn": boolean;
+        "language": string;
+        "bookingNumber": string;
+    }
+    interface IrRoomGuestsFormAttributes {
+        "roomName": string;
+        "identifier": string;
+        "totalGuests": number;
+        "checkIn": boolean;
+        "language": string;
+        "bookingNumber": string;
+    }
+    interface IrRoomNightsAttributes {
+        "bookingNumber": string;
+        "propertyId": number;
+        "language": string;
+        "identifier": string;
+        "toDate": string;
+        "fromDate": string;
+        "pool": string;
+        "ticket": string;
+    }
+    interface IrSalesByChannelAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": string;
+        "p": string;
+        "mode": SalesByChannelMode;
+    }
+    interface IrSalesByChannelFiltersAttributes {
+        "isLoading": boolean;
+    }
+    interface IrSalesByChannelTableAttributes {
+        "mode": SalesByChannelMode;
+    }
+    interface IrSalesByCountryAttributes {
+        "language": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+    }
+    interface IrSalesFiltersAttributes {
+        "isLoading": boolean;
+    }
+    interface IrSecureTasksAttributes {
+        "propertyid": number;
+        "p": string;
+        "bookingNumber": string;
+        "ticket": string;
+    }
+    interface IrSelectAttributes {
+        "name": string;
+        "label": string;
+        "selectStyles": string;
+        "selectContainerStyle": string;
+        "selectedValue": string;
+        "required": boolean;
+        "firstOption": string;
+        "showFirstOption": boolean;
+        "size": 'sm' | 'md' | 'lg';
+        "textSize": 'sm' | 'md' | 'lg';
+        "labelPosition": 'left' | 'right' | 'center';
+        "labelBackground": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | null;
+        "labelColor": 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+        "labelBorder": 'theme' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'none';
+        "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+        "selectId": string;
+        "testId": string;
+        "disabled": boolean;
+        "error": boolean;
+        "floatingLabel": boolean;
+    }
+    interface IrServiceAssigneeSelectAttributes {
+        "assigneeType": 'agent' | 'guest';
+        "label": string;
+    }
+    interface IrSidebarAttributes {
+        "name": string;
+        "side": 'right' | 'left';
+        "showCloseButton": boolean;
+        "open": boolean;
+        "label": string;
+        "preventClose": boolean;
+    }
+    interface IrSpanAttributes {
+        "text": string;
+    }
+    interface IrSpinnerAttributes {
+        "size": number;
+        "borderWidth": number;
+        "unit": 'px' | 'rem';
+        "color": string;
+    }
+    interface IrStatsCardAttributes {
+        "icon": TIcons;
+        "cardTitle": string;
+        "subtitle": string;
+        "value": string;
+    }
+    interface IrStatusActivityCellAttributes {
+        "isRequestToCancel": boolean;
+        "showModifiedBadge": boolean;
+        "showManipulationBadge": boolean;
+        "bookingNumber": string;
+    }
+    interface IrSuccessLoaderAttributes {
+        "spinnerDuration": number;
+        "successDuration": number;
+        "autoStart": boolean;
+        "active": boolean;
+    }
+    interface IrSwitchAttributes {
+        "checked": boolean;
+        "switchId": string;
+        "disabled": boolean;
+    }
+    interface IrTabsAttributes {
+        "initialTab": string;
+        "disabled": boolean;
+        "ariaLabel": string;
+    }
+    interface IrTasksCardAttributes {
+        "isCheckable": boolean;
+        "isSkippable": boolean;
+    }
+    interface IrTasksFiltersAttributes {
+        "isLoading": boolean;
+    }
+    interface IrTaxInputAttributes {
+        "label": string;
+        "placeholder": string;
+        "inputDisabled": boolean;
+        "language": string;
+        "autoValidate": boolean;
+    }
+    interface IrTaxServiceCategoriesAttributes {
+        "ticket": string;
+        "p": string;
+        "language": string;
+        "propertyid": number;
+    }
+    interface IrTextEditorAttributes {
+        "error": boolean;
+        "maxLength": number;
+        "value": string;
+        "readOnly": boolean;
+        "userCanEdit": boolean;
+        "placeholder": string;
+    }
+    interface IrTextareaAttributes {
+        "rows": number;
+        "cols": number;
+        "text": string;
+        "label": string;
+        "placeholder": string;
+        "value": string;
+        "maxLength": number;
+        "textareaClassname": string;
+        "variant": 'default' | 'prepend';
+        "labelWidth": 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+        "testId": string;
+    }
+    interface IrTitleAttributes {
+        "label": string;
+        "borderShown": boolean;
+        "displayContext": 'default' | 'sidebar';
+        "justifyContent": | 'center'
+    | 'start'
+    | 'end'
+    | 'flex-start'
+    | 'flex-end'
+    | 'left'
+    | 'right'
+    | 'normal'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'stretch'
+    | 'safe center'
+    | 'unsafe center';
+    }
+    interface IrToastAttributes {
+        "position": TPositions;
+    }
+    interface IrToastAlertAttributes {
+        "toastId": string;
+        "label": string;
+        "description": string;
+        "variant": ToastVariant;
+        "dismissible": boolean;
+        "actionLabel": string;
+        "leaving": boolean;
+        "position": TPositions;
+    }
+    interface IrToastItemAttributes {
+        "variant": ToastVariants;
+        "duration": number;
+        "dismissible": boolean;
+    }
+    interface IrToastProviderAttributes {
+        "position": 'top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+        "rtl": boolean;
+        "duration": number;
+    }
+    interface IrTooltipAttributes {
+        "message": string;
+        "withHtml": boolean;
+        "customSlot": boolean;
+        "containerClass": string;
+        "alignment": 'start' | 'end' | 'center';
+    }
+    interface IrUnbookableRoomsAttributes {
+        "ticket": string;
+        "propertyid": number;
+        "mode": UnbookableRoomsMode;
+        "period_to_check": number;
+        "consecutive_period": number;
+    }
+    interface IrUnbookableRoomsDataAttributes {
+        "mode": UnbookableRoomsMode;
+        "isLoading": boolean;
+        "errorMessage": string;
+    }
+    interface IrUnbookableRoomsFiltersAttributes {
+        "mode": UnbookableRoomsMode;
+        "isLoading": boolean;
+    }
+    interface IrUnitCellAttributes {
+        "showDeparture": boolean;
+    }
+    interface IrUnitTagAttributes {
+        "unit": string;
+    }
+    interface IrUserFormPanelAttributes {
+        "formId": string;
+        "isEdit": boolean;
+        "language": string;
+        "property_id": number;
+        "haveAdminPrivileges": boolean;
+        "superAdminId": string;
+        "userTypeCode": string;
+        "baseUserTypeCode": string;
+    }
+    interface IrUserFormPanelDrawerAttributes {
+        "open": boolean;
+        "isEdit": boolean;
+        "language": string;
+        "property_id": number;
+        "haveAdminPrivileges": boolean;
+        "superAdminId": string;
+        "userTypeCode": string;
+        "baseUserTypeCode": string;
+    }
+    interface IrUserManagementAttributes {
+        "language": string;
+        "baseUrl": string;
+        "ticket": string;
+        "propertyid": number;
+        "p": string;
+        "isSuperAdmin": boolean;
+        "userTypeCode": string;
+        "baseUserTypeCode": string;
+        "userId": string;
+    }
+    interface IrUserManagementTableAttributes {
+        "isSuperAdmin": boolean;
+        "userTypeCode": string;
+        "haveAdminPrivileges": boolean;
+        "superAdminId": string;
+        "baseUserTypeCode": string;
+        "property_id": number;
+    }
+    interface IrValidatorAttributes {
+        "value": string;
+        "asyncValidation": boolean;
+        "showErrorMessage": boolean;
+        "autovalidate": boolean;
+        "form": string;
+        "valueEvent": string;
+        "blurEvent": string;
+        "validationDebounce": number;
+    }
+    interface OtaLabelAttributes {
+        "label": string;
+        "maxVisibleItems": number;
+    }
+    interface RequirementCheckAttributes {
+        "isValid": boolean;
+        "text": string;
+    }
+
     interface IntrinsicElements {
-        "ac-pages-menu": AcPagesMenu;
-        "igl-application-info": IglApplicationInfo;
-        "igl-block-dates-view": IglBlockDatesView;
-        "igl-blocked-date-drawer": IglBlockedDateDrawer;
-        "igl-book-property": IglBookProperty;
-        "igl-book-property-container": IglBookPropertyContainer;
-        "igl-book-property-footer": IglBookPropertyFooter;
-        "igl-book-property-header": IglBookPropertyHeader;
-        "igl-booking-event": IglBookingEvent;
-        "igl-booking-event-hover": IglBookingEventHover;
-        "igl-booking-form": IglBookingForm;
-        "igl-booking-overview-page": IglBookingOverviewPage;
-        "igl-bulk-block": IglBulkBlock;
-        "igl-bulk-operations": IglBulkOperations;
-        "igl-bulk-operations-drawer": IglBulkOperationsDrawer;
-        "igl-bulk-stop-sale": IglBulkStopSale;
-        "igl-cal-body": IglCalBody;
-        "igl-cal-footer": IglCalFooter;
-        "igl-cal-header": IglCalHeader;
-        "igl-hk-issues-dialog": IglHkIssuesDialog;
-        "igl-housekeeping-dialog": IglHousekeepingDialog;
+        "ac-pages-menu": Omit<AcPagesMenu, keyof AcPagesMenuAttributes> & { [K in keyof AcPagesMenu & keyof AcPagesMenuAttributes]?: AcPagesMenu[K] } & { [K in keyof AcPagesMenu & keyof AcPagesMenuAttributes as `attr:${K}`]?: AcPagesMenuAttributes[K] } & { [K in keyof AcPagesMenu & keyof AcPagesMenuAttributes as `prop:${K}`]?: AcPagesMenu[K] };
+        "igl-application-info": Omit<IglApplicationInfo, keyof IglApplicationInfoAttributes> & { [K in keyof IglApplicationInfo & keyof IglApplicationInfoAttributes]?: IglApplicationInfo[K] } & { [K in keyof IglApplicationInfo & keyof IglApplicationInfoAttributes as `attr:${K}`]?: IglApplicationInfoAttributes[K] } & { [K in keyof IglApplicationInfo & keyof IglApplicationInfoAttributes as `prop:${K}`]?: IglApplicationInfo[K] };
+        "igl-block-dates-view": Omit<IglBlockDatesView, keyof IglBlockDatesViewAttributes> & { [K in keyof IglBlockDatesView & keyof IglBlockDatesViewAttributes]?: IglBlockDatesView[K] } & { [K in keyof IglBlockDatesView & keyof IglBlockDatesViewAttributes as `attr:${K}`]?: IglBlockDatesViewAttributes[K] } & { [K in keyof IglBlockDatesView & keyof IglBlockDatesViewAttributes as `prop:${K}`]?: IglBlockDatesView[K] };
+        "igl-blocked-date-drawer": Omit<IglBlockedDateDrawer, keyof IglBlockedDateDrawerAttributes> & { [K in keyof IglBlockedDateDrawer & keyof IglBlockedDateDrawerAttributes]?: IglBlockedDateDrawer[K] } & { [K in keyof IglBlockedDateDrawer & keyof IglBlockedDateDrawerAttributes as `attr:${K}`]?: IglBlockedDateDrawerAttributes[K] } & { [K in keyof IglBlockedDateDrawer & keyof IglBlockedDateDrawerAttributes as `prop:${K}`]?: IglBlockedDateDrawer[K] };
+        "igl-book-property": Omit<IglBookProperty, keyof IglBookPropertyAttributes> & { [K in keyof IglBookProperty & keyof IglBookPropertyAttributes]?: IglBookProperty[K] } & { [K in keyof IglBookProperty & keyof IglBookPropertyAttributes as `attr:${K}`]?: IglBookPropertyAttributes[K] } & { [K in keyof IglBookProperty & keyof IglBookPropertyAttributes as `prop:${K}`]?: IglBookProperty[K] };
+        "igl-book-property-container": Omit<IglBookPropertyContainer, keyof IglBookPropertyContainerAttributes> & { [K in keyof IglBookPropertyContainer & keyof IglBookPropertyContainerAttributes]?: IglBookPropertyContainer[K] } & { [K in keyof IglBookPropertyContainer & keyof IglBookPropertyContainerAttributes as `attr:${K}`]?: IglBookPropertyContainerAttributes[K] } & { [K in keyof IglBookPropertyContainer & keyof IglBookPropertyContainerAttributes as `prop:${K}`]?: IglBookPropertyContainer[K] };
+        "igl-book-property-footer": Omit<IglBookPropertyFooter, keyof IglBookPropertyFooterAttributes> & { [K in keyof IglBookPropertyFooter & keyof IglBookPropertyFooterAttributes]?: IglBookPropertyFooter[K] } & { [K in keyof IglBookPropertyFooter & keyof IglBookPropertyFooterAttributes as `attr:${K}`]?: IglBookPropertyFooterAttributes[K] } & { [K in keyof IglBookPropertyFooter & keyof IglBookPropertyFooterAttributes as `prop:${K}`]?: IglBookPropertyFooter[K] };
+        "igl-book-property-header": Omit<IglBookPropertyHeader, keyof IglBookPropertyHeaderAttributes> & { [K in keyof IglBookPropertyHeader & keyof IglBookPropertyHeaderAttributes]?: IglBookPropertyHeader[K] } & { [K in keyof IglBookPropertyHeader & keyof IglBookPropertyHeaderAttributes as `attr:${K}`]?: IglBookPropertyHeaderAttributes[K] } & { [K in keyof IglBookPropertyHeader & keyof IglBookPropertyHeaderAttributes as `prop:${K}`]?: IglBookPropertyHeader[K] };
+        "igl-booking-event": Omit<IglBookingEvent, keyof IglBookingEventAttributes> & { [K in keyof IglBookingEvent & keyof IglBookingEventAttributes]?: IglBookingEvent[K] } & { [K in keyof IglBookingEvent & keyof IglBookingEventAttributes as `attr:${K}`]?: IglBookingEventAttributes[K] } & { [K in keyof IglBookingEvent & keyof IglBookingEventAttributes as `prop:${K}`]?: IglBookingEvent[K] };
+        "igl-booking-event-hover": Omit<IglBookingEventHover, keyof IglBookingEventHoverAttributes> & { [K in keyof IglBookingEventHover & keyof IglBookingEventHoverAttributes]?: IglBookingEventHover[K] } & { [K in keyof IglBookingEventHover & keyof IglBookingEventHoverAttributes as `attr:${K}`]?: IglBookingEventHoverAttributes[K] } & { [K in keyof IglBookingEventHover & keyof IglBookingEventHoverAttributes as `prop:${K}`]?: IglBookingEventHover[K] };
+        "igl-booking-form": Omit<IglBookingForm, keyof IglBookingFormAttributes> & { [K in keyof IglBookingForm & keyof IglBookingFormAttributes]?: IglBookingForm[K] } & { [K in keyof IglBookingForm & keyof IglBookingFormAttributes as `attr:${K}`]?: IglBookingFormAttributes[K] } & { [K in keyof IglBookingForm & keyof IglBookingFormAttributes as `prop:${K}`]?: IglBookingForm[K] };
+        "igl-booking-overview-page": Omit<IglBookingOverviewPage, keyof IglBookingOverviewPageAttributes> & { [K in keyof IglBookingOverviewPage & keyof IglBookingOverviewPageAttributes]?: IglBookingOverviewPage[K] } & { [K in keyof IglBookingOverviewPage & keyof IglBookingOverviewPageAttributes as `attr:${K}`]?: IglBookingOverviewPageAttributes[K] } & { [K in keyof IglBookingOverviewPage & keyof IglBookingOverviewPageAttributes as `prop:${K}`]?: IglBookingOverviewPage[K] };
+        "igl-bulk-block": Omit<IglBulkBlock, keyof IglBulkBlockAttributes> & { [K in keyof IglBulkBlock & keyof IglBulkBlockAttributes]?: IglBulkBlock[K] } & { [K in keyof IglBulkBlock & keyof IglBulkBlockAttributes as `attr:${K}`]?: IglBulkBlockAttributes[K] } & { [K in keyof IglBulkBlock & keyof IglBulkBlockAttributes as `prop:${K}`]?: IglBulkBlock[K] };
+        "igl-bulk-operations": Omit<IglBulkOperations, keyof IglBulkOperationsAttributes> & { [K in keyof IglBulkOperations & keyof IglBulkOperationsAttributes]?: IglBulkOperations[K] } & { [K in keyof IglBulkOperations & keyof IglBulkOperationsAttributes as `attr:${K}`]?: IglBulkOperationsAttributes[K] } & { [K in keyof IglBulkOperations & keyof IglBulkOperationsAttributes as `prop:${K}`]?: IglBulkOperations[K] };
+        "igl-bulk-operations-drawer": Omit<IglBulkOperationsDrawer, keyof IglBulkOperationsDrawerAttributes> & { [K in keyof IglBulkOperationsDrawer & keyof IglBulkOperationsDrawerAttributes]?: IglBulkOperationsDrawer[K] } & { [K in keyof IglBulkOperationsDrawer & keyof IglBulkOperationsDrawerAttributes as `attr:${K}`]?: IglBulkOperationsDrawerAttributes[K] } & { [K in keyof IglBulkOperationsDrawer & keyof IglBulkOperationsDrawerAttributes as `prop:${K}`]?: IglBulkOperationsDrawer[K] };
+        "igl-bulk-stop-sale": Omit<IglBulkStopSale, keyof IglBulkStopSaleAttributes> & { [K in keyof IglBulkStopSale & keyof IglBulkStopSaleAttributes]?: IglBulkStopSale[K] } & { [K in keyof IglBulkStopSale & keyof IglBulkStopSaleAttributes as `attr:${K}`]?: IglBulkStopSaleAttributes[K] } & { [K in keyof IglBulkStopSale & keyof IglBulkStopSaleAttributes as `prop:${K}`]?: IglBulkStopSale[K] };
+        "igl-cal-body": Omit<IglCalBody, keyof IglCalBodyAttributes> & { [K in keyof IglCalBody & keyof IglCalBodyAttributes]?: IglCalBody[K] } & { [K in keyof IglCalBody & keyof IglCalBodyAttributes as `attr:${K}`]?: IglCalBodyAttributes[K] } & { [K in keyof IglCalBody & keyof IglCalBodyAttributes as `prop:${K}`]?: IglCalBody[K] };
+        "igl-cal-footer": Omit<IglCalFooter, keyof IglCalFooterAttributes> & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes]?: IglCalFooter[K] } & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes as `attr:${K}`]?: IglCalFooterAttributes[K] } & { [K in keyof IglCalFooter & keyof IglCalFooterAttributes as `prop:${K}`]?: IglCalFooter[K] };
+        "igl-cal-header": Omit<IglCalHeader, keyof IglCalHeaderAttributes> & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes]?: IglCalHeader[K] } & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes as `attr:${K}`]?: IglCalHeaderAttributes[K] } & { [K in keyof IglCalHeader & keyof IglCalHeaderAttributes as `prop:${K}`]?: IglCalHeader[K] };
+        "igl-hk-issues-dialog": Omit<IglHkIssuesDialog, keyof IglHkIssuesDialogAttributes> & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes]?: IglHkIssuesDialog[K] } & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes as `attr:${K}`]?: IglHkIssuesDialogAttributes[K] } & { [K in keyof IglHkIssuesDialog & keyof IglHkIssuesDialogAttributes as `prop:${K}`]?: IglHkIssuesDialog[K] };
+        "igl-housekeeping-dialog": Omit<IglHousekeepingDialog, keyof IglHousekeepingDialogAttributes> & { [K in keyof IglHousekeepingDialog & keyof IglHousekeepingDialogAttributes]?: IglHousekeepingDialog[K] } & { [K in keyof IglHousekeepingDialog & keyof IglHousekeepingDialogAttributes as `attr:${K}`]?: IglHousekeepingDialogAttributes[K] } & { [K in keyof IglHousekeepingDialog & keyof IglHousekeepingDialogAttributes as `prop:${K}`]?: IglHousekeepingDialog[K] };
         "igl-legend": IglLegend;
-        "igl-property-booked-by": IglPropertyBookedBy;
-        "igl-rate-extender-drawer": IglRateExtenderDrawer;
-        "igl-rate-extender-form": IglRateExtenderForm;
-        "igl-rate-plan": IglRatePlan;
+        "igl-property-booked-by": Omit<IglPropertyBookedBy, keyof IglPropertyBookedByAttributes> & { [K in keyof IglPropertyBookedBy & keyof IglPropertyBookedByAttributes]?: IglPropertyBookedBy[K] } & { [K in keyof IglPropertyBookedBy & keyof IglPropertyBookedByAttributes as `attr:${K}`]?: IglPropertyBookedByAttributes[K] } & { [K in keyof IglPropertyBookedBy & keyof IglPropertyBookedByAttributes as `prop:${K}`]?: IglPropertyBookedBy[K] };
+        "igl-rate-extender-drawer": Omit<IglRateExtenderDrawer, keyof IglRateExtenderDrawerAttributes> & { [K in keyof IglRateExtenderDrawer & keyof IglRateExtenderDrawerAttributes]?: IglRateExtenderDrawer[K] } & { [K in keyof IglRateExtenderDrawer & keyof IglRateExtenderDrawerAttributes as `attr:${K}`]?: IglRateExtenderDrawerAttributes[K] } & { [K in keyof IglRateExtenderDrawer & keyof IglRateExtenderDrawerAttributes as `prop:${K}`]?: IglRateExtenderDrawer[K] };
+        "igl-rate-extender-form": Omit<IglRateExtenderForm, keyof IglRateExtenderFormAttributes> & { [K in keyof IglRateExtenderForm & keyof IglRateExtenderFormAttributes]?: IglRateExtenderForm[K] } & { [K in keyof IglRateExtenderForm & keyof IglRateExtenderFormAttributes as `attr:${K}`]?: IglRateExtenderFormAttributes[K] } & { [K in keyof IglRateExtenderForm & keyof IglRateExtenderFormAttributes as `prop:${K}`]?: IglRateExtenderForm[K] };
+        "igl-rate-plan": Omit<IglRatePlan, keyof IglRatePlanAttributes> & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes]?: IglRatePlan[K] } & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes as `attr:${K}`]?: IglRatePlanAttributes[K] } & { [K in keyof IglRatePlan & keyof IglRatePlanAttributes as `prop:${K}`]?: IglRatePlan[K] } & OneOf<"shouldBeDisabled", IglRatePlan["shouldBeDisabled"], IglRatePlanAttributes["shouldBeDisabled"]>;
         "igl-reallocation-dialog": IglReallocationDialog;
-        "igl-room-type": IglRoomType;
-        "igl-spilt-booking-form": IglSpiltBookingForm;
-        "igl-split-booking": IglSplitBooking;
-        "igl-split-booking-drawer": IglSplitBookingDrawer;
-        "igl-tba-booking-view": IglTbaBookingView;
-        "igl-tba-category-view": IglTbaCategoryView;
-        "igl-to-be-assigned": IglToBeAssigned;
+        "igl-room-type": Omit<IglRoomType, keyof IglRoomTypeAttributes> & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes]?: IglRoomType[K] } & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes as `attr:${K}`]?: IglRoomTypeAttributes[K] } & { [K in keyof IglRoomType & keyof IglRoomTypeAttributes as `prop:${K}`]?: IglRoomType[K] };
+        "igl-spilt-booking-form": Omit<IglSpiltBookingForm, keyof IglSpiltBookingFormAttributes> & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes]?: IglSpiltBookingForm[K] } & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes as `attr:${K}`]?: IglSpiltBookingFormAttributes[K] } & { [K in keyof IglSpiltBookingForm & keyof IglSpiltBookingFormAttributes as `prop:${K}`]?: IglSpiltBookingForm[K] };
+        "igl-split-booking": Omit<IglSplitBooking, keyof IglSplitBookingAttributes> & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes]?: IglSplitBooking[K] } & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes as `attr:${K}`]?: IglSplitBookingAttributes[K] } & { [K in keyof IglSplitBooking & keyof IglSplitBookingAttributes as `prop:${K}`]?: IglSplitBooking[K] };
+        "igl-split-booking-drawer": Omit<IglSplitBookingDrawer, keyof IglSplitBookingDrawerAttributes> & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes]?: IglSplitBookingDrawer[K] } & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes as `attr:${K}`]?: IglSplitBookingDrawerAttributes[K] } & { [K in keyof IglSplitBookingDrawer & keyof IglSplitBookingDrawerAttributes as `prop:${K}`]?: IglSplitBookingDrawer[K] };
+        "igl-tba-booking-view": Omit<IglTbaBookingView, keyof IglTbaBookingViewAttributes> & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes]?: IglTbaBookingView[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `attr:${K}`]?: IglTbaBookingViewAttributes[K] } & { [K in keyof IglTbaBookingView & keyof IglTbaBookingViewAttributes as `prop:${K}`]?: IglTbaBookingView[K] };
+        "igl-tba-category-view": Omit<IglTbaCategoryView, keyof IglTbaCategoryViewAttributes> & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes]?: IglTbaCategoryView[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `attr:${K}`]?: IglTbaCategoryViewAttributes[K] } & { [K in keyof IglTbaCategoryView & keyof IglTbaCategoryViewAttributes as `prop:${K}`]?: IglTbaCategoryView[K] };
+        "igl-to-be-assigned": Omit<IglToBeAssigned, keyof IglToBeAssignedAttributes> & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes]?: IglToBeAssigned[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `attr:${K}`]?: IglToBeAssignedAttributes[K] } & { [K in keyof IglToBeAssigned & keyof IglToBeAssignedAttributes as `prop:${K}`]?: IglToBeAssigned[K] };
         "igl-toast-provider": IglToastProvider;
-        "igloo-calendar": IglooCalendar;
-        "ir-accordion": IrAccordion;
+        "igloo-calendar": Omit<IglooCalendar, keyof IglooCalendarAttributes> & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes]?: IglooCalendar[K] } & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes as `attr:${K}`]?: IglooCalendarAttributes[K] } & { [K in keyof IglooCalendar & keyof IglooCalendarAttributes as `prop:${K}`]?: IglooCalendar[K] };
+        "ir-accordion": Omit<IrAccordion, keyof IrAccordionAttributes> & { [K in keyof IrAccordion & keyof IrAccordionAttributes]?: IrAccordion[K] } & { [K in keyof IrAccordion & keyof IrAccordionAttributes as `attr:${K}`]?: IrAccordionAttributes[K] } & { [K in keyof IrAccordion & keyof IrAccordionAttributes as `prop:${K}`]?: IrAccordion[K] };
         "ir-actions-cell": IrActionsCell;
         "ir-agent-assignment-dialog": IrAgentAssignmentDialog;
         "ir-agent-assignment-form": IrAgentAssignmentForm;
         "ir-agent-billing": IrAgentBilling;
         "ir-agent-contract": IrAgentContract;
-        "ir-agent-editor-drawer": IrAgentEditorDrawer;
-        "ir-agent-editor-form": IrAgentEditorForm;
+        "ir-agent-editor-drawer": Omit<IrAgentEditorDrawer, keyof IrAgentEditorDrawerAttributes> & { [K in keyof IrAgentEditorDrawer & keyof IrAgentEditorDrawerAttributes]?: IrAgentEditorDrawer[K] } & { [K in keyof IrAgentEditorDrawer & keyof IrAgentEditorDrawerAttributes as `attr:${K}`]?: IrAgentEditorDrawerAttributes[K] } & { [K in keyof IrAgentEditorDrawer & keyof IrAgentEditorDrawerAttributes as `prop:${K}`]?: IrAgentEditorDrawer[K] };
+        "ir-agent-editor-form": Omit<IrAgentEditorForm, keyof IrAgentEditorFormAttributes> & { [K in keyof IrAgentEditorForm & keyof IrAgentEditorFormAttributes]?: IrAgentEditorForm[K] } & { [K in keyof IrAgentEditorForm & keyof IrAgentEditorFormAttributes as `attr:${K}`]?: IrAgentEditorFormAttributes[K] } & { [K in keyof IrAgentEditorForm & keyof IrAgentEditorFormAttributes as `prop:${K}`]?: IrAgentEditorForm[K] };
         "ir-agent-profile": IrAgentProfile;
-        "ir-agents": IrAgents;
-        "ir-agents-table": IrAgentsTable;
-        "ir-air-date-picker": IrAirDatePicker;
-        "ir-applicable-policies": IrApplicablePolicies;
-        "ir-arrival-time-cell": IrArrivalTimeCell;
+        "ir-agents": Omit<IrAgents, keyof IrAgentsAttributes> & { [K in keyof IrAgents & keyof IrAgentsAttributes]?: IrAgents[K] } & { [K in keyof IrAgents & keyof IrAgentsAttributes as `attr:${K}`]?: IrAgentsAttributes[K] } & { [K in keyof IrAgents & keyof IrAgentsAttributes as `prop:${K}`]?: IrAgents[K] };
+        "ir-agents-table": Omit<IrAgentsTable, keyof IrAgentsTableAttributes> & { [K in keyof IrAgentsTable & keyof IrAgentsTableAttributes]?: IrAgentsTable[K] } & { [K in keyof IrAgentsTable & keyof IrAgentsTableAttributes as `attr:${K}`]?: IrAgentsTableAttributes[K] } & { [K in keyof IrAgentsTable & keyof IrAgentsTableAttributes as `prop:${K}`]?: IrAgentsTable[K] };
+        "ir-air-date-picker": Omit<IrAirDatePicker, keyof IrAirDatePickerAttributes> & { [K in keyof IrAirDatePicker & keyof IrAirDatePickerAttributes]?: IrAirDatePicker[K] } & { [K in keyof IrAirDatePicker & keyof IrAirDatePickerAttributes as `attr:${K}`]?: IrAirDatePickerAttributes[K] } & { [K in keyof IrAirDatePicker & keyof IrAirDatePickerAttributes as `prop:${K}`]?: IrAirDatePicker[K] };
+        "ir-applicable-policies": Omit<IrApplicablePolicies, keyof IrApplicablePoliciesAttributes> & { [K in keyof IrApplicablePolicies & keyof IrApplicablePoliciesAttributes]?: IrApplicablePolicies[K] } & { [K in keyof IrApplicablePolicies & keyof IrApplicablePoliciesAttributes as `attr:${K}`]?: IrApplicablePoliciesAttributes[K] } & { [K in keyof IrApplicablePolicies & keyof IrApplicablePoliciesAttributes as `prop:${K}`]?: IrApplicablePolicies[K] };
+        "ir-arrival-time-cell": Omit<IrArrivalTimeCell, keyof IrArrivalTimeCellAttributes> & { [K in keyof IrArrivalTimeCell & keyof IrArrivalTimeCellAttributes]?: IrArrivalTimeCell[K] } & { [K in keyof IrArrivalTimeCell & keyof IrArrivalTimeCellAttributes as `attr:${K}`]?: IrArrivalTimeCellAttributes[K] } & { [K in keyof IrArrivalTimeCell & keyof IrArrivalTimeCellAttributes as `prop:${K}`]?: IrArrivalTimeCell[K] };
         "ir-arrival-time-dialog": IrArrivalTimeDialog;
-        "ir-arrivals": IrArrivals;
+        "ir-arrivals": Omit<IrArrivals, keyof IrArrivalsAttributes> & { [K in keyof IrArrivals & keyof IrArrivalsAttributes]?: IrArrivals[K] } & { [K in keyof IrArrivals & keyof IrArrivalsAttributes as `attr:${K}`]?: IrArrivalsAttributes[K] } & { [K in keyof IrArrivals & keyof IrArrivalsAttributes as `prop:${K}`]?: IrArrivals[K] };
         "ir-arrivals-filters": IrArrivalsFilters;
         "ir-arrivals-table": IrArrivalsTable;
-        "ir-assignment-toggle-dialog": IrAssignmentToggleDialog;
-        "ir-autocomplete": IrAutocomplete;
-        "ir-autocomplete-option": IrAutocompleteOption;
-        "ir-balance-cell": IrBalanceCell;
-        "ir-billing": IrBilling;
-        "ir-billing-drawer": IrBillingDrawer;
-        "ir-booked-by-cell": IrBookedByCell;
-        "ir-booked-on-cell": IrBookedOnCell;
-        "ir-booking": IrBooking;
+        "ir-assignment-toggle-dialog": Omit<IrAssignmentToggleDialog, keyof IrAssignmentToggleDialogAttributes> & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes]?: IrAssignmentToggleDialog[K] } & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes as `attr:${K}`]?: IrAssignmentToggleDialogAttributes[K] } & { [K in keyof IrAssignmentToggleDialog & keyof IrAssignmentToggleDialogAttributes as `prop:${K}`]?: IrAssignmentToggleDialog[K] };
+        "ir-autocomplete": Omit<IrAutocomplete, keyof IrAutocompleteAttributes> & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes]?: IrAutocomplete[K] } & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes as `attr:${K}`]?: IrAutocompleteAttributes[K] } & { [K in keyof IrAutocomplete & keyof IrAutocompleteAttributes as `prop:${K}`]?: IrAutocomplete[K] };
+        "ir-autocomplete-option": Omit<IrAutocompleteOption, keyof IrAutocompleteOptionAttributes> & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes]?: IrAutocompleteOption[K] } & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes as `attr:${K}`]?: IrAutocompleteOptionAttributes[K] } & { [K in keyof IrAutocompleteOption & keyof IrAutocompleteOptionAttributes as `prop:${K}`]?: IrAutocompleteOption[K] };
+        "ir-balance-cell": Omit<IrBalanceCell, keyof IrBalanceCellAttributes> & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes]?: IrBalanceCell[K] } & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes as `attr:${K}`]?: IrBalanceCellAttributes[K] } & { [K in keyof IrBalanceCell & keyof IrBalanceCellAttributes as `prop:${K}`]?: IrBalanceCell[K] } & OneOf<"statusCode", IrBalanceCell["statusCode"], IrBalanceCellAttributes["statusCode"]> & OneOf<"isDirect", IrBalanceCell["isDirect"], IrBalanceCellAttributes["isDirect"]> & OneOf<"bookingNumber", IrBalanceCell["bookingNumber"], IrBalanceCellAttributes["bookingNumber"]> & OneOf<"currencySymbol", IrBalanceCell["currencySymbol"], IrBalanceCellAttributes["currencySymbol"]>;
+        "ir-billing": Omit<IrBilling, keyof IrBillingAttributes> & { [K in keyof IrBilling & keyof IrBillingAttributes]?: IrBilling[K] } & { [K in keyof IrBilling & keyof IrBillingAttributes as `attr:${K}`]?: IrBillingAttributes[K] } & { [K in keyof IrBilling & keyof IrBillingAttributes as `prop:${K}`]?: IrBilling[K] };
+        "ir-billing-drawer": Omit<IrBillingDrawer, keyof IrBillingDrawerAttributes> & { [K in keyof IrBillingDrawer & keyof IrBillingDrawerAttributes]?: IrBillingDrawer[K] } & { [K in keyof IrBillingDrawer & keyof IrBillingDrawerAttributes as `attr:${K}`]?: IrBillingDrawerAttributes[K] } & { [K in keyof IrBillingDrawer & keyof IrBillingDrawerAttributes as `prop:${K}`]?: IrBillingDrawer[K] };
+        "ir-booked-by-cell": Omit<IrBookedByCell, keyof IrBookedByCellAttributes> & { [K in keyof IrBookedByCell & keyof IrBookedByCellAttributes]?: IrBookedByCell[K] } & { [K in keyof IrBookedByCell & keyof IrBookedByCellAttributes as `attr:${K}`]?: IrBookedByCellAttributes[K] } & { [K in keyof IrBookedByCell & keyof IrBookedByCellAttributes as `prop:${K}`]?: IrBookedByCell[K] };
+        "ir-booked-on-cell": Omit<IrBookedOnCell, keyof IrBookedOnCellAttributes> & { [K in keyof IrBookedOnCell & keyof IrBookedOnCellAttributes]?: IrBookedOnCell[K] } & { [K in keyof IrBookedOnCell & keyof IrBookedOnCellAttributes as `attr:${K}`]?: IrBookedOnCellAttributes[K] } & { [K in keyof IrBookedOnCell & keyof IrBookedOnCellAttributes as `prop:${K}`]?: IrBookedOnCell[K] };
+        "ir-booking": Omit<IrBooking, keyof IrBookingAttributes> & { [K in keyof IrBooking & keyof IrBookingAttributes]?: IrBooking[K] } & { [K in keyof IrBooking & keyof IrBookingAttributes as `attr:${K}`]?: IrBookingAttributes[K] } & { [K in keyof IrBooking & keyof IrBookingAttributes as `prop:${K}`]?: IrBooking[K] };
         "ir-booking-assign-items": IrBookingAssignItems;
         "ir-booking-billing-recipient": IrBookingBillingRecipient;
-        "ir-booking-city-ledger": IrBookingCityLedger;
+        "ir-booking-city-ledger": Omit<IrBookingCityLedger, keyof IrBookingCityLedgerAttributes> & { [K in keyof IrBookingCityLedger & keyof IrBookingCityLedgerAttributes]?: IrBookingCityLedger[K] } & { [K in keyof IrBookingCityLedger & keyof IrBookingCityLedgerAttributes as `attr:${K}`]?: IrBookingCityLedgerAttributes[K] } & { [K in keyof IrBookingCityLedger & keyof IrBookingCityLedgerAttributes as `prop:${K}`]?: IrBookingCityLedger[K] };
         "ir-booking-company-dialog": IrBookingCompanyDialog;
-        "ir-booking-company-form": IrBookingCompanyForm;
-        "ir-booking-details": IrBookingDetails;
-        "ir-booking-details-drawer": IrBookingDetailsDrawer;
-        "ir-booking-editor": IrBookingEditor;
-        "ir-booking-editor-drawer": IrBookingEditorDrawer;
-        "ir-booking-editor-form": IrBookingEditorForm;
+        "ir-booking-company-form": Omit<IrBookingCompanyForm, keyof IrBookingCompanyFormAttributes> & { [K in keyof IrBookingCompanyForm & keyof IrBookingCompanyFormAttributes]?: IrBookingCompanyForm[K] } & { [K in keyof IrBookingCompanyForm & keyof IrBookingCompanyFormAttributes as `attr:${K}`]?: IrBookingCompanyFormAttributes[K] } & { [K in keyof IrBookingCompanyForm & keyof IrBookingCompanyFormAttributes as `prop:${K}`]?: IrBookingCompanyForm[K] };
+        "ir-booking-details": Omit<IrBookingDetails, keyof IrBookingDetailsAttributes> & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes]?: IrBookingDetails[K] } & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes as `attr:${K}`]?: IrBookingDetailsAttributes[K] } & { [K in keyof IrBookingDetails & keyof IrBookingDetailsAttributes as `prop:${K}`]?: IrBookingDetails[K] };
+        "ir-booking-details-drawer": Omit<IrBookingDetailsDrawer, keyof IrBookingDetailsDrawerAttributes> & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes]?: IrBookingDetailsDrawer[K] } & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes as `attr:${K}`]?: IrBookingDetailsDrawerAttributes[K] } & { [K in keyof IrBookingDetailsDrawer & keyof IrBookingDetailsDrawerAttributes as `prop:${K}`]?: IrBookingDetailsDrawer[K] };
+        "ir-booking-editor": Omit<IrBookingEditor, keyof IrBookingEditorAttributes> & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes]?: IrBookingEditor[K] } & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes as `attr:${K}`]?: IrBookingEditorAttributes[K] } & { [K in keyof IrBookingEditor & keyof IrBookingEditorAttributes as `prop:${K}`]?: IrBookingEditor[K] };
+        "ir-booking-editor-drawer": Omit<IrBookingEditorDrawer, keyof IrBookingEditorDrawerAttributes> & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes]?: IrBookingEditorDrawer[K] } & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes as `attr:${K}`]?: IrBookingEditorDrawerAttributes[K] } & { [K in keyof IrBookingEditorDrawer & keyof IrBookingEditorDrawerAttributes as `prop:${K}`]?: IrBookingEditorDrawer[K] };
+        "ir-booking-editor-form": Omit<IrBookingEditorForm, keyof IrBookingEditorFormAttributes> & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes]?: IrBookingEditorForm[K] } & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes as `attr:${K}`]?: IrBookingEditorFormAttributes[K] } & { [K in keyof IrBookingEditorForm & keyof IrBookingEditorFormAttributes as `prop:${K}`]?: IrBookingEditorForm[K] };
         "ir-booking-editor-guest-form": IrBookingEditorGuestForm;
-        "ir-booking-editor-header": IrBookingEditorHeader;
-        "ir-booking-email-logs": IrBookingEmailLogs;
-        "ir-booking-extra-note": IrBookingExtraNote;
+        "ir-booking-editor-header": Omit<IrBookingEditorHeader, keyof IrBookingEditorHeaderAttributes> & { [K in keyof IrBookingEditorHeader & keyof IrBookingEditorHeaderAttributes]?: IrBookingEditorHeader[K] } & { [K in keyof IrBookingEditorHeader & keyof IrBookingEditorHeaderAttributes as `attr:${K}`]?: IrBookingEditorHeaderAttributes[K] } & { [K in keyof IrBookingEditorHeader & keyof IrBookingEditorHeaderAttributes as `prop:${K}`]?: IrBookingEditorHeader[K] };
+        "ir-booking-email-logs": Omit<IrBookingEmailLogs, keyof IrBookingEmailLogsAttributes> & { [K in keyof IrBookingEmailLogs & keyof IrBookingEmailLogsAttributes]?: IrBookingEmailLogs[K] } & { [K in keyof IrBookingEmailLogs & keyof IrBookingEmailLogsAttributes as `attr:${K}`]?: IrBookingEmailLogsAttributes[K] } & { [K in keyof IrBookingEmailLogs & keyof IrBookingEmailLogsAttributes as `prop:${K}`]?: IrBookingEmailLogs[K] };
+        "ir-booking-extra-note": Omit<IrBookingExtraNote, keyof IrBookingExtraNoteAttributes> & { [K in keyof IrBookingExtraNote & keyof IrBookingExtraNoteAttributes]?: IrBookingExtraNote[K] } & { [K in keyof IrBookingExtraNote & keyof IrBookingExtraNoteAttributes as `attr:${K}`]?: IrBookingExtraNoteAttributes[K] } & { [K in keyof IrBookingExtraNote & keyof IrBookingExtraNoteAttributes as `prop:${K}`]?: IrBookingExtraNote[K] };
         "ir-booking-guarantee": IrBookingGuarantee;
-        "ir-booking-header": IrBookingHeader;
-        "ir-booking-listing": IrBookingListing;
-        "ir-booking-listing-mobile-card": IrBookingListingMobileCard;
+        "ir-booking-header": Omit<IrBookingHeader, keyof IrBookingHeaderAttributes> & { [K in keyof IrBookingHeader & keyof IrBookingHeaderAttributes]?: IrBookingHeader[K] } & { [K in keyof IrBookingHeader & keyof IrBookingHeaderAttributes as `attr:${K}`]?: IrBookingHeaderAttributes[K] } & { [K in keyof IrBookingHeader & keyof IrBookingHeaderAttributes as `prop:${K}`]?: IrBookingHeader[K] };
+        "ir-booking-listing": Omit<IrBookingListing, keyof IrBookingListingAttributes> & { [K in keyof IrBookingListing & keyof IrBookingListingAttributes]?: IrBookingListing[K] } & { [K in keyof IrBookingListing & keyof IrBookingListingAttributes as `attr:${K}`]?: IrBookingListingAttributes[K] } & { [K in keyof IrBookingListing & keyof IrBookingListingAttributes as `prop:${K}`]?: IrBookingListing[K] };
+        "ir-booking-listing-mobile-card": Omit<IrBookingListingMobileCard, keyof IrBookingListingMobileCardAttributes> & { [K in keyof IrBookingListingMobileCard & keyof IrBookingListingMobileCardAttributes]?: IrBookingListingMobileCard[K] } & { [K in keyof IrBookingListingMobileCard & keyof IrBookingListingMobileCardAttributes as `attr:${K}`]?: IrBookingListingMobileCardAttributes[K] } & { [K in keyof IrBookingListingMobileCard & keyof IrBookingListingMobileCardAttributes as `prop:${K}`]?: IrBookingListingMobileCard[K] };
         "ir-booking-listing-table": IrBookingListingTable;
-        "ir-booking-new-form": IrBookingNewForm;
-        "ir-booking-number-cell": IrBookingNumberCell;
-        "ir-booking-pricing-drawer": IrBookingPricingDrawer;
-        "ir-booking-pricing-form": IrBookingPricingForm;
-        "ir-booking-printing": IrBookingPrinting;
-        "ir-booking-rooms": IrBookingRooms;
+        "ir-booking-new-form": Omit<IrBookingNewForm, keyof IrBookingNewFormAttributes> & { [K in keyof IrBookingNewForm & keyof IrBookingNewFormAttributes]?: IrBookingNewForm[K] } & { [K in keyof IrBookingNewForm & keyof IrBookingNewFormAttributes as `attr:${K}`]?: IrBookingNewFormAttributes[K] } & { [K in keyof IrBookingNewForm & keyof IrBookingNewFormAttributes as `prop:${K}`]?: IrBookingNewForm[K] };
+        "ir-booking-number-cell": Omit<IrBookingNumberCell, keyof IrBookingNumberCellAttributes> & { [K in keyof IrBookingNumberCell & keyof IrBookingNumberCellAttributes]?: IrBookingNumberCell[K] } & { [K in keyof IrBookingNumberCell & keyof IrBookingNumberCellAttributes as `attr:${K}`]?: IrBookingNumberCellAttributes[K] } & { [K in keyof IrBookingNumberCell & keyof IrBookingNumberCellAttributes as `prop:${K}`]?: IrBookingNumberCell[K] };
+        "ir-booking-pricing-drawer": Omit<IrBookingPricingDrawer, keyof IrBookingPricingDrawerAttributes> & { [K in keyof IrBookingPricingDrawer & keyof IrBookingPricingDrawerAttributes]?: IrBookingPricingDrawer[K] } & { [K in keyof IrBookingPricingDrawer & keyof IrBookingPricingDrawerAttributes as `attr:${K}`]?: IrBookingPricingDrawerAttributes[K] } & { [K in keyof IrBookingPricingDrawer & keyof IrBookingPricingDrawerAttributes as `prop:${K}`]?: IrBookingPricingDrawer[K] };
+        "ir-booking-pricing-form": Omit<IrBookingPricingForm, keyof IrBookingPricingFormAttributes> & { [K in keyof IrBookingPricingForm & keyof IrBookingPricingFormAttributes]?: IrBookingPricingForm[K] } & { [K in keyof IrBookingPricingForm & keyof IrBookingPricingFormAttributes as `attr:${K}`]?: IrBookingPricingFormAttributes[K] } & { [K in keyof IrBookingPricingForm & keyof IrBookingPricingFormAttributes as `prop:${K}`]?: IrBookingPricingForm[K] };
+        "ir-booking-printing": Omit<IrBookingPrinting, keyof IrBookingPrintingAttributes> & { [K in keyof IrBookingPrinting & keyof IrBookingPrintingAttributes]?: IrBookingPrinting[K] } & { [K in keyof IrBookingPrinting & keyof IrBookingPrintingAttributes as `attr:${K}`]?: IrBookingPrintingAttributes[K] } & { [K in keyof IrBookingPrinting & keyof IrBookingPrintingAttributes as `prop:${K}`]?: IrBookingPrinting[K] };
+        "ir-booking-rooms": Omit<IrBookingRooms, keyof IrBookingRoomsAttributes> & { [K in keyof IrBookingRooms & keyof IrBookingRoomsAttributes]?: IrBookingRooms[K] } & { [K in keyof IrBookingRooms & keyof IrBookingRoomsAttributes as `attr:${K}`]?: IrBookingRoomsAttributes[K] } & { [K in keyof IrBookingRooms & keyof IrBookingRoomsAttributes as `prop:${K}`]?: IrBookingRooms[K] };
         "ir-booking-source-editor-dialog": IrBookingSourceEditorDialog;
         "ir-booking-source-editor-form": IrBookingSourceEditorForm;
-        "ir-booking-status-tag": IrBookingStatusTag;
-        "ir-button": IrButton;
-        "ir-channel": IrChannel;
-        "ir-channel-editor": IrChannelEditor;
-        "ir-channel-general": IrChannelGeneral;
+        "ir-booking-status-tag": Omit<IrBookingStatusTag, keyof IrBookingStatusTagAttributes> & { [K in keyof IrBookingStatusTag & keyof IrBookingStatusTagAttributes]?: IrBookingStatusTag[K] } & { [K in keyof IrBookingStatusTag & keyof IrBookingStatusTagAttributes as `attr:${K}`]?: IrBookingStatusTagAttributes[K] } & { [K in keyof IrBookingStatusTag & keyof IrBookingStatusTagAttributes as `prop:${K}`]?: IrBookingStatusTag[K] };
+        "ir-button": Omit<IrButton, keyof IrButtonAttributes> & { [K in keyof IrButton & keyof IrButtonAttributes]?: IrButton[K] } & { [K in keyof IrButton & keyof IrButtonAttributes as `attr:${K}`]?: IrButtonAttributes[K] } & { [K in keyof IrButton & keyof IrButtonAttributes as `prop:${K}`]?: IrButton[K] };
+        "ir-channel": Omit<IrChannel, keyof IrChannelAttributes> & { [K in keyof IrChannel & keyof IrChannelAttributes]?: IrChannel[K] } & { [K in keyof IrChannel & keyof IrChannelAttributes as `attr:${K}`]?: IrChannelAttributes[K] } & { [K in keyof IrChannel & keyof IrChannelAttributes as `prop:${K}`]?: IrChannel[K] };
+        "ir-channel-editor": Omit<IrChannelEditor, keyof IrChannelEditorAttributes> & { [K in keyof IrChannelEditor & keyof IrChannelEditorAttributes]?: IrChannelEditor[K] } & { [K in keyof IrChannelEditor & keyof IrChannelEditorAttributes as `attr:${K}`]?: IrChannelEditorAttributes[K] } & { [K in keyof IrChannelEditor & keyof IrChannelEditorAttributes as `prop:${K}`]?: IrChannelEditor[K] };
+        "ir-channel-general": Omit<IrChannelGeneral, keyof IrChannelGeneralAttributes> & { [K in keyof IrChannelGeneral & keyof IrChannelGeneralAttributes]?: IrChannelGeneral[K] } & { [K in keyof IrChannelGeneral & keyof IrChannelGeneralAttributes as `attr:${K}`]?: IrChannelGeneralAttributes[K] } & { [K in keyof IrChannelGeneral & keyof IrChannelGeneralAttributes as `prop:${K}`]?: IrChannelGeneral[K] };
         "ir-channel-header": IrChannelHeader;
         "ir-channel-mapping": IrChannelMapping;
-        "ir-checkbox": IrCheckbox;
+        "ir-checkbox": Omit<IrCheckbox, keyof IrCheckboxAttributes> & { [K in keyof IrCheckbox & keyof IrCheckboxAttributes]?: IrCheckbox[K] } & { [K in keyof IrCheckbox & keyof IrCheckboxAttributes as `attr:${K}`]?: IrCheckboxAttributes[K] } & { [K in keyof IrCheckbox & keyof IrCheckboxAttributes as `prop:${K}`]?: IrCheckbox[K] };
         "ir-checkboxes": IrCheckboxes;
-        "ir-checkout-dialog": IrCheckoutDialog;
-        "ir-city-ledger": IrCityLedger;
-        "ir-city-ledger-fiscal-documents": IrCityLedgerFiscalDocuments;
+        "ir-checkout-dialog": Omit<IrCheckoutDialog, keyof IrCheckoutDialogAttributes> & { [K in keyof IrCheckoutDialog & keyof IrCheckoutDialogAttributes]?: IrCheckoutDialog[K] } & { [K in keyof IrCheckoutDialog & keyof IrCheckoutDialogAttributes as `attr:${K}`]?: IrCheckoutDialogAttributes[K] } & { [K in keyof IrCheckoutDialog & keyof IrCheckoutDialogAttributes as `prop:${K}`]?: IrCheckoutDialog[K] };
+        "ir-city-ledger": Omit<IrCityLedger, keyof IrCityLedgerAttributes> & { [K in keyof IrCityLedger & keyof IrCityLedgerAttributes]?: IrCityLedger[K] } & { [K in keyof IrCityLedger & keyof IrCityLedgerAttributes as `attr:${K}`]?: IrCityLedgerAttributes[K] } & { [K in keyof IrCityLedger & keyof IrCityLedgerAttributes as `prop:${K}`]?: IrCityLedger[K] };
+        "ir-city-ledger-fiscal-documents": Omit<IrCityLedgerFiscalDocuments, keyof IrCityLedgerFiscalDocumentsAttributes> & { [K in keyof IrCityLedgerFiscalDocuments & keyof IrCityLedgerFiscalDocumentsAttributes]?: IrCityLedgerFiscalDocuments[K] } & { [K in keyof IrCityLedgerFiscalDocuments & keyof IrCityLedgerFiscalDocumentsAttributes as `attr:${K}`]?: IrCityLedgerFiscalDocumentsAttributes[K] } & { [K in keyof IrCityLedgerFiscalDocuments & keyof IrCityLedgerFiscalDocumentsAttributes as `prop:${K}`]?: IrCityLedgerFiscalDocuments[K] };
         "ir-city-ledger-fiscal-documents-filters": IrCityLedgerFiscalDocumentsFilters;
-        "ir-city-ledger-fiscal-documents-table": IrCityLedgerFiscalDocumentsTable;
-        "ir-city-ledger-folio": IrCityLedgerFolio;
-        "ir-city-ledger-folio-filters": IrCityLedgerFolioFilters;
-        "ir-city-ledger-folio-table": IrCityLedgerFolioTable;
-        "ir-city-ledger-statements": IrCityLedgerStatements;
-        "ir-city-ledger-statements-filter": IrCityLedgerStatementsFilter;
-        "ir-city-ledger-statements-table": IrCityLedgerStatementsTable;
-        "ir-city-ledger-toolbar": IrCityLedgerToolbar;
-        "ir-city-ledger-transaction-drawer": IrCityLedgerTransactionDrawer;
-        "ir-city-ledger-transaction-form": IrCityLedgerTransactionForm;
-        "ir-cl-adjustment-fields": IrClAdjustmentFields;
-        "ir-cl-credit-note-fields": IrClCreditNoteFields;
-        "ir-cl-credit-note-preview": IrClCreditNotePreview;
-        "ir-cl-debit-note-fields": IrClDebitNoteFields;
-        "ir-cl-debit-note-preview": IrClDebitNotePreview;
-        "ir-cl-document-header": IrClDocumentHeader;
-        "ir-cl-fiscal-document-preview": IrClFiscalDocumentPreview;
-        "ir-cl-fiscal-document-table": IrClFiscalDocumentTable;
-        "ir-cl-invoice-city-tax-amount-cell": IrClInvoiceCityTaxAmountCell;
-        "ir-cl-invoice-city-tax-pct-cell": IrClInvoiceCityTaxPctCell;
-        "ir-cl-invoice-date-cell": IrClInvoiceDateCell;
-        "ir-cl-invoice-description-cell": IrClInvoiceDescriptionCell;
-        "ir-cl-invoice-dialog": IrClInvoiceDialog;
+        "ir-city-ledger-fiscal-documents-table": Omit<IrCityLedgerFiscalDocumentsTable, keyof IrCityLedgerFiscalDocumentsTableAttributes> & { [K in keyof IrCityLedgerFiscalDocumentsTable & keyof IrCityLedgerFiscalDocumentsTableAttributes]?: IrCityLedgerFiscalDocumentsTable[K] } & { [K in keyof IrCityLedgerFiscalDocumentsTable & keyof IrCityLedgerFiscalDocumentsTableAttributes as `attr:${K}`]?: IrCityLedgerFiscalDocumentsTableAttributes[K] } & { [K in keyof IrCityLedgerFiscalDocumentsTable & keyof IrCityLedgerFiscalDocumentsTableAttributes as `prop:${K}`]?: IrCityLedgerFiscalDocumentsTable[K] };
+        "ir-city-ledger-folio": Omit<IrCityLedgerFolio, keyof IrCityLedgerFolioAttributes> & { [K in keyof IrCityLedgerFolio & keyof IrCityLedgerFolioAttributes]?: IrCityLedgerFolio[K] } & { [K in keyof IrCityLedgerFolio & keyof IrCityLedgerFolioAttributes as `attr:${K}`]?: IrCityLedgerFolioAttributes[K] } & { [K in keyof IrCityLedgerFolio & keyof IrCityLedgerFolioAttributes as `prop:${K}`]?: IrCityLedgerFolio[K] };
+        "ir-city-ledger-folio-filters": Omit<IrCityLedgerFolioFilters, keyof IrCityLedgerFolioFiltersAttributes> & { [K in keyof IrCityLedgerFolioFilters & keyof IrCityLedgerFolioFiltersAttributes]?: IrCityLedgerFolioFilters[K] } & { [K in keyof IrCityLedgerFolioFilters & keyof IrCityLedgerFolioFiltersAttributes as `attr:${K}`]?: IrCityLedgerFolioFiltersAttributes[K] } & { [K in keyof IrCityLedgerFolioFilters & keyof IrCityLedgerFolioFiltersAttributes as `prop:${K}`]?: IrCityLedgerFolioFilters[K] };
+        "ir-city-ledger-folio-table": Omit<IrCityLedgerFolioTable, keyof IrCityLedgerFolioTableAttributes> & { [K in keyof IrCityLedgerFolioTable & keyof IrCityLedgerFolioTableAttributes]?: IrCityLedgerFolioTable[K] } & { [K in keyof IrCityLedgerFolioTable & keyof IrCityLedgerFolioTableAttributes as `attr:${K}`]?: IrCityLedgerFolioTableAttributes[K] } & { [K in keyof IrCityLedgerFolioTable & keyof IrCityLedgerFolioTableAttributes as `prop:${K}`]?: IrCityLedgerFolioTable[K] };
+        "ir-city-ledger-statements": Omit<IrCityLedgerStatements, keyof IrCityLedgerStatementsAttributes> & { [K in keyof IrCityLedgerStatements & keyof IrCityLedgerStatementsAttributes]?: IrCityLedgerStatements[K] } & { [K in keyof IrCityLedgerStatements & keyof IrCityLedgerStatementsAttributes as `attr:${K}`]?: IrCityLedgerStatementsAttributes[K] } & { [K in keyof IrCityLedgerStatements & keyof IrCityLedgerStatementsAttributes as `prop:${K}`]?: IrCityLedgerStatements[K] };
+        "ir-city-ledger-statements-filter": Omit<IrCityLedgerStatementsFilter, keyof IrCityLedgerStatementsFilterAttributes> & { [K in keyof IrCityLedgerStatementsFilter & keyof IrCityLedgerStatementsFilterAttributes]?: IrCityLedgerStatementsFilter[K] } & { [K in keyof IrCityLedgerStatementsFilter & keyof IrCityLedgerStatementsFilterAttributes as `attr:${K}`]?: IrCityLedgerStatementsFilterAttributes[K] } & { [K in keyof IrCityLedgerStatementsFilter & keyof IrCityLedgerStatementsFilterAttributes as `prop:${K}`]?: IrCityLedgerStatementsFilter[K] };
+        "ir-city-ledger-statements-table": Omit<IrCityLedgerStatementsTable, keyof IrCityLedgerStatementsTableAttributes> & { [K in keyof IrCityLedgerStatementsTable & keyof IrCityLedgerStatementsTableAttributes]?: IrCityLedgerStatementsTable[K] } & { [K in keyof IrCityLedgerStatementsTable & keyof IrCityLedgerStatementsTableAttributes as `attr:${K}`]?: IrCityLedgerStatementsTableAttributes[K] } & { [K in keyof IrCityLedgerStatementsTable & keyof IrCityLedgerStatementsTableAttributes as `prop:${K}`]?: IrCityLedgerStatementsTable[K] };
+        "ir-city-ledger-toolbar": Omit<IrCityLedgerToolbar, keyof IrCityLedgerToolbarAttributes> & { [K in keyof IrCityLedgerToolbar & keyof IrCityLedgerToolbarAttributes]?: IrCityLedgerToolbar[K] } & { [K in keyof IrCityLedgerToolbar & keyof IrCityLedgerToolbarAttributes as `attr:${K}`]?: IrCityLedgerToolbarAttributes[K] } & { [K in keyof IrCityLedgerToolbar & keyof IrCityLedgerToolbarAttributes as `prop:${K}`]?: IrCityLedgerToolbar[K] };
+        "ir-city-ledger-transaction-drawer": Omit<IrCityLedgerTransactionDrawer, keyof IrCityLedgerTransactionDrawerAttributes> & { [K in keyof IrCityLedgerTransactionDrawer & keyof IrCityLedgerTransactionDrawerAttributes]?: IrCityLedgerTransactionDrawer[K] } & { [K in keyof IrCityLedgerTransactionDrawer & keyof IrCityLedgerTransactionDrawerAttributes as `attr:${K}`]?: IrCityLedgerTransactionDrawerAttributes[K] } & { [K in keyof IrCityLedgerTransactionDrawer & keyof IrCityLedgerTransactionDrawerAttributes as `prop:${K}`]?: IrCityLedgerTransactionDrawer[K] };
+        "ir-city-ledger-transaction-form": Omit<IrCityLedgerTransactionForm, keyof IrCityLedgerTransactionFormAttributes> & { [K in keyof IrCityLedgerTransactionForm & keyof IrCityLedgerTransactionFormAttributes]?: IrCityLedgerTransactionForm[K] } & { [K in keyof IrCityLedgerTransactionForm & keyof IrCityLedgerTransactionFormAttributes as `attr:${K}`]?: IrCityLedgerTransactionFormAttributes[K] } & { [K in keyof IrCityLedgerTransactionForm & keyof IrCityLedgerTransactionFormAttributes as `prop:${K}`]?: IrCityLedgerTransactionForm[K] };
+        "ir-cl-adjustment-fields": Omit<IrClAdjustmentFields, keyof IrClAdjustmentFieldsAttributes> & { [K in keyof IrClAdjustmentFields & keyof IrClAdjustmentFieldsAttributes]?: IrClAdjustmentFields[K] } & { [K in keyof IrClAdjustmentFields & keyof IrClAdjustmentFieldsAttributes as `attr:${K}`]?: IrClAdjustmentFieldsAttributes[K] } & { [K in keyof IrClAdjustmentFields & keyof IrClAdjustmentFieldsAttributes as `prop:${K}`]?: IrClAdjustmentFields[K] };
+        "ir-cl-credit-note-fields": Omit<IrClCreditNoteFields, keyof IrClCreditNoteFieldsAttributes> & { [K in keyof IrClCreditNoteFields & keyof IrClCreditNoteFieldsAttributes]?: IrClCreditNoteFields[K] } & { [K in keyof IrClCreditNoteFields & keyof IrClCreditNoteFieldsAttributes as `attr:${K}`]?: IrClCreditNoteFieldsAttributes[K] } & { [K in keyof IrClCreditNoteFields & keyof IrClCreditNoteFieldsAttributes as `prop:${K}`]?: IrClCreditNoteFields[K] };
+        "ir-cl-credit-note-preview": Omit<IrClCreditNotePreview, keyof IrClCreditNotePreviewAttributes> & { [K in keyof IrClCreditNotePreview & keyof IrClCreditNotePreviewAttributes]?: IrClCreditNotePreview[K] } & { [K in keyof IrClCreditNotePreview & keyof IrClCreditNotePreviewAttributes as `attr:${K}`]?: IrClCreditNotePreviewAttributes[K] } & { [K in keyof IrClCreditNotePreview & keyof IrClCreditNotePreviewAttributes as `prop:${K}`]?: IrClCreditNotePreview[K] };
+        "ir-cl-debit-note-fields": Omit<IrClDebitNoteFields, keyof IrClDebitNoteFieldsAttributes> & { [K in keyof IrClDebitNoteFields & keyof IrClDebitNoteFieldsAttributes]?: IrClDebitNoteFields[K] } & { [K in keyof IrClDebitNoteFields & keyof IrClDebitNoteFieldsAttributes as `attr:${K}`]?: IrClDebitNoteFieldsAttributes[K] } & { [K in keyof IrClDebitNoteFields & keyof IrClDebitNoteFieldsAttributes as `prop:${K}`]?: IrClDebitNoteFields[K] };
+        "ir-cl-debit-note-preview": Omit<IrClDebitNotePreview, keyof IrClDebitNotePreviewAttributes> & { [K in keyof IrClDebitNotePreview & keyof IrClDebitNotePreviewAttributes]?: IrClDebitNotePreview[K] } & { [K in keyof IrClDebitNotePreview & keyof IrClDebitNotePreviewAttributes as `attr:${K}`]?: IrClDebitNotePreviewAttributes[K] } & { [K in keyof IrClDebitNotePreview & keyof IrClDebitNotePreviewAttributes as `prop:${K}`]?: IrClDebitNotePreview[K] };
+        "ir-cl-document-header": Omit<IrClDocumentHeader, keyof IrClDocumentHeaderAttributes> & { [K in keyof IrClDocumentHeader & keyof IrClDocumentHeaderAttributes]?: IrClDocumentHeader[K] } & { [K in keyof IrClDocumentHeader & keyof IrClDocumentHeaderAttributes as `attr:${K}`]?: IrClDocumentHeaderAttributes[K] } & { [K in keyof IrClDocumentHeader & keyof IrClDocumentHeaderAttributes as `prop:${K}`]?: IrClDocumentHeader[K] };
+        "ir-cl-fiscal-document-preview": Omit<IrClFiscalDocumentPreview, keyof IrClFiscalDocumentPreviewAttributes> & { [K in keyof IrClFiscalDocumentPreview & keyof IrClFiscalDocumentPreviewAttributes]?: IrClFiscalDocumentPreview[K] } & { [K in keyof IrClFiscalDocumentPreview & keyof IrClFiscalDocumentPreviewAttributes as `attr:${K}`]?: IrClFiscalDocumentPreviewAttributes[K] } & { [K in keyof IrClFiscalDocumentPreview & keyof IrClFiscalDocumentPreviewAttributes as `prop:${K}`]?: IrClFiscalDocumentPreview[K] };
+        "ir-cl-fiscal-document-table": Omit<IrClFiscalDocumentTable, keyof IrClFiscalDocumentTableAttributes> & { [K in keyof IrClFiscalDocumentTable & keyof IrClFiscalDocumentTableAttributes]?: IrClFiscalDocumentTable[K] } & { [K in keyof IrClFiscalDocumentTable & keyof IrClFiscalDocumentTableAttributes as `attr:${K}`]?: IrClFiscalDocumentTableAttributes[K] } & { [K in keyof IrClFiscalDocumentTable & keyof IrClFiscalDocumentTableAttributes as `prop:${K}`]?: IrClFiscalDocumentTable[K] };
+        "ir-cl-invoice-city-tax-amount-cell": Omit<IrClInvoiceCityTaxAmountCell, keyof IrClInvoiceCityTaxAmountCellAttributes> & { [K in keyof IrClInvoiceCityTaxAmountCell & keyof IrClInvoiceCityTaxAmountCellAttributes]?: IrClInvoiceCityTaxAmountCell[K] } & { [K in keyof IrClInvoiceCityTaxAmountCell & keyof IrClInvoiceCityTaxAmountCellAttributes as `attr:${K}`]?: IrClInvoiceCityTaxAmountCellAttributes[K] } & { [K in keyof IrClInvoiceCityTaxAmountCell & keyof IrClInvoiceCityTaxAmountCellAttributes as `prop:${K}`]?: IrClInvoiceCityTaxAmountCell[K] };
+        "ir-cl-invoice-city-tax-pct-cell": Omit<IrClInvoiceCityTaxPctCell, keyof IrClInvoiceCityTaxPctCellAttributes> & { [K in keyof IrClInvoiceCityTaxPctCell & keyof IrClInvoiceCityTaxPctCellAttributes]?: IrClInvoiceCityTaxPctCell[K] } & { [K in keyof IrClInvoiceCityTaxPctCell & keyof IrClInvoiceCityTaxPctCellAttributes as `attr:${K}`]?: IrClInvoiceCityTaxPctCellAttributes[K] } & { [K in keyof IrClInvoiceCityTaxPctCell & keyof IrClInvoiceCityTaxPctCellAttributes as `prop:${K}`]?: IrClInvoiceCityTaxPctCell[K] };
+        "ir-cl-invoice-date-cell": Omit<IrClInvoiceDateCell, keyof IrClInvoiceDateCellAttributes> & { [K in keyof IrClInvoiceDateCell & keyof IrClInvoiceDateCellAttributes]?: IrClInvoiceDateCell[K] } & { [K in keyof IrClInvoiceDateCell & keyof IrClInvoiceDateCellAttributes as `attr:${K}`]?: IrClInvoiceDateCellAttributes[K] } & { [K in keyof IrClInvoiceDateCell & keyof IrClInvoiceDateCellAttributes as `prop:${K}`]?: IrClInvoiceDateCell[K] };
+        "ir-cl-invoice-description-cell": Omit<IrClInvoiceDescriptionCell, keyof IrClInvoiceDescriptionCellAttributes> & { [K in keyof IrClInvoiceDescriptionCell & keyof IrClInvoiceDescriptionCellAttributes]?: IrClInvoiceDescriptionCell[K] } & { [K in keyof IrClInvoiceDescriptionCell & keyof IrClInvoiceDescriptionCellAttributes as `attr:${K}`]?: IrClInvoiceDescriptionCellAttributes[K] } & { [K in keyof IrClInvoiceDescriptionCell & keyof IrClInvoiceDescriptionCellAttributes as `prop:${K}`]?: IrClInvoiceDescriptionCell[K] };
+        "ir-cl-invoice-dialog": Omit<IrClInvoiceDialog, keyof IrClInvoiceDialogAttributes> & { [K in keyof IrClInvoiceDialog & keyof IrClInvoiceDialogAttributes]?: IrClInvoiceDialog[K] } & { [K in keyof IrClInvoiceDialog & keyof IrClInvoiceDialogAttributes as `attr:${K}`]?: IrClInvoiceDialogAttributes[K] } & { [K in keyof IrClInvoiceDialog & keyof IrClInvoiceDialogAttributes as `prop:${K}`]?: IrClInvoiceDialog[K] };
         "ir-cl-invoice-form": IrClInvoiceForm;
-        "ir-cl-invoice-net-price-cell": IrClInvoiceNetPriceCell;
-        "ir-cl-invoice-preview": IrClInvoicePreview;
-        "ir-cl-invoice-select": IrClInvoiceSelect;
-        "ir-cl-invoice-total-cell": IrClInvoiceTotalCell;
-        "ir-cl-invoice-vat-amount-cell": IrClInvoiceVatAmountCell;
-        "ir-cl-invoice-vat-pct-cell": IrClInvoiceVatPctCell;
-        "ir-cl-opening-balance-fields": IrClOpeningBalanceFields;
-        "ir-cl-payment-fields": IrClPaymentFields;
-        "ir-cl-receipt-preview": IrClReceiptPreview;
-        "ir-cl-statement-preview": IrClStatementPreview;
-        "ir-cl-status-tag": IrClStatusTag;
+        "ir-cl-invoice-net-price-cell": Omit<IrClInvoiceNetPriceCell, keyof IrClInvoiceNetPriceCellAttributes> & { [K in keyof IrClInvoiceNetPriceCell & keyof IrClInvoiceNetPriceCellAttributes]?: IrClInvoiceNetPriceCell[K] } & { [K in keyof IrClInvoiceNetPriceCell & keyof IrClInvoiceNetPriceCellAttributes as `attr:${K}`]?: IrClInvoiceNetPriceCellAttributes[K] } & { [K in keyof IrClInvoiceNetPriceCell & keyof IrClInvoiceNetPriceCellAttributes as `prop:${K}`]?: IrClInvoiceNetPriceCell[K] };
+        "ir-cl-invoice-preview": Omit<IrClInvoicePreview, keyof IrClInvoicePreviewAttributes> & { [K in keyof IrClInvoicePreview & keyof IrClInvoicePreviewAttributes]?: IrClInvoicePreview[K] } & { [K in keyof IrClInvoicePreview & keyof IrClInvoicePreviewAttributes as `attr:${K}`]?: IrClInvoicePreviewAttributes[K] } & { [K in keyof IrClInvoicePreview & keyof IrClInvoicePreviewAttributes as `prop:${K}`]?: IrClInvoicePreview[K] };
+        "ir-cl-invoice-select": Omit<IrClInvoiceSelect, keyof IrClInvoiceSelectAttributes> & { [K in keyof IrClInvoiceSelect & keyof IrClInvoiceSelectAttributes]?: IrClInvoiceSelect[K] } & { [K in keyof IrClInvoiceSelect & keyof IrClInvoiceSelectAttributes as `attr:${K}`]?: IrClInvoiceSelectAttributes[K] } & { [K in keyof IrClInvoiceSelect & keyof IrClInvoiceSelectAttributes as `prop:${K}`]?: IrClInvoiceSelect[K] };
+        "ir-cl-invoice-total-cell": Omit<IrClInvoiceTotalCell, keyof IrClInvoiceTotalCellAttributes> & { [K in keyof IrClInvoiceTotalCell & keyof IrClInvoiceTotalCellAttributes]?: IrClInvoiceTotalCell[K] } & { [K in keyof IrClInvoiceTotalCell & keyof IrClInvoiceTotalCellAttributes as `attr:${K}`]?: IrClInvoiceTotalCellAttributes[K] } & { [K in keyof IrClInvoiceTotalCell & keyof IrClInvoiceTotalCellAttributes as `prop:${K}`]?: IrClInvoiceTotalCell[K] };
+        "ir-cl-invoice-vat-amount-cell": Omit<IrClInvoiceVatAmountCell, keyof IrClInvoiceVatAmountCellAttributes> & { [K in keyof IrClInvoiceVatAmountCell & keyof IrClInvoiceVatAmountCellAttributes]?: IrClInvoiceVatAmountCell[K] } & { [K in keyof IrClInvoiceVatAmountCell & keyof IrClInvoiceVatAmountCellAttributes as `attr:${K}`]?: IrClInvoiceVatAmountCellAttributes[K] } & { [K in keyof IrClInvoiceVatAmountCell & keyof IrClInvoiceVatAmountCellAttributes as `prop:${K}`]?: IrClInvoiceVatAmountCell[K] };
+        "ir-cl-invoice-vat-pct-cell": Omit<IrClInvoiceVatPctCell, keyof IrClInvoiceVatPctCellAttributes> & { [K in keyof IrClInvoiceVatPctCell & keyof IrClInvoiceVatPctCellAttributes]?: IrClInvoiceVatPctCell[K] } & { [K in keyof IrClInvoiceVatPctCell & keyof IrClInvoiceVatPctCellAttributes as `attr:${K}`]?: IrClInvoiceVatPctCellAttributes[K] } & { [K in keyof IrClInvoiceVatPctCell & keyof IrClInvoiceVatPctCellAttributes as `prop:${K}`]?: IrClInvoiceVatPctCell[K] };
+        "ir-cl-opening-balance-fields": Omit<IrClOpeningBalanceFields, keyof IrClOpeningBalanceFieldsAttributes> & { [K in keyof IrClOpeningBalanceFields & keyof IrClOpeningBalanceFieldsAttributes]?: IrClOpeningBalanceFields[K] } & { [K in keyof IrClOpeningBalanceFields & keyof IrClOpeningBalanceFieldsAttributes as `attr:${K}`]?: IrClOpeningBalanceFieldsAttributes[K] } & { [K in keyof IrClOpeningBalanceFields & keyof IrClOpeningBalanceFieldsAttributes as `prop:${K}`]?: IrClOpeningBalanceFields[K] };
+        "ir-cl-payment-fields": Omit<IrClPaymentFields, keyof IrClPaymentFieldsAttributes> & { [K in keyof IrClPaymentFields & keyof IrClPaymentFieldsAttributes]?: IrClPaymentFields[K] } & { [K in keyof IrClPaymentFields & keyof IrClPaymentFieldsAttributes as `attr:${K}`]?: IrClPaymentFieldsAttributes[K] } & { [K in keyof IrClPaymentFields & keyof IrClPaymentFieldsAttributes as `prop:${K}`]?: IrClPaymentFields[K] };
+        "ir-cl-receipt-preview": Omit<IrClReceiptPreview, keyof IrClReceiptPreviewAttributes> & { [K in keyof IrClReceiptPreview & keyof IrClReceiptPreviewAttributes]?: IrClReceiptPreview[K] } & { [K in keyof IrClReceiptPreview & keyof IrClReceiptPreviewAttributes as `attr:${K}`]?: IrClReceiptPreviewAttributes[K] } & { [K in keyof IrClReceiptPreview & keyof IrClReceiptPreviewAttributes as `prop:${K}`]?: IrClReceiptPreview[K] };
+        "ir-cl-statement-preview": Omit<IrClStatementPreview, keyof IrClStatementPreviewAttributes> & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes]?: IrClStatementPreview[K] } & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes as `attr:${K}`]?: IrClStatementPreviewAttributes[K] } & { [K in keyof IrClStatementPreview & keyof IrClStatementPreviewAttributes as `prop:${K}`]?: IrClStatementPreview[K] };
+        "ir-cl-status-tag": Omit<IrClStatusTag, keyof IrClStatusTagAttributes> & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes]?: IrClStatusTag[K] } & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes as `attr:${K}`]?: IrClStatusTagAttributes[K] } & { [K in keyof IrClStatusTag & keyof IrClStatusTagAttributes as `prop:${K}`]?: IrClStatusTag[K] };
         "ir-collapsable-row": IrCollapsableRow;
-        "ir-column-autocomplete": IrColumnAutocomplete;
-        "ir-combobox": IrCombobox;
-        "ir-common": IrCommon;
-        "ir-copy-button": IrCopyButton;
-        "ir-country-picker": IrCountryPicker;
-        "ir-custom-button": IrCustomButton;
-        "ir-custom-date-range": IrCustomDateRange;
-        "ir-daily-revenue": IrDailyRevenue;
-        "ir-daily-revenue-filters": IrDailyRevenueFilters;
-        "ir-date-picker": IrDatePicker;
-        "ir-date-range": IrDateRange;
-        "ir-date-range-filter": IrDateRangeFilter;
-        "ir-date-select": IrDateSelect;
-        "ir-date-view": IrDateView;
-        "ir-dates-cell": IrDatesCell;
-        "ir-departures": IrDepartures;
+        "ir-column-autocomplete": Omit<IrColumnAutocomplete, keyof IrColumnAutocompleteAttributes> & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes]?: IrColumnAutocomplete[K] } & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes as `attr:${K}`]?: IrColumnAutocompleteAttributes[K] } & { [K in keyof IrColumnAutocomplete & keyof IrColumnAutocompleteAttributes as `prop:${K}`]?: IrColumnAutocomplete[K] };
+        "ir-combobox": Omit<IrCombobox, keyof IrComboboxAttributes> & { [K in keyof IrCombobox & keyof IrComboboxAttributes]?: IrCombobox[K] } & { [K in keyof IrCombobox & keyof IrComboboxAttributes as `attr:${K}`]?: IrComboboxAttributes[K] } & { [K in keyof IrCombobox & keyof IrComboboxAttributes as `prop:${K}`]?: IrCombobox[K] };
+        "ir-common": Omit<IrCommon, keyof IrCommonAttributes> & { [K in keyof IrCommon & keyof IrCommonAttributes]?: IrCommon[K] } & { [K in keyof IrCommon & keyof IrCommonAttributes as `attr:${K}`]?: IrCommonAttributes[K] } & { [K in keyof IrCommon & keyof IrCommonAttributes as `prop:${K}`]?: IrCommon[K] };
+        "ir-copy-button": Omit<IrCopyButton, keyof IrCopyButtonAttributes> & { [K in keyof IrCopyButton & keyof IrCopyButtonAttributes]?: IrCopyButton[K] } & { [K in keyof IrCopyButton & keyof IrCopyButtonAttributes as `attr:${K}`]?: IrCopyButtonAttributes[K] } & { [K in keyof IrCopyButton & keyof IrCopyButtonAttributes as `prop:${K}`]?: IrCopyButton[K] };
+        "ir-country-picker": Omit<IrCountryPicker, keyof IrCountryPickerAttributes> & { [K in keyof IrCountryPicker & keyof IrCountryPickerAttributes]?: IrCountryPicker[K] } & { [K in keyof IrCountryPicker & keyof IrCountryPickerAttributes as `attr:${K}`]?: IrCountryPickerAttributes[K] } & { [K in keyof IrCountryPicker & keyof IrCountryPickerAttributes as `prop:${K}`]?: IrCountryPicker[K] };
+        "ir-custom-button": Omit<IrCustomButton, keyof IrCustomButtonAttributes> & { [K in keyof IrCustomButton & keyof IrCustomButtonAttributes]?: IrCustomButton[K] } & { [K in keyof IrCustomButton & keyof IrCustomButtonAttributes as `attr:${K}`]?: IrCustomButtonAttributes[K] } & { [K in keyof IrCustomButton & keyof IrCustomButtonAttributes as `prop:${K}`]?: IrCustomButton[K] };
+        "ir-custom-date-range": Omit<IrCustomDateRange, keyof IrCustomDateRangeAttributes> & { [K in keyof IrCustomDateRange & keyof IrCustomDateRangeAttributes]?: IrCustomDateRange[K] } & { [K in keyof IrCustomDateRange & keyof IrCustomDateRangeAttributes as `attr:${K}`]?: IrCustomDateRangeAttributes[K] } & { [K in keyof IrCustomDateRange & keyof IrCustomDateRangeAttributes as `prop:${K}`]?: IrCustomDateRange[K] };
+        "ir-daily-revenue": Omit<IrDailyRevenue, keyof IrDailyRevenueAttributes> & { [K in keyof IrDailyRevenue & keyof IrDailyRevenueAttributes]?: IrDailyRevenue[K] } & { [K in keyof IrDailyRevenue & keyof IrDailyRevenueAttributes as `attr:${K}`]?: IrDailyRevenueAttributes[K] } & { [K in keyof IrDailyRevenue & keyof IrDailyRevenueAttributes as `prop:${K}`]?: IrDailyRevenue[K] };
+        "ir-daily-revenue-filters": Omit<IrDailyRevenueFilters, keyof IrDailyRevenueFiltersAttributes> & { [K in keyof IrDailyRevenueFilters & keyof IrDailyRevenueFiltersAttributes]?: IrDailyRevenueFilters[K] } & { [K in keyof IrDailyRevenueFilters & keyof IrDailyRevenueFiltersAttributes as `attr:${K}`]?: IrDailyRevenueFiltersAttributes[K] } & { [K in keyof IrDailyRevenueFilters & keyof IrDailyRevenueFiltersAttributes as `prop:${K}`]?: IrDailyRevenueFilters[K] };
+        "ir-date-picker": Omit<IrDatePicker, keyof IrDatePickerAttributes> & { [K in keyof IrDatePicker & keyof IrDatePickerAttributes]?: IrDatePicker[K] } & { [K in keyof IrDatePicker & keyof IrDatePickerAttributes as `attr:${K}`]?: IrDatePickerAttributes[K] } & { [K in keyof IrDatePicker & keyof IrDatePickerAttributes as `prop:${K}`]?: IrDatePicker[K] };
+        "ir-date-range": Omit<IrDateRange, keyof IrDateRangeAttributes> & { [K in keyof IrDateRange & keyof IrDateRangeAttributes]?: IrDateRange[K] } & { [K in keyof IrDateRange & keyof IrDateRangeAttributes as `attr:${K}`]?: IrDateRangeAttributes[K] } & { [K in keyof IrDateRange & keyof IrDateRangeAttributes as `prop:${K}`]?: IrDateRange[K] };
+        "ir-date-range-filter": Omit<IrDateRangeFilter, keyof IrDateRangeFilterAttributes> & { [K in keyof IrDateRangeFilter & keyof IrDateRangeFilterAttributes]?: IrDateRangeFilter[K] } & { [K in keyof IrDateRangeFilter & keyof IrDateRangeFilterAttributes as `attr:${K}`]?: IrDateRangeFilterAttributes[K] } & { [K in keyof IrDateRangeFilter & keyof IrDateRangeFilterAttributes as `prop:${K}`]?: IrDateRangeFilter[K] };
+        "ir-date-select": Omit<IrDateSelect, keyof IrDateSelectAttributes> & { [K in keyof IrDateSelect & keyof IrDateSelectAttributes]?: IrDateSelect[K] } & { [K in keyof IrDateSelect & keyof IrDateSelectAttributes as `attr:${K}`]?: IrDateSelectAttributes[K] } & { [K in keyof IrDateSelect & keyof IrDateSelectAttributes as `prop:${K}`]?: IrDateSelect[K] };
+        "ir-date-view": Omit<IrDateView, keyof IrDateViewAttributes> & { [K in keyof IrDateView & keyof IrDateViewAttributes]?: IrDateView[K] } & { [K in keyof IrDateView & keyof IrDateViewAttributes as `attr:${K}`]?: IrDateViewAttributes[K] } & { [K in keyof IrDateView & keyof IrDateViewAttributes as `prop:${K}`]?: IrDateView[K] };
+        "ir-dates-cell": Omit<IrDatesCell, keyof IrDatesCellAttributes> & { [K in keyof IrDatesCell & keyof IrDatesCellAttributes]?: IrDatesCell[K] } & { [K in keyof IrDatesCell & keyof IrDatesCellAttributes as `attr:${K}`]?: IrDatesCellAttributes[K] } & { [K in keyof IrDatesCell & keyof IrDatesCellAttributes as `prop:${K}`]?: IrDatesCell[K] };
+        "ir-departures": Omit<IrDepartures, keyof IrDeparturesAttributes> & { [K in keyof IrDepartures & keyof IrDeparturesAttributes]?: IrDepartures[K] } & { [K in keyof IrDepartures & keyof IrDeparturesAttributes as `attr:${K}`]?: IrDeparturesAttributes[K] } & { [K in keyof IrDepartures & keyof IrDeparturesAttributes as `prop:${K}`]?: IrDepartures[K] };
         "ir-departures-filter": IrDeparturesFilter;
         "ir-departures-table": IrDeparturesTable;
-        "ir-dialog": IrDialog;
-        "ir-drawer": IrDrawer;
-        "ir-dropdown": IrDropdown;
-        "ir-dropdown-item": IrDropdownItem;
-        "ir-empty-state": IrEmptyState;
-        "ir-events-log": IrEventsLog;
-        "ir-extra-service": IrExtraService;
-        "ir-extra-service-config": IrExtraServiceConfig;
-        "ir-extra-service-config-form": IrExtraServiceConfigForm;
-        "ir-extra-services": IrExtraServices;
-        "ir-fd-confirm-dialog": IrFdConfirmDialog;
+        "ir-dialog": Omit<IrDialog, keyof IrDialogAttributes> & { [K in keyof IrDialog & keyof IrDialogAttributes]?: IrDialog[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `attr:${K}`]?: IrDialogAttributes[K] } & { [K in keyof IrDialog & keyof IrDialogAttributes as `prop:${K}`]?: IrDialog[K] };
+        "ir-drawer": Omit<IrDrawer, keyof IrDrawerAttributes> & { [K in keyof IrDrawer & keyof IrDrawerAttributes]?: IrDrawer[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `attr:${K}`]?: IrDrawerAttributes[K] } & { [K in keyof IrDrawer & keyof IrDrawerAttributes as `prop:${K}`]?: IrDrawer[K] };
+        "ir-dropdown": Omit<IrDropdown, keyof IrDropdownAttributes> & { [K in keyof IrDropdown & keyof IrDropdownAttributes]?: IrDropdown[K] } & { [K in keyof IrDropdown & keyof IrDropdownAttributes as `attr:${K}`]?: IrDropdownAttributes[K] } & { [K in keyof IrDropdown & keyof IrDropdownAttributes as `prop:${K}`]?: IrDropdown[K] };
+        "ir-dropdown-item": Omit<IrDropdownItem, keyof IrDropdownItemAttributes> & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes]?: IrDropdownItem[K] } & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes as `attr:${K}`]?: IrDropdownItemAttributes[K] } & { [K in keyof IrDropdownItem & keyof IrDropdownItemAttributes as `prop:${K}`]?: IrDropdownItem[K] } & OneOf<"value", IrDropdownItem["value"], IrDropdownItemAttributes["value"]>;
+        "ir-empty-state": Omit<IrEmptyState, keyof IrEmptyStateAttributes> & { [K in keyof IrEmptyState & keyof IrEmptyStateAttributes]?: IrEmptyState[K] } & { [K in keyof IrEmptyState & keyof IrEmptyStateAttributes as `attr:${K}`]?: IrEmptyStateAttributes[K] } & { [K in keyof IrEmptyState & keyof IrEmptyStateAttributes as `prop:${K}`]?: IrEmptyState[K] };
+        "ir-events-log": Omit<IrEventsLog, keyof IrEventsLogAttributes> & { [K in keyof IrEventsLog & keyof IrEventsLogAttributes]?: IrEventsLog[K] } & { [K in keyof IrEventsLog & keyof IrEventsLogAttributes as `attr:${K}`]?: IrEventsLogAttributes[K] } & { [K in keyof IrEventsLog & keyof IrEventsLogAttributes as `prop:${K}`]?: IrEventsLog[K] };
+        "ir-extra-service": Omit<IrExtraService, keyof IrExtraServiceAttributes> & { [K in keyof IrExtraService & keyof IrExtraServiceAttributes]?: IrExtraService[K] } & { [K in keyof IrExtraService & keyof IrExtraServiceAttributes as `attr:${K}`]?: IrExtraServiceAttributes[K] } & { [K in keyof IrExtraService & keyof IrExtraServiceAttributes as `prop:${K}`]?: IrExtraService[K] };
+        "ir-extra-service-config": Omit<IrExtraServiceConfig, keyof IrExtraServiceConfigAttributes> & { [K in keyof IrExtraServiceConfig & keyof IrExtraServiceConfigAttributes]?: IrExtraServiceConfig[K] } & { [K in keyof IrExtraServiceConfig & keyof IrExtraServiceConfigAttributes as `attr:${K}`]?: IrExtraServiceConfigAttributes[K] } & { [K in keyof IrExtraServiceConfig & keyof IrExtraServiceConfigAttributes as `prop:${K}`]?: IrExtraServiceConfig[K] };
+        "ir-extra-service-config-form": Omit<IrExtraServiceConfigForm, keyof IrExtraServiceConfigFormAttributes> & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes]?: IrExtraServiceConfigForm[K] } & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes as `attr:${K}`]?: IrExtraServiceConfigFormAttributes[K] } & { [K in keyof IrExtraServiceConfigForm & keyof IrExtraServiceConfigFormAttributes as `prop:${K}`]?: IrExtraServiceConfigForm[K] };
+        "ir-extra-services": Omit<IrExtraServices, keyof IrExtraServicesAttributes> & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes]?: IrExtraServices[K] } & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes as `attr:${K}`]?: IrExtraServicesAttributes[K] } & { [K in keyof IrExtraServices & keyof IrExtraServicesAttributes as `prop:${K}`]?: IrExtraServices[K] };
+        "ir-fd-confirm-dialog": Omit<IrFdConfirmDialog, keyof IrFdConfirmDialogAttributes> & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes]?: IrFdConfirmDialog[K] } & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes as `attr:${K}`]?: IrFdConfirmDialogAttributes[K] } & { [K in keyof IrFdConfirmDialog & keyof IrFdConfirmDialogAttributes as `prop:${K}`]?: IrFdConfirmDialog[K] };
         "ir-filter-card": IrFilterCard;
-        "ir-filters-panel": IrFiltersPanel;
-        "ir-financial-actions": IrFinancialActions;
-        "ir-financial-filters": IrFinancialFilters;
+        "ir-filters-panel": Omit<IrFiltersPanel, keyof IrFiltersPanelAttributes> & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes]?: IrFiltersPanel[K] } & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes as `attr:${K}`]?: IrFiltersPanelAttributes[K] } & { [K in keyof IrFiltersPanel & keyof IrFiltersPanelAttributes as `prop:${K}`]?: IrFiltersPanel[K] };
+        "ir-financial-actions": Omit<IrFinancialActions, keyof IrFinancialActionsAttributes> & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes]?: IrFinancialActions[K] } & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes as `attr:${K}`]?: IrFinancialActionsAttributes[K] } & { [K in keyof IrFinancialActions & keyof IrFinancialActionsAttributes as `prop:${K}`]?: IrFinancialActions[K] };
+        "ir-financial-filters": Omit<IrFinancialFilters, keyof IrFinancialFiltersAttributes> & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes]?: IrFinancialFilters[K] } & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes as `attr:${K}`]?: IrFinancialFiltersAttributes[K] } & { [K in keyof IrFinancialFilters & keyof IrFinancialFiltersAttributes as `prop:${K}`]?: IrFinancialFilters[K] };
         "ir-financial-summary": IrFinancialSummary;
         "ir-financial-table": IrFinancialTable;
-        "ir-fiscal-documents": IrFiscalDocuments;
-        "ir-fiscal-documents-filters": IrFiscalDocumentsFilters;
-        "ir-fiscal-documents-table": IrFiscalDocumentsTable;
-        "ir-ghs-candidate-table": IrGhsCandidateTable;
-        "ir-ghs-filters": IrGhsFilters;
-        "ir-ghs-onboarding": IrGhsOnboarding;
-        "ir-ghs-selection-bucket": IrGhsSelectionBucket;
+        "ir-fiscal-documents": Omit<IrFiscalDocuments, keyof IrFiscalDocumentsAttributes> & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes]?: IrFiscalDocuments[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `attr:${K}`]?: IrFiscalDocumentsAttributes[K] } & { [K in keyof IrFiscalDocuments & keyof IrFiscalDocumentsAttributes as `prop:${K}`]?: IrFiscalDocuments[K] };
+        "ir-fiscal-documents-filters": Omit<IrFiscalDocumentsFilters, keyof IrFiscalDocumentsFiltersAttributes> & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes]?: IrFiscalDocumentsFilters[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `attr:${K}`]?: IrFiscalDocumentsFiltersAttributes[K] } & { [K in keyof IrFiscalDocumentsFilters & keyof IrFiscalDocumentsFiltersAttributes as `prop:${K}`]?: IrFiscalDocumentsFilters[K] };
+        "ir-fiscal-documents-table": Omit<IrFiscalDocumentsTable, keyof IrFiscalDocumentsTableAttributes> & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes]?: IrFiscalDocumentsTable[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `attr:${K}`]?: IrFiscalDocumentsTableAttributes[K] } & { [K in keyof IrFiscalDocumentsTable & keyof IrFiscalDocumentsTableAttributes as `prop:${K}`]?: IrFiscalDocumentsTable[K] };
+        "ir-ghs-candidate-table": Omit<IrGhsCandidateTable, keyof IrGhsCandidateTableAttributes> & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes]?: IrGhsCandidateTable[K] } & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes as `attr:${K}`]?: IrGhsCandidateTableAttributes[K] } & { [K in keyof IrGhsCandidateTable & keyof IrGhsCandidateTableAttributes as `prop:${K}`]?: IrGhsCandidateTable[K] };
+        "ir-ghs-filters": Omit<IrGhsFilters, keyof IrGhsFiltersAttributes> & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes]?: IrGhsFilters[K] } & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes as `attr:${K}`]?: IrGhsFiltersAttributes[K] } & { [K in keyof IrGhsFilters & keyof IrGhsFiltersAttributes as `prop:${K}`]?: IrGhsFilters[K] };
+        "ir-ghs-onboarding": Omit<IrGhsOnboarding, keyof IrGhsOnboardingAttributes> & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes]?: IrGhsOnboarding[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `attr:${K}`]?: IrGhsOnboardingAttributes[K] } & { [K in keyof IrGhsOnboarding & keyof IrGhsOnboardingAttributes as `prop:${K}`]?: IrGhsOnboarding[K] };
+        "ir-ghs-selection-bucket": Omit<IrGhsSelectionBucket, keyof IrGhsSelectionBucketAttributes> & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes]?: IrGhsSelectionBucket[K] } & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes as `attr:${K}`]?: IrGhsSelectionBucketAttributes[K] } & { [K in keyof IrGhsSelectionBucket & keyof IrGhsSelectionBucketAttributes as `prop:${K}`]?: IrGhsSelectionBucket[K] };
         "ir-guest-billing": IrGuestBilling;
-        "ir-guest-info": IrGuestInfo;
-        "ir-guest-info-drawer": IrGuestInfoDrawer;
-        "ir-guest-info-form": IrGuestInfoForm;
+        "ir-guest-info": Omit<IrGuestInfo, keyof IrGuestInfoAttributes> & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes]?: IrGuestInfo[K] } & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes as `attr:${K}`]?: IrGuestInfoAttributes[K] } & { [K in keyof IrGuestInfo & keyof IrGuestInfoAttributes as `prop:${K}`]?: IrGuestInfo[K] };
+        "ir-guest-info-drawer": Omit<IrGuestInfoDrawer, keyof IrGuestInfoDrawerAttributes> & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes]?: IrGuestInfoDrawer[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `attr:${K}`]?: IrGuestInfoDrawerAttributes[K] } & { [K in keyof IrGuestInfoDrawer & keyof IrGuestInfoDrawerAttributes as `prop:${K}`]?: IrGuestInfoDrawer[K] };
+        "ir-guest-info-form": Omit<IrGuestInfoForm, keyof IrGuestInfoFormAttributes> & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes]?: IrGuestInfoForm[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `attr:${K}`]?: IrGuestInfoFormAttributes[K] } & { [K in keyof IrGuestInfoForm & keyof IrGuestInfoFormAttributes as `prop:${K}`]?: IrGuestInfoForm[K] };
         "ir-guest-name-cell": IrGuestNameCell;
-        "ir-hk-archive": IrHkArchive;
+        "ir-hk-archive": Omit<IrHkArchive, keyof IrHkArchiveAttributes> & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes]?: IrHkArchive[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `attr:${K}`]?: IrHkArchiveAttributes[K] } & { [K in keyof IrHkArchive & keyof IrHkArchiveAttributes as `prop:${K}`]?: IrHkArchive[K] };
         "ir-hk-delete-dialog": IrHkDeleteDialog;
         "ir-hk-operations-card": IrHkOperationsCard;
-        "ir-hk-staff-task": IrHkStaffTask;
-        "ir-hk-staff-tasks": IrHkStaffTasks;
-        "ir-hk-staff-tasks-header": IrHkStaffTasksHeader;
-        "ir-hk-tasks": IrHkTasks;
+        "ir-hk-staff-task": Omit<IrHkStaffTask, keyof IrHkStaffTaskAttributes> & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes]?: IrHkStaffTask[K] } & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes as `attr:${K}`]?: IrHkStaffTaskAttributes[K] } & { [K in keyof IrHkStaffTask & keyof IrHkStaffTaskAttributes as `prop:${K}`]?: IrHkStaffTask[K] };
+        "ir-hk-staff-tasks": Omit<IrHkStaffTasks, keyof IrHkStaffTasksAttributes> & { [K in keyof IrHkStaffTasks & keyof IrHkStaffTasksAttributes]?: IrHkStaffTasks[K] } & { [K in keyof IrHkStaffTasks & keyof IrHkStaffTasksAttributes as `attr:${K}`]?: IrHkStaffTasksAttributes[K] } & { [K in keyof IrHkStaffTasks & keyof IrHkStaffTasksAttributes as `prop:${K}`]?: IrHkStaffTasks[K] };
+        "ir-hk-staff-tasks-header": Omit<IrHkStaffTasksHeader, keyof IrHkStaffTasksHeaderAttributes> & { [K in keyof IrHkStaffTasksHeader & keyof IrHkStaffTasksHeaderAttributes]?: IrHkStaffTasksHeader[K] } & { [K in keyof IrHkStaffTasksHeader & keyof IrHkStaffTasksHeaderAttributes as `attr:${K}`]?: IrHkStaffTasksHeaderAttributes[K] } & { [K in keyof IrHkStaffTasksHeader & keyof IrHkStaffTasksHeaderAttributes as `prop:${K}`]?: IrHkStaffTasksHeader[K] };
+        "ir-hk-tasks": Omit<IrHkTasks, keyof IrHkTasksAttributes> & { [K in keyof IrHkTasks & keyof IrHkTasksAttributes]?: IrHkTasks[K] } & { [K in keyof IrHkTasks & keyof IrHkTasksAttributes as `attr:${K}`]?: IrHkTasksAttributes[K] } & { [K in keyof IrHkTasks & keyof IrHkTasksAttributes as `prop:${K}`]?: IrHkTasks[K] };
         "ir-hk-team": IrHkTeam;
         "ir-hk-unassigned-units": IrHkUnassignedUnits;
-        "ir-hk-unassigned-units-drawer": IrHkUnassignedUnitsDrawer;
-        "ir-hk-unassigned-units-drawer-form": IrHkUnassignedUnitsDrawerForm;
-        "ir-hk-user": IrHkUser;
-        "ir-hk-user-drawer": IrHkUserDrawer;
-        "ir-hk-user-drawer-form": IrHkUserDrawerForm;
-        "ir-hold-transaction-dialog": IrHoldTransactionDialog;
-        "ir-housekeeping": IrHousekeeping;
-        "ir-icon": IrIcon;
-        "ir-icons": IrIcons;
-        "ir-input": IrInput;
-        "ir-input-cell": IrInputCell;
-        "ir-input-text": IrInputText;
-        "ir-interactive-title": IrInteractiveTitle;
+        "ir-hk-unassigned-units-drawer": Omit<IrHkUnassignedUnitsDrawer, keyof IrHkUnassignedUnitsDrawerAttributes> & { [K in keyof IrHkUnassignedUnitsDrawer & keyof IrHkUnassignedUnitsDrawerAttributes]?: IrHkUnassignedUnitsDrawer[K] } & { [K in keyof IrHkUnassignedUnitsDrawer & keyof IrHkUnassignedUnitsDrawerAttributes as `attr:${K}`]?: IrHkUnassignedUnitsDrawerAttributes[K] } & { [K in keyof IrHkUnassignedUnitsDrawer & keyof IrHkUnassignedUnitsDrawerAttributes as `prop:${K}`]?: IrHkUnassignedUnitsDrawer[K] };
+        "ir-hk-unassigned-units-drawer-form": Omit<IrHkUnassignedUnitsDrawerForm, keyof IrHkUnassignedUnitsDrawerFormAttributes> & { [K in keyof IrHkUnassignedUnitsDrawerForm & keyof IrHkUnassignedUnitsDrawerFormAttributes]?: IrHkUnassignedUnitsDrawerForm[K] } & { [K in keyof IrHkUnassignedUnitsDrawerForm & keyof IrHkUnassignedUnitsDrawerFormAttributes as `attr:${K}`]?: IrHkUnassignedUnitsDrawerFormAttributes[K] } & { [K in keyof IrHkUnassignedUnitsDrawerForm & keyof IrHkUnassignedUnitsDrawerFormAttributes as `prop:${K}`]?: IrHkUnassignedUnitsDrawerForm[K] };
+        "ir-hk-user": Omit<IrHkUser, keyof IrHkUserAttributes> & { [K in keyof IrHkUser & keyof IrHkUserAttributes]?: IrHkUser[K] } & { [K in keyof IrHkUser & keyof IrHkUserAttributes as `attr:${K}`]?: IrHkUserAttributes[K] } & { [K in keyof IrHkUser & keyof IrHkUserAttributes as `prop:${K}`]?: IrHkUser[K] };
+        "ir-hk-user-drawer": Omit<IrHkUserDrawer, keyof IrHkUserDrawerAttributes> & { [K in keyof IrHkUserDrawer & keyof IrHkUserDrawerAttributes]?: IrHkUserDrawer[K] } & { [K in keyof IrHkUserDrawer & keyof IrHkUserDrawerAttributes as `attr:${K}`]?: IrHkUserDrawerAttributes[K] } & { [K in keyof IrHkUserDrawer & keyof IrHkUserDrawerAttributes as `prop:${K}`]?: IrHkUserDrawer[K] };
+        "ir-hk-user-drawer-form": Omit<IrHkUserDrawerForm, keyof IrHkUserDrawerFormAttributes> & { [K in keyof IrHkUserDrawerForm & keyof IrHkUserDrawerFormAttributes]?: IrHkUserDrawerForm[K] } & { [K in keyof IrHkUserDrawerForm & keyof IrHkUserDrawerFormAttributes as `attr:${K}`]?: IrHkUserDrawerFormAttributes[K] } & { [K in keyof IrHkUserDrawerForm & keyof IrHkUserDrawerFormAttributes as `prop:${K}`]?: IrHkUserDrawerForm[K] };
+        "ir-hold-transaction-dialog": Omit<IrHoldTransactionDialog, keyof IrHoldTransactionDialogAttributes> & { [K in keyof IrHoldTransactionDialog & keyof IrHoldTransactionDialogAttributes]?: IrHoldTransactionDialog[K] } & { [K in keyof IrHoldTransactionDialog & keyof IrHoldTransactionDialogAttributes as `attr:${K}`]?: IrHoldTransactionDialogAttributes[K] } & { [K in keyof IrHoldTransactionDialog & keyof IrHoldTransactionDialogAttributes as `prop:${K}`]?: IrHoldTransactionDialog[K] };
+        "ir-housekeeping": Omit<IrHousekeeping, keyof IrHousekeepingAttributes> & { [K in keyof IrHousekeeping & keyof IrHousekeepingAttributes]?: IrHousekeeping[K] } & { [K in keyof IrHousekeeping & keyof IrHousekeepingAttributes as `attr:${K}`]?: IrHousekeepingAttributes[K] } & { [K in keyof IrHousekeeping & keyof IrHousekeepingAttributes as `prop:${K}`]?: IrHousekeeping[K] };
+        "ir-icon": Omit<IrIcon, keyof IrIconAttributes> & { [K in keyof IrIcon & keyof IrIconAttributes]?: IrIcon[K] } & { [K in keyof IrIcon & keyof IrIconAttributes as `attr:${K}`]?: IrIconAttributes[K] } & { [K in keyof IrIcon & keyof IrIconAttributes as `prop:${K}`]?: IrIcon[K] };
+        "ir-icons": Omit<IrIcons, keyof IrIconsAttributes> & { [K in keyof IrIcons & keyof IrIconsAttributes]?: IrIcons[K] } & { [K in keyof IrIcons & keyof IrIconsAttributes as `attr:${K}`]?: IrIconsAttributes[K] } & { [K in keyof IrIcons & keyof IrIconsAttributes as `prop:${K}`]?: IrIcons[K] };
+        "ir-input": Omit<IrInput, keyof IrInputAttributes> & { [K in keyof IrInput & keyof IrInputAttributes]?: IrInput[K] } & { [K in keyof IrInput & keyof IrInputAttributes as `attr:${K}`]?: IrInputAttributes[K] } & { [K in keyof IrInput & keyof IrInputAttributes as `prop:${K}`]?: IrInput[K] };
+        "ir-input-cell": Omit<IrInputCell, keyof IrInputCellAttributes> & { [K in keyof IrInputCell & keyof IrInputCellAttributes]?: IrInputCell[K] } & { [K in keyof IrInputCell & keyof IrInputCellAttributes as `attr:${K}`]?: IrInputCellAttributes[K] } & { [K in keyof IrInputCell & keyof IrInputCellAttributes as `prop:${K}`]?: IrInputCell[K] };
+        "ir-input-text": Omit<IrInputText, keyof IrInputTextAttributes> & { [K in keyof IrInputText & keyof IrInputTextAttributes]?: IrInputText[K] } & { [K in keyof IrInputText & keyof IrInputTextAttributes as `attr:${K}`]?: IrInputTextAttributes[K] } & { [K in keyof IrInputText & keyof IrInputTextAttributes as `prop:${K}`]?: IrInputText[K] };
+        "ir-interactive-title": Omit<IrInteractiveTitle, keyof IrInteractiveTitleAttributes> & { [K in keyof IrInteractiveTitle & keyof IrInteractiveTitleAttributes]?: IrInteractiveTitle[K] } & { [K in keyof IrInteractiveTitle & keyof IrInteractiveTitleAttributes as `attr:${K}`]?: IrInteractiveTitleAttributes[K] } & { [K in keyof IrInteractiveTitle & keyof IrInteractiveTitleAttributes as `prop:${K}`]?: IrInteractiveTitle[K] };
         "ir-interceptor": IrInterceptor;
-        "ir-invoice": IrInvoice;
-        "ir-invoice-form": IrInvoiceForm;
-        "ir-label": IrLabel;
-        "ir-listing-header": IrListingHeader;
-        "ir-listing-modal": IrListingModal;
-        "ir-loading-screen": IrLoadingScreen;
+        "ir-invoice": Omit<IrInvoice, keyof IrInvoiceAttributes> & { [K in keyof IrInvoice & keyof IrInvoiceAttributes]?: IrInvoice[K] } & { [K in keyof IrInvoice & keyof IrInvoiceAttributes as `attr:${K}`]?: IrInvoiceAttributes[K] } & { [K in keyof IrInvoice & keyof IrInvoiceAttributes as `prop:${K}`]?: IrInvoice[K] };
+        "ir-invoice-form": Omit<IrInvoiceForm, keyof IrInvoiceFormAttributes> & { [K in keyof IrInvoiceForm & keyof IrInvoiceFormAttributes]?: IrInvoiceForm[K] } & { [K in keyof IrInvoiceForm & keyof IrInvoiceFormAttributes as `attr:${K}`]?: IrInvoiceFormAttributes[K] } & { [K in keyof IrInvoiceForm & keyof IrInvoiceFormAttributes as `prop:${K}`]?: IrInvoiceForm[K] };
+        "ir-label": Omit<IrLabel, keyof IrLabelAttributes> & { [K in keyof IrLabel & keyof IrLabelAttributes]?: IrLabel[K] } & { [K in keyof IrLabel & keyof IrLabelAttributes as `attr:${K}`]?: IrLabelAttributes[K] } & { [K in keyof IrLabel & keyof IrLabelAttributes as `prop:${K}`]?: IrLabel[K] };
+        "ir-listing-header": Omit<IrListingHeader, keyof IrListingHeaderAttributes> & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes]?: IrListingHeader[K] } & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes as `attr:${K}`]?: IrListingHeaderAttributes[K] } & { [K in keyof IrListingHeader & keyof IrListingHeaderAttributes as `prop:${K}`]?: IrListingHeader[K] };
+        "ir-listing-modal": Omit<IrListingModal, keyof IrListingModalAttributes> & { [K in keyof IrListingModal & keyof IrListingModalAttributes]?: IrListingModal[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `attr:${K}`]?: IrListingModalAttributes[K] } & { [K in keyof IrListingModal & keyof IrListingModalAttributes as `prop:${K}`]?: IrListingModal[K] };
+        "ir-loading-screen": Omit<IrLoadingScreen, keyof IrLoadingScreenAttributes> & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes]?: IrLoadingScreen[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `attr:${K}`]?: IrLoadingScreenAttributes[K] } & { [K in keyof IrLoadingScreen & keyof IrLoadingScreenAttributes as `prop:${K}`]?: IrLoadingScreen[K] };
         "ir-login": IrLogin;
-        "ir-m-combobox": IrMCombobox;
+        "ir-m-combobox": Omit<IrMCombobox, keyof IrMComboboxAttributes> & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes]?: IrMCombobox[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `attr:${K}`]?: IrMComboboxAttributes[K] } & { [K in keyof IrMCombobox & keyof IrMComboboxAttributes as `prop:${K}`]?: IrMCombobox[K] };
         "ir-m-combobox-booking-item": IrMComboboxBookingItem;
-        "ir-m-combobox-item": IrMComboboxItem;
+        "ir-m-combobox-item": Omit<IrMComboboxItem, keyof IrMComboboxItemAttributes> & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes]?: IrMComboboxItem[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `attr:${K}`]?: IrMComboboxItemAttributes[K] } & { [K in keyof IrMComboboxItem & keyof IrMComboboxItemAttributes as `prop:${K}`]?: IrMComboboxItem[K] } & OneOf<"value", IrMComboboxItem["value"], IrMComboboxItemAttributes["value"]>;
         "ir-meal-count-summary": IrMealCountSummary;
         "ir-meal-guest-list": IrMealGuestList;
-        "ir-meal-report": IrMealReport;
-        "ir-meal-report-filters": IrMealReportFilters;
-        "ir-menu": IrMenu;
-        "ir-menu-drawer": IrMenuDrawer;
-        "ir-menu-group": IrMenuGroup;
-        "ir-menu-item": IrMenuItem;
-        "ir-metric-card": IrMetricCard;
-        "ir-mobile-input": IrMobileInput;
-        "ir-modal": IrModal;
-        "ir-monthly-bookings-report": IrMonthlyBookingsReport;
-        "ir-monthly-bookings-report-filter": IrMonthlyBookingsReportFilter;
+        "ir-meal-report": Omit<IrMealReport, keyof IrMealReportAttributes> & { [K in keyof IrMealReport & keyof IrMealReportAttributes]?: IrMealReport[K] } & { [K in keyof IrMealReport & keyof IrMealReportAttributes as `attr:${K}`]?: IrMealReportAttributes[K] } & { [K in keyof IrMealReport & keyof IrMealReportAttributes as `prop:${K}`]?: IrMealReport[K] };
+        "ir-meal-report-filters": Omit<IrMealReportFilters, keyof IrMealReportFiltersAttributes> & { [K in keyof IrMealReportFilters & keyof IrMealReportFiltersAttributes]?: IrMealReportFilters[K] } & { [K in keyof IrMealReportFilters & keyof IrMealReportFiltersAttributes as `attr:${K}`]?: IrMealReportFiltersAttributes[K] } & { [K in keyof IrMealReportFilters & keyof IrMealReportFiltersAttributes as `prop:${K}`]?: IrMealReportFilters[K] };
+        "ir-menu": Omit<IrMenu, keyof IrMenuAttributes> & { [K in keyof IrMenu & keyof IrMenuAttributes]?: IrMenu[K] } & { [K in keyof IrMenu & keyof IrMenuAttributes as `attr:${K}`]?: IrMenuAttributes[K] } & { [K in keyof IrMenu & keyof IrMenuAttributes as `prop:${K}`]?: IrMenu[K] };
+        "ir-menu-drawer": Omit<IrMenuDrawer, keyof IrMenuDrawerAttributes> & { [K in keyof IrMenuDrawer & keyof IrMenuDrawerAttributes]?: IrMenuDrawer[K] } & { [K in keyof IrMenuDrawer & keyof IrMenuDrawerAttributes as `attr:${K}`]?: IrMenuDrawerAttributes[K] } & { [K in keyof IrMenuDrawer & keyof IrMenuDrawerAttributes as `prop:${K}`]?: IrMenuDrawer[K] };
+        "ir-menu-group": Omit<IrMenuGroup, keyof IrMenuGroupAttributes> & { [K in keyof IrMenuGroup & keyof IrMenuGroupAttributes]?: IrMenuGroup[K] } & { [K in keyof IrMenuGroup & keyof IrMenuGroupAttributes as `attr:${K}`]?: IrMenuGroupAttributes[K] } & { [K in keyof IrMenuGroup & keyof IrMenuGroupAttributes as `prop:${K}`]?: IrMenuGroup[K] };
+        "ir-menu-item": Omit<IrMenuItem, keyof IrMenuItemAttributes> & { [K in keyof IrMenuItem & keyof IrMenuItemAttributes]?: IrMenuItem[K] } & { [K in keyof IrMenuItem & keyof IrMenuItemAttributes as `attr:${K}`]?: IrMenuItemAttributes[K] } & { [K in keyof IrMenuItem & keyof IrMenuItemAttributes as `prop:${K}`]?: IrMenuItem[K] };
+        "ir-metric-card": Omit<IrMetricCard, keyof IrMetricCardAttributes> & { [K in keyof IrMetricCard & keyof IrMetricCardAttributes]?: IrMetricCard[K] } & { [K in keyof IrMetricCard & keyof IrMetricCardAttributes as `attr:${K}`]?: IrMetricCardAttributes[K] } & { [K in keyof IrMetricCard & keyof IrMetricCardAttributes as `prop:${K}`]?: IrMetricCard[K] };
+        "ir-mobile-input": Omit<IrMobileInput, keyof IrMobileInputAttributes> & { [K in keyof IrMobileInput & keyof IrMobileInputAttributes]?: IrMobileInput[K] } & { [K in keyof IrMobileInput & keyof IrMobileInputAttributes as `attr:${K}`]?: IrMobileInputAttributes[K] } & { [K in keyof IrMobileInput & keyof IrMobileInputAttributes as `prop:${K}`]?: IrMobileInput[K] };
+        "ir-modal": Omit<IrModal, keyof IrModalAttributes> & { [K in keyof IrModal & keyof IrModalAttributes]?: IrModal[K] } & { [K in keyof IrModal & keyof IrModalAttributes as `attr:${K}`]?: IrModalAttributes[K] } & { [K in keyof IrModal & keyof IrModalAttributes as `prop:${K}`]?: IrModal[K] };
+        "ir-monthly-bookings-report": Omit<IrMonthlyBookingsReport, keyof IrMonthlyBookingsReportAttributes> & { [K in keyof IrMonthlyBookingsReport & keyof IrMonthlyBookingsReportAttributes]?: IrMonthlyBookingsReport[K] } & { [K in keyof IrMonthlyBookingsReport & keyof IrMonthlyBookingsReportAttributes as `attr:${K}`]?: IrMonthlyBookingsReportAttributes[K] } & { [K in keyof IrMonthlyBookingsReport & keyof IrMonthlyBookingsReportAttributes as `prop:${K}`]?: IrMonthlyBookingsReport[K] };
+        "ir-monthly-bookings-report-filter": Omit<IrMonthlyBookingsReportFilter, keyof IrMonthlyBookingsReportFilterAttributes> & { [K in keyof IrMonthlyBookingsReportFilter & keyof IrMonthlyBookingsReportFilterAttributes]?: IrMonthlyBookingsReportFilter[K] } & { [K in keyof IrMonthlyBookingsReportFilter & keyof IrMonthlyBookingsReportFilterAttributes as `attr:${K}`]?: IrMonthlyBookingsReportFilterAttributes[K] } & { [K in keyof IrMonthlyBookingsReportFilter & keyof IrMonthlyBookingsReportFilterAttributes as `prop:${K}`]?: IrMonthlyBookingsReportFilter[K] };
         "ir-monthly-bookings-report-table": IrMonthlyBookingsReportTable;
         "ir-new-badge": IrNewBadge;
-        "ir-notifications": IrNotifications;
-        "ir-option-details": IrOptionDetails;
+        "ir-notifications": Omit<IrNotifications, keyof IrNotificationsAttributes> & { [K in keyof IrNotifications & keyof IrNotificationsAttributes]?: IrNotifications[K] } & { [K in keyof IrNotifications & keyof IrNotificationsAttributes as `attr:${K}`]?: IrNotificationsAttributes[K] } & { [K in keyof IrNotifications & keyof IrNotificationsAttributes as `prop:${K}`]?: IrNotifications[K] };
+        "ir-option-details": Omit<IrOptionDetails, keyof IrOptionDetailsAttributes> & { [K in keyof IrOptionDetails & keyof IrOptionDetailsAttributes]?: IrOptionDetails[K] } & { [K in keyof IrOptionDetails & keyof IrOptionDetailsAttributes as `attr:${K}`]?: IrOptionDetailsAttributes[K] } & { [K in keyof IrOptionDetails & keyof IrOptionDetailsAttributes as `prop:${K}`]?: IrOptionDetails[K] };
         "ir-ota-service": IrOtaService;
         "ir-ota-services": IrOtaServices;
-        "ir-otp": IrOtp;
-        "ir-otp-modal": IrOtpModal;
-        "ir-page": IrPage;
-        "ir-pagination": IrPagination;
-        "ir-password-validator": IrPasswordValidator;
+        "ir-otp": Omit<IrOtp, keyof IrOtpAttributes> & { [K in keyof IrOtp & keyof IrOtpAttributes]?: IrOtp[K] } & { [K in keyof IrOtp & keyof IrOtpAttributes as `attr:${K}`]?: IrOtpAttributes[K] } & { [K in keyof IrOtp & keyof IrOtpAttributes as `prop:${K}`]?: IrOtp[K] };
+        "ir-otp-modal": Omit<IrOtpModal, keyof IrOtpModalAttributes> & { [K in keyof IrOtpModal & keyof IrOtpModalAttributes]?: IrOtpModal[K] } & { [K in keyof IrOtpModal & keyof IrOtpModalAttributes as `attr:${K}`]?: IrOtpModalAttributes[K] } & { [K in keyof IrOtpModal & keyof IrOtpModalAttributes as `prop:${K}`]?: IrOtpModal[K] };
+        "ir-page": Omit<IrPage, keyof IrPageAttributes> & { [K in keyof IrPage & keyof IrPageAttributes]?: IrPage[K] } & { [K in keyof IrPage & keyof IrPageAttributes as `attr:${K}`]?: IrPageAttributes[K] } & { [K in keyof IrPage & keyof IrPageAttributes as `prop:${K}`]?: IrPage[K] };
+        "ir-pagination": Omit<IrPagination, keyof IrPaginationAttributes> & { [K in keyof IrPagination & keyof IrPaginationAttributes]?: IrPagination[K] } & { [K in keyof IrPagination & keyof IrPaginationAttributes as `attr:${K}`]?: IrPaginationAttributes[K] } & { [K in keyof IrPagination & keyof IrPaginationAttributes as `prop:${K}`]?: IrPagination[K] };
+        "ir-password-validator": Omit<IrPasswordValidator, keyof IrPasswordValidatorAttributes> & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes]?: IrPasswordValidator[K] } & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes as `attr:${K}`]?: IrPasswordValidatorAttributes[K] } & { [K in keyof IrPasswordValidator & keyof IrPasswordValidatorAttributes as `prop:${K}`]?: IrPasswordValidator[K] };
         "ir-payment-action": IrPaymentAction;
         "ir-payment-actions": IrPaymentActions;
-        "ir-payment-details": IrPaymentDetails;
-        "ir-payment-folio": IrPaymentFolio;
-        "ir-payment-folio-form": IrPaymentFolioForm;
+        "ir-payment-details": Omit<IrPaymentDetails, keyof IrPaymentDetailsAttributes> & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes]?: IrPaymentDetails[K] } & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes as `attr:${K}`]?: IrPaymentDetailsAttributes[K] } & { [K in keyof IrPaymentDetails & keyof IrPaymentDetailsAttributes as `prop:${K}`]?: IrPaymentDetails[K] };
+        "ir-payment-folio": Omit<IrPaymentFolio, keyof IrPaymentFolioAttributes> & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes]?: IrPaymentFolio[K] } & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes as `attr:${K}`]?: IrPaymentFolioAttributes[K] } & { [K in keyof IrPaymentFolio & keyof IrPaymentFolioAttributes as `prop:${K}`]?: IrPaymentFolio[K] };
+        "ir-payment-folio-form": Omit<IrPaymentFolioForm, keyof IrPaymentFolioFormAttributes> & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes]?: IrPaymentFolioForm[K] } & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes as `attr:${K}`]?: IrPaymentFolioFormAttributes[K] } & { [K in keyof IrPaymentFolioForm & keyof IrPaymentFolioFormAttributes as `prop:${K}`]?: IrPaymentFolioForm[K] };
         "ir-payment-item": IrPaymentItem;
-        "ir-payment-option": IrPaymentOption;
-        "ir-payment-summary": IrPaymentSummary;
-        "ir-payments-folio": IrPaymentsFolio;
-        "ir-pdf-viewer": IrPdfViewer;
-        "ir-phone-input": IrPhoneInput;
-        "ir-picker": IrPicker;
-        "ir-picker-item": IrPickerItem;
-        "ir-pickup": IrPickup;
-        "ir-pickup-form": IrPickupForm;
+        "ir-payment-option": Omit<IrPaymentOption, keyof IrPaymentOptionAttributes> & { [K in keyof IrPaymentOption & keyof IrPaymentOptionAttributes]?: IrPaymentOption[K] } & { [K in keyof IrPaymentOption & keyof IrPaymentOptionAttributes as `attr:${K}`]?: IrPaymentOptionAttributes[K] } & { [K in keyof IrPaymentOption & keyof IrPaymentOptionAttributes as `prop:${K}`]?: IrPaymentOption[K] };
+        "ir-payment-summary": Omit<IrPaymentSummary, keyof IrPaymentSummaryAttributes> & { [K in keyof IrPaymentSummary & keyof IrPaymentSummaryAttributes]?: IrPaymentSummary[K] } & { [K in keyof IrPaymentSummary & keyof IrPaymentSummaryAttributes as `attr:${K}`]?: IrPaymentSummaryAttributes[K] } & { [K in keyof IrPaymentSummary & keyof IrPaymentSummaryAttributes as `prop:${K}`]?: IrPaymentSummary[K] };
+        "ir-payments-folio": Omit<IrPaymentsFolio, keyof IrPaymentsFolioAttributes> & { [K in keyof IrPaymentsFolio & keyof IrPaymentsFolioAttributes]?: IrPaymentsFolio[K] } & { [K in keyof IrPaymentsFolio & keyof IrPaymentsFolioAttributes as `attr:${K}`]?: IrPaymentsFolioAttributes[K] } & { [K in keyof IrPaymentsFolio & keyof IrPaymentsFolioAttributes as `prop:${K}`]?: IrPaymentsFolio[K] };
+        "ir-pdf-viewer": Omit<IrPdfViewer, keyof IrPdfViewerAttributes> & { [K in keyof IrPdfViewer & keyof IrPdfViewerAttributes]?: IrPdfViewer[K] } & { [K in keyof IrPdfViewer & keyof IrPdfViewerAttributes as `attr:${K}`]?: IrPdfViewerAttributes[K] } & { [K in keyof IrPdfViewer & keyof IrPdfViewerAttributes as `prop:${K}`]?: IrPdfViewer[K] };
+        "ir-phone-input": Omit<IrPhoneInput, keyof IrPhoneInputAttributes> & { [K in keyof IrPhoneInput & keyof IrPhoneInputAttributes]?: IrPhoneInput[K] } & { [K in keyof IrPhoneInput & keyof IrPhoneInputAttributes as `attr:${K}`]?: IrPhoneInputAttributes[K] } & { [K in keyof IrPhoneInput & keyof IrPhoneInputAttributes as `prop:${K}`]?: IrPhoneInput[K] };
+        "ir-picker": Omit<IrPicker, keyof IrPickerAttributes> & { [K in keyof IrPicker & keyof IrPickerAttributes]?: IrPicker[K] } & { [K in keyof IrPicker & keyof IrPickerAttributes as `attr:${K}`]?: IrPickerAttributes[K] } & { [K in keyof IrPicker & keyof IrPickerAttributes as `prop:${K}`]?: IrPicker[K] };
+        "ir-picker-item": Omit<IrPickerItem, keyof IrPickerItemAttributes> & { [K in keyof IrPickerItem & keyof IrPickerItemAttributes]?: IrPickerItem[K] } & { [K in keyof IrPickerItem & keyof IrPickerItemAttributes as `attr:${K}`]?: IrPickerItemAttributes[K] } & { [K in keyof IrPickerItem & keyof IrPickerItemAttributes as `prop:${K}`]?: IrPickerItem[K] };
+        "ir-pickup": Omit<IrPickup, keyof IrPickupAttributes> & { [K in keyof IrPickup & keyof IrPickupAttributes]?: IrPickup[K] } & { [K in keyof IrPickup & keyof IrPickupAttributes as `attr:${K}`]?: IrPickupAttributes[K] } & { [K in keyof IrPickup & keyof IrPickupAttributes as `prop:${K}`]?: IrPickup[K] };
+        "ir-pickup-form": Omit<IrPickupForm, keyof IrPickupFormAttributes> & { [K in keyof IrPickupForm & keyof IrPickupFormAttributes]?: IrPickupForm[K] } & { [K in keyof IrPickupForm & keyof IrPickupFormAttributes as `attr:${K}`]?: IrPickupFormAttributes[K] } & { [K in keyof IrPickupForm & keyof IrPickupFormAttributes as `prop:${K}`]?: IrPickupForm[K] };
         "ir-pickup-view": IrPickupView;
-        "ir-pms-logs": IrPmsLogs;
-        "ir-pms-page": IrPmsPage;
-        "ir-pms-payment-due-alert": IrPmsPaymentDueAlert;
-        "ir-pms-search": IrPmsSearch;
-        "ir-popover": IrPopover;
-        "ir-preview-screen-dialog": IrPreviewScreenDialog;
-        "ir-price-input": IrPriceInput;
-        "ir-print-room": IrPrintRoom;
+        "ir-pms-logs": Omit<IrPmsLogs, keyof IrPmsLogsAttributes> & { [K in keyof IrPmsLogs & keyof IrPmsLogsAttributes]?: IrPmsLogs[K] } & { [K in keyof IrPmsLogs & keyof IrPmsLogsAttributes as `attr:${K}`]?: IrPmsLogsAttributes[K] } & { [K in keyof IrPmsLogs & keyof IrPmsLogsAttributes as `prop:${K}`]?: IrPmsLogs[K] };
+        "ir-pms-page": Omit<IrPmsPage, keyof IrPmsPageAttributes> & { [K in keyof IrPmsPage & keyof IrPmsPageAttributes]?: IrPmsPage[K] } & { [K in keyof IrPmsPage & keyof IrPmsPageAttributes as `attr:${K}`]?: IrPmsPageAttributes[K] } & { [K in keyof IrPmsPage & keyof IrPmsPageAttributes as `prop:${K}`]?: IrPmsPage[K] };
+        "ir-pms-payment-due-alert": Omit<IrPmsPaymentDueAlert, keyof IrPmsPaymentDueAlertAttributes> & { [K in keyof IrPmsPaymentDueAlert & keyof IrPmsPaymentDueAlertAttributes]?: IrPmsPaymentDueAlert[K] } & { [K in keyof IrPmsPaymentDueAlert & keyof IrPmsPaymentDueAlertAttributes as `attr:${K}`]?: IrPmsPaymentDueAlertAttributes[K] } & { [K in keyof IrPmsPaymentDueAlert & keyof IrPmsPaymentDueAlertAttributes as `prop:${K}`]?: IrPmsPaymentDueAlert[K] };
+        "ir-pms-search": Omit<IrPmsSearch, keyof IrPmsSearchAttributes> & { [K in keyof IrPmsSearch & keyof IrPmsSearchAttributes]?: IrPmsSearch[K] } & { [K in keyof IrPmsSearch & keyof IrPmsSearchAttributes as `attr:${K}`]?: IrPmsSearchAttributes[K] } & { [K in keyof IrPmsSearch & keyof IrPmsSearchAttributes as `prop:${K}`]?: IrPmsSearch[K] };
+        "ir-popover": Omit<IrPopover, keyof IrPopoverAttributes> & { [K in keyof IrPopover & keyof IrPopoverAttributes]?: IrPopover[K] } & { [K in keyof IrPopover & keyof IrPopoverAttributes as `attr:${K}`]?: IrPopoverAttributes[K] } & { [K in keyof IrPopover & keyof IrPopoverAttributes as `prop:${K}`]?: IrPopover[K] };
+        "ir-preview-screen-dialog": Omit<IrPreviewScreenDialog, keyof IrPreviewScreenDialogAttributes> & { [K in keyof IrPreviewScreenDialog & keyof IrPreviewScreenDialogAttributes]?: IrPreviewScreenDialog[K] } & { [K in keyof IrPreviewScreenDialog & keyof IrPreviewScreenDialogAttributes as `attr:${K}`]?: IrPreviewScreenDialogAttributes[K] } & { [K in keyof IrPreviewScreenDialog & keyof IrPreviewScreenDialogAttributes as `prop:${K}`]?: IrPreviewScreenDialog[K] };
+        "ir-price-input": Omit<IrPriceInput, keyof IrPriceInputAttributes> & { [K in keyof IrPriceInput & keyof IrPriceInputAttributes]?: IrPriceInput[K] } & { [K in keyof IrPriceInput & keyof IrPriceInputAttributes as `attr:${K}`]?: IrPriceInputAttributes[K] } & { [K in keyof IrPriceInput & keyof IrPriceInputAttributes as `prop:${K}`]?: IrPriceInput[K] };
+        "ir-print-room": Omit<IrPrintRoom, keyof IrPrintRoomAttributes> & { [K in keyof IrPrintRoom & keyof IrPrintRoomAttributes]?: IrPrintRoom[K] } & { [K in keyof IrPrintRoom & keyof IrPrintRoomAttributes as `attr:${K}`]?: IrPrintRoomAttributes[K] } & { [K in keyof IrPrintRoom & keyof IrPrintRoomAttributes as `prop:${K}`]?: IrPrintRoom[K] };
         "ir-printing-extra-service": IrPrintingExtraService;
-        "ir-printing-label": IrPrintingLabel;
+        "ir-printing-label": Omit<IrPrintingLabel, keyof IrPrintingLabelAttributes> & { [K in keyof IrPrintingLabel & keyof IrPrintingLabelAttributes]?: IrPrintingLabel[K] } & { [K in keyof IrPrintingLabel & keyof IrPrintingLabelAttributes as `attr:${K}`]?: IrPrintingLabelAttributes[K] } & { [K in keyof IrPrintingLabel & keyof IrPrintingLabelAttributes as `prop:${K}`]?: IrPrintingLabel[K] };
         "ir-printing-pickup": IrPrintingPickup;
-        "ir-proforma-invoice-preview": IrProformaInvoicePreview;
-        "ir-progress-indicator": IrProgressIndicator;
-        "ir-property-switcher": IrPropertySwitcher;
-        "ir-property-switcher-dialog-content": IrPropertySwitcherDialogContent;
-        "ir-queue-chart": IrQueueChart;
-        "ir-queue-manager": IrQueueManager;
-        "ir-radio": IrRadio;
-        "ir-range-picker": IrRangePicker;
-        "ir-reallocation-drawer": IrReallocationDrawer;
-        "ir-reallocation-form": IrReallocationForm;
-        "ir-rectifier": IrRectifier;
+        "ir-proforma-invoice-preview": Omit<IrProformaInvoicePreview, keyof IrProformaInvoicePreviewAttributes> & { [K in keyof IrProformaInvoicePreview & keyof IrProformaInvoicePreviewAttributes]?: IrProformaInvoicePreview[K] } & { [K in keyof IrProformaInvoicePreview & keyof IrProformaInvoicePreviewAttributes as `attr:${K}`]?: IrProformaInvoicePreviewAttributes[K] } & { [K in keyof IrProformaInvoicePreview & keyof IrProformaInvoicePreviewAttributes as `prop:${K}`]?: IrProformaInvoicePreview[K] };
+        "ir-progress-indicator": Omit<IrProgressIndicator, keyof IrProgressIndicatorAttributes> & { [K in keyof IrProgressIndicator & keyof IrProgressIndicatorAttributes]?: IrProgressIndicator[K] } & { [K in keyof IrProgressIndicator & keyof IrProgressIndicatorAttributes as `attr:${K}`]?: IrProgressIndicatorAttributes[K] } & { [K in keyof IrProgressIndicator & keyof IrProgressIndicatorAttributes as `prop:${K}`]?: IrProgressIndicator[K] };
+        "ir-property-switcher": Omit<IrPropertySwitcher, keyof IrPropertySwitcherAttributes> & { [K in keyof IrPropertySwitcher & keyof IrPropertySwitcherAttributes]?: IrPropertySwitcher[K] } & { [K in keyof IrPropertySwitcher & keyof IrPropertySwitcherAttributes as `attr:${K}`]?: IrPropertySwitcherAttributes[K] } & { [K in keyof IrPropertySwitcher & keyof IrPropertySwitcherAttributes as `prop:${K}`]?: IrPropertySwitcher[K] };
+        "ir-property-switcher-dialog-content": Omit<IrPropertySwitcherDialogContent, keyof IrPropertySwitcherDialogContentAttributes> & { [K in keyof IrPropertySwitcherDialogContent & keyof IrPropertySwitcherDialogContentAttributes]?: IrPropertySwitcherDialogContent[K] } & { [K in keyof IrPropertySwitcherDialogContent & keyof IrPropertySwitcherDialogContentAttributes as `attr:${K}`]?: IrPropertySwitcherDialogContentAttributes[K] } & { [K in keyof IrPropertySwitcherDialogContent & keyof IrPropertySwitcherDialogContentAttributes as `prop:${K}`]?: IrPropertySwitcherDialogContent[K] };
+        "ir-queue-chart": Omit<IrQueueChart, keyof IrQueueChartAttributes> & { [K in keyof IrQueueChart & keyof IrQueueChartAttributes]?: IrQueueChart[K] } & { [K in keyof IrQueueChart & keyof IrQueueChartAttributes as `attr:${K}`]?: IrQueueChartAttributes[K] } & { [K in keyof IrQueueChart & keyof IrQueueChartAttributes as `prop:${K}`]?: IrQueueChart[K] };
+        "ir-queue-manager": Omit<IrQueueManager, keyof IrQueueManagerAttributes> & { [K in keyof IrQueueManager & keyof IrQueueManagerAttributes]?: IrQueueManager[K] } & { [K in keyof IrQueueManager & keyof IrQueueManagerAttributes as `attr:${K}`]?: IrQueueManagerAttributes[K] } & { [K in keyof IrQueueManager & keyof IrQueueManagerAttributes as `prop:${K}`]?: IrQueueManager[K] };
+        "ir-radio": Omit<IrRadio, keyof IrRadioAttributes> & { [K in keyof IrRadio & keyof IrRadioAttributes]?: IrRadio[K] } & { [K in keyof IrRadio & keyof IrRadioAttributes as `attr:${K}`]?: IrRadioAttributes[K] } & { [K in keyof IrRadio & keyof IrRadioAttributes as `prop:${K}`]?: IrRadio[K] };
+        "ir-range-picker": Omit<IrRangePicker, keyof IrRangePickerAttributes> & { [K in keyof IrRangePicker & keyof IrRangePickerAttributes]?: IrRangePicker[K] } & { [K in keyof IrRangePicker & keyof IrRangePickerAttributes as `attr:${K}`]?: IrRangePickerAttributes[K] } & { [K in keyof IrRangePicker & keyof IrRangePickerAttributes as `prop:${K}`]?: IrRangePicker[K] };
+        "ir-reallocation-drawer": Omit<IrReallocationDrawer, keyof IrReallocationDrawerAttributes> & { [K in keyof IrReallocationDrawer & keyof IrReallocationDrawerAttributes]?: IrReallocationDrawer[K] } & { [K in keyof IrReallocationDrawer & keyof IrReallocationDrawerAttributes as `attr:${K}`]?: IrReallocationDrawerAttributes[K] } & { [K in keyof IrReallocationDrawer & keyof IrReallocationDrawerAttributes as `prop:${K}`]?: IrReallocationDrawer[K] };
+        "ir-reallocation-form": Omit<IrReallocationForm, keyof IrReallocationFormAttributes> & { [K in keyof IrReallocationForm & keyof IrReallocationFormAttributes]?: IrReallocationForm[K] } & { [K in keyof IrReallocationForm & keyof IrReallocationFormAttributes as `attr:${K}`]?: IrReallocationFormAttributes[K] } & { [K in keyof IrReallocationForm & keyof IrReallocationFormAttributes as `prop:${K}`]?: IrReallocationForm[K] };
+        "ir-rectifier": Omit<IrRectifier, keyof IrRectifierAttributes> & { [K in keyof IrRectifier & keyof IrRectifierAttributes]?: IrRectifier[K] } & { [K in keyof IrRectifier & keyof IrRectifierAttributes as `attr:${K}`]?: IrRectifierAttributes[K] } & { [K in keyof IrRectifier & keyof IrRectifierAttributes as `prop:${K}`]?: IrRectifier[K] };
         "ir-reservation-information": IrReservationInformation;
-        "ir-reset-password": IrResetPassword;
-        "ir-revenue-row": IrRevenueRow;
+        "ir-reset-password": Omit<IrResetPassword, keyof IrResetPasswordAttributes> & { [K in keyof IrResetPassword & keyof IrResetPasswordAttributes]?: IrResetPassword[K] } & { [K in keyof IrResetPassword & keyof IrResetPasswordAttributes as `attr:${K}`]?: IrResetPasswordAttributes[K] } & { [K in keyof IrResetPassword & keyof IrResetPasswordAttributes as `prop:${K}`]?: IrResetPassword[K] };
+        "ir-revenue-row": Omit<IrRevenueRow, keyof IrRevenueRowAttributes> & { [K in keyof IrRevenueRow & keyof IrRevenueRowAttributes]?: IrRevenueRow[K] } & { [K in keyof IrRevenueRow & keyof IrRevenueRowAttributes as `attr:${K}`]?: IrRevenueRowAttributes[K] } & { [K in keyof IrRevenueRow & keyof IrRevenueRowAttributes as `prop:${K}`]?: IrRevenueRow[K] } & OneOf<"groupName", IrRevenueRow["groupName"], IrRevenueRowAttributes["groupName"]>;
         "ir-revenue-row-details": IrRevenueRowDetails;
         "ir-revenue-summary": IrRevenueSummary;
         "ir-revenue-table": IrRevenueTable;
-        "ir-room": IrRoom;
-        "ir-room-guests": IrRoomGuests;
-        "ir-room-guests-form": IrRoomGuestsForm;
-        "ir-room-nights": IrRoomNights;
-        "ir-sales-by-channel": IrSalesByChannel;
-        "ir-sales-by-channel-filters": IrSalesByChannelFilters;
+        "ir-room": Omit<IrRoom, keyof IrRoomAttributes> & { [K in keyof IrRoom & keyof IrRoomAttributes]?: IrRoom[K] } & { [K in keyof IrRoom & keyof IrRoomAttributes as `attr:${K}`]?: IrRoomAttributes[K] } & { [K in keyof IrRoom & keyof IrRoomAttributes as `prop:${K}`]?: IrRoom[K] };
+        "ir-room-guests": Omit<IrRoomGuests, keyof IrRoomGuestsAttributes> & { [K in keyof IrRoomGuests & keyof IrRoomGuestsAttributes]?: IrRoomGuests[K] } & { [K in keyof IrRoomGuests & keyof IrRoomGuestsAttributes as `attr:${K}`]?: IrRoomGuestsAttributes[K] } & { [K in keyof IrRoomGuests & keyof IrRoomGuestsAttributes as `prop:${K}`]?: IrRoomGuests[K] };
+        "ir-room-guests-form": Omit<IrRoomGuestsForm, keyof IrRoomGuestsFormAttributes> & { [K in keyof IrRoomGuestsForm & keyof IrRoomGuestsFormAttributes]?: IrRoomGuestsForm[K] } & { [K in keyof IrRoomGuestsForm & keyof IrRoomGuestsFormAttributes as `attr:${K}`]?: IrRoomGuestsFormAttributes[K] } & { [K in keyof IrRoomGuestsForm & keyof IrRoomGuestsFormAttributes as `prop:${K}`]?: IrRoomGuestsForm[K] };
+        "ir-room-nights": Omit<IrRoomNights, keyof IrRoomNightsAttributes> & { [K in keyof IrRoomNights & keyof IrRoomNightsAttributes]?: IrRoomNights[K] } & { [K in keyof IrRoomNights & keyof IrRoomNightsAttributes as `attr:${K}`]?: IrRoomNightsAttributes[K] } & { [K in keyof IrRoomNights & keyof IrRoomNightsAttributes as `prop:${K}`]?: IrRoomNights[K] };
+        "ir-sales-by-channel": Omit<IrSalesByChannel, keyof IrSalesByChannelAttributes> & { [K in keyof IrSalesByChannel & keyof IrSalesByChannelAttributes]?: IrSalesByChannel[K] } & { [K in keyof IrSalesByChannel & keyof IrSalesByChannelAttributes as `attr:${K}`]?: IrSalesByChannelAttributes[K] } & { [K in keyof IrSalesByChannel & keyof IrSalesByChannelAttributes as `prop:${K}`]?: IrSalesByChannel[K] };
+        "ir-sales-by-channel-filters": Omit<IrSalesByChannelFilters, keyof IrSalesByChannelFiltersAttributes> & { [K in keyof IrSalesByChannelFilters & keyof IrSalesByChannelFiltersAttributes]?: IrSalesByChannelFilters[K] } & { [K in keyof IrSalesByChannelFilters & keyof IrSalesByChannelFiltersAttributes as `attr:${K}`]?: IrSalesByChannelFiltersAttributes[K] } & { [K in keyof IrSalesByChannelFilters & keyof IrSalesByChannelFiltersAttributes as `prop:${K}`]?: IrSalesByChannelFilters[K] };
         "ir-sales-by-channel-summary": IrSalesByChannelSummary;
-        "ir-sales-by-channel-table": IrSalesByChannelTable;
-        "ir-sales-by-country": IrSalesByCountry;
+        "ir-sales-by-channel-table": Omit<IrSalesByChannelTable, keyof IrSalesByChannelTableAttributes> & { [K in keyof IrSalesByChannelTable & keyof IrSalesByChannelTableAttributes]?: IrSalesByChannelTable[K] } & { [K in keyof IrSalesByChannelTable & keyof IrSalesByChannelTableAttributes as `attr:${K}`]?: IrSalesByChannelTableAttributes[K] } & { [K in keyof IrSalesByChannelTable & keyof IrSalesByChannelTableAttributes as `prop:${K}`]?: IrSalesByChannelTable[K] };
+        "ir-sales-by-country": Omit<IrSalesByCountry, keyof IrSalesByCountryAttributes> & { [K in keyof IrSalesByCountry & keyof IrSalesByCountryAttributes]?: IrSalesByCountry[K] } & { [K in keyof IrSalesByCountry & keyof IrSalesByCountryAttributes as `attr:${K}`]?: IrSalesByCountryAttributes[K] } & { [K in keyof IrSalesByCountry & keyof IrSalesByCountryAttributes as `prop:${K}`]?: IrSalesByCountry[K] };
         "ir-sales-by-country-summary": IrSalesByCountrySummary;
-        "ir-sales-filters": IrSalesFilters;
+        "ir-sales-filters": Omit<IrSalesFilters, keyof IrSalesFiltersAttributes> & { [K in keyof IrSalesFilters & keyof IrSalesFiltersAttributes]?: IrSalesFilters[K] } & { [K in keyof IrSalesFilters & keyof IrSalesFiltersAttributes as `attr:${K}`]?: IrSalesFiltersAttributes[K] } & { [K in keyof IrSalesFilters & keyof IrSalesFiltersAttributes as `prop:${K}`]?: IrSalesFilters[K] };
         "ir-sales-table": IrSalesTable;
-        "ir-secure-tasks": IrSecureTasks;
-        "ir-select": IrSelect;
-        "ir-service-assignee-select": IrServiceAssigneeSelect;
-        "ir-sidebar": IrSidebar;
-        "ir-span": IrSpan;
-        "ir-spinner": IrSpinner;
-        "ir-stats-card": IrStatsCard;
-        "ir-status-activity-cell": IrStatusActivityCell;
-        "ir-success-loader": IrSuccessLoader;
-        "ir-switch": IrSwitch;
-        "ir-tabs": IrTabs;
-        "ir-tasks-card": IrTasksCard;
-        "ir-tasks-filters": IrTasksFilters;
+        "ir-secure-tasks": Omit<IrSecureTasks, keyof IrSecureTasksAttributes> & { [K in keyof IrSecureTasks & keyof IrSecureTasksAttributes]?: IrSecureTasks[K] } & { [K in keyof IrSecureTasks & keyof IrSecureTasksAttributes as `attr:${K}`]?: IrSecureTasksAttributes[K] } & { [K in keyof IrSecureTasks & keyof IrSecureTasksAttributes as `prop:${K}`]?: IrSecureTasks[K] };
+        "ir-select": Omit<IrSelect, keyof IrSelectAttributes> & { [K in keyof IrSelect & keyof IrSelectAttributes]?: IrSelect[K] } & { [K in keyof IrSelect & keyof IrSelectAttributes as `attr:${K}`]?: IrSelectAttributes[K] } & { [K in keyof IrSelect & keyof IrSelectAttributes as `prop:${K}`]?: IrSelect[K] };
+        "ir-service-assignee-select": Omit<IrServiceAssigneeSelect, keyof IrServiceAssigneeSelectAttributes> & { [K in keyof IrServiceAssigneeSelect & keyof IrServiceAssigneeSelectAttributes]?: IrServiceAssigneeSelect[K] } & { [K in keyof IrServiceAssigneeSelect & keyof IrServiceAssigneeSelectAttributes as `attr:${K}`]?: IrServiceAssigneeSelectAttributes[K] } & { [K in keyof IrServiceAssigneeSelect & keyof IrServiceAssigneeSelectAttributes as `prop:${K}`]?: IrServiceAssigneeSelect[K] };
+        "ir-sidebar": Omit<IrSidebar, keyof IrSidebarAttributes> & { [K in keyof IrSidebar & keyof IrSidebarAttributes]?: IrSidebar[K] } & { [K in keyof IrSidebar & keyof IrSidebarAttributes as `attr:${K}`]?: IrSidebarAttributes[K] } & { [K in keyof IrSidebar & keyof IrSidebarAttributes as `prop:${K}`]?: IrSidebar[K] };
+        "ir-span": Omit<IrSpan, keyof IrSpanAttributes> & { [K in keyof IrSpan & keyof IrSpanAttributes]?: IrSpan[K] } & { [K in keyof IrSpan & keyof IrSpanAttributes as `attr:${K}`]?: IrSpanAttributes[K] } & { [K in keyof IrSpan & keyof IrSpanAttributes as `prop:${K}`]?: IrSpan[K] };
+        "ir-spinner": Omit<IrSpinner, keyof IrSpinnerAttributes> & { [K in keyof IrSpinner & keyof IrSpinnerAttributes]?: IrSpinner[K] } & { [K in keyof IrSpinner & keyof IrSpinnerAttributes as `attr:${K}`]?: IrSpinnerAttributes[K] } & { [K in keyof IrSpinner & keyof IrSpinnerAttributes as `prop:${K}`]?: IrSpinner[K] };
+        "ir-stats-card": Omit<IrStatsCard, keyof IrStatsCardAttributes> & { [K in keyof IrStatsCard & keyof IrStatsCardAttributes]?: IrStatsCard[K] } & { [K in keyof IrStatsCard & keyof IrStatsCardAttributes as `attr:${K}`]?: IrStatsCardAttributes[K] } & { [K in keyof IrStatsCard & keyof IrStatsCardAttributes as `prop:${K}`]?: IrStatsCard[K] };
+        "ir-status-activity-cell": Omit<IrStatusActivityCell, keyof IrStatusActivityCellAttributes> & { [K in keyof IrStatusActivityCell & keyof IrStatusActivityCellAttributes]?: IrStatusActivityCell[K] } & { [K in keyof IrStatusActivityCell & keyof IrStatusActivityCellAttributes as `attr:${K}`]?: IrStatusActivityCellAttributes[K] } & { [K in keyof IrStatusActivityCell & keyof IrStatusActivityCellAttributes as `prop:${K}`]?: IrStatusActivityCell[K] };
+        "ir-success-loader": Omit<IrSuccessLoader, keyof IrSuccessLoaderAttributes> & { [K in keyof IrSuccessLoader & keyof IrSuccessLoaderAttributes]?: IrSuccessLoader[K] } & { [K in keyof IrSuccessLoader & keyof IrSuccessLoaderAttributes as `attr:${K}`]?: IrSuccessLoaderAttributes[K] } & { [K in keyof IrSuccessLoader & keyof IrSuccessLoaderAttributes as `prop:${K}`]?: IrSuccessLoader[K] };
+        "ir-switch": Omit<IrSwitch, keyof IrSwitchAttributes> & { [K in keyof IrSwitch & keyof IrSwitchAttributes]?: IrSwitch[K] } & { [K in keyof IrSwitch & keyof IrSwitchAttributes as `attr:${K}`]?: IrSwitchAttributes[K] } & { [K in keyof IrSwitch & keyof IrSwitchAttributes as `prop:${K}`]?: IrSwitch[K] };
+        "ir-tabs": Omit<IrTabs, keyof IrTabsAttributes> & { [K in keyof IrTabs & keyof IrTabsAttributes]?: IrTabs[K] } & { [K in keyof IrTabs & keyof IrTabsAttributes as `attr:${K}`]?: IrTabsAttributes[K] } & { [K in keyof IrTabs & keyof IrTabsAttributes as `prop:${K}`]?: IrTabs[K] };
+        "ir-tasks-card": Omit<IrTasksCard, keyof IrTasksCardAttributes> & { [K in keyof IrTasksCard & keyof IrTasksCardAttributes]?: IrTasksCard[K] } & { [K in keyof IrTasksCard & keyof IrTasksCardAttributes as `attr:${K}`]?: IrTasksCardAttributes[K] } & { [K in keyof IrTasksCard & keyof IrTasksCardAttributes as `prop:${K}`]?: IrTasksCard[K] };
+        "ir-tasks-filters": Omit<IrTasksFilters, keyof IrTasksFiltersAttributes> & { [K in keyof IrTasksFilters & keyof IrTasksFiltersAttributes]?: IrTasksFilters[K] } & { [K in keyof IrTasksFilters & keyof IrTasksFiltersAttributes as `attr:${K}`]?: IrTasksFiltersAttributes[K] } & { [K in keyof IrTasksFilters & keyof IrTasksFiltersAttributes as `prop:${K}`]?: IrTasksFilters[K] };
         "ir-tasks-header": IrTasksHeader;
         "ir-tasks-table": IrTasksTable;
         "ir-tasks-table-pagination": IrTasksTablePagination;
-        "ir-tax-input": IrTaxInput;
-        "ir-tax-service-categories": IrTaxServiceCategories;
+        "ir-tax-input": Omit<IrTaxInput, keyof IrTaxInputAttributes> & { [K in keyof IrTaxInput & keyof IrTaxInputAttributes]?: IrTaxInput[K] } & { [K in keyof IrTaxInput & keyof IrTaxInputAttributes as `attr:${K}`]?: IrTaxInputAttributes[K] } & { [K in keyof IrTaxInput & keyof IrTaxInputAttributes as `prop:${K}`]?: IrTaxInput[K] };
+        "ir-tax-service-categories": Omit<IrTaxServiceCategories, keyof IrTaxServiceCategoriesAttributes> & { [K in keyof IrTaxServiceCategories & keyof IrTaxServiceCategoriesAttributes]?: IrTaxServiceCategories[K] } & { [K in keyof IrTaxServiceCategories & keyof IrTaxServiceCategoriesAttributes as `attr:${K}`]?: IrTaxServiceCategoriesAttributes[K] } & { [K in keyof IrTaxServiceCategories & keyof IrTaxServiceCategoriesAttributes as `prop:${K}`]?: IrTaxServiceCategories[K] };
         "ir-test-cmp": IrTestCmp;
         "ir-test2-cmp": IrTest2Cmp;
-        "ir-text-editor": IrTextEditor;
-        "ir-textarea": IrTextarea;
-        "ir-title": IrTitle;
-        "ir-toast": IrToast;
-        "ir-toast-alert": IrToastAlert;
-        "ir-toast-item": IrToastItem;
-        "ir-toast-provider": IrToastProvider;
+        "ir-text-editor": Omit<IrTextEditor, keyof IrTextEditorAttributes> & { [K in keyof IrTextEditor & keyof IrTextEditorAttributes]?: IrTextEditor[K] } & { [K in keyof IrTextEditor & keyof IrTextEditorAttributes as `attr:${K}`]?: IrTextEditorAttributes[K] } & { [K in keyof IrTextEditor & keyof IrTextEditorAttributes as `prop:${K}`]?: IrTextEditor[K] };
+        "ir-textarea": Omit<IrTextarea, keyof IrTextareaAttributes> & { [K in keyof IrTextarea & keyof IrTextareaAttributes]?: IrTextarea[K] } & { [K in keyof IrTextarea & keyof IrTextareaAttributes as `attr:${K}`]?: IrTextareaAttributes[K] } & { [K in keyof IrTextarea & keyof IrTextareaAttributes as `prop:${K}`]?: IrTextarea[K] };
+        "ir-title": Omit<IrTitle, keyof IrTitleAttributes> & { [K in keyof IrTitle & keyof IrTitleAttributes]?: IrTitle[K] } & { [K in keyof IrTitle & keyof IrTitleAttributes as `attr:${K}`]?: IrTitleAttributes[K] } & { [K in keyof IrTitle & keyof IrTitleAttributes as `prop:${K}`]?: IrTitle[K] };
+        "ir-toast": Omit<IrToast, keyof IrToastAttributes> & { [K in keyof IrToast & keyof IrToastAttributes]?: IrToast[K] } & { [K in keyof IrToast & keyof IrToastAttributes as `attr:${K}`]?: IrToastAttributes[K] } & { [K in keyof IrToast & keyof IrToastAttributes as `prop:${K}`]?: IrToast[K] };
+        "ir-toast-alert": Omit<IrToastAlert, keyof IrToastAlertAttributes> & { [K in keyof IrToastAlert & keyof IrToastAlertAttributes]?: IrToastAlert[K] } & { [K in keyof IrToastAlert & keyof IrToastAlertAttributes as `attr:${K}`]?: IrToastAlertAttributes[K] } & { [K in keyof IrToastAlert & keyof IrToastAlertAttributes as `prop:${K}`]?: IrToastAlert[K] } & OneOf<"toastId", IrToastAlert["toastId"], IrToastAlertAttributes["toastId"]>;
+        "ir-toast-item": Omit<IrToastItem, keyof IrToastItemAttributes> & { [K in keyof IrToastItem & keyof IrToastItemAttributes]?: IrToastItem[K] } & { [K in keyof IrToastItem & keyof IrToastItemAttributes as `attr:${K}`]?: IrToastItemAttributes[K] } & { [K in keyof IrToastItem & keyof IrToastItemAttributes as `prop:${K}`]?: IrToastItem[K] };
+        "ir-toast-provider": Omit<IrToastProvider, keyof IrToastProviderAttributes> & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes]?: IrToastProvider[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `attr:${K}`]?: IrToastProviderAttributes[K] } & { [K in keyof IrToastProvider & keyof IrToastProviderAttributes as `prop:${K}`]?: IrToastProvider[K] };
         "ir-toasts-provider": IrToastsProvider;
-        "ir-tooltip": IrTooltip;
-        "ir-unbookable-rooms": IrUnbookableRooms;
-        "ir-unbookable-rooms-data": IrUnbookableRoomsData;
-        "ir-unbookable-rooms-filters": IrUnbookableRoomsFilters;
-        "ir-unit-cell": IrUnitCell;
+        "ir-tooltip": Omit<IrTooltip, keyof IrTooltipAttributes> & { [K in keyof IrTooltip & keyof IrTooltipAttributes]?: IrTooltip[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `attr:${K}`]?: IrTooltipAttributes[K] } & { [K in keyof IrTooltip & keyof IrTooltipAttributes as `prop:${K}`]?: IrTooltip[K] };
+        "ir-unbookable-rooms": Omit<IrUnbookableRooms, keyof IrUnbookableRoomsAttributes> & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes]?: IrUnbookableRooms[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `attr:${K}`]?: IrUnbookableRoomsAttributes[K] } & { [K in keyof IrUnbookableRooms & keyof IrUnbookableRoomsAttributes as `prop:${K}`]?: IrUnbookableRooms[K] };
+        "ir-unbookable-rooms-data": Omit<IrUnbookableRoomsData, keyof IrUnbookableRoomsDataAttributes> & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes]?: IrUnbookableRoomsData[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `attr:${K}`]?: IrUnbookableRoomsDataAttributes[K] } & { [K in keyof IrUnbookableRoomsData & keyof IrUnbookableRoomsDataAttributes as `prop:${K}`]?: IrUnbookableRoomsData[K] };
+        "ir-unbookable-rooms-filters": Omit<IrUnbookableRoomsFilters, keyof IrUnbookableRoomsFiltersAttributes> & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes]?: IrUnbookableRoomsFilters[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `attr:${K}`]?: IrUnbookableRoomsFiltersAttributes[K] } & { [K in keyof IrUnbookableRoomsFilters & keyof IrUnbookableRoomsFiltersAttributes as `prop:${K}`]?: IrUnbookableRoomsFilters[K] };
+        "ir-unit-cell": Omit<IrUnitCell, keyof IrUnitCellAttributes> & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes]?: IrUnitCell[K] } & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes as `attr:${K}`]?: IrUnitCellAttributes[K] } & { [K in keyof IrUnitCell & keyof IrUnitCellAttributes as `prop:${K}`]?: IrUnitCell[K] };
         "ir-unit-status": IrUnitStatus;
-        "ir-unit-tag": IrUnitTag;
-        "ir-user-form-panel": IrUserFormPanel;
-        "ir-user-form-panel-drawer": IrUserFormPanelDrawer;
-        "ir-user-management": IrUserManagement;
-        "ir-user-management-table": IrUserManagementTable;
-        "ir-validator": IrValidator;
+        "ir-unit-tag": Omit<IrUnitTag, keyof IrUnitTagAttributes> & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes]?: IrUnitTag[K] } & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes as `attr:${K}`]?: IrUnitTagAttributes[K] } & { [K in keyof IrUnitTag & keyof IrUnitTagAttributes as `prop:${K}`]?: IrUnitTag[K] };
+        "ir-user-form-panel": Omit<IrUserFormPanel, keyof IrUserFormPanelAttributes> & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes]?: IrUserFormPanel[K] } & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes as `attr:${K}`]?: IrUserFormPanelAttributes[K] } & { [K in keyof IrUserFormPanel & keyof IrUserFormPanelAttributes as `prop:${K}`]?: IrUserFormPanel[K] };
+        "ir-user-form-panel-drawer": Omit<IrUserFormPanelDrawer, keyof IrUserFormPanelDrawerAttributes> & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes]?: IrUserFormPanelDrawer[K] } & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes as `attr:${K}`]?: IrUserFormPanelDrawerAttributes[K] } & { [K in keyof IrUserFormPanelDrawer & keyof IrUserFormPanelDrawerAttributes as `prop:${K}`]?: IrUserFormPanelDrawer[K] };
+        "ir-user-management": Omit<IrUserManagement, keyof IrUserManagementAttributes> & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes]?: IrUserManagement[K] } & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes as `attr:${K}`]?: IrUserManagementAttributes[K] } & { [K in keyof IrUserManagement & keyof IrUserManagementAttributes as `prop:${K}`]?: IrUserManagement[K] };
+        "ir-user-management-table": Omit<IrUserManagementTable, keyof IrUserManagementTableAttributes> & { [K in keyof IrUserManagementTable & keyof IrUserManagementTableAttributes]?: IrUserManagementTable[K] } & { [K in keyof IrUserManagementTable & keyof IrUserManagementTableAttributes as `attr:${K}`]?: IrUserManagementTableAttributes[K] } & { [K in keyof IrUserManagementTable & keyof IrUserManagementTableAttributes as `prop:${K}`]?: IrUserManagementTable[K] };
+        "ir-validator": Omit<IrValidator, keyof IrValidatorAttributes> & { [K in keyof IrValidator & keyof IrValidatorAttributes]?: IrValidator[K] } & { [K in keyof IrValidator & keyof IrValidatorAttributes as `attr:${K}`]?: IrValidatorAttributes[K] } & { [K in keyof IrValidator & keyof IrValidatorAttributes as `prop:${K}`]?: IrValidator[K] };
         "ir-weekday-selector": IrWeekdaySelector;
-        "ota-label": OtaLabel;
-        "requirement-check": RequirementCheck;
+        "ota-label": Omit<OtaLabel, keyof OtaLabelAttributes> & { [K in keyof OtaLabel & keyof OtaLabelAttributes]?: OtaLabel[K] } & { [K in keyof OtaLabel & keyof OtaLabelAttributes as `attr:${K}`]?: OtaLabelAttributes[K] } & { [K in keyof OtaLabel & keyof OtaLabelAttributes as `prop:${K}`]?: OtaLabel[K] };
+        "requirement-check": Omit<RequirementCheck, keyof RequirementCheckAttributes> & { [K in keyof RequirementCheck & keyof RequirementCheckAttributes]?: RequirementCheck[K] } & { [K in keyof RequirementCheck & keyof RequirementCheckAttributes as `attr:${K}`]?: RequirementCheckAttributes[K] } & { [K in keyof RequirementCheck & keyof RequirementCheckAttributes as `prop:${K}`]?: RequirementCheck[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "ac-pages-menu": LocalJSX.AcPagesMenu & JSXBase.HTMLAttributes<HTMLAcPagesMenuElement>;
-            "igl-application-info": LocalJSX.IglApplicationInfo & JSXBase.HTMLAttributes<HTMLIglApplicationInfoElement>;
-            "igl-block-dates-view": LocalJSX.IglBlockDatesView & JSXBase.HTMLAttributes<HTMLIglBlockDatesViewElement>;
-            "igl-blocked-date-drawer": LocalJSX.IglBlockedDateDrawer & JSXBase.HTMLAttributes<HTMLIglBlockedDateDrawerElement>;
-            "igl-book-property": LocalJSX.IglBookProperty & JSXBase.HTMLAttributes<HTMLIglBookPropertyElement>;
-            "igl-book-property-container": LocalJSX.IglBookPropertyContainer & JSXBase.HTMLAttributes<HTMLIglBookPropertyContainerElement>;
-            "igl-book-property-footer": LocalJSX.IglBookPropertyFooter & JSXBase.HTMLAttributes<HTMLIglBookPropertyFooterElement>;
-            "igl-book-property-header": LocalJSX.IglBookPropertyHeader & JSXBase.HTMLAttributes<HTMLIglBookPropertyHeaderElement>;
-            "igl-booking-event": LocalJSX.IglBookingEvent & JSXBase.HTMLAttributes<HTMLIglBookingEventElement>;
-            "igl-booking-event-hover": LocalJSX.IglBookingEventHover & JSXBase.HTMLAttributes<HTMLIglBookingEventHoverElement>;
-            "igl-booking-form": LocalJSX.IglBookingForm & JSXBase.HTMLAttributes<HTMLIglBookingFormElement>;
-            "igl-booking-overview-page": LocalJSX.IglBookingOverviewPage & JSXBase.HTMLAttributes<HTMLIglBookingOverviewPageElement>;
-            "igl-bulk-block": LocalJSX.IglBulkBlock & JSXBase.HTMLAttributes<HTMLIglBulkBlockElement>;
-            "igl-bulk-operations": LocalJSX.IglBulkOperations & JSXBase.HTMLAttributes<HTMLIglBulkOperationsElement>;
-            "igl-bulk-operations-drawer": LocalJSX.IglBulkOperationsDrawer & JSXBase.HTMLAttributes<HTMLIglBulkOperationsDrawerElement>;
-            "igl-bulk-stop-sale": LocalJSX.IglBulkStopSale & JSXBase.HTMLAttributes<HTMLIglBulkStopSaleElement>;
-            "igl-cal-body": LocalJSX.IglCalBody & JSXBase.HTMLAttributes<HTMLIglCalBodyElement>;
-            "igl-cal-footer": LocalJSX.IglCalFooter & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
-            "igl-cal-header": LocalJSX.IglCalHeader & JSXBase.HTMLAttributes<HTMLIglCalHeaderElement>;
-            "igl-hk-issues-dialog": LocalJSX.IglHkIssuesDialog & JSXBase.HTMLAttributes<HTMLIglHkIssuesDialogElement>;
-            "igl-housekeeping-dialog": LocalJSX.IglHousekeepingDialog & JSXBase.HTMLAttributes<HTMLIglHousekeepingDialogElement>;
-            "igl-legend": LocalJSX.IglLegend & JSXBase.HTMLAttributes<HTMLIglLegendElement>;
-            "igl-property-booked-by": LocalJSX.IglPropertyBookedBy & JSXBase.HTMLAttributes<HTMLIglPropertyBookedByElement>;
-            "igl-rate-extender-drawer": LocalJSX.IglRateExtenderDrawer & JSXBase.HTMLAttributes<HTMLIglRateExtenderDrawerElement>;
-            "igl-rate-extender-form": LocalJSX.IglRateExtenderForm & JSXBase.HTMLAttributes<HTMLIglRateExtenderFormElement>;
-            "igl-rate-plan": LocalJSX.IglRatePlan & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;
-            "igl-reallocation-dialog": LocalJSX.IglReallocationDialog & JSXBase.HTMLAttributes<HTMLIglReallocationDialogElement>;
-            "igl-room-type": LocalJSX.IglRoomType & JSXBase.HTMLAttributes<HTMLIglRoomTypeElement>;
-            "igl-spilt-booking-form": LocalJSX.IglSpiltBookingForm & JSXBase.HTMLAttributes<HTMLIglSpiltBookingFormElement>;
-            "igl-split-booking": LocalJSX.IglSplitBooking & JSXBase.HTMLAttributes<HTMLIglSplitBookingElement>;
-            "igl-split-booking-drawer": LocalJSX.IglSplitBookingDrawer & JSXBase.HTMLAttributes<HTMLIglSplitBookingDrawerElement>;
-            "igl-tba-booking-view": LocalJSX.IglTbaBookingView & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
-            "igl-tba-category-view": LocalJSX.IglTbaCategoryView & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
-            "igl-to-be-assigned": LocalJSX.IglToBeAssigned & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
-            "igl-toast-provider": LocalJSX.IglToastProvider & JSXBase.HTMLAttributes<HTMLIglToastProviderElement>;
-            "igloo-calendar": LocalJSX.IglooCalendar & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
-            "ir-accordion": LocalJSX.IrAccordion & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
-            "ir-actions-cell": LocalJSX.IrActionsCell & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
-            "ir-agent-assignment-dialog": LocalJSX.IrAgentAssignmentDialog & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentDialogElement>;
-            "ir-agent-assignment-form": LocalJSX.IrAgentAssignmentForm & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentFormElement>;
-            "ir-agent-billing": LocalJSX.IrAgentBilling & JSXBase.HTMLAttributes<HTMLIrAgentBillingElement>;
-            "ir-agent-contract": LocalJSX.IrAgentContract & JSXBase.HTMLAttributes<HTMLIrAgentContractElement>;
-            "ir-agent-editor-drawer": LocalJSX.IrAgentEditorDrawer & JSXBase.HTMLAttributes<HTMLIrAgentEditorDrawerElement>;
-            "ir-agent-editor-form": LocalJSX.IrAgentEditorForm & JSXBase.HTMLAttributes<HTMLIrAgentEditorFormElement>;
-            "ir-agent-profile": LocalJSX.IrAgentProfile & JSXBase.HTMLAttributes<HTMLIrAgentProfileElement>;
-            "ir-agents": LocalJSX.IrAgents & JSXBase.HTMLAttributes<HTMLIrAgentsElement>;
-            "ir-agents-table": LocalJSX.IrAgentsTable & JSXBase.HTMLAttributes<HTMLIrAgentsTableElement>;
+            "ac-pages-menu": LocalJSX.IntrinsicElements["ac-pages-menu"] & JSXBase.HTMLAttributes<HTMLAcPagesMenuElement>;
+            "igl-application-info": LocalJSX.IntrinsicElements["igl-application-info"] & JSXBase.HTMLAttributes<HTMLIglApplicationInfoElement>;
+            "igl-block-dates-view": LocalJSX.IntrinsicElements["igl-block-dates-view"] & JSXBase.HTMLAttributes<HTMLIglBlockDatesViewElement>;
+            "igl-blocked-date-drawer": LocalJSX.IntrinsicElements["igl-blocked-date-drawer"] & JSXBase.HTMLAttributes<HTMLIglBlockedDateDrawerElement>;
+            "igl-book-property": LocalJSX.IntrinsicElements["igl-book-property"] & JSXBase.HTMLAttributes<HTMLIglBookPropertyElement>;
+            "igl-book-property-container": LocalJSX.IntrinsicElements["igl-book-property-container"] & JSXBase.HTMLAttributes<HTMLIglBookPropertyContainerElement>;
+            "igl-book-property-footer": LocalJSX.IntrinsicElements["igl-book-property-footer"] & JSXBase.HTMLAttributes<HTMLIglBookPropertyFooterElement>;
+            "igl-book-property-header": LocalJSX.IntrinsicElements["igl-book-property-header"] & JSXBase.HTMLAttributes<HTMLIglBookPropertyHeaderElement>;
+            "igl-booking-event": LocalJSX.IntrinsicElements["igl-booking-event"] & JSXBase.HTMLAttributes<HTMLIglBookingEventElement>;
+            "igl-booking-event-hover": LocalJSX.IntrinsicElements["igl-booking-event-hover"] & JSXBase.HTMLAttributes<HTMLIglBookingEventHoverElement>;
+            "igl-booking-form": LocalJSX.IntrinsicElements["igl-booking-form"] & JSXBase.HTMLAttributes<HTMLIglBookingFormElement>;
+            "igl-booking-overview-page": LocalJSX.IntrinsicElements["igl-booking-overview-page"] & JSXBase.HTMLAttributes<HTMLIglBookingOverviewPageElement>;
+            "igl-bulk-block": LocalJSX.IntrinsicElements["igl-bulk-block"] & JSXBase.HTMLAttributes<HTMLIglBulkBlockElement>;
+            "igl-bulk-operations": LocalJSX.IntrinsicElements["igl-bulk-operations"] & JSXBase.HTMLAttributes<HTMLIglBulkOperationsElement>;
+            "igl-bulk-operations-drawer": LocalJSX.IntrinsicElements["igl-bulk-operations-drawer"] & JSXBase.HTMLAttributes<HTMLIglBulkOperationsDrawerElement>;
+            "igl-bulk-stop-sale": LocalJSX.IntrinsicElements["igl-bulk-stop-sale"] & JSXBase.HTMLAttributes<HTMLIglBulkStopSaleElement>;
+            "igl-cal-body": LocalJSX.IntrinsicElements["igl-cal-body"] & JSXBase.HTMLAttributes<HTMLIglCalBodyElement>;
+            "igl-cal-footer": LocalJSX.IntrinsicElements["igl-cal-footer"] & JSXBase.HTMLAttributes<HTMLIglCalFooterElement>;
+            "igl-cal-header": LocalJSX.IntrinsicElements["igl-cal-header"] & JSXBase.HTMLAttributes<HTMLIglCalHeaderElement>;
+            "igl-hk-issues-dialog": LocalJSX.IntrinsicElements["igl-hk-issues-dialog"] & JSXBase.HTMLAttributes<HTMLIglHkIssuesDialogElement>;
+            "igl-housekeeping-dialog": LocalJSX.IntrinsicElements["igl-housekeeping-dialog"] & JSXBase.HTMLAttributes<HTMLIglHousekeepingDialogElement>;
+            "igl-legend": LocalJSX.IntrinsicElements["igl-legend"] & JSXBase.HTMLAttributes<HTMLIglLegendElement>;
+            "igl-property-booked-by": LocalJSX.IntrinsicElements["igl-property-booked-by"] & JSXBase.HTMLAttributes<HTMLIglPropertyBookedByElement>;
+            "igl-rate-extender-drawer": LocalJSX.IntrinsicElements["igl-rate-extender-drawer"] & JSXBase.HTMLAttributes<HTMLIglRateExtenderDrawerElement>;
+            "igl-rate-extender-form": LocalJSX.IntrinsicElements["igl-rate-extender-form"] & JSXBase.HTMLAttributes<HTMLIglRateExtenderFormElement>;
+            "igl-rate-plan": LocalJSX.IntrinsicElements["igl-rate-plan"] & JSXBase.HTMLAttributes<HTMLIglRatePlanElement>;
+            "igl-reallocation-dialog": LocalJSX.IntrinsicElements["igl-reallocation-dialog"] & JSXBase.HTMLAttributes<HTMLIglReallocationDialogElement>;
+            "igl-room-type": LocalJSX.IntrinsicElements["igl-room-type"] & JSXBase.HTMLAttributes<HTMLIglRoomTypeElement>;
+            "igl-spilt-booking-form": LocalJSX.IntrinsicElements["igl-spilt-booking-form"] & JSXBase.HTMLAttributes<HTMLIglSpiltBookingFormElement>;
+            "igl-split-booking": LocalJSX.IntrinsicElements["igl-split-booking"] & JSXBase.HTMLAttributes<HTMLIglSplitBookingElement>;
+            "igl-split-booking-drawer": LocalJSX.IntrinsicElements["igl-split-booking-drawer"] & JSXBase.HTMLAttributes<HTMLIglSplitBookingDrawerElement>;
+            "igl-tba-booking-view": LocalJSX.IntrinsicElements["igl-tba-booking-view"] & JSXBase.HTMLAttributes<HTMLIglTbaBookingViewElement>;
+            "igl-tba-category-view": LocalJSX.IntrinsicElements["igl-tba-category-view"] & JSXBase.HTMLAttributes<HTMLIglTbaCategoryViewElement>;
+            "igl-to-be-assigned": LocalJSX.IntrinsicElements["igl-to-be-assigned"] & JSXBase.HTMLAttributes<HTMLIglToBeAssignedElement>;
+            "igl-toast-provider": LocalJSX.IntrinsicElements["igl-toast-provider"] & JSXBase.HTMLAttributes<HTMLIglToastProviderElement>;
+            "igloo-calendar": LocalJSX.IntrinsicElements["igloo-calendar"] & JSXBase.HTMLAttributes<HTMLIglooCalendarElement>;
+            "ir-accordion": LocalJSX.IntrinsicElements["ir-accordion"] & JSXBase.HTMLAttributes<HTMLIrAccordionElement>;
+            "ir-actions-cell": LocalJSX.IntrinsicElements["ir-actions-cell"] & JSXBase.HTMLAttributes<HTMLIrActionsCellElement>;
+            "ir-agent-assignment-dialog": LocalJSX.IntrinsicElements["ir-agent-assignment-dialog"] & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentDialogElement>;
+            "ir-agent-assignment-form": LocalJSX.IntrinsicElements["ir-agent-assignment-form"] & JSXBase.HTMLAttributes<HTMLIrAgentAssignmentFormElement>;
+            "ir-agent-billing": LocalJSX.IntrinsicElements["ir-agent-billing"] & JSXBase.HTMLAttributes<HTMLIrAgentBillingElement>;
+            "ir-agent-contract": LocalJSX.IntrinsicElements["ir-agent-contract"] & JSXBase.HTMLAttributes<HTMLIrAgentContractElement>;
+            "ir-agent-editor-drawer": LocalJSX.IntrinsicElements["ir-agent-editor-drawer"] & JSXBase.HTMLAttributes<HTMLIrAgentEditorDrawerElement>;
+            "ir-agent-editor-form": LocalJSX.IntrinsicElements["ir-agent-editor-form"] & JSXBase.HTMLAttributes<HTMLIrAgentEditorFormElement>;
+            "ir-agent-profile": LocalJSX.IntrinsicElements["ir-agent-profile"] & JSXBase.HTMLAttributes<HTMLIrAgentProfileElement>;
+            "ir-agents": LocalJSX.IntrinsicElements["ir-agents"] & JSXBase.HTMLAttributes<HTMLIrAgentsElement>;
+            "ir-agents-table": LocalJSX.IntrinsicElements["ir-agents-table"] & JSXBase.HTMLAttributes<HTMLIrAgentsTableElement>;
             /**
              * `ir-air-date-picker` — a headless Stencil wrapper around the `air-datepicker` library.
              * The component renders nothing itself (`render()` returns `null`); on `componentDidLoad`
@@ -16850,110 +21613,110 @@ declare module "@stencil/core" {
              * - The primary consumer is `ir-date-select`, which hosts this component inside its popup
              *   and forwards its own props one-to-one.
              */
-            "ir-air-date-picker": LocalJSX.IrAirDatePicker & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
-            "ir-applicable-policies": LocalJSX.IrApplicablePolicies & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
-            "ir-arrival-time-cell": LocalJSX.IrArrivalTimeCell & JSXBase.HTMLAttributes<HTMLIrArrivalTimeCellElement>;
-            "ir-arrival-time-dialog": LocalJSX.IrArrivalTimeDialog & JSXBase.HTMLAttributes<HTMLIrArrivalTimeDialogElement>;
-            "ir-arrivals": LocalJSX.IrArrivals & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
-            "ir-arrivals-filters": LocalJSX.IrArrivalsFilters & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
-            "ir-arrivals-table": LocalJSX.IrArrivalsTable & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;
-            "ir-assignment-toggle-dialog": LocalJSX.IrAssignmentToggleDialog & JSXBase.HTMLAttributes<HTMLIrAssignmentToggleDialogElement>;
-            "ir-autocomplete": LocalJSX.IrAutocomplete & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
-            "ir-autocomplete-option": LocalJSX.IrAutocompleteOption & JSXBase.HTMLAttributes<HTMLIrAutocompleteOptionElement>;
-            "ir-balance-cell": LocalJSX.IrBalanceCell & JSXBase.HTMLAttributes<HTMLIrBalanceCellElement>;
-            "ir-billing": LocalJSX.IrBilling & JSXBase.HTMLAttributes<HTMLIrBillingElement>;
-            "ir-billing-drawer": LocalJSX.IrBillingDrawer & JSXBase.HTMLAttributes<HTMLIrBillingDrawerElement>;
-            "ir-booked-by-cell": LocalJSX.IrBookedByCell & JSXBase.HTMLAttributes<HTMLIrBookedByCellElement>;
-            "ir-booked-on-cell": LocalJSX.IrBookedOnCell & JSXBase.HTMLAttributes<HTMLIrBookedOnCellElement>;
-            "ir-booking": LocalJSX.IrBooking & JSXBase.HTMLAttributes<HTMLIrBookingElement>;
-            "ir-booking-assign-items": LocalJSX.IrBookingAssignItems & JSXBase.HTMLAttributes<HTMLIrBookingAssignItemsElement>;
-            "ir-booking-billing-recipient": LocalJSX.IrBookingBillingRecipient & JSXBase.HTMLAttributes<HTMLIrBookingBillingRecipientElement>;
-            "ir-booking-city-ledger": LocalJSX.IrBookingCityLedger & JSXBase.HTMLAttributes<HTMLIrBookingCityLedgerElement>;
-            "ir-booking-company-dialog": LocalJSX.IrBookingCompanyDialog & JSXBase.HTMLAttributes<HTMLIrBookingCompanyDialogElement>;
-            "ir-booking-company-form": LocalJSX.IrBookingCompanyForm & JSXBase.HTMLAttributes<HTMLIrBookingCompanyFormElement>;
-            "ir-booking-details": LocalJSX.IrBookingDetails & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
+            "ir-air-date-picker": LocalJSX.IntrinsicElements["ir-air-date-picker"] & JSXBase.HTMLAttributes<HTMLIrAirDatePickerElement>;
+            "ir-applicable-policies": LocalJSX.IntrinsicElements["ir-applicable-policies"] & JSXBase.HTMLAttributes<HTMLIrApplicablePoliciesElement>;
+            "ir-arrival-time-cell": LocalJSX.IntrinsicElements["ir-arrival-time-cell"] & JSXBase.HTMLAttributes<HTMLIrArrivalTimeCellElement>;
+            "ir-arrival-time-dialog": LocalJSX.IntrinsicElements["ir-arrival-time-dialog"] & JSXBase.HTMLAttributes<HTMLIrArrivalTimeDialogElement>;
+            "ir-arrivals": LocalJSX.IntrinsicElements["ir-arrivals"] & JSXBase.HTMLAttributes<HTMLIrArrivalsElement>;
+            "ir-arrivals-filters": LocalJSX.IntrinsicElements["ir-arrivals-filters"] & JSXBase.HTMLAttributes<HTMLIrArrivalsFiltersElement>;
+            "ir-arrivals-table": LocalJSX.IntrinsicElements["ir-arrivals-table"] & JSXBase.HTMLAttributes<HTMLIrArrivalsTableElement>;
+            "ir-assignment-toggle-dialog": LocalJSX.IntrinsicElements["ir-assignment-toggle-dialog"] & JSXBase.HTMLAttributes<HTMLIrAssignmentToggleDialogElement>;
+            "ir-autocomplete": LocalJSX.IntrinsicElements["ir-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteElement>;
+            "ir-autocomplete-option": LocalJSX.IntrinsicElements["ir-autocomplete-option"] & JSXBase.HTMLAttributes<HTMLIrAutocompleteOptionElement>;
+            "ir-balance-cell": LocalJSX.IntrinsicElements["ir-balance-cell"] & JSXBase.HTMLAttributes<HTMLIrBalanceCellElement>;
+            "ir-billing": LocalJSX.IntrinsicElements["ir-billing"] & JSXBase.HTMLAttributes<HTMLIrBillingElement>;
+            "ir-billing-drawer": LocalJSX.IntrinsicElements["ir-billing-drawer"] & JSXBase.HTMLAttributes<HTMLIrBillingDrawerElement>;
+            "ir-booked-by-cell": LocalJSX.IntrinsicElements["ir-booked-by-cell"] & JSXBase.HTMLAttributes<HTMLIrBookedByCellElement>;
+            "ir-booked-on-cell": LocalJSX.IntrinsicElements["ir-booked-on-cell"] & JSXBase.HTMLAttributes<HTMLIrBookedOnCellElement>;
+            "ir-booking": LocalJSX.IntrinsicElements["ir-booking"] & JSXBase.HTMLAttributes<HTMLIrBookingElement>;
+            "ir-booking-assign-items": LocalJSX.IntrinsicElements["ir-booking-assign-items"] & JSXBase.HTMLAttributes<HTMLIrBookingAssignItemsElement>;
+            "ir-booking-billing-recipient": LocalJSX.IntrinsicElements["ir-booking-billing-recipient"] & JSXBase.HTMLAttributes<HTMLIrBookingBillingRecipientElement>;
+            "ir-booking-city-ledger": LocalJSX.IntrinsicElements["ir-booking-city-ledger"] & JSXBase.HTMLAttributes<HTMLIrBookingCityLedgerElement>;
+            "ir-booking-company-dialog": LocalJSX.IntrinsicElements["ir-booking-company-dialog"] & JSXBase.HTMLAttributes<HTMLIrBookingCompanyDialogElement>;
+            "ir-booking-company-form": LocalJSX.IntrinsicElements["ir-booking-company-form"] & JSXBase.HTMLAttributes<HTMLIrBookingCompanyFormElement>;
+            "ir-booking-details": LocalJSX.IntrinsicElements["ir-booking-details"] & JSXBase.HTMLAttributes<HTMLIrBookingDetailsElement>;
             /**
              * Booking Details Drawer
              * This component wraps the `ir-booking-details` component inside an `ir-drawer`.
              * It is responsible for handling drawer visibility and emitting a single
              * close event when the drawer is dismissed from any source.
              */
-            "ir-booking-details-drawer": LocalJSX.IrBookingDetailsDrawer & JSXBase.HTMLAttributes<HTMLIrBookingDetailsDrawerElement>;
-            "ir-booking-editor": LocalJSX.IrBookingEditor & JSXBase.HTMLAttributes<HTMLIrBookingEditorElement>;
-            "ir-booking-editor-drawer": LocalJSX.IrBookingEditorDrawer & JSXBase.HTMLAttributes<HTMLIrBookingEditorDrawerElement>;
-            "ir-booking-editor-form": LocalJSX.IrBookingEditorForm & JSXBase.HTMLAttributes<HTMLIrBookingEditorFormElement>;
-            "ir-booking-editor-guest-form": LocalJSX.IrBookingEditorGuestForm & JSXBase.HTMLAttributes<HTMLIrBookingEditorGuestFormElement>;
-            "ir-booking-editor-header": LocalJSX.IrBookingEditorHeader & JSXBase.HTMLAttributes<HTMLIrBookingEditorHeaderElement>;
-            "ir-booking-email-logs": LocalJSX.IrBookingEmailLogs & JSXBase.HTMLAttributes<HTMLIrBookingEmailLogsElement>;
-            "ir-booking-extra-note": LocalJSX.IrBookingExtraNote & JSXBase.HTMLAttributes<HTMLIrBookingExtraNoteElement>;
-            "ir-booking-guarantee": LocalJSX.IrBookingGuarantee & JSXBase.HTMLAttributes<HTMLIrBookingGuaranteeElement>;
-            "ir-booking-header": LocalJSX.IrBookingHeader & JSXBase.HTMLAttributes<HTMLIrBookingHeaderElement>;
-            "ir-booking-listing": LocalJSX.IrBookingListing & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
-            "ir-booking-listing-mobile-card": LocalJSX.IrBookingListingMobileCard & JSXBase.HTMLAttributes<HTMLIrBookingListingMobileCardElement>;
-            "ir-booking-listing-table": LocalJSX.IrBookingListingTable & JSXBase.HTMLAttributes<HTMLIrBookingListingTableElement>;
-            "ir-booking-new-form": LocalJSX.IrBookingNewForm & JSXBase.HTMLAttributes<HTMLIrBookingNewFormElement>;
-            "ir-booking-number-cell": LocalJSX.IrBookingNumberCell & JSXBase.HTMLAttributes<HTMLIrBookingNumberCellElement>;
-            "ir-booking-pricing-drawer": LocalJSX.IrBookingPricingDrawer & JSXBase.HTMLAttributes<HTMLIrBookingPricingDrawerElement>;
-            "ir-booking-pricing-form": LocalJSX.IrBookingPricingForm & JSXBase.HTMLAttributes<HTMLIrBookingPricingFormElement>;
-            "ir-booking-printing": LocalJSX.IrBookingPrinting & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
-            "ir-booking-rooms": LocalJSX.IrBookingRooms & JSXBase.HTMLAttributes<HTMLIrBookingRoomsElement>;
-            "ir-booking-source-editor-dialog": LocalJSX.IrBookingSourceEditorDialog & JSXBase.HTMLAttributes<HTMLIrBookingSourceEditorDialogElement>;
-            "ir-booking-source-editor-form": LocalJSX.IrBookingSourceEditorForm & JSXBase.HTMLAttributes<HTMLIrBookingSourceEditorFormElement>;
-            "ir-booking-status-tag": LocalJSX.IrBookingStatusTag & JSXBase.HTMLAttributes<HTMLIrBookingStatusTagElement>;
-            "ir-button": LocalJSX.IrButton & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
-            "ir-channel": LocalJSX.IrChannel & JSXBase.HTMLAttributes<HTMLIrChannelElement>;
-            "ir-channel-editor": LocalJSX.IrChannelEditor & JSXBase.HTMLAttributes<HTMLIrChannelEditorElement>;
-            "ir-channel-general": LocalJSX.IrChannelGeneral & JSXBase.HTMLAttributes<HTMLIrChannelGeneralElement>;
-            "ir-channel-header": LocalJSX.IrChannelHeader & JSXBase.HTMLAttributes<HTMLIrChannelHeaderElement>;
-            "ir-channel-mapping": LocalJSX.IrChannelMapping & JSXBase.HTMLAttributes<HTMLIrChannelMappingElement>;
-            "ir-checkbox": LocalJSX.IrCheckbox & JSXBase.HTMLAttributes<HTMLIrCheckboxElement>;
-            "ir-checkboxes": LocalJSX.IrCheckboxes & JSXBase.HTMLAttributes<HTMLIrCheckboxesElement>;
-            "ir-checkout-dialog": LocalJSX.IrCheckoutDialog & JSXBase.HTMLAttributes<HTMLIrCheckoutDialogElement>;
-            "ir-city-ledger": LocalJSX.IrCityLedger & JSXBase.HTMLAttributes<HTMLIrCityLedgerElement>;
-            "ir-city-ledger-fiscal-documents": LocalJSX.IrCityLedgerFiscalDocuments & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsElement>;
-            "ir-city-ledger-fiscal-documents-filters": LocalJSX.IrCityLedgerFiscalDocumentsFilters & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsFiltersElement>;
-            "ir-city-ledger-fiscal-documents-table": LocalJSX.IrCityLedgerFiscalDocumentsTable & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsTableElement>;
-            "ir-city-ledger-folio": LocalJSX.IrCityLedgerFolio & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioElement>;
-            "ir-city-ledger-folio-filters": LocalJSX.IrCityLedgerFolioFilters & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioFiltersElement>;
-            "ir-city-ledger-folio-table": LocalJSX.IrCityLedgerFolioTable & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioTableElement>;
-            "ir-city-ledger-statements": LocalJSX.IrCityLedgerStatements & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsElement>;
-            "ir-city-ledger-statements-filter": LocalJSX.IrCityLedgerStatementsFilter & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsFilterElement>;
-            "ir-city-ledger-statements-table": LocalJSX.IrCityLedgerStatementsTable & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsTableElement>;
-            "ir-city-ledger-toolbar": LocalJSX.IrCityLedgerToolbar & JSXBase.HTMLAttributes<HTMLIrCityLedgerToolbarElement>;
-            "ir-city-ledger-transaction-drawer": LocalJSX.IrCityLedgerTransactionDrawer & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionDrawerElement>;
-            "ir-city-ledger-transaction-form": LocalJSX.IrCityLedgerTransactionForm & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionFormElement>;
-            "ir-cl-adjustment-fields": LocalJSX.IrClAdjustmentFields & JSXBase.HTMLAttributes<HTMLIrClAdjustmentFieldsElement>;
-            "ir-cl-credit-note-fields": LocalJSX.IrClCreditNoteFields & JSXBase.HTMLAttributes<HTMLIrClCreditNoteFieldsElement>;
-            "ir-cl-credit-note-preview": LocalJSX.IrClCreditNotePreview & JSXBase.HTMLAttributes<HTMLIrClCreditNotePreviewElement>;
-            "ir-cl-debit-note-fields": LocalJSX.IrClDebitNoteFields & JSXBase.HTMLAttributes<HTMLIrClDebitNoteFieldsElement>;
-            "ir-cl-debit-note-preview": LocalJSX.IrClDebitNotePreview & JSXBase.HTMLAttributes<HTMLIrClDebitNotePreviewElement>;
-            "ir-cl-document-header": LocalJSX.IrClDocumentHeader & JSXBase.HTMLAttributes<HTMLIrClDocumentHeaderElement>;
-            "ir-cl-fiscal-document-preview": LocalJSX.IrClFiscalDocumentPreview & JSXBase.HTMLAttributes<HTMLIrClFiscalDocumentPreviewElement>;
-            "ir-cl-fiscal-document-table": LocalJSX.IrClFiscalDocumentTable & JSXBase.HTMLAttributes<HTMLIrClFiscalDocumentTableElement>;
-            "ir-cl-invoice-city-tax-amount-cell": LocalJSX.IrClInvoiceCityTaxAmountCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceCityTaxAmountCellElement>;
-            "ir-cl-invoice-city-tax-pct-cell": LocalJSX.IrClInvoiceCityTaxPctCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceCityTaxPctCellElement>;
-            "ir-cl-invoice-date-cell": LocalJSX.IrClInvoiceDateCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceDateCellElement>;
-            "ir-cl-invoice-description-cell": LocalJSX.IrClInvoiceDescriptionCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceDescriptionCellElement>;
-            "ir-cl-invoice-dialog": LocalJSX.IrClInvoiceDialog & JSXBase.HTMLAttributes<HTMLIrClInvoiceDialogElement>;
-            "ir-cl-invoice-form": LocalJSX.IrClInvoiceForm & JSXBase.HTMLAttributes<HTMLIrClInvoiceFormElement>;
-            "ir-cl-invoice-net-price-cell": LocalJSX.IrClInvoiceNetPriceCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceNetPriceCellElement>;
-            "ir-cl-invoice-preview": LocalJSX.IrClInvoicePreview & JSXBase.HTMLAttributes<HTMLIrClInvoicePreviewElement>;
-            "ir-cl-invoice-select": LocalJSX.IrClInvoiceSelect & JSXBase.HTMLAttributes<HTMLIrClInvoiceSelectElement>;
-            "ir-cl-invoice-total-cell": LocalJSX.IrClInvoiceTotalCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceTotalCellElement>;
-            "ir-cl-invoice-vat-amount-cell": LocalJSX.IrClInvoiceVatAmountCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatAmountCellElement>;
-            "ir-cl-invoice-vat-pct-cell": LocalJSX.IrClInvoiceVatPctCell & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatPctCellElement>;
-            "ir-cl-opening-balance-fields": LocalJSX.IrClOpeningBalanceFields & JSXBase.HTMLAttributes<HTMLIrClOpeningBalanceFieldsElement>;
-            "ir-cl-payment-fields": LocalJSX.IrClPaymentFields & JSXBase.HTMLAttributes<HTMLIrClPaymentFieldsElement>;
-            "ir-cl-receipt-preview": LocalJSX.IrClReceiptPreview & JSXBase.HTMLAttributes<HTMLIrClReceiptPreviewElement>;
-            "ir-cl-statement-preview": LocalJSX.IrClStatementPreview & JSXBase.HTMLAttributes<HTMLIrClStatementPreviewElement>;
-            "ir-cl-status-tag": LocalJSX.IrClStatusTag & JSXBase.HTMLAttributes<HTMLIrClStatusTagElement>;
-            "ir-collapsable-row": LocalJSX.IrCollapsableRow & JSXBase.HTMLAttributes<HTMLIrCollapsableRowElement>;
-            "ir-column-autocomplete": LocalJSX.IrColumnAutocomplete & JSXBase.HTMLAttributes<HTMLIrColumnAutocompleteElement>;
-            "ir-combobox": LocalJSX.IrCombobox & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;
-            "ir-common": LocalJSX.IrCommon & JSXBase.HTMLAttributes<HTMLIrCommonElement>;
-            "ir-copy-button": LocalJSX.IrCopyButton & JSXBase.HTMLAttributes<HTMLIrCopyButtonElement>;
-            "ir-country-picker": LocalJSX.IrCountryPicker & JSXBase.HTMLAttributes<HTMLIrCountryPickerElement>;
-            "ir-custom-button": LocalJSX.IrCustomButton & JSXBase.HTMLAttributes<HTMLIrCustomButtonElement>;
+            "ir-booking-details-drawer": LocalJSX.IntrinsicElements["ir-booking-details-drawer"] & JSXBase.HTMLAttributes<HTMLIrBookingDetailsDrawerElement>;
+            "ir-booking-editor": LocalJSX.IntrinsicElements["ir-booking-editor"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorElement>;
+            "ir-booking-editor-drawer": LocalJSX.IntrinsicElements["ir-booking-editor-drawer"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorDrawerElement>;
+            "ir-booking-editor-form": LocalJSX.IntrinsicElements["ir-booking-editor-form"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorFormElement>;
+            "ir-booking-editor-guest-form": LocalJSX.IntrinsicElements["ir-booking-editor-guest-form"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorGuestFormElement>;
+            "ir-booking-editor-header": LocalJSX.IntrinsicElements["ir-booking-editor-header"] & JSXBase.HTMLAttributes<HTMLIrBookingEditorHeaderElement>;
+            "ir-booking-email-logs": LocalJSX.IntrinsicElements["ir-booking-email-logs"] & JSXBase.HTMLAttributes<HTMLIrBookingEmailLogsElement>;
+            "ir-booking-extra-note": LocalJSX.IntrinsicElements["ir-booking-extra-note"] & JSXBase.HTMLAttributes<HTMLIrBookingExtraNoteElement>;
+            "ir-booking-guarantee": LocalJSX.IntrinsicElements["ir-booking-guarantee"] & JSXBase.HTMLAttributes<HTMLIrBookingGuaranteeElement>;
+            "ir-booking-header": LocalJSX.IntrinsicElements["ir-booking-header"] & JSXBase.HTMLAttributes<HTMLIrBookingHeaderElement>;
+            "ir-booking-listing": LocalJSX.IntrinsicElements["ir-booking-listing"] & JSXBase.HTMLAttributes<HTMLIrBookingListingElement>;
+            "ir-booking-listing-mobile-card": LocalJSX.IntrinsicElements["ir-booking-listing-mobile-card"] & JSXBase.HTMLAttributes<HTMLIrBookingListingMobileCardElement>;
+            "ir-booking-listing-table": LocalJSX.IntrinsicElements["ir-booking-listing-table"] & JSXBase.HTMLAttributes<HTMLIrBookingListingTableElement>;
+            "ir-booking-new-form": LocalJSX.IntrinsicElements["ir-booking-new-form"] & JSXBase.HTMLAttributes<HTMLIrBookingNewFormElement>;
+            "ir-booking-number-cell": LocalJSX.IntrinsicElements["ir-booking-number-cell"] & JSXBase.HTMLAttributes<HTMLIrBookingNumberCellElement>;
+            "ir-booking-pricing-drawer": LocalJSX.IntrinsicElements["ir-booking-pricing-drawer"] & JSXBase.HTMLAttributes<HTMLIrBookingPricingDrawerElement>;
+            "ir-booking-pricing-form": LocalJSX.IntrinsicElements["ir-booking-pricing-form"] & JSXBase.HTMLAttributes<HTMLIrBookingPricingFormElement>;
+            "ir-booking-printing": LocalJSX.IntrinsicElements["ir-booking-printing"] & JSXBase.HTMLAttributes<HTMLIrBookingPrintingElement>;
+            "ir-booking-rooms": LocalJSX.IntrinsicElements["ir-booking-rooms"] & JSXBase.HTMLAttributes<HTMLIrBookingRoomsElement>;
+            "ir-booking-source-editor-dialog": LocalJSX.IntrinsicElements["ir-booking-source-editor-dialog"] & JSXBase.HTMLAttributes<HTMLIrBookingSourceEditorDialogElement>;
+            "ir-booking-source-editor-form": LocalJSX.IntrinsicElements["ir-booking-source-editor-form"] & JSXBase.HTMLAttributes<HTMLIrBookingSourceEditorFormElement>;
+            "ir-booking-status-tag": LocalJSX.IntrinsicElements["ir-booking-status-tag"] & JSXBase.HTMLAttributes<HTMLIrBookingStatusTagElement>;
+            "ir-button": LocalJSX.IntrinsicElements["ir-button"] & JSXBase.HTMLAttributes<HTMLIrButtonElement>;
+            "ir-channel": LocalJSX.IntrinsicElements["ir-channel"] & JSXBase.HTMLAttributes<HTMLIrChannelElement>;
+            "ir-channel-editor": LocalJSX.IntrinsicElements["ir-channel-editor"] & JSXBase.HTMLAttributes<HTMLIrChannelEditorElement>;
+            "ir-channel-general": LocalJSX.IntrinsicElements["ir-channel-general"] & JSXBase.HTMLAttributes<HTMLIrChannelGeneralElement>;
+            "ir-channel-header": LocalJSX.IntrinsicElements["ir-channel-header"] & JSXBase.HTMLAttributes<HTMLIrChannelHeaderElement>;
+            "ir-channel-mapping": LocalJSX.IntrinsicElements["ir-channel-mapping"] & JSXBase.HTMLAttributes<HTMLIrChannelMappingElement>;
+            "ir-checkbox": LocalJSX.IntrinsicElements["ir-checkbox"] & JSXBase.HTMLAttributes<HTMLIrCheckboxElement>;
+            "ir-checkboxes": LocalJSX.IntrinsicElements["ir-checkboxes"] & JSXBase.HTMLAttributes<HTMLIrCheckboxesElement>;
+            "ir-checkout-dialog": LocalJSX.IntrinsicElements["ir-checkout-dialog"] & JSXBase.HTMLAttributes<HTMLIrCheckoutDialogElement>;
+            "ir-city-ledger": LocalJSX.IntrinsicElements["ir-city-ledger"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerElement>;
+            "ir-city-ledger-fiscal-documents": LocalJSX.IntrinsicElements["ir-city-ledger-fiscal-documents"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsElement>;
+            "ir-city-ledger-fiscal-documents-filters": LocalJSX.IntrinsicElements["ir-city-ledger-fiscal-documents-filters"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsFiltersElement>;
+            "ir-city-ledger-fiscal-documents-table": LocalJSX.IntrinsicElements["ir-city-ledger-fiscal-documents-table"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFiscalDocumentsTableElement>;
+            "ir-city-ledger-folio": LocalJSX.IntrinsicElements["ir-city-ledger-folio"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioElement>;
+            "ir-city-ledger-folio-filters": LocalJSX.IntrinsicElements["ir-city-ledger-folio-filters"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioFiltersElement>;
+            "ir-city-ledger-folio-table": LocalJSX.IntrinsicElements["ir-city-ledger-folio-table"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerFolioTableElement>;
+            "ir-city-ledger-statements": LocalJSX.IntrinsicElements["ir-city-ledger-statements"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsElement>;
+            "ir-city-ledger-statements-filter": LocalJSX.IntrinsicElements["ir-city-ledger-statements-filter"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsFilterElement>;
+            "ir-city-ledger-statements-table": LocalJSX.IntrinsicElements["ir-city-ledger-statements-table"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerStatementsTableElement>;
+            "ir-city-ledger-toolbar": LocalJSX.IntrinsicElements["ir-city-ledger-toolbar"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerToolbarElement>;
+            "ir-city-ledger-transaction-drawer": LocalJSX.IntrinsicElements["ir-city-ledger-transaction-drawer"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionDrawerElement>;
+            "ir-city-ledger-transaction-form": LocalJSX.IntrinsicElements["ir-city-ledger-transaction-form"] & JSXBase.HTMLAttributes<HTMLIrCityLedgerTransactionFormElement>;
+            "ir-cl-adjustment-fields": LocalJSX.IntrinsicElements["ir-cl-adjustment-fields"] & JSXBase.HTMLAttributes<HTMLIrClAdjustmentFieldsElement>;
+            "ir-cl-credit-note-fields": LocalJSX.IntrinsicElements["ir-cl-credit-note-fields"] & JSXBase.HTMLAttributes<HTMLIrClCreditNoteFieldsElement>;
+            "ir-cl-credit-note-preview": LocalJSX.IntrinsicElements["ir-cl-credit-note-preview"] & JSXBase.HTMLAttributes<HTMLIrClCreditNotePreviewElement>;
+            "ir-cl-debit-note-fields": LocalJSX.IntrinsicElements["ir-cl-debit-note-fields"] & JSXBase.HTMLAttributes<HTMLIrClDebitNoteFieldsElement>;
+            "ir-cl-debit-note-preview": LocalJSX.IntrinsicElements["ir-cl-debit-note-preview"] & JSXBase.HTMLAttributes<HTMLIrClDebitNotePreviewElement>;
+            "ir-cl-document-header": LocalJSX.IntrinsicElements["ir-cl-document-header"] & JSXBase.HTMLAttributes<HTMLIrClDocumentHeaderElement>;
+            "ir-cl-fiscal-document-preview": LocalJSX.IntrinsicElements["ir-cl-fiscal-document-preview"] & JSXBase.HTMLAttributes<HTMLIrClFiscalDocumentPreviewElement>;
+            "ir-cl-fiscal-document-table": LocalJSX.IntrinsicElements["ir-cl-fiscal-document-table"] & JSXBase.HTMLAttributes<HTMLIrClFiscalDocumentTableElement>;
+            "ir-cl-invoice-city-tax-amount-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-city-tax-amount-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceCityTaxAmountCellElement>;
+            "ir-cl-invoice-city-tax-pct-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-city-tax-pct-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceCityTaxPctCellElement>;
+            "ir-cl-invoice-date-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-date-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceDateCellElement>;
+            "ir-cl-invoice-description-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-description-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceDescriptionCellElement>;
+            "ir-cl-invoice-dialog": LocalJSX.IntrinsicElements["ir-cl-invoice-dialog"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceDialogElement>;
+            "ir-cl-invoice-form": LocalJSX.IntrinsicElements["ir-cl-invoice-form"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceFormElement>;
+            "ir-cl-invoice-net-price-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-net-price-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceNetPriceCellElement>;
+            "ir-cl-invoice-preview": LocalJSX.IntrinsicElements["ir-cl-invoice-preview"] & JSXBase.HTMLAttributes<HTMLIrClInvoicePreviewElement>;
+            "ir-cl-invoice-select": LocalJSX.IntrinsicElements["ir-cl-invoice-select"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceSelectElement>;
+            "ir-cl-invoice-total-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-total-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceTotalCellElement>;
+            "ir-cl-invoice-vat-amount-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-vat-amount-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatAmountCellElement>;
+            "ir-cl-invoice-vat-pct-cell": LocalJSX.IntrinsicElements["ir-cl-invoice-vat-pct-cell"] & JSXBase.HTMLAttributes<HTMLIrClInvoiceVatPctCellElement>;
+            "ir-cl-opening-balance-fields": LocalJSX.IntrinsicElements["ir-cl-opening-balance-fields"] & JSXBase.HTMLAttributes<HTMLIrClOpeningBalanceFieldsElement>;
+            "ir-cl-payment-fields": LocalJSX.IntrinsicElements["ir-cl-payment-fields"] & JSXBase.HTMLAttributes<HTMLIrClPaymentFieldsElement>;
+            "ir-cl-receipt-preview": LocalJSX.IntrinsicElements["ir-cl-receipt-preview"] & JSXBase.HTMLAttributes<HTMLIrClReceiptPreviewElement>;
+            "ir-cl-statement-preview": LocalJSX.IntrinsicElements["ir-cl-statement-preview"] & JSXBase.HTMLAttributes<HTMLIrClStatementPreviewElement>;
+            "ir-cl-status-tag": LocalJSX.IntrinsicElements["ir-cl-status-tag"] & JSXBase.HTMLAttributes<HTMLIrClStatusTagElement>;
+            "ir-collapsable-row": LocalJSX.IntrinsicElements["ir-collapsable-row"] & JSXBase.HTMLAttributes<HTMLIrCollapsableRowElement>;
+            "ir-column-autocomplete": LocalJSX.IntrinsicElements["ir-column-autocomplete"] & JSXBase.HTMLAttributes<HTMLIrColumnAutocompleteElement>;
+            "ir-combobox": LocalJSX.IntrinsicElements["ir-combobox"] & JSXBase.HTMLAttributes<HTMLIrComboboxElement>;
+            "ir-common": LocalJSX.IntrinsicElements["ir-common"] & JSXBase.HTMLAttributes<HTMLIrCommonElement>;
+            "ir-copy-button": LocalJSX.IntrinsicElements["ir-copy-button"] & JSXBase.HTMLAttributes<HTMLIrCopyButtonElement>;
+            "ir-country-picker": LocalJSX.IntrinsicElements["ir-country-picker"] & JSXBase.HTMLAttributes<HTMLIrCountryPickerElement>;
+            "ir-custom-button": LocalJSX.IntrinsicElements["ir-custom-button"] & JSXBase.HTMLAttributes<HTMLIrCustomButtonElement>;
             /**
              * @component ir-custom-date-range
              * @description A two-month inline calendar for selecting a date range.
@@ -16972,10 +21735,10 @@ declare module "@stencil/core" {
              * @csspart day-cell       - Each `<td>` grid cell.
              * @csspart day-button     - The `<button>` rendered for each visible day.
              */
-            "ir-custom-date-range": LocalJSX.IrCustomDateRange & JSXBase.HTMLAttributes<HTMLIrCustomDateRangeElement>;
-            "ir-daily-revenue": LocalJSX.IrDailyRevenue & JSXBase.HTMLAttributes<HTMLIrDailyRevenueElement>;
-            "ir-daily-revenue-filters": LocalJSX.IrDailyRevenueFilters & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
-            "ir-date-picker": LocalJSX.IrDatePicker & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;
+            "ir-custom-date-range": LocalJSX.IntrinsicElements["ir-custom-date-range"] & JSXBase.HTMLAttributes<HTMLIrCustomDateRangeElement>;
+            "ir-daily-revenue": LocalJSX.IntrinsicElements["ir-daily-revenue"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueElement>;
+            "ir-daily-revenue-filters": LocalJSX.IntrinsicElements["ir-daily-revenue-filters"] & JSXBase.HTMLAttributes<HTMLIrDailyRevenueFiltersElement>;
+            "ir-date-picker": LocalJSX.IntrinsicElements["ir-date-picker"] & JSXBase.HTMLAttributes<HTMLIrDatePickerElement>;
             /**
              * @component ir-date-range
              * @description An accessible, popup-based date-range picker.
@@ -16990,7 +21753,7 @@ declare module "@stencil/core" {
              * @csspart calendar   - The `ir-custom-date-range` calendar element.
              * All CSS parts of `ir-custom-date-range` are re-exported and can be targeted via `::part()` on this host.
              */
-            "ir-date-range": LocalJSX.IrDateRange & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
+            "ir-date-range": LocalJSX.IntrinsicElements["ir-date-range"] & JSXBase.HTMLAttributes<HTMLIrDateRangeElement>;
             /**
              * `ir-date-range-filter` — a from/to date-range field for filter toolbars.
              * Composition: each side renders a text button (shows the value, opens the popup),
@@ -17007,63 +21770,63 @@ declare module "@stencil/core" {
              * Styling: all inner pieces are exposed as CSS parts; the parts of each inner
              * `ir-date-select` are re-exported with `from-`/`to-` prefixes (e.g. `from-body`).
              */
-            "ir-date-range-filter": LocalJSX.IrDateRangeFilter & JSXBase.HTMLAttributes<HTMLIrDateRangeFilterElement>;
-            "ir-date-select": LocalJSX.IrDateSelect & JSXBase.HTMLAttributes<HTMLIrDateSelectElement>;
-            "ir-date-view": LocalJSX.IrDateView & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
-            "ir-dates-cell": LocalJSX.IrDatesCell & JSXBase.HTMLAttributes<HTMLIrDatesCellElement>;
-            "ir-departures": LocalJSX.IrDepartures & JSXBase.HTMLAttributes<HTMLIrDeparturesElement>;
-            "ir-departures-filter": LocalJSX.IrDeparturesFilter & JSXBase.HTMLAttributes<HTMLIrDeparturesFilterElement>;
-            "ir-departures-table": LocalJSX.IrDeparturesTable & JSXBase.HTMLAttributes<HTMLIrDeparturesTableElement>;
-            "ir-dialog": LocalJSX.IrDialog & JSXBase.HTMLAttributes<HTMLIrDialogElement>;
-            "ir-drawer": LocalJSX.IrDrawer & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
-            "ir-dropdown": LocalJSX.IrDropdown & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
-            "ir-dropdown-item": LocalJSX.IrDropdownItem & JSXBase.HTMLAttributes<HTMLIrDropdownItemElement>;
-            "ir-empty-state": LocalJSX.IrEmptyState & JSXBase.HTMLAttributes<HTMLIrEmptyStateElement>;
-            "ir-events-log": LocalJSX.IrEventsLog & JSXBase.HTMLAttributes<HTMLIrEventsLogElement>;
-            "ir-extra-service": LocalJSX.IrExtraService & JSXBase.HTMLAttributes<HTMLIrExtraServiceElement>;
-            "ir-extra-service-config": LocalJSX.IrExtraServiceConfig & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigElement>;
-            "ir-extra-service-config-form": LocalJSX.IrExtraServiceConfigForm & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigFormElement>;
-            "ir-extra-services": LocalJSX.IrExtraServices & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
-            "ir-fd-confirm-dialog": LocalJSX.IrFdConfirmDialog & JSXBase.HTMLAttributes<HTMLIrFdConfirmDialogElement>;
-            "ir-filter-card": LocalJSX.IrFilterCard & JSXBase.HTMLAttributes<HTMLIrFilterCardElement>;
-            "ir-filters-panel": LocalJSX.IrFiltersPanel & JSXBase.HTMLAttributes<HTMLIrFiltersPanelElement>;
-            "ir-financial-actions": LocalJSX.IrFinancialActions & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
-            "ir-financial-filters": LocalJSX.IrFinancialFilters & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
-            "ir-financial-summary": LocalJSX.IrFinancialSummary & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
-            "ir-financial-table": LocalJSX.IrFinancialTable & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
-            "ir-fiscal-documents": LocalJSX.IrFiscalDocuments & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsElement>;
-            "ir-fiscal-documents-filters": LocalJSX.IrFiscalDocumentsFilters & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsFiltersElement>;
-            "ir-fiscal-documents-table": LocalJSX.IrFiscalDocumentsTable & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsTableElement>;
-            "ir-ghs-candidate-table": LocalJSX.IrGhsCandidateTable & JSXBase.HTMLAttributes<HTMLIrGhsCandidateTableElement>;
-            "ir-ghs-filters": LocalJSX.IrGhsFilters & JSXBase.HTMLAttributes<HTMLIrGhsFiltersElement>;
-            "ir-ghs-onboarding": LocalJSX.IrGhsOnboarding & JSXBase.HTMLAttributes<HTMLIrGhsOnboardingElement>;
-            "ir-ghs-selection-bucket": LocalJSX.IrGhsSelectionBucket & JSXBase.HTMLAttributes<HTMLIrGhsSelectionBucketElement>;
-            "ir-guest-billing": LocalJSX.IrGuestBilling & JSXBase.HTMLAttributes<HTMLIrGuestBillingElement>;
-            "ir-guest-info": LocalJSX.IrGuestInfo & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
-            "ir-guest-info-drawer": LocalJSX.IrGuestInfoDrawer & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
-            "ir-guest-info-form": LocalJSX.IrGuestInfoForm & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
-            "ir-guest-name-cell": LocalJSX.IrGuestNameCell & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
-            "ir-hk-archive": LocalJSX.IrHkArchive & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
-            "ir-hk-delete-dialog": LocalJSX.IrHkDeleteDialog & JSXBase.HTMLAttributes<HTMLIrHkDeleteDialogElement>;
-            "ir-hk-operations-card": LocalJSX.IrHkOperationsCard & JSXBase.HTMLAttributes<HTMLIrHkOperationsCardElement>;
-            "ir-hk-staff-task": LocalJSX.IrHkStaffTask & JSXBase.HTMLAttributes<HTMLIrHkStaffTaskElement>;
-            "ir-hk-staff-tasks": LocalJSX.IrHkStaffTasks & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksElement>;
-            "ir-hk-staff-tasks-header": LocalJSX.IrHkStaffTasksHeader & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksHeaderElement>;
-            "ir-hk-tasks": LocalJSX.IrHkTasks & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;
-            "ir-hk-team": LocalJSX.IrHkTeam & JSXBase.HTMLAttributes<HTMLIrHkTeamElement>;
-            "ir-hk-unassigned-units": LocalJSX.IrHkUnassignedUnits & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsElement>;
-            "ir-hk-unassigned-units-drawer": LocalJSX.IrHkUnassignedUnitsDrawer & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsDrawerElement>;
-            "ir-hk-unassigned-units-drawer-form": LocalJSX.IrHkUnassignedUnitsDrawerForm & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsDrawerFormElement>;
-            "ir-hk-user": LocalJSX.IrHkUser & JSXBase.HTMLAttributes<HTMLIrHkUserElement>;
-            "ir-hk-user-drawer": LocalJSX.IrHkUserDrawer & JSXBase.HTMLAttributes<HTMLIrHkUserDrawerElement>;
-            "ir-hk-user-drawer-form": LocalJSX.IrHkUserDrawerForm & JSXBase.HTMLAttributes<HTMLIrHkUserDrawerFormElement>;
-            "ir-hold-transaction-dialog": LocalJSX.IrHoldTransactionDialog & JSXBase.HTMLAttributes<HTMLIrHoldTransactionDialogElement>;
-            "ir-housekeeping": LocalJSX.IrHousekeeping & JSXBase.HTMLAttributes<HTMLIrHousekeepingElement>;
-            "ir-icon": LocalJSX.IrIcon & JSXBase.HTMLAttributes<HTMLIrIconElement>;
-            "ir-icons": LocalJSX.IrIcons & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
-            "ir-input": LocalJSX.IrInput & JSXBase.HTMLAttributes<HTMLIrInputElement>;
-            "ir-input-cell": LocalJSX.IrInputCell & JSXBase.HTMLAttributes<HTMLIrInputCellElement>;
-            "ir-input-text": LocalJSX.IrInputText & JSXBase.HTMLAttributes<HTMLIrInputTextElement>;
+            "ir-date-range-filter": LocalJSX.IntrinsicElements["ir-date-range-filter"] & JSXBase.HTMLAttributes<HTMLIrDateRangeFilterElement>;
+            "ir-date-select": LocalJSX.IntrinsicElements["ir-date-select"] & JSXBase.HTMLAttributes<HTMLIrDateSelectElement>;
+            "ir-date-view": LocalJSX.IntrinsicElements["ir-date-view"] & JSXBase.HTMLAttributes<HTMLIrDateViewElement>;
+            "ir-dates-cell": LocalJSX.IntrinsicElements["ir-dates-cell"] & JSXBase.HTMLAttributes<HTMLIrDatesCellElement>;
+            "ir-departures": LocalJSX.IntrinsicElements["ir-departures"] & JSXBase.HTMLAttributes<HTMLIrDeparturesElement>;
+            "ir-departures-filter": LocalJSX.IntrinsicElements["ir-departures-filter"] & JSXBase.HTMLAttributes<HTMLIrDeparturesFilterElement>;
+            "ir-departures-table": LocalJSX.IntrinsicElements["ir-departures-table"] & JSXBase.HTMLAttributes<HTMLIrDeparturesTableElement>;
+            "ir-dialog": LocalJSX.IntrinsicElements["ir-dialog"] & JSXBase.HTMLAttributes<HTMLIrDialogElement>;
+            "ir-drawer": LocalJSX.IntrinsicElements["ir-drawer"] & JSXBase.HTMLAttributes<HTMLIrDrawerElement>;
+            "ir-dropdown": LocalJSX.IntrinsicElements["ir-dropdown"] & JSXBase.HTMLAttributes<HTMLIrDropdownElement>;
+            "ir-dropdown-item": LocalJSX.IntrinsicElements["ir-dropdown-item"] & JSXBase.HTMLAttributes<HTMLIrDropdownItemElement>;
+            "ir-empty-state": LocalJSX.IntrinsicElements["ir-empty-state"] & JSXBase.HTMLAttributes<HTMLIrEmptyStateElement>;
+            "ir-events-log": LocalJSX.IntrinsicElements["ir-events-log"] & JSXBase.HTMLAttributes<HTMLIrEventsLogElement>;
+            "ir-extra-service": LocalJSX.IntrinsicElements["ir-extra-service"] & JSXBase.HTMLAttributes<HTMLIrExtraServiceElement>;
+            "ir-extra-service-config": LocalJSX.IntrinsicElements["ir-extra-service-config"] & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigElement>;
+            "ir-extra-service-config-form": LocalJSX.IntrinsicElements["ir-extra-service-config-form"] & JSXBase.HTMLAttributes<HTMLIrExtraServiceConfigFormElement>;
+            "ir-extra-services": LocalJSX.IntrinsicElements["ir-extra-services"] & JSXBase.HTMLAttributes<HTMLIrExtraServicesElement>;
+            "ir-fd-confirm-dialog": LocalJSX.IntrinsicElements["ir-fd-confirm-dialog"] & JSXBase.HTMLAttributes<HTMLIrFdConfirmDialogElement>;
+            "ir-filter-card": LocalJSX.IntrinsicElements["ir-filter-card"] & JSXBase.HTMLAttributes<HTMLIrFilterCardElement>;
+            "ir-filters-panel": LocalJSX.IntrinsicElements["ir-filters-panel"] & JSXBase.HTMLAttributes<HTMLIrFiltersPanelElement>;
+            "ir-financial-actions": LocalJSX.IntrinsicElements["ir-financial-actions"] & JSXBase.HTMLAttributes<HTMLIrFinancialActionsElement>;
+            "ir-financial-filters": LocalJSX.IntrinsicElements["ir-financial-filters"] & JSXBase.HTMLAttributes<HTMLIrFinancialFiltersElement>;
+            "ir-financial-summary": LocalJSX.IntrinsicElements["ir-financial-summary"] & JSXBase.HTMLAttributes<HTMLIrFinancialSummaryElement>;
+            "ir-financial-table": LocalJSX.IntrinsicElements["ir-financial-table"] & JSXBase.HTMLAttributes<HTMLIrFinancialTableElement>;
+            "ir-fiscal-documents": LocalJSX.IntrinsicElements["ir-fiscal-documents"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsElement>;
+            "ir-fiscal-documents-filters": LocalJSX.IntrinsicElements["ir-fiscal-documents-filters"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsFiltersElement>;
+            "ir-fiscal-documents-table": LocalJSX.IntrinsicElements["ir-fiscal-documents-table"] & JSXBase.HTMLAttributes<HTMLIrFiscalDocumentsTableElement>;
+            "ir-ghs-candidate-table": LocalJSX.IntrinsicElements["ir-ghs-candidate-table"] & JSXBase.HTMLAttributes<HTMLIrGhsCandidateTableElement>;
+            "ir-ghs-filters": LocalJSX.IntrinsicElements["ir-ghs-filters"] & JSXBase.HTMLAttributes<HTMLIrGhsFiltersElement>;
+            "ir-ghs-onboarding": LocalJSX.IntrinsicElements["ir-ghs-onboarding"] & JSXBase.HTMLAttributes<HTMLIrGhsOnboardingElement>;
+            "ir-ghs-selection-bucket": LocalJSX.IntrinsicElements["ir-ghs-selection-bucket"] & JSXBase.HTMLAttributes<HTMLIrGhsSelectionBucketElement>;
+            "ir-guest-billing": LocalJSX.IntrinsicElements["ir-guest-billing"] & JSXBase.HTMLAttributes<HTMLIrGuestBillingElement>;
+            "ir-guest-info": LocalJSX.IntrinsicElements["ir-guest-info"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoElement>;
+            "ir-guest-info-drawer": LocalJSX.IntrinsicElements["ir-guest-info-drawer"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoDrawerElement>;
+            "ir-guest-info-form": LocalJSX.IntrinsicElements["ir-guest-info-form"] & JSXBase.HTMLAttributes<HTMLIrGuestInfoFormElement>;
+            "ir-guest-name-cell": LocalJSX.IntrinsicElements["ir-guest-name-cell"] & JSXBase.HTMLAttributes<HTMLIrGuestNameCellElement>;
+            "ir-hk-archive": LocalJSX.IntrinsicElements["ir-hk-archive"] & JSXBase.HTMLAttributes<HTMLIrHkArchiveElement>;
+            "ir-hk-delete-dialog": LocalJSX.IntrinsicElements["ir-hk-delete-dialog"] & JSXBase.HTMLAttributes<HTMLIrHkDeleteDialogElement>;
+            "ir-hk-operations-card": LocalJSX.IntrinsicElements["ir-hk-operations-card"] & JSXBase.HTMLAttributes<HTMLIrHkOperationsCardElement>;
+            "ir-hk-staff-task": LocalJSX.IntrinsicElements["ir-hk-staff-task"] & JSXBase.HTMLAttributes<HTMLIrHkStaffTaskElement>;
+            "ir-hk-staff-tasks": LocalJSX.IntrinsicElements["ir-hk-staff-tasks"] & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksElement>;
+            "ir-hk-staff-tasks-header": LocalJSX.IntrinsicElements["ir-hk-staff-tasks-header"] & JSXBase.HTMLAttributes<HTMLIrHkStaffTasksHeaderElement>;
+            "ir-hk-tasks": LocalJSX.IntrinsicElements["ir-hk-tasks"] & JSXBase.HTMLAttributes<HTMLIrHkTasksElement>;
+            "ir-hk-team": LocalJSX.IntrinsicElements["ir-hk-team"] & JSXBase.HTMLAttributes<HTMLIrHkTeamElement>;
+            "ir-hk-unassigned-units": LocalJSX.IntrinsicElements["ir-hk-unassigned-units"] & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsElement>;
+            "ir-hk-unassigned-units-drawer": LocalJSX.IntrinsicElements["ir-hk-unassigned-units-drawer"] & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsDrawerElement>;
+            "ir-hk-unassigned-units-drawer-form": LocalJSX.IntrinsicElements["ir-hk-unassigned-units-drawer-form"] & JSXBase.HTMLAttributes<HTMLIrHkUnassignedUnitsDrawerFormElement>;
+            "ir-hk-user": LocalJSX.IntrinsicElements["ir-hk-user"] & JSXBase.HTMLAttributes<HTMLIrHkUserElement>;
+            "ir-hk-user-drawer": LocalJSX.IntrinsicElements["ir-hk-user-drawer"] & JSXBase.HTMLAttributes<HTMLIrHkUserDrawerElement>;
+            "ir-hk-user-drawer-form": LocalJSX.IntrinsicElements["ir-hk-user-drawer-form"] & JSXBase.HTMLAttributes<HTMLIrHkUserDrawerFormElement>;
+            "ir-hold-transaction-dialog": LocalJSX.IntrinsicElements["ir-hold-transaction-dialog"] & JSXBase.HTMLAttributes<HTMLIrHoldTransactionDialogElement>;
+            "ir-housekeeping": LocalJSX.IntrinsicElements["ir-housekeeping"] & JSXBase.HTMLAttributes<HTMLIrHousekeepingElement>;
+            "ir-icon": LocalJSX.IntrinsicElements["ir-icon"] & JSXBase.HTMLAttributes<HTMLIrIconElement>;
+            "ir-icons": LocalJSX.IntrinsicElements["ir-icons"] & JSXBase.HTMLAttributes<HTMLIrIconsElement>;
+            "ir-input": LocalJSX.IntrinsicElements["ir-input"] & JSXBase.HTMLAttributes<HTMLIrInputElement>;
+            "ir-input-cell": LocalJSX.IntrinsicElements["ir-input-cell"] & JSXBase.HTMLAttributes<HTMLIrInputCellElement>;
+            "ir-input-text": LocalJSX.IntrinsicElements["ir-input-text"] & JSXBase.HTMLAttributes<HTMLIrInputTextElement>;
             /**
              * @component ir-interactive-title
              * Renders a room/category name inside a flex row that:
@@ -17080,150 +21843,150 @@ declare module "@stencil/core" {
              *                          hover highlight from the parent row).
              * @cssvar --dot-color          Icon colour inside `.hk-dot`.
              */
-            "ir-interactive-title": LocalJSX.IrInteractiveTitle & JSXBase.HTMLAttributes<HTMLIrInteractiveTitleElement>;
-            "ir-interceptor": LocalJSX.IrInterceptor & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
-            "ir-invoice": LocalJSX.IrInvoice & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;
-            "ir-invoice-form": LocalJSX.IrInvoiceForm & JSXBase.HTMLAttributes<HTMLIrInvoiceFormElement>;
-            "ir-label": LocalJSX.IrLabel & JSXBase.HTMLAttributes<HTMLIrLabelElement>;
-            "ir-listing-header": LocalJSX.IrListingHeader & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
-            "ir-listing-modal": LocalJSX.IrListingModal & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
-            "ir-loading-screen": LocalJSX.IrLoadingScreen & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
-            "ir-login": LocalJSX.IrLogin & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
-            "ir-m-combobox": LocalJSX.IrMCombobox & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
-            "ir-m-combobox-booking-item": LocalJSX.IrMComboboxBookingItem & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;
-            "ir-m-combobox-item": LocalJSX.IrMComboboxItem & JSXBase.HTMLAttributes<HTMLIrMComboboxItemElement>;
-            "ir-meal-count-summary": LocalJSX.IrMealCountSummary & JSXBase.HTMLAttributes<HTMLIrMealCountSummaryElement>;
-            "ir-meal-guest-list": LocalJSX.IrMealGuestList & JSXBase.HTMLAttributes<HTMLIrMealGuestListElement>;
-            "ir-meal-report": LocalJSX.IrMealReport & JSXBase.HTMLAttributes<HTMLIrMealReportElement>;
-            "ir-meal-report-filters": LocalJSX.IrMealReportFilters & JSXBase.HTMLAttributes<HTMLIrMealReportFiltersElement>;
-            "ir-menu": LocalJSX.IrMenu & JSXBase.HTMLAttributes<HTMLIrMenuElement>;
-            "ir-menu-drawer": LocalJSX.IrMenuDrawer & JSXBase.HTMLAttributes<HTMLIrMenuDrawerElement>;
-            "ir-menu-group": LocalJSX.IrMenuGroup & JSXBase.HTMLAttributes<HTMLIrMenuGroupElement>;
-            "ir-menu-item": LocalJSX.IrMenuItem & JSXBase.HTMLAttributes<HTMLIrMenuItemElement>;
+            "ir-interactive-title": LocalJSX.IntrinsicElements["ir-interactive-title"] & JSXBase.HTMLAttributes<HTMLIrInteractiveTitleElement>;
+            "ir-interceptor": LocalJSX.IntrinsicElements["ir-interceptor"] & JSXBase.HTMLAttributes<HTMLIrInterceptorElement>;
+            "ir-invoice": LocalJSX.IntrinsicElements["ir-invoice"] & JSXBase.HTMLAttributes<HTMLIrInvoiceElement>;
+            "ir-invoice-form": LocalJSX.IntrinsicElements["ir-invoice-form"] & JSXBase.HTMLAttributes<HTMLIrInvoiceFormElement>;
+            "ir-label": LocalJSX.IntrinsicElements["ir-label"] & JSXBase.HTMLAttributes<HTMLIrLabelElement>;
+            "ir-listing-header": LocalJSX.IntrinsicElements["ir-listing-header"] & JSXBase.HTMLAttributes<HTMLIrListingHeaderElement>;
+            "ir-listing-modal": LocalJSX.IntrinsicElements["ir-listing-modal"] & JSXBase.HTMLAttributes<HTMLIrListingModalElement>;
+            "ir-loading-screen": LocalJSX.IntrinsicElements["ir-loading-screen"] & JSXBase.HTMLAttributes<HTMLIrLoadingScreenElement>;
+            "ir-login": LocalJSX.IntrinsicElements["ir-login"] & JSXBase.HTMLAttributes<HTMLIrLoginElement>;
+            "ir-m-combobox": LocalJSX.IntrinsicElements["ir-m-combobox"] & JSXBase.HTMLAttributes<HTMLIrMComboboxElement>;
+            "ir-m-combobox-booking-item": LocalJSX.IntrinsicElements["ir-m-combobox-booking-item"] & JSXBase.HTMLAttributes<HTMLIrMComboboxBookingItemElement>;
+            "ir-m-combobox-item": LocalJSX.IntrinsicElements["ir-m-combobox-item"] & JSXBase.HTMLAttributes<HTMLIrMComboboxItemElement>;
+            "ir-meal-count-summary": LocalJSX.IntrinsicElements["ir-meal-count-summary"] & JSXBase.HTMLAttributes<HTMLIrMealCountSummaryElement>;
+            "ir-meal-guest-list": LocalJSX.IntrinsicElements["ir-meal-guest-list"] & JSXBase.HTMLAttributes<HTMLIrMealGuestListElement>;
+            "ir-meal-report": LocalJSX.IntrinsicElements["ir-meal-report"] & JSXBase.HTMLAttributes<HTMLIrMealReportElement>;
+            "ir-meal-report-filters": LocalJSX.IntrinsicElements["ir-meal-report-filters"] & JSXBase.HTMLAttributes<HTMLIrMealReportFiltersElement>;
+            "ir-menu": LocalJSX.IntrinsicElements["ir-menu"] & JSXBase.HTMLAttributes<HTMLIrMenuElement>;
+            "ir-menu-drawer": LocalJSX.IntrinsicElements["ir-menu-drawer"] & JSXBase.HTMLAttributes<HTMLIrMenuDrawerElement>;
+            "ir-menu-group": LocalJSX.IntrinsicElements["ir-menu-group"] & JSXBase.HTMLAttributes<HTMLIrMenuGroupElement>;
+            "ir-menu-item": LocalJSX.IntrinsicElements["ir-menu-item"] & JSXBase.HTMLAttributes<HTMLIrMenuItemElement>;
             /**
              * A compact, themeable KPI / metric card. Displays a label, a primary value with an
              * optional unit, an optional leading icon, a trend delta, a caption, and arbitrary
              * slotted body content. Fully styleable via CSS parts and custom properties.
              */
-            "ir-metric-card": LocalJSX.IrMetricCard & JSXBase.HTMLAttributes<HTMLIrMetricCardElement>;
-            "ir-mobile-input": LocalJSX.IrMobileInput & JSXBase.HTMLAttributes<HTMLIrMobileInputElement>;
-            "ir-modal": LocalJSX.IrModal & JSXBase.HTMLAttributes<HTMLIrModalElement>;
-            "ir-monthly-bookings-report": LocalJSX.IrMonthlyBookingsReport & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportElement>;
-            "ir-monthly-bookings-report-filter": LocalJSX.IrMonthlyBookingsReportFilter & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportFilterElement>;
-            "ir-monthly-bookings-report-table": LocalJSX.IrMonthlyBookingsReportTable & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportTableElement>;
-            "ir-new-badge": LocalJSX.IrNewBadge & JSXBase.HTMLAttributes<HTMLIrNewBadgeElement>;
-            "ir-notifications": LocalJSX.IrNotifications & JSXBase.HTMLAttributes<HTMLIrNotificationsElement>;
-            "ir-option-details": LocalJSX.IrOptionDetails & JSXBase.HTMLAttributes<HTMLIrOptionDetailsElement>;
-            "ir-ota-service": LocalJSX.IrOtaService & JSXBase.HTMLAttributes<HTMLIrOtaServiceElement>;
-            "ir-ota-services": LocalJSX.IrOtaServices & JSXBase.HTMLAttributes<HTMLIrOtaServicesElement>;
-            "ir-otp": LocalJSX.IrOtp & JSXBase.HTMLAttributes<HTMLIrOtpElement>;
-            "ir-otp-modal": LocalJSX.IrOtpModal & JSXBase.HTMLAttributes<HTMLIrOtpModalElement>;
-            "ir-page": LocalJSX.IrPage & JSXBase.HTMLAttributes<HTMLIrPageElement>;
-            "ir-pagination": LocalJSX.IrPagination & JSXBase.HTMLAttributes<HTMLIrPaginationElement>;
-            "ir-password-validator": LocalJSX.IrPasswordValidator & JSXBase.HTMLAttributes<HTMLIrPasswordValidatorElement>;
-            "ir-payment-action": LocalJSX.IrPaymentAction & JSXBase.HTMLAttributes<HTMLIrPaymentActionElement>;
-            "ir-payment-actions": LocalJSX.IrPaymentActions & JSXBase.HTMLAttributes<HTMLIrPaymentActionsElement>;
-            "ir-payment-details": LocalJSX.IrPaymentDetails & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
-            "ir-payment-folio": LocalJSX.IrPaymentFolio & JSXBase.HTMLAttributes<HTMLIrPaymentFolioElement>;
-            "ir-payment-folio-form": LocalJSX.IrPaymentFolioForm & JSXBase.HTMLAttributes<HTMLIrPaymentFolioFormElement>;
-            "ir-payment-item": LocalJSX.IrPaymentItem & JSXBase.HTMLAttributes<HTMLIrPaymentItemElement>;
-            "ir-payment-option": LocalJSX.IrPaymentOption & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
-            "ir-payment-summary": LocalJSX.IrPaymentSummary & JSXBase.HTMLAttributes<HTMLIrPaymentSummaryElement>;
-            "ir-payments-folio": LocalJSX.IrPaymentsFolio & JSXBase.HTMLAttributes<HTMLIrPaymentsFolioElement>;
-            "ir-pdf-viewer": LocalJSX.IrPdfViewer & JSXBase.HTMLAttributes<HTMLIrPdfViewerElement>;
-            "ir-phone-input": LocalJSX.IrPhoneInput & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
-            "ir-picker": LocalJSX.IrPicker & JSXBase.HTMLAttributes<HTMLIrPickerElement>;
-            "ir-picker-item": LocalJSX.IrPickerItem & JSXBase.HTMLAttributes<HTMLIrPickerItemElement>;
-            "ir-pickup": LocalJSX.IrPickup & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
-            "ir-pickup-form": LocalJSX.IrPickupForm & JSXBase.HTMLAttributes<HTMLIrPickupFormElement>;
-            "ir-pickup-view": LocalJSX.IrPickupView & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
-            "ir-pms-logs": LocalJSX.IrPmsLogs & JSXBase.HTMLAttributes<HTMLIrPmsLogsElement>;
-            "ir-pms-page": LocalJSX.IrPmsPage & JSXBase.HTMLAttributes<HTMLIrPmsPageElement>;
-            "ir-pms-payment-due-alert": LocalJSX.IrPmsPaymentDueAlert & JSXBase.HTMLAttributes<HTMLIrPmsPaymentDueAlertElement>;
-            "ir-pms-search": LocalJSX.IrPmsSearch & JSXBase.HTMLAttributes<HTMLIrPmsSearchElement>;
-            "ir-popover": LocalJSX.IrPopover & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
-            "ir-preview-screen-dialog": LocalJSX.IrPreviewScreenDialog & JSXBase.HTMLAttributes<HTMLIrPreviewScreenDialogElement>;
-            "ir-price-input": LocalJSX.IrPriceInput & JSXBase.HTMLAttributes<HTMLIrPriceInputElement>;
-            "ir-print-room": LocalJSX.IrPrintRoom & JSXBase.HTMLAttributes<HTMLIrPrintRoomElement>;
-            "ir-printing-extra-service": LocalJSX.IrPrintingExtraService & JSXBase.HTMLAttributes<HTMLIrPrintingExtraServiceElement>;
-            "ir-printing-label": LocalJSX.IrPrintingLabel & JSXBase.HTMLAttributes<HTMLIrPrintingLabelElement>;
-            "ir-printing-pickup": LocalJSX.IrPrintingPickup & JSXBase.HTMLAttributes<HTMLIrPrintingPickupElement>;
-            "ir-proforma-invoice-preview": LocalJSX.IrProformaInvoicePreview & JSXBase.HTMLAttributes<HTMLIrProformaInvoicePreviewElement>;
-            "ir-progress-indicator": LocalJSX.IrProgressIndicator & JSXBase.HTMLAttributes<HTMLIrProgressIndicatorElement>;
-            "ir-property-switcher": LocalJSX.IrPropertySwitcher & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherElement>;
+            "ir-metric-card": LocalJSX.IntrinsicElements["ir-metric-card"] & JSXBase.HTMLAttributes<HTMLIrMetricCardElement>;
+            "ir-mobile-input": LocalJSX.IntrinsicElements["ir-mobile-input"] & JSXBase.HTMLAttributes<HTMLIrMobileInputElement>;
+            "ir-modal": LocalJSX.IntrinsicElements["ir-modal"] & JSXBase.HTMLAttributes<HTMLIrModalElement>;
+            "ir-monthly-bookings-report": LocalJSX.IntrinsicElements["ir-monthly-bookings-report"] & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportElement>;
+            "ir-monthly-bookings-report-filter": LocalJSX.IntrinsicElements["ir-monthly-bookings-report-filter"] & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportFilterElement>;
+            "ir-monthly-bookings-report-table": LocalJSX.IntrinsicElements["ir-monthly-bookings-report-table"] & JSXBase.HTMLAttributes<HTMLIrMonthlyBookingsReportTableElement>;
+            "ir-new-badge": LocalJSX.IntrinsicElements["ir-new-badge"] & JSXBase.HTMLAttributes<HTMLIrNewBadgeElement>;
+            "ir-notifications": LocalJSX.IntrinsicElements["ir-notifications"] & JSXBase.HTMLAttributes<HTMLIrNotificationsElement>;
+            "ir-option-details": LocalJSX.IntrinsicElements["ir-option-details"] & JSXBase.HTMLAttributes<HTMLIrOptionDetailsElement>;
+            "ir-ota-service": LocalJSX.IntrinsicElements["ir-ota-service"] & JSXBase.HTMLAttributes<HTMLIrOtaServiceElement>;
+            "ir-ota-services": LocalJSX.IntrinsicElements["ir-ota-services"] & JSXBase.HTMLAttributes<HTMLIrOtaServicesElement>;
+            "ir-otp": LocalJSX.IntrinsicElements["ir-otp"] & JSXBase.HTMLAttributes<HTMLIrOtpElement>;
+            "ir-otp-modal": LocalJSX.IntrinsicElements["ir-otp-modal"] & JSXBase.HTMLAttributes<HTMLIrOtpModalElement>;
+            "ir-page": LocalJSX.IntrinsicElements["ir-page"] & JSXBase.HTMLAttributes<HTMLIrPageElement>;
+            "ir-pagination": LocalJSX.IntrinsicElements["ir-pagination"] & JSXBase.HTMLAttributes<HTMLIrPaginationElement>;
+            "ir-password-validator": LocalJSX.IntrinsicElements["ir-password-validator"] & JSXBase.HTMLAttributes<HTMLIrPasswordValidatorElement>;
+            "ir-payment-action": LocalJSX.IntrinsicElements["ir-payment-action"] & JSXBase.HTMLAttributes<HTMLIrPaymentActionElement>;
+            "ir-payment-actions": LocalJSX.IntrinsicElements["ir-payment-actions"] & JSXBase.HTMLAttributes<HTMLIrPaymentActionsElement>;
+            "ir-payment-details": LocalJSX.IntrinsicElements["ir-payment-details"] & JSXBase.HTMLAttributes<HTMLIrPaymentDetailsElement>;
+            "ir-payment-folio": LocalJSX.IntrinsicElements["ir-payment-folio"] & JSXBase.HTMLAttributes<HTMLIrPaymentFolioElement>;
+            "ir-payment-folio-form": LocalJSX.IntrinsicElements["ir-payment-folio-form"] & JSXBase.HTMLAttributes<HTMLIrPaymentFolioFormElement>;
+            "ir-payment-item": LocalJSX.IntrinsicElements["ir-payment-item"] & JSXBase.HTMLAttributes<HTMLIrPaymentItemElement>;
+            "ir-payment-option": LocalJSX.IntrinsicElements["ir-payment-option"] & JSXBase.HTMLAttributes<HTMLIrPaymentOptionElement>;
+            "ir-payment-summary": LocalJSX.IntrinsicElements["ir-payment-summary"] & JSXBase.HTMLAttributes<HTMLIrPaymentSummaryElement>;
+            "ir-payments-folio": LocalJSX.IntrinsicElements["ir-payments-folio"] & JSXBase.HTMLAttributes<HTMLIrPaymentsFolioElement>;
+            "ir-pdf-viewer": LocalJSX.IntrinsicElements["ir-pdf-viewer"] & JSXBase.HTMLAttributes<HTMLIrPdfViewerElement>;
+            "ir-phone-input": LocalJSX.IntrinsicElements["ir-phone-input"] & JSXBase.HTMLAttributes<HTMLIrPhoneInputElement>;
+            "ir-picker": LocalJSX.IntrinsicElements["ir-picker"] & JSXBase.HTMLAttributes<HTMLIrPickerElement>;
+            "ir-picker-item": LocalJSX.IntrinsicElements["ir-picker-item"] & JSXBase.HTMLAttributes<HTMLIrPickerItemElement>;
+            "ir-pickup": LocalJSX.IntrinsicElements["ir-pickup"] & JSXBase.HTMLAttributes<HTMLIrPickupElement>;
+            "ir-pickup-form": LocalJSX.IntrinsicElements["ir-pickup-form"] & JSXBase.HTMLAttributes<HTMLIrPickupFormElement>;
+            "ir-pickup-view": LocalJSX.IntrinsicElements["ir-pickup-view"] & JSXBase.HTMLAttributes<HTMLIrPickupViewElement>;
+            "ir-pms-logs": LocalJSX.IntrinsicElements["ir-pms-logs"] & JSXBase.HTMLAttributes<HTMLIrPmsLogsElement>;
+            "ir-pms-page": LocalJSX.IntrinsicElements["ir-pms-page"] & JSXBase.HTMLAttributes<HTMLIrPmsPageElement>;
+            "ir-pms-payment-due-alert": LocalJSX.IntrinsicElements["ir-pms-payment-due-alert"] & JSXBase.HTMLAttributes<HTMLIrPmsPaymentDueAlertElement>;
+            "ir-pms-search": LocalJSX.IntrinsicElements["ir-pms-search"] & JSXBase.HTMLAttributes<HTMLIrPmsSearchElement>;
+            "ir-popover": LocalJSX.IntrinsicElements["ir-popover"] & JSXBase.HTMLAttributes<HTMLIrPopoverElement>;
+            "ir-preview-screen-dialog": LocalJSX.IntrinsicElements["ir-preview-screen-dialog"] & JSXBase.HTMLAttributes<HTMLIrPreviewScreenDialogElement>;
+            "ir-price-input": LocalJSX.IntrinsicElements["ir-price-input"] & JSXBase.HTMLAttributes<HTMLIrPriceInputElement>;
+            "ir-print-room": LocalJSX.IntrinsicElements["ir-print-room"] & JSXBase.HTMLAttributes<HTMLIrPrintRoomElement>;
+            "ir-printing-extra-service": LocalJSX.IntrinsicElements["ir-printing-extra-service"] & JSXBase.HTMLAttributes<HTMLIrPrintingExtraServiceElement>;
+            "ir-printing-label": LocalJSX.IntrinsicElements["ir-printing-label"] & JSXBase.HTMLAttributes<HTMLIrPrintingLabelElement>;
+            "ir-printing-pickup": LocalJSX.IntrinsicElements["ir-printing-pickup"] & JSXBase.HTMLAttributes<HTMLIrPrintingPickupElement>;
+            "ir-proforma-invoice-preview": LocalJSX.IntrinsicElements["ir-proforma-invoice-preview"] & JSXBase.HTMLAttributes<HTMLIrProformaInvoicePreviewElement>;
+            "ir-progress-indicator": LocalJSX.IntrinsicElements["ir-progress-indicator"] & JSXBase.HTMLAttributes<HTMLIrProgressIndicatorElement>;
+            "ir-property-switcher": LocalJSX.IntrinsicElements["ir-property-switcher"] & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherElement>;
             /**
              * Internal component responsible for rendering the searchable list of properties inside the switcher dialog.
              * It owns the data fetching, filtering and keyboard navigation logic so the parent dialog stays lean.
              */
-            "ir-property-switcher-dialog-content": LocalJSX.IrPropertySwitcherDialogContent & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherDialogContentElement>;
-            "ir-queue-chart": LocalJSX.IrQueueChart & JSXBase.HTMLAttributes<HTMLIrQueueChartElement>;
-            "ir-queue-manager": LocalJSX.IrQueueManager & JSXBase.HTMLAttributes<HTMLIrQueueManagerElement>;
-            "ir-radio": LocalJSX.IrRadio & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
-            "ir-range-picker": LocalJSX.IrRangePicker & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
-            "ir-reallocation-drawer": LocalJSX.IrReallocationDrawer & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;
-            "ir-reallocation-form": LocalJSX.IrReallocationForm & JSXBase.HTMLAttributes<HTMLIrReallocationFormElement>;
-            "ir-rectifier": LocalJSX.IrRectifier & JSXBase.HTMLAttributes<HTMLIrRectifierElement>;
-            "ir-reservation-information": LocalJSX.IrReservationInformation & JSXBase.HTMLAttributes<HTMLIrReservationInformationElement>;
-            "ir-reset-password": LocalJSX.IrResetPassword & JSXBase.HTMLAttributes<HTMLIrResetPasswordElement>;
-            "ir-revenue-row": LocalJSX.IrRevenueRow & JSXBase.HTMLAttributes<HTMLIrRevenueRowElement>;
-            "ir-revenue-row-details": LocalJSX.IrRevenueRowDetails & JSXBase.HTMLAttributes<HTMLIrRevenueRowDetailsElement>;
-            "ir-revenue-summary": LocalJSX.IrRevenueSummary & JSXBase.HTMLAttributes<HTMLIrRevenueSummaryElement>;
-            "ir-revenue-table": LocalJSX.IrRevenueTable & JSXBase.HTMLAttributes<HTMLIrRevenueTableElement>;
-            "ir-room": LocalJSX.IrRoom & JSXBase.HTMLAttributes<HTMLIrRoomElement>;
-            "ir-room-guests": LocalJSX.IrRoomGuests & JSXBase.HTMLAttributes<HTMLIrRoomGuestsElement>;
-            "ir-room-guests-form": LocalJSX.IrRoomGuestsForm & JSXBase.HTMLAttributes<HTMLIrRoomGuestsFormElement>;
-            "ir-room-nights": LocalJSX.IrRoomNights & JSXBase.HTMLAttributes<HTMLIrRoomNightsElement>;
-            "ir-sales-by-channel": LocalJSX.IrSalesByChannel & JSXBase.HTMLAttributes<HTMLIrSalesByChannelElement>;
-            "ir-sales-by-channel-filters": LocalJSX.IrSalesByChannelFilters & JSXBase.HTMLAttributes<HTMLIrSalesByChannelFiltersElement>;
-            "ir-sales-by-channel-summary": LocalJSX.IrSalesByChannelSummary & JSXBase.HTMLAttributes<HTMLIrSalesByChannelSummaryElement>;
-            "ir-sales-by-channel-table": LocalJSX.IrSalesByChannelTable & JSXBase.HTMLAttributes<HTMLIrSalesByChannelTableElement>;
-            "ir-sales-by-country": LocalJSX.IrSalesByCountry & JSXBase.HTMLAttributes<HTMLIrSalesByCountryElement>;
-            "ir-sales-by-country-summary": LocalJSX.IrSalesByCountrySummary & JSXBase.HTMLAttributes<HTMLIrSalesByCountrySummaryElement>;
-            "ir-sales-filters": LocalJSX.IrSalesFilters & JSXBase.HTMLAttributes<HTMLIrSalesFiltersElement>;
-            "ir-sales-table": LocalJSX.IrSalesTable & JSXBase.HTMLAttributes<HTMLIrSalesTableElement>;
-            "ir-secure-tasks": LocalJSX.IrSecureTasks & JSXBase.HTMLAttributes<HTMLIrSecureTasksElement>;
-            "ir-select": LocalJSX.IrSelect & JSXBase.HTMLAttributes<HTMLIrSelectElement>;
-            "ir-service-assignee-select": LocalJSX.IrServiceAssigneeSelect & JSXBase.HTMLAttributes<HTMLIrServiceAssigneeSelectElement>;
-            "ir-sidebar": LocalJSX.IrSidebar & JSXBase.HTMLAttributes<HTMLIrSidebarElement>;
-            "ir-span": LocalJSX.IrSpan & JSXBase.HTMLAttributes<HTMLIrSpanElement>;
-            "ir-spinner": LocalJSX.IrSpinner & JSXBase.HTMLAttributes<HTMLIrSpinnerElement>;
-            "ir-stats-card": LocalJSX.IrStatsCard & JSXBase.HTMLAttributes<HTMLIrStatsCardElement>;
-            "ir-status-activity-cell": LocalJSX.IrStatusActivityCell & JSXBase.HTMLAttributes<HTMLIrStatusActivityCellElement>;
-            "ir-success-loader": LocalJSX.IrSuccessLoader & JSXBase.HTMLAttributes<HTMLIrSuccessLoaderElement>;
-            "ir-switch": LocalJSX.IrSwitch & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
-            "ir-tabs": LocalJSX.IrTabs & JSXBase.HTMLAttributes<HTMLIrTabsElement>;
-            "ir-tasks-card": LocalJSX.IrTasksCard & JSXBase.HTMLAttributes<HTMLIrTasksCardElement>;
-            "ir-tasks-filters": LocalJSX.IrTasksFilters & JSXBase.HTMLAttributes<HTMLIrTasksFiltersElement>;
-            "ir-tasks-header": LocalJSX.IrTasksHeader & JSXBase.HTMLAttributes<HTMLIrTasksHeaderElement>;
-            "ir-tasks-table": LocalJSX.IrTasksTable & JSXBase.HTMLAttributes<HTMLIrTasksTableElement>;
-            "ir-tasks-table-pagination": LocalJSX.IrTasksTablePagination & JSXBase.HTMLAttributes<HTMLIrTasksTablePaginationElement>;
-            "ir-tax-input": LocalJSX.IrTaxInput & JSXBase.HTMLAttributes<HTMLIrTaxInputElement>;
-            "ir-tax-service-categories": LocalJSX.IrTaxServiceCategories & JSXBase.HTMLAttributes<HTMLIrTaxServiceCategoriesElement>;
-            "ir-test-cmp": LocalJSX.IrTestCmp & JSXBase.HTMLAttributes<HTMLIrTestCmpElement>;
-            "ir-test2-cmp": LocalJSX.IrTest2Cmp & JSXBase.HTMLAttributes<HTMLIrTest2CmpElement>;
-            "ir-text-editor": LocalJSX.IrTextEditor & JSXBase.HTMLAttributes<HTMLIrTextEditorElement>;
-            "ir-textarea": LocalJSX.IrTextarea & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
-            "ir-title": LocalJSX.IrTitle & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
-            "ir-toast": LocalJSX.IrToast & JSXBase.HTMLAttributes<HTMLIrToastElement>;
-            "ir-toast-alert": LocalJSX.IrToastAlert & JSXBase.HTMLAttributes<HTMLIrToastAlertElement>;
-            "ir-toast-item": LocalJSX.IrToastItem & JSXBase.HTMLAttributes<HTMLIrToastItemElement>;
-            "ir-toast-provider": LocalJSX.IrToastProvider & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
-            "ir-toasts-provider": LocalJSX.IrToastsProvider & JSXBase.HTMLAttributes<HTMLIrToastsProviderElement>;
-            "ir-tooltip": LocalJSX.IrTooltip & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
-            "ir-unbookable-rooms": LocalJSX.IrUnbookableRooms & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
-            "ir-unbookable-rooms-data": LocalJSX.IrUnbookableRoomsData & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;
-            "ir-unbookable-rooms-filters": LocalJSX.IrUnbookableRoomsFilters & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsFiltersElement>;
-            "ir-unit-cell": LocalJSX.IrUnitCell & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;
-            "ir-unit-status": LocalJSX.IrUnitStatus & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
-            "ir-unit-tag": LocalJSX.IrUnitTag & JSXBase.HTMLAttributes<HTMLIrUnitTagElement>;
-            "ir-user-form-panel": LocalJSX.IrUserFormPanel & JSXBase.HTMLAttributes<HTMLIrUserFormPanelElement>;
-            "ir-user-form-panel-drawer": LocalJSX.IrUserFormPanelDrawer & JSXBase.HTMLAttributes<HTMLIrUserFormPanelDrawerElement>;
-            "ir-user-management": LocalJSX.IrUserManagement & JSXBase.HTMLAttributes<HTMLIrUserManagementElement>;
-            "ir-user-management-table": LocalJSX.IrUserManagementTable & JSXBase.HTMLAttributes<HTMLIrUserManagementTableElement>;
-            "ir-validator": LocalJSX.IrValidator & JSXBase.HTMLAttributes<HTMLIrValidatorElement>;
-            "ir-weekday-selector": LocalJSX.IrWeekdaySelector & JSXBase.HTMLAttributes<HTMLIrWeekdaySelectorElement>;
-            "ota-label": LocalJSX.OtaLabel & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
-            "requirement-check": LocalJSX.RequirementCheck & JSXBase.HTMLAttributes<HTMLRequirementCheckElement>;
+            "ir-property-switcher-dialog-content": LocalJSX.IntrinsicElements["ir-property-switcher-dialog-content"] & JSXBase.HTMLAttributes<HTMLIrPropertySwitcherDialogContentElement>;
+            "ir-queue-chart": LocalJSX.IntrinsicElements["ir-queue-chart"] & JSXBase.HTMLAttributes<HTMLIrQueueChartElement>;
+            "ir-queue-manager": LocalJSX.IntrinsicElements["ir-queue-manager"] & JSXBase.HTMLAttributes<HTMLIrQueueManagerElement>;
+            "ir-radio": LocalJSX.IntrinsicElements["ir-radio"] & JSXBase.HTMLAttributes<HTMLIrRadioElement>;
+            "ir-range-picker": LocalJSX.IntrinsicElements["ir-range-picker"] & JSXBase.HTMLAttributes<HTMLIrRangePickerElement>;
+            "ir-reallocation-drawer": LocalJSX.IntrinsicElements["ir-reallocation-drawer"] & JSXBase.HTMLAttributes<HTMLIrReallocationDrawerElement>;
+            "ir-reallocation-form": LocalJSX.IntrinsicElements["ir-reallocation-form"] & JSXBase.HTMLAttributes<HTMLIrReallocationFormElement>;
+            "ir-rectifier": LocalJSX.IntrinsicElements["ir-rectifier"] & JSXBase.HTMLAttributes<HTMLIrRectifierElement>;
+            "ir-reservation-information": LocalJSX.IntrinsicElements["ir-reservation-information"] & JSXBase.HTMLAttributes<HTMLIrReservationInformationElement>;
+            "ir-reset-password": LocalJSX.IntrinsicElements["ir-reset-password"] & JSXBase.HTMLAttributes<HTMLIrResetPasswordElement>;
+            "ir-revenue-row": LocalJSX.IntrinsicElements["ir-revenue-row"] & JSXBase.HTMLAttributes<HTMLIrRevenueRowElement>;
+            "ir-revenue-row-details": LocalJSX.IntrinsicElements["ir-revenue-row-details"] & JSXBase.HTMLAttributes<HTMLIrRevenueRowDetailsElement>;
+            "ir-revenue-summary": LocalJSX.IntrinsicElements["ir-revenue-summary"] & JSXBase.HTMLAttributes<HTMLIrRevenueSummaryElement>;
+            "ir-revenue-table": LocalJSX.IntrinsicElements["ir-revenue-table"] & JSXBase.HTMLAttributes<HTMLIrRevenueTableElement>;
+            "ir-room": LocalJSX.IntrinsicElements["ir-room"] & JSXBase.HTMLAttributes<HTMLIrRoomElement>;
+            "ir-room-guests": LocalJSX.IntrinsicElements["ir-room-guests"] & JSXBase.HTMLAttributes<HTMLIrRoomGuestsElement>;
+            "ir-room-guests-form": LocalJSX.IntrinsicElements["ir-room-guests-form"] & JSXBase.HTMLAttributes<HTMLIrRoomGuestsFormElement>;
+            "ir-room-nights": LocalJSX.IntrinsicElements["ir-room-nights"] & JSXBase.HTMLAttributes<HTMLIrRoomNightsElement>;
+            "ir-sales-by-channel": LocalJSX.IntrinsicElements["ir-sales-by-channel"] & JSXBase.HTMLAttributes<HTMLIrSalesByChannelElement>;
+            "ir-sales-by-channel-filters": LocalJSX.IntrinsicElements["ir-sales-by-channel-filters"] & JSXBase.HTMLAttributes<HTMLIrSalesByChannelFiltersElement>;
+            "ir-sales-by-channel-summary": LocalJSX.IntrinsicElements["ir-sales-by-channel-summary"] & JSXBase.HTMLAttributes<HTMLIrSalesByChannelSummaryElement>;
+            "ir-sales-by-channel-table": LocalJSX.IntrinsicElements["ir-sales-by-channel-table"] & JSXBase.HTMLAttributes<HTMLIrSalesByChannelTableElement>;
+            "ir-sales-by-country": LocalJSX.IntrinsicElements["ir-sales-by-country"] & JSXBase.HTMLAttributes<HTMLIrSalesByCountryElement>;
+            "ir-sales-by-country-summary": LocalJSX.IntrinsicElements["ir-sales-by-country-summary"] & JSXBase.HTMLAttributes<HTMLIrSalesByCountrySummaryElement>;
+            "ir-sales-filters": LocalJSX.IntrinsicElements["ir-sales-filters"] & JSXBase.HTMLAttributes<HTMLIrSalesFiltersElement>;
+            "ir-sales-table": LocalJSX.IntrinsicElements["ir-sales-table"] & JSXBase.HTMLAttributes<HTMLIrSalesTableElement>;
+            "ir-secure-tasks": LocalJSX.IntrinsicElements["ir-secure-tasks"] & JSXBase.HTMLAttributes<HTMLIrSecureTasksElement>;
+            "ir-select": LocalJSX.IntrinsicElements["ir-select"] & JSXBase.HTMLAttributes<HTMLIrSelectElement>;
+            "ir-service-assignee-select": LocalJSX.IntrinsicElements["ir-service-assignee-select"] & JSXBase.HTMLAttributes<HTMLIrServiceAssigneeSelectElement>;
+            "ir-sidebar": LocalJSX.IntrinsicElements["ir-sidebar"] & JSXBase.HTMLAttributes<HTMLIrSidebarElement>;
+            "ir-span": LocalJSX.IntrinsicElements["ir-span"] & JSXBase.HTMLAttributes<HTMLIrSpanElement>;
+            "ir-spinner": LocalJSX.IntrinsicElements["ir-spinner"] & JSXBase.HTMLAttributes<HTMLIrSpinnerElement>;
+            "ir-stats-card": LocalJSX.IntrinsicElements["ir-stats-card"] & JSXBase.HTMLAttributes<HTMLIrStatsCardElement>;
+            "ir-status-activity-cell": LocalJSX.IntrinsicElements["ir-status-activity-cell"] & JSXBase.HTMLAttributes<HTMLIrStatusActivityCellElement>;
+            "ir-success-loader": LocalJSX.IntrinsicElements["ir-success-loader"] & JSXBase.HTMLAttributes<HTMLIrSuccessLoaderElement>;
+            "ir-switch": LocalJSX.IntrinsicElements["ir-switch"] & JSXBase.HTMLAttributes<HTMLIrSwitchElement>;
+            "ir-tabs": LocalJSX.IntrinsicElements["ir-tabs"] & JSXBase.HTMLAttributes<HTMLIrTabsElement>;
+            "ir-tasks-card": LocalJSX.IntrinsicElements["ir-tasks-card"] & JSXBase.HTMLAttributes<HTMLIrTasksCardElement>;
+            "ir-tasks-filters": LocalJSX.IntrinsicElements["ir-tasks-filters"] & JSXBase.HTMLAttributes<HTMLIrTasksFiltersElement>;
+            "ir-tasks-header": LocalJSX.IntrinsicElements["ir-tasks-header"] & JSXBase.HTMLAttributes<HTMLIrTasksHeaderElement>;
+            "ir-tasks-table": LocalJSX.IntrinsicElements["ir-tasks-table"] & JSXBase.HTMLAttributes<HTMLIrTasksTableElement>;
+            "ir-tasks-table-pagination": LocalJSX.IntrinsicElements["ir-tasks-table-pagination"] & JSXBase.HTMLAttributes<HTMLIrTasksTablePaginationElement>;
+            "ir-tax-input": LocalJSX.IntrinsicElements["ir-tax-input"] & JSXBase.HTMLAttributes<HTMLIrTaxInputElement>;
+            "ir-tax-service-categories": LocalJSX.IntrinsicElements["ir-tax-service-categories"] & JSXBase.HTMLAttributes<HTMLIrTaxServiceCategoriesElement>;
+            "ir-test-cmp": LocalJSX.IntrinsicElements["ir-test-cmp"] & JSXBase.HTMLAttributes<HTMLIrTestCmpElement>;
+            "ir-test2-cmp": LocalJSX.IntrinsicElements["ir-test2-cmp"] & JSXBase.HTMLAttributes<HTMLIrTest2CmpElement>;
+            "ir-text-editor": LocalJSX.IntrinsicElements["ir-text-editor"] & JSXBase.HTMLAttributes<HTMLIrTextEditorElement>;
+            "ir-textarea": LocalJSX.IntrinsicElements["ir-textarea"] & JSXBase.HTMLAttributes<HTMLIrTextareaElement>;
+            "ir-title": LocalJSX.IntrinsicElements["ir-title"] & JSXBase.HTMLAttributes<HTMLIrTitleElement>;
+            "ir-toast": LocalJSX.IntrinsicElements["ir-toast"] & JSXBase.HTMLAttributes<HTMLIrToastElement>;
+            "ir-toast-alert": LocalJSX.IntrinsicElements["ir-toast-alert"] & JSXBase.HTMLAttributes<HTMLIrToastAlertElement>;
+            "ir-toast-item": LocalJSX.IntrinsicElements["ir-toast-item"] & JSXBase.HTMLAttributes<HTMLIrToastItemElement>;
+            "ir-toast-provider": LocalJSX.IntrinsicElements["ir-toast-provider"] & JSXBase.HTMLAttributes<HTMLIrToastProviderElement>;
+            "ir-toasts-provider": LocalJSX.IntrinsicElements["ir-toasts-provider"] & JSXBase.HTMLAttributes<HTMLIrToastsProviderElement>;
+            "ir-tooltip": LocalJSX.IntrinsicElements["ir-tooltip"] & JSXBase.HTMLAttributes<HTMLIrTooltipElement>;
+            "ir-unbookable-rooms": LocalJSX.IntrinsicElements["ir-unbookable-rooms"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsElement>;
+            "ir-unbookable-rooms-data": LocalJSX.IntrinsicElements["ir-unbookable-rooms-data"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsDataElement>;
+            "ir-unbookable-rooms-filters": LocalJSX.IntrinsicElements["ir-unbookable-rooms-filters"] & JSXBase.HTMLAttributes<HTMLIrUnbookableRoomsFiltersElement>;
+            "ir-unit-cell": LocalJSX.IntrinsicElements["ir-unit-cell"] & JSXBase.HTMLAttributes<HTMLIrUnitCellElement>;
+            "ir-unit-status": LocalJSX.IntrinsicElements["ir-unit-status"] & JSXBase.HTMLAttributes<HTMLIrUnitStatusElement>;
+            "ir-unit-tag": LocalJSX.IntrinsicElements["ir-unit-tag"] & JSXBase.HTMLAttributes<HTMLIrUnitTagElement>;
+            "ir-user-form-panel": LocalJSX.IntrinsicElements["ir-user-form-panel"] & JSXBase.HTMLAttributes<HTMLIrUserFormPanelElement>;
+            "ir-user-form-panel-drawer": LocalJSX.IntrinsicElements["ir-user-form-panel-drawer"] & JSXBase.HTMLAttributes<HTMLIrUserFormPanelDrawerElement>;
+            "ir-user-management": LocalJSX.IntrinsicElements["ir-user-management"] & JSXBase.HTMLAttributes<HTMLIrUserManagementElement>;
+            "ir-user-management-table": LocalJSX.IntrinsicElements["ir-user-management-table"] & JSXBase.HTMLAttributes<HTMLIrUserManagementTableElement>;
+            "ir-validator": LocalJSX.IntrinsicElements["ir-validator"] & JSXBase.HTMLAttributes<HTMLIrValidatorElement>;
+            "ir-weekday-selector": LocalJSX.IntrinsicElements["ir-weekday-selector"] & JSXBase.HTMLAttributes<HTMLIrWeekdaySelectorElement>;
+            "ota-label": LocalJSX.IntrinsicElements["ota-label"] & JSXBase.HTMLAttributes<HTMLOtaLabelElement>;
+            "requirement-check": LocalJSX.IntrinsicElements["requirement-check"] & JSXBase.HTMLAttributes<HTMLRequirementCheckElement>;
         }
     }
 }

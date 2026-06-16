@@ -24,4 +24,3 @@ export function transformDateFormatWithMoment(dateStr) {
     var dateObj = moment(dateStr, 'ddd, DD MMM YYYY');
     return dateObj.format('D_M_YYYY');
 }
-//# sourceMappingURL=events.utils.js.map

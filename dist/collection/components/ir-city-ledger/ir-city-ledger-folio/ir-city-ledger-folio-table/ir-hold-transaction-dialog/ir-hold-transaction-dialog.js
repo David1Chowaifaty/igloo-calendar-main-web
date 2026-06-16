@@ -61,7 +61,8 @@ export class IrHoldTransactionDialog {
                         "FolioRow": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 },
@@ -91,8 +92,8 @@ export class IrHoldTransactionDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             }
         };
@@ -159,4 +160,3 @@ export class IrHoldTransactionDialog {
         };
     }
 }
-//# sourceMappingURL=ir-hold-transaction-dialog.js.map

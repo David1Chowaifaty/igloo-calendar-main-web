@@ -64,8 +64,8 @@ export class IrPmsLogs {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             }
         };
     }
@@ -76,4 +76,3 @@ export class IrPmsLogs {
         };
     }
 }
-//# sourceMappingURL=ir-pms-logs.js.map

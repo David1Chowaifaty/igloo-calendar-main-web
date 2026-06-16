@@ -78,8 +78,8 @@ export class IrUnbookableRoomsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "filters": {
@@ -115,7 +115,8 @@ export class IrUnbookableRoomsFilters {
                         "FetchUnBookableRoomsResult": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::FetchUnBookableRoomsResult"
+                            "id": "src/services/property.service.ts::FetchUnBookableRoomsResult",
+                            "referenceLocation": "FetchUnBookableRoomsResult"
                         }
                     }
                 },
@@ -145,8 +146,8 @@ export class IrUnbookableRoomsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             }
         };
@@ -164,7 +165,7 @@ export class IrUnbookableRoomsFilters {
                 },
                 "complexType": {
                     "original": "Partial<UnbookableRoomsFilters>",
-                    "resolved": "{ period_to_check?: number; consecutive_period?: number; country?: string; }",
+                    "resolved": "{ period_to_check: number; consecutive_period: number; country: string; }",
                     "references": {
                         "Partial": {
                             "location": "global",
@@ -209,4 +210,3 @@ export class IrUnbookableRoomsFilters {
             }];
     }
 }
-//# sourceMappingURL=ir-unbookable-rooms-filters.js.map

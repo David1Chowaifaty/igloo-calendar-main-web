@@ -117,8 +117,8 @@ export class IrTooltip {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
-                "reflect": true
+                "reflect": true,
+                "attribute": "message"
             },
             "withHtml": {
                 "type": "boolean",
@@ -136,8 +136,8 @@ export class IrTooltip {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-html",
                 "reflect": false,
+                "attribute": "with-html",
                 "defaultValue": "true"
             },
             "customSlot": {
@@ -156,8 +156,8 @@ export class IrTooltip {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "custom-slot",
                 "reflect": false,
+                "attribute": "custom-slot",
                 "defaultValue": "false"
             },
             "containerStyle": {
@@ -193,8 +193,8 @@ export class IrTooltip {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "container-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "container-class"
             },
             "alignment": {
                 "type": "string",
@@ -212,8 +212,8 @@ export class IrTooltip {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "alignment",
                 "reflect": false,
+                "attribute": "alignment",
                 "defaultValue": "'center'"
             }
         };
@@ -224,4 +224,3 @@ export class IrTooltip {
         };
     }
 }
-//# sourceMappingURL=ir-tooltip.js.map

@@ -80,7 +80,8 @@ export class IrCityLedgerFiscalDocumentsFilters {
                         "ClFiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters",
+                            "referenceLocation": "ClFiscalDocumentFilters"
                         }
                     }
                 },
@@ -119,7 +120,8 @@ export class IrCityLedgerFiscalDocumentsFilters {
                         "ClFiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters",
+                            "referenceLocation": "ClFiscalDocumentFilters"
                         }
                     }
                 }
@@ -140,7 +142,8 @@ export class IrCityLedgerFiscalDocumentsFilters {
                         "ClFiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/types.ts::ClFiscalDocumentFilters",
+                            "referenceLocation": "ClFiscalDocumentFilters"
                         }
                     }
                 }
@@ -150,4 +153,3 @@ export class IrCityLedgerFiscalDocumentsFilters {
 __decorate([
     Debounce(300)
 ], IrCityLedgerFiscalDocumentsFilters.prototype, "emitSearchDebounced", null);
-//# sourceMappingURL=ir-city-ledger-fiscal-documents-filters.js.map

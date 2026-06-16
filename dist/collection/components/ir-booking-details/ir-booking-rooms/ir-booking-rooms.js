@@ -215,7 +215,8 @@ export class IrBookingRooms {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -233,12 +234,13 @@ export class IrBookingRooms {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -261,7 +263,8 @@ export class IrBookingRooms {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -285,7 +288,8 @@ export class IrBookingRooms {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -315,8 +319,8 @@ export class IrBookingRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-add",
                 "reflect": false,
+                "attribute": "has-room-add",
                 "defaultValue": "false"
             },
             "hasRoomDelete": {
@@ -335,8 +339,8 @@ export class IrBookingRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-delete",
                 "reflect": false,
+                "attribute": "has-room-delete",
                 "defaultValue": "false"
             },
             "hasRoomEdit": {
@@ -355,8 +359,8 @@ export class IrBookingRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-room-edit",
                 "reflect": false,
+                "attribute": "has-room-edit",
                 "defaultValue": "false"
             },
             "language": {
@@ -375,8 +379,8 @@ export class IrBookingRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "legendData": {
                 "type": "unknown",
@@ -411,8 +415,8 @@ export class IrBookingRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "roomsInfo": {
                 "type": "unknown",
@@ -441,7 +445,8 @@ export class IrBookingRooms {
                         "SplitIndex": {
                             "location": "import",
                             "path": "@/utils/booking",
-                            "id": "src/utils/booking.ts::SplitIndex"
+                            "id": "src/utils/booking.ts::SplitIndex",
+                            "referenceLocation": "SplitIndex"
                         }
                     }
                 },
@@ -464,7 +469,8 @@ export class IrBookingRooms {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::ClTx"
+                            "id": "src/services/city-ledger/index.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -499,4 +505,3 @@ export class IrBookingRooms {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-rooms.js.map

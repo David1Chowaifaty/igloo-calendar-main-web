@@ -14,11 +14,11 @@ export declare const CurrencyWithCodeSchema: z.ZodObject<z.objectUtil.extendShap
 }, {
     code: z.ZodOptional<z.ZodString>;
 }>, "strip", z.ZodTypeAny, {
-    code?: string;
     id?: number;
+    code?: string;
 }, {
-    code?: string;
     id?: number;
+    code?: string;
 }>;
 export type CurrencyWithCode = z.infer<typeof CurrencyWithCodeSchema>;
 export declare const ItemSchema: z.ZodObject<{
@@ -193,18 +193,18 @@ export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
     }, {
         code: z.ZodOptional<z.ZodString>;
     }>, "strip", z.ZodTypeAny, {
-        code?: string;
         id?: number;
+        code?: string;
     }, {
-        code?: string;
         id?: number;
+        code?: string;
     }>;
     is_in_agent_mode: z.ZodOptional<z.ZodBoolean>;
     agent_id: z.ZodOptional<z.ZodUnion<[z.ZodNumber, z.ZodOptional<z.ZodString>]>>;
 }, "strip", z.ZodTypeAny, {
     currency?: {
-        code?: string;
         id?: number;
+        code?: string;
     };
     from_date?: string;
     to_date?: string;
@@ -221,8 +221,8 @@ export declare const GetBookingAvailabilityPropsSchema: z.ZodObject<{
     agent_id?: string | number;
 }, {
     currency?: {
-        code?: string;
         id?: number;
+        code?: string;
     };
     from_date?: string;
     to_date?: string;
@@ -294,10 +294,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         currency_id?: number;
         agent?: {
             name?: string;
+            id?: number;
             email?: string;
             property_id?: any;
             code?: string;
-            id?: number;
             address?: string;
             agent_rate_type_code?: {
                 code?: string;
@@ -359,10 +359,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         currency_id?: number;
         agent?: {
             name?: string;
+            id?: number;
             email?: string;
             property_id?: any;
             code?: string;
-            id?: number;
             address?: string;
             agent_rate_type_code?: {
                 code?: string;
@@ -429,10 +429,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         currency_id?: number;
         agent?: {
             name?: string;
+            id?: number;
             email?: string;
             property_id?: any;
             code?: string;
-            id?: number;
             address?: string;
             agent_rate_type_code?: {
                 code?: string;
@@ -498,10 +498,10 @@ export declare const DoBookingExtraServicePropsSchema: z.ZodObject<{
         currency_id?: number;
         agent?: {
             name?: string;
+            id?: number;
             email?: string;
             property_id?: any;
             code?: string;
-            id?: number;
             address?: string;
             agent_rate_type_code?: {
                 code?: string;
@@ -1029,8 +1029,8 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     password: z.ZodNull;
     subscribe_to_news_letter: z.ZodNull;
 }, "strip", z.ZodTypeAny, {
-    email?: string;
     id?: number;
+    email?: string;
     address?: null;
     city?: null;
     country_id?: number;
@@ -1050,8 +1050,8 @@ export declare const ExposedGuestSchema: z.ZodObject<{
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
 }, {
-    email?: string;
     id?: number;
+    email?: string;
     address?: null;
     city?: null;
     country_id?: number;
@@ -1094,8 +1094,8 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     password: z.ZodNull;
     subscribe_to_news_letter: z.ZodNull;
 }, "strip", z.ZodTypeAny, {
-    email?: string;
     id?: number;
+    email?: string;
     address?: null;
     city?: null;
     country_id?: number;
@@ -1115,8 +1115,8 @@ export declare const ExposedGuestsSchema: z.ZodArray<z.ZodObject<{
     nbr_confirmed_bookings?: number;
     subscribe_to_news_letter?: null;
 }, {
-    email?: string;
     id?: number;
+    email?: string;
     address?: null;
     city?: null;
     country_id?: number;

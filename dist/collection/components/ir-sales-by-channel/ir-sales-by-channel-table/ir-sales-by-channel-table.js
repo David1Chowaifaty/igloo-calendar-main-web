@@ -55,7 +55,8 @@ export class IrSalesByChannelTable {
                         "ChannelReportResult": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelReportResult"
+                            "id": "src/components/ir-sales-by-channel/types.ts::ChannelReportResult",
+                            "referenceLocation": "ChannelReportResult"
                         }
                     }
                 },
@@ -78,7 +79,8 @@ export class IrSalesByChannelTable {
                         "AllowedProperties": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::AllowedProperties"
+                            "id": "src/services/property.service.ts::AllowedProperties",
+                            "referenceLocation": "AllowedProperties"
                         }
                     }
                 },
@@ -101,7 +103,8 @@ export class IrSalesByChannelTable {
                         "SalesByChannelMode": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-channel/types.ts::SalesByChannelMode"
+                            "id": "src/components/ir-sales-by-channel/types.ts::SalesByChannelMode",
+                            "referenceLocation": "SalesByChannelMode"
                         }
                     }
                 },
@@ -113,8 +116,8 @@ export class IrSalesByChannelTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mode"
             }
         };
     }
@@ -131,4 +134,3 @@ export class IrSalesByChannelTable {
             }];
     }
 }
-//# sourceMappingURL=ir-sales-by-channel-table.js.map

@@ -162,8 +162,8 @@ export class IrResetPassword {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "username",
-                "reflect": false
+                "reflect": false,
+                "attribute": "username"
             },
             "old_pwd": {
                 "type": "string",
@@ -181,8 +181,8 @@ export class IrResetPassword {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "old_pwd",
-                "reflect": false
+                "reflect": false,
+                "attribute": "old_pwd"
             },
             "ticket": {
                 "type": "string",
@@ -200,8 +200,8 @@ export class IrResetPassword {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "skip2Fa": {
                 "type": "boolean",
@@ -219,8 +219,8 @@ export class IrResetPassword {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "skip-2-fa",
-                "reflect": false
+                "reflect": false,
+                "attribute": "skip-2-fa"
             },
             "language": {
                 "type": "string",
@@ -238,8 +238,8 @@ export class IrResetPassword {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             }
         };
@@ -291,4 +291,3 @@ export class IrResetPassword {
             }];
     }
 }
-//# sourceMappingURL=ir-reset-password.js.map

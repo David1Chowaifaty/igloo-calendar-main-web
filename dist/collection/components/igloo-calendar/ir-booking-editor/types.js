@@ -19,4 +19,3 @@ export const BookedByGuestSchema = z.object({
     firstName: z.string().nonempty(),
     lastName: z.string().nonempty(),
 });
-//# sourceMappingURL=types.js.map

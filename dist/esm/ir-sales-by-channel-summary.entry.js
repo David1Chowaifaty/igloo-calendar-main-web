@@ -1,7 +1,6 @@
-import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
+import { r as registerInstance, h, H as Host } from './index-DsP1thJ-.js';
 
-const irSalesByChannelSummaryCss = ".sc-ir-sales-by-channel-summary-h{display:block}";
-const IrSalesByChannelSummaryStyle0 = irSalesByChannelSummaryCss;
+const irSalesByChannelSummaryCss = () => `.sc-ir-sales-by-channel-summary-h{display:block}`;
 
 const IrSalesByChannelSummary = class {
     constructor(hostRef) {
@@ -11,8 +10,6 @@ const IrSalesByChannelSummary = class {
         return (h(Host, { key: '796e5bb45ecdd8d53293ae87c4c1ba2a0df50f90' }, h("slot", { key: '54bfbf571d806083234e162843b3ff9d7930265d' })));
     }
 };
-IrSalesByChannelSummary.style = IrSalesByChannelSummaryStyle0;
+IrSalesByChannelSummary.style = irSalesByChannelSummaryCss();
 
 export { IrSalesByChannelSummary as ir_sales_by_channel_summary };
-
-//# sourceMappingURL=ir-sales-by-channel-summary.entry.js.map

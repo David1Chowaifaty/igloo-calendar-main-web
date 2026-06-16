@@ -175,7 +175,8 @@ export class IrBookingSourceEditorForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -238,4 +239,3 @@ export class IrBookingSourceEditorForm {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-source-editor-form.js.map

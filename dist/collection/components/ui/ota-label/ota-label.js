@@ -66,8 +66,8 @@ export class OtaLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "remarks": {
                 "type": "unknown",
@@ -79,7 +79,8 @@ export class OtaLabel {
                         "IOtaNotes": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::IOtaNotes"
+                            "id": "src/models/booking.dto.ts::IOtaNotes",
+                            "referenceLocation": "IOtaNotes"
                         }
                     }
                 },
@@ -108,8 +109,8 @@ export class OtaLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-visible-items",
                 "reflect": false,
+                "attribute": "max-visible-items",
                 "defaultValue": "3"
             }
         };
@@ -120,4 +121,3 @@ export class OtaLabel {
         };
     }
 }
-//# sourceMappingURL=ota-label.js.map

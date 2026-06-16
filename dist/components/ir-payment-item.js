@@ -1,8 +1,1 @@
-import { I as IrPaymentItem$1, d as defineCustomElement$1 } from './ir-payment-item2.js';
-
-const IrPaymentItem = IrPaymentItem$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPaymentItem, defineCustomElement };
-
-//# sourceMappingURL=ir-payment-item.js.map
+import{I as t,d as m}from"./ir-payment-item2.js";const o=t,r=m;export{o as IrPaymentItem,r as defineCustomElement}

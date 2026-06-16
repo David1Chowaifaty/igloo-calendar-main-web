@@ -51,4 +51,3 @@ export function isSingleUnit(id) {
     return result;
 }
 export default calendar_data;
-//# sourceMappingURL=calendar-data.js.map

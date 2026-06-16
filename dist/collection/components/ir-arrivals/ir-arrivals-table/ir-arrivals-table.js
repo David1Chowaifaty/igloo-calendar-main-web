@@ -108,7 +108,8 @@ export class IrArrivalsTable {
                         "PaginationChangeEvent": {
                             "location": "import",
                             "path": "@/components/ir-pagination/ir-pagination",
-                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
                         }
                     }
                 }
@@ -129,7 +130,8 @@ export class IrArrivalsTable {
                         "PaginationChangeEvent": {
                             "location": "import",
                             "path": "@/components/ir-pagination/ir-pagination",
-                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent"
+                            "id": "src/components/ir-pagination/ir-pagination.tsx::PaginationChangeEvent",
+                            "referenceLocation": "PaginationChangeEvent"
                         }
                     }
                 }
@@ -150,11 +152,11 @@ export class IrArrivalsTable {
                         "RoomGuestsPayload": {
                             "location": "import",
                             "path": "@/components/ir-booking-details/types",
-                            "id": "src/components/ir-booking-details/types.ts::RoomGuestsPayload"
+                            "id": "src/components/ir-booking-details/types.ts::RoomGuestsPayload",
+                            "referenceLocation": "RoomGuestsPayload"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-arrivals-table.js.map

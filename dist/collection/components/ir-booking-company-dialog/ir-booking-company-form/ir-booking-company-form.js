@@ -77,7 +77,8 @@ export class IrBookingCompanyForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -106,8 +107,8 @@ export class IrBookingCompanyForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             }
         };
     }
@@ -135,11 +136,11 @@ export class IrBookingCompanyForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-booking-company-form.js.map

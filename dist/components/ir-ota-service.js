@@ -1,8 +1,1 @@
-import { I as IrOtaService$1, d as defineCustomElement$1 } from './ir-ota-service2.js';
-
-const IrOtaService = IrOtaService$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrOtaService, defineCustomElement };
-
-//# sourceMappingURL=ir-ota-service.js.map
+import{I as o,d as r}from"./ir-ota-service2.js";const s=o,t=r;export{s as IrOtaService,t as defineCustomElement}

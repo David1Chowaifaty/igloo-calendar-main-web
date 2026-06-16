@@ -1,8 +1,1 @@
-import { I as IrDateSelect$1, d as defineCustomElement$1 } from './ir-date-select2.js';
-
-const IrDateSelect = IrDateSelect$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrDateSelect, defineCustomElement };
-
-//# sourceMappingURL=ir-date-select.js.map
+import{I as s,d as t}from"./ir-date-select2.js";const e=s,o=t;export{e as IrDateSelect,o as defineCustomElement}

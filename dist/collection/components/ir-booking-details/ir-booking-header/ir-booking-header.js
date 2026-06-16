@@ -179,7 +179,8 @@ export class IrBookingHeader {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -208,20 +209,21 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-receipt",
-                "reflect": false
+                "reflect": false,
+                "attribute": "has-receipt"
             },
             "agent": {
                 "type": "unknown",
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -250,8 +252,8 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-print",
-                "reflect": false
+                "reflect": false,
+                "attribute": "has-print"
             },
             "hasDelete": {
                 "type": "boolean",
@@ -269,8 +271,8 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-delete",
-                "reflect": false
+                "reflect": false,
+                "attribute": "has-delete"
             },
             "hasMenu": {
                 "type": "boolean",
@@ -288,8 +290,8 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-menu",
-                "reflect": false
+                "reflect": false,
+                "attribute": "has-menu"
             },
             "hasCloseButton": {
                 "type": "boolean",
@@ -307,8 +309,8 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-close-button",
-                "reflect": false
+                "reflect": false,
+                "attribute": "has-close-button"
             },
             "hasEmail": {
                 "type": "boolean",
@@ -326,8 +328,8 @@ export class IrBookingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-email",
                 "reflect": false,
+                "attribute": "has-email",
                 "defaultValue": "true"
             },
             "folioRows": {
@@ -340,7 +342,8 @@ export class IrBookingHeader {
                         "FolioRow": {
                             "location": "import",
                             "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 },
@@ -359,12 +362,13 @@ export class IrBookingHeader {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent[]",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }[]",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }[]",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -429,12 +433,13 @@ export class IrBookingHeader {
                 },
                 "complexType": {
                     "original": "OpenSidebarEvent<any>",
-                    "resolved": "{ type: BookingDetailsSidebarEvents; payload?: any; }",
+                    "resolved": "any",
                     "references": {
                         "OpenSidebarEvent": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent"
+                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent",
+                            "referenceLocation": "OpenSidebarEvent"
                         }
                     }
                 }
@@ -450,4 +455,3 @@ export class IrBookingHeader {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-header.js.map

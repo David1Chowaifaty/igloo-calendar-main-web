@@ -1,8 +1,1 @@
-import { I as IrLogin$1, d as defineCustomElement$1 } from './ir-login2.js';
-
-const IrLogin = IrLogin$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrLogin, defineCustomElement };
-
-//# sourceMappingURL=ir-login.js.map
+import{I as o,d as r}from"./ir-login2.js";const s=o,i=r;export{s as IrLogin,i as defineCustomElement}

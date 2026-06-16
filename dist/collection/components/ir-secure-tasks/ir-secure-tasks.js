@@ -260,8 +260,8 @@ export class IrSecureTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -279,8 +279,8 @@ export class IrSecureTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "bookingNumber": {
                 "type": "string",
@@ -298,8 +298,8 @@ export class IrSecureTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "ticket": {
                 "type": "string",
@@ -317,8 +317,8 @@ export class IrSecureTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -343,4 +343,3 @@ export class IrSecureTasks {
             }];
     }
 }
-//# sourceMappingURL=ir-secure-tasks.js.map

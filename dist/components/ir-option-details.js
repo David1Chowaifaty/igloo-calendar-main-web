@@ -1,8 +1,1 @@
-import { I as IrOptionDetails$1, d as defineCustomElement$1 } from './ir-option-details2.js';
-
-const IrOptionDetails = IrOptionDetails$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrOptionDetails, defineCustomElement };
-
-//# sourceMappingURL=ir-option-details.js.map
+import{I as o,d as s}from"./ir-option-details2.js";const t=o,i=s;export{t as IrOptionDetails,i as defineCustomElement}

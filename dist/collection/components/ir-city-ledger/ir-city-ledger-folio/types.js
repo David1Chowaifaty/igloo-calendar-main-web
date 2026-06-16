@@ -19,4 +19,3 @@ export function mapClTxToFolioRow(tx) {
         balance: tx.RUNNING_BALANCE,
     };
 }
-//# sourceMappingURL=types.js.map

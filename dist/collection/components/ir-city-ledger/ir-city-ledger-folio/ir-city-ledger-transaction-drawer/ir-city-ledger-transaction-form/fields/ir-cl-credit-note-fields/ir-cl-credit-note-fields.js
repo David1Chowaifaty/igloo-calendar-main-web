@@ -35,7 +35,8 @@ export class IrClCreditNoteFields {
                         "CreditNoteMode": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CreditNoteMode"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CreditNoteMode",
+                            "referenceLocation": "CreditNoteMode"
                         }
                     }
                 },
@@ -47,8 +48,8 @@ export class IrClCreditNoteFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "credit-note-mode",
                 "reflect": false,
+                "attribute": "credit-note-mode",
                 "defaultValue": "'cancel-invoice'"
             },
             "invoiceId": {
@@ -67,8 +68,8 @@ export class IrClCreditNoteFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "invoice-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "invoice-id"
             },
             "fiscalDocuments": {
                 "type": "unknown",
@@ -80,7 +81,8 @@ export class IrClCreditNoteFields {
                         "FiscalDocuments": {
                             "location": "import",
                             "path": "@/services/city-ledger/types",
-                            "id": "src/services/city-ledger/types.ts::FiscalDocuments"
+                            "id": "src/services/city-ledger/types.ts::FiscalDocuments",
+                            "referenceLocation": "FiscalDocuments"
                         }
                     }
                 },
@@ -110,8 +112,8 @@ export class IrClCreditNoteFields {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-fetching-fiscal-docs",
                 "reflect": false,
+                "attribute": "is-fetching-fiscal-docs",
                 "defaultValue": "false"
             }
         };
@@ -129,7 +131,7 @@ export class IrClCreditNoteFields {
                 },
                 "complexType": {
                     "original": "Partial<CityLedgerTransactionFormDraft>",
-                    "resolved": "{ transactionType?: TransactionType; date?: string; amount?: string; taxId?: string; reference?: string; notes?: string; entryType?: \"\" | \"DB\" | \"CR\"; isCutover?: boolean; payment_type?: PaymentTypeOption; payment_method?: PaymentMethodOption; designation?: string; invoiceId?: string; onAccount?: boolean; serviceCategoryId?: string; linkType?: \"NONE\" | \"INVOICE\" | \"BOOKING\"; linkedId?: string; reason?: \"\" | \"ROUNDING_DIFFERENCE\" | \"GOODWILL_CREDIT\" | \"PRICE_MATCH\" | \"COMMISSION_CORRECTION\" | \"DISCOUNT_CORRECTION\"; generatesFiscalDocument?: boolean; creditNoteMode?: \"cancel-invoice\" | \"goodwill\"; }",
+                    "resolved": "CityLedgerTransactionFormDraft",
                     "references": {
                         "Partial": {
                             "location": "global",
@@ -138,11 +140,11 @@ export class IrClCreditNoteFields {
                         "CityLedgerTransactionFormDraft": {
                             "location": "import",
                             "path": "../../ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CityLedgerTransactionFormDraft"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::CityLedgerTransactionFormDraft",
+                            "referenceLocation": "CityLedgerTransactionFormDraft"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-cl-credit-note-fields.js.map

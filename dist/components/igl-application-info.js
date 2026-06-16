@@ -1,8 +1,1 @@
-import { I as IglApplicationInfo$1, d as defineCustomElement$1 } from './igl-application-info2.js';
-
-const IglApplicationInfo = IglApplicationInfo$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglApplicationInfo, defineCustomElement };
-
-//# sourceMappingURL=igl-application-info.js.map
+import{I as o,d as i}from"./igl-application-info2.js";const a=o,p=i;export{a as IglApplicationInfo,p as defineCustomElement}

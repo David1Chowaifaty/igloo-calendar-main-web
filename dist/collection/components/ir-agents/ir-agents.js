@@ -175,8 +175,8 @@ export class IrAgents {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "number",
@@ -194,8 +194,8 @@ export class IrAgents {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "language": {
                 "type": "string",
@@ -213,8 +213,8 @@ export class IrAgents {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "p": {
@@ -233,8 +233,8 @@ export class IrAgents {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             }
         };
     }
@@ -265,4 +265,3 @@ export class IrAgents {
             }];
     }
 }
-//# sourceMappingURL=ir-agents.js.map

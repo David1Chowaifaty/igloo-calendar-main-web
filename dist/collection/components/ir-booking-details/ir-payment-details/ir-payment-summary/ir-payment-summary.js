@@ -97,8 +97,8 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-cost",
-                "reflect": false
+                "reflect": false,
+                "attribute": "total-cost"
             },
             "balance": {
                 "type": "number",
@@ -116,8 +116,8 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "balance",
-                "reflect": false
+                "reflect": false,
+                "attribute": "balance"
             },
             "collected": {
                 "type": "number",
@@ -135,8 +135,8 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "collected",
-                "reflect": false
+                "reflect": false,
+                "attribute": "collected"
             },
             "currency": {
                 "type": "unknown",
@@ -148,7 +148,8 @@ export class IrPaymentSummary {
                         "Currency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::Currency"
+                            "id": "src/models/property.ts::Currency",
+                            "referenceLocation": "Currency"
                         }
                     }
                 },
@@ -177,8 +178,8 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-booking-cancelled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-booking-cancelled"
             },
             "isAllServicesAgentOwned": {
                 "type": "boolean",
@@ -196,8 +197,8 @@ export class IrPaymentSummary {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-all-services-agent-owned",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-all-services-agent-owned"
             },
             "booking": {
                 "type": "unknown",
@@ -209,7 +210,8 @@ export class IrPaymentSummary {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -227,12 +229,13 @@ export class IrPaymentSummary {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -255,7 +258,8 @@ export class IrPaymentSummary {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger/types",
-                            "id": "src/services/city-ledger/types.ts::ClTx"
+                            "id": "src/services/city-ledger/types.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -272,4 +276,3 @@ export class IrPaymentSummary {
         };
     }
 }
-//# sourceMappingURL=ir-payment-summary.js.map

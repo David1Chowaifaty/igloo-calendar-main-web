@@ -35,4 +35,3 @@ export function addRoomForCleaning({ unitId, date, task }) {
     tasksMap.set(unitId, taskMap);
     calendar_dates.cleaningTasks = new Map(tasksMap);
 }
-//# sourceMappingURL=calendar-dates.store.js.map

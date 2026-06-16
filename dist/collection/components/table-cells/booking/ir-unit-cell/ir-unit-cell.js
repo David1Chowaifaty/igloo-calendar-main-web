@@ -29,7 +29,8 @@ export class IrUnitCell {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -58,11 +59,10 @@ export class IrUnitCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-departure",
                 "reflect": false,
+                "attribute": "show-departure",
                 "defaultValue": "false"
             }
         };
     }
 }
-//# sourceMappingURL=ir-unit-cell.js.map

@@ -34,7 +34,8 @@ export class IrCheckBoxes {
                         "checkboxes": {
                             "location": "import",
                             "path": "@/common/models",
-                            "id": "src/common/models.ts::checkboxes"
+                            "id": "src/common/models.ts::checkboxes",
+                            "referenceLocation": "checkboxes"
                         }
                     }
                 },
@@ -68,7 +69,8 @@ export class IrCheckBoxes {
                         "checkboxes": {
                             "location": "import",
                             "path": "@/common/models",
-                            "id": "src/common/models.ts::checkboxes"
+                            "id": "src/common/models.ts::checkboxes",
+                            "referenceLocation": "checkboxes"
                         }
                     }
                 }
@@ -84,4 +86,3 @@ export class IrCheckBoxes {
             }];
     }
 }
-//# sourceMappingURL=ir-checkboxes.js.map

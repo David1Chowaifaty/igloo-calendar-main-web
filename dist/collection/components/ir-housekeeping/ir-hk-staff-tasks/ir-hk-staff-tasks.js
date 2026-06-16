@@ -305,8 +305,8 @@ export class IrHkStaffTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseurl": {
                 "type": "string",
@@ -324,8 +324,8 @@ export class IrHkStaffTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "language": {
                 "type": "string",
@@ -343,8 +343,8 @@ export class IrHkStaffTasks {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             }
         };
@@ -371,4 +371,3 @@ export class IrHkStaffTasks {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-staff-tasks.js.map

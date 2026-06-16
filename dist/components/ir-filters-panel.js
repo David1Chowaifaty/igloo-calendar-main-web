@@ -1,8 +1,1 @@
-import { I as IrFiltersPanel$1, d as defineCustomElement$1 } from './ir-filters-panel2.js';
-
-const IrFiltersPanel = IrFiltersPanel$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrFiltersPanel, defineCustomElement };
-
-//# sourceMappingURL=ir-filters-panel.js.map
+import{I as r,d as s}from"./ir-filters-panel2.js";const o=r,t=s;export{o as IrFiltersPanel,t as defineCustomElement}

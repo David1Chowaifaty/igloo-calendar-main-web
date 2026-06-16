@@ -429,10 +429,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         }>>>;
     }>, "strip", z.ZodTypeAny, {
         name?: string;
+        id?: number;
         email?: string;
         property_id?: any;
         code?: string;
-        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -470,10 +470,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
         };
     }, {
         name?: string;
+        id?: number;
         email?: string;
         property_id?: any;
         code?: string;
-        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -546,10 +546,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     currency_id?: number;
     agent?: {
         name?: string;
+        id?: number;
         email?: string;
         property_id?: any;
         code?: string;
-        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;
@@ -611,10 +611,10 @@ export declare const ExtraServiceSchema: z.ZodObject<{
     currency_id?: number;
     agent?: {
         name?: string;
+        id?: number;
         email?: string;
         property_id?: any;
         code?: string;
-        id?: number;
         address?: string;
         agent_rate_type_code?: {
             code?: string;

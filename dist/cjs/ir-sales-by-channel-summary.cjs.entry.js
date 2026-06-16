@@ -1,11 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irSalesByChannelSummaryCss = ".sc-ir-sales-by-channel-summary-h{display:block}";
-const IrSalesByChannelSummaryStyle0 = irSalesByChannelSummaryCss;
+const irSalesByChannelSummaryCss = () => `.sc-ir-sales-by-channel-summary-h{display:block}`;
 
 const IrSalesByChannelSummary = class {
     constructor(hostRef) {
@@ -15,8 +12,6 @@ const IrSalesByChannelSummary = class {
         return (index.h(index.Host, { key: '796e5bb45ecdd8d53293ae87c4c1ba2a0df50f90' }, index.h("slot", { key: '54bfbf571d806083234e162843b3ff9d7930265d' })));
     }
 };
-IrSalesByChannelSummary.style = IrSalesByChannelSummaryStyle0;
+IrSalesByChannelSummary.style = irSalesByChannelSummaryCss();
 
 exports.ir_sales_by_channel_summary = IrSalesByChannelSummary;
-
-//# sourceMappingURL=ir-sales-by-channel-summary.cjs.entry.js.map

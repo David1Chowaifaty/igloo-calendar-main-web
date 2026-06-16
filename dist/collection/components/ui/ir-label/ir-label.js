@@ -57,8 +57,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-text",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-text"
             },
             "content": {
                 "type": "string",
@@ -76,8 +76,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content",
-                "reflect": false
+                "reflect": false,
+                "attribute": "content"
             },
             "display": {
                 "type": "string",
@@ -95,8 +95,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": false,
+                "attribute": "display",
                 "defaultValue": "'flex'"
             },
             "renderContentAsHtml": {
@@ -115,8 +115,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "render-content-as-html",
                 "reflect": false,
+                "attribute": "render-content-as-html",
                 "defaultValue": "false"
             },
             "image": {
@@ -153,8 +153,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-country-image",
                 "reflect": false,
+                "attribute": "is-country-image",
                 "defaultValue": "false"
             },
             "imageStyle": {
@@ -173,8 +173,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "image-style",
                 "reflect": false,
+                "attribute": "image-style",
                 "defaultValue": "''"
             },
             "ignoreEmptyContent": {
@@ -193,8 +193,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ignore-empty-content",
                 "reflect": false,
+                "attribute": "ignore-empty-content",
                 "defaultValue": "false"
             },
             "placeholder": {
@@ -213,8 +213,8 @@ export class IrLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "containerStyle": {
                 "type": "unknown",
@@ -236,4 +236,3 @@ export class IrLabel {
         };
     }
 }
-//# sourceMappingURL=ir-label.js.map

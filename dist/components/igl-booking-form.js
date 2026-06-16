@@ -1,8 +1,1 @@
-import { I as IglBookingForm$1, d as defineCustomElement$1 } from './igl-booking-form2.js';
-
-const IglBookingForm = IglBookingForm$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglBookingForm, defineCustomElement };
-
-//# sourceMappingURL=igl-booking-form.js.map
+import{I as o,d as r}from"./igl-booking-form2.js";const s=o,i=r;export{s as IglBookingForm,i as defineCustomElement}

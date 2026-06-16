@@ -39,7 +39,8 @@ export class IrHkStaffTasksHeader {
                         "ConnectedHK": {
                             "location": "import",
                             "path": "@/services/housekeeping.service",
-                            "id": "src/services/housekeeping.service.ts::ConnectedHK"
+                            "id": "src/services/housekeeping.service.ts::ConnectedHK",
+                            "referenceLocation": "ConnectedHK"
                         }
                     }
                 },
@@ -68,8 +69,8 @@ export class IrHkStaffTasksHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             }
         };
@@ -93,4 +94,3 @@ export class IrHkStaffTasksHeader {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-staff-tasks-header.js.map

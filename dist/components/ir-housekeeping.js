@@ -1,8 +1,1 @@
-import { I as IrHousekeeping$1, d as defineCustomElement$1 } from './ir-housekeeping2.js';
-
-const IrHousekeeping = IrHousekeeping$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrHousekeeping, defineCustomElement };
-
-//# sourceMappingURL=ir-housekeeping.js.map
+import{I as o,d as s}from"./ir-housekeeping2.js";const e=o,r=s;export{e as IrHousekeeping,r as defineCustomElement}

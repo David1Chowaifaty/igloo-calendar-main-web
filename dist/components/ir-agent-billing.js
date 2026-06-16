@@ -1,8 +1,1 @@
-import { I as IrAgentBilling$1, d as defineCustomElement$1 } from './ir-agent-billing2.js';
-
-const IrAgentBilling = IrAgentBilling$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrAgentBilling, defineCustomElement };
-
-//# sourceMappingURL=ir-agent-billing.js.map
+import{I as i,d as o}from"./ir-agent-billing2.js";const r=i,s=o;export{r as IrAgentBilling,s as defineCustomElement}

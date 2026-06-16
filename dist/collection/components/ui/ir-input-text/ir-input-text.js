@@ -234,8 +234,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "value": {
                 "type": "string",
@@ -253,8 +253,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "label": {
                 "type": "string",
@@ -272,8 +272,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "placeholder": {
                 "type": "string",
@@ -291,8 +291,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "inputStyles": {
                 "type": "string",
@@ -310,8 +310,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input-styles",
                 "reflect": false,
+                "attribute": "input-styles",
                 "defaultValue": "''"
             },
             "required": {
@@ -330,8 +330,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "required",
-                "reflect": false
+                "reflect": false,
+                "attribute": "required"
             },
             "readonly": {
                 "type": "boolean",
@@ -349,8 +349,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "readonly",
                 "reflect": false,
+                "attribute": "readonly",
                 "defaultValue": "false"
             },
             "type": {
@@ -358,7 +358,7 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "| 'text'\n    | 'password'\n    | 'email'\n    | 'number'\n    | 'tel'\n    | 'url'\n    | 'search'\n    | 'date'\n    | 'datetime-local'\n    | 'month'\n    | 'week'\n    | 'time'\n    | 'color'\n    | 'file'\n    | 'hidden'\n    | 'checkbox'\n    | 'radio'\n    | 'range'\n    | 'button'\n    | 'reset'\n    | 'submit'\n    | 'image'",
-                    "resolved": "\"number\" | \"search\" | \"file\" | \"email\" | \"date\" | \"password\" | \"button\" | \"time\" | \"image\" | \"text\" | \"hidden\" | \"reset\" | \"submit\" | \"month\" | \"week\" | \"color\" | \"url\" | \"tel\" | \"datetime-local\" | \"range\" | \"checkbox\" | \"radio\"",
+                    "resolved": "\"button\" | \"checkbox\" | \"color\" | \"date\" | \"datetime-local\" | \"email\" | \"file\" | \"hidden\" | \"image\" | \"month\" | \"number\" | \"password\" | \"radio\" | \"range\" | \"reset\" | \"search\" | \"submit\" | \"tel\" | \"text\" | \"time\" | \"url\" | \"week\"",
                     "references": {}
                 },
                 "required": false,
@@ -369,8 +369,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "type",
                 "reflect": false,
+                "attribute": "type",
                 "defaultValue": "'text'"
             },
             "submitted": {
@@ -389,8 +389,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "submitted",
                 "reflect": false,
+                "attribute": "submitted",
                 "defaultValue": "false"
             },
             "inputStyle": {
@@ -409,8 +409,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "input-style",
                 "reflect": false,
+                "attribute": "input-style",
                 "defaultValue": "true"
             },
             "textSize": {
@@ -429,8 +429,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text-size",
                 "reflect": false,
+                "attribute": "text-size",
                 "defaultValue": "'md'"
             },
             "labelPosition": {
@@ -449,8 +449,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-position",
                 "reflect": false,
+                "attribute": "label-position",
                 "defaultValue": "'left'"
             },
             "labelBackground": {
@@ -469,8 +469,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-background",
                 "reflect": false,
+                "attribute": "label-background",
                 "defaultValue": "null"
             },
             "labelColor": {
@@ -489,8 +489,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-color",
                 "reflect": false,
+                "attribute": "label-color",
                 "defaultValue": "'dark'"
             },
             "labelBorder": {
@@ -509,8 +509,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-border",
                 "reflect": false,
+                "attribute": "label-border",
                 "defaultValue": "'theme'"
             },
             "labelWidth": {
@@ -529,8 +529,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-width",
                 "reflect": false,
+                "attribute": "label-width",
                 "defaultValue": "3"
             },
             "variant": {
@@ -549,8 +549,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'default'"
             },
             "disabled": {
@@ -569,8 +569,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "error": {
@@ -589,8 +589,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
                 "reflect": false,
+                "attribute": "error",
                 "defaultValue": "false"
             },
             "mask": {
@@ -598,12 +598,13 @@ export class IrInputText {
                 "mutable": false,
                 "complexType": {
                     "original": "FactoryArg",
-                    "resolved": "string | RegExp | NumberConstructor | DateConstructor | Masked<any> | FactoryOpts | ((value: string, masked: Masked<any>) => boolean) | DynamicMaskType",
+                    "resolved": "\"autofix\" | \"blocks\" | \"commit\" | \"definitions\" | \"dispatch\" | \"displayChar\" | \"eager\" | \"format\" | \"lazy\" | \"mapToRadix\" | \"mask\" | \"max\" | \"min\" | \"normalizeZeros\" | \"overwrite\" | \"padFractionalZeros\" | \"parent\" | \"parse\" | \"placeholderChar\" | \"prepare\" | \"prepareChar\" | \"radix\" | \"scale\" | \"skipInvalid\" | \"thousandsSeparator\" | \"validate\" | ((value: string, masked: Masked<any>) => boolean) | ArrayConstructor | DateConstructor | ExtendFactoryArgOptions<{ expose?: boolean; }>[] | Masked<any> | MaskedDynamic<any> | MaskedFunction<any> | MaskedNumber | MaskedPattern<string> | MaskedRegExp | NumberConstructor | Omit<MaskedDateOptions, \"mask\"> & { mask: DateConstructor; } | RegExp | string | { mask: Masked<any>; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: MaskedDynamic<any>; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: MaskedFunction<any>; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: MaskedPattern<string>; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof Masked; } & Omit<Partial<Pick<Masked<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedDate; } & Omit<MaskedDateFactoryOptions, \"mask\"> | { mask: typeof MaskedDynamic; } & Omit<Partial<Pick<MaskedDynamic<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"dispatch\">>, \"mask\"> | { mask: typeof MaskedEnum; } & Omit<MaskedEnumOptions, \"mask\"> | { mask: typeof MaskedFunction; } & Omit<Partial<Pick<MaskedFunction<any>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\"> | { mask: typeof MaskedNumber; } & Omit<Partial<Pick<MaskedNumber, \"mask\" | \"min\" | \"max\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"radix\" | \"thousandsSeparator\" | \"mapToRadix\" | \"scale\" | \"normalizeZeros\" | \"padFractionalZeros\">>, \"mask\"> | { mask: typeof MaskedPattern; } & Omit<Partial<Pick<MaskedPattern<string>, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\" | \"definitions\" | \"blocks\" | \"placeholderChar\" | \"displayChar\" | \"lazy\">>, \"mask\"> | { mask: typeof MaskedRange; } & Omit<MaskedRangeOptions, \"mask\"> | { mask: typeof MaskedRegExp; } & Omit<Partial<Pick<MaskedRegExp, \"mask\" | \"parent\" | \"prepare\" | \"prepareChar\" | \"validate\" | \"commit\" | \"format\" | \"parse\" | \"overwrite\" | \"eager\" | \"skipInvalid\" | \"autofix\">>, \"mask\">",
                     "references": {
                         "FactoryArg": {
                             "location": "import",
                             "path": "imask",
-                            "id": "node_modules::FactoryArg"
+                            "id": "node_modules::FactoryArg",
+                            "referenceLocation": "FactoryArg"
                         }
                     }
                 },
@@ -615,8 +616,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mask",
-                "reflect": false
+                "reflect": false,
+                "attribute": "mask"
             },
             "autoValidate": {
                 "type": "boolean",
@@ -634,8 +635,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-validate",
                 "reflect": false,
+                "attribute": "auto-validate",
                 "defaultValue": "true"
             },
             "zod": {
@@ -648,7 +649,8 @@ export class IrInputText {
                         "ZodType": {
                             "location": "import",
                             "path": "zod",
-                            "id": "node_modules::ZodType"
+                            "id": "node_modules::ZodType",
+                            "referenceLocation": "ZodType"
                         }
                     }
                 },
@@ -677,8 +679,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "async-parse",
-                "reflect": false
+                "reflect": false,
+                "attribute": "async-parse"
             },
             "wrapKey": {
                 "type": "string",
@@ -696,8 +698,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "wrap-key",
-                "reflect": false
+                "reflect": false,
+                "attribute": "wrap-key"
             },
             "inputForcedStyle": {
                 "type": "unknown",
@@ -732,8 +734,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             },
             "maxLength": {
                 "type": "number",
@@ -751,8 +753,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-length",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-length"
             },
             "clearBaseStyles": {
                 "type": "boolean",
@@ -770,8 +772,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "clear-base-styles",
-                "reflect": false
+                "reflect": false,
+                "attribute": "clear-base-styles"
             },
             "errorMessage": {
                 "type": "string",
@@ -789,8 +791,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error-message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "error-message"
             },
             "autoComplete": {
                 "type": "string",
@@ -808,8 +810,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-complete",
-                "reflect": false
+                "reflect": false,
+                "attribute": "auto-complete"
             },
             "inputContainerStyle": {
                 "type": "unknown",
@@ -844,8 +846,8 @@ export class IrInputText {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-container-classname",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-container-classname"
             }
         };
     }
@@ -923,4 +925,3 @@ export class IrInputText {
             }];
     }
 }
-//# sourceMappingURL=ir-input-text.js.map

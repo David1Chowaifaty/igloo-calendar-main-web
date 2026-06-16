@@ -118,8 +118,8 @@ export class IglBlockedDateDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "label": {
                 "type": "string",
@@ -137,8 +137,8 @@ export class IglBlockedDateDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "fromDate": {
                 "type": "string",
@@ -156,8 +156,8 @@ export class IglBlockedDateDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "toDate": {
                 "type": "string",
@@ -175,8 +175,8 @@ export class IglBlockedDateDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "unitId": {
                 "type": "number",
@@ -194,8 +194,8 @@ export class IglBlockedDateDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit-id"
             }
         };
     }
@@ -224,4 +224,3 @@ export class IglBlockedDateDrawer {
             }];
     }
 }
-//# sourceMappingURL=igl-blocked-date-drawer.js.map

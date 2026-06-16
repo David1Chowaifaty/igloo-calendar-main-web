@@ -41,7 +41,8 @@ export class IrSalesTable {
                         "SalesRecord": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-country/types.ts::SalesRecord"
+                            "id": "src/components/ir-sales-by-country/types.ts::SalesRecord",
+                            "referenceLocation": "SalesRecord"
                         }
                     }
                 },
@@ -65,7 +66,8 @@ export class IrSalesTable {
                         "MappedCountries": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-country/types.ts::MappedCountries"
+                            "id": "src/components/ir-sales-by-country/types.ts::MappedCountries",
+                            "referenceLocation": "MappedCountries"
                         }
                     }
                 },
@@ -86,4 +88,3 @@ export class IrSalesTable {
         };
     }
 }
-//# sourceMappingURL=ir-sales-table.js.map

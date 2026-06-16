@@ -1,9 +1,9 @@
-import { r as registerInstance, c as createEvent, h } from './index-7e96440e.js';
+import { r as registerInstance, c as createEvent, h } from './index-DsP1thJ-.js';
 
 const IrCheckBoxes = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.checkboxesChange = createEvent(this, "checkboxesChange", 7);
+        this.checkboxesChange = createEvent(this, "checkboxesChange");
     }
     checkboxes = [];
     checkedCheckboxes = [];
@@ -29,5 +29,3 @@ const IrCheckBoxes = class {
 };
 
 export { IrCheckBoxes as ir_checkboxes };
-
-//# sourceMappingURL=ir-checkboxes.entry.js.map

@@ -40,4 +40,3 @@ export class PaymentService {
         }
     }
 }
-//# sourceMappingURL=payment.service.js.map

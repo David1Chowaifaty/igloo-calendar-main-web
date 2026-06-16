@@ -42,4 +42,3 @@ export class SequentialQueue {
         this.handler = null;
     }
 }
-//# sourceMappingURL=sequential-queue.js.map

@@ -115,8 +115,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "display": {
                 "type": "string",
@@ -134,8 +134,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'block'"
             },
             "financial": {
@@ -148,7 +148,8 @@ export class IrBalanceCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -171,7 +172,8 @@ export class IrBalanceCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -200,8 +202,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "status-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "status-code"
             },
             "isDirect": {
                 "type": "boolean",
@@ -219,8 +221,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-direct",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-direct"
             },
             "bookingNumber": {
                 "type": "string",
@@ -238,8 +240,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "currencySymbol": {
                 "type": "string",
@@ -257,8 +259,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency-symbol"
             },
             "removeBalance": {
                 "type": "boolean",
@@ -276,8 +278,8 @@ export class IrBalanceCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "remove-balance",
-                "reflect": false
+                "reflect": false,
+                "attribute": "remove-balance"
             }
         };
     }
@@ -299,11 +301,11 @@ export class IrBalanceCell {
                         "Payment": {
                             "location": "import",
                             "path": "@/components/ir-booking-details/types",
-                            "id": "src/components/ir-booking-details/types.ts::Payment"
+                            "id": "src/components/ir-booking-details/types.ts::Payment",
+                            "referenceLocation": "Payment"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-balance-cell.js.map

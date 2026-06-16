@@ -41,7 +41,8 @@ export class IrRevenueRowDetails {
                         "FolioPayment": {
                             "location": "import",
                             "path": "@/components",
-                            "id": "src/components.d.ts::FolioPayment"
+                            "id": "src/components.d.ts::FolioPayment",
+                            "referenceLocation": "FolioPayment"
                         }
                     }
                 },
@@ -74,11 +75,11 @@ export class IrRevenueRowDetails {
                         "SidebarOpenEvent": {
                             "location": "import",
                             "path": "@/components/ir-daily-revenue/types",
-                            "id": "src/components/ir-daily-revenue/types.ts::SidebarOpenEvent"
+                            "id": "src/components/ir-daily-revenue/types.ts::SidebarOpenEvent",
+                            "referenceLocation": "SidebarOpenEvent"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-revenue-row-details.js.map

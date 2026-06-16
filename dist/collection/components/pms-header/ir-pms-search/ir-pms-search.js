@@ -143,8 +143,8 @@ export class IrPmsSearch {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "ticket": {
                 "type": "string",
@@ -162,8 +162,8 @@ export class IrPmsSearch {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -192,7 +192,8 @@ export class IrPmsSearch {
                         "IrComboboxSelectEventDetail": {
                             "location": "import",
                             "path": "@/components",
-                            "id": "src/components.d.ts::IrComboboxSelectEventDetail"
+                            "id": "src/components.d.ts::IrComboboxSelectEventDetail",
+                            "referenceLocation": "IrComboboxSelectEventDetail"
                         }
                     }
                 }
@@ -205,4 +206,3 @@ export class IrPmsSearch {
             }];
     }
 }
-//# sourceMappingURL=ir-pms-search.js.map

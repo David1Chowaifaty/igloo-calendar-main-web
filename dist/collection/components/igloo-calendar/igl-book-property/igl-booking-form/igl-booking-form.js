@@ -167,8 +167,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-payment-details",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-payment-details"
             },
             "currency": {
                 "type": "unknown",
@@ -180,7 +180,8 @@ export class IglBookingForm {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/calendarData",
-                            "id": "src/models/calendarData.ts::ICurrency"
+                            "id": "src/models/calendarData.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -209,8 +210,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-edit-or-add-room-event",
-                "reflect": true
+                "reflect": true,
+                "attribute": "is-edit-or-add-room-event"
             },
             "dateRangeData": {
                 "type": "unknown",
@@ -262,8 +263,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-split-booking-option",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-split-booking-option"
             },
             "language": {
                 "type": "string",
@@ -281,8 +282,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "bookedByInfoData": {
                 "type": "unknown",
@@ -317,8 +318,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "bedPreferenceType": {
                 "type": "any",
@@ -336,8 +337,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "bed-preference-type",
-                "reflect": false
+                "reflect": false,
+                "attribute": "bed-preference-type"
             },
             "selectedRooms": {
                 "type": "unknown",
@@ -377,8 +378,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": true
+                "reflect": true,
+                "attribute": "is-loading"
             },
             "countries": {
                 "type": "unknown",
@@ -390,7 +391,8 @@ export class IglBookingForm {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -419,8 +421,8 @@ export class IglBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-guest-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "selected-guest-data"
             },
             "defaultGuestData": {
                 "type": "unknown",
@@ -432,7 +434,8 @@ export class IglBookingForm {
                         "IglBookPropertyPayloadEditBooking": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::IglBookPropertyPayloadEditBooking"
+                            "id": "src/models/igl-book-property.d.ts::IglBookPropertyPayloadEditBooking",
+                            "referenceLocation": "IglBookPropertyPayloadEditBooking"
                         }
                     }
                 },
@@ -472,7 +475,8 @@ export class IglBookingForm {
                         "IPageTwoDataUpdateProps": {
                             "location": "import",
                             "path": "@/models/models",
-                            "id": "src/models/models.ts::IPageTwoDataUpdateProps"
+                            "id": "src/models/models.ts::IPageTwoDataUpdateProps",
+                            "referenceLocation": "IPageTwoDataUpdateProps"
                         }
                     }
                 }
@@ -493,7 +497,8 @@ export class IglBookingForm {
                         "TPropertyButtonsTypes": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes"
+                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes",
+                            "referenceLocation": "TPropertyButtonsTypes"
                         },
                         "CustomEvent": {
                             "location": "global",
@@ -504,4 +509,3 @@ export class IglBookingForm {
             }];
     }
 }
-//# sourceMappingURL=igl-booking-form.js.map

@@ -152,7 +152,8 @@ export class IrMobileInput {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -164,8 +165,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "label": {
@@ -184,8 +185,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'Phone number'"
             },
             "name": {
@@ -204,8 +205,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
                 "reflect": false,
+                "attribute": "name",
                 "defaultValue": "'phone'"
             },
             "placeholder": {
@@ -224,8 +225,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "'Enter phone number'"
             },
             "description": {
@@ -244,8 +245,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "description",
-                "reflect": false
+                "reflect": false,
+                "attribute": "description"
             },
             "error": {
                 "type": "string",
@@ -263,8 +264,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
-                "reflect": false
+                "reflect": false,
+                "attribute": "error"
             },
             "required": {
                 "type": "boolean",
@@ -282,8 +283,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "required",
                 "reflect": true,
+                "attribute": "required",
                 "defaultValue": "false"
             },
             "disabled": {
@@ -302,8 +303,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": true,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "countryCode": {
@@ -322,8 +323,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "country-code",
-                "reflect": true
+                "reflect": true,
+                "attribute": "country-code"
             },
             "value": {
                 "type": "string",
@@ -341,8 +342,8 @@ export class IrMobileInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": true,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "countries": {
@@ -355,7 +356,8 @@ export class IrMobileInput {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -416,7 +418,8 @@ export class IrMobileInput {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 }
@@ -439,4 +442,3 @@ export class IrMobileInput {
             }];
     }
 }
-//# sourceMappingURL=ir-mobile-input.js.map

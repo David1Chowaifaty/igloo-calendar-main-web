@@ -77,7 +77,8 @@ export class IrTasksCard {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 },
@@ -106,8 +107,8 @@ export class IrTasksCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-checkable",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-checkable"
             },
             "isSkippable": {
                 "type": "boolean",
@@ -125,8 +126,8 @@ export class IrTasksCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-skippable",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-skippable"
             }
         };
     }
@@ -148,7 +149,8 @@ export class IrTasksCard {
                         "CleanTaskEvent": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::CleanTaskEvent"
+                            "id": "src/models/housekeeping.ts::CleanTaskEvent",
+                            "referenceLocation": "CleanTaskEvent"
                         }
                     }
                 }
@@ -169,7 +171,8 @@ export class IrTasksCard {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 }
@@ -190,11 +193,11 @@ export class IrTasksCard {
                         "Task": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::Task"
+                            "id": "src/models/housekeeping.ts::Task",
+                            "referenceLocation": "Task"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-tasks-card.js.map

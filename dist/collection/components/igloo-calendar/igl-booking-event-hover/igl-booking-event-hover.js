@@ -479,8 +479,8 @@ export class IglBookingEventHover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "bubble-info-top",
                 "reflect": false,
+                "attribute": "bubble-info-top",
                 "defaultValue": "false"
             },
             "currency": {
@@ -499,8 +499,8 @@ export class IglBookingEventHover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "countries": {
                 "type": "unknown",
@@ -512,7 +512,8 @@ export class IglBookingEventHover {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -541,8 +542,8 @@ export class IglBookingEventHover {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is_vacation_rental",
                 "reflect": false,
+                "attribute": "is_vacation_rental",
                 "defaultValue": "false"
             }
         };
@@ -633,7 +634,8 @@ export class IglBookingEventHover {
                         "CalendarModalEvent": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::CalendarModalEvent"
+                            "id": "src/models/property-types.ts::CalendarModalEvent",
+                            "referenceLocation": "CalendarModalEvent"
                         }
                     }
                 }
@@ -654,7 +656,8 @@ export class IglBookingEventHover {
                         "CalendarSidebarState": {
                             "location": "import",
                             "path": "../igloo-calendar",
-                            "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState"
+                            "id": "src/components/igloo-calendar/igloo-calendar.tsx::CalendarSidebarState",
+                            "referenceLocation": "CalendarSidebarState"
                         }
                     }
                 }
@@ -677,4 +680,3 @@ export class IglBookingEventHover {
             }];
     }
 }
-//# sourceMappingURL=igl-booking-event-hover.js.map

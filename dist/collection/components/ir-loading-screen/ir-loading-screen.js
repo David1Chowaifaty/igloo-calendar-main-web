@@ -34,11 +34,10 @@ export class IrLoadingScreen {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
                 "reflect": false,
+                "attribute": "message",
                 "defaultValue": "''"
             }
         };
     }
 }
-//# sourceMappingURL=ir-loading-screen.js.map

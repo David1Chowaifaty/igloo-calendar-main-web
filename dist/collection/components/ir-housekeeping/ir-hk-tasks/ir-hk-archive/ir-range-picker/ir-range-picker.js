@@ -133,8 +133,8 @@ export class IrRangePicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-date"
             },
             "maxDate": {
                 "type": "string",
@@ -157,8 +157,8 @@ export class IrRangePicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-date"
             },
             "fromDate": {
                 "type": "unknown",
@@ -170,7 +170,8 @@ export class IrRangePicker {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -193,7 +194,8 @@ export class IrRangePicker {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 },
@@ -222,8 +224,8 @@ export class IrRangePicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-overlay",
                 "reflect": false,
+                "attribute": "with-overlay",
                 "defaultValue": "true"
             },
             "allowNullDates": {
@@ -242,8 +244,8 @@ export class IrRangePicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "allow-null-dates",
                 "reflect": false,
+                "attribute": "allow-null-dates",
                 "defaultValue": "true"
             }
         };
@@ -271,7 +273,8 @@ export class IrRangePicker {
                         "Moment": {
                             "location": "import",
                             "path": "moment",
-                            "id": "node_modules::Moment"
+                            "id": "node_modules::Moment",
+                            "referenceLocation": "Moment"
                         }
                     }
                 }
@@ -299,4 +302,3 @@ export class IrRangePicker {
             }];
     }
 }
-//# sourceMappingURL=ir-range-picker.js.map

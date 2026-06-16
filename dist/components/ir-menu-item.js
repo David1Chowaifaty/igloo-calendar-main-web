@@ -1,8 +1,1 @@
-import { I as IrMenuItem$1, d as defineCustomElement$1 } from './ir-menu-item2.js';
-
-const IrMenuItem = IrMenuItem$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrMenuItem, defineCustomElement };
-
-//# sourceMappingURL=ir-menu-item.js.map
+import{I as m,d as o}from"./ir-menu-item2.js";const r=m,s=o;export{r as IrMenuItem,s as defineCustomElement}

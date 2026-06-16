@@ -186,8 +186,8 @@ export class IrUnbookableRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -206,8 +206,8 @@ export class IrUnbookableRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "mode": {
                 "type": "string",
@@ -230,8 +230,8 @@ export class IrUnbookableRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": true,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "period_to_check": {
@@ -250,8 +250,8 @@ export class IrUnbookableRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "period_to_check",
                 "reflect": false,
+                "attribute": "period_to_check",
                 "defaultValue": "2"
             },
             "consecutive_period": {
@@ -270,8 +270,8 @@ export class IrUnbookableRooms {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "consecutive_period",
                 "reflect": false,
+                "attribute": "consecutive_period",
                 "defaultValue": "14"
             }
         };
@@ -307,4 +307,3 @@ export class IrUnbookableRooms {
             }];
     }
 }
-//# sourceMappingURL=ir-unbookable-rooms.js.map

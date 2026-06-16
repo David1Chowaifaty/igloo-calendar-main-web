@@ -180,4 +180,3 @@ export class RatePlan {
     mappedId;
     mappedName;
 }
-//# sourceMappingURL=data.js.map

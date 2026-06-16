@@ -1,8 +1,1 @@
-import { I as IrExtraServiceConfigForm$1, d as defineCustomElement$1 } from './ir-extra-service-config-form2.js';
-
-const IrExtraServiceConfigForm = IrExtraServiceConfigForm$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrExtraServiceConfigForm, defineCustomElement };
-
-//# sourceMappingURL=ir-extra-service-config-form.js.map
+import{I as r,d as o}from"./ir-extra-service-config-form2.js";const s=r,e=o;export{s as IrExtraServiceConfigForm,e as defineCustomElement}

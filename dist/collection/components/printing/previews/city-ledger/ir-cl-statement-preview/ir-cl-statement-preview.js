@@ -127,8 +127,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "ticket": {
                 "type": "string",
@@ -146,8 +146,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseurl": {
                 "type": "string",
@@ -165,8 +165,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "agentId": {
                 "type": "number",
@@ -184,8 +184,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-id"
             },
             "agentName": {
                 "type": "string",
@@ -203,8 +203,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-name"
             },
             "fromDate": {
                 "type": "string",
@@ -222,8 +222,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "toDate": {
                 "type": "string",
@@ -241,8 +241,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "currencyId": {
                 "type": "number",
@@ -260,8 +260,8 @@ export class IrClStatementPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency-id"
             }
         };
     }
@@ -293,4 +293,3 @@ export class IrClStatementPreview {
             }];
     }
 }
-//# sourceMappingURL=ir-cl-statement-preview.js.map

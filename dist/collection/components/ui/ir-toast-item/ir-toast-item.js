@@ -152,8 +152,8 @@ export class IrToastItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'neutral'"
             },
             "duration": {
@@ -172,8 +172,8 @@ export class IrToastItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "duration",
                 "reflect": false,
+                "attribute": "duration",
                 "defaultValue": "5000"
             },
             "dismissible": {
@@ -192,8 +192,8 @@ export class IrToastItem {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "dismissible",
                 "reflect": false,
+                "attribute": "dismissible",
                 "defaultValue": "true"
             }
         };
@@ -262,4 +262,3 @@ export class IrToastItem {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-toast-item.js.map

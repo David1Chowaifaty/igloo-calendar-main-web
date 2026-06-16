@@ -1,8 +1,1 @@
-import { I as IrHkTasks$1, d as defineCustomElement$1 } from './ir-hk-tasks2.js';
-
-const IrHkTasks = IrHkTasks$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrHkTasks, defineCustomElement };
-
-//# sourceMappingURL=ir-hk-tasks.js.map
+import{I as s,d as o}from"./ir-hk-tasks2.js";const r=s,t=o;export{r as IrHkTasks,t as defineCustomElement}

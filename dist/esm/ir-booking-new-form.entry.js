@@ -1,7 +1,6 @@
-import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
+import { r as registerInstance, h, H as Host } from './index-DsP1thJ-.js';
 
-const irBookingNewFormCss = ".sc-ir-booking-new-form-h{display:block}";
-const IrBookingNewFormStyle0 = irBookingNewFormCss;
+const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 
 const IrBookingNewForm = class {
     constructor(hostRef) {
@@ -44,8 +43,6 @@ const IrBookingNewForm = class {
             }, mode: this.bookingItem?.event_type, label: this.bookingItem?.TITLE, ticket: this.ticket, open: this.bookingItem !== null, language: this.language, propertyid: this.propertyid })));
     }
 };
-IrBookingNewForm.style = IrBookingNewFormStyle0;
+IrBookingNewForm.style = irBookingNewFormCss();
 
 export { IrBookingNewForm as ir_booking_new_form };
-
-//# sourceMappingURL=ir-booking-new-form.entry.js.map

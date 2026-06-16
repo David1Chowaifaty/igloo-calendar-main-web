@@ -1,8 +1,1 @@
-import { I as IglBulkStopSale$1, d as defineCustomElement$1 } from './igl-bulk-stop-sale2.js';
-
-const IglBulkStopSale = IglBulkStopSale$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglBulkStopSale, defineCustomElement };
-
-//# sourceMappingURL=igl-bulk-stop-sale.js.map
+import{I as s,d as o}from"./igl-bulk-stop-sale2.js";const t=s,a=o;export{t as IglBulkStopSale,a as defineCustomElement}

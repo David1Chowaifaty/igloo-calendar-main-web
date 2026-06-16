@@ -28,7 +28,8 @@ export class IrMComboboxBookingItem {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -44,4 +45,3 @@ export class IrMComboboxBookingItem {
         };
     }
 }
-//# sourceMappingURL=ir-m-combobox-booking-item.js.map

@@ -45,8 +45,8 @@ export class IrReallocationDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "booking": {
                 "type": "unknown",
@@ -58,7 +58,8 @@ export class IrReallocationDrawer {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -87,8 +88,8 @@ export class IrReallocationDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-identifier"
             },
             "pool": {
                 "type": "string",
@@ -106,8 +107,8 @@ export class IrReallocationDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pool",
-                "reflect": false
+                "reflect": false,
+                "attribute": "pool"
             }
         };
     }
@@ -130,4 +131,3 @@ export class IrReallocationDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-reallocation-drawer.js.map

@@ -561,4 +561,3 @@ export function getReservedRooms() {
     return reservedRooms;
 }
 export default booking_store;
-//# sourceMappingURL=booking.store.js.map

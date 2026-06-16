@@ -58,4 +58,3 @@ export class ChannelService {
         }
     }
 }
-//# sourceMappingURL=channel.service.js.map

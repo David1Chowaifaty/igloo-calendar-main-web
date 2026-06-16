@@ -39,8 +39,8 @@ export class IrBookedOnCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'block'"
             },
             "bookedOn": {
@@ -53,7 +53,8 @@ export class IrBookedOnCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -82,10 +83,9 @@ export class IrBookedOnCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             }
         };
     }
 }
-//# sourceMappingURL=ir-booked-on-cell.js.map

@@ -48,4 +48,3 @@ export class BookingListingService {
         });
     }
 }
-//# sourceMappingURL=booking_listing.service.js.map

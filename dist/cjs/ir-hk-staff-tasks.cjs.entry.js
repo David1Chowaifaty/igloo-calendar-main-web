@@ -1,20 +1,17 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var Token = require('./Token-mN7PQKGF.js');
+var housekeeping_service = require('./housekeeping.service-CveyDNa8.js');
+var momentWithLocales = require('./moment-with-locales-rbb_iEBE.js');
+var realtime_service = require('./realtime.service-COdIt6Z-.js');
+var v4 = require('./v4-Bq3ldsQe.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-CLqkDPTC.js');
+require('./index-yPf-buWw.js');
 
-const index = require('./index-35d81173.js');
-const Token = require('./Token-fb15e0d7.js');
-const housekeeping_service = require('./housekeeping.service-8d06557d.js');
-const momentWithLocales = require('./moment-with-locales-b7fb9d4e.js');
-const realtime_service = require('./realtime.service-aca6e8d2.js');
-const v4 = require('./v4-9b297151.js');
-require('./axios-6e678d52.js');
-require('./index-8bb117a0.js');
-require('./index-fbf1fe1d.js');
-require('./_commonjsHelpers-8f2c79cd.js');
-
-const irHkStaffTasksCss = ".sc-ir-hk-staff-tasks-h{display:block;background:white;height:100%;min-height:100vh}.tasks__container.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.75rem;padding:1rem !important}.tasks__section.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.375rem}.tasks__section--future.sc-ir-hk-staff-tasks{opacity:0.4;filter:grayscale(0.3)}.tasks-grid.sc-ir-hk-staff-tasks{display:grid;gap:1rem}.tasks__count.sc-ir-hk-staff-tasks{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.tasks__header.sc-ir-hk-staff-tasks{display:flex;align-items:end;padding:0.25rem 0;gap:1rem}.tasks__section.sc-ir-hk-staff-tasks:not(:first-of-type){padding-top:0.875rem}.tasks__date.sc-ir-hk-staff-tasks{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l);margin:0;padding:0}@media (min-width: 640px){.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.tasks__container.sc-ir-hk-staff-tasks{padding:1rem 2rem !important}.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(3, minmax(0, 1fr))}}.tasks__empty.sc-ir-hk-staff-tasks{color:var(--wa-color-text-quiet);padding:0.375rem 0;margin:0}.hk-staff-tasks__dialog.sc-ir-hk-staff-tasks::part(title){text-align:start}";
-const IrHkStaffTasksStyle0 = irHkStaffTasksCss;
+const irHkStaffTasksCss = () => `.sc-ir-hk-staff-tasks-h{display:block;background:white;height:100%;min-height:100vh}.tasks__container.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.75rem;padding:1rem !important}.tasks__section.sc-ir-hk-staff-tasks{display:flex;flex-direction:column;gap:0.375rem}.tasks__section--future.sc-ir-hk-staff-tasks{opacity:0.4;filter:grayscale(0.3)}.tasks-grid.sc-ir-hk-staff-tasks{display:grid;gap:1rem}.tasks__count.sc-ir-hk-staff-tasks{font-size:var(--wa-font-size-s);color:var(--wa-color-text-quiet)}.tasks__header.sc-ir-hk-staff-tasks{display:flex;align-items:end;padding:0.25rem 0;gap:1rem}.tasks__section.sc-ir-hk-staff-tasks:not(:first-of-type){padding-top:0.875rem}.tasks__date.sc-ir-hk-staff-tasks{font-family:var(--wa-font-family-heading);font-weight:var(--wa-font-weight-heading);line-height:var(--wa-line-height-condensed);text-wrap:balance;font-size:var(--wa-font-size-l);margin:0;padding:0}@media (min-width: 640px){.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.tasks__container.sc-ir-hk-staff-tasks{padding:1rem 2rem !important}.tasks-grid.sc-ir-hk-staff-tasks{grid-template-columns:repeat(3, minmax(0, 1fr))}}.tasks__empty.sc-ir-hk-staff-tasks{color:var(--wa-color-text-quiet);padding:0.375rem 0;margin:0}.hk-staff-tasks__dialog.sc-ir-hk-staff-tasks::part(title),.hk-staff-tasks__dialog.sc-ir-hk-staff-tasks [part~="title"]{text-align:start}`;
 
 const LANGUAGE_KEY = 'ir_language';
 const localeMap = {
@@ -291,12 +288,14 @@ const IrHkStaffTasks = class {
             } }, index.h("wa-textarea", { value: this.anythingToReportString, onchange: e => (this.anythingToReportString = e.target.value), defaultValue: this.anythingToReportString, placeholder: i18n.anythingToReport, maxlength: 500 }), index.h("div", { slot: "footer", class: "ir-dialog__footer" }, index.h("ir-custom-button", { variant: "neutral", appearance: "filled", onClickHandler: () => this.confirmDialog.closeModal() }, i18n.cancel), index.h("ir-custom-button", { variant: "brand", appearance: "accent", loading: this.isConfirmLoading, onClickHandler: this.handleConfirm.bind(this) }, i18n.confirm)))));
     }
     static get watchers() { return {
-        "language": ["handleLanguageChange"],
-        "ticket": ["handleTicketChange"]
+        "language": [{
+                "handleLanguageChange": 0
+            }],
+        "ticket": [{
+                "handleTicketChange": 0
+            }]
     }; }
 };
-IrHkStaffTasks.style = IrHkStaffTasksStyle0;
+IrHkStaffTasks.style = irHkStaffTasksCss();
 
 exports.ir_hk_staff_tasks = IrHkStaffTasks;
-
-//# sourceMappingURL=ir-hk-staff-tasks.cjs.entry.js.map

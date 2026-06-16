@@ -1,8 +1,1 @@
-import { I as IrHkOperationsCard$1, d as defineCustomElement$1 } from './ir-hk-operations-card2.js';
-
-const IrHkOperationsCard = IrHkOperationsCard$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrHkOperationsCard, defineCustomElement };
-
-//# sourceMappingURL=ir-hk-operations-card.js.map
+import{I as o,d as r}from"./ir-hk-operations-card2.js";const s=o,a=r;export{s as IrHkOperationsCard,a as defineCustomElement}

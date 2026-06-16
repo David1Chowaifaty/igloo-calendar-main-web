@@ -1,24 +1,24 @@
-import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-7e96440e.js';
-import { T as Token } from './Token-bcdb7c50.js';
-import { B as BookingService } from './booking.store-8b688b9d.js';
-import { R as RoomService } from './room.service-e5d266c2.js';
-import { l as locales } from './locales.store-cb784e95.js';
-import './axios-aa1335b8.js';
-import './index-87419685.js';
-import './utils-91ae2576.js';
-import './moment-ab846cee.js';
-import './calendar-data-b1f645da.js';
-import './index-f100e9d2.js';
-import './type-501de9b6.js';
-import './booking-a4cf4a51.js';
+import { r as registerInstance, c as createEvent, h, F as Fragment, H as Host } from './index-DsP1thJ-.js';
+import { T as Token } from './Token-CkxFIO_J.js';
+import { B as BookingService } from './booking.store-ppUQV_m6.js';
+import { R as RoomService } from './room.service-CnDqFCU0.js';
+import { l as locales } from './locales.store-CnCF03aI.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
+import './index-DeW5X45W.js';
+import './utils-XHeF_jXG.js';
+import './moment-Mki5YqAR.js';
+import './calendar-data-Ogu9Tn08.js';
+import './index-ChvQumDv.js';
+import './type-D7rOPtKA.js';
+import './booking-BBPCf6_8.js';
 
-const iglBookPropertyContainerCss = ".sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}";
-const IglBookPropertyContainerStyle0 = iglBookPropertyContainerCss;
+const iglBookPropertyContainerCss = () => `.sc-igl-book-property-container-h{display:block;margin:0;padding:0;letter-spacing:0px !important;font-family:'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;font-size:1rem !important;font-weight:400 !important;line-height:1.45 !important;color:#6b6f82 !important;text-align:left !important}.book-container.sc-igl-book-property-container{width:min-content;margin:0;padding:0}h3.sc-igl-book-property-container{font-size:1rem}`;
 
 const IglBookPropertyContainer = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.resetBookingData = createEvent(this, "resetBookingData", 7);
+        this.resetBookingData = createEvent(this, "resetBookingData");
     }
     language = '';
     ticket = '';
@@ -117,11 +117,11 @@ const IglBookPropertyContainer = class {
             }, onCloseBookingWindow: () => this.handleCloseBookingWindow() }))));
     }
     static get watchers() { return {
-        "ticket": ["ticketChanged"]
+        "ticket": [{
+                "ticketChanged": 0
+            }]
     }; }
 };
-IglBookPropertyContainer.style = IglBookPropertyContainerStyle0;
+IglBookPropertyContainer.style = iglBookPropertyContainerCss();
 
 export { IglBookPropertyContainer as igl_book_property_container };
-
-//# sourceMappingURL=igl-book-property-container.entry.js.map

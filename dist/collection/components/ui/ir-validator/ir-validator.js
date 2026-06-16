@@ -326,7 +326,8 @@ export class IrValidator {
                         "ZodTypeAny": {
                             "location": "import",
                             "path": "zod",
-                            "id": "node_modules::ZodTypeAny"
+                            "id": "node_modules::ZodTypeAny",
+                            "referenceLocation": "ZodTypeAny"
                         }
                     }
                 },
@@ -355,8 +356,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "asyncValidation": {
                 "type": "boolean",
@@ -374,8 +375,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "async-validation",
-                "reflect": false
+                "reflect": false,
+                "attribute": "async-validation"
             },
             "showErrorMessage": {
                 "type": "boolean",
@@ -393,8 +394,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-error-message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-error-message"
             },
             "autovalidate": {
                 "type": "boolean",
@@ -412,8 +413,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "autovalidate",
-                "reflect": true
+                "reflect": true,
+                "attribute": "autovalidate"
             },
             "form": {
                 "type": "string",
@@ -431,8 +432,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form"
             },
             "valueEvent": {
                 "type": "string",
@@ -450,8 +451,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value-event",
                 "reflect": false,
+                "attribute": "value-event",
                 "defaultValue": "'input input-change value-change select-change'"
             },
             "blurEvent": {
@@ -470,8 +471,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "blur-event",
                 "reflect": false,
+                "attribute": "blur-event",
                 "defaultValue": "'blur input-blur select-blur'"
             },
             "validationDebounce": {
@@ -490,8 +491,8 @@ export class IrValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "validation-debounce",
                 "reflect": false,
+                "attribute": "validation-debounce",
                 "defaultValue": "200"
             }
         };
@@ -562,4 +563,3 @@ export class IrValidator {
 __decorate([
     Debounce(300)
 ], IrValidator.prototype, "scheduleValidation", null);
-//# sourceMappingURL=ir-validator.js.map

@@ -59,11 +59,11 @@ export class IrFinancialTable {
                         "SidebarOpenEvent": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-financial-actions/types.ts::SidebarOpenEvent"
+                            "id": "src/components/ir-financial-actions/types.ts::SidebarOpenEvent",
+                            "referenceLocation": "SidebarOpenEvent"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-financial-table.js.map

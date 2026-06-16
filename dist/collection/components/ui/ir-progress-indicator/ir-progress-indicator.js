@@ -45,8 +45,8 @@ export class IrProgressIndicator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "percentage",
-                "reflect": false
+                "reflect": false,
+                "attribute": "percentage"
             },
             "color": {
                 "type": "string",
@@ -64,11 +64,10 @@ export class IrProgressIndicator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "color",
                 "reflect": false,
+                "attribute": "color",
                 "defaultValue": "'primary'"
             }
         };
     }
 }
-//# sourceMappingURL=ir-progress-indicator.js.map

@@ -267,7 +267,8 @@ export class IrBookingEditorHeader {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -296,8 +297,8 @@ export class IrBookingEditorHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             },
             "isBlockConversion": {
                 "type": "boolean",
@@ -315,8 +316,8 @@ export class IrBookingEditorHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-block-conversion",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-block-conversion"
             },
             "mode": {
                 "type": "string",
@@ -328,7 +329,8 @@ export class IrBookingEditorHeader {
                         "BookingEditorMode": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode"
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode",
+                            "referenceLocation": "BookingEditorMode"
                         }
                     }
                 },
@@ -340,8 +342,8 @@ export class IrBookingEditorHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "checkIn": {
@@ -360,8 +362,8 @@ export class IrBookingEditorHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-in",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-in"
             },
             "checkOut": {
                 "type": "string",
@@ -379,8 +381,8 @@ export class IrBookingEditorHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-out",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-out"
             }
         };
     }
@@ -409,7 +411,8 @@ export class IrBookingEditorHeader {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
@@ -440,4 +443,3 @@ export class IrBookingEditorHeader {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-editor-header.js.map

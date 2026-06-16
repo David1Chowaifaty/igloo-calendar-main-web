@@ -66,8 +66,8 @@ export class IglBulkOperationsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "maxDatesLength": {
                 "type": "number",
@@ -85,8 +85,8 @@ export class IglBulkOperationsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-dates-length",
                 "reflect": false,
+                "attribute": "max-dates-length",
                 "defaultValue": "8"
             },
             "property_id": {
@@ -105,8 +105,8 @@ export class IglBulkOperationsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property_id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property_id"
             }
         };
     }
@@ -149,7 +149,8 @@ export class IglBulkOperationsDrawer {
                         "IrToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/ir-toast",
-                            "id": "src/components/ui/ir-toast/ir-toast.tsx::IrToast"
+                            "id": "src/components/ui/ir-toast/ir-toast.tsx::IrToast",
+                            "referenceLocation": "IrToast"
                         }
                     }
                 }
@@ -165,4 +166,3 @@ export class IglBulkOperationsDrawer {
             }];
     }
 }
-//# sourceMappingURL=igl-bulk-operations-drawer.js.map

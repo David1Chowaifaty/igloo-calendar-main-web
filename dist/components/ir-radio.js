@@ -1,8 +1,1 @@
-import { I as IrRadio$1, d as defineCustomElement$1 } from './ir-radio2.js';
-
-const IrRadio = IrRadio$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrRadio, defineCustomElement };
-
-//# sourceMappingURL=ir-radio.js.map
+import{I as o,d as r}from"./ir-radio2.js";const s=o,a=r;export{s as IrRadio,a as defineCustomElement}

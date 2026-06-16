@@ -1,8 +1,1 @@
-import { I as IrPdfViewer$1, d as defineCustomElement$1 } from './ir-pdf-viewer2.js';
-
-const IrPdfViewer = IrPdfViewer$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPdfViewer, defineCustomElement };
-
-//# sourceMappingURL=ir-pdf-viewer.js.map
+import{I as r,d as o}from"./ir-pdf-viewer2.js";const s=r,e=o;export{s as IrPdfViewer,e as defineCustomElement}

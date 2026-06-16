@@ -24,4 +24,3 @@ export class UserService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=user.service.js.map

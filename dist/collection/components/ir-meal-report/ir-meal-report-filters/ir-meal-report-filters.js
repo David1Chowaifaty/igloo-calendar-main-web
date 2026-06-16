@@ -79,8 +79,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "report-type",
                 "reflect": false,
+                "attribute": "report-type",
                 "defaultValue": "'GUEST_LIST'"
             },
             "fromDate": {
@@ -99,8 +99,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "toDate": {
                 "type": "string",
@@ -118,8 +118,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "mealType": {
                 "type": "string",
@@ -137,8 +137,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "meal-type",
                 "reflect": false,
+                "attribute": "meal-type",
                 "defaultValue": "null"
             },
             "setupEntries": {
@@ -151,7 +151,8 @@ export class IrMealReportFilters {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -180,8 +181,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "lcz": {
@@ -200,8 +201,8 @@ export class IrMealReportFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "lcz",
                 "reflect": false,
+                "attribute": "lcz",
                 "defaultValue": "{}"
             }
         };
@@ -300,4 +301,3 @@ export class IrMealReportFilters {
             }];
     }
 }
-//# sourceMappingURL=ir-meal-report-filters.js.map

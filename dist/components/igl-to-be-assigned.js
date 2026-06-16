@@ -1,8 +1,1 @@
-import { I as IglToBeAssigned$1, d as defineCustomElement$1 } from './igl-to-be-assigned2.js';
-
-const IglToBeAssigned = IglToBeAssigned$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglToBeAssigned, defineCustomElement };
-
-//# sourceMappingURL=igl-to-be-assigned.js.map
+import{I as s,d as o}from"./igl-to-be-assigned2.js";const t=s,a=o;export{t as IglToBeAssigned,a as defineCustomElement}

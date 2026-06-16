@@ -1,8 +1,1 @@
-import { I as IrResetPassword$1, d as defineCustomElement$1 } from './ir-reset-password2.js';
-
-const IrResetPassword = IrResetPassword$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrResetPassword, defineCustomElement };
-
-//# sourceMappingURL=ir-reset-password.js.map
+import{I as s,d as r}from"./ir-reset-password2.js";const o=s,t=r;export{o as IrResetPassword,t as defineCustomElement}

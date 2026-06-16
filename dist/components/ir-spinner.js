@@ -1,8 +1,1 @@
-import { I as IrSpinner$1, d as defineCustomElement$1 } from './ir-spinner2.js';
-
-const IrSpinner = IrSpinner$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrSpinner, defineCustomElement };
-
-//# sourceMappingURL=ir-spinner.js.map
+import{I as r,d as s}from"./ir-spinner2.js";const o=r,i=s;export{o as IrSpinner,i as defineCustomElement}

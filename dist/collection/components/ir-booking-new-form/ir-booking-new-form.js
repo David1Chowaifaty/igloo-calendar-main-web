@@ -66,8 +66,8 @@ export class IrBookingNewForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "string",
@@ -85,8 +85,8 @@ export class IrBookingNewForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "language": {
                 "type": "string",
@@ -104,8 +104,8 @@ export class IrBookingNewForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             }
         };
     }
@@ -115,4 +115,3 @@ export class IrBookingNewForm {
         };
     }
 }
-//# sourceMappingURL=ir-booking-new-form.js.map

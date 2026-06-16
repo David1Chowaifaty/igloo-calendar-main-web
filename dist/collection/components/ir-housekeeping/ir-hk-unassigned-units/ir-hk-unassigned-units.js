@@ -124,7 +124,8 @@ export class IrHkUnassignedUnits {
                         "IHouseKeepers": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::IHouseKeepers"
+                            "id": "src/models/housekeeping.ts::IHouseKeepers",
+                            "referenceLocation": "IHouseKeepers"
                         }
                     }
                 },
@@ -179,4 +180,3 @@ export class IrHkUnassignedUnits {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-unassigned-units.js.map

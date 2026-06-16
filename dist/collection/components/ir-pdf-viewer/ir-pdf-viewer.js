@@ -1,15 +1,16 @@
 import { Host, h } from "@stencil/core";
-import * as pdfjsLib from "pdfjs-dist/build/pdf";
+import { getDocument, GlobalWorkerOptions, RenderingCancelledException } from "pdfjs-dist/build/pdf.mjs";
 const RENDER_QUALITY = 2;
 let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc ?? `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+    GlobalWorkerOptions.workerSrc = workerSrc ?? '/pdf.worker.min.mjs';
     workerInitialized = true;
 }
 export class IrPdfViewer {
     canvasEl;
+    loadingTask = null;
     pdf = null;
     renderTask = null;
     loadToken = 0;
@@ -43,8 +44,9 @@ export class IrPdfViewer {
         this.loadToken++;
         this.renderTask?.cancel();
         this.renderTask = null;
-        this.pdf?.destroy();
         this.pdf = null;
+        this.loadingTask?.destroy();
+        this.loadingTask = null;
         this.resizeObserver?.disconnect();
         this.resizeObserver = undefined;
         if (this.resizeTimer) {
@@ -58,13 +60,16 @@ export class IrPdfViewer {
         this.error = null;
         this.totalPages = 0;
         try {
-            if (this.pdf) {
-                await this.pdf.destroy();
+            if (this.loadingTask) {
+                await this.loadingTask.destroy();
+                this.loadingTask = null;
                 this.pdf = null;
             }
-            const pdf = await pdfjsLib.getDocument({ url }).promise;
+            const task = getDocument({ url });
+            this.loadingTask = task;
+            const pdf = await task.promise;
             if (token !== this.loadToken) {
-                await pdf.destroy();
+                await task.destroy();
                 return;
             }
             this.pdf = pdf;
@@ -104,7 +109,7 @@ export class IrPdfViewer {
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#fff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        this.renderTask = page.render({ canvasContext: ctx, viewport });
+        this.renderTask = page.render({ canvas, canvasContext: ctx, viewport });
         try {
             await this.renderTask.promise;
         }
@@ -156,7 +161,7 @@ export class IrPdfViewer {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: 'effd61415314388c206ed22401f8161fd4025083' }, h("canvas", { key: 'bcf007e1bbd4529209d6c8c0e77bdfd61a0ae874', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '4ac0fe59012511af6335711bea2523658b580427', class: "overlay" }, h("wa-spinner", { key: 'baff160666849de222985b0240a5c6e2bd4b503e' }))), error && !isLoading && (h("div", { key: 'ca1c615cf885d3ecea810d8f16ec16211d3f8f47', class: "error-state", role: "alert" }, h("wa-icon", { key: 'ed85780c46fbe086b375690c3314e69fd2dd0e22', name: "triangle-exclamation" }), h("span", { key: '83a3068be9e23c8d47d39c3ed5020e124c65f0bc' }, error))), totalPages > 1 && (h("div", { key: '0498784aa0b2a34f177fd48230f44079dd490ede', class: "pagination" }, h("button", { key: '9d47c7f50e14ba64c1af431fc9e5040d5865b668', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '05ba94c61b64f5ed8287d8db3b45d03538fa5984', name: "chevron-left" })), h("span", { key: '3e0a06a208b291222baa10bec5a0d8dfd245edcb', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '39b9b51cdfc72e802501e6fb6690980882ce623f', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'da71d56d3ac3ba9a4fcc8de2301c9af3ed007137', name: "chevron-right" }))))));
+        return (h(Host, { key: '648007e1e20f9658e1a6b84a4fbcdc57e3490427' }, h("canvas", { key: '12f39d833b5b542351384904e479dc3bc3c03c45', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'fb8105e78e0f583426e19f55f38280532ca01f60', class: "overlay" }, h("wa-spinner", { key: '98f1d2d64a2ab1d7bec1dc4ea5e74c00eb38ff0a' }))), error && !isLoading && (h("div", { key: 'd61ecec05b57b538684e894174d5aa6959855381', class: "error-state", role: "alert" }, h("wa-icon", { key: '08d06546d0e69368f492b3f8e7604caf52a7cea1', name: "triangle-exclamation" }), h("span", { key: 'ad769978facc91cc2ad92d3866f908536d1c7ca0' }, error))), totalPages > 1 && (h("div", { key: 'd9cf9162633517bb7822bbcce907cbd538ae9e6f', class: "pagination" }, h("button", { key: '74e804670753a0975072d76277a200e79062675c', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '99b67608dafc03af64bc11f1d0b98b57193c30bd', name: "chevron-left" })), h("span", { key: 'bbaa0330f9c3de2b707821c18aa5dde8c653cca9', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '77d2538861f8389ec9a2c4e0846f1d3b9600dbc3', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'c853f96911ce1129cbf75738ff9370af2a0980a6', name: "chevron-right" }))))));
     }
     static get is() { return "ir-pdf-viewer"; }
     static get encapsulation() { return "shadow"; }
@@ -188,8 +193,8 @@ export class IrPdfViewer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "src",
-                "reflect": false
+                "reflect": false,
+                "attribute": "src"
             },
             "workerSrc": {
                 "type": "string",
@@ -207,8 +212,8 @@ export class IrPdfViewer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "worker-src",
-                "reflect": false
+                "reflect": false,
+                "attribute": "worker-src"
             }
         };
     }
@@ -229,6 +234,5 @@ export class IrPdfViewer {
     }
 }
 function isCancelled(err) {
-    return !!err && typeof err === 'object' && err.name === 'RenderingCancelledException';
+    return err instanceof RenderingCancelledException;
 }
-//# sourceMappingURL=ir-pdf-viewer.js.map

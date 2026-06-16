@@ -109,7 +109,8 @@ export class IrGhsCandidateTable {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 },
@@ -133,7 +134,8 @@ export class IrGhsCandidateTable {
                         "ICountry": {
                             "location": "import",
                             "path": "../../models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -163,8 +165,8 @@ export class IrGhsCandidateTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-country-id",
                 "reflect": false,
+                "attribute": "selected-country-id",
                 "defaultValue": "null"
             },
             "selectedProperties": {
@@ -177,7 +179,8 @@ export class IrGhsCandidateTable {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 },
@@ -201,7 +204,8 @@ export class IrGhsCandidateTable {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 },
@@ -231,8 +235,8 @@ export class IrGhsCandidateTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "baseUrl": {
@@ -251,8 +255,8 @@ export class IrGhsCandidateTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             }
         };
     }
@@ -279,7 +283,8 @@ export class IrGhsCandidateTable {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 }
@@ -315,7 +320,8 @@ export class IrGhsCandidateTable {
                         "GHS_Candidate_Property": {
                             "location": "import",
                             "path": "../../services/ghs/types",
-                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property"
+                            "id": "src/services/ghs/types.ts::GHS_Candidate_Property",
+                            "referenceLocation": "GHS_Candidate_Property"
                         }
                     }
                 }
@@ -337,4 +343,3 @@ export class IrGhsCandidateTable {
             }];
     }
 }
-//# sourceMappingURL=ir-ghs-candidate-table.js.map

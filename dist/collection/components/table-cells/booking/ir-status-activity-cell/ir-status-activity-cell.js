@@ -39,8 +39,8 @@ export class IrStatusActivityCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-request-to-cancel",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-request-to-cancel"
             },
             "status": {
                 "type": "unknown",
@@ -52,7 +52,8 @@ export class IrStatusActivityCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -81,8 +82,8 @@ export class IrStatusActivityCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-modified-badge",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-modified-badge"
             },
             "showManipulationBadge": {
                 "type": "boolean",
@@ -100,8 +101,8 @@ export class IrStatusActivityCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-manipulation-badge",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-manipulation-badge"
             },
             "lastManipulation": {
                 "type": "unknown",
@@ -113,7 +114,8 @@ export class IrStatusActivityCell {
                         "OTAManipulations": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::OTAManipulations"
+                            "id": "src/models/booking.dto.ts::OTAManipulations",
+                            "referenceLocation": "OTAManipulations"
                         }
                     }
                 },
@@ -142,10 +144,9 @@ export class IrStatusActivityCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             }
         };
     }
 }
-//# sourceMappingURL=ir-status-activity-cell.js.map

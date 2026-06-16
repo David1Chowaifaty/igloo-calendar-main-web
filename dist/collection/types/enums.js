@@ -60,4 +60,3 @@ export const InOut = {
     CheckedIn: '001',
     CheckedOut: '002',
 };
-//# sourceMappingURL=enums.js.map

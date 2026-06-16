@@ -35,7 +35,8 @@ export class IrPrintingPickup {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -51,4 +52,3 @@ export class IrPrintingPickup {
         };
     }
 }
-//# sourceMappingURL=ir-printing-pickup.js.map

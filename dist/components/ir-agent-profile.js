@@ -1,8 +1,1 @@
-import { I as IrAgentProfile$1, d as defineCustomElement$1 } from './ir-agent-profile2.js';
-
-const IrAgentProfile = IrAgentProfile$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrAgentProfile, defineCustomElement };
-
-//# sourceMappingURL=ir-agent-profile.js.map
+import{I as o,d as r}from"./ir-agent-profile2.js";const s=o,t=r;export{s as IrAgentProfile,t as defineCustomElement}

@@ -104,7 +104,8 @@ export class IrMealCountSummary {
                         "MealCountDaySummary": {
                             "location": "import",
                             "path": "@/services/meal-report/types",
-                            "id": "src/services/meal-report/types.ts::MealCountDaySummary"
+                            "id": "src/services/meal-report/types.ts::MealCountDaySummary",
+                            "referenceLocation": "MealCountDaySummary"
                         }
                     }
                 },
@@ -121,4 +122,3 @@ export class IrMealCountSummary {
         };
     }
 }
-//# sourceMappingURL=ir-meal-count-summary.js.map

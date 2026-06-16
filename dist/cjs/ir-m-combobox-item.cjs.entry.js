@@ -1,18 +1,15 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irMComboboxItemCss = ".sc-ir-m-combobox-item-h{display:block;cursor:pointer}[hidden].sc-ir-m-combobox-item-h{display:none !important}.active.sc-ir-m-combobox-item-h,.focused.sc-ir-m-combobox-item-h,.sc-ir-m-combobox-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-m-combobox-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
-const IrMComboboxItemStyle0 = irMComboboxItemCss;
+const irMComboboxItemCss = () => `.sc-ir-m-combobox-item-h{display:block;cursor:pointer}[hidden].sc-ir-m-combobox-item-h{display:none !important}.active.sc-ir-m-combobox-item-h,.focused.sc-ir-m-combobox-item-h,.sc-ir-m-combobox-item-h:active{outline:none;background-color:var(--blue, #1e9ff2) !important;color:white !important}.dropdown-item.sc-ir-m-combobox-item-h{padding:0.5rem 1rem !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}`;
 
 const IrMComboboxItem = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.comboboxItemSelect = index.createEvent(this, "comboboxItemSelect", 7);
-        this.comboboxItemRegister = index.createEvent(this, "comboboxItemRegister", 7);
-        this.comboboxItemUnregister = index.createEvent(this, "comboboxItemUnregister", 7);
+        this.comboboxItemSelect = index.createEvent(this, "comboboxItemSelect");
+        this.comboboxItemRegister = index.createEvent(this, "comboboxItemRegister");
+        this.comboboxItemUnregister = index.createEvent(this, "comboboxItemUnregister");
     }
     get el() { return index.getElement(this); }
     /**
@@ -74,8 +71,6 @@ const IrMComboboxItem = class {
         return (index.h(index.Host, { key: '1b23eff27080ea5ebcbe8cac9eb7097203dae5cb', role: "option", tabindex: "-1", "aria-selected": "false", class: { 'dropdown-item': true }, onClick: this.handleClick }, this.html_content ? index.h("span", { innerHTML: this.html_content }) : index.h("slot", null)));
     }
 };
-IrMComboboxItem.style = IrMComboboxItemStyle0;
+IrMComboboxItem.style = irMComboboxItemCss();
 
 exports.ir_m_combobox_item = IrMComboboxItem;
-
-//# sourceMappingURL=ir-m-combobox-item.cjs.entry.js.map

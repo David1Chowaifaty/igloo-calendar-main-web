@@ -130,8 +130,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -150,8 +150,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "p": {
@@ -170,8 +170,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "propertyid": {
                 "type": "number",
@@ -189,8 +189,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "from_date": {
                 "type": "string",
@@ -208,8 +208,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from_date"
             },
             "to_date": {
                 "type": "string",
@@ -227,8 +227,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to_date"
             },
             "withIrToastAndInterceptor": {
                 "type": "boolean",
@@ -246,8 +246,8 @@ export class IglBookPropertyContainer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-ir-toast-and-interceptor",
                 "reflect": false,
+                "attribute": "with-ir-toast-and-interceptor",
                 "defaultValue": "true"
             }
         };
@@ -285,4 +285,3 @@ export class IglBookPropertyContainer {
             }];
     }
 }
-//# sourceMappingURL=igl-book-property-container.js.map

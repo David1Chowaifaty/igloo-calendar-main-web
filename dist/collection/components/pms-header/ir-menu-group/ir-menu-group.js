@@ -55,8 +55,8 @@ export class IrMenuGroup {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "groupName": {
                 "type": "string",
@@ -74,8 +74,8 @@ export class IrMenuGroup {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "group-name",
-                "reflect": true
+                "reflect": true,
+                "attribute": "group-name"
             }
         };
     }
@@ -99,4 +99,3 @@ export class IrMenuGroup {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-menu-group.js.map

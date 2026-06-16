@@ -1,8 +1,1 @@
-import { I as IrDatesCell$1, d as defineCustomElement$1 } from './ir-dates-cell2.js';
-
-const IrDatesCell = IrDatesCell$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrDatesCell, defineCustomElement };
-
-//# sourceMappingURL=ir-dates-cell.js.map
+import{I as s,d as o}from"./ir-dates-cell2.js";const r=s,t=o;export{r as IrDatesCell,t as defineCustomElement}

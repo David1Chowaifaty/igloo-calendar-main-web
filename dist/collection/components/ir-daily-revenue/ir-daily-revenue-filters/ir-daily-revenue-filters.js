@@ -102,7 +102,8 @@ export class IrDailyRevenueFilters {
                         "GroupedFolioPayment": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment"
+                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment",
+                            "referenceLocation": "GroupedFolioPayment"
                         }
                     }
                 },
@@ -131,8 +132,8 @@ export class IrDailyRevenueFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             }
         };
     }
@@ -161,7 +162,8 @@ export class IrDailyRevenueFilters {
                         "DailyPaymentFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::DailyPaymentFilter"
+                            "id": "src/components/ir-daily-revenue/types.ts::DailyPaymentFilter",
+                            "referenceLocation": "DailyPaymentFilter"
                         }
                     }
                 }
@@ -174,4 +176,3 @@ export class IrDailyRevenueFilters {
             }];
     }
 }
-//# sourceMappingURL=ir-daily-revenue-filters.js.map

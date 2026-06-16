@@ -633,8 +633,8 @@ export class IglBookProperty {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "allowedBookingSources": {
                 "type": "any",
@@ -652,8 +652,8 @@ export class IglBookProperty {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "allowed-booking-sources",
-                "reflect": false
+                "reflect": false,
+                "attribute": "allowed-booking-sources"
             },
             "language": {
                 "type": "string",
@@ -671,8 +671,8 @@ export class IglBookProperty {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "countries": {
                 "type": "unknown",
@@ -684,7 +684,8 @@ export class IglBookProperty {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -713,8 +714,8 @@ export class IglBookProperty {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-payment-details",
                 "reflect": false,
+                "attribute": "show-payment-details",
                 "defaultValue": "false"
             },
             "currency": {
@@ -727,7 +728,8 @@ export class IglBookProperty {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/calendarData",
-                            "id": "src/models/calendarData.ts::ICurrency"
+                            "id": "src/models/calendarData.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -767,7 +769,8 @@ export class IglBookProperty {
                         "TAdultChildConstraints": {
                             "location": "import",
                             "path": "@/models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints"
+                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints",
+                            "referenceLocation": "TAdultChildConstraints"
                         }
                     }
                 },
@@ -824,7 +827,8 @@ export class IglBookProperty {
                         "RoomBlockDetails": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::RoomBlockDetails"
+                            "id": "src/models/IBooking.ts::RoomBlockDetails",
+                            "referenceLocation": "RoomBlockDetails"
                         }
                     }
                 }
@@ -890,7 +894,8 @@ export class IglBookProperty {
                         "IToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -930,4 +935,3 @@ export class IglBookProperty {
             }];
     }
 }
-//# sourceMappingURL=igl-book-property.js.map

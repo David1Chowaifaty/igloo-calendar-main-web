@@ -198,7 +198,8 @@ export class IrUserManagementTable {
                         "User": {
                             "location": "import",
                             "path": "@/models/Users",
-                            "id": "src/models/Users.ts::User"
+                            "id": "src/models/Users.ts::User",
+                            "referenceLocation": "User"
                         }
                     }
                 },
@@ -228,8 +229,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-super-admin",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-super-admin"
             },
             "userTypes": {
                 "type": "unknown",
@@ -270,8 +271,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "user-type-code"
             },
             "haveAdminPrivileges": {
                 "type": "boolean",
@@ -289,8 +290,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "have-admin-privileges",
-                "reflect": false
+                "reflect": false,
+                "attribute": "have-admin-privileges"
             },
             "superAdminId": {
                 "type": "string",
@@ -308,8 +309,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "super-admin-id",
                 "reflect": false,
+                "attribute": "super-admin-id",
                 "defaultValue": "'5'"
             },
             "allowedUsersTypes": {
@@ -322,7 +323,8 @@ export class IrUserManagementTable {
                         "AllowedUser": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-user-management/types.ts::AllowedUser"
+                            "id": "src/components/ir-user-management/types.ts::AllowedUser",
+                            "referenceLocation": "AllowedUser"
                         }
                     }
                 },
@@ -352,8 +354,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-user-type-code"
             },
             "property_id": {
                 "type": "number",
@@ -371,8 +373,8 @@ export class IrUserManagementTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property_id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property_id"
             }
         };
     }
@@ -411,4 +413,3 @@ export class IrUserManagementTable {
             }];
     }
 }
-//# sourceMappingURL=ir-user-management-table.js.map

@@ -37,8 +37,8 @@ export class IrClInvoiceCityTaxAmountCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency-symbol"
             },
             "amount": {
                 "type": "number",
@@ -56,8 +56,8 @@ export class IrClInvoiceCityTaxAmountCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "amount",
-                "reflect": false
+                "reflect": false,
+                "attribute": "amount"
             },
             "cityTaxPercent": {
                 "type": "number",
@@ -75,10 +75,9 @@ export class IrClInvoiceCityTaxAmountCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "city-tax-percent",
-                "reflect": false
+                "reflect": false,
+                "attribute": "city-tax-percent"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-city-tax-amount-cell.js.map

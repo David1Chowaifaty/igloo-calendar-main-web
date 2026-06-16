@@ -20,4 +20,3 @@ export const TaxAndChargeSetupSchema = z.object({
     serviceCharge: ChargeRuleSchema.nullable(),
     taxationStrategy: z.nativeEnum(TaxationStrategy).nullable(),
 });
-//# sourceMappingURL=types.js.map

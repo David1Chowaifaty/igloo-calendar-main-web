@@ -149,8 +149,8 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-id"
             },
             "language": {
                 "type": "string",
@@ -168,8 +168,8 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "email": {
                 "type": "string",
@@ -187,8 +187,8 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "email",
-                "reflect": false
+                "reflect": false,
+                "attribute": "email"
             },
             "booking_nbr": {
                 "type": "string",
@@ -206,8 +206,8 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking_nbr",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking_nbr"
             },
             "ticket": {
                 "type": "string",
@@ -225,8 +225,8 @@ export class IrGuestInfoForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -291,7 +291,8 @@ export class IrGuestInfoForm {
                         "IToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -307,7 +308,7 @@ export class IrGuestInfoForm {
                 },
                 "complexType": {
                     "original": "GuestChangedEvent",
-                    "resolved": "{ company_name?: string; company_tax_nbr?: string; address?: string; city?: string; country_id?: number; dob?: string; email?: string; first_name?: string; id?: number; last_name?: string; mobile?: string; country_phone_prefix?: string; subscribe_to_news_letter?: boolean; cci?: ICCI; alternative_email?: string; nbr_confirmed_bookings?: number; notes?: string; mobile_without_prefix?: string; }",
+                    "resolved": "Guest",
                     "references": {
                         "GuestChangedEvent": {
                             "location": "local",
@@ -325,4 +326,3 @@ export class IrGuestInfoForm {
             }];
     }
 }
-//# sourceMappingURL=ir-guest-info-form.js.map

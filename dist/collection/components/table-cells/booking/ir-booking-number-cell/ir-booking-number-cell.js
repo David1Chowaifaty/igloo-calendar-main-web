@@ -38,7 +38,8 @@ export class IrBookingNumberCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -50,8 +51,8 @@ export class IrBookingNumberCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "source": {
                 "type": "unknown",
@@ -63,7 +64,8 @@ export class IrBookingNumberCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -86,7 +88,8 @@ export class IrBookingNumberCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -109,7 +112,8 @@ export class IrBookingNumberCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -121,8 +125,8 @@ export class IrBookingNumberCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "channel-booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "channel-booking-number"
             }
         };
     }
@@ -144,11 +148,11 @@ export class IrBookingNumberCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-booking-number-cell.js.map

@@ -259,8 +259,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "length",
                 "reflect": false,
+                "attribute": "length",
                 "defaultValue": "6"
             },
             "defaultValue": {
@@ -279,8 +279,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "default-value"
             },
             "disabled": {
                 "type": "boolean",
@@ -298,8 +298,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "placeholder": {
@@ -318,8 +318,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "''"
             },
             "type": {
@@ -338,8 +338,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "type",
                 "reflect": false,
+                "attribute": "type",
                 "defaultValue": "'number'"
             },
             "autoFocus": {
@@ -358,8 +358,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-focus",
                 "reflect": false,
+                "attribute": "auto-focus",
                 "defaultValue": "true"
             },
             "secure": {
@@ -378,8 +378,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "secure",
                 "reflect": false,
+                "attribute": "secure",
                 "defaultValue": "false"
             },
             "numbersOnly": {
@@ -398,8 +398,8 @@ export class IrOtp {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "numbers-only",
                 "reflect": false,
+                "attribute": "numbers-only",
                 "defaultValue": "false"
             }
         };
@@ -449,4 +449,3 @@ export class IrOtp {
             }];
     }
 }
-//# sourceMappingURL=ir-otp.js.map

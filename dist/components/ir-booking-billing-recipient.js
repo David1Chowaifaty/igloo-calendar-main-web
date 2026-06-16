@@ -1,8 +1,1 @@
-import { I as IrBookingBillingRecipient$1, d as defineCustomElement$1 } from './ir-booking-billing-recipient2.js';
-
-const IrBookingBillingRecipient = IrBookingBillingRecipient$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrBookingBillingRecipient, defineCustomElement };
-
-//# sourceMappingURL=ir-booking-billing-recipient.js.map
+import{I as i,d as o}from"./ir-booking-billing-recipient2.js";const r=i,n=o;export{r as IrBookingBillingRecipient,n as defineCustomElement}

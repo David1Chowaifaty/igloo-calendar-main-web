@@ -167,8 +167,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "modal-title",
                 "reflect": false,
+                "attribute": "modal-title",
                 "defaultValue": "'Modal Title'"
             },
             "modalBody": {
@@ -187,8 +187,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "modal-body",
                 "reflect": false,
+                "attribute": "modal-body",
                 "defaultValue": "'Modal Body'"
             },
             "showTitle": {
@@ -207,8 +207,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-title",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-title"
             },
             "rightBtnActive": {
                 "type": "boolean",
@@ -226,8 +226,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "right-btn-active",
                 "reflect": false,
+                "attribute": "right-btn-active",
                 "defaultValue": "true"
             },
             "leftBtnActive": {
@@ -246,8 +246,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "left-btn-active",
                 "reflect": false,
+                "attribute": "left-btn-active",
                 "defaultValue": "true"
             },
             "middleBtnActive": {
@@ -266,8 +266,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "middle-btn-active",
                 "reflect": false,
+                "attribute": "middle-btn-active",
                 "defaultValue": "false"
             },
             "rightBtnText": {
@@ -286,8 +286,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "right-btn-text",
                 "reflect": false,
+                "attribute": "right-btn-text",
                 "defaultValue": "'Confirm'"
             },
             "leftBtnText": {
@@ -306,8 +306,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "left-btn-text",
                 "reflect": false,
+                "attribute": "left-btn-text",
                 "defaultValue": "'Close'"
             },
             "middleBtnText": {
@@ -326,8 +326,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "middle-btn-text",
                 "reflect": false,
+                "attribute": "middle-btn-text",
                 "defaultValue": "'More'"
             },
             "isLoading": {
@@ -346,8 +346,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "isMiddleButtonLoading": {
@@ -369,8 +369,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-middle-button-loading",
                 "reflect": false,
+                "attribute": "is-middle-button-loading",
                 "defaultValue": "false"
             },
             "autoClose": {
@@ -389,8 +389,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-close",
                 "reflect": false,
+                "attribute": "auto-close",
                 "defaultValue": "true"
             },
             "rightBtnColor": {
@@ -409,8 +409,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "right-btn-color",
                 "reflect": false,
+                "attribute": "right-btn-color",
                 "defaultValue": "'primary'"
             },
             "leftBtnColor": {
@@ -429,8 +429,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "left-btn-color",
                 "reflect": false,
+                "attribute": "left-btn-color",
                 "defaultValue": "'secondary'"
             },
             "middleBtnColor": {
@@ -449,8 +449,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "middle-btn-color",
                 "reflect": false,
+                "attribute": "middle-btn-color",
                 "defaultValue": "'info'"
             },
             "btnPosition": {
@@ -469,8 +469,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "btn-position",
                 "reflect": false,
+                "attribute": "btn-position",
                 "defaultValue": "'right'"
             },
             "iconAvailable": {
@@ -489,8 +489,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon-available",
                 "reflect": false,
+                "attribute": "icon-available",
                 "defaultValue": "false"
             },
             "icon": {
@@ -509,8 +509,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon",
                 "reflect": false,
+                "attribute": "icon",
                 "defaultValue": "''"
             },
             "item": {
@@ -529,8 +529,8 @@ export class IrModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "item",
                 "reflect": false,
+                "attribute": "item",
                 "defaultValue": "{}"
             }
         };
@@ -636,4 +636,3 @@ export class IrModal {
             }];
     }
 }
-//# sourceMappingURL=ir-modal.js.map

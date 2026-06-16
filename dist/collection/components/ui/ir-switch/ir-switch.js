@@ -98,8 +98,8 @@ export class IrSwitch {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "checked",
                 "reflect": false,
+                "attribute": "checked",
                 "defaultValue": "false"
             },
             "switchId": {
@@ -118,8 +118,8 @@ export class IrSwitch {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "switch-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "switch-id"
             },
             "disabled": {
                 "type": "boolean",
@@ -137,8 +137,8 @@ export class IrSwitch {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             }
         };
@@ -162,4 +162,3 @@ export class IrSwitch {
             }];
     }
 }
-//# sourceMappingURL=ir-switch.js.map

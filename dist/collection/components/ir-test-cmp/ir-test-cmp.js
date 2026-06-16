@@ -33,4 +33,3 @@ export class IrTestCmp {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-test-cmp.js.map

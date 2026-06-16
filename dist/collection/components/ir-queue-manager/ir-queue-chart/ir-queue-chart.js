@@ -165,8 +165,8 @@ export class IrQueueChart {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'Queue Status'"
             }
         };
@@ -182,4 +182,3 @@ export class IrQueueChart {
             }];
     }
 }
-//# sourceMappingURL=ir-queue-chart.js.map

@@ -1,8 +1,1 @@
-import { I as IrTasksTablePagination$1, d as defineCustomElement$1 } from './ir-tasks-table-pagination2.js';
-
-const IrTasksTablePagination = IrTasksTablePagination$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrTasksTablePagination, defineCustomElement };
-
-//# sourceMappingURL=ir-tasks-table-pagination.js.map
+import{I as a,d as s}from"./ir-tasks-table-pagination2.js";const t=a,o=s;export{t as IrTasksTablePagination,o as defineCustomElement}

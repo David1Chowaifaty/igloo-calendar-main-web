@@ -165,7 +165,8 @@ export class IrGuestBilling {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -217,4 +218,3 @@ export class IrGuestBilling {
             }];
     }
 }
-//# sourceMappingURL=ir-guest-billing.js.map

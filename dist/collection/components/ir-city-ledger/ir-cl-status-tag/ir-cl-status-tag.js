@@ -57,12 +57,14 @@ export class IrClStatusTag {
                         "FolioRow": {
                             "location": "import",
                             "path": "../ir-city-ledger-folio/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         },
                         "FiscalDocument": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::FiscalDocument"
+                            "id": "src/services/city-ledger/index.ts::FiscalDocument",
+                            "referenceLocation": "FiscalDocument"
                         }
                     }
                 },
@@ -91,11 +93,10 @@ export class IrClStatusTag {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": false,
+                "attribute": "size",
                 "defaultValue": "'extra-small'"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-status-tag.js.map

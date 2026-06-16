@@ -1,7 +1,6 @@
-import { r as registerInstance, h, H as Host } from './index-7e96440e.js';
+import { r as registerInstance, h, H as Host } from './index-DsP1thJ-.js';
 
-const irAgentAssignmentFormCss = ".sc-ir-agent-assignment-form-h{display:block}";
-const IrAgentAssignmentFormStyle0 = irAgentAssignmentFormCss;
+const irAgentAssignmentFormCss = () => `.sc-ir-agent-assignment-form-h{display:block}`;
 
 const IrAgentAssignmentForm = class {
     constructor(hostRef) {
@@ -11,8 +10,6 @@ const IrAgentAssignmentForm = class {
         return (h(Host, { key: 'f64cf0b4e7b2d4a124649fef1b0e238de0fa0e2e' }, h("slot", { key: 'ad425b95edf76bea1e5f1039b7221fa63036e102' })));
     }
 };
-IrAgentAssignmentForm.style = IrAgentAssignmentFormStyle0;
+IrAgentAssignmentForm.style = irAgentAssignmentFormCss();
 
 export { IrAgentAssignmentForm as ir_agent_assignment_form };
-
-//# sourceMappingURL=ir-agent-assignment-form.entry.js.map

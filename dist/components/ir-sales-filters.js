@@ -1,8 +1,1 @@
-import { I as IrSalesFilters$1, d as defineCustomElement$1 } from './ir-sales-filters2.js';
-
-const IrSalesFilters = IrSalesFilters$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrSalesFilters, defineCustomElement };
-
-//# sourceMappingURL=ir-sales-filters.js.map
+import{I as s,d as r}from"./ir-sales-filters2.js";const o=s,t=r;export{o as IrSalesFilters,t as defineCustomElement}

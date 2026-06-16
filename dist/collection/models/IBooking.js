@@ -51,4 +51,3 @@ export var Code;
     Code["The001"] = "001";
     Code["The002"] = "002";
 })(Code || (Code = {}));
-//# sourceMappingURL=IBooking.js.map

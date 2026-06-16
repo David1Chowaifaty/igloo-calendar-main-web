@@ -35,8 +35,8 @@ export class IrPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "description": {
                 "type": "string",
@@ -54,10 +54,9 @@ export class IrPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "description",
-                "reflect": false
+                "reflect": false,
+                "attribute": "description"
             }
         };
     }
 }
-//# sourceMappingURL=ir-page.js.map

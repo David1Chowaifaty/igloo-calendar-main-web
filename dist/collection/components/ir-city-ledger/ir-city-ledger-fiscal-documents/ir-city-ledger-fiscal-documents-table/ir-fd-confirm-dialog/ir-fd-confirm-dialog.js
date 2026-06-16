@@ -75,8 +75,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": false,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "action": {
@@ -101,8 +101,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "action",
                 "reflect": false,
+                "attribute": "action",
                 "defaultValue": "null"
             },
             "docNumber": {
@@ -121,8 +121,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "doc-number",
                 "reflect": false,
+                "attribute": "doc-number",
                 "defaultValue": "'this document'"
             },
             "isConfirming": {
@@ -141,8 +141,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-confirming",
                 "reflect": false,
+                "attribute": "is-confirming",
                 "defaultValue": "false"
             },
             "amount": {
@@ -161,8 +161,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "amount",
-                "reflect": false
+                "reflect": false,
+                "attribute": "amount"
             },
             "fdType": {
                 "type": "string",
@@ -180,8 +180,8 @@ export class IrFdConfirmDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "fd-type",
-                "reflect": false
+                "reflect": false,
+                "attribute": "fd-type"
             }
         };
     }
@@ -225,4 +225,3 @@ export class IrFdConfirmDialog {
             }];
     }
 }
-//# sourceMappingURL=ir-fd-confirm-dialog.js.map

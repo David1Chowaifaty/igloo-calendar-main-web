@@ -163,8 +163,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "token",
                 "reflect": false,
+                "attribute": "token",
                 "defaultValue": "''"
             },
             "bookingNumber": {
@@ -183,8 +183,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
                 "reflect": false,
+                "attribute": "booking-number",
                 "defaultValue": "''"
             },
             "language": {
@@ -203,8 +203,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "propertyid": {
@@ -223,8 +223,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "mode": {
                 "type": "string",
@@ -242,8 +242,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "countries": {
@@ -262,8 +262,8 @@ export class IrBookingPrinting {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "countries",
-                "reflect": false
+                "reflect": false,
+                "attribute": "countries"
             }
         };
     }
@@ -282,4 +282,3 @@ export class IrBookingPrinting {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-printing.js.map

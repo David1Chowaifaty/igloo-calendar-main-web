@@ -118,8 +118,8 @@ export class IrSuccessLoader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "spinner-duration",
                 "reflect": false,
+                "attribute": "spinner-duration",
                 "defaultValue": "1500"
             },
             "successDuration": {
@@ -138,8 +138,8 @@ export class IrSuccessLoader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "success-duration",
                 "reflect": false,
+                "attribute": "success-duration",
                 "defaultValue": "1000"
             },
             "autoStart": {
@@ -158,8 +158,8 @@ export class IrSuccessLoader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-start",
                 "reflect": false,
+                "attribute": "auto-start",
                 "defaultValue": "true"
             },
             "active": {
@@ -178,8 +178,8 @@ export class IrSuccessLoader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "active",
                 "reflect": true,
+                "attribute": "active",
                 "defaultValue": "true"
             }
         };
@@ -220,4 +220,3 @@ export class IrSuccessLoader {
             }];
     }
 }
-//# sourceMappingURL=ir-success-loader.js.map

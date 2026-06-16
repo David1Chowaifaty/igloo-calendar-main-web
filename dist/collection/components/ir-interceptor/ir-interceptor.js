@@ -325,7 +325,8 @@ export class IrInterceptor {
                         "IToast": {
                             "location": "import",
                             "path": "@components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -341,4 +342,3 @@ export class IrInterceptor {
             }];
     }
 }
-//# sourceMappingURL=ir-interceptor.js.map

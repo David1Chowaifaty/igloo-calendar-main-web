@@ -1,8 +1,1 @@
-import { I as IrApplicablePolicies$1, d as defineCustomElement$1 } from './ir-applicable-policies2.js';
-
-const IrApplicablePolicies = IrApplicablePolicies$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrApplicablePolicies, defineCustomElement };
-
-//# sourceMappingURL=ir-applicable-policies.js.map
+import{I as i,d as o}from"./ir-applicable-policies2.js";const p=i,s=o;export{p as IrApplicablePolicies,s as defineCustomElement}

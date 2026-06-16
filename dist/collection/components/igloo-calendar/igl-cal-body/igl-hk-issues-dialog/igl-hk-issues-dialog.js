@@ -112,8 +112,8 @@ export class IglHkIssuesDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": false,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "unitId": {
@@ -132,8 +132,8 @@ export class IglHkIssuesDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit-id"
             },
             "unitName": {
                 "type": "string",
@@ -151,8 +151,8 @@ export class IglHkIssuesDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unit-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unit-name"
             },
             "propertyId": {
                 "type": "number",
@@ -170,8 +170,8 @@ export class IglHkIssuesDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "issues": {
                 "type": "unknown",
@@ -183,7 +183,8 @@ export class IglHkIssuesDialog {
                         "HKIssue": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::HKIssue"
+                            "id": "src/models/housekeeping.ts::HKIssue",
+                            "referenceLocation": "HKIssue"
                         }
                     }
                 },
@@ -233,4 +234,3 @@ export class IglHkIssuesDialog {
             }];
     }
 }
-//# sourceMappingURL=igl-hk-issues-dialog.js.map

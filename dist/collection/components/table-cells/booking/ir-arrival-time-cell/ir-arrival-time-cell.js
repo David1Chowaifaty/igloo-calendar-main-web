@@ -36,8 +36,8 @@ export class IrArrivalTimeCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'block'"
             },
             "arrival": {
@@ -50,7 +50,8 @@ export class IrArrivalTimeCell {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -79,10 +80,9 @@ export class IrArrivalTimeCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "arrival-time-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "arrival-time-label"
             }
         };
     }
 }
-//# sourceMappingURL=ir-arrival-time-cell.js.map

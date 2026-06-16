@@ -172,4 +172,3 @@ function clampPage(page, totalPages) {
     return Math.min(Math.max(normalizedPage, 1), Math.max(totalPages, 1));
 }
 initializeArrivalsStore();
-//# sourceMappingURL=arrivals.store.js.map

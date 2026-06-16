@@ -228,8 +228,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": true,
+                "attribute": "label",
                 "defaultValue": "'Preview'"
             },
             "open": {
@@ -248,8 +248,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": true,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "action": {
@@ -273,8 +273,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "action",
                 "reflect": false,
+                "attribute": "action",
                 "defaultValue": "'print'"
             },
             "downloadUrl": {
@@ -293,8 +293,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "download-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "download-url"
             },
             "downloadFileName": {
                 "type": "string",
@@ -312,8 +312,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "download-file-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "download-file-name"
             },
             "hideDefaultAction": {
                 "type": "boolean",
@@ -331,8 +331,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hide-default-action",
                 "reflect": false,
+                "attribute": "hide-default-action",
                 "defaultValue": "false"
             },
             "actionButtonLabel": {
@@ -351,8 +351,8 @@ export class IrPreviewScreenDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "action-button-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "action-button-label"
             }
         };
     }
@@ -479,4 +479,3 @@ export class IrPreviewScreenDialog {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-preview-screen-dialog.js.map

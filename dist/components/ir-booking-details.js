@@ -1,8 +1,1 @@
-import { I as IrBookingDetails$1, d as defineCustomElement$1 } from './ir-booking-details2.js';
-
-const IrBookingDetails = IrBookingDetails$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrBookingDetails, defineCustomElement };
-
-//# sourceMappingURL=ir-booking-details.js.map
+import{I as o,d as s}from"./ir-booking-details2.js";const i=o,r=s;export{i as IrBookingDetails,r as defineCustomElement}

@@ -127,8 +127,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "toDate": {
                 "type": "string",
@@ -146,8 +146,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "entryDate": {
                 "type": "string",
@@ -165,8 +165,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "entry-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "entry-date"
             },
             "entryHour": {
                 "type": "number",
@@ -184,8 +184,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "entry-hour",
-                "reflect": false
+                "reflect": false,
+                "attribute": "entry-hour"
             },
             "isEventHover": {
                 "type": "boolean",
@@ -203,8 +203,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-event-hover",
                 "reflect": false,
+                "attribute": "is-event-hover",
                 "defaultValue": "false"
             },
             "entryMinute": {
@@ -223,8 +223,8 @@ export class IglBlockDatesView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "entry-minute",
-                "reflect": false
+                "reflect": false,
+                "attribute": "entry-minute"
             }
         };
     }
@@ -252,4 +252,3 @@ export class IglBlockDatesView {
             }];
     }
 }
-//# sourceMappingURL=igl-block-dates-view.js.map

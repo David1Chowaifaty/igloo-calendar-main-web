@@ -160,8 +160,8 @@ export class IrClFiscalDocumentPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyId": {
                 "type": "number",
@@ -179,8 +179,8 @@ export class IrClFiscalDocumentPreview {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             }
         };
     }
@@ -226,4 +226,3 @@ export class IrClFiscalDocumentPreview {
             }];
     }
 }
-//# sourceMappingURL=ir-cl-fiscal-document-preview.js.map

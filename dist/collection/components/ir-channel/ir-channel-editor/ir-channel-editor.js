@@ -117,8 +117,8 @@ export class IrChannelEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "channel_status",
                 "reflect": false,
+                "attribute": "channel_status",
                 "defaultValue": "null"
             },
             "ticket": {
@@ -137,8 +137,8 @@ export class IrChannelEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -199,7 +199,8 @@ export class IrChannelEditor {
                         "IToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -215,4 +216,3 @@ export class IrChannelEditor {
             }];
     }
 }
-//# sourceMappingURL=ir-channel-editor.js.map

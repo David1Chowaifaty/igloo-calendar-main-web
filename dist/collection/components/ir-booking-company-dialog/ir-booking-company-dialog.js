@@ -51,7 +51,8 @@ export class IrBookingCompanyDialog {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -104,7 +105,8 @@ export class IrBookingCompanyDialog {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
@@ -149,4 +151,3 @@ export class IrBookingCompanyDialog {
         };
     }
 }
-//# sourceMappingURL=ir-booking-company-dialog.js.map

@@ -276,8 +276,8 @@ export class IglToBeAssigned {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unassigned-dates-prop",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unassigned-dates-prop"
             },
             "propertyid": {
                 "type": "number",
@@ -295,8 +295,8 @@ export class IglToBeAssigned {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "from_date": {
                 "type": "string",
@@ -314,8 +314,8 @@ export class IglToBeAssigned {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from_date"
             },
             "to_date": {
                 "type": "string",
@@ -333,8 +333,8 @@ export class IglToBeAssigned {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to_date"
             },
             "calendarData": {
                 "type": "unknown",
@@ -465,4 +465,3 @@ export class IglToBeAssigned {
             }];
     }
 }
-//# sourceMappingURL=igl-to-be-assigned.js.map

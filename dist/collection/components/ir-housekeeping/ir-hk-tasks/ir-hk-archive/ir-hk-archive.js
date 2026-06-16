@@ -166,8 +166,8 @@ export class IrHkArchive {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "language": {
                 "type": "string",
@@ -185,8 +185,8 @@ export class IrHkArchive {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "ticket": {
@@ -205,8 +205,8 @@ export class IrHkArchive {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -229,4 +229,3 @@ export class IrHkArchive {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-archive.js.map

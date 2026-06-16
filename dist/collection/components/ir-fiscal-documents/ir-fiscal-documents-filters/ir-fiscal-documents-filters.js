@@ -161,8 +161,8 @@ export class IrFiscalDocumentsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "filters": {
                 "type": "unknown",
@@ -174,7 +174,8 @@ export class IrFiscalDocumentsFilters {
                         "FiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters"
+                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters",
+                            "referenceLocation": "FiscalDocumentFilters"
                         }
                     }
                 },
@@ -216,7 +217,8 @@ export class IrFiscalDocumentsFilters {
                         "FiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters"
+                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters",
+                            "referenceLocation": "FiscalDocumentFilters"
                         }
                     }
                 }
@@ -237,7 +239,8 @@ export class IrFiscalDocumentsFilters {
                         "FiscalDocumentFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters"
+                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentFilters",
+                            "referenceLocation": "FiscalDocumentFilters"
                         }
                     }
                 }
@@ -253,4 +256,3 @@ export class IrFiscalDocumentsFilters {
 __decorate([
     Debounce(300)
 ], IrFiscalDocumentsFilters.prototype, "emitSearchDebounced", null);
-//# sourceMappingURL=ir-fiscal-documents-filters.js.map

@@ -88,7 +88,8 @@ export class IrMealGuestList {
                         "MealGuestEntry": {
                             "location": "import",
                             "path": "@/services/meal-report/types",
-                            "id": "src/services/meal-report/types.ts::MealGuestEntry"
+                            "id": "src/services/meal-report/types.ts::MealGuestEntry",
+                            "referenceLocation": "MealGuestEntry"
                         }
                     }
                 },
@@ -110,4 +111,3 @@ export class IrMealGuestList {
         };
     }
 }
-//# sourceMappingURL=ir-meal-guest-list.js.map

@@ -37,7 +37,8 @@ export class IrRevenueRow {
                         "FolioPayment": {
                             "location": "import",
                             "path": "../../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::FolioPayment"
+                            "id": "src/components/ir-daily-revenue/types.ts::FolioPayment",
+                            "referenceLocation": "FolioPayment"
                         }
                     }
                 },
@@ -67,11 +68,10 @@ export class IrRevenueRow {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "group-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "group-name"
             }
         };
     }
     static get elementRef() { return "host"; }
 }
-//# sourceMappingURL=ir-revenue-row.js.map

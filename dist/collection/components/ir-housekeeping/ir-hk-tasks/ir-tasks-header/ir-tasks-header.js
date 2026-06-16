@@ -74,4 +74,3 @@ export class IrTasksHeader {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-tasks-header.js.map

@@ -36,8 +36,8 @@ export class IrClInvoiceVatAmountCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency-symbol"
             },
             "amount": {
                 "type": "number",
@@ -55,10 +55,9 @@ export class IrClInvoiceVatAmountCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "amount",
-                "reflect": false
+                "reflect": false,
+                "attribute": "amount"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-vat-amount-cell.js.map

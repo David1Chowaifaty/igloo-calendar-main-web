@@ -1,8 +1,1 @@
-import { I as IrPrintingPickup$1, d as defineCustomElement$1 } from './ir-printing-pickup2.js';
-
-const IrPrintingPickup = IrPrintingPickup$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPrintingPickup, defineCustomElement };
-
-//# sourceMappingURL=ir-printing-pickup.js.map
+import{I as i,d as p}from"./ir-printing-pickup2.js";const r=i,o=p;export{r as IrPrintingPickup,o as defineCustomElement}

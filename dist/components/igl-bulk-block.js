@@ -1,8 +1,1 @@
-import { I as IglBulkBlock$1, d as defineCustomElement$1 } from './igl-bulk-block2.js';
-
-const IglBulkBlock = IglBulkBlock$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglBulkBlock, defineCustomElement };
-
-//# sourceMappingURL=igl-bulk-block.js.map
+import{I as o,d as s}from"./igl-bulk-block2.js";const l=o,r=s;export{l as IglBulkBlock,r as defineCustomElement}

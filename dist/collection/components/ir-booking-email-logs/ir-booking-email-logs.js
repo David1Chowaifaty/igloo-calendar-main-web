@@ -57,8 +57,8 @@ export class IrBookingEmailLogs {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -75,4 +75,3 @@ export class IrBookingEmailLogs {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-email-logs.js.map

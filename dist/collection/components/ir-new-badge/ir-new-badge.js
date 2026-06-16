@@ -16,4 +16,3 @@ export class IrNewBadge {
         };
     }
 }
-//# sourceMappingURL=ir-new-badge.js.map

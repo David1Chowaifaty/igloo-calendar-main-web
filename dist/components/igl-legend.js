@@ -1,8 +1,1 @@
-import { I as IglLegend$1, d as defineCustomElement$1 } from './igl-legend2.js';
-
-const IglLegend = IglLegend$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglLegend, defineCustomElement };
-
-//# sourceMappingURL=igl-legend.js.map
+import{I as o,d as s}from"./igl-legend2.js";const e=o,r=s;export{e as IglLegend,r as defineCustomElement}

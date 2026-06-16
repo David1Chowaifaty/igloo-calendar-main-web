@@ -328,4 +328,3 @@ export class IglBookPropertyService {
         selectedUnits.set(room_id, new Map().set(ratePlanId, data));
     }
 }
-//# sourceMappingURL=igl-book-property.service.js.map

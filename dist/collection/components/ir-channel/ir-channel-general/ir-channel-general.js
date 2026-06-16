@@ -71,8 +71,8 @@ export class IrChannelGeneral {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "channel_status",
                 "reflect": false,
+                "attribute": "channel_status",
                 "defaultValue": "null"
             }
         };
@@ -103,4 +103,3 @@ export class IrChannelGeneral {
             }];
     }
 }
-//# sourceMappingURL=ir-channel-general.js.map

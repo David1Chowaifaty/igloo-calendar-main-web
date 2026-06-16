@@ -69,8 +69,8 @@ export class IrCityLedgerTransactionDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": true,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "formId": {
@@ -89,8 +89,8 @@ export class IrCityLedgerTransactionDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
                 "reflect": false,
+                "attribute": "form-id",
                 "defaultValue": "'city-ledger-transaction-form'"
             },
             "drawerLabel": {
@@ -109,8 +109,8 @@ export class IrCityLedgerTransactionDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "drawer-label",
                 "reflect": false,
+                "attribute": "drawer-label",
                 "defaultValue": "'New Entry'"
             },
             "agent": {
@@ -118,12 +118,13 @@ export class IrCityLedgerTransactionDrawer {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent | null",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -147,7 +148,8 @@ export class IrCityLedgerTransactionDrawer {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -171,7 +173,8 @@ export class IrCityLedgerTransactionDrawer {
                         "TransactionType": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TransactionType"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::TransactionType",
+                            "referenceLocation": "TransactionType"
                         }
                     }
                 },
@@ -183,8 +186,8 @@ export class IrCityLedgerTransactionDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-transaction-type",
                 "reflect": false,
+                "attribute": "initial-transaction-type",
                 "defaultValue": "'OB'"
             },
             "unpaidInvoiceOptions": {
@@ -197,7 +200,8 @@ export class IrCityLedgerTransactionDrawer {
                         "LinkedOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -221,7 +225,8 @@ export class IrCityLedgerTransactionDrawer {
                         "LinkedOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::LinkedOption",
+                            "referenceLocation": "LinkedOption"
                         }
                     }
                 },
@@ -245,7 +250,8 @@ export class IrCityLedgerTransactionDrawer {
                         "ServiceCategoryOption": {
                             "location": "import",
                             "path": "./ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::ServiceCategoryOption"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/ir-city-ledger-transaction-drawer/ir-city-ledger-transaction-form/ir-city-ledger-transaction-form.schema.ts::ServiceCategoryOption",
+                            "referenceLocation": "ServiceCategoryOption"
                         }
                     }
                 },
@@ -269,7 +275,8 @@ export class IrCityLedgerTransactionDrawer {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::ClTx"
+                            "id": "src/services/city-ledger/index.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -324,4 +331,3 @@ export class IrCityLedgerTransactionDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-transaction-drawer.js.map

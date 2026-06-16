@@ -1,23 +1,21 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var Token = require('./Token-mN7PQKGF.js');
+var locales_store = require('./locales.store-CUKWeY9v.js');
+var room_service = require('./room.service-CEI-2_Au.js');
+var booking_store = require('./booking.store-KcQb3-Ei.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
+require('./index-yPf-buWw.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-CLqkDPTC.js');
+require('./utils-CldsIwq_.js');
+require('./moment-CdViwxPQ.js');
+require('./type-Dy9pVS4V.js');
+require('./booking-BALwuGdJ.js');
 
-const index = require('./index-35d81173.js');
-const Token = require('./Token-fb15e0d7.js');
-const locales_store = require('./locales.store-32782582.js');
-const room_service = require('./room.service-f9117e70.js');
-const booking_store = require('./booking.store-1346a1f5.js');
-require('./axios-6e678d52.js');
-require('./index-fbf1fe1d.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-8bb117a0.js');
-require('./utils-410526d1.js');
-require('./moment-1780b03a.js');
-require('./type-53035218.js');
-require('./booking-07bbb19e.js');
-
-const irFinancialActionsCss = ".sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}";
-const IrFinancialActionsStyle0 = irFinancialActionsCss;
+const irFinancialActionsCss = () => `.sc-ir-financial-actions-h{display:block}.financial-actions__meta.sc-ir-financial-actions{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-financial-actions{flex:1 1 0%}@media (min-width: 768px){.financial-actions__meta.sc-ir-financial-actions{flex-direction:row}}`;
 
 const IrFinancialActions = class {
     constructor(hostRef) {
@@ -134,11 +132,11 @@ const IrFinancialActions = class {
             }, open: Boolean(this.sideBarEvent), showCloseButton: false, onIrSidebarToggle: this.handleSidebarClose }, this.renderSidebarBody())));
     }
     static get watchers() { return {
-        "ticket": ["ticketChanged"]
+        "ticket": [{
+                "ticketChanged": 0
+            }]
     }; }
 };
-IrFinancialActions.style = IrFinancialActionsStyle0;
+IrFinancialActions.style = irFinancialActionsCss();
 
 exports.ir_financial_actions = IrFinancialActions;
-
-//# sourceMappingURL=ir-financial-actions.cjs.entry.js.map

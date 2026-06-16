@@ -48,7 +48,8 @@ export class IrSalesByCountrySummary {
                         "SalesRecord": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-sales-by-country/types.ts::SalesRecord"
+                            "id": "src/components/ir-sales-by-country/types.ts::SalesRecord",
+                            "referenceLocation": "SalesRecord"
                         }
                     }
                 },
@@ -64,4 +65,3 @@ export class IrSalesByCountrySummary {
         };
     }
 }
-//# sourceMappingURL=ir-sales-by-country-summary.js.map

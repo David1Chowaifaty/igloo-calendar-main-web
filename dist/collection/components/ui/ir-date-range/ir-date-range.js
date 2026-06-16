@@ -222,8 +222,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "defaultData": {
@@ -262,8 +262,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": true,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "minDate": {
@@ -282,8 +282,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-date"
             },
             "dateLabel": {
                 "type": "string",
@@ -301,8 +301,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "date-label"
             },
             "maxDate": {
                 "type": "string",
@@ -320,8 +320,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-date"
             },
             "withDateDifference": {
                 "type": "boolean",
@@ -339,8 +339,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-date-difference",
                 "reflect": false,
+                "attribute": "with-date-difference",
                 "defaultValue": "true"
             },
             "variant": {
@@ -359,8 +359,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
                 "reflect": false,
+                "attribute": "variant",
                 "defaultValue": "'default'"
             },
             "hint": {
@@ -379,8 +379,8 @@ export class IrDateRange {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hint",
-                "reflect": false
+                "reflect": false,
+                "attribute": "hint"
             }
         };
     }
@@ -517,4 +517,3 @@ export class IrDateRange {
 __decorate([
     ClickOutside()
 ], IrDateRange.prototype, "closeDatePicker", null);
-//# sourceMappingURL=ir-date-range.js.map

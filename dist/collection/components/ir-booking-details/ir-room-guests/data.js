@@ -59,4 +59,3 @@ export const dateMask = {
         },
     },
 };
-//# sourceMappingURL=data.js.map

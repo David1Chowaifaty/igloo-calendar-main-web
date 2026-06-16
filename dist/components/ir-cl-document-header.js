@@ -1,8 +1,1 @@
-import { I as IrClDocumentHeader$1, d as defineCustomElement$1 } from './ir-cl-document-header2.js';
-
-const IrClDocumentHeader = IrClDocumentHeader$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrClDocumentHeader, defineCustomElement };
-
-//# sourceMappingURL=ir-cl-document-header.js.map
+import{I as o,d as r}from"./ir-cl-document-header2.js";const e=o,s=r;export{e as IrClDocumentHeader,s as defineCustomElement}

@@ -89,4 +89,3 @@ export const actions = (entries) => [
         },
     },
 ];
-//# sourceMappingURL=data.js.map

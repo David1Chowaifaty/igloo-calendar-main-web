@@ -92,8 +92,8 @@ export class IrInteractiveTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "popover-title",
                 "reflect": false,
+                "attribute": "popover-title",
                 "defaultValue": "''"
             },
             "irPopoverLeft": {
@@ -115,8 +115,8 @@ export class IrInteractiveTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ir-popover-left",
                 "reflect": false,
+                "attribute": "ir-popover-left",
                 "defaultValue": "'10px'"
             },
             "hkStatus": {
@@ -135,8 +135,8 @@ export class IrInteractiveTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hk-status",
                 "reflect": false,
+                "attribute": "hk-status",
                 "defaultValue": "false"
             },
             "cropSize": {
@@ -158,11 +158,10 @@ export class IrInteractiveTitle {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "crop-size",
                 "reflect": false,
+                "attribute": "crop-size",
                 "defaultValue": "20"
             }
         };
     }
 }
-//# sourceMappingURL=ir-interactive-title.js.map

@@ -8,4 +8,3 @@ export class InterceptorError extends Error {
         Object.setPrototypeOf(this, InterceptorError.prototype);
     }
 }
-//# sourceMappingURL=InterceptorError.js.map

@@ -205,8 +205,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
-                "reflect": false
+                "reflect": false,
+                "attribute": "error"
             },
             "maxLength": {
                 "type": "number",
@@ -224,8 +224,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "max-length",
-                "reflect": false
+                "reflect": false,
+                "attribute": "max-length"
             },
             "value": {
                 "type": "string",
@@ -243,8 +243,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": false,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "readOnly": {
@@ -263,8 +263,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "read-only",
                 "reflect": false,
+                "attribute": "read-only",
                 "defaultValue": "false"
             },
             "userCanEdit": {
@@ -283,8 +283,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-can-edit",
                 "reflect": false,
+                "attribute": "user-can-edit",
                 "defaultValue": "true"
             },
             "placeholder": {
@@ -303,8 +303,8 @@ export class IrTextEditor {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "toolbarConfig": {
                 "type": "unknown",
@@ -368,4 +368,3 @@ export class IrTextEditor {
             }];
     }
 }
-//# sourceMappingURL=ir-text-editor.js.map

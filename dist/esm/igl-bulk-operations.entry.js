@@ -1,16 +1,14 @@
-import { r as registerInstance, c as createEvent, h } from './index-7e96440e.js';
+import { r as registerInstance, c as createEvent, h } from './index-DsP1thJ-.js';
 
-const iglBulkOperationsCss = ".bulk-operations-sheet-container.sc-igl-bulk-operations{display:flex;flex-direction:column;height:auto !important;min-height:100vh;background:white !important}.animated-container.sc-igl-bulk-operations{transition:all 0.5s ease}.tabs.sc-igl-bulk-operations{position:sticky;top:var(--ir-tabs-top, 54px);background-color:white;z-index:9999999;padding-top:1rem;margin-bottom:1rem}";
-const IglBulkOperationsStyle0 = iglBulkOperationsCss;
+const iglBulkOperationsCss = () => `.bulk-operations-sheet-container.sc-igl-bulk-operations{display:flex;flex-direction:column;height:auto !important;min-height:100vh;background:white !important}.animated-container.sc-igl-bulk-operations{transition:all 0.5s ease}.tabs.sc-igl-bulk-operations{position:sticky;top:var(--ir-tabs-top, 54px);background-color:white;z-index:9999999;padding-top:1rem;margin-bottom:1rem}`;
 
-const sheetCss = ".sc-igl-bulk-operations-h{height:100%}.sheet-container.sc-igl-bulk-operations{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-bulk-operations{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-bulk-operations{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-bulk-operations{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-bulk-operations{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-bulk-operations{flex-direction:row;align-items:center}}";
-const IglBulkOperationsStyle1 = sheetCss;
+const sheetCss = () => `.sc-igl-bulk-operations-h{height:100%}.sheet-container.sc-igl-bulk-operations{display:flex !important;flex-direction:column !important;background:white;height:100vh;gap:1rem;z-index:1000}.sheet-container.sc-igl-bulk-operations{height:-webkit-fill-available;height:100vh;height:100dvh}.sheet-footer.sc-igl-bulk-operations{position:sticky;bottom:0;z-index:20;background:white;border-top:1px solid #e4e5ec;display:flex;flex-direction:column;padding:1rem;gap:0.5rem}.sheet-header.sc-igl-bulk-operations{position:sticky;top:0;z-index:10;background:white}.sheet-body.sc-igl-bulk-operations{flex:1 1 0%}@media (min-width: 768px){.sheet-footer.sc-igl-bulk-operations{flex-direction:row;align-items:center}}`;
 
 const IglBulkOperations = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.closeModal = createEvent(this, "closeModal", 7);
-        this.toast = createEvent(this, "toast", 7);
+        this.closeModal = createEvent(this, "closeModal");
+        this.toast = createEvent(this, "toast");
     }
     maxDatesLength = 8;
     property_id;
@@ -45,8 +43,6 @@ const IglBulkOperations = class {
             label: 'Bulk Operations', displayContext: "sidebar" })), h("ir-tabs", { key: 'cb6326ed21c5eaa7447b2ec0b3c90148d18e3770', ref: el => (this.tabsEl = el), class: "tabs", tabs: this.tabs, onTabChanged: e => (this.selectedTab = e.detail) }), this.selectedTab?.id === 'stop-sale' ? (h("igl-bulk-stop-sale", { maxDatesLength: this.maxDatesLength, property_id: this.property_id })) : (h("igl-bulk-block", { maxDatesLength: this.maxDatesLength, property_id: this.property_id }))));
     }
 };
-IglBulkOperations.style = IglBulkOperationsStyle0 + IglBulkOperationsStyle1;
+IglBulkOperations.style = iglBulkOperationsCss() + sheetCss();
 
 export { IglBulkOperations as igl_bulk_operations };
-
-//# sourceMappingURL=igl-bulk-operations.entry.js.map

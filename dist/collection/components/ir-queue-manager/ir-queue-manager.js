@@ -106,8 +106,8 @@ export class IrQueueManager {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             }
         };
@@ -126,4 +126,3 @@ export class IrQueueManager {
             }];
     }
 }
-//# sourceMappingURL=ir-queue-manager.js.map

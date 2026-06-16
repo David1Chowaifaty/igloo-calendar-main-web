@@ -70,7 +70,8 @@ export class IrRevenueSummary {
                         "DailyPaymentFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::DailyPaymentFilter"
+                            "id": "src/components/ir-daily-revenue/types.ts::DailyPaymentFilter",
+                            "referenceLocation": "DailyPaymentFilter"
                         }
                     }
                 },
@@ -93,7 +94,8 @@ export class IrRevenueSummary {
                         "GroupedFolioPayment": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment"
+                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment",
+                            "referenceLocation": "GroupedFolioPayment"
                         }
                     }
                 },
@@ -117,7 +119,8 @@ export class IrRevenueSummary {
                         "GroupedFolioPayment": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment"
+                            "id": "src/components/ir-daily-revenue/types.ts::GroupedFolioPayment",
+                            "referenceLocation": "GroupedFolioPayment"
                         }
                     }
                 },
@@ -141,7 +144,8 @@ export class IrRevenueSummary {
                         "PaymentEntries": {
                             "location": "import",
                             "path": "@/components/ir-booking-details/types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries",
+                            "referenceLocation": "PaymentEntries"
                         }
                     }
                 },
@@ -157,4 +161,3 @@ export class IrRevenueSummary {
         };
     }
 }
-//# sourceMappingURL=ir-revenue-summary.js.map

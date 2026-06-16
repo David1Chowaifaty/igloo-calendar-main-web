@@ -1,8 +1,1 @@
-import { I as IglBookingOverviewPage$1, d as defineCustomElement$1 } from './igl-booking-overview-page2.js';
-
-const IglBookingOverviewPage = IglBookingOverviewPage$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglBookingOverviewPage, defineCustomElement };
-
-//# sourceMappingURL=igl-booking-overview-page.js.map
+import{I as o,d as e}from"./igl-booking-overview-page2.js";const i=o,r=e;export{i as IglBookingOverviewPage,r as defineCustomElement}

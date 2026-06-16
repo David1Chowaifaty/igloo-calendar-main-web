@@ -117,7 +117,8 @@ export class IrBookingGuarantee {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -140,7 +141,8 @@ export class IrBookingGuarantee {
                         "BookingService": {
                             "location": "import",
                             "path": "@/services/booking-service/booking.service",
-                            "id": "src/services/booking-service/booking.service.ts::BookingService"
+                            "id": "src/services/booking-service/booking.service.ts::BookingService",
+                            "referenceLocation": "BookingService"
                         }
                     }
                 },
@@ -163,4 +165,3 @@ export class IrBookingGuarantee {
         };
     }
 }
-//# sourceMappingURL=ir-booking-guarantee.js.map

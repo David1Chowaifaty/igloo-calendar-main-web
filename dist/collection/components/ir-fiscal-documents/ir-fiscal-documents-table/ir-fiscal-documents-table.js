@@ -293,7 +293,8 @@ export class IrFiscalDocumentsTable {
                         "FiscalDocumentRow": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentRow"
+                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalDocumentRow",
+                            "referenceLocation": "FiscalDocumentRow"
                         }
                     }
                 },
@@ -323,8 +324,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "currencies": {
@@ -337,7 +338,8 @@ export class IrFiscalDocumentsTable {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::ICurrency"
+                            "id": "src/models/property.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -367,8 +369,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "taxable-only",
                 "reflect": false,
+                "attribute": "taxable-only",
                 "defaultValue": "false"
             },
             "isLoading": {
@@ -387,8 +389,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "hasDates": {
@@ -407,8 +409,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-dates",
                 "reflect": false,
+                "attribute": "has-dates",
                 "defaultValue": "false"
             },
             "ticket": {
@@ -427,8 +429,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyId": {
                 "type": "number",
@@ -446,8 +448,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "fromDate": {
                 "type": "string",
@@ -465,8 +467,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
                 "reflect": false,
+                "attribute": "from-date",
                 "defaultValue": "null"
             },
             "toDate": {
@@ -485,8 +487,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
                 "reflect": false,
+                "attribute": "to-date",
                 "defaultValue": "null"
             },
             "hasFetched": {
@@ -505,8 +507,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-fetched",
                 "reflect": false,
+                "attribute": "has-fetched",
                 "defaultValue": "false"
             },
             "folioType": {
@@ -519,7 +521,8 @@ export class IrFiscalDocumentsTable {
                         "FiscalFolioType": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalFolioType"
+                            "id": "src/components/ir-fiscal-documents/types.ts::FiscalFolioType",
+                            "referenceLocation": "FiscalFolioType"
                         }
                     }
                 },
@@ -531,8 +534,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "folio-type",
                 "reflect": false,
+                "attribute": "folio-type",
                 "defaultValue": "'all'"
             },
             "agentId": {
@@ -551,8 +554,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "guestId": {
@@ -571,8 +574,8 @@ export class IrFiscalDocumentsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "guest-id",
                 "reflect": false,
+                "attribute": "guest-id",
                 "defaultValue": "null"
             }
         };
@@ -601,7 +604,8 @@ export class IrFiscalDocumentsTable {
                         "ClFiscalDocumentPreviewRequest": {
                             "location": "import",
                             "path": "@components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest",
+                            "referenceLocation": "ClFiscalDocumentPreviewRequest"
                         }
                     }
                 }
@@ -623,4 +627,3 @@ export class IrFiscalDocumentsTable {
             }];
     }
 }
-//# sourceMappingURL=ir-fiscal-documents-table.js.map

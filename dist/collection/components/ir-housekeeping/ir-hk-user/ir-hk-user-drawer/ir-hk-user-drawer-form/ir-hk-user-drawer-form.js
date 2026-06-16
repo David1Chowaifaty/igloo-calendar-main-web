@@ -192,8 +192,8 @@ export class IrHkUserDrawerForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-edit",
                 "reflect": false,
+                "attribute": "is-edit",
                 "defaultValue": "false"
             },
             "user": {
@@ -201,12 +201,13 @@ export class IrHkUserDrawerForm {
                 "mutable": false,
                 "complexType": {
                     "original": "THKUser | null",
-                    "resolved": "{ name: string; note: string; property_id: number; id: number; mobile: string; password: string; phone_prefix: string; username: string; }",
+                    "resolved": "{ name: string; id: number; note: string; property_id: number; mobile: string; password: string; phone_prefix: string; username: string; }",
                     "references": {
                         "THKUser": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::THKUser"
+                            "id": "src/models/housekeeping.ts::THKUser",
+                            "referenceLocation": "THKUser"
                         }
                     }
                 },
@@ -236,8 +237,8 @@ export class IrHkUserDrawerForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             }
         };
     }
@@ -302,4 +303,3 @@ export class IrHkUserDrawerForm {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-user-drawer-form.js.map

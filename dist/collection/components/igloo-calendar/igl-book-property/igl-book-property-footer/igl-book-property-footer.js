@@ -95,8 +95,8 @@ export class IglBookPropertyFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "event-type",
-                "reflect": false
+                "reflect": false,
+                "attribute": "event-type"
             },
             "page": {
                 "type": "string",
@@ -114,8 +114,8 @@ export class IglBookPropertyFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "page",
-                "reflect": false
+                "reflect": false,
+                "attribute": "page"
             },
             "isEditOrAddRoomEvent": {
                 "type": "boolean",
@@ -133,8 +133,8 @@ export class IglBookPropertyFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-edit-or-add-room-event",
-                "reflect": true
+                "reflect": true,
+                "attribute": "is-edit-or-add-room-event"
             },
             "dateRangeData": {
                 "type": "unknown",
@@ -169,8 +169,8 @@ export class IglBookPropertyFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             }
         };
     }
@@ -192,11 +192,11 @@ export class IglBookPropertyFooter {
                         "TPropertyButtonsTypes": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes"
+                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes",
+                            "referenceLocation": "TPropertyButtonsTypes"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=igl-book-property-footer.js.map

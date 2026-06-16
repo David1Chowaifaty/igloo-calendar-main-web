@@ -170,8 +170,8 @@ export class IrOptionDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             }
         };
     }
@@ -200,7 +200,8 @@ export class IrOptionDetails {
                         "PaymentOption": {
                             "location": "import",
                             "path": "@/models/payment-options",
-                            "id": "src/models/payment-options.ts::PaymentOption"
+                            "id": "src/models/payment-options.ts::PaymentOption",
+                            "referenceLocation": "PaymentOption"
                         }
                     }
                 }
@@ -216,4 +217,3 @@ export class IrOptionDetails {
             }];
     }
 }
-//# sourceMappingURL=ir-option-details.js.map

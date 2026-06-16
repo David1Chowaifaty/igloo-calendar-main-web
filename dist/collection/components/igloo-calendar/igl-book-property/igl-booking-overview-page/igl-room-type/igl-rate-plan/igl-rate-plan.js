@@ -190,7 +190,8 @@ export class IglRatePlan {
                         "RatePlan": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::RatePlan"
+                            "id": "src/models/property.ts::RatePlan",
+                            "referenceLocation": "RatePlan"
                         }
                     }
                 },
@@ -219,8 +220,8 @@ export class IglRatePlan {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-type-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-type-id"
             },
             "ratePricingMode": {
                 "type": "unknown",
@@ -278,8 +279,8 @@ export class IglRatePlan {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "should-be-disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "should-be-disabled"
             },
             "bookingType": {
                 "type": "string",
@@ -297,8 +298,8 @@ export class IglRatePlan {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-type",
                 "reflect": false,
+                "attribute": "booking-type",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "isBookDisabled": {
@@ -317,8 +318,8 @@ export class IglRatePlan {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-book-disabled",
                 "reflect": false,
+                "attribute": "is-book-disabled",
                 "defaultValue": "false"
             },
             "visibleInventory": {
@@ -331,7 +332,8 @@ export class IglRatePlan {
                         "IRatePlanSelection": {
                             "location": "import",
                             "path": "@/stores/booking.store",
-                            "id": "src/stores/booking.store.ts::IRatePlanSelection"
+                            "id": "src/stores/booking.store.ts::IRatePlanSelection",
+                            "referenceLocation": "IRatePlanSelection"
                         }
                     }
                 },
@@ -403,4 +405,3 @@ export class IglRatePlan {
             }];
     }
 }
-//# sourceMappingURL=igl-rate-plan.js.map

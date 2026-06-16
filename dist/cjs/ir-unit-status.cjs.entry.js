@@ -1,21 +1,19 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
+var housekeeping_service = require('./housekeeping.service-CveyDNa8.js');
+var locales_store = require('./locales.store-CUKWeY9v.js');
+require('./index-CLqkDPTC.js');
+require('./index-yPf-buWw.js');
+require('./axios-EresIryl.js');
+require('./_commonjsHelpers-BJu3ubxk.js');
 
-const index = require('./index-35d81173.js');
-const housekeeping_service = require('./housekeeping.service-8d06557d.js');
-const locales_store = require('./locales.store-32782582.js');
-require('./index-8bb117a0.js');
-require('./index-fbf1fe1d.js');
-require('./axios-6e678d52.js');
-
-const irUnitStatusCss = ".sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}";
-const IrUnitStatusStyle0 = irUnitStatusCss;
+const irUnitStatusCss = () => `.sc-ir-unit-status-h{display:block}.circle.sc-ir-unit-status{display:inline-flex;border-radius:50%}.green.sc-ir-unit-status{background:#57f707}.red.sc-ir-unit-status{background:rgb(199, 139, 36)}.orange.sc-ir-unit-status{background:#ff9149}.table-container.sc-ir-unit-status{width:100%;overflow-x:auto}.black.sc-ir-unit-status{background:#ff4961}table.sc-ir-unit-status{width:max-content}td.sc-ir-unit-status{min-width:140px;text-align:center;height:2rem}.smallcircle.sc-ir-unit-status{height:7px;width:7px}.bigcircle.sc-ir-unit-status{height:7px;width:7px}.status-container.sc-ir-unit-status,.action-container.sc-ir-unit-status{display:flex;align-items:center;gap:8px}.status-container.sc-ir-unit-status p.sc-ir-unit-status{margin:0}`;
 
 const IrUnitStatus = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.resetData = index.createEvent(this, "resetData", 7);
+        this.resetData = index.createEvent(this, "resetData");
     }
     housekeepingService = new housekeeping_service.HouseKeepingService();
     resetData;
@@ -58,8 +56,6 @@ const IrUnitStatus = class {
             }) })))))))))))));
     }
 };
-IrUnitStatus.style = IrUnitStatusStyle0;
+IrUnitStatus.style = irUnitStatusCss();
 
 exports.ir_unit_status = IrUnitStatus;
-
-//# sourceMappingURL=ir-unit-status.cjs.entry.js.map

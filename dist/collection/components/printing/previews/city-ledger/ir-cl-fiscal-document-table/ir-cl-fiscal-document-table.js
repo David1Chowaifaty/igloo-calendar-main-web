@@ -105,7 +105,8 @@ export class IrClFiscalDocumentTable {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::ClTx"
+                            "id": "src/services/city-ledger/index.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -135,8 +136,8 @@ export class IrClFiscalDocumentTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "invertAmounts": {
@@ -155,11 +156,10 @@ export class IrClFiscalDocumentTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "invert-amounts",
                 "reflect": false,
+                "attribute": "invert-amounts",
                 "defaultValue": "false"
             }
         };
     }
 }
-//# sourceMappingURL=ir-cl-fiscal-document-table.js.map

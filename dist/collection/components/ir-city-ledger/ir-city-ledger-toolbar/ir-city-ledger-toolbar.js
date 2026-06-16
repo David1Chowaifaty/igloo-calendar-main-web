@@ -68,8 +68,8 @@ export class IrCityLedgerToolbar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "currencySymbol": {
@@ -88,8 +88,8 @@ export class IrCityLedgerToolbar {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             }
         };
@@ -145,4 +145,3 @@ export class IrCityLedgerToolbar {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-toolbar.js.map

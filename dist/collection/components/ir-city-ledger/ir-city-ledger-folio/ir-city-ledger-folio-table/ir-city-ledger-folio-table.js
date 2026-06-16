@@ -342,8 +342,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "propertyId": {
@@ -362,8 +362,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "ticket": {
                 "type": "string",
@@ -381,8 +381,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "language": {
                 "type": "string",
@@ -400,8 +400,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "data": {
@@ -414,7 +414,8 @@ export class IrCityLedgerFolioTable {
                         "FolioRow": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 },
@@ -444,8 +445,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "startingBalance": {
@@ -464,8 +465,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "starting-balance",
                 "reflect": false,
+                "attribute": "starting-balance",
                 "defaultValue": "0"
             },
             "closingBalance": {
@@ -484,8 +485,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "closing-balance",
                 "reflect": false,
+                "attribute": "closing-balance",
                 "defaultValue": "0"
             },
             "totalCount": {
@@ -504,8 +505,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-count",
                 "reflect": false,
+                "attribute": "total-count",
                 "defaultValue": "0"
             },
             "pageIndex": {
@@ -524,8 +525,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "page-index",
                 "reflect": false,
+                "attribute": "page-index",
                 "defaultValue": "0"
             },
             "pageSize": {
@@ -544,8 +545,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "page-size",
                 "reflect": false,
+                "attribute": "page-size",
                 "defaultValue": "25"
             },
             "fromDate": {
@@ -564,8 +565,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
                 "reflect": false,
+                "attribute": "from-date",
                 "defaultValue": "''"
             },
             "toDate": {
@@ -584,8 +585,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
                 "reflect": false,
+                "attribute": "to-date",
                 "defaultValue": "''"
             },
             "hasFetched": {
@@ -604,8 +605,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-fetched",
                 "reflect": false,
+                "attribute": "has-fetched",
                 "defaultValue": "false"
             },
             "currencySymbol": {
@@ -624,8 +625,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "currencies": {
@@ -638,7 +639,8 @@ export class IrCityLedgerFolioTable {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::ICurrency"
+                            "id": "src/models/property.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -668,8 +670,8 @@ export class IrCityLedgerFolioTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "hide-balance-info",
                 "reflect": false,
+                "attribute": "hide-balance-info",
                 "defaultValue": "false"
             }
         };
@@ -717,7 +719,8 @@ export class IrCityLedgerFolioTable {
                         "FolioRow": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 }
@@ -753,7 +756,8 @@ export class IrCityLedgerFolioTable {
                         "FolioRow": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 }
@@ -774,7 +778,8 @@ export class IrCityLedgerFolioTable {
                         "FolioRow": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 }
@@ -787,4 +792,3 @@ export class IrCityLedgerFolioTable {
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-folio-table.js.map

@@ -64,4 +64,3 @@ export class IrLogin {
             }];
     }
 }
-//# sourceMappingURL=ir-login.js.map

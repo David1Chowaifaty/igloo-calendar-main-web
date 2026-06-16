@@ -75,8 +75,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-data"
             },
             "propertyId": {
                 "type": "number",
@@ -94,8 +94,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "message": {
                 "type": "string",
@@ -113,8 +113,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "message"
             },
             "showSplitBookingOption": {
                 "type": "boolean",
@@ -132,8 +132,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-split-booking-option",
-                "reflect": false
+                "reflect": false,
+                "attribute": "show-split-booking-option"
             },
             "eventType": {
                 "type": "string",
@@ -151,8 +151,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "event-type",
-                "reflect": false
+                "reflect": false,
+                "attribute": "event-type"
             },
             "currency": {
                 "type": "any",
@@ -170,8 +170,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "adultChildConstraints": {
                 "type": "unknown",
@@ -183,7 +183,8 @@ export class IglBookingOverviewPage {
                         "TAdultChildConstraints": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints"
+                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints",
+                            "referenceLocation": "TAdultChildConstraints"
                         }
                     }
                 },
@@ -212,8 +213,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "rate-pricing-mode",
-                "reflect": false
+                "reflect": false,
+                "attribute": "rate-pricing-mode"
             },
             "dateRangeData": {
                 "type": "any",
@@ -231,8 +232,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date-range-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "date-range-data"
             },
             "defaultDaterange": {
                 "type": "unknown",
@@ -289,8 +290,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booked-by-info-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booked-by-info-data"
             },
             "initialRoomIds": {
                 "type": "any",
@@ -308,8 +309,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "initial-room-ids",
-                "reflect": false
+                "reflect": false,
+                "attribute": "initial-room-ids"
             },
             "wasBlockedUnit": {
                 "type": "boolean",
@@ -327,8 +328,8 @@ export class IglBookingOverviewPage {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "was-blocked-unit",
-                "reflect": false
+                "reflect": false,
+                "attribute": "was-blocked-unit"
             }
         };
     }
@@ -351,4 +352,3 @@ export class IglBookingOverviewPage {
             }];
     }
 }
-//# sourceMappingURL=igl-booking-overview-page.js.map

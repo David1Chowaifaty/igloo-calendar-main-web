@@ -120,8 +120,8 @@ export class IrCityLedgerFolioFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-exporting",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-exporting"
             }
         };
     }
@@ -150,7 +150,8 @@ export class IrCityLedgerFolioFilters {
                         "FolioFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters",
+                            "referenceLocation": "FolioFilters"
                         }
                     }
                 }
@@ -186,7 +187,8 @@ export class IrCityLedgerFolioFilters {
                         "FolioFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioFilters",
+                            "referenceLocation": "FolioFilters"
                         }
                     }
                 }
@@ -211,4 +213,3 @@ export class IrCityLedgerFolioFilters {
 __decorate([
     Debounce(300)
 ], IrCityLedgerFolioFilters.prototype, "emitFiltersDebounced", null);
-//# sourceMappingURL=ir-city-ledger-folio-filters.js.map

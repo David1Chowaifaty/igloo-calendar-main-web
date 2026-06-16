@@ -26,4 +26,3 @@ export class AgentsService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=agents.service.js.map

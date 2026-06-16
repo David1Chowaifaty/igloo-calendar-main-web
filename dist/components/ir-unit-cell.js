@@ -1,8 +1,1 @@
-import { I as IrUnitCell$1, d as defineCustomElement$1 } from './ir-unit-cell2.js';
-
-const IrUnitCell = IrUnitCell$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrUnitCell, defineCustomElement };
-
-//# sourceMappingURL=ir-unit-cell.js.map
+import{I as o,d as r}from"./ir-unit-cell2.js";const s=o,t=r;export{s as IrUnitCell,t as defineCustomElement}

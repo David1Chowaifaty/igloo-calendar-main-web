@@ -54,4 +54,3 @@ export const onlineResources = [
     //   link: "https://x.igloorooms.com/manage/micro/app-assets/required/assets/scripts/daterangepicker/daterangepicker.js",
     // },
 ];
-//# sourceMappingURL=ir.common.resources.js.map

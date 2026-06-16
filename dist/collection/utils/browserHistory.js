@@ -96,4 +96,3 @@ export function pushHistory(path, state = {}) {
 export function replaceHistory(path, state = {}) {
     window.history.replaceState(state, '', path);
 }
-//# sourceMappingURL=browserHistory.js.map

@@ -36,8 +36,8 @@ export class IrIcon {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon",
                 "reflect": false,
+                "attribute": "icon",
                 "defaultValue": "'ft-check'"
             },
             "type": {
@@ -56,8 +56,8 @@ export class IrIcon {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "type",
                 "reflect": false,
+                "attribute": "type",
                 "defaultValue": "'button'"
             }
         };
@@ -81,4 +81,3 @@ export class IrIcon {
             }];
     }
 }
-//# sourceMappingURL=ir-icon.js.map

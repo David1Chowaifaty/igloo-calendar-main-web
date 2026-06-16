@@ -110,8 +110,8 @@ export class IrListingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "language": {
                 "type": "string",
@@ -129,8 +129,8 @@ export class IrListingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "p": {
                 "type": "string",
@@ -148,8 +148,8 @@ export class IrListingHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             }
         };
     }
@@ -178,4 +178,3 @@ export class IrListingHeader {
             }];
     }
 }
-//# sourceMappingURL=ir-listing-header.js.map

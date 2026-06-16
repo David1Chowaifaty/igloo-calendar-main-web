@@ -73,8 +73,8 @@ export class IrPasswordValidator {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "password",
                 "reflect": false,
+                "attribute": "password",
                 "defaultValue": "''"
             }
         };
@@ -104,4 +104,3 @@ export class IrPasswordValidator {
             }];
     }
 }
-//# sourceMappingURL=ir-password-validator.js.map

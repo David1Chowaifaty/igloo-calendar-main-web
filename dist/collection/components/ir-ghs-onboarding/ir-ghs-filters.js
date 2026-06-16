@@ -53,7 +53,8 @@ export class IrGhsFilters {
                         "ICountry": {
                             "location": "import",
                             "path": "../../models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -83,8 +84,8 @@ export class IrGhsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-country-id",
                 "reflect": false,
+                "attribute": "selected-country-id",
                 "defaultValue": "null"
             },
             "isLoading": {
@@ -103,8 +104,8 @@ export class IrGhsFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             }
         };
@@ -158,4 +159,3 @@ export class IrGhsFilters {
             }];
     }
 }
-//# sourceMappingURL=ir-ghs-filters.js.map

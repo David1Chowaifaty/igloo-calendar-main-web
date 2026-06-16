@@ -1,17 +1,16 @@
-import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment } from './index-7e96440e.js';
-import { l as locales } from './locales.store-cb784e95.js';
-import { v as v4 } from './v4-964634d6.js';
-import './index-f100e9d2.js';
+import { r as registerInstance, c as createEvent, d as getElement, h, F as Fragment } from './index-DsP1thJ-.js';
+import { l as locales } from './locales.store-CnCF03aI.js';
+import { v as v4 } from './v4-DD3477fe.js';
+import './index-ChvQumDv.js';
 
-const irComboboxCss = ".sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0;box-sizing:border-box}ul.sc-ir-combobox{position:absolute;box-sizing:border-box;margin:0;margin-top:2px;width:max-content;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto;min-width:100%}ul[data-position='bottom-right'].sc-ir-combobox{right:0}.list-item-image.sc-ir-combobox{height:1rem;aspect-ratio:4/3;border-radius:4px;margin-right:10px}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox{display:flex;align-items:center;flex-wrap:wrap;gap:3px}ul.sc-ir-combobox li.sc-ir-combobox p.sc-ir-combobox{margin:0;padding:0}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}";
-const IrComboboxStyle0 = irComboboxCss;
+const irComboboxCss = () => `.sc-ir-combobox-h{display:block;position:relative;padding:0;margin:0;box-sizing:border-box}ul.sc-ir-combobox{position:absolute;box-sizing:border-box;margin:0;margin-top:2px;width:max-content;max-height:80px;border-radius:0.21rem;z-index:10000;padding:1px;background:white;box-shadow:0px 8px 16px 0px rgba(0, 0, 0, 0.2);padding:5px 0;max-height:250px;overflow-y:auto;min-width:100%}ul[data-position='bottom-right'].sc-ir-combobox{right:0}.list-item-image.sc-ir-combobox{height:1rem;aspect-ratio:4/3;border-radius:4px;margin-right:10px}.dropdown-item.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox,span.sc-ir-combobox,loader-container.sc-ir-combobox{padding:0px 16px;margin:0px;margin-top:2px;width:100%;border-radius:2px}ul.sc-ir-combobox li.sc-ir-combobox{cursor:pointer}ul.sc-ir-combobox li.sc-ir-combobox{display:flex;align-items:center;flex-wrap:wrap;gap:3px}ul.sc-ir-combobox li.sc-ir-combobox p.sc-ir-combobox{margin:0;padding:0}ul.sc-ir-combobox li.sc-ir-combobox:hover{background:#f4f5fa}ul.sc-ir-combobox li[data-selected].sc-ir-combobox,ul.sc-ir-combobox li[data-selected].sc-ir-combobox:hover{color:#fff;text-decoration:none;background-color:#666ee8}`;
 
 const IrCombobox = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.comboboxValueChange = createEvent(this, "comboboxValueChange", 7);
-        this.inputCleared = createEvent(this, "inputCleared", 7);
-        this.toast = createEvent(this, "toast", 7);
+        this.comboboxValueChange = createEvent(this, "comboboxValueChange");
+        this.inputCleared = createEvent(this, "inputCleared");
+        this.toast = createEvent(this, "toast");
     }
     get el() { return getElement(this); }
     /**
@@ -287,11 +286,11 @@ const IrCombobox = class {
         return (h("form", { key: '9ee873f2e2d710ab4d97a49a1a3e4ee7139ae969', onSubmit: this.handleSubmit.bind(this), class: "m-0 p-0" }, h("input", { key: '50228bb29d0b6eced87d4cc98d82dc7cc992b01c', type: "text", class: "form-control bg-white", id: this.input_id, ref: el => (this.inputRef = el), disabled: this.disabled, value: this.value, placeholder: this.placeholder, onKeyDown: this.handleKeyDown.bind(this), onBlur: this.handleBlur.bind(this), onInput: this.handleInputChange.bind(this), onFocus: this.handleFocus.bind(this), autoFocus: this.autoFocus }), this.renderDropdown()));
     }
     static get watchers() { return {
-        "isComboBoxVisible": ["watchHandler"]
+        "isComboBoxVisible": [{
+                "watchHandler": 0
+            }]
     }; }
 };
-IrCombobox.style = IrComboboxStyle0;
+IrCombobox.style = irComboboxCss();
 
 export { IrCombobox as ir_combobox };
-
-//# sourceMappingURL=ir-combobox.entry.js.map

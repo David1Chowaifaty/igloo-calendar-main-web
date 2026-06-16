@@ -1,8 +1,1 @@
-import { I as IrMealReportFilters$1, d as defineCustomElement$1 } from './ir-meal-report-filters2.js';
-
-const IrMealReportFilters = IrMealReportFilters$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrMealReportFilters, defineCustomElement };
-
-//# sourceMappingURL=ir-meal-report-filters.js.map
+import{I as r,d as o}from"./ir-meal-report-filters2.js";const s=r,t=o;export{s as IrMealReportFilters,t as defineCustomElement}

@@ -1,17 +1,14 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irColumnAutocompleteCss = ".sc-ir-column-autocomplete-h{display:block}.column-autocomplete__list.sc-ir-column-autocomplete{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;max-height:16rem;overflow:auto}.column-autocomplete__empty.sc-ir-column-autocomplete{color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.column-autocomplete__list.sc-ir-column-autocomplete,.column-autocomplete__input-container.sc-ir-column-autocomplete{padding:1rem}.column-autocomplete__input-container.sc-ir-column-autocomplete{padding-bottom:0}.column-autocomplete__popover.sc-ir-column-autocomplete::part(body){padding:0}";
-const IrColumnAutocompleteStyle0 = irColumnAutocompleteCss;
+const irColumnAutocompleteCss = () => `.sc-ir-column-autocomplete-h{display:block}.column-autocomplete__list.sc-ir-column-autocomplete{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;max-height:16rem;overflow:auto}.column-autocomplete__empty.sc-ir-column-autocomplete{color:var(--wa-color-text-quiet);font-size:var(--wa-font-size-s)}.column-autocomplete__list.sc-ir-column-autocomplete,.column-autocomplete__input-container.sc-ir-column-autocomplete{padding:1rem}.column-autocomplete__input-container.sc-ir-column-autocomplete{padding-bottom:0}.column-autocomplete__popover.sc-ir-column-autocomplete::part(body),.column-autocomplete__popover.sc-ir-column-autocomplete [part~="body"]{padding:0}`;
 
 const IrColumnAutocomplete = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.queryChange = index.createEvent(this, "queryChange", 7);
-        this.autocompleteSelectionChange = index.createEvent(this, "autocompleteSelectionChange", 7);
+        this.queryChange = index.createEvent(this, "queryChange");
+        this.autocompleteSelectionChange = index.createEvent(this, "autocompleteSelectionChange");
     }
     options = [];
     selectedValues = [];
@@ -109,12 +106,14 @@ const IrColumnAutocomplete = class {
         return (index.h(index.Host, { key: '6e4c085f95341197c1e0db08c0d6979c8d2f4041' }, index.h("wa-popover", { key: '858903480d3e186f8ca25244afe616f12cbe5980', placement: "bottom", for: this.generatedTriggerId, class: "column-autocomplete__popover" }, index.h("div", { key: '8131c7a34748094b565f33507bf6490b97f89a7e', class: "column-autocomplete__input-container" }, index.h("wa-input", { key: '986365b88cdf41f7cccb6c9737a8c5d03821a93b', size: "small", value: this.query, placeholder: this.placeholder, oninput: this.onQueryInput })), index.h("div", { key: 'ba05d35321c6ac2c778c3f4c21574de5efc836f9', class: "column-autocomplete__list" }, this.showSelectAll && (index.h("wa-checkbox", { key: 'f039a301ff1b951719deb8bb136694f556224a69', checked: this.areAllFilteredSelected, indeterminate: this.areSomeFilteredSelected, onchange: this.onToggleAll }, this.selectAllLabel)), filteredOptions.length > 0 ? (filteredOptions.map(option => (index.h("wa-checkbox", { checked: this.selected.includes(option), onchange: event => this.onToggleOption(event, option) }, option)))) : (index.h("div", { class: "column-autocomplete__empty" }, this.emptyLabel)))), index.h("div", { key: '3e8fdb3ca89bb33809261b2cbe39e175d20306ac', id: this.generatedTriggerId }, index.h("slot", { key: 'b429ec78fae5f97aad9de5c7092e816fc5ca551a', name: "trigger" }, index.h("wa-button", { key: 'e283518f1cd78e2958d9880a916941bcc388b001', size: "small", variant: "neutral", appearance: "plain", class: "header-button" }, index.h("wa-icon", { key: '367ab1430a1bfb875b3a4397d9a8fccb60a53e63', name: "filter" }))))));
     }
     static get watchers() { return {
-        "options": ["handleOptionsChange"],
-        "selectedValues": ["handleSelectedValuesChange"]
+        "options": [{
+                "handleOptionsChange": 0
+            }],
+        "selectedValues": [{
+                "handleSelectedValuesChange": 0
+            }]
     }; }
 };
-IrColumnAutocomplete.style = IrColumnAutocompleteStyle0;
+IrColumnAutocomplete.style = irColumnAutocompleteCss();
 
 exports.ir_column_autocomplete = IrColumnAutocomplete;
-
-//# sourceMappingURL=ir-column-autocomplete.cjs.entry.js.map

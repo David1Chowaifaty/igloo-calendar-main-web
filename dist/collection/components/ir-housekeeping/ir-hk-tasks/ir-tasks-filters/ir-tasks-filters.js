@@ -82,8 +82,8 @@ export class IrTasksFilters {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             }
         };
     }
@@ -111,11 +111,11 @@ export class IrTasksFilters {
                         "TaskFilters": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-housekeeping/ir-hk-tasks/types.ts::TaskFilters"
+                            "id": "src/components/ir-housekeeping/ir-hk-tasks/types.ts::TaskFilters",
+                            "referenceLocation": "TaskFilters"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-tasks-filters.js.map

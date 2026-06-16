@@ -195,4 +195,3 @@ export const ROOM_IN_OUT = {
     CHECKOUT: '002',
     IDLE: '000',
 };
-//# sourceMappingURL=booking.dto.js.map

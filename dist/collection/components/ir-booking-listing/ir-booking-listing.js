@@ -305,8 +305,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "ticket": {
@@ -325,8 +325,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -345,8 +345,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "rowCount": {
                 "type": "number",
@@ -364,8 +364,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "row-count",
                 "reflect": false,
+                "attribute": "row-count",
                 "defaultValue": "20"
             },
             "p": {
@@ -384,8 +384,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "baseUrl": {
                 "type": "string",
@@ -403,8 +403,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             },
             "userType": {
                 "type": "number",
@@ -422,8 +422,8 @@ export class IrBookingListing {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-type",
-                "reflect": false
+                "reflect": false,
+                "attribute": "user-type"
             }
         };
     }
@@ -502,4 +502,3 @@ export class IrBookingListing {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-listing.js.map

@@ -1,8 +1,1 @@
-import { I as IrOtp$1, d as defineCustomElement$1 } from './ir-otp2.js';
-
-const IrOtp = IrOtp$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrOtp, defineCustomElement };
-
-//# sourceMappingURL=ir-otp.js.map
+import{I as o,d as r}from"./ir-otp2.js";const s=o,t=r;export{s as IrOtp,t as defineCustomElement}

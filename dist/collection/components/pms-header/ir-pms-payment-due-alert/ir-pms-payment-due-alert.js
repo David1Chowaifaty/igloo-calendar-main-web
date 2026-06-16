@@ -78,8 +78,8 @@ export class IrPmsPaymentDueAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "ticket": {
                 "type": "string",
@@ -97,8 +97,8 @@ export class IrPmsPaymentDueAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseUrl": {
                 "type": "string",
@@ -116,8 +116,8 @@ export class IrPmsPaymentDueAlert {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             }
         };
     }
@@ -133,4 +133,3 @@ export class IrPmsPaymentDueAlert {
             }];
     }
 }
-//# sourceMappingURL=ir-pms-payment-due-alert.js.map

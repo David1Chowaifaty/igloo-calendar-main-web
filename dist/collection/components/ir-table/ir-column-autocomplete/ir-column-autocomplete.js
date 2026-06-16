@@ -161,8 +161,8 @@ export class IrColumnAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "'Search...'"
             },
             "selectAllLabel": {
@@ -181,8 +181,8 @@ export class IrColumnAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "select-all-label",
                 "reflect": false,
+                "attribute": "select-all-label",
                 "defaultValue": "'Select all'"
             },
             "emptyLabel": {
@@ -201,8 +201,8 @@ export class IrColumnAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "empty-label",
                 "reflect": false,
+                "attribute": "empty-label",
                 "defaultValue": "'No results found'"
             },
             "showSelectAll": {
@@ -221,8 +221,8 @@ export class IrColumnAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-select-all",
                 "reflect": false,
+                "attribute": "show-select-all",
                 "defaultValue": "true"
             },
             "triggerId": {
@@ -241,8 +241,8 @@ export class IrColumnAutocomplete {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "trigger-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "trigger-id"
             }
         };
     }
@@ -302,4 +302,3 @@ export class IrColumnAutocomplete {
             }];
     }
 }
-//# sourceMappingURL=ir-column-autocomplete.js.map

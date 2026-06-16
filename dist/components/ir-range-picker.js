@@ -1,8 +1,1 @@
-import { I as IrRangePicker$1, d as defineCustomElement$1 } from './ir-range-picker2.js';
-
-const IrRangePicker = IrRangePicker$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrRangePicker, defineCustomElement };
-
-//# sourceMappingURL=ir-range-picker.js.map
+import{I as r,d as o}from"./ir-range-picker2.js";const s=r,a=o;export{s as IrRangePicker,a as defineCustomElement}

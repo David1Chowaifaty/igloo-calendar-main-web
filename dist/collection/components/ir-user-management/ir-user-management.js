@@ -196,8 +196,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "''"
             },
             "baseUrl": {
@@ -216,8 +216,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             },
             "ticket": {
                 "type": "string",
@@ -235,8 +235,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "number",
@@ -254,8 +254,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -273,8 +273,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "isSuperAdmin": {
                 "type": "boolean",
@@ -292,8 +292,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-super-admin",
                 "reflect": false,
+                "attribute": "is-super-admin",
                 "defaultValue": "true"
             },
             "userTypeCode": {
@@ -312,8 +312,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "user-type-code"
             },
             "baseUserTypeCode": {
                 "type": "any",
@@ -331,8 +331,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-user-type-code",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-user-type-code"
             },
             "userId": {
                 "type": "any",
@@ -350,8 +350,8 @@ export class IrUserManagement {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "user-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "user-id"
             }
         };
     }
@@ -381,4 +381,3 @@ export class IrUserManagement {
             }];
     }
 }
-//# sourceMappingURL=ir-user-management.js.map

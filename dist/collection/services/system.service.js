@@ -26,4 +26,3 @@ export class SystemService {
         return data.My_Result;
     }
 }
-//# sourceMappingURL=system.service.js.map

@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-const index$1 = require('./index-35d81173.js');
+var index$1 = require('./index-D8WscJxs.js');
 
 /*!
  * @kurkle/color v0.3.4
@@ -669,11 +667,7 @@ function each(loopable, fn, thisArg, reverse) {
     let i, len, keys;
     if (isArray(loopable)) {
         len = loopable.length;
-        if (reverse) {
-            for(i = len - 1; i >= 0; i--){
-                fn.call(thisArg, loopable[i], i);
-            }
-        } else {
+        {
             for(i = 0; i < len; i++){
                 fn.call(thisArg, loopable[i], i);
             }
@@ -2188,25 +2182,13 @@ function _readValueToProps(value, props) {
  * @param info.cacheable - Will be set to `false` if option is not cacheable.
  * @since 2.7.0
  */ function resolve(inputs, context, index, info) {
-    let cacheable = true;
     let i, ilen, value;
     for(i = 0, ilen = inputs.length; i < ilen; ++i){
         value = inputs[i];
         if (value === undefined) {
             continue;
         }
-        if (context !== undefined && typeof value === 'function') {
-            value = value(context);
-            cacheable = false;
-        }
-        if (index !== undefined && isArray(value)) {
-            value = value[index % value.length];
-            cacheable = false;
-        }
         if (value !== undefined) {
-            if (info && !cacheable) {
-                info.cacheable = false;
-            }
             return value;
         }
     }
@@ -6172,7 +6154,6 @@ function binarySearch(metaset, axis, value, intersect) {
     return items;
 }
  var Interaction = {
-    evaluateInteractionItems,
     modes: {
  index (chart, e, options, useFinalPosition) {
             const position = getRelativePosition(e, chart);
@@ -6435,7 +6416,6 @@ function placeBoxes(boxes, chartArea, params, stacks) {
     for (const layout of boxes){
         const box = layout.box;
         const stack = stacks[layout.stack] || {
-            count: 1,
             placed: 0,
             weight: 1
         };
@@ -13858,14 +13838,14 @@ class LogarithmicScale extends Scale {
                 setMax(10);
             } else {
                 setMin(changeExponent(min, -1));
-                setMax(changeExponent(max, +1));
+                setMax(changeExponent(max, 1));
             }
         }
         if (min <= 0) {
             setMin(changeExponent(max, -1));
         }
         if (max <= 0) {
-            setMax(changeExponent(min, +1));
+            setMax(changeExponent(min, 1));
         }
         this.min = min;
         this.max = max;
@@ -14954,8 +14934,7 @@ const registerables = [
     scales
 ];
 
-const irQueueChartCss = ":host{display:block}";
-const IrQueueChartStyle0 = irQueueChartCss;
+const irQueueChartCss = () => `:host{display:block}`;
 
 Chart.register(...registerables);
 const IrQueueChart = class {
@@ -15061,12 +15040,14 @@ const IrQueueChart = class {
         return (index$1.h(index$1.Host, { key: '1e8130bddbe7f269e539cff21339a9a5f38cf255' }, index$1.h("div", { key: '4d19cbe45d3516a1a7abd59a2382afefc6a6ddf4', class: "chart-container" }, index$1.h("canvas", { key: 'd2f05149ca6d5da05de26681d8a5599219f3d659', ref: el => (this.canvas = el) }))));
     }
     static get watchers() { return {
-        "values": ["dataChanged"],
-        "labels": ["dataChanged"]
+        "values": [{
+                "dataChanged": 0
+            }],
+        "labels": [{
+                "dataChanged": 0
+            }]
     }; }
 };
-IrQueueChart.style = IrQueueChartStyle0;
+IrQueueChart.style = irQueueChartCss();
 
 exports.ir_queue_chart = IrQueueChart;
-
-//# sourceMappingURL=ir-queue-chart.cjs.entry.js.map

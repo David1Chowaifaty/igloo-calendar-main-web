@@ -245,8 +245,8 @@ export class IrGhsOnboarding {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseurl": {
                 "type": "string",
@@ -264,8 +264,8 @@ export class IrGhsOnboarding {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             }
         };
     }
@@ -290,4 +290,3 @@ export class IrGhsOnboarding {
             }];
     }
 }
-//# sourceMappingURL=ir-ghs-onboarding.js.map

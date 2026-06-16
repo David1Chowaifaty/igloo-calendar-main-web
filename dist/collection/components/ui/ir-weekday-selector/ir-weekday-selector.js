@@ -124,4 +124,3 @@ export class IrWeekdaySelector {
             }];
     }
 }
-//# sourceMappingURL=ir-weekday-selector.js.map

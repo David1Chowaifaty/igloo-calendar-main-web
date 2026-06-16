@@ -297,7 +297,8 @@ export class IglSpiltBookingForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -320,7 +321,8 @@ export class IglSpiltBookingForm {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -332,8 +334,8 @@ export class IglSpiltBookingForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             }
         };
     }
@@ -367,4 +369,3 @@ export class IglSpiltBookingForm {
             }];
     }
 }
-//# sourceMappingURL=igl-spilt-booking-form.js.map

@@ -141,4 +141,3 @@ export class HouseKeepingService {
         return data['My_Result'];
     }
 }
-//# sourceMappingURL=housekeeping.service.js.map

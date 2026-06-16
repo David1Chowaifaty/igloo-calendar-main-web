@@ -249,8 +249,8 @@ export class IglCalHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "unassignedDates": {
                 "type": "any",
@@ -268,8 +268,8 @@ export class IglCalHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "unassigned-dates",
-                "reflect": false
+                "reflect": false,
+                "attribute": "unassigned-dates"
             },
             "to_date": {
                 "type": "string",
@@ -287,8 +287,8 @@ export class IglCalHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to_date"
             },
             "highlightedDate": {
                 "type": "string",
@@ -306,8 +306,8 @@ export class IglCalHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "highlighted-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "highlighted-date"
             }
         };
     }
@@ -381,4 +381,3 @@ export class IglCalHeader {
             }];
     }
 }
-//# sourceMappingURL=igl-cal-header.js.map

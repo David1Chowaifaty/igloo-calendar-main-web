@@ -267,8 +267,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             },
             "propertyId": {
                 "type": "number",
@@ -286,8 +286,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "language": {
                 "type": "string",
@@ -305,8 +305,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "identifier": {
                 "type": "string",
@@ -324,8 +324,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             },
             "toDate": {
                 "type": "string",
@@ -343,8 +343,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to-date"
             },
             "fromDate": {
                 "type": "string",
@@ -362,8 +362,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from-date"
             },
             "pool": {
                 "type": "string",
@@ -381,8 +381,8 @@ export class IglRateExtenderForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pool",
-                "reflect": false
+                "reflect": false,
+                "attribute": "pool"
             },
             "defaultDates": {
                 "type": "unknown",
@@ -434,7 +434,8 @@ export class IglRateExtenderForm {
                         "IRoomNightsDataEventPayload": {
                             "location": "import",
                             "path": "@/models/property-types",
-                            "id": "src/models/property-types.ts::IRoomNightsDataEventPayload"
+                            "id": "src/models/property-types.ts::IRoomNightsDataEventPayload",
+                            "referenceLocation": "IRoomNightsDataEventPayload"
                         }
                     }
                 }
@@ -471,4 +472,3 @@ export class IglRateExtenderForm {
             }];
     }
 }
-//# sourceMappingURL=igl-rate-extender-form.js.map

@@ -28,7 +28,8 @@ export class IrGuestNameCell {
                         "Guest": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Guest"
+                            "id": "src/models/booking.dto.ts::Guest",
+                            "referenceLocation": "Guest"
                         }
                     }
                 },
@@ -44,4 +45,3 @@ export class IrGuestNameCell {
         };
     }
 }
-//# sourceMappingURL=ir-guest-name-cell.js.map

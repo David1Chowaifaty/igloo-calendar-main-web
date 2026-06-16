@@ -1,5 +1,6 @@
 export declare class IrPdfViewer {
     private canvasEl?;
+    private loadingTask;
     private pdf;
     private renderTask;
     private loadToken;

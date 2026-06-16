@@ -24,4 +24,3 @@ export class IrDeparturesFilter {
         };
     }
 }
-//# sourceMappingURL=ir-departures-filter.js.map

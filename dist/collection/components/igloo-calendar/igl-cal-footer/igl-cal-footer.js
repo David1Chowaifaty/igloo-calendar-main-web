@@ -67,8 +67,8 @@ export class IglCalFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-legend-open",
                 "reflect": false,
+                "attribute": "is-legend-open",
                 "defaultValue": "false"
             },
             "today": {
@@ -109,8 +109,8 @@ export class IglCalFooter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "highlighted-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "highlighted-date"
             }
         };
     }
@@ -133,4 +133,3 @@ export class IglCalFooter {
             }];
     }
 }
-//# sourceMappingURL=igl-cal-footer.js.map

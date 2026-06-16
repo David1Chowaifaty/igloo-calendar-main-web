@@ -310,8 +310,8 @@ export class IrPropertySwitcher {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'dialog'"
             },
             "ticket": {
@@ -330,8 +330,8 @@ export class IrPropertySwitcher {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "baseUrl": {
                 "type": "string",
@@ -349,8 +349,8 @@ export class IrPropertySwitcher {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-url"
             },
             "propertyId": {
                 "type": "number",
@@ -368,8 +368,8 @@ export class IrPropertySwitcher {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "selectedLinkedPropertyId": {
                 "type": "number",
@@ -387,8 +387,8 @@ export class IrPropertySwitcher {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "selected-linked-property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "selected-linked-property-id"
             }
         };
     }
@@ -420,12 +420,14 @@ export class IrPropertySwitcher {
                         "GetACByACID": {
                             "location": "import",
                             "path": "./legacy.types",
-                            "id": "src/components/pms-header/ir-property-switcher/legacy.types.ts::GetACByACID"
+                            "id": "src/components/pms-header/ir-property-switcher/legacy.types.ts::GetACByACID",
+                            "referenceLocation": "GetACByACID"
                         },
                         "LinkedProperty": {
                             "location": "import",
                             "path": "@/services/property.service",
-                            "id": "src/services/property.service.ts::LinkedProperty"
+                            "id": "src/services/property.service.ts::LinkedProperty",
+                            "referenceLocation": "LinkedProperty"
                         }
                     }
                 }
@@ -445,4 +447,3 @@ export class IrPropertySwitcher {
             }];
     }
 }
-//# sourceMappingURL=ir-property-switcher.js.map

@@ -1,24 +1,21 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index$1 = require('./index-D8WscJxs.js');
+var index = require('./index-CLqkDPTC.js');
+var utils = require('./utils-CldsIwq_.js');
+require('./moment-CdViwxPQ.js');
+require('./calendar-data-D2O2OI-7.js');
+require('./index-yPf-buWw.js');
+require('./locales.store-CUKWeY9v.js');
+require('./type-Dy9pVS4V.js');
 
-const index$1 = require('./index-35d81173.js');
-const index = require('./index-8bb117a0.js');
-const utils = require('./utils-410526d1.js');
-require('./moment-1780b03a.js');
-require('./calendar-data-70bc3b4b.js');
-require('./index-fbf1fe1d.js');
-require('./locales.store-32782582.js');
-require('./type-53035218.js');
+const irTaxInputCss = () => `wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-left-width:var(--error-border-width) !important;border-right-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1;gap:0;align-items:flex-end;}:host(:dir(rtl)) .ir-tax-input__percentage::part(base),:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox),:host(:dir(ltr)) .ir-tax-input__percentage::part(base){border-top-right-radius:0;border-bottom-right-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox){border-right-width:0}:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-left-width:0}.ir-tax-input__percentage-wrapper{z-index:4;}.ir-tax-input__select-wrapper{flex:1 1 0%}.ir-tax-input__percentage{z-index:5}.ir-tax-input__select{flex:1 1 0%}.ir-tax-input__select-wrapper{z-index:3}.ir-tax-input__select-wrapper:has(.ir-tax-input__select[open]),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-visible),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-within),.ir-tax-input__select[open],.ir-tax-input__select:focus-visible,.ir-tax-input__select:focus-within{z-index:4}`;
 
-const irTaxInputCss = "wa-input[aria-invalid='true']::part(base),wa-textarea[aria-invalid='true']::part(base),wa-select[aria-invalid='true']::part(combobox){border-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));outline-color:var(--ir-color-border-error, var(--wa-color-danger-border-loud));border-top-width:var(--error-border-width) !important;border-left-width:var(--error-border-width) !important;border-right-width:var(--error-border-width) !important;border-bottom-width:var(--error-border-width) !important}:host{display:flex;flex:1;gap:0;align-items:flex-end;}:host(:dir(rtl)) .ir-tax-input__percentage::part(base),:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-top-left-radius:0;border-bottom-left-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox),:host(:dir(ltr)) .ir-tax-input__percentage::part(base){border-top-right-radius:0;border-bottom-right-radius:0}:host(:dir(rtl)) .ir-tax-input__select::part(combobox){border-right-width:0}:host(:dir(ltr)) .ir-tax-input__select::part(combobox){border-left-width:0}.ir-tax-input__percentage-wrapper{z-index:4;}.ir-tax-input__select-wrapper{flex:1 1 0%}.ir-tax-input__percentage{z-index:5}.ir-tax-input__select{flex:1 1 0%}.ir-tax-input__select-wrapper{z-index:3}.ir-tax-input__select-wrapper:has(.ir-tax-input__select[open]),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-visible),.ir-tax-input__select-wrapper:has(.ir-tax-input__select:focus-within),.ir-tax-input__select[open],.ir-tax-input__select:focus-visible,.ir-tax-input__select:focus-within{z-index:4}";
-const IrTaxInputStyle0 = irTaxInputCss;
-
-const taxSetupSchema = index.z.string().min(1, 'Select a setup entry');
+const taxSetupSchema = index.libExports.z.string().min(1, 'Select a setup entry');
 const IrTaxInput = class {
     constructor(hostRef) {
         index$1.registerInstance(this, hostRef);
-        this.taxChange = index$1.createEvent(this, "taxChange", 7);
+        this.taxChange = index$1.createEvent(this, "taxChange");
     }
     /**
      * List of setup entries used to populate the tax mode select.
@@ -90,7 +87,7 @@ const IrTaxInput = class {
         this.tax = { ...(this.tax || {}), ...params };
     }
     render() {
-        return (index$1.h(index$1.Host, { key: '82ae2490ef2e955440d26237a8dd141d18c77dcd', class: "ir-tax-input" }, index$1.h("ir-validator", { key: '3c9ac15102ad86a705a0e44c74dd8ba701c98558', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? index.z.number().nullable() : index.z.coerce.number().min(0).max(30) }, index$1.h("ir-input", { key: '64d8ed359e4c1de8e0bffeca511dcfeb352d8182', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
+        return (index$1.h(index$1.Host, { key: '82ae2490ef2e955440d26237a8dd141d18c77dcd', class: "ir-tax-input" }, index$1.h("ir-validator", { key: '3c9ac15102ad86a705a0e44c74dd8ba701c98558', form: "tax-service-categories__form", class: "ir-tax-input__percentage-wrapper", value: this.tax?.value ?? null, schema: this.isTaxInputDisabled ? index.libExports.z.number().nullable() : index.libExports.z.coerce.number().min(0).max(30) }, index$1.h("ir-input", { key: '64d8ed359e4c1de8e0bffeca511dcfeb352d8182', disabled: this.isTaxInputDisabled, value: this.tax?.value?.toString() ?? '', mask: {
                 min: 0,
                 max: 30,
                 mask: Number,
@@ -107,11 +104,11 @@ const IrTaxInput = class {
             }, placeholder: "Select..." }, this.setupEntries.map(entry => (index$1.h("wa-option", { key: entry.CODE_NAME, value: entry.CODE_NAME }, utils.getEntryValue({ entry, language: this.language }))))))));
     }
     static get watchers() { return {
-        "chargeRule": ["handleTaxValueChange"]
+        "chargeRule": [{
+                "handleTaxValueChange": 0
+            }]
     }; }
 };
-IrTaxInput.style = IrTaxInputStyle0;
+IrTaxInput.style = irTaxInputCss();
 
 exports.ir_tax_input = IrTaxInput;
-
-//# sourceMappingURL=ir-tax-input.cjs.entry.js.map

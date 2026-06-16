@@ -97,4 +97,3 @@ export const AgentsSchema = z.array(AgentSchema).nullable();
 export const HandleExposedAgentPropsSchema = z.object({
     agent: AgentSchema,
 });
-//# sourceMappingURL=type.js.map

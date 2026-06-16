@@ -204,7 +204,8 @@ export class IrReallocationForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -233,8 +234,8 @@ export class IrReallocationForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             },
             "pool": {
                 "type": "string",
@@ -252,8 +253,8 @@ export class IrReallocationForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pool",
-                "reflect": false
+                "reflect": false,
+                "attribute": "pool"
             },
             "formId": {
                 "type": "string",
@@ -271,8 +272,8 @@ export class IrReallocationForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-id"
             }
         };
     }
@@ -306,4 +307,3 @@ export class IrReallocationForm {
             }];
     }
 }
-//# sourceMappingURL=ir-reallocation-form.js.map

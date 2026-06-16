@@ -25,10 +25,9 @@ export class IrSpan {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text",
-                "reflect": false
+                "reflect": false,
+                "attribute": "text"
             }
         };
     }
 }
-//# sourceMappingURL=ir-span.js.map

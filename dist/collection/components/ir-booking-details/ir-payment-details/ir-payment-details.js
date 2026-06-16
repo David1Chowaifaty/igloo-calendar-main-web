@@ -255,7 +255,8 @@ export class IrPaymentDetails {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -278,7 +279,8 @@ export class IrPaymentDetails {
                         "IPaymentAction": {
                             "location": "import",
                             "path": "@/services/payment.service",
-                            "id": "src/services/payment.service.ts::IPaymentAction"
+                            "id": "src/services/payment.service.ts::IPaymentAction",
+                            "referenceLocation": "IPaymentAction"
                         }
                     }
                 },
@@ -307,8 +309,8 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "paymentEntries": {
                 "type": "unknown",
@@ -320,7 +322,8 @@ export class IrPaymentDetails {
                         "PaymentEntries": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentEntries",
+                            "referenceLocation": "PaymentEntries"
                         }
                     }
                 },
@@ -349,8 +352,8 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "svcCategories": {
@@ -363,7 +366,8 @@ export class IrPaymentDetails {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::IEntries"
+                            "id": "src/models/property.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -392,8 +396,8 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-all-services-agent-owned",
                 "reflect": false,
+                "attribute": "is-all-services-agent-owned",
                 "defaultValue": "false"
             },
             "agent": {
@@ -401,12 +405,13 @@ export class IrPaymentDetails {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -429,7 +434,8 @@ export class IrPaymentDetails {
                         "FolioRow": {
                             "location": "import",
                             "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 },
@@ -459,8 +465,8 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "cl-loading",
                 "reflect": false,
+                "attribute": "cl-loading",
                 "defaultValue": "false"
             },
             "clError": {
@@ -479,8 +485,8 @@ export class IrPaymentDetails {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "cl-error",
                 "reflect": false,
+                "attribute": "cl-error",
                 "defaultValue": "null"
             },
             "clTransactions": {
@@ -493,7 +499,8 @@ export class IrPaymentDetails {
                         "ClTx": {
                             "location": "import",
                             "path": "@/services/city-ledger/types",
-                            "id": "src/services/city-ledger/types.ts::ClTx"
+                            "id": "src/services/city-ledger/types.ts::ClTx",
+                            "referenceLocation": "ClTx"
                         }
                     }
                 },
@@ -565,7 +572,8 @@ export class IrPaymentDetails {
                         "IToast": {
                             "location": "import",
                             "path": "@/components/ui/ir-toast/toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::IToast"
+                            "id": "src/components/ui/ir-toast/toast.ts::IToast",
+                            "referenceLocation": "IToast"
                         }
                     }
                 }
@@ -586,7 +594,8 @@ export class IrPaymentDetails {
                         "PaymentSidebarEvent": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::PaymentSidebarEvent"
+                            "id": "src/components/ir-booking-details/types.ts::PaymentSidebarEvent",
+                            "referenceLocation": "PaymentSidebarEvent"
                         }
                     }
                 }
@@ -607,7 +616,8 @@ export class IrPaymentDetails {
                         "PrintScreenOptions": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::PrintScreenOptions"
+                            "id": "src/components/ir-booking-details/types.ts::PrintScreenOptions",
+                            "referenceLocation": "PrintScreenOptions"
                         }
                     }
                 }
@@ -623,4 +633,3 @@ export class IrPaymentDetails {
             }];
     }
 }
-//# sourceMappingURL=ir-payment-details.js.map

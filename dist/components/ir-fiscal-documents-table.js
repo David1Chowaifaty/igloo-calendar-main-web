@@ -1,8 +1,1 @@
-import { I as IrFiscalDocumentsTable$1, d as defineCustomElement$1 } from './ir-fiscal-documents-table2.js';
-
-const IrFiscalDocumentsTable = IrFiscalDocumentsTable$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrFiscalDocumentsTable, defineCustomElement };
-
-//# sourceMappingURL=ir-fiscal-documents-table.js.map
+import{I as s,d as o}from"./ir-fiscal-documents-table2.js";const t=s,a=o;export{t as IrFiscalDocumentsTable,a as defineCustomElement}

@@ -195,8 +195,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "split-booking-id",
                 "reflect": false,
+                "attribute": "split-booking-id",
                 "defaultValue": "''"
             },
             "bookingData": {
@@ -215,8 +215,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-data",
                 "reflect": false,
+                "attribute": "booking-data",
                 "defaultValue": "''"
             },
             "minDate": {
@@ -235,8 +235,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "min-date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "min-date"
             },
             "message": {
                 "type": "string",
@@ -254,8 +254,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "message"
             },
             "bookingDataDefaultDateRange": {
                 "type": "unknown",
@@ -290,8 +290,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-split-booking-option",
                 "reflect": false,
+                "attribute": "show-split-booking-option",
                 "defaultValue": "false"
             },
             "adultChildConstraints": {
@@ -304,7 +304,8 @@ export class IglBookPropertyHeader {
                         "TAdultChildConstraints": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints"
+                            "id": "src/models/igl-book-property.d.ts::TAdultChildConstraints",
+                            "referenceLocation": "TAdultChildConstraints"
                         }
                     }
                 },
@@ -350,8 +351,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date-range-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "date-range-data"
             },
             "bookedByInfoData": {
                 "type": "any",
@@ -369,8 +370,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booked-by-info-data",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booked-by-info-data"
             },
             "defaultDaterange": {
                 "type": "unknown",
@@ -405,8 +406,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "wasBlockedUnit": {
                 "type": "boolean",
@@ -424,8 +425,8 @@ export class IglBookPropertyHeader {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "was-blocked-unit",
-                "reflect": false
+                "reflect": false,
+                "attribute": "was-blocked-unit"
             }
         };
     }
@@ -484,7 +485,8 @@ export class IglBookPropertyHeader {
                         "TPropertyButtonsTypes": {
                             "location": "import",
                             "path": "../../../../models/igl-book-property",
-                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes"
+                            "id": "src/models/igl-book-property.d.ts::TPropertyButtonsTypes",
+                            "referenceLocation": "TPropertyButtonsTypes"
                         }
                     }
                 }
@@ -521,4 +523,3 @@ export class IglBookPropertyHeader {
             }];
     }
 }
-//# sourceMappingURL=igl-book-property-header.js.map

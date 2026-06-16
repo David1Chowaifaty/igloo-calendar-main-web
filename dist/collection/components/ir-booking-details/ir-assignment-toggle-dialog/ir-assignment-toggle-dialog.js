@@ -55,8 +55,8 @@ export class IrAssignmentToggleDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
                 "reflect": false,
+                "attribute": "label",
                 "defaultValue": "'Are you sure?'"
             },
             "message": {
@@ -75,8 +75,8 @@ export class IrAssignmentToggleDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "message",
-                "reflect": false
+                "reflect": false,
+                "attribute": "message"
             },
             "confirmLabel": {
                 "type": "string",
@@ -94,8 +94,8 @@ export class IrAssignmentToggleDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "confirm-label",
                 "reflect": false,
+                "attribute": "confirm-label",
                 "defaultValue": "'Confirm'"
             },
             "cancelLabel": {
@@ -114,8 +114,8 @@ export class IrAssignmentToggleDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "cancel-label",
                 "reflect": false,
+                "attribute": "cancel-label",
                 "defaultValue": "'Cancel'"
             },
             "loading": {
@@ -134,8 +134,8 @@ export class IrAssignmentToggleDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading",
                 "reflect": false,
+                "attribute": "loading",
                 "defaultValue": "false"
             }
         };
@@ -197,4 +197,3 @@ export class IrAssignmentToggleDialog {
         };
     }
 }
-//# sourceMappingURL=ir-assignment-toggle-dialog.js.map

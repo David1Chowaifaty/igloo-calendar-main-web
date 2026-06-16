@@ -46,8 +46,8 @@ export class IrPrintingLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "asHtml": {
                 "type": "boolean",
@@ -65,8 +65,8 @@ export class IrPrintingLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "as-html",
-                "reflect": false
+                "reflect": false,
+                "attribute": "as-html"
             },
             "display": {
                 "type": "string",
@@ -84,8 +84,8 @@ export class IrPrintingLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'flex'"
             },
             "content": {
@@ -104,10 +104,9 @@ export class IrPrintingLabel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "content",
-                "reflect": false
+                "reflect": false,
+                "attribute": "content"
             }
         };
     }
 }
-//# sourceMappingURL=ir-printing-label.js.map

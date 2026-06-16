@@ -51,4 +51,3 @@ export function buildPaymentTypes(paymentEntries) {
         return {};
     }
 }
-//# sourceMappingURL=utils.js.map

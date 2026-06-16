@@ -1,8 +1,1 @@
-import { I as IglCalBody$1, d as defineCustomElement$1 } from './igl-cal-body2.js';
-
-const IglCalBody = IglCalBody$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglCalBody, defineCustomElement };
-
-//# sourceMappingURL=igl-cal-body.js.map
+import{I as o,d as s}from"./igl-cal-body2.js";const a=o,r=s;export{a as IglCalBody,r as defineCustomElement}

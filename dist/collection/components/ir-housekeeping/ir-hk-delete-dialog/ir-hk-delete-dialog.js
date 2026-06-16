@@ -73,7 +73,8 @@ export class IrHkDeleteDialog {
                         "IHouseKeepers": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::IHouseKeepers"
+                            "id": "src/models/housekeeping.ts::IHouseKeepers",
+                            "referenceLocation": "IHouseKeepers"
                         }
                     }
                 },
@@ -167,4 +168,3 @@ export class IrHkDeleteDialog {
         };
     }
 }
-//# sourceMappingURL=ir-hk-delete-dialog.js.map

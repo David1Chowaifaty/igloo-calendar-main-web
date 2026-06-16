@@ -5,4 +5,3 @@ export function isRequestPending(url) {
     return interceptor_requests[url] === 'pending';
 }
 export default interceptor_requests;
-//# sourceMappingURL=ir-interceptor.store.js.map

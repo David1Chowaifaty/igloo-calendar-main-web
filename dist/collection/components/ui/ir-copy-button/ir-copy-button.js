@@ -101,8 +101,8 @@ export class IrCopyButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "text",
-                "reflect": false
+                "reflect": false,
+                "attribute": "text"
             }
         };
     }
@@ -112,4 +112,3 @@ export class IrCopyButton {
         };
     }
 }
-//# sourceMappingURL=ir-copy-button.js.map

@@ -109,8 +109,8 @@ export class IrDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "label": {
                 "type": "string",
@@ -134,8 +134,8 @@ export class IrDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "label"
             },
             "placement": {
                 "type": "string",
@@ -159,8 +159,8 @@ export class IrDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placement",
-                "reflect": true
+                "reflect": true,
+                "attribute": "placement"
             },
             "withoutHeader": {
                 "type": "boolean",
@@ -184,8 +184,8 @@ export class IrDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "without-header",
-                "reflect": true
+                "reflect": true,
+                "attribute": "without-header"
             },
             "lightDismiss": {
                 "type": "boolean",
@@ -209,8 +209,8 @@ export class IrDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "light-dismiss",
                 "reflect": true,
+                "attribute": "light-dismiss",
                 "defaultValue": "true"
             }
         };
@@ -253,7 +253,8 @@ export class IrDrawer {
                         "Element": {
                             "location": "import",
                             "path": "@stencil/core",
-                            "id": "node_modules::Element"
+                            "id": "node_modules::Element",
+                            "referenceLocation": "Element"
                         }
                     }
                 }
@@ -267,4 +268,3 @@ __decorate([
 __decorate([
     OverflowRelease()
 ], IrDrawer.prototype, "emitDrawerHide", null);
-//# sourceMappingURL=ir-drawer.js.map

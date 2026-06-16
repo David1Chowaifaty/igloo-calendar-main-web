@@ -98,8 +98,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "checked",
                 "reflect": false,
+                "attribute": "checked",
                 "defaultValue": "false"
             },
             "label": {
@@ -118,8 +118,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "checkboxId": {
                 "type": "string",
@@ -137,8 +137,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "checkbox-id",
                 "reflect": false,
+                "attribute": "checkbox-id",
                 "defaultValue": "v4()"
             },
             "name": {
@@ -157,8 +157,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "indeterminate": {
                 "type": "boolean",
@@ -176,8 +176,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "indeterminate",
-                "reflect": false
+                "reflect": false,
+                "attribute": "indeterminate"
             },
             "disabled": {
                 "type": "boolean",
@@ -195,8 +195,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "labelClass": {
                 "type": "string",
@@ -214,8 +214,8 @@ export class IrCheckbox {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label-class",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label-class"
             }
         };
     }
@@ -249,4 +249,3 @@ export class IrCheckbox {
             }];
     }
 }
-//# sourceMappingURL=ir-checkbox.js.map

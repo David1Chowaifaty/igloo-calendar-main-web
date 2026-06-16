@@ -86,8 +86,8 @@ export class IrBookingDetailsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "propertyId": {
                 "type": "number",
@@ -105,8 +105,8 @@ export class IrBookingDetailsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "property-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "property-id"
             },
             "ticket": {
                 "type": "string",
@@ -124,8 +124,8 @@ export class IrBookingDetailsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "language": {
                 "type": "string",
@@ -143,8 +143,8 @@ export class IrBookingDetailsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "bookingNumber": {
@@ -163,8 +163,8 @@ export class IrBookingDetailsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             }
         };
     }
@@ -187,4 +187,3 @@ export class IrBookingDetailsDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-details-drawer.js.map

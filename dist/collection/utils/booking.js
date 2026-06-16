@@ -526,4 +526,3 @@ export function createDateWithOffsetAndHour(offset, hour) {
     const utcHour = hour - offset;
     return new Date(Date.UTC(year, month, day, utcHour));
 }
-//# sourceMappingURL=booking.js.map

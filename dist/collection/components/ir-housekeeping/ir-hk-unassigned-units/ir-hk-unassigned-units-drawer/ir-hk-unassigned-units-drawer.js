@@ -42,8 +42,8 @@ export class IrHkUnassignedUnitsDrawer {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
                 "reflect": false,
+                "attribute": "open",
                 "defaultValue": "false"
             },
             "user": {
@@ -56,7 +56,8 @@ export class IrHkUnassignedUnitsDrawer {
                         "IHouseKeepers": {
                             "location": "import",
                             "path": "@/models/housekeeping",
-                            "id": "src/models/housekeeping.ts::IHouseKeepers"
+                            "id": "src/models/housekeeping.ts::IHouseKeepers",
+                            "referenceLocation": "IHouseKeepers"
                         }
                     }
                 },
@@ -91,4 +92,3 @@ export class IrHkUnassignedUnitsDrawer {
             }];
     }
 }
-//# sourceMappingURL=ir-hk-unassigned-units-drawer.js.map

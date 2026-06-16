@@ -240,8 +240,8 @@ export class IrTaxServiceCategories {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "p": {
                 "type": "string",
@@ -259,8 +259,8 @@ export class IrTaxServiceCategories {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "language": {
                 "type": "string",
@@ -278,8 +278,8 @@ export class IrTaxServiceCategories {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "propertyid": {
@@ -298,8 +298,8 @@ export class IrTaxServiceCategories {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             }
         };
     }
@@ -325,4 +325,3 @@ export class IrTaxServiceCategories {
             }];
     }
 }
-//# sourceMappingURL=ir-tax-service-categories.js.map

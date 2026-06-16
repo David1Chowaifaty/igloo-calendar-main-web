@@ -55,8 +55,8 @@ export class IrBooking {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "p": {
                 "type": "string",
@@ -74,8 +74,8 @@ export class IrBooking {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "bookingNumber": {
                 "type": "string",
@@ -93,8 +93,8 @@ export class IrBooking {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             }
         };
     }
@@ -104,4 +104,3 @@ export class IrBooking {
         };
     }
 }
-//# sourceMappingURL=ir-booking.js.map

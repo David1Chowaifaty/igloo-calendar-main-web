@@ -1,8 +1,1 @@
-import { I as IrProformaInvoicePreview$1, d as defineCustomElement$1 } from './ir-proforma-invoice-preview2.js';
-
-const IrProformaInvoicePreview = IrProformaInvoicePreview$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrProformaInvoicePreview, defineCustomElement };
-
-//# sourceMappingURL=ir-proforma-invoice-preview.js.map
+import{I as o,d as r}from"./ir-proforma-invoice-preview2.js";const i=o,e=r;export{i as IrProformaInvoicePreview,e as defineCustomElement}

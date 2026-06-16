@@ -1,8 +1,1 @@
-import { I as IrPrintingLabel$1, d as defineCustomElement$1 } from './ir-printing-label2.js';
-
-const IrPrintingLabel = IrPrintingLabel$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPrintingLabel, defineCustomElement };
-
-//# sourceMappingURL=ir-printing-label.js.map
+import{I as r,d as i}from"./ir-printing-label2.js";const o=r,s=i;export{o as IrPrintingLabel,s as defineCustomElement}

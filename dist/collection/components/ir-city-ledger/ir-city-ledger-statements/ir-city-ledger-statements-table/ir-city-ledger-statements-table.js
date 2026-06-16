@@ -168,7 +168,8 @@ export class IrCityLedgerStatementsTable {
                         "FiscalDocument": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::FiscalDocument"
+                            "id": "src/services/city-ledger/index.ts::FiscalDocument",
+                            "referenceLocation": "FiscalDocument"
                         }
                     }
                 },
@@ -198,8 +199,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "agent-id"
             },
             "startingBalance": {
                 "type": "number",
@@ -217,8 +218,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "starting-balance",
                 "reflect": false,
+                "attribute": "starting-balance",
                 "defaultValue": "0"
             },
             "endingBalance": {
@@ -237,8 +238,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ending-balance",
                 "reflect": false,
+                "attribute": "ending-balance",
                 "defaultValue": "0"
             },
             "currencySymbol": {
@@ -257,8 +258,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-symbol",
                 "reflect": false,
+                "attribute": "currency-symbol",
                 "defaultValue": "'$'"
             },
             "currencies": {
@@ -271,7 +272,8 @@ export class IrCityLedgerStatementsTable {
                         "ICurrency": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::ICurrency"
+                            "id": "src/models/property.ts::ICurrency",
+                            "referenceLocation": "ICurrency"
                         }
                     }
                 },
@@ -301,8 +303,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "hasFetched": {
@@ -321,8 +323,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "has-fetched",
                 "reflect": false,
+                "attribute": "has-fetched",
                 "defaultValue": "false"
             },
             "fromDate": {
@@ -341,8 +343,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from-date",
                 "reflect": false,
+                "attribute": "from-date",
                 "defaultValue": "null"
             },
             "toDate": {
@@ -361,8 +363,8 @@ export class IrCityLedgerStatementsTable {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to-date",
                 "reflect": false,
+                "attribute": "to-date",
                 "defaultValue": "null"
             }
         };
@@ -385,11 +387,11 @@ export class IrCityLedgerStatementsTable {
                         "ClFiscalDocumentPreviewRequest": {
                             "location": "import",
                             "path": "../../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest",
+                            "referenceLocation": "ClFiscalDocumentPreviewRequest"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-city-ledger-statements-table.js.map

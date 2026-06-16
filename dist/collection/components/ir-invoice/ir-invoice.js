@@ -163,8 +163,8 @@ export class IrInvoice {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": true
+                "reflect": true,
+                "attribute": "open"
             },
             "booking": {
                 "type": "unknown",
@@ -176,7 +176,8 @@ export class IrInvoice {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -205,8 +206,8 @@ export class IrInvoice {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "for",
                 "reflect": false,
+                "attribute": "for",
                 "defaultValue": "'booking'"
             },
             "roomIdentifier": {
@@ -225,8 +226,8 @@ export class IrInvoice {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-identifier"
             },
             "autoPrint": {
                 "type": "boolean",
@@ -244,8 +245,8 @@ export class IrInvoice {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "auto-print",
                 "reflect": false,
+                "attribute": "auto-print",
                 "defaultValue": "false"
             },
             "invoiceInfo": {
@@ -253,12 +254,13 @@ export class IrInvoice {
                 "mutable": false,
                 "complexType": {
                     "original": "BookingInvoiceInfo",
-                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; code?: string; id?: number; }; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; code?: string; id?: number; }; booking_nbr?: string; total_amount?: any; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; code?: string; id?: number; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; }[]; }",
+                    "resolved": "{ invoiceable_items?: { key?: number; type?: InvoiceableItemType; status?: any; system_id?: any; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; reason?: { code?: InvoiceableItemReasonCode; description?: string; }; is_invoiceable?: boolean; }[]; invoices?: { user?: string; status?: { code?: string; description?: any; }; date?: string; system_id?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; total_amount?: any; target?: any; nbr?: string; remark?: string; billed_to_name?: any; billed_to_tax?: any; items?: { key?: number; type?: string; status?: { code?: string; description?: any; }; description?: any; system_id?: number; amount?: number; currency?: { symbol?: string; id?: number; code?: string; }; booking_nbr?: string; invoice_nbr?: string; is_invoiceable?: boolean; }[]; credit_note?: { user?: string; date?: string; system_id?: string; reason?: string; nbr?: string; }; pdf_url?: any; }[]; }",
                     "references": {
                         "BookingInvoiceInfo": {
                             "location": "import",
                             "path": "./types",
-                            "id": "src/components/ir-invoice/types.ts::BookingInvoiceInfo"
+                            "id": "src/components/ir-invoice/types.ts::BookingInvoiceInfo",
+                            "referenceLocation": "BookingInvoiceInfo"
                         }
                     }
                 },
@@ -367,4 +369,3 @@ export class IrInvoice {
             }];
     }
 }
-//# sourceMappingURL=ir-invoice.js.map

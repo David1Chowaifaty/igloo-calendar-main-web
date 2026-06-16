@@ -197,8 +197,8 @@ export class IrChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
                 "reflect": false,
+                "attribute": "ticket",
                 "defaultValue": "''"
             },
             "propertyid": {
@@ -217,8 +217,8 @@ export class IrChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "language": {
                 "type": "string",
@@ -236,8 +236,8 @@ export class IrChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "baseurl": {
                 "type": "string",
@@ -255,8 +255,8 @@ export class IrChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "p": {
                 "type": "string",
@@ -274,8 +274,8 @@ export class IrChannel {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             }
         };
     }
@@ -303,4 +303,3 @@ export class IrChannel {
             }];
     }
 }
-//# sourceMappingURL=ir-channel.js.map

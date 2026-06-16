@@ -121,7 +121,8 @@ export class IrReservationInformation {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -144,7 +145,8 @@ export class IrReservationInformation {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -167,7 +169,8 @@ export class IrReservationInformation {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -201,16 +204,16 @@ export class IrReservationInformation {
                 },
                 "complexType": {
                     "original": "OpenSidebarEvent<any>",
-                    "resolved": "{ type: BookingDetailsSidebarEvents; payload?: any; }",
+                    "resolved": "any",
                     "references": {
                         "OpenSidebarEvent": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent"
+                            "id": "src/components/ir-booking-details/types.ts::OpenSidebarEvent",
+                            "referenceLocation": "OpenSidebarEvent"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-reservation-information.js.map

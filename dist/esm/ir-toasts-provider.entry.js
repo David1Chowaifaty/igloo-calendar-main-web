@@ -1,7 +1,6 @@
-import { r as registerInstance, g as getElement, h, H as Host } from './index-7e96440e.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-DsP1thJ-.js';
 
-const irToastsProviderCss = ":host{display:none}";
-const IrToastsProviderStyle0 = irToastsProviderCss;
+const irToastsProviderCss = () => `:host{display:none}`;
 
 // Each ir-toast-item is its own top-layer entry via popover="manual".
 // This is necessary because Chrome does not exempt *descendants* of a
@@ -140,8 +139,6 @@ const IrToastsProvider = class {
         return h(Host, { key: '33e0c13fe1cf67ef90ec6ac2ea295800c6c70d63' });
     }
 };
-IrToastsProvider.style = IrToastsProviderStyle0;
+IrToastsProvider.style = irToastsProviderCss();
 
 export { IrToastsProvider as ir_toasts_provider };
-
-//# sourceMappingURL=ir-toasts-provider.entry.js.map

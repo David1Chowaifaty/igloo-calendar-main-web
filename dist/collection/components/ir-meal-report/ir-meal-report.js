@@ -209,8 +209,8 @@ export class IrMealReport {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "number",
@@ -228,8 +228,8 @@ export class IrMealReport {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "baseurl": {
                 "type": "string",
@@ -247,8 +247,8 @@ export class IrMealReport {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "baseurl",
-                "reflect": false
+                "reflect": false,
+                "attribute": "baseurl"
             },
             "language": {
                 "type": "string",
@@ -266,8 +266,8 @@ export class IrMealReport {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             }
         };
@@ -296,4 +296,3 @@ export class IrMealReport {
             }];
     }
 }
-//# sourceMappingURL=ir-meal-report.js.map

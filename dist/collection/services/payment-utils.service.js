@@ -108,4 +108,3 @@ export class PaymentUtilsService {
         return payment.id > 0; // Only allow deletion of saved payments
     }
 }
-//# sourceMappingURL=payment-utils.service.js.map

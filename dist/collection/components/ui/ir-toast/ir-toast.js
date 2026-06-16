@@ -44,7 +44,8 @@ export class IrToast {
                         "TPositions": {
                             "location": "import",
                             "path": "./toast",
-                            "id": "src/components/ui/ir-toast/toast.ts::TPositions"
+                            "id": "src/components/ui/ir-toast/toast.ts::TPositions",
+                            "referenceLocation": "TPositions"
                         }
                     }
                 },
@@ -56,11 +57,10 @@ export class IrToast {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "position",
                 "reflect": true,
+                "attribute": "position",
                 "defaultValue": "'top-right'"
             }
         };
     }
 }
-//# sourceMappingURL=ir-toast.js.map

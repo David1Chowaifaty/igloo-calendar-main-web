@@ -1,8 +1,1 @@
-import { I as IglRoomType$1, d as defineCustomElement$1 } from './igl-room-type2.js';
-
-const IglRoomType = IglRoomType$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IglRoomType, defineCustomElement };
-
-//# sourceMappingURL=igl-room-type.js.map
+import{I as o,d as r}from"./igl-room-type2.js";const s=o,t=r;export{s as IglRoomType,t as defineCustomElement}

@@ -70,8 +70,8 @@ export class IrDateView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "from_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "from_date"
             },
             "to_date": {
                 "type": "string",
@@ -98,8 +98,8 @@ export class IrDateView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "to_date",
-                "reflect": false
+                "reflect": false,
+                "attribute": "to_date"
             },
             "showDateDifference": {
                 "type": "boolean",
@@ -117,8 +117,8 @@ export class IrDateView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-date-difference",
                 "reflect": false,
+                "attribute": "show-date-difference",
                 "defaultValue": "true"
             },
             "dateOption": {
@@ -137,8 +137,8 @@ export class IrDateView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "date-option",
                 "reflect": false,
+                "attribute": "date-option",
                 "defaultValue": "'YYYY-MM-DD'"
             },
             "format": {
@@ -157,11 +157,10 @@ export class IrDateView {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "format",
                 "reflect": false,
+                "attribute": "format",
                 "defaultValue": "'MMM DD, YYYY'"
             }
         };
     }
 }
-//# sourceMappingURL=ir-date-view.js.map

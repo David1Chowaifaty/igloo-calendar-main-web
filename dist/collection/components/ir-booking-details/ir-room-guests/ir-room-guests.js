@@ -92,8 +92,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "open",
-                "reflect": false
+                "reflect": false,
+                "attribute": "open"
             },
             "roomName": {
                 "type": "string",
@@ -111,8 +111,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "room-name"
             },
             "identifier": {
                 "type": "string",
@@ -130,8 +130,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "identifier",
-                "reflect": false
+                "reflect": false,
+                "attribute": "identifier"
             },
             "sharedPersons": {
                 "type": "unknown",
@@ -143,7 +143,8 @@ export class IrRoomGuests {
                         "SharedPerson": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::SharedPerson"
+                            "id": "src/models/booking.dto.ts::SharedPerson",
+                            "referenceLocation": "SharedPerson"
                         }
                     }
                 },
@@ -173,8 +174,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "total-guests",
                 "reflect": false,
+                "attribute": "total-guests",
                 "defaultValue": "0"
             },
             "countries": {
@@ -187,7 +188,8 @@ export class IrRoomGuests {
                         "ICountry": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::ICountry"
+                            "id": "src/models/IBooking.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -216,8 +218,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-in",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-in"
             },
             "language": {
                 "type": "string",
@@ -235,8 +237,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "bookingNumber": {
@@ -255,8 +257,8 @@ export class IrRoomGuests {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-number",
-                "reflect": false
+                "reflect": false,
+                "attribute": "booking-number"
             }
         };
     }
@@ -284,4 +286,3 @@ export class IrRoomGuests {
             }];
     }
 }
-//# sourceMappingURL=ir-room-guests.js.map

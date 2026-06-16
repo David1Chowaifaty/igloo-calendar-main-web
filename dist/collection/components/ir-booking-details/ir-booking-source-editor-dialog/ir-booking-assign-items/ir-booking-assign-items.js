@@ -71,7 +71,8 @@ export class IrBookingAssignItems {
                         "AssignableItem": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-booking-details/ir-booking-source-editor-dialog/types.ts::AssignableItem"
+                            "id": "src/components/ir-booking-details/ir-booking-source-editor-dialog/types.ts::AssignableItem",
+                            "referenceLocation": "AssignableItem"
                         }
                     }
                 },
@@ -116,4 +117,3 @@ export class IrBookingAssignItems {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-assign-items.js.map

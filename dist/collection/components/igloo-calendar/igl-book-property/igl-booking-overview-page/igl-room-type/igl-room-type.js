@@ -44,7 +44,8 @@ export class IglRoomType {
                         "RoomType": {
                             "location": "import",
                             "path": "@/models/property",
-                            "id": "src/models/property.ts::RoomType"
+                            "id": "src/models/property.ts::RoomType",
+                            "referenceLocation": "RoomType"
                         }
                     }
                 },
@@ -73,8 +74,8 @@ export class IglRoomType {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-type",
                 "reflect": false,
+                "attribute": "booking-type",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "ratePricingMode": {
@@ -111,8 +112,8 @@ export class IglRoomType {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "room-type-id",
                 "reflect": false,
+                "attribute": "room-type-id",
                 "defaultValue": "null"
             },
             "currency": {
@@ -131,8 +132,8 @@ export class IglRoomType {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency",
-                "reflect": false
+                "reflect": false,
+                "attribute": "currency"
             },
             "isBookDisabled": {
                 "type": "boolean",
@@ -150,8 +151,8 @@ export class IglRoomType {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-book-disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-book-disabled"
             },
             "unavailableRatePlanIds": {
                 "type": "unknown",
@@ -179,4 +180,3 @@ export class IglRoomType {
         };
     }
 }
-//# sourceMappingURL=igl-room-type.js.map

@@ -44,8 +44,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "display",
                 "reflect": true,
+                "attribute": "display",
                 "defaultValue": "'block'"
             },
             "checkIn": {
@@ -64,8 +64,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-in",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-in"
             },
             "checkOut": {
                 "type": "string",
@@ -83,8 +83,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-out",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-out"
             },
             "checkInLabel": {
                 "type": "string",
@@ -102,8 +102,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "check-in-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "check-in-label"
             },
             "checkoutLabel": {
                 "type": "string",
@@ -121,8 +121,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "checkout-label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "checkout-label"
             },
             "overdueCheckin": {
                 "type": "boolean",
@@ -140,8 +140,8 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "overdue-checkin",
-                "reflect": false
+                "reflect": false,
+                "attribute": "overdue-checkin"
             },
             "overdueCheckout": {
                 "type": "boolean",
@@ -159,10 +159,9 @@ export class IrDatesCell {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "overdue-checkout",
-                "reflect": false
+                "reflect": false,
+                "attribute": "overdue-checkout"
             }
         };
     }
 }
-//# sourceMappingURL=ir-dates-cell.js.map

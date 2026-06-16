@@ -1,8 +1,1 @@
-import { I as IrNotifications$1, d as defineCustomElement$1 } from './ir-notifications2.js';
-
-const IrNotifications = IrNotifications$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrNotifications, defineCustomElement };
-
-//# sourceMappingURL=ir-notifications.js.map
+import{I as o,d as i}from"./ir-notifications2.js";const s=o,t=i;export{s as IrNotifications,t as defineCustomElement}

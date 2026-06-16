@@ -129,4 +129,3 @@ export class LinkedList {
         this.head = null;
     }
 }
-//# sourceMappingURL=LinkedList.js.map

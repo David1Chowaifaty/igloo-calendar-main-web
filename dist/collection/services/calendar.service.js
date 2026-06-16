@@ -6,4 +6,3 @@
 // import { Socket, io } from 'socket.io-client';
 export class CalendarService {
 }
-//# sourceMappingURL=calendar.service.js.map

@@ -1,11 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+var index = require('./index-D8WscJxs.js');
 
-const index = require('./index-35d81173.js');
-
-const irToastsProviderCss = ":host{display:none}";
-const IrToastsProviderStyle0 = irToastsProviderCss;
+const irToastsProviderCss = () => `:host{display:none}`;
 
 // Each ir-toast-item is its own top-layer entry via popover="manual".
 // This is necessary because Chrome does not exempt *descendants* of a
@@ -144,8 +141,6 @@ const IrToastsProvider = class {
         return index.h(index.Host, { key: '33e0c13fe1cf67ef90ec6ac2ea295800c6c70d63' });
     }
 };
-IrToastsProvider.style = IrToastsProviderStyle0;
+IrToastsProvider.style = irToastsProviderCss();
 
 exports.ir_toasts_provider = IrToastsProvider;
-
-//# sourceMappingURL=ir-toasts-provider.cjs.entry.js.map

@@ -137,7 +137,8 @@ export class IrBookingEditorForm {
                         "BookingEditorMode": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode"
+                            "id": "src/components/igloo-calendar/ir-booking-editor/types.ts::BookingEditorMode",
+                            "referenceLocation": "BookingEditorMode"
                         }
                     }
                 },
@@ -149,8 +150,8 @@ export class IrBookingEditorForm {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'PLUS_BOOKING'"
             },
             "room": {
@@ -163,7 +164,8 @@ export class IrBookingEditorForm {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -186,7 +188,8 @@ export class IrBookingEditorForm {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -204,12 +207,13 @@ export class IrBookingEditorForm {
                 "mutable": false,
                 "complexType": {
                     "original": "Agent",
-                    "resolved": "{ name?: string; email?: string; property_id?: any; code?: string; id?: number; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
+                    "resolved": "{ name?: string; id?: number; email?: string; property_id?: any; code?: string; address?: string; agent_rate_type_code?: { code?: string; description?: string; }; agent_type_code?: { code?: string; description?: string; }; city?: string; contact_name?: string; contract_nbr?: any; country_id?: number; currency_id?: any; due_balance?: any; email_copied_upon_booking?: string; is_active?: boolean; is_send_guest_confirmation_email?: boolean; notes?: string; payment_mode?: { code?: string; description?: string; }; phone?: string; provided_discount?: any; question?: string; sort_order?: any; tax_nbr?: string; reference?: string; verification_mode?: string; has_opening_balance?: boolean; cl_post_timing?: { code?: string; description?: string; }; }",
                     "references": {
                         "Agent": {
                             "location": "import",
                             "path": "@/services/agents/type",
-                            "id": "src/services/agents/type.ts::Agent"
+                            "id": "src/services/agents/type.ts::Agent",
+                            "referenceLocation": "Agent"
                         }
                     }
                 },
@@ -260,4 +264,3 @@ export class IrBookingEditorForm {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-editor-form.js.map

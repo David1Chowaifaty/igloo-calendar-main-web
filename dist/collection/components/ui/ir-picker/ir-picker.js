@@ -525,8 +525,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": true,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "loading": {
@@ -545,8 +545,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading",
                 "reflect": true,
+                "attribute": "loading",
                 "defaultValue": "false"
             },
             "mode": {
@@ -565,8 +565,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "pill": {
@@ -585,8 +585,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pill",
                 "reflect": true,
+                "attribute": "pill",
                 "defaultValue": "false"
             },
             "placeholder": {
@@ -605,8 +605,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
                 "reflect": false,
+                "attribute": "placeholder",
                 "defaultValue": "''"
             },
             "label": {
@@ -625,8 +625,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "defaultValue": {
                 "type": "string",
@@ -638,7 +638,8 @@ export class IrPicker {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -650,8 +651,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default-value",
-                "reflect": true
+                "reflect": true,
+                "attribute": "default-value"
             },
             "withClear": {
                 "type": "boolean",
@@ -672,8 +673,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-clear",
                 "reflect": false,
+                "attribute": "with-clear",
                 "defaultValue": "false"
             },
             "size": {
@@ -686,7 +687,8 @@ export class IrPicker {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -698,8 +700,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": true,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "appearance": {
@@ -712,7 +714,8 @@ export class IrPicker {
                         "NativeWaInput": {
                             "location": "import",
                             "path": "../ir-input/ir-input",
-                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput"
+                            "id": "src/components/ui/ir-input/ir-input.tsx::NativeWaInput",
+                            "referenceLocation": "NativeWaInput"
                         }
                     }
                 },
@@ -724,8 +727,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "appearance",
-                "reflect": true
+                "reflect": true,
+                "attribute": "appearance"
             },
             "debounce": {
                 "type": "number",
@@ -743,8 +746,8 @@ export class IrPicker {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "debounce",
                 "reflect": false,
+                "attribute": "debounce",
                 "defaultValue": "0"
             }
         };
@@ -936,4 +939,3 @@ export class IrPicker {
             }];
     }
 }
-//# sourceMappingURL=ir-picker.js.map

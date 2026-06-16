@@ -40,4 +40,3 @@ export class IrFilterCard {
         };
     }
 }
-//# sourceMappingURL=ir-filter-card.js.map

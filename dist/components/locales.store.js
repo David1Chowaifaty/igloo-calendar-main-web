@@ -1,11 +1,1 @@
-import { c as createStore } from './index3.js';
-
-const initialState = {
-    entries: null,
-    direction: 'ltr',
-};
-const { state: locales, onChange: onCalendarDatesChange } = createStore(initialState);
-
-export { locales as l };
-
-//# sourceMappingURL=locales.store.js.map
+import{c as t}from"./index4.js";const{state:e}=t({entries:null,direction:"ltr"});export{e as l}

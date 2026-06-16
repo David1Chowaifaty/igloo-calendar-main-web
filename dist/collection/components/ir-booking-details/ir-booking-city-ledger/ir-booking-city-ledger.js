@@ -138,7 +138,8 @@ export class IrBookingCityLedger {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -167,8 +168,8 @@ export class IrBookingCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "svcCategories": {
@@ -181,7 +182,8 @@ export class IrBookingCityLedger {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -205,7 +207,8 @@ export class IrBookingCityLedger {
                         "FolioRow": {
                             "location": "import",
                             "path": "@/components/ir-city-ledger/ir-city-ledger-folio/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-folio/types.ts::FolioRow",
+                            "referenceLocation": "FolioRow"
                         }
                     }
                 },
@@ -235,8 +238,8 @@ export class IrBookingCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
                 "reflect": false,
+                "attribute": "is-loading",
                 "defaultValue": "false"
             },
             "error": {
@@ -255,8 +258,8 @@ export class IrBookingCityLedger {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
                 "reflect": false,
+                "attribute": "error",
                 "defaultValue": "null"
             }
         };
@@ -288,4 +291,3 @@ export class IrBookingCityLedger {
             }];
     }
 }
-//# sourceMappingURL=ir-booking-city-ledger.js.map

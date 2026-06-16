@@ -98,7 +98,8 @@ export class IrArrivalTimeDialog {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 },
@@ -121,7 +122,8 @@ export class IrArrivalTimeDialog {
                         "IEntries": {
                             "location": "import",
                             "path": "@/models/IBooking",
-                            "id": "src/models/IBooking.ts::IEntries"
+                            "id": "src/models/IBooking.ts::IEntries",
+                            "referenceLocation": "IEntries"
                         }
                     }
                 },
@@ -162,7 +164,8 @@ export class IrArrivalTimeDialog {
                         "Booking": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Booking"
+                            "id": "src/models/booking.dto.ts::Booking",
+                            "referenceLocation": "Booking"
                         }
                     }
                 }
@@ -207,4 +210,3 @@ export class IrArrivalTimeDialog {
         };
     }
 }
-//# sourceMappingURL=ir-arrival-time-dialog.js.map

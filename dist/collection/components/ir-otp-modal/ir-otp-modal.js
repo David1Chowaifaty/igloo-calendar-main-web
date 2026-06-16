@@ -203,8 +203,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "resendTimer": {
@@ -223,8 +223,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "resend-timer",
                 "reflect": false,
+                "attribute": "resend-timer",
                 "defaultValue": "60"
             },
             "requestUrl": {
@@ -243,8 +243,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "request-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "request-url"
             },
             "baseOTPUrl": {
                 "type": "string",
@@ -262,8 +262,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "base-o-t-p-url",
-                "reflect": false
+                "reflect": false,
+                "attribute": "base-o-t-p-url"
             },
             "showResend": {
                 "type": "boolean",
@@ -281,8 +281,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "show-resend",
                 "reflect": false,
+                "attribute": "show-resend",
                 "defaultValue": "true"
             },
             "email": {
@@ -301,8 +301,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "email",
-                "reflect": false
+                "reflect": false,
+                "attribute": "email"
             },
             "otpLength": {
                 "type": "number",
@@ -320,8 +320,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "otp-length",
                 "reflect": false,
+                "attribute": "otp-length",
                 "defaultValue": "6"
             },
             "ticket": {
@@ -340,8 +340,8 @@ export class IrOtpModal {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             }
         };
     }
@@ -426,4 +426,3 @@ export class IrOtpModal {
             }];
     }
 }
-//# sourceMappingURL=ir-otp-modal.js.map

@@ -1,8 +1,1 @@
-import { I as IrHkUserDrawer$1, d as defineCustomElement$1 } from './ir-hk-user-drawer2.js';
-
-const IrHkUserDrawer = IrHkUserDrawer$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrHkUserDrawer, defineCustomElement };
-
-//# sourceMappingURL=ir-hk-user-drawer.js.map
+import{I as r,d as s}from"./ir-hk-user-drawer2.js";const o=r,a=s;export{o as IrHkUserDrawer,a as defineCustomElement}

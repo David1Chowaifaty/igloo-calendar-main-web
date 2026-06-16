@@ -201,8 +201,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "agent-id",
                 "reflect": false,
+                "attribute": "agent-id",
                 "defaultValue": "null"
             },
             "mode": {
@@ -221,8 +221,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "bookingNbr": {
@@ -241,8 +241,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "booking-nbr",
                 "reflect": false,
+                "attribute": "booking-nbr",
                 "defaultValue": "null"
             },
             "startDate": {
@@ -261,8 +261,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "start-date",
                 "reflect": false,
+                "attribute": "start-date",
                 "defaultValue": "null"
             },
             "endDate": {
@@ -281,8 +281,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "end-date",
                 "reflect": false,
+                "attribute": "end-date",
                 "defaultValue": "null"
             },
             "currencyId": {
@@ -301,8 +301,8 @@ export class IrClInvoiceDialog {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "currency-id",
                 "reflect": false,
+                "attribute": "currency-id",
                 "defaultValue": "null"
             },
             "rooms": {
@@ -315,7 +315,8 @@ export class IrClInvoiceDialog {
                         "Room": {
                             "location": "import",
                             "path": "@/models/booking.dto",
-                            "id": "src/models/booking.dto.ts::Room"
+                            "id": "src/models/booking.dto.ts::Room",
+                            "referenceLocation": "Room"
                         }
                     }
                 },
@@ -357,7 +358,8 @@ export class IrClInvoiceDialog {
                         "FiscalDocument": {
                             "location": "import",
                             "path": "@/services/city-ledger",
-                            "id": "src/services/city-ledger/index.ts::FiscalDocument"
+                            "id": "src/services/city-ledger/index.ts::FiscalDocument",
+                            "referenceLocation": "FiscalDocument"
                         }
                     }
                 }
@@ -378,7 +380,8 @@ export class IrClInvoiceDialog {
                         "ClFiscalDocumentPreviewRequest": {
                             "location": "import",
                             "path": "../ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types",
-                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest"
+                            "id": "src/components/ir-city-ledger/ir-city-ledger-fiscal-documents/ir-cl-fiscal-document-preview/types.ts::ClFiscalDocumentPreviewRequest",
+                            "referenceLocation": "ClFiscalDocumentPreviewRequest"
                         }
                     }
                 }
@@ -423,4 +426,3 @@ export class IrClInvoiceDialog {
         };
     }
 }
-//# sourceMappingURL=ir-cl-invoice-dialog.js.map

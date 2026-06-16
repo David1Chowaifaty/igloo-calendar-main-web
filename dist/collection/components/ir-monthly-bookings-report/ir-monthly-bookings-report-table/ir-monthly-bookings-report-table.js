@@ -38,7 +38,8 @@ export class IrMonthlyBookingsReportTable {
                         "DailyReport": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReport"
+                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReport",
+                            "referenceLocation": "DailyReport"
                         }
                     }
                 },
@@ -55,4 +56,3 @@ export class IrMonthlyBookingsReportTable {
         };
     }
 }
-//# sourceMappingURL=ir-monthly-bookings-report-table.js.map

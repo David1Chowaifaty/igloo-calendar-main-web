@@ -1,8 +1,1 @@
-import { I as IrEmptyState$1, d as defineCustomElement$1 } from './ir-empty-state2.js';
-
-const IrEmptyState = IrEmptyState$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrEmptyState, defineCustomElement };
-
-//# sourceMappingURL=ir-empty-state.js.map
+import{I as t,d as s}from"./ir-empty-state2.js";const o=t,r=s;export{o as IrEmptyState,r as defineCustomElement}

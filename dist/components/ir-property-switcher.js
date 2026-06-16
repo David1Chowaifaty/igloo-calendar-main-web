@@ -1,8 +1,1 @@
-import { I as IrPropertySwitcher$1, d as defineCustomElement$1 } from './ir-property-switcher2.js';
-
-const IrPropertySwitcher = IrPropertySwitcher$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrPropertySwitcher, defineCustomElement };
-
-//# sourceMappingURL=ir-property-switcher.js.map
+import{I as r,d as o}from"./ir-property-switcher2.js";const s=r,t=o;export{s as IrPropertySwitcher,t as defineCustomElement}

@@ -29,12 +29,13 @@ export class IrStatsCard {
                 "mutable": false,
                 "complexType": {
                     "original": "TIcons",
-                    "resolved": "\"angle-down\" | \"clock\" | \"check\" | \"heart-fill\" | \"envelope-circle-check\" | \"danger\" | \"bell\" | \"burger_menu\" | \"home\" | \"xmark\" | \"minus\" | \"user\" | \"heart\" | \"user_group\" | \"search\" | \"arrow_right\" | \"arrow_left\" | \"circle_info\" | \"calendar\" | \"xmark-fill\" | \"globe\" | \"facebook\" | \"twitter\" | \"whatsapp\" | \"instagram\" | \"youtube\" | \"angle_left\" | \"circle_check\" | \"eraser\" | \"file\" | \"edit\" | \"trash\" | \"plus\" | \"reciept\" | \"print\" | \"menu_list\" | \"save\" | \"credit_card\" | \"closed_eye\" | \"open_eye\" | \"server\" | \"double_caret_left\" | \"square_plus\" | \"angles_left\" | \"angle_right\" | \"angles_right\" | \"outline_user\" | \"key\" | \"unlock\" | \"circle_plus\" | \"arrow-right-from-bracket\" | \"note\" | \"email\" | \"calendar-xmark\" | \"arrow-trend-up\" | \"hotel\" | \"arrow-trend-down\" | \"angle-up\" | \"ban\"",
+                    "resolved": "\"angle-down\" | \"angle-up\" | \"angle_left\" | \"angle_right\" | \"angles_left\" | \"angles_right\" | \"arrow-right-from-bracket\" | \"arrow-trend-down\" | \"arrow-trend-up\" | \"arrow_left\" | \"arrow_right\" | \"ban\" | \"bell\" | \"burger_menu\" | \"calendar\" | \"calendar-xmark\" | \"check\" | \"circle_check\" | \"circle_info\" | \"circle_plus\" | \"clock\" | \"closed_eye\" | \"credit_card\" | \"danger\" | \"double_caret_left\" | \"edit\" | \"email\" | \"envelope-circle-check\" | \"eraser\" | \"facebook\" | \"file\" | \"globe\" | \"heart\" | \"heart-fill\" | \"home\" | \"hotel\" | \"instagram\" | \"key\" | \"menu_list\" | \"minus\" | \"note\" | \"open_eye\" | \"outline_user\" | \"plus\" | \"print\" | \"reciept\" | \"save\" | \"search\" | \"server\" | \"square_plus\" | \"trash\" | \"twitter\" | \"unlock\" | \"user\" | \"user_group\" | \"whatsapp\" | \"xmark\" | \"xmark-fill\" | \"youtube\"",
                     "references": {
                         "TIcons": {
                             "location": "import",
                             "path": "@/components/ui/ir-icons/icons",
-                            "id": "src/components/ui/ir-icons/icons.ts::TIcons"
+                            "id": "src/components/ui/ir-icons/icons.ts::TIcons",
+                            "referenceLocation": "TIcons"
                         }
                     }
                 },
@@ -46,8 +47,8 @@ export class IrStatsCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon",
-                "reflect": false
+                "reflect": false,
+                "attribute": "icon"
             },
             "cardTitle": {
                 "type": "string",
@@ -65,8 +66,8 @@ export class IrStatsCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "card-title",
-                "reflect": false
+                "reflect": false,
+                "attribute": "card-title"
             },
             "subtitle": {
                 "type": "string",
@@ -84,8 +85,8 @@ export class IrStatsCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "subtitle",
-                "reflect": false
+                "reflect": false,
+                "attribute": "subtitle"
             },
             "value": {
                 "type": "string",
@@ -103,10 +104,9 @@ export class IrStatsCard {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             }
         };
     }
 }
-//# sourceMappingURL=ir-stats-card.js.map

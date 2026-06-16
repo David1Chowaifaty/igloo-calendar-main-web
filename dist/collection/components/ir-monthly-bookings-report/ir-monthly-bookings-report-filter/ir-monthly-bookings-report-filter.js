@@ -117,8 +117,8 @@ export class IrMonthlyBookingsReportFilter {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "is-loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "is-loading"
             },
             "baseFilters": {
                 "type": "unknown",
@@ -130,7 +130,8 @@ export class IrMonthlyBookingsReportFilter {
                         "DailyReportFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReportFilter"
+                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReportFilter",
+                            "referenceLocation": "DailyReportFilter"
                         }
                     }
                 },
@@ -170,11 +171,11 @@ export class IrMonthlyBookingsReportFilter {
                         "DailyReportFilter": {
                             "location": "import",
                             "path": "../types",
-                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReportFilter"
+                            "id": "src/components/ir-monthly-bookings-report/types.ts::DailyReportFilter",
+                            "referenceLocation": "DailyReportFilter"
                         }
                     }
                 }
             }];
     }
 }
-//# sourceMappingURL=ir-monthly-bookings-report-filter.js.map

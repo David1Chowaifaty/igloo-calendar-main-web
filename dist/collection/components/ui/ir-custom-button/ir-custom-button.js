@@ -104,8 +104,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "link",
-                "reflect": false
+                "reflect": false,
+                "attribute": "link"
             },
             "iconBtn": {
                 "type": "boolean",
@@ -123,8 +123,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "icon-btn",
-                "reflect": true
+                "reflect": true,
+                "attribute": "icon-btn"
             },
             "variant": {
                 "type": "string",
@@ -148,8 +148,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "variant",
-                "reflect": false
+                "reflect": false,
+                "attribute": "variant"
             },
             "appearance": {
                 "type": "string",
@@ -173,8 +173,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "appearance",
-                "reflect": false
+                "reflect": false,
+                "attribute": "appearance"
             },
             "size": {
                 "type": "string",
@@ -198,8 +198,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "size",
                 "reflect": false,
+                "attribute": "size",
                 "defaultValue": "'small'"
             },
             "withCaret": {
@@ -224,8 +224,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "with-caret",
-                "reflect": false
+                "reflect": false,
+                "attribute": "with-caret"
             },
             "disabled": {
                 "type": "boolean",
@@ -249,8 +249,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
-                "reflect": false
+                "reflect": false,
+                "attribute": "disabled"
             },
             "loading": {
                 "type": "boolean",
@@ -274,8 +274,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "loading",
-                "reflect": false
+                "reflect": false,
+                "attribute": "loading"
             },
             "pill": {
                 "type": "boolean",
@@ -299,8 +299,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "pill",
-                "reflect": false
+                "reflect": false,
+                "attribute": "pill"
             },
             "type": {
                 "type": "string",
@@ -324,8 +324,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "type",
                 "reflect": false,
+                "attribute": "type",
                 "defaultValue": "'button'"
             },
             "name": {
@@ -350,8 +350,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "name",
-                "reflect": false
+                "reflect": false,
+                "attribute": "name"
             },
             "value": {
                 "type": "string",
@@ -375,8 +375,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
-                "reflect": false
+                "reflect": false,
+                "attribute": "value"
             },
             "href": {
                 "type": "string",
@@ -400,8 +400,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "href",
-                "reflect": false
+                "reflect": false,
+                "attribute": "href"
             },
             "target": {
                 "type": "string",
@@ -425,8 +425,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "target",
-                "reflect": false
+                "reflect": false,
+                "attribute": "target"
             },
             "rel": {
                 "type": "string",
@@ -450,8 +450,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "rel",
-                "reflect": false
+                "reflect": false,
+                "attribute": "rel"
             },
             "download": {
                 "type": "string",
@@ -475,8 +475,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "download",
-                "reflect": false
+                "reflect": false,
+                "attribute": "download"
             },
             "form": {
                 "type": "string",
@@ -500,8 +500,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form"
             },
             "formAction": {
                 "type": "string",
@@ -525,8 +525,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-action",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-action"
             },
             "formEnctype": {
                 "type": "string",
@@ -550,8 +550,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-enctype",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-enctype"
             },
             "formMethod": {
                 "type": "string",
@@ -575,8 +575,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-method",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-method"
             },
             "formNoValidate": {
                 "type": "boolean",
@@ -600,8 +600,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-no-validate",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-no-validate"
             },
             "formTarget": {
                 "type": "string",
@@ -625,8 +625,8 @@ export class IrCustomButton {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "form-target",
-                "reflect": false
+                "reflect": false,
+                "attribute": "form-target"
             }
         };
     }
@@ -655,4 +655,3 @@ export class IrCustomButton {
     }
     static get elementRef() { return "el"; }
 }
-//# sourceMappingURL=ir-custom-button.js.map

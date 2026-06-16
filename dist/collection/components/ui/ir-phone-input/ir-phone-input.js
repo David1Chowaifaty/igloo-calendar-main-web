@@ -224,8 +224,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "mode",
                 "reflect": false,
+                "attribute": "mode",
                 "defaultValue": "'default'"
             },
             "label": {
@@ -244,8 +244,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "label",
-                "reflect": false
+                "reflect": false,
+                "attribute": "label"
             },
             "value": {
                 "type": "string",
@@ -263,8 +263,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "value",
                 "reflect": false,
+                "attribute": "value",
                 "defaultValue": "''"
             },
             "disabled": {
@@ -283,8 +283,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "disabled",
                 "reflect": false,
+                "attribute": "disabled",
                 "defaultValue": "false"
             },
             "error": {
@@ -303,8 +303,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "error",
                 "reflect": false,
+                "attribute": "error",
                 "defaultValue": "false"
             },
             "token": {
@@ -323,8 +323,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "token",
-                "reflect": false
+                "reflect": false,
+                "attribute": "token"
             },
             "language": {
                 "type": "string",
@@ -342,8 +342,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
-                "reflect": false
+                "reflect": false,
+                "attribute": "language"
             },
             "default_country": {
                 "type": "number",
@@ -361,8 +361,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "default_country",
                 "reflect": false,
+                "attribute": "default_country",
                 "defaultValue": "null"
             },
             "phone_prefix": {
@@ -381,8 +381,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "phone_prefix",
                 "reflect": false,
+                "attribute": "phone_prefix",
                 "defaultValue": "null"
             },
             "placeholder": {
@@ -401,8 +401,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "placeholder",
-                "reflect": false
+                "reflect": false,
+                "attribute": "placeholder"
             },
             "countries": {
                 "type": "unknown",
@@ -414,7 +414,8 @@ export class IrPhoneInput {
                         "ICountry": {
                             "location": "import",
                             "path": "@/components",
-                            "id": "src/components.d.ts::ICountry"
+                            "id": "src/components.d.ts::ICountry",
+                            "referenceLocation": "ICountry"
                         }
                     }
                 },
@@ -444,8 +445,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "test-id",
-                "reflect": false
+                "reflect": false,
+                "attribute": "test-id"
             },
             "floatingLabel": {
                 "type": "boolean",
@@ -463,8 +464,8 @@ export class IrPhoneInput {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "floating-label",
-                "reflect": true
+                "reflect": true,
+                "attribute": "floating-label"
             }
         };
     }
@@ -514,4 +515,3 @@ export class IrPhoneInput {
             }];
     }
 }
-//# sourceMappingURL=ir-phone-input.js.map

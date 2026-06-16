@@ -1,8 +1,1 @@
-import { I as IrGuestInfoForm$1, d as defineCustomElement$1 } from './ir-guest-info-form2.js';
-
-const IrGuestInfoForm = IrGuestInfoForm$1;
-const defineCustomElement = defineCustomElement$1;
-
-export { IrGuestInfoForm, defineCustomElement };
-
-//# sourceMappingURL=ir-guest-info-form.js.map
+import{I as o,d as r}from"./ir-guest-info-form2.js";const s=o,t=r;export{s as IrGuestInfoForm,t as defineCustomElement}

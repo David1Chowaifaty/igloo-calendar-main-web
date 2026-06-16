@@ -7,4 +7,3 @@ const initialState = {
 };
 export const { state: payment_option_store } = createStore(initialState);
 export default payment_option_store;
-//# sourceMappingURL=payment-option.store.js.map

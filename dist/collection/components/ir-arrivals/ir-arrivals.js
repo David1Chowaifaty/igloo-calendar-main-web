@@ -207,8 +207,8 @@ export class IrArrivals {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "ticket",
-                "reflect": false
+                "reflect": false,
+                "attribute": "ticket"
             },
             "propertyid": {
                 "type": "number",
@@ -226,8 +226,8 @@ export class IrArrivals {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "propertyid",
-                "reflect": false
+                "reflect": false,
+                "attribute": "propertyid"
             },
             "language": {
                 "type": "string",
@@ -245,8 +245,8 @@ export class IrArrivals {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "language",
                 "reflect": false,
+                "attribute": "language",
                 "defaultValue": "'en'"
             },
             "p": {
@@ -265,8 +265,8 @@ export class IrArrivals {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "p",
-                "reflect": false
+                "reflect": false,
+                "attribute": "p"
             },
             "pageSize": {
                 "type": "number",
@@ -284,8 +284,8 @@ export class IrArrivals {
                 },
                 "getter": false,
                 "setter": false,
-                "attribute": "page-size",
                 "reflect": false,
+                "attribute": "page-size",
                 "defaultValue": "20"
             }
         };
@@ -338,4 +338,3 @@ export class IrArrivals {
             }];
     }
 }
-//# sourceMappingURL=ir-arrivals.js.map
