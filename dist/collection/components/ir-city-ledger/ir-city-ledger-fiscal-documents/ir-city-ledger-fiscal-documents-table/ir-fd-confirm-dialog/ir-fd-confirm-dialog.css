@@ -44,3 +44,16 @@
   border-color: var(--wa-color-brand-500, #6366f1);
   box-shadow: 0 0 0 2px var(--wa-color-brand-100, #e0e7ff);
 }
+.confirm-dialog__radio-title,
+.confirm-dialog__radio-hint {
+  padding: 0;
+  margin: 0;
+}
+.confirm-dialog__radio-hint {
+  display: block;
+  color: var(--wa-form-control-hint-color);
+  font-weight: var(--wa-form-control-hint-font-weight);
+  line-height: var(--wa-form-control-hint-line-height);
+  margin-block-start: 0.5em;
+  font-size: var(--wa-font-size-smaller);
+}

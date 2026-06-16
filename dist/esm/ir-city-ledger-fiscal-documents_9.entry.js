@@ -1,20 +1,19 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { C as CityLedgerService } from './index-350f3d5f.js';
-import { a as FdTypes, C as ClTxTypeCode } from './enums-1dbd2724.js';
+import { C as CityLedgerService, F as FdTypes, b as ClTxTypeCode } from './index-39bc3997.js';
 import { h as hooks } from './moment-ab846cee.js';
 import { D as Debounce } from './debounce-542065c2.js';
-import { z } from './index-1e1f097b.js';
+import { z } from './index-87419685.js';
 import { r as realtimeService } from './realtime.service-cd7f5b8f.js';
-import { m as mapClTxToFolioRow, a as actionableClTypes, d as debitFdTypeCode } from './city-ledger.service-3e2c2d70.js';
+import { m as mapClTxToFolioRow, a as actionableClTypes, d as debitFdTypeCode } from './city-ledger.service-40d6958c.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { v as v4 } from './v4-964634d6.js';
-import { k as formatAmount } from './utils-4409b691.js';
+import { f as formatAmount } from './utils-91ae2576.js';
 import { c as createColumnHelper, f as flexRender, u as useTable, g as getCoreRowModel, a as getSortedRowModel, b as getGroupedRowModel, d as getExpandedRowModel } from './useTable-b8c70fc7.js';
 import { _ as _formatTime } from './functions-a2d88561.js';
 import './axios-aa1335b8.js';
 import './locales.store-cb784e95.js';
 import './index-f100e9d2.js';
-import './type-cce4b8e0.js';
+import './type-501de9b6.js';
 
 const irCityLedgerFiscalDocumentsCss = ".sc-ir-city-ledger-fiscal-documents-h{display:block;max-width:1000px;margin-inline:auto}.fiscal-documents.sc-ir-city-ledger-fiscal-documents{display:flex;flex-direction:column;gap:0.875rem}";
 const IrCityLedgerFiscalDocumentsStyle0 = irCityLedgerFiscalDocumentsCss;
@@ -84,14 +83,14 @@ const IrCityLedgerFiscalDocuments = class {
         }
     }
     render() {
-        return (h(Host, { key: '6275ccd50b252db9c8dcbb92ff4475de397dea19' }, h("section", { key: 'dd13a51f78452ba5cc05444ef7e3a33ac042d2df', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: 'b5ec626ed72d1d486d8cc5dc78bd9ca4abfaa051', filters: this.filters, onFiltersChange: event => {
+        return (h(Host, { key: '8742b144fb47508be80feb03216c23f2f0d7f782' }, h("section", { key: '11e726e730dbb52f2b83524c8e8ef74d001902f9', class: "fiscal-documents", "aria-label": "City ledger fiscal documents" }, h("ir-city-ledger-fiscal-documents-filters", { key: '8eca3ec25407fdd4754ff1483f0d43d3b92fdb88', filters: this.filters, onFiltersChange: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
             }, onApplyFilters: event => {
                 this.filters = event.detail;
                 this.clFiscalFiltersChange.emit(event.detail);
                 this.fetchFiscalDocuments(event.detail);
-            } }), h("ir-city-ledger-fiscal-documents-table", { key: '07ee6d1d1ba48df261dc2a671d8be30ae70c4161', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
+            } }), h("ir-city-ledger-fiscal-documents-table", { key: '1e6f9d865fce39cf586b4382cc22fceaf3430761', isLoading: this.isLoading, rows: this.filteredDocuments, currencySymbol: this.currencySymbol, currencies: this.currencies, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), hasFetched: this.hasFetched, ticket: this.ticket, propertyId: this.propertyId, agentId: this.agentId, fromDate: this.filters.fromDate, toDate: this.filters.toDate, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) }))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]
@@ -148,17 +147,17 @@ const IrCityLedgerFiscalDocumentsFilters = class {
         this.updateFilters({ docNumber: value });
     }
     render() {
-        return (h("form", { key: 'c79ad5e5b6aa1b13219552e874b395f4e364d97f', onSubmit: e => {
+        return (h("form", { key: '40b83144734fd35c94316c2c6ed639fd5c2cfb22', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit(this.filters);
-            } }, h("div", { key: '85888fc788e45f90c6680c4632cb2a558dec33d2', class: "filters-bar" }, h("ir-validator", { key: 'bc9dc827048613d93023bf4392ac95167743411f', value: this.filters?.fromDate || this.filters?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'eb62b60b90297d5675f1f96cedae9d7418edbe68', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: '26456bddf6261d98f3530d63ba27acdf8d12a65f', class: "filters-bar__search-group" }, h("div", { key: 'b9062ca7c886fe4f9dd7e72ec82934e65ad9fbf2', class: "filters-bar__type-group" }, h("wa-select", { key: '249756a9e7740a79c875bd05ce28882eacd476dd', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: 'abde1628cde42acce6e1e94f1ee4e0162bc78457', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes"), h("wa-switch", { key: 'b8803cdd244a9fadfff991e6557d84a913bfce9c', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
+            } }, h("div", { key: '6b1f2bf3c68d655fde54a80c783e0ce8a377ea9c', class: "filters-bar" }, h("ir-validator", { key: '0340f43d2737081101cc14a95cb7d7131d0ada43', value: this.filters?.fromDate || this.filters?.toDate, schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'be2c7f828ecb271139f43e8eb9d9834c5be054b2', maxDate: today.format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.filters.fromDate, toDate: this.filters.toDate, onDatesChanged: e => this.updateFilters({ fromDate: e.detail.from, toDate: e.detail.to }) })), h("div", { key: '9ddcf03ee5244c5c42175f93fd848f4e143a73c5', class: "filters-bar__search-group" }, h("div", { key: '4510eafc30a8ae272cde473bc94007b6cab93dea', class: "filters-bar__type-group" }, h("wa-select", { key: '78e9bda43f187dde4fd5211827c3e95a4aef1810', class: "filters-bar__status-select", value: this.filters.type, defaultValue: this.filters.type, onchange: e => this.updateFilters({ type: e.target.value }), size: "small", placeholder: "Document Type" }, this.typeOptions.map(option => (h("wa-option", { value: option.value, key: option.value }, option.label)))), h("wa-switch", { key: '5acd3ff4ca048844c3c1778046bde7c629e76ae2', class: "filters-bar__tax-switch", checked: this.filters.taxableOnly, onchange: e => this.updateFilters({ taxableOnly: e.target.checked }) }, "Taxes"), h("wa-switch", { key: 'd6b1b1be3e161432f3ca6fe5b2d3c81fd0534527', class: "filters-bar__proforma-switch", checked: this.filters.proformaOnly, onchange: e => {
                 const updated = { ...this.filters, proformaOnly: e.target.checked };
                 this.filtersChange.emit(updated);
                 this.applyFilters.emit(updated);
-            } }, "Proforma")), h("ir-input", { key: '376398538a3dfccf7f178342ba217e6048a79cdf', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
+            } }, "Proforma")), h("ir-input", { key: '0238874085800804563b25943623592d3e663474', class: "filters-bar__search-input", placeholder: "Search by doc number", value: this.docNumber, "onText-change": e => {
                 this.docNumber = e.detail;
                 this.emitSearchDebounced(e.detail);
-            }, withClear: true }, h("wa-icon", { key: 'f9f1eae73a29933e89007b1a614dea0d5d65df13', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '5b78a5a61112a9fe5aed7e55fdb2dc79568e139b', variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: 'af55d775034969422082b398ec45b31f54a8e221', name: "magnifying-glass" }))))));
+            }, withClear: true }, h("wa-icon", { key: '1c60f0a45f6fcef00c9030eb9bd084ac69b10054', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '0f7e7bca9a99045742eb422baab7bd9160d14880', variant: "neutral", appearance: "outlined", type: "submit" }, h("wa-icon", { key: '68c18406b21c40ed635a85a676bcb820afcae903', name: "magnifying-glass" }))))));
     }
 };
 __decorate$1([
@@ -466,7 +465,7 @@ const IrCityLedgerFolio = class {
         }
     }
     render() {
-        return (h(Host, { key: 'c270dd09feba490af41cd7032a379276a1be15fb' }, h("ir-city-ledger-folio-filters", { key: '72c771f74c18f99a36f920f6b13c32678f0012fa', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
+        return (h(Host, { key: 'c92c8d9b611e5d164a1029c01840d8192bfbf5f6' }, h("ir-city-ledger-folio-filters", { key: 'a3cd1eac30a70df2544a18c672e411a746c298a8', onFiltersChange: e => (this.filters = e.detail), onApplyFilters: async (e) => {
                 this.filters = e.detail;
                 this.pageIndex = 0;
                 await this.fetchFolioData();
@@ -475,7 +474,7 @@ const IrCityLedgerFolio = class {
                 this.isTransactionOpen = true;
             }, isExporting: this.isFetchingExcel, onExportFolio: () => {
                 this.fetchCl(true);
-            } }), h("ir-city-ledger-folio-table", { key: '71dedb1ed971e3a06e03c4b62e0e35cbf730e081', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
+            } }), h("ir-city-ledger-folio-table", { key: 'e42866607ed5798d4aa406eec3c23df15288dc15', agentId: this.agent?.id, propertyId: this.propertyId, ticket: this.ticket, language: this.language, hideBalanceInfo: !!(this.filters.search || (this.filters.status && this.filters.status !== 'all')), data: this.data, isLoading: this.isLoading, hasFetched: this.hasFetched, startingBalance: this.startingBalance, closingBalance: this.closingBalance, totalCount: this.totalCount, pageIndex: this.pageIndex, pageSize: this.pageSize, fromDate: this.filters?.fromDate, toDate: this.filters?.toDate, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, onPageChange: async (e) => {
                 this.pageIndex = e.detail.pageIndex;
                 this.pageSize = e.detail.pageSize;
                 await this.fetchFolioData();
@@ -487,12 +486,12 @@ const IrCityLedgerFolio = class {
                 this.isTransactionOpen = true;
             }, onDeleteEntry: e => {
                 this.deleteTarget = e.detail;
-            } }), h("ir-dialog", { key: 'beb4753db71596382ea85aa9873f8c201997d2ec', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
+            } }), h("ir-dialog", { key: 'd854d1e51b4b9cdd4d7ed8f04e5904f80562f979', label: "Delete Entry", open: !!this.deleteTarget, onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 if (!this.isDeleting)
                     this.deleteTarget = null;
-            } }, h("p", { key: '7db29863535c85e49f5b3b960a6d8aef052f62d8' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: 'ca47a4c4d1cebcf8eb9b5b5754f9dbb5ae84d04d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6c7d4f7f9e7f650edd69d49703a79ce359fa7326', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: '4a8a9b05799be2ed86dfcb373b677c772349f2aa', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: 'ad8223dd5b1ac6d69e63d7ca650b1c9319681629', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
+            } }, h("p", { key: '2b600458b0496f1cf03b27b82eedeb425d85952d' }, "Are you sure you want to delete this entry? This action cannot be undone."), h("div", { key: '875cdca13b0f11b188919b08a1d37c603fc75eac', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'cac5471d9a0d0979ffcc7bb43e4746167f6f0206', size: "medium", appearance: "filled", variant: "neutral", onClickHandler: () => (this.deleteTarget = null) }, "Cancel"), h("ir-custom-button", { key: 'a7c54b3b6f6a619052e81ec2b3abda10279e951a', size: "medium", variant: "danger", loading: this.isDeleting, onClickHandler: () => this.handleDelete() }, "Delete"))), h("ir-city-ledger-transaction-drawer", { key: '1d7049bfaf2a679a486426dbacced6c5af341e3f', open: this.isTransactionOpen, serviceCategoryOptions: this.serviceCategoryOptions, agent: this.agent, transaction: this.editingTransaction, drawerLabel: this.editingTransaction ? 'Edit Entry' : 'New Entry', onTransactionSaved: () => {
                 this.fetchFolioData();
             }, onCloseDrawer: () => {
                 this.isTransactionOpen = false;
@@ -559,7 +558,7 @@ const IrCityLedgerFolioFilters = class {
         this.emitFilters();
     }
     render() {
-        return (h("form", { key: '4d37f77609bccdce3ae029ba9513f4b20f24fa20', onSubmit: e => {
+        return (h("form", { key: '37b8923ef520de944c856df9b366128af7418ca8', onSubmit: e => {
                 e.preventDefault();
                 this.applyFilters.emit({
                     fromDate: this.dates.from?.format('YYYY-MM-DD'),
@@ -567,20 +566,20 @@ const IrCityLedgerFolioFilters = class {
                     status: this.statusFilter,
                     search: this.searchQuery,
                 });
-            } }, h("div", { key: 'e39b5deb732c1e8aa706df0b6776fb0ffa661503', class: "filters-bar" }, h("ir-validator", { key: 'dbfee81f72a6cb5f6156e135ef9ae67b1957871c', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'dbbf96833b0d0c6ddc716d5d32a264189c0be06f', maxDate: hooks().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
+            } }, h("div", { key: '6e756c60d1fe2e0df09305b1ef2e13695dfe6596', class: "filters-bar" }, h("ir-validator", { key: '08a2f5543e9ee3b25035614f361e46928d07294d', value: this.dates?.from?.format('YYYY-MM-DD') || this.dates?.to?.format('YYYY-MM-DD'), schema: z.string().nonempty(), class: "filters-bar__dates" }, h("ir-date-range-filter", { key: 'c3ad715f581b5cc5693d4f0ce26b639810a01fdd', maxDate: hooks().format('YYYY-MM-DD'), class: "filters-bar__date_picker", fromDate: this.dates.from?.format('YYYY-MM-DD') ?? undefined, toDate: this.dates.to?.format('YYYY-MM-DD') ?? undefined, onDatesChanged: e => {
                 const { from, to } = e.detail;
                 this.dates = {
                     from: from ? hooks(from, 'YYYY-MM-DD') : null,
                     to: to ? hooks(to, 'YYYY-MM-DD') : null,
                 };
                 this.emitFilters();
-            } })), h("div", { key: '6587413102fb8acdd302113b2393119c52344948', class: "filters-bar__search-group" }, h("wa-select", { key: '01b516b23ab552882947c49928c88c38cd7b21d9', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
+            } })), h("div", { key: 'dee0221df459e3638032e3c59fcc5f53771ef400', class: "filters-bar__search-group" }, h("wa-select", { key: '16cd2cf78621624106e4cd81bf4280d0609cd330', class: "filters-bar__status-select", value: this.statusFilter, onchange: e => {
                 this.statusFilter = e.target.value?.toString();
                 this.emitFilters();
             }, "onwa-clear": () => {
                 this.statusFilter = 'all';
                 this.emitFilters();
-            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '762cd6211f4c90d59739da9e8793ceed9eb1314a', class: "filters-bar__search-input", "onText-change": e => {
+            }, placeholder: "Status", size: "small", withClear: true }, this.statuses.map(s => (h("wa-option", { value: s.value, label: s.label }, s.label)))), h("ir-input", { key: '1975343de3c6edcf8985f21cd26e33821aef3123', class: "filters-bar__search-input", "onText-change": e => {
                 const wasCleared = this.searchQuery !== '' && e.detail === '';
                 this.searchQuery = e.detail;
                 if (wasCleared) {
@@ -601,7 +600,7 @@ const IrCityLedgerFolioFilters = class {
                 toDate: this.dates.to?.format('YYYY-MM-DD'),
                 status: this.statusFilter,
                 search: '',
-            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '939bf4a491b474c3434b609a22554994b17be61e', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: '386f2d2cf148772efeb3fb088b54e48cf3777d21', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: 'dc29272898282e10f19e66007175c4d6e2090a8d', name: "magnifying-glass" }))), h("div", { key: '42517bf9ddf1aa3e35882f58df1f9369f3d6aea5', class: "filters-bar__actions" }, h("ir-custom-button", { key: 'c4538a53e3699742548078a630de8713c0b02da3', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'c10a5be8b5a6265c19b19a1a3c529fedbfc2f36b', name: "download", slot: "start" }), h("span", { key: '790cb1109c379ec9fcd067d5bf68587251299fa5' }, "Export")), h("ir-custom-button", { key: '79aa309eeb35d4453e7fcee735ee783c1c89454a', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
+            }), value: this.searchQuery, placeholder: "Booking# or doc number", withClear: true }, h("wa-icon", { key: '3eaca834700eee622b0b700ec51e5b3451401e6c', name: "magnifying-glass", slot: "start", class: "filters-bar__search-icon" })), h("ir-custom-button", { key: 'afac96ce0b65dc32ae8fdf13d760b31ebcccd347', variant: "neutral", type: "submit", appearance: "outlined" }, h("wa-icon", { key: 'fc85aa2f96ebf6be8e8389d4c03b581f191dffa5', name: "magnifying-glass" }))), h("div", { key: 'd4859693335b9214425aa92ab1e05a869bec753f', class: "filters-bar__actions" }, h("ir-custom-button", { key: '9dcf348a312936dd4d78e079bd48047951eea1fd', loading: this.isExporting, appearance: "outlined", disabled: !this.dates.from && !this.dates.to, onClickHandler: () => this.exportFolio.emit() }, h("wa-icon", { key: 'ee2faeeeede15a6a841ffaf4a2524f339ae0fd37', name: "download", slot: "start" }), h("span", { key: '81e8e32b37070247942b87cfb39027da184cd98d' }, "Export")), h("ir-custom-button", { key: 'a0448db744eaedf88f7754f9b91ebb0c50f6743c', variant: "brand", appearance: "outlined", onClickHandler: () => this.addEntry.emit() }, "Add Entry")))));
     }
 };
 __decorate([
@@ -1046,19 +1045,19 @@ const IrCityLedgerStatements = class {
         return `Statement - ${hooks(this.printFilters.fromDate).format('MMM DD, YYYY')} to ${hooks(this.printFilters.toDate).format('MMM DD, YYYY')}`;
     }
     render() {
-        return (h(Host, { key: '2d17560fe41854e1c060728bb06c10c8d1274b0d' }, h("section", { key: '9fad1b3d27b8b9c197d9ae08a5498d1560bb55d8', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: '5a3463bacba835d39592e9c0be62f7414bef4f21', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
+        return (h(Host, { key: '9dbe32b50dcfc114a10ac70ed996385839962479' }, h("section", { key: 'd9836b69c6e43219aa8c0ae68439e583c38eccc8', class: "cl-statements", "aria-label": "City ledger statements" }, h("ir-city-ledger-statements-filter", { key: 'c72e58f271866a669ca391fe368e98f7c82e89f4', initialFromDate: this.filters.fromDate, initialToDate: this.filters.toDate, onFiltersChange: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
             }, onCreateStatement: e => {
                 this.filters = e.detail;
                 this.clStmtFiltersChange.emit(e.detail);
                 this.fetchStatement(e.detail);
-            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: 'ab832a09b854c7509855c3fe8afd3151183754d0', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: '66a87347c811cf96332cb08f1ef64f1c63cc2812', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
+            }, onPrintStatement: e => (this.printFilters = e.detail) }), h("ir-city-ledger-statements-table", { key: '0fb3410460f21cc53398a549f212d682363371d1', rows: this.rows, startingBalance: this.statement?.STARTING_BALANCE ?? 0, endingBalance: this.statement?.ENDING_BALANCE ?? 0, currencySymbol: this.currencySymbol, currencies: this.currencies, isLoading: this.isLoading, hasFetched: this.hasFetched, fromDate: this.filters.fromDate, toDate: this.filters.toDate, agentId: this.agentId })), h("ir-preview-screen-dialog", { key: 'c2c0355209e18452e07ffcb19f54802f78bc3527', hideDefaultAction: true, open: this.printFilters !== null, label: this.getPrintLabel(), onOpenChanged: e => {
                 if (!e.detail) {
                     this.printFilters = null;
                     this.pdfUrl = null;
                 }
-            } }, h("div", { key: 'a99580c3fc7af034c89c205d20cf3eef61cb77bf', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: 'f296f7807c44df7741a9ee877b65506aa4d90d33', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: '693ddc9520966e2ddef0f39e824ad8d9a0a3558e', name: "download", label: "Download PDF" })))), this.printFilters &&
+            } }, h("div", { key: 'a2dd34e3b483c420f4b764c5ced494c0eb7e3868', slot: "header-actions" }, this.pdfUrl && (h("ir-custom-button", { key: '65e2723a3319d3854fac502f2f6b0acf9fa091be', size: "medium", variant: "neutral", appearance: "plain", onClickHandler: () => this.handleDownload() }, h("wa-icon", { key: 'fe7d641e2fc42201cbf43a0fed2137cf37b069d1', name: "download", label: "Download PDF" })))), this.printFilters &&
             (this.isFetchingPdf ? (h("div", { class: "preview-loading" }, h("ir-spinner", null))) : (h("div", { class: "preview-body" }, h("ir-pdf-viewer", { src: this.pdfUrl })))))));
     }
     static get watchers() { return {
@@ -1299,10 +1298,10 @@ const IrCityLedgerToolbar = class {
         });
     }
     render() {
-        return (h(Host, { key: 'e85b233c9837a21ea397d8ca1b0773f3dbbc2d60' }, h("div", { key: '0d3c7027920a2b3938da65206b98a21739cd2c09', class: "toolbar" }, this.accountOverview ? (h("div", { class: "toolbar__stats" }, h("div", { id: "netbalance", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Net Balance"), h("span", { class: {
+        return (h(Host, { key: '436198169cf1bbbe16bf9506999280b08b5dd870' }, h("div", { key: '56e39baa88e9b72eed4b765106df132366ddbfd4', class: "toolbar" }, this.accountOverview ? (h("div", { class: "toolbar__stats" }, h("div", { id: "netbalance", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Net Balance"), h("span", { class: {
                 'toolbar__stat-value': true,
                 'toolbar__stat-value--negative': this.accountOverview.ACCOUNT_NET_BALANCE < 0,
-            } }, this.accountOverview.ACCOUNT_NET_BALANCE < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.accountOverview.ACCOUNT_NET_BALANCE)))), h("div", { class: "toolbar__stats-sep" }), h("div", { id: "uninvoiced", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Uninvoiced"), h("span", { class: "toolbar__stat-value" }, formatAmount(this.currencySymbol, this.accountOverview.TOTAL_UNINVOICED))), h("wa-tooltip", { for: "netbalance" }, "Ending balance as of ", hooks().format('MMM DD, YYYY'), " ", _formatTime(new Date().getHours().toString(), new Date().getMinutes().toString())), h("wa-tooltip", { for: "due-invoice" }), h("wa-tooltip", { for: "uninvoiced" }, "Total ", h("b", null, "unbilled"), " entries from bookings, manual charges, adjustments and discounts."), h("wa-tooltip", { for: "toolbar-held" }, "Total ", h("b", null, "held"), " entries to resolve with agent."))) : (h("div", { class: "toolbar__stats-placeholder" })), h("div", { key: '91daf87a8c25b9b2e4aafb18a29f4784bd10028f', class: "toolbar__actions" }, h("ir-custom-button", { key: 'f715878c631e1d24d7721ace4cc5359961502480', variant: "brand", onClickHandler: () => this.createInvoice.emit() }, "Create Invoice")))));
+            } }, this.accountOverview.ACCOUNT_NET_BALANCE < 0 ? '-' : '', formatAmount(this.currencySymbol, Math.abs(this.accountOverview.ACCOUNT_NET_BALANCE)))), h("div", { class: "toolbar__stats-sep" }), h("div", { id: "uninvoiced", class: "toolbar__stat" }, h("span", { class: "toolbar__stat-label" }, "Uninvoiced"), h("span", { class: "toolbar__stat-value" }, formatAmount(this.currencySymbol, this.accountOverview.TOTAL_UNINVOICED))), h("wa-tooltip", { for: "netbalance" }, "Ending balance as of ", hooks().format('MMM DD, YYYY'), " ", _formatTime(new Date().getHours().toString(), new Date().getMinutes().toString())), h("wa-tooltip", { for: "due-invoice" }), h("wa-tooltip", { for: "uninvoiced" }, "Total ", h("b", null, "unbilled"), " entries from bookings, manual charges, adjustments and discounts."), h("wa-tooltip", { for: "toolbar-held" }, "Total ", h("b", null, "held"), " entries to resolve with agent."))) : (h("div", { class: "toolbar__stats-placeholder" })), h("div", { key: '4bb13f935f91fdb5bd71a53fdefc22d71ee0abd7', class: "toolbar__actions" }, h("ir-custom-button", { key: '6b82d4c2347d9c09c124f510b8132080b1b54c94', variant: "brand", onClickHandler: () => this.createInvoice.emit() }, "Create Invoice")))));
     }
     static get watchers() { return {
         "agentId": ["handleAgentIdChange"]

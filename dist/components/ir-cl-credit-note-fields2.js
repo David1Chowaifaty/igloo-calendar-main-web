@@ -18,7 +18,7 @@ const IrClCreditNoteFields = /*@__PURE__*/ proxyCustomElement(class IrClCreditNo
     fieldChange;
     render() {
         // const noInvoices = this.fiscalDocuments.length === 0;
-        return (h(Fragment, { key: '2346956e514df8d9b3ea0ae0a1bb47a829007fe6' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '0c492e8afa9de3b0c1d7c6025b02a1f9edc26e50', class: "field" }, h("ir-cl-invoice-select", { key: '788b1d84364a27193baba0c404ea68840425f145', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
+        return (h(Fragment, { key: 'ef37b0af31715804bebae54d170f1d7301a7ce0a' }, this.creditNoteMode === 'cancel-invoice' && (h("div", { key: '287f38012bf223fb539ed0e0208a30d6e8666234', class: "field" }, h("ir-cl-invoice-select", { key: 'a5df74ee21c3b32d47d6c529528962b93e254d1b', value: this.invoiceId ?? '', fiscalDocuments: this.fiscalDocuments, label: "Invoice", onInvoiceChange: event => {
                 this.fieldChange.emit({ invoiceId: event.detail || undefined });
             }, hint: "Issuing this credit note will void the selected invoice and unlock all associated line items." })))));
     }

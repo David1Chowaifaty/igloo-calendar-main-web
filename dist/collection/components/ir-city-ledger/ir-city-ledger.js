@@ -14,7 +14,7 @@ export class IrCityLedger {
     propertyid;
     agentId = null;
     resolvedPropertyId = null;
-    currentTab = 'folio';
+    currentTab = 'fiscal-documents';
     isLoading = false;
     agents = [];
     selectedAgent = null;
