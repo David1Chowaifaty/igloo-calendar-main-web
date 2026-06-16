@@ -14,7 +14,7 @@ export declare class IrPdfViewer {
     /** URL of the PDF to display */
     src: string;
     onSrcChange(next: string): void;
-    /** Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load. */
+    /** Override the pdf.js worker URL (defaults to the bundled asset). Read once at first load. */
     workerSrc?: string;
     componentWillLoad(): void;
     componentDidLoad(): void;

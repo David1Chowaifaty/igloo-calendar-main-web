@@ -4842,7 +4842,7 @@ export namespace Components {
          */
         "src": string;
         /**
-          * Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load.
+          * Override the pdf.js worker URL (defaults to the bundled asset). Read once at first load.
          */
         "workerSrc"?: string;
     }
@@ -17611,7 +17611,7 @@ declare namespace LocalJSX {
          */
         "src"?: string;
         /**
-          * Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load.
+          * Override the pdf.js worker URL (defaults to the bundled asset). Read once at first load.
          */
         "workerSrc"?: string;
     }

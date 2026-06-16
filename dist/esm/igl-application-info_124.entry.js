@@ -49397,7 +49397,9 @@ let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('assets/pdf.worker.min.mjs', import.meta.url).href;
+    // `new URL(..., import.meta.url)` is detected by the bundler (Rollup/Stencil): the worker
+    // asset is emitted and the URL rewritten, so it resolves in both dev and prod ESM output.
+    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('../../assets/pdf.worker.min.mjs', import.meta.url).href;
     workerInitialized = true;
 }
 const IrPdfViewer = class {
@@ -49422,7 +49424,7 @@ const IrPdfViewer = class {
         this.currentPage = 1;
         this.loadPdf(next);
     }
-    /** Override the pdf.js worker URL (defaults to unpkg CDN). Read once at first load. */
+    /** Override the pdf.js worker URL (defaults to the bundled asset). Read once at first load. */
     workerSrc;
     componentWillLoad() {
         ensureWorker(this.workerSrc);
@@ -49556,7 +49558,7 @@ const IrPdfViewer = class {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: '01e8813ea6800092a5c878d7d875e2dbe18a97b5' }, h("canvas", { key: 'debc9dd74cee7691a8546894ee6d9216a62ae0e4', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'd2905586155dde6f13bbd05f69bc1b852d1e463f', class: "overlay" }, h("wa-spinner", { key: '46ba43dc532269f733697904560f9e5352b470ca' }))), error && !isLoading && (h("div", { key: '20a8ed16c92299f45ad71d4b42a6a59bcd170bb2', class: "error-state", role: "alert" }, h("wa-icon", { key: '99ff7611685a939eca6077e59c00e844927bb7f4', name: "triangle-exclamation" }), h("span", { key: '56e162d37922962a96b734a10dba3a5c2a890990' }, error))), totalPages > 1 && (h("div", { key: 'dcae3e152c233755aa0e358ae1bdbde27f6e27fb', class: "pagination" }, h("button", { key: '871af3dc08065b88f710a2d635c4fe1090b55f31', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '3e52c0e0096f2de9395cdafbe7dfd9733031c29e', name: "chevron-left" })), h("span", { key: '9ab0844bc3fd8a4cd8c5a60b82379786b073deee', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '1c5c6c838f35625457042c3d6a116e58c5c34c06', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '5d4303c460c4217d5a59cef52024e91e88877ab8', name: "chevron-right" }))))));
+        return (h(Host, { key: '2acf9462342732a6d08e8fad48d3f2bf507fe4a4' }, h("canvas", { key: '98a423a404d751fcfd90a220de720080e13e06f9', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '575bc9a7f6b4688306b5930be5a7e514eec65302', class: "overlay" }, h("wa-spinner", { key: '852c52616b699e2d430aea77109baed3c152d942' }))), error && !isLoading && (h("div", { key: 'fab14db57d562f6055e02b9ed1c267074a3fe8ea', class: "error-state", role: "alert" }, h("wa-icon", { key: '6c36ffede05187ff2996086b63fc16823c5c345f', name: "triangle-exclamation" }), h("span", { key: '70e0a6951f2706351ddf08f3910fbbee5d135410' }, error))), totalPages > 1 && (h("div", { key: 'c2859b7122b1e2b2e42fb73b10b11be8828a2ea0', class: "pagination" }, h("button", { key: '5c7aca733822aaf591a775436a781864acf8fd7b', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '61bd3bf23fe2d8650b08289f65cfeaa89dce376d', name: "chevron-left" })), h("span", { key: '1306cec2d9c38b9070db4cd51be707bd73031215', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'c5a0013355b4bed3aadb035c402d42ac3cf35027', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'b21e552ff350ccbe5f0a4e6f6b8ed1fd7d7f18a0', name: "chevron-right" }))))));
     }
     static get watchers() { return {
         "src": [{
