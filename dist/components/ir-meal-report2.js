@@ -67,7 +67,7 @@ class MealReportService {
     }
 }
 
-const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 992px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
+const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 1024px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
 const IrMealReportStyle0 = irMealReportCss;
 
 const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends HTMLElement {
@@ -82,7 +82,7 @@ const IrMealReport = /*@__PURE__*/ proxyCustomElement(class IrMealReport extends
     isPageLoading = true;
     isExporting = false;
     isDataLoading = false;
-    localReportType = 'MEAL_COUNT';
+    localReportType = 'GUEST_LIST';
     localFrom = hooks().format('YYYY-MM-DD');
     localTo = hooks().format('YYYY-MM-DD');
     localMealType = null;

@@ -1,7 +1,7 @@
 import { r as registerInstance, c as createEvent, h, H as Host } from './index-7e96440e.js';
-import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-0e645d86.js';
+import { H as HouseKeepingService, h as housekeeping_store } from './housekeeping.service-ff0c8099.js';
 import { l as locales } from './locales.store-cb784e95.js';
-import './index-87419685.js';
+import './index-1e1f097b.js';
 import './index-f100e9d2.js';
 import './axios-aa1335b8.js';
 

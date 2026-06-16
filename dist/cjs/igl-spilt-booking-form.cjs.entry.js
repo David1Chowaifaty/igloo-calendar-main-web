@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-1346a1f5.js');
+const booking_service = require('./booking.service-965ec29c.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const irInterceptor_store = require('./ir-interceptor.store-d60f5a34.js');
 const locales_store = require('./locales.store-32782582.js');
@@ -35,7 +35,7 @@ const IglSpiltBookingForm = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -71,7 +71,7 @@ const IglSpiltBookingForm = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;

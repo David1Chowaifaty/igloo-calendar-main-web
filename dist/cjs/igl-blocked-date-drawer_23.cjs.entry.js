@@ -3,11 +3,11 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
-const booking_store = require('./booking.store-1346a1f5.js');
+const booking_service = require('./booking.service-965ec29c.js');
 const utils = require('./utils-410526d1.js');
 const booking = require('./booking-07bbb19e.js');
 const moment = require('./moment-1780b03a.js');
-const events_service = require('./events.service-9623588d.js');
+const events_service = require('./events.service-86f0e981.js');
 const locales_store = require('./locales.store-32782582.js');
 const calendarData = require('./calendar-data-70bc3b4b.js');
 const toBeAssigned_service = require('./toBeAssigned.service-f8268652.js');
@@ -68,7 +68,7 @@ const IglBlockedDateDrawer = class {
         BLOCKED_TILL_MINUTE: null,
     };
     blockedDateDrawerClosed;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     async handleBlockDate() {
         try {
             this.isLoading = true;
@@ -159,7 +159,7 @@ const IglBookingEvent = class {
     isStretch = false;
     /*Services */
     eventsService = new events_service.EventsService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     /* Resize props */
     resizeSide = '';
     isDragging = false;
@@ -2133,7 +2133,7 @@ const IglRateExtenderForm = class {
     loadingChanged;
     /** Emits whether inventory is available for the additional nights (false when there is none). */
     availabilityChanged;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     inputRefs = [];
     shouldScrollToFirstEnabled = false;
     componentWillLoad() {
@@ -2335,7 +2335,7 @@ const IglRateExtenderForm = class {
         return (index.h("form", { id: "rate-extender-form", class: "rate-extender-form", onSubmit: e => {
                 e.preventDefault();
                 this.handleRoomConfirmation();
-            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_store.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", index.h("wa-icon", { name: "arrow-right" }), ' ', utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "small", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index$2) => {
+            } }, index.h("section", { class: "rate-form__body" }, index.h("p", { class: "rate-form__booking-number" }, `${locales_store.locales.entries.Lcz_Booking}#`, " ", this.bookingNumber), index.h("p", { class: "rate-form__rate-plan" }, this.selectedRoom.roomtype.name, " ", `${this.selectedRoom?.rateplan?.short_name}`, " ", this.selectedRoom?.rateplan?.custom_text, ' ', index.h("ir-unit-tag", { unit: (this.selectedRoom?.unit).name }), this.selectedRoom?.rateplan?.is_non_refundable && index.h("span", { class: 'irfontgreen' }, locales_store.locales.entries.Lcz_NonRefundable)), this.inventory !== 0 && this.inventory !== null && booking_service.booking_store.roomTypes?.length > 0 && (index.h("wa-callout", { size: "small", variant: "neutral", appearance: "filled", class: "rate-form__tax-callout booking-editor-header__tax_statement" }, calendarData.calendar_data.tax_statement))), index.h("p", { class: "rate-form__date-range" }, utils.formatDate(moment.hooks(this.dates.from_date).format('YYYY-MM-DD'), 'YYYY-MM-DD'), " ", index.h("wa-icon", { name: "arrow-right" }), ' ', utils.formatDate(moment.hooks(this.dates.to_date).format('YYYY-MM-DD'), 'YYYY-MM-DD')), (this.inventory === 0 || this.inventory === null) && (index.h("wa-callout", { size: "small", variant: "danger", class: "rate-form__availability-callout" }, index.h("wa-icon", { slot: "icon", name: "triangle-exclamation" }), locales_store.locales.entries.Lcz_NoAvailabilityForAdditionalNights)), this.rates?.map((day, index$2) => {
             return [
                 index.h("ir-validator", { key: day.date, value: day.amount, schema: index$1.z.number().min(0) }, index.h("ir-input", { ref: el => (this.inputRefs[index$2] = el), disabled: this.disabled(index$2), class: "rate-extender-input", "aria-describedby": "rate cost", "aria-label": "rate", "onText-change": e => this.handleInput(e.detail, index$2), value: day.amount.toString(), defaultValue: day.amount.toString(), mask: 'price', label: moment.hooks(day.date).format('ddd, MMM D') }, index.h("span", { slot: "start" }, currency_symbol))),
                 this.showArrow(index$2) && index.h("wa-icon", { class: "rate-extender-arrow", name: this.isEndDateBeforeFromDate ? 'arrow-up' : 'arrow-down' }),
@@ -2497,7 +2497,7 @@ const IglSplitBooking = class {
     mealPlanOptions = null;
     closeModal;
     defaultDates;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     componentWillLoad() {
         this.room = this.getRoom();
         this.defaultDates = { ...this.generateDates(this.room) };
@@ -2533,7 +2533,7 @@ const IglSplitBooking = class {
         return { from_date: today.clone().add(1, 'days'), to_date: MToDate };
     }
     async checkBookingAvailability() {
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const from_date = this.selectedDates.from_date.format('YYYY-MM-DD');
         const to_date = this.selectedDates.to_date.format('YYYY-MM-DD');
         const is_in_agent_mode = this.booking.agent !== null;
@@ -3416,7 +3416,7 @@ const IrReallocationForm = class {
     errors;
     mealPlanOptions = null;
     closeModal;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     eventsService = new events_service.EventsService();
     componentWillLoad() {
         this.room = this.getRoom();
@@ -3438,7 +3438,7 @@ const IrReallocationForm = class {
     }
     async checkBookingAvailability() {
         this.isLoading = true;
-        booking_store.resetBookingStore(false);
+        booking_service.resetBookingStore(false);
         const is_in_agent_mode = this.booking.agent !== null;
         const { from_date, to_date } = this.getDates();
         try {

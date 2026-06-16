@@ -13,7 +13,7 @@ export class IrMealReport {
     isPageLoading = true;
     isExporting = false;
     isDataLoading = false;
-    localReportType = 'MEAL_COUNT';
+    localReportType = 'GUEST_LIST';
     localFrom = moment().format('YYYY-MM-DD');
     localTo = moment().format('YYYY-MM-DD');
     localMealType = null;

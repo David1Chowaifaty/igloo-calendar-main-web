@@ -1,15 +1,15 @@
 import { r as registerInstance, g as getElement, h, H as Host, c as createEvent, F as Fragment } from './index-7e96440e.js';
-import { P as PropertyService } from './property.service-9f1758b6.js';
+import { P as PropertyService } from './property.service-ea931147.js';
 import { T as Token } from './Token-bcdb7c50.js';
-import { B as BookingListingService } from './booking_listing.service-87d1b6c3.js';
+import { B as BookingListingService } from './booking_listing.service-4dc70364.js';
 import { a as axios } from './axios-aa1335b8.js';
-import './index-87419685.js';
+import './index-1e1f097b.js';
 import './calendar-data-b1f645da.js';
 import './index-f100e9d2.js';
-import './utils-3c91939f.js';
+import './utils-4409b691.js';
 import './moment-ab846cee.js';
 import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
+import './type-cce4b8e0.js';
 
 const irMenuCss = ":host{display:block}";
 const IrMenuStyle0 = irMenuCss;
@@ -1892,8 +1892,8 @@ const IrPmsSearch = class {
         });
     }
     render() {
-        return (h(Host, { key: 'aa29e919dff00f75c703ca4656fdb0c0b0c9e588' }, h("ir-autocomplete", { key: '0ed8384778f0832e333699e9169918b5404ff1b8', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '6e6aa5a992bbe3e601398781702294f5247ffbab', name: "magnifying-glass", slot: "start" }), h("div", { key: 'd8091892a35aa826e6ce0997e483b91c907bd626', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'a61bfc9ae1fd4a09e865d547e55acb0d0ecf2a1d' }), this.shortcutHint && h("span", { key: '956c0fe352401152ff82415967a1f549a1a092e5' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: '318b172d2f419f11fcb32543ca68506b8ddf363c', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '2a286ac32f579d972c8ac9924d311c8067d752a6', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '45d633206e3df219822d48140224d674b4c3d3ce', class: "pms-search__empty-content" }, h("div", { key: 'da2f7b127352b4cc60f7682b6bfa9bee822548eb', class: "pms-search__empty-title" }, "No results found")))), this.bookings.map(b => {
-            const label = `${b.booking_nbr}  ${b.guest.first_name} ${b.guest.last_name}`;
+        return (h(Host, { key: 'aa29e919dff00f75c703ca4656fdb0c0b0c9e588' }, h("ir-autocomplete", { key: '0ed8384778f0832e333699e9169918b5404ff1b8', class: "pms-search__autocomplete", placeholder: "Booking# or guest name", ref: el => (this.autoCompleteRef = el), "onCombobox-change": event => this.handleComboboxSelect(event), "onText-change": event => this.fetchBookings(event), pill: true, appearance: "filled" }, h("wa-icon", { key: '6e6aa5a992bbe3e601398781702294f5247ffbab', name: "magnifying-glass", slot: "start" }), h("div", { key: 'd8091892a35aa826e6ce0997e483b91c907bd626', slot: "end", class: "pms-autocomplete__end-slot" }, this.isLoading && h("wa-spinner", { key: 'a61bfc9ae1fd4a09e865d547e55acb0d0ecf2a1d' }), this.shortcutHint && h("span", { key: '956c0fe352401152ff82415967a1f549a1a092e5' }, this.shortcutHint)), this.bookings?.length === 0 && !this.isLoading && (h("div", { key: '318b172d2f419f11fcb32543ca68506b8ddf363c', class: "pms-search__empty", role: "status", "aria-live": "polite" }, h("wa-icon", { key: '2a286ac32f579d972c8ac9924d311c8067d752a6', name: "circle-info", "aria-hidden": "true" }), h("div", { key: '45d633206e3df219822d48140224d674b4c3d3ce', class: "pms-search__empty-content" }, h("div", { key: 'da2f7b127352b4cc60f7682b6bfa9bee822548eb', class: "pms-search__empty-title" }, "No results found")))), this.bookings?.map(b => {
+            const label = `${b?.booking_nbr}  ${b?.guest?.first_name} ${b?.guest?.last_name}`;
             return (h("ir-autocomplete-option", { class: "pms-search__autocomplete-option", value: b.booking_nbr, label: label }, h("img", { slot: "start", class: "pms-search__option-icon", src: b.origin.Icon, alt: b.origin.Label }), h("div", { class: "pms-search__option" }, h("p", { class: "pms-search__option-bookings" }, h("span", { class: "pms-search__option-booking" }, b.booking_nbr), b.channel_booking_nbr && h("span", { class: "pms-search__option-channel-booking" }, b.channel_booking_nbr)), h("span", { class: "pms-search__option-label" }, b.guest.first_name, " ", b.guest.last_name)), h("ir-booking-status-tag", { slot: "end", class: "pms-search__option-status", status: b.status })));
         }))));
     }

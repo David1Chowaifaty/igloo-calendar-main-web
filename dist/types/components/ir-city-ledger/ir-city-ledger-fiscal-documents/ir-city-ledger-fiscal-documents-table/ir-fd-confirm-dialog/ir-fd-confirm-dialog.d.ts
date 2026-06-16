@@ -6,6 +6,8 @@ export declare class IrFdConfirmDialog {
     docNumber: string;
     isConfirming: boolean;
     fdType: string;
+    voidType: 'credit-note' | 'goodwill';
+    goodwillAmount: string;
     confirmed: EventEmitter<void>;
     cancelled: EventEmitter<void>;
     render(): any;

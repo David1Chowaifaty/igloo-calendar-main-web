@@ -201,8 +201,6 @@
    Compact by design: tight cell padding and small type so the table fits as
    many rows as possible and stays usable on narrow viewports. */
 :host {
-  --ir-cell-padding: 0.3rem 0.5rem;
-
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -303,3 +301,9 @@
   min-height: 200px;
 }
 /* #endregion */
+/*xl*/
+@media (min-width: 1280px) {
+  .cell__rate-plan {
+    width: 35% !important;
+  }
+}
