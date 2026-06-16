@@ -63,9 +63,9 @@ export class IrBookingExtraNote {
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: 'bea81109c0bdbb750983cb8acd9ced98f3437d6c', label: "Private Note", open: this.open, onIrDialogHide: () => {
+        return (h("ir-dialog", { key: '82c7a13ccb3e4323b1b67e0a852373587dea0876', label: "Private Note", open: this.open, onIrDialogHide: () => {
                 this.open = false;
-            } }, h("wa-textarea", { key: 'a2cf260edfa12aa2bdb797ccaf77588f2339df79', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'c1c54db7fc01ca11b9a51d5ae3672650a7aa479f', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '35e81b7092272df248cd2dcf9117fee4f19065da', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: '884f1b9c67962ef66e51d438f31acf1a641a7d8b', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
+            } }, h("wa-textarea", { key: '454b268924feb38e752b9b934df0eacff43f1e07', size: "small", placeholder: locales.entries.Lcz_PrivateNote_MaxChar, defaultValue: this.note, onchange: e => this.setNote(e.target.value), value: this.note }), h("div", { key: 'e6c86736f4e2d490860e70d82d13a5361c75250a', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'd744f0ec072e89eac5cbb4e2a8c61dbb9500e78c', "data-dialog": "close", size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.closeModal.emit(null), class: `flex-fill'}` }, locales.entries.Lcz_Cancel), h("ir-custom-button", { key: 'f5f48ef8f5de72b488e5877136fc368b6f4db665', size: "medium", onClickHandler: () => this.savePrivateNote(), variant: "brand", loading: this.isLoading }, locales.entries.Lcz_Save))));
     }
     static get is() { return "ir-booking-extra-note"; }
     static get encapsulation() { return "scoped"; }

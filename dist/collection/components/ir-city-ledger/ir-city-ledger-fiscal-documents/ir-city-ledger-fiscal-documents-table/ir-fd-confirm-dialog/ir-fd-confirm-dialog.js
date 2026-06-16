@@ -1,4 +1,4 @@
-import calendar_data from "../../../../../stores/calendar-data";
+// import calendar_data from '@/stores/calendar-data';
 import { FdTypes } from "../../../../../types/enums";
 import { h } from "@stencil/core";
 const CONFIGS = {
@@ -34,13 +34,13 @@ export class IrFdConfirmDialog {
     cancelled;
     render() {
         const config = this.action ? CONFIGS[this.action]?.(this.docNumber, this.fdType) : null;
-        const showVoidOptions = this.action === 'void' && this.fdType !== FdTypes.Receipt;
-        return (h("ir-dialog", { key: 'dddeb155816e53b4d789aa8df5e17291bd0bea67', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => {
+        // const showVoidOptions = this.action === 'void' && this.fdType !== FdTypes.Receipt;
+        return (h("ir-dialog", { key: '9dae602224a1323d8618bb95f07b18b5d15bcb5e', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => {
                 this.cancelled.emit();
             }, onIrDialogAfterHide: () => {
                 this.voidType = 'credit-note';
                 this.goodwillAmount = null;
-            } }, !showVoidOptions && h("p", { key: '6c1fa7b37b999374af55e5b230d1fc990832e7f1', class: "confirm-dialog__message" }, config?.message ?? ''), showVoidOptions && (h("div", { key: '8b5feb3ee8486a0f8dd7b9f90f779d34f76816e8', class: "void-options" }, h("wa-radio-group", { key: 'd42ebfe653b5e1a3e95a798e25b17c3a6847f146', defaultValue: this.voidType, value: this.voidType, onchange: (e) => (this.voidType = e.target.value) }, h("wa-radio", { key: '120dcb872cf816303899b46d0b0ed7bebb2dc696', value: "credit-note" }, h("p", { key: '265828c7ce4afd8dd90143d8a80c49e3e0728999', class: "confirm-dialog__radio-title" }, "Credit Note to reverse Invoice ", h("b", { key: '4291962e4ac9b299ae7145dbf19ab3d393d8e166' }, this.docNumber)), h("p", { key: 'f6613e4122da47f4a96bbb6f8947941bbefb7002', class: "confirm-dialog__radio-hint" }, "Issue a Credit Note to reverse the invoice and unlock all invoiced entries for future invoicing.")), h("wa-radio", { key: 'bb47cb411eaaf9d6eea927759be00784f6a02a31', value: "goodwill" }, h("p", { key: 'd58eea997ea0452eecd71e64244c6436e8e83065', class: "confirm-dialog__radio-title" }, "Adjustment Credit"), h("p", { key: 'dd06f93c0624ceaef04788877c633540bc15d3b4', class: "confirm-dialog__radio-hint" }, "Add a folio credit adjustment to create a fiscal credit note document related to ", h("b", { key: '03da7d7da6f4356c6a1ce1284534d61ec378948c' }, this.docNumber)))), this.voidType === 'goodwill' && (h("ir-input", { key: '73f062b88db2df39e110c9065dffe848781c8219', style: { marginLeft: '1.5rem' }, max: this.amount, min: "0", mask: 'price', value: this.goodwillAmount, defaultValue: this.goodwillAmount, "onText-change": e => (this.goodwillAmount = e.detail) }, h("span", { key: 'd410769ac0f71e52dd155beebde6491436afe17a', slot: "start" }, calendar_data.property.currency.symbol))))), h("div", { key: '2cea736fa3ff516c829e39cecdbcaab07a5f0dfb', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '0fa4bbd4abca338ba0c693acbb3c049ab09dfc8a', size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, "Cancel"), h("ir-custom-button", { key: 'c43cb92305c158aef6c668dba1c85f922b713441', size: "medium", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit({
+            } }, h("p", { key: '164b1bde497ccc98a495c4f8d3878bec72a198b2', class: "confirm-dialog__message" }, config?.message ?? ''), h("div", { key: '7be72b9f4d5b10b35f32df51ebba496b0e38269d', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '94462323d6d88d1b99776c6378dd8bdb9c14efb1', size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, "Cancel"), h("ir-custom-button", { key: 'cb030748f9cf5c9925f1ba0d231448c0df077190', size: "medium", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit({
                 amount: Number(this.goodwillAmount),
                 voidType: this.voidType,
             }), loading: this.isConfirming }, config?.confirmLabel ?? 'Confirm'))));
