@@ -1,31 +1,32 @@
 import { r as registerInstance, c as createEvent, g as getElement, h, F as Fragment, H as Host } from './index-7e96440e.js';
 import { R as RoomService } from './room.service-e5d266c2.js';
-import { B as BookingService } from './booking.store-c071bb5f.js';
-import { z as formatLegendColors, j as dateToFormattedString, l as isBlockUnit, A as getNextDay, B as addTwoMonthToDate, C as convertDMYToISO, D as computeEndDate, s as showToast, q as isPrivilegedUser, d as downloadFile, F as groupEntryTablesResult, b as getEntryValue } from './utils-3c91939f.js';
+import { B as BookingService } from './booking.service-62e743ac.js';
+import { w as formatLegendColors, d as dateToFormattedString, i as isBlockUnit, x as getNextDay, y as addTwoMonthToDate, z as convertDMYToISO, A as computeEndDate, s as showToast, p as isPrivilegedUser, l as downloadFile, B as getEntryValue } from './utils-4409b691.js';
 import { r as realtimeService } from './realtime.service-cd7f5b8f.js';
-import { E as EventsService } from './events.service-26de6847.js';
+import { E as EventsService } from './events.service-f95c3030.js';
 import { h as hooks } from './moment-ab846cee.js';
-import { T as ToBeAssignedService } from './toBeAssigned.service-632de761.js';
-import { d as calendar_dates, e as addCleaningTasks, f as formatName, h as getRoomStatus, i as cleanRoom, j as addRoomForCleaning, t as transformNewBooking, k as transformNewBLockedRooms, l as bookingStatus, g as getPrivateNote, c as calculateDaysBetweenDates } from './booking-cc29270d.js';
+import { T as ToBeAssignedService } from './toBeAssigned.service-19eccd96.js';
+import { a as calendar_dates, b as addCleaningTasks, f as formatName, d as getRoomStatus, e as cleanRoom, h as addRoomForCleaning, t as transformNewBooking, i as transformNewBLockedRooms, j as bookingStatus, k as getPrivateNote, c as calculateDaysBetweenDates } from './booking-db51b3fa.js';
 import { l as locales } from './locales.store-cb784e95.js';
 import { c as calendar_data } from './calendar-data-b1f645da.js';
 import { h as handleUnAssignedDatesChange, a as addUnassignedDates, r as removeUnassignedDates } from './unassigned_dates.store-6de7154f.js';
 import { T as Token } from './Token-bcdb7c50.js';
 import { v as v4 } from './v4-964634d6.js';
-import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-0e645d86.js';
-import { A as AgentsService } from './agents.service-64531ba1.js';
-import { P as PropertyService } from './property.service-9f1758b6.js';
-import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-1b5bee55.js';
+import { H as HouseKeepingService, h as housekeeping_store, u as updateHKStore } from './housekeeping.service-ff0c8099.js';
+import { A as AgentsService } from './agents.service-6ca78f40.js';
+import { P as PropertyService } from './property.service-ea931147.js';
+import { c as setArrivalsPageSize, o as onArrivalsStoreChange, a as arrivalsStore, d as setArrivalsTotal, i as initializeArrivalsStore, e as setArrivalsPage } from './arrivals.store-0d8acc82.js';
 import { a as axios } from './axios-aa1335b8.js';
-import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-87d1b6c3.js';
+import { B as BookingListingService, u as updateUserSelection, b as booking_listing, s as setPaginationPageSize, o as onBookingListingChange, a as updatePaginationFromSelection, c as updateUserSelections, d as setPaginationPage } from './booking_listing.service-4dc70364.js';
 import { s as setChannelIdAndActiveState, u as updateChannelSettings, a as selectChannel, t as testConnection, C as ChannelService, r as resetStore, c as channels_data } from './channel.service-3aa12093.js';
-import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-539ecdb4.js';
-import { z, o as objectType, n as numberType, e as enumType, s as stringType, b as booleanType } from './index-87419685.js';
+import { S as SystemService } from './system.service-4455d4dc.js';
+import { o as onDeparturesStoreChange, d as departuresStore, b as setDepartureTotal, i as initializeDeparturesStore, c as setDeparturesPage, e as setDeparturesPageSize } from './departures.store-63a4a366.js';
+import { z } from './index-1e1f097b.js';
 import { s as setLoading, u as updateTasks, h as hkTasksStore, c as clearSelectedTasks, a as updateSelectedTasks } from './hk-tasks.store-7c962578.js';
 import { P as PaymentOptionService, p as payment_option_store } from './payment-option.store-143754a7.js';
-import { U as UserService } from './user.service-35d3f630.js';
+import { U as UserService } from './user.service-10aa7d7e.js';
 import './index-f100e9d2.js';
-import './type-501de9b6.js';
+import './type-cce4b8e0.js';
 
 class BatchingQueue {
     queue = [];
@@ -1833,7 +1834,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (h(Host, { key: '12085d40ba65dda035900becd0b422b849f4808b', class: "p-1" }, h("ir-interceptor", { key: 'c9b0c335e12f1a6f313d8a052fda9d00dc4e145e', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: 'fcf5b239a986619c1e69d1a2aa99f76def67b3f2' }), h("div", { key: '4aa566171d39fb4f8ca5e76904fc5ad15c20cffe', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '8082b09c891ecf65e2fcbbaf2f27c77d373ca04a', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '171c1d724010022d102c4a07b3a48bb375ef6c10', size: "sm", text: "search", onClickHandler: async () => {
+        return (h(Host, { key: '3feff5a42a8aacbfddde3b1c9ebb35a4d88260d7', class: "p-1" }, h("ir-interceptor", { key: '5046817ba7f0212f815bf96f45d2ef874b31a9fe', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), h("ir-toast", { key: '89a241e93d1b9dbe1cd3546ea81d4b561985c522' }), h("div", { key: '91ae219e885d966b2d99a7b3afd8c3468d0baecb', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, h("ir-input-text", { key: '788ca681f48000e9d8f6de71c18e2e99eb0345f8', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), h("ir-button", { key: '611732be30c46a8ed69107a3a9d86be988bd8372', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1841,7 +1842,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), h("p", { key: '0aeb8d6566fb7bf8b1fc7e21d8baf3ff77907617' }, JSON.stringify(this.data, null, 2))));
+            } })), h("p", { key: '7786050819a518df76089a5002057e0f85eb0e73' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -2405,6 +2406,175 @@ const IrChannel = class {
     }; }
 };
 IrChannel.style = IrChannelStyle0;
+
+const irCityLedgerCss = ".sc-ir-city-ledger-h{display:block;height:100%}.city-ledger__agents-autocomplete.sc-ir-city-ledger{width:100%}@media (min-width: 768px){.city-ledger__agents-autocomplete.sc-ir-city-ledger{max-width:400px}}.city-ledger__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.city-ledger__no-agent.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.625rem;padding:5rem 2rem;height:100%;text-align:center;color:var(--wa-color-text-quiet, #6b7280)}.city-ledger__no-agent-icon-container.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.city-ledger__no-agent-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.city-ledger__no-agent-sub.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:400px;line-height:1.6}.statement-tab-panel.sc-ir-city-ledger{min-height:400px}.statement__empty-state.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:4rem 2rem;color:var(--wa-color-text-quiet, #6b7280);text-align:center}.statement__empty-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement__empty-subtitle.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:360px}.statement__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:1.25rem}.statement__controls.sc-ir-city-ledger{display:flex;align-items:flex-end;flex-wrap:wrap;gap:1rem}.statement__period-group.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.375rem}.statement__label.sc-ir-city-ledger{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280)}.statement__dates.sc-ir-city-ledger{display:flex;align-items:center;gap:0.5rem}.statement__date-picker.sc-ir-city-ledger{width:160px}.statement__dates-sep.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #9ca3af);font-weight:500}.statement__action-bar.sc-ir-city-ledger{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 1rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);border:1px solid var(--wa-color-brand-border-quiet, #bfdbfe);border-radius:0.625rem 0.625rem 0 0;font-size:0.875rem}.statement__action-bar-label.sc-ir-city-ledger{display:flex;align-items:center;font-weight:500;color:var(--wa-color-brand-on-quiet)}.statement__action-bar-buttons.sc-ir-city-ledger{display:flex;gap:0.5rem;flex-wrap:wrap}.statement__preview-wrapper.sc-ir-city-ledger{display:flex;flex-direction:column}.statement-doc.sc-ir-city-ledger{background:#fff;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-top:0;border-radius:0 0 0.75rem 0.75rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.04)}.statement-doc__header.sc-ir-city-ledger{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}.statement-doc__hotel.sc-ir-city-ledger{display:flex;align-items:center;gap:0.875rem}.statement-doc__hotel-logo.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:var(--wa-color-neutral-fill-quiet, #f3f4f6);border-radius:0.5rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__title.sc-ir-city-ledger{margin:0;font-size:1.375rem;font-weight:700;color:var(--wa-color-text-normal, #111827)}.statement-doc__subtitle.sc-ir-city-ledger{margin:0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.25rem;text-align:right}.statement-doc__meta-row.sc-ir-city-ledger{display:flex;justify-content:flex-end;gap:0.5rem;font-size:0.8125rem}.statement-doc__meta-label.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta-value.sc-ir-city-ledger{font-weight:500;color:var(--wa-color-text-normal, #111827)}.statement-doc__statement-number.sc-ir-city-ledger{font-family:ui-monospace, 'Cascadia Code', monospace;font-size:0.8125rem}.statement-doc__divider.sc-ir-city-ledger{border:0;border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);margin:0}.statement-doc__parties.sc-ir-city-ledger{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.statement-doc__party-label.sc-ir-city-ledger{margin:0 0 0.375rem;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__party-name.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement-doc__party-detail.sc-ir-city-ledger{margin:0.125rem 0 0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__summary.sc-ir-city-ledger{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.75rem}@media (min-width: 768px){.statement-doc__summary.sc-ir-city-ledger{grid-template-columns:repeat(4, 1fr)}}.statement-doc__summary-card.sc-ir-city-ledger{padding:1rem;border-radius:0.5rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);display:flex;flex-direction:column;gap:0.25rem}.statement-doc__summary-card--opening.sc-ir-city-ledger{border-color:var(--wa-color-neutral-border-quiet, #e5e7eb)}.statement-doc__summary-card--charges.sc-ir-city-ledger{border-color:#fecaca;background:#fef2f2}.statement-doc__summary-card--payments.sc-ir-city-ledger{border-color:#bbf7d0;background:#f0fdf4}.statement-doc__summary-card--due.sc-ir-city-ledger{border-color:var(--wa-color-brand-border-quiet, #bfdbfe);background:var(--wa-color-brand-fill-quiet, #eff6ff)}.statement-doc__summary-card-label.sc-ir-city-ledger{font-size:0.75rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);text-transform:uppercase;letter-spacing:0.03em}.statement-doc__summary-card-value.sc-ir-city-ledger{font-size:1.125rem;font-weight:700;color:var(--wa-color-text-normal, #111827);font-variant-numeric:tabular-nums}.statement-doc__balance-due.sc-ir-city-ledger{color:var(--wa-color-brand-fill-loud, #2563eb)}.statement-doc__table-wrapper.sc-ir-city-ledger{overflow-x:auto;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem}.statement-doc__table.sc-ir-city-ledger{width:100%;border-collapse:collapse;font-size:0.875rem}.statement-doc__table.sc-ir-city-ledger thead.sc-ir-city-ledger th.sc-ir-city-ledger{padding:0.625rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);font-weight:600;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280);text-align:left;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);white-space:nowrap}.statement-doc__table.sc-ir-city-ledger tbody.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.625rem 0.875rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #f3f4f6);color:var(--wa-color-text-normal, #111827)}.statement-doc__table.sc-ir-city-ledger tfoot.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.75rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:2px solid var(--wa-color-neutral-border-quiet, #e5e7eb);font-weight:700}.statement-doc__col--right.sc-ir-city-ledger{text-align:right}.statement-doc__opening-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:500;background:var(--wa-color-neutral-fill-quiet, #fafafa);color:var(--wa-color-text-quiet, #6b7280);font-size:0.8125rem}.statement-doc__totals-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:700}.statement-doc__table-note.sc-ir-city-ledger{text-align:center;color:var(--wa-color-text-quiet, #9ca3af);font-size:0.8125rem;padding:1.5rem !important}.statement-doc__footer.sc-ir-city-ledger{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;padding:0.875rem 1rem}.statement-doc__payment-notice.sc-ir-city-ledger{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__payment-notice.sc-ir-city-ledger p.sc-ir-city-ledger{margin:0;line-height:1.5}";
+const IrCityLedgerStyle0 = irCityLedgerCss;
+
+const IrCityLedger = class {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+    }
+    get el() { return getElement(this); }
+    ticket;
+    p;
+    baseurl;
+    language = 'en';
+    propertyid;
+    agentId = null;
+    resolvedPropertyId = null;
+    currentTab = 'folio';
+    isLoading = false;
+    agents = [];
+    selectedAgent = null;
+    taxOptions = [];
+    serviceCategoryOptions = [];
+    currencySymbol = '$';
+    // Statement tab state
+    statementFrom = null;
+    statementTo = null;
+    showStatementPreview = false;
+    folioSummary = null;
+    agentSearch = '';
+    fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
+    stmtFilters = { fromDate: null, toDate: null };
+    panels = [
+        { id: 'folio', label: 'Folio' },
+        { id: 'fiscal-documents', label: 'Fiscal Documents' },
+        { id: 'create-statement', label: 'Create Statement' },
+    ];
+    tokenService = new Token();
+    agentsService = new AgentsService();
+    propertyService = new PropertyService();
+    bookingService = new BookingService();
+    systemService = new SystemService();
+    toolbarRef;
+    createInvoiceDialogRef;
+    currencies = [];
+    get filteredAgents() {
+        const q = this.agentSearch.trim().toLowerCase();
+        if (!q)
+            return this.agents;
+        return this.agents.filter(a => a.name.toLowerCase().includes(q));
+    }
+    componentWillLoad() {
+        const agentId = this.getAgentIdFromSearchParams();
+        if (agentId && !this.agentId) {
+            this.agentId = agentId;
+        }
+        if (this.ticket) {
+            if (this.baseurl) {
+                this.tokenService.setBaseUrl(this.baseurl);
+            }
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.baseurl)
+            this.tokenService.setBaseUrl(this.baseurl);
+        this.tokenService.setToken(this.ticket);
+        this.init();
+    }
+    handlePropertyIdChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.ticket)
+            this.init();
+    }
+    handleAgentIdChange(newId, oldId) {
+        if (newId === oldId || this.isLoading)
+            return;
+        this.applyAgentIdProp();
+    }
+    getAgentIdFromSearchParams() {
+        const agentId = new URLSearchParams(window.location.search).get('agentId');
+        return agentId ? Number(agentId) : null;
+    }
+    applyAgentIdProp() {
+        if (this.agentId == null)
+            return;
+        const agent = this.agents.find(a => a.id === this.agentId);
+        if (!agent)
+            return;
+        this.selectedAgent = agent;
+        this.showStatementPreview = false;
+        this.folioSummary = null;
+        requestAnimationFrame(() => {
+            const autocomplete = this.el.querySelector('ir-autocomplete');
+            if (autocomplete)
+                autocomplete.value = agent.name;
+        });
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            // If a property name was supplied but no numeric id, resolve the id first.
+            let propertyId = this.propertyid;
+            if (!propertyId && this.p) {
+                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                propertyId = calendar_data.id;
+            }
+            this.resolvedPropertyId = propertyId;
+            const resolvedByName = !this.propertyid && !!this.p;
+            const [, setupEntries, agents, currencies] = await Promise.all([
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                this.agentsService.getExposedAgents({ property_id: propertyId }),
+                this.systemService.getExposedCurrencies(),
+            ]);
+            this.currencies = currencies;
+            this.agents = agents ?? [];
+            this.applyAgentIdProp();
+            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
+                id: entry.CODE_NAME,
+                label: entry.CODE_VALUE_EN,
+            }));
+            this.currencySymbol = calendar_data.currency?.symbol ?? '$';
+        }
+        catch (error) {
+            console.error('Failed to initialize city ledger', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    render() {
+        if (this.isLoading) {
+            return h("ir-loading-screen", null);
+        }
+        return (h(Host, null, h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), h("ir-autocomplete", { slot: "page-header",
+            // size="medium"
+            placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
+                this.agentSearch = e.detail ?? '';
+            }, "onCombobox-change": (e) => {
+                this.agentSearch = '';
+                this.selectedAgent = e.detail ? this.agents?.find(agent => agent.id === Number(e.detail)) : null;
+                this.showStatementPreview = false;
+                this.folioSummary = null;
+                this.fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
+                this.stmtFilters = { fromDate: null, toDate: null };
+                // Update URL search param
+                if (this.selectedAgent) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('agentId', this.selectedAgent.id.toString());
+                    window.history.replaceState({}, '', url);
+                }
+            } }, this.filteredAgents.map(agent => (h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (h("div", { class: "city-ledger__content" }, h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                this.currentTab = e.detail.name.toString();
+            }, active: this.currentTab }, this.panels.map(panel => (h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), h("wa-tab-panel", { name: "folio" }, h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, ticket: this.ticket, language: this.language, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), h("wa-tab-panel", { name: "fiscal-documents" }, h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.fiscalFilters, onClFiscalFiltersChange: e => (this.fiscalFilters = e.detail) })), h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.stmtFilters, onClStmtFiltersChange: e => (this.stmtFilters = e.detail) })))))), h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
+                await this.toolbarRef?.refresh();
+            } }), h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
+    }
+    static get watchers() { return {
+        "ticket": ["handleTicketChange"],
+        "propertyid": ["handlePropertyIdChange"],
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedger.style = IrCityLedgerStyle0;
 
 const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
@@ -3459,232 +3629,6 @@ const IrHousekeeping = class {
     }; }
 };
 IrHousekeeping.style = IrHousekeepingStyle0;
-
-const ParamsGetMealReportSchema = objectType({
-    property_id: numberType(),
-    report_type: enumType(['GUEST_LIST', 'MEAL_COUNT']),
-    from: stringType(),
-    to: stringType(),
-    meal_type_code: stringType().optional().nullable(),
-    is_export_to_excel: booleanType().optional().default(false),
-});
-const ParamsSetHBPreferenceSchema = objectType({
-    property_id: numberType(),
-    room_identifier: stringType(),
-    code: stringType(),
-});
-
-class MealReportService {
-    async getMealReport(props) {
-        const payload = ParamsGetMealReportSchema.parse(props);
-        const { data } = await axios.post(`/Get_Meal_Report`, payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data;
-    }
-    async setHBPreference(props) {
-        const payload = ParamsSetHBPreferenceSchema.parse(props);
-        const { data } = await axios.post(`/Set_HB_Preference`, payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-    }
-    async getSetupEntriesByTableNameMulti(entries) {
-        const { data } = await axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
-}
-
-const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 1024px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
-const IrMealReportStyle0 = irMealReportCss;
-
-const IrMealReport = class {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-    }
-    ticket;
-    propertyid;
-    baseurl;
-    language = 'en';
-    isPageLoading = true;
-    isExporting = false;
-    isDataLoading = false;
-    localReportType = 'GUEST_LIST';
-    localFrom = hooks().format('YYYY-MM-DD');
-    localTo = hooks().format('YYYY-MM-DD');
-    localMealType = null;
-    guestList = [];
-    mealCountSummary = [];
-    setupEntries = {
-        meal_type: [],
-        hb_preference: [],
-    };
-    mealReportService = new MealReportService();
-    tokenService = new Token();
-    ticketChanged(newValue) {
-        if (newValue) {
-            this.tokenService.setToken(newValue);
-            this.init();
-        }
-    }
-    componentWillLoad() {
-        if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
-        }
-        if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
-    async handlePropertyChange() {
-        await this.init();
-    }
-    async init() {
-        try {
-            this.isPageLoading = true;
-            this.isDataLoading = true;
-            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
-            const grouped = groupEntryTablesResult(setupEntries);
-            const meal_type = grouped.meal_type || [];
-            const hb_preference = grouped.hb_preference || [];
-            this.setupEntries = {
-                meal_type,
-                hb_preference,
-            };
-            if (meal_type.length > 0) {
-                if (!this.localMealType) {
-                    this.localMealType = meal_type[0].CODE_NAME;
-                }
-            }
-            await this.applyFilters();
-        }
-        catch (error) {
-            // Handling handled via UI
-        }
-        finally {
-            this.isPageLoading = false;
-            this.isDataLoading = false;
-        }
-    }
-    async applyFilters() {
-        try {
-            this.isDataLoading = true;
-            const response = await this.mealReportService.getMealReport({
-                property_id: this.propertyid,
-                from: this.localFrom,
-                to: this.localTo,
-                report_type: this.localReportType,
-                meal_type_code: this.localMealType,
-                is_export_to_excel: false,
-            });
-            this.guestList = response.My_Result.Guest_List || [];
-            this.mealCountSummary = response.My_Result.Meal_Count_Summary || [];
-        }
-        catch (error) {
-            // Handling handled via UI
-        }
-        finally {
-            this.isDataLoading = false;
-        }
-    }
-    resetFilters() {
-        this.localReportType = 'GUEST_LIST';
-        this.localFrom = hooks().format('YYYY-MM-DD');
-        this.localTo = hooks().format('YYYY-MM-DD');
-        if (this.setupEntries.meal_type.length > 0) {
-            this.localMealType = this.setupEntries.meal_type[0].CODE_NAME;
-        }
-        this.applyFilters();
-    }
-    async setPresetDate(type) {
-        const date = type === 'today' ? hooks() : hooks().add(1, 'day');
-        this.localFrom = date.format('YYYY-MM-DD');
-        if (type === 'today' && this.localReportType === 'MEAL_COUNT') {
-            this.localTo = hooks().add(14, 'days').format('YYYY-MM-DD');
-        }
-        else {
-            this.localTo = this.localFrom;
-        }
-    }
-    async handleExport() {
-        try {
-            this.isExporting = true;
-            const response = await this.mealReportService.getMealReport({
-                property_id: this.propertyid,
-                from: this.localFrom,
-                to: this.localTo,
-                report_type: this.localReportType,
-                meal_type_code: this.localMealType,
-                is_export_to_excel: true,
-            });
-            const link = response.My_Params_Get_Meal_Report?.Link_excel;
-            if (link) {
-                // Use clean axios to bypass interceptors (avoiding network errors)
-                const cleanAxios = axios.create();
-                const responseBlob = await cleanAxios.get(link, { responseType: 'blob' });
-                // Force download via local blob URL
-                const blob = new Blob([responseBlob.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                const filename = link.split('/').pop() || 'meal_report.xlsx';
-                a.setAttribute('download', filename);
-                document.body.appendChild(a);
-                a.click();
-                // Cleanup
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }
-        }
-        catch (error) {
-            // Export Error handled silently or via UI
-        }
-        finally {
-            this.isExporting = false;
-        }
-    }
-    render() {
-        if (this.isPageLoading) {
-            return h("ir-loading-screen", null);
-        }
-        const lcz = locales.entries || {};
-        const summary = this.mealCountSummary || [];
-        const sum = (key) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
-        const mealMetrics = [
-            { label: 'Breakfast', icon: 'mug-saucer', intent: 'brand', adults: sum('Breakfast_Ad'), children: sum('Breakfast_Ch') },
-            { label: 'Lunch', icon: 'utensils', intent: 'success', adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
-            { label: 'Dinner', icon: 'moon', intent: 'warning', adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
-        ];
-        return (h("ir-page", { label: "Meal Report", class: 'page' }, h("ir-custom-button", { slot: "page-header", type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
-                const ev = e.detail;
-                if (ev && typeof ev.preventDefault === 'function') {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                }
-                this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), this.localReportType === 'MEAL_COUNT' && (h("div", { class: "ir-meal-report__metrics" }, mealMetrics.map(metric => (h("ir-metric-card", { key: metric.label, label: metric.label, icon: metric.icon, intent: metric.intent, value: metric.adults + metric.children, unit: "guests", caption: `Adults ${metric.adults} · Children ${metric.children}`, loading: this.isDataLoading }))))), h("div", { class: "ir-meal-report__layout" }, h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
-                this.localReportType = e.detail;
-                this.applyFilters();
-                if (e.detail === 'GUEST_LIST') {
-                    this.localTo = this.localFrom;
-                }
-            }, onDateChange: e => {
-                this.localFrom = e.detail.from;
-                this.localTo = e.detail.to;
-            }, onMealTypeChange: async (e) => {
-                this.localMealType = e.detail;
-            }, onFilterApply: () => this.applyFilters(), onFilterReset: () => this.resetFilters(), onPresetDate: e => this.setPresetDate(e.detail) }), h("wa-card", { class: "ir-meal-report__results" }, h("div", null, this.localReportType === 'GUEST_LIST' ? (h("ir-meal-guest-list", { guestList: this.guestList })) : (h("ir-meal-count-summary", { mealCountSummary: this.mealCountSummary })))))));
-    }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"],
-        "propertyid": ["handlePropertyChange"]
-    }; }
-};
-IrMealReport.style = IrMealReportStyle0;
 
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
@@ -4836,6 +4780,6 @@ const IrUserManagement = class {
 };
 IrUserManagement.style = IrUserManagementStyle0;
 
-export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrBookingListing as ir_booking_listing, IrChannel as ir_channel, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMealReport as ir_meal_report, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUserManagement as ir_user_management };
+export { IglooCalendar as igloo_calendar, IrAgents as ir_agents, IrArrivals as ir_arrivals, IrBookingEmailLogs as ir_booking_email_logs, IrBookingListing as ir_booking_listing, IrChannel as ir_channel, IrCityLedger as ir_city_ledger, IrDailyRevenue as ir_daily_revenue, IrDepartures as ir_departures, IrGhsOnboarding as ir_ghs_onboarding, IrHkTasks as ir_hk_tasks, IrHousekeeping as ir_housekeeping, IrMonthlyBookingsReport as ir_monthly_bookings_report, IrPaymentOption as ir_payment_option, IrSalesByChannel as ir_sales_by_channel, IrSalesByCountry as ir_sales_by_country, IrTaxServiceCategories as ir_tax_service_categories, IrUserManagement as ir_user_management };
 
 //# sourceMappingURL=igloo-calendar_18.entry.js.map

@@ -26,14 +26,14 @@ const IrBookingSourceEditorDialog = /*@__PURE__*/ proxyCustomElement(class IrBoo
         this.open = false;
     }
     render() {
-        return (h("ir-dialog", { key: '56bb284908a2191b4f5120af0507fca4cba0b1ca', label: "Change Booking Source", onIrDialogHide: e => {
+        return (h("ir-dialog", { key: '1f62c94da49ba5b84a95e9013af2122790ad11be', label: "Change Booking Source", onIrDialogHide: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.open = false;
-            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: 'afc3c482318631660851b68c926fc6d1425cf46c', booking: this.booking, onBookingSourceSaved: () => {
+            }, open: this.open }, this.open && (h("ir-booking-source-editor-form", { key: '387ac00324d1abf5e4ef3cd05056c03a09f8f396', booking: this.booking, onBookingSourceSaved: () => {
                 this.closeDialog();
                 setTimeout(() => this.resetBookingEvt.emit(null), 100);
-            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '28e87d3e950c05606856cae2db202de2b3fc558f', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '80e4dd769458e2249bb1eb5a52cc02f04ccce0b6', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '7d82498510acb3ff37ac2aba3bd7d193f024d736', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading }, "Save"))));
+            }, onLoadingChange: e => (this.isLoading = e.detail) })), h("div", { key: '433a8c1cf56e6c056e86c41cd55a52b3ae7ba616', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '5759e7cf291887593c6de56db845780ccd8d5702', size: "medium", "data-dialog": "close", appearance: "filled", variant: "neutral" }, "Cancel"), h("ir-custom-button", { key: '0da662c2056cc4f1ff4c441058106b3aa03b86ca', type: "submit", form: `change-source-form-${this.booking?.booking_nbr}`, size: "medium", appearance: "accent", variant: "brand", loading: this.isLoading }, "Save"))));
     }
     static get style() { return IrBookingSourceEditorDialogStyle0; }
 }, [2, "ir-booking-source-editor-dialog", {

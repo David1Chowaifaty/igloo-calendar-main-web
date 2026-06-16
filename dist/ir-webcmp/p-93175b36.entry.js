@@ -1,0 +1,2 @@
+import{r as a,h as e,H as s}from"./p-d239357b.js";const c=".sc-ir-financial-summary-h{display:block}";const r=c;const n=class{constructor(e){a(this,e)}render(){return e(s,{key:"9a0ed56fd7359dcc05ceee323307db0ee664be17"},e("slot",{key:"62b2a0f823ea142c4e0d6d957ae4e39aa59e0a3b"}))}};n.style=r;export{n as ir_financial_summary};
+//# sourceMappingURL=p-93175b36.entry.js.map

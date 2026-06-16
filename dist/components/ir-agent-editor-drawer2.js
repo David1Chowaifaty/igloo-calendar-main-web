@@ -43,7 +43,7 @@ const IrAgentEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrAgentEditor
     // }
     render() {
         const isEditMode = this.agent?.id !== -1;
-        return (h(Host, { key: '690fbc7e569d4d006740042ced37eb23e1cff179', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: '99787820989b65d22e8dc86a77fd581143099125', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
+        return (h(Host, { key: '2d42a1108876d5dc46d5dfa6777df208a94fcc06', "data-testid": "agent-editor-drawer" }, h("ir-drawer", { key: 'acd9ff2207da11a340cf0a10062603750fa4010b', class: "agent__drawer", style: { '--ir-drawer-width': '60rem' }, label: isEditMode ? 'Edit Agent' : 'New Agent', open: this.open, "data-testid": "agent-editor-drawer-container", onDrawerHide: e => this.handleDrawerClose(e) }, this.open && (
         // <wa-tab-group class="agent-form__tab-group" activation='manual' active={this.currentTab.toString()} onwa-tab-show={e => this.handleTabChange(e)}>
         //   <wa-tab panel="profile" >Profile</wa-tab>
         //   <wa-tab disabled={!isEditMode} panel="contract">Contract</wa-tab>
@@ -54,7 +54,7 @@ const IrAgentEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrAgentEditor
         //     {this.currentTab === 'contract' && <ir-agent-contract formId={formId} agent={this.agent}></ir-agent-contract>}
         //   </wa-tab-panel>
         // </wa-tab-group>
-        h("ir-agent-editor-form", { key: '80d4f6b81321ed52bfef463bae144d23a068ea9c', onCloseDrawer: e => {
+        h("ir-agent-editor-form", { key: '1a379bad8d4ae77c6a70bec5c11e4f3f24178d63', onCloseDrawer: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.agentEditorClose.emit();
@@ -62,7 +62,7 @@ const IrAgentEditorDrawer = /*@__PURE__*/ proxyCustomElement(class IrAgentEditor
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.loading = e.detail;
-            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: '8c6203415c17d6223aac2755ecde8433d571a94c', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: '026cc10cf0a6f9478247744638d67a0c2e579efe', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: '04c29d2ac6bdef7f9ce31b1db2bc30bc3981cb10', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (h("ir-custom-button", { key: 'fe3b510e96c83d5f881d741434b491fbd580e3b3', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
+            }, setupEntries: this.setupEntries, countries: this.countries, agent: this.agent, formId: this.baseId, "data-testid": "agent-editor-form" })), h("div", { key: 'fde023fe272b277d9045fa94bce97191c57f22b5', slot: "footer", class: "ir__drawer-footer", "data-testid": "agent-editor-drawer-footer" }, h("ir-custom-button", { key: 'b3422f17ebaefa6a2c784c4aac816e46433f5506', size: "medium", "data-drawer": "close", appearance: "filled", variant: "neutral", "data-testid": "agent-editor-cancel-button" }, "Cancel"), h("ir-custom-button", { key: '90cec9a0b6f24cbc094af8832ff0c7a5b9c33bc8', loading: this.loading === (this.agent?.id === -1 ? 'save&close' : 'save'), type: "submit", form: this.baseId, size: "medium", value: this.agent?.id === -1 ? 'save&close' : 'save', appearance: this.agent?.id === -1 ? 'accent' : 'outlined', variant: "brand", "data-testid": "agent-editor-save-button" }, "Save"), this.agent?.id !== -1 && (h("ir-custom-button", { key: 'afb4f263fe4324e02107b7a76985eb84ba4a927c', loading: this.loading === 'save&close', type: "submit", form: this.baseId, size: "medium", value: "save&close", appearance: "accent", variant: "brand", "data-testid": "agent-editor-save-button" }, "Save & Close"))))));
     }
     static get style() { return IrAgentEditorDrawerStyle0; }
 }, [2, "ir-agent-editor-drawer", {

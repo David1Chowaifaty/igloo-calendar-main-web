@@ -4,8 +4,6 @@ import { Host, h } from "@stencil/core";
 import { createColumnHelper, getCoreRowModel, getSortedRowModel } from "@tanstack/table-core";
 import { CityLedgerService } from "../../../../services/city-ledger";
 import { FdStatus, FdTypes } from "../../../../types/enums";
-import moment from "moment";
-import calendar_data from "../../../../stores/calendar-data";
 export class IrCityLedgerFiscalDocumentsTable {
     rows = [];
     currencySymbol = '$';
@@ -74,7 +72,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 break;
         }
     }
-    async confirmPendingAction(e) {
+    async confirmPendingAction() {
         if (!this.pendingAction)
             return;
         const { action, row } = this.pendingAction;
@@ -83,36 +81,7 @@ export class IrCityLedgerFiscalDocumentsTable {
             if (action === 'void') {
                 switch (row.FD_TYPE_CODE) {
                     case FdTypes.Invoice:
-                        const { amount, fdType } = e.detail;
-                        if (fdType === 'credit-note') {
-                            await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
-                        }
-                        else {
-                            const result = await this.cityLedgerService.issueManualCLTx({
-                                CL_TX_ID: -1,
-                                AGENCY_ID: this.agentId,
-                                SERVICE_DATE: moment().format('YYYY-MM-DD'),
-                                CL_TX_TYPE_CODE: FdTypes.CreditNote,
-                                DESCRIPTION: 'Credit note',
-                                DEBIT: null,
-                                CREDIT: amount,
-                                CURRENCY_ID: calendar_data?.property?.currency?.id,
-                                PAY_METHOD_CODE: null,
-                                EXTERNAL_REF: row.FD_ID.toString(),
-                                BH_ID: null,
-                                VAT_INCLUDED_CODE: '',
-                                VAT_PCT: null,
-                            });
-                            if (result?.My_Fd?.FD_TYPE_CODE && result.My_Fd.DOC_NUMBER) {
-                                this.clFiscalDocumentPreview.emit({
-                                    fdTypeCode: result.My_Fd.FD_TYPE_CODE,
-                                    documentNumber: result.My_Fd.DOC_NUMBER,
-                                    agentId: this.agentId,
-                                    agentName: result.My_Fd.AGENCY_NAME ?? '',
-                                    externalRef: result.My_Fd.EXTERNAL_REF,
-                                });
-                            }
-                        }
+                        await this.cityLedgerService.voidInvoiceByCreditNote({ FD_ID: row.FD_ID });
                         break;
                     case FdTypes.Receipt:
                         await this.cityLedgerService.voidReceiptByCreditReceipt({ FD_ID: row.FD_ID });
@@ -275,7 +244,7 @@ export class IrCityLedgerFiscalDocumentsTable {
                 'fiscal-table__cell--numeric': ['NET_AMOUNT', 'TAX_AMOUNT', 'amount', 'DEBIT', 'CREDIT'].includes(cell.column.id),
                 'fiscal-table__cell--actions': cell.column.id === 'actions',
                 'fiscal-table__cell--doc-number': cell.column.id === 'DOC_NUMBER',
-            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { amount: this.pendingAction?.row?.TOTAL_AMOUNT, fdType: this.pendingAction?.row?.FD_TYPE_CODE, open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: e => this.confirmPendingAction(e), onCancelled: () => (this.pendingAction = null) })));
+            } }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), table.getRowModel().rows.length === 0 && (h("tr", null, h("td", { class: "empty-row", colSpan: this.columns.length }, this.isLoading ? h("ir-spinner", null) : 'No fiscal documents match the current filters.')))))), h("ir-fd-confirm-dialog", { fdType: this.pendingAction?.row?.FD_TYPE_CODE, open: this.pendingAction !== null, action: this.pendingAction?.action ?? null, docNumber: this.pendingAction?.row.DOC_NUMBER ?? 'this document', isConfirming: this.isConfirming, onConfirmed: () => this.confirmPendingAction(), onCancelled: () => (this.pendingAction = null) })));
     }
     static get is() { return "ir-city-ledger-fiscal-documents-table"; }
     static get encapsulation() { return "scoped"; }

@@ -271,7 +271,7 @@ const IrPropertySwitcher = /*@__PURE__*/ proxyCustomElement(class IrPropertySwit
             } }, h("p", { class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME ?? 'Select property')));
     }
     render() {
-        return (h(Host, { key: '78ebfda681c4144e981d3152ecd0cb4011f30477' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: '42619891fd4f1d9453d0a2d33ef7fc4c423686dc', "onwa-show": () => {
+        return (h(Host, { key: 'd2b55c08b2e8424f55d1bf855b346dd55793fb93' }, this.displayMode === 'read-only' && this.renderReadOnly(), this.displayMode === 'dropdown' && (h("wa-dropdown", { key: 'a27783c302e4ccee46cbb5a93e0d010ceccfb88e', "onwa-show": () => {
                 this.ensureLinkedPropertiesLoaded();
             }, "onwa-hide": e => {
                 e.stopPropagation();
@@ -280,7 +280,7 @@ const IrPropertySwitcher = /*@__PURE__*/ proxyCustomElement(class IrPropertySwit
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 this.handleDropdownSelect(Number(e.detail.item.value));
-            } }, h("wa-button", { key: 'e769fbeb65ac2ad4496bc8e2dbaa42ca89983f9c', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: '43efdac761dff2c300e896f04bb281322c74c993', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: '73d5a036618543097ef86c68106b54b1f2cd9a2f', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: '069b0b63143ed3ac90c11c1fe8719fba4a9f62f7' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '15d67954bb11525757cf23d4c8c26f9e4cf85078' }, this.trigger(), h("ir-dialog", { key: '06dcc01ab066c120dbfa96d2fd945cc910b8a875',
+            } }, h("wa-button", { key: 'cc1522ed12ec85ba13c2aec84d24356e225b9a1e', size: "small", class: "property-switcher__trigger-btn", slot: "trigger", withCaret: true, variant: "neutral", appearance: "outlined" }, h("p", { key: '5a80b559b8ea8c2b4216d181f2c365d38d5df016', class: "property-switcher__trigger" }, this.propertyState.selected?.PROPERTY_NAME)), this.isLinkedLoading && (h("wa-dropdown-item", { key: 'cf469c15a7f5514cd39601e9b450e6919d4187f7', disabled: true, class: "property-switcher__dropdown-loader" }, h("wa-spinner", { key: 'c0d22a77171014e28afd1cf5d5c87daeec49d31a' }))), this.propertyState.linked?.map(property => (h("wa-dropdown-item", { value: property.property_id?.toString(), key: `dropdown-item-${property.property_id}` }, property.name))))), this.displayMode === 'dialog' && (h("div", { key: '803a3394f986e58b02f2f90a9fedc933dab8ba30' }, this.trigger(), h("ir-dialog", { key: '87b1466f941735e942c4dddff3c229c707b3b300',
             // withoutHeader
             open: this.open, label: "Search", class: "property-switcher__dialog", style: { '--ir-dialog-width': '40rem' }, onIrDialogAfterHide: e => {
                 e.stopImmediatePropagation();

@@ -27,13 +27,13 @@ const IrHkUserDrawer = /*@__PURE__*/ proxyCustomElement(class IrHkUserDrawer ext
     closeSideBar;
     formId = 'hk-user-drawer-form';
     render() {
-        return (h("ir-drawer", { key: 'c49cba793c0778f080b86994e0682fd292f2263c', open: this.open, onDrawerHide: () => {
+        return (h("ir-drawer", { key: '48318c5df0dd659fbdc8ad5ec2a9c999a8300b22', open: this.open, onDrawerHide: () => {
                 this.closeSideBar.emit(null);
-            }, label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (h("ir-hk-user-drawer-form", { key: '459f4f463aa1c59872127b01acd639828c50ff51', onLoadingChanged: e => {
+            }, label: this.isEdit ? locales.entries.Lcz_EditHousekeeperProfile : locales.entries.Lcz_CreateHousekeeperProfile }, this.open && (h("ir-hk-user-drawer-form", { key: '1ccbfe3c82e7b1833b882cd536b87704ef43abf3', onLoadingChanged: e => {
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 this.isLoading = e.detail;
-            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: '16d69f971c1b0fc2fc0643ed3bcc81fe98680b64', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '06e36f5a0cb673e9e6a7316b0f16c05dd343bb95', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '773f3f924beb09818ab9ccbaf5edefd39b45ffb6', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
+            }, isEdit: this.isEdit, user: this.user, formId: this.formId })), h("div", { key: 'a986883804ec96fcf0e2b0ecb610b149a5703205', slot: "footer", class: "ir__drawer-footer" }, h("ir-custom-button", { key: '36ae402dca377bf198de4d12cd5f58e7c1a24412', "data-drawer": "close", variant: "neutral", size: "medium", appearance: "filled" }, "Cancel"), h("ir-custom-button", { key: '8cec676f27c4ba1acd94a241d2f7e99b3c03fe21', loading: this.isLoading, variant: "brand", type: "submit", form: this.formId, appearance: "accent", size: "medium" }, "Save"))));
     }
     static get style() { return IrHkUserDrawerStyle0; }
 }, [2, "ir-hk-user-drawer", {

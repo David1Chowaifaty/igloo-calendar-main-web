@@ -9,7 +9,7 @@ const IrFinancialSummary$1 = /*@__PURE__*/ proxyCustomElement(class IrFinancialS
         this.__registerHost();
     }
     render() {
-        return (h(Host, { key: '9bc7e87e179606a3dc871b48583fab8f5ddd5998' }, h("slot", { key: '9912d9a48fcf6fa3407386c354a93b1c93adcee1' })));
+        return (h(Host, { key: '9a0ed56fd7359dcc05ceee323307db0ee664be17' }, h("slot", { key: '62b2a0f823ea142c4e0d6d957ae4e39aa59e0a3b' })));
     }
     static get style() { return IrFinancialSummaryStyle0; }
 }, [6, "ir-financial-summary"]);

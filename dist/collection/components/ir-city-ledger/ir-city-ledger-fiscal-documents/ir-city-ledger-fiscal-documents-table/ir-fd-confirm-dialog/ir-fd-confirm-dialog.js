@@ -1,4 +1,4 @@
-import calendar_data from "../../../../../stores/calendar-data";
+// import calendar_data from '@/stores/calendar-data';
 import { FdTypes } from "../../../../../types/enums";
 import { h } from "@stencil/core";
 const CONFIGS = {
@@ -26,7 +26,6 @@ export class IrFdConfirmDialog {
     action = null;
     docNumber = 'this document';
     isConfirming = false;
-    amount;
     fdType;
     voidType = 'credit-note';
     goodwillAmount = '';
@@ -34,16 +33,8 @@ export class IrFdConfirmDialog {
     cancelled;
     render() {
         const config = this.action ? CONFIGS[this.action]?.(this.docNumber, this.fdType) : null;
-        const showVoidOptions = this.action === 'void' && this.fdType !== FdTypes.Receipt;
-        return (h("ir-dialog", { key: '032522a9700e80c9967cd3510d015d7d46b2c1e4', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => {
-                this.cancelled.emit();
-            }, onIrDialogAfterHide: () => {
-                this.voidType = 'credit-note';
-                this.goodwillAmount = null;
-            } }, h("p", { key: '45f1ce167a8d14e033c754cc4d42468871ee3c63', class: "confirm-dialog__message" }, config?.message ?? ''), showVoidOptions && (h("div", { key: '6d286f6a73233ed2a7fd016c385cd76b8f468d19', class: "void-options" }, h("wa-radio-group", { key: '7d046955381e1037b66b56ac0aca3856fc721630', defaultValue: this.voidType, value: this.voidType, onchange: (e) => (this.voidType = e.target.value) }, h("wa-radio", { key: 'c257bb35af7b9aa5ce167c00bfb2d89d4e9fa786', value: "credit-note" }, "Credit Note"), h("wa-radio", { key: 'a704c900790dad1856209572047f5424e827d34c', value: "goodwill" }, "Goodwill Credit")), this.voidType === 'goodwill' && (h("ir-input", { key: '899b9797e79fc6fd078aa35b517a8c750fc223d4', max: this.amount, min: "0", mask: 'price', value: this.goodwillAmount, onInput: (e) => (this.goodwillAmount = e.target.value) }, h("span", { key: '07f4339c774c2803f4b3547347eb0420ad2106ca', slot: "start" }, calendar_data.property.currency.symbol))))), h("div", { key: '5a9a6f383da39006a5b93322414239a403470c0b', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: '6b59abdd0f0b8ea1dd44e0b821250c4b98026c31', size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, "Cancel"), h("ir-custom-button", { key: 'ffbf422dc23c48030f7ecfcf100a28559785f345', size: "medium", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit({
-                amount: Number(this.goodwillAmount),
-                voidType: this.voidType,
-            }), loading: this.isConfirming }, config?.confirmLabel ?? 'Confirm'))));
+        // const showVoidOptions = this.action === 'void' && this.fdType !== FdTypes.Receipt;
+        return (h("ir-dialog", { key: '16d0ec301373052e965efdf376db446d5a4d4f1e', open: this.open, label: config?.title ?? '', lightDismiss: false, onIrDialogHide: () => this.cancelled.emit() }, h("p", { key: 'dd46ed9de8cce7ba46aa74abd9a4c7ea2888a111', class: "confirm-dialog__message" }, config?.message ?? ''), h("div", { key: 'e6c511c6ee8b509bcf84745146f9c1e56d79c1dc', slot: "footer", class: "ir-dialog__footer" }, h("ir-custom-button", { key: 'fdd85d1d4e51fb8497a9ce023fd3d7b02229f9c8', size: "medium", variant: "neutral", appearance: "filled", onClickHandler: () => this.cancelled.emit(), disabled: this.isConfirming }, "Cancel"), h("ir-custom-button", { key: '05fc779e3d9ef91ef222e257d5c425c552dfe5be', size: "medium", variant: config?.confirmVariant ?? 'neutral', onClickHandler: () => this.confirmed.emit(), loading: this.isConfirming }, config?.confirmLabel ?? 'Confirm'))));
     }
     static get is() { return "ir-fd-confirm-dialog"; }
     static get encapsulation() { return "scoped"; }
@@ -145,25 +136,6 @@ export class IrFdConfirmDialog {
                 "reflect": false,
                 "defaultValue": "false"
             },
-            "amount": {
-                "type": "number",
-                "mutable": false,
-                "complexType": {
-                    "original": "number",
-                    "resolved": "number",
-                    "references": {}
-                },
-                "required": false,
-                "optional": false,
-                "docs": {
-                    "tags": [],
-                    "text": ""
-                },
-                "getter": false,
-                "setter": false,
-                "attribute": "amount",
-                "reflect": false
-            },
             "fdType": {
                 "type": "string",
                 "mutable": false,
@@ -203,8 +175,8 @@ export class IrFdConfirmDialog {
                     "text": ""
                 },
                 "complexType": {
-                    "original": "{\n    amount: number | null;\n    voidType: 'credit-note' | 'goodwill';\n  }",
-                    "resolved": "{ amount: number; voidType: \"credit-note\" | \"goodwill\"; }",
+                    "original": "void",
+                    "resolved": "void",
                     "references": {}
                 }
             }, {

@@ -1,11 +1,11 @@
 import { r as registerInstance, c as createEvent, g as getElement, h } from './index-7e96440e.js';
-import { y as handleBodyOverflow } from './utils-3c91939f.js';
+import { u as handleBodyOverflow } from './utils-4409b691.js';
 import './moment-ab846cee.js';
-import './index-87419685.js';
+import './index-1e1f097b.js';
 import './calendar-data-b1f645da.js';
 import './index-f100e9d2.js';
 import './locales.store-cb784e95.js';
-import './type-501de9b6.js';
+import './type-cce4b8e0.js';
 
 const irSidebarCss = ".backdrop{position:fixed;top:0;left:0;width:100%;height:100vh;cursor:pointer;background:rgba(0, 0, 0, 0.5);z-index:99;transition:all 0.5s;opacity:0;pointer-events:none;transition:all 0.5s}.backdrop.active{opacity:1;pointer-events:all}.sidebar-right{position:fixed;top:0;right:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-right.active{right:0;overflow-y:auto}.sidebar-left{position:fixed;top:0;left:-120%;bottom:0;width:var(--sidebar-width, 40rem);max-width:100%;box-shadow:0 0 10px rgba(0, 0, 0, 0.1);transition:all 0.5s;z-index:100;overflow-y:hidden;color:var(--sidebar-color, #000);background-color:var(--sidebar-backgound, #fff);padding-block:var(--ir-sidebar-padding-block, 0);padding-inline:var(--ir-sidebar-padding-inline, 0.5rem);padding-top:var(--ir-sidebar-padding-top, unset);padding-bottom:var(--ir-sidebar-padding-bottom, unset);padding-left:var(--ir-sidebar-padding-left, unset);padding-right:var(--ir-sidebar-padding-right, unset)}.sidebar-title{display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid #e4e5ec}.sidebar-title p{font-weight:500;font-size:1.2rem}.sidebar-left.active{left:0;overflow-y:auto}.close{position:absolute;top:0.5rem;right:1rem;width:1rem;height:1rem;cursor:pointer}";
 const IrSidebarStyle0 = irSidebarCss;
@@ -118,12 +118,12 @@ const IrSidebar = class {
             className = '';
         }
         return [
-            h("div", { key: '059f30c9f2b6465baa6b041d63b6d793b5274a03', class: `backdrop ${className}`, onClick: () => {
+            h("div", { key: '42f6dca6f7c4a4aeebe8884098e8db627b80387d', class: `backdrop ${className}`, onClick: () => {
                     this.toggleSidebar();
                 } }),
-            h("div", { key: '62663abf572736566e04fbfaae2c896577c364e9', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '70ea887aa5fa628bf2a1976b403e2eea3104590b', class: 'sidebar-title' }, h("p", { key: '2ea6c4cfa98d74b41e5fd74ea7aee2604d1d4e68', class: 'p-0 m-0' }, this.label), h("div", { key: '5c2db356447bd942d1cc6b33c1b29082d9c86ea6', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '18060b36e8aab9fb6dbbedb3b7266f58c773cb31', class: "", onIconClickHandler: () => {
+            h("div", { key: 'f022e6a889a21e084de74aa1ec344489de15d31a', ref: el => (this.sidebarRef = el), class: `sidebar-${this.side} ${className}` }, this.showCloseButton && (h("div", { key: '96f324f9ed66ebfe62a2e6bd53a5704479c0023b', class: 'sidebar-title' }, h("p", { key: '986a5215018adf698057ad013fbad7a14d95675f', class: 'p-0 m-0' }, this.label), h("div", { key: '59236cb9bcb3e7d43a02f9d54f73787231f3326d', class: 'p-0 m-0 sidebar-icon-container' }, h("ir-icon", { key: '41d560739f36796c1187cf14f5d0f7573fd32222', class: "", onIconClickHandler: () => {
                     this.toggleSidebar();
-                } }, h("svg", { key: 'bec2443b72a3955394f47f5d7b18a467622b5bfc', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: 'fa44c3da1c2ad6e09bde4f02ac292690b196ca81', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: 'cf5a6612a137702e42c34349c9468dc42640c8a7', name: "sidebar-body" })),
+                } }, h("svg", { key: '8e24879f5b591b50031c537577291728c4b8b48e', slot: "icon", xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 384 512", height: 20, width: 20 }, h("path", { key: '89e1a4371c902112628d4a25a27cda4e49b39418', fill: "#6b6f82", d: "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" })))))), h("slot", { key: '22c5275243c5d9cfba416aac01fc54de47fe99da', name: "sidebar-body" })),
         ];
     }
     static get watchers() { return {

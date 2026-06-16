@@ -2447,7 +2447,6 @@ export namespace Components {
     }
     interface IrFdConfirmDialog {
         "action": FdConfirmAction | null;
-        "amount": number;
         "docNumber": string;
         "fdType": string;
         "isConfirming": boolean;
@@ -8424,10 +8423,7 @@ declare global {
         new (): HTMLIrExtraServicesElement;
     };
     interface HTMLIrFdConfirmDialogElementEventMap {
-        "confirmed": {
-    amount: number | null;
-    voidType: 'credit-note' | 'goodwill';
-  };
+        "confirmed": void;
         "cancelled": void;
     }
     interface HTMLIrFdConfirmDialogElement extends Components.IrFdConfirmDialog, HTMLStencilElement {
@@ -13632,15 +13628,11 @@ declare namespace LocalJSX {
     }
     interface IrFdConfirmDialog {
         "action"?: FdConfirmAction | null;
-        "amount"?: number;
         "docNumber"?: string;
         "fdType"?: string;
         "isConfirming"?: boolean;
         "onCancelled"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
-        "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<{
-    amount: number | null;
-    voidType: 'credit-note' | 'goodwill';
-  }>) => void;
+        "onConfirmed"?: (event: IrFdConfirmDialogCustomEvent<void>) => void;
         "open"?: boolean;
     }
     interface IrFilterCard {

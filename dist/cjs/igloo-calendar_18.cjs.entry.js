@@ -4,10 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 const index = require('./index-35d81173.js');
 const room_service = require('./room.service-f9117e70.js');
-const booking_store = require('./booking.store-1346a1f5.js');
+const booking_service = require('./booking.service-965ec29c.js');
 const utils = require('./utils-410526d1.js');
 const realtime_service = require('./realtime.service-aca6e8d2.js');
-const events_service = require('./events.service-9623588d.js');
+const events_service = require('./events.service-86f0e981.js');
 const moment = require('./moment-1780b03a.js');
 const toBeAssigned_service = require('./toBeAssigned.service-f8268652.js');
 const booking = require('./booking-07bbb19e.js');
@@ -23,6 +23,7 @@ const arrivals_store = require('./arrivals.store-0bed2e62.js');
 const axios = require('./axios-6e678d52.js');
 const booking_listing_service = require('./booking_listing.service-6fd91733.js');
 const channel_service = require('./channel.service-4e2bcfbc.js');
+const system_service = require('./system.service-101141de.js');
 const departures_store = require('./departures.store-e2f5cd4f.js');
 const index$1 = require('./index-8bb117a0.js');
 const hkTasks_store = require('./hk-tasks.store-3e893ff1.js');
@@ -215,7 +216,7 @@ const IglooCalendar = class {
     revertBooking;
     openCalendarSidebar;
     showRoomNightsDialog;
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     eventsService = new events_service.EventsService();
     toBeAssignedService = new toBeAssigned_service.ToBeAssignedService();
@@ -1513,7 +1514,7 @@ const IrAgents = class {
     setupEntries;
     agentsService = new agents_service.AgentsService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     tokenService = new Token.Token();
     componentWillLoad() {
         if (this.ticket) {
@@ -1671,7 +1672,7 @@ const IrArrivals = class {
     countries;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -1837,7 +1838,7 @@ const IrBookingEmailLogs = class {
         }
     }
     render() {
-        return (index.h(index.Host, { key: '12085d40ba65dda035900becd0b422b849f4808b', class: "p-1" }, index.h("ir-interceptor", { key: 'c9b0c335e12f1a6f313d8a052fda9d00dc4e145e', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: 'fcf5b239a986619c1e69d1a2aa99f76def67b3f2' }), index.h("div", { key: '4aa566171d39fb4f8ca5e76904fc5ad15c20cffe', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '8082b09c891ecf65e2fcbbaf2f27c77d373ca04a', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '171c1d724010022d102c4a07b3a48bb375ef6c10', size: "sm", text: "search", onClickHandler: async () => {
+        return (index.h(index.Host, { key: '3feff5a42a8aacbfddde3b1c9ebb35a4d88260d7', class: "p-1" }, index.h("ir-interceptor", { key: '5046817ba7f0212f815bf96f45d2ef874b31a9fe', handledEndpoints: ['/Get_Email_log_By_BOOK_NBR'] }), index.h("ir-toast", { key: '89a241e93d1b9dbe1cd3546ea81d4b561985c522' }), index.h("div", { key: '91ae219e885d966b2d99a7b3afd8c3468d0baecb', class: "d-flex align-items-center mb-1", style: { gap: '0.5rem' } }, index.h("ir-input-text", { key: '788ca681f48000e9d8f6de71c18e2e99eb0345f8', class: "m-0", inputContainerStyle: { margin: '0' }, value: this.bookingNumber, onTextChange: e => (this.bookingNumber = e.detail), placeholder: "booking number" }), index.h("ir-button", { key: '611732be30c46a8ed69107a3a9d86be988bd8372', size: "sm", text: "search", onClickHandler: async () => {
                 const { data } = await axios.axios.post('/Get_Email_log_By_BOOK_NBR', {
                     BOOK_NBR: this.bookingNumber,
                 });
@@ -1845,7 +1846,7 @@ const IrBookingEmailLogs = class {
                     return;
                 }
                 this.data = data.My_Result;
-            } })), index.h("p", { key: '0aeb8d6566fb7bf8b1fc7e21d8baf3ff77907617' }, JSON.stringify(this.data, null, 2))));
+            } })), index.h("p", { key: '7786050819a518df76089a5002057e0f85eb0e73' }, JSON.stringify(this.data, null, 2))));
     }
     static get watchers() { return {
         "ticket": ["handleTicketChange"]
@@ -1888,7 +1889,7 @@ const IrBookingListing = class {
     payment;
     booking;
     bookingListingService = new booking_listing_service.BookingListingService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
     token = new Token.Token();
@@ -2410,6 +2411,175 @@ const IrChannel = class {
 };
 IrChannel.style = IrChannelStyle0;
 
+const irCityLedgerCss = ".sc-ir-city-ledger-h{display:block;height:100%}.city-ledger__agents-autocomplete.sc-ir-city-ledger{width:100%}@media (min-width: 768px){.city-ledger__agents-autocomplete.sc-ir-city-ledger{max-width:400px}}.city-ledger__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:var(--wa-space-m, 1rem)}.city-ledger__no-agent.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.625rem;padding:5rem 2rem;height:100%;text-align:center;color:var(--wa-color-text-quiet, #6b7280)}.city-ledger__no-agent-icon-container.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:0.875rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);color:var(--wa-color-brand-fill-loud, #2563eb);font-size:1.5rem;margin-bottom:0.5rem}.city-ledger__no-agent-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.city-ledger__no-agent-sub.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:400px;line-height:1.6}.statement-tab-panel.sc-ir-city-ledger{min-height:400px}.statement__empty-state.sc-ir-city-ledger{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;padding:4rem 2rem;color:var(--wa-color-text-quiet, #6b7280);text-align:center}.statement__empty-title.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement__empty-subtitle.sc-ir-city-ledger{margin:0;font-size:0.875rem;max-width:360px}.statement__content.sc-ir-city-ledger{display:flex;flex-direction:column;gap:1.25rem}.statement__controls.sc-ir-city-ledger{display:flex;align-items:flex-end;flex-wrap:wrap;gap:1rem}.statement__period-group.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.375rem}.statement__label.sc-ir-city-ledger{font-size:0.8125rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280)}.statement__dates.sc-ir-city-ledger{display:flex;align-items:center;gap:0.5rem}.statement__date-picker.sc-ir-city-ledger{width:160px}.statement__dates-sep.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #9ca3af);font-weight:500}.statement__action-bar.sc-ir-city-ledger{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;padding:0.75rem 1rem;background:var(--wa-color-brand-fill-quiet, #eff6ff);border:1px solid var(--wa-color-brand-border-quiet, #bfdbfe);border-radius:0.625rem 0.625rem 0 0;font-size:0.875rem}.statement__action-bar-label.sc-ir-city-ledger{display:flex;align-items:center;font-weight:500;color:var(--wa-color-brand-on-quiet)}.statement__action-bar-buttons.sc-ir-city-ledger{display:flex;gap:0.5rem;flex-wrap:wrap}.statement__preview-wrapper.sc-ir-city-ledger{display:flex;flex-direction:column}.statement-doc.sc-ir-city-ledger{background:#fff;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-top:0;border-radius:0 0 0.75rem 0.75rem;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.04)}.statement-doc__header.sc-ir-city-ledger{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}.statement-doc__hotel.sc-ir-city-ledger{display:flex;align-items:center;gap:0.875rem}.statement-doc__hotel-logo.sc-ir-city-ledger{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:var(--wa-color-neutral-fill-quiet, #f3f4f6);border-radius:0.5rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__title.sc-ir-city-ledger{margin:0;font-size:1.375rem;font-weight:700;color:var(--wa-color-text-normal, #111827)}.statement-doc__subtitle.sc-ir-city-ledger{margin:0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta.sc-ir-city-ledger{display:flex;flex-direction:column;gap:0.25rem;text-align:right}.statement-doc__meta-row.sc-ir-city-ledger{display:flex;justify-content:flex-end;gap:0.5rem;font-size:0.8125rem}.statement-doc__meta-label.sc-ir-city-ledger{color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__meta-value.sc-ir-city-ledger{font-weight:500;color:var(--wa-color-text-normal, #111827)}.statement-doc__statement-number.sc-ir-city-ledger{font-family:ui-monospace, 'Cascadia Code', monospace;font-size:0.8125rem}.statement-doc__divider.sc-ir-city-ledger{border:0;border-top:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);margin:0}.statement-doc__parties.sc-ir-city-ledger{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.statement-doc__party-label.sc-ir-city-ledger{margin:0 0 0.375rem;font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__party-name.sc-ir-city-ledger{margin:0;font-size:1rem;font-weight:600;color:var(--wa-color-text-normal, #111827)}.statement-doc__party-detail.sc-ir-city-ledger{margin:0.125rem 0 0;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__summary.sc-ir-city-ledger{display:grid;grid-template-columns:repeat(2, 1fr);gap:0.75rem}@media (min-width: 768px){.statement-doc__summary.sc-ir-city-ledger{grid-template-columns:repeat(4, 1fr)}}.statement-doc__summary-card.sc-ir-city-ledger{padding:1rem;border-radius:0.5rem;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);display:flex;flex-direction:column;gap:0.25rem}.statement-doc__summary-card--opening.sc-ir-city-ledger{border-color:var(--wa-color-neutral-border-quiet, #e5e7eb)}.statement-doc__summary-card--charges.sc-ir-city-ledger{border-color:#fecaca;background:#fef2f2}.statement-doc__summary-card--payments.sc-ir-city-ledger{border-color:#bbf7d0;background:#f0fdf4}.statement-doc__summary-card--due.sc-ir-city-ledger{border-color:var(--wa-color-brand-border-quiet, #bfdbfe);background:var(--wa-color-brand-fill-quiet, #eff6ff)}.statement-doc__summary-card-label.sc-ir-city-ledger{font-size:0.75rem;font-weight:500;color:var(--wa-color-text-quiet, #6b7280);text-transform:uppercase;letter-spacing:0.03em}.statement-doc__summary-card-value.sc-ir-city-ledger{font-size:1.125rem;font-weight:700;color:var(--wa-color-text-normal, #111827);font-variant-numeric:tabular-nums}.statement-doc__balance-due.sc-ir-city-ledger{color:var(--wa-color-brand-fill-loud, #2563eb)}.statement-doc__table-wrapper.sc-ir-city-ledger{overflow-x:auto;border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem}.statement-doc__table.sc-ir-city-ledger{width:100%;border-collapse:collapse;font-size:0.875rem}.statement-doc__table.sc-ir-city-ledger thead.sc-ir-city-ledger th.sc-ir-city-ledger{padding:0.625rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);font-weight:600;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280);text-align:left;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);white-space:nowrap}.statement-doc__table.sc-ir-city-ledger tbody.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.625rem 0.875rem;border-bottom:1px solid var(--wa-color-neutral-border-quiet, #f3f4f6);color:var(--wa-color-text-normal, #111827)}.statement-doc__table.sc-ir-city-ledger tfoot.sc-ir-city-ledger td.sc-ir-city-ledger{padding:0.75rem 0.875rem;background:var(--wa-color-neutral-fill-quiet, #f9fafb);border-top:2px solid var(--wa-color-neutral-border-quiet, #e5e7eb);font-weight:700}.statement-doc__col--right.sc-ir-city-ledger{text-align:right}.statement-doc__opening-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:500;background:var(--wa-color-neutral-fill-quiet, #fafafa);color:var(--wa-color-text-quiet, #6b7280);font-size:0.8125rem}.statement-doc__totals-row.sc-ir-city-ledger td.sc-ir-city-ledger{font-weight:700}.statement-doc__table-note.sc-ir-city-ledger{text-align:center;color:var(--wa-color-text-quiet, #9ca3af);font-size:0.8125rem;padding:1.5rem !important}.statement-doc__footer.sc-ir-city-ledger{background:var(--wa-color-neutral-fill-quiet, #f9fafb);border:1px solid var(--wa-color-neutral-border-quiet, #e5e7eb);border-radius:0.5rem;padding:0.875rem 1rem}.statement-doc__payment-notice.sc-ir-city-ledger{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8125rem;color:var(--wa-color-text-quiet, #6b7280)}.statement-doc__payment-notice.sc-ir-city-ledger p.sc-ir-city-ledger{margin:0;line-height:1.5}";
+const IrCityLedgerStyle0 = irCityLedgerCss;
+
+const IrCityLedger = class {
+    constructor(hostRef) {
+        index.registerInstance(this, hostRef);
+    }
+    get el() { return index.getElement(this); }
+    ticket;
+    p;
+    baseurl;
+    language = 'en';
+    propertyid;
+    agentId = null;
+    resolvedPropertyId = null;
+    currentTab = 'folio';
+    isLoading = false;
+    agents = [];
+    selectedAgent = null;
+    taxOptions = [];
+    serviceCategoryOptions = [];
+    currencySymbol = '$';
+    // Statement tab state
+    statementFrom = null;
+    statementTo = null;
+    showStatementPreview = false;
+    folioSummary = null;
+    agentSearch = '';
+    fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
+    stmtFilters = { fromDate: null, toDate: null };
+    panels = [
+        { id: 'folio', label: 'Folio' },
+        { id: 'fiscal-documents', label: 'Fiscal Documents' },
+        { id: 'create-statement', label: 'Create Statement' },
+    ];
+    tokenService = new Token.Token();
+    agentsService = new agents_service.AgentsService();
+    propertyService = new property_service.PropertyService();
+    bookingService = new booking_service.BookingService();
+    systemService = new system_service.SystemService();
+    toolbarRef;
+    createInvoiceDialogRef;
+    currencies = [];
+    get filteredAgents() {
+        const q = this.agentSearch.trim().toLowerCase();
+        if (!q)
+            return this.agents;
+        return this.agents.filter(a => a.name.toLowerCase().includes(q));
+    }
+    componentWillLoad() {
+        const agentId = this.getAgentIdFromSearchParams();
+        if (agentId && !this.agentId) {
+            this.agentId = agentId;
+        }
+        if (this.ticket) {
+            if (this.baseurl) {
+                this.tokenService.setBaseUrl(this.baseurl);
+            }
+            this.tokenService.setToken(this.ticket);
+            this.init();
+        }
+    }
+    handleTicketChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.baseurl)
+            this.tokenService.setBaseUrl(this.baseurl);
+        this.tokenService.setToken(this.ticket);
+        this.init();
+    }
+    handlePropertyIdChange(newValue, oldValue) {
+        if (newValue === oldValue)
+            return;
+        if (this.ticket)
+            this.init();
+    }
+    handleAgentIdChange(newId, oldId) {
+        if (newId === oldId || this.isLoading)
+            return;
+        this.applyAgentIdProp();
+    }
+    getAgentIdFromSearchParams() {
+        const agentId = new URLSearchParams(window.location.search).get('agentId');
+        return agentId ? Number(agentId) : null;
+    }
+    applyAgentIdProp() {
+        if (this.agentId == null)
+            return;
+        const agent = this.agents.find(a => a.id === this.agentId);
+        if (!agent)
+            return;
+        this.selectedAgent = agent;
+        this.showStatementPreview = false;
+        this.folioSummary = null;
+        requestAnimationFrame(() => {
+            const autocomplete = this.el.querySelector('ir-autocomplete');
+            if (autocomplete)
+                autocomplete.value = agent.name;
+        });
+    }
+    async init() {
+        try {
+            this.isLoading = true;
+            // If a property name was supplied but no numeric id, resolve the id first.
+            let propertyId = this.propertyid;
+            if (!propertyId && this.p) {
+                await this.propertyService.getExposedProperty({ id: null, language: this.language, aname: this.p });
+                propertyId = calendarData.calendar_data.id;
+            }
+            this.resolvedPropertyId = propertyId;
+            const resolvedByName = !this.propertyid && !!this.p;
+            const [, setupEntries, agents, currencies] = await Promise.all([
+                resolvedByName ? Promise.resolve() : this.propertyService.getExposedProperty({ id: propertyId, language: this.language }),
+                this.bookingService.getSetupEntriesByTableNameMulti(['_SVC_CATEGORY']),
+                this.agentsService.getExposedAgents({ property_id: propertyId }),
+                this.systemService.getExposedCurrencies(),
+            ]);
+            this.currencies = currencies;
+            this.agents = agents ?? [];
+            this.applyAgentIdProp();
+            const { svc_category } = this.bookingService.groupEntryTablesResult(setupEntries);
+            this.serviceCategoryOptions = (svc_category ?? []).map(entry => ({
+                id: entry.CODE_NAME,
+                label: entry.CODE_VALUE_EN,
+            }));
+            this.currencySymbol = calendarData.calendar_data.currency?.symbol ?? '$';
+        }
+        catch (error) {
+            console.error('Failed to initialize city ledger', error);
+        }
+        finally {
+            this.isLoading = false;
+        }
+    }
+    render() {
+        if (this.isLoading) {
+            return index.h("ir-loading-screen", null);
+        }
+        return (index.h(index.Host, null, index.h("ir-page", { label: 'City Ledger', description: this.selectedAgent?.name }, index.h("i", { slot: "page-description", style: { marginLeft: '0.5rem' } }, this.selectedAgent?.code), index.h("ir-autocomplete", { slot: "page-header",
+            // size="medium"
+            placeholder: "Select agent", class: "city-ledger__agents-autocomplete", "onText-change": (e) => {
+                this.agentSearch = e.detail ?? '';
+            }, "onCombobox-change": (e) => {
+                this.agentSearch = '';
+                this.selectedAgent = e.detail ? this.agents?.find(agent => agent.id === Number(e.detail)) : null;
+                this.showStatementPreview = false;
+                this.folioSummary = null;
+                this.fiscalFilters = { fromDate: undefined, toDate: undefined, docNumber: '', taxableOnly: false, type: 'all', proformaOnly: false };
+                this.stmtFilters = { fromDate: null, toDate: null };
+                // Update URL search param
+                if (this.selectedAgent) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('agentId', this.selectedAgent.id.toString());
+                    window.history.replaceState({}, '', url);
+                }
+            } }, this.filteredAgents.map(agent => (index.h("ir-autocomplete-option", { key: agent.id, label: agent.name, value: String(agent.id) }, agent.name)))), !this.selectedAgent ? (index.h("ir-empty-state", { message: "Select an agent to get started", class: "city-ledger__no-agent" }, index.h("div", { slot: "icon", class: 'city-ledger__no-agent-icon-container' }, index.h("wa-icon", { name: "building", class: "city-ledger__no-agent-icon" })), index.h("p", { class: "city-ledger__no-agent-sub" }, "Choose an agent from the selector above to view their city ledger folio, fiscal documents, and statements."))) : (index.h("div", { class: "city-ledger__content" }, index.h("ir-city-ledger-toolbar", { ref: el => (this.toolbarRef = el), agentId: this.selectedAgent?.id, currencySymbol: this.currencySymbol, onCreateInvoice: () => this.createInvoiceDialogRef.openModal() }), index.h("wa-tab-group", { activation: "manual", "onwa-tab-show": e => {
+                this.currentTab = e.detail.name.toString();
+            }, active: this.currentTab }, this.panels.map(panel => (index.h("wa-tab", { key: panel.id, panel: panel.id }, panel.label))), index.h("wa-tab-panel", { name: "folio" }, index.h("ir-city-ledger-folio", { agent: this.selectedAgent, propertyId: this.resolvedPropertyId, ticket: this.ticket, language: this.language, serviceCategoryOptions: this.serviceCategoryOptions, currencies: this.currencies, onFolioSummaryUpdate: e => (this.folioSummary = e.detail) })), index.h("wa-tab-panel", { name: "fiscal-documents" }, index.h("ir-city-ledger-fiscal-documents", { agentId: this.selectedAgent?.id, currencySymbol: calendarData.calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.fiscalFilters, onClFiscalFiltersChange: e => (this.fiscalFilters = e.detail) })), index.h("wa-tab-panel", { name: "create-statement", class: "statement-tab-panel" }, index.h("ir-city-ledger-statements", { agentId: this.selectedAgent?.id, agentName: this.selectedAgent?.name ?? '', currencySymbol: calendarData.calendar_data.property?.currency?.symbol, currencies: this.currencies, ticket: this.ticket, propertyId: this.resolvedPropertyId, initialFilters: this.stmtFilters, onClStmtFiltersChange: e => (this.stmtFilters = e.detail) })))))), index.h("ir-cl-invoice-dialog", { ref: el => (this.createInvoiceDialogRef = el), agentId: this.selectedAgent?.id, onInvoiceIssued: async () => {
+                await this.toolbarRef?.refresh();
+            } }), index.h("ir-cl-fiscal-document-preview", { ticket: this.ticket, propertyId: calendarData.calendar_data?.property?.id, onDocumentConverted: () => this.toolbarRef?.refresh() })));
+    }
+    static get watchers() { return {
+        "ticket": ["handleTicketChange"],
+        "propertyid": ["handlePropertyIdChange"],
+        "agentId": ["handleAgentIdChange"]
+    }; }
+};
+IrCityLedger.style = IrCityLedgerStyle0;
+
 const irDailyRevenueCss = ".sc-ir-daily-revenue-h{display:block}.daily-revenue__meta.sc-ir-daily-revenue{display:flex;flex-direction:column;gap:1rem}.daily-revenue__table.sc-ir-daily-revenue{flex:1 1 0%}@media (min-width: 768px){.daily-revenue__meta.sc-ir-daily-revenue{flex-direction:row}}";
 const IrDailyRevenueStyle0 = irDailyRevenueCss;
 
@@ -2439,7 +2609,7 @@ const IrDailyRevenue = class {
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     paymentEntries;
     preventPageLoad;
     componentWillLoad() {
@@ -2641,7 +2811,7 @@ const IrDepartures = class {
     invoiceState = null;
     tokenService = new Token.Token();
     roomService = new room_service.RoomService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     paymentFolioRef;
     componentWillLoad() {
         if (this.ticket) {
@@ -2850,7 +3020,7 @@ const IrGhsOnboarding = class {
     isActivating = false;
     propertyToActivate = null;
     ghsService = new GHSService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     tokenService = new Token.Token();
     removeAllModal;
     activateModal;
@@ -3393,7 +3563,7 @@ const IrHousekeeping = class {
     frequencies = [];
     roomService = new room_service.RoomService();
     houseKeepingService = new housekeeping_service.HouseKeepingService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     token = new Token.Token();
     componentWillLoad() {
         if (this.baseUrl) {
@@ -3463,232 +3633,6 @@ const IrHousekeeping = class {
     }; }
 };
 IrHousekeeping.style = IrHousekeepingStyle0;
-
-const ParamsGetMealReportSchema = index$1.objectType({
-    property_id: index$1.numberType(),
-    report_type: index$1.enumType(['GUEST_LIST', 'MEAL_COUNT']),
-    from: index$1.stringType(),
-    to: index$1.stringType(),
-    meal_type_code: index$1.stringType().optional().nullable(),
-    is_export_to_excel: index$1.booleanType().optional().default(false),
-});
-const ParamsSetHBPreferenceSchema = index$1.objectType({
-    property_id: index$1.numberType(),
-    room_identifier: index$1.stringType(),
-    code: index$1.stringType(),
-});
-
-class MealReportService {
-    async getMealReport(props) {
-        const payload = ParamsGetMealReportSchema.parse(props);
-        const { data } = await axios.axios.post(`/Get_Meal_Report`, payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data;
-    }
-    async setHBPreference(props) {
-        const payload = ParamsSetHBPreferenceSchema.parse(props);
-        const { data } = await axios.axios.post(`/Set_HB_Preference`, payload);
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-    }
-    async getSetupEntriesByTableNameMulti(entries) {
-        const { data } = await axios.axios.post(`/Get_Setup_Entries_By_TBL_NAME_MULTI`, { TBL_NAMES: entries });
-        if (data.ExceptionMsg !== '') {
-            throw new Error(data.ExceptionMsg);
-        }
-        return data.My_Result;
-    }
-}
-
-const irMealReportCss = ".sc-ir-meal-report-h{display:block}.ir-meal-report__export-btn.sc-ir-meal-report{height:100%}.ir-meal-report__metrics.sc-ir-meal-report{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:var(--wa-space-m);margin-bottom:var(--wa-space-m)}.ir-meal-report__layout.sc-ir-meal-report{display:flex;flex-direction:column;gap:var(--wa-space-m);margin-top:var(--wa-space-xs)}.ir-meal-report__results.sc-ir-meal-report{min-width:0}@media (min-width: 1024px){.ir-meal-report__layout.sc-ir-meal-report{flex-direction:row;align-items:flex-start}.ir-meal-report__layout.sc-ir-meal-report>ir-meal-report-filters.sc-ir-meal-report{flex:0 0 320px;min-width:0}.ir-meal-report__layout.sc-ir-meal-report>.ir-meal-report__results.sc-ir-meal-report{flex:1 1 auto}}";
-const IrMealReportStyle0 = irMealReportCss;
-
-const IrMealReport = class {
-    constructor(hostRef) {
-        index.registerInstance(this, hostRef);
-    }
-    ticket;
-    propertyid;
-    baseurl;
-    language = 'en';
-    isPageLoading = true;
-    isExporting = false;
-    isDataLoading = false;
-    localReportType = 'GUEST_LIST';
-    localFrom = moment.hooks().format('YYYY-MM-DD');
-    localTo = moment.hooks().format('YYYY-MM-DD');
-    localMealType = null;
-    guestList = [];
-    mealCountSummary = [];
-    setupEntries = {
-        meal_type: [],
-        hb_preference: [],
-    };
-    mealReportService = new MealReportService();
-    tokenService = new Token.Token();
-    ticketChanged(newValue) {
-        if (newValue) {
-            this.tokenService.setToken(newValue);
-            this.init();
-        }
-    }
-    componentWillLoad() {
-        if (this.baseurl) {
-            this.tokenService.setBaseUrl(this.baseurl);
-        }
-        if (this.ticket) {
-            this.tokenService.setToken(this.ticket);
-            this.init();
-        }
-    }
-    async handlePropertyChange() {
-        await this.init();
-    }
-    async init() {
-        try {
-            this.isPageLoading = true;
-            this.isDataLoading = true;
-            const setupEntries = await this.mealReportService.getSetupEntriesByTableNameMulti(['_MEAL_TYPE', '_HB_PREFERENCE']);
-            const grouped = utils.groupEntryTablesResult(setupEntries);
-            const meal_type = grouped.meal_type || [];
-            const hb_preference = grouped.hb_preference || [];
-            this.setupEntries = {
-                meal_type,
-                hb_preference,
-            };
-            if (meal_type.length > 0) {
-                if (!this.localMealType) {
-                    this.localMealType = meal_type[0].CODE_NAME;
-                }
-            }
-            await this.applyFilters();
-        }
-        catch (error) {
-            // Handling handled via UI
-        }
-        finally {
-            this.isPageLoading = false;
-            this.isDataLoading = false;
-        }
-    }
-    async applyFilters() {
-        try {
-            this.isDataLoading = true;
-            const response = await this.mealReportService.getMealReport({
-                property_id: this.propertyid,
-                from: this.localFrom,
-                to: this.localTo,
-                report_type: this.localReportType,
-                meal_type_code: this.localMealType,
-                is_export_to_excel: false,
-            });
-            this.guestList = response.My_Result.Guest_List || [];
-            this.mealCountSummary = response.My_Result.Meal_Count_Summary || [];
-        }
-        catch (error) {
-            // Handling handled via UI
-        }
-        finally {
-            this.isDataLoading = false;
-        }
-    }
-    resetFilters() {
-        this.localReportType = 'GUEST_LIST';
-        this.localFrom = moment.hooks().format('YYYY-MM-DD');
-        this.localTo = moment.hooks().format('YYYY-MM-DD');
-        if (this.setupEntries.meal_type.length > 0) {
-            this.localMealType = this.setupEntries.meal_type[0].CODE_NAME;
-        }
-        this.applyFilters();
-    }
-    async setPresetDate(type) {
-        const date = type === 'today' ? moment.hooks() : moment.hooks().add(1, 'day');
-        this.localFrom = date.format('YYYY-MM-DD');
-        if (type === 'today' && this.localReportType === 'MEAL_COUNT') {
-            this.localTo = moment.hooks().add(14, 'days').format('YYYY-MM-DD');
-        }
-        else {
-            this.localTo = this.localFrom;
-        }
-    }
-    async handleExport() {
-        try {
-            this.isExporting = true;
-            const response = await this.mealReportService.getMealReport({
-                property_id: this.propertyid,
-                from: this.localFrom,
-                to: this.localTo,
-                report_type: this.localReportType,
-                meal_type_code: this.localMealType,
-                is_export_to_excel: true,
-            });
-            const link = response.My_Params_Get_Meal_Report?.Link_excel;
-            if (link) {
-                // Use clean axios to bypass interceptors (avoiding network errors)
-                const cleanAxios = axios.axios.create();
-                const responseBlob = await cleanAxios.get(link, { responseType: 'blob' });
-                // Force download via local blob URL
-                const blob = new Blob([responseBlob.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                const filename = link.split('/').pop() || 'meal_report.xlsx';
-                a.setAttribute('download', filename);
-                document.body.appendChild(a);
-                a.click();
-                // Cleanup
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }
-        }
-        catch (error) {
-            // Export Error handled silently or via UI
-        }
-        finally {
-            this.isExporting = false;
-        }
-    }
-    render() {
-        if (this.isPageLoading) {
-            return index.h("ir-loading-screen", null);
-        }
-        const lcz = locales_store.locales.entries || {};
-        const summary = this.mealCountSummary || [];
-        const sum = (key) => summary.reduce((acc, day) => acc + (Number(day[key]) || 0), 0);
-        const mealMetrics = [
-            { label: 'Breakfast', icon: 'mug-saucer', intent: 'brand', adults: sum('Breakfast_Ad'), children: sum('Breakfast_Ch') },
-            { label: 'Lunch', icon: 'utensils', intent: 'success', adults: sum('Lunch_Ad'), children: sum('Lunch_Ch') },
-            { label: 'Dinner', icon: 'moon', intent: 'warning', adults: sum('Dinner_Ad'), children: sum('Dinner_Ch') },
-        ];
-        return (index.h("ir-page", { label: "Meal Report", class: 'page' }, index.h("ir-custom-button", { slot: "page-header", type: "button", size: "small", appearance: "outlined", loading: this.isExporting, onClickHandler: (e) => {
-                const ev = e.detail;
-                if (ev && typeof ev.preventDefault === 'function') {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                }
-                this.handleExport();
-            }, class: "ir-meal-report__export-btn" }, index.h("wa-icon", { name: "download", slot: "start", style: { fontSize: '14px' } }), lcz.Lcz_Export || 'Export'), this.localReportType === 'MEAL_COUNT' && (index.h("div", { class: "ir-meal-report__metrics" }, mealMetrics.map(metric => (index.h("ir-metric-card", { key: metric.label, label: metric.label, icon: metric.icon, intent: metric.intent, value: metric.adults + metric.children, unit: "guests", caption: `Adults ${metric.adults} · Children ${metric.children}`, loading: this.isDataLoading }))))), index.h("div", { class: "ir-meal-report__layout" }, index.h("ir-meal-report-filters", { reportType: this.localReportType, fromDate: this.localFrom, toDate: this.localTo, mealType: this.localMealType, setupEntries: this.setupEntries, isLoading: this.isDataLoading, lcz: lcz, onReportTypeChange: e => {
-                this.localReportType = e.detail;
-                this.applyFilters();
-                if (e.detail === 'GUEST_LIST') {
-                    this.localTo = this.localFrom;
-                }
-            }, onDateChange: e => {
-                this.localFrom = e.detail.from;
-                this.localTo = e.detail.to;
-            }, onMealTypeChange: async (e) => {
-                this.localMealType = e.detail;
-            }, onFilterApply: () => this.applyFilters(), onFilterReset: () => this.resetFilters(), onPresetDate: e => this.setPresetDate(e.detail) }), index.h("wa-card", { class: "ir-meal-report__results" }, index.h("div", null, this.localReportType === 'GUEST_LIST' ? (index.h("ir-meal-guest-list", { guestList: this.guestList })) : (index.h("ir-meal-count-summary", { mealCountSummary: this.mealCountSummary })))))));
-    }
-    static get watchers() { return {
-        "ticket": ["ticketChanged"],
-        "propertyid": ["handlePropertyChange"]
-    }; }
-};
-IrMealReport.style = IrMealReportStyle0;
 
 const irMonthlyBookingsReportCss = ".sc-ir-monthly-bookings-report-h{display:block}";
 const IrMonthlyBookingsReportStyle0 = irMonthlyBookingsReportCss;
@@ -4279,7 +4223,7 @@ const IrSalesByCountry = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     propertyService = new property_service.PropertyService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     baseFilters = {
         FROM_DATE: moment.hooks().add(-7, 'days').format('YYYY-MM-DD'),
         TO_DATE: moment.hooks().format('YYYY-MM-DD'),
@@ -4466,7 +4410,7 @@ const IrTaxServiceCategories = class {
     setupEntries;
     autoValidate;
     tokenService = new Token.Token();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     propertyService = new property_service.PropertyService();
     componentWillLoad() {
         if (this.ticket) {
@@ -4693,7 +4637,7 @@ const IrUserManagement = class {
     token = new Token.Token();
     roomService = new room_service.RoomService();
     userService = new user_service.UserService();
-    bookingService = new booking_store.BookingService();
+    bookingService = new booking_service.BookingService();
     userTypes = new Map();
     unsubscribeRealtime = null;
     superAdminId = '5';
@@ -4846,12 +4790,12 @@ exports.ir_arrivals = IrArrivals;
 exports.ir_booking_email_logs = IrBookingEmailLogs;
 exports.ir_booking_listing = IrBookingListing;
 exports.ir_channel = IrChannel;
+exports.ir_city_ledger = IrCityLedger;
 exports.ir_daily_revenue = IrDailyRevenue;
 exports.ir_departures = IrDepartures;
 exports.ir_ghs_onboarding = IrGhsOnboarding;
 exports.ir_hk_tasks = IrHkTasks;
 exports.ir_housekeeping = IrHousekeeping;
-exports.ir_meal_report = IrMealReport;
 exports.ir_monthly_bookings_report = IrMonthlyBookingsReport;
 exports.ir_payment_option = IrPaymentOption;
 exports.ir_sales_by_channel = IrSalesByChannel;

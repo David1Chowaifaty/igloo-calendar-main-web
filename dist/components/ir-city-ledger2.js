@@ -143,7 +143,7 @@ const IrCityLedger = /*@__PURE__*/ proxyCustomElement(class IrCityLedger extends
     propertyid;
     agentId = null;
     resolvedPropertyId = null;
-    currentTab = 'fiscal-documents';
+    currentTab = 'folio';
     isLoading = false;
     agents = [];
     selectedAgent = null;
