@@ -49397,7 +49397,7 @@ let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    GlobalWorkerOptions.workerSrc = workerSrc ?? '/assets/pdf.worker.min.mjs';
+    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).href;
     workerInitialized = true;
 }
 const IrPdfViewer = class {
@@ -49556,7 +49556,7 @@ const IrPdfViewer = class {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: 'd2c0272ff03c437ab2af82e1f4e086aa0dbd6843' }, h("canvas", { key: '233cac8c5715c44e64228873da95ff8f4373ff2b', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '5da9af55b061edab4b7bef36016d5a4766c7f578', class: "overlay" }, h("wa-spinner", { key: '6bfc9e7fc1bb7c4140a78fb0a23f9fe5fcbe2add' }))), error && !isLoading && (h("div", { key: '7379de1e02ecd3b35c079fcf976b4de0f4c16c8b', class: "error-state", role: "alert" }, h("wa-icon", { key: 'd91e7a1fd6db144e694df1f25aeae2a076ccf184', name: "triangle-exclamation" }), h("span", { key: '78d357350d220de2433222c30422a910a64a6eae' }, error))), totalPages > 1 && (h("div", { key: 'e171ee0b27ee15be71428d64d2c2f5b43c68b54d', class: "pagination" }, h("button", { key: '57a716547df4b375725687a1d5b797cbd9566987', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '37f6473468d27602982dc434fa216a82adc6a2fd', name: "chevron-left" })), h("span", { key: '05ad4295ec490b07329e87ee97302f091dc08ea8', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'f40a9ae32ea0c67d895222555ec16f39fba63777', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '2fb09a40885cb78f718d215b8c13040c645b0344', name: "chevron-right" }))))));
+        return (h(Host, { key: 'ccec471120974794e1f0bc8e6bc00097c7c2c897' }, h("canvas", { key: 'b9534fb5b2bb491f54be7dda6a0c2c09d63cc2dd', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '451c47a40787153e57cf3a5a84b9d2575d986421', class: "overlay" }, h("wa-spinner", { key: '78720f846c9fc49e5c097c80cd87ee95113c5511' }))), error && !isLoading && (h("div", { key: 'f952cbe5d116cbde179e205a3c5f77391288e5fd', class: "error-state", role: "alert" }, h("wa-icon", { key: '05cdd23c93d92ebd20046109ec511003b0d49b89', name: "triangle-exclamation" }), h("span", { key: 'd7ecafac6bef987b56e0abffd814c4adf3004e6f' }, error))), totalPages > 1 && (h("div", { key: '8dd27543080121a801ccf049c6aba08ca811a62d', class: "pagination" }, h("button", { key: '4d2aa0ba02d6f83e09f10a1408be582bc3f29d3f', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '83308ace820b56d3f024efcc34032ad807f38047', name: "chevron-left" })), h("span", { key: 'a7a1585422dc7e78e3530eccf04726712b361016', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '333a614d0093e95ccdeab2fee6f49ba8e4974d04', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'd096dd2ac9efee7a46a38fbdba19ded14e4ffe5b', name: "chevron-right" }))))));
     }
     static get watchers() { return {
         "src": [{
