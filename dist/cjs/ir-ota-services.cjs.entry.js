@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-D8WscJxs.js');
+var index = require('./index-Cn9TxUnA.js');
 
 const irOtaServicesCss = () => `.sc-ir-ota-services-h{display:block}.bottom-border.sc-ir-ota-services{border-bottom:1px solid rgba(0, 0, 0, 0.1)}`;
 

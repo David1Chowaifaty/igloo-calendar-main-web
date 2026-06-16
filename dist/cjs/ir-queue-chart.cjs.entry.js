@@ -1,6 +1,6 @@
 'use strict';
 
-var index$1 = require('./index-D8WscJxs.js');
+var index$1 = require('./index-Cn9TxUnA.js');
 
 /*!
  * @kurkle/color v0.3.4

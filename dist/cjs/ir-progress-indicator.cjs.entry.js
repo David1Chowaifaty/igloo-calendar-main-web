@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-D8WscJxs.js');
+var index = require('./index-Cn9TxUnA.js');
 
 const irProgressIndicatorCss = () => `.sc-ir-progress-indicator-h{display:block}.secondary-progress.sc-ir-progress-indicator{background:#6692b3}`;
 

@@ -1,31 +1,31 @@
-import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, d as getElement } from './index-DsP1thJ-.js';
-import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, j as getReservedRooms, k as hasAtLeastOneRoomSelected, c as calculateTotalRooms, l as getBookingTotalPrice, n as bookedByGuestBaseData, o as resetAvailability, Z as ZIEntrySchema } from './booking.store-ppUQV_m6.js';
-import { l as locales } from './locales.store-CnCF03aI.js';
-import { i as isSingleUnit, c as calendar_data } from './calendar-data-Ogu9Tn08.js';
-import { i as formatAmount, e as extras, g as getReleaseHoursString, G as toFloat, n as showToast, a as canCheckout, c as canCheckIn, R as ROOM_IN_OUT, o as getEntryValue, H as ExtraServiceSchema, k as downloadFile, I as renderTime, J as validateSharedPerson, Z as ZSharedPerson } from './utils-XHeF_jXG.js';
+import { r as registerInstance, c as createEvent, h, H as Host, F as Fragment, d as getElement, e as getAssetPath } from './index-DrVkW3Kc.js';
+import { V as VariationService, B as BookingService, b as booking_store, u as updateRoomGuest, g as updateBookedByGuest, m as modifyBookingStore, e as reserveRooms, a as resetReserved, h as updateRoomParams, i as getVisibleInventory, s as setBookingDraft, d as setBookingSelectOptions, r as resetBookingStore, j as getReservedRooms, k as hasAtLeastOneRoomSelected, c as calculateTotalRooms, l as getBookingTotalPrice, n as bookedByGuestBaseData, o as resetAvailability, Z as ZIEntrySchema } from './booking.store-CM0HHElq.js';
+import { l as locales } from './locales.store-CcwAwmT9.js';
+import { i as isSingleUnit, c as calendar_data } from './calendar-data-CmdqrXAh.js';
+import { i as formatAmount, e as extras, g as getReleaseHoursString, G as toFloat, n as showToast, a as canCheckout, c as canCheckIn, R as ROOM_IN_OUT, o as getEntryValue, H as ExtraServiceSchema, k as downloadFile, I as renderTime, J as validateSharedPerson, Z as ZSharedPerson } from './utils-CJFvKroT.js';
 import { G as GuestCredentials } from './types-C7GI5X38.js';
 import { l as libExports } from './index-DeW5X45W.js';
 import { v as v4 } from './v4-DD3477fe.js';
-import { C as CityLedgerService, b as ClTxTypeCode, F as FdTypes, I as InvoiceableItemReason, a as FdStatus, V as VatIncludedCodes, c as InOut } from './index-CMqHZmNL.js';
+import { C as CityLedgerService, b as ClTxTypeCode, F as FdTypes, I as InvoiceableItemReason, a as FdStatus, V as VatIncludedCodes, c as InOut } from './index-Dnr0ULiF.js';
 import { T as Token } from './Token-CkxFIO_J.js';
 import { A as AirDatepicker, l as localeEn } from './en-XchZmzEI.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { i as isAgentMode, _ as _formatTime, a as _formatDate, b as _getDay } from './functions-81yL-Vms.js';
-import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-DaHKzYNl.js';
+import { i as isRequestPending, a as interceptor_requests } from './ir-interceptor.store-C2JiZkcJ.js';
 import { a as axios } from './axios-B50ozOIF.js';
-import { R as RoomService } from './room.service-CnDqFCU0.js';
+import { R as RoomService } from './room.service-Dd5EgkLO.js';
 import { P as PaymentService } from './payment.service-D2gbn5FN.js';
-import { n as buildSplitIndex, c as calculateDaysBetweenDates, d as getPrivateNote, h as formatName } from './booking-BBPCf6_8.js';
+import { n as buildSplitIndex, c as calculateDaysBetweenDates, d as getPrivateNote, h as formatName } from './booking-bxQ4mwxZ.js';
 import { A as AgentsService } from './agents.service-CfKXQqnt.js';
 import { r as realtimeService } from './realtime.service-BLk631kq.js';
 import { I as IMask, M as MaskedRange } from './index-BQB1ooJC.js';
-import { P as PropertyService, t as taxationModes } from './property.service-Dc89r73e.js';
+import { P as PropertyService, t as taxationModes } from './property.service-48IngD6W.js';
 import { S as SystemService } from './system.service-DN8zRqj9.js';
 import { D as Debounce } from './debounce-DF70NVXP.js';
 import { c as createColumnHelper, u as useTable, f as flexRender, g as getSortedRowModel, a as getCoreRowModel, b as getExpandedRowModel, d as getGroupedRowModel } from './useTable-D3LS_BXH.js';
 import { c as commonjsRequire, m as moment$2 } from './moment-with-locales-DITM0o9O.js';
 import { P as PAYMENT_TYPES_WITH_METHOD } from './global.variables-34GsmACS.js';
-import './index-ChvQumDv.js';
+import './index-DXObjBRn.js';
 import './type-D7rOPtKA.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 
@@ -49397,9 +49397,10 @@ let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    // `new URL(..., import.meta.url)` is detected by the bundler (Rollup/Stencil): the worker
-    // asset is emitted and the URL rewritten, so it resolves in both dev and prod ESM output.
-    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('../../assets/pdf.worker.min.mjs', import.meta.url).href;
+    // Resolve the worker via Stencil's asset base path. `getAssetPath` uses the same runtime
+    // resource URL that Stencil uses to locate component chunks, so it points at the copied
+    // worker regardless of where the library is hosted (dev or prod, dist or dist-custom-elements).
+    GlobalWorkerOptions.workerSrc = workerSrc ?? getAssetPath('assets/pdf.worker.min.mjs');
     workerInitialized = true;
 }
 const IrPdfViewer = class {
@@ -49558,8 +49559,9 @@ const IrPdfViewer = class {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: '2acf9462342732a6d08e8fad48d3f2bf507fe4a4' }, h("canvas", { key: '98a423a404d751fcfd90a220de720080e13e06f9', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '575bc9a7f6b4688306b5930be5a7e514eec65302', class: "overlay" }, h("wa-spinner", { key: '852c52616b699e2d430aea77109baed3c152d942' }))), error && !isLoading && (h("div", { key: 'fab14db57d562f6055e02b9ed1c267074a3fe8ea', class: "error-state", role: "alert" }, h("wa-icon", { key: '6c36ffede05187ff2996086b63fc16823c5c345f', name: "triangle-exclamation" }), h("span", { key: '70e0a6951f2706351ddf08f3910fbbee5d135410' }, error))), totalPages > 1 && (h("div", { key: 'c2859b7122b1e2b2e42fb73b10b11be8828a2ea0', class: "pagination" }, h("button", { key: '5c7aca733822aaf591a775436a781864acf8fd7b', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '61bd3bf23fe2d8650b08289f65cfeaa89dce376d', name: "chevron-left" })), h("span", { key: '1306cec2d9c38b9070db4cd51be707bd73031215', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'c5a0013355b4bed3aadb035c402d42ac3cf35027', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'b21e552ff350ccbe5f0a4e6f6b8ed1fd7d7f18a0', name: "chevron-right" }))))));
+        return (h(Host, { key: '18050a6fcb45adf623bcf8f861e3e66e6f5599a1' }, h("canvas", { key: 'f9f5ac5e4f9df4a9da09f6eafa10de0f5b86a18f', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'ab60ed65eee78ee4a0d2884d6a2601270090152d', class: "overlay" }, h("wa-spinner", { key: '0439ceec6fe725ff6f29512db3369b59027bbd66' }))), error && !isLoading && (h("div", { key: '6299b96ac2e302bc5a52bc69334c5b14faa41249', class: "error-state", role: "alert" }, h("wa-icon", { key: '2546b7c29e7a729763a404706e95f6eadc4e860b', name: "triangle-exclamation" }), h("span", { key: '38f5962ccac220e4ec9308dee28242e952e2ec1c' }, error))), totalPages > 1 && (h("div", { key: '200ace69fa6afacecaddb418ac2b8cb2abf2c838', class: "pagination" }, h("button", { key: 'f5db4baa2100623d3e8f219292389c71a5e3e3eb', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '4e896985dc725391b33eab5280fe9f2a25d2b70a', name: "chevron-left" })), h("span", { key: '91eaacad714ec08a40ca37779077f8e193e6c514', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '3e5ef607a6e8019cca280df754eb84a4f0543d2e', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '0fe4872e478a7bb671507921da657fb506249298', name: "chevron-right" }))))));
     }
+    static get assetsDirs() { return ["assets"]; }
     static get watchers() { return {
         "src": [{
                 "onSrcChange": 0

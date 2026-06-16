@@ -1,13 +1,14 @@
-import { Host, h } from "@stencil/core";
+import { Host, getAssetPath, h } from "@stencil/core";
 import { getDocument, GlobalWorkerOptions, RenderingCancelledException } from "pdfjs-dist/build/pdf.mjs";
 const RENDER_QUALITY = 2;
 let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    // `new URL(..., import.meta.url)` is detected by the bundler (Rollup/Stencil): the worker
-    // asset is emitted and the URL rewritten, so it resolves in both dev and prod ESM output.
-    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('../../assets/pdf.worker.min.mjs', import.meta.url).href;
+    // Resolve the worker via Stencil's asset base path. `getAssetPath` uses the same runtime
+    // resource URL that Stencil uses to locate component chunks, so it points at the copied
+    // worker regardless of where the library is hosted (dev or prod, dist or dist-custom-elements).
+    GlobalWorkerOptions.workerSrc = workerSrc ?? getAssetPath('assets/pdf.worker.min.mjs');
     workerInitialized = true;
 }
 export class IrPdfViewer {
@@ -163,7 +164,7 @@ export class IrPdfViewer {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (h(Host, { key: '2acf9462342732a6d08e8fad48d3f2bf507fe4a4' }, h("canvas", { key: '98a423a404d751fcfd90a220de720080e13e06f9', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: '575bc9a7f6b4688306b5930be5a7e514eec65302', class: "overlay" }, h("wa-spinner", { key: '852c52616b699e2d430aea77109baed3c152d942' }))), error && !isLoading && (h("div", { key: 'fab14db57d562f6055e02b9ed1c267074a3fe8ea', class: "error-state", role: "alert" }, h("wa-icon", { key: '6c36ffede05187ff2996086b63fc16823c5c345f', name: "triangle-exclamation" }), h("span", { key: '70e0a6951f2706351ddf08f3910fbbee5d135410' }, error))), totalPages > 1 && (h("div", { key: 'c2859b7122b1e2b2e42fb73b10b11be8828a2ea0', class: "pagination" }, h("button", { key: '5c7aca733822aaf591a775436a781864acf8fd7b', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '61bd3bf23fe2d8650b08289f65cfeaa89dce376d', name: "chevron-left" })), h("span", { key: '1306cec2d9c38b9070db4cd51be707bd73031215', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: 'c5a0013355b4bed3aadb035c402d42ac3cf35027', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: 'b21e552ff350ccbe5f0a4e6f6b8ed1fd7d7f18a0', name: "chevron-right" }))))));
+        return (h(Host, { key: '18050a6fcb45adf623bcf8f861e3e66e6f5599a1' }, h("canvas", { key: 'f9f5ac5e4f9df4a9da09f6eafa10de0f5b86a18f', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (h("div", { key: 'ab60ed65eee78ee4a0d2884d6a2601270090152d', class: "overlay" }, h("wa-spinner", { key: '0439ceec6fe725ff6f29512db3369b59027bbd66' }))), error && !isLoading && (h("div", { key: '6299b96ac2e302bc5a52bc69334c5b14faa41249', class: "error-state", role: "alert" }, h("wa-icon", { key: '2546b7c29e7a729763a404706e95f6eadc4e860b', name: "triangle-exclamation" }), h("span", { key: '38f5962ccac220e4ec9308dee28242e952e2ec1c' }, error))), totalPages > 1 && (h("div", { key: '200ace69fa6afacecaddb418ac2b8cb2abf2c838', class: "pagination" }, h("button", { key: 'f5db4baa2100623d3e8f219292389c71a5e3e3eb', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, h("wa-icon", { key: '4e896985dc725391b33eab5280fe9f2a25d2b70a', name: "chevron-left" })), h("span", { key: '91eaacad714ec08a40ca37779077f8e193e6c514', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), h("button", { key: '3e5ef607a6e8019cca280df754eb84a4f0543d2e', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, h("wa-icon", { key: '0fe4872e478a7bb671507921da657fb506249298', name: "chevron-right" }))))));
     }
     static get is() { return "ir-pdf-viewer"; }
     static get encapsulation() { return "shadow"; }
@@ -177,6 +178,7 @@ export class IrPdfViewer {
             "$": ["ir-pdf-viewer.css"]
         };
     }
+    static get assetsDirs() { return ["assets"]; }
     static get properties() {
         return {
             "src": {

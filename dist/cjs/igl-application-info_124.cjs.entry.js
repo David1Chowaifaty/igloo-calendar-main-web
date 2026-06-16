@@ -1,33 +1,33 @@
 'use strict';
 
-var index = require('./index-D8WscJxs.js');
-var booking_store = require('./booking.store-KcQb3-Ei.js');
-var locales_store = require('./locales.store-CUKWeY9v.js');
-var calendarData = require('./calendar-data-D2O2OI-7.js');
-var utils = require('./utils-CldsIwq_.js');
+var index = require('./index-Cn9TxUnA.js');
+var booking_store = require('./booking.store-BM838NHl.js');
+var locales_store = require('./locales.store-BeGVOOFV.js');
+var calendarData = require('./calendar-data-BS2xSsKS.js');
+var utils = require('./utils-DjJ9po0i.js');
 var types = require('./types-Cu7HWegB.js');
 var index$1 = require('./index-CLqkDPTC.js');
 var v4 = require('./v4-Bq3ldsQe.js');
-var index$2 = require('./index-B4XBS53K.js');
+var index$2 = require('./index-CQlriilD.js');
 var Token = require('./Token-mN7PQKGF.js');
 var en = require('./en-Bst8Ux93.js');
 var moment$2 = require('./moment-CdViwxPQ.js');
 var functions = require('./functions-mvRDRfzA.js');
-var irInterceptor_store = require('./ir-interceptor.store-BJZ7rmGX.js');
+var irInterceptor_store = require('./ir-interceptor.store-DCKAa58Q.js');
 var axios = require('./axios-EresIryl.js');
-var room_service = require('./room.service-CEI-2_Au.js');
+var room_service = require('./room.service-DZKFJDCn.js');
 var payment_service = require('./payment.service-CGBWAElK.js');
-var booking = require('./booking-BALwuGdJ.js');
+var booking = require('./booking-OneKw92x.js');
 var agents_service = require('./agents.service-DWaVZIds.js');
 var realtime_service = require('./realtime.service-COdIt6Z-.js');
 var index$3 = require('./index-BquCITYD.js');
-var property_service = require('./property.service-BLpopdhe.js');
+var property_service = require('./property.service-Cfs56zPm.js');
 var system_service = require('./system.service-q3G6_5Tb.js');
 var debounce = require('./debounce-Be8tSGtB.js');
 var useTable = require('./useTable-BN32DOaV.js');
 var momentWithLocales = require('./moment-with-locales-rbb_iEBE.js');
 var global_variables = require('./global.variables-BldIv7Je.js');
-require('./index-yPf-buWw.js');
+require('./index-DIiJtwiU.js');
 require('./type-Dy9pVS4V.js');
 require('./_commonjsHelpers-BJu3ubxk.js');
 
@@ -49400,9 +49400,10 @@ let workerInitialized = false;
 function ensureWorker(workerSrc) {
     if (workerInitialized)
         return;
-    // `new URL(..., import.meta.url)` is detected by the bundler (Rollup/Stencil): the worker
-    // asset is emitted and the URL rewritten, so it resolves in both dev and prod ESM output.
-    GlobalWorkerOptions.workerSrc = workerSrc ?? new URL('../../assets/pdf.worker.min.mjs', (typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('igl-application-info.igl-rate-plan.igl-room-type.ir-agent-billing.ir-air-date-picker.ir-applicable-policies.ir-arrival-time-dialog.ir-assignment-toggle-dialog.ir-autocomplete.ir-autocomplete-option.ir-billing.ir-billing-drawer.ir-booking-assign-items.ir-booking-billing-recipient.ir-booking-city-ledger.ir-booking-company-dialog.ir-booking-company-form.ir-booking-details.ir-booking-details-drawer.ir-booking-editor.ir-booking-editor-drawer.ir-booking-editor-form.ir-booking-editor-guest-form.ir-booking-editor-header.ir-booking-extra-note.ir-booking-guarantee.ir-booking-header.ir-booking-pricing-drawer.ir-booking-pricing-form.ir-booking-rooms.ir-booking-source-editor-dialog.ir-booking-source-editor-form.ir-booking-status-tag.ir-button.ir-checkout-dialog.ir-city-ledger.ir-city-ledger-fiscal-documents.ir-city-ledger-fiscal-documents-filters.ir-city-ledger-fiscal-documents-table.ir-city-ledger-folio.ir-city-ledger-folio-filters.ir-city-ledger-folio-table.ir-city-ledger-statements.ir-city-ledger-statements-filter.ir-city-ledger-statements-table.ir-city-ledger-toolbar.ir-city-ledger-transaction-drawer.ir-city-ledger-transaction-form.ir-cl-adjustment-fields.ir-cl-credit-note-fields.ir-cl-debit-note-fields.ir-cl-fiscal-document-preview.ir-cl-invoice-dialog.ir-cl-invoice-form.ir-cl-invoice-select.ir-cl-opening-balance-fields.ir-cl-payment-fields.ir-cl-status-tag.ir-common.ir-country-picker.ir-custom-button.ir-custom-date-range.ir-date-range.ir-date-range-filter.ir-date-select.ir-date-view.ir-dialog.ir-drawer.ir-empty-state.ir-events-log.ir-extra-service.ir-extra-service-config.ir-extra-service-config-form.ir-extra-services.ir-fd-confirm-dialog.ir-guest-billing.ir-guest-info-drawer.ir-guest-info-form.ir-hold-transaction-dialog.ir-icons.ir-input.ir-input-cell.ir-input-text.ir-interceptor.ir-invoice.ir-invoice-form.ir-label.ir-loading-screen.ir-mobile-input.ir-otp.ir-otp-modal.ir-page.ir-pagination.ir-payment-details.ir-payment-folio.ir-payment-folio-form.ir-payment-item.ir-payment-summary.ir-payments-folio.ir-pdf-viewer.ir-picker.ir-picker-item.ir-pickup.ir-pickup-form.ir-pickup-view.ir-pms-logs.ir-preview-screen-dialog.ir-print-room.ir-printing-extra-service.ir-printing-label.ir-printing-pickup.ir-proforma-invoice-preview.ir-reservation-information.ir-room.ir-room-guests.ir-room-guests-form.ir-service-assignee-select.ir-spinner.ir-toast.ir-toast-item.ir-toast-provider.ir-unit-tag.ir-validator.ota-label.entry.cjs.js', document.baseURI).href))).href;
+    // Resolve the worker via Stencil's asset base path. `getAssetPath` uses the same runtime
+    // resource URL that Stencil uses to locate component chunks, so it points at the copied
+    // worker regardless of where the library is hosted (dev or prod, dist or dist-custom-elements).
+    GlobalWorkerOptions.workerSrc = workerSrc ?? index.getAssetPath('assets/pdf.worker.min.mjs');
     workerInitialized = true;
 }
 const IrPdfViewer = class {
@@ -49561,8 +49562,9 @@ const IrPdfViewer = class {
         const { isLoading, error, totalPages, currentPage } = this;
         const atFirstPage = currentPage <= 1 || isLoading;
         const atLastPage = currentPage >= totalPages || isLoading;
-        return (index.h(index.Host, { key: '2acf9462342732a6d08e8fad48d3f2bf507fe4a4' }, index.h("canvas", { key: '98a423a404d751fcfd90a220de720080e13e06f9', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (index.h("div", { key: '575bc9a7f6b4688306b5930be5a7e514eec65302', class: "overlay" }, index.h("wa-spinner", { key: '852c52616b699e2d430aea77109baed3c152d942' }))), error && !isLoading && (index.h("div", { key: 'fab14db57d562f6055e02b9ed1c267074a3fe8ea', class: "error-state", role: "alert" }, index.h("wa-icon", { key: '6c36ffede05187ff2996086b63fc16823c5c345f', name: "triangle-exclamation" }), index.h("span", { key: '70e0a6951f2706351ddf08f3910fbbee5d135410' }, error))), totalPages > 1 && (index.h("div", { key: 'c2859b7122b1e2b2e42fb73b10b11be8828a2ea0', class: "pagination" }, index.h("button", { key: '5c7aca733822aaf591a775436a781864acf8fd7b', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, index.h("wa-icon", { key: '61bd3bf23fe2d8650b08289f65cfeaa89dce376d', name: "chevron-left" })), index.h("span", { key: '1306cec2d9c38b9070db4cd51be707bd73031215', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), index.h("button", { key: 'c5a0013355b4bed3aadb035c402d42ac3cf35027', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, index.h("wa-icon", { key: 'b21e552ff350ccbe5f0a4e6f6b8ed1fd7d7f18a0', name: "chevron-right" }))))));
+        return (index.h(index.Host, { key: '18050a6fcb45adf623bcf8f861e3e66e6f5599a1' }, index.h("canvas", { key: 'f9f5ac5e4f9df4a9da09f6eafa10de0f5b86a18f', ref: this.setCanvasRef, class: { hidden: !!error } }), isLoading && (index.h("div", { key: 'ab60ed65eee78ee4a0d2884d6a2601270090152d', class: "overlay" }, index.h("wa-spinner", { key: '0439ceec6fe725ff6f29512db3369b59027bbd66' }))), error && !isLoading && (index.h("div", { key: '6299b96ac2e302bc5a52bc69334c5b14faa41249', class: "error-state", role: "alert" }, index.h("wa-icon", { key: '2546b7c29e7a729763a404706e95f6eadc4e860b', name: "triangle-exclamation" }), index.h("span", { key: '38f5962ccac220e4ec9308dee28242e952e2ec1c' }, error))), totalPages > 1 && (index.h("div", { key: '200ace69fa6afacecaddb418ac2b8cb2abf2c838', class: "pagination" }, index.h("button", { key: 'f5db4baa2100623d3e8f219292389c71a5e3e3eb', type: "button", class: "page-btn", "aria-label": "Previous page", disabled: atFirstPage, onClick: this.goToPrev }, index.h("wa-icon", { key: '4e896985dc725391b33eab5280fe9f2a25d2b70a', name: "chevron-left" })), index.h("span", { key: '91eaacad714ec08a40ca37779077f8e193e6c514', class: "page-label", "aria-live": "polite" }, currentPage, " / ", totalPages), index.h("button", { key: '3e5ef607a6e8019cca280df754eb84a4f0543d2e', type: "button", class: "page-btn", "aria-label": "Next page", disabled: atLastPage, onClick: this.goToNext }, index.h("wa-icon", { key: '0fe4872e478a7bb671507921da657fb506249298', name: "chevron-right" }))))));
     }
+    static get assetsDirs() { return ["assets"]; }
     static get watchers() { return {
         "src": [{
                 "onSrcChange": 0

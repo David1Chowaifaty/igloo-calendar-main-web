@@ -1,10 +1,10 @@
-import { r as registerInstance, h, H as Host, F as Fragment } from './index-DsP1thJ-.js';
+import { r as registerInstance, h, H as Host, F as Fragment } from './index-DrVkW3Kc.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { i as formatAmount } from './utils-XHeF_jXG.js';
-import { c as calendar_data } from './calendar-data-Ogu9Tn08.js';
+import { i as formatAmount } from './utils-CJFvKroT.js';
+import { c as calendar_data } from './calendar-data-CmdqrXAh.js';
 import './index-DeW5X45W.js';
-import './locales.store-CnCF03aI.js';
-import './index-ChvQumDv.js';
+import './locales.store-CcwAwmT9.js';
+import './index-DXObjBRn.js';
 import './type-D7rOPtKA.js';
 
 const irClDocumentHeaderCss = () => `:host{display:block}@media print{.invoice__meta-label{color:#374151}.section-heading{color:#374151}.property-overview__location{color:#374151}}.invoice__title{margin:0 0 0.5rem;font-size:1.75rem;font-weight:800;letter-spacing:0.05em;color:#111827;text-transform:uppercase}.invoice__layout{display:flex;justify-content:space-between;padding:0.75rem 0 0}.invoice__column{display:flex;flex-direction:column}.invoice__column--property{align-items:flex-end;text-align:end}.invoice__details{display:flex;flex-direction:column;gap:0.25rem}.invoice__meta-row{display:flex;gap:1rem;font-size:0.8125rem;line-height:1.6}.invoice__meta-label{color:#9ca3af;font-weight:500;min-width:80px}.invoice__meta-value{color:#111827;font-weight:600}.bill-to-section{margin-top:0.875rem}.section-heading{margin:0 0 0.25rem;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;color:#9ca3af;text-transform:uppercase}.bill-to__name{margin:0;font-size:1rem;font-weight:600;color:#111827}.property-overview{display:flex;flex-direction:column;align-items:flex-end;text-align:end}.property-logo{height:2.5rem;width:auto;object-fit:contain;margin-bottom:0.5rem}.property-overview__text{display:flex;flex-direction:column;gap:0.1rem}.property-overview__name{margin:0 0 0.125rem;font-size:1.125rem;font-weight:700;color:#111827}.property-overview__location{margin:0;font-size:0.8125rem;color:#6b7280;line-height:1.4}`;

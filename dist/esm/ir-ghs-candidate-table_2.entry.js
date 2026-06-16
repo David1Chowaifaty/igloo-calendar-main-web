@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h } from './index-DsP1thJ-.js';
+import { r as registerInstance, c as createEvent, h } from './index-DrVkW3Kc.js';
 import { a as axios } from './axios-B50ozOIF.js';
 import './_commonjsHelpers-BFTU3MAI.js';
 

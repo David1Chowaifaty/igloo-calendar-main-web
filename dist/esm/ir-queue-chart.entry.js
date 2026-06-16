@@ -1,4 +1,4 @@
-import { r as registerInstance, d as getElement, h, H as Host } from './index-DsP1thJ-.js';
+import { r as registerInstance, d as getElement, h, H as Host } from './index-DrVkW3Kc.js';
 
 /*!
  * @kurkle/color v0.3.4

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-D8WscJxs.js');
+var index = require('./index-Cn9TxUnA.js');
 
 const irBookingNewFormCss = () => `.sc-ir-booking-new-form-h{display:block}`;
 
