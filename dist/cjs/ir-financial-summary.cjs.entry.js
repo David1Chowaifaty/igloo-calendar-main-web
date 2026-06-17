@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-DtXemfU-.js');
+var index = require('./index-CJ0kc5p1.js');
 
 const irFinancialSummaryCss = () => `.sc-ir-financial-summary-h{display:block}`;
 
@@ -9,7 +9,7 @@ const IrFinancialSummary = class {
         index.registerInstance(this, hostRef);
     }
     render() {
-        return (index.h(index.Host, { key: '9a0ed56fd7359dcc05ceee323307db0ee664be17' }, index.h("slot", { key: '62b2a0f823ea142c4e0d6d957ae4e39aa59e0a3b' })));
+        return (index.h(index.Host, { key: '8df288cf4adc2529a4d47e1345e880670610cea8' }, index.h("slot", { key: '9ca86bbd3ab61a7a112200305e10177636378df2' })));
     }
 };
 IrFinancialSummary.style = irFinancialSummaryCss();

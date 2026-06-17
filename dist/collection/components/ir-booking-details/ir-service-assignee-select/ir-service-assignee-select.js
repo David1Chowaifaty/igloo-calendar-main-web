@@ -17,7 +17,7 @@ export class IrServiceAssigneeSelect {
      */
     assignmentChange;
     render() {
-        return (h(Host, { key: '46912cad286caef16e8a00bde2407e34a737f212' }, h("wa-radio-group", { key: '20ed845d73e41aeae884fa7d1150024610f0c458', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label, orientation: "vertical" }, h("wa-radio", { key: 'b2050a255647bf9fbbdd74db18a434b55fa41a4b', value: "agent", appearance: "button" }, "Agent: ", this.agent?.name), h("wa-radio", { key: 'cec0e0d0c240641a72889ead6371891bd0d36bf6', value: "guest", appearance: "button" }, "Guest"))));
+        return (h(Host, { key: 'cfe037d914ed7b6ad4d80edbf37ce1e189216005' }, h("wa-radio-group", { key: '3d8c5b7c2ab5f2c97e1d60b8454953d8df6bccb0', onchange: e => this.assignmentChange.emit(e.target.value), defaultValue: this.assigneeType, value: this.assigneeType, size: "s", label: this.label, orientation: "vertical" }, h("wa-radio", { key: '7b0b2dbeb351df9dce08e1b37124b18202cac0c2', value: "agent", appearance: "button" }, "Agent: ", this.agent?.name), h("wa-radio", { key: '6838cf40c8b8079cb3972cb35ee85a32b942a7c0', value: "guest", appearance: "button" }, "Guest"))));
     }
     static get is() { return "ir-service-assignee-select"; }
     static get encapsulation() { return "scoped"; }

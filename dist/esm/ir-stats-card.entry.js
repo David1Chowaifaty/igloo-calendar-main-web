@@ -1,4 +1,4 @@
-import { r as registerInstance, h, H as Host } from './index-DF2__fQU.js';
+import { r as registerInstance, h, H as Host } from './index-D8DCR0yx.js';
 
 const irStatsCardCss = () => `.sc-ir-stats-card-h{display:block}`;
 

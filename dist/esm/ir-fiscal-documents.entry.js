@@ -1,13 +1,14 @@
-import { r as registerInstance, h } from './index-DF2__fQU.js';
-import { T as Token } from './Token-DEDKqWud.js';
+import { r as registerInstance, h } from './index-D8DCR0yx.js';
+import { T as Token } from './Token-CkxFIO_J.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { C as CityLedgerService, F as FdTypes } from './index-2p1sFdyd.js';
-import './axios-CleaxLzD.js';
+import { C as CityLedgerService, F as FdTypes } from './index-BxiuR06j.js';
+import './axios-B50ozOIF.js';
+import './_commonjsHelpers-BFTU3MAI.js';
 import './index-DeW5X45W.js';
-import './utils-Wjp6LFRm.js';
-import './calendar-data-I5D6ZJ1U.js';
-import './index-C6os-U8X.js';
-import './locales.store-BOppy8do.js';
+import './utils-DoV0ybBP.js';
+import './calendar-data-BIZ201rH.js';
+import './index-D5oXdmCj.js';
+import './locales.store-ChFOK43k.js';
 import './type-D7rOPtKA.js';
 
 const irFiscalDocumentsCss = () => `.sc-ir-fiscal-documents-h{display:block}`;
@@ -92,10 +93,10 @@ const IrFiscalDocuments = class {
         }
     }
     render() {
-        return (h("ir-page", { key: '30c4f1b90484efa640ee7ccd43e6cda0bde68d41', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: 'e04581bf7e04e3c63943059a90a881276a6df295', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
+        return (h("ir-page", { key: '620b67eb9b4e8d22323b7f08a4bfdf63c1a54e14', label: "Fiscal Documents" }, h("ir-fiscal-documents-filters", { key: '7106bded094fe26d44ad529ef4c6efdadcfa6c2a', propertyId: this.propertyid, filters: this.filters, onFiltersChange: e => (this.filters = e.detail), onApplyFilters: e => {
                 this.filters = e.detail;
                 this.fetchFiscalDocuments(e.detail);
-            } }), h("ir-fiscal-documents-table", { key: '9bb66918d6379f1724c6ed430e4b323ee1d687f3', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
+            } }), h("ir-fiscal-documents-table", { key: '4cc2f80533f9cbf2d8b6678762d90b8ad6e520f9', rows: this.rows, isLoading: this.isLoading, hasFetched: this.hasFetched, taxableOnly: this.filters.taxableOnly, hasDates: !!(this.filters.fromDate && this.filters.toDate), fromDate: this.filters.fromDate, toDate: this.filters.toDate, folioType: this.filters.folioType, agentId: this.filters.agentId, guestId: this.filters.guestId, ticket: this.ticket, propertyId: this.propertyid, onFetchRequested: () => this.fetchFiscalDocuments(this.filters) })));
     }
     static get watchers() { return {
         "ticket": [{

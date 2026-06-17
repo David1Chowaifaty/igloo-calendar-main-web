@@ -1,44 +1,48 @@
 /* Web Awesome core styles */
 /* @import url('../assets/webawesome/themes/webawesome.css'); */
-/* Generates --wa-color-{hue}-on tokens for pairing with any palette's key colors */
-:where(:root),
-:host {
+/* Order of precedence for all cascade layers in Web Awesome */
+@layer wa-native, wa-base, wa-utilities, wa-color-palette, wa-color-variant, wa-theme, wa-theme-dimension, wa-theme-overrides;
+
+@layer wa-base {
   /**
-    * Conditional tokens to check if the key color is >= 60
-    * Key colors are the most colorful tint in a scale, recorded as --wa-color-{hue} in each palette
-    * The numeric value of the key is isolated as --wa-color-{hue}-key
-    * If key < 60, the result is 0%
-    * If key >= 60, the result is 100%
-    * Intended to be used in the color-mix() functions below
+    Because headers are sticky, this is needed to make sure page fragment anchors scroll down past the headers / subheaders and are visible.
+    IE: \`<a href="#id-for-h2">\` anchors.
     */
+  wa-page :is(*, *:after, *:before) {
+    scroll-margin-top: var(--scroll-margin-top);
+  }
 
-  --wa-color-red-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-red-key), 1) * 100%));
-  --wa-color-orange-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-orange-key), 1) * 100%));
-  --wa-color-yellow-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-yellow-key), 1) * 100%));
-  --wa-color-green-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-green-key), 1) * 100%));
-  --wa-color-cyan-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-cyan-key), 1) * 100%));
-  --wa-color-blue-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-blue-key), 1) * 100%));
-  --wa-color-indigo-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-indigo-key), 1) * 100%));
-  --wa-color-purple-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-purple-key), 1) * 100%));
-  --wa-color-pink-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-pink-key), 1) * 100%));
-  --wa-color-gray-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-gray-key), 1) * 100%));
+  wa-page[view='desktop'] [data-toggle-nav] {
+    display: none;
+  }
 
+  wa-page[view='mobile'] .wa-desktop-only,
+  wa-page[view='desktop'] .wa-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Rules shared by all palettes */
+/* Order of precedence for all cascade layers in Web Awesome */
+@layer wa-native, wa-base, wa-utilities, wa-color-palette, wa-color-variant, wa-theme, wa-theme-dimension, wa-theme-overrides;
+
+@layer wa-base {
   /**
-    * Tokens to set text color with appropriate WCAG 2.1 contrast
-    * If key < 60, the text color is white
-    * If key >= 60, the text color is {hue}-10
+    Because headers are sticky, this is needed to make sure page fragment anchors scroll down past the headers / subheaders and are visible.
+    IE: \`<a href="#id-for-h2">\` anchors.
     */
+  wa-page :is(*, *:after, *:before) {
+    scroll-margin-top: var(--scroll-margin-top);
+  }
 
-  --wa-color-red-on: color-mix(in oklab, var(--wa-color-red-10) var(--wa-color-red-gte-60), white);
-  --wa-color-orange-on: color-mix(in oklab, var(--wa-color-orange-10) var(--wa-color-orange-gte-60), white);
-  --wa-color-yellow-on: color-mix(in oklab, var(--wa-color-yellow-10) var(--wa-color-yellow-gte-60), white);
-  --wa-color-green-on: color-mix(in oklab, var(--wa-color-green-10) var(--wa-color-green-gte-60), white);
-  --wa-color-cyan-on: color-mix(in oklab, var(--wa-color-cyan-10) var(--wa-color-cyan-gte-60), white);
-  --wa-color-blue-on: color-mix(in oklab, var(--wa-color-blue-10) var(--wa-color-blue-gte-60), white);
-  --wa-color-indigo-on: color-mix(in oklab, var(--wa-color-indigo-10) var(--wa-color-indigo-gte-60), white);
-  --wa-color-purple-on: color-mix(in oklab, var(--wa-color-purple-10) var(--wa-color-purple-gte-60), white);
-  --wa-color-pink-on: color-mix(in oklab, var(--wa-color-pink-10) var(--wa-color-pink-gte-60), white);
-  --wa-color-gray-on: color-mix(in oklab, var(--wa-color-gray-10) var(--wa-color-gray-gte-60), white);
+  wa-page[view='desktop'] [data-toggle-nav] {
+    display: none;
+  }
+
+  wa-page[view='mobile'] .wa-desktop-only,
+  wa-page[view='desktop'] .wa-mobile-only {
+    display: none !important;
+  }
 }
 
 @layer wa-color-variant {
@@ -858,6 +862,48 @@
 
 
 
+/* Generates --wa-color-{hue}-on tokens for pairing with any palette's key colors */
+:where(:root),
+:host {
+  /**
+    * Conditional tokens to check if the key color is >= 60
+    * Key colors are the most colorful tint in a scale, recorded as --wa-color-{hue} in each palette
+    * The numeric value of the key is isolated as --wa-color-{hue}-key
+    * If key < 60, the result is 0%
+    * If key >= 60, the result is 100%
+    * Intended to be used in the color-mix() functions below
+    */
+
+  --wa-color-red-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-red-key), 1) * 100%));
+  --wa-color-orange-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-orange-key), 1) * 100%));
+  --wa-color-yellow-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-yellow-key), 1) * 100%));
+  --wa-color-green-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-green-key), 1) * 100%));
+  --wa-color-cyan-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-cyan-key), 1) * 100%));
+  --wa-color-blue-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-blue-key), 1) * 100%));
+  --wa-color-indigo-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-indigo-key), 1) * 100%));
+  --wa-color-purple-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-purple-key), 1) * 100%));
+  --wa-color-pink-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-pink-key), 1) * 100%));
+  --wa-color-gray-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-gray-key), 1) * 100%));
+
+  /**
+    * Tokens to set text color with appropriate WCAG 2.1 contrast
+    * If key < 60, the text color is white
+    * If key >= 60, the text color is {hue}-10
+    */
+
+  --wa-color-red-on: color-mix(in oklab, var(--wa-color-red-10) var(--wa-color-red-gte-60), white);
+  --wa-color-orange-on: color-mix(in oklab, var(--wa-color-orange-10) var(--wa-color-orange-gte-60), white);
+  --wa-color-yellow-on: color-mix(in oklab, var(--wa-color-yellow-10) var(--wa-color-yellow-gte-60), white);
+  --wa-color-green-on: color-mix(in oklab, var(--wa-color-green-10) var(--wa-color-green-gte-60), white);
+  --wa-color-cyan-on: color-mix(in oklab, var(--wa-color-cyan-10) var(--wa-color-cyan-gte-60), white);
+  --wa-color-blue-on: color-mix(in oklab, var(--wa-color-blue-10) var(--wa-color-blue-gte-60), white);
+  --wa-color-indigo-on: color-mix(in oklab, var(--wa-color-indigo-10) var(--wa-color-indigo-gte-60), white);
+  --wa-color-purple-on: color-mix(in oklab, var(--wa-color-purple-10) var(--wa-color-purple-gte-60), white);
+  --wa-color-pink-on: color-mix(in oklab, var(--wa-color-pink-10) var(--wa-color-pink-gte-60), white);
+  --wa-color-gray-on: color-mix(in oklab, var(--wa-color-gray-10) var(--wa-color-gray-gte-60), white);
+}
+
+
 @layer wa-color-palette {
   :where(:root),
   .wa-palette-default {
@@ -1036,8 +1082,8 @@
 
     --wa-color-focus: var(--wa-color-brand-60);
 
-    --wa-color-mix-hover: black 10%;
-    --wa-color-mix-active: black 20%;
+    --wa-color-mix-hover: oklch(from currentColor calc(1 - l) c h) 10%;
+    --wa-color-mix-active: var(--wa-color-surface-default) 10%;
 
     --wa-color-brand-fill-quiet: var(--wa-color-brand-95);
     --wa-color-brand-fill-normal: var(--wa-color-brand-90);
@@ -1120,8 +1166,8 @@
 
     --wa-color-focus: var(--wa-color-brand-60);
 
-    --wa-color-mix-hover: black 8%;
-    --wa-color-mix-active: black 16%;
+    --wa-color-mix-hover: oklch(from currentColor calc(1 - l) c h) 20%;
+    --wa-color-mix-active: var(--wa-color-surface-default) 20%;
 
     --wa-color-brand-fill-quiet: var(--wa-color-brand-10);
     --wa-color-brand-fill-normal: var(--wa-color-brand-20);
@@ -1192,6 +1238,7 @@
      * For larger font sizes, each size is twice 1.125x larger to maximize impact.
      * Each value uses `rem` units and is rounded to the nearest whole pixel when rendered. */
     --wa-font-size-scale: 1;
+    --wa-font-size-3xs: round(calc(var(--wa-font-size-2xs) / 1.125), 1px); /* 10px */
     --wa-font-size-2xs: round(calc(var(--wa-font-size-xs) / 1.125), 1px); /* 11px */
     --wa-font-size-xs: round(calc(var(--wa-font-size-s) / 1.125), 1px); /* 12px */
     --wa-font-size-s: round(calc(var(--wa-font-size-m) / 1.125), 1px); /* 14px */
@@ -1201,6 +1248,7 @@
     --wa-font-size-2xl: round(calc(var(--wa-font-size-xl) * 1.125 * 1.125), 1px); /* 32px */
     --wa-font-size-3xl: round(calc(var(--wa-font-size-2xl) * 1.125 * 1.125), 1px); /* 41px */
     --wa-font-size-4xl: round(calc(var(--wa-font-size-3xl) * 1.125 * 1.125), 1px); /* 52px */
+    --wa-font-size-5xl: round(calc(var(--wa-font-size-4xl) * 1.125 * 1.125), 1px); /* 66px */
 
     --wa-font-size-smaller: round(calc(1em / 1.125), 1px);
     --wa-font-size-larger: round(calc(1em * 1.125 * 1.125), 1px);
@@ -1236,6 +1284,7 @@
     --wa-space-2xl: calc(var(--wa-space-scale) * 2.5rem); /* 40px */
     --wa-space-3xl: calc(var(--wa-space-scale) * 3rem); /* 48px */
     --wa-space-4xl: calc(var(--wa-space-scale) * 4rem); /* 64px */
+    --wa-space-5xl: calc(var(--wa-space-scale) * 5rem); /* 80px */
 
     --wa-content-spacing: var(--wa-space-l);
     /* #endregion */
@@ -1340,6 +1389,10 @@
     );
     --wa-form-control-toggle-size: round(1.25em, 1px);
 
+    /* Buttons */
+    --wa-button-transform-hover: none;
+    --wa-button-transform-active: scale(0.9875);
+
     /* Panels */
     --wa-panel-border-style: var(--wa-border-style);
     --wa-panel-border-width: var(--wa-border-width-s);
@@ -1360,6 +1413,12 @@
     --wa-tooltip-line-height: var(--wa-line-height-normal);
     /* #endregion */
   }
+
+  :is(html, body):has(wa-page) {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 wa-input[aria-invalid='true']::part(base),
@@ -1377,7 +1436,7 @@ wa-select[aria-invalid='true']::part(combobox) {
 .ir-dialog__footer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: flex-end;
   width: 100%;
 }
@@ -1391,6 +1450,9 @@ wa-select[aria-invalid='true']::part(combobox) {
   min-height: 50px;
   min-width: 31rem;
 }
+#dialog-overview::part(title) {
+  color: var(--wa-color-text-normal);
+}
 
 .ir__drawer {
   text-align: left !important;
@@ -1399,6 +1461,7 @@ wa-select[aria-invalid='true']::part(combobox) {
 .ir__drawer::part(header) {
   border-bottom: 1px solid var(--wa-color-surface-border);
   padding-bottom: calc(var(--spacing) / 2);
+  color: var(--wa-color-text-normal);
   background-color: var(--ir-drawer-background-color, var(--wa-color-surface-default));
 }
 .ir__drawer::part(body) {
@@ -1417,7 +1480,7 @@ wa-select[aria-invalid='true']::part(combobox) {
 .ir__drawer-footer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   width: 100%;
 }
 .ir__drawer-footer > * {
