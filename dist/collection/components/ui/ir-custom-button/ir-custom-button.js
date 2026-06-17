@@ -56,15 +56,6 @@ export class IrCustomButton {
     /** Used to override the form owner's `target` attribute. */
     formTarget;
     clickHandler;
-    get resolvedForm() {
-        if (!this.form)
-            return null;
-        if (typeof this.form === 'string') {
-            const root = this.el.getRootNode();
-            return (root instanceof ShadowRoot ? root.querySelector(`#${this.form}`) : root.getElementById(this.form));
-        }
-        return this.form;
-    }
     handleButtonClick(e) {
         this.clickHandler.emit(e);
     }
@@ -82,7 +73,7 @@ export class IrCustomButton {
             /* link-related props */
             href: this.href, target: this.target, rel: this.rel, download: this.download,
             /* form-related props */
-            name: this.name, value: this.value, form: this.resolvedForm, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget, exportparts: "base, start, label, end, caret, spinner" }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" }))));
+            name: this.name, value: this.value, form: this.form, "form-action": this.formAction, "form-enctype": this.formEnctype, "form-method": this.formMethod, "form-no-validate": this.formNoValidate, "form-target": this.formTarget, exportparts: "base, start, label, end, caret, spinner" }, h("slot", { slot: "start", name: "start" }), h("slot", null), h("slot", { slot: "end", name: "end" }))));
     }
     static get is() { return "ir-custom-button"; }
     static get originalStyleUrls() {

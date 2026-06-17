@@ -1,10 +1,9 @@
 import { r as registerInstance, c as createEvent, h, H as Host, d as getElement, F as Fragment } from './index-D8DCR0yx.js';
-import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-DhzGlxvL.js';
+import { C as ChannelService, o as onChannelChange, c as channels_data, t as testConnection, u as updateChannelSettings, s as selectChannel, a as addMapping, b as setMappedChannel } from './channel.service-B-wfI8iJ.js';
 import { l as locales } from './locales.store-ChFOK43k.js';
 import { c as calendar_data } from './calendar-data-BIZ201rH.js';
 import './index-D5oXdmCj.js';
-import './axios-B50ozOIF.js';
-import './_commonjsHelpers-BFTU3MAI.js';
+import './axios-CleaxLzD.js';
 
 const irChannelEditorCss = () => `.sc-ir-channel-editor-h{display:block;position:relative}nav.sc-ir-channel-editor{z-index:10}.top-border.sc-ir-channel-editor{border-top:1px solid #e4e5ec}.tab-container.sc-ir-channel-editor{overflow-y:auto;padding-right:0;margin-right:0}`;
 

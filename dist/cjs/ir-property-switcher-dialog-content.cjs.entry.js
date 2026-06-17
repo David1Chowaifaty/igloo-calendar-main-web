@@ -1,9 +1,8 @@
 'use strict';
 
 var index = require('./index-CJ0kc5p1.js');
-var axios = require('./axios-EresIryl.js');
+var axios = require('./axios-C-Phc0sj.js');
 var debounce = require('./debounce-Be8tSGtB.js');
-require('./_commonjsHelpers-BJu3ubxk.js');
 
 const irPropertySwitcherDialogContentCss = () => `.sc-ir-property-switcher-dialog-content-h{display:block}.property-switcher__search-input.sc-ir-property-switcher-dialog-content{padding:1rem}.property-switcher__search-input.sc-ir-property-switcher-dialog-content::part(base),.property-switcher__search-input.sc-ir-property-switcher-dialog-content [part~="base"]{font-size:16px;height:32px}.property-switcher__status.sc-ir-property-switcher-dialog-content{padding:1rem;font-size:0.875rem;color:var(--ir-color-text-muted, #646464)}@media (min-width: 640px){.property-switcher__results.sc-ir-property-switcher-dialog-content{max-height:250px;min-height:150px;overflow-y:auto;padding-bottom:1rem}}`;
 

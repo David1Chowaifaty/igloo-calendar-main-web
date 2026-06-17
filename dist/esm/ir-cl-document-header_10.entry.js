@@ -1,6 +1,6 @@
 import { r as registerInstance, h, H as Host, F as Fragment } from './index-D8DCR0yx.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
-import { i as formatAmount } from './utils-DoV0ybBP.js';
+import { f as formatAmount } from './utils-Bso6iV7-.js';
 import { c as calendar_data } from './calendar-data-BIZ201rH.js';
 import './index-DeW5X45W.js';
 import './locales.store-ChFOK43k.js';

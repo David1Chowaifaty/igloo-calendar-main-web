@@ -58,7 +58,6 @@ export declare class IrCustomButton {
     /** Used to override the form owner's `target` attribute. */
     formTarget: NativeButton['formTarget'];
     clickHandler: EventEmitter<MouseEvent>;
-    private get resolvedForm();
     private handleButtonClick;
     render(): any;
 }
